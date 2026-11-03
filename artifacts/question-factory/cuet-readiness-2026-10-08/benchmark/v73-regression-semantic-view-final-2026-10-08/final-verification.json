@@ -1,0 +1,19 @@
+{
+  "schema": "v73-regression-final-derived-verification-v1",
+  "status": "local_artifact_integrity_checks_passed",
+  "base_frozen_sha256": "073f750410c887636a5d2cac3e271e6f2e230938a0afd2fb685549f2d209255a",
+  "final_frozen_sha256": "f57c704aee14d27ea822c6e5f5a2669d8c11befe68a88b96dda7e80a7b69bbd4",
+  "base_proposal_hash": "988c3c63f4c591241a2ada44ec4f1a01508113a6e87713b0e2aaec007a68fe83",
+  "final_proposal_hash": "988c3c63f4c591241a2ada44ec4f1a01508113a6e87713b0e2aaec007a68fe83",
+  "payload_hash_unchanged": true,
+  "candidate_objects_identical_to_semantic_view": true,
+  "oracles_identical": true,
+  "expected_labels_and_categories_identical": true,
+  "positive_control_count": 12,
+  "negative_count": 28,
+  "proof_sha256": "4b08e8dad1d0f385f5f10b86dc6658505ad971a5286d4626ed07a55de68c6c23",
+  "study_id": "cuet-readiness-v73-regression-semantic-view-final-2026-10-08",
+  "preregistration_id": "cuet-readiness-v73-regression-semantic-view-final-2026-10-08",
+  "study_binding_aligned": true,
+  "limitations": "Equality is relative to the first-pass semantic-view proposal. The first-pass proposal intentionally rewrote provenance for 16 audit copies as described in its lineage. This does not establish production provenance eligibility or release readiness."
+}

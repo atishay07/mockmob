@@ -1,0 +1,20 @@
+{
+  "frozen_at": "2026-10-09T07:03:41.923Z",
+  "core_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "files": {
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.mjs": "da02400476bdf62c348b0408d15922916d54f1dbeaba628fe3ce18ae251901f6",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.test.mjs": "6a9b689460e5f5868f1720ef449400cb0c169b82fe1c7348f3c5111d114dc724",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/bind-authorization.mjs": "094625bf183f24a4f44a38cf8670da82d079e2322d598cf73f99b6a1ca3d30ab"
+  },
+  "verification": {
+    "root_independently_ran": "node --test artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.test.mjs",
+    "passed": 4,
+    "failed": 0,
+    "scope": "Actual temporary SQLite receipts; blind evaluation, missing retry deny, complete bounded retry, and verifier-derived topology replay. Zero fetch/new reservations, original errors preserved. Synthetic semantic judgments are transport fixtures, not qualification evidence."
+  },
+  "publication": "never",
+  "persistent_ledger_writes": 0,
+  "provider_calls": 0,
+  "limitation": "Original frozen runner recover action retains undefined completedCache. Only separately bound receipt tool is supported. Fresh/unknown requests cannot be made; missing receipts or subsequent unevaluated stages remain pending."
+}

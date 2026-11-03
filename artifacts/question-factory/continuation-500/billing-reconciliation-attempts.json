@@ -1,0 +1,14 @@
+{
+  "attempts": [
+    {
+      "at": "2026-10-07T09:56:27.020Z",
+      "request_id": "req_b4d44cd7e2164c18bda70d533c3683d5",
+      "method": "OpenAI official usage dashboard existing Google account sign-in",
+      "result": "Authentication callback reports an issue while authenticating; no usage receipt obtained",
+      "unresolved_maximum_hold_usd": 0.011096,
+      "resubmitted": false,
+      "cost_assumed_zero": false,
+      "owner_org_admin_billing_receipt_required": true
+    }
+  ]
+}

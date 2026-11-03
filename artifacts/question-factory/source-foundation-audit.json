@@ -1,0 +1,1487 @@
+{
+  "at": "2026-10-06T05:42:58.722Z",
+  "production_changes": 0,
+  "api_spend_usd": 0,
+  "questions_identity_checked": 200,
+  "subjects": [
+    {
+      "subject": "english",
+      "sidecar": "data/question-factory-runtime/english-auth-work/corroboration.json",
+      "sidecar_sha256": "778d6a0138668ccedd786b38b4c292e7c374523259ac7f47ecc89ed4ec750f1c",
+      "paper_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 28,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 43,
+      "excluded_key_count": 7,
+      "answers": [
+        {
+          "question_id": "1",
+          "answer": "2",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "2",
+          "answer": "1",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "3",
+          "answer": "1",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "4",
+          "answer": "1",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "5",
+          "answer": "3",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "6",
+          "answer": "1,2",
+          "single": false,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "7",
+          "answer": "3",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "8",
+          "answer": "1",
+          "single": true,
+          "chapter": "Correct Word Usage",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "9",
+          "answer": "2,3",
+          "single": false,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "10",
+          "answer": "2",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "11",
+          "answer": "3",
+          "single": true,
+          "chapter": "Correct Word Usage",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "12",
+          "answer": "1",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "13",
+          "answer": "4",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "14",
+          "answer": "1",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "15",
+          "answer": "1",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "16",
+          "answer": "2",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "17",
+          "answer": "3",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "18",
+          "answer": "2",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "19",
+          "answer": "3",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "20",
+          "answer": "2",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "21",
+          "answer": "1",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "22",
+          "answer": "3",
+          "single": true,
+          "chapter": "Narrative Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "23",
+          "answer": "1",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "24",
+          "answer": "2",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "25",
+          "answer": "3",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "26",
+          "answer": "1",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "27",
+          "answer": "2",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "28",
+          "answer": "1,3",
+          "single": false,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "29",
+          "answer": "2",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "30",
+          "answer": "3,4",
+          "single": false,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "31",
+          "answer": "1,3",
+          "single": false,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "32",
+          "answer": "3",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "33",
+          "answer": "3",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "34",
+          "answer": "2,4",
+          "single": false,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "35",
+          "answer": "2",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "36",
+          "answer": "1",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "37",
+          "answer": "3",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "38",
+          "answer": "DROP",
+          "single": false,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "39",
+          "answer": "4",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "40",
+          "answer": "3",
+          "single": true,
+          "chapter": "Factual Passage",
+          "route": "passage"
+        },
+        {
+          "question_id": "41",
+          "answer": "3",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "42",
+          "answer": "2",
+          "single": true,
+          "chapter": "Correct Word Usage",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "43",
+          "answer": "4",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "44",
+          "answer": "1",
+          "single": true,
+          "chapter": "Match the Following",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "45",
+          "answer": "2",
+          "single": true,
+          "chapter": "Correct Word Usage",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "46",
+          "answer": "3",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "47",
+          "answer": "1",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "48",
+          "answer": "3",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "49",
+          "answer": "4",
+          "single": true,
+          "chapter": "Vocabulary",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "50",
+          "answer": "3",
+          "single": true,
+          "chapter": "Para Jumbles",
+          "route": "conceptual"
+        }
+      ],
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "accountancy",
+      "sidecar": "data/question-factory-runtime/accountancy-auth-work/mirror-corroboration-sidecar.json",
+      "sidecar_sha256": "b881b302e4107f4bb083d0787e835ad542630c1d4f4065813f9f1ec0de9edb8f",
+      "paper_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 118,
+      "booklet": "A",
+      "key_language": "Assamese",
+      "question_count": 50,
+      "single_answer_count": 49,
+      "excluded_key_count": 1,
+      "answers": [
+        {
+          "question_id": "1",
+          "answer": "2",
+          "single": true,
+          "chapter": null,
+          "route": "conceptual"
+        },
+        {
+          "question_id": "2",
+          "answer": "3",
+          "single": true,
+          "chapter": null,
+          "route": "conceptual"
+        },
+        {
+          "question_id": "3",
+          "answer": "4",
+          "single": true,
+          "chapter": "Financial Statements of Company",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "4",
+          "answer": "1",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "5",
+          "answer": "1",
+          "single": true,
+          "chapter": "Partnership Fundamentals",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "6",
+          "answer": "1",
+          "single": true,
+          "chapter": "Analysis of Financial Statements",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "7",
+          "answer": "3",
+          "single": true,
+          "chapter": "Profit & Loss Appropriation Account",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "8",
+          "answer": "3",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "9",
+          "answer": "4",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "10",
+          "answer": "3",
+          "single": true,
+          "chapter": "Comparative & Common Size Statements",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "11",
+          "answer": "1",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "numerical"
+        },
+        {
+          "question_id": "12",
+          "answer": "2",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "13",
+          "answer": "2",
+          "single": true,
+          "chapter": "Goodwill Valuation",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "14",
+          "answer": "2",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "15",
+          "answer": "2",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "numerical"
+        },
+        {
+          "question_id": "16",
+          "answer": "4",
+          "single": true,
+          "chapter": "Debentures",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "17",
+          "answer": "2",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "18",
+          "answer": "4",
+          "single": true,
+          "chapter": "Debentures",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "19",
+          "answer": "1",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "20",
+          "answer": "3",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "21",
+          "answer": "2",
+          "single": true,
+          "chapter": "Retirement & Death of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "22",
+          "answer": "2",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "numerical"
+        },
+        {
+          "question_id": "23",
+          "answer": "3",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "24",
+          "answer": "4",
+          "single": true,
+          "chapter": null,
+          "route": "conceptual"
+        },
+        {
+          "question_id": "25",
+          "answer": "1",
+          "single": true,
+          "chapter": "Computerized Accounting System",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "26",
+          "answer": "3",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "27",
+          "answer": "1",
+          "single": true,
+          "chapter": "Change in Profit Sharing Ratio",
+          "route": "numerical"
+        },
+        {
+          "question_id": "28",
+          "answer": "4",
+          "single": true,
+          "chapter": "Profit & Loss Appropriation Account",
+          "route": "numerical"
+        },
+        {
+          "question_id": "29",
+          "answer": "1",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "numerical"
+        },
+        {
+          "question_id": "30",
+          "answer": "1",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "numerical"
+        },
+        {
+          "question_id": "31",
+          "answer": "2",
+          "single": true,
+          "chapter": "Admission of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "32",
+          "answer": "3",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "33",
+          "answer": "2",
+          "single": true,
+          "chapter": "Computerized Accounting System",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "34",
+          "answer": "1",
+          "single": true,
+          "chapter": "Computerized Accounting System",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "35",
+          "answer": "4",
+          "single": true,
+          "chapter": "Computerized Accounting System",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "36",
+          "answer": "1,2",
+          "single": false,
+          "chapter": null,
+          "route": "conceptual"
+        },
+        {
+          "question_id": "37",
+          "answer": "4",
+          "single": true,
+          "chapter": null,
+          "route": "conceptual"
+        },
+        {
+          "question_id": "38",
+          "answer": "3",
+          "single": true,
+          "chapter": "Share Capital",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "39",
+          "answer": "2",
+          "single": true,
+          "chapter": "Retirement & Death of Partner",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "40",
+          "answer": "3",
+          "single": true,
+          "chapter": "Cash Flow Statement",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "41",
+          "answer": "1",
+          "single": true,
+          "chapter": "Accounting Ratios",
+          "route": "passage"
+        },
+        {
+          "question_id": "42",
+          "answer": "3",
+          "single": true,
+          "chapter": "Accounting Ratios",
+          "route": "passage"
+        },
+        {
+          "question_id": "43",
+          "answer": "2",
+          "single": true,
+          "chapter": "Accounting Ratios",
+          "route": "passage"
+        },
+        {
+          "question_id": "44",
+          "answer": "1",
+          "single": true,
+          "chapter": "Accounting Ratios",
+          "route": "passage"
+        },
+        {
+          "question_id": "45",
+          "answer": "3",
+          "single": true,
+          "chapter": "Accounting Ratios",
+          "route": "passage"
+        },
+        {
+          "question_id": "46",
+          "answer": "1",
+          "single": true,
+          "chapter": "Dissolution of Partnership",
+          "route": "passage"
+        },
+        {
+          "question_id": "47",
+          "answer": "2",
+          "single": true,
+          "chapter": "Dissolution of Partnership Firm",
+          "route": "passage"
+        },
+        {
+          "question_id": "48",
+          "answer": "1",
+          "single": true,
+          "chapter": "Dissolution of Partnership Firm",
+          "route": "passage"
+        },
+        {
+          "question_id": "49",
+          "answer": "2",
+          "single": true,
+          "chapter": "Dissolution of Partnership Firm",
+          "route": "passage"
+        },
+        {
+          "question_id": "50",
+          "answer": "1",
+          "single": true,
+          "chapter": "Dissolution of Partnership Firm",
+          "route": "passage"
+        }
+      ],
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "business_studies",
+      "sidecar": "data/question-factory-runtime/business-economics-auth-work/business-studies/corroboration.json",
+      "sidecar_sha256": "663475f3e16d38891656ea5c20134900e0aaaef02439afdfc959e08f261a9a81",
+      "paper_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 104,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 48,
+      "excluded_key_count": 2,
+      "answers": [
+        {
+          "question_id": "1",
+          "answer": "1",
+          "single": true,
+          "chapter": "Principles of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "2",
+          "answer": "4",
+          "single": true,
+          "chapter": "Principles of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "3",
+          "answer": "3",
+          "single": true,
+          "chapter": "Principles of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "4",
+          "answer": "3",
+          "single": true,
+          "chapter": "Principles of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "5",
+          "answer": "DROP",
+          "single": false,
+          "chapter": "Business Environment",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "6",
+          "answer": "1",
+          "single": true,
+          "chapter": "Business Environment",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "7",
+          "answer": "2",
+          "single": true,
+          "chapter": "Business Environment",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "8",
+          "answer": "3",
+          "single": true,
+          "chapter": "Business Environment",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "9",
+          "answer": "2",
+          "single": true,
+          "chapter": "Planning",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "10",
+          "answer": "4",
+          "single": true,
+          "chapter": "Staffing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "11",
+          "answer": "3",
+          "single": true,
+          "chapter": "Staffing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "12",
+          "answer": "3",
+          "single": true,
+          "chapter": "Staffing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "13",
+          "answer": "1",
+          "single": true,
+          "chapter": "Directing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "14",
+          "answer": "3",
+          "single": true,
+          "chapter": "Directing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "15",
+          "answer": "3",
+          "single": true,
+          "chapter": "Directing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "16",
+          "answer": "3",
+          "single": true,
+          "chapter": "Controlling",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "17",
+          "answer": "4",
+          "single": true,
+          "chapter": "Controlling",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "18",
+          "answer": "2",
+          "single": true,
+          "chapter": "Controlling",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "19",
+          "answer": "2",
+          "single": true,
+          "chapter": "Financial Markets",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "20",
+          "answer": "1",
+          "single": true,
+          "chapter": "Consumer Protection",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "21",
+          "answer": "3",
+          "single": true,
+          "chapter": "Consumer Protection",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "22",
+          "answer": "3",
+          "single": true,
+          "chapter": "Consumer Protection",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "23",
+          "answer": "2",
+          "single": true,
+          "chapter": "Financial Markets",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "24",
+          "answer": "4",
+          "single": true,
+          "chapter": "Organising",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "25",
+          "answer": "4",
+          "single": true,
+          "chapter": "Organising",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "26",
+          "answer": "1",
+          "single": true,
+          "chapter": "Organising",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "27",
+          "answer": "2",
+          "single": true,
+          "chapter": "Organising",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "28",
+          "answer": "1",
+          "single": true,
+          "chapter": "Financial Markets",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "29",
+          "answer": "2",
+          "single": true,
+          "chapter": "Financial Markets",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "30",
+          "answer": "3",
+          "single": true,
+          "chapter": "Entrepreneurship Development",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "31",
+          "answer": "1,2",
+          "single": false,
+          "chapter": "Financial Markets",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "32",
+          "answer": "1",
+          "single": true,
+          "chapter": "Financial Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "33",
+          "answer": "1",
+          "single": true,
+          "chapter": "Financial Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "34",
+          "answer": "1",
+          "single": true,
+          "chapter": "Financial Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "35",
+          "answer": "4",
+          "single": true,
+          "chapter": "Nature & Significance of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "36",
+          "answer": "1",
+          "single": true,
+          "chapter": "Nature & Significance of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "37",
+          "answer": "4",
+          "single": true,
+          "chapter": "Nature & Significance of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "38",
+          "answer": "1",
+          "single": true,
+          "chapter": "Nature & Significance of Management",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "39",
+          "answer": "2",
+          "single": true,
+          "chapter": "Staffing",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "40",
+          "answer": "3",
+          "single": true,
+          "chapter": "Organising",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "41",
+          "answer": "4",
+          "single": true,
+          "chapter": "Marketing Management",
+          "route": "passage"
+        },
+        {
+          "question_id": "42",
+          "answer": "1",
+          "single": true,
+          "chapter": "Marketing Management",
+          "route": "passage"
+        },
+        {
+          "question_id": "43",
+          "answer": "2",
+          "single": true,
+          "chapter": "Marketing Management",
+          "route": "passage"
+        },
+        {
+          "question_id": "44",
+          "answer": "3",
+          "single": true,
+          "chapter": "Marketing Management",
+          "route": "passage"
+        },
+        {
+          "question_id": "45",
+          "answer": "2",
+          "single": true,
+          "chapter": "Marketing Management",
+          "route": "passage"
+        },
+        {
+          "question_id": "46",
+          "answer": "4",
+          "single": true,
+          "chapter": "Planning",
+          "route": "passage"
+        },
+        {
+          "question_id": "47",
+          "answer": "4",
+          "single": true,
+          "chapter": "Planning",
+          "route": "passage"
+        },
+        {
+          "question_id": "48",
+          "answer": "2",
+          "single": true,
+          "chapter": "Planning",
+          "route": "passage"
+        },
+        {
+          "question_id": "49",
+          "answer": "4",
+          "single": true,
+          "chapter": "Planning",
+          "route": "passage"
+        },
+        {
+          "question_id": "50",
+          "answer": "4",
+          "single": true,
+          "chapter": "Planning",
+          "route": "passage"
+        }
+      ],
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "economics",
+      "sidecar": "data/question-factory-runtime/business-economics-auth-work/economics/corroboration.json",
+      "sidecar_sha256": "0b4e055762973cdd8257fe1885b774b4ab1c77679641ad2d8c7fe498e78d1a7e",
+      "paper_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 42,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 50,
+      "excluded_key_count": 0,
+      "answers": [
+        {
+          "question_id": "1",
+          "answer": "2",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "2",
+          "answer": "4",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "numerical"
+        },
+        {
+          "question_id": "3",
+          "answer": "4",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "4",
+          "answer": "4",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "5",
+          "answer": "2",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "6",
+          "answer": "3",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "7",
+          "answer": "3",
+          "single": true,
+          "chapter": "Government Budget & the Economy",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "8",
+          "answer": "1",
+          "single": true,
+          "chapter": "Government Budget & the Economy",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "9",
+          "answer": "2",
+          "single": true,
+          "chapter": "Balance of Payments",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "10",
+          "answer": "2",
+          "single": true,
+          "chapter": "Balance of Payments",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "11",
+          "answer": "2",
+          "single": true,
+          "chapter": "Balance of Payments",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "12",
+          "answer": "2",
+          "single": true,
+          "chapter": "Employment",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "13",
+          "answer": "4",
+          "single": true,
+          "chapter": "Indian Economic Development 1950–1990",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "14",
+          "answer": "2",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "15",
+          "answer": "3",
+          "single": true,
+          "chapter": "Human Capital Formation",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "16",
+          "answer": "4",
+          "single": true,
+          "chapter": "Infrastructure",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "17",
+          "answer": "3",
+          "single": true,
+          "chapter": "Economic Reforms Since 1991",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "18",
+          "answer": "3",
+          "single": true,
+          "chapter": "Development Experiences of India",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "19",
+          "answer": "2",
+          "single": true,
+          "chapter": "Development Experiences of India",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "20",
+          "answer": "2",
+          "single": true,
+          "chapter": "Rural Development",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "21",
+          "answer": "2",
+          "single": true,
+          "chapter": "Development Experiences of India",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "22",
+          "answer": "3",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "23",
+          "answer": "2",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "24",
+          "answer": "3",
+          "single": true,
+          "chapter": "Balance of Payments",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "25",
+          "answer": "3",
+          "single": true,
+          "chapter": "National Income & Related Aggregates",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "26",
+          "answer": "2",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "27",
+          "answer": "2",
+          "single": true,
+          "chapter": "Government Budget & the Economy",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "28",
+          "answer": "4",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "passage"
+        },
+        {
+          "question_id": "29",
+          "answer": "3",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "passage"
+        },
+        {
+          "question_id": "30",
+          "answer": "2",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "passage"
+        },
+        {
+          "question_id": "31",
+          "answer": "2",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "passage"
+        },
+        {
+          "question_id": "32",
+          "answer": "1",
+          "single": true,
+          "chapter": "Environment & Sustainable Development",
+          "route": "passage"
+        },
+        {
+          "question_id": "33",
+          "answer": "3",
+          "single": true,
+          "chapter": "Indian Economy on the Eve of Independence",
+          "route": "passage"
+        },
+        {
+          "question_id": "34",
+          "answer": "4",
+          "single": true,
+          "chapter": "Indian Economy on the Eve of Independence",
+          "route": "passage"
+        },
+        {
+          "question_id": "35",
+          "answer": "2",
+          "single": true,
+          "chapter": "Indian Economy on the Eve of Independence",
+          "route": "passage"
+        },
+        {
+          "question_id": "36",
+          "answer": "4",
+          "single": true,
+          "chapter": "Indian Economy on the Eve of Independence",
+          "route": "passage"
+        },
+        {
+          "question_id": "37",
+          "answer": "3",
+          "single": true,
+          "chapter": "Indian Economy on the Eve of Independence",
+          "route": "passage"
+        },
+        {
+          "question_id": "38",
+          "answer": "1",
+          "single": true,
+          "chapter": "Market Equilibrium & Simple Applications",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "39",
+          "answer": "2",
+          "single": true,
+          "chapter": "Introduction & Theory of Consumer Behaviour",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "40",
+          "answer": "2",
+          "single": true,
+          "chapter": "Market Equilibrium & Simple Applications",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "41",
+          "answer": "3",
+          "single": true,
+          "chapter": "Introduction & Theory of Consumer Behaviour",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "42",
+          "answer": "3",
+          "single": true,
+          "chapter": "Introduction & Theory of Consumer Behaviour",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "43",
+          "answer": "2",
+          "single": true,
+          "chapter": "National Income & Related Aggregates",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "44",
+          "answer": "1",
+          "single": true,
+          "chapter": "Indian Economic Development 1950–1990",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "45",
+          "answer": "3",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "46",
+          "answer": "2",
+          "single": true,
+          "chapter": "National Income & Related Aggregates",
+          "route": "numerical"
+        },
+        {
+          "question_id": "47",
+          "answer": "3",
+          "single": true,
+          "chapter": "National Income & Related Aggregates",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "48",
+          "answer": "3",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "49",
+          "answer": "4",
+          "single": true,
+          "chapter": "Money & Banking",
+          "route": "conceptual"
+        },
+        {
+          "question_id": "50",
+          "answer": "4",
+          "single": true,
+          "chapter": "Income Determination",
+          "route": "numerical"
+        }
+      ],
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    }
+  ],
+  "remaining_gates": [
+    "anchor_level_reference_contexts",
+    "source_pack_registration",
+    "officially_keyed_calibration",
+    "800_candidate_pilot",
+    "staging_and_production_release"
+  ]
+}

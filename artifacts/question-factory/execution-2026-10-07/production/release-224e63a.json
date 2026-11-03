@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-07T09:39:26.503Z",
+  "commit": "224e63a1ad3928f592f945d88be1b3ae351a7510",
+  "state": "Ready",
+  "duration_seconds": 53,
+  "deployment": "https://vercel.com/atishay07s-projects/mockmob/3TR9S1njVSML3RTyZeAJ9k8DCGZJ",
+  "domain": "mockmob-1dcc3fgij-atishay07s-projects.vercel.app",
+  "source": "Current signed-in Vercel deployment list observation",
+  "production_student_retrieval_verified": false
+}

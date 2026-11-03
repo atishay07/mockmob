@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 17788,
+ "request_bytes": 32967,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710b-regression-on-q1-run-v79q1-economics-v2\",\n  \"content_hash\": \"d7a4eb27b6819c403783e567e2ab095d60b2d7e1ce6f25c9ce9a10f1af9e6457\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\"],\n  \"reasons\": [\n    \"Reserve requirement is 20% of deposits, so Reserves = 0.20 * Deposits.\",\n    \"Maximum deposits supported = Reserves / 0.20 = 300 / 0.20 = Rs 1,500 crore.\"\n  ],\n  \"syllabus_chapter\": \"Money & Banking\",\n  \"syllabus_topic\": \"Money Creation and Money Multiplier\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Reserve ratio requirement is 20 per cent of deposits\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"The bank holds reserves of Rs 300 crore\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Deposit multiplier relationship where deposits = reserves / reserve requirement\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Candidate mistakenly calculates 20% of the given reserve amount instead of determining total deposits.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Candidate subtracts 20% of reserves from the reserves themselves.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Candidate treats 300 crore as 80% remaining deposits and divides 300 by 0.8.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests deposit creation and reserve ratio from NCERT Macroeconomics Money and Banking.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard concise numerical MCQ format typical of CUET UG Economics.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Single-step arithmetic application directly aligned with CUET 2024 numerical questions.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors effectively target common student mistakes (e.g. taking 20% of reserves).\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-economics-bookA-q2\",\n      \"cuet2024-economics-bookA-q46\",\n      \"cuet2024-economics-bookA-q50\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 60 crore\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A bank is required to keep 20 per cent of its deposits as reserves. If the bank holds reserves of Rs 300 crore\",\n      \"reason\": \"Rs 300 crore divided by 0.20 equals Rs 1,500 crore, not Rs 60 crore.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 240 crore\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A bank is required to keep 20 per cent of its deposits as reserves. If the bank holds reserves of Rs 300 crore\",\n      \"reason\": \"Rs 300 crore divided by 0.20 equals Rs 1,500 crore, not Rs 240 crore.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Since the bank is only expected to keep 20 per cent of its deposits as reserves, thus, reserves of Rs 100 (20per cent of 500 = 100) can support the deposits of Rs 500.\",\n      \"reason\": \"300 crore / 0.20 yields Rs 1,500 crore of deposits.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 375 crore\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A bank is required to keep 20 per cent of its deposits as reserves. If the bank holds reserves of Rs 300 crore\",\n      \"reason\": \"Rs 300 crore divided by 0.20 equals Rs 1,500 crore, not Rs 375 crore.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EuUFCuIFAWkUfROxNviVhFk51mCJRS37yVQfxcBNQgznTOqodTu9Kzi1xa5XAzmU++5tkRAa1P8+jZZv4BHGaUnmdBGUh8ZNZyoXQsP2Y7eLpz4C5iKlM+yFz7lQKVgyKOE9PrYfMMhL5UmSwNQuAVmeZEZoZgvmC0ZekgVOE6pTlebr/mVi2pObVOCdkyIiBXhIk6TOfQhIDkV5PrnPL/p0RGCb6gjnLm0t4vRCKZBsS0RPTlJA0H5+nCEGKayNi/oWcVp+eVxkFSo1+7p+VZRs9mHfl+aiGhJNudxRHqxw8eX/UaN6Ukx0rt1KoaBbI6QWwQWPNh4DUH29WWetBM2BrUd0UzP6cjPnzFXx0ESzRjvsuisl3oS/NJz6s4ssSUyzG+686K8hoiebshle20DXvVwxH+6GYX5YTu1GddZuNKBih3z948nbw/yVCX0Ko81VoH6lTyPkV5apWMaZZtgFI/R5RNNN1+oZJWUf1OIcnmGkFaOsaxo9zakXAvBywU/eEfGUS0h9vcCsRWAbh6yNA9ZcB+W0mYjdHfNFThWn95/kwTvb/fgttx6iXA3xqNtsRUbuDRZivInGDZhN3KK78nuO9vFUvP1WWCK1o9BBAGQVjeKSfrZAN745uzooPWQbxRjkfYKLNPXzJyeJYSHR9CCKIXKzCgOtdtJPVQk1YUDTdJ+MTQaGlCK0L4GsTDJJhvLmvIMxiY2jQLn8LjAQ4braDPAozIQ6/o+/HDU92e30ZkV+t/Oex2PE298xd+q76MA8mW4sBgZYlXbFc77CwNJLlzLx82NMZvR6UW/4uyyv/4gzQvCGGh8NIAIHiTL927tOp3UhuKJ6TrfNrOokt6fXLbz8kexhWmAY33HEhuAj6y9jh470vYEYsGxoJKwLl50B08S3ooMkJuzyHHO7g0q3TtsueaSSQPNg27CEUrGaEFhlR18vghO01eF1Blr3B0BKcug+F2QKvS6L2ZIPBB2sdQSH"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5697,
+   "candidatesTokenCount": 1645,
+   "totalTokenCount": 7575,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5697
+    }
+   ],
+   "thoughtsTokenCount": 233,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "yvTIaoX0DvXW4-EPlO2fsAU"
+ }
+}

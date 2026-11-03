@@ -1,0 +1,36 @@
+{
+  "profile": "V717 independent local verification",
+  "paid_provider_calls": 0,
+  "tests": {
+    "focused_v717": { "passed": 11, "failed": 0, "log": "test-v717-focused.log" },
+    "factory": { "passed": 1061, "failed": 0, "log": "test-factory-final.log" },
+    "recovery": { "passed": 40, "failed": 0, "log": "test-recovery.log" },
+    "question_payment_selection": { "passed": 62, "failed": 0, "log": "test-question-payment.log" }
+  },
+  "quality_and_integration_checks": {
+    "body_sizing_max_bytes": 17180,
+    "body_sizing_bound_bytes": 33024,
+    "body_sizing_headroom_bytes": 15844,
+    "observed_v716_blind_fields_group_bytes": 2053,
+    "body_sizing_artifact": "v717-body-sizing.json",
+    "pilot_proof_gate": "passed positive proof and negative/tamper cases",
+    "publication_recovery": "committed and uncertain states are receipt-only; changed content rejected",
+    "manual_controller": "report-only route succeeds; execute without approval rejected",
+    "registration_custody_freeze": "actual full-body base/retry rows validated; tampered custody and freeze rejected",
+    "session_lifecycle": "network probe precedes ledger creation; close refused while flush active; stopped session still allows receipt-only recovery",
+    "hidden_key_and_freeze_order": "blind inputs omit key/explanation; audit starts after reports are frozen"
+  },
+  "app_build": { "passed": true, "exit_code": 0, "log": "app-build-verified.log" },
+  "scoped_eslint": { "passed": true, "log": "eslint-v717.log" },
+  "historical_v716_freeze": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-FINAL-EXECUTION-FREEZE.json",
+    "expected_files": 99,
+    "verified_files": 99,
+    "mismatches": 0
+  },
+  "limitations": [
+    "No native provider calls, pilot, release, or student/publication route was exercised.",
+    "Publication tests used stub adapters and establish receipt-recovery behavior only, not a database or staging deployment.",
+    "V717 qualification remains unrun and requires independently frozen cases/custody and owner-authorized execution."
+  ]
+}

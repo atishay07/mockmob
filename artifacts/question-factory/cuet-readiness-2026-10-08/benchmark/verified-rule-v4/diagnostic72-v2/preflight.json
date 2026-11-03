@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-07T21:12:42.585Z",
+  "captures": 216,
+  "expected": 216,
+  "blind": true,
+  "maximum_bytes": 32816,
+  "over_bound": [],
+  "paid_provider_calls": 0
+}

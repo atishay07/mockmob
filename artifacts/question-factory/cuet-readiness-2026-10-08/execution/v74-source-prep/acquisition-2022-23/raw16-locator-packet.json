@@ -1,0 +1,57 @@
+{
+  "schema": "v74-source-keyed-non-cuet-raw16-locator-packet-v1",
+  "status": "question_source_frozen_pending_two_independent_blind_solves",
+  "provenance": "CBSE Class XII Sample Question Papers 2022-23; source-keyed non-CUET; never label as an authenticated CUET PYQ.",
+  "frozen_at_utc": "2026-10-08T13:43:56Z",
+  "prompt_binding": {
+    "verifier_version": "cuet-fit-validator-v7.4",
+    "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "prompt_hash": "7683aa3e5de157e85178f2086ac47c8c6dc5ec7f01ffce3f76d6c575b018c44b"
+  },
+  "source_files": "acquisition-receipt.json",
+  "text_storage": "Selected raw question text remains in the hash-verified source PDFs and local extracted-text files. This locator packet does not duplicate the source paper text; reviewers must inspect the cited question IDs in those files and freeze their derivations before any key comparison.",
+  "review_order": "Review all 16 source questions as one frozen denominator. No answers, keys, explanations, or eligibility results are included.",
+  "cases": [
+    {"case_id":"v74-cbse22-acc-q27","subject":"accountancy","source_file":"Accountancy-SQP.pdf","question_id":"Q27","pdf_page_1based":10,"local_text_file":"Accountancy-SQP.txt","local_text_line_start":390,"source_scope":"one-mark objective; Financial Statements/basic assumptions; Q1-16 excluded after custody disclosure","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-acc-q28","subject":"accountancy","source_file":"Accountancy-SQP.pdf","question_id":"Q28","pdf_page_1based":11,"local_text_file":"Accountancy-SQP.txt","local_text_line_start":404,"source_scope":"one-step accounting-ratio numerical; current Accountancy unit","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-acc-q29","subject":"accountancy","source_file":"Accountancy-SQP.pdf","question_id":"Q29","pdf_page_1based":11,"local_text_file":"Accountancy-SQP.txt","local_text_line_start":408,"source_scope":"one-mark cash-flow classification; current Accountancy unit","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-acc-q30","subject":"accountancy","source_file":"Accountancy-SQP.pdf","question_id":"Q30","pdf_page_1based":11,"local_text_file":"Accountancy-SQP.txt","local_text_line_start":434,"local_text_line_end":443,"source_scope":"one-step cash-flow numerical; current Accountancy unit","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-bs-q01","subject":"business_studies","source_file":"BusinessStudies-SQP.pdf","question_id":"Q1","pdf_page_1based":1,"local_text_file":"BusinessStudies-SQP.txt","source_scope":"objective; current Business Studies syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-bs-q02","subject":"business_studies","source_file":"BusinessStudies-SQP.pdf","question_id":"Q2","pdf_page_1based":1,"local_text_file":"BusinessStudies-SQP.txt","source_scope":"objective; current Business Studies syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-bs-q03","subject":"business_studies","source_file":"BusinessStudies-SQP.pdf","question_id":"Q3","pdf_page_1based":1,"local_text_file":"BusinessStudies-SQP.txt","source_scope":"objective; current Business Studies syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-bs-q04","subject":"business_studies","source_file":"BusinessStudies-SQP.pdf","question_id":"Q4","pdf_page_1based":"1-2","local_text_file":"BusinessStudies-SQP.txt","source_scope":"objective; current Business Studies syllabus; use page 2 for continuation/options","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-econ-q01","subject":"economics","source_file":"Economics-SQP.pdf","question_id":"Q1","pdf_page_1based":1,"local_text_file":"Economics-SQP.txt","local_text_line_start":16,"local_text_line_end":25,"source_scope":"objective macroeconomics statement evaluation; current Economics syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-econ-q03","subject":"economics","source_file":"Economics-SQP.pdf","question_id":"Q3","pdf_page_1based":1,"local_text_file":"Economics-SQP.txt","local_text_line_start":40,"local_text_line_end":49,"source_scope":"objective banking concept; current Economics syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-econ-q04","subject":"economics","source_file":"Economics-SQP.pdf","question_id":"Q4","pdf_page_1based":1,"local_text_file":"Economics-SQP.txt","local_text_line_start":50,"local_text_line_end":66,"source_scope":"objective balance-of-payments statements; current Economics syllabus","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-econ-q05","subject":"economics","source_file":"Economics-SQP.pdf","question_id":"Q5","pdf_page_1based":1,"local_text_file":"Economics-SQP.txt","local_text_line_start":67,"local_text_line_end":77,"source_scope":"objective macroeconomics item; selected after Q2 custody exclusion, not by key/result","review_status":"pending_blind_solve"},
+    {"case_id":"v74-cbse22-en-q1-i","subject":"english","source_file":"EnglishCore-SQP.pdf","question_id":"Q1(i)","pdf_page_1based":1,"local_text_file":"EnglishCore-SQP.txt","local_text_line_start":51,"local_text_line_end":56,"source_scope":"first objective subpart in source order; adaptation required because the source stimulus exceeds 300 words","review_status":"pending_blind_solve_after_adaptation"},
+    {"case_id":"v74-cbse22-en-q1-iv","subject":"english","source_file":"EnglishCore-SQP.pdf","question_id":"Q1(iv)","pdf_page_1based":1,"local_text_file":"EnglishCore-SQP.txt","local_text_line_start":61,"local_text_line_end":66,"source_scope":"second objective subpart in source order; adaptation required","review_status":"pending_blind_solve_after_adaptation"},
+    {"case_id":"v74-cbse22-en-q1-v","subject":"english","source_file":"EnglishCore-SQP.pdf","question_id":"Q1(v)","pdf_page_1based":1,"local_text_file":"EnglishCore-SQP.txt","local_text_line_start":67,"local_text_line_end":71,"source_scope":"third objective subpart in source order; retain in denominator if defective","review_status":"pending_blind_solve_after_adaptation"},
+    {"case_id":"v74-cbse22-en-q1-ix","subject":"english","source_file":"EnglishCore-SQP.pdf","question_id":"Q1(ix)","pdf_page_1based":2,"local_text_file":"EnglishCore-SQP.txt","local_text_line_start":82,"local_text_line_end":86,"source_scope":"fourth objective subpart in source order; adaptation required","review_status":"pending_blind_solve_after_adaptation"}
+  ],
+  "english_adaptation": {
+    "source_stimulus_pdf_pages_1based": [1, 2],
+    "source_word_count_reported_in_paper": 437,
+    "required_adapted_word_maximum": 300,
+    "status": "adaptation_required_before_blind_review",
+    "adaptation_text": null,
+    "source_relationship": "The original stimulus is retained only in the local CBSE source cache. The next step must create a clearly labelled paraphrase or abridgment of at most 300 words and disclose its lineage; do not transfer an answer from the source question without solving the adapted item again.",
+    "answer_must_be_reestablished_from_adaptation": true,
+    "no_key_or_answer": true
+  },
+  "construction_exclusions": [
+    {"source_file":"Accountancy-SQP.pdf","question_ids":"Q1-Q16","reason":"Search/PDF-preview custody exposure recorded in custody-disclosure.json; not eligible for this fresh review packet."},
+    {"source_file":"Accountancy-SQP.pdf","question_ids":"Q17-Q26 and Q31-Q34","reason":"Not selected: descriptive/open-response format, not objective four-option current format."},
+    {"source_file":"BusinessStudies-SQP.pdf","question_ids":"Q5 onward","reason":"Not selected: packet rule takes the first four syllabus-in-scope objective questions; retained in source custody, outside this 16-case denominator."},
+    {"source_file":"Economics-SQP.pdf","question_ids":"Q2","reason":"Key-text exposure in web search result; excluded after custody disclosure."},
+    {"source_file":"Economics-SQP.pdf","question_ids":"Q6 onward","reason":"Not selected: the four first available in-scope objective items after Q2 custody exclusion fill this subject's allocation."},
+    {"source_file":"EnglishCore-SQP.pdf","question_ids":"Q1(ii), Q1(iii), Q1(vi), Q1(vii), Q1(viii)","reason":"Not selected: constructed-response subparts, not objective items."},
+    {"source_file":"EnglishCore-SQP.pdf","question_ids":"Q1(x) and later items","reason":"Not selected: after the four earlier objective subparts in question order."}
+  ],
+  "held_construction_records": [
+    {"case_id":"v74-cbse22-econ-q02-held","subject":"economics","source_file":"Economics-SQP.pdf","question_id":"Q2","pdf_page_1based":1,"local_text_file":"Economics-SQP.txt","local_text_line_start":26,"local_text_line_end":39,"reason":"One answer row from the corresponding official marking-scheme source was exposed in a search snippet before acquisition; retained as an explicit held construction record, outside the 16-case raw review set.","raw_text_sha256":"see raw16-source-span-integrity.json","answer_or_key":"not recorded"}
+  ],
+  "denominator_rule": "All 16 selected IDs remain in the raw construction denominator. Any ambiguity, bad option set, format failure, source mismatch, or adaptation defect is retained and reported; no item is silently replaced after independent solving begins.",
+  "keys_and_answers": "Not included. Two independent reviewers must freeze source-based derivations without access to keys before any official comparison.",
+  "release": false
+}

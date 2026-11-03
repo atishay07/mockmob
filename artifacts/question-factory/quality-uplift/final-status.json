@@ -1,0 +1,334 @@
+{
+  "at": "2026-10-06T09:59:07.205Z",
+  "state": "not_production_ready",
+  "verifier": "luna-gemini-cuET-v3.2",
+  "policy": "cuet-llm-v3",
+  "registry_version": 42,
+  "audit": {
+    "reviewed": 48,
+    "intended_key_matches": 48,
+    "approve": 30,
+    "suspect": 17,
+    "incomplete": 1,
+    "perfection_guaranteed": false
+  },
+  "calibration": {
+    "state": "paused",
+    "valid_sample_size": 16,
+    "valid_eligible": 11,
+    "luna_key_accuracy": 0.9375,
+    "gemini_key_accuracy": 1,
+    "known_bad": 12,
+    "known_bad_accepted": 0,
+    "failed_valid_items": [
+      {
+        "id": "commission-v3-cuet2024-english-bookA-q42",
+        "subject": "english",
+        "route": "conceptual",
+        "expected_valid": true,
+        "official_key": "B",
+        "luna": "B",
+        "gemini": "B",
+        "state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "“Quashed” is the strongest conventional fit: it means stopping something from continuing, and the evidence specifically gives rumours as an example.",
+          "“Defended the rumours” is also meaningful: it can mean the Principal supported their truth. Nothing in the sentence rules that interpretation out, so B is not uniquely defensible as written.",
+          "The item exactly repeats its CUET 2024 anchor, so it is not meaningfully distinct."
+        ]
+      },
+      {
+        "id": "commission-v3-cuet2024-accountancy-bookA-q28",
+        "subject": "accountancy",
+        "route": "numerical",
+        "expected_valid": true,
+        "official_key": "D",
+        "luna": "D",
+        "gemini": "D",
+        "state": "quarantined",
+        "reasons": [
+          "failed:independent_evaluation"
+        ],
+        "failure_details": [
+          "Average period formula = (Months remaining after first drawing + Months remaining after last drawing) / 2.",
+          "(A) End of each half year: (6 + 0) / 2 = 3 months, matching (IV).",
+          "(B) Beginning of each quarter: (12 + 3) / 2 = 7.5 months, matching (III).",
+          "(C) Beginning of each month: (12 + 1) / 2 = 6.5 months, matching (II).",
+          "(D) End of each quarter: (9 + 0) / 2 = 4.5 months, matching (I).",
+          "Thus, the correct combination is (A)-(IV), (B)-(III), (C)-(II), (D)-(I), corresponding to Option D."
+        ]
+      },
+      {
+        "id": "commission-v3-cuet2024-accountancy-bookA-q46",
+        "subject": "accountancy",
+        "route": "passage",
+        "expected_valid": true,
+        "official_key": "A",
+        "luna": "A",
+        "gemini": "A",
+        "state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failure_details": [
+          "All partners decided to dissolve the firm, indicating unanimous consent and therefore dissolution by agreement (A). The passage gives no contingency, notice, or compulsory-dissolution trigger; no calculation is needed.",
+          "The textbook supports the distinction among agreement, contingencies, notice, and compulsory dissolution; the passage supplies the decisive fact of joint decision.",
+          "This is identical to the supplied authentic anchor question, so it is not meaningfully distinct.",
+          "The item tests a mode of firm dissolution, treated here as part of the syllabus topic ‘Meaning’ of dissolution of a partnership firm."
+        ]
+      },
+      {
+        "id": "commission-v3-cuet2024-accountancy-bookA-q48",
+        "subject": "accountancy",
+        "route": "passage",
+        "expected_valid": true,
+        "official_key": "A",
+        "luna": "A",
+        "gemini": "A",
+        "state": "quarantined",
+        "reasons": [
+          "failed:explanation_support"
+        ],
+        "failure_details": [
+          "The final loss of ₹2,40,000 is correct, but the explanation reverses the recorded liability entries in its calculation: transferring the ₹80,000 liability to Realisation credits the account, while paying it debits the account. The equal amounts cancel, so the reversal does not change the result, but the stated reasoning is incorrect."
+        ]
+      },
+      {
+        "id": "commission-v3-cuet2024-economics-bookA-q4",
+        "subject": "economics",
+        "route": "conceptual",
+        "expected_valid": true,
+        "official_key": "D",
+        "luna": "abstain",
+        "gemini": "D",
+        "state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "The textbook definition directly supports D: greater thrift leaves total saving unchanged or lower (E1.1); its worked example shows aggregate saving unchanged after equilibrium income falls (E1.2–E1.5).",
+          "A is also defensible in the standard two-sector equilibrium: if aggregate saving does not rise and saving equals investment, investment does not rise either. The stem gives no assumption that rules out this equivalent implication, so D is not uniquely defensible.",
+          "B and C reverse the thrift increase in the definition; they do not state the paradox’s defining cause. Under fixed autonomous investment, however, aggregate saving can remain unchanged for those changes too, so the model context is underspecified.",
+          "The item exactly repeats its supplied CUET 2024 anchor, so it is not meaningfully distinct."
+        ]
+      }
+    ],
+    "audit_challenges": 18,
+    "audit_challenges_quarantined": 15,
+    "audit_challenges_accepted": 3,
+    "accepted_audit_challenges": [
+      {
+        "original_id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+        "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+        "audit_verdict": "suspect",
+        "state": "eligible",
+        "reasons": [],
+        "failure_details": []
+      },
+      {
+        "original_id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+        "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+        "audit_verdict": "suspect",
+        "state": "eligible",
+        "reasons": [],
+        "failure_details": []
+      },
+      {
+        "original_id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+        "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+        "audit_verdict": "suspect",
+        "state": "eligible",
+        "reasons": [],
+        "failure_details": []
+      }
+    ]
+  },
+  "generation_allowed": false,
+  "new_candidate_jobs": 0,
+  "new_pilot_questions": 0,
+  "production_changes": 0,
+  "measured_yield_above_70": false,
+  "forecast_60_usd_validated": false,
+  "budget": {
+    "limit_usd": 50,
+    "gross_usd": 1.616247,
+    "held_usd": 0,
+    "available_usd": 48.383753,
+    "resumed_validation_usd": 0.19724,
+    "unresolved": 0,
+    "credits_applied": "Unverified; gross cost reported",
+    "costs": {
+      "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+      "stages": [
+        {
+          "stage": "historical",
+          "provider": null,
+          "model": "historical",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0,
+          "held_usd": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "usage_missing_requests": 1
+        },
+        {
+          "stage": "transport_probe",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0.000016,
+          "held_usd": 0,
+          "input_tokens": 109,
+          "output_tokens": 40,
+          "reasoning_tokens": 25,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "transport_probe",
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "settled_requests": 2,
+          "open_requests": 0,
+          "settled_usd": 0.000797,
+          "held_usd": 0,
+          "input_tokens": 172,
+          "output_tokens": 390,
+          "reasoning_tokens": 373,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "blind_solution",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 289,
+          "open_requests": 0,
+          "settled_usd": 0.30992699999999995,
+          "held_usd": 0,
+          "input_tokens": 948499,
+          "output_tokens": 508160,
+          "reasoning_tokens": 414178,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "settled_requests": 192,
+          "open_requests": 0,
+          "settled_usd": 1.001053,
+          "held_usd": 0,
+          "input_tokens": 667203,
+          "output_tokens": 181425,
+          "reasoning_tokens": 111969,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "settled_requests": 32,
+          "open_requests": 0,
+          "settled_usd": 0.049103999999999995,
+          "held_usd": 0,
+          "input_tokens": 87941,
+          "output_tokens": 50794,
+          "reasoning_tokens": 37688,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "settled_requests": 32,
+          "open_requests": 0,
+          "settled_usd": 0.050195,
+          "held_usd": 0,
+          "input_tokens": 87941,
+          "output_tokens": 29591,
+          "reasoning_tokens": 17042,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "explanation_support",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 160,
+          "open_requests": 0,
+          "settled_usd": 0.10013799999999999,
+          "held_usd": 0,
+          "input_tokens": 635349,
+          "output_tokens": 89876,
+          "reasoning_tokens": 60795,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "authoring",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 129,
+          "open_requests": 0,
+          "settled_usd": 0.06211300000000001,
+          "held_usd": 0,
+          "input_tokens": 330449,
+          "output_tokens": 58030,
+          "reasoning_tokens": 40346,
+          "usage_missing_requests": 5
+        },
+        {
+          "stage": "repair",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 51,
+          "open_requests": 0,
+          "settled_usd": 0.03904599999999999,
+          "held_usd": 0,
+          "input_tokens": 79502,
+          "output_tokens": 62144,
+          "reasoning_tokens": 55809,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "unclassified",
+          "provider": null,
+          "model": "gpt-6-luna",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0.003858,
+          "held_usd": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "usage_missing_requests": 1
+        }
+      ]
+    }
+  },
+  "checks": {
+    "factory": 45,
+    "recovery": 35,
+    "question_payment_nta": 49,
+    "total": 129,
+    "targeted_lint": "passed",
+    "production_build": "passed",
+    "local_preview": {
+      "http_status": 200,
+      "quality_gate": true,
+      "historical_label": true,
+      "audit_visible": true,
+      "forecast_withheld": true,
+      "scope": "Server-rendered local preview only; interactive/authenticated staging flows unverified"
+    }
+  },
+  "remaining": [
+    "Resolve five previously labelled valid-fixture rejections: ambiguous word-choice/economic implications, chapter taxonomy and dissolution explanation debit/credit direction. Freeze this result before changing fixture classifications or content.",
+    "Fix the three audited quality misses: missing other-instalment payment assumption; journal-entry claim without direct attached support; generalising a no-saving example to every two-sector economy.",
+    "Rerun strict calibration and all audited defect challenges; do not raise the pass rate by bypassing these checks.",
+    "Only after academic release, run the separate preregistered 100-candidate cohort across four subjects and measure true yield, variety, repairs and all-in cost.",
+    "Expand source/chapter and difficult-question coverage; demonstrate authenticated staging worker, dashboard and atomic publication before production migration/deployment."
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-08T15:48:10.238Z",
+  "raw_denominator": 16,
+  "question_packet_sha256": "65a1679f4a85b4c3ecba64dbe034c0cb91b4f9b5852bbdbcbbe3d4d3a55b5905",
+  "first_review_sha256": "e4eceaf79c259450f5cfaff47b39d7c945e998d5842e5003cd203902dc94edba",
+  "supplement_sha256": "604bbf0d4b2a90526d2f37d6b4d8336e1405718646983512e23cb1a53e51c1ef",
+  "checked_quotes": 46,
+  "source_caches": 13,
+  "english_words": 230,
+  "official_selected_key_comparison_complete": false,
+  "second_blind_review_complete": false,
+  "release": false,
+  "publication": false,
+  "paid_calls": 0
+}

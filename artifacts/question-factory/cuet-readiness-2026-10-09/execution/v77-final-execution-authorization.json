@@ -1,0 +1,50 @@
+{
+  "authorization_type": "explicit_user",
+  "authorized": true,
+  "authorization_quote": "yes continue to make improvements in V7.7 but this time i was you to treat this as your last chance to perfecting this to best of your capabilities",
+  "authorization_scope": "one final V7.7 qualification only; $4 stop cap within $50 lifetime cap; no publication",
+  "freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "qualification_budget_prefix": "v77-qualification-2026-10-09-",
+  "cap_usd": 4,
+  "study_ids": [
+    "v77-qualification-2026-10-09-final-fresh-integrated",
+    "v77-qualification-2026-10-09-final-regression-integrated"
+  ],
+  "study_payloads": {
+    "fresh": {
+      "payload_hash": "902a0ffe05ec17d243e1c5762820680fe3e3d169cb2e2a808992b5fdce55b035",
+      "frozen_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "custody_sha256": "008d48baa64c1dc4d16ac0dbfa6155ee123130a125ca069a0247884270bb874c"
+    },
+    "regression": {
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "frozen_sha256": "6a179539474b980b907b31a5068a5dcfc30913610d2f1eaa9c0a912060b38293",
+      "custody_sha256": "77465d0bff14d3f9f4baa88b9eb95399bd9c88bfeeb8702d8193112dfaae6de9"
+    }
+  },
+  "transport_freeze_hash": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "execution_plan_hashes": {
+    "fresh": "3fa52a72322bde2e0234cc42e85e72ae60e45a43a3c3d3ed3ab70b576657c446",
+    "regression": "698403ce65c701100885e0cbedbe5963724a635d0cfd73f0a947e9d00c5d5c4b"
+  },
+  "issued_at": "2026-10-09T07:59:47.999Z",
+  "supplemental_receipt_recovery_freeze_sha256": "61e86d6f8236d28979cbc7489bca47cf1a82b41c2ea6158fd4272065c732f258",
+  "authorization_binder_additive_freeze_sha256": "0c89396a0595b6fbd3ac46a7c8d20a21262786cdbeff7da31b67948313eb82f3",
+  "prospective_preregistration_sha256": "268127a74fdaa3a594c17647cd182befad683e6b144b09b74509d1c779067c0f",
+  "source_integration_supplemental_bindings": {
+    "source_extraction_attestation_sha256": "9963251052c001161baf32243a48ce839492f3d3533df3afecb0f11eb8371f1e",
+    "source_overlay_sha256": "be9b24a885b5ad7e5771206d274b9419512637b6f9e1ee99535c2feccce2da56",
+    "source_integration_freshness_sha256": "68132bca4f8ddeb3ee03d7d967da949a4695cf811e7e1eb2bab003e2ea004b1e",
+    "full_local_verifier_seam_sha256": "c3833b9f396dfa45dfaa4903416d5fa29d1c250068e5e8980871eabf9113a9a4",
+    "registration_addendum_sha256": "2806a76bd755c0b50e564c92762301ee7288e0a98fb28018d4e0335532f4aeae",
+    "authored_identity_clarification_sha256": "02ff17070f4e97d6f9fa97924cfc78fcdf82d425ae3110320f3105d77d38dfb1",
+    "authorization_binder_v3_freeze_sha256": "0c89396a0595b6fbd3ac46a7c8d20a21262786cdbeff7da31b67948313eb82f3",
+    "authorization_binder_v3_review_sha256": "1f98eb8691bf95bab80eb0124dd31680855809b473b43e720538907ab9189026"
+  },
+  "additive_offline_preflight_runner_sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+  "additive_offline_preflight_freeze_sha256": "328e569ed69fbb12821e137bc44e0ee6f9be4c6facf0de440dc55420d273e8ce",
+  "offline_capture_addendum_sha256": "48144c35a199249c434d6bec66be20c1b6f1336f78c8951ef7f1fd46722eb4d0",
+  "independent_offline_preflight_review_sha256": "c23d4652de9f3b7c2dfd1274b789e0efcb4880ae7483dff8b27b8278530acf16",
+  "pre_dispatch_state_sha256": "9a43359ec9f7ec984cc1d84279f0f1622485f13cdb9bc784ce9590db6aedb597"
+}

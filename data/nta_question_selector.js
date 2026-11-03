@@ -366,7 +366,7 @@ function numericValue(value) {
 
 function difficultyOf(row) {
   const difficulty = textValue(row?.difficulty).toLowerCase();
-  return VALID_DIFFICULTIES.has(difficulty) ? difficulty : 'medium';
+  return VALID_DIFFICULTIES.has(difficulty) ? difficulty : null;
 }
 
 function qualityBand(row) {
@@ -500,6 +500,7 @@ export function qualityGateNtaQuestion(row, context = {}) {
   if (!text || text.length < 10) reasons.push('question_missing_or_too_short');
   if (hasMalformedText(text)) reasons.push('malformed_question_text');
   if (hasPlaceholderText(text)) reasons.push('placeholder_question');
+  if (!difficultyOf(row)) reasons.push('difficulty_missing_or_unknown');
   if (!optionsAreUsable(options)) reasons.push('options_invalid');
   if (correctIndex < 0) reasons.push('answer_missing_or_mismatch');
   for (const warning of getNtaContentWarnings(row, { ...context, subjectId: subject })) {
@@ -675,18 +676,51 @@ function selectRankedCandidates(rankedPassages, rankedStandalone, targetCount, d
   const selected = [];
   const fingerprints = new Set();
 
+  // NTA practice is centered on authentic CUET-level questions. Use Easy only
+  // to fill a shortfall, then Hard only if suitable Medium + Easy inventory
+  // still cannot build a complete paper. Keep the existing evidence tiers
+  // ordered within each difficulty band.
   for (const tier of [1, 2, 3]) {
-    for (const candidate of rankedPassages.filter((entry) => entry.tier === tier)) {
+    for (const difficulty of ['medium', 'easy']) {
+      for (const candidate of rankedPassages.filter((entry) => entry.tier === tier && candidateDifficulty(entry) === difficulty)) {
+        if (selectedQuestionCount(selected) >= targetCount) break;
+        selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+      }
+      for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier && candidateDifficulty(entry) === difficulty)) {
+        if (selectedQuestionCount(selected) >= targetCount) break;
+        selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+      }
       if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
     }
-    for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier)) {
+    if (selectedQuestionCount(selected) >= targetCount) break;
+  }
+
+  // Hard is held until every Medium/Easy evidence tier has been considered.
+  if (selectedQuestionCount(selected) < targetCount) {
+    for (const tier of [1, 2, 3]) {
+      for (const candidate of rankedPassages.filter((entry) => entry.tier === tier && candidateDifficulty(entry) === 'hard')) {
+        if (selectedQuestionCount(selected) >= targetCount) break;
+        selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+      }
+      for (const candidate of rankedStandalone.filter((entry) => entry.tier === tier && candidateDifficulty(entry) === 'hard')) {
+        if (selectedQuestionCount(selected) >= targetCount) break;
+        selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
+      }
       if (selectedQuestionCount(selected) >= targetCount) break;
-      selectCandidate(candidate, selected, fingerprints, targetCount, diagnostics, opts);
     }
   }
 
   return selected;
+}
+
+function candidateDifficulty(candidate) {
+  const difficulties = candidate.rows.map((row) => difficultyOf(row));
+  if (difficulties.some((difficulty) => !difficulty)) return null;
+  // A linked passage is treated at its highest tagged difficulty so a Hard
+  // item cannot enter the Easy or Medium phase through a mixed group.
+  if (difficulties.includes('hard')) return 'hard';
+  if (difficulties.includes('medium')) return 'medium';
+  return 'easy';
 }
 
 export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, options = {}) {
@@ -697,7 +731,7 @@ export function selectNtaQuestionSet(rows, requestedCount = NTA_QUESTION_COUNT, 
     requestedCount: Number(requestedCount) || targetCount,
     finalCount: targetCount,
     durationMinutes: NTA_DURATION_MINUTES,
-    selectionStrategy: 'ranked_quality_fallback',
+    selectionStrategy: 'medium_then_easy_then_hard_fallback',
     totalCandidates: Array.isArray(rows) ? rows.length : 0,
     acceptedCandidates: 0,
     finalSelectedCount: 0,

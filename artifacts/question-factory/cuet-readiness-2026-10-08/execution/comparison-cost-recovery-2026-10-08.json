@@ -1,0 +1,119 @@
+{
+  "evidence_as_of": "2026-10-08T06:04:40.725Z",
+  "process_check": "No matching live Node process on last CIM check; refresh before acting.",
+  "supervisor": {
+    "persisted_progress_at": "2026-10-08T00:11:37.885Z",
+    "persisted_improved": {
+      "eligible": 31,
+      "rejected": 12,
+      "pending": 57
+    },
+    "saved_stop_error": "measurement_lease_active_scope_conflict",
+    "interpretation": "Lease/claim conflict, not CUET validator circuit breaker; progress file stale vs later durable status."
+  },
+  "campaigns": {
+    "baseline": {
+      "terminal": 100,
+      "denominator": 100,
+      "eligible": 70,
+      "rejected": 30,
+      "pending": 0,
+      "settled_usd": 1.216368,
+      "held_usd": 0.011628,
+      "gross_usd": 1.227996,
+      "requests": 522,
+      "item_export_current": true
+    },
+    "improved": {
+      "terminal": 50,
+      "denominator": 100,
+      "eligible": 38,
+      "rejected": 12,
+      "pending": 50,
+      "settled_usd": 0.640851,
+      "held_usd": 0.130176,
+      "gross_usd": 0.771027,
+      "requests": 262,
+      "item_export_current": false,
+      "last_item_export": {
+        "terminal": 31,
+        "eligible": 31,
+        "rejected": 12,
+        "pending": 57,
+        "settled_usd": 0.558489,
+        "held_usd": 0.076905,
+        "requests": 235
+      }
+    }
+  },
+  "known_receipt_reconciliation": {
+    "gemini_unresolved_batch_count": 4,
+    "reservation_each_usd": 0.019788,
+    "next_action": "Reconcile exact saved native batch IDs and recover item usage; no resubmission.",
+    "native_state": "BATCH_STATE_SUCCEEDED with service-unavailable error payload; usage missing."
+  },
+  "dead_owner_reserved_recovery": {
+    "owner_pid": 35812,
+    "rows": [
+      {
+        "request_id": "fed280b0-17a0-48c7-9af5-350476c7da7d",
+        "maximum_hold_usd": 0.011628
+      },
+      {
+        "request_id": "e16dbb42-ed3a-4027-8462-0ee8ff7299ce",
+        "maximum_hold_usd": 0.041643
+      }
+    ],
+    "combined_usd": 0.053271,
+    "recovery_action": "Persist conservative maximum hold only after transaction-time saved-proof revalidation; apply not run by this agent.",
+    "tests": "4 focused tests passed"
+  },
+  "lifetime": {
+    "settled_usd": 31.550584,
+    "held_usd": 0.36637,
+    "gross_committed_usd": 31.916954,
+    "cap_usd": 50,
+    "remaining_usd": 18.083046,
+    "unresolved": 27,
+    "provider_invoice_obtained": false
+  },
+  "reassessment": {
+    "denominator": 662,
+    "terminal": 661,
+    "eligible": 536,
+    "rejected": 125,
+    "provider_errors": 1,
+    "pending": 1,
+    "settled_usd": 6.267641,
+    "held_usd": 0.011628,
+    "gross_usd": 6.279269,
+    "publication": "never"
+  },
+  "safety": {
+    "paid_calls_by_this_agent": 0,
+    "ledger_mutations_by_this_agent": 0,
+    "resubmissions_by_this_agent": 0,
+    "publication_writes_by_this_agent": 0
+  },
+  "receipt_refresh": {
+    "at": "2026-10-08T06:18Z",
+    "provider": "gemini",
+    "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+    "http_status": 200,
+    "state": "BATCH_STATE_SUCCEEDED",
+    "done": true,
+    "inline_records": 64,
+    "records_with_usage_metadata": 60,
+    "target_items_without_usage": 4,
+    "target_item_error_code": 14,
+    "target_reserved_usd_each": 0.019788,
+    "target_receipt_status": "unresolved; preserve hold"
+  },
+  "lease_refresh": {
+    "measurement_lease_state": "released",
+    "measurement_lease_owner": null,
+    "global_worker_pid": 13072,
+    "comparison_driver_pid": 18956,
+    "reconcile_mutations_deferred_while_live": true
+  }
+}

@@ -1,0 +1,855 @@
+                                 ANSWER KEY - SAMPLE QUESTION PAPER 2022-23
+                                              SUBJECT ACCOUNTANCY 055
+                                                          CLASS XII
+
+S.NO Question                                                                         Marks
+
+                                                            Part A                         1
+                                 (Accounting for Partnership Firms and Companies)          1
+                                                                                           1
+1. a) 41: 7: 12
+                                                                                           1
+2. c) Both (A) and (R) are incorrect
+                                                                                           1
+3. b)  4 per share                                                                         1
+
+                                         OR                                                1
+                                                                                           1
+d) Non ­ Redeemable Debentures
+                                                                                           1
+4. a) Samiksha's Capital A/c. Dr. 9,000                                                    1
+                                                                                           1
+          To Arshiya's Capital A/c.      6,000                                             1
+                                                                                           1
+          To Divya's Capital A/c         3,000                                             1
+                                                                                           1
+                                         Or
+                                                                                           1
+d) Share of Loss Sohan ­ 1,180 Mohan ­  1,770                                              3
+                                                                                       (1 + 2)
+5. d)  3,00,000
+
+6. c) 6%
+
+                                         OR
+
+b) 5%
+
+7. c)  30,000
+
+8. d) 70,500
+
+                                         Or
+
+d) A  50,000; B  50,000 and C  50,000
+
+9. c)  36,000
+
+10. a)  1,80,000
+
+11. c) (iii) ; (ii) ; (i); (iv)
+
+12. b)  21,000
+
+13. b) Providing for Premium payable on Redemption of Debentures.
+
+14. c)  50,000
+
+15. d) 5,000                             Or
+
+        d) 12% p.a                    Journal Entry                           Cr.
+16. d)  30,000 (loss)                                                         Amount
+17                                                             L.F. Dr.
+                                                                      Amount
+          Date Particulars
+     1.02.22 Profit and Loss Suspense A/c                 Dr.              30,000
+
+                    To Sara's Capital A/c                                            30,000
+
+                  (Being Sara's share of profit allowed till
+
+                  the date of her death)
+
+     Workings: Profit % to sales turnover for the year ended 31st
+
+     March,2021=1,20,000/10,00,000 X100= 12%
+     Estimated sales for the year ended 31st March,2022= 10,00,000+20% of  10,00,000 = 
+
+     12,00,000
+     Estimated sales till 01st February,2022 =  12,00,000 x 10/12 =  10,00,000
+
+     Profit percentage 12-2=10%
+     Profit amount till 01st February, 2022 = 10% of  10,00,000 =  1,00,000
+     Sara's share of profit till 1st February,2022= 1,00,000 X 3 =  30,000
+
+                                                          10
+
+18 Dr. Profit and Loss Appropriation A/c for the year ending on 31st March, 2022           Cr.       3
+                                                                                                 (1/2 x6)
+     Particulars                    Amount () Particulars                    Amount ()
+                                                                                                    Or
+     To Interest on Capital:                         By Profit and Loss A/c 1,38,000                 3
+                                                                                                  (1+2)
+     Amay's Current A/c                     9,000
+
+     Anmol's Current A/c                    4,500
+
+     Rohan's Current A/c                    4,500
+
+     To Partners' Current A/c:
+
+     Amay           53,000
+
+     Anmol          40,000
+
+     Rohan          27,000**               1,20,000
+
+                                           1,38,000                                1,38,000
+
+           ** Guarantee met for 9 months.
+
+                                                      Or
+
+                                                 Journal Entry
+
+     Date Particulars                                     L.F Debit () Credit ()
+
+     (i) Ajay's Capital A/c                      Dr.           52,000
+
+                  To Manish's Capital A/c                                    4,000
+
+                  To Sachin's Capital A/c                                    48,000
+
+               (Adjustment entry passed)
+
+     Working Notes
+
+     Particulars              Ajay               Manish            Sachin            Firm
+
+                        Dr.         Cr.     Dr.      Cr.      Dr.     Cr.    Dr.       Cr.
+
+     Profits taken      1,00,000            60,000            40,000                   2,00,000
+
+     back
+
+     Interest       on              48,000           64,000           88,000 2,00,000
+
+     Capital to be
+
+     credited
+
+                        1,00,000 48,000 60,000 64,000 40,000 88,000 2,00,000 2,00,000
+
+                             52,000 (Dr.)   4,000 (Cr.)        48,000 (Cr.)
+
+19.                                         Books of Anthony Ltd.                                3
+
+                                                 Journal Entries
+
+     Date Particulars                                              L.F Debit () Credit ()
+     (i) Assets A/c                       Dr.                         23,50,000
+
+     Goodwill A/c                         Dr.                           50,000
+
+     To Liabilities A/c                                                          6,00,000
+
+     To Mithoo Ltd. A/c                                                          18,00,000
+
+     (Business purchased of Mithoo Ltd.
+
+     comprising of Assets and Liabilities)
+
+     (ii) Mithoo Ltd. A/c                 Dr.                         18,00,000
+
+     Loss on Issue of Debentures A/c Dr.                              3,00,000
+
+     To 9% Debentures A/c                                                        20,00,000
+
+     To Premium on Redemption of                                                 1,00,000
+
+     Debentures A/c
+
+     (Debentures issued to Mithoo Ltd. at
+
+     Discount, redeemable at Premium)
+
+                                               OR
+
+                                    Books of Random Ltd.
+
+                                          Journal Entries
+
+     Date Particulars                                         L.F Debit () Credit ()
+
+     (i) Assets A/c                       Dr.                         45,00,000
+
+     To Liabilities A/c                                                          6,40,000
+
+     To Mature Ltd. A/c                                                          36,00,000
+
+     To Capital Reserve A/c                                                      2,60,00
+
+     (Business purchased of Mithoo Ltd.
+
+     comprising of Assets and Liabilities)
+
+     (ii) Mature Ltd. A/c                 Dr.                         36,00,000
+
+     To Bank A/c                                                                 1,50,000
+
+     To 12% Preference Share Capital A/c                                         30,00,000
+
+     To Securities Premium A/c                                                   4,50,000
+
+     (Debentures issued to Mithoo Ltd. at
+
+     Discount, redeemable at Premium)
+
+                No. of Shares = 34,50,000/115 = 30,000 shares @ 100 + 15 each
+
+20.                                       Journal Entry                                         3
+                                                                                              (1+2)
+Sol Date Particulars                                       L.F. Dr.              Cr.
+
+                                                                      Amount Amount
+
+     1.4.20 Nobita's Capital A/c          Dr.                         26,667
+
+                To Doremon's Capital A/c                                              26,667
+
+     (Being goodwill adjusted at the time of
+
+     change in profit sharing ratio)
+
+     Workings:
+
+     (i) Calculation of gaining ratio and sacrificing ratio:
+
+                Doremon's gain or sacrifice = 3/6-2/6= 1/6 (sacrifice)
+
+                Shinchan's gain or sacrifice = 2/6-2/6 =0
+
+                Nobita's gain or sacrifice = 1/6 ­ 2/6 = -1/6 (gain)
+
+     (ii) Calculation of goodwill:
+                                    CALCULATIONOF NORMAL PROFIT
+
+     Year Ended            Profit/ Loss  Adjustments                Normal Profit
+     31st March,2019             50,000  ----                                  50,000
+     31st March,2020                     -----
+     31st March,2021          1,20,000   -----                               1,20,000
+     31st March,2022          1,80,000   50,000-10,000                       1,80,000
+                               (70,000)                                      (30,000)
+
+     Total                                                                  3,20,000
+
+     Goodwill =Average Profits X No. of years Purchase
+
+     Average Profits = Total Normal Profits/Number of years
+
+                  = 3,20,000/4 = 80,000
+
+     Goodwill= 80,000 X 2= 1,60,000
+
+     A's share of goodwill= 1,60,000 X 1/6= 26,667
+
+21.                                      Books of Altaur Ltd.                                 4
+                                                                                            (1+3)
+                               Balance Sheet (Extract) as at .....
+                                                                                              4
+     Particulars             Note No. Current Year () Previous Year ()
+
+     EQUITY AND LIABILITIES
+
+     Shareholders' Funds
+
+     Share Capital             1                 63,25,000          Nil
+
+     Notes to Accounts                                         Amount ()
+          1. Share Capital                                     2,50,00,000
+                                                               1,50,00,000
+      Authorised Share Capital                                 4,00,00,000
+         25,00,000 Equity Shares @  10 each
+         1,50,000 9% Preference Shares @  100 each               80,00,000
+
+     Issued Share Capital                           --------     63,25,000
+        8,00,000 Equity Shares @  10 each
+                                                 64,00,000
+     Subscribed Share Capital                        (75,000)
+         (i) Subscribed and Fully Paid up
+         (ii) Subscribed but not Fully Paid up
+              8,00,000 Equity Shares @  8 each
+            (-) Calls in Arrears**
+
+22.               Journal Entries in the Books of Charu, Dhwani, Iknoor and Paavni
+
+     Date                      Particulars                     L.F. Dr. Cr.
+
+                                                                    Amount Amount
+
+            (i) Dhwani's Loan A/c           Dr.                     50,000
+
+                  To Bank A/c                                                       42,000
+
+                  To Realisation A/c                                                8,000
+
+                  (Dhwani's Loan of  50,000 settled at 
+
+                  42,000)
+
+            (ii) Paavni's Loan A/c          Dr.                     40,000
+
+                  To Realisation A/c                                                40,000
+     (Paavni's Loan of  40,000 settled by
+
+     giving an unrecorded asset)
+
+     (iii) Realisation A/c                  Dr.            60,000
+
+              To Loan to Charu A/c                                    60,000
+
+     (Loan to Charu was settled by payment to
+
+     Charu's brother Loan)
+
+     (iv) Iknoor's Loan A/c                      Dr.       80,000
+
+              To Realisation A/c                                      60,000
+
+              To Bank A/c                                             20,000
+
+     (Iknoor's Loan of  80,000 and
+
+     Machinery was given as part payment and
+
+     rest through bank)
+
+23.                                    Books of OTUA Ltd.                          6
+
+                                       Journal Entries
+
+     Date Particulars                                      L.F Debit () Credit ()
+
+     (i) Bank A/c Dr.                                      34,00,000
+
+     To Equity Share Application A/c                                  34,00,000
+
+     (Application money received on 85,000
+
+     shares)
+
+     (ii) Equity Share Application A/c Dr.                 34,00,000
+
+     To Equity Share Capital A/c                                      24,00,000
+
+     To Equity Share Allotment A/c                                    6,00,000
+
+     To Bank A/c                                                      4,00,000
+
+     (Application money transferred to share
+
+     capital, share allotment and refunded)
+
+     (iii) Equity Share Allotment A/c Dr.                  51,00,000
+
+     To Equity Share Capital A/c                                      36,00,000
+
+     To Securities Premium A/c                                        15,00,000
+
+     (Allotment due on 60,000 shares with
+
+     Premium)
+
+     (iv) Bank A/c Dr.                                     42,00,000
+
+     Calls in Arrears A/c Dr.                              3,00,000
+
+     To Equity Share Allotment A/c                                    45,00,000
+
+     (Allotment received on 56,000 shares)
+
+     (v) Equity Share Capital A/c Dr.                      4,00,000
+
+     Securities Premium A/c Dr.                            1,00,000
+
+     To Share Forfeited A/c                                           2,00,000
+
+     To Calls in Arrears A/c                                          3,00,000
+
+     (4,000 shares forfeited for non-payment of
+
+     allotment money)
+
+     Bank A/c Dr.                                          2,40,000
+
+     Share Forfeited A/c Dr.                               60,000
+
+     To Equity Share Capital A/c                                      3,00,000
+
+     (3,000 shares re-issued @  80 per share)
+
+     Share Forfeited A/c Dr.                               90,000
+
+     To Capital Reserve A/c                                           90,000
+           (Gain on re-issue of forfeited shares
+
+           transferred to capital reserve)
+
+                                            OR
+
+                                         Books of Vikram Ltd.
+
+                                           Journal Entries
+
+     (i)
+
+     Date Particulars                                          L.F Debit Credit
+
+                                                                    ()      ()
+
+     (i) Share Capital A/c Dr.                                      50,000
+
+                To Share Forfeited A/c                                      18,000
+
+                To Calls in Arrears A/c                                     32,000
+
+           (5,000 shares forfeited for non-payment of
+
+           allotment and call money)
+
+     (ii) Bank A/c Dr.                                              36,000
+
+                To Share Capital A/c                                        30,000
+
+                To Securities Premium A/c                                       6,000
+
+           (3,000 shares re-issued @  12 per share)
+
+     (iii) Share Forfeited A/c Dr.                                  10,800
+
+                To Capital Reserve A/c                                      10,800
+
+           (Gain on re-issue of forfeited shares transferred
+
+           to capital reserve)
+
+     (ii)
+
+                                         Books of Ratan Ltd.
+
+                                           Journal Entries
+
+     Date Particular                                           L.F Debit Credit
+
+                                                                    ()      ()
+
+           Share Capital A/c Dr.                                    21,000
+
+                To Share Forfeited A/c                                      15,000
+
+                To Calls in Arrears A/c                                         6,000
+
+           (3,000 shares forfeited for non-payment of first
+
+           call money)
+
+           Bank A/c Dr.                                             20,000
+
+                To Share Capital A/c                                        20,000
+
+           (2,000 shares re-issued @  10 per share)
+
+           Share Forfeited A/c Dr.                                  10,000
+
+                To Capital Reserve A/c                                      10,000
+
+           (Gain on re-issue of forfeited shares transferred
+
+           to capital reserve)
+
+24.        Dr.                        Revaluation Account                        Cr.     6
+
+                Particulars                 Amount            Particulars       Amount
+
+                                            ()                                  ()
+
+     To Partner's Capital A/c:                       Plant and Machinery         14,000
+
+     X                          19,200               Buildings A/c               11,000
+        Y                         12,800              32,000 Provisions for Doubtful
+
+            Dr.                                                    Debt A/c                                  7,000
+                                                                                                            32,000
+       Particulars                                    32,000                                                Cr.
+     Y's Current A/c
+     Balance c/d                            Partner's Capital Accounts
+
+                       X             Y         Z           Particulars          X          Y          Z
+                            ----    24,000      ----  Balance b/d            1,19,000   1,12,000        --
+                                  1,12,000  56,000    Bank A/c
+                      1,68,000                        Z's Current A/c               --         --  56,000
+                                  1,36,000  56,000    General Reserve A/c       8,400      5,600        --
+                      1,68,000                        Revaluation A/c           8,400      5,600        --
+                                                      X's Current A/c          19,200     12,800        --
+                                                                               13,000
+                                                                             1,68,000   1,36,000   56,000
+
+          Dr.                                              OR                                 Cr.
+                     Particulars                                              Amount ()
+                                             Revaluation A/c
+                                         Amount () Particulars
+
+     To Provision for Doubtful Debts                400 By Building A/c                 7,000
+
+     To Partner's Capital A/c:                    6,600                                 7,000
+                                                  7,000                                                 Cr.
+     P                          3,300       Partner's Capital Accounts
+
+     Q                            2,200
+
+     R                            1,100
+
+           Dr.
+
+            Particulars         P          Q          R        Particulars       P        Q           R
+          Goodwill A/c       13,500           --    4,500    Balance b/d      15,000    10,000     10,000
+          Profit & Loss                     400              Revaluation A/c   3,300     2,200      1,100
+          Cash                  600                   200    Goodwill A/c      9,000     6,000      3,000
+          Q's Loan                --      2,800         --   R's Current A/c                        1,900
+          P's Current A/c         --     15,000         --                        ----      ----
+          Balance c/d                                  ----                                        16,000
+                              1,900           --   11,300                     27,300    18,200
+                             11,300          ----  16,000
+                             27,300      18,200
+
+25.                                                Journal Entries                                                  6
+
+     Date Particulars                                              L.F. Dr.             Cr.
+
+                                                                    Amount Amount
+
+     2019 Profit and Loss Suspense A/c Dr.                                 1,20,000
+
+     June 30 To A's Capital A/c                                                         1,20,000
+
+                (Being share of profit provided till
+
+                the date of his death)
+
+     Dr.                                 A's Executors A/c                                         Cr.
+
+     Date       Particulars           J.F. Amount Date              Particulars         J.F. Amount
+
+     2019                                                    2019
+
+     June 30 Furniture A/c                  2,40,000 June 30 A's Capital A/c                       8,40,000
+
+     2020                                                    2020
+
+     Mar.31 Balance c/d                     6,27,000 Mar.31 Interest A/c                           27,000
+
+                                            8,67,000                                               8,67,000
+     2020                                         2020
+
+     June 30 Bank A/c                   2,36,000 Apr. 1 Balance b/d           6,27,000
+
+     2021                                         June 30 Interest A/c        9,000
+
+     Mar. 31 Balance c/d                4,18,000 2021
+
+                                                  Mar. 31 Interest A/c        18,000
+
+                                        6,54,000                              6,54,000
+
+     2021                                         2021
+
+     June 30 Bank A/c                   2,24,000 Apr. 1 Balance b/d           4,18,000
+
+     2022                                         June 30 Interest A/c        6,000
+
+     Mar. 31 Balance c/d                2,09,000 2022
+
+                                                  Mar. 31 Interest A/c        9,000
+
+                                        4,33,000                              4,33,000
+
+     2022                                         2021
+
+     June 30 Bank A/c                   2,12,000 Apr. 1 Balance b/d           2,09,000
+
+                                                  June 30 Interest A/c        3,000
+
+                                        2,12,000                              2,12,000
+
+26.                                Books of Health2Wealth Ltd.                                   6
+                                                                                             (2+2+2)
+     a) Journal Entries
+
+     Date Particulars                                         L.F Debit () Credit ()
+
+     (i) Bank A/c Dr.                                           55,00,000
+
+             To Debenture Application and Allotment A/c                       55,00,00
+
+             (Application money received)
+
+     (ii) Debenture Application and Allotment A/c Dr.           55,00,000
+
+             Loss on Issue of Debentures A/c Dr.                10,00,000
+
+             To 8% Debentures A/c                                             50,00,000
+
+             To Securities Premium A/c                                        5,00,000
+
+             To Premium on Redemption of Debentures A/c                       10,00,000
+
+             (Debenture issued at premium, to be redeemed at
+
+             premium)
+
+         b)               Loss on Issue of Debentures A/c                          Cr.
+     Dr.                                                                      Amount
+             Particulars           Amount Date                Particulars
+      Date                                                                       ()
+                                           ()
+      2021                                                                    7,80,000
+      1                                           2022                        2,20,000
+      Oct.
+             To Premium on                        31     By     Securities
+
+             Redemption   of 10,00,000 Mar. Premium A/c
+
+             Debentures                                  By Statement of
+
+                                                         Profit and Loss A/c
+
+                                   10,00,000                                  10,00,000
+
+        c)                         Journal Entries
+     Date Particulars
+                                                              L.F Debit () Credit
+     31      Debenture Interest A/c Dr.                                            ()
+     Mar.       To Debentureholders A/c
+     2022                                                           2,00,000
+     31      (Interest due on debentures)                                          2,00,000
+             Debentureholders A/c Dr.
+                                                                    2,00,000
+Mar.         To Bank A/c                                                     2,00,000
+2022      (Interest paid to debentureholders)
+31        Statement of Profit and Loss Dr.                    2,00,000
+Mar.                                                                         2,00,000
+2022         To Debenture Interest A/c
+          (Interest on Debentures charged to
+          Statement of Profit and Loss)
+
+                   Part B :- Analysis of Financial Statements
+                                      Option -I
+
+27. c) Postulates                                                                           1
+
+                                             Or
+
+c) Only (ii) and (iii) are correct
+
+28. b) 3 times                                                                              1
+
+29. d) Subtracted under Operating Activities as Extraordinary Item and Inflow under Investing 1
+
+Activities also
+
+                                             Or
+
+c) Added  1,30,000 under Operating Activities as Loss on Issue of Debentures written off
+
+and Inflow of  18,00,000 under Financing Activities.
+
+30. b)  1,02,000                                                                            1
+
+31. Item                            Heading           Sub ­ Heading                         3
+
+(i) Current maturities of long Current                Short term borrowings
+
+term debts                          Liabilities
+
+(ii) Furniture and Fixtures         Non ­ Current Property, Plant and
+
+                                    Assets            Equipments and Intangible
+
+                                                      Assets
+
+(iii) Provision for Warranties      Non ­ Current     Property, Plant and
+(iv) Income received in advance     Liabilities       Equipments
+(v) Capital Advances                Current           Long Term Provisions
+                                    Liabilities
+                                    Non ­ Current     Other Current Liabilities
+                                    Assets
+                                                      Long Term Loans and
+                                                      Advances
+
+(vi) Advances recoverable in Current Assets Short Term Loans and
+
+cash within the operation                             Advances
+
+cycle
+
+32. Variations of Accounting Practice as Limitation is highlighted in the given statement.  3
+Two Other Limitations (Any two of the following, with suitable explanation)
+
+(a) Limitations of Accounting Data
+
+(b) Ignores Price-level Changes
+
+(c) Ignore Qualitative or Non-monetary Aspects
+
+(d) Forecasting
+
+33. Return on Investment = EBIT / Capital Employed x 100                                            4
+
+= 15,00,000/1,20,00,000 x 100 = 12.5%
+
+Capital Employed = 12% Preference Share Capital + Equity Share Capital + Reserves and
+Surplus + 15% Debentures + 10% Bank Loan = 30,00,000 + 40,00,000 + 10,00,000 +
+20,00,000 + 20,00,000 =  1,20,00,000
+EBIT = Profits after Tax + Tax + Interest = 6,00,000 + 4,00,000 + 5,00,000 =  15,00,000
+
+Net Assets Turnover ratio = Revenue from Operations/Capital Employed
+
+= 3,60,00,000/1,20,00,000 = 3 times
+
+                                       Or
+
+(i) Ratio will improve. Reason ­ Capital Employed will decrease and Debt will remain
+
+same
+
+(ii) Ratio will remain same. Reason ­ Both Debt and Capital Employed will remain
+
+same.
+
+(iii) Ratio will decline. Reason ­ Debt will decrease but Capital Employed will remain
+
+same.
+
+(iv) Ratio will decline. Reason ­ Capital Employed will increase but Debt will remain
+
+same.
+
+34. 1. Net Profit before tax and extraordinary items=Net Profit for the year+ Interim Dividend + Loss of 6
+
+assets due to fire + Provision for Tax + Proposed Dividend - Insurance claim received for Loss due (1.5+
+
+to Fire ­ Tax refund = 7,50,000 + 90,000 + 20,000 + 80,000 + 1,60,000 ­ 10,000 ­ 20,000 =  1.5+
+
+10,70,000                                                                                           1+
+
+                                                                                                    1+
+2. Operating profit before working capital changes= Net Profit before tax and extraordinary items 1)
+
++ Adjustments for non-cash and non-operating expenses and goodwill amortised ­ Adjustments
+
+for non-cash and non-operating incomes = 10,70,000 + 40,000 + 70,000** ­ 30,000 = 11,50,000
+
+** Goodwill amortised = Opening goodwill + Goodwill purchased - Closing goodwill
+
+3. Cash flow from Investing Activities = Interest on Non-Current Investments + Insurance claim for
+loss of assets due to fire ­ Purchase of Investments ­ Purchase of Machinery ­ Goodwill
+purchased = 30,000 + 10,000 ­ 1,00,000 - 1,60,000 ­ 20,000 =  (2,40,000) Outflow
+
+4. Cash flow from Financing Activities: Raise of Bank overdraft ­ Interim Dividend Paid ­ Final
+Dividend paid = 50,000 ­ 90,000 ­ 1,60,000 =  (2,00,000) Outflow
+
+5. Closing Cash and Cash Equivalents : Cash in Hand + Investment in Marketable Securities =
+2,00,000 + 1,50,000 =3,50,000
+
+                 Part B :- Computerised Accounting
+                                                 (Option ­ II)
+
+27.      a) PMT (rate, nper, pv, [fv], [type])                                                                  1
+
+                                                 Or
+
+         a) Design, Layout, Format
+
+28. d) =AND (C4<10, D4,100)                                                                                     1
+
+29. a) SUM and AVERAGE                                                                                          1
+
+     Or
+
+     c) [Home]
+
+30. (b) Financial                                                                                               1
+
+31. Types of Accounting Vouchers                                                                                3
+
+         (i) Contra Vouchers
+
+         (ii) Payments Vouchers
+
+         (iii) Receipt Vouchers
+
+32. The points to be considered before making investment in a database: (any three)                             3
+
+         (i) What all data is to be stored in the database?
+
+         (ii) Who will capture or modify the data, and how frequently the data will be modified?
+
+         (iii) Who will be using the database, and what all tasks will they perform?
+
+         (iv) Will the database ( backend) be used by any other frontend application?
+
+         (v) Will access to database be given over LAN/ Internet, and for what purposes?
+
+         (vi) What level of hardware and operating system is available?
+
+33. Features of computerized accounting system:                                                                 4
+
+         (i) Simple and integrated.
+
+         (ii) Transparency and control.
+
+         (iii) Accuracy and speed.
+
+         (iv) Scalability.
+
+         (v) Reliability
+
+                                                 Or
+
+     Uses of conditional formatting:
+
+         (i) It helps in making needed information highlighted.
+
+         (ii) It changes the appearance of cells ranges.
+
+         (iii) Colour scale may be used to highlight cells .
+
+         (iv) useful in making decision making.
+
+34. Two basic methods of charging depreciation are:                                                             6
+
+     Straight line method : This method calculates fixed amount of depreciation every year which is
+
+     calculated keeping in view the useful life of assets and its salvage value at the end of its useful life.
+
+     Written down value method: This method uses current book value of the asset for computing the
+
+     amount of depreciation for the next period. It is also known as declining balance method..
+
+     Differences:
+
+         1. Equal amount of depreciation is charged in straight line method. Amount of depreciation
+    goes on decreasing every year in written down value method.
+2. Depreciation is charged on original cost in straight line method. The amount is calculated
+
+    on the book value every year.
+3. In straight line method the value of asset can come to zero but in written down value
+
+    method this can never be zero.
+4. Generally rate of depreciation is low in case of straight line method but it is kept high in
+
+    case of written down value method.
+5. It is suitable for assets in which repair charges are less and the possibility of obsolescence is
+
+    less. It is suitable for the assets which become obsolete due to changes in technology.
+

@@ -1,0 +1,10 @@
+{
+  "project": "isrxrxzjocewrdureyhp",
+  "migration": "20261004172214_study_review_backlog.sql",
+  "method": "owner-authorized signed-in SQL editor",
+  "localFullTransactionDryRun": "passed",
+  "publishedBacklogGuard": true,
+  "currentProjectRuntimeRollbackSmoke": "passed",
+  "verificationRunsRemaining": 0,
+  "migrationHistoryReconciled": false
+}

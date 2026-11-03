@@ -1,0 +1,91 @@
+{
+  "at": "2026-10-09T09:11:55.769Z",
+  "read_only": true,
+  "lifetime": {
+    "settled_usd": 35.212262,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.279846,
+    "unresolved": 37
+  },
+  "scope": {
+    "provider_requests": 14,
+    "complete": 14,
+    "settled_usd": 0.084744,
+    "held_usd": 0,
+    "pending": []
+  },
+  "owner": null,
+  "studies": {
+    "fresh": {
+      "denominator": 28,
+      "terminal": 5,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [
+        {
+          "id": "v77f-ad344a8b5f2d",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-2105354e5de1",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-662880a2c5fb",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-073bdc31e03c",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-3546cbf8ea19",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        }
+      ],
+      "errors": [
+        {
+          "id": "v77f-c6d21440345d",
+          "reasons": [
+            "v77_phase_draining_stop"
+          ],
+          "resume_safe": true
+        }
+      ],
+      "evaluated_case_ids": [
+        "v77f-ad344a8b5f2d",
+        "v77f-2105354e5de1",
+        "v77f-662880a2c5fb",
+        "v77f-073bdc31e03c",
+        "v77f-3546cbf8ea19",
+        "v77f-c6d21440345d"
+      ],
+      "blind_judgments": 10
+    },
+    "regression": {
+      "denominator": 13,
+      "terminal": 0,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [],
+      "errors": [],
+      "evaluated_case_ids": [],
+      "blind_judgments": 0
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "verifier_version": "cuet-fit-validator-v7.5",
+  "validation_contract_hash": "54e40f33b9b4c578e92d3ef4011f67ff43bae1c02124b253e1c58474f8a26644",
+  "parent_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+  "prompt_hash": "6b551626b10a1ecfc9c2afd889ddbece0731440fca1ed620b84ad7caf12a012b",
+  "author_policy_hash": "c7fabfba512a980327a1f0c97c1122b66d05a4e506198a3f15a1b1e0e0b70ee9",
+  "file_sha256": {
+    "scripts/pipeline/lib/contractV75.mjs": "6e4ee9b80fe3ce521692f84bd6a0ec9d4b3ce10493bdd58fa06f0e25073d3994",
+    "scripts/pipeline/lib/preparationValueV75.mjs": "118f81e6b436fc34346496fac99629b36b7d352568548b29e1f41c878e6f0977",
+    "scripts/pipeline/lib/originalAuthorPolicyV75.mjs": "8aab789d46c3d96fff0c4361e0a91184beb0b9be1e0c5cfbad0143163f9f1890",
+    "scripts/pipeline/lib/factoryEvidenceV75.mjs": "ff4df76e882505a4d6d08ebf755c73212cd4bdb8b77a94f9bc8f11fc03b4bc7b",
+    "scripts/pipeline/lib/verifyV75.mjs": "459f14e23f3c6d1ba76278174464287a17e3d4d9daf09208011d1ba51b4c056f",
+    "scripts/pipeline/lib/releaseEvidenceV75.mjs": "276f82b7b772fdef3c04483e23eadae9d88de62e50a966e2a92d0f8f78fbc88e",
+    "scripts/pipeline/lib/factoryProfileV75.mjs": "67f9686fcb68a17265e017a2aceda1769d969c529e426dffa059c27688ce82eb",
+    "scripts/pipeline/tools/runFreshCuetReadinessV75.mjs": "b754b9076a29193b3a12099bfd94fc5080c105dd9a17425520aff3852a994922"
+  },
+  "frozen_at": "2026-10-08T19:14:52.100Z"
+}

@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11940,
+ "request_bytes": 33306,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-e77493e30567\",\n  \"content_hash\": \"9a464dcfc46e300212b0fad5888d389a0ff2640332fe3395c01a535627750400\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\"],\n  \"reasons\": [\n    \"Cash receipts from customers are operating inflows of ₹12,000.\",\n    \"Cash payments to suppliers are operating outflows of ₹4,500.\",\n    \"Net cash flow from these operating transactions equals ₹12,000 minus ₹4,500, giving ₹7,500.\"\n  ],\n  \"syllabus_chapter\": \"Cash Flow Statement\",\n  \"syllabus_topic\": \"Cash Flow from Operating Activities\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Cash received from customers is ₹12,000\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Cash paid to suppliers is ₹4,500\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Net cash from transactions equals cash inflows minus cash outflows\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E2.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The difference between inflow and outflow is incorrectly computed as ₹8,500 instead of ₹7,500.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The two amounts are added together (₹12,000 + ₹4,500) rather than subtracting outflow from inflow.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The difference between inflow and outflow is miscalculated with an arithmetic error as ₹6,500.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests determination of net cash from operating cash flows, a core cash flow concept.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-stem numerical question format matching CUET UG Accountancy style.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches elementary one-step cash flow calculations in CUET 2024 Accountancy.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target common arithmetic slips and gross addition versus net calculation.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-accountancy-bookA-q11\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"₹12,000 inflow minus ₹4,500 outflow equals ₹7,500.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹8,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"12,000 - 4,500 = 7,500, not 8,500.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹16,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"16,500 is the gross sum, not net cash flow.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹6,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"12,000 - 4,500 = 7,500, not 6,500.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EsYGCsMGAWkUfRMYKNUSHeONwy6b8cMzITPrpz6Oxp71qRidQqVQhSi8vEoDj4rZ5eJbnADX2qSN3xVhyVnRky2n7q25NY8lIsBA8r5RckYGS3RvEo5lIVJrtbUB+eEE+gmFKWOUV7D2fxbXRcPinPBaZtyMWE8hGWcuEC4WatuSyhq6JppBHbJNAiEQc/S7Z6s5dfDJd16NCFrGVoPWZb32rmK7WdPPWfXbZX6zqkOau6oxNuos68EYOl/rCDfgMk7MjfNwSaCy5vgEF8uFSe8K7b9y2EViD1ZmwG4HwoCgA1IQ7AYZ0Ps1Hhfk+Do/PraFWNcm6cMQVPzEpRU/cjg3/9WCmWBkLQ25XRYOYg2JGE/a7DbaMjY2PmffhvMleNpvZAEErbWBJ1DWk/S4CNOaoTlfMkpiL9up75CBhORaq3FKZwLrchr+lxrlBA1h+6of2+UdJsobuc3ZLQB6XURBZpfjrnkMOwVwaH13ah1YU7XxVdS//u3rZk6bYmllBJmfZ26wiUUiPKPFRF6eYfkkPWOvpMfkKWJyK6CbETmXMDVIvTXIle7GtclvM6w4+R38VBfDDwYM0JtIHqVaV1nW4a77/a2Rh69e0dlndD9B274CWJlOlaYr9LTd7yr3pmAjiYiJLT8H3yTUKk0O5wjYMDgOTTnZdV+omI+tEv2x/tSrIK/4YMcelzQtFES1qSmpo2pRqn9p+ZAXcu5RmL/sQZ4SkxPYqNg7aodk3I6EsExk60eae9Ko+vVT5yjqV63xZxEJ+rmjUb99lYsRJUexId0ZIFpy5h8pewl1yVG8YJHLwu2Uwvcf1/DEe3e55bQu93I05J6JI2QjNRaMJadeXhnNriYgZZowwLQmhrewfJP98i5XlvvTpc0Bpvbl/CzHQI7sl3Bz/KE4q2HTXysW4Z+vVoP915ro/3PWT9L5s5thdJh88TYzBUvdIGbQ38kG/gMLAtzqwIx4bo+T6L4isNdX4PbEzb5DJ67+arrLYbBKCKFaaVtDLHyuSBLJhFDDxYUnoW2QonYhcDF3MSxtp1NHYjiU+V3zI3wPS36qtAVOnZNl7hZBN/g0UR4qMweCIz9Fy3R+ZecymeVbYQGfn6aN3JA2Cw=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6098,
+   "candidatesTokenCount": 1573,
+   "totalTokenCount": 7909,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6098
+    }
+   ],
+   "thoughtsTokenCount": 238,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "gMfIauCVDrnm4-EPlPa8qQU"
+ }
+}

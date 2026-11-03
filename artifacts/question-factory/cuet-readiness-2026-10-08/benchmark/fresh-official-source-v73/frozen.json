@@ -1,0 +1,3632 @@
+{
+  "id": "fresh-official-source-v73-2026-10-08",
+  "created_at": "2026-10-08T11:36:19.430Z",
+  "fixtures": [
+    {
+      "id": "cbse24-ac-q01",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-ac-q01",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹80,000"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000. A: Includes only Amar’s ordinary loss and omits his guarantee burden. B: Includes both required debit components. C: Understates the required adjustment. D: Does not allocate the full deficiency equally while preserving the total loss.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q01",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q01",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-ac-q01",
+        "subject": "accountancy",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 187,
+          "quote_end": 203,
+          "quote": "1. B- ₹ 1,20,000"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-ac-q02",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-ac-q02",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Assertion (A): Partners’ current accounts are opened when their capitals are fluctuating. Reason (R): Under fixed capitals, transactions other than changes in capital are recorded through partners’ current accounts. Choose the correct option.",
+        "options": [
+          {
+            "key": "A",
+            "text": "Both A and R are true, and R correctly explains A."
+          },
+          {
+            "key": "B",
+            "text": "Both A and R are true, but R does not correctly explain A."
+          },
+          {
+            "key": "C",
+            "text": "A is true, but R is false."
+          },
+          {
+            "key": "D",
+            "text": "A is false, but R is true."
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Fixed capitals use separate current accounts for non-capital-change transactions. Fluctuating capitals use the capital account itself. Therefore A is false and R is true. A: The assertion contradicts the fluctuating-capital rule. B: The assertion is false, so both cannot be true. C: Reverses both classifications. D: Matches the separate fixed-current and single fluctuating-capital methods.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q02",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "82732cb8a6a0e1f1662a5195fd7185c0cd4d9c27f07436e243468bb4a6590342"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q02-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a987909622afc482b95d7470fc3c6fadbd53cdfb7719760f78015dd6c9fd07aa"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "82732cb8a6a0e1f1662a5195fd7185c0cd4d9c27f07436e243468bb4a6590342"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q02-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a987909622afc482b95d7470fc3c6fadbd53cdfb7719760f78015dd6c9fd07aa"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-ac-q02",
+        "subject": "accountancy",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 206,
+          "quote_end": 237,
+          "quote": "2. D - A is false but R is true"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-ac-q04",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-ac-q04",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "concept_id": null,
+        "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of ₹20,000. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+          },
+          {
+            "key": "B",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+          },
+          {
+            "key": "C",
+            "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+          },
+          {
+            "key": "D",
+            "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The existing 20000 provision covers the 15000 write-off. Debit Bad Debts and credit Debtors; then debit the provision and credit Bad Debts. Remaining provision is 5000 and net debtor value stays 600000; no new revaluation loss is invented. A: Matches the write-off and its adjustment against the existing provision. B: Creates or increases a provision through Revaluation instead of consuming the existing provision. C: Charges a new revaluation loss while leaving the covering provision unadjusted. D: Does not credit debtors and improperly credits Revaluation.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q04",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q04",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-ac-q04",
+        "subject": "accountancy",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 269,
+          "quote_end": 358,
+          "quote": "4. A - Bad Debts A/c Dr. To Debtors A/c Prov. for Doubtful Debts A/c Dr. To Bad Debts A/c"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-ac-q08",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-ac-q08",
+        "subject": "accountancy",
+        "chapter": "Dissolution of Partnership Firm",
+        "concept_id": null,
+        "body": "Rama, a partner, takes over machinery with a book value of ₹50,000 in full settlement of her loan of ₹60,000. The machinery has already been transferred to Realisation Account. What is the effect of the settlement entry on Realisation Account?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Credit of ₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "Credit of ₹10,000"
+          },
+          {
+            "key": "C",
+            "text": "Credit of ₹50,000"
+          },
+          {
+            "key": "D",
+            "text": "No effect"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source credits Realisation for the value at which an already-transferred asset is taken over, and debits a partner-loan liability when it is settled. Here the explicit consideration is full discharge of the 60000 loan, so Partner’s Loan is debited and Realisation credited by 60000. The machinery book amount was transferred earlier; it is not the settlement consideration. A: Closes the full loan with the stated settlement consideration. B: 10000 is the net gain after the earlier book transfer, not the settlement entry credit. C: 50000 is the earlier book transfer, not the loan discharged by this entry. D: A partner’s loan is separately settled; the external-creditor no-entry convention does not replace this partner-loan settlement.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q08",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5d6de8d9a9be56deb6fe9dd1abba00b17854cfd1ba3701069ed5eab81ed3956a"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "155b547f2b3b91347a0c83dbacfd21099c4107ad558cbee2eb8ba88ffc53497f"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q08",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5d6de8d9a9be56deb6fe9dd1abba00b17854cfd1ba3701069ed5eab81ed3956a"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "155b547f2b3b91347a0c83dbacfd21099c4107ad558cbee2eb8ba88ffc53497f"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-ac-q08",
+        "subject": "accountancy",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 507,
+          "quote_end": 562,
+          "quote": "8. A - Realisation Account will be credited by ₹ 60,000"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-bs-q02",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "concept_id": null,
+        "body": "A museum marketing manager divides event work into graphic design, registration enquiries and bill payments, but gives each team member responsibility for an entire event rather than allocating these tasks. She holds regular feedback meetings, yet task quality suffers. Next season she allocates the tasks according to each member’s skills and competencies. Which organising step was previously not performed properly and is now performed?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Identification and division of work"
+          },
+          {
+            "key": "B",
+            "text": "Establishing reporting relationships"
+          },
+          {
+            "key": "C",
+            "text": "Departmentalisation"
+          },
+          {
+            "key": "D",
+            "text": "Assignment of duties"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The earlier tasks were identified, but allocation to staff did not follow their skills. The change explicitly matches tasks to competencies, which is assignment of duties. A: Task categories were already identified in the earlier season. B: The described correction is allocation by skills, not a reporting-line change. C: No creation or regrouping of departments is described. D: The source expressly matches allocation of jobs to employee skills and competencies.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q02",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-bs-q02",
+        "subject": "business_studies",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 109,
+          "quote_end": 135,
+          "quote": "2. D. Assignment of duties"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-bs-q03",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-bs-q03",
+        "subject": "business_studies",
+        "chapter": "Financial Management",
+        "concept_id": null,
+        "body": "Assertion (A): Financial planning helps a company tackle uncertainty about the availability and timing of funds. Reason (R): Capital structure is the mix of owners’ funds and borrowed funds. Choose the correct option.",
+        "options": [
+          {
+            "key": "A",
+            "text": "A is false, but R is true."
+          },
+          {
+            "key": "B",
+            "text": "Both A and R are false."
+          },
+          {
+            "key": "C",
+            "text": "Both A and R are true, but R does not correctly explain A."
+          },
+          {
+            "key": "D",
+            "text": "Both A and R are true, and R correctly explains A."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Both statements are textbook definitions. The definition of a funding mix does not explain the planning function of forecasting fund availability and timing. A: The financial-planning assertion is explicitly true. B: Both source-defined statements are true. C: Both are true, but the mix definition does not explain uncertainty management. D: A definition of capital composition supplies no causal explanation of fund timing.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q03",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a6b590c3097713c923878b0d71cb7dc98d2f0bb07016cda0885bf58852a46867"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q03-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "623f088eb0dbeb45400715bd08ab24470bc147640f5849caaa76dd95099a22ef"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q03",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a6b590c3097713c923878b0d71cb7dc98d2f0bb07016cda0885bf58852a46867"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q03-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "623f088eb0dbeb45400715bd08ab24470bc147640f5849caaa76dd95099a22ef"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-bs-q03",
+        "subject": "business_studies",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 138,
+          "quote_end": 251,
+          "quote": "3. C. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of the Assertion."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-bs-q05",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-bs-q05",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": null,
+        "body": "Which is a benefit of using external sources of recruitment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Competitive spirit among existing staff"
+          },
+          {
+            "key": "B",
+            "text": "Reduction in employee turnover"
+          },
+          {
+            "key": "C",
+            "text": "Increased employee satisfaction"
+          },
+          {
+            "key": "D",
+            "text": "A sense of security among existing employees"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The external-recruitment merits explicitly list competition between existing staff and outsiders. Its limitations describe dissatisfaction and reduced promotion chances for existing employees, rather than increased security or satisfaction. A: Explicitly named external-recruitment merit. B: Reduction in turnover is not the external-recruitment merit supported by this excerpt. C: Existing-staff dissatisfaction is a stated limitation, not increased satisfaction. D: Reduced promotion prospects do not establish increased security among existing employees.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q05",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q05-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2e72dc96bf88a9dc6dd17caf9f0a22076d3ede75ef396e5cb31a2d51ad69eb6f"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q05-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "91bd640f467062d75ffd5664887c03d5503c9e7d6bffba9e5fa48a6f14b30497"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q05",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q05-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2e72dc96bf88a9dc6dd17caf9f0a22076d3ede75ef396e5cb31a2d51ad69eb6f"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q05-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "91bd640f467062d75ffd5664887c03d5503c9e7d6bffba9e5fa48a6f14b30497"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-bs-q05",
+        "subject": "business_studies",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 305,
+          "quote_end": 354,
+          "quote": "5. A. Competitive spirit among the existing staff"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-bs-q06",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-bs-q06",
+        "subject": "business_studies",
+        "chapter": "Business Environment",
+        "concept_id": null,
+        "body": "An automobile manufacturer offers easy finance at a low interest rate, increasing demand for its products. It also installs new software to coordinate its branches. Which business-environment components are highlighted?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Political and economic"
+          },
+          {
+            "key": "B",
+            "text": "Economic and social"
+          },
+          {
+            "key": "C",
+            "text": "Technological and legal"
+          },
+          {
+            "key": "D",
+            "text": "Economic and technological"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The source gives automobile purchases on borrowed money as its low-interest economic-environment example. The technological definition spans columns on physical page 8: its heading identifies scientific improvements and its continuation describes innovations, business methods and computers. Software is the technical cue. The paired components are economic and technological. A: No political event or policy dimension is specified. B: Software is technological, not a social-trend cue. C: No law or compliance change is specified, and finance is economic. D: Matches the interest-rate and software cues.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q06",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1d39d3856a7e21419865e0fc32dcb5184d65d13f3aa814eaae3c54dceacbe4f1"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0c455be511c8c4ff96081014ed6284acd91164dcaf82699e96274dc348d13ea6"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-3",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1b47f82f9eb35019fe636e31d9ce557d3fe65c857d077f64a167da718898889b"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q06",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1d39d3856a7e21419865e0fc32dcb5184d65d13f3aa814eaae3c54dceacbe4f1"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0c455be511c8c4ff96081014ed6284acd91164dcaf82699e96274dc348d13ea6"
+          },
+          {
+            "id": "fresh-v73-cbse24-bs-q06-excerpt-3",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1b47f82f9eb35019fe636e31d9ce557d3fe65c857d077f64a167da718898889b"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-bs-q06",
+        "subject": "business_studies",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 357,
+          "quote_end": 401,
+          "quote": "6. D. Economic and technological environment"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-bs-q07",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-bs-q07",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": null,
+        "body": "A consumer looks for appropriate standard quality marks when buying products. Which consumer responsibility is being fulfilled?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Assert yourself to obtain a fair deal"
+          },
+          {
+            "key": "B",
+            "text": "Obtain a proper receipt"
+          },
+          {
+            "key": "C",
+            "text": "Buy only standardised products"
+          },
+          {
+            "key": "D",
+            "text": "Be honest in your dealings"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The textbook directly associates standard quality marks with the consumer responsibility to buy standardised goods. The practice adaptation does not assert that every historical example mark remains legally current. A: Assertion for a fair deal is a separate responsibility. B: Obtaining a receipt is separate from checking a quality mark. C: Directly names the source responsibility associated with quality assurance. D: Honest dealings do not describe identifying product quality marks.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q07",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "db318b3c3527b171567a0656496f2066c765bb4e7b152d236107779f564d9465"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q07",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "db318b3c3527b171567a0656496f2066c765bb4e7b152d236107779f564d9465"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-bs-q07",
+        "subject": "business_studies",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 404,
+          "quote_end": 440,
+          "quote": "7. C. Buy only standardised products"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q02",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "In a hypothetical budget policy, the government supplies free food grains to households with low incomes. Which budgetary objective is most directly illustrated?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Reallocation of resources"
+          },
+          {
+            "key": "B",
+            "text": "Economic stability"
+          },
+          {
+            "key": "C",
+            "text": "Redistribution of income"
+          },
+          {
+            "key": "D",
+            "text": "Economic instability"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Transfers targeted to low-income households change disposable income and its distribution. That is the redistribution objective directly illustrated; other possible macroeconomic effects are not the objective specified. A: The case focuses on who receives a transfer, rather than production-resource allocation. B: No cyclical stabilisation target is stated. C: The low-income transfer directly illustrates redistribution. D: Instability is not the stated objective.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q02",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q02",
+        "subject": "economics",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 149,
+          "quote_end": 179,
+          "quote": "2. C. Redistribution of income"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q03",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q03",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": null,
+        "body": "What must be added to Gross Value Added at basic prices to obtain Gross Value Added at market prices?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Product taxes"
+          },
+          {
+            "key": "B",
+            "text": "Net product taxes"
+          },
+          {
+            "key": "C",
+            "text": "Production taxes"
+          },
+          {
+            "key": "D",
+            "text": "Net production taxes"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The official IES explanation adds product taxes less product subsidies to value added at basic prices to reach market-price GDP. Net product taxes names that difference; net production taxes are already included in basic-price value added. A: Gross product taxes omit the deduction of product subsidies. B: Product taxes less product subsidies are net product taxes. C: Production taxes are a different valuation component. D: Net production taxes convert factor cost to basic prices, not basic prices to market prices.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q03",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "d4ce99e8a6c693ac75dddc9430eae7582ea110b3b6863876b6d45a4f0e3691d1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q03",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "d4ce99e8a6c693ac75dddc9430eae7582ea110b3b6863876b6d45a4f0e3691d1"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q03",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 182,
+          "quote_end": 205,
+          "quote": "3. B. Net Product Taxes"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q04",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q04",
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "concept_id": null,
+        "body": "Under which exchange-rate system do market forces automatically adjust a surplus or deficit in the Balance of Payments?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Fixed"
+          },
+          {
+            "key": "B",
+            "text": "Flexible"
+          },
+          {
+            "key": "C",
+            "text": "Managed floating"
+          },
+          {
+            "key": "D",
+            "text": "Dirty floating"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The flexible-rate section expressly attributes automatic adjustment of BoP surpluses and deficits to exchange-rate movements. Fixed and managed systems do not supply that pure market-determined mechanism. A: A fixed rate is maintained rather than freely moving for automatic adjustment. B: This is the flexible-rate merit stated in the source. C: Managed floating includes intervention instead of relying solely on this mechanism. D: Dirty floating is another name for managed intervention, not pure flexibility.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q04",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0c2cc11a91afcc4d1f778929d83cd4b6cb1dda24c737738bd51edc7ef8c4f4bd"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q04",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "0c2cc11a91afcc4d1f778929d83cd4b6cb1dda24c737738bd51edc7ef8c4f4bd"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q04",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 208,
+          "quote_end": 222,
+          "quote": "4. B. flexible"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q05",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q05",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "concept_id": null,
+        "body": "In the Keynesian income–expenditure diagram, the reference line is a straight line through the origin drawn at what angle?",
+        "options": [
+          {
+            "key": "A",
+            "text": "25°"
+          },
+          {
+            "key": "B",
+            "text": "45°"
+          },
+          {
+            "key": "C",
+            "text": "55°"
+          },
+          {
+            "key": "D",
+            "text": "75°"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The income–expenditure reference line has equal horizontal and vertical coordinates. With the standard equal units on both axes, its slope is one and its angle is 45 degrees. A: tan(25°) is not one. B: A 45° line has equal coordinates and unit slope. C: tan(55°) exceeds one. D: tan(75°) exceeds one.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q05",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q05-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "e10cb1e359f67fdc24a79c1678f6a767c7c5b4044f96f17b9ac8dbae79fe36ff"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q05",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q05-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "e10cb1e359f67fdc24a79c1678f6a767c7c5b4044f96f17b9ac8dbae79fe36ff"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q05",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 235,
+          "quote_end": 275,
+          "quote": "For Visually Impaired Candidates: B. 450"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "The selected visually impaired source variant has B=45 degrees; the original graphical variant uses different diagram labels."
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q06",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q06",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹17.8 lakh crore?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Revenue deficit"
+          },
+          {
+            "key": "B",
+            "text": "Fiscal deficit"
+          },
+          {
+            "key": "C",
+            "text": "Budgetary deficit"
+          },
+          {
+            "key": "D",
+            "text": "Primary deficit"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Fiscal deficit subtracts receipts excluding borrowing from total expenditure. 45 − 27.2 = 17.8 lakh crore. Revenue and primary deficits require different supplied quantities. A: Revenue deficit uses revenue expenditure and revenue receipts; neither pair is supplied. B: Matches expenditure minus receipts excluding borrowings. C: This is not the named NCERT fiscal-deficit identity. D: Primary deficit also removes interest payments, which are not supplied.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q06",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q06",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q06",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 280,
+          "quote_end": 292,
+          "quote": "6. B. fiscal"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q07",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q07",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "concept_id": null,
+        "body": "Statement 1: The maximum value of marginal propensity to consume can be one. Statement 2: As income rises, the increase in consumption is always proportionately greater than the increase in income. Choose the correct option.",
+        "options": [
+          {
+            "key": "A",
+            "text": "Statement 1 is true, but Statement 2 is false."
+          },
+          {
+            "key": "B",
+            "text": "Statement 1 is false, but Statement 2 is true."
+          },
+          {
+            "key": "C",
+            "text": "Both statements are true."
+          },
+          {
+            "key": "D",
+            "text": "Both statements are false."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The NCERT model bounds MPC between zero and one, inclusive. Consumption change cannot exceed the corresponding income change; the claim that it is always proportionately greater is false. A: Correctly classifies the stated upper bound and the false greater-than claim. B: Reverses both truth values. C: The second claim contradicts the model bound. D: The first claim is explicitly supported.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q07",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8428823b1ecc4eb1737a630376d7cddc1d64e18e6f1fb94d6256eea7d6283748"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q07",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8428823b1ecc4eb1737a630376d7cddc1d64e18e6f1fb94d6256eea7d6283748"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q07",
+        "subject": "economics",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 295,
+          "quote_end": 346,
+          "quote": "7. A. Statement 1 is true and Statement 2 is false."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q08",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eco-q08",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "concept_id": null,
+        "body": "In the NCERT two-sector model with autonomous investment, aggregate demand is the sum of which components?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Autonomous consumption, induced consumption and induced investment"
+          },
+          {
+            "key": "B",
+            "text": "Autonomous consumption, autonomous investment and induced investment"
+          },
+          {
+            "key": "C",
+            "text": "Autonomous consumption and autonomous investment"
+          },
+          {
+            "key": "D",
+            "text": "Autonomous consumption, induced consumption and autonomous investment"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Consumption has autonomous and induced components. The explicitly named two-sector model adds investment, which the source states is autonomous and independent of income. Thus AD = autonomous consumption + induced consumption + autonomous investment. A: Introduces induced investment in a model explicitly assuming autonomous investment. B: Omits induced consumption and substitutes induced investment. C: Omits induced consumption. D: Includes exactly the two consumption components and autonomous investment.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q08",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a475500c249d10846ddb42d1d0e6d4db57d38b0e4dc0499becb57104e7160489"
+          },
+          {
+            "id": "fresh-v73-cbse24-eco-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "48d39ebf57b32766b8e51a603c5f83c73adf4ab1ffe4e879df9317bee6c65677"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q08",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a475500c249d10846ddb42d1d0e6d4db57d38b0e4dc0499becb57104e7160489"
+          },
+          {
+            "id": "fresh-v73-cbse24-eco-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "48d39ebf57b32766b8e51a603c5f83c73adf4ab1ffe4e879df9317bee6c65677"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eco-q08",
+        "subject": "economics",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 349,
+          "quote_end": 424,
+          "quote": "8. D. Autonomous Consumption, Induced Consumption and Autonomous Investment"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q01",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "According to paragraph 1, what do smartphone notifications do to the people in the room?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Repeatedly draw their attention away from conversations"
+          },
+          {
+            "key": "B",
+            "text": "Help them listen more closely to others"
+          },
+          {
+            "key": "C",
+            "text": "Make their time pass more slowly"
+          },
+          {
+            "key": "D",
+            "text": "Prevent them from looking at screens"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Paragraph 1 expressly describes notifications interrupting conversations and attracting attention to screens. A: Directly restates both effects in the passage. B: Closer listening contradicts interrupted conversations. C: No slowing of time is claimed. D: Attention is drawn towards screens, not prevented from reaching them.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q01",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 783,
+          "quote_end": 837,
+          "quote": "I They lead to instant interruptions in conversations."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q02",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q02",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "What does the image of moments drifting like autumn leaves suggest?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Time remains fixed while people use their phones"
+          },
+          {
+            "key": "B",
+            "text": "Moments pass fleetingly while attention is elsewhere"
+          },
+          {
+            "key": "C",
+            "text": "Notifications follow a carefully controlled seasonal schedule"
+          },
+          {
+            "key": "D",
+            "text": "People deliberately preserve every passing moment"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Drifting autumn leaves represent passing, fleeting moments. The surrounding sentences place attention on notifications and screens. A: Fixed time contradicts moments drifting away. B: Combines the fleeting-time metaphor with the stated diverted attention. C: The passage does not describe a seasonal notification schedule. D: It describes moments slipping away, not deliberately preserving them.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b22d265c074445f66bfd15620bd5cb01d641e617a67dc615ee690660e86088b8"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b22d265c074445f66bfd15620bd5cb01d641e617a67dc615ee690660e86088b8"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q02",
+        "subject": "english",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 909,
+          "quote_end": 1017,
+          "quote": "II It illustrates how moments are fleeting and unnoticed, lost amid the distractions of digital interactions"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q03",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q03",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "The comparison of an absent phone to a phantom limb chiefly points to which concern?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Psychological dependence on technology for a sense of completeness"
+          },
+          {
+            "key": "B",
+            "text": "Physical damage to arms caused by holding a phone"
+          },
+          {
+            "key": "C",
+            "text": "The expense of replacing lost digital devices"
+          },
+          {
+            "key": "D",
+            "text": "An inability to read the time without a smartwatch"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Anxiety and incompleteness when the device is absent establish psychological dependence. The absent-limb comparison is explicitly figurative. A: Restates the anxiety and incomplete-self concern. B: No arm injury is described. C: Replacement expense is absent from the passage. D: Neither a smartwatch nor inability to read time is mentioned.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q03",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1197,
+          "quote_end": 1290,
+          "quote": "III A. a deep (psychological) dependence on technology for a sense of wholeness or connection"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q04",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q04",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "Which benefit of setting aside specific hours without checking devices is best suggested by paragraph 2?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Reducing the compulsion to keep checking updates"
+          },
+          {
+            "key": "B",
+            "text": "Guaranteeing that no important message ever arrives"
+          },
+          {
+            "key": "C",
+            "text": "Increasing the number of likes on every post"
+          },
+          {
+            "key": "D",
+            "text": "Removing the need for any human conversation"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The question asks for an inference about device-free hours, not a clinical cure. Among these alternatives, reducing repeated update checking addresses the stated compulsion; the other outcomes are unsupported guarantees or unrelated claims. A: Addresses the repeated-checking behaviour named in paragraph 2. B: Device-free hours cannot guarantee that no message arrives. C: The passage supplies no mechanism or promise of more likes. D: The passage values human connection and does not remove its need.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q04",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1293,
+          "quote_end": 1366,
+          "quote": "IV reduce the anxiety associated with the need to constantly be connected"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q07",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q07",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "In paragraphs 3–4, what does the unheard “true rhythm of life” chiefly refer to?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Meaningful human connections and lived experiences"
+          },
+          {
+            "key": "B",
+            "text": "The speed at which thumbs type messages"
+          },
+          {
+            "key": "C",
+            "text": "The mechanical vibration of a phone"
+          },
+          {
+            "key": "D",
+            "text": "The count of likes and shares on a screen"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The contrast between digital activity and an unheard life rhythm is developed in paragraph 4 through fleeting genuine connections and sacrificed shared experiences. A: Fits the connection and lived-experience contrast developed in paragraphs 3–4. B: Typing speed is part of the digital activity contrasted with the rhythm. C: No mechanical vibration is identified as the rhythm. D: Likes and shares are digital validation, contrasted with meaningful experiences.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "85354ebb8fe83119b4b58e70d92c1c06b5921c3facd43d23b676ad3296957ce1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "85354ebb8fe83119b4b58e70d92c1c06b5921c3facd43d23b676ad3296957ce1"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q07",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1526,
+          "quote_end": 1648,
+          "quote": "VII The phrase refers to the natural, meaningful, and often quieter moments that make up human existence and relationships"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q08",
+      "group": "authored_valid",
+      "category": "valid",
+      "expected_valid": true,
+      "candidate": {
+        "id": "cbse24-eng-q08",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "Complete the analogy using a word from paragraph 4: whisper : quietly :: ______ : loudly.",
+        "options": [
+          {
+            "key": "A",
+            "text": "validation"
+          },
+          {
+            "key": "B",
+            "text": "fleeting"
+          },
+          {
+            "key": "C",
+            "text": "essence"
+          },
+          {
+            "key": "D",
+            "text": "clamour"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The relation is an action or sound to its manner: a whisper is quiet and a clamour is loud. Clamour is the passage word denoting loud noise or demand. A: Validation is approval, not a loud sound. B: Fleeting denotes brief duration. C: Essence denotes a fundamental quality. D: Clamour supplies the loud-sound side of the analogy.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5b4bdb13d4ab740ed1e84ddb847fa92c6bc78fdd7e7e33b855f2b7a8012716f5"
+          },
+          {
+            "id": "fresh-v73-oxford-clamour-noun",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a63667236383a3561703aaa9d78f5cf5844e16454dd140b41ea1a50fcb8e364e"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Frozen source derivation, separately blinded Luna first pass and official CBSE source key/value point agree; disputed or insufficient-support cases were withheld before fit evaluation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5b4bdb13d4ab740ed1e84ddb847fa92c6bc78fdd7e7e33b855f2b7a8012716f5"
+          },
+          {
+            "id": "fresh-v73-oxford-clamour-noun",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a63667236383a3561703aaa9d78f5cf5844e16454dd140b41ea1a50fcb8e364e"
+          }
+        ]
+      },
+      "source_custody": {
+        "id": "cbse24-eng-q08",
+        "subject": "english",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 2017,
+          "quote_end": 2032,
+          "quote": "VIII D. clamour"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "group": "controlled_defect",
+      "category": "wrong_key",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q01--wrong_key",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "According to paragraph 1, what do smartphone notifications do to the people in the room?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Repeatedly draw their attention away from conversations"
+          },
+          {
+            "key": "B",
+            "text": "Help them listen more closely to others"
+          },
+          {
+            "key": "C",
+            "text": "Make their time pass more slowly"
+          },
+          {
+            "key": "D",
+            "text": "Prevent them from looking at screens"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Paragraph 1 expressly describes notifications interrupting conversations and attracting attention to screens. A: Directly restates both effects in the passage. B: Closer listening contradicts interrupted conversations. C: No slowing of time is claimed. D: Attention is drawn towards screens, not prevented from reaching them.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "correct_key_of_base": "A",
+        "basis": "The frozen passage says notifications draw attention to screens; A is supported and D contradicts it.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-ac-q01--wrong_key",
+      "group": "controlled_defect",
+      "category": "wrong_key",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q01--wrong_key",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹80,000"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000. A: Includes only Amar’s ordinary loss and omits his guarantee burden. B: Includes both required debit components. C: Understates the required adjustment. D: Does not allocate the full deficiency equally while preserving the total loss.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q01",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q01",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "correct_key_of_base": "B",
+        "basis": "Independent calculation gives Amar a 120000 debit, B; A omits the guarantee adjustment.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q06--wrong_key",
+      "group": "controlled_defect",
+      "category": "wrong_key",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q06--wrong_key",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹17.8 lakh crore?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Revenue deficit"
+          },
+          {
+            "key": "B",
+            "text": "Fiscal deficit"
+          },
+          {
+            "key": "C",
+            "text": "Budgetary deficit"
+          },
+          {
+            "key": "D",
+            "text": "Primary deficit"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Fiscal deficit subtracts receipts excluding borrowing from total expenditure. 45 − 27.2 = 17.8 lakh crore. Revenue and primary deficits require different supplied quantities. A: Revenue deficit uses revenue expenditure and revenue receipts; neither pair is supplied. B: Matches expenditure minus receipts excluding borrowings. C: This is not the named NCERT fiscal-deficit identity. D: Primary deficit also removes interest payments, which are not supplied.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q06",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q06",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "correct_key_of_base": "B",
+        "basis": "45 minus 27.2 is fiscal deficit, B; revenue expenditure and revenue receipts are not supplied.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q06",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q01--overlapping_options",
+      "group": "controlled_defect",
+      "category": "overlapping_options",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q01--overlapping_options",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "According to paragraph 1, what do smartphone notifications do to the people in the room?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Repeatedly draw their attention away from conversations"
+          },
+          {
+            "key": "B",
+            "text": "Pull attention from spoken exchanges towards phone screens"
+          },
+          {
+            "key": "C",
+            "text": "Make their time pass more slowly"
+          },
+          {
+            "key": "D",
+            "text": "Prevent them from looking at screens"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Paragraph 1 expressly describes notifications interrupting conversations and attracting attention to screens. A: Directly restates both effects in the passage. B: Closer listening contradicts interrupted conversations. C: No slowing of time is claimed. D: Attention is drawn towards screens, not prevented from reaching them.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "multiple_correct_A_B",
+        "correct_key_of_base": "A",
+        "basis": "A and B differently phrase the same passage-supported effect.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "multiple_correct_A_B"
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "group": "controlled_defect",
+      "category": "overlapping_options",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-bs-q02--overlapping_options",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "concept_id": null,
+        "body": "A museum marketing manager divides event work into graphic design, registration enquiries and bill payments, but gives each team member responsibility for an entire event rather than allocating these tasks. She holds regular feedback meetings, yet task quality suffers. Next season she allocates the tasks according to each member’s skills and competencies. Which organising step was previously not performed properly and is now performed?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Identification and division of work"
+          },
+          {
+            "key": "B",
+            "text": "Allocating defined duties to staff according to their skills"
+          },
+          {
+            "key": "C",
+            "text": "Departmentalisation"
+          },
+          {
+            "key": "D",
+            "text": "Assignment of duties"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The earlier tasks were identified, but allocation to staff did not follow their skills. The change explicitly matches tasks to competencies, which is assignment of duties. A: Task categories were already identified in the earlier season. B: The described correction is allocation by skills, not a reporting-line change. C: No creation or regrouping of departments is described. D: The source expressly matches allocation of jobs to employee skills and competencies.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-bs-q02",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-bs-q02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "multiple_correct_B_D",
+        "correct_key_of_base": "D",
+        "basis": "B and D both describe the supplied assignment-of-duties rule.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+          }
+        ]
+      },
+      "derived_from": "cbse24-bs-q02",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "multiple_correct_B_D"
+    },
+    {
+      "id": "cbse24-eco-q06--overlapping_options",
+      "group": "controlled_defect",
+      "category": "overlapping_options",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q06--overlapping_options",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹17.8 lakh crore?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Revenue deficit"
+          },
+          {
+            "key": "B",
+            "text": "Fiscal deficit"
+          },
+          {
+            "key": "C",
+            "text": "Budgetary deficit"
+          },
+          {
+            "key": "D",
+            "text": "Fiscal deficit: expenditure minus non-borrowing receipts"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Fiscal deficit subtracts receipts excluding borrowing from total expenditure. 45 − 27.2 = 17.8 lakh crore. Revenue and primary deficits require different supplied quantities. A: Revenue deficit uses revenue expenditure and revenue receipts; neither pair is supplied. B: Matches expenditure minus receipts excluding borrowings. C: This is not the named NCERT fiscal-deficit identity. D: Primary deficit also removes interest payments, which are not supplied.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q06",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q06",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "multiple_correct_B_D",
+        "correct_key_of_base": "B",
+        "basis": "B and D both name the same fiscal-deficit calculation.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q06",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "multiple_correct_B_D"
+    },
+    {
+      "id": "cbse24-ac-q01--missing_assumption",
+      "group": "controlled_defect",
+      "category": "missing_assumption",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q01--missing_assumption",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Amar, Akbar and Anthony share profits and losses in an unequal ratio that is not specified here. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹80,000"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000. A: Includes only Amar’s ordinary loss and omits his guarantee burden. B: Includes both required debit components. C: Understates the required adjustment. D: Does not allocate the full deficiency equally while preserving the total loss.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q01",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q01",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "indeterminate",
+        "correct_key_of_base": "B",
+        "basis": "The expressly unequal profit/loss ratio is missing. Equal default sharing cannot replace an expressly unequal agreement. Equal sharing gives Amar 120000, but 2:1:1 gives 142500.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "indeterminate"
+    },
+    {
+      "id": "cbse24-ac-q08--missing_settlement_value",
+      "group": "controlled_defect",
+      "category": "missing_settlement_value",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q08--missing_settlement_value",
+        "subject": "accountancy",
+        "chapter": "Dissolution of Partnership Firm",
+        "concept_id": null,
+        "body": "Rama, a partner, takes over machinery with a book value of ₹50,000 in partial settlement of her loan of ₹60,000. The machinery has already been transferred to Realisation Account. What is the effect of the settlement entry on Realisation Account?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Credit of ₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "Credit of ₹10,000"
+          },
+          {
+            "key": "C",
+            "text": "Credit of ₹50,000"
+          },
+          {
+            "key": "D",
+            "text": "No effect"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source credits Realisation for the value at which an already-transferred asset is taken over, and debits a partner-loan liability when it is settled. Here the explicit consideration is full discharge of the 60000 loan, so Partner’s Loan is debited and Realisation credited by 60000. The machinery book amount was transferred earlier; it is not the settlement consideration. A: Closes the full loan with the stated settlement consideration. B: 10000 is the net gain after the earlier book transfer, not the settlement entry credit. C: 50000 is the earlier book transfer, not the loan discharged by this entry. D: A partner’s loan is separately settled; the external-creditor no-entry convention does not replace this partner-loan settlement.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q08",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5d6de8d9a9be56deb6fe9dd1abba00b17854cfd1ba3701069ed5eab81ed3956a"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "155b547f2b3b91347a0c83dbacfd21099c4107ad558cbee2eb8ba88ffc53497f"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q08",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "indeterminate",
+        "correct_key_of_base": "A",
+        "basis": "Partial settlement does not establish the agreed takeover value. Book value is not automatically the settlement consideration.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5d6de8d9a9be56deb6fe9dd1abba00b17854cfd1ba3701069ed5eab81ed3956a"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q08-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "155b547f2b3b91347a0c83dbacfd21099c4107ad558cbee2eb8ba88ffc53497f"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q08",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "indeterminate"
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "group": "controlled_defect",
+      "category": "missing_provision_amount",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q04--missing_provision_amount",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "concept_id": null,
+        "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of an unspecified amount. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+          },
+          {
+            "key": "B",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+          },
+          {
+            "key": "C",
+            "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+          },
+          {
+            "key": "D",
+            "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The existing 20000 provision covers the 15000 write-off. Debit Bad Debts and credit Debtors; then debit the provision and credit Bad Debts. Remaining provision is 5000 and net debtor value stays 600000; no new revaluation loss is invented. A: Matches the write-off and its adjustment against the existing provision. B: Creates or increases a provision through Revaluation instead of consuming the existing provision. C: Charges a new revaluation loss while leaving the covering provision unadjusted. D: Does not credit debtors and improperly credits Revaluation.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q04",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q04",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "indeterminate",
+        "correct_key_of_base": "A",
+        "basis": "The provision may cover all or only part of the 15000 bad debt. Its amount changes the adjustment and any residual loss; a general rule cannot supply this case amount.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q04",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "indeterminate"
+    },
+    {
+      "id": "cbse24-ac-q01--numerical_fault",
+      "group": "controlled_defect",
+      "category": "numerical_fault",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q01--numerical_fault",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,10,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹80,000"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000. A: Includes only Amar’s ordinary loss and omits his guarantee burden. B: Includes both required debit components. C: Understates the required adjustment. D: Does not allocate the full deficiency equally while preserving the total loss.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q01",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q01",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "none",
+        "correct_key_of_base": "B",
+        "basis": "The correct total debit is 120000, now absent from all four alternatives.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "none"
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "group": "controlled_defect",
+      "category": "numerical_fault",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q06--numerical_fault",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹16.8 lakh crore?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Revenue deficit"
+          },
+          {
+            "key": "B",
+            "text": "Fiscal deficit"
+          },
+          {
+            "key": "C",
+            "text": "Budgetary deficit"
+          },
+          {
+            "key": "D",
+            "text": "Primary deficit"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Fiscal deficit subtracts receipts excluding borrowing from total expenditure. 45 − 27.2 = 17.8 lakh crore. Revenue and primary deficits require different supplied quantities. A: Revenue deficit uses revenue expenditure and revenue receipts; neither pair is supplied. B: Matches expenditure minus receipts excluding borrowings. C: This is not the named NCERT fiscal-deficit identity. D: Primary deficit also removes interest payments, which are not supplied.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q06",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q06",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "none",
+        "correct_key_of_base": "B",
+        "basis": "45 minus 27.2 equals 17.8, not the displayed 16.8; the numerical premise is false.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q06",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "none"
+    },
+    {
+      "id": "cbse24-ac-q01--explanation_arithmetic",
+      "group": "controlled_defect",
+      "category": "explanation_arithmetic",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q01--explanation_arithmetic",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹80,000"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000. A: Includes only Amar’s ordinary loss and omits his guarantee burden. B: Includes both required debit components. C: Understates the required adjustment. D: Does not allocate the full deficiency equally while preserving the total loss. The guarantee deficiency is ₹1,10,000.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q01",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q01",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "correct_key_of_base": "B",
+        "basis": "The appended assertion contradicts 60000 - (-60000) =120000.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q01",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q03--unsupported_explanation",
+      "group": "controlled_defect",
+      "category": "unsupported_explanation",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q03--unsupported_explanation",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "The comparison of an absent phone to a phantom limb chiefly points to which concern?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Psychological dependence on technology for a sense of completeness"
+          },
+          {
+            "key": "B",
+            "text": "Physical damage to arms caused by holding a phone"
+          },
+          {
+            "key": "C",
+            "text": "The expense of replacing lost digital devices"
+          },
+          {
+            "key": "D",
+            "text": "An inability to read the time without a smartwatch"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Anxiety and incompleteness when the device is absent establish psychological dependence. The absent-limb comparison is explicitly figurative. A: Restates the anxiety and incomplete-self concern. B: No arm injury is described. C: Replacement expense is absent from the passage. D: Neither a smartwatch nor inability to read time is mentioned. The cited passage reports that 82% of Class XII students check phones every hour.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "correct_key_of_base": "A",
+        "basis": "The appended statistic is deliberately invented for this withheld control. No sample, number or hourly fact appears in the passage.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q03",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "group": "controlled_defect",
+      "category": "unsupported_explanation",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q02--unsupported_explanation",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "In a hypothetical budget policy, the government supplies free food grains to households with low incomes. Which budgetary objective is most directly illustrated?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Reallocation of resources"
+          },
+          {
+            "key": "B",
+            "text": "Economic stability"
+          },
+          {
+            "key": "C",
+            "text": "Redistribution of income"
+          },
+          {
+            "key": "D",
+            "text": "Economic instability"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Transfers targeted to low-income households change disposable income and its distribution. That is the redistribution objective directly illustrated; other possible macroeconomic effects are not the objective specified. A: The case focuses on who receives a transfer, rather than production-resource allocation. B: No cyclical stabilisation target is stated. C: The low-income transfer directly illustrates redistribution. D: Instability is not the stated objective. NCERT reports that this policy reduced income inequality by exactly 18% in 2025.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q02",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "correct_key_of_base": "C",
+        "basis": "The appended dated effect is deliberately fabricated for a withheld control; it appears nowhere in the selected source and is not hypothetical data.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q02",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q07--incomplete_passage",
+      "group": "controlled_defect",
+      "category": "incomplete_passage",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q07--incomplete_passage",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "In paragraphs 3–4, what does the unheard “true rhythm of life” chiefly refer to?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Meaningful human connections and lived experiences"
+          },
+          {
+            "key": "B",
+            "text": "The speed at which thumbs type messages"
+          },
+          {
+            "key": "C",
+            "text": "The mechanical vibration of a phone"
+          },
+          {
+            "key": "D",
+            "text": "The count of likes and shares on a screen"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The contrast between digital activity and an unheard life rhythm is developed in paragraph 4 through fleeting genuine connections and sacrificed shared experiences. A: Fits the connection and lived-experience contrast developed in paragraphs 3–4. B: Typing speed is part of the digital activity contrasted with the rhythm. C: No mechanical vibration is identified as the rhythm. D: Likes and shares are digital validation, contrasted with meaningful experiences.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "85354ebb8fe83119b4b58e70d92c1c06b5921c3facd43d23b676ad3296957ce1"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "correct_key_of_base": "A",
+        "basis": "The question refers to paragraphs 3–4, but the candidate has no passage. Internal research cannot substitute for missing student text.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "85354ebb8fe83119b4b58e70d92c1c06b5921c3facd43d23b676ad3296957ce1"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q07",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eng-q03--missing_decisive_paragraph",
+      "group": "controlled_defect",
+      "category": "missing_decisive_paragraph",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q03--missing_decisive_paragraph",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "The comparison of an absent phone to a phantom limb chiefly points to which concern?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Psychological dependence on technology for a sense of completeness"
+          },
+          {
+            "key": "B",
+            "text": "Physical damage to arms caused by holding a phone"
+          },
+          {
+            "key": "C",
+            "text": "The expense of replacing lost digital devices"
+          },
+          {
+            "key": "D",
+            "text": "An inability to read the time without a smartwatch"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Anxiety and incompleteness when the device is absent establish psychological dependence. The absent-limb comparison is explicitly figurative. A: Restates the anxiety and incomplete-self concern. B: No arm injury is described. C: Replacement expense is absent from the passage. D: Neither a smartwatch nor inability to read time is mentioned.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "not_answerable_from_candidate_passage",
+        "correct_key_of_base": "A",
+        "basis": "The absent-phone/phantom-limb paragraph is removed from the candidate passage, while internal references still retain it.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q03",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "not_answerable_from_candidate_passage"
+    },
+    {
+      "id": "cbse24-eng-q04--passage_unanswerable",
+      "group": "controlled_defect",
+      "category": "passage_unanswerable",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eng-q04--passage_unanswerable",
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "concept_id": null,
+        "body": "Exactly how many smartphone notifications arrive in the room each hour?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Two"
+          },
+          {
+            "key": "B",
+            "text": "Four"
+          },
+          {
+            "key": "C",
+            "text": "Six"
+          },
+          {
+            "key": "D",
+            "text": "Eight"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The question asks for an inference about device-free hours, not a clinical cure. Among these alternatives, reducing repeated update checking addresses the stated compulsion; the other outcomes are unsupported guarantees or unrelated claims. A: Addresses the repeated-checking behaviour named in paragraph 2. B: Device-free hours cannot guarantee that no message arrives. C: The passage supplies no mechanism or promise of more likes. D: The passage values human connection and does not remove its need.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+        "family_id": "fresh-v73-english-linked-passage",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-english-linked-passage",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "indeterminate",
+        "correct_key_of_base": "A",
+        "basis": "The passage and references supply no hourly notification count.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eng-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eng-q04",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "indeterminate"
+    },
+    {
+      "id": "cbse24-eco-q07--boundary_explanation",
+      "group": "controlled_defect",
+      "category": "boundary_explanation",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q07--boundary_explanation",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "concept_id": null,
+        "body": "Statement 1: The maximum value of marginal propensity to consume can be one. Statement 2: As income rises, the increase in consumption is always proportionately greater than the increase in income. Choose the correct option.",
+        "options": [
+          {
+            "key": "A",
+            "text": "Statement 1 is true, but Statement 2 is false."
+          },
+          {
+            "key": "B",
+            "text": "Statement 1 is false, but Statement 2 is true."
+          },
+          {
+            "key": "C",
+            "text": "Both statements are true."
+          },
+          {
+            "key": "D",
+            "text": "Both statements are false."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The NCERT model bounds MPC between zero and one, inclusive. Consumption change cannot exceed the corresponding income change; the claim that it is always proportionately greater is false. A: Correctly classifies the stated upper bound and the false greater-than claim. B: Reverses both truth values. C: The second claim contradicts the model bound. D: The first claim is explicitly supported. Equality is excluded: MPC must always be strictly less than 1.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q07",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8428823b1ecc4eb1737a630376d7cddc1d64e18e6f1fb94d6256eea7d6283748"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q07",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "correct_key_of_base": "A",
+        "basis": "The selected NCERT source explicitly gives maximum MPC=1; the appended strict inequality contradicts its equality boundary.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-eco-q07-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8428823b1ecc4eb1737a630376d7cddc1d64e18e6f1fb94d6256eea7d6283748"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q07",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-ac-q04--false_authentic_pyq_claim",
+      "group": "controlled_defect",
+      "category": "false_authentic_pyq_claim",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-ac-q04--false_authentic_pyq_claim",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "concept_id": null,
+        "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of ₹20,000. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+          },
+          {
+            "key": "B",
+            "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+          },
+          {
+            "key": "C",
+            "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+          },
+          {
+            "key": "D",
+            "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The existing 20000 provision covers the 15000 write-off. Debit Bad Debts and credit Debtors; then debit the provision and credit Bad Debts. Remaining provision is 5000 and net debtor value stays 600000; no new revaluation loss is invented. A: Matches the write-off and its adjustment against the existing provision. B: Creates or increases a provision through Revaluation instead of consuming the existing provision. C: Charges a new revaluation loss while leaving the covering provision unadjusted. D: Does not credit debtors and improperly credits Revaluation.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-ac-q04",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ],
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cbse-2024-not-a-cuet-pyq",
+          "adaptation_family": "fresh-v73-family-cbse24-ac-q04",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "correct_key_of_base": "A",
+        "basis": "A CBSE-reference practice adaptation cannot claim an authenticated CUET PYQ anchor.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+          },
+          {
+            "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+          }
+        ]
+      },
+      "derived_from": "cbse24-ac-q04",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "group": "controlled_defect",
+      "category": "out_of_syllabus",
+      "expected_valid": false,
+      "candidate": {
+        "id": "cbse24-eco-q04--out_of_syllabus",
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "concept_id": null,
+        "body": "For this statistics question, define the median of five ordered observations as the third observation. For the observations 11, 27, 39, 45 and 70, what is the median?",
+        "options": [
+          {
+            "key": "A",
+            "text": "27"
+          },
+          {
+            "key": "B",
+            "text": "39"
+          },
+          {
+            "key": "C",
+            "text": "45"
+          },
+          {
+            "key": "D",
+            "text": "70"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The stipulated definition selects the third ordered observation, 39.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_mcq",
+        "passage_text": "",
+        "family_id": "fresh-v73-family-cbse24-eco-q04",
+        "source_refs": [
+          {
+            "id": "fresh-v73-original-statistics-stimulus",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "72ff7ea113e423fcc45ee9e97d324070f30c870bf2ffbfd98dde81df185cfe7f"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "fresh-v73-family-cbse24-eco-q04",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "fresh-v73-source-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "correct_key_of_base": "B",
+        "basis": "The actual objective is a Statistics median computation, outside current CUET Economics units; an entitled chapter label cannot confer entitlement on another topic.",
+        "source_refs": [
+          {
+            "id": "fresh-v73-original-statistics-stimulus",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "72ff7ea113e423fcc45ee9e97d324070f30c870bf2ffbfd98dde81df185cfe7f"
+          }
+        ]
+      },
+      "derived_from": "cbse24-eco-q04",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "key": "B"
+    }
+  ],
+  "payload_hash": "b8395ef1f6e4306c8ac19580e8f592bab1cb4db009186d18a3fb97d00a97d2a2",
+  "denominator": 42,
+  "valid_roots": 22,
+  "controlled_defects": 20,
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "verifier_version": "cuet-fit-validator-v7.3",
+  "release_eligibility": {
+    "scope": "full_cuet_release",
+    "classification": "fresh",
+    "approved_before_evaluation": true,
+    "previously_read": false,
+    "tuned_on": false,
+    "preregistration_id": "fresh-official-source-v73-2026-10-08"
+  },
+  "construction_disclosure": {
+    "raw_reference_denominator": 32,
+    "positive_controls": 22,
+    "withheld_reference_cases": 10,
+    "official_comparison_sha256": "53a441abe01e49bccdb4135f63d659d06dc27050409a8d0709ebc9b5ee05a28f",
+    "pre_acquisition_binding_sha256": "d60f01257973cda20ca016f7736740dc30e8d56f7869e91d9267a75570e34966",
+    "first_passes_frozen_before_official_keys": true,
+    "candidate_grammar_or_semantics_changed_after_second_review": false,
+    "maximum_content_repairs": 0,
+    "lexical_evidence_supplement": "A 17-word publisher dictionary definition was retrieved after independent solves, before any paid fit outcome; no candidate key, option, passage, oracle label or validator contract changed.",
+    "source_family_correlation": "Four source-paper families; six positive English controls share one 190-word stimulus. Paired controls are correlated, not perfect-accuracy evidence.",
+    "format_limit": "This compact set covers passage/direct/case/statement/numerical formats; matching and ordering are covered separately by generation and historical regression.",
+    "publication": "never"
+  }
+}

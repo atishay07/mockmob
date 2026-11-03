@@ -1,0 +1,87 @@
+{
+  "at": "2026-10-08T22:41:31.126Z",
+  "goal_status": "active",
+  "generator_qualification": "failed V76; V77 unqualified",
+  "local_v77_contract": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-contract-freeze.json",
+  "changed_contract_files": [
+    "scripts/pipeline/lib/contractV77.mjs",
+    "scripts/pipeline/lib/optionResolutionV77.mjs",
+    "scripts/pipeline/lib/optionResolutionAuditV77.mjs",
+    "scripts/pipeline/lib/factoryEvidenceV77.mjs",
+    "scripts/pipeline/lib/verifyV77.mjs"
+  ],
+  "current_native_qualification": {
+    "terminal": 41,
+    "request_receipts_complete": 118,
+    "settled_usd": 0.64998,
+    "held_usd": 0,
+    "fresh_false_accepts": 0,
+    "regression_false_accepts": 1,
+    "pooled_valid_eligible": "17/20"
+  },
+  "historical_v75": {
+    "terminal": 27,
+    "receipt_requests_complete": 99,
+    "uncertain_requests": 1,
+    "uncertain_hold_usd": 0.008596
+  },
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.36459,
+    "unresolved": 37,
+    "requests": 13925
+  },
+  "native_v77_calls": 0,
+  "pilot_executed": false,
+  "current_profile_staging_executed": false,
+  "production_writes": 0,
+  "verification": {
+    "factory": {
+      "pass": 696,
+      "fail": 0
+    },
+    "v77_focused": {
+      "pass": 14,
+      "fail": 0
+    },
+    "independent_cached_restart": {
+      "pass": 1,
+      "fail": 0
+    },
+    "preserved_frozen_hash_bindings": 228,
+    "distinct_preserved_paths": 61,
+    "prior_recovery": 40,
+    "prior_question_payment_student_budget": 38,
+    "prior_explicit_payment_entitlement": 40,
+    "unchanged_application_build": {
+      "pass": true,
+      "static_pages": 67
+    }
+  },
+  "request_preflight": {
+    "inspected_specimens": 28,
+    "full_bodies": 84,
+    "maximum_bytes": 32817,
+    "local_input_reservation_bytes": 50000,
+    "retry_inclusive_28_case_bound_usd": 4.7425,
+    "prospective_41_case_same_cap_bound_usd": 6.944375,
+    "synthetic_sizing_not_qualification": true,
+    "base_prices_changed": false
+  },
+  "active_provider_requests": 0,
+  "historical_uncertain_holds_preserved": 37,
+  "remaining": [
+    "Clarify whether the single-study instruction allows one further paid V77 qualification; none is dispatched.",
+    "For any authorized future study, preserve this exact freeze, construct genuinely fresh cases with source/key custody before model evaluation, preregister fixed denominator and conservative retry-inclusive stop budget; inspected41 are regression only.",
+    "Only a genuine pass can enable exact-version40-candidate pilot and current-profile staging. Pilot3USD is stopcap versus12.424320 retry/repair-inclusive theoretical bound; English matching pool has only one unused target.",
+    "Demonstrate live staging restart/idempotency, passage-group atomic publication, student retrieval and dispute invalidation after qualification. Production still requires final explicit approval."
+  ],
+  "evidence": {
+    "v77-independent-semantic-audit-review.md": "794e844cb2b64b0dbc1c706f1a2795a97e3fa0f82503ba5ea35d61c1f1a62150",
+    "v77-offline-budget-preflight-v1.json": "3236011c16254c6334580f656869c98bc6327da70cab7ed3479ffb4a4a8dca78",
+    "root-factory-tests-v77-final.log": "930fffa830bb5abbb777a6148343d9a03caae6e98bb8c3a3c5fde76da6f97dfb",
+    "v77-final-frozen-preservation-check.json": "3b11ece26a6602145102b527abfa85da3ae6f59043229ffec57182cf71f4b9c6"
+  }
+}

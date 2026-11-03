@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "MR = 48-36 = 12, not 9"
+    },
+    "B": {
+     "status": "false",
+     "why": "36 is TR of 3 boxes"
+    },
+    "C": {
+     "status": "false",
+     "why": "48 is TR of 4 boxes"
+    },
+    "D": {
+     "status": "false",
+     "why": "14 is not the change in TR; MR = 12"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "None; the correct value (Rs 12) is absent from the options",
+   "numeric_check": "MR = (48-36)/(4-3) = Rs 12 (equals price/AR = 36/3 = 48/4 = 12)",
+   "syllabus_fit": "Fair (MR as change in TR per unit, Class XII Ch. Theory of Firms).",
+   "quality_note": "Defective: no option equals 12; key missing."
+  },
+  {
+   "local_id": "eco-b2",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Tax revenue; creates no claim/liability on government"
+    },
+    "B": {
+     "status": "false",
+     "why": "Bond borrowing creates a repayable liability, a capital receipt"
+    },
+    "C": {
+     "status": "false",
+     "why": "Borrowing from foreign govt must be repaid, a capital receipt"
+    },
+    "D": {
+     "status": "false",
+     "why": "Redeemable securities create a claim, so not revenue receipt"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, core NCERT definition of revenue receipts.",
+   "quality_note": "Clear; distractors plausible and each carries a liability."
+  },
+  {
+   "local_id": "eco-b3",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Sale reduces reserves, as the excerpt states"
+    },
+    "B": {
+     "status": "false",
+     "why": "Excerpt says money supply reduces"
+    },
+    "C": {
+     "status": "false",
+     "why": "Buyers pay out of bank deposits, reserves fall; contradicted"
+    },
+    "D": {
+     "status": "true",
+     "why": "Sale to private parties reduces reserves and hence money supply"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, NCERT open market operations.",
+   "quality_note": "Clear; stem cites NCERT framing so the answer is defensible."
+  },
+  {
+   "local_id": "eco-b4",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "30 is 0.75 x 40, the induced consumption only, not the multiplier effect"
+    },
+    "B": {
+     "status": "true",
+     "why": "Multiplier = 1/(1-0.75) = 4; 4 x 40 = 160"
+    },
+    "C": {
+     "status": "false",
+     "why": "40 ignores the multiplier"
+    },
+    "D": {
+     "status": "false",
+     "why": "53 uses 1/(1+0.75)... or 40/0.75; wrong multiplier"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": "Assumes simple two-sector model with no taxes or imports (excerpt states AD=C+I; fine for stem)",
+   "numeric_check": "k = 1/(1-MPC) = 4; change in Y = 4 x 40 = Rs 160 crore",
+   "syllabus_fit": "Fair, investment multiplier in Class XII Income Determination.",
+   "quality_note": "Good; distractors reflect common errors. Excerpt does not give multiplier formula but it is standard NCERT."
+  },
+  {
+   "local_id": "eco-b5",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Revaluation is a decrease in the exchange rate (rupee costlier)"
+    },
+    "B": {
+     "status": "true",
+     "why": "Official rate raised from 75 to 80 makes rupee cheaper: devaluation per F9"
+    },
+    "C": {
+     "status": "false",
+     "why": "Appreciation applies to flexible rate regime market movements"
+    },
+    "D": {
+     "status": "false",
+     "why": "Floating is a market-determined regime, not a government action"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, NCERT definitions.",
+   "quality_note": "Clear; stem explicitly signals the direction."
+  },
+  {
+   "local_id": "eco-b6",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "60 is 20% of 300, wrong direction"
+    },
+    "B": {
+     "status": "false",
+     "why": "240 is 300 minus 20% of 300, meaningless"
+    },
+    "C": {
+     "status": "true",
+     "why": "Deposits = 300/0.20 = 1500"
+    },
+    "D": {
+     "status": "false",
+     "why": "375 is 300/0.8; wrong ratio"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Deposits = reserves / RRR = 300/0.20 = Rs 1,500 crore",
+   "syllabus_fit": "Fair, matches NCERT reserve-deposit example.",
+   "quality_note": "Clear; distractors reflect typical mistakes."
+  },
+  {
+   "local_id": "eco-b7",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "At 2 units MC 8 < 23; adding units raises profit"
+    },
+    "B": {
+     "status": "false",
+     "why": "At 3 units MC of 4th (17) < 23; more output adds profit"
+    },
+    "C": {
+     "status": "true",
+     "why": "Profit at 4 units equals profit at 5 units since 5th unit has MC = P; so 4 units also maximises profit"
+    },
+    "D": {
+     "status": "true",
+     "why": "P = MC = 23 at 5th unit; NCERT rule; 6th unit MC 30 > 23"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Whether the firm produces the unit where P = MC (zero marginal profit); with discrete units 4 and 5 give identical maximum profit",
+   "numeric_check": "Marginal profit per unit: 18, 15, 11, 6, 0, -7. Cumulative maximum 50 at both 4 and 5 units (before fixed cost).",
+   "syllabus_fit": "Fair, P = MC rule, but discrete tie is a design flaw.",
+   "quality_note": "Flawed: tie at 4 and 5 units; intended key D by NCERT P=MC rule, but C is also profit-maximising."
+  },
+  {
+   "local_id": "eco-b8",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Price of rupee in dollars rises in flexible regime: appreciation per F8"
+    },
+    "B": {
+     "status": "false",
+     "why": "Revaluation is a government action in fixed regime"
+    },
+    "C": {
+     "status": "false",
+     "why": "Devaluation is a government action in fixed regime, and a fall in value"
+    },
+    "D": {
+     "status": "false",
+     "why": "Stem states market-determined, not fixed"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "0.0133 > 0.0125: rupee worth more dollars",
+   "syllabus_fit": "Fair, NCERT definitions.",
+   "quality_note": "Clear; good distractors on regime terminology."
+  },
+  {
+   "local_id": "eco-b9",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "At Y=0, C = 80"
+    },
+    "B": {
+     "status": "false",
+     "why": "Contradicted: C = 80 at Y = 0"
+    },
+    "C": {
+     "status": "true",
+     "why": "80 is the autonomous consumption, independent of income, per F11"
+    },
+    "D": {
+     "status": "false",
+     "why": "0.6Y is induced consumption, not autonomous"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "None; two options (A and C) are both true and essentially equivalent",
+   "numeric_check": "C(0)=80+0.6x0=80",
+   "syllabus_fit": "Fair, autonomous consumption.",
+   "quality_note": "Flawed: A and C state the same fact; two correct options."
+  }
+ ]
+}

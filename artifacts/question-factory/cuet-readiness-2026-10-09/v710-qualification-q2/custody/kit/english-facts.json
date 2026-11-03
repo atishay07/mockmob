@@ -1,0 +1,324 @@
+[
+ {
+  "ref": "F1",
+  "source_id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+  "text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload."
+ },
+ {
+  "ref": "F2",
+  "source_id": "mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "55922040766b35e1f5ad79e96636a73379038cc68c9e335a49df89306b6f424a",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+  "text": "A fictional archive asked volunteers to describe old photographs. A description was stored as confirmed only when a dated label or an accompanying document identified its subject. Memories offered by visitors were recorded separately as possible identifications. Several visitors initially disliked this distinction because they were confident about their recollections. The archivist explained that preserving a recollection did not require presenting it as established fact. Later, a letter confirmed one visitor's identification, and that record was updated. The system allowed information to be reconsidered without discarding the history of how it had first been reported."
+ },
+ {
+  "ref": "F3",
+  "source_id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "7bcc4b407053c94c173fd0b1ed18bc8a332656575b186c1a067f1fab0b7fff64",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+  "text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey."
+ },
+ {
+  "ref": "F4",
+  "source_id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "d0029585f1fde6bd791626341161762de0494b524bf645f6661b5b34a835d3e1",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+  "text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help."
+ },
+ {
+  "ref": "F5",
+  "source_id": "mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "a5702009034b3a99ee0d5d7e2d526e6a6204e42a1580316c555cdd68018cdec2",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+  "text": "A fictional community centre offered a beginner's pottery workshop and a more advanced workshop. Registration for the advanced session required completion of the beginner's session or a short demonstration of equivalent skills. An experienced visitor who had never attended the centre passed the demonstration and joined the advanced group. Another visitor chose the beginner's session after finding the demonstration difficult. The organiser explained that the alternative routes recognised prior experience while checking readiness for the work. Attending a particular earlier course was one way to qualify, rather than the only acceptable evidence of the relevant skills."
+ },
+ {
+  "ref": "F6",
+  "source_id": "mockmob-v62-birds",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "51d7e71e8b8cf2449299455437ceaa2caff16c094f414daa8f570d80ab01106c",
+  "title": "Original fictional held-out stimulus",
+  "url": "local://mockmob/heldout/mockmob-v62-birds",
+  "text": "In a fictional school, Mira volunteered to record birds visiting the courtyard. She initially wrote down only their colours. Her teacher suggested noting the time and behaviour as well. After a week, Mira compared her notes and saw that the same brown bird arrived just before lunch on four days. She decided to keep observing before calling it a regular visitor, because the week had been unusually quiet."
+ },
+ {
+  "ref": "F7",
+  "source_id": "mockmob-v62-museum",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "4abe264d3a45760beb73ba6e2e417dffae14fc43c08795f31c51fe7373ecbbe5",
+  "title": "Original fictional held-out stimulus",
+  "url": "local://mockmob/heldout/mockmob-v62-museum",
+  "text": "In a fictional museum, a guide found that visitors often missed a small map beside the entrance. She first moved the map to a board at eye level. A week later, she watched visitors and noticed that some still asked for directions. She then added coloured arrows leading from the board to the main galleries. On the next busy morning, fewer visitors asked where the galleries were."
+ },
+ {
+  "ref": "F8",
+  "source_id": "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "598368bb567b59917744e7ddc9e34aad18afcfb3b693e0a57c57f83b74028098",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+  "text": "Leela was asked to announce the winner of the school poster competition. She recognised her friend's poster among the finalists and wanted it to win. Before the judges arrived, she noticed that its entry number was missing. Instead of attaching her friend's number from memory, she asked the coordinator to check the registration sheet. The check revealed that two posters had been placed in the wrong slots. They were moved before judging began. Her friend thanked her for helping. Leela replied that she had helped the entries be judged as they were submitted. She would have asked for the same check if the misplaced poster had belonged to someone else."
+ },
+ {
+  "ref": "F9",
+  "source_id": "mockmob-original-stimulus-diverse-472847ac635002331231",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "903b172712fbfe33f3f16786378fca32047760589ea629a829e6114191d7af3f",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-472847ac635002331231",
+  "text": "Kabir built a shelf for his younger sister's books. He carefully measured the wall and made the shelf fit its empty space. When he invited her to use it, she struggled to reach the upper level. Kabir first suggested that she stand on a stool, then stopped when she asked why a shelf intended for her had to be so high. He removed the brackets and lowered the shelf. A strip of unpainted wall remained above it. He decided to leave the painting until the weekend. That evening, his sister arranged her books without help, and Kabir was pleased despite the unfinished wall."
+ },
+ {
+  "ref": "F10",
+  "source_id": "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "fb5531a74c9398346ac00088ca53cda101e03a285a835245d149fc4e2af7c5d9",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+  "text": "At a rehearsal, Nisha played a melody more quickly than the rest of the group. She thought the faster pace made it exciting. Their conductor asked everyone to listen while one drummer kept a steady beat. Nisha noticed that the flute's quieter phrases disappeared when she rushed. During the next attempt, she waited for the drummer's beat and heard the phrases clearly. Afterwards, a classmate praised the performance. Nisha said that she had changed very few notes. What she had changed was the space she gave the other players. She kept her faster version for a solo rehearsal later."
+ },
+ {
+  "ref": "F11",
+  "source_id": "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "c817ea208da28c6f48eae7f433bef7a34772b0e2323f61b8821b32909d2583c5",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+  "text": "Rohan volunteered to carry a box of costumes to the school hall. On the way, he saw a younger pupil looking for a lost notebook. Rohan could not search while holding the large box, and he knew the costumes were needed soon. He took the box directly to the hall and asked another volunteer to help the pupil search. When he returned, the notebook had been found beneath a bench. The pupil thanked both of them. Rohan had initially felt that leaving the search meant refusing to help. Seeing the result, he realised that asking the right person could be useful assistance too."
+ },
+ {
+  "ref": "F12",
+  "source_id": "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "bb99b0c7d0fe496355c1777e471e9486779643b882e503bfb98ebb724742e93c",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+  "text": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence."
+ },
+ {
+  "ref": "F13",
+  "source_id": "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "02a0102fbd48401ae4146deaf61d41cc04ea616a344967cbeb158fe1ceea9418",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+  "text": "Dev kept score during a friendly cricket match. As the players packed their bags, he noticed that he had counted one run twice. Correcting it would turn his team's victory into a tie. He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction. One teammate said nobody would have noticed. Dev answered that noticing it himself was enough reason to check. The captains changed the result without replaying the match. On the walk home, Dev felt disappointed about the lost victory but relieved that the scorebook now matched the game."
+ },
+ {
+  "ref": "F14",
+  "source_id": "mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "9d1eab24da7237b812d5405a2f6d3aa60a68ea647b7a3e12a8681bc0384fa841",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+  "text": "Sana's grandmother asked her to translate a letter aloud. One sentence could mean either that a visit had been postponed or that its timing was still undecided. Sana first chose the interpretation she thought her grandmother would prefer. Then she paused, read the sentence again and explained both possibilities. Her grandmother suggested calling the writer rather than guessing. The call confirmed that no date had yet been fixed. Sana wrote that information beside the letter. She had wanted to give a reassuring answer immediately; instead, the uncertainty became a question they could resolve together."
+ },
+ {
+  "ref": "F15",
+  "source_id": "mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "afe8e00b04308152e3f35f549a378d77e82ceffce7a96f350c236145ba896f0e",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+  "text": "Ishaan was preparing labels for a class display when a classmate suggested including a small model built by the quietest pupil. There was no space left on the table. Ishaan initially proposed displaying only its photograph. After looking again, he moved two large labels onto the wall and made room for the model. Its maker demonstrated a moving part that the photograph would not have shown. Ishaan kept the photograph beside it to show an earlier version. He had not removed another pupil's work; he had changed the arrangement so the display could communicate more of what was already there."
+ },
+ {
+  "ref": "F16",
+  "source_id": "mockmob-original-stimulus-literary-passage",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "6ddea2c8989626c63b7a162199f9cae6ad0d6388f9b51c469014ed2e2a80cd39",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-literary-passage",
+  "text": "The small courtyard held a single neem tree. Every morning its shadow crossed the cracked stones like a slow hand searching for something. Arun used to hurry past it on his way to school. After his grandmother left to stay with his uncle, he began to stop there. He noticed a cup-shaped hollow in the trunk, the fallen leaves caught in a corner, and a bird that returned to the same branch. The courtyard had not changed, yet it seemed larger. One evening he placed his grandmother’s empty chair beneath the tree. He did not sit in it. He stood nearby until the shadow reached the chair’s legs, then went inside to write her a letter."
+ },
+ {
+  "ref": "F17",
+  "source_id": "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "a3e7490cf190bccb8e701e4c769a23c8f1547c9b0f4dd3eb400a484f4406a75c",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+  "text": "The old tailor kept a drawer of buttons. Some were pairs; most had lost their companions long ago. When his niece offered to throw away the unmatched ones, he spread them across the counter. There was a small blue button from her first school shirt. She recognised it by its chipped rim, although she could no longer remember losing it. The tailor did not ask her to keep the whole drawer. He handed her the blue button, and together they sorted the rest. By evening, the drawer was lighter, but it had not become empty."
+ },
+ {
+  "ref": "F18",
+  "source_id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+  "text": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented."
+ },
+ {
+  "ref": "F19",
+  "source_id": "mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "4d7abbd2322d13e852ad34a316fecccdbe14ae531343f6d4d53db87a1a1b1dd9",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+  "text": "For years, the brass bell above the shop door had announced every visitor. When it cracked, the shopkeeper fitted a quieter bell. His daughter liked being able to hear a conversation without interruption. He still turned towards the door before the new bell rang, expecting the old sound. One evening, he placed the cracked bell beside the till rather than returning it to the doorway. A customer lifted it gently and recognised its worn handle. The shopkeeper smiled. The old bell could remain part of the shop without being required to do its former work."
+ },
+ {
+  "ref": "F20",
+  "source_id": "mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "15a2072b2bca0ff612d61f3fcdfabb3884b15fa0ab1f8346755a4a1d235b90c4",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+  "text": "Meera unfolded a paper boat her brother had left on the windowsill. Beneath the creases she found the drawing they had used to make it: a house, two crooked trees and a sun almost hidden at the edge. She considered flattening the sheet completely, but the folds resisted. Instead, she opened only enough to see the drawing and set it beside a photograph. The boat no longer stood upright. The picture was not smooth either. In the evening light, both forms remained visible, neither restored exactly to what it had been before."
+ },
+ {
+  "ref": "F21",
+  "source_id": "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "0f66e0dbff5a4e5e9269650d4bb06e3a1f0a896ffc07462a1a4c3802b43bf675",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+  "text": "The lamp in the study cast a circle across the desk. Outside that circle, the shelves looked almost empty, though they held the same books as always. Arjun moved the lamp closer to a page he was struggling to read. The circle tightened, and the rest of the room grew dimmer. After finishing the paragraph, he raised the shade and saw the shelves again. He had changed where the light fell, not what the room contained. He left the lamp slightly higher while choosing his next book."
+ },
+ {
+  "ref": "F22",
+  "source_id": "mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "83b1895dac0ad4a745503e778c548646ec1d695bee9bf95b07329718f8a6b167",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+  "text": "A path crossed the field where Anaya's grandfather had walked every evening. After he moved away, the grass began to cover its edges. Anaya followed it once, trying to place her feet exactly where his had been. At the far fence she saw another narrow track leading towards a new gate. She took that route home. From the window, the two paths looked like lines beginning together and separating near the fence. She wrote to her grandfather that the field had not lost his route; it had made room for another one beside it."
+ },
+ {
+  "ref": "F23",
+  "source_id": "mockmob-original-stimulus-diverse-b064a6420839abc60456",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "ad9f114bfaa30f3a58f44d30b90ba0fb517913165552eb1a21c9aafebfe5ef6e",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b064a6420839abc60456",
+  "text": "The painter covered a wall with a pale morning sky. Before she could finish the birds, evening sunlight turned the colours warm. She stepped back, displeased that the light had changed what she had planned. A boy standing nearby said the unfinished shapes looked like leaves caught in a breeze. The painter looked again. She did not erase the sky or declare the boy correct. She sketched one clear bird among the remaining shapes and returned the next morning to see the wall in the light for which she had first designed it."
+ }
+]

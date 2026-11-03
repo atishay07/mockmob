@@ -1,0 +1,1126 @@
+TAP version 13
+# Subtest: top15 answer guard subjects match the popularity rollout list
+ok 1 - top15 answer guard subjects match the popularity rollout list
+  ---
+  duration_ms: 2.8895
+  type: 'test'
+  ...
+# Subtest: answer integrity rejects wrong keys and explanation contradictions
+ok 2 - answer integrity rejects wrong keys and explanation contradictions
+  ---
+  duration_ms: 4.1493
+  type: 'test'
+  ...
+# Subtest: cleanup report scans only top15 subjects and classifies unsafe rows
+ok 3 - cleanup report scans only top15 subjects and classifies unsafe rows
+  ---
+  duration_ms: 18.1274
+  type: 'test'
+  ...
+# Subtest: safe hide patches never mutate answer keys
+ok 4 - safe hide patches never mutate answer keys
+  ---
+  duration_ms: 0.1868
+  type: 'test'
+  ...
+# Subtest: generator answer guard blocks top15 bad rows and ignores phased-out subjects
+ok 5 - generator answer guard blocks top15 bad rows and ignores phased-out subjects
+  ---
+  duration_ms: 0.4202
+  type: 'test'
+  ...
+# Subtest: apply mode requires a dry-run report path
+ok 6 - apply mode requires a dry-run report path
+  ---
+  duration_ms: 0.4218
+  type: 'test'
+  ...
+# Subtest: a paper is only projected after enough practice, and says how much is missing
+ok 7 - a paper is only projected after enough practice, and says how much is missing
+  ---
+  duration_ms: 1.472
+  type: 'test'
+  ...
+# Subtest: projection is the +5/-1 arithmetic of attempt share and accuracy, with a range
+ok 8 - projection is the +5/-1 arithmetic of attempt share and accuracy, with a range
+  ---
+  duration_ms: 1.3783
+  type: 'test'
+  ...
+# Subtest: the total uses one language and the three strongest domain papers, and is marked partial otherwise
+ok 9 - the total uses one language and the three strongest domain papers, and is marked partial otherwise
+  ---
+  duration_ms: 0.7826
+  type: 'test'
+  ...
+# Subtest: a band sits above, within or below a cutoff, and missing cutoffs are never a verdict
+ok 10 - a band sits above, within or below a cutoff, and missing cutoffs are never a verdict
+  ---
+  duration_ms: 1.7964
+  type: 'test'
+  ...
+# Subtest: next move names the paper with the most marks open and its weakest ranked chapter
+ok 11 - next move names the paper with the most marks open and its weakest ranked chapter
+  ---
+  duration_ms: 0.3906
+  type: 'test'
+  ...
+# Subtest: two warnings, the third strike ends the session
+ok 12 - two warnings, the third strike ends the session
+  ---
+  duration_ms: 3.8757
+  type: 'test'
+  ...
+# Subtest: stored strikes are sanitised
+ok 13 - stored strikes are sanitised
+  ---
+  duration_ms: 0.1978
+  type: 'test'
+  ...
+# Subtest: key review covers fresh disputes and already-held questions only
+ok 14 - key review covers fresh disputes and already-held questions only
+  ---
+  duration_ms: 0.1659
+  type: 'test'
+  ...
+# Subtest: evidence rows never call a model check proof; agreement is only against the key
+ok 15 - evidence rows never call a model check proof; agreement is only against the key
+  ---
+  duration_ms: 1.1796
+  type: 'test'
+  ...
+# Subtest: Compass ladder numbers are DU’s published figures, not estimates
+ok 16 - Compass ladder numbers are DU’s published figures, not estimates
+  ---
+  duration_ms: 6.6536
+  type: 'test'
+  ...
+# Subtest: Instagram entries are well-formed, unique and link to the official embed
+ok 17 - Instagram entries are well-formed, unique and link to the official embed
+  ---
+  duration_ms: 0.5949
+  type: 'test'
+  ...
+# Subtest: the Wall of love shows only consented, complete voices, and nothing by default
+ok 18 - the Wall of love shows only consented, complete voices, and nothing by default
+  ---
+  duration_ms: 0.2647
+  type: 'test'
+  ...
+# Subtest: free accounts do not get Pro pace and changed-answer detail through Ask
+ok 19 - free accounts do not get Pro pace and changed-answer detail through Ask
+  ---
+  duration_ms: 3.6337
+  type: 'test'
+  ...
+# Subtest: learning storage atomically enforces owners, allowances, families and immutable observations
+ok 20 - learning storage atomically enforces owners, allowances, families and immutable observations
+  ---
+  duration_ms: 6506.1154
+  type: 'test'
+  ...
+# Subtest: hypotheses need two distinct families; conflicts abstain; tie stable ID
+ok 21 - hypotheses need two distinct families; conflicts abstain; tie stable ID
+  ---
+  duration_ms: 22.0125
+  type: 'test'
+  ...
+# Subtest: ambiguous matrix stops at three probes
+ok 22 - ambiguous matrix stops at three probes
+  ---
+  duration_ms: 0.7222
+  type: 'test'
+  ...
+# Subtest: fresh checks enforce delayed timing, assistance and failure reopening
+ok 23 - fresh checks enforce delayed timing, assistance and failure reopening
+  ---
+  duration_ms: 2.1772
+  type: 'test'
+  ...
+# Subtest: freshness exhausted content and public view never leak keys
+ok 24 - freshness exhausted content and public view never leak keys
+  ---
+  duration_ms: 1.2181
+  type: 'test'
+  ...
+# Subtest: numeric boundaries and approved alternatives reject arbitrary text
+ok 25 - numeric boundaries and approved alternatives reject arbitrary text
+  ---
+  duration_ms: 0.5242
+  type: 'test'
+  ...
+# Subtest: unanswered and expired checks reopen repair without inventing a wrong answer
+ok 26 - unanswered and expired checks reopen repair without inventing a wrong answer
+  ---
+  duration_ms: 0.5774
+  type: 'test'
+  ...
+# Subtest: IST allowances and plan priority are deterministic and released offer stays closed
+ok 27 - IST allowances and plan priority are deterministic and released offer stays closed
+  ---
+  duration_ms: 14.3134
+  type: 'test'
+  ...
+# Subtest: eligibility: only the owner, only a wrong answer, only while the key is unchanged and live
+ok 28 - eligibility: only the owner, only a wrong answer, only while the key is unchanged and live
+  ---
+  duration_ms: 1.2241
+  type: 'test'
+  ...
+# Subtest: the model must solve first and match the key before any explanation is shown
+ok 29 - the model must solve first and match the key before any explanation is shown
+  ---
+  duration_ms: 2.8052
+  type: 'test'
+  ...
+# Subtest: no score, rank or admission promises survive; long text is capped
+ok 30 - no score, rank or admission promises survive; long text is capped
+  ---
+  duration_ms: 0.3889
+  type: 'test'
+  ...
+# Subtest: prompts give the key only to the explainer, never to the blind second opinion
+ok 31 - prompts give the key only to the explainer, never to the blind second opinion
+  ---
+  duration_ms: 0.7305
+  type: 'test'
+  ...
+# Subtest: fresh practice reuses the recovery replay route; AI gates are split from AI purchases
+ok 32 - fresh practice reuses the recovery replay route; AI gates are split from AI purchases
+  ---
+  duration_ms: 0.3706
+  type: 'test'
+  ...
+# Subtest: fresh non-NTA mocks rank newest rows before older high-score rows
+ok 33 - fresh non-NTA mocks rank newest rows before older high-score rows
+  ---
+  duration_ms: 2.2961
+  type: 'test'
+  ...
+# Subtest: usage pushes already-attempted rows behind unseen rows
+ok 34 - usage pushes already-attempted rows behind unseen rows
+  ---
+  duration_ms: 2.6543
+  type: 'test'
+  ...
+# Subtest: picker preserves difficulty targets while keeping newest rows within each level
+ok 35 - picker preserves difficulty targets while keeping newest rows within each level
+  ---
+  duration_ms: 0.7174
+  type: 'test'
+  ...
+# Subtest: selection usage metadata records latest-window and revisit counts
+ok 36 - selection usage metadata records latest-window and revisit counts
+  ---
+  duration_ms: 3.0345
+  type: 'test'
+  ...
+# Subtest: monthly Pro is Rs 99, recurring and closed until its Razorpay plan ID exists
+ok 37 - monthly Pro is Rs 99, recurring and closed until its Razorpay plan ID exists
+  ---
+  duration_ms: 4.082
+  type: 'test'
+  ...
+# Subtest: before monthly opens, the existing Rs 99 one-time access is the only thing on sale and the copy says so
+ok 38 - before monthly opens, the existing Rs 99 one-time access is the only thing on sale and the copy says so
+  ---
+  duration_ms: 0.5679
+  type: 'test'
+  ...
+# Subtest: once the plan ID is configured, monthly is sold and one-time stops being sold
+ok 39 - once the plan ID is configured, monthly is sold and one-time stops being sold
+  ---
+  duration_ms: 0.2873
+  type: 'test'
+  ...
+# Subtest: historical plans still resolve, so old orders keep verifying and keep their expiry
+ok 40 - historical plans still resolve, so old orders keep verifying and keep their expiry
+  ---
+  duration_ms: 0.2609
+  type: 'test'
+  ...
+# Subtest: the future Rs 299 plan stays unreleased regardless of monthly billing
+ok 41 - the future Rs 299 plan stays unreleased regardless of monthly billing
+  ---
+  duration_ms: 0.1883
+  type: 'test'
+  ...
+# Subtest: NTA selector returns exactly 50 when 50+ usable questions exist
+ok 42 - NTA selector returns exactly 50 when 50+ usable questions exist
+  ---
+  duration_ms: 140.432
+  type: 'test'
+  ...
+# Subtest: NTA selector does not fail because chapter is missing
+ok 43 - NTA selector does not fail because chapter is missing
+  ---
+  duration_ms: 57.8417
+  type: 'test'
+  ...
+# Subtest: NTA selector does not fail because quality metadata is missing
+ok 44 - NTA selector does not fail because quality metadata is missing
+  ---
+  duration_ms: 57.5675
+  type: 'test'
+  ...
+# Subtest: NTA selector rejects truly unusable questions
+ok 45 - NTA selector rejects truly unusable questions
+  ---
+  duration_ms: 0.8856
+  type: 'test'
+  ...
+# Subtest: accepts valid direct recall without a depth requirement
+ok 46 - accepts valid direct recall without a depth requirement
+  ---
+  duration_ms: 0.9297
+  type: 'test'
+  ...
+# Subtest: NTA selector preserves passage group order
+ok 47 - NTA selector preserves passage group order
+  ---
+  duration_ms: 68.3151
+  type: 'test'
+  ...
+# Subtest: NTA selector returns passage context for linked questions
+ok 48 - NTA selector returns passage context for linked questions
+  ---
+  duration_ms: 1.013
+  type: 'test'
+  ...
+# Subtest: NTA mode forces 60-minute duration
+ok 49 - NTA mode forces 60-minute duration
+  ---
+  duration_ms: 0.3402
+  type: 'test'
+  ...
+# Subtest: NTA mode ignores requested count and returns 50
+ok 50 - NTA mode ignores requested count and returns 50
+  ---
+  duration_ms: 89.7834
+  type: 'test'
+  ...
+# Subtest: Quick/full modes keep their existing count behavior
+ok 51 - Quick/full modes keep their existing count behavior
+  ---
+  duration_ms: 0.5301
+  type: 'test'
+  ...
+# Subtest: rejects one-line Read the excerpt pseudo-passage
+ok 52 - rejects one-line Read the excerpt pseudo-passage
+  ---
+  duration_ms: 0.7873
+  type: 'test'
+  ...
+# Subtest: rejects passage badge without recoverable passage text
+ok 53 - rejects passage badge without recoverable passage text
+  ---
+  duration_ms: 0.6143
+  type: 'test'
+  ...
+# Subtest: rejects generic paraphrasing assertion-reason English theory without passage context
+ok 54 - rejects generic paraphrasing assertion-reason English theory without passage context
+  ---
+  duration_ms: 0.6949
+  type: 'test'
+  ...
+# Subtest: rejects orphan passage-dependent row even when options and answer are valid
+ok 55 - rejects orphan passage-dependent row even when options and answer are valid
+  ---
+  duration_ms: 0.3531
+  type: 'test'
+  ...
+# Subtest: accepts valid English passage group with real passage and four linked questions
+ok 56 - accepts valid English passage group with real passage and four linked questions
+  ---
+  duration_ms: 64.0802
+  type: 'test'
+  ...
+# Subtest: English NTA selection excludes fake passage labels and keeps standalone verbal ability only
+ok 57 - English NTA selection excludes fake passage labels and keeps standalone verbal ability only
+  ---
+  duration_ms: 89.0041
+  type: 'test'
+  ...
+# Subtest: NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist
+ok 58 - NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist
+  ---
+  duration_ms: 91.0501
+  type: 'test'
+  ...
+# Subtest: answer integrity guard rejects explanation that points to another key
+ok 59 - answer integrity guard rejects explanation that points to another key
+  ---
+  duration_ms: 0.8207
+  type: 'test'
+  ...
+# Subtest: NTA answer integrity excludes bad keyed row and refills to 50
+ok 60 - NTA answer integrity excludes bad keyed row and refills to 50
+  ---
+  duration_ms: 82.9396
+  type: 'test'
+  ...
+# Subtest: NTA answer integrity refuses to start when only 49 clean questions remain
+ok 61 - NTA answer integrity refuses to start when only 49 clean questions remain
+  ---
+  duration_ms: 56.869
+  type: 'test'
+  ...
+# Subtest: NTA answer integrity refill keeps passage group ordering intact
+ok 62 - NTA answer integrity refill keeps passage group ordering intact
+  ---
+  duration_ms: 130.5144
+  type: 'test'
+  ...
+# Subtest: NTA AI verifier only checks low-confidence rows and refills rejected answers
+ok 63 - NTA AI verifier only checks low-confidence rows and refills rejected answers
+  ---
+  duration_ms: 213.6534
+  type: 'test'
+  ...
+# Subtest: new ₹299 plan is versioned, gated, and never inherits a historical offer
+ok 64 - new ₹299 plan is versioned, gated, and never inherits a historical offer
+  ---
+  duration_ms: 1.3319
+  type: 'test'
+  ...
+# Subtest: paid-through date prefers Razorpay invoice billing end
+ok 65 - paid-through date prefers Razorpay invoice billing end
+  ---
+  duration_ms: 1.9674
+  type: 'test'
+  ...
+# Subtest: paid-through date falls back to a bounded paid period
+ok 66 - paid-through date falls back to a bounded paid period
+  ---
+  duration_ms: 0.22
+  type: 'test'
+  ...
+# Subtest: effective premium survives cancellation inside paid-through window
+ok 67 - effective premium survives cancellation inside paid-through window
+  ---
+  duration_ms: 0.2016
+  type: 'test'
+  ...
+# Subtest: paid evidence requires a captured payment record
+ok 68 - paid evidence requires a captured payment record
+  ---
+  duration_ms: 0.1773
+  type: 'test'
+  ...
+# Subtest: discounted creator payments can validate below nominal amount
+ok 69 - discounted creator payments can validate below nominal amount
+  ---
+  duration_ms: 0.374
+  type: 'test'
+  ...
+# Subtest: discounted payments can validate from Razorpay subscription offer metadata
+ok 70 - discounted payments can validate from Razorpay subscription offer metadata
+  ---
+  duration_ms: 0.9052
+  type: 'test'
+  ...
+# Subtest: one-time access discounts require a Razorpay offer id on the payment record
+ok 71 - one-time access discounts require a Razorpay offer id on the payment record
+  ---
+  duration_ms: 0.211
+  type: 'test'
+  ...
+# Subtest: refund revocation audit only blocks matching payment identifiers
+ok 72 - refund revocation audit only blocks matching payment identifiers
+  ---
+  duration_ms: 0.4009
+  type: 'test'
+  ...
+# Subtest: CUET 2027 Pro checkout is a live one-time Rs 99 access plan
+ok 73 - CUET 2027 Pro checkout is a live one-time Rs 99 access plan
+  ---
+  duration_ms: 0.3615
+  type: 'test'
+  ...
+# Subtest: CUET 2026 plan stays resolvable for old orders but is closed to new checkout
+ok 74 - CUET 2026 plan stays resolvable for old orders but is closed to new checkout
+  ---
+  duration_ms: 0.1658
+  type: 'test'
+  ...
+# Subtest: legacy monthly plan is not live for new checkout
+ok 75 - legacy monthly plan is not live for new checkout
+  ---
+  duration_ms: 0.1338
+  type: 'test'
+  ...
+# Subtest: launch subjects carry official NTA 2026 codes with a cited source
+ok 76 - launch subjects carry official NTA 2026 codes with a cited source
+  ---
+  duration_ms: 2.7231
+  type: 'test'
+  ...
+# Subtest: stored unsupported, retired and unknown subjects never launch but are kept
+ok 77 - stored unsupported, retired and unknown subjects never launch but are kept
+  ---
+  duration_ms: 9.4965
+  type: 'test'
+  ...
+# Subtest: available ordinary quote states cost, duration, inventory policy and a token
+ok 78 - available ordinary quote states cost, duration, inventory policy and a token
+  ---
+  duration_ms: 0.3937
+  type: 'test'
+  ...
+# Subtest: premium-only modes are blocked for free users with an access reason, not a guessed price
+ok 79 - premium-only modes are blocked for free users with an access reason, not a guessed price
+  ---
+  duration_ms: 0.383
+  type: 'test'
+  ...
+# Subtest: unknown inventory is unavailable, never a launch; short inventory is refused
+ok 80 - unknown inventory is unavailable, never a launch; short inventory is refused
+  ---
+  duration_ms: 0.3582
+  type: 'test'
+  ...
+# Subtest: genuine zero credits blocks; included allowance makes the set free; unknown allowance charges
+ok 81 - genuine zero credits blocks; included allowance makes the set free; unknown allowance charges
+  ---
+  duration_ms: 0.5636
+  type: 'test'
+  ...
+# Subtest: access holders pay nothing and see the expiry
+ok 82 - access holders pay nothing and see the expiry
+  ---
+  duration_ms: 34.7531
+  type: 'test'
+  ...
+# Subtest: allowance kinds follow the server session policy
+ok 83 - allowance kinds follow the server session policy
+  ---
+  duration_ms: 0.217
+  type: 'test'
+  ...
+# Subtest: mode capability copy never ranks question quality
+ok 84 - mode capability copy never ranks question quality
+  ---
+  duration_ms: 0.4079
+  type: 'test'
+  ...
+# Subtest: the chosen 10/20/30 minutes sets the ordinary practice session size
+ok 85 - the chosen 10/20/30 minutes sets the ordinary practice session size
+  ---
+  duration_ms: 1.1988
+  type: 'test'
+  ...
+# Subtest: empty record is an explicit empty state, never zeros dressed up as insight
+ok 86 - empty record is an explicit empty state, never zeros dressed up as insight
+  ---
+  duration_ms: 10.515
+  type: 'test'
+  ...
+# Subtest: ledger uses +5/-1, counts blanks separately and never calls open marks recoverable
+ok 87 - ledger uses +5/-1, counts blanks separately and never calls open marks recoverable
+  ---
+  duration_ms: 2.2196
+  type: 'test'
+  ...
+# Subtest: answer changes count both directions and the net can be positive or negative
+ok 88 - answer changes count both directions and the net can be positive or negative
+  ---
+  duration_ms: 0.3759
+  type: 'test'
+  ...
+# Subtest: chapters rank only with enough questions; thin chapters are listed apart, never ranked
+ok 89 - chapters rank only with enough questions; thin chapters are listed apart, never ranked
+  ---
+  duration_ms: 0.5294
+  type: 'test'
+  ...
+# Subtest: wilson interval keeps a small sample honest
+ok 90 - wilson interval keeps a small sample honest
+  ---
+  duration_ms: 0.4635
+  type: 'test'
+  ...
+# Subtest: pace comes from device events, flags the slow question and ignores sessions without a timeline
+ok 91 - pace comes from device events, flags the slow question and ignores sessions without a timeline
+  ---
+  duration_ms: 0.6655
+  type: 'test'
+  ...
+# Subtest: weekly digest separates this week from last and describes, without verdicts
+ok 92 - weekly digest separates this week from last and describes, without verdicts
+  ---
+  duration_ms: 0.7491
+  type: 'test'
+  ...
+# Subtest: readout and answers carry sample sizes and avoid causal claims
+ok 93 - readout and answers carry sample sizes and avoid causal claims
+  ---
+  duration_ms: 1.3577
+  type: 'test'
+  ...
+# Subtest: the operation key is one stable string per student action, and rejects weak ids
+ok 94 - the operation key is one stable string per student action, and rejects weak ids
+  ---
+  duration_ms: 1.1801
+  type: 'test'
+  ...
+# Subtest: gate closed: nothing is reserved, nothing is called, the paused message is shown
+ok 95 - gate closed: nothing is reserved, nothing is called, the paused message is shown
+  ---
+  duration_ms: 1.034
+  type: 'test'
+  ...
+# Subtest: happy path: reserve, execute, generate, then commit once with the provider receipt
+ok 96 - happy path: reserve, execute, generate, then commit once with the provider receipt
+  ---
+  duration_ms: 0.6737
+  type: 'test'
+  ...
+# Subtest: insufficient credits blocks before any model call and says questions about the record are free
+ok 97 - insufficient credits blocks before any model call and says questions about the record are free
+  ---
+  duration_ms: 0.4036
+  type: 'test'
+  ...
+# Subtest: a provider timeout or exception releases the credit
+ok 98 - a provider timeout or exception releases the credit
+  ---
+  duration_ms: 0.5128
+  type: 'test'
+  ...
+# Subtest: unusable output (schema invalid or empty reply) releases instead of committing
+ok 99 - unusable output (schema invalid or empty reply) releases instead of committing
+  ---
+  duration_ms: 0.3796
+  type: 'test'
+  ...
+# Subtest: the same student action arriving twice never runs the model twice
+ok 100 - the same student action arriving twice never runs the model twice
+  ---
+  duration_ms: 0.4078
+  type: 'test'
+  ...
+# Subtest: ledger or database failure fails closed: a missing RPC pauses; a failed release says the credit returns on its own
+ok 101 - ledger or database failure fails closed: a missing RPC pauses; a failed release says the credit returns on its own
+  ---
+  duration_ms: 0.4044
+  type: 'test'
+  ...
+# Subtest: a failed commit keeps the reply but charges nothing; the expiry sweep returns the held credit
+ok 102 - a failed commit keeps the reply but charges nothing; the expiry sweep returns the held credit
+  ---
+  duration_ms: 0.384
+  type: 'test'
+  ...
+# Subtest: reserve takes credits atomically; the same key retried never takes them twice
+ok 103 - reserve takes credits atomically; the same key retried never takes them twice
+  ---
+  duration_ms: 6202.9476
+  type: 'test'
+  ...
+# Subtest: two requests that together exceed the balance cannot both succeed
+ok 104 - two requests that together exceed the balance cannot both succeed
+  ---
+  duration_ms: 1730.3731
+  type: 'test'
+  ...
+# Subtest: release restores exactly what was taken, included first then bonus, and is idempotent
+ok 105 - release restores exactly what was taken, included first then bonus, and is idempotent
+  ---
+  duration_ms: 1265.3642
+  type: 'test'
+  ...
+# Subtest: a released key cannot be reused to charge again; a new key can
+ok 106 - a released key cannot be reused to charge again; a new key can
+  ---
+  duration_ms: 1041.7511
+  type: 'test'
+  ...
+# Subtest: commit is final: no release after commit, no commit after release, double commit is idempotent
+ok 107 - commit is final: no release after commit, no commit after release, double commit is idempotent
+  ---
+  duration_ms: 1107.4088
+  type: 'test'
+  ...
+# Subtest: a release after the monthly reset hands expired included credits back as bonus
+ok 108 - a release after the monthly reset hands expired included credits back as bonus
+  ---
+  duration_ms: 1165.6894
+  type: 'test'
+  ...
+# Subtest: expired reservations are swept back to the student; open ones are left alone
+ok 109 - expired reservations are swept back to the student; open ones are left alone
+  ---
+  duration_ms: 1103.8267
+  type: 'test'
+  ...
+# Subtest: the ledger always explains the balance, and a committed reply leaves one debit
+ok 110 - the ledger always explains the balance, and a committed reply leaves one debit
+  ---
+  duration_ms: 1007.1237
+  type: 'test'
+  ...
+# Subtest: the lifecycle is service-role only
+ok 111 - the lifecycle is service-role only
+  ---
+  duration_ms: 987.0336
+  type: 'test'
+  ...
+# Subtest: expired and legacy entitlements follow the central effective-premium rule
+ok 112 - expired and legacy entitlements follow the central effective-premium rule
+  ---
+  duration_ms: 1.4876
+  type: 'test'
+  ...
+# Subtest: missing schema and read errors never produce a balance
+ok 113 - missing schema and read errors never produce a balance
+  ---
+  duration_ms: 0.4821
+  type: 'test'
+  ...
+# Subtest: paused paid AI shows real stored balances but nothing is spendable
+ok 114 - paused paid AI shows real stored balances but nothing is spendable
+  ---
+  duration_ms: 2.0521
+  type: 'test'
+  ...
+# Subtest: a stale stored period is projected as reset without writing; no row is not materialised
+ok 115 - a stale stored period is projected as reset without writing; no row is not materialised
+  ---
+  duration_ms: 0.305
+  type: 'test'
+  ...
+# Subtest: client mapping turns failed or malformed responses into unknown, never zero (account switch/stale cache safe)
+ok 116 - client mapping turns failed or malformed responses into unknown, never zero (account switch/stale cache safe)
+  ---
+  duration_ms: 0.3083
+  type: 'test'
+  ...
+# Subtest: missing-function detection is narrow enough not to swallow real RPC errors
+ok 117 - missing-function detection is narrow enough not to swallow real RPC errors
+  ---
+  duration_ms: 0.2198
+  type: 'test'
+  ...
+# Subtest: wallet service has no direct read-modify-write path and fails closed while paused
+ok 118 - wallet service has no direct read-modify-write path and fails closed while paused
+  ---
+  duration_ms: 1.686
+  type: 'test'
+  ...
+# Subtest: atomic RPC: concurrent consumes cannot overspend; a retried key charges once
+ok 119 - atomic RPC: concurrent consumes cannot overspend; a retried key charges once
+  ---
+  duration_ms: 5923.7261
+  type: 'test'
+  ...
+# Subtest: atomic RPC: a ledger insert failure rolls back the balance change
+ok 120 - atomic RPC: a ledger insert failure rolls back the balance change
+  ---
+  duration_ms: 1848.5429
+  type: 'test'
+  ...
+# Subtest: reconciliation flags a balance change whose ledger row is missing
+ok 121 - reconciliation flags a balance change whose ledger row is missing
+  ---
+  duration_ms: 3.3574
+  type: 'test'
+  ...
+# Subtest: reconciliation treats a released reservation as a reversal, not a purchase
+ok 122 - reconciliation treats a released reservation as a reversal, not a purchase
+  ---
+  duration_ms: 0.242
+  type: 'test'
+  ...
+# Subtest: atomic grant RPC is idempotent for a captured payment key
+ok 123 - atomic grant RPC is idempotent for a captured payment key
+  ---
+  duration_ms: 1279.0172
+  type: 'test'
+  ...
+# Subtest: server snapshot scores answers; a correct-to-wrong change loses six marks
+ok 124 - server snapshot scores answers; a correct-to-wrong change loses six marks
+  ---
+  duration_ms: 3.0885
+  type: 'test'
+  ...
+# Subtest: missing event answers cannot invent score effects
+ok 125 - missing event answers cannot invent score effects
+  ---
+  duration_ms: 1.3986
+  type: 'test'
+  ...
+# Subtest: unknown questions, duplicate sequence, out-of-bounds answer and future events fail
+ok 126 - unknown questions, duplicate sequence, out-of-bounds answer and future events fail
+  ---
+  duration_ms: 2.1123
+  type: 'test'
+  ...
+# Subtest: repeats, assisted answers and same-family variants cannot demonstrate improvement
+ok 127 - repeats, assisted answers and same-family variants cannot demonstrate improvement
+  ---
+  duration_ms: 0.5377
+  type: 'test'
+  ...
+# Subtest: practice submission survives a clock-skewed event log but never an invalid answer
+ok 128 - practice submission survives a clock-skewed event log but never an invalid answer
+  ---
+  duration_ms: 1.1251
+  type: 'test'
+  ...
+# Subtest: attempt provenance separates server practice, recovery sessions and browser-scored history
+ok 129 - attempt provenance separates server practice, recovery sessions and browser-scored history
+  ---
+  duration_ms: 0.1872
+  type: 'test'
+  ...
+# Subtest: migration enforces owner access, atomic charge and exactly-once score/progress
+ok 130 - migration enforces owner access, atomic charge and exactly-once score/progress
+  ---
+  duration_ms: 6392.7957
+  type: 'test'
+  ...
+# Subtest: candidate passes software consistency and the committed build is current
+ok 131 - candidate passes software consistency and the committed build is current
+  ---
+  duration_ms: 12.5098
+  type: 'test'
+  ...
+# Subtest: candidate is never served: manifest, release gates and claim ladder stay closed
+ok 132 - candidate is never served: manifest, release gates and claim ladder stay closed
+  ---
+  duration_ms: 0.3458
+  type: 'test'
+  ...
+# Subtest: validator catches corrupted keys, matrices, families, text and derivations
+ok 133 - validator catches corrupted keys, matrices, families, text and derivations
+  ---
+  duration_ms: 53.3105
+  type: 'test'
+  ...
+# Subtest: simulators reproduce the textbook cases independently of authored text
+ok 134 - simulators reproduce the textbook cases independently of authored text
+  ---
+  duration_ms: 0.2891
+  type: 'test'
+  ...
+# Subtest: each misconception is supported by two families, routed to its repair, then checked fresh on schedule
+ok 135 - each misconception is supported by two families, routed to its repair, then checked fresh on schedule
+  ---
+  duration_ms: 23.2034
+  type: 'test'
+  ...
+# Subtest: a secure learner gets no gap label and a short path; repair activity never counts as evidence
+ok 136 - a secure learner gets no gap label and a short path; repair activity never counts as evidence
+  ---
+  duration_ms: 4.9867
+  type: 'test'
+  ...
+# Subtest: conflicting probe evidence abstains and falls back to the general repair
+ok 137 - conflicting probe evidence abstains and falls back to the general repair
+  ---
+  duration_ms: 1.47
+  type: 'test'
+  ...
+# Subtest: repeat exposure: seen families block a start, failed checks consume families, exhaustion blocks claims
+ok 138 - repeat exposure: seen families block a start, failed checks consume families, exhaustion blocks claims
+  ---
+  duration_ms: 3.489
+  type: 'test'
+  ...
+# Subtest: interruption: a stale or duplicated submission after progress is rejected, never double-counted
+ok 139 - interruption: a stale or duplicated submission after progress is rejected, never double-counted
+  ---
+  duration_ms: 0.8509
+  type: 'test'
+  ...
+# Subtest: public views never expose keys, matrices, claims or future checks
+ok 140 - public views never expose keys, matrices, claims or future checks
+  ---
+  duration_ms: 0.7012
+  type: 'test'
+  ...
+# Subtest: shared plan explains a due check with record facts and a rule, and stays deterministic
+ok 141 - shared plan explains a due check with record facts and a rule, and stays deterministic
+  ---
+  duration_ms: 17.0888
+  type: 'test'
+  ...
+# Subtest: validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes
+ok 142 - validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes
+  ---
+  duration_ms: 16.4565
+  type: 'test'
+  ...
+# Subtest: storage: retries create one episode and one allowance; corrections invalidate claims
+ok 143 - storage: retries create one episode and one allowance; corrections invalidate claims
+  ---
+  duration_ms: 6540.0739
+  type: 'test'
+  ...
+# Subtest: rival rejects repeated, missing and unauthorized IDs
+ok 144 - rival rejects repeated, missing and unauthorized IDs
+  ---
+  duration_ms: 1.6738
+  type: 'test'
+  ...
+# Subtest: rival concurrent submission is atomic, retry safe and owner bound
+ok 145 - rival concurrent submission is atomic, retry safe and owner bound
+  ---
+  duration_ms: 6154.9861
+  type: 'test'
+  ...
+# Subtest: independent arithmetic boundaries and revalidated corrections preserve original scores
+ok 146 - independent arithmetic boundaries and revalidated corrections preserve original scores
+  ---
+  duration_ms: 5.0768
+  type: 'test'
+  ...
+# Subtest: runtime guard blocks unknown funding/prices and preserves every reservation/receipt
+ok 147 - runtime guard blocks unknown funding/prices and preserves every reservation/receipt
+  ---
+  duration_ms: 6288.0933
+  type: 'test'
+  ...
+# Subtest: monthly cap, no global pause on missing usage, ledger reasons and wallet lifecycle
+ok 148 - monthly cap, no global pause on missing usage, ledger reasons and wallet lifecycle
+  ---
+  duration_ms: 6251.357
+  type: 'test'
+  ...
+# Subtest: marks gap is exact: 6 per wrong answer, 5 per blank, and adds up to the maximum
+ok 149 - marks gap is exact: 6 per wrong answer, 5 per blank, and adds up to the maximum
+  ---
+  duration_ms: 3.3254
+  type: 'test'
+  ...
+# Subtest: chapters are ranked by the marks they cost, and only chapters that cost marks appear
+ok 150 - chapters are ranked by the marks they cost, and only chapters that cost marks appear
+  ---
+  duration_ms: 1.4972
+  type: 'test'
+  ...
+# Subtest: dwell time comes from the device timeline and is credited to the active question
+ok 151 - dwell time comes from the device timeline and is credited to the active question
+  ---
+  duration_ms: 0.35
+  type: 'test'
+  ...
+# Subtest: observations are factual: a right answer changed to wrong, fast wrong picks, and a concentrated chapter
+ok 152 - observations are factual: a right answer changed to wrong, fast wrong picks, and a concentrated chapter
+  ---
+  duration_ms: 1.2939
+  type: 'test'
+  ...
+# Subtest: inconsistent or missing device events never produce behaviour claims, but marks still work
+ok 153 - inconsistent or missing device events never produce behaviour claims, but marks still work
+  ---
+  duration_ms: 0.4257
+  type: 'test'
+  ...
+# Subtest: blind checks never receive generator key or explanation; cached verdicts preserve exact IDs
+ok 154 - blind checks never receive generator key or explanation; cached verdicts preserve exact IDs
+  ---
+  duration_ms: 162.874
+  type: 'test'
+  ...
+# Subtest: duplicate stems stop before paid stages and one failed targeted repair stays quarantined
+ok 155 - duplicate stems stop before paid stages and one failed targeted repair stays quarantined
+  ---
+  duration_ms: 127.8075
+  type: 'test'
+  ...
+# Subtest: empty or family/source-overlapping academic benchmarks cannot release
+ok 156 - empty or family/source-overlapping academic benchmarks cannot release
+  ---
+  duration_ms: 1
+  type: 'test'
+  ...
+# Subtest: new ledger uses the owner ceiling but paid calls require historical reconciliation
+ok 157 - new ledger uses the owner ceiling but paid calls require historical reconciliation
+  ---
+  duration_ms: 141.6296
+  type: 'test'
+  ...
+# Subtest: Responses reserves tools and all reasoning usage; missing usage blocks the next call
+ok 158 - Responses reserves tools and all reasoning usage; missing usage blocks the next call
+  ---
+  duration_ms: 153.9921
+  type: 'test'
+  ...
+# Subtest: OpenAI accepted batch survives restart and settles once without another submission
+ok 159 - OpenAI accepted batch survives restart and settles once without another submission
+  ---
+  duration_ms: 110.358
+  type: 'test'
+  ...
+# Subtest: Gemini native transport counts thinking tokens and batches only one independent evaluation
+ok 160 - Gemini native transport counts thinking tokens and batches only one independent evaluation
+  ---
+  duration_ms: 83.1653
+  type: 'test'
+  ...
+# Subtest: unknown batch acceptance is held unresolved and is never resubmitted
+ok 161 - unknown batch acceptance is held unresolved and is never resubmitted
+  ---
+  duration_ms: 121.0103
+  type: 'test'
+  ...
+# Subtest: process leases prevent two workers using the same ledger
+ok 162 - process leases prevent two workers using the same ledger
+  ---
+  duration_ms: 116.3371
+  type: 'test'
+  ...
+# Subtest: a pending repair resumes the same input after restart without acquiring another attempt
+ok 163 - a pending repair resumes the same input after restart without acquiring another attempt
+  ---
+  duration_ms: 180.9954
+  type: 'test'
+  ...
+# Subtest: LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits
+ok 164 - LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits
+  ---
+  duration_ms: 195.5237
+  type: 'test'
+  ...
+# Subtest: screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt
+ok 165 - screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt
+  ---
+  duration_ms: 2.1035
+  type: 'test'
+  ...
+# Subtest: subscription environment strips API credentials and provider overrides
+ok 166 - subscription environment strips API credentials and provider overrides
+  ---
+  duration_ms: 0.6033
+  type: 'test'
+  ...
+# Subtest: verified evidence precedence survives usage ranking and family caps
+ok 167 - verified evidence precedence survives usage ranking and family caps
+  ---
+  duration_ms: 0.954
+  type: 'test'
+  ...
+# Subtest: source registration refuses missing paper/key authentication and permission
+ok 168 - source registration refuses missing paper/key authentication and permission
+  ---
+  duration_ms: 2.8026
+  type: 'test'
+  ...
+# Subtest: migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening
+ok 169 - migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening
+  ---
+  duration_ms: 6002.7764
+  type: 'test'
+  ...
+# Subtest: subscription guard refuses API login, purchased or unknown credits and exhausted included limits
+ok 170 - subscription guard refuses API login, purchased or unknown credits and exhausted included limits
+  ---
+  duration_ms: 0.8162
+  type: 'test'
+  ...
+# Subtest: terminal batch record mismatch blocks spending and cannot trigger a duplicate submission
+ok 171 - terminal batch record mismatch blocks spending and cannot trigger a duplicate submission
+  ---
+  duration_ms: 73.1565
+  type: 'test'
+  ...
+# Subtest: uncertain accepted batch can be attached only after provider identity matches the saved file
+ok 172 - uncertain accepted batch can be attached only after provider identity matches the saved file
+  ---
+  duration_ms: 69.6491
+  type: 'test'
+  ...
+# Subtest: budget exhaustion stops before dispatch and retired models cannot route through the factory
+ok 173 - budget exhaustion stops before dispatch and retired models cannot route through the factory
+  ---
+  duration_ms: 51.8538
+  type: 'test'
+  ...
+# Subtest: new factory queues originals first, balances backed chapters and never splits passage groups
+ok 174 - new factory queues originals first, balances backed chapters and never splits passage groups
+  ---
+  duration_ms: 27.2585
+  type: 'test'
+  ...
+# Subtest: passage publication requires every authenticated child and identical passage content
+ok 175 - passage publication requires every authenticated child and identical passage content
+  ---
+  duration_ms: 0.5437
+  type: 'test'
+  ...
+# Subtest: calibration measures blind answers independently of survival and fails closed on empty or claimed releases
+ok 176 - calibration measures blind answers independently of survival and fails closed on empty or claimed releases
+  ---
+  duration_ms: 1.0878
+  type: 'test'
+  ...
+# Subtest: dispute versions normalize public snapshots and change with passage, key and explanation edits
+ok 177 - dispute versions normalize public snapshots and change with passage, key and explanation edits
+  ---
+  duration_ms: 0.4385
+  type: 'test'
+  ...
+# Subtest: verified questions fill a difficulty shortage before screened legacy questions
+ok 178 - verified questions fill a difficulty shortage before screened legacy questions
+  ---
+  duration_ms: 0.726
+  type: 'test'
+  ...
+# Subtest: authenticated source pack maps official option IDs to the final-key row and retires superseded evidence
+ok 179 - authenticated source pack maps official option IDs to the final-key row and retires superseded evidence
+  ---
+  duration_ms: 17.9677
+  type: 'test'
+  ...
+# Subtest: restart retains reservations; zero yield pauses; missing usage prevents dispatch
+ok 180 - restart retains reservations; zero yield pauses; missing usage prevents dispatch
+  ---
+  duration_ms: 228.8813
+  type: 'test'
+  ...
+# Subtest: concurrent processes cannot reserve beyond a shared ceiling
+ok 181 - concurrent processes cannot reserve beyond a shared ceiling
+  ---
+  duration_ms: 513.9257
+  type: 'test'
+  ...
+# Subtest: transport counts every request and stops on absent usage, unknown prices or wrong provider
+ok 182 - transport counts every request and stops on absent usage, unknown prices or wrong provider
+  ---
+  duration_ms: 204.6391
+  type: 'test'
+  ...
+# Subtest: complete direct-recall fixture passes without a conceptual-depth requirement
+ok 183 - complete direct-recall fixture passes without a conceptual-depth requirement
+  ---
+  duration_ms: 11.3124
+  type: 'test'
+  ...
+# Subtest: missing, swapped, mock, changed, false citation and quarantined family evidence fails
+ok 184 - missing, swapped, mock, changed, false citation and quarantined family evidence fails
+  ---
+  duration_ms: 1.8064
+  type: 'test'
+  ...
+# Subtest: source adapters reject missing document identity before dispatch and invented supporting quotes
+ok 185 - source adapters reject missing document identity before dispatch and invented supporting quotes
+  ---
+  duration_ms: 2.5295
+  type: 'test'
+  ...
+# Subtest: exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver
+ok 186 - exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver
+  ---
+  duration_ms: 0.3432
+  type: 'test'
+  ...
+1..186
+# tests 186
+# suites 0
+# pass 186
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16173.583

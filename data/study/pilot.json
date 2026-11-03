@@ -1,0 +1,1104 @@
+{
+  "version": 1,
+  "units": [
+    {
+      "id": "english-vocabulary-01",
+      "version": 1,
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "title": "Twenty words, used precisely",
+      "summary": "Build a small, useful vocabulary. Retrieve a meaning or reconstruct a spelling before checking.",
+      "estimatedMinutes": 6,
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ],
+      "state": "candidate",
+      "blocks": [
+        {
+          "id": "vocab-method",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "Recall before you look",
+          "body": "Read a word, pause and try to say its meaning. Then reveal the answer and grade your recall honestly. For spelling tasks, type the word from its definition. These are learning activities, not scored CUET questions."
+        },
+        {
+          "id": "vocab-senses",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "A word can have more than one meaning",
+          "body": "This deck names the sense being studied. “Candid” here describes direct speech; in photography it can describe an unposed picture. Read a word in its sentence before deciding which meaning fits."
+        },
+        {
+          "id": "vocab-check",
+          "type": "choice",
+          "kind": "knowledge_check",
+          "title": "Check the method",
+          "prompt": "When is it most useful to try recalling the meaning?",
+          "options": [
+            "Before revealing the answer",
+            "Only after reading the answer"
+          ],
+          "answer": 0,
+          "explanation": "Trying first makes the card a retrieval task. This check is unscored."
+        }
+      ]
+    },
+    {
+      "id": "accountancy-sacrificing-gaining",
+      "version": 1,
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "conceptId": "sacrificing_gaining",
+      "title": "Sacrificing and gaining ratios",
+      "summary": "Compare each partner’s old and new shares. Let the change tell you which ratio to use.",
+      "estimatedMinutes": 6,
+      "state": "candidate",
+      "sourceRefs": [
+        {
+          "id": "ncert-admission",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "label": "NCERT Accountancy: Admission of a Partner, section 2.4",
+          "permission": "reference only; MockMob explanations and examples are original"
+        },
+        {
+          "id": "ncert-retirement",
+          "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+          "label": "NCERT Accountancy: Retirement / Death of a Partner, section 3.3",
+          "permission": "reference only; MockMob explanations and examples are original"
+        }
+      ],
+      "blocks": [
+        {
+          "id": "ratio-rule",
+          "type": "reading",
+          "kind": "explanation",
+          "title": "Start with the change in share",
+          "body": "For each partner, sacrifice = old share − new share. Gain = new share − old share. Use a common denominator before subtracting. A positive sacrifice means the share fell; a negative sacrifice means it rose."
+        },
+        {
+          "id": "ratio-worked",
+          "type": "reading",
+          "kind": "worked_example",
+          "title": "Work one partner at a time",
+          "body": "A and B used to share 3:2. C joins, and the new ratio A:B:C is 5:3:2. A: 3/5 − 5/10 = 1/10. B: 2/5 − 3/10 = 1/10. A and B sacrifice equally, so the sacrificing ratio is 1:1.",
+          "rows": [
+            [
+              "Partner",
+              "Old share",
+              "New share",
+              "Sacrifice"
+            ],
+            [
+              "A",
+              "6/10",
+              "5/10",
+              "1/10"
+            ],
+            [
+              "B",
+              "4/10",
+              "3/10",
+              "1/10"
+            ]
+          ]
+        },
+        {
+          "id": "ratio-contrast",
+          "type": "reading",
+          "kind": "contrast",
+          "title": "The old ratio is not a universal shortcut",
+          "body": "The old ratio describes the starting shares. The new ratio describes the final shares. Neither automatically describes the change. When a new ratio is given, compare the shares. Use the old ratio as the sacrificing ratio when the incoming share is taken in that ratio."
+        },
+        {
+          "id": "ratio-check",
+          "type": "choice",
+          "kind": "knowledge_check",
+          "title": "Try it",
+          "prompt": "A partner’s old share is 3/5 and new share is 1/2. What did the partner sacrifice?",
+          "options": [
+            "1/10",
+            "1/2",
+            "−1/10",
+            "3/5"
+          ],
+          "answer": 0,
+          "explanation": "3/5 − 1/2 = 6/10 − 5/10 = 1/10. This is an unscored learning check."
+        }
+      ]
+    }
+  ],
+  "cards": [
+    {
+      "id": "english-word-candid",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:candid:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “candid” mean in this sense?",
+      "answer": "characterized by directness in manner or speech; without subtlety or evasion",
+      "word": "candid",
+      "explanation": "candid: characterized by directness in manner or speech; without subtlety or evasion. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00764484",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-lucid",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:lucid:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “lucid” mean in this sense?",
+      "answer": "(of language) transparently clear; easily understandable",
+      "word": "lucid",
+      "explanation": "lucid: (of language) transparently clear; easily understandable. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00429355",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-ambiguous",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:ambiguous:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: having more than one possible meaning?",
+      "answer": "ambiguous",
+      "word": "ambiguous",
+      "explanation": "ambiguous: having more than one possible meaning. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00102201",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-diligent",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:diligent:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “diligent” mean in this sense?",
+      "answer": "characterized by care and perseverance in carrying out tasks",
+      "word": "diligent",
+      "explanation": "diligent: characterized by care and perseverance in carrying out tasks. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00754107",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-prudent",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:prudent:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “prudent” mean in this sense?",
+      "answer": "careful and sensible; marked by sound judgment",
+      "word": "prudent",
+      "explanation": "prudent: careful and sensible; marked by sound judgment. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "01898129",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-frugal",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:frugal:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: avoiding waste?",
+      "answer": "frugal",
+      "word": "frugal",
+      "explanation": "frugal: avoiding waste. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "02421364",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-concise",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:concise:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “concise” mean in this sense?",
+      "answer": "expressing much in few words",
+      "word": "concise",
+      "explanation": "concise: expressing much in few words. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00546646",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-obscure",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:obscure:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “obscure” mean in this sense?",
+      "answer": "not clearly understood or expressed",
+      "word": "obscure",
+      "explanation": "obscure: not clearly understood or expressed. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00431004",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-resilient",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:resilient:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: recovering readily from adversity, depression, or the like?",
+      "answer": "resilient",
+      "word": "resilient",
+      "explanation": "resilient: recovering readily from adversity, depression, or the like. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "02280566",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-meticulous",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:meticulous:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “meticulous” mean in this sense?",
+      "answer": "marked by extreme care in treatment of details",
+      "word": "meticulous",
+      "explanation": "meticulous: marked by extreme care in treatment of details. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00984879",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-benevolent",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:benevolent:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “benevolent” mean in this sense?",
+      "answer": "intending or showing kindness",
+      "word": "benevolent",
+      "explanation": "benevolent: intending or showing kindness. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "02661446",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-arbitrary",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:arbitrary:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: based on or subject to individual discretion or preference or sometimes impulse or caprice?",
+      "answer": "arbitrary",
+      "word": "arbitrary",
+      "explanation": "arbitrary: based on or subject to individual discretion or preference or sometimes impulse or caprice. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00718924",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-coherent",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:coherent:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “coherent” mean in this sense?",
+      "answer": "marked by an orderly, logical, and aesthetically consistent relation of parts",
+      "word": "coherent",
+      "explanation": "coherent: marked by an orderly, logical, and aesthetically consistent relation of parts. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00464513",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-inevitable",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:inevitable:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “inevitable” mean in this sense?",
+      "answer": "incapable of being avoided or prevented",
+      "word": "inevitable",
+      "explanation": "inevitable: incapable of being avoided or prevented. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00343015",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-substantial",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:substantial:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: fairly large?",
+      "answer": "substantial",
+      "word": "substantial",
+      "explanation": "substantial: fairly large. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00625055",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-abundant",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:abundant:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “abundant” mean in this sense?",
+      "answer": "present in great quantity",
+      "word": "abundant",
+      "explanation": "abundant: present in great quantity. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00013887",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-reluctant",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:reluctant:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “reluctant” mean in this sense?",
+      "answer": "not eager",
+      "word": "reluctant",
+      "explanation": "reluctant: not eager. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00811969",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-obsolete",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:obsolete:v1",
+      "objective": "Reconstruct the spelling of a word from its meaning",
+      "type": "text",
+      "prompt": "Which word means: no longer in use?",
+      "answer": "obsolete",
+      "word": "obsolete",
+      "explanation": "obsolete: no longer in use. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "00669021",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-impartial",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:impartial:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “impartial” mean in this sense?",
+      "answer": "showing lack of favoritism",
+      "word": "impartial",
+      "explanation": "impartial: showing lack of favoritism. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "01723308",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "english-word-sceptical",
+      "version": 1,
+      "unitId": "english-vocabulary-01",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "conceptId": "vocabulary_context",
+      "familyId": "study:english:word:sceptical:v1",
+      "objective": "Recall the selected meaning of a word",
+      "type": "reveal",
+      "prompt": "What does “sceptical” mean in this sense?",
+      "answer": "marked by or given to doubt",
+      "word": "sceptical",
+      "explanation": "sceptical: marked by or given to doubt. This is one selected sense; context can call for another.",
+      "cue": "Say the word, then make your own sentence using this meaning.",
+      "sourceFact": "02463847",
+      "sourceRefs": [
+        {
+          "id": "wordnet-3.0",
+          "url": "https://wordnet.princeton.edu/",
+          "label": "WordNet 3.0",
+          "permission": "WordNet license",
+          "license": "WordNet Release 3.0\n\nThis software and database is being provided to you, the LICENSEE, by  \nPrinceton University under the following license.  By obtaining, using  \nand/or copying this software and database, you agree that you have  \nread, understood, and will comply with these terms and conditions.:  \n  \nPermission to use, copy, modify and distribute this software and  \ndatabase and its documentation for any purpose and without fee or  \nroyalty is hereby granted, provided that you agree to comply with  \nthe following copyright notice and statements, including the disclaimer,  \nand that the same appear on ALL copies of the software, database and  \ndocumentation, including modifications that you make for internal  \nuse or for distribution.  \n  \nWordNet 3.0 Copyright 2006 by Princeton University.  All rights reserved.  \n  \nTHIS SOFTWARE AND DATABASE IS PROVIDED \"AS IS\" AND PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR  \nIMPLIED.  BY WAY OF EXAMPLE, BUT NOT LIMITATION, PRINCETON  \nUNIVERSITY MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANT-  \nABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE  \nOF THE LICENSED SOFTWARE, DATABASE OR DOCUMENTATION WILL NOT  \nINFRINGE ANY THIRD PARTY PATENTS, COPYRIGHTS, TRADEMARKS OR  \nOTHER RIGHTS.  \n  \nThe name of Princeton University or Princeton may not be used in  \nadvertising or publicity pertaining to distribution of the software  \nand/or database.  Title to copyright in this software, database and  \nany associated documentation shall at all times remain with  \nPrinceton University and LICENSEE agrees to preserve same.  \n"
+        }
+      ]
+    },
+    {
+      "id": "accountancy-ratio-sacrifice",
+      "version": 1,
+      "unitId": "accountancy-sacrificing-gaining",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "conceptId": "sacrificing_gaining",
+      "familyId": "study:accountancy:ratio:sacrifice:v1",
+      "type": "reveal",
+      "objective": "Distinguish a change in share from a sharing ratio",
+      "prompt": "Complete the formula: sacrifice = …",
+      "answer": "old share minus new share",
+      "explanation": "Use a common denominator and calculate the change for each continuing partner.",
+      "cue": "Sacrifice looks back: old minus new. Gain looks forward: new minus old.",
+      "sourceRefs": [
+        {
+          "id": "ncert-admission",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "label": "NCERT Accountancy: Admission of a Partner, section 2.4",
+          "permission": "reference only; MockMob explanations and examples are original"
+        },
+        {
+          "id": "ncert-retirement",
+          "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+          "label": "NCERT Accountancy: Retirement / Death of a Partner, section 3.3",
+          "permission": "reference only; MockMob explanations and examples are original"
+        }
+      ]
+    },
+    {
+      "id": "accountancy-ratio-gain",
+      "version": 1,
+      "unitId": "accountancy-sacrificing-gaining",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "conceptId": "sacrificing_gaining",
+      "familyId": "study:accountancy:ratio:gain:v1",
+      "type": "reveal",
+      "objective": "Distinguish a change in share from a sharing ratio",
+      "prompt": "Complete the formula: gain = …",
+      "answer": "new share minus old share",
+      "explanation": "Use a common denominator and calculate the change for each continuing partner.",
+      "cue": "Sacrifice looks back: old minus new. Gain looks forward: new minus old.",
+      "sourceRefs": [
+        {
+          "id": "ncert-admission",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "label": "NCERT Accountancy: Admission of a Partner, section 2.4",
+          "permission": "reference only; MockMob explanations and examples are original"
+        },
+        {
+          "id": "ncert-retirement",
+          "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+          "label": "NCERT Accountancy: Retirement / Death of a Partner, section 3.3",
+          "permission": "reference only; MockMob explanations and examples are original"
+        }
+      ]
+    },
+    {
+      "id": "accountancy-ratio-contrast",
+      "version": 1,
+      "unitId": "accountancy-sacrificing-gaining",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "conceptId": "sacrificing_gaining",
+      "familyId": "study:accountancy:ratio:contrast:v1",
+      "type": "reveal",
+      "objective": "Distinguish a change in share from a sharing ratio",
+      "prompt": "When a new sharing ratio is stated, what should you compare?",
+      "answer": "Each partner’s old share and new share",
+      "explanation": "Use a common denominator and calculate the change for each continuing partner.",
+      "cue": "Sacrifice looks back: old minus new. Gain looks forward: new minus old.",
+      "sourceRefs": [
+        {
+          "id": "ncert-admission",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "label": "NCERT Accountancy: Admission of a Partner, section 2.4",
+          "permission": "reference only; MockMob explanations and examples are original"
+        },
+        {
+          "id": "ncert-retirement",
+          "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+          "label": "NCERT Accountancy: Retirement / Death of a Partner, section 3.3",
+          "permission": "reference only; MockMob explanations and examples are original"
+        }
+      ]
+    }
+  ],
+  "syllabus": [
+    {
+      "subject": "english",
+      "title": "English",
+      "chapters": [
+        {
+          "id": "english:Factual Passage",
+          "title": "Factual Passage",
+          "unitTitle": "Reading Comprehension"
+        },
+        {
+          "id": "english:Narrative Passage",
+          "title": "Narrative Passage",
+          "unitTitle": "Reading Comprehension"
+        },
+        {
+          "id": "english:Literary Passage",
+          "title": "Literary Passage",
+          "unitTitle": "Reading Comprehension"
+        },
+        {
+          "id": "english:Para Jumbles",
+          "title": "Para Jumbles",
+          "unitTitle": "Verbal Ability"
+        },
+        {
+          "id": "english:Match the Following",
+          "title": "Match the Following",
+          "unitTitle": "Verbal Ability"
+        },
+        {
+          "id": "english:Vocabulary",
+          "title": "Vocabulary",
+          "unitTitle": "Verbal Ability"
+        },
+        {
+          "id": "english:Correct Word Usage",
+          "title": "Correct Word Usage",
+          "unitTitle": "Verbal Ability"
+        }
+      ],
+      "basis": "CUET UG 2026; 2027 provisional"
+    },
+    {
+      "subject": "accountancy",
+      "title": "Accountancy",
+      "chapters": [
+        {
+          "id": "accountancy:Partnership Fundamentals",
+          "title": "Partnership Fundamentals",
+          "unitTitle": "Accounting for Partnership"
+        },
+        {
+          "id": "accountancy:Profit & Loss Appropriation Account",
+          "title": "Profit & Loss Appropriation Account",
+          "unitTitle": "Accounting for Partnership"
+        },
+        {
+          "id": "accountancy:Change in Profit Sharing Ratio",
+          "title": "Change in Profit Sharing Ratio",
+          "unitTitle": "Reconstitution of a Partnership firm"
+        },
+        {
+          "id": "accountancy:Goodwill Valuation",
+          "title": "Goodwill Valuation",
+          "unitTitle": "Reconstitution of a Partnership firm"
+        },
+        {
+          "id": "accountancy:Admission of Partner",
+          "title": "Admission of Partner",
+          "unitTitle": "Reconstitution of a Partnership firm"
+        },
+        {
+          "id": "accountancy:Retirement & Death of Partner",
+          "title": "Retirement & Death of Partner",
+          "unitTitle": "Reconstitution of a Partnership firm"
+        },
+        {
+          "id": "accountancy:Dissolution of Partnership",
+          "title": "Dissolution of Partnership",
+          "unitTitle": "Dissolution of Partnership Firm"
+        },
+        {
+          "id": "accountancy:Dissolution of Partnership Firm",
+          "title": "Dissolution of Partnership Firm",
+          "unitTitle": "Dissolution of Partnership Firm"
+        },
+        {
+          "id": "accountancy:Share Capital",
+          "title": "Share Capital",
+          "unitTitle": "Company Accounts: Accounting for Share and Debenture Capital"
+        },
+        {
+          "id": "accountancy:Debentures",
+          "title": "Debentures",
+          "unitTitle": "Company Accounts: Accounting for Share and Debenture Capital"
+        },
+        {
+          "id": "accountancy:Financial Statements of Company",
+          "title": "Financial Statements of Company",
+          "unitTitle": "Analysis of Financial Statements"
+        },
+        {
+          "id": "accountancy:Analysis of Financial Statements",
+          "title": "Analysis of Financial Statements",
+          "unitTitle": "Analysis of Financial Statements"
+        },
+        {
+          "id": "accountancy:Comparative & Common Size Statements",
+          "title": "Comparative & Common Size Statements",
+          "unitTitle": "Analysis of Financial Statements"
+        },
+        {
+          "id": "accountancy:Accounting Ratios",
+          "title": "Accounting Ratios",
+          "unitTitle": "Analysis of Financial Statements"
+        },
+        {
+          "id": "accountancy:Cash Flow Statement",
+          "title": "Cash Flow Statement",
+          "unitTitle": "Analysis of Financial Statements"
+        },
+        {
+          "id": "accountancy:Computerized Accounting System",
+          "title": "Computerized Accounting System",
+          "unitTitle": "Computerized Accounting System"
+        }
+      ],
+      "basis": "CUET UG 2026; 2027 provisional"
+    },
+    {
+      "subject": "business_studies",
+      "title": "Business Studies",
+      "chapters": [
+        {
+          "id": "business_studies:Nature & Significance of Management",
+          "title": "Nature & Significance of Management",
+          "unitTitle": "Nature and Significance of Management"
+        },
+        {
+          "id": "business_studies:Principles of Management",
+          "title": "Principles of Management",
+          "unitTitle": "Principles of Management"
+        },
+        {
+          "id": "business_studies:Business Environment",
+          "title": "Business Environment",
+          "unitTitle": "Business Environment"
+        },
+        {
+          "id": "business_studies:Planning",
+          "title": "Planning",
+          "unitTitle": "Planning"
+        },
+        {
+          "id": "business_studies:Organising",
+          "title": "Organising",
+          "unitTitle": "Organising"
+        },
+        {
+          "id": "business_studies:Staffing",
+          "title": "Staffing",
+          "unitTitle": "Staffing"
+        },
+        {
+          "id": "business_studies:Directing",
+          "title": "Directing",
+          "unitTitle": "Directing"
+        },
+        {
+          "id": "business_studies:Controlling",
+          "title": "Controlling",
+          "unitTitle": "Controlling"
+        },
+        {
+          "id": "business_studies:Financial Management",
+          "title": "Financial Management",
+          "unitTitle": "Business Finance"
+        },
+        {
+          "id": "business_studies:Financial Markets",
+          "title": "Financial Markets",
+          "unitTitle": "Financial Markets"
+        },
+        {
+          "id": "business_studies:Marketing Management",
+          "title": "Marketing Management",
+          "unitTitle": "Marketing"
+        },
+        {
+          "id": "business_studies:Consumer Protection",
+          "title": "Consumer Protection",
+          "unitTitle": "Consumer Protection"
+        },
+        {
+          "id": "business_studies:Entrepreneurship Development",
+          "title": "Entrepreneurship Development",
+          "unitTitle": "Existing Business Studies Coverage"
+        }
+      ],
+      "basis": "CUET UG 2026; 2027 provisional"
+    },
+    {
+      "subject": "economics",
+      "title": "Economics / Business Economics",
+      "chapters": [
+        {
+          "id": "economics:Introduction & Theory of Consumer Behaviour",
+          "title": "Introduction & Theory of Consumer Behaviour",
+          "unitTitle": "Introductory Microeconomics"
+        },
+        {
+          "id": "economics:Production & Costs",
+          "title": "Production & Costs",
+          "unitTitle": "Introductory Microeconomics"
+        },
+        {
+          "id": "economics:Theory of Firms under Perfect Competition",
+          "title": "Theory of Firms under Perfect Competition",
+          "unitTitle": "Introductory Microeconomics"
+        },
+        {
+          "id": "economics:Market Equilibrium & Simple Applications",
+          "title": "Market Equilibrium & Simple Applications",
+          "unitTitle": "Introductory Microeconomics"
+        },
+        {
+          "id": "economics:National Income & Related Aggregates",
+          "title": "National Income & Related Aggregates",
+          "unitTitle": "Introductory Macroeconomics"
+        },
+        {
+          "id": "economics:Money & Banking",
+          "title": "Money & Banking",
+          "unitTitle": "Introductory Macroeconomics"
+        },
+        {
+          "id": "economics:Income Determination",
+          "title": "Income Determination",
+          "unitTitle": "Introductory Macroeconomics"
+        },
+        {
+          "id": "economics:Government Budget & the Economy",
+          "title": "Government Budget & the Economy",
+          "unitTitle": "Introductory Macroeconomics"
+        },
+        {
+          "id": "economics:Balance of Payments",
+          "title": "Balance of Payments",
+          "unitTitle": "Introductory Macroeconomics"
+        },
+        {
+          "id": "economics:Indian Economy on the Eve of Independence",
+          "title": "Indian Economy on the Eve of Independence",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Indian Economic Development 1950–1990",
+          "title": "Indian Economic Development 1950–1990",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Economic Reforms Since 1991",
+          "title": "Economic Reforms Since 1991",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Human Capital Formation",
+          "title": "Human Capital Formation",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Rural Development",
+          "title": "Rural Development",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Employment",
+          "title": "Employment",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Infrastructure",
+          "title": "Infrastructure",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Environment & Sustainable Development",
+          "title": "Environment & Sustainable Development",
+          "unitTitle": "Indian Economic Development"
+        },
+        {
+          "id": "economics:Development Experiences of India",
+          "title": "Development Experiences of India",
+          "unitTitle": "Indian Economic Development"
+        }
+      ],
+      "basis": "CUET UG 2026; 2027 provisional"
+    }
+  ],
+  "blueprints": [
+    {
+      "subject": "accountancy",
+      "id": "sacrificing_gaining",
+      "title": "Sacrificing and gaining ratios",
+      "responseType": "numeric_step",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "accountancy",
+      "id": "revaluation",
+      "title": "Revaluation treatment",
+      "responseType": "numeric_step",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "economics",
+      "id": "national_income",
+      "title": "National income inclusions and exclusions",
+      "responseType": "choice",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "economics",
+      "id": "nominal_real",
+      "title": "Nominal and real values",
+      "responseType": "numeric_step",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "business_studies",
+      "id": "delegation_decentralisation",
+      "title": "Delegation and decentralisation",
+      "responseType": "choice",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "business_studies",
+      "id": "planning_controlling",
+      "title": "Planning and controlling",
+      "responseType": "choice",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "english",
+      "id": "explicit_inference",
+      "title": "Explicit statements and inference",
+      "responseType": "evidence_span",
+      "state": "blocked_sources"
+    },
+    {
+      "subject": "english",
+      "id": "main_idea",
+      "title": "Main idea and supporting detail",
+      "responseType": "evidence_span",
+      "state": "blocked_sources"
+    }
+  ]
+}

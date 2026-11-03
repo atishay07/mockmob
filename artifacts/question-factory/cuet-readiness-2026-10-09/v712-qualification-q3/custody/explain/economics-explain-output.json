@@ -1,0 +1,202 @@
+{
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Velocity is number of times a unit of money changes hands, inverse of money balance/transactions",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "600/150 = 5",
+     "label": "unsupported",
+     "why": "600/150 = 4; correct key is C (4)"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eco-b2",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Part of induced consumption becomes demand for foreign goods",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Induced effect on domestic income smaller; imports an additional leakage reducing multiplier",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Therefore not larger or unchanged",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Nothing links size of spending to direction",
+     "label": "entailed",
+     "why": "absent from stem/excerpt"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eco-b3",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Max benefit from alternatives is bank-1 interest; opportunity cost is forgone interest",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "10% of 2,00,000 = 20,000",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Bank-2 gives 10,000, not best alternative",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Safe gives zero",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Alternatives either/or so not added to 30,000",
+     "label": "entailed",
+     "why": "stem: only one way"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eco-b4",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Multiplier = 1/(1-mpc)",
+     "label": "unsupported",
+     "why": "formula not printed in excerpts or stem"
+    },
+    {
+     "claim": "1/0.2=5, 5x100=500",
+     "label": "entailed",
+     "why": "arithmetic given the formula"
+    },
+    {
+     "claim": "100 ignores induced rounds; 400 induced part; 80 = mpc x 100",
+     "label": "entailed",
+     "why": "arithmetic"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eco-b5",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Extra unit sold at market price so MR = price; MR=AR=p",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Firm need not lower price",
+     "label": "entailed",
+     "why": "price-taking"
+    },
+    {
+     "claim": "Extra quintal adds Rs 40 so not zero or 40 x total output",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eco-b6",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "AFC = fixed cost/output = 20, AVC = variable cost/output = 30",
+     "label": "stated",
+     "why": "excerpt divides cost columns by output; arithmetic exact"
+    },
+    {
+     "claim": "SAC = AVC+AFC = 50",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "30 only AVC, 20 only AFC, 200 total of 80+120",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eco-b7",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Farm needs two workers and farmer yet employs five plus family: disguised unemployment",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Not open since everyone works",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Not seasonal since work throughout year",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Full employment contradicted by excerpt labelling this disguised unemployment",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eco-b8",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Rise in price of complementary good shifts demand curve rightward",
+     "label": "unsupported",
+     "why": "F29 says leftward; key should be B"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eco-b9",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Output 2.5x vs inputs 2x means larger proportion, more than doubled hence IRS",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "CRS needs exactly doubled, DRS less than doubled",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  }
+ ]
+}

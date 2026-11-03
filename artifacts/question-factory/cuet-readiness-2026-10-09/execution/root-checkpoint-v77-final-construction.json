@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-09T07:04:53.830Z",
+  "scope": "Authorized final V77 attempt, construction/custody before paid evaluation",
+  "native_v77_requests": 0,
+  "qualified": false,
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.36459,
+    "unresolved": 37,
+    "requests": 13925
+  },
+  "root_recovery_tests": {
+    "passed": 4,
+    "failed": 0
+  },
+  "supplemental_recovery_freeze": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/receipt-recovery-freeze.json",
+  "protected_hash_bindings": {
+    "checks": 228,
+    "distinct_paths": 61,
+    "mismatches": []
+  },
+  "original_frozen_recover_cli": "Undefined completedCache; do not invoke. Separately frozen receipt-only utility supplies verified recovery.",
+  "construction_versions_preserved": [
+    "v1",
+    "v2b"
+  ],
+  "pending": "v3 coherent column-aware exact source excerpts, neutral key-free learning objectives and restored full English stimuli; independent final answers/source+label audit+freshness, then fixed registration/auth/preflight/execution.",
+  "study_stop_cap_usd": 4,
+  "lifetime_cap_usd": 50,
+  "pilot_executed": false,
+  "production_writes": 0
+}

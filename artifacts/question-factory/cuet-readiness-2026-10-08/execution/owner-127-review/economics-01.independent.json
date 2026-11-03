@@ -1,0 +1,265 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-01",
+  "batch_offset": 0,
+  "batch_total": 53,
+  "case_count": 10,
+  "blind_packet_sha256": "70948b40509255dbb1de71bdaa27ee53ec50b507d61029d363ba4793134c8d72",
+  "created_at_utc": "2026-10-08T14:10:52+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independently solve from blind stems/options and the registered source excerpts bundled in this blind packet. No answer key, comparison, original explanation, or reassessment result consulted.",
+  "cases": [
+    {
+      "id": "f5c7d0572d7d7222effd5b40f5f8a117",
+      "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Indian economic system and common goals of Five Year Plans",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Pair A with period IV, B with industrial-base achievement II, C with food-grain achievement III, D with crisis prompting reforms I.",
+      "source_evidence": {
+        "id": "ncert-keec103",
+        "locator": "p2-c0",
+        "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "3dce0344d7ad78f4346cd451c509983e",
+      "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Theory of Firms under Perfect Competition",
+        "topic": "Unit III: The Theory of the firms under perfect competition",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "At each price read every firm quantity (B), horizontally sum (A), repeat over other prices (C), then plot market totals against prices (D).",
+      "source_evidence": {
+        "id": "ncert-leec204",
+        "locator": "p11-c0",
+        "support_hash": "310b415b312a7150ec22d60d840ca31e266615a4ab52c93348e0fa7dafd72962",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The market supply at price p is the summation of the supplies of individual firms at that price.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "44337f81bb4f1b4b7ade81e162eb760a",
+      "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Indian economic system and common goals of Five Year Plans",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Both statements are explicitly compatible in the source: industrial capacity and food-grain self-sufficiency coexist with continuing agricultural livelihood dependence.",
+      "source_evidence": {
+        "id": "ncert-keec103",
+        "locator": "p2-c0",
+        "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "b9214d6f466afd7c117d4880e872a3a2",
+      "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Classification of receipts - revenue receipts and capital receipts;",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Capital receipts are fresh borrowing plus proceeds from asset sales: ₹1,20,000 + ₹35,000 = ₹1,55,000. The ₹2,40,000 revenue receipts are excluded.",
+      "source_evidence": {
+        "id": "ncert-leec105",
+        "locator": "pdf-page-4",
+        "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "d03862b65899f0dcdae662824a18069e",
+      "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "topic": "Balance of payments account - meaning and components;",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "A is false because the stated paradox says total savings do not increase; B is allowed (unchanged); C is too strong (decline is not necessary); D repeats the illustration.",
+      "source_evidence": {
+        "id": "ncert-leec104",
+        "locator": "pdf-page-11",
+        "support_hash": "bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "the total value of savings in the economy will not increase – it will either decline or remain unchanged.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "9e62010f5c2d2f0291f8874bd0f108bc",
+      "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: Geography has made us neighbours. History has made us friends. Economics has made us partners, and necessity has made us allies. Those whom God has so joined together, let no man p. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "The passage directly connects common regional economic activities and a shared environment to overall human development; the other options add unsupported political/policy assumptions.",
+      "source_evidence": {
+        "id": "ncert-keec108",
+        "locator": "p4-c0",
+        "support_hash": "cbad813aec21d334a01b3a3856d73ca8dc8fe7c30b4d11d6e443093ac826be79",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "all major common economic activities in the region impinge on overall human development in a shared environment.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "a086a294fae62986ef3cc7451ac08f81",
+      "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: between the growth of GDP and rural areas and is dependent on employment. This means that in the agriculture as their main livelihood. Indian economy, without generating Developmen. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "GDP index changes are 10% in both periods. Employment changes are 5% (4/80) and 0%; the second interval is increased output without employment growth, matching the supplied definition.",
+      "source_evidence": {
+        "id": "ncert-keec106",
+        "locator": "p10-c0",
+        "support_hash": "f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "without generating employment, we have been able to produce more goods and services. Scholars refer to this phenomenon as jobless growth.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "b26c48b73d3af972154a476ba7d8f802",
+      "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Rural Development",
+        "topic": "Rural Development: focus on this supplied section: appropriate agriculture policy to sector might continue to remain promote organic farming. It has been backward. There is a greater need observed that the yields from organic today. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "A→III, B→IV, C→II, D→I; this is the only mapping that pairs each issue with the matching stated organic-farming constraint.",
+      "source_evidence": {
+        "id": "ncert-keec105",
+        "locator": "p14-c0",
+        "support_hash": "5479e9e45e466bf7db4a5fd515b8b639d37acc6e7783fe4d6117dbedc25d40cb",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "yields from organic farming are less than modern agricultural farming in the initial years.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "3c8d31764c62441ee2a27c97059c5b08",
+      "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: Box 4.2: India as a Knowledge Economy The Indian software industry has been showing an impressive record over the past two decades. Entrepreneurs, bureaucrats and politicians are n. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "direct_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "The governing statement says IT value depends greatly on the existing level of economic development, so compare the two areas relative to their different baselines; the question explicitly says the rural human-development issue is unanswered.",
+      "source_evidence": {
+        "id": "ncert-keec104",
+        "locator": "p10-c0",
+        "support_hash": "2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The value of IT depends greatly on the existing level of economic development.",
+        "evidence_status": "excerpt_directly_supports_answer",
+        "note": null
+      }
+    },
+    {
+      "id": "386dca46542a02901d2837324bf0b69e",
+      "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "topic": "National Income & Related Aggregates: focus on this supplied section: 24 2424 2424Introductory Macroeconomics 4 In this example, we have left out factor payments in the form of rent and interest. But this will not make any difference to the basic res. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "Net production taxes = 70,000−10,000=60,000 (A); basic-price GVA = 800,000+60,000=860,000 (B); net product taxes = 50,000−20,000=30,000 (C); market-price GDP = 860,000+30,000=890,000, so D is false; only A, B, C.",
+      "source_evidence": {
+        "id": "ncert-leec102",
+        "locator": "pdf-page-16",
+        "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "GDP by income method = sum total of factor incomes, which is equal to total wages received",
+        "evidence_status": "source_gap_for_tax_conversion_identity",
+        "note": "The supplied tax-conversion source excerpt is not relevant to the GVA-price identities; key calculation is independently arithmetical but not established by the packet excerpt."
+      }
+    }
+  ]
+}

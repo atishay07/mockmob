@@ -1,0 +1,96 @@
+Browser tab: 1, Title: "CUET 2027: Exam Pattern, Expected Dates, Syllabus & Preparation | MockMob", URL: "http://localhost:3010/cuet-2027".
+1 AXWebArea CUET 2027: Exam Pattern, Expected Dates, Syllabus & Preparation | MockMob, URL: localhost:3010/cuet-2027
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 container Breadcrumb
+				8 link Description: Home, Value: localhost:3010/
+				9 text CUET 2027 Guide
+			10 heading CUET 2027: Pattern, Expected Dates, and a Plan That Works, Value: 1
+				11 text CUET 2027: Pattern, Expected Dates, and a Plan That Works
+			12 text A planning guide for CUET UG 2027. NTA has not announced the 2027 bulletin, so dates, paper rules, and marking details remain provisional until the official notice is published.
+			13 heading CUET 2027 expected timeline, Value: 2
+				14 text CUET 2027 expected timeline
+			15 text NTA has not released the CUET UG 2027 bulletin yet. Based on the 2026 cycle, registration is expected around February to March 2027, the exam in May 2027, and results by late June or early July, followed by university counselling such as DU CSAS.
+			16 text What that means practically: the syllabus year starts now. Students who begin timed practice in Class 12 autumn walk into May with two full revision cycles; students who start after the bulletin get one at best.
+			17 heading Exam pattern: use the latest cycle as a reference, Value: 2
+				18 text Exam pattern: use the latest cycle as a reference
+			19 text The 2027 exam format has not been confirmed. Use the latest completed cycle to understand the kind of preparation to expect, then check the NTA bulletin for the final papers, duration, and question rules before you plan around them.
+			20 text Subject choices and marking rules can affect your preparation. Confirm both in the official 2027 bulletin when it is published; do not treat historical rules as a guarantee of the next cycle.
+			21 heading Choosing your five subjects, Value: 2
+				22 text Choosing your five subjects
+			23 text Work backwards from the course and check each university’s current eligibility rules before choosing papers. Programme requirements can differ, and the 2027 rules may change when institutions publish their bulletins.
+			24 text MockMob Admission Compass checks sourced DU programme eligibility and historical cutoffs. It does not predict admission, and its historical data does not replace the official 2027 requirements.
+			25 link Description: Plan your CUET subject combination, Value: localhost:3010/cuet-subject-combination
+			26 link Description: How Admission Compass works, Value: localhost:3010/features
+			27 heading A month-by-month CUET 2027 plan, Value: 2
+				28 text A month-by-month CUET 2027 plan
+			29 text Now to December: finish the NCERT baseline alongside boards prep, and run one short timed drill per subject each week to build format familiarity early.
+			30 text January to February: add more timed practice as your syllabus coverage grows. Review incorrect and skipped answers, then choose a chapter or question pattern to revisit.
+			31 text As the exam approaches, use timed practice that matches the official format once NTA publishes the 2027 rules. Keep a separate block for targeted chapter review.
+			32 link Description: Start free CUET 2027 practice, Value: localhost:3010/signup
+			33 link Description: Free CUET mock tests, Value: localhost:3010/cuet-mock-test-free
+			34 link Description: CUET previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			35 heading Subject-wise practice lanes, Value: 2
+				36 text Subject-wise practice lanes
+			37 text Chapter-tagged question banks with timed drills and weakness analytics, per subject:
+			38 link Description: CUET English, Value: localhost:3010/cuet/english
+			39 link Description: CUET Accountancy, Value: localhost:3010/cuet/accountancy
+			40 link Description: CUET Economics, Value: localhost:3010/cuet/economics
+			41 link Description: CUET Business Studies, Value: localhost:3010/cuet/business-studies
+			42 link Description: CUET History, Value: localhost:3010/cuet/history
+			43 link Description: CUET Political Science, Value: localhost:3010/cuet/political-science
+			44 heading Frequently asked questions, Value: 2
+				45 text Frequently asked questions
+			46 button (collapsed) When will CUET 2027 be held?, Secondary Actions: Expand
+				47 text When will CUET 2027 be held?
+			48 button (collapsed) How many subjects can I take in CUET 2027?, Secondary Actions: Expand
+				49 text How many subjects can I take in CUET 2027?
+			50 button (collapsed) Is CUET 2027 online or offline?, Secondary Actions: Expand
+				51 text Is CUET 2027 online or offline?
+			52 button (collapsed) What is the CUET marking scheme?, Secondary Actions: Expand
+				53 text What is the CUET marking scheme?
+			54 button (collapsed) When should I start preparing for CUET 2027?, Secondary Actions: Expand
+				55 text When should I start preparing for CUET 2027?
+			56 heading Reading about it is not practice., Value: 2
+				57 text Reading about it is not practice.
+			58 text Create a free account and sit a timed mock on this syllabus tonight. No card, and the first drill on the home page needs no signup at all.
+			59 link Description: Start a free mock, Value: localhost:3010/signup
+			60 link Description: See what Pro unlocks, Value: localhost:3010/pricing
+		61 link Description: MockMob ., Value: localhost:3010/
+		62 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		63 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		64 heading PRACTICE, Value: 3
+			65 text PRACTICE
+		66 content list
+			67 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			68 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			69 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			70 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			71 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			72 link Description: Features, Value: localhost:3010/features
+			73 link Description: Pricing, Value: localhost:3010/pricing
+		74 heading SUBJECTS, Value: 3
+			75 text SUBJECTS
+		76 content list
+			77 link Description: English, Value: localhost:3010/cuet/english
+			78 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			79 link Description: Economics, Value: localhost:3010/cuet/economics
+			80 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			81 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		82 heading COMPANY, Value: 3
+			83 text COMPANY
+		84 content list
+			85 link Description: About, Value: localhost:3010/about
+			86 link Description: Contact, Value: localhost:3010/contact
+			87 link Description: Privacy, Value: localhost:3010/privacy
+			88 link Description: Terms, Value: localhost:3010/terms
+			89 link Description: Refunds, Value: localhost:3010/refunds
+		90 container
+			91 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		92 text Practise this syllabus tonight.
+		93 link Description: Start free, Value: localhost:3010/signup
+
+The focused UI element is 1 AXWebArea CUET 2027: Exam Pattern, Expected Dates, Syllabus & Preparation | MockMob, URL: localhost:3010/cuet-2027

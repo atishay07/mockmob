@@ -1,0 +1,32 @@
+{
+  "authorization_type": "explicit_user",
+  "authorized": true,
+  "authorization_quote": "yes continue to make improvements in V7.7 but this time i was you to treat this as your last chance to perfecting this to best of your capabilities",
+  "authorization_scope": "one final V7.7 qualification only; $4 stop cap within $50 lifetime cap; no publication",
+  "freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "qualification_budget_prefix": "v77-qualification-2026-10-09-",
+  "cap_usd": 4,
+  "study_ids": [
+    "v77-qualification-2026-10-09-final-fresh",
+    "v77-qualification-2026-10-09-final-regression"
+  ],
+  "study_payloads": {
+    "fresh": {
+      "payload_hash": "902a0ffe05ec17d243e1c5762820680fe3e3d169cb2e2a808992b5fdce55b035",
+      "frozen_sha256": "5d37ea7710d4dce9ddebe857f4ce8e0e767c5cdad899bd0063eabcd908deed57",
+      "custody_sha256": "179d239f2bf637e2921e119134efdbddd482b3a4777e20c329afbaa0af826a83"
+    },
+    "regression": {
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "frozen_sha256": "a3c3e1bec723e1fd1ceb7732f6b1515b4c920cddd53ae004c6fe28fc6e76e525",
+      "custody_sha256": "77465d0bff14d3f9f4baa88b9eb95399bd9c88bfeeb8702d8193112dfaae6de9"
+    }
+  },
+  "transport_freeze_hash": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "execution_plan_hashes": {
+    "fresh": "ec2701c851e0dbae275089fb8d79c28c5c7a9afe43f7b1bb5f4bdb4c9aa3721f",
+    "regression": "31bcc737a6d5d97477ee0e6ab135b5ab9d4b14a8e3ea4d1f047eab404ac113d7"
+  },
+  "issued_at": "2026-10-09T07:43:11.542Z"
+}

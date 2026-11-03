@@ -1,0 +1,21 @@
+{"at":"2026-10-09T18:52:26.979Z","wave":1,"pending":4}
+{"at":"2026-10-09T18:52:35.083Z","candidate":"c931bf54c71aa673bd40ca77df0c245c","subject":"economics","state":"quarantined","reasons":["provider_http_429:Flex processing is temporarily unavailable. Please try again later or use standard processing."]}
+{"at":"2026-10-09T18:52:35.372Z","candidate":"87f3c625ccd021285e7d9b14526f74ca","subject":"english","state":"quarantined","reasons":["provider_http_429:Flex processing is temporarily unavailable. Please try again later or use standard processing."]}
+{"at":"2026-10-09T18:52:35.403Z","candidate":"be5edf533d6f3a0716a229563a6471f9","subject":"accountancy","state":"quarantined","reasons":["provider_http_429:Flex processing is temporarily unavailable. Please try again later or use standard processing."]}
+{"at":"2026-10-09T18:54:50.180Z","run_status":"stopped","status":"stopped","terminal":9,"approved":0,"untouched":26}
+{
+  "campaign": "cuet-v713-measurement-continuation-40",
+  "denominator": 40,
+  "states": {
+    "quarantined": 9,
+    "repair_started": 1,
+    "generated": 4,
+    "queued": 26
+  },
+  "continuation_settled_usd": 0.001421,
+  "continuation_held_usd": 0.072768,
+  "total_parent_and_continuation_usd": 0.13981,
+  "receipt_complete": false,
+  "publication": "never",
+  "fresh_qualification": false
+}

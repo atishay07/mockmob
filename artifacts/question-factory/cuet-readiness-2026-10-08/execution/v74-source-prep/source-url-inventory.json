@@ -1,0 +1,66 @@
+{
+  "schema": "v74-source-url-inventory-v1",
+  "status": "source_only_pending_v74_verifier_freeze",
+  "generated_date": "2026-10-08",
+  "content_acquired": false,
+  "question_bodies_read_for_prospective_sources": false,
+  "answer_keys_read_for_prospective_sources": false,
+  "official_cuet_priority": [
+    {
+      "family": "CUET-UG-2023-final-key",
+      "subjects": ["english", "accountancy", "business_studies", "economics"],
+      "final_key_url": "https://nta.ac.in/Download/ExamPaper/Paper_20240219165704.pdf",
+      "official_index_url": "https://www.nta.ac.in/NoticeBoardArchive",
+      "paper_or_recorded_response_access": "The NTA archive lists CUET (UG)-2023 question-paper/recorded-response and provisional-key notices. The exact official question-paper artifact and its match to the final-key question IDs are not established in this source-only pass; verify only after verifier freeze.",
+      "eligibility": "candidate_source_if_exact_paper_variant_and_final_key_match_can_be_authenticated",
+      "measurement_role": "preferred CUET positive source; preserve separate exam-date/shift/booklet families"
+    },
+    {
+      "family": "CUET-UG-official-candidate-challenge-access",
+      "question_paper_and_recorded_response_portal": "https://cuet.nta.nic.in/",
+      "official_archive": "https://www.nta.ac.in/NoticeBoardArchive",
+      "eligibility": "access-route-only; candidate-specific access, retention, reuse rights, and exact final-key matching remain unverified",
+      "measurement_role": "locate source documents after freeze; do not treat a notice or portal listing as a question source"
+    }
+  ],
+  "known_prior_sources_excluded": [
+    {
+      "family": "CUET-UG-2024-four-booklet-A-families",
+      "official_key_url": "https://www.nta.ac.in/Download/Notice/Notice_20240725154536.pdf",
+      "question_sources": [
+        "https://infinitylearn.com/surge/wp-content/uploads/securepdfs/2025/05/CUET-English-Question-Paper-2024.pdf",
+        "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+        "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+        "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf"
+      ],
+      "status": "excluded; exact question-number ranges are in exclusion-manifest.json"
+    },
+    {
+      "family": "CBSE-Class-XII-2024-25-SQP-and-marking-scheme",
+      "official_index_url": "https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html",
+      "status": "excluded non-CUET source-keyed family; question numbers 1-8 in all four subjects were included in the frozen 32-item comparison"
+    },
+    {
+      "family": "CBSE-Class-XII-2025-26-and-2026-27-SQP-families",
+      "official_index_url": "https://cbseacademic.nic.in/SQP_CLASSXII_2026-27.html",
+      "status": "excluded; item IDs from both source cohorts occur in the frozen 64-item independent-key source cohort"
+    }
+  ],
+  "fallback": {
+    "status": "no_verified_unseen_non_cuet_family_selected",
+    "official_index_url_for_metadata_only_screen": "https://cbseacademic.nic.in/sqp_archive.html",
+    "rule": "If exact CUET paper and final-key pairs cannot be authenticated after freeze, screen a not-yet-inspected CBSE Class XII SQP/marking-scheme year using this index. Record it as source-keyed non-CUET and keep it out of CUET-PYQ claims. Known 2023-24, 2024-25, 2025-26, and 2026-27 families listed in the exclusion manifest are ineligible."
+  },
+  "planning_limits": {
+    "target_total_fixtures": 24,
+    "target_positive_roots": 16,
+    "positive_roots_per_subject": 4,
+    "target_linked_defect_controls": 8,
+    "defect_controls_per_subject": 2,
+    "english_adapted_text_max_words": 300,
+    "english_adapted_answer_must_be_reestablished": true,
+    "minimum_distinct_exam_date_shift_families_per_subject": 2,
+    "distinct_questions_only": true,
+    "paid_calls": 0
+  }
+}

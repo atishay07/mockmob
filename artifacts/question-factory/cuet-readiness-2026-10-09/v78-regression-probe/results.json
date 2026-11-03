@@ -1,0 +1,30 @@
+{
+  "kind": "v78_native_regression_probe_not_qualification",
+  "verifier": "cuet-fit-validator-v7.8-local-draft",
+  "contract": "e4be26f3e6dcb651edcf736049f872a736abaed1ed4db5b6299d6aaccb613d58",
+  "prefix": "v78-regression-2026-10-09-",
+  "created_at": "2026-10-09T10:14:23.991Z",
+  "cases": {
+    "v75f-825e60a00f": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "oracle_key": "multiple_correct_B_D",
+      "state": "error",
+      "reasons": [
+        "fetch failed"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {},
+      "cost_usd": {
+        "settled": 0.002336,
+        "held": 0.015,
+        "requests": 2
+      },
+      "at": "2026-10-09T10:23:47.508Z"
+    }
+  }
+}

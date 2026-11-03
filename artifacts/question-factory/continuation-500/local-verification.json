@@ -1,0 +1,207 @@
+{
+  "at": "2026-10-07T14:21:22.812Z",
+  "scope": "Dated local checkout test evidence. These checks do not establish captured production payments or deployed student-AI provider behavior.",
+  "serving_guard_sha256": "87e49a4860d40d978cc45d35f77e1bde10cfaaa7c385af1eaea3bea318f2d2ff",
+  "checks": [
+    {
+      "name": "factory",
+      "command": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs data/tests/evidence_snapshot.test.mjs",
+      "tests": 335,
+      "passed": 335,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "artifacts/question-factory/continuation-500/factory-bounded-storage.log",
+      "log_sha256": "641d13d79c02fcb17c6e5b898701041d4ca31fa7dd437a487999d935c06db129",
+      "at": "2026-10-07T14:21:22.812Z",
+      "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+    },
+    {
+      "name": "recovery",
+      "command": "npm.cmd run test:recovery",
+      "tests": 39,
+      "passed": 39,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "artifacts/question-factory/continuation-500/recovery-bounded-storage.log",
+      "log_sha256": "f7d70dd11d56718410e1f215d743b231f9272ca68fd78c6ad0f9b6856d67495c",
+      "at": "2026-10-07T14:21:22.812Z",
+      "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+    },
+    {
+      "name": "questions-payments-wallet-tickets",
+      "command": "node --test data/tests/answer_integrity.test.mjs data/tests/mock_question_selector.test.mjs data/tests/nta_question_selector.test.mjs data/tests/payment_entitlements.test.mjs data/tests/prepos_wallet.test.mjs data/tests/practice_ticket.test.mjs",
+      "tests": 65,
+      "passed": 65,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "artifacts/question-factory/continuation-500/question-payment-bounded-storage.log",
+      "log_sha256": "ddbb3153306e6c83027e123a83c1b4bb2e9a0f9696fcade1e0b4c5060b2526ad",
+      "at": "2026-10-07T14:21:22.812Z",
+      "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+    },
+    {
+      "name": "application-learning-budgets",
+      "command": "npm.cmd run test:learning",
+      "tests": 84,
+      "passed": 84,
+      "failed": 0,
+      "cancelled": 0,
+      "log": "artifacts/question-factory/continuation-500/learning-budget-application.log",
+      "log_sha256": "5d274cd0cfc76f16938151bb1308fced25c09d7f2f1ba4af42b8393735393e92",
+      "at": "2026-10-07T12:32:22.561Z"
+    }
+  ],
+  "paid_provider_calls": 0,
+  "production_writes": 0,
+  "history": [
+    {
+      "at": "2026-10-07T12:32:22.561Z",
+      "checks": [
+        {
+          "name": "factory",
+          "command": "npm.cmd run test:factory",
+          "tests": 324,
+          "passed": 324,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/factory-currency.log",
+          "log_sha256": "6d1a48a9e3c4ea6e0ea19fc7de4f75205aae120e1f7fc68b0f8f14622c30d0fc"
+        },
+        {
+          "name": "recovery",
+          "command": "npm.cmd run test:recovery",
+          "tests": 39,
+          "passed": 39,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/recovery-currency.log",
+          "log_sha256": "41614d77699b8a613872da7f76c4dbc8f1eb9ef98c12ddf84407b780af4ed6b7"
+        },
+        {
+          "name": "questions-payments-wallet-tickets",
+          "command": "node --test data/tests/answer_integrity.test.mjs data/tests/mock_question_selector.test.mjs data/tests/nta_question_selector.test.mjs data/tests/payment_entitlements.test.mjs data/tests/prepos_wallet.test.mjs data/tests/practice_ticket.test.mjs",
+          "tests": 65,
+          "passed": 65,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/question-payment-currency.log",
+          "log_sha256": "78646ee14ae14448ab275f3e97e2eb98819f873a2fee594839a79f835f8970a2"
+        },
+        {
+          "name": "application-learning-budgets",
+          "command": "npm.cmd run test:learning",
+          "tests": 84,
+          "passed": 84,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/learning-budget-application.log",
+          "log_sha256": "5d274cd0cfc76f16938151bb1308fced25c09d7f2f1ba4af42b8393735393e92"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-07T12:54:44.921Z",
+      "checks": [
+        {
+          "name": "factory",
+          "command": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs data/tests/evidence_snapshot.test.mjs",
+          "tests": 331,
+          "passed": 331,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/factory-overview-snapshot.log",
+          "log_sha256": "75ab26c2024727ff923646ac10c4a9abb146292c58024318e35f607b548e2d4d",
+          "at": "2026-10-07T13:30:24.400Z",
+          "scope": "Isolated release checkout; request-scoped snapshot input optimization with unchanged academic validation contract."
+        },
+        {
+          "name": "recovery",
+          "command": "npm.cmd run test:recovery",
+          "tests": 39,
+          "passed": 39,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/recovery-overview-snapshot.log",
+          "log_sha256": "611899133b1f002dfa60c0cd1a71ea22952444841342daf6109759eb0a490e98",
+          "at": "2026-10-07T13:30:24.400Z",
+          "scope": "Isolated release checkout; request-scoped snapshot input optimization with unchanged academic validation contract."
+        },
+        {
+          "name": "questions-payments-wallet-tickets",
+          "command": "node --test data/tests/answer_integrity.test.mjs data/tests/mock_question_selector.test.mjs data/tests/nta_question_selector.test.mjs data/tests/payment_entitlements.test.mjs data/tests/prepos_wallet.test.mjs data/tests/practice_ticket.test.mjs",
+          "tests": 65,
+          "passed": 65,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/question-payment-overview-snapshot.log",
+          "log_sha256": "04aeb97b67d1056e0e7617024eaa1d1e9f7966fbcf75c391c0dc9f16131e693e",
+          "at": "2026-10-07T13:30:24.400Z",
+          "scope": "Isolated release checkout; request-scoped snapshot input optimization with unchanged academic validation contract."
+        },
+        {
+          "name": "application-learning-budgets",
+          "command": "npm.cmd run test:learning",
+          "tests": 84,
+          "passed": 84,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/learning-budget-application.log",
+          "log_sha256": "5d274cd0cfc76f16938151bb1308fced25c09d7f2f1ba4af42b8393735393e92",
+          "at": "2026-10-07T12:32:22.561Z"
+        }
+      ]
+    },
+    {
+      "at": "2026-10-07T13:30:24.400Z",
+      "checks": [
+        {
+          "name": "factory",
+          "command": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs data/tests/evidence_snapshot.test.mjs",
+          "tests": 335,
+          "passed": 335,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/factory-bounded-storage.log",
+          "log_sha256": "641d13d79c02fcb17c6e5b898701041d4ca31fa7dd437a487999d935c06db129",
+          "at": "2026-10-07T14:21:22.812Z",
+          "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+        },
+        {
+          "name": "recovery",
+          "command": "npm.cmd run test:recovery",
+          "tests": 39,
+          "passed": 39,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/recovery-bounded-storage.log",
+          "log_sha256": "f7d70dd11d56718410e1f215d743b231f9272ca68fd78c6ad0f9b6856d67495c",
+          "at": "2026-10-07T14:21:22.812Z",
+          "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+        },
+        {
+          "name": "questions-payments-wallet-tickets",
+          "command": "node --test data/tests/answer_integrity.test.mjs data/tests/mock_question_selector.test.mjs data/tests/nta_question_selector.test.mjs data/tests/payment_entitlements.test.mjs data/tests/prepos_wallet.test.mjs data/tests/practice_ticket.test.mjs",
+          "tests": 65,
+          "passed": 65,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/question-payment-bounded-storage.log",
+          "log_sha256": "ddbb3153306e6c83027e123a83c1b4bb2e9a0f9696fcade1e0b4c5060b2526ad",
+          "at": "2026-10-07T14:21:22.812Z",
+          "scope": "Root checkout; bounded metadata upserts and adaptive read-only timeout pagination. Academic gates and provider identities retained."
+        },
+        {
+          "name": "application-learning-budgets",
+          "command": "npm.cmd run test:learning",
+          "tests": 84,
+          "passed": 84,
+          "failed": 0,
+          "cancelled": 0,
+          "log": "artifacts/question-factory/continuation-500/learning-budget-application.log",
+          "log_sha256": "5d274cd0cfc76f16938151bb1308fced25c09d7f2f1ba4af42b8393735393e92",
+          "at": "2026-10-07T12:32:22.561Z"
+        }
+      ]
+    }
+  ]
+}

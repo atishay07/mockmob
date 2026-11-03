@@ -1,0 +1,14 @@
+{
+  "pass": false,
+  "pooled_valid_survival": 0.7,
+  "per_subject_valid_survival": {
+    "accountancy": 1,
+    "business_studies": 0.6,
+    "economics": 0.6,
+    "english": 0.6
+  },
+  "accepted_defects": [],
+  "unfinished_defects": [],
+  "unfinished_valid": [],
+  "assessed_at": "2026-10-09T16:54:55.386Z"
+}

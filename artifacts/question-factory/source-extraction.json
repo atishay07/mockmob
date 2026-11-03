@@ -1,0 +1,36 @@
+[
+  {
+    "year": 2025,
+    "document_pages": 324,
+    "target_pages": 86,
+    "parsed_key_rows": 4366,
+    "single_answer_rows": 4311,
+    "excluded_rows": 55,
+    "subjects": {
+      "english": 1249,
+      "accountancy": 1119,
+      "business_studies": 1000,
+      "economics": 998
+    },
+    "extraction_sha256": "c214b1076fcfbfb5b0227bdbb90e04d62bd9212b1054207a8ffcf0053baf9043",
+    "state": "provisional_extraction_not_authenticated_anchors",
+    "reuse_permitted": false
+  },
+  {
+    "year": 2026,
+    "document_pages": 334,
+    "target_pages": 79,
+    "parsed_key_rows": 4033,
+    "single_answer_rows": 4013,
+    "excluded_rows": 20,
+    "subjects": {
+      "english": 1449,
+      "accountancy": 935,
+      "business_studies": 849,
+      "economics": 800
+    },
+    "extraction_sha256": "a1a1cab369e90de9fdd76e949cd62c680e3d2c4b89ba1e76dcb312c585af9090",
+    "state": "provisional_extraction_not_authenticated_anchors",
+    "reuse_permitted": false
+  }
+]

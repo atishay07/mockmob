@@ -1,0 +1,1913 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "key": "D",
+      "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "5bde762f1a36a3a7d894f0aa45f655e9",
+          "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5bde762f1a36a3a7d894f0aa45f655e9",
+              "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "9f25e69242e8407d9b53c84895668b40096dfd57081708288ced2f7b129ae633",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5bde762f1a36a3a7d894f0aa45f655e9",
+              "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+              "evidence_hash": "3197ef1b676a3886f1f30a1a6d3ca78fb8e975f7392d89d921d356788e40c17e"
+            },
+            "source_support": {
+              "candidate_id": "5bde762f1a36a3a7d894f0aa45f655e9",
+              "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "Direct private payment to the existing partners requires no entry in the firm's books: (A)-(I).",
+                "Premium received through the firm and initially credited to Premium for Goodwill follows the Bank/Premium entry and distribution to sacrificing partners: (B)-(II).",
+                "Crediting the new partner's capital first, then distributing to sacrificing partners, matches (C)-(III).",
+                "When the credited amounts are retained in the business, no additional entry is passed: (D)-(IV). Thus option D is correct.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Accounting treatment of goodwill when a new partner brings a cash premium, including private payment, alternative firm-book entries, and retention of credited amounts",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The premium in case A is paid directly and privately to the existing partners.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case B, the premium passes through the firm and is initially credited to Premium for Goodwill A/c.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case C, the premium passes through the firm and is initially credited to the new partner's capital account before distribution.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case D, the premium has been credited to existing partners' capital accounts in their sacrificing ratio and is retained in the business.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the private payment in A as a firm-book receipt and the credited firm receipt in B as requiring no entry.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat C's new-partner-capital credit as retention, and D's already distributed-to-capital amounts as still awaiting distribution.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat A's private payment as a firm-book receipt and C's stated capital-account credit as an off-books private payment.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the named admission-of-partner objective of accounting treatment for goodwill."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "Four-option objective matching task; the supplied accountancy exemplar set includes related statement-based goodwill questions."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Applies several direct goodwill-entry rules; slightly more matching work than the related statement-based exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The alternatives test whether candidates distinguish private payment, two firm-book routes, and retention."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q31"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing",
+                  "start": 0,
+                  "end": 646
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": " ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital",
+                  "start": 646,
+                  "end": 1292
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": " accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+                  "start": 1292,
+                  "end": 1538
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 2,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 151,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 233,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 233
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 7,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-8a1d40054567",
+                  "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-ae361e8a3770",
+                  "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "9ff5484e3f7c65718d8a95904c6e6a9ee8b7563be3b9d46bf01449253d1328b0"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "5bde762f1a36a3a7d894f0aa45f655e9",
+              "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "Direct private payment to the existing partners requires no entry in the firm's books: (A)-(I).",
+                "Premium received through the firm and initially credited to Premium for Goodwill follows the Bank/Premium entry and distribution to sacrificing partners: (B)-(II).",
+                "Crediting the new partner's capital first, then distributing to sacrificing partners, matches (C)-(III).",
+                "When the credited amounts are retained in the business, no additional entry is passed: (D)-(IV). Thus option D is correct.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Accounting treatment of goodwill when a new partner brings a cash premium, including private payment, alternative firm-book entries, and retention of credited amounts",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The premium in case A is paid directly and privately to the existing partners.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case B, the premium passes through the firm and is initially credited to Premium for Goodwill A/c.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case C, the premium passes through the firm and is initially credited to the new partner's capital account before distribution.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case D, the premium has been credited to existing partners' capital accounts in their sacrificing ratio and is retained in the business.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the private payment in A as a firm-book receipt and the credited firm receipt in B as requiring no entry.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat C's new-partner-capital credit as retention, and D's already distributed-to-capital amounts as still awaiting distribution.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat A's private payment as a firm-book receipt and C's stated capital-account credit as an off-books private payment.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the named admission-of-partner objective of accounting treatment for goodwill."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "Four-option objective matching task; the supplied accountancy exemplar set includes related statement-based goodwill questions."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Applies several direct goodwill-entry rules; slightly more matching work than the related statement-based exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The alternatives test whether candidates distinguish private payment, two firm-book routes, and retention."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q31"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing",
+                  "start": 0,
+                  "end": 646
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": " ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital",
+                  "start": 646,
+                  "end": 1292
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-8a1d40054567",
+                  "quote": " accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+                  "start": 1292,
+                  "end": 1538
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 2,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 151,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 233,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 233
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 7,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-8a1d40054567",
+                  "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-ae361e8a3770",
+                  "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "9911862198f11d23c72d2a3d01ca5751e8dea1b83233fdd4e8381e7fb207565f"
+            }
+          },
+          "failure_details": [
+            "Direct private payment to the existing partners requires no entry in the firm's books: (A)-(I).",
+            "Premium received through the firm and initially credited to Premium for Goodwill follows the Bank/Premium entry and distribution to sacrificing partners: (B)-(II).",
+            "Crediting the new partner's capital first, then distributing to sacrificing partners, matches (C)-(III).",
+            "When the credited amounts are retained in the business, no additional entry is passed: (D)-(IV). Thus option D is correct.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:29:03.213Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "5bde762f1a36a3a7d894f0aa45f655e9"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "5bde762f1a36a3a7d894f0aa45f655e9"
+        ],
+        "would_withhold_ids": [
+          "5bde762f1a36a3a7d894f0aa45f655e9"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+      "key": "A",
+      "explanation": "P’s sacrifice is 1/2 − 2/5 = 1/10, and Q’s is 1/3 − 1/4 = 1/12; their sacrificing ratio is therefore 6:5. R’s new share exceeds the old share, so R does not sacrifice a share. Dividing ₹1,32,000 in the ratio 6:5 gives P ₹72,000 and Q ₹60,000.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "f639cd2aa78712420d9f804401e05f20",
+          "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f639cd2aa78712420d9f804401e05f20",
+              "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f4bec8e3587f0de177ccac005050ce4c261f3ea4af1f219785f3b5689fa13329",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f639cd2aa78712420d9f804401e05f20",
+              "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+              "evidence_hash": "187d354c6b74948e4a2343f0f6fff2c352e0ae941404b2b513951cf9c2409d7e"
+            },
+            "source_support": {
+              "candidate_id": "f639cd2aa78712420d9f804401e05f20",
+              "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E2.1",
+                "E2.2"
+              ],
+              "reasons": [
+                "Sacrifice = old share − new share: P sacrifices 1/10, Q sacrifices 1/12, and R gains 1/30.",
+                "Only P and Q sacrifice, in the ratio 1/10 : 1/12 = 6 : 5. Their shares of ₹1,32,000 are ₹72,000 and ₹60,000; R receives nil."
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Sacrificing ratio and accounting treatment of goodwill on admission",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Old profit shares are P 1/2, Q 1/3 and R 1/6.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "New profit shares are P 2/5, Q 1/4, R 1/5 and S 3/20.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Sacrifice is calculated as old share minus new share.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E1.2"
+                  ]
+                },
+                {
+                  "condition": "The ₹1,32,000 premium is brought through the firm’s bank account.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The entire premium is distributed among the existing partners in their sacrificing ratio.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "R’s new share exceeds R’s old share by 1/30, so R is a gaining partner rather than a sacrificing partner.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Goodwill premium is allocated to the sacrificing partners in their sacrificing ratio; a gaining partner is not allocated a share of that premium.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E2.1",
+                    "E2.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "If P and Q were treated as equal sacrificers, the premium would be split equally, giving ₹66,000 each; their stated sacrifices are unequal.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If P and Q’s sacrifice ratio were reversed to 5:6, the split would be ₹60,000 and ₹72,000; the stated shares imply 6:5.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Allocating the premium in the old ratio 1/2:1/3:1/6 gives ₹66,000, ₹44,000 and ₹22,000, but the stem requires the sacrificing ratio.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Sacrificing ratio and goodwill treatment on admission are named syllabus objectives."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A clear four-option numerical MCQ, with a short case stem."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Two-step share calculation and allocation are within the range of the numerical and goodwill exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect equal division, reversed sacrifice ratio, and use of the old ratio."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q30",
+                  "cuet2024-accountancy-bookA-q31"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-aa617840faf0",
+                  "quote": "2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio. The sacrifice by a partner is equal to : Old Share of Profit – New Share of Profit Reprint 2026-27\r\nPAGE 6\r\nAdmission of a Partner 53 As stated earlier, the new partner is required to compensate the old partner’s for their loss of share in the super profits of the firm for which he brings in an additional amount as premium for goodwill. This amount is shared by the existing partners in the ratio in which they forgo their shares in favour of the new partner which is called sacrificing",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-aa617840faf0",
+                  "quote": " ratio. The ratio is normally clearly given as agreed among the partners which could be the old ratio, equal sacrifice, or a specified ratio. The difficulty arises where the ratio in which the new partner acquires his share from the old partners is not specified. Instead, the new profit sharing ratio is given. In such a situation, the sacrificing ratio is to be worked out by deducting each partner’s new share from his old share. Look at the illustrations 6 to 8 and see how sacrificing ratio is calculated in such a situation.",
+                  "start": 650,
+                  "end": 1180
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-a50bfa9f5679",
+                  "quote": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill). 2.5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the",
+                  "start": 0,
+                  "end": 647
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-a50bfa9f5679",
+                  "quote": " firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner",
+                  "start": 647,
+                  "end": 1294
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 82,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 125,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 125
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-aa617840faf0",
+                  "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-a50bfa9f5679",
+                  "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "27ad06ad5e4997821e930eee288dac98800f2eba7705fdef05bfe6f0bdebc97c"
+            }
+          },
+          "failure_details": [
+            "Sacrifice = old share − new share: P sacrifices 1/10, Q sacrifices 1/12, and R gains 1/30.",
+            "Only P and Q sacrifice, in the ratio 1/10 : 1/12 = 6 : 5. Their shares of ₹1,32,000 are ₹72,000 and ₹60,000; R receives nil."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:31:45.769Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "f639cd2aa78712420d9f804401e05f20"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "f639cd2aa78712420d9f804401e05f20"
+        ],
+        "would_withhold_ids": [
+          "f639cd2aa78712420d9f804401e05f20"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+      "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+      "key": "B",
+      "explanation": "Interest on partners’ capital is allowed only when it is expressly agreed among the partners. Since the deed contains no provision for it, neither partner is entitled to interest, regardless of their capital contributions or profit-sharing ratio.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+          "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+              "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "d396a26db32d5cdb725b5cceab44d5de628f52b2429847edb09cd1ffd39c2fe4",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+              "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+              "evidence_hash": "462b440a9cf408d9cb1c042abe9c51d1027f8761829ad29f2c5c9a09e8efa5d0"
+            },
+            "source_support": {
+              "candidate_id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+              "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+              "solved_key": "B",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The supplied NCERT excerpt states that interest on partners’ capital is not allowed unless expressly agreed among the partners.",
+                "B is the expected answer if the deed’s silence is intended to mean there was no express agreement at all. But the stem only rules out a provision in the deed; it does not rule out a separate express agreement, which could support one of the interest options.",
+                "Defect: missing_decisive_assumption: The stem does not state that there is no separate express agreement for interest. Deed silence alone does not rule one out under the supplied principle, so the interest options cannot be excluded.",
+                "Defect: missing_decisive_assumption: option A is correct if A separate express agreement outside the deed could allow interest only to A, consistent with the stated unequal contributions.",
+                "Defect: missing_decisive_assumption: option C is correct if A separate express agreement outside the deed could stipulate equal interest for both partners.",
+                "Defect: missing_decisive_assumption: option D is correct if A separate express agreement outside the deed could stipulate interest in proportion to the partners’ capital contributions.",
+                "Condition implied_decisive: There is no separate express agreement among the partners for interest on capital."
+              ],
+              "syllabus_chapter": "Profit & Loss Appropriation Account",
+              "syllabus_topic": "Interest on capital and the effect of the partnership agreement",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The partnership deed contains no provision for interest on capital.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "There is no separate express agreement among the partners for interest on capital.",
+                  "status": "implied_decisive",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Interest on capital is not allowed unless expressly agreed among the partners.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A separate express agreement outside the deed could allow interest only to A, consistent with the stated unequal contributions.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "A separate express agreement outside the deed could stipulate equal interest for both partners.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "A separate express agreement outside the deed could stipulate interest in proportion to the partners’ capital contributions.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "missing_decisive_assumption",
+                  "detail": "The stem does not state that there is no separate express agreement for interest. Deed silence alone does not rule one out under the supplied principle, so the interest options cannot be excluded."
+                }
+              ],
+              "style_notes": [
+                "The capital amounts, equal profit-sharing ratio and no-change fact are not needed to apply the controlling agreement principle."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core partnership-accounting treatment of interest on capital."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A four-option conceptual MCQ in the style of the authenticated accountancy examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct application of a standard rule, within the range of the supplied easy conceptual exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "Options represent recognisable but competing bases for allowing interest; the unstated agreement condition undermines discrimination."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q45",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac101",
+                  "locator": "quality-v4-4f456816afcf",
+                  "quote": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on capital is Reprint 2026-27\n16 Accountancy – Partnership Accounts credited to the partners at the agreed rate with reference to the time period for which the capital remained in business during a financial year. Interest on capital is generally provided for in two situations : (i) when the partners contribute unequal amounts of capitals but share profits equally, and (ii) where the capital contribution is same but profit sharing is unequal. Interest on capital is",
+                  "start": 0,
+                  "end": 643
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 54,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 91,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 91,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "missing_decisive_assumption: The stem does not state that there is no separate express agreement for interest. Deed silence alone does not rule one out under the supplied principle, so the interest options cannot be excluded.",
+                "missing_decisive_assumption: option A is correct if A separate express agreement outside the deed could allow interest only to A, consistent with the stated unequal contributions.",
+                "missing_decisive_assumption: option C is correct if A separate express agreement outside the deed could stipulate equal interest for both partners.",
+                "missing_decisive_assumption: option D is correct if A separate express agreement outside the deed could stipulate interest in proportion to the partners’ capital contributions."
+              ],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Partnership Fundamentals",
+                  "Profit & Loss Appropriation Account"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Profit & Loss Appropriation Account"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "quality-v4-4f456816afcf",
+                  "support_hash": "4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56"
+                },
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "quality-v4-4386d49f5b11",
+                  "support_hash": "4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "fb6639380667a9d5b777a04c7aabff688faf1aa89503be248576a795042610e3"
+            }
+          },
+          "failure_details": [
+            "The supplied NCERT excerpt states that interest on partners’ capital is not allowed unless expressly agreed among the partners.",
+            "B is the expected answer if the deed’s silence is intended to mean there was no express agreement at all. But the stem only rules out a provision in the deed; it does not rule out a separate express agreement, which could support one of the interest options.",
+            "Defect: missing_decisive_assumption: The stem does not state that there is no separate express agreement for interest. Deed silence alone does not rule one out under the supplied principle, so the interest options cannot be excluded.",
+            "Defect: missing_decisive_assumption: option A is correct if A separate express agreement outside the deed could allow interest only to A, consistent with the stated unequal contributions.",
+            "Defect: missing_decisive_assumption: option C is correct if A separate express agreement outside the deed could stipulate equal interest for both partners.",
+            "Defect: missing_decisive_assumption: option D is correct if A separate express agreement outside the deed could stipulate interest in proportion to the partners’ capital contributions.",
+            "Condition implied_decisive: There is no separate express agreement among the partners for interest on capital."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:33:41.464Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "ed1a18bb53f82e06a2c7a0beea2293e2"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "ed1a18bb53f82e06a2c7a0beea2293e2"
+        ],
+        "would_withhold_ids": [
+          "ed1a18bb53f82e06a2c7a0beea2293e2"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "6314a93c1f302347c03562d66b15f2d3",
+      "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+      "key": "B",
+      "explanation": "Called-up capital is 15,000 × ₹8 = ₹1,20,000. Calls in arrears are 600 × (₹8 − ₹5) = ₹1,800. Paid-up capital is called-up capital less calls in arrears: ₹1,20,000 − ₹1,800 = ₹1,18,200.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "6314a93c1f302347c03562d66b15f2d3",
+          "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "6314a93c1f302347c03562d66b15f2d3",
+              "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "c0e323cab0a1efca58a56ff143347c1622de092874d756fb6b73d71f3062a63f",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "6314a93c1f302347c03562d66b15f2d3",
+              "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+              "evidence_hash": "b491ff17c26a3a999be91967aad45b862c81645589e228800b4365ad53782530"
+            },
+            "source_support": {
+              "candidate_id": "6314a93c1f302347c03562d66b15f2d3",
+              "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Called-up capital is 15,000 × ₹8 = ₹1,20,000. Arrears are 600 × (₹8 − ₹5) = ₹1,800. Paid-up capital is called-up capital less arrears: ₹1,20,000 − ₹1,800 = ₹1,18,200 (B).",
+                "The excerpt defines paid-up capital as the called-up amount actually received and states that it equals called-up capital minus calls in arrears."
+              ],
+              "syllabus_chapter": "Share Capital",
+              "syllabus_topic": "Paid-up capital, called-up capital and calls in arrears",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "15,000 shares are allotted.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The call is ₹8 per allotted share.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The issue is at par, so the amounts received are not separated into share capital and share premium.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Holders of 600 allotted shares pay ₹5 each against the ₹8 call.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The arrears on those 600 shares are ₹3 per share, or ₹1,800 in total.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Holders of the remaining allotted shares pay the full called amount, and there are no other unpaid calls.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Paid-up capital is the portion of called-up capital actually received, equal to called-up capital less calls in arrears.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.4",
+                    "E1.5"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Count the full ₹8 call as received on every allotted share, disregarding the stated short-payment on 600 shares.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat ₹5 as the unpaid balance per share rather than the amount paid; arrears would then be ₹3,000 and paid-up capital ₹1,17,000.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Count all 18,000 applicants as allotted shares, giving ₹1,44,000 called-up capital, then subtract ₹1,800 arrears.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The applications figure provides oversubscription context; the allotted-share count supplies the relevant share quantity for the calculation."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the central share-capital concepts of called-up capital, paid-up capital and calls in arrears."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A direct four-option numerical MCQ, consistent with the authenticated accountancy numerical format."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application calculation within the range of the authenticated share-capital numerical exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options can distinguish overlooking arrears or misreading the amount paid, though one distractor is less diagnostic."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q15"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac201",
+                  "locator": "pdf-page-4",
+                  "quote": " the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share. The remaining Rs. 3 may be collected from its shareholders as and when needed. • Paid up Capital: It is that portion of the called up capital which has been actually received from the shareholders. When the shareholders have paid all the",
+                  "start": 1945,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leac201",
+                  "locator": "pdf-page-4",
+                  "quote": " called amount, the called up capital is the same to the paid up capital. If any of the shareholders has not paid amount on calls, such an amount may be called as ‘calls in arrears’. Therefore, paid up capital is equal to the called-up capital minus call in arrears. • Uncalled Capital: That portion of the subscribed capital which has not yet been called up. As stated earlier, the company may collect this amount any time when it needs further funds. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 3063
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 89,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 88,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 88
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Share Capital",
+                  "Financial Statements of Company"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Share Capital"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac201",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+                },
+                {
+                  "id": "ncert-leac201",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-39-a14adf94f3",
+                  "support_hash": "a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "95c494de5dd7b3d447b30e6ce2d625a7b3ecac3b245b436fd3c0adbca03454a5"
+            }
+          },
+          "failure_details": [
+            "Called-up capital is 15,000 × ₹8 = ₹1,20,000. Arrears are 600 × (₹8 − ₹5) = ₹1,800. Paid-up capital is called-up capital less arrears: ₹1,20,000 − ₹1,800 = ₹1,18,200 (B).",
+            "The excerpt defines paid-up capital as the called-up amount actually received and states that it equals called-up capital minus calls in arrears."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:58:16.423Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "6314a93c1f302347c03562d66b15f2d3"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "6314a93c1f302347c03562d66b15f2d3"
+        ],
+        "would_withhold_ids": [
+          "6314a93c1f302347c03562d66b15f2d3"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+      "key": "D",
+      "explanation": "Both ratios total 20, so each partner’s share is the partner’s ratio part divided by 20. A’s share falls from 8/20 to 5/20, B’s rises from 5/20 to 6/20, C’s rises from 3/20 to 5/20, and D’s remains 4/20. These changes match option D.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+          "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+              "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "082519b07531278514cbd70a9b55c06b8339b2e4654bf9bd66ee546587922ff5",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+              "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+              "evidence_hash": "a814a73c7a9dbf433d7dacd0376fb62ee117b61482968fc3444ce199b98838f9"
+            },
+            "source_support": {
+              "candidate_id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+              "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "Both ratios total 20. A changes from 8/20 to 5/20 (sacrifices 3/20); B from 5/20 to 6/20 (gains 1/20); C from 3/20 to 5/20 (gains 2/20); D remains at 4/20.",
+                "This gives A-I, B-II, C-III, D-IV: option D. The supplied NCERT excerpt explains gains and losses from a change in existing partners’ profit-sharing ratio and demonstrates comparing old and new shares."
+              ],
+              "syllabus_chapter": "Change in Profit Sharing Ratio",
+              "syllabus_topic": "Change in profit-sharing ratio among existing partners: calculating partners’ gains, sacrifices, and unchanged shares.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The old profit-sharing ratio is A:B:C:D = 8:5:3:4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The new profit-sharing ratio is A:B:C:D = 5:6:5:4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Convert each ratio into shares of the total and compare each partner’s new share with their old share.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2"
+                  ]
+                },
+                {
+                  "condition": "The resulting changes are A: sacrifice 3/20; B: gain 1/20; C: gain 2/20; D: unchanged.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "It would fit if B and C’s gains were reversed, but the stated ratios give B a gain of 1/20 and C a gain of 2/20.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "It would fit if A were unchanged and D sacrificed, but the stated ratios show A sacrifices and D is unchanged.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "It would fit if C were unchanged and D gained 2/20, but the stated ratios show C gains 2/20 and D is unchanged.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core Unit II concept of gains and sacrifices when existing partners change their sharing ratio."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option matching MCQ; the supplied same-topic exemplar uses a direct numerical stem instead."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application closely aligned with the same-topic one-step gain/sacrifice calculation in q27."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors misassign gains or the unchanged share, reflecting identifiable calculation or matching errors."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q27"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-88acd5a861b0",
+                  "quote": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-88acd5a861b0",
+                  "quote": " they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and",
+                  "start": 650,
+                  "end": 1290
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 116,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 119,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 119
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Change in Profit Sharing Ratio"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-88acd5a861b0",
+                  "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-2c978c97c40a",
+                  "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "5c2a34dea42ab00232a20340aab25305ef7b5f645d9f22b8cea15d5d40577a9b"
+            }
+          },
+          "failure_details": [
+            "Both ratios total 20. A changes from 8/20 to 5/20 (sacrifices 3/20); B from 5/20 to 6/20 (gains 1/20); C from 3/20 to 5/20 (gains 2/20); D remains at 4/20.",
+            "This gives A-I, B-II, C-III, D-IV: option D. The supplied NCERT excerpt explains gains and losses from a change in existing partners’ profit-sharing ratio and demonstrates comparing old and new shares."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:59:04.026Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "341d2ffb9c69a0f0bef64c9eea5e2706"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "341d2ffb9c69a0f0bef64c9eea5e2706"
+        ],
+        "would_withhold_ids": [
+          "341d2ffb9c69a0f0bef64c9eea5e2706"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "99519ad997494b32a08ca17d0c48315b",
+      "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+      "key": "D",
+      "explanation": "The issue price of ₹280 exceeds the nominal value of ₹250, so the debenture is issued at a premium of ₹30. First establish that the price is above nominal value, then determine the premium, credit Securities Premium Reserve, and show it on the liabilities side under “Reserves and Surpluses”.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "99519ad997494b32a08ca17d0c48315b",
+          "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "99519ad997494b32a08ca17d0c48315b",
+              "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "2601a25d1c8c24549f60e0cfffd6f5a9b6f3109d69b84c8036e4454285e10001",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "99519ad997494b32a08ca17d0c48315b",
+              "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+              "evidence_hash": "a98d8449b501895ab61ac4dbf46883096b07e3651ca0ff8824ee9e8581ad22c3"
+            },
+            "source_support": {
+              "candidate_id": "99519ad997494b32a08ca17d0c48315b",
+              "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "₹280 exceeds the ₹250 nominal value, so the debenture is issued at a premium of ₹30. The premium is credited to Securities Premium Reserve and shown under “Reserves and Surpluses”; thus the order is B, C, D, A (option D)."
+              ],
+              "syllabus_chapter": "Debentures",
+              "syllabus_topic": "Issue of debentures at a premium; accounting treatment and balance-sheet presentation of Securities Premium Reserve",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The debenture’s nominal value is ₹250 and its issue price is ₹280.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The premium is the excess of issue price over nominal value: ₹280 − ₹250 = ₹30 per debenture.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "An issue premium is credited to Securities Premium Reserve and shown on the liabilities side under “Reserves and Surpluses”; crediting precedes presentation.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "The balance-sheet presentation could be prepared before the journal credit is recorded, if presentation and recording are treated as parallel tasks.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Calculate the ₹30 excess first, then classify it as an issue premium; credit and presentation follow.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "The amount might be worked out implicitly while crediting the reserve, with the separate calculation stated afterward.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Steps B and C are closely related, but B identifies that the debenture is issued at a premium, while C quantifies it."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the syllabus-listed issue of debentures at a premium and its presentation."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option sequence-ordering format matches the authenticated accountancy exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application and sequencing task within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The reordered steps test whether candidates know the calculation, credit, and presentation sequence."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-2bf9ffb186bb",
+                  "quote": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+                  "start": 0,
+                  "end": 395
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 113,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 109,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 109,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Debentures"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Debentures"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-2bf9ffb186bb",
+                  "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+                },
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-b92b17a10903",
+                  "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "3d6d6cdcd6fc14afd37f2718de61ad690b2cc0f5ffcb1b177d1add61aaca79a6"
+            }
+          },
+          "failure_details": [
+            "₹280 exceeds the ₹250 nominal value, so the debenture is issued at a premium of ₹30. The premium is credited to Securities Premium Reserve and shown under “Reserves and Surpluses”; thus the order is B, C, D, A (option D)."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T00:03:00.290Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "99519ad997494b32a08ca17d0c48315b"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "99519ad997494b32a08ca17d0c48315b"
+        ],
+        "would_withhold_ids": [
+          "99519ad997494b32a08ca17d0c48315b"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

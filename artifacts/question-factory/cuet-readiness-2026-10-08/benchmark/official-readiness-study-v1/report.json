@@ -1,0 +1,605 @@
+{
+  "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+  "freeze_hash": "f46f148ebd5b45ba340ebcb824e1101c3fcf00ce3e80d7ef0872819f17de00a3",
+  "as_of": "2026-10-07T21:54:56.025Z",
+  "state": "terminal_errors",
+  "report_scope": "Calibration/limited two-subject evaluation only; not a release qualification.",
+  "provenance": {
+    "authenticated_2024_roots": 173,
+    "prior_exemplars": 95,
+    "nonexemplars_limited_bs_economics": 42,
+    "nonexemplars_reserved_english_accountancy": 36,
+    "paper_source_families": 4,
+    "root_family_correlation": "All 173 roots are nested in four 2024 Book-A paper families (one per subject); roots and controls are correlated within those paper families.",
+    "reused_source_limitation": "No new-source four-subject holdout was authenticated; 2024 cases are prior-paper calibration, not fresh evidence."
+  },
+  "counts": {
+    "expected_provider_judgments": 138,
+    "judged": 97,
+    "errors": 41,
+    "missing": 0,
+    "selected_cases": 46,
+    "unique_source_roots": 42,
+    "valid_pyq_expected": 126,
+    "authored_controls_expected": 12,
+    "denominators": {
+      "retained": 138,
+      "judged": 97,
+      "errors_not_rejections": 41,
+      "missing": 0
+    }
+  },
+  "providers": {
+    "openai": {
+      "model": "gpt-6-luna",
+      "expected_valid_pyq_n": 42,
+      "scored_valid_pyq_n": 30,
+      "errors": 13,
+      "missing": 0,
+      "subjects": {
+        "english": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "accountancy": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "business_studies": {
+          "expected_n": 23,
+          "scored_n": 16,
+          "errors": 7,
+          "missing": 0,
+          "official_key_agreement_count": 9,
+          "key_agreement_rate_scored_only": 0.5625,
+          "coverage_adjusted_agreement_rate": 0.391304347826087,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.331785563988119,
+            0.7690134759450765
+          ],
+          "abstentions": 7,
+          "false_rejection_cuet_fit_count": 1,
+          "false_rejection_cuet_fit_rate_of_expected": 0.043478260869565216,
+          "nonunique_flagged": 2
+        },
+        "economics": {
+          "expected_n": 19,
+          "scored_n": 14,
+          "errors": 5,
+          "missing": 0,
+          "official_key_agreement_count": 9,
+          "key_agreement_rate_scored_only": 0.6428571428571429,
+          "coverage_adjusted_agreement_rate": 0.47368421052631576,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.38764423103907397,
+            0.8365526824644587
+          ],
+          "abstentions": 5,
+          "false_rejection_cuet_fit_count": 3,
+          "false_rejection_cuet_fit_rate_of_expected": 0.15789473684210525,
+          "nonunique_flagged": 2
+        }
+      },
+      "official_key_accuracy": {
+        "expected_denominator": 42,
+        "scored": 30,
+        "errors": 12,
+        "missing": 0,
+        "agreements": 18,
+        "rate_among_scored": 0.6,
+        "coverage_adjusted_agreement_rate": 0.42857142857142855,
+        "naive_binomial_wilson_95_ci_scored_only": [
+          0.42320360253322475,
+          0.7540937188319815
+        ]
+      },
+      "abstentions": 12,
+      "false_rejection_cuet_fit_count": 4,
+      "false_rejection_cuet_fit_rate_of_expected": 0.09523809523809523,
+      "source_support_false": 13,
+      "source_support_true": 17,
+      "cases_with_no_academic_excerpt": 10,
+      "cases_with_any_academic_excerpt": 20,
+      "controls": {
+        "expected_n": 4,
+        "scored_n": 3,
+        "option_overlap_expected": 2,
+        "option_overlap_scored": 2,
+        "option_overlap_caught": 2,
+        "wrong_key_expected": 2,
+        "wrong_key_scored": 1,
+        "wrong_key_caught_by_official_solve": 0
+      }
+    },
+    "gemini": {
+      "model": "gemini-3.8-flash",
+      "expected_valid_pyq_n": 42,
+      "scored_valid_pyq_n": 29,
+      "errors": 15,
+      "missing": 0,
+      "subjects": {
+        "english": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "accountancy": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "business_studies": {
+          "expected_n": 23,
+          "scored_n": 15,
+          "errors": 8,
+          "missing": 0,
+          "official_key_agreement_count": 15,
+          "key_agreement_rate_scored_only": 1,
+          "coverage_adjusted_agreement_rate": 0.6521739130434783,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.7961166989641515,
+            1
+          ],
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 1,
+          "false_rejection_cuet_fit_rate_of_expected": 0.043478260869565216,
+          "nonunique_flagged": 0
+        },
+        "economics": {
+          "expected_n": 19,
+          "scored_n": 14,
+          "errors": 5,
+          "missing": 0,
+          "official_key_agreement_count": 12,
+          "key_agreement_rate_scored_only": 0.8571428571428571,
+          "coverage_adjusted_agreement_rate": 0.631578947368421,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.6005862050302965,
+            0.9599060787285351
+          ],
+          "abstentions": 1,
+          "false_rejection_cuet_fit_count": 1,
+          "false_rejection_cuet_fit_rate_of_expected": 0.05263157894736842,
+          "nonunique_flagged": 1
+        }
+      },
+      "official_key_accuracy": {
+        "expected_denominator": 42,
+        "scored": 29,
+        "errors": 13,
+        "missing": 0,
+        "agreements": 27,
+        "rate_among_scored": 0.9310344827586207,
+        "coverage_adjusted_agreement_rate": 0.6428571428571429,
+        "naive_binomial_wilson_95_ci_scored_only": [
+          0.7803541984972431,
+          0.9808787338305667
+        ]
+      },
+      "abstentions": 1,
+      "false_rejection_cuet_fit_count": 2,
+      "false_rejection_cuet_fit_rate_of_expected": 0.047619047619047616,
+      "source_support_false": 3,
+      "source_support_true": 26,
+      "cases_with_no_academic_excerpt": 9,
+      "cases_with_any_academic_excerpt": 20,
+      "controls": {
+        "expected_n": 4,
+        "scored_n": 2,
+        "option_overlap_expected": 2,
+        "option_overlap_scored": 2,
+        "option_overlap_caught": 2,
+        "wrong_key_expected": 2,
+        "wrong_key_scored": 0,
+        "wrong_key_caught_by_official_solve": 0
+      }
+    },
+    "anthropic": {
+      "model": "claude-haiku-5-5",
+      "expected_valid_pyq_n": 42,
+      "scored_valid_pyq_n": 30,
+      "errors": 13,
+      "missing": 0,
+      "subjects": {
+        "english": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "accountancy": {
+          "expected_n": 0,
+          "scored_n": 0,
+          "errors": 0,
+          "missing": 0,
+          "official_key_agreement_count": 0,
+          "key_agreement_rate_scored_only": null,
+          "coverage_adjusted_agreement_rate": null,
+          "naive_binomial_wilson_95_ci_scored_only": null,
+          "abstentions": 0,
+          "false_rejection_cuet_fit_count": 0,
+          "false_rejection_cuet_fit_rate_of_expected": null,
+          "nonunique_flagged": 0
+        },
+        "business_studies": {
+          "expected_n": 23,
+          "scored_n": 16,
+          "errors": 7,
+          "missing": 0,
+          "official_key_agreement_count": 13,
+          "key_agreement_rate_scored_only": 0.8125,
+          "coverage_adjusted_agreement_rate": 0.5652173913043478,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.5699111903802586,
+            0.9340840092857187
+          ],
+          "abstentions": 3,
+          "false_rejection_cuet_fit_count": 1,
+          "false_rejection_cuet_fit_rate_of_expected": 0.043478260869565216,
+          "nonunique_flagged": 5
+        },
+        "economics": {
+          "expected_n": 19,
+          "scored_n": 14,
+          "errors": 5,
+          "missing": 0,
+          "official_key_agreement_count": 9,
+          "key_agreement_rate_scored_only": 0.6428571428571429,
+          "coverage_adjusted_agreement_rate": 0.47368421052631576,
+          "naive_binomial_wilson_95_ci_scored_only": [
+            0.38764423103907397,
+            0.8365526824644587
+          ],
+          "abstentions": 4,
+          "false_rejection_cuet_fit_count": 6,
+          "false_rejection_cuet_fit_rate_of_expected": 0.3157894736842105,
+          "nonunique_flagged": 5
+        }
+      },
+      "official_key_accuracy": {
+        "expected_denominator": 42,
+        "scored": 30,
+        "errors": 12,
+        "missing": 0,
+        "agreements": 22,
+        "rate_among_scored": 0.7333333333333333,
+        "coverage_adjusted_agreement_rate": 0.5238095238095238,
+        "naive_binomial_wilson_95_ci_scored_only": [
+          0.555520383048111,
+          0.8581733668040368
+        ]
+      },
+      "abstentions": 7,
+      "false_rejection_cuet_fit_count": 7,
+      "false_rejection_cuet_fit_rate_of_expected": 0.16666666666666666,
+      "source_support_false": 15,
+      "source_support_true": 15,
+      "cases_with_no_academic_excerpt": 10,
+      "cases_with_any_academic_excerpt": 20,
+      "controls": {
+        "expected_n": 4,
+        "scored_n": 3,
+        "option_overlap_expected": 2,
+        "option_overlap_scored": 2,
+        "option_overlap_caught": 2,
+        "wrong_key_expected": 2,
+        "wrong_key_scored": 1,
+        "wrong_key_caught_by_official_solve": 1
+      }
+    }
+  },
+  "uncertainty_interpretation": "Wilson intervals are naive item-level binomial intervals only. They do not adjust for shared paper-family correlation; with one paper family per subject, broader population intervals cannot be estimated from this sample.",
+  "source_support_interpretation": "Official final keys ground key-agreement scoring. source_support is a separate validator judgment; thin or absent academic excerpts must not be interpreted as proof that an official-keyed PYQ is academically false.",
+  "limits": [
+    "No fresh full-pipeline yield measurement.",
+    "No independent source-family split.",
+    "No four-subject fresh release evidence.",
+    "No publication or production release.",
+    "Difficulty labels are unassessed metadata.",
+    "Model agreement is not truth."
+  ],
+  "budget": {
+    "cap_usd": 6,
+    "study_committed_usd": 0.841341,
+    "settled_usd": 0.841341,
+    "held_usd": 0,
+    "gross_committed_usd": 0.841341,
+    "request_count": 117,
+    "settled_requests": 117,
+    "held_requests": 0,
+    "unresolved_requests": 0,
+    "pending_usage_receipts": 0,
+    "invoice_status": "not_reconciled",
+    "accounting_source": "scripts/pipeline/lib/scopedAccounting.mjs, read-only native SQLite ledger snapshot; exact prefixed candidate attribution; no concurrent lifetime delta",
+    "provider_breakdown": {
+      "anthropic:claude-haiku-5-5": {
+        "provider": "anthropic",
+        "model": "claude-haiku-5-5",
+        "requests": 33,
+        "settled_requests": 33,
+        "held_requests": 0,
+        "settled_micro": 95970,
+        "held_micro": 0,
+        "committed_micro": 95970,
+        "requests_with_usage_receipts": 33,
+        "usage_missing_requests": 0,
+        "input_tokens": 386154,
+        "output_tokens": 114681,
+        "reasoning_tokens": 0,
+        "input_token_unreported_requests": 0,
+        "output_token_unreported_requests": 0,
+        "reasoning_token_unreported_requests": 33,
+        "failed_judgment_requests": 0,
+        "failed_judgment_committed_micro": 0,
+        "judgment_results": {
+          "judged": 33,
+          "errors": 13,
+          "missing": 0
+        },
+        "failed_judgment_ids": []
+      },
+      "gemini:gemini-3.8-flash": {
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "requests": 41,
+        "settled_requests": 41,
+        "held_requests": 0,
+        "settled_micro": 582835,
+        "held_micro": 0,
+        "committed_micro": 582835,
+        "requests_with_usage_receipts": 41,
+        "usage_missing_requests": 0,
+        "input_tokens": 231338,
+        "output_tokens": 109151,
+        "reasoning_tokens": 73813,
+        "input_token_unreported_requests": 0,
+        "output_token_unreported_requests": 0,
+        "reasoning_token_unreported_requests": 0,
+        "failed_judgment_requests": 4,
+        "failed_judgment_committed_micro": 116894,
+        "judgment_results": {
+          "judged": 31,
+          "errors": 15,
+          "missing": 0
+        },
+        "failed_judgment_ids": [
+          "control-wrong_key-cuet2024-business_studies-bookA-q14:gemini:gemini-3.8-flash",
+          "v4-limited_heldout-cuet2024-business_studies-bookA-q28:gemini:gemini-3.8-flash"
+        ]
+      },
+      "openai:gpt-6-luna": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "requests": 43,
+        "settled_requests": 43,
+        "held_requests": 0,
+        "settled_micro": 162536,
+        "held_micro": 0,
+        "committed_micro": 162536,
+        "requests_with_usage_receipts": 43,
+        "usage_missing_requests": 0,
+        "input_tokens": 271116,
+        "output_tokens": 271922,
+        "reasoning_tokens": 236541,
+        "input_token_unreported_requests": 0,
+        "output_token_unreported_requests": 0,
+        "reasoning_token_unreported_requests": 0,
+        "failed_judgment_requests": 0,
+        "failed_judgment_committed_micro": 0,
+        "judgment_results": {
+          "judged": 33,
+          "errors": 13,
+          "missing": 0
+        },
+        "failed_judgment_ids": []
+      }
+    }
+  },
+  "accounting_refresh": {
+    "schema": "official-cuet-study-accounting-refresh-v1",
+    "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+    "refreshed_at": "2026-10-07T21:59:40.453Z",
+    "refresh_command": "node scripts/pipeline/tools/refreshOfficialCuetStudyAccounting.mjs",
+    "source": "scripts/pipeline/lib/scopedAccounting.mjs, read-only native SQLite ledger snapshot; exact prefixed candidate attribution; no concurrent lifetime delta",
+    "original_artifacts": {
+      "report_sha256": "0b71e20031840f58ad0c6a79b2d2cc4f685f7f322d24cde6d37e9555e80b809a",
+      "run_sha256": "8d57f8ad3cb1eaa3989596fb15341f32e111cecaba3fe7967ab8730a9e5254a2",
+      "progress_sha256": "68dbd4f6eee0a41639b3285a5c585a62a23f32e8abd27e9d0c5b04f2bdc8cc70",
+      "preserved_in": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/official-readiness-study-v1/original-before-accounting-refresh",
+      "judgments_file_modified": false,
+      "run_file_modified": false,
+      "progress_file_modified": false
+    },
+    "judgment_scope": {
+      "expected_denominator": 138,
+      "judged": 97,
+      "errors": 41,
+      "missing": 0,
+      "denominator_complete": true,
+      "errors_are_not_academic_rejections": true,
+      "retries_added": 0
+    },
+    "ledger_scope": {
+      "candidate_prefix": "cuet-official-key-limited-readiness-v1-2026-10-08:",
+      "requests": 117,
+      "settled_requests": 117,
+      "held_requests": 0,
+      "unresolved_requests": 0,
+      "settled_micro": 841341,
+      "held_micro": 0,
+      "gross_committed_micro": 841341,
+      "settled_usd": 0.841341,
+      "held_usd": 0,
+      "gross_committed_usd": 0.841341,
+      "pending_usage_receipts": 0,
+      "usage_missing_requests": 0,
+      "orphan_request_count": 0,
+      "provider_breakdown": {
+        "anthropic:claude-haiku-5-5": {
+          "provider": "anthropic",
+          "model": "claude-haiku-5-5",
+          "requests": 33,
+          "settled_requests": 33,
+          "held_requests": 0,
+          "settled_micro": 95970,
+          "held_micro": 0,
+          "committed_micro": 95970,
+          "requests_with_usage_receipts": 33,
+          "usage_missing_requests": 0,
+          "input_tokens": 386154,
+          "output_tokens": 114681,
+          "reasoning_tokens": 0,
+          "input_token_unreported_requests": 0,
+          "output_token_unreported_requests": 0,
+          "reasoning_token_unreported_requests": 33,
+          "failed_judgment_requests": 0,
+          "failed_judgment_committed_micro": 0,
+          "judgment_results": {
+            "judged": 33,
+            "errors": 13,
+            "missing": 0
+          },
+          "failed_judgment_ids": []
+        },
+        "gemini:gemini-3.8-flash": {
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "requests": 41,
+          "settled_requests": 41,
+          "held_requests": 0,
+          "settled_micro": 582835,
+          "held_micro": 0,
+          "committed_micro": 582835,
+          "requests_with_usage_receipts": 41,
+          "usage_missing_requests": 0,
+          "input_tokens": 231338,
+          "output_tokens": 109151,
+          "reasoning_tokens": 73813,
+          "input_token_unreported_requests": 0,
+          "output_token_unreported_requests": 0,
+          "reasoning_token_unreported_requests": 0,
+          "failed_judgment_requests": 4,
+          "failed_judgment_committed_micro": 116894,
+          "judgment_results": {
+            "judged": 31,
+            "errors": 15,
+            "missing": 0
+          },
+          "failed_judgment_ids": [
+            "control-wrong_key-cuet2024-business_studies-bookA-q14:gemini:gemini-3.8-flash",
+            "v4-limited_heldout-cuet2024-business_studies-bookA-q28:gemini:gemini-3.8-flash"
+          ]
+        },
+        "openai:gpt-6-luna": {
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "requests": 43,
+          "settled_requests": 43,
+          "held_requests": 0,
+          "settled_micro": 162536,
+          "held_micro": 0,
+          "committed_micro": 162536,
+          "requests_with_usage_receipts": 43,
+          "usage_missing_requests": 0,
+          "input_tokens": 271116,
+          "output_tokens": 271922,
+          "reasoning_tokens": 236541,
+          "input_token_unreported_requests": 0,
+          "output_token_unreported_requests": 0,
+          "reasoning_token_unreported_requests": 0,
+          "failed_judgment_requests": 0,
+          "failed_judgment_committed_micro": 0,
+          "judgment_results": {
+            "judged": 33,
+            "errors": 13,
+            "missing": 0
+          },
+          "failed_judgment_ids": []
+        }
+      },
+      "stage_breakdown": {
+        "blind_solution": {
+          "requests": 43,
+          "settled_micro": 162536,
+          "held_micro": 0,
+          "committed_micro": 162536,
+          "input_tokens": 271116,
+          "output_tokens": 271922,
+          "reasoning_tokens": 236541,
+          "reasoning_token_unreported_requests": 0,
+          "error_result_requests": 0
+        },
+        "independent_evaluation": {
+          "requests": 74,
+          "settled_micro": 678805,
+          "held_micro": 0,
+          "committed_micro": 678805,
+          "input_tokens": 617492,
+          "output_tokens": 223832,
+          "reasoning_tokens": 73813,
+          "reasoning_token_unreported_requests": 33,
+          "error_result_requests": 4
+        }
+      },
+      "invoices": {
+        "status": "not_reconciled",
+        "note": "Native request receipts are cost accounting, not provider invoices or subscription consumption."
+      }
+    },
+    "interpretation": {
+      "source_support": "Official final keys ground key-agreement scoring. source_support is a separate validator judgment; thin or absent academic excerpts must not be interpreted as proof that an official-keyed PYQ is academically false.",
+      "cost": "Settled values use provider usage receipts and saved rates; non-settled reservations are reported at max(reserved, actual) and remain held.",
+      "current_global_ledger_totals_are_context_only": {
+        "settled_micro": 24736918,
+        "held_micro": 327486,
+        "requests": 10617
+      }
+    }
+  }
+}

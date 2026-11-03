@@ -1,0 +1,43 @@
+Accounting for Partnership : Basic Concepts 5
+(v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the
+drawings made by the partner;
+(vi) Interest on partner’s loan is to be given @ 12% p.a., if the deed is silent
+about the rate.
+1.3 Special Aspects of Partnership Accounts
+Accounting treatment for partnership firm is similar to that of a sole
+proprietorship business with the exception of the following aspects:
+• Maintenance of Partners’ Capital Accounts;
+• Distribution of Profit and Loss among the partners;
+• Adjustments for Wrong Appropriation of Profits in the Past;
+• Reconstitution of the Partnership Firm; and
+• Dissolution of Partnership Firm.
+The first three aspects mentioned above have been taken up in the following
+sections of this chapter. The remaining aspects have been covered in the
+subsequent chapters.
+1.4 Maintenance of Capital Accounts of Partners
+All transactions relating to partners of the firm are recorded in the books of the
+firm through their capital accounts. This includes the amount of money brought
+in as capital, withdrawal of capital, share of profit, interest on capital, interest
+on drawings, partner’s salary, commission to partners, etc.
+There are two methods by which the capital accounts of partners can be
+maintained. These are: (i) fixed capital method, and (ii) fluctuating capital
+method. The difference between the two lies in whether or not the transactions
+other than addition/withdrawal of capital are recorded in the capital accounts
+of the partners.
+(a) Fixed Capital Method: Under the fixed capital method, the capitals of the
+partners shall remain fixed unless additional capital is introduced or a
+part of the capital is withdrawn as per the agreement among the partners.
+All items like share of profit or loss, interest on capital, drawings, interest
+on drawings, etc. are recorded in a separate accounts, called Partner’s
+Current Account. The partners’ capital accounts will always show a credit
+balance, which shall remain the same (fixed) year after year unless there
+is any addition or withdrawal of capital. The partners’ current account
+on the other hand, may show a debit or a credit balance. Thus under
+this method, two accounts are maintained for each partner viz., capital
+account and current account, While the partners’ capital accounts shall
+always appear on the liabilities side in the balance sheet, the partners’
+current account’s balance shall be shown on the liabilities side, if they
+have credit balance and on the assets side, if they have debit balance.
+The partner’s capital account and the current account under the fixed capital
+method would appear as shown in Fig.1.1.
+Reprint 2026-27

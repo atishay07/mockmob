@@ -1,0 +1,3819 @@
+{
+  "at": "2026-10-08T22:14:27.476Z",
+  "read_only": true,
+  "receipts": 118,
+  "all_match": true,
+  "settled_usd": 0.64998,
+  "incomplete_billed_responses": 11,
+  "provider_invoices_obtained": false,
+  "verified": [
+    {
+      "native_key": "51bb2394f62b01415353d272019e88c12b9367d68a3caf88d3e374b45abfd46f",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e0932269d0",
+      "stage": "blind_solution",
+      "input_tokens": 5344,
+      "output_including_reasoning_tokens": 4099,
+      "reasoning_tokens": 3031,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5341,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2718,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "32bcc57e95122c4a3570df581a6e0624f433a6f76a30e5288af9a82fc8fb84f9",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b2a54a1da6",
+      "stage": "blind_solution",
+      "input_tokens": 5029,
+      "output_including_reasoning_tokens": 3096,
+      "reasoning_tokens": 2110,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5026,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2177,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "999f9f35064aca99c76e829af9edbd28ad46605da40eb3402b0485381f169780",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b43f3aebb6",
+      "stage": "blind_solution",
+      "input_tokens": 5162,
+      "output_including_reasoning_tokens": 4436,
+      "reasoning_tokens": 3355,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5159,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2864,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "38ca1a14efbed8940f4e485f26e0507075b732266320e1307d101fea8459bd66",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b2a54a1da6",
+      "stage": "independent_evaluation",
+      "input_tokens": 4352,
+      "output_including_reasoning_tokens": 1411,
+      "reasoning_tokens": 288,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8556,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "21c14b935ec73f848f099de7705a7819f0dc00399e8a8b7c8f85fb9ba2aaa223",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e0932269d0",
+      "stage": "independent_evaluation",
+      "input_tokens": 4647,
+      "output_including_reasoning_tokens": 1582,
+      "reasoning_tokens": 447,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9418,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "a8584dfb0ebcb963e721af756aa7240a1c8c047dc20399e28af3940e1cfed25c",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b2a54a1da6",
+      "stage": "explanation_support",
+      "input_tokens": 2203,
+      "output_including_reasoning_tokens": 767,
+      "reasoning_tokens": 516,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2200,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 659,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "471ef0e6b49824cf363945d2b765b8368b2935b3168d4178c43a7ef184a8b6bc",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b43f3aebb6",
+      "stage": "independent_evaluation",
+      "input_tokens": 4476,
+      "output_including_reasoning_tokens": 2099,
+      "reasoning_tokens": 942,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 11229,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "f29442c09a6c265df4c2cff2b3ba09fdd38fc3b44df50fd60f3e356ee02f6750",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e0932269d0",
+      "stage": "explanation_support",
+      "input_tokens": 2539,
+      "output_including_reasoning_tokens": 735,
+      "reasoning_tokens": 505,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2536,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 685,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "992f28156f1ff4cfae6b4dc3ea666b62644cf922b08c51ae0e5b90aa5c52b3d7",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e6f3811e7b",
+      "stage": "blind_solution",
+      "input_tokens": 5185,
+      "output_including_reasoning_tokens": 6596,
+      "reasoning_tokens": 5528,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5182,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3947,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "1e20b90e89093e3c262219327da1040543b4cee12722e4f5e8b50e9a7cb7fd54",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10a1826742",
+      "stage": "blind_solution",
+      "input_tokens": 5405,
+      "output_including_reasoning_tokens": 5396,
+      "reasoning_tokens": 4660,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5402,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3374,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "2c21cfd62467738a74ffab35b6991bf687a81e81fe265d2afccaa568c1f35ac2",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-b43f3aebb6",
+      "stage": "explanation_support",
+      "input_tokens": 2360,
+      "output_including_reasoning_tokens": 484,
+      "reasoning_tokens": 260,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2357,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 537,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "ff5bbea02c9beedddb0d24f9eba65a0995fade0aacb0c214eb53a76e93e4207a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3f144fd374",
+      "stage": "blind_solution",
+      "input_tokens": 5372,
+      "output_including_reasoning_tokens": 4528,
+      "reasoning_tokens": 3587,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5369,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2936,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b2a688920bf7cd7c158b5c75858e7a700e8ef92709f555842e84cc0bf8a0b3ff",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3f144fd374",
+      "stage": "independent_evaluation",
+      "input_tokens": 4732,
+      "output_including_reasoning_tokens": 1182,
+      "reasoning_tokens": 233,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7982,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "349242a533524a3508b3c902bc83369094742adbbbbfde29b068b5d28bbcc326",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e6f3811e7b",
+      "stage": "independent_evaluation",
+      "input_tokens": 4503,
+      "output_including_reasoning_tokens": 1645,
+      "reasoning_tokens": 471,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9546,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "066e4b88caf4f95aa700757298c428cf50272f4a5c374ba5c15d1544d5693dba",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10a1826742",
+      "stage": "independent_evaluation",
+      "input_tokens": 4775,
+      "output_including_reasoning_tokens": 1160,
+      "reasoning_tokens": 240,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7932,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "22c5897870a3d499ae3e18aaad5dea178487cb72b6f2f7eccb69c9a348b9552a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3f144fd374",
+      "stage": "explanation_support",
+      "input_tokens": 2571,
+      "output_including_reasoning_tokens": 463,
+      "reasoning_tokens": 264,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2568,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 553,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "39a295ecbfc2e4231e03df3931b3bbb03620e8e1d45721e9739feb7b27767964",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10a1826742",
+      "stage": "explanation_support",
+      "input_tokens": 2587,
+      "output_including_reasoning_tokens": 846,
+      "reasoning_tokens": 610,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2584,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 747,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "3cf1d1ba67e9291f5a7a82bd5431b5779346fef3e775a64e319453309e54759f",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-e6f3811e7b",
+      "stage": "explanation_support",
+      "input_tokens": 2465,
+      "output_including_reasoning_tokens": 1545,
+      "reasoning_tokens": 1303,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2462,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1081,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "bdbe7f96669ae3b097a5cd6bf7582adc1768ed2b55aeff115b3e259a349f9ed5",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-0a26fac46f",
+      "stage": "blind_solution",
+      "input_tokens": 5905,
+      "output_including_reasoning_tokens": 3691,
+      "reasoning_tokens": 2689,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5902,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2584,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "1947b71d3b9535815636bca6f6f383eb2e20d3ce7487d995a76143c6f2330770",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5628fb9f74",
+      "stage": "blind_solution",
+      "input_tokens": 4781,
+      "output_including_reasoning_tokens": 7031,
+      "reasoning_tokens": 6324,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4778,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4114,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "add1b18c0a93d391464fe5e521ca9eb04e0c36a2e3a3009f073788b21d3e54b0",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-7ac5631def",
+      "stage": "blind_solution",
+      "input_tokens": 5537,
+      "output_including_reasoning_tokens": 6087,
+      "reasoning_tokens": 5089,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5534,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3736,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "271843b6320bf6382559ee83de33f4db2bbc2ee75c86cdbd5b3f695f0718abfd",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-0a26fac46f",
+      "stage": "independent_evaluation",
+      "input_tokens": 5240,
+      "output_including_reasoning_tokens": 1166,
+      "reasoning_tokens": 229,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8303,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "eb08adb38ac00597e8278b8e0f59d00299a766a6b9cdb5876c7ed5502c140fae",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-0a26fac46f",
+      "stage": "explanation_support",
+      "input_tokens": 3088,
+      "output_including_reasoning_tokens": 406,
+      "reasoning_tokens": 222,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3085,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 589,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "29de9f07109fe6f027e475a228ef6817ed234a472234cf43cdaba6e591a2a24a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+      "stage": "blind_solution",
+      "input_tokens": 5459,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 6877,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5456,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4433,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "19869a42a37e1cc0078db07fa2039932386ea5874646317c5fed940f6d228e61",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-7ac5631def",
+      "stage": "independent_evaluation",
+      "input_tokens": 4835,
+      "output_including_reasoning_tokens": 1225,
+      "reasoning_tokens": 256,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8220,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "a5f0137ab62262c670cf9e8aca5d8e11f43934531f667b112a38af4b65ccecce",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-7ac5631def",
+      "stage": "explanation_support",
+      "input_tokens": 2708,
+      "output_including_reasoning_tokens": 514,
+      "reasoning_tokens": 320,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2705,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 596,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "de452a422f08eefc3f9c242923c22fe880acb761e4a52a10c771376a77d5acee",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5628fb9f74",
+      "stage": "independent_evaluation",
+      "input_tokens": 4111,
+      "output_including_reasoning_tokens": 1477,
+      "reasoning_tokens": 525,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8622,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "d924b17ad92e28a859fcf54b8ded58fe05e1113598b6e31c8bfcf0c78ec5742f",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d42ab3b35b",
+      "stage": "blind_solution",
+      "input_tokens": 5115,
+      "output_including_reasoning_tokens": 2730,
+      "reasoning_tokens": 1911,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5112,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2005,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "f74d65ee41f3ec73c5c6a957afe963dde1ba25665273aec0695a7c844caab31d",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5628fb9f74",
+      "stage": "explanation_support",
+      "input_tokens": 1896,
+      "output_including_reasoning_tokens": 726,
+      "reasoning_tokens": 560,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 1893,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 600,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "d1b0a78f9fe91c670560afe8e65e481fc99811c12a95ebcea42b69c997ee3a82",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5fe8e07cac",
+      "stage": "blind_solution",
+      "input_tokens": 5089,
+      "output_including_reasoning_tokens": 2142,
+      "reasoning_tokens": 1552,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5086,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1708,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "a500445a5a50339ae61f158d779d440b8ebb3e6ff08e35d3e8b05ccaeee69638",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d42ab3b35b",
+      "stage": "independent_evaluation",
+      "input_tokens": 4394,
+      "output_including_reasoning_tokens": 1279,
+      "reasoning_tokens": 316,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8092,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "912595e3ac5b1f596fd619f7854083d1b56534358219dc57e177ee6b2c78877b",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d42ab3b35b",
+      "stage": "explanation_support",
+      "input_tokens": 2207,
+      "output_including_reasoning_tokens": 1177,
+      "reasoning_tokens": 952,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2204,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 865,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "9bb6f339472723b64951a480141777856582b692bfa55608c7c045beeb45951e",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5fe8e07cac",
+      "stage": "independent_evaluation",
+      "input_tokens": 4373,
+      "output_including_reasoning_tokens": 1078,
+      "reasoning_tokens": 150,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7323,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "7c5aa6ec107c100594196b6790da2f6780e8ffe2e055ce4125b2165121c5486a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+      "stage": "blind_solution",
+      "input_tokens": 5459,
+      "output_including_reasoning_tokens": 5602,
+      "reasoning_tokens": 4660,
+      "cached_input_tokens": 5456,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2856,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "a4992ec33b76c9ff9d78b4756d91a776c937ad0d068b8174a1236cf7bb2e8672",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-461c8da728",
+      "stage": "blind_solution",
+      "input_tokens": 5312,
+      "output_including_reasoning_tokens": 6028,
+      "reasoning_tokens": 5069,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5309,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3678,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "2c60797a0d6b50b06d4c3ff212ab5f3b12c1e79a130814b9d0af9d349ab1d45d",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5fe8e07cac",
+      "stage": "explanation_support",
+      "input_tokens": 2148,
+      "output_including_reasoning_tokens": 994,
+      "reasoning_tokens": 747,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2145,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 766,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b58b5ed5b1161a7495a7f04f4afd73f0788e01ad49ac43f23408dbaa29eab2ee",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-71ed304404",
+      "stage": "blind_solution",
+      "input_tokens": 5291,
+      "output_including_reasoning_tokens": 3468,
+      "reasoning_tokens": 2555,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5288,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2396,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b1b992f852fe70234a168f28e361c74de5a67d20c711a965f5a753b9855bc33a",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-71ed304404",
+      "stage": "independent_evaluation",
+      "input_tokens": 4647,
+      "output_including_reasoning_tokens": 944,
+      "reasoning_tokens": null,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7026,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "7f96cf06d08bd1f23682d1ee2ab9ada1da6e411fa1ddc3c8b69b93b01c821c3e",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+      "stage": "independent_evaluation",
+      "input_tokens": 4748,
+      "output_including_reasoning_tokens": 1558,
+      "reasoning_tokens": 603,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9404,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "e360804982caa7bc226335c4d3461624443517d9cef42bb938a110e55f03c982",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d1489a9ae6",
+      "stage": "blind_solution",
+      "input_tokens": 5290,
+      "output_including_reasoning_tokens": 2141,
+      "reasoning_tokens": 1429,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5287,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1732,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "3cf639241d21741db1c5df82961550901307dd945f27772cbb29437257fc1005",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-461c8da728",
+      "stage": "independent_evaluation",
+      "input_tokens": 4664,
+      "output_including_reasoning_tokens": 1290,
+      "reasoning_tokens": 333,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8336,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "3566a8bb27657fa44a56b118ed87d9ef65598fc3a2abaec9e97cbb030260974a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+      "stage": "explanation_support",
+      "input_tokens": 2576,
+      "output_including_reasoning_tokens": 621,
+      "reasoning_tokens": 332,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2573,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 633,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b9b8b3d1f7695a07ce72e0926c7572fd4b6b2f08fc46c1b6270ef4b42611e113",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-154e50ff60",
+      "stage": "blind_solution",
+      "input_tokens": 5315,
+      "output_including_reasoning_tokens": 5091,
+      "reasoning_tokens": 4056,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5312,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3210,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "aa9fa767f542b3f3549269e2bde73604cc0b59115e50299c645866e660f891cd",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-461c8da728",
+      "stage": "explanation_support",
+      "input_tokens": 2565,
+      "output_including_reasoning_tokens": 938,
+      "reasoning_tokens": 692,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2562,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 790,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "d8be0e2295bfb1cbf1ce7228e8ef084986fa69d8c3e91ab93f5b83673da2a197",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d1489a9ae6",
+      "stage": "independent_evaluation",
+      "input_tokens": 4647,
+      "output_including_reasoning_tokens": 1169,
+      "reasoning_tokens": 242,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7869,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "a4de30cd664eb4f7b165fcd0a07ff846ff9243e9da7140a95d213e5f83a51cd1",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5ef78612af",
+      "stage": "blind_solution",
+      "input_tokens": 5146,
+      "output_including_reasoning_tokens": 4480,
+      "reasoning_tokens": 3458,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5143,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2884,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "8d865ef1bd3a48644e3f7dbbf80a31e4c42947aaf8352f0c823f73aa19450e71",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-d1489a9ae6",
+      "stage": "explanation_support",
+      "input_tokens": 2412,
+      "output_including_reasoning_tokens": 1008,
+      "reasoning_tokens": 828,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2409,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 806,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "dec4c3972bd3d7e96a13c92e1262088bc52bbb0703c558cff161ddd43578c1fd",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-dcb4ca9b28",
+      "stage": "blind_solution",
+      "input_tokens": 5348,
+      "output_including_reasoning_tokens": 6390,
+      "reasoning_tokens": 5217,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5345,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3864,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "59abdd53bfe8e52df47f8432311369d58b63554b4596847cb5c8e9e935b5abe5",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-154e50ff60",
+      "stage": "independent_evaluation",
+      "input_tokens": 4654,
+      "output_including_reasoning_tokens": 1200,
+      "reasoning_tokens": 229,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7991,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "06d0e375ffe20ecd35b797645aef28c4f1f95267f821322fde22c754ce24bc9e",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-154e50ff60",
+      "stage": "explanation_support",
+      "input_tokens": 2573,
+      "output_including_reasoning_tokens": 551,
+      "reasoning_tokens": 343,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2570,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 598,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "04dd2e46a745dab034dd612193ff5db38d48890391bddaaf23c1ca7c9ed3b650",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-2b8bd9ddd4",
+      "stage": "blind_solution",
+      "input_tokens": 5029,
+      "output_including_reasoning_tokens": 3475,
+      "reasoning_tokens": 2413,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5026,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2367,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "38cc4aab5555c3179c145df32e062eaa714df640b9feaee314c831810b797a8a",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-5ef78612af",
+      "stage": "independent_evaluation",
+      "input_tokens": 4474,
+      "output_including_reasoning_tokens": 1566,
+      "reasoning_tokens": 429,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9228,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "51782513d00f955705202e24a221e3e74c8991eccb29614941ca58bf9c86d5ec",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-972dd21c21",
+      "stage": "blind_solution",
+      "input_tokens": 5372,
+      "output_including_reasoning_tokens": 5021,
+      "reasoning_tokens": 4020,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5369,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3182,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "2c9b77cc7a09ad743503434c246e9e4d1ded9c702755de3f44128140e86bd5e2",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-2b8bd9ddd4",
+      "stage": "independent_evaluation",
+      "input_tokens": 4351,
+      "output_including_reasoning_tokens": 1467,
+      "reasoning_tokens": 335,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8765,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "96c99afbc8b73b6f1e630c5f3f3b742ee759fe714dfb74064466747bdfbaf2fd",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-dcb4ca9b28",
+      "stage": "independent_evaluation",
+      "input_tokens": 4642,
+      "output_including_reasoning_tokens": 1656,
+      "reasoning_tokens": 621,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9692,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "4ad352dff55c0300f7c869b4b390dcad75a0d5e12e8b10284c9504abe4aaa5c1",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-2b8bd9ddd4",
+      "stage": "explanation_support",
+      "input_tokens": 2190,
+      "output_including_reasoning_tokens": 741,
+      "reasoning_tokens": 477,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2187,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 645,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "6b5738d76dc1fc695000524869ec12cf9c9d1a42ce1f9b4255459d0488adedb7",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-8a965d2fc3",
+      "stage": "blind_solution",
+      "input_tokens": 4767,
+      "output_including_reasoning_tokens": 3831,
+      "reasoning_tokens": 2957,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4764,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2512,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "93db6fbb7674f55d7f892cf47f6331939b221c04aa5342b5275b534478cec2cd",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-6c0c03dcf8",
+      "stage": "blind_solution",
+      "input_tokens": 4770,
+      "output_including_reasoning_tokens": 3860,
+      "reasoning_tokens": 3106,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 4767,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2527,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "995561fad50df665ac2a1bc31dfd1fd83120ec1f326f4925d493a1d666098c42",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-972dd21c21",
+      "stage": "independent_evaluation",
+      "input_tokens": 4738,
+      "output_including_reasoning_tokens": 4484,
+      "reasoning_tokens": 4321,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 20369,
+      "reserved_micro": 43125,
+      "response_status": "MAX_TOKENS",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "cea934814d99ba6722b82f14e5fe1c269044c0b62b13f6bc7b13b07d1d07ebe4",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-8a965d2fc3",
+      "stage": "independent_evaluation",
+      "input_tokens": 4109,
+      "output_including_reasoning_tokens": 1186,
+      "reasoning_tokens": 246,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7530,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "6e9f479ed4765dfba8de7ff612ebc6c4e976e28e29ec2d1537ee6149bd6a92b0",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-6c0c03dcf8",
+      "stage": "independent_evaluation",
+      "input_tokens": 4099,
+      "output_including_reasoning_tokens": 1601,
+      "reasoning_tokens": 628,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9078,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "c305c589110e1f5fc82d9be8da22214372853947e22067227e6a5c086faba94e",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-8a965d2fc3",
+      "stage": "explanation_support",
+      "input_tokens": 1905,
+      "output_including_reasoning_tokens": 796,
+      "reasoning_tokens": 587,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 1902,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 637,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b7cbdf9a2397c3354d46dbeefa6a7b51510286cdd4f4fd788d66027dd04377b3",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-972dd21c21",
+      "stage": "independent_evaluation",
+      "input_tokens": 4738,
+      "output_including_reasoning_tokens": 3056,
+      "reasoning_tokens": 1883,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 15014,
+      "reserved_micro": 60000,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "df83f987d8a47ecb8574a8c19b144f43e67545e2232fbbce01b1e9b782b68bb8",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-59f949e91e",
+      "stage": "blind_solution",
+      "input_tokens": 5547,
+      "output_including_reasoning_tokens": 2943,
+      "reasoning_tokens": 2000,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5544,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2165,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "98533d2c3301fe66e4d2b285f38e4012c09ab87f29419fda01bf8e529c0baf54",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-cbcd129073",
+      "stage": "blind_solution",
+      "input_tokens": 5952,
+      "output_including_reasoning_tokens": 6480,
+      "reasoning_tokens": 5352,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5949,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3984,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "1f9a7cea236c143dcf3eb68d4a8d2be836dfe667c18144c6f69f4bfdbb9f3ebf",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-060c149e8f",
+      "stage": "blind_solution",
+      "input_tokens": 5109,
+      "output_including_reasoning_tokens": 3855,
+      "reasoning_tokens": 3007,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5106,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2567,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "89ca088f49855fbfbb042b33e95643f2bfbbaa81faadcbecc2f75b418204994d",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-59f949e91e",
+      "stage": "independent_evaluation",
+      "input_tokens": 4842,
+      "output_including_reasoning_tokens": 1274,
+      "reasoning_tokens": 328,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8409,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "7df7aacea09772a0e354fe97e95e779350068861f4b324adc0679fad7c9323dc",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-f4c6fb6af3",
+      "stage": "blind_solution",
+      "input_tokens": 5312,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 6458,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5309,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4414,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "82a64053586b46a186cd156cff0580510eb43dd58b59aa5f7a6703858ea8701a",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-060c149e8f",
+      "stage": "independent_evaluation",
+      "input_tokens": 4391,
+      "output_including_reasoning_tokens": 1109,
+      "reasoning_tokens": 186,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7452,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "c40083ec8d6fc6bc3429b148f2d19c6ff69b62d955de52ea1b3265748a7f90fc",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-cbcd129073",
+      "stage": "independent_evaluation",
+      "input_tokens": 5297,
+      "output_including_reasoning_tokens": 2181,
+      "reasoning_tokens": 1098,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 12152,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "7afb9f5aa51fdcaf7f0c2d096d2707b7e5263131b51181ea11e9b213215d53d5",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-060c149e8f",
+      "stage": "explanation_support",
+      "input_tokens": 2219,
+      "output_including_reasoning_tokens": 603,
+      "reasoning_tokens": 346,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2216,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 579,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "a000588ce97b14b290f1086f145552e4d60470512ea830f8713ac2e188e3cd9f",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-706de08f5d",
+      "stage": "blind_solution",
+      "input_tokens": 5288,
+      "output_including_reasoning_tokens": 5030,
+      "reasoning_tokens": 4018,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5285,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3176,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "ebc779b6b6c8180755ae43cd892185eb66a8c5f59f2491abc7537d2dc2846d3c",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10e903f685",
+      "stage": "blind_solution",
+      "input_tokens": 5305,
+      "output_including_reasoning_tokens": 5454,
+      "reasoning_tokens": 4459,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5302,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3391,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "1e77577304d4bcc1f84db8211a68cba1411f08824cf08e341189b4b21425eb52",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-f4c6fb6af3",
+      "stage": "blind_solution",
+      "input_tokens": 5312,
+      "output_including_reasoning_tokens": 7935,
+      "reasoning_tokens": 7042,
+      "cached_input_tokens": 5309,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4021,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "6f5bfd23fe2773465ed354461c58f8a93399fd4e457c35df41238192c5976961",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-706de08f5d",
+      "stage": "independent_evaluation",
+      "input_tokens": 4644,
+      "output_including_reasoning_tokens": 3167,
+      "reasoning_tokens": 2121,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 15360,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "e9369330c2358a7502902c2b395b36ce7d9246e29c645658e2a23dc47b98293a",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10e903f685",
+      "stage": "independent_evaluation",
+      "input_tokens": 4657,
+      "output_including_reasoning_tokens": 1323,
+      "reasoning_tokens": 362,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8454,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "e603766d4de3f37c74382b4656fb5d01ac74191697aef8bf4f655690e6c88136",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-10e903f685",
+      "stage": "explanation_support",
+      "input_tokens": 2513,
+      "output_including_reasoning_tokens": 888,
+      "reasoning_tokens": 672,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2510,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 759,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "9c1600dcc1604f2ba043d6b0dacf09eb6ac2acbf1c2271a080356e712282d298",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-f4c6fb6af3",
+      "stage": "independent_evaluation",
+      "input_tokens": 4660,
+      "output_including_reasoning_tokens": 1214,
+      "reasoning_tokens": 257,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8048,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "874b5703e74ddd9ae9885a839a17c7f1be0354b02e3eb99d7689571153d2fb94",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "stage": "blind_solution",
+      "input_tokens": 5306,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 7500,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5303,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4414,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "00b0fb57fff75c222c058bdc47eebbf01f8507a9c43c1dc442db2b5217a839b3",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02",
+      "stage": "blind_solution",
+      "input_tokens": 5807,
+      "output_including_reasoning_tokens": 4772,
+      "reasoning_tokens": 3841,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5804,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3112,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "484b6f09dea39a3d387ee4ec33dec1bd3488d06480b92f62e672e7c6ebc3fda9",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "stage": "blind_solution",
+      "input_tokens": 5033,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 7500,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5030,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4380,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "736c6f0987471174f0c3c0fd2f34c36f0c35c109419065bc82146b32ee067a79",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02",
+      "stage": "independent_evaluation",
+      "input_tokens": 5208,
+      "output_including_reasoning_tokens": 1433,
+      "reasoning_tokens": 369,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 9280,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "8be2499ff279fa011fdf43eb1a85141d89f9db2aaa3f9df4a4bf7503a958235a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02",
+      "stage": "explanation_support",
+      "input_tokens": 2221,
+      "output_including_reasoning_tokens": 3574,
+      "reasoning_tokens": 3305,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2218,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2065,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "70f706aaab2fbca0e264853e6d3ddbd5723ab14cab89d91522b14a3f5583e02e",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "stage": "blind_solution",
+      "input_tokens": 5306,
+      "output_including_reasoning_tokens": 5904,
+      "reasoning_tokens": 5096,
+      "cached_input_tokens": 5303,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3006,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "8d10635478388f37459a345e90510c02657bf9ceb7ac2fc6451a2b7fa856eb7c",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "stage": "blind_solution",
+      "input_tokens": 5033,
+      "output_including_reasoning_tokens": 6091,
+      "reasoning_tokens": 5178,
+      "cached_input_tokens": 5030,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3097,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "b690c0fed0839df0ee53aab7c5d7eb21bfa9b9904e567ce7545f8af6a4c84a71",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eng-q01",
+      "stage": "blind_solution",
+      "input_tokens": 5215,
+      "output_including_reasoning_tokens": 4384,
+      "reasoning_tokens": 3493,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5212,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2844,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "fdbcccf9e5571fb343b22e7624dd57ba1215af1453f6d77ead62e1bdcb562c83",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "stage": "independent_evaluation",
+      "input_tokens": 4699,
+      "output_including_reasoning_tokens": 1837,
+      "reasoning_tokens": 687,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 10413,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "b2c6994a46b02a221a603b5f02a3ee44106c9e9068a5416a4a457c4d96fa63b8",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "stage": "independent_evaluation",
+      "input_tokens": 4324,
+      "output_including_reasoning_tokens": 1305,
+      "reasoning_tokens": 348,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8137,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "5d3cf9914ffe82b01a223d8289d709676e04459d47073ba2b334f774e94b8c07",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "stage": "explanation_support",
+      "input_tokens": 2533,
+      "output_including_reasoning_tokens": 5000,
+      "reasoning_tokens": 4660,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2530,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2817,
+      "reserved_micro": 6875,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "0f6b3e1889e9e4049604e3e9197f1b4724a8117bfa505b53ce8ece79251e3d02",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eng-q01",
+      "stage": "independent_evaluation",
+      "input_tokens": 4564,
+      "output_including_reasoning_tokens": 1107,
+      "reasoning_tokens": 237,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 7575,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "1326222a691fd4f4f7f1a933c25c3dc75e83b19ba779d3aad9e5bddf03bcc0a2",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "stage": "explanation_support",
+      "input_tokens": 2212,
+      "output_including_reasoning_tokens": 5000,
+      "reasoning_tokens": 5000,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2209,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2777,
+      "reserved_micro": 6875,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "4042934da88cd41c3dd8d5387dde12215038cf45d81453247778137a80a32a1a",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eng-q01",
+      "stage": "explanation_support",
+      "input_tokens": 2357,
+      "output_including_reasoning_tokens": 2734,
+      "reasoning_tokens": 2528,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2354,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1662,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "09e129e40d56a63ed923b687d57435fff27622588b965a48bdea8b37567e6753",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eng-q01--wrong_key",
+      "stage": "blind_solution",
+      "input_tokens": 5217,
+      "output_including_reasoning_tokens": 5683,
+      "reasoning_tokens": 4815,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5214,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3494,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "e82f16e56d2eaca1bcf39efeeb9d26286e7ee14b0bb9a716b72ce04a48acca67",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "stage": "explanation_support",
+      "input_tokens": 2533,
+      "output_including_reasoning_tokens": 5017,
+      "reasoning_tokens": 4479,
+      "cached_input_tokens": 2530,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2535,
+      "reserved_micro": 9375,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "0a3d8069ae3dbcf5b8699d88c0129868b8047ac957852aa815901bafa993ecb6",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "stage": "explanation_support",
+      "input_tokens": 2212,
+      "output_including_reasoning_tokens": 3367,
+      "reasoning_tokens": 3106,
+      "cached_input_tokens": 2209,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1706,
+      "reserved_micro": 9375,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "19332f416c803288466b55e70b5731836d9bb05f16302a5caaa46796bd78e9a9",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02--overlapping_options",
+      "stage": "blind_solution",
+      "input_tokens": 5818,
+      "output_including_reasoning_tokens": 7160,
+      "reasoning_tokens": 6046,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5815,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4308,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "14e4d3f55a89dc636457cf546851046fe839fae52ab77361a46536d6e26a67e1",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "stage": "blind_solution",
+      "input_tokens": 5304,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 7108,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5301,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4413,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "f35f3f35a6fb8c07394ec0e1b80b6346f2805b679b9204ff23ac04929e42cd9d",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eng-q01--wrong_key",
+      "stage": "independent_evaluation",
+      "input_tokens": 4568,
+      "output_including_reasoning_tokens": 1454,
+      "reasoning_tokens": 562,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8879,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "8f0e64030310caa90d7d1dfcc875a9481e8f5f62cd6afc0d9400f8ccad5d3cb5",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q06--numerical_fault",
+      "stage": "blind_solution",
+      "input_tokens": 5433,
+      "output_including_reasoning_tokens": 7500,
+      "reasoning_tokens": 7500,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5430,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4430,
+      "reserved_micro": 8125,
+      "response_status": "incomplete",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "4b209aef18514a2277ef15de078ba1a295d8f8b59173c5c61d47060301bd0514",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02--overlapping_options",
+      "stage": "independent_evaluation",
+      "input_tokens": 5213,
+      "output_including_reasoning_tokens": 4484,
+      "reasoning_tokens": 4316,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 20725,
+      "reserved_micro": 43125,
+      "response_status": "MAX_TOKENS",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "8f6cc61c355d14f95cba80c22b808fc6d545e60858f342df2c0992fbe2df0b47",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "stage": "blind_solution",
+      "input_tokens": 5304,
+      "output_including_reasoning_tokens": 8430,
+      "reasoning_tokens": 7150,
+      "cached_input_tokens": 5301,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4269,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "e76cfadcaf22692fae7e33aebaf22c1b9d4332154d53229fab04dafab37a7721",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q06--numerical_fault",
+      "stage": "blind_solution",
+      "input_tokens": 5433,
+      "output_including_reasoning_tokens": 8871,
+      "reasoning_tokens": 7621,
+      "cached_input_tokens": 5430,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4491,
+      "reserved_micro": 11875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "28f73c59e4edbccc5613c8e9158a46c58f1d8ad30c7eac1e6d3877d7297da686",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02--overlapping_options",
+      "stage": "independent_evaluation",
+      "input_tokens": 5213,
+      "output_including_reasoning_tokens": 2792,
+      "reasoning_tokens": 1564,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 14380,
+      "reserved_micro": 60000,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "95b03a8ce0291f1efcb7bb489c148b4994138f0d340e5e0749dec69668f3fb51",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02--unsupported_explanation",
+      "stage": "blind_solution",
+      "input_tokens": 5049,
+      "output_including_reasoning_tokens": 7161,
+      "reasoning_tokens": 6233,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5046,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 4212,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "dd6e86f2e69a1dea3dcae3a74ed9194d480b8d1ad97af001775f0baaea7547d3",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "stage": "independent_evaluation",
+      "input_tokens": 4695,
+      "output_including_reasoning_tokens": 4484,
+      "reasoning_tokens": 4319,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 20337,
+      "reserved_micro": 43125,
+      "response_status": "MAX_TOKENS",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "8b06ae51e97f9545a3ce4221337ee0ca7111084846d61ddf4884c0a485f58726",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q06--numerical_fault",
+      "stage": "independent_evaluation",
+      "input_tokens": 4751,
+      "output_including_reasoning_tokens": 2152,
+      "reasoning_tokens": 944,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 11634,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "c3dba5f26533713699f6ef5003c5dde9d603f779431efbe7af6aceb7152ce854",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q04--out_of_syllabus",
+      "stage": "blind_solution",
+      "input_tokens": 5064,
+      "output_including_reasoning_tokens": 4215,
+      "reasoning_tokens": 3303,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5061,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 2741,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "88df6b5637752a511ee39b2b9454a4cb71ee39d92553a0ca76182d6f15e3b9fb",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "stage": "independent_evaluation",
+      "input_tokens": 4695,
+      "output_including_reasoning_tokens": 5898,
+      "reasoning_tokens": 4720,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 25639,
+      "reserved_micro": 60000,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "ea905274f54bb045d7cf6d143e846988435642196fb19a9f5e5cca914998c1a1",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02--unsupported_explanation",
+      "stage": "independent_evaluation",
+      "input_tokens": 4332,
+      "output_including_reasoning_tokens": 1268,
+      "reasoning_tokens": 349,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 8004,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "00710bd57d5001d01c64d7b3e9c4f1a9325285a9140e1b885a8d537576a27d37",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02--unsupported_explanation",
+      "stage": "explanation_support",
+      "input_tokens": 2229,
+      "output_including_reasoning_tokens": 3403,
+      "reasoning_tokens": 3106,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 2226,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 1981,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "4f83ad7a568ec4508bbdefc6fa23268a01d79cd0880513b45266cded31b3ef26",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q04--out_of_syllabus",
+      "stage": "independent_evaluation",
+      "input_tokens": 4352,
+      "output_including_reasoning_tokens": 2361,
+      "reasoning_tokens": 1256,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 12118,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "ee705274d782c5bdf17c08d33ee6b92cefdcf949a46c1ecfd4bf17d9ae916868",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "stage": "blind_solution",
+      "input_tokens": 6764,
+      "output_including_reasoning_tokens": 4965,
+      "reasoning_tokens": 3513,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 6761,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3328,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "4422453b345655d3aa06d0a46b5f5f82cd1a190fd30e625f6429bc53f42799aa",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:known-bank-ea0352db044b73bb7158800c58be188d",
+      "stage": "blind_solution",
+      "input_tokens": 5847,
+      "output_including_reasoning_tokens": 6458,
+      "reasoning_tokens": 5348,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 5844,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3960,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "0cbf36b64e184e01d17286fdfa294890c44c80bf6c5c385b74e20dbb7b328c73",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:v75f-825e60a00f",
+      "stage": "blind_solution",
+      "input_tokens": 6607,
+      "output_including_reasoning_tokens": 6140,
+      "reasoning_tokens": 5127,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 6604,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 3896,
+      "reserved_micro": 8125,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    },
+    {
+      "native_key": "c39ab3aaeb4d4fb6be59c41ce82f1a96eb879ac6d8f86bf283c598cccf9c126b",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "stage": "independent_evaluation",
+      "input_tokens": 6290,
+      "output_including_reasoning_tokens": 1919,
+      "reasoning_tokens": 565,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 11914,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "61c83ac12a1cc6926e520007447475d0b689a715abfec3e2694bf42d53e95614",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:known-bank-ea0352db044b73bb7158800c58be188d",
+      "stage": "independent_evaluation",
+      "input_tokens": 5217,
+      "output_including_reasoning_tokens": 1671,
+      "reasoning_tokens": 625,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 10179,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "1cfe622a3f96a0fd7a060726b63c6dbc98e0d5a69ab4832140eb9e74789c5464",
+      "provider": "gemini",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:v75f-825e60a00f",
+      "stage": "independent_evaluation",
+      "input_tokens": 6018,
+      "output_including_reasoning_tokens": 1496,
+      "reasoning_tokens": 361,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 0,
+      "rate_profile": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      },
+      "actual_micro": 10124,
+      "reserved_micro": 43125,
+      "response_status": "STOP",
+      "served_tier": null,
+      "match": true
+    },
+    {
+      "native_key": "0fd33bd9f4960591e188ccbf453172fa076a8a3a42e0069923712c7ca14b47ca",
+      "provider": "openai",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:v75f-825e60a00f",
+      "stage": "explanation_support",
+      "input_tokens": 3036,
+      "output_including_reasoning_tokens": 555,
+      "reasoning_tokens": 374,
+      "cached_input_tokens": 0,
+      "cache_write_tokens": 3033,
+      "rate_profile": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 35000,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "actual_micro": 657,
+      "reserved_micro": 6875,
+      "response_status": "completed",
+      "served_tier": "default",
+      "match": true
+    }
+  ]
+}

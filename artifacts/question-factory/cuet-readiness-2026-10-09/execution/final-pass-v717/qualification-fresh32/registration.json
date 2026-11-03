@@ -1,0 +1,211 @@
+{
+  "id": "cuet-v717-one-bounded-qualification",
+  "kind": "qualification",
+  "profile": "cuet-fit-validator-v7.17-report-policy",
+  "created_at": "2026-10-10T05:45:43.546Z",
+  "contract_hash": "045cf8d93ece2742fbd651fb3f272532b8ff96cb554fed92230f788dbb66e533",
+  "prompt_hash": "d51311949ff24aa226cd11726c4ee3fcaa5fb4eb826879de6c01ba883c547246",
+  "campaign_sha256": "4c9bc329e1a633c92b15671503c0bf0aae6ef3ac20c482884f1592321509411a",
+  "registry_sha256": "d398af535595c1067dcd88ca86c7320bf1fdd766a8f32537a31b796ac9eaa70f",
+  "runner_sha256": "8a6688ed72418b8f7afb11504d18189f4c521fe2799d2a6ed650a84dfbcf1755",
+  "engine_sha256": "360c6e2ff79ef5092be2f441fa66838668cd513706c4aacee001ae03b2ad7309",
+  "registry_hash": "d398af535595c1067dcd88ca86c7320bf1fdd766a8f32537a31b796ac9eaa70f",
+  "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+  "pricing_expires_at": "2026-10-12T21:37:55.116Z",
+  "cost_profile": {
+    "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+    "input_byte_bounds": {
+      "gpt-6-luna": 33024,
+      "gemini-3.8-flash": 33024
+    }
+  },
+  "jobs": [
+    {
+      "id": "q717-4a082f0b51de029bb76828b2",
+      "subject": "accountancy",
+      "candidate_hash": "b91f43fbdd5cbd4bce968478ce2176258b953b9afd074ba3e95f048c1d1116ee"
+    },
+    {
+      "id": "q717-823c642827fa0755990d20a6",
+      "subject": "business_studies",
+      "candidate_hash": "6848eaa9f30cda7fca21c9cc38184a826eb9bda9ca49912cbf12d3cd5055d8ea"
+    },
+    {
+      "id": "q717-3b013aed1a7f3b84786475c4",
+      "subject": "economics",
+      "candidate_hash": "f4796a9eeca47aa47db44ff74e5a1afd4c3b925229716355cb788f4fa717c1d1"
+    },
+    {
+      "id": "q717-4f74bc0977085544510a0c54",
+      "subject": "english",
+      "candidate_hash": "d2f2c59b2cd578f3d8ff7c0912a9eecd9764d18bdc5812d0b055a964a97456e0"
+    },
+    {
+      "id": "q717-788316349ae649f0a9203eac",
+      "subject": "accountancy",
+      "candidate_hash": "b13de91195b166b79fe4dba7eecc3d9cefe87f6dcc2fd1aa568eda3ceb3aed40"
+    },
+    {
+      "id": "q717-deae7562fbbcc6865560a309",
+      "subject": "business_studies",
+      "candidate_hash": "f6d88778b94449da0d2b5c415262b5663f595229be45d1426be9232913f6ba21"
+    },
+    {
+      "id": "q717-e938379d50e33c8cb672d8bd",
+      "subject": "economics",
+      "candidate_hash": "e442225565d21bd87cfe5131135219f7f60351b68dbab92efb18beb2205d7b83"
+    },
+    {
+      "id": "q717-a9ee331ee3870ef6bd58be41",
+      "subject": "english",
+      "candidate_hash": "d82d0d59f0264b4927de4f1f46797288688ee7f2eb1f68f07d834304c473cbc4"
+    },
+    {
+      "id": "q717-4b8c94e15c91fec0939499ea",
+      "subject": "accountancy",
+      "candidate_hash": "ab2b992894efd95a89aab956ddde61a72d73be458897983e08a7ab6452d5fcd8"
+    },
+    {
+      "id": "q717-24a5b6b47bfb7b7caa018bf3",
+      "subject": "business_studies",
+      "candidate_hash": "ee11cd13b9eaa2fcdced8335d05e10f64dc87f0c4e4a8e6061936cb48dc92fc6"
+    },
+    {
+      "id": "q717-9dc7d2d4f57b273001bb739d",
+      "subject": "economics",
+      "candidate_hash": "1e2831cd802b11e86ab772f98885d2ffd408d7581a9fc25d959f10b970c8c869"
+    },
+    {
+      "id": "q717-1e1c41b571d2ecd7230552fb",
+      "subject": "english",
+      "candidate_hash": "b15c3c09496a5b0ae1d30521f76c8e27438924b6cc7ac6f2fc209d718e4455c9"
+    },
+    {
+      "id": "q717-d961cf3760b64db3afac6efc",
+      "subject": "accountancy",
+      "candidate_hash": "1ef72ba3bc58082b7790327248f0f284607184164f0ad077d65c4ef3470587dc"
+    },
+    {
+      "id": "q717-41d4531e8657244ffdc2276d",
+      "subject": "business_studies",
+      "candidate_hash": "5376290fe1ba6877e711dee1498a17719cbb591c9006f8de361104461d420354"
+    },
+    {
+      "id": "q717-6901065455b2e85d5839fb5c",
+      "subject": "economics",
+      "candidate_hash": "471561878ebb727302da2294549034a6b3621dd43ed02eac45f2d4aaa070b1f1"
+    },
+    {
+      "id": "q717-c9935a08a1dadd15bc03c6fe",
+      "subject": "english",
+      "candidate_hash": "1dea11279c97f4beffcfc90e01e64a1181354e83653af1dfad0c5c11203d5aea"
+    },
+    {
+      "id": "q717-cc59a1372724c8ad2f9fa370",
+      "subject": "accountancy",
+      "candidate_hash": "b75d8a265ce2b78d5f2961805985bebf3bad148a35f7ed60afbeecdb8ed009da"
+    },
+    {
+      "id": "q717-81165e9f76d2fe017fbae7a6",
+      "subject": "business_studies",
+      "candidate_hash": "55853d0363e4e921d6b0e828d172edf4ed8391383dc247f85850cb820ebd1e07"
+    },
+    {
+      "id": "q717-3e2045907713fe98e12fda8c",
+      "subject": "economics",
+      "candidate_hash": "bbca1e2d3915e9ccd1fc51d8806e188530692668b05a15b14c6bcb7b7843b8f1"
+    },
+    {
+      "id": "q717-c3520ac2c10a06a48b19552b",
+      "subject": "english",
+      "candidate_hash": "615dc05d0b1aed67e5d19ae7f5036b90b1c1e9baf7b199ab17dc841e196f6356"
+    },
+    {
+      "id": "q717-836e7021a8dc9f69e20dabe8",
+      "subject": "accountancy",
+      "candidate_hash": "6b6c20deca9e88597884ef09fd8e1749c310241d42904c08e229f8e0f1412e9e"
+    },
+    {
+      "id": "q717-9955b8830fbf37578383f2fa",
+      "subject": "business_studies",
+      "candidate_hash": "52c89516e910f45d7e1ab23f13cd766d2721c8fdffdad131b7456d0056c0ab4f"
+    },
+    {
+      "id": "q717-de1089f449002fb3f7ee64c0",
+      "subject": "economics",
+      "candidate_hash": "56272edd463bfcafe08edddff69cc6a88ecde3e3582b9642a729a2d55b42a435"
+    },
+    {
+      "id": "q717-cbbef17389750dffae8dc207",
+      "subject": "english",
+      "candidate_hash": "86225a5f339ab7b22db096797101bc24c1cbfe0f9d1e63616460696b54c54122"
+    },
+    {
+      "id": "q717-e584ab5fb5543a34e09e6cec",
+      "subject": "accountancy",
+      "candidate_hash": "8e7d5745390e1f279223c0b6115c5e0533736c3f5bc0d7ce1451517c3eb2980e"
+    },
+    {
+      "id": "q717-96f23a45cd5ddc58d0235eda",
+      "subject": "business_studies",
+      "candidate_hash": "261f56aa04e51777203250f222fd9c7b2d90db6a41900704bc7741cf0129ea65"
+    },
+    {
+      "id": "q717-2fad25ee3a7dbbdbd91d636d",
+      "subject": "economics",
+      "candidate_hash": "a8af2e6f971904fc2555d83b02ebffe28dcaa9c4895b80a3121147ae9d45cb54"
+    },
+    {
+      "id": "q717-35134360a9497d7ed3cf3105",
+      "subject": "english",
+      "candidate_hash": "86691d8998180d9c8598e38a73f56a03fb8d4a8ea5ded36941898a3c48123743"
+    },
+    {
+      "id": "q717-9ac63f86dadab0ed3f237782",
+      "subject": "accountancy",
+      "candidate_hash": "9ad1cb7667ecef99c6ed4b684bae093450fdb9bd77e1a2c1d32421013498fbce"
+    },
+    {
+      "id": "q717-23393bb7b488f77a58ed3c66",
+      "subject": "business_studies",
+      "candidate_hash": "23ceb1fa466be2d013e25a80ddcb5ae69f1d1f367a215d9006901ec10a1bf5b9"
+    },
+    {
+      "id": "q717-6920a1ed5fb5a21c884c8425",
+      "subject": "economics",
+      "candidate_hash": "5749bd65b39f1c311f276365ae7932791c4f91aa5ce7ca8398261fbb352b960a"
+    },
+    {
+      "id": "q717-3662a54735c8a56d98672412",
+      "subject": "english",
+      "candidate_hash": "1e2a6206a3489bf3013d63ccda8a08d7b7e0f7baf9d17c0c4535263fbf7e3dd8"
+    }
+  ],
+  "qualification": true,
+  "validation_only": true,
+  "cap_usd": 1,
+  "publication": "never",
+  "max_repairs": 0,
+  "replacements": 0,
+  "standard_full_bound_usd": 5.425536,
+  "budget_stop_possible": true,
+  "input_byte_bound": 33024,
+  "full_retry_bounds": true,
+  "preflight_hash": "f462a8ea6e31a1faa716ba608f0840a18a191621b7827c86644d7ec73e6c2cee",
+  "decision_rule": "PASS only if all32 terminal with complete receipts and zero study holds; zero review-incomplete errors; zero controlled false accepts; at least85% valid eligibility pooled and at least70% in each subject. Unfinished items are not rejections or defect detections. No repairs, resampling, relabels, exclusions or threshold changes after registration. One qualification only; a failed result is diagnosed and reported, with accepted requests recovered receipt-only.",
+  "standard_full_bound_exceeds_cap": true,
+  "execution_freeze": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/V717-FINAL-EXECUTION-FREEZE.json",
+    "sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd"
+  },
+  "cases": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/cases.json",
+    "sha256": "f4aac376d54746c07d95e4ff484307125c798384fe31cc5b9959358e0382dc4b"
+  },
+  "unseen_at_freeze": true,
+  "custody": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/custody.json"
+  },
+  "independent_answer_custody_hash": "a0eff58747d3df0231c4248e03533a45eb6f949d2f95a172fc0da1dff3bf12e9",
+  "max_planned_request_bytes": 27074
+}

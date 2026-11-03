@@ -1,0 +1,93 @@
+{
+  "schema": "all-raw-independent-first-passes-frozen-v4",
+  "frozen_at": "2026-10-08T11:16:07.773Z",
+  "raw_denominator": 32,
+  "input_packet_sha256": "e1cd69636842d1f86f8d35a2fed08fa66e51d0da9c67ccbdb3d1ca0f89c2bdfe",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "first_derivation_freeze_sha256": "d5b8bcf08149bb12e03cd70454db8b70836f82e980fc3d112d670601568d09d5",
+  "reviews": [
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-english-first-pass.json",
+      "sha256": "edca00c37e384bbf066897a9515e22ebcf049ce91f02b49757903d0b6b27aa06",
+      "reported_metadata": {
+        "at": "2026-10-08T11:04:58Z",
+        "reviewer_model": "gpt-6",
+        "effort": "high"
+      },
+      "raw_records": 8
+    },
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-accountancy-first-pass.json",
+      "sha256": "0ec94b3d867224340d440d7e3e35b985e642d30366d8951c598e95f5d7e0dbd9",
+      "reported_metadata": {
+        "at": "2026-10-08T12:00:00Z",
+        "reviewer_model": "GPT-6",
+        "effort": "high"
+      },
+      "raw_records": 8
+    },
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-business-economics-first-pass.json",
+      "sha256": "c38fbf3817e9ae44559d48773140d5f3f7e5698fd146182655ce1a812e7fb24d",
+      "reported_metadata": {
+        "at": "2026-10-08T11:05:55.038Z",
+        "reviewer_model": "GPT-6",
+        "effort": "high"
+      },
+      "raw_records": 16
+    }
+  ],
+  "official_candidate_marking_schemes_read": false,
+  "paid_CUET_validator_results_seen": false,
+  "publication": false,
+  "actual_dispatch_metadata": {
+    "english": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "medium"
+    },
+    "accountancy": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    },
+    "business_economics": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high"
+    }
+  },
+  "record_integrity_disclosures": [
+    "Agent-reported model names do not match the dispatch model; actual dispatch settings are separately recorded without changing the frozen reviews.",
+    "Accountancy reported at=12:00Z even though review completion was received around 11:07Z; that timestamp is not accepted as custody time. This freeze uses the local clock.",
+    "Accountancy Q6 includes a wrong intermediate forfeiture claim before a correct final derivation. Preserve the record and exclude Q6 from positive release controls; no overwrite or substitute first pass.",
+    "An automatic approval reviewer rejected rewriting the frozen Accountancy first pass and prohibited a workaround. The original bytes are retained."
+  ],
+  "positive_control_additional_exclusions": [
+    {
+      "id": "cbse24-ac-q06",
+      "reason": "independent first-pass record has an erroneous intermediate assertion; preserved as held construction evidence"
+    }
+  ],
+  "limitation": "Independent source solves and official-key comparison are not proof of perfect accuracy. All raw exclusions remain in construction accounting."
+}

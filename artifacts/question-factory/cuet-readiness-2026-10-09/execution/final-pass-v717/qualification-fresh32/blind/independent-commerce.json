@@ -1,0 +1,1288 @@
+{
+  "schema": "cuet-v717-independent-commerce-blind-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "packet_sha256": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530",
+  "packet_freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+  "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+  "frozen_at_utc": "2026-10-10T05:25:48.2838390Z",
+  "reviewer": "independent-commerce-sol",
+  "case_ids": [
+    "q717-2d3457102e1deac5f2f1f7b5",
+    "q717-788316349ae649f0a9203eac",
+    "q717-4b8c94e15c91fec0939499ea",
+    "q717-d961cf3760b64db3afac6efc",
+    "q717-cc59a1372724c8ad2f9fa370",
+    "q717-836e7021a8dc9f69e20dabe8",
+    "q717-8d9e851f6500c83a3abde130",
+    "q717-82d5c3f33d5ec00d4085a341",
+    "q717-3b013aed1a7f3b84786475c4",
+    "q717-e938379d50e33c8cb672d8bd",
+    "q717-9dc7d2d4f57b273001bb739d",
+    "q717-a9f00c22500f1b5041b68798",
+    "q717-3e2045907713fe98e12fda8c",
+    "q717-9daaff173b9cf47627e030ec",
+    "q717-2fad25ee3a7dbbdbd91d636d",
+    "q717-24af92c3f430d2de35025763"
+  ],
+  "custody": {
+    "sole_academic_input": "blind/packet.json",
+    "proposed_answers_explanations_labels_unseen": true,
+    "no_sealed_or_cases_files_read": true,
+    "no_provider_calls": true,
+    "no_runtime_registration_edits": true,
+    "continuum_start_called_context_payload_not_inspected": true,
+    "prior_cases_or_answers_not_used": true
+  },
+  "answer_set_semantics": "Answer_set contains established answer options; it is empty for underdetermined inputs, with possible keys and rival realizations recorded separately. Academic best options with a decisive source-rule gap are explicitly marked provisional as to supplied-source custody.",
+  "summary": {
+    "total": 16,
+    "accountancy": 8,
+    "economics": 8,
+    "unique_academic_answers": 14,
+    "underdetermined_inputs": 2,
+    "decisive_source_gaps": 2,
+    "explicit_answer_retrieval_tasks": 1,
+    "numerical_trend_syllabus_boundary_not_explicitly_established": 3
+  },
+  "cases": [
+    {
+      "opaque_id": "q717-2d3457102e1deac5f2f1f7b5",
+      "subject": "accountancy",
+      "question": "A company selected 2021 as the base year for trend analysis. Revenue was ₹80 lakh in 2021 and ₹100 lakh in 2023. What is the 2023 trend percentage?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "125%"
+        },
+        {
+          "key": "B",
+          "text": "80%"
+        },
+        {
+          "key": "C",
+          "text": "20%"
+        },
+        {
+          "key": "D",
+          "text": "180%"
+        }
+      ],
+      "answer_set": "A",
+      "solved_key": "A",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Trend percentage compares the 2023 revenue with revenue of the same item in the explicitly chosen 2021 base year: 100/80 x 100 = 125 percent. B reverses the ratio; C is neither this ratio nor its change; D is not the ratio.",
+      "calculation": "100 / 80 * 100 = 125",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Apply base-year indexing; two arithmetic operations after choosing the correct base. Easy application.",
+      "syllabus_operation_observation": "Trend analysis is supported by the NCERT excerpt, but the supplied syllabus expressly lists comparative/common-size tools and only meaning/significance/purpose/limitations for financial analysis. Numerical trend indexing is not explicitly enumerated; strict entitlement is not established by this slice.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p5-c0-g1-s0",
+          "kind": null,
+          "quote": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 2150
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-788316349ae649f0a9203eac",
+      "subject": "accountancy",
+      "question": "A comparative balance sheet shows reserves and surplus of ₹4 lakh in the earlier year and ₹3 lakh in the later year. What is the percentage change, using the earlier year as the base?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "20% decrease"
+        },
+        {
+          "key": "B",
+          "text": "25% decrease"
+        },
+        {
+          "key": "C",
+          "text": "33⅓% decrease"
+        },
+        {
+          "key": "D",
+          "text": "25% increase"
+        }
+      ],
+      "answer_set": "B",
+      "solved_key": "B",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Change is 3-4=-1 lakh. Relative to earlier 4 lakh, -1/4 x 100=-25 percent, hence 25 percent decrease. A has wrong magnitude; C divides by later 3; D has the correct magnitude but wrong direction.",
+      "calculation": "(3 - 4) / 4 * 100 = -25",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Choose earlier-year denominator, subtract and express percentage with sign. Easy application.",
+      "syllabus_operation_observation": "Comparative statements explicitly appear in the supplied syllabus. Source gives current-minus-first-year direction, while the stem explicitly specifies the percentage base; basic percentage arithmetic supplies the remaining operation.",
+      "source_or_presentation_limitation": "The comparative source ends before its displayed percentage formula, but the explicit earlier-year-base instruction and ordinary percentage arithmetic determine the result without a missing domain formula.",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p6-c0-g1-s0",
+          "kind": null,
+          "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1200
+          }
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p9-c0-g1-s0",
+          "kind": null,
+          "quote": "Illustration 3\nThe following are the Balance Sheets of J. Ltd. as at March 31, 2016 and\n2017. Prepare a Comparative balance sheet.\nParticulars Note March 31, March 31,\nNo. 2017 2016\n(Rs.) (Rs.)\nI. Equity and Liabilities\n1. Shareholders’ Funds\na) Share capital 20,00,000 15,00,000\nb) Reserve and surplus 3,00,000 4,00,000\n2. Non-current Liabilities\nLong-term borrowings 9,00,000 6,00,000\n3. Current liabilities\nTrade payables 3,00,000 2,00,000\nTotal 35,00,000 27,00,000\nII. Assets\n1. Non-current assets\na) Fixed assets\n- Tangible assets 20,00,000 15,00,000\n- Intangible assets 9,00,000 6,00,000\n2. Current assets\n- Inventories 3,00,000 4,00,000\n- Cash and cash equivalents 3,00,000 2,00,000",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 689
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-4b8c94e15c91fec0939499ea",
+      "subject": "accountancy",
+      "question": "A company reports total assets of ₹40 lakh, including inventory of ₹8 lakh. In a common-size balance sheet, what percentage of total assets is inventory?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "12.5%"
+        },
+        {
+          "key": "B",
+          "text": "15%"
+        },
+        {
+          "key": "C",
+          "text": "20%"
+        },
+        {
+          "key": "D",
+          "text": "25%"
+        }
+      ],
+      "answer_set": "C",
+      "solved_key": "C",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Common-size assets are expressed relative to total assets. Inventory share=8/40 x 100=20 percent, uniquely C; the other three percentages do not equal that ratio.",
+      "calculation": "8 / 40 * 100 = 20",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Select total-assets denominator using common-size rule and compute a component percentage. Easy application.",
+      "syllabus_operation_observation": "Common-size statements expressly listed; source states each asset percentage of total assets.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p12-c0-g2-s0",
+          "kind": null,
+          "quote": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1740
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-d961cf3760b64db3afac6efc",
+      "subject": "accountancy",
+      "question": "Which statement is NOT correct?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "A comparative statement presents figures for two periods."
+        },
+        {
+          "key": "B",
+          "text": "Comparative statements can show absolute and relative changes."
+        },
+        {
+          "key": "C",
+          "text": "Common-size statements express items as percentages of a relevant aggregate."
+        },
+        {
+          "key": "D",
+          "text": "A comparative statement of profit and loss necessarily expresses each expense as a percentage of revenue."
+        }
+      ],
+      "answer_set": "D",
+      "solved_key": "D",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "A and B match comparative statements showing two periods and absolute/relative changes. C matches component percentage common-size analysis. D asserts necessity of expense/revenue percentages in a comparative P&L. The supplied comparative procedure can show two-year amounts and their changes without component/revenue ratios; the source assigns expense/revenue ratios to common-size P&L. A comparative statement can also contain such ratios voluntarily, but necessarily is false.",
+      "calculation": "",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Distinguish two financial-analysis operations and assess the necessity quantifier rather than deciding by category label alone. Easy conceptual discrimination.",
+      "syllabus_operation_observation": "Both comparative and common-size statement tools expressly listed.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p6-c0-g1-s0",
+          "kind": null,
+          "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1200
+          }
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p12-c0-g2-s0",
+          "kind": null,
+          "quote": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1740
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-cc59a1372724c8ad2f9fa370",
+      "subject": "accountancy",
+      "question": "A comparative statement reports profit after tax of ₹3.6 lakh in the earlier year and ₹5.4 lakh in the later year. What is the percentage increase over the earlier year?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "50%"
+        },
+        {
+          "key": "B",
+          "text": "25%"
+        },
+        {
+          "key": "C",
+          "text": "40%"
+        },
+        {
+          "key": "D",
+          "text": "60%"
+        }
+      ],
+      "answer_set": "A",
+      "solved_key": "A",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Profit increase=5.4-3.6=1.8 lakh, divided by earlier 3.6 gives 50 percent. Exact source illustration independently shows 360000 to 540000, increase180000, percentage50. B/C/D have wrong magnitude.",
+      "calculation": "(5.4 - 3.6) / 3.6 * 100 = 50",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Comparative percentage change with subtraction and prior-year denominator. Easy application; supplied worked illustration also permits lookup.",
+      "syllabus_operation_observation": "Comparative statements expressly listed.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p6-c0-g1-s0",
+          "kind": null,
+          "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1200
+          }
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p8-c0-g3-s0",
+          "kind": null,
+          "quote": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 460
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-836e7021a8dc9f69e20dabe8",
+      "subject": "accountancy",
+      "question": "Revenue from operations rose from ₹16 lakh to ₹20 lakh. What was the percentage increase over the earlier year?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "20%"
+        },
+        {
+          "key": "B",
+          "text": "25%"
+        },
+        {
+          "key": "C",
+          "text": "₹4 lakh"
+        },
+        {
+          "key": "D",
+          "text": "125%"
+        }
+      ],
+      "answer_set": "B",
+      "solved_key": "B",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Increase=20-16=4 lakh. Percentage over earlier 16 is 4/16 x 100=25 percent, B. A uses later-year denominator, C is the absolute increase rather than a percentage, D is the later/base index rather than percentage increase. The source illustration shows the same figures and25.",
+      "calculation": "(20 - 16) / 16 * 100 = 25",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Distinguish absolute change, base-year level and percentage change; routine comparative calculation or provided illustration lookup. Easy.",
+      "syllabus_operation_observation": "Comparative statements expressly listed.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p6-c0-g1-s0",
+          "kind": null,
+          "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1200
+          }
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p8-c0-g3-s0",
+          "kind": null,
+          "quote": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 460
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-8d9e851f6500c83a3abde130",
+      "subject": "accountancy",
+      "question": "The 2023 revenue of a company is ₹100 lakh. What is its 2023 trend percentage if 2021 is the base year?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "80%"
+        },
+        {
+          "key": "B",
+          "text": "125%"
+        },
+        {
+          "key": "C",
+          "text": "100%"
+        },
+        {
+          "key": "D",
+          "text": "20%"
+        }
+      ],
+      "answer_set": null,
+      "solved_key": "uncertain",
+      "unique_academic_answer": false,
+      "answer_status": "underdetermined_input",
+      "independent_derivation": "The required relation is 100 / R2021 x 100, but base-year revenue R2021 is not supplied. Merely naming2021 as base does not fix its revenue. With R2021=125,80,100,500 lakh the result is respectively80,125,100,20 percent, corresponding to A,B,C,D; each realization preserves printed2023 revenue100. No unique answer.",
+      "calculation": "100 / R2021 * 100; R2021 unspecified",
+      "answer_changing_missing_inputs": [
+        "Revenue of the same company for2021 base year"
+      ],
+      "possible_keys_under_missing_inputs": [
+        "A",
+        "B",
+        "C",
+        "D"
+      ],
+      "rival_realizations": [
+        "R2021=125 gives80%=A",
+        "R2021=80 gives125%=B",
+        "R2021=100 gives100%=C",
+        "R2021=500 gives20%=D"
+      ],
+      "actual_operation_and_demand_heuristic": "Recognize a missing base input before using trend index. No determinate calculation.",
+      "syllabus_operation_observation": "Trend-index computation is not explicitly enumerated in the supplied syllabus tools; strict entitlement is not established.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p5-c0-g1-s0",
+          "kind": null,
+          "quote": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 2150
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-82d5c3f33d5ec00d4085a341",
+      "subject": "accountancy",
+      "question": "Revenue was ₹80 lakh in the 2021 base year, ₹90 lakh in 2022 and ₹100 lakh in 2023. What is the 2023 trend percentage?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "80%"
+        },
+        {
+          "key": "B",
+          "text": "111.11%"
+        },
+        {
+          "key": "C",
+          "text": "125%"
+        },
+        {
+          "key": "D",
+          "text": "20%"
+        }
+      ],
+      "answer_set": "C",
+      "solved_key": "C",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Trend percentage compares with stated2021 base, not the immediately preceding2022. 100/80 x100=125 percent,C. A reverses base/current; B uses2022 denominator90 and gives111.11 percent; D does not represent the base-year index.",
+      "calculation": "100 / 80 * 100 = 125",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Choose designated base rather than latest year; ratio and scaling. Easy application.",
+      "syllabus_operation_observation": "Trend technique is source-supported but numerical trend indexing not explicitly enumerated by supplied syllabus tools; strict entitlement is not established.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leac204-v1",
+        "cuet2026-accountancy-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "locator": "p5-c0-g1-s0",
+          "kind": null,
+          "quote": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 2150
+          }
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 749
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-3b013aed1a7f3b84786475c4",
+      "subject": "economics",
+      "question": "With all other inputs held constant, a firm’s total output is 10 units with 1 worker, 22 with 2 workers, 37 with 3 workers and 48 with 4 workers. What is the marginal product of the fourth worker?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "10 units"
+        },
+        {
+          "key": "B",
+          "text": "15 units"
+        },
+        {
+          "key": "C",
+          "text": "11 units"
+        },
+        {
+          "key": "D",
+          "text": "48 units"
+        }
+      ],
+      "answer_set": "C",
+      "solved_key": "C",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Source defines marginal product as output change per unit input change, other inputs constant. Fourth-worker MP=(48-37)/(4-3)=11 units,C. A is first total output, B is third increment, D is fourth total output.",
+      "calculation": "(48 - 37) / (4 - 3) = 11",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Select adjacent total products and calculate an incremental output per worker. Easy application.",
+      "syllabus_operation_observation": "TP/MP/AP shapes and production functions expressly listed; supplied source gives decisive marginal-product rule and stem fixes other inputs.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p4-c0-g3-s16",
+          "kind": null,
+          "quote": "Marginal product of an input is defined as the change in output per unit of\nchange in the input when all other inputs are held constant. When capital is held\nconstant, the marginal product of labour is",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 201
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-e938379d50e33c8cb672d8bd",
+      "subject": "economics",
+      "question": "The marginal products of the first three units of labour are 8, 12 and 10 units. What is the average product at the third unit of labour?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "8 units"
+        },
+        {
+          "key": "B",
+          "text": "9 units"
+        },
+        {
+          "key": "C",
+          "text": "12 units"
+        },
+        {
+          "key": "D",
+          "text": "10 units"
+        }
+      ],
+      "answer_set": "D",
+      "solved_key": "D",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Exact supplied rule says AP is average of all MP up to employment level. (8+12+10)/3=10 units,D. A is only first MP, C only second MP, B not the mean. This uses the supplied AP relation rather than assuming an unstated initial-output convention.",
+      "calculation": "(8 + 12 + 10) / 3 = 10",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Aggregate three marginal products and divide by employment count under explicit AP rule. Easy application.",
+      "syllabus_operation_observation": "TP/MP/AP and production functions expressly listed, with decisive AP relation supplied.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p5-c0-g2-s0",
+          "kind": null,
+          "quote": "Average product of an input at any level of employment is the average of all\nmarginal products up to that level. Average and marginal products are often\nreferred to as average and marginal returns, respectively, to the variable input.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 234
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-9dc7d2d4f57b273001bb739d",
+      "subject": "economics",
+      "question": "Which pattern is consistent with the source’s description of marginal product under the law of variable proportions?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "Marginal product initially rises and, after a level of employment, starts falling."
+        },
+        {
+          "key": "B",
+          "text": "Marginal product falls at every successive unit from the outset."
+        },
+        {
+          "key": "C",
+          "text": "Marginal product remains constant at every level of employment."
+        },
+        {
+          "key": "D",
+          "text": "Marginal product continues to rise at every higher level of employment."
+        }
+      ],
+      "answer_set": "A",
+      "solved_key": "A",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Source explicitly describes MP initially rising and subsequently falling after a level of employment. Full A matches both phases. B contradicts initially rises, C contradicts both changing phases, D contradicts subsequent fall.",
+      "calculation": "",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Recognize the two-phase marginal-product pattern in a supplied description. Easy recall/comprehension; text closely supplies answer.",
+      "syllabus_operation_observation": "MP curve shape/production functions expressly listed.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p6-c0-g2-s20",
+          "kind": null,
+          "quote": "output.\nAccording to the law of\nvariable proportions, the\nmarginal product of an input\ninitially rises and then after a\ncertain level of employment, it\nstarts falling. The MP curve",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 180
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-a9f00c22500f1b5041b68798",
+      "subject": "economics",
+      "question": "A firm’s total cost is ₹44 when output is 3 units and ₹49 when output is 4 units. What is the marginal cost of increasing output from 3 to 4 units?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "₹4"
+        },
+        {
+          "key": "B",
+          "text": "₹5"
+        },
+        {
+          "key": "C",
+          "text": "₹6"
+        },
+        {
+          "key": "D",
+          "text": "₹8"
+        }
+      ],
+      "answer_set": "B",
+      "solved_key": "B",
+      "unique_academic_answer": true,
+      "answer_status": "academic_best_with_decisive_source_gap",
+      "independent_derivation": "Academic marginal cost for the one-unit output increase is additional total cost,49-44=5,B. A/C/D do not equal the additional cost. All numerical values are printed, so no answer-changing numerical input is missing. However, the only NCERT cost excerpt is a headerless numerical schedule and does not state the MC change-in-total-cost rule. This derivation needs the routine meaning of marginal cost, whose exact decisive rule is absent from this item excerpts.",
+      "calculation": "(49 - 44) / (4 - 3) = 5",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Apply incremental-total-cost concept then subtract; easy subject application.",
+      "syllabus_operation_observation": "Costs including marginal costs are expressly listed; topic entitlement is explicit, independently of incomplete decisive-source coverage.",
+      "source_or_presentation_limitation": "Decisive MC definition/formula is not printed in this item excerpts. Headerless schedule alone does not establish it; academic best key is recorded with this source-support limitation, not fabricated as a quoted rule.",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p10-c0-g3-s0",
+          "kind": null,
+          "quote": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 273
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-3e2045907713fe98e12fda8c",
+      "subject": "economics",
+      "question": "At an output of 5 units, a firm has total fixed cost ₹20 and total variable cost ₹33. What is its short-run average cost?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "₹9.83"
+        },
+        {
+          "key": "B",
+          "text": "₹10"
+        },
+        {
+          "key": "C",
+          "text": "₹10.60"
+        },
+        {
+          "key": "D",
+          "text": "₹12.25"
+        }
+      ],
+      "answer_set": "C",
+      "solved_key": "C",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "Supplied source explicitly gives TC=TVC+TFC and defines SAC as total cost per unit output. TC=33+20=53, then53/5=10.60,C. A is schedule cost at another output6, B does not equal53/5, D is at another output4.",
+      "calculation": "(20 + 33) / 5 = 10.60",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Combine fixed and variable costs before dividing by output; two linked steps. Easy application.",
+      "syllabus_operation_observation": "Total/fixed/variable/average cost concepts expressly listed; both decisive relations are printed.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p9-c0-g0-s0",
+          "kind": null,
+          "quote": "produces, this cost remains fixed for the firm. To produce any required\nlevel of output, the firm, in the short run, can adjust only variable inputs.\nAccordingly, the cost that a firm incurs to employ these variable inputs is\ncalled the total variable cost (TVC). Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)\nIn order to increase the production of output, the firm must employ more of\nthe variable inputs. As a result, total variable cost and total cost will increase.\nTherefore, as output increases, total variable cost and total cost increase.\nIn Table 3.3, we have an example of cost function of a typical firm. The first\ncolumn shows different levels of output. For all levels of output, the total fixed\ncost is Rs 20. Total variable cost increases as output increases. With output\nzero, TVC is zero. For 1 unit of output, TVC is Rs 10; for 2 units of output, TVC\nis Rs 18 and so on. In the fourth column, we obtain the total cost (TC) as the\nsum of the corresponding values in second column (TFC) and third column\n(TVC). At zero level of output, TC is just the fixed cost, and hence, equal to Rs\n20. For 1 unit of output, total cost is Rs 30; for 2 units of output, the TC is Rs 38\nand so on.\nThe short run average cost (SAC) incurred by the firm is defined as the\ntotal cost per unit of output. We calculate it as",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 1373
+          }
+        },
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p10-c0-g3-s0",
+          "kind": null,
+          "quote": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 273
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-9daaff173b9cf47627e030ec",
+      "subject": "economics",
+      "question": "According to the registered short-run cost schedule, what is marginal cost when output rises from 3 units to 4 units?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "₹6"
+        },
+        {
+          "key": "B",
+          "text": "₹5"
+        },
+        {
+          "key": "C",
+          "text": "₹8"
+        },
+        {
+          "key": "D",
+          "text": "₹10"
+        }
+      ],
+      "answer_set": "B",
+      "solved_key": "B",
+      "unique_academic_answer": true,
+      "answer_status": "academic_best_with_decisive_source_gap",
+      "independent_derivation": "Academic best is B: the supplied schedule rows for output3 and4 have total-cost values44 and49 and incremental cost5. The last entries of these rows are6 and5, so the4-unit row is consistent with5, not the earlier-row6. However, this item has no schedule headings or MC definition; identifying cost columns and treating the final column as MC is not explicitly established by its supplied excerpt. Academic best remains B under the conventional schedule interpretation; fully source-only decisive support is incomplete.",
+      "calculation": "49 - 44 = 5, under conventional identification of total-cost column",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Read adjacent cost rows and apply incremental-cost concept. Easy application/lookup if column meanings supplied; here unlabeled schedule creates evidence/presentation limitation.",
+      "syllabus_operation_observation": "Marginal-cost and short-run-cost concepts expressly listed.",
+      "source_or_presentation_limitation": "No labeled schedule columns or MC definition in item. Column semantics cannot be represented as explicit quote support merely because numerical pattern is familiar.",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p10-c0-g3-s0",
+          "kind": null,
+          "quote": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 273
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-2fad25ee3a7dbbdbd91d636d",
+      "subject": "economics",
+      "question": "A firm can produce 50 units using any one of these input bundles: (L=6, K=3), (L=4, K=4) or (L=3, K=6). Which bundle is the least-cost choice?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "(L=6, K=3)"
+        },
+        {
+          "key": "B",
+          "text": "(L=4, K=4)"
+        },
+        {
+          "key": "C",
+          "text": "(L=3, K=6)"
+        },
+        {
+          "key": "D",
+          "text": "All three necessarily have the same cost"
+        }
+      ],
+      "answer_set": null,
+      "solved_key": "uncertain",
+      "unique_academic_answer": false,
+      "answer_status": "underdetermined_input",
+      "independent_derivation": "Least-cost bundle depends on labour price w and capital price r. Costs A=6w+3r, B=4w+4r, C=3w+6r. For w=1,r=4, costs18,20,27 makeA cheapest; forw=r=1 costs9,8,9 makeB cheapest; forw=4,r=1 costs27,20,18 makeC cheapest. All produce50 under the supplied technology. Source expressly conditions choice on given input prices, but neither price is provided. D necessarily equal is refuted by all three realizations.",
+      "calculation": "A=6w+3r; B=4w+4r; C=3w+6r",
+      "answer_changing_missing_inputs": [
+        "Relative labour and capital input prices"
+      ],
+      "possible_keys_under_missing_inputs": [
+        "A",
+        "B",
+        "C"
+      ],
+      "rival_realizations": [
+        "w=1 r=4 => A18 B20 C27 => A cheapest",
+        "w=1 r=1 => A9 B8 C9 => B cheapest",
+        "w=4 r=1 => A27 B20 C18 => C cheapest"
+      ],
+      "actual_operation_and_demand_heuristic": "Identify missing relative factor prices and exhibit rival least-cost realizations. Determinate selection impossible.",
+      "syllabus_operation_observation": "Cost function and production function concepts are within supplied Production/Costs syllabus.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p8-c0-g2-s0",
+          "kind": null,
+          "quote": "In order to produce output, the firm needs to employ inputs. But a given level\nof output, typically, can be produced in many ways. There can be more than\none input combinations with which a firm can produce a desired level of output.\nIn Table 3.1, we can see that 50 units of output can be produced by three\ndifferent input combinations (L = 6, K = 3), (L = 4, K = 4) and (L = 3, K = 6). The\nquestion is which input combination will the firm choose? With the input prices\ngiven, it will choose that combination of inputs which is least expensive. So,\nfor every level of output, the firm chooses the least cost input combination.\nThus the cost function describes the least cost of producing each level of output\ngiven prices of factors of production and technology.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 764
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    },
+    {
+      "opaque_id": "q717-24af92c3f430d2de35025763",
+      "subject": "economics",
+      "question": "At output 9, total variable cost is ₹75 and the registered schedule reports marginal cost of ₹15. What is marginal cost at that output?",
+      "full_options": [
+        {
+          "key": "A",
+          "text": "₹8.33"
+        },
+        {
+          "key": "B",
+          "text": "₹10.55"
+        },
+        {
+          "key": "C",
+          "text": "₹13"
+        },
+        {
+          "key": "D",
+          "text": "₹15"
+        }
+      ],
+      "answer_set": "D",
+      "solved_key": "D",
+      "unique_academic_answer": true,
+      "answer_status": "derived_from_supplied_rule_or_printed_information",
+      "independent_derivation": "The question explicitly states the schedule reports marginal cost15 at output9 and asks that same marginal cost. D restates the given value. A8.33/B10.55/C13 are other schedule figures, not the expressly stated marginal cost. No calculation or outside rule is needed.",
+      "calculation": "",
+      "answer_changing_missing_inputs": [],
+      "possible_keys_under_missing_inputs": [],
+      "rival_realizations": [],
+      "actual_operation_and_demand_heuristic": "Direct retrieval of a numerical answer already printed in the question; economics concept not necessary to selectD. Zero substantive reasoning steps. This demand observation does not change numerical answerability.",
+      "syllabus_operation_observation": "The named marginal-cost topic is listed, but the actual operation is reading the expressly supplied answer rather than applying that economics concept.",
+      "source_or_presentation_limitation": "",
+      "source_ids": [
+        "ncertcol-leec203-v1",
+        "cuet2026-economics-syllabus"
+      ],
+      "decisive_quote_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "locator": "p10-c0-g3-s0",
+          "kind": null,
+          "quote": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 273
+          }
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "locator": "full-syllabus",
+          "kind": "official_syllabus",
+          "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "offset": 0,
+            "length": 402
+          }
+        }
+      ],
+      "all_full_options_considered": true,
+      "author_proposed_key_seen": false,
+      "author_explanation_seen": false,
+      "author_label_inferred_or_seen": false,
+      "accept_reject_command_issued": false
+    }
+  ]
+}

@@ -1,0 +1,2340 @@
+{
+ "id": "v712-qualification-2026-10-10-q3",
+ "created_at": "2026-10-09T16:33:28.322Z",
+ "verifier_contract": "1107c72a94dd5a8f408fb41e75d57f37f885d693aa268dd0ca149bf2d2d2f899",
+ "ncert_columns_overlay_sha256": "2390610ce679b4a9548b0b20b287375d900db845d1b34ac117cb0b289a36e442",
+ "denominator": 36,
+ "valid_roots": 20,
+ "controlled_defects": 16,
+ "payload_hash": "c5f96bca4d112284ee9e6adff21086e01d3c11804a6498f72e15290096f3dfec",
+ "fixtures": [
+  {
+   "id": "v712q3-accountancy-v1",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-accountancy-v1",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "At the end of the year, the Profit and Loss Account of a partnership firm shows a credit balance (net profit). Which journal entry transfers this balance to the Profit and Loss Appropriation Account?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Profit and Loss Appropriation A/c Dr. To Profit and Loss A/c"
+     },
+     {
+      "key": "B",
+      "text": "Profit and Loss A/c Dr. To Profit and Loss Appropriation A/c"
+     },
+     {
+      "key": "C",
+      "text": "Profit and Loss A/c Dr. To Interest on Capital A/c"
+     },
+     {
+      "key": "D",
+      "text": "Profit and Loss Appropriation A/c Dr. To Partners' Capital A/c"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "For a credit balance (net profit) the entry given is Profit and Loss A/c Dr. To Profit and Loss Appropriation A/c. Option A is the entry given for a debit balance (net loss), so it does not fit a net profit. Options C and D credit a different account, whereas the entry given for transferring the balance credits the Profit and Loss Appropriation A/c.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-v1",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac101-v1",
+      "version": 1,
+      "locator": "p8-c0-g2-s0",
+      "support_hash": "7dda7e77731d1a35ee936e0d96172ecb8617fa7c8374049487b83435b1a0c24a"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Partnership Firms - Fundamentals",
+     "objective": "Record the transfer of the Profit and Loss Account balance to the Profit and Loss Appropriation Account.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-v1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "6e77e3c777fd1d98c87edec0dfcdc1d57da78fc2a149d068f775a905231cbd04",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-v2",
+   "subject": "accountancy",
+   "chapter": "Profit & Loss Appropriation Account",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-accountancy-v2",
+    "subject": "accountancy",
+    "chapter": "Profit & Loss Appropriation Account",
+    "body": "P and Q are partners who admit R with a guarantee that R's share of profit will not be less than Rs. 30,000. The guarantee is given by P and Q, who will bear any shortfall in the ratio 3:2. The firm's profit for the year is Rs. 1,50,000 and the profit sharing ratio of P, Q and R is 3:2:1. What amount of profit will P finally get?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs. 72,000"
+     },
+     {
+      "key": "B",
+      "text": "Rs. 75,000"
+     },
+     {
+      "key": "C",
+      "text": "Rs. 73,000"
+     },
+     {
+      "key": "D",
+      "text": "Rs. 70,000"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "R's share by the ratio is 1/6 of Rs. 1,50,000 = Rs. 25,000, which is Rs. 5,000 less than the guaranteed Rs. 30,000, so the shortfall is borne by the guaranteeing partners. P's share by the ratio is 3/6 of Rs. 1,50,000 = Rs. 75,000 and P bears 3/5 of Rs. 5,000 = Rs. 3,000, so P gets Rs. 72,000. Rs. 75,000 ignores the shortfall, Rs. 73,000 deducts 2/5 of Rs. 5,000 (Rs. 2,000), and Rs. 70,000 deducts the whole Rs. 5,000.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-v2",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac101-v1",
+      "version": 1,
+      "locator": "p26-c0-g3-s0",
+      "support_hash": "126b9af5f8a194801e834adf3ea1e03303f4dcd508d83b1231176d09cbd398d0"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Partnership Firms - Fundamentals",
+     "objective": "Compute partners' shares of profit when a new partner is given a guarantee of minimum profit.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-v2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "6dbbb97d4aa04a1941ab6ea424821b482e15b6da2a26dde9544ee36271493f50",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-v3",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-accountancy-v3",
+    "subject": "accountancy",
+    "chapter": "Admission of Partner",
+    "body": "A and B share profits in the ratio 2:1. C is admitted for 1/4 share of profits and brings in Rs. 20,000 as his capital. The remaining 3/4 share is divided between A and B in their old ratio 2:1. After all adjustments, the capitals of A and B are Rs. 45,000 and Rs. 15,000, and it is agreed that the capitals of the partners will be in proportion to their new profit shares, the total capital of the new firm being Rs. 80,000. What adjustment is needed in B's capital?",
+    "options": [
+     {
+      "key": "A",
+      "text": "B withdraws Rs. 5,000"
+     },
+     {
+      "key": "B",
+      "text": "B brings in Rs. 20,000"
+     },
+     {
+      "key": "C",
+      "text": "B brings in Rs. 5,000"
+     },
+     {
+      "key": "D",
+      "text": "No adjustment is needed"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "B's new share is 1/3 of the remaining 3/4, i.e. 1/4, so B's required capital is 1/4 of Rs. 80,000 = Rs. 20,000. B's capital is Rs. 15,000, which is Rs. 5,000 short, so B must bring in Rs. 5,000. Withdrawing Rs. 5,000 would apply to a surplus, which B does not have; Rs. 20,000 is the required capital, not the shortfall; and no adjustment is wrong because B's capital of Rs. 15,000 differs from Rs. 20,000.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-v3",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac102-v1",
+      "version": 1,
+      "locator": "p36-c0-g3-s0",
+      "support_hash": "57601ee0a1fdb1b9d62af12353d79dc484226d372ceb98d59095808bd8667592"
+     },
+     {
+      "id": "ncertcol-leac102-v1",
+      "version": 1,
+      "locator": "p38-c0-g2-s0",
+      "support_hash": "141e86e0f5019636f6c4290c0118e988e9ff2d2ddfc20eaaa38f242d9fd749d4"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Partnership Firms - Reconstitution",
+     "objective": "Adjust old partners' capitals to be proportionate to the new profit sharing ratio on admission of a partner.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-v3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "6878ddef4adceb5b482af67eb831d9cb1c69f2f207f601f56692282e0b2a47cb",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-v4",
+   "subject": "accountancy",
+   "chapter": "Goodwill Valuation",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-accountancy-v4",
+    "subject": "accountancy",
+    "chapter": "Goodwill Valuation",
+    "body": "A firm has capital employed of Rs. 3,00,000 and the normal rate of return is 10%. Its average profit is Rs. 45,000. Using the capitalisation of super profit method, with Normal Profit = Capital Employed x Normal Rate/100 and Goodwill = Super Profit x 100/Normal Rate of Return, what is the value of goodwill?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs. 15,000"
+     },
+     {
+      "key": "B",
+      "text": "Rs. 4,50,000"
+     },
+     {
+      "key": "C",
+      "text": "Rs. 30,000"
+     },
+     {
+      "key": "D",
+      "text": "Rs. 1,50,000"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Normal Profit = Rs. 3,00,000 x 10/100 = Rs. 30,000 and Super Profit = Rs. 45,000 - Rs. 30,000 = Rs. 15,000. Goodwill = Rs. 15,000 x 100/10 = Rs. 1,50,000. Rs. 15,000 is only the super profit, Rs. 4,50,000 is average profit x 100/10, and Rs. 30,000 is the normal profit; none of these is Super Profit x 100/10.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-v4",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac102-v1",
+      "version": 1,
+      "locator": "p17-c0-g2-s4",
+      "support_hash": "eeb843581c676ca304028da8b59cde6a492a0653011073dddc07e4162143163f"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Partnership Firms - Goodwill",
+     "objective": "Value goodwill by the capitalisation of super profit method.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-v4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "55894af5263e7824bbb7d9320e8a222185e981b83fff4d8c4876e8e080139772",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-v5",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-accountancy-v5",
+    "subject": "accountancy",
+    "chapter": "Debentures",
+    "body": "A company earned no profit in a year. Which statement about its obligations towards debentureholders is correct?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Interest on debentures is a charge on profits and is to be paid even if there is no profit"
+     },
+     {
+      "key": "B",
+      "text": "Interest on debentures is an appropriation of profits and need not be paid when there is no profit"
+     },
+     {
+      "key": "C",
+      "text": "Interest on debentures varies from year to year with the profits of the company"
+     },
+     {
+      "key": "D",
+      "text": "Interest on debentures is payable only if debentureholders exercise voting rights"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The payment of interest is a charge on profits and is to be paid even if there is no profit. Option B is wrong because it is the payment of dividend that is an appropriation of profits. Option C is wrong because the rate of interest on debentures is prefixed, while the rate of return on shares may vary with profits. Option D is wrong because debentureholders do not normally enjoy voting rights and the payment of interest is not tied to them.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-v5",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac202-v1",
+      "version": 1,
+      "locator": "p2-c0-g2-s0",
+      "support_hash": "631e4a8ab0315145ac9f5508a5e3aba14d616c872e653cdf67d3e5b1e2deae5b"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Companies - Debentures",
+     "objective": "Distinguish debentures from shares in respect of the nature of return.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-v5",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "23713d9976efdbd965b4ab9a01bd0b7af301920fd8672da51545f66daada8ce0",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-d1",
+   "subject": "accountancy",
+   "chapter": "Dissolution of Partnership Firm",
+   "expected_valid": false,
+   "category": "wrong_key",
+   "defect_evidence": "Recorded key is D, but the excerpt (F18) states that in dissolution of partnership the economic relationship between the partners continues in a changed form; option D says it comes to an end, which is the dissolution-of-firm column. The option the stem and excerpt actually establish is B (assets and liabilities are revalued and a new balance sheet is drawn). The explanation reaches D through the flawed step that the relationship ends in both cases.",
+   "candidate": {
+    "id": "v712q3-accountancy-d1",
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership Firm",
+    "body": "Two of the three partners of a firm agree by mutual consent to change the profit sharing ratio and continue the business. Which statement correctly describes what happens on this dissolution of partnership?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The business of the firm is closed and its books of account are closed"
+     },
+     {
+      "key": "B",
+      "text": "Assets and liabilities are revalued and a new balance sheet is drawn"
+     },
+     {
+      "key": "C",
+      "text": "The firm can be dissolved only by the court's order"
+     },
+     {
+      "key": "D",
+      "text": "The economic relationship between the partners comes to an end"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Whenever a partnership is dissolved, the old agreement between the partners ends and so does their economic relationship. Option A and C describe the business being closed and court action, which do not apply to mutual agreement, and option B only describes a revaluation exercise. Hence D is correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-d1",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac104-v1",
+      "version": 1,
+      "locator": "p3-c0-g2-s0",
+      "support_hash": "a02693d1193e16d64b5d9ce70859f4a4f14452646acebbfd24a003237c749788"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Partnership Firms - Dissolution",
+     "objective": "Differentiate between dissolution of partnership and dissolution of a partnership firm.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-d1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "9db3d0f502af45346cb327e9ed306aa20ad5d9912a9723d16f45f228cd3258d0",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-d2",
+   "subject": "accountancy",
+   "chapter": "Financial Statements of Company",
+   "expected_valid": false,
+   "category": "second_defensible_option",
+   "defect_evidence": "Recorded key is A, but option D is also correct under F27: cash and cash equivalent is listed as current. Both A and D are fully defensible, so the item has two correct answers.",
+   "candidate": {
+    "id": "v712q3-accountancy-d2",
+    "subject": "accountancy",
+    "chapter": "Financial Statements of Company",
+    "body": "Using the criteria for the current/non-current distinction in a company's balance sheet, which of the following is classified as current?",
+    "options": [
+     {
+      "key": "A",
+      "text": "An asset expected to be realised within twelve months"
+     },
+     {
+      "key": "B",
+      "text": "An asset that is not involved in the operating cycle and is expected to be realised after more than twelve months"
+     },
+     {
+      "key": "C",
+      "text": "A liability that the entity has an unconditional right to defer settling for at least 12 months after the reporting period"
+     },
+     {
+      "key": "D",
+      "text": "Cash and cash equivalent"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "An item is classified as current if it is expected to be realised or settled within twelve months. Hence an asset expected to be realised within twelve months is current. The other options are not correct.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-d2",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac203-v1",
+      "version": 1,
+      "locator": "p10-c0-g1-s0",
+      "support_hash": "476460986036497e17275fe2d7ca0e63a0121ca7d1fac586b2690b01fc15b649"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Financial Statements of a Company",
+     "objective": "Classify balance sheet items as current or non-current.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-d2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "215c28b2fb5ff95da59913fa5fa40b38916c15d6a668071921f7396928c3e1dc",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-d3",
+   "subject": "accountancy",
+   "chapter": "Share Capital",
+   "expected_valid": false,
+   "category": "unsupported_explanation",
+   "defect_evidence": "Key C (Rs. 800) is correct per F21 (share capital is debited with the amount called-up). The explanation's second sentence asserts that the balance of Share Forfeiture A/c must be transferred to General Reserve under the Companies Act; neither the stem nor F21/F22 says this (F22 shows the profit on reissue being transferred to Capital Reserve), so it is an unsupported and false rule.",
+   "candidate": {
+    "id": "v712q3-accountancy-d3",
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "body": "A company forfeits 100 shares of Rs. 10 each, issued at par, for non-payment of calls. Rs. 8 per share had been called up and Rs. 6 per share had been received. With what amount will Share Capital Account be debited on forfeiture?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs. 600"
+     },
+     {
+      "key": "B",
+      "text": "Rs. 1,000"
+     },
+     {
+      "key": "C",
+      "text": "Rs. 800"
+     },
+     {
+      "key": "D",
+      "text": "Rs. 200"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "On forfeiture, share capital account is debited with the amount called up on the shares forfeited, i.e. 100 x Rs. 8 = Rs. 800. The Rs. 600 received is not the amount debited, and Rs. 1,000 is the full face value although only Rs. 8 was called. The balance of Share Forfeiture A/c must always be transferred to General Reserve under the Companies Act after forfeiture, so no profit remains.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-d3",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac201-v1",
+      "version": 1,
+      "locator": "p37-c0-g2-s0",
+      "support_hash": "0ff5b4e41b3f035d1037c9b17c58637f105ec07d471e92d9be69bd010fb33dde"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Accounting for Companies - Share Capital",
+     "objective": "Record the forfeiture of shares for non-payment of calls.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-d3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "d223e432c775ae3868ec944337da4629f5d78eed9618407423ec5ac1417ac8d2",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-accountancy-d4",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "expected_valid": false,
+   "category": "numerical_fault",
+   "defect_evidence": "The explanation states 96 / 12 = 6, which is an arithmetic error; 96 / 12 = 8 (option B). The recorded key A (6) is therefore wrong, even though the formula P/E = Market Price / EPS (F33) is applied correctly.",
+   "candidate": {
+    "id": "v712q3-accountancy-d4",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "The earnings per share of a company is Rs. 12 and the market price of its share is Rs. 96. Using P/E Ratio = Market Price of a share / Earnings per share, what is the price earning ratio?",
+    "options": [
+     {
+      "key": "A",
+      "text": "6"
+     },
+     {
+      "key": "B",
+      "text": "8"
+     },
+     {
+      "key": "C",
+      "text": "12"
+     },
+     {
+      "key": "D",
+      "text": "0.125"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "P/E Ratio = Market Price of a share / Earnings per share = 96 / 12 = 6. The value 12 is only the EPS and 0.125 results from inverting the formula (12 / 96), so 6 is correct.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-accountancy-d4",
+    "source_refs": [
+     {
+      "id": "ncertcol-leac205-v1",
+      "version": 1,
+      "locator": "p35-c0-g1-s0",
+      "support_hash": "fa655f9e802ffa162877a297a899ad35d3c74f4ae506566c4976c440c89737a8"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Analysis of Financial Statements",
+     "objective": "Compute the price earning ratio from market price and earnings per share.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-accountancy-d4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "c9a43b459623546883df6118b312e122b33c136aa658c4451660850f693d1b07",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-v1",
+   "subject": "business_studies",
+   "chapter": "Organising",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-business_studies-v1",
+    "subject": "business_studies",
+    "chapter": "Organising",
+    "body": "Using the definitions by Chester Barnard and Keith Davis, which statement about an informal organisation is correct?",
+    "options": [
+     {
+      "key": "A",
+      "text": "It is established by the formal organisation to define authority relationships among activities"
+     },
+     {
+      "key": "B",
+      "text": "It exists only when its relationships contribute to joint results"
+     },
+     {
+      "key": "C",
+      "text": "It is created through a conscious purpose set by management"
+     },
+     {
+      "key": "D",
+      "text": "It arises spontaneously as people associate with one another, without being established or required by the formal organisation"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Keith Davis describes informal organisation as a network of personal and social relations not established or required by the formal organisation but arising spontaneously as people associate. Barnard says it is without any conscious purpose and that it only 'may' contribute to joint results, so options B and C are contradicted. Defining activities and establishing authority relationships is Haimman's definition of organising, not of informal organisation, which rules out A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-v1",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs105-v1",
+      "version": 1,
+      "locator": "p3-c0-g2-s1",
+      "support_hash": "03d30ea817ffa6a5875b195ea6f8090d7d69656c81d8dcc81909c17b29788736"
+     },
+     {
+      "id": "ncertcol-lebs105-v1",
+      "version": 1,
+      "locator": "p15-c0-g1-s45",
+      "support_hash": "c7d1fd8498c400f692066fda2e84289d203584d98a88d39da68750ec39954a27"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Organising",
+     "objective": "Distinguish formal and informal organisation",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-v1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "bc88554fa5bbd94cd4d5995f0158106e2dbcd047cb1a744145e0f663c29b3fa7",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-v2",
+   "subject": "business_studies",
+   "chapter": "Financial Management",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-business_studies-v2",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Anil Ltd raises a larger share of its capital through debt instead of equity, and its cost of equity remains unaffected. Which statement is correct as per the textbook discussion of debt?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The overall cost of capital is likely to rise, because debt is costlier than equity"
+     },
+     {
+      "key": "B",
+      "text": "The overall cost of capital is likely to fall, but fixed financial charges and financial risk increase"
+     },
+     {
+      "key": "C",
+      "text": "Financial risk falls, because payment of interest and return of principal is not obligatory"
+     },
+     {
+      "key": "D",
+      "text": "Financial risk remains unchanged, because equity is considered riskless for the business"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "The excerpt says higher debt is likely to lower the overall cost of capital if the cost of equity is unaffected, since debt is cheaper. It also says higher use of debt increases fixed financial charges and therefore financial risk. Option C is contradicted because payment of interest and return of principal is obligatory, and option D because increased use of debt increases financial risk.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-v2",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs201-v1",
+      "version": 1,
+      "locator": "p13-c1-g1-s0",
+      "support_hash": "3f6d59b6abd833cf78adfde79031f196a1c643f0e3e6c2a125a130a66a53365a"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Financial Management",
+     "objective": "Explain the effect of debt on cost of capital and financial risk",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-v2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "0d5d51c86e77ebef5fce9bfc8d12a40b058bf6f00888673dbcadbcbbe0783060",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-v3",
+   "subject": "business_studies",
+   "chapter": "Controlling",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-business_studies-v3",
+    "subject": "business_studies",
+    "chapter": "Controlling",
+    "body": "A regional sales head fixes a permissible limit for monthly expense variance. Only deviations that cross this limit are brought to her attention, and routine problems are left to subordinates. Which consequence of this approach is established by the textbook?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Managers must personally examine every deviation, so more managerial time is consumed"
+     },
+     {
+      "key": "B",
+      "text": "Delegation of authority becomes harder, because subordinates handle routine problems"
+     },
+     {
+      "key": "C",
+      "text": "Managerial time is saved and attention is focused on important areas"
+     },
+     {
+      "key": "D",
+      "text": "Employee morale falls, because routine problems are left to subordinates"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "Dealing only with significant deviations saves the time and efforts of managers and focuses managerial attention on important areas, so there is better utilisation of managerial talent. The excerpt says leaving routine problems to subordinates facilitates delegation of authority and increases morale, which contradicts options B and D. Option A is contradicted since managers deal with only significant deviations.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-v3",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs108-v1",
+      "version": 1,
+      "locator": "p8-c0-g2-s1",
+      "support_hash": "c27a10b521d90a6d0df9973bbb572fd7066d85c56c1aa88a07719d764442c5cf"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Controlling",
+     "objective": "Explain management by exception and its advantages",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-v3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "71eba4d54d94c619cb0a2f52f6ae7097aa720783ca950b589d90ad66ef875dac",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-v4",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-business_studies-v4",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Ravi's employer pays a fixed salary of Rs 10,000 per month plus Rs 4 for every unit he produces. In a month he produces 1,800 units. What is his total direct pay for the month, and how is the plan classified in the textbook's terms?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 17,200; a combination of time based pay plus incentive for higher performance"
+     },
+     {
+      "key": "B",
+      "text": "Rs 7,200; a performance based plan only"
+     },
+     {
+      "key": "C",
+      "text": "Rs 10,000; a time based plan only"
+     },
+     {
+      "key": "D",
+      "text": "Rs 17,200; an indirect payment like employer paid insurance"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The incentive is 1,800 x 4 = Rs 7,200, so the total is 10,000 + 7,200 = Rs 17,200. The fixed monthly salary is time based and the per-unit amount is performance based, so the plan combines time based pay with incentives. Options B and C count only one component, and option D is contradicted because salaries and incentives are direct financial payments.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-v4",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs106-v1",
+      "version": 1,
+      "locator": "p10-c0-g1-s0",
+      "support_hash": "f03591e79efcc254fb8009f186d8570a0a4ed2179056adfddc3ead148ea66a9b"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Staffing",
+     "objective": "Compute compensation under time based and performance based plans",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-v4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "779c42fdca667dcf95e1bcb45757bd2502b27cc1370f2e04432b8a7a5ed478a4",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-v5",
+   "subject": "business_studies",
+   "chapter": "Business Environment",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-business_studies-v5",
+    "subject": "business_studies",
+    "chapter": "Business Environment",
+    "body": "A firm obtains (i) finance from financiers, (ii) pays taxes to the government, (iii) draws power and water, and (iv) pays a return on financial investment to its investors. Using the textbook's classification of inputs and outputs, which two are outputs supplied by the enterprise to its environment?",
+    "options": [
+     {
+      "key": "A",
+      "text": "(i) and (iii)"
+     },
+     {
+      "key": "B",
+      "text": "(i) and (ii)"
+     },
+     {
+      "key": "C",
+      "text": "(ii) and (iii)"
+     },
+     {
+      "key": "D",
+      "text": "(ii) and (iv)"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "The enterprise assembles inputs like finance, machines, raw materials, power and water, labour from its environment. It supplies outputs such as goods and services, payment of taxes to government, and return on financial investment to investors. So (ii) and (iv) are outputs, while (i) and (iii) are inputs, and each of options A, B and C includes at least one of these inputs.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-v5",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs103-v1",
+      "version": 1,
+      "locator": "p5-c0-g1-s0",
+      "support_hash": "315cca699acefa85728c8ca429264f4c02d885c37a18a9df8cab605d3ae28f3e"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Business Environment",
+     "objective": "Explain the firm's exchange of inputs and outputs with its environment",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-v5",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "1f324d937f6fcc78503228c0a8c58dba73a8e592129bd34b2b5a438942555723",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-d1",
+   "subject": "business_studies",
+   "chapter": "Nature & Significance of Management",
+   "expected_valid": false,
+   "category": "wrong_key",
+   "defect_evidence": "Recorded key B (all pervasive) is wrong. F1 places Smita's June planning and continuous monitoring under 'Coordination is a continuous process: it begins at the planning stage and continues till controlling', so A is established; the explanation rationalises the wrong option.",
+   "candidate": {
+    "id": "v712q3-business_studies-d1",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Smita plans her Diwali collection in June, then continuously monitors whether production proceeds according to plan and briefs the marketing department in time. Which feature of coordination does this illustrate?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Coordination is a continuous process"
+     },
+     {
+      "key": "B",
+      "text": "Coordination is an all pervasive function"
+     },
+     {
+      "key": "C",
+      "text": "Coordination is a one-time function performed at the planning stage"
+     },
+     {
+      "key": "D",
+      "text": "Coordination is required only at the top level of management"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Smita has to align efforts of several departments, which shows that coordination is required at all levels because of the interdependence of activities. This makes it an all pervasive function.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-d1",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs101-v1",
+      "version": 1,
+      "locator": "p22-c1-g1-s0",
+      "support_hash": "f771d2b038f072a2278aab68835069f22136963e42bd27210e85abbd131e34f6"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Nature & Significance of Management",
+     "objective": "Identify the features of coordination",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-d1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "351ba71d6ee81087ca2889f3cd12d5b5dbd0a2bd28e0ca23e043210906f7fce8",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-d2",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "expected_valid": false,
+   "category": "second_defensible_option",
+   "defect_evidence": "Stem contains both a rewarded suggestion system (F3 Initiative) and 'we' instead of 'I' (F3 Esprit De Corps); both A and B are fully established, so the single recorded key B is not unique.",
+   "candidate": {
+    "id": "v712q3-business_studies-d2",
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "A company runs an employee suggestion system that rewards suggestions bringing substantial cost reduction, and its manager uses 'we' instead of 'I' in all conversations with workers. Which Fayol principle is reflected in the manager's practice?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Initiative"
+     },
+     {
+      "key": "B",
+      "text": "Esprit de corps"
+     },
+     {
+      "key": "C",
+      "text": "Unity of direction"
+     },
+     {
+      "key": "D",
+      "text": "Centralisation"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Replacing 'I' with 'We' fosters team spirit, mutual trust and belongingness among team members, which is esprit de corps. Unity of direction and centralisation are not described in the case.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-d2",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs102-v1",
+      "version": 1,
+      "locator": "p33-c0-g1-s0",
+      "support_hash": "77b3740f27ad17b1956a5219310172aefc3b32636557641ad241bfe3de66716f"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Principles of Management",
+     "objective": "Apply Fayol's principles to situations",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-d2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "702d5e686612673946cd5e6aea7c39cee9af720aed36094dcf71685dc41f8608",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-business_studies-d3",
+   "subject": "business_studies",
+   "chapter": "Consumer Protection",
+   "expected_valid": false,
+   "category": "unsupported_explanation",
+   "defect_evidence": "Key A (45 days) is correct, but the explanation's last sentence claims the State Commission hears only appeals and never original complaints; F20 states the State Commission has jurisdiction to entertain complaints. Unsupported and false.",
+   "candidate": {
+    "id": "v712q3-business_studies-d3",
+    "subject": "business_studies",
+    "chapter": "Consumer Protection",
+    "body": "A party is not satisfied with the order of the District Commission. Within how many days from the date of order may it appeal to the State Commission on the grounds of facts or law?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Forty five days"
+     },
+     {
+      "key": "B",
+      "text": "Thirty days"
+     },
+     {
+      "key": "C",
+      "text": "Sixty days"
+     },
+     {
+      "key": "D",
+      "text": "Fifteen days"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt states that a dissatisfied party can appeal to the State Commission within a period of forty five days from the date of the order. The State Commission hears only appeals and never original complaints.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-d3",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs203-v1",
+      "version": 1,
+      "locator": "p12-c0-g1-s0",
+      "support_hash": "dde98cb8a099f94a585d47c5dff49772ff759992c18319e4b827229047489e3a"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Consumer Protection",
+     "objective": "Outline the redressal agencies and appeal periods",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-d3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "1f096a4e4fd3f2b4bb7b14d1ad2b138191108903ace5082f3dd2410c7200be0c",
+   "local_findings": [
+    "source_custody:ncertcol-lebs203-v1"
+   ]
+  },
+  {
+   "id": "v712q3-business_studies-d4",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "expected_valid": false,
+   "category": "missing_decisive_assumption",
+   "defect_evidence": "Stem gives no information on whether the programme targets a specific job or broader personal growth. F12 separates training (specific jobs) from development (personality growth), so the key Training depends on an unstated assumption.",
+   "candidate": {
+    "id": "v712q3-business_studies-d4",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "A firm sends its employees to a three-week programme that builds their skills and knowledge. Which term best describes the programme?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Education"
+     },
+     {
+      "key": "B",
+      "text": "Development"
+     },
+     {
+      "key": "C",
+      "text": "Selection"
+     },
+     {
+      "key": "D",
+      "text": "Training"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Training increases the aptitudes, skills and abilities of employees, and it is a process of learning new skills and application of knowledge. The programme builds skills and knowledge, so it is training.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-business_studies-d4",
+    "source_refs": [
+     {
+      "id": "ncertcol-lebs106-v1",
+      "version": 1,
+      "locator": "p22-c1-g1-s0",
+      "support_hash": "9b08dc0a5d4e4c9669a9d9f6475a85e93c3efa26a4740b3585e84f37fb277d97"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Staffing",
+     "objective": "Distinguish training, education and development",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-business_studies-d4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "24aa02b8fbca27d1261a6a278ef371f208a328ca5ae505a82241821c9f72c6bd",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-v1",
+   "subject": "economics",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-economics-v1",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A wheat farmer in a perfectly competitive market is a price-taking firm and sells every unit at the market price of Rs 40 per quintal. If she sells one more quintal, her marginal revenue from that extra quintal is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Less than Rs 40, because she must lower the price to sell the extra quintal"
+     },
+     {
+      "key": "B",
+      "text": "Rs 0, because the extra quintal is sold at the same price as the earlier ones"
+     },
+     {
+      "key": "C",
+      "text": "Rs 40, because the extra unit is sold at the market price"
+     },
+     {
+      "key": "D",
+      "text": "Rs 40 multiplied by her total output, because all units are sold at that price"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "For a price-taking firm, the extra unit is sold at the market price, so marginal revenue is precisely the market price, i.e. MR = AR = p = Rs 40. The firm does not need to lower its price, so MR is not below Rs 40. The extra quintal adds Rs 40 to revenue, so MR is not zero or Rs 40 times total output.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-v1",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec204-v1",
+      "version": 1,
+      "locator": "p4-c0-g0-s8",
+      "support_hash": "c81b7a8a510e7caff60fa6a918894f365da0eb8453b61725b0b5200064318a63"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Explain that for a perfectly competitive firm marginal revenue equals the market price",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-v1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "e475023b370a98ad9466a94c4298254f0e8912370284eee92fdc560a68cd50eb",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-v2",
+   "subject": "economics",
+   "chapter": "Production & Costs",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-economics-v2",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At an output of 4 units, a firm has a total fixed cost of Rs 80 and a total variable cost of Rs 120. Using SAC = AVC + AFC, what is the short run average cost (SAC) at 4 units?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 30"
+     },
+     {
+      "key": "B",
+      "text": "Rs 50"
+     },
+     {
+      "key": "C",
+      "text": "Rs 200"
+     },
+     {
+      "key": "D",
+      "text": "Rs 20"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "AFC is obtained by dividing fixed cost by output (80/4 = Rs 20) and AVC by dividing variable cost by output (120/4 = Rs 30). Since SAC = AVC + AFC, SAC = 30 + 20 = Rs 50. Rs 30 is only AVC and Rs 20 is only AFC; Rs 200 is the total of 80 + 120, not a per-unit cost.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-v2",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec203-v1",
+      "version": 1,
+      "locator": "p9-c0-g0-s23",
+      "support_hash": "b84394a3e997a08767ddd23493d5000444492622828a029569f525ff6a4b2f14"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Calculate short run average cost as the sum of average variable cost and average fixed cost",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-v2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "916d6a2a94a54fbf37a5dcc2624244b792da2232602b96681d86e47e303056a8",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-v3",
+   "subject": "economics",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-economics-v3",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A person invests Rs 2,00,000 in her family business. The alternatives she could have chosen were: keeping the money in a house-safe (zero return), depositing it in bank-1 at 10 per cent interest per year, or depositing it in bank-2 at 5 per cent interest per year. She can use the money in only one of these ways. The opportunity cost per year of investing in the family business is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 20,000"
+     },
+     {
+      "key": "B",
+      "text": "Rs 10,000"
+     },
+     {
+      "key": "C",
+      "text": "Rs 30,000"
+     },
+     {
+      "key": "D",
+      "text": "Rs 0"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The maximum benefit from the other alternatives is the interest from bank-1, and the opportunity cost of the family business is that forgone interest. 10 per cent of Rs 2,00,000 is Rs 20,000. Bank-2 gives only Rs 10,000, which is not the best alternative; the safe gives zero; and since the alternatives are either/or, their returns are not added to Rs 30,000.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-v3",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec204-v1",
+      "version": 1,
+      "locator": "p10-c0-g0-s0",
+      "support_hash": "88e9216038100fb090608b13d5cb16d368d12b7de08d8dbdb6e58cf61577b6e6"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Compute opportunity cost as the forgone return of the best alternative use of funds",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-v3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "e94410a4ef5eb99a4cc1fa18106e2a3fdb2453494fa2f2e178c908b288372e1b",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-v4",
+   "subject": "economics",
+   "chapter": "Balance of Payments",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-economics-v4",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "Government spending on domestic goods rises in an open economy where a proportion of the induced increase in consumption is spent on imported goods. Compared with a closed economy in which all induced consumption is spent on domestic goods, the autonomous expenditure multiplier in this open economy is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Larger, because imported goods add to domestic income at each round"
+     },
+     {
+      "key": "B",
+      "text": "Unchanged, because only the change in autonomous expenditure matters"
+     },
+     {
+      "key": "C",
+      "text": "Smaller, because the induced effect on demand for domestic goods is smaller"
+     },
+     {
+      "key": "D",
+      "text": "Smaller or larger depending on the size of the government spending"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "With a positive mpc, part of the induced consumption becomes demand for foreign, not domestic, goods. So the induced effect on domestic income is smaller, and imports per unit of income are an additional leakage at each round that reduces the value of the multiplier. It is therefore not larger or unchanged, and nothing in the stem or excerpt links the size of spending to the direction of the change.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-v4",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec106-v1",
+      "version": 1,
+      "locator": "p14-c0-g4-s26",
+      "support_hash": "4c6b212b43b4c716a7112045f1c5483595ec56e2190dea12f2f20c4b0a7b427f"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Open Economy Macroeconomics",
+     "objective": "Explain how imports act as a leakage that reduces the autonomous expenditure multiplier",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-v4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "5bea95f0d75f07f713bf6ecaadfa5e6769bb03a49cab134577024ad9ef7a7f63",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-v5",
+   "subject": "economics",
+   "chapter": "Employment",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-economics-v5",
+    "subject": "economics",
+    "chapter": "Employment",
+    "body": "A farmer's four-acre farm needs only two workers and himself to carry out its operations through the year. He employs five workers along with his wife and children, and everyone on the farm works throughout the year. This situation is best described as:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Disguised unemployment, because more persons are employed than the farm actually needs"
+     },
+     {
+      "key": "B",
+      "text": "Open unemployment, because the extra persons have no work at all and are seeking jobs"
+     },
+     {
+      "key": "C",
+      "text": "Seasonal unemployment, because farm work is available only in some months of the year"
+     },
+     {
+      "key": "D",
+      "text": "Full employment, because every person on the farm is working"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The farm needs only two workers and the farmer, yet employs five workers plus family members; this situation is known as disguised unemployment. It is not open unemployment since the stem says everyone on the farm works, and not seasonal since they work throughout the year. Full employment is contradicted by the excerpt, which labels this very situation disguised unemployment.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-v5",
+    "source_refs": [
+     {
+      "id": "ncertcol-keec106-v1",
+      "version": 1,
+      "locator": "p16-c1-g0-s2",
+      "support_hash": "2a15f34dd5407dd40cf651c209495ac28d13bf34f497dfdfd50b9c955e97af40"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Employment: Growth, Informalisation and Other Issues",
+     "objective": "Identify disguised unemployment in Indian agriculture from a case",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-v5",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "60ef479a857522943ee69eb2dabe3b1ac0e422c350b707c0e4759ad724d5df78",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-d1",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "expected_valid": false,
+   "category": "wrong_key",
+   "defect_evidence": "Recorded key is A (rightward shift), but F29 says an increase in the price of a complementary good shifts the demand curve leftward, so the correct option is B. Key and explanation contradict the cited excerpt.",
+   "candidate": {
+    "id": "v712q3-economics-d1",
+    "subject": "economics",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "body": "The price of a complementary good of coffee rises, other things remaining the same. The demand curve for coffee will:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Shift rightward"
+     },
+     {
+      "key": "B",
+      "text": "Shift leftward"
+     },
+     {
+      "key": "C",
+      "text": "Remain unchanged, with only a movement along the same curve"
+     },
+     {
+      "key": "D",
+      "text": "Become perfectly elastic"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "When the price of a complementary good increases, the demand curve for the good shifts rightward, so coffee demand rises at every price. The other options are not supported.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-d1",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec202-v1",
+      "version": 1,
+      "locator": "p18-c0-g2-s19",
+      "support_hash": "d4e0254e1cb41e47879c25359e4358449b8847f44037273b14ed01e259e58b8b"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Consumer's Equilibrium and Demand",
+     "objective": "Predict shifts of the demand curve from a change in the price of related goods",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-d1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "86dd698f9861739c048da8d5e4325967c4ffc1596dcd60290820fd252eed12f7",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-d2",
+   "subject": "economics",
+   "chapter": "Production & Costs",
+   "expected_valid": false,
+   "category": "second_defensible_option",
+   "defect_evidence": "Options A and B are both established: F31 says that if output is more than doubled when inputs double, IRS holds, so 'increasing returns to scale' (A) and 'output has grown by a larger proportion than inputs' (B) are equivalent true statements. Two options are correct.",
+   "candidate": {
+    "id": "v712q3-economics-d2",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In a production process all inputs are doubled and output rises to 2.5 times its earlier level. Which statement is correct?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The production function exhibits increasing returns to scale"
+     },
+     {
+      "key": "B",
+      "text": "Output has increased by a larger proportion than inputs"
+     },
+     {
+      "key": "C",
+      "text": "The production function exhibits constant returns to scale"
+     },
+     {
+      "key": "D",
+      "text": "The production function exhibits decreasing returns to scale"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Output (2.5 times) has grown by a larger proportion than inputs (2 times), which is the case of more than doubled output and hence increasing returns to scale. Constant returns would need output exactly doubled and decreasing returns would need it less than doubled.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-d2",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec203-v1",
+      "version": 1,
+      "locator": "p7-c0-g2-s16",
+      "support_hash": "7e5f00c36851faaaebaf62e2ecc12655855ac138ffd73cb2b71fb92c42df6aa2"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Classify returns to scale from the proportional change in output when all inputs change",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-d2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "34e6fa8d80b5342d1a9d34d6f51187c136cdc8a44d7cfe34339d8d8ed4474fc8",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-d3",
+   "subject": "economics",
+   "chapter": "Balance of Payments",
+   "expected_valid": false,
+   "category": "missing_decisive_assumption",
+   "defect_evidence": "Stem gives only mpc = 0.8 and a spending rise of Rs 100 crore. The key 500 uses the simple closed-economy multiplier 1/(1-mpc) = 5. F25 says imports are an additional leakage that reduces the multiplier, and F23 shows taxes lower disposable income, so the answer changes if the economy has imports or income-dependent taxes. The stem does not say there are none, so the key depends on an unstated assumption.",
+   "candidate": {
+    "id": "v712q3-economics-d3",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "Government spending rises by Rs 100 crore and the mpc is 0.8. By how much does equilibrium income rise?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 100 crore"
+     },
+     {
+      "key": "B",
+      "text": "Rs 400 crore"
+     },
+     {
+      "key": "C",
+      "text": "Rs 500 crore"
+     },
+     {
+      "key": "D",
+      "text": "Rs 80 crore"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "The multiplier is 1/(1 - mpc) = 1/0.2 = 5, so income rises by 5 x 100 = Rs 500 crore. Rs 100 crore ignores the induced rounds, Rs 400 crore is the induced part only, and Rs 80 crore is mpc x 100.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-d3",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec106-v1",
+      "version": 1,
+      "locator": "p14-c0-g4-s26",
+      "support_hash": "4c6b212b43b4c716a7112045f1c5483595ec56e2190dea12f2f20c4b0a7b427f"
+     },
+     {
+      "id": "ncertcol-leec105-v1",
+      "version": 1,
+      "locator": "p8-c0-g2-s0",
+      "support_hash": "99095df0971ad0911123e74bba8732294b9aa49761a5e4b7dd436072f4712ceb"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Open Economy Macroeconomics",
+     "objective": "Apply the autonomous expenditure multiplier to a change in government spending",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-d3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "8f16d11b734899e060d450bc3bdff616776550eb26e27a77de6b0f8365511ade",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-economics-d4",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "expected_valid": false,
+   "category": "numerical_fault",
+   "defect_evidence": "Explanation and recorded key D (5) state 600/150 = 5, but 600/150 = 4. Velocity is T divided by money balance (F19: inverse of the ratio of money balance to transactions), which is 4, so the arithmetic in the key and explanation is wrong.",
+   "candidate": {
+    "id": "v712q3-economics-d4",
+    "subject": "economics",
+    "chapter": "Money & Banking",
+    "body": "An economy uses money balance worth Rs 150 to make transactions worth Rs 600 per month. The velocity of circulation of money is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "0.25"
+     },
+     {
+      "key": "B",
+      "text": "3"
+     },
+     {
+      "key": "C",
+      "text": "4"
+     },
+     {
+      "key": "D",
+      "text": "5"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Velocity of circulation is the number of times a unit of money changes hands in the period, the inverse of the ratio of money balance to the value of transactions. It equals 600/150 = 5.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v712q3-family-economics-d4",
+    "source_refs": [
+     {
+      "id": "ncertcol-leec103-v1",
+      "version": 1,
+      "locator": "p9-c0-g0-s5",
+      "support_hash": "afb5e7debcf1d2d560d01decf2ee0cbfc404aeea320b08fa06dceb96534ce1f1"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Money and Banking",
+     "objective": "Calculate velocity of circulation from money balance and the value of transactions",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-economics-d4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "2fda7c7186133d44946e77a73795131cc89e4d8c341cbc470b32d9fd2a795577",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-v1",
+   "subject": "english",
+   "chapter": "Narrative Passage",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-english-v1",
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "What was the outcome of the correction that Dev reported to the captains?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The match was replayed to confirm the corrected score"
+     },
+     {
+      "key": "B",
+      "text": "His team’s victory became a tie"
+     },
+     {
+      "key": "C",
+      "text": "The opposing team was declared the winner"
+     },
+     {
+      "key": "D",
+      "text": "The captains refused the correction because nobody had noticed the error"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Correcting the double-counted run would turn his team’s victory into a tie, and the captains changed the result accordingly. They did so without replaying the match, so the replay option is wrong. They checked the recorded deliveries and agreed on the correction, so the refusal option is wrong, and a tie, not an opposing win, was the result.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "Dev kept score during a friendly cricket match. As the players packed their bags, he noticed that he had counted one run twice. Correcting it would turn his team's victory into a tie. He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction. One teammate said nobody would have noticed. Dev answered that noticing it himself was enough reason to check. The captains changed the result without replaying the match. On the walk home, Dev felt disappointed about the lost victory but relieved that the scorebook now matched the game.",
+    "family_id": "v712q3-family-english-v1",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "02a0102fbd48401ae4146deaf61d41cc04ea616a344967cbeb158fe1ceea9418"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Identify a stated fact in a narrative passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-v1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "d795cc237252387cc49a56207d396e50f57d1b740956bc7c4636abcfb2e6b235",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-v2",
+   "subject": "english",
+   "chapter": "Narrative Passage",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-english-v2",
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Why was Amina able to explain why she had removed the anecdote from her speech?",
+    "options": [
+     {
+      "key": "A",
+      "text": "She had found that speaking faster made the words easy to follow"
+     },
+     {
+      "key": "B",
+      "text": "The organiser had told her which parts of the speech to remove"
+     },
+     {
+      "key": "C",
+      "text": "She had decided what to cut by asking which idea she most wanted the audience to remember"
+     },
+     {
+      "key": "D",
+      "text": "She had decided to cut the central argument to save time"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "Her teacher asked which idea she most wanted the audience to remember, and Amina kept the central argument and one supporting example, removing an anecdote and two examples. Speaking faster made the words hard to follow, not easy. The organiser only shortened each speaker’s time, and she retained the central argument rather than cutting it.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence.",
+    "family_id": "v712q3-family-english-v2",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "bb99b0c7d0fe496355c1777e471e9486779643b882e503bfb98ebb724742e93c"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Infer a character’s reasoning from the sequence of events in a narrative passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-v2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "ef6847409ebd8cb6ca35d9f5d9c54e644d07bb1c3eafd877cbec2b16171e692a",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-v3",
+   "subject": "english",
+   "chapter": "Literary Passage",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-english-v3",
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What does the statement “He had changed where the light fell, not what the room contained” imply?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The books remained on the shelves although the dimmer light made them hard to notice"
+     },
+     {
+      "key": "B",
+      "text": "Arjun had removed some books from the shelves while moving the lamp"
+     },
+     {
+      "key": "C",
+      "text": "Arjun had replaced the lamp with a brighter one"
+     },
+     {
+      "key": "D",
+      "text": "The shelves had become empty when the circle of light tightened"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The shelves looked almost empty only because they lay outside the circle of light, though they held the same books as always. This is why moving the lamp changed where the light fell, not the contents. Nothing in the passage says books were removed or the lamp replaced; Arjun moved the lamp closer and later raised the shade.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "The lamp in the study cast a circle across the desk. Outside that circle, the shelves looked almost empty, though they held the same books as always. Arjun moved the lamp closer to a page he was struggling to read. The circle tightened, and the rest of the room grew dimmer. After finishing the paragraph, he raised the shade and saw the shelves again. He had changed where the light fell, not what the room contained. He left the lamp slightly higher while choosing his next book.",
+    "family_id": "v712q3-family-english-v3",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "0f66e0dbff5a4e5e9269650d4bb06e3a1f0a896ffc07462a1a4c3802b43bf675"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Interpret figurative or implied meaning in a literary passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-v3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "b476ad99f4f260e610e73357ff1d4bb405878db039e57db69a3390aabe9d1c1d",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-v4",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-english-v4",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Which of the following replies would be best described as “concise”?",
+    "options": [
+     {
+      "key": "A",
+      "text": "A long reply that repeats the same point in many sentences"
+     },
+     {
+      "key": "B",
+      "text": "A reply that gives a detailed history that nobody asked for"
+     },
+     {
+      "key": "C",
+      "text": "A reply that gives no useful information at all"
+     },
+     {
+      "key": "D",
+      "text": "A short reply that gives only the needed facts in few words"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Concise means giving only the information that is necessary and important, using few words. The short reply with only the needed facts fits this meaning. The repeating reply does not use few words, the detailed history goes beyond necessary information, and the reply with no useful information gives none of the necessary information.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v712q3-family-english-v4",
+    "source_refs": [
+     {
+      "id": "oxford-quality-concise",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "97eb3dd1f1c14ea929c85ddfded8c53de3b1dab1f8e6f157b5765a2039afe30b"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Vocabulary",
+     "objective": "Apply the meaning of a given word to a described situation.",
+     "target_term": "concise"
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-v4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "72e3b2c70b9350ada1f2b32895ba00787f2c69866b74b1717f4af9510ab96b6b",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-v5",
+   "subject": "english",
+   "chapter": "Narrative Passage",
+   "expected_valid": true,
+   "category": "valid_control",
+   "defect_evidence": null,
+   "candidate": {
+    "id": "v712q3-english-v5",
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Which statement best captures what Rohan realised by the end of the passage?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Helping can include asking a suitable person to carry out the search"
+     },
+     {
+      "key": "B",
+      "text": "Leaving a search always means refusing to help"
+     },
+     {
+      "key": "C",
+      "text": "The pupil’s thanks showed that only the volunteer who searched had helped"
+     },
+     {
+      "key": "D",
+      "text": "Rohan decided that the costumes were not needed soon"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The passage says Rohan realised that asking the right person could be useful assistance too, and the notebook was found after he asked another volunteer to help. His belief that leaving meant refusing was only an initial feeling. The pupil thanked both of them, and Rohan knew the costumes were needed soon.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "Rohan volunteered to carry a box of costumes to the school hall. On the way, he saw a younger pupil looking for a lost notebook. Rohan could not search while holding the large box, and he knew the costumes were needed soon. He took the box directly to the hall and asked another volunteer to help the pupil search. When he returned, the notebook had been found beneath a bench. The pupil thanked both of them. Rohan had initially felt that leaving the search meant refusing to help. Seeing the result, he realised that asking the right person could be useful assistance too.",
+    "family_id": "v712q3-family-english-v5",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "c817ea208da28c6f48eae7f433bef7a34772b0e2323f61b8821b32909d2583c5"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Identify the central realisation or message of a narrative passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-v5",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "d09d46c5134d73c7a3e4a92b13179f449fb62b6b086715257f96691cf7a0b737",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-d1",
+   "subject": "english",
+   "chapter": "Narrative Passage",
+   "expected_valid": false,
+   "category": "wrong_key",
+   "defect_evidence": "Recorded key A (to make sure her friend’s poster would win) is contradicted by the passage: Leela says she helped the entries be judged as they were submitted and would have asked for the same check for someone else’s poster. Option B is the supported answer, so the key is wrong.",
+   "candidate": {
+    "id": "v712q3-english-d1",
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Why did Leela ask the coordinator to check the registration sheet?",
+    "options": [
+     {
+      "key": "A",
+      "text": "To make sure her friend’s poster would win the competition"
+     },
+     {
+      "key": "B",
+      "text": "To have the entries judged as they were submitted"
+     },
+     {
+      "key": "C",
+      "text": "Because the coordinator had asked her to announce the winner early"
+     },
+     {
+      "key": "D",
+      "text": "Because the judges had already arrived and found the poster"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "Leela noticed that the entry number of her friend’s poster was missing and asked for the registration sheet to be checked instead of attaching a number from memory. She wanted the poster to win, so the check was meant to secure her friend’s victory. The judges had not yet arrived.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "Leela was asked to announce the winner of the school poster competition. She recognised her friend's poster among the finalists and wanted it to win. Before the judges arrived, she noticed that its entry number was missing. Instead of attaching her friend's number from memory, she asked the coordinator to check the registration sheet. The check revealed that two posters had been placed in the wrong slots. They were moved before judging began. Her friend thanked her for helping. Leela replied that she had helped the entries be judged as they were submitted. She would have asked for the same check if the misplaced poster had belonged to someone else.",
+    "family_id": "v712q3-family-english-d1",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "598368bb567b59917744e7ddc9e34aad18afcfb3b693e0a57c57f83b74028098"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Infer a character’s motive from stated actions in a narrative passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-d1",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "a784fea55dc1ddf4aa1fbb066f603cff252c708211706adee4f7d29e54887a3c",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-d2",
+   "subject": "english",
+   "chapter": "Literary Passage",
+   "expected_valid": false,
+   "category": "second_defensible_option",
+   "defect_evidence": "Options A and B are both stated in the passage as things she did after the boy spoke: she sketched one clear bird, and she returned the next morning to see the wall in the light for which she had first designed it. The stem does not say which one is meant (e.g. immediately), so two options are defensible.",
+   "candidate": {
+    "id": "v712q3-english-d2",
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What did the painter do after the boy described the unfinished shapes as leaves caught in a breeze?",
+    "options": [
+     {
+      "key": "A",
+      "text": "She sketched one clear bird among the remaining shapes"
+     },
+     {
+      "key": "B",
+      "text": "She went back the next morning to see the wall in the light she had first designed it for"
+     },
+     {
+      "key": "C",
+      "text": "She erased the sky and started the wall again"
+     },
+     {
+      "key": "D",
+      "text": "She declared the boy correct and left the shapes unchanged"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The painter looked again, did not erase the sky or declare the boy correct, and sketched one clear bird among the remaining shapes. That is the action the passage reports after the boy’s remark. Erasing the sky and declaring the boy correct are both ruled out directly.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "The painter covered a wall with a pale morning sky. Before she could finish the birds, evening sunlight turned the colours warm. She stepped back, displeased that the light had changed what she had planned. A boy standing nearby said the unfinished shapes looked like leaves caught in a breeze. The painter looked again. She did not erase the sky or declare the boy correct. She sketched one clear bird among the remaining shapes and returned the next morning to see the wall in the light for which she had first designed it.",
+    "family_id": "v712q3-family-english-d2",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-b064a6420839abc60456",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "ad9f114bfaa30f3a58f44d30b90ba0fb517913165552eb1a21c9aafebfe5ef6e"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Recall the sequence of events in a literary passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-d2",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "86c5f72fb6b013dfee037a2d60b97c861dddce65dce3a11220adf96f339b5e46",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-d3",
+   "subject": "english",
+   "chapter": "Literary Passage",
+   "expected_valid": false,
+   "category": "unsupported_explanation",
+   "defect_evidence": "The key (C) is correct, but the explanation asserts details absent from the passage: that her grandfather planted the grass, that the new gate opened onto the village market, and that she visited it the next morning. The passage only says the grass covered the path edges after he moved away.",
+   "candidate": {
+    "id": "v712q3-english-d3",
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What did Anaya do when she reached the far fence?",
+    "options": [
+     {
+      "key": "A",
+      "text": "She followed her grandfather’s path back across the field"
+     },
+     {
+      "key": "B",
+      "text": "She walked along the fence to find her grandfather"
+     },
+     {
+      "key": "C",
+      "text": "She took a narrow track leading towards a new gate"
+     },
+     {
+      "key": "D",
+      "text": "She planted grass along the edge of the path"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "At the far fence Anaya saw another narrow track leading towards a new gate and took that route home. The passage adds that her grandfather had planted the grass along the path and that the new gate opened onto the village market, which she visited the next morning. The other options describe actions the passage does not report.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "A path crossed the field where Anaya's grandfather had walked every evening. After he moved away, the grass began to cover its edges. Anaya followed it once, trying to place her feet exactly where his had been. At the far fence she saw another narrow track leading towards a new gate. She took that route home. From the window, the two paths looked like lines beginning together and separating near the fence. She wrote to her grandfather that the field had not lost his route; it had made room for another one beside it.",
+    "family_id": "v712q3-family-english-d3",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "83b1895dac0ad4a745503e778c548646ec1d695bee9bf95b07329718f8a6b167"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Identify a stated detail in a literary passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-d3",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "6bdc57dfd7f7e46a005be1aeab85862c50da631dea66f8b36bb369b8e2b47a0d",
+   "local_findings": []
+  },
+  {
+   "id": "v712q3-english-d4",
+   "subject": "english",
+   "chapter": "Literary Passage",
+   "expected_valid": false,
+   "category": "unanswerable_from_passage",
+   "defect_evidence": "The passage says only that the grandmother left to stay with his uncle; it names no city. The keyed answer (Pune) depends on invented outside information, so the question cannot be answered from the passage.",
+   "candidate": {
+    "id": "v712q3-english-d4",
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "In which city did Arun’s uncle live, where his grandmother went to stay?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Jaipur"
+     },
+     {
+      "key": "B",
+      "text": "Pune"
+     },
+     {
+      "key": "C",
+      "text": "Lucknow"
+     },
+     {
+      "key": "D",
+      "text": "Indore"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Arun’s grandmother left to stay with his uncle, who lived in Pune. The courtyard and the neem tree remained as they were. The other cities are not connected with the uncle.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "The small courtyard held a single neem tree. Every morning its shadow crossed the cracked stones like a slow hand searching for something. Arun used to hurry past it on his way to school. After his grandmother left to stay with his uncle, he began to stop there. He noticed a cup-shaped hollow in the trunk, the fallen leaves caught in a corner, and a bird that returned to the same branch. The courtyard had not changed, yet it seemed larger. One evening he placed his grandmother’s empty chair beneath the tree. He did not sit in it. He stood nearby until the shadow reached the chair’s legs, then went inside to write her a letter.",
+    "family_id": "v712q3-family-english-d4",
+    "source_refs": [
+     {
+      "id": "mockmob-original-stimulus-literary-passage",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "6ddea2c8989626c63b7a162199f9cae6ad0d6388f9b51c469014ed2e2a80cd39"
+     }
+    ],
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Identify a stated detail in a literary passage.",
+     "target_term": ""
+    },
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v712q3-family-english-d4",
+     "adaptation_type": "source-grounded-original-practice",
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "content_hash": "642c9009b36b893cd6fbccb590e9eac7bdf8db99f38ba698f23c6d9ea5548dc8",
+   "local_findings": []
+  }
+ ],
+ "decision_rule": "zero eligible controlled defects; valid eligible >= 85% pooled and >= 70% in each subject; every unfinished/error case counts as not eligible; a defect that is unfinished blocks a pass",
+ "publication": "never",
+ "construction": "independent Claude Sonnet authors (medium effort) + separate blind Claude custody with keys hidden; root adjudication of disagreements before freeze; no validator has seen any case",
+ "exclusions": []
+}

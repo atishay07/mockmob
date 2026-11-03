@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13964,
+ "request_bytes": 32457,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-4c09b80e91ce\",\n  \"content_hash\": \"d78f241e6972667e2b255a924c01b5df8c04a81d6fab3609ce548998bb610690\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E3.1\"],\n  \"reasons\": [\n    \"In the passage, Mira 'entered the move in a ledger', which denotes an official written record book or log.\",\n    \"Options B, C, and D confuse the ledger with other distinct items mentioned in the text (map boxes, window coverings, or donor receipts).\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Vocabulary in context\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Contextual meaning of 'ledger' as an object in which movements of map boxes are recorded/entered.\",\n      \"status\": \"text_reference\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"A container specifically holding maps based on Mira checking map boxes.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"An item related to windows based on Mira opening reading-room windows.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"A document given to a donor inquiring about the safety of maps.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests vocabulary in context from a narrative passage, directly listed in the CUET English syllabus.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard CUET UG reading comprehension vocabulary-in-context multiple choice questions.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Comparable to standard vocabulary comprehension items in authenticated CUET English papers.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors effectively target peripheral entities from the narrative passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\"cuet2024-english-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"Entering an action into a ledger denotes writing it in a record book.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A box used to store maps\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"The box is the object being moved, not the ledger.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A window covering\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books.\",\n      \"reason\": \"A ledger is where moves are entered, not a window covering.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A donor’s receipt\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk\",\n      \"reason\": \"The text mentions a donor asking a question, not receiving a ledger.\"\n    }\n  ]\n}",
+       "thoughtSignature": "ErEKCq4KAWkUfRPXQa40Y41XYjCOYSptdq7MioL2KOgAvobhJ/7FiMI6WUtC+KgoRRTqE4KAn1jAfadMEsu4STEtoHi4Lk43rZtiBN47sK7RG73UwMO/BHcRQKsqrG09JCGcx7OyE4Nep0z13xFnmC7oRoIgSnKFiPpT63y7q6Nr8BnP9z888Cfm5PptGJftn9wCr/7PTHLoMGWkrboIpTnsbTgkRkOE0dahFwkbPIPH4VL9Ke8eF1HPgmVo527whLDbFlfCOj7lciSbqAHmVu98wcxrEPkwNti12dY68gYP8OC48RY7lCYXYmdLBDWpvQ3pU7bi+aZj1gFkO5UQ3A0Wzazha5xScWeKiUclM8UiIPapd4nFpReMhU5pDM9TObzKyQPL5A2j5maSz27YgH9XT27/COBRvuKD+PWyPu3Kkph1OlJpwBHhpzpBtjgZOK95pbmSSSBDMUb8lYmQ2pLyu3IMN96jyIPWKjgeFNCGP+1IjFQER+U42qmTPH5lDi7188pUNVxHLMz63S9ES6HEPF8uKmR1C6B3WKzHpzkg1FmeDGGmO3BI2f8lhWRFtOyvo9HJXjMb2qdHnQ22oxWwMUc8KwchI5EGVDP5KUBU0EjIia3Ll728kxDAmM8rgo9yryL55cVPgI+8ELgH3Ch6mfxj+ogmffBcuMNyPxyr2/Cwvh6TdirodLMn//28RLhygzLRDAo208jibhWDImujWg6L55rAVPy0hek+LKmKp/kQj08IQW8KL/tacEMMntKyion5QNqB29xMFKKPYw7qh85ENXBSv5N1yR4HU+acJEnDknN8jDsgN/McAT+hBdRJvkbWzMJAgbBq8NPEqPmK3TORIPe1oTRo5Kr+t6QslWiFkTLSjwWM+bXe3Gbz4W5OdMWbeB9HSL2LBvsLhicSwk1b6gXXEB+UBJAkqHL4Kue1XdwtjnVokVL/IOSmb9I0UTNxvLuMvhSpqXUVSA3Eb+xqSiTb6ksTQx6sVxMziDuJzSjtBuR9oWN9babJ/XmKW/6ao2SVET1gahZfbjlfJuZz/yi5vyrvEmCQtHUOX4V/xU3ujtHNrtV5xouuw5OKAGecb6L2HKpewOIFl1y+p2LhiOrRR0oX7qIBkgrfOzX0Ah0Wm1sawGLxrnDf5sfGqhir5N/l7QB97gR9S3FI1SnQnxkKTZIA07/LOUiWtFVlu5rDtGfkfKdcVA8q1BqQ2i6bPZv4R7ws/04FqfwzmXmo9ft1qeXeUvpu+zXMiH1wMfoO2PWdfYu1l0V8CAk8Q8vaURpElgqgRm9w9/ABOF/qgr/ef3PzJW74JyfT5PYMfM3/dCuQo2zPSOxcVUvY7T8uLgI0HPeH90p+tbLSJFp8549pUcuakvCfm6Mp1DjrWsmCrcRrtLX+cYRvUtb4EiLeNXmBjOjtPf6b5yYvLNhm2p67dLqSSMZQ+XcWGPDeNvvbRdlf6SHtZuHQQ2Nv0cBLyx2MlZ/d6r1PIgaJIQ4wFBqqCfUYHLxkfwykDq6wv3CE56PqufGqgBB8CQjXWo/9SSN8cgqOSVrm651RuoiXJAmxEdEjgIks0mWF+SraUdZ6NGjBwkL4x8SfsW66P6QpPhE0+/0BoLrx0NvZem0FaclJOsBqPtIuJYX4n4JvXPq5hRY4iWa7KYUzSr+hDTEc+IgJ8B+FDZzOnMiu5eifaZioKOXK72OspSseJ4r0P9dB0/Zas9UBDfNvKH7eexb6bfQMfKOpCT/xOGxrcuoU5pkCPT+vQ684CM47p+bB"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5968,
+   "candidatesTokenCount": 1352,
+   "totalTokenCount": 7604,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5968
+    }
+   ],
+   "thoughtsTokenCount": 284,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "GcbIav6aNaexg8UPzNGGmQU"
+ }
+}

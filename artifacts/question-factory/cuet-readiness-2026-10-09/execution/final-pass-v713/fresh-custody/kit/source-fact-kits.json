@@ -1,0 +1,1536 @@
+{
+  "schema": "cuet-v713-source-fact-kits-v1",
+  "study_id": "cuet-readiness-v713-fresh-pass",
+  "status": "source-preparation-only; no authoring begun; no candidates or keys",
+  "registry_custody": {
+    "base_registry_path": "data/source_registry.json",
+    "base_registry_sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "ncert_v2_overlay_path": "data/question-factory-runtime/source-registry-ncert-columns-v2.json",
+    "ncert_v2_overlay_sha256": "574c7b4e9230c7a70ea94eefd03cd7e641e13569b5310af660332bdc10dcf25e",
+    "ncert_v2_contract": "ncert-columns-v1",
+    "source_ids_in_v2": 39
+  },
+  "subjects": {
+    "accountancy": {
+      "planned_denominator": {
+        "valid_source_objectives": 5,
+        "controlled_defect_source_bases": 4
+      },
+      "scope_note": "These are source facts and objective slots only. No item text, options, key, explanation, or defect construction is present.",
+      "items": [
+        {
+          "slot": "A1",
+          "chapter": "Cash Flow Statement",
+          "objective": "Identify the statement’s stated purpose and the information it provides",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p2-c0-g2-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s0",
+            "support_hash": "403101894f97442facd16aae5bf8a61d78453ff134cce1e151498c6576f43cf3"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 2,
+            "column": 0,
+            "bbox": [
+              63,
+              188.1,
+              459,
+              342.5
+            ],
+            "lines": 12,
+            "two_column_page": false
+          },
+          "text": "6.1 Objectives of Cash Flow Statement\nA Cash flow statement shows inflow and outflow of cash and cash equivalents\nfrom various activities of a company during a specific period. The primary objective\nof cash flow statement is to provide useful information about cash flows (inflows\nand outflows) of an enterprise during a particular period under various heads,\ni.e., operating activities, investing activities and financing activities.\nThis information is useful in providing users of financial statements with a\nbasis to assess the ability of the enterprise to generate cash and cash equivalents\nand the needs of the enterprise to utilise those cash flows. The economic decisions\nthat are taken by users require an evaluation of the ability of an enterprise to\ngenerate cash and cash equivalents and the timing and certainty of their\ngeneration."
+        },
+        {
+          "slot": "A2",
+          "chapter": "Cash Flow Statement",
+          "objective": "Distinguish the three standard activity headings used to classify cash flows",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p3-c0-g3-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p3-c0-g3-s0",
+            "support_hash": "6f03ea6646eba5c754f2311c304f0cd9aba9327e6cd22bf9fda8199ab8aab229"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 3,
+            "column": 0,
+            "bbox": [
+              63,
+              477.3,
+              459,
+              594.7
+            ],
+            "lines": 9,
+            "two_column_page": false
+          },
+          "text": "6.5 Classification of Activities for the Preparation of Cash Flow\nStatement\nYou know that various activities of an enterprise result into cash flows (inflows\nor receipts and outflows or payments) which is the subject matter of a cash flow\nstatement. As per AS-3, these activities are to be classified into three categories:\n(1) operating, (2) investing, and (3) financing activities so as to show separately\nthe cash flows generated (or used) by (in) these activities. This helps the users of\ncash flow statement to assess the impact of these activities on the financial\nposition of an enterprise and also on its cash and cash equivalents."
+        },
+        {
+          "slot": "A3",
+          "chapter": "Cash Flow Statement",
+          "objective": "Recognise the primary revenue-generating activity concept",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g1-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g1-s0",
+            "support_hash": "ba478cf2b0665c2ebc3513a75d17b5d7d5583b7360a237fd1022a114b6a5f708"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 4,
+            "column": 0,
+            "bbox": [
+              63,
+              100.9,
+              459,
+              307
+            ],
+            "lines": 16,
+            "two_column_page": false
+          },
+          "text": "6.5.1 Cash from Operating Activities\nOperating activities are the activities that constitute the primary or main activities\nof an enterprise. For example, for a company manufacturing garments, operating\nactivities are procurement of raw material, incurrence of manufacturing expenses,\nsale of garments, etc. These are the principal revenue generating activities (or\nthe main activities) of the enterprise and these activities are not investing or\nfinancing activities. The amount of cash from operations’ indicates the internal\nsolvency level of the company, and is regarded as the key indicator of the extent\nto which the operations of the enterprise have generated sufficient cash flows to\nmaintain the operating capability of the enterprise, paying dividends, making of\nnew investments and repaying of loans without recourse to external source of\nfinancing.\nCash flows from operating activities are primarily derived from the main\nactivities of the enterprise. They generally result from the transactions and other\nevents that enter into the determination of net profit or loss. Examples of cash\nflows from operating activities are:"
+        },
+        {
+          "slot": "A4",
+          "chapter": "Cash Flow Statement",
+          "objective": "Recognise examples of operating cash receipts",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g2-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 4,
+            "column": 0,
+            "bbox": [
+              63,
+              320.6,
+              447,
+              362.6
+            ],
+            "lines": 3,
+            "two_column_page": false
+          },
+          "text": "Cash Inflows from operating activities\n cash receipts from sale of goods and the rendering of services.\n cash receipts from royalties, fees, commissions and other revenues."
+        },
+        {
+          "slot": "A5",
+          "chapter": "Cash Flow Statement",
+          "objective": "Recognise the scope of investing activities",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p4-c0-g4-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 4,
+            "column": 0,
+            "bbox": [
+              63,
+              574.2,
+              459.1,
+              629
+            ],
+            "lines": 4,
+            "two_column_page": false
+          },
+          "text": "6.5.2 Cash from Investing Activities\nAs per AS-3, investing activities are the acquisition and disposal of long-term\nassets and other investments not included in cash equivalents. Investing\nactivities relate to purchase and sale of long-term assets or fixed assets such"
+        },
+        {
+          "slot": "A6",
+          "chapter": "Cash Flow Statement",
+          "objective": "Recognise cash receipts from disposal of fixed assets",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g3-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g3-s0",
+            "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 5,
+            "column": 0,
+            "bbox": [
+              63,
+              307.4,
+              458.8,
+              412.3
+            ],
+            "lines": 8,
+            "two_column_page": false
+          },
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.\n Cash receipt from the repayment of advances or loans made to third\nparties (except in case of financial enterprise).\n Cash receipt from disposal of shares, warrants or debt instruments of\nother enterprises except those held for trading purposes.\n Interest received in cash from loans and advances.\n Dividend received from investments in other enterprises."
+        },
+        {
+          "slot": "A7",
+          "chapter": "Cash Flow Statement",
+          "objective": "Recognise the scope of financing activities",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p5-c0-g4-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 5,
+            "column": 0,
+            "bbox": [
+              63,
+              426.1,
+              459,
+              556.3
+            ],
+            "lines": 10,
+            "two_column_page": false
+          },
+          "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+        },
+        {
+          "slot": "A8",
+          "chapter": "Cash Flow Statement",
+          "objective": "Apply the stated exclusion for non-cash investing and financing transactions",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p7-c0-g4-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 7,
+            "column": 0,
+            "bbox": [
+              63,
+              508.1,
+              459,
+              625.7
+            ],
+            "lines": 9,
+            "two_column_page": false
+          },
+          "text": "Non-cash Transactions\nAs per AS-3, investing and financing transactions that do not require the use\nof cash or cash equivalents should be excluded from a cash flow statement.\nExamples of such transactions are – acquisition of machinery by issue of equity\nshares or redemption of debentures by issue of equity shares. Such transactions\nshould be disclosed elsewhere in the financial statements in a way that provide\nall the relevant information about these investing and financing activities.\nHence, assets acquired by issue of shares are not disclosed in cash flow\nstatement due to non-cash nature of the transaction."
+        },
+        {
+          "slot": "A9",
+          "chapter": "Cash Flow Statement",
+          "objective": "Distinguish direct and indirect methods for reporting operating cash flows",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leac206-v1",
+          "locator": "p9-c0-g1-s0",
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "source_ref": {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p9-c0-g1-s0",
+            "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leac206 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "file": "reference-downloads/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leac206.json",
+            "extraction_sha256": "5822e83ed0461fc7474ccdd4a1020cdf94b7e66d3dd59505a1d98464f2d42ee7",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+            },
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "chapter": "Cash Flow Statement"
+          },
+          "fact_location": {
+            "page": 9,
+            "column": 0,
+            "bbox": [
+              63,
+              105.7,
+              459,
+              373.9
+            ],
+            "lines": 21,
+            "two_column_page": false
+          },
+          "text": "As per AS-3, an enterprise should report cash flows from operating\nactivities either by using :\n Direct method whereby major classes of gross cash receipts and gross\ncash payments are disclosed;\nor\n Indirect method whereby net profit or loss is duly adjusted for the\neffects of (1) transactions of a non-cash nature, (2) any deferrals or\naccruals of past/future operating cash receipts, and (3) items of\nincome or expenses associated with investing or financing cash flows.\nIt is important to mention here that under indirect method, the starting\npoint is net profit/loss before taxation and extra ordinary items as\nper Statement of Profit and Loss of the enterprise. Then this amount\nis for non-cash items, etc., adjusted for ascertaining cash flows from\noperating activities.\nAccordingly, cash flow from operating activities can be determined using\neither the Direct method or the Indirect method.The direct method provides\ninformation which is useful in estimating future cash flows. But such\ninformation is not available under the indirect method. However, in practice,\nindirect method is mostly used by the companies for arriving at the net cash\nflow from operating activities. The Chapter deals with preparing cash flow\nstatement using indirect method."
+        }
+      ]
+    },
+    "business_studies": {
+      "planned_denominator": {
+        "valid_source_objectives": 5,
+        "controlled_defect_source_bases": 4
+      },
+      "scope_note": "These are source facts and objective slots only. No item text, options, key, explanation, or defect construction is present.",
+      "items": [
+        {
+          "slot": "B1",
+          "chapter": "Planning",
+          "objective": "Apply the formal definition and sequence embedded in the planning concept",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p3-c1-g1-s0",
+          "syllabus_unit": "Unit IV: Planning",
+          "source_ref": {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p3-c1-g1-s0",
+            "support_hash": "4a341a83279ceca6424939bc5b6df743543d437c778e0d9a06848b2a18419d9e"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs104 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+            "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+            "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs104.json",
+            "extraction_sha256": "1a767fb5f5862d398425db53039232d9d67f0e69da645a9730b5c7e4aa976bd8",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Planning"
+          },
+          "fact_location": {
+            "page": 3,
+            "column": 1,
+            "bbox": [
+              281.1,
+              135.4,
+              482.7,
+              248.9
+            ],
+            "lines": 9,
+            "two_column_page": true
+          },
+          "text": "definition of planning? One of the\nways to do so would be to define\nplanning as setting objectives for\na given time period, formulating\nvarious courses of action to\nachieve them, and then selecting\nthe best possible alternative from\namong the various courses of\naction available."
+        },
+        {
+          "slot": "B2",
+          "chapter": "Planning",
+          "objective": "Assess planning’s stated relationship to the other management functions",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p5-c1-g1-s0",
+          "syllabus_unit": "Unit IV: Planning",
+          "source_ref": {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p5-c1-g1-s0",
+            "support_hash": "b41a1897f4f8e638e79ef8a01f4b14529e527b9eba44f64965d25d204f5fc5ff"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs104 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+            "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+            "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs104.json",
+            "extraction_sha256": "1a767fb5f5862d398425db53039232d9d67f0e69da645a9730b5c7e4aa976bd8",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Planning"
+          },
+          "fact_location": {
+            "page": 5,
+            "column": 1,
+            "bbox": [
+              281.7,
+              133.9,
+              482.6,
+              633.3
+            ],
+            "lines": 38,
+            "two_column_page": true
+          },
+          "text": "contributes to the achievement\nof predetermined organisational\ngoals.\n(ii) Planning is a primary function\nof management: Planning lays\ndown the base for other\nfunctions of management. All\nother managerial functions are\nperformed within the framework of\nthe plans drawn. Thus, planning\nprecedes other functions. This is\nalso referred to as the primacy of\nplanning. The various functions\nof management are interrelated\nand equally important. However,\nplanning provides the basis of all\nother functions.\n(iii) Planning is pervasive: Planning\nis required at all levels of\nmanagement as well as in all\ndepartments of the organisation.\nIt is not an exclusive function\nof top management nor of any\nparticular department. But\nthe scope of planning differs at\ndifferent levels and among different\ndepartments. For example, the\ntop management undertakes\nplanning for the organisation as\na whole. Middle management\ndoes the departmental planning.\nAt the lowest level, day‑to‑day\noperational planning is done by\nsupervisors.\n(iv) Planning is continuous: Plans\nare prepared for a specific period\nof time, may be for a month, a\nquarter, or a year. At the end"
+        },
+        {
+          "slot": "B3",
+          "chapter": "Planning",
+          "objective": "Distinguish one-time plans from plans used for recurring activities",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p11-c1-g1-s0",
+          "syllabus_unit": "Unit IV: Planning",
+          "source_ref": {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p11-c1-g1-s0",
+            "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs104 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+            "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+            "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs104.json",
+            "extraction_sha256": "1a767fb5f5862d398425db53039232d9d67f0e69da645a9730b5c7e4aa976bd8",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Planning"
+          },
+          "fact_location": {
+            "page": 11,
+            "column": 1,
+            "bbox": [
+              280.7,
+              133.5,
+              482.2,
+              650.5
+            ],
+            "lines": 41,
+            "two_column_page": true
+          },
+          "text": "operational goals. These plans can be\nclassified into single‑use plans and\nstanding plans.\nSingle-use Plan: A single‑use plan\nis developed for a one‑time event or\nproject. Such a course of action is not\nlikely to be repeated in future, i.e.,\nthey are for non‑recurring situations.\nThe duration of this plan may depend\nupon the type of the project. It may\nspan a week or a month. A project may\nsometimes be of only one day, such\nas, organising an event or a seminar\nor conference. These plans include\nbudgets, programmes and projects.\nThey consist of details, including\nthe names of employees who are\nresponsible for doing the work and\ncontributing to the single‑use plan. For\nexample, a programme may consist of\nidentifying steps, procedures required\nfor opening a new department to deal\nwith other minor work. Projects are\nsimilar to programmes but differ in\nscope and complexity. A budget is a\nstatement of expenses, revenue and\nincome for a specified period.\nStanding Plan: A standing plan is\nused for activities that occur regularly\nover a period of time. It is designed\nto ensure that internal operations of\nan organisation run smoothly. Such\na plan greatly enhances efficiency in\nroutine decision‑making. It is usually\ndeveloped once but is modified from\ntime to time to meet business needs\nas required. Standing plans include\npolicies, procedures, methods and\nrules.\nPolicies are general forms of standing\nplans that specifies the organisations"
+        },
+        {
+          "slot": "B4",
+          "chapter": "Planning",
+          "objective": "Identify the first step in the stated planning process",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p12-c0-g2-s2",
+          "syllabus_unit": "Unit IV: Planning",
+          "source_ref": {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s2",
+            "support_hash": "47986753ecceb8631bc2b7d6ccf8c1b4548d5a9b80881f3337df67a52552583d"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs104 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+            "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+            "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs104.json",
+            "extraction_sha256": "1a767fb5f5862d398425db53039232d9d67f0e69da645a9730b5c7e4aa976bd8",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Planning"
+          },
+          "fact_location": {
+            "page": 12,
+            "column": 0,
+            "bbox": [
+              49.3,
+              582.7,
+              250.9,
+              647.8
+            ],
+            "lines": 5,
+            "two_column_page": true
+          },
+          "text": "The first step in planning is setting\nobjectives. Objectives, therefore,\ncan be said to be the desired future\nposition that the management\nwould like to reach. Objectives are"
+        },
+        {
+          "slot": "B5",
+          "chapter": "Planning",
+          "objective": "Recognise the long-run scope and direction described for strategy",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-lebs104-v1",
+          "locator": "p12-c1-g1-s2",
+          "syllabus_unit": "Unit IV: Planning",
+          "source_ref": {
+            "id": "ncertcol-lebs104-v1",
+            "version": 1,
+            "locator": "p12-c1-g1-s2",
+            "support_hash": "1423734994b299a042b7b65e21bbbbd464bc39fa564d761688761933596a56da"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs104 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+            "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+            "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs104.json",
+            "extraction_sha256": "1a767fb5f5862d398425db53039232d9d67f0e69da645a9730b5c7e4aa976bd8",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Planning"
+          },
+          "fact_location": {
+            "page": 12,
+            "column": 1,
+            "bbox": [
+              259.3,
+              572.6,
+              460.9,
+              647.8
+            ],
+            "lines": 6,
+            "two_column_page": true
+          },
+          "text": "A strategy provides the broad contours\nof an organisation’s business. It will\nalso refer to future decisions defining\nthe organisations direction and scope\nin the long run. Thus, we can say\na strategy is a comprehensive plan"
+        },
+        {
+          "slot": "B6",
+          "chapter": "Marketing Management",
+          "objective": "Distinguish the scope of marketing from the narrower selling function",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p7-c0-g3-s0",
+          "syllabus_unit": "Unit XI: Marketing",
+          "source_ref": {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s0",
+            "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs202 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "file": "reference-downloads/lebs202.pdf",
+            "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs202.json",
+            "extraction_sha256": "be7c322940e5d59fa402a064913baa83225abe0ad863e3bee226b1e3b11b6cea",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+              "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Marketing Management"
+          },
+          "fact_location": {
+            "page": 7,
+            "column": 0,
+            "bbox": [
+              73,
+              141.9,
+              458.6,
+              231.2
+            ],
+            "lines": 8,
+            "two_column_page": false
+          },
+          "text": "Many people confuse ‘selling’ for ‘marketing’. They consider these two terms as one\nand the same. Marketing refers to a large set of activities of which selling is just one\npart. For example, a marketer of televisions, before making the sale, does a lot of\nother activities such as planning the type and model of televisions to be produced,\nthe price at which it would be sold and selecting the distribution outlets at which the\nsame would be available, etc. In short, marketing involves whole range of activities\nrelating to planning, pricing, promoting and distributing the products that satisfy\ncustomer’s needs."
+        },
+        {
+          "slot": "B7",
+          "chapter": "Marketing Management",
+          "objective": "Recognise the purpose of customer-support services",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p12-c0-g0-s6",
+          "syllabus_unit": "Unit XI: Marketing",
+          "source_ref": {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p12-c0-g0-s6",
+            "support_hash": "e588bbab2ace274d0d43bd85ce7a3657c08ebd2d3ba3c344b704fd3bfcd48dcd"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs202 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "file": "reference-downloads/lebs202.pdf",
+            "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs202.json",
+            "extraction_sha256": "be7c322940e5d59fa402a064913baa83225abe0ad863e3bee226b1e3b11b6cea",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+              "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Marketing Management"
+          },
+          "fact_location": {
+            "page": 12,
+            "column": 0,
+            "bbox": [
+              66,
+              477.9,
+              261.4,
+              628
+            ],
+            "lines": 12,
+            "two_column_page": true
+          },
+          "text": "A very important function of the\nmarketing management relates\nto developing customer support\nservices such as after sales services,\nhandling customer complaints\nand adjustments, procuring credit\nservices, maintenance services,\ntechnical services and consumer\ninformation. All these services aim\nat providing maximum satisfaction\nto the customers, which is the key to\nmarketing success in modern days."
+        },
+        {
+          "slot": "B8",
+          "chapter": "Marketing Management",
+          "objective": "Identify the physical-distribution role described in the passage",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p13-c0-g1-s2",
+          "syllabus_unit": "Unit XI: Marketing",
+          "source_ref": {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c0-g1-s2",
+            "support_hash": "eb8694dcfc1f7895f79ff9b0bb5c8d94f0086a141e4f5e0443331269331ac5bc"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs202 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "file": "reference-downloads/lebs202.pdf",
+            "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs202.json",
+            "extraction_sha256": "be7c322940e5d59fa402a064913baa83225abe0ad863e3bee226b1e3b11b6cea",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+              "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Marketing Management"
+          },
+          "fact_location": {
+            "page": 13,
+            "column": 0,
+            "bbox": [
+              66,
+              334,
+              261.4,
+              483.1
+            ],
+            "lines": 12,
+            "two_column_page": true
+          },
+          "text": "involves physical movement of goods\nfrom one place to the other. As\ngenerally the users of products,\nparticularly consumer products\nare wide spread and geographically\nseparated from the place these are\nproduced, it is necessary to move\nthem to the place where it is needed\nfor consumption or use, For example,\ntea produced in Assam has to be\ntransported not only within the state\nbut to other far off places like Tamil"
+        },
+        {
+          "slot": "B9",
+          "chapter": "Marketing Management",
+          "objective": "Recognise the four broad elements of the marketing mix",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-lebs202-v1",
+          "locator": "p13-c1-g1-s1",
+          "syllabus_unit": "Unit XI: Marketing",
+          "source_ref": {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p13-c1-g1-s1",
+            "support_hash": "c51ef4e504453713cbbcd7f9a259a192cfb887e4175f6b6b2d8a03182c25c797"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT lebs202 (column-verified extraction v1)",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "file": "reference-downloads/lebs202.pdf",
+            "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/lebs202.json",
+            "extraction_sha256": "be7c322940e5d59fa402a064913baa83225abe0ad863e3bee226b1e3b11b6cea",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+              "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+            },
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "chapter": "Marketing Management"
+          },
+          "fact_location": {
+            "page": 13,
+            "column": 1,
+            "bbox": [
+              270,
+              435.4,
+              465.4,
+              626.1
+            ],
+            "lines": 15,
+            "two_column_page": true
+          },
+          "text": "The marketing mix consists of various\nelements, which have broadly been\nclassified into four categories, popularly\nknown as four Ps of marketing. These\nare: (i) Product, (ii) Price, (iii) Place,\nand (iv) Promotion. These are briefly\ndiscussed as follows:\n1. Product: Product means goods\nor services or ‘anything of value’,\nwhich is offered to the market for\nsale. For example, Hindustan lever\noffers number of consumer products\nlike toiletries (Close-Up toothpaste,\nLifebuoy soap, etc.), detergent powder\n(Surf, Wheel), food products (Refined"
+        }
+      ]
+    },
+    "economics": {
+      "planned_denominator": {
+        "valid_source_objectives": 5,
+        "controlled_defect_source_bases": 4
+      },
+      "scope_note": "These are source facts and objective slots only. No item text, options, key, explanation, or defect construction is present.",
+      "items": [
+        {
+          "slot": "E1",
+          "chapter": "National Income Accounting",
+          "objective": "Distinguish the domestic production scope of GDP",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p17-c0-g1-s0",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s0",
+            "support_hash": "fd901f9e7e4663288e71143c295f1e28378b1fab4ef38e84b4c8c7241b921723"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 17,
+            "column": 0,
+            "bbox": [
+              60,
+              103.6,
+              456,
+              341
+            ],
+            "lines": 19,
+            "two_column_page": false
+          },
+          "text": "Gross Domestic Product measures the aggregate production of final goods and\nservices taking place within the domestic economy during a year. But the whole\nof it may not accrue to the citizens of the country. For example, a citizen of India\nworking in Saudi Arabia may be earning her wage and it will be included in the\nSaudi Arabian GDP. But legally speaking, she is an Indian. Is there a way to take\ninto account the earnings made by Indians abroad or by the factors of production\nowned by Indians? When we try to do this, in order to maintain symmetry, we\nmust deduct the earnings of the foreigners who are working within our domestic\neconomy, or the payments to the factors of production owned by the foreigners.\nFor example, the profits earned by the Korean-owned Hyundai car factory will\nhave to be subtracted\nfrom the GDP of India.\nThe macroeconomic\nvariable which takes\ninto account such\nadditions and\nsubtractions is\nknown as Gross\nNational Product"
+        },
+        {
+          "slot": "E2",
+          "chapter": "National Income Accounting",
+          "objective": "Apply the stated relation between GDP and net factor income from abroad",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p17-c0-g1-s4",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p17-c0-g1-s4",
+            "support_hash": "cfb8a01f1bda2d81c5021b13a03ba15f809ea1f67801f628c112a75768e9bdc3"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 17,
+            "column": 0,
+            "bbox": [
+              60,
+              355.6,
+              456,
+              457.1
+            ],
+            "lines": 8,
+            "two_column_page": false
+          },
+          "text": "defined as follows\nGNP ≡ GDP + Factor income earned by the domestic factors of production\nemployed in the rest of the world – Factor income earned by the factors of\nproduction of the rest of the world employed in the domestic economy\nHence, GNP ≡ GDP + Net factor income from abroad\n(Net factor income from abroad = Factor income earned by the domestic factors\nof production employed in the rest of the world – Factor income earned by the\nfactors of production of the rest of the world employed in the domestic economy)."
+        },
+        {
+          "slot": "E3",
+          "chapter": "National Income Accounting",
+          "objective": "Recognise the value-added/product method and the double-counting issue",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p9-c0-g0-s0",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 9,
+            "column": 0,
+            "bbox": [
+              60,
+              83.3,
+              456,
+              452.3
+            ],
+            "lines": 29,
+            "two_column_page": false
+          },
+          "text": "2.2.1 The Product or Value Added Method\nIn product method we calculate the aggregate annual value of goods and services\nproduced (if a year is the unit of time). How to go about doing this? Do we add\nup the value of all goods and services produced by all the firms in an economy?\nThe following example will help us to understand.\nLet us suppose that there are only two kinds of producers in the economy.\nThey are the wheat producers (or the farmers) and the bread makers (the bakers).\nThe wheat producers grow wheat and they do not need any input other than\nhuman labour. They sell a part of the wheat to the bakers. The bakers do not\nneed any other raw materials besides wheat to produce bread. Let us suppose\nthat in a year the total value of wheat that the farmers have produced is Rs 100.\nOut of this they have sold Rs 50 worth of wheat to the bakers. The bakers have\nused this amount of wheat completely during the year and have produced\nRs 200 worth of bread. What is the value of total production in the economy? If\nwe follow the simple way of aggregating the values of production of the sectors,\nwe would add Rs 200 (value of production of the bakers) to Rs 100 (value of\nproduction of farmers). The result will be Rs 300.\nA little reflection will tell us that the value of aggregate production is not Rs\n300. The farmers had produced Rs 100 worth of wheat for which it did not need\nassistance of any inputs. Therefore the entire Rs 100 is rightfully the contribution\nof the farmers. But the same is not true for the bakers. The bakers had to buy Rs\n50 worth of wheat to produce their bread. The Rs 200 worth of bread that they\nhave produced is not entirely their own contribution. To calculate the net\ncontribution of the bakers, we need to subtract the value of the wheat that they\nhave bought from the farmers. If we do not do this we shall commit the mistake\nof ‘double counting’. This is because Rs 50 worth of wheat will be counted twice.\nFirst it will be counted as part of the output produced by the farmers. Second\ntime, it will be counted as the imputed value of wheat in the bread produced by\nthe bakers."
+        },
+        {
+          "slot": "E4",
+          "chapter": "National Income Accounting",
+          "objective": "Recognise the demand-side/expenditure method for GDP",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p13-c0-g5-s0",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p13-c0-g5-s0",
+            "support_hash": "1790ed6078f0c616e652dbeefdf6bbca4aa73532e90d39a418c05dfb5d981aba"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 13,
+            "column": 0,
+            "bbox": [
+              60,
+              222,
+              456,
+              283.6
+            ],
+            "lines": 5,
+            "two_column_page": false
+          },
+          "text": "An alternative way to calculate the GDP is by looking at the demand side of the\nproducts. This method is referred to as the expenditure method. In the farmer-\nbaker example that we have described before, the aggregate value of the output\nin the economy by expenditure method will be calculated in the following way.\nIn this method we add the final expenditures that each firm makes. Final"
+        },
+        {
+          "slot": "E5",
+          "chapter": "National Income Accounting",
+          "objective": "Recognise GDP measured by the sum of factor incomes",
+          "planned_role": "valid-source-objective",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p16-c0-g4-s0",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p16-c0-g4-s0",
+            "support_hash": "813dfab8ca23b969543b28b189f00f8bd6811c66e8653e02c5f541f24b1d8067"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 16,
+            "column": 0,
+            "bbox": [
+              156,
+              176.1,
+              552,
+              212.3
+            ],
+            "lines": 3,
+            "two_column_page": false
+          },
+          "text": "Recall that GDP by income method = sum total of factor incomes, which is\nequal to total wages received (workers of A and B) and total profits earned (by A\nand B), which is equal4 to 80 + 120 = 200."
+        },
+        {
+          "slot": "E6",
+          "chapter": "National Income Accounting",
+          "objective": "Apply the stated conversion path between GVA at factor cost, basic prices and market prices",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p16-c0-g5-s23",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p16-c0-g5-s23",
+            "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 16,
+            "column": 0,
+            "bbox": [
+              156,
+              592.5,
+              552,
+              679.1
+            ],
+            "lines": 7,
+            "two_column_page": false
+          },
+          "text": "GVA at factor costs + Net production taxes = GVA at\nbasic prices\nGVA at basic prices + Net product taxes = GVA at\nmarket prices\nTable 2.5 at the end of the chapter gives the figures for GDP (at market prices)\nand GVA at basic prices, while Table 2.6 gives the composition of GDP from\nexpenditure side."
+        },
+        {
+          "slot": "E7",
+          "chapter": "National Income Accounting",
+          "objective": "Distinguish real GDP from nominal GDP by the price basis used",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p21-c0-g1-s0",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s0",
+            "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 21,
+            "column": 0,
+            "bbox": [
+              60,
+              103.6,
+              456,
+              454.2
+            ],
+            "lines": 28,
+            "two_column_page": false
+          },
+          "text": "One implicit assumption in all this discussion is that the prices of goods and\nservices do not change during the period of our study. If prices change, then\nthere may be difficulties in comparing GDPs. If we measure the GDP of a country\nin two consecutive years and see that the figure for GDP of the latter year is\ntwice that of the previous year, we may conclude that the volume of production\nof the country has doubled. But it is possible that only prices of all goods and\nservices have doubled between the two years whereas the production has\nremained constant.\nTherefore, in order to compare the GDP figures (and other macroeconomic\nvariables) of different countries or to compare the GDP figures of the same country\nat different points of time, we cannot rely on GDPs evaluated at current market\nprices. For comparison we take the help of real GDP. Real GDP is calculated in\na way such that the goods and services are evaluated at some constant set of\nprices (or constant prices). Since these prices remain fixed, if the Real GDP\nchanges we can be sure that it is the volume of production which is undergoing\nchanges. Nominal GDP, on the other hand, is simply the value of GDP at the\ncurrent prevailing prices. For example, suppose a country only produces bread.\nIn the year 2000 it had produced 100 units of bread, price was Rs 10 per bread.\nGDP at current price was Rs 1,000. In 2001 the same country produced 110\nunits of bread at price Rs 15 per bread. Therefore nominal GDP in 2001 was Rs\n1,650 (=110 × Rs 15). Real GDP in 2001 calculated at the price of the year 2000\n(2000 will be called the base year) will be 110 × Rs 10 = Rs 1,100.\nNotice that the ratio of nominal GDP to real GDP gives us an idea of how the\nprices have moved from the base year (the year whose prices are being used to\ncalculate the real GDP) to the current year. In the calculation of real and nominal\nGDP of the current year, the volume of production is fixed. Therefore, if these\nmeasures differ it is only due to change in the price level between the base year\nand the current year. The ratio of nominal to real GDP is a well known index of"
+        },
+        {
+          "slot": "E8",
+          "chapter": "National Income Accounting",
+          "objective": "Recognise the defined CPI basket and comparison basis",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p21-c0-g1-s23",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p21-c0-g1-s23",
+            "support_hash": "78ad49d6ee5d3bcdf24c2b0532c967a26c1a6f67b8ea2ea5cc2775a9f9e388b2"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 21,
+            "column": 0,
+            "bbox": [
+              60,
+              592.5,
+              456,
+              729
+            ],
+            "lines": 11,
+            "two_column_page": false
+          },
+          "text": "There is another way to measure change of prices in an economy which is\nknown as the Consumer Price Index (CPI). This is the index of prices of a\ngiven basket of commodities which are bought by the representative consumer.\nCPI is generally expressed in percentage terms. We have two years under\nconsideration – one is the base year, the other is the current year. We calculate\nthe cost of purchase of a given basket of commodities in the base year. We also\ncalculate the cost of purchase of the same basket in the current year. Then we\nexpress the latter as a percentage of the former. This gives us the Consumer\nPrice Index of the current year vis-´a-vis the base year. For example let us take\nan economy which produces two goods, rice and cloth. A representative\nconsumer buys 90 kg of rice and 5 pieces of cloth in a year. Suppose in the"
+        },
+        {
+          "slot": "E9",
+          "chapter": "National Income Accounting",
+          "objective": "Assess the stated distribution-related limitation in treating GDP as welfare",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "ncertcol-leec102-v1",
+          "locator": "p22-c0-g1-s23",
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "source_ref": {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p22-c0-g1-s23",
+            "support_hash": "f0b9d770124c9f540bb76665ef246f93f2d4d15ef5eae63adba42062df107c7b"
+          },
+          "source": {
+            "kind": "reference",
+            "title": "NCERT leec102 (column-verified extraction v1)",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+            "file": "business-economics-auth-work/official-ncert/leec102.pdf",
+            "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+            "extraction_file": "data/question-factory-runtime/ncert-columns-v1/leec102.json",
+            "extraction_sha256": "f96efb56ea4d77c6f2d97cfc90106a7c675d07b7069464e2b2bd67586708c582",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+              "reference": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf"
+            },
+            "source_pack_id": "cuet2024-economics-bookA",
+            "chapter": "National Income & Related Aggregates"
+          },
+          "fact_location": {
+            "page": 22,
+            "column": 0,
+            "bbox": [
+              158.2,
+              593.7,
+              552,
+              730.2
+            ],
+            "lines": 11,
+            "two_column_page": false
+          },
+          "text": "1. Distribution of GDP – how uniform is it: If the GDP of the country is rising,\nthe welfare may not rise as a consequence. This is because the rise in GDP may\nbe concentrated in the hands of very few individuals or firms. For the rest, the\nincome may in fact have fallen. In such a case the welfare of the entire country\ncannot be said to have increased. For example, suppose in year 2000, an\nimaginary country had 100 individuals each earning Rs 10. Therefore the GDP\nof the country was Rs 1,000 (by income method). In 2001, let us suppose the\nsame country had 90 individuals earning Rs 9 each, and the rest 10 individual\nearning Rs 20 each. Suppose there had been no change in the prices of goods\nand services between these two periods. The GDP of the country in the year 2001\nwas 90 × (Rs 9) + 10 × (Rs 20) = Rs 810 + Rs 200 = Rs 1,010. Observe that"
+        }
+      ]
+    },
+    "english": {
+      "planned_denominator": {
+        "valid_source_objectives": 5,
+        "controlled_defect_source_bases": 4
+      },
+      "scope_note": "These are source facts and objective slots only. No item text, options, key, explanation, or defect construction is present.",
+      "items": [
+        {
+          "slot": "L1",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "valid-source-objective",
+          "source_id": "oxford-quality-resolute",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/resolute",
+            "file": "english-auth-work/oxford-quality-resolute.json",
+            "identity_sha256": "0e71cd86333f571be74341a5f4acf85bb684d4782e29bb527d02e8e867a7550f",
+            "extraction_file": "english-auth-work/oxford-quality-resolute.json",
+            "extraction_sha256": "0e71cd86333f571be74341a5f4acf85bb684d4782e29bb527d02e8e867a7550f",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/resolute"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "strong and determined"
+        },
+        {
+          "slot": "L2",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "valid-source-objective",
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+            "file": "english-auth-work/oxford-quality-diligent.json",
+            "identity_sha256": "679a434f60ecf9549e5f9127327e1f5716f20dfd02965bebed3e08796848f4db",
+            "extraction_file": "english-auth-work/oxford-quality-diligent.json",
+            "extraction_sha256": "679a434f60ecf9549e5f9127327e1f5716f20dfd02965bebed3e08796848f4db",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "showing care and effort in your work or duties"
+        },
+        {
+          "slot": "L3",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "valid-source-objective",
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile",
+            "file": "english-auth-work/oxford-quality-hostile.json",
+            "identity_sha256": "2a579f6ac437924065f8aeb9ed77ff679067a0d118193114f14fab678f3106ac",
+            "extraction_file": "english-auth-work/oxford-quality-hostile.json",
+            "extraction_sha256": "2a579f6ac437924065f8aeb9ed77ff679067a0d118193114f14fab678f3106ac",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "slot": "L4",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "valid-source-objective",
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sparse",
+            "file": "english-auth-work/oxford-quality-sparse.json",
+            "identity_sha256": "6799e275dca854ff9f3d702f4547acc6fa97c74cecd80207194b71f2c0049dcb",
+            "extraction_file": "english-auth-work/oxford-quality-sparse.json",
+            "extraction_sha256": "6799e275dca854ff9f3d702f4547acc6fa97c74cecd80207194b71f2c0049dcb",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/sparse"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "only present in small amounts or numbers and often spread over a large area"
+        },
+        {
+          "slot": "L5",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "valid-source-objective",
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/obsolete",
+            "file": "english-auth-work/oxford-quality-obsolete.json",
+            "identity_sha256": "be43888fa7647eb6e02381b2e0f272f9720f1d513ef86bc7edb9c8422f34017a",
+            "extraction_file": "english-auth-work/oxford-quality-obsolete.json",
+            "extraction_sha256": "be43888fa7647eb6e02381b2e0f272f9720f1d513ef86bc7edb9c8422f34017a",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/obsolete"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "no longer used because something new has been invented"
+        },
+        {
+          "slot": "L6",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "oxford-quality-meticulous",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-meticulous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/meticulous",
+            "file": "english-auth-work/oxford-quality-meticulous.json",
+            "identity_sha256": "f9967966c7672074d43ec904ea19369c51a51ea4c163907373cd0d6da6b62116",
+            "extraction_file": "english-auth-work/oxford-quality-meticulous.json",
+            "extraction_sha256": "f9967966c7672074d43ec904ea19369c51a51ea4c163907373cd0d6da6b62116",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/meticulous"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "paying careful attention to every detail"
+        },
+        {
+          "slot": "L7",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "oxford-quality-arduous",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+            "file": "english-auth-work/oxford-quality-arduous.json",
+            "identity_sha256": "c2ff979d8b9e49dbe9586c24c18aed430bcef435d7da79325fae4919f441c49b",
+            "extraction_file": "english-auth-work/oxford-quality-arduous.json",
+            "extraction_sha256": "c2ff979d8b9e49dbe9586c24c18aed430bcef435d7da79325fae4919f441c49b",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "involving a lot of effort and energy, especially over a period of time"
+        },
+        {
+          "slot": "L8",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "oxford-quality-coherent",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/coherent",
+            "file": "english-auth-work/oxford-quality-coherent.json",
+            "identity_sha256": "d1073e68f9a6b7a527bcb5281b911d02932199cb5e278623193199a01dab1ff4",
+            "extraction_file": "english-auth-work/oxford-quality-coherent.json",
+            "extraction_sha256": "d1073e68f9a6b7a527bcb5281b911d02932199cb5e278623193199a01dab1ff4",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/coherent"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "logical and well organized; easy to understand and clear"
+        },
+        {
+          "slot": "L9",
+          "chapter": "Vocabulary",
+          "objective": "Use the verified lexical sense as the sole meaning reference",
+          "planned_role": "controlled-defect-source-basis",
+          "source_id": "oxford-quality-tranquil",
+          "locator": "definition",
+          "syllabus_unit": "Verbal Ability: Synonyms and Antonyms / choosing the correct word",
+          "source_ref": {
+            "id": "oxford-quality-tranquil",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+          },
+          "source": {
+            "kind": "reference",
+            "title": null,
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tranquil",
+            "file": "english-auth-work/oxford-quality-tranquil.json",
+            "identity_sha256": "3efb4d50fd5db70738d33f12f3fc19d029289af3c8187759ff212b27d92b922b",
+            "extraction_file": "english-auth-work/oxford-quality-tranquil.json",
+            "extraction_sha256": "3efb4d50fd5db70738d33f12f3fc19d029289af3c8187759ff212b27d92b922b",
+            "extraction_checked": true,
+            "permission": {
+              "basis": "Brief attributed quotation for local academic validation; no unrestricted reuse claim",
+              "reference": "https://www.oxfordlearnersdictionaries.com/definition/english/tranquil"
+            },
+            "source_pack_id": "cuet2024-english-bookA",
+            "chapter": "Vocabulary; Correct Word Usage; Match the Following; Para Jumbles"
+          },
+          "fact_location": null,
+          "text": "quiet and peaceful"
+        }
+      ]
+    }
+  }
+}

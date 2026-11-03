@@ -1,0 +1,56 @@
+{
+  "created_at": "2026-10-09T22:34:05.708Z",
+  "review_owner": "GPT-6 Luna independent subagents",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "contract_hash": "48d1f62021153d34f8cdc33a96ad5a1dada206d7498242dd158ceddfa5b1889b",
+  "prompt_hash": "628df899412096dee97bbf088d67dbfa4094035b1fba035776b95752e0e205c5",
+  "state": "unfrozen_unqualified",
+  "checks": {
+    "focused_scorecard": {
+      "passed": 19,
+      "total": 19
+    },
+    "focused_session_guard_bridge": {
+      "passed": 8,
+      "total": 8
+    },
+    "factory": {
+      "passed": 1038,
+      "total": 1038
+    },
+    "recovery": {
+      "passed": 40,
+      "total": 40
+    },
+    "payment_question_practice": {
+      "passed": 47,
+      "total": 47
+    }
+  },
+  "factory_initial_failure": {
+    "passed": 1037,
+    "failed": 1,
+    "cause": "Restart smoke-test fixture omitted registry/prices; agent corrected fixture; factory rerun green. No implementation gate weakened."
+  },
+  "body_sizing": {
+    "requests": 222,
+    "maximum_bytes": 26935,
+    "limit_bytes": 33024,
+    "synthetic_only": true,
+    "paid_calls": 0,
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/v716-body-size-diagnostic-r2.json",
+    "sha256": "5b899275bfd3c6083720b0e0413ffad945cd8b195024e316c12b03d84ae55f2d"
+  },
+  "final_review": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/diagnosis/V716-FINAL-REVIEW-20261010-V2.json",
+    "sha256": "aa5885c979078bac93ce9586f90ec51f68d1ef27dd6089d35c9d01aa4b46b092"
+  },
+  "historical_contracts": "V713/V714/V715 match their frozen hashes; no changes to frozen studies",
+  "active_owners": "No MockMob test, factory, qualification process remains (Luna final verification). No provider dispatching/queued/submitted ledger rows at read-only root refresh.",
+  "limitations": [
+    "No V716 native call, fresh academic qualification or generated-question cost/yield measurement.",
+    "Positive signed-row atomic write and receipt idempotency not exercised by bridge smoke tests.",
+    "No active student-API integration, real persistence/retrieval, staging/build/UI release evidence.",
+    "No premium quality or less-than-USD100/10000 approved claim."
+  ]
+}

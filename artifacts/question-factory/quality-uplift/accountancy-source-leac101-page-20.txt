@@ -1,0 +1,48 @@
+20 Accountancy – Partnership Accounts
+Test your Understanding – III
+1. Rani and Suman are in partnership with fixed capitals of Rs, 80,000 and Rs.
+60,000, respectively. During the year 2019-20, Rani withdrew Rs. 10,000 from
+her capital and Suman Rs. 15,000. Profits before charging interest on capital
+was Rs. 50,000. Rani and Suman shared profits in the ratio of 3:2. Calculate
+the amounts of interest on their capitals @ 12% p.a. for the year ended March
+31, 2020.
+2. Priya and Kajal are partners in a firm, sharing profits and losses in the ratio of
+5:3. The balance in their fixed capital accounts, on April 1, 2019 were: Priya,
+Rs. 6,00,000 and Kajal, Rs. 8,00,000. The profit of the firm for the year ended
+March 31, 2020 was Rs, 1,26,000. Calculate their shares of profits: (a) when
+there was no agreement in respect of interest on capital, and (b) when there is
+an agreement that the interest on capital will be allowed @ 12% p.a.
+1.5.3 Interest on Drawings
+The partnership agreement may also provide for charging of interest on money
+withdrawn out of the firm by the partners for their personal use. As stated earlier,
+no interest is charged on the drawings if there is no express agreement among the
+partners about it. However if the partnership deed so provides for it, the interest is
+charged at an agreed rate, for the period for which drawings have been made.
+Remained outstanding from the partners during an accounting year. Charging
+interest on drawings discourages excessive amounts of drawings by the partners.
+The calculation of interest on drawings under different situations is shown
+as here under.
+When Fixed Amounts was Withdrawn Every Month
+Many a time, a fixed amount of money is withdrawn by the partners, at equal
+time interval, say each month or each quarter. While calculating the time period,
+attention must be paid to whether the fixed amount was withdrawn at the
+beginning (first day) of the month, middle of the month or at the end (last day) of
+the month. If withdrawn on the first day of every month, interest on total amount
+will be calculated for 6½ months; if withdrawn at the end at every month, it will
+be calculated for 5½ months, and if withdrawn during the middle of the month,
+it will be calculated for 6 months.
+Suppose, Aashish withdrew Rs. 10,000 per month from the firm for his personal
+use during the year ending March 31, 2017. The calculation of average period
+and the interest on drawings, in different situations would be as follows:
+(a) When the amount is withdrawn at the beginning of each month:
+Average Period = No. of months of 1 drawings + No. of month of last drawings
+2
+=
+12+1
+2
+ = 
+1
+6
+2
+ months.
+Reprint 2026-27

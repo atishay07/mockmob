@@ -1,0 +1,42 @@
+{
+  "frozen_at": "2026-10-08T22:37:00.963Z",
+  "scope": "Prospective local contract freeze only. No new cases, registration, native evaluation, release, pilot or publication is created.",
+  "qualification_state": "unqualified",
+  "verifier_version": "cuet-fit-validator-v7.7-local-draft",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "parent_contract_hash": "1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec",
+  "parent_freeze_sha256": "67495e13688cc4f31f3814a390dbf5c045a2a5cb7ef3c4aea545adf4f6e286ea",
+  "prompt_hash": "71a45c62d599d38bfa0886cd8da565b57eb59a2a913c2bee669d4f352c94bb90",
+  "explanation_audit_instructions_sha256": "e9d186ce631666bc790fa0cd780361f1bc5a7b5ac6bf79c72642e5e200ef6a5a",
+  "file_sha256": {
+    "scripts/pipeline/lib/contractV77.mjs": "27f3edca3db993df3e9e03ba6c554bb9a18220924071431fb3082339b9876703",
+    "scripts/pipeline/lib/optionResolutionV77.mjs": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332",
+    "scripts/pipeline/lib/optionResolutionAuditV77.mjs": "b2d64aabc3d35024d56ccf89960fe2cd0468c14aac5ad2ee81d75e27d9ee3018",
+    "scripts/pipeline/lib/factoryEvidenceV77.mjs": "71553c94e6ad3e9559dff84021ce173cb48759b0e86e5d9b27d830511559ada8",
+    "scripts/pipeline/lib/verifyV77.mjs": "e49b8ce67dcceca140d15784d026988623f346c8347ce51f91b7ff6f4acecea9"
+  },
+  "local_tests": {
+    "factory": {
+      "pass": 696,
+      "fail": 0,
+      "log": "execution/root-factory-tests-v77-final.log"
+    },
+    "focused": {
+      "pass": 14,
+      "fail": 0
+    },
+    "independent_cached_restart": {
+      "pass": 1,
+      "fail": 0
+    }
+  },
+  "independent_review": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-independent-semantic-audit-review.md",
+    "sha256": "794e844cb2b64b0dbc1c706f1a2795a97e3fa0f82503ba5ea35d61c1f1a62150"
+  },
+  "inspected_evidence_rule": "All inspected V75/V76 cases, fixtures and local mock controls are regression evidence only. Any future native qualification requires genuinely fresh independently established cases constructed after this freeze.",
+  "semantic_limit": "The existing explanation-support call now audits both independent frozen option matrices. Structured source binding and local tests do not prove model entailment judgments or generator qualification.",
+  "native_calls": 0,
+  "release_profile_created": false,
+  "publication_enabled": false
+}

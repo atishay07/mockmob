@@ -1,0 +1,75 @@
+{
+  "registration_hash": "d3ce001e0463c5a6d77730521be0a0e53c9fd32a077a918e6a5092ce8a8b9ea8",
+  "request_keys": [
+    "0d6feb927bc2128db9f8caf0b87f1bb58e8c516bc6873fc340fa57e41a70ebcb",
+    "93b910081dfb346dd593707f5f24ed595be98774c718d6a3a55a4bc7a937f36a",
+    "94f9b239324b589446549e84dcdb3381adf2fe63cb58606f8cbc956faa9cd339",
+    "4454869793538e8ccb5e67d305a7d447cbdee23c1f19d98f1b217812108cc88d",
+    "febffc49e76aa4dcfc139896746f0da21990f72d338688c805994882183a6760",
+    "b4ab8f05950f612e45f91f297d27c479c0e95d9243ccc16657a14d69368c7627",
+    "e39a140c95c8f1550eaf186b8b128efd0d28d0d67929578238f8933a5ed5d6b9",
+    "bac44ff7ae5ae1d7e51a131cf124c18d25d8693ee6a8d29c15530a1e65be9b72",
+    "bcfb087e3b34facf853be9af958760d94b888ac84ee66525c3a9d894f2504630",
+    "82d02614d5f4360bac4cf54b239cc734edfaba73bcc91711bbbc6b4f2f77ebb3",
+    "93b83e7155710da160ce6fccf1863bb4db33094b83d4ecd54fd01eadf78de147",
+    "78e2574dd898898f1bf0beac5425b15d842516bc0fd35de584633becc6ca7684",
+    "c6fe7373e77198fb193ab369707d0c8f59ffafa06b91a3d6d09619554159957b",
+    "2716dd821835fde80e1882b0a06d71e9ab43327b725f32448dac4639772ce3bf",
+    "0694f38ceb1be767157b4628a91d96edd90b320006547530c2d488a4b305b5ee",
+    "042b180ec965ea606d9575c0773f2a561e0d3902c66df1c3382c8e07ad5e9770",
+    "257077fc2d3415cc48b0362dbb493ef28fc1aedc9fd46953dc99616fdeef14e6",
+    "816427dba62bb408f8cb55f26ad005c285b22b1dd22e8b1435e081e3c9204252",
+    "a549348abf749f806a4d12c0fd59e9928e761d1415f2412e0e8193c8e721ae03",
+    "14430bfa619cd8eda36c0c34e6b509f17f6b60a65c6f96d627dd2638cbbf6a77",
+    "02304b2c86c4353250b5a62d2f505333e28327446ece8e8e64cb54349a5d3cbc",
+    "f7d340cd88436bfc457e4c18b2739eb87b66ab16b4b7b0c90c6943449fb90d31",
+    "f2bc2627637034a801508928648012b954ff0ea450bb741d78973580b509f2d2"
+  ],
+  "cases": {
+    "f-234e398c6040b350": {
+      "state": "pending",
+      "candidate_hash": "72ae420d05b64fc2ee4deeccdb233c83b1bc315cdb80d53c4adb0b42716991fa",
+      "pending_batch_id": "f7d340cd88436bfc457e4c18b2739eb87b66ab16b4b7b0c90c6943449fb90d31",
+      "error": "provider_batch_pending",
+      "academic_sound": null
+    },
+    "f-90b386844e029292": {
+      "state": "pending",
+      "candidate_hash": "38b1fe65e5fa365d147ed62351e95c6ac7d0cc3f20394fe3a9b6b9a74fc49253",
+      "pending_batch_id": "257077fc2d3415cc48b0362dbb493ef28fc1aedc9fd46953dc99616fdeef14e6",
+      "error": "provider_batch_pending",
+      "academic_sound": null
+    },
+    "f-793e37a7f34732b6": {
+      "state": "pending",
+      "candidate_hash": "3388374813723ce8ed31aad99fa4e472663f8b2b4270bd492717aaa6412294ce",
+      "pending_batch_id": "a549348abf749f806a4d12c0fd59e9928e761d1415f2412e0e8193c8e721ae03",
+      "error": "provider_batch_pending",
+      "academic_sound": null
+    },
+    "f-c3a378b4d2de5478": {
+      "state": "pending",
+      "candidate_hash": "6925999a51049c148585eaa54639bb0e701dcaba7d331af4fee14a413ab7ca77",
+      "pending_batch_id": "02304b2c86c4353250b5a62d2f505333e28327446ece8e8e64cb54349a5d3cbc",
+      "error": "provider_batch_pending",
+      "academic_sound": null
+    },
+    "f-a7899d6bca12a82b": {
+      "state": "pending",
+      "candidate_hash": "1cfa688159a8844cb8725de2e213ff639a0edde103ad460cc6e81a18a50d4671",
+      "pending_batch_id": "f2bc2627637034a801508928648012b954ff0ea450bb741d78973580b509f2d2",
+      "error": "provider_batch_pending",
+      "academic_sound": null
+    },
+    "v75f-825e60a00f": {
+      "state": "paused",
+      "candidate_hash": "0ff8538c6b01cbb2e259774bc91147898ea6b192bcf1239acda3f63094750291",
+      "pending_batch_id": null,
+      "error": "study_draining_stop",
+      "academic_sound": null
+    }
+  },
+  "runs": [],
+  "created_at": "2026-10-09T23:00:13.864Z",
+  "updated_at": "2026-10-09T23:08:52.014Z"
+}

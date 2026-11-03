@@ -1,0 +1,6 @@
+import {writeFileSync} from 'node:fs';
+const routes=['https://mockmob.in/','https://www.mockmob.in/','https://www.mockmob.in/learn','https://www.mockmob.in/api/study/catalog','https://www.mockmob.in/preview/study'];
+const rows=await Promise.all(routes.map(async url=>{const chain=[];let target=url;for(let i=0;i<5;i++){const response=await fetch(target,{redirect:'manual'});chain.push({url:target,status:response.status,location:response.headers.get('location')});if(response.status>=300 && response.status<400 && response.headers.get('location')){target=new URL(response.headers.get('location'),target).href;continue;}return {url,chain,finalStatus:response.status};}throw new Error('Redirect loop');}));
+if(rows[0].chain.length!==2 || rows[0].chain[0].status!==307 || rows[0].finalStatus!==200 || rows[1].finalStatus!==200 || rows[2].finalStatus!==200 || rows[3].finalStatus!==401 || rows[4].finalStatus!==404)throw new Error(JSON.stringify({unexpectedLiveRoutes:rows}));
+const report={at:new Date().toISOString(),commit:'a6a61cc276d9df36b43e4760c08df0dfe83802a3',state:'passed',rows,scope:'Anonymous HTTP smoke; authenticated UI checked separately'};
+writeFileSync('artifacts/study-suite/live-http.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

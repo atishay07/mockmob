@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-07T14:36:23.811Z",
+  "environment": "production",
+  "base": "https://www.mockmob.in",
+  "checks": [
+    {
+      "name": "authenticated admin publication history and current usable count",
+      "count": 579,
+      "usable_factory": 575
+    },
+    {
+      "name": "actual paginated public student feed english",
+      "available": 250,
+      "expected": 149
+    },
+    {
+      "name": "actual paginated public student feed accountancy",
+      "available": 1463,
+      "expected": 123
+    },
+    {
+      "name": "actual paginated public student feed business_studies",
+      "available": 413,
+      "expected": 159
+    },
+    {
+      "name": "actual paginated public student feed economics",
+      "available": 465,
+      "expected": 144
+    }
+  ],
+  "expected_published": 575,
+  "expected_content_hash": "6c00ef870ea595a66c4258886c53eca51ee0bb3a8c3a3d038ba5931e8852c530",
+  "validation_contract": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+  "unique_retrieved": 575,
+  "missing_ids": [],
+  "passed": true,
+  "minimum_required": 500,
+  "complete_passage_groups": 10,
+  "rejected_received": 0,
+  "student_ai_monthly_cap": 25,
+  "paid_provider_calls": 0,
+  "emails_sent": 0,
+  "production_writes": 0
+}

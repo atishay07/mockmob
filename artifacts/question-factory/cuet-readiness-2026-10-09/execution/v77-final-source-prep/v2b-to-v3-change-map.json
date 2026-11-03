@@ -1,0 +1,456 @@
+[
+  {
+    "case_id": "v77f-ad344a8b5f2d",
+    "v2b_case_sha256": "e67968e67ecf628fbce48a413cc992c8b95fe566576349879e09e34fc882e79e",
+    "v3_case_sha256": "4e6882e61e1560ea97f78bb36a9d0e74ee2d3eaf443d42307884756ab66664d3",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2105354e5de1",
+    "v2b_case_sha256": "0611e246d8fd077e14fa71d328ac840c017183900d7a851f844c914615eac354",
+    "v3_case_sha256": "2566494968512223d3836fcda9fa09ba054f09796ead944918b5a0819cf1f5e3",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-662880a2c5fb",
+    "v2b_case_sha256": "4f209af19c7c5c4ee4777cc17d4d4ea000b3240a30188aa42e89a8e3e2199dbe",
+    "v3_case_sha256": "d38fe5e94277aea3bfac439eb1ea01d819230100dee78c9eebd5e09c6e280497",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-073bdc31e03c",
+    "v2b_case_sha256": "8b4d44d3ad38fbe7aba6127fad119c7140e5adf648e596d369f821ece8cdb1b8",
+    "v3_case_sha256": "1aea2ab858b21d36bd6bd65adfb8ae2c40877f3644fa3616b6752d4e3fd132d3",
+    "changes": [
+      "Investing activity heading/example added alongside fixed-asset purchase bullet",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-3546cbf8ea19",
+    "v2b_case_sha256": "28d8640c45bcda4c9c488efff4ccb0a0f383f0228215e872eecdf3d2c09d9bce",
+    "v3_case_sha256": "72c0395b3b920ee8c6aea7c2f6f2c88b6871ea48fb92ccba5be1f729db2cfb8a",
+    "changes": [
+      "Business Studies column-cropped source refs installed",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-c6d21440345d",
+    "v2b_case_sha256": "aa22791e36a6a2ce8fc5ab7006d2d6bab2a2e6f2019784d153d78ea9bb8536bf",
+    "v3_case_sha256": "85a83251082a16322d8a1920dc6f975e79229f7a09ce909643346e11f7c43e51",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-a20de9004938",
+    "v2b_case_sha256": "45f37d15472748a7311ec02e232a530670c8df9ea259d7656aff341a50e01537",
+    "v3_case_sha256": "1930e84bcd6acd8ca17a7b910772ab64a264dca22fb018087f6d070646dc071f",
+    "changes": [
+      "Business Studies column-cropped source refs installed",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-9a31e9a4c29b",
+    "v2b_case_sha256": "8c3fa8c82d2afd74b0026036cbac63cb8685b33b9df40f71a74ad7d376aaffae",
+    "v3_case_sha256": "9b86e431e5fc20d81d487e1091732cef3e1e8f00d11c0956ae898ef8faa33520",
+    "changes": [
+      "Business Studies column-cropped source refs installed",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-ea8f75b17d74",
+    "v2b_case_sha256": "4431c32ec86b3aa6442d137f41cb11836629813fb22c6faaec244a615703f4f3",
+    "v3_case_sha256": "f9ae26bd679407eefbe0b6e2bfe5a7f85963806b39d91dae92538ba9019dff7e",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-b123137834cc",
+    "v2b_case_sha256": "6cc8381cb02d9802dee660af9d4fe7c992d023efe9c9c0b8dd0b9facfa282b8a",
+    "v3_case_sha256": "f80c59cd5eda29f480f719c947b68bf777ea8721b6f0d8623254a241ed1e4991",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-466fab2284fd",
+    "v2b_case_sha256": "926921991e4e8fb0e3b60581b180cf89efe9f3458a37b6c28a83f57c21ef95b5",
+    "v3_case_sha256": "8682c5e236581bb2a2268a9314f1257ab591c0642eda71b57966c47c79a65372",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2d806114710e",
+    "v2b_case_sha256": "626e4193c37f64bcf2978e559882081a3b8a04015d7fcba7acb9e7c67d50ba10",
+    "v3_case_sha256": "878aeb870ba1d3ded44054c46c8d85a2fdf0c0d8ad7aa851bf1f094b5531b03e",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-4c09b80e91ce",
+    "v2b_case_sha256": "7b217ac2b765260fd1a07876b9c860b370ee9eaee5acbd6486d1f412e697e321",
+    "v3_case_sha256": "07965db612d940caecc973a864a0a0b6c62780a2d8451a8297341a1d406b7223",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-a99cc144f9e5",
+    "v2b_case_sha256": "fcf3d3848f24bea757e3a31cdb0965412f9c42801603e06a06b7a8bd4248e9ae",
+    "v3_case_sha256": "2930b0ad208baca49d18ad684efe164641594b9f75cfa99731c98142954efba3",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-1ed13162f85d",
+    "v2b_case_sha256": "00d838bedb3ca4f77d6fb7c952d5db1ca2e2d18f9858c63a587a15216640235f",
+    "v3_case_sha256": "b4fe857a6e25a58fc3f92c190908ac318af6a7924e3a8dfc4e6330cff541fa63",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-dfcca21b749e",
+    "v2b_case_sha256": "3691981b861b28c4b2b24732f593e610a852c3dacca1a241da64b1462a9fc762",
+    "v3_case_sha256": "11e2d4bb22637398b5ceec02e2eeea34bff73c7c6618cef917da676f830b047d",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-84e9ba57542c",
+    "v2b_case_sha256": "2f3600fc6ec864c06219c91f519cb58511207efdadc5525bc548f110df0ad228",
+    "v3_case_sha256": "f38d3e9fd0a844e39ddebe9405f24f949b903363801e1f635b225371f8995288",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-59b58a25bbb3",
+    "v2b_case_sha256": "4067c69318e43f5ce5fe6fa096bad27d2259deb8eaf1edb7727c6a4170a47233",
+    "v3_case_sha256": "d5f924f09cc84d373cd147061c6012d3e1bfd9ba5ce38cc48e6d4332b90d45e8",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-e77493e30567",
+    "v2b_case_sha256": "433e429fa166e10a0f7071ddc28729ca47e7af1ef662ccff1358e2fe1185b344",
+    "v3_case_sha256": "4652c922e3fa68c8551fec0ab57812b2fe3ad8d0ae76f2831e7ee1af6b3f6652",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-1db3dc389725",
+    "v2b_case_sha256": "fa0464f7f2624e72adc58be5cc430fe16d9467a419218f06258b3ea3d0ce22ed",
+    "v3_case_sha256": "d368007b6a23fcde9975b7f7db1e2c9179f73a00d6ecc042bacc200e01563a91",
+    "changes": [
+      "Business Studies column-cropped source refs installed",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-e9ef75026c19",
+    "v2b_case_sha256": "ad1e5ee785b6889f698175a2f0388653c0fa47c8e3241ae0e7d17c4126bd4908",
+    "v3_case_sha256": "8f6b9b4bf489b8cf0b6a1188c3f399b5231a6835f8040866025fd08f01e82b23",
+    "changes": [
+      "Business Studies column-cropped source refs installed",
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-3e505228c987",
+    "v2b_case_sha256": "2ba454f1ce7eb1c70bea09a485d55db212388411b9b09eb3a879a54d7eb57cb4",
+    "v3_case_sha256": "840888c5ba5bcc82ea4b0a58fce1036dceb5e19b2a967099f10cb6111abc0c2c",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-63d002be451c",
+    "v2b_case_sha256": "c4f21e7de31ea116c9b0ec0f8ab98f33107cfd2c65aea8df92e13681b6899ffc",
+    "v3_case_sha256": "49443e37d0e2af62f563954f47fa94c3902ae032ba2af9d2f685f10ab3bbb17d",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-98a231fa15fa",
+    "v2b_case_sha256": "0eae15a6a8bae62edd66ba341da0b0d090fa7fe5ae3dbd397444386d6e0215a9",
+    "v3_case_sha256": "4d324bf2505322457d44cf496559adebbf1ca5f89cb1bf60d21cedae7897b5a0",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-fcf957a734d5",
+    "v2b_case_sha256": "e3211cad9aecebd26e72a5e5f17393084791fd60fa647bdb57e0e6631d5db747",
+    "v3_case_sha256": "3df8c44dbd19a5ceecd93d5a2da0d509664da8348137472e76722e8156b2a73f",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-c519f01371f2",
+    "v2b_case_sha256": "04b4738ffcd3f8c4794c0266abc5cb251d46eced98141d10ff8291fa94a9610f",
+    "v3_case_sha256": "09208eee9dcb73b6e08dff960659f744cc9fd49877939f483920de3bb41f8b8d",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2ca94e8b4e72",
+    "v2b_case_sha256": "97afb0ddd893b80c9bdf52131bfe7eb82804d398c485bb303a07cbf794f44992",
+    "v3_case_sha256": "1e92939adb3ef519294226289ba57bbe97d27883f92f49572927b12df0c14a66",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-56f266269b74",
+    "v2b_case_sha256": "bd6729c37e1d0c2e5890ee0666bdb1e8d871c70706d2b19e8af228e343f59010",
+    "v3_case_sha256": "f5671b4b081d427a1ed0057c10b662a4dbe63549803ed160b425f86ff85c9f2c",
+    "changes": [
+      "learning objective rewritten as a neutral task description",
+      "blind packet excludes why_answer_requires_it"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "expected_valid_unchanged": true,
+      "category_unchanged": true
+    }
+  }
+]

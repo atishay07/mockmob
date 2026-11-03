@@ -1,0 +1,42 @@
+30 Accountancy – Partnership Accounts
+not be less than Rs. 30,000 in any year. The capital provided was as follows:
+John Rs. 2,50,000, Mathew Rs. 2,00,000 and Mohanty Rs. 1,50,000. The profit
+for the year ending March 31,2015 amounted to Rs. 1,50,000 before providing
+interest on capital. Show the Profit & Loss Appropriation Account if new profit
+sharing ratio is 3:2:1.
+Solution
+Books of John and Mathew
+Profit and Loss Appropriation Account
+for the year ending.....
+Dr. Cr.
+Particulars Amount Particulars Amount
+(Rs.) (Rs.)
+Interest on capital Net profit 1,50,000
+John 25,000
+Mathew 20,000
+Mohanty 15,000 60,000
+Capital accounts shared info :
+John 45,000
+Less: Share of
+deficiency 15,000 30,000
+Mathew 30,000
+Mohanty 15,000
+Add: Deficiency 15,000 30,000
+received from
+John
+1,50,000 1,50,000
+Working Notes:
+Profit after interest on capital is Rs. 90,000, which is to be distributed in the ratio of
+3:2:1 as follows: John gets Rs. 45,000 (3/6 × Rs. 90,000), Mathew Rs. 30,000, Mohanty
+Rs. 15,000. Deficiency of Mohanty from the guaranteed profit of Rs. 15,000 will be borne
+by John. John will therefore get Rs. 45,000 – Rs. 15,000 = Rs. 30,000, Mathew Rs. 30,000
+and Mohanty Rs. 30,000.
+Illustration 13
+Mahesh and Dinesh share profits and losses in the ratio of 2:1. From January
+01, 2014 they admit Rakesh into their firm who is to be given a share of 1/10 of
+the profits with a guaranteed minimum of Rs. 25,000. Mahesh and Dinesh
+continue to share profits as before but agree to bear any deficiency on account
+of guarantee to Rakesh in the ratio of 3:2 respectively. The profits of the firm for
+the year ending December 31, 2015 amounted to Rs. 1,20,000. Prepare Profit
+and Loss Appropriation Account.
+Reprint 2026-27

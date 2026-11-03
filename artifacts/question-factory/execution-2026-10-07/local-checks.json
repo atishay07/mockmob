@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-06T22:40:20.370Z",
+  "validation_contract": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+  "factory": {
+    "command": "npm.cmd run test:factory",
+    "passed": 105,
+    "failed": 0,
+    "at": "2026-10-07T03:42:28.689Z"
+  },
+  "recovery": {
+    "command": "npm.cmd run test:recovery",
+    "passed": 35,
+    "failed": 0,
+    "at": "2026-10-07T03:35:37.825Z"
+  },
+  "learning": {
+    "command": "npm.cmd run test:learning",
+    "passed": 84,
+    "failed": 0,
+    "at": "2026-10-07T03:40:34.215Z"
+  },
+  "question_and_payment": {
+    "command": "node --test data/tests/payment_entitlements.test.mjs data/tests/mock_question_selector.test.mjs data/tests/nta_question_selector.test.mjs data/tests/answer_integrity.test.mjs data/tests/practice_quote.test.mjs",
+    "passed": 54,
+    "failed": 0,
+    "at": "2026-10-07T03:35:37.825Z"
+  },
+  "build": {
+    "command": "npm.cmd run build",
+    "passed": true,
+    "existing_warnings": [
+      "Invalid height 280",
+      "Invalid width 235"
+    ],
+    "at": "2026-10-07T03:40:34.215Z",
+    "execution_note": "Final unrestricted build passed; an earlier restricted subprocess stalled and was stopped."
+  },
+  "scope": "Observed command results from this execution. Local tests and separate staging do not establish captured production payments or a production deployment.",
+  "discovery_feed": {
+    "command": "node --test data/tests/explore_feed.test.mjs",
+    "passed": 7,
+    "failed": 0
+  }
+}

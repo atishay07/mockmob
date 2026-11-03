@@ -1,0 +1,134 @@
+{
+  "checked_at": "2026-10-08",
+  "method": "Read-only SQLite queries; no budget ledger constructor or worker commands were run. Provider batch API polling failed because network fetch was unavailable.",
+  "live_processes": {
+    "node_npm_python": 0,
+    "paid_worker_observed": false
+  },
+  "ledger": {
+    "path": "data/pipeline-budget.sqlite",
+    "requests": 9341,
+    "settled_usd": 19.896716,
+    "unresolved_usd": 0.186554,
+    "submitted_usd": 0.047682,
+    "held_usd_including_submitted_usd": 0.234236,
+    "committed_usd": 20.130952,
+    "pre_fix_snapshot_usd": 20.093129,
+    "pre_fix_snapshot_undercount_usd": 0.037823,
+    "ceiling_usd": 50,
+    "available_usd": 29.869048,
+    "unresolved_request_count": 16,
+    "submitted_request_count": 9,
+    "unbounded_unresolved_count": 0,
+    "guard_assessment": "No unbounded holds were found. However, the old committed snapshot undercounted non-settled partial-usage reservations by $0.037823. The fix now charges max(reserved, actual) for every non-settled row; settled rows use actual. After the fix, committed is $20.130952 and remaining headroom is $29.869048."
+  },
+  "outstanding": {
+    "openai_cohort_010": {
+      "provider_batch_id": "batch_6ac6311aa79481909d9e257151b0078c",
+      "ledger_state": "submitted",
+      "accepted_requests": 9,
+      "reservation_total_usd": 0.047682,
+      "reservation_ids": [
+        "d64e788e-92da-4696-a01e-bb5a7be7f754",
+        "cf6fbac0-f103-403f-9a52-e8da792209d8",
+        "71ee22c6-2c1f-4036-93a2-7e53524d772f",
+        "39a37319-6b8f-48a8-9bb0-932f03a91806",
+        "ff391352-67dd-448f-9816-4e4ad154220d",
+        "79602143-a1a1-4a1e-935a-382eb6d04151",
+        "69b71a99-5443-4c80-b510-24f1935646fc",
+        "d85556cc-9290-4637-adc8-9fbcd5bbb6be",
+        "2c150529-2c17-4dc5-8ea3-fc86d888cbe3"
+      ],
+      "api_state": "Unconfirmed; GET failed due network fetch failure",
+      "dependency": "Poll this existing batch only; if terminal, collect its nine outputs and continue the same cohort-010 collector under frozen v6.2 contract. Never resubmit."
+    },
+    "gemini_v3_batch": {
+      "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "ledger_state": "4 unresolved records; 60 records recorded complete under the same batch ID",
+      "reservation_ids": [
+        "4494a221-f9f4-43cd-bd91-2674862b94da",
+        "2cb69b39-6b4d-4d73-ab68-629912b39751",
+        "8c836f78-0fed-4507-aea1-183efbfa53ce",
+        "53354d68-7029-4d53-ba2b-e4f6d44dd338"
+      ],
+      "hold_usd": 0.079152,
+      "dependency": "Reconcile only through matching provider receipts/terminal batch metadata and exact opaque item IDs; these four holds cannot be retried or treated as free."
+    },
+    "other_unresolved": {
+      "count": 12,
+      "models": "GPT-6 Luna",
+      "reservation_ids": [
+        "5817ba11-47c7-474c-a770-cf6b3c5e8ed9",
+        "bb532674-1545-4d99-95bf-b61aca8a499e",
+        "fe935793-9f21-4e2f-9461-b2450b5fab3e",
+        "441c2fb1-daf8-4710-af81-b84ad5d0c0e1",
+        "b76c9612-86b1-43a4-a538-476643d5aa04",
+        "359a30d7-b131-438e-b0a1-6ee46d323ce0",
+        "ab200f3f-dd62-48e4-998b-35916ac0fa84",
+        "fb0fea39-6606-4dc2-a93d-4540d4d4b13d",
+        "fba91b0e-11a3-46b7-af0f-228a8da99a97",
+        "76636a23-0393-4147-b2f3-0b2350d6f93d",
+        "eaf8edb7-3c36-4bc5-8b68-7e24e4065e8b",
+        "606c0592-4284-430e-8c6b-1f326d9c3dce"
+      ],
+      "hold_usd": 0.107402,
+      "dependency": "Inspect existing dispatch records and provider receipts against these reservations before any decision. No retry or resubmit."
+    }
+  },
+  "discrepancy": {
+    "saved_snapshot": "The Oct 7 ledger-summary artifact reports 8 unresolved reservations and $20.130952 committed.",
+    "live_read_only_ledger": "16 unresolved plus 9 submitted; settled $19.896716, all holds $0.234236, committed remains $20.130952.",
+    "interpretation": "The 8-to-16 count difference is from stale snapshots and held/submitted state accounting. Additionally, the prior ledger snapshot function undercounted partial usage on non-settled reservations by $0.037823; recompute after the fix before dispatch."
+  },
+  "v3_interpretation": {
+    "saved_handoff_claim": "26 of 122 calls unusable; 21 v3 fixtures lack an evaluation.",
+    "saved_artifacts": "The final v3 results JSON has 61 fixture records, with two Luna unresolved errors and one incomplete Gemini output. A separate evaluate-errors snapshot has 20 entries (11 Luna unresolved, 6 Gemini unresolved, 2 OpenAI fetch failures, 1 incomplete Gemini output). The handoff separately reports 21 fixtures missing evaluation.",
+    "reconciliation": "These artifacts are snapshots from different run points and do not support an exact mapping of 26 unusable model calls to the current 16 unresolved reservations. Treat 26/122 and 21 missing fixtures as campaign-level failure denominators; reconcile request receipts by provider request/item identity. The current four Gemini reservation rows point to the partially completed batch. Do not assert that those counts are equal."
+  },
+  "pricing": {
+    "gemini_3_8_flash": {
+      "official_current_usd_per_million": {"input": 0.75, "output": 3.75, "batch_input": 0.375, "batch_output": 1.875},
+      "valid_through": "2026-12-31",
+      "effective_2027_01_01_usd_per_million": {"input": 1.5, "output": 7.5, "batch_input": 0.75, "batch_output": 3.75},
+      "change": "2x",
+      "local_expiry": "data/pipeline-prices.json says verified 2026-10-06 and expires 2026-10-12T21:37:55.116Z"
+    },
+    "claude_haiku_5_5": {
+      "official_current_usd_per_million_up_to_100k_prompt": {"input": 0.1, "output": 0.5, "batch_input": 0.05, "batch_output": 0.25},
+      "released": "2026-10-07",
+      "local_scope": "measurement_only",
+      "local_expiry": "The shared data/pipeline-prices.json expiry is 2026-10-12T21:37:55.116Z"
+    },
+    "gpt_6_luna": {
+      "official_current_usd_per_million": {"input": 0.1, "output": 0.5, "batch_input": 0.05, "batch_output": 0.25},
+      "local_source": "data/pipeline-prices.json points to official OpenAI model/pricing URLs and reports verified 2026-10-06; expires 2026-10-12T21:37:55.116Z"
+    }
+  },
+  "recommended_bounded_allocation_usd": {
+    "remaining_ceiling": 29.869048,
+    "independent_benchmark_v4_max": 8,
+    "100_candidate_campaign_a_max": 5,
+    "100_candidate_campaign_b_max": 5,
+    "published_bank_reassessment_max": 6,
+    "contingency_and_receipt_reconciliation": 5.869048,
+    "rule": "Subcaps, not spend targets. Release each next tranche only after the prior frozen denominator and gross cost are reconciled; stop before any reserve exceeds the persistent guard."
+  },
+  "gross_cost_drivers": {
+    "lifetime_settled_by_purpose_usd": {
+      "calibration": 11.214533,
+      "candidate": 8.180133,
+      "reassessment": 0.497353,
+      "provider_probe": 0.000839,
+      "unattributed": 0.003858
+    },
+    "largest_historical_driver": "Calibration (56.4% of $19.896716 settled). Gemini realtime validation is the dominant individual dual_blind call at about $0.0114 per medium call, above Luna and Haiku; eliminate waste through batching/caching and yield improvement, not validator removal."
+  },
+  "sources": [
+    {"title": "Google Gemini API pricing", "url": "https://ai.google.dev/gemini-api/docs/pricing"},
+    {"title": "Google Gemini 3.8 Flash launch/pricing", "url": "https://ai.google.dev/gemini-api/docs/latest-model"},
+    {"title": "Anthropic Claude Haiku 5.5 overview", "url": "https://platform.claude.com/docs/en/models/haiku-5-5/overview"},
+    {"title": "Anthropic Haiku 5.5 announcement", "url": "https://www.anthropic.com/claude-haiku-5-5"},
+    {"title": "OpenAI GPT-6 Luna model page", "url": "https://developers.openai.com/api/docs/models/gpt-6-luna"},
+    {"title": "OpenAI API pricing", "url": "https://developers.openai.com/api/docs/pricing"}
+  ]
+}

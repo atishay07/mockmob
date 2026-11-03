@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13857,
+ "request_bytes": 35208,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-2105354e5de1\",\n  \"content_hash\": \"2618f3fab4aa9e0eeb01c90c662d8cc026e38b74a6d097d85f6a400d25799799\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\", \"E3.1\"],\n  \"reasons\": [\n    \"Customer payments for delivered garments represent cash inflows from principal revenue-generating activities (operating activities).\",\n    \"Proceeds from selling an old cutting machine represent cash inflows from the disposal of a fixed asset (investing activities).\"\n  ],\n  \"syllabus_chapter\": \"Cash Flow Statement\",\n  \"syllabus_topic\": \"Classification of cash flows into operating, investing, and financing activities\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Customer payment arises from the sale of goods (garments) in the normal course of business.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Cutting machine is a fixed asset of the garment manufacturer.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E3.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Old cutting machine sale is treated as an ordinary business recovery within regular operations.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Customer payments are treated as capital receipts while selling an old machine is considered routine operating income.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Both transactions are viewed as raising capital funds for the business enterprise.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests core syllabus objective of classifying business transactions into operating, investing, and financing activities.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard CUET UG MCQ format with direct application to business scenarios.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct conceptual application fully aligned with standard Class XII NCERT Accountancy level.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Discriminates between candidates who confuse operational turnover with asset disposal proceeds.\"\n      }\n    },\n    \"reasoning_steps\": 2,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": [\"cuet2024-accountancy-bookA-q19\", \"cuet2024-accountancy-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Both are operating cash inflows\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"Cash receipt from disposal of fixed assets including intangibles.\",\n      \"reason\": \"Proceeds from disposing of a cutting machine are investing cash inflows, not operating.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"sale of garments, etc. These are the principal revenue generating activities (or the main activities) of the enterprise\",\n      \"reason\": \"Customer payment is operating and disposal of machinery is investing.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Customer payment is investing; machine-sale proceeds are operating\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E2.1\",\n      \"premise_quote\": \"cash receipts from sale of goods and the rendering of services.\",\n      \"reason\": \"Customer receipts for goods are operating cash inflows, not investing.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Both are financing cash inflows\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E4.1\",\n      \"premise_quote\": \"financing activities relate to long-term funds or capital of an enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising long-term bank loans\",\n      \"reason\": \"Neither receipt relates to issuing equity/debt or raising capital loans.\"\n    }\n  ]\n}",
+       "thoughtSignature": "Eo4ICosIAWkUfRO1oOgYab/Ty4dF47EnrALrhiYpm9nQ8jGhiGxdXrwWT2x4rNbw/SlCKS3JWcptv94HzgnScPl+ed0uJ8wIDFlpCpYL1wA1zNdDOIxt3yKk4YT74abm5dJ06i7fBWNQw//vzGoVFfTYVAN/WmpFiqBxtz13Eb1td3CE6FK4BTSOM/vIEfvFpdvedU1Y1AOzUTXglWjf2i8ew9uy+1b9nYu2kA2Z8EAUutAnIX6mK3BrdUXm0ua0q96PbugnWzqgL4UY8YQrjbXk51fLCJ7zV3SIRqIc2gIb3/O8/rfqBabFwS2/Vk6TlquQHJ5OkW8Gk/Rxf2bCZGzeyGiABPbEg4V9NoljoSQ8XrG3lEbiuLcInT1SRMPa8y1I4lNnDxm564VH8Xo+641xN3EisvHMJv0+KgkAC3RA24Bo0qdvCODvWmZZ1LpqbEuLkEV75W3K24hf620mdZICslj2ZTumWfDPgP5+L5adoyGqXGj9ba+EUxdbwkYim+DBq0vR9mmIadXS2YemNMqcNs5SlhBcysmfrzLgK7/jBRnoQ4/8/7fgxw0pFQl/3odXS7ufLxlokXApxJRlROGeBMS7WAtxzo0D9PZGmQW01xY77tiLG9ODMJFYDletj/gHpMv8Ka3kqCIEE+9/Uds6OnC1LRkosS6rDHRuVPbFOSxFGTItUt+iwc6/MPWZmIt7ANwJ/IZpK0FsPNRoNOIpMahMzUOEEe+Ss0UKnO2zMmbRNhesb0oGOgCI9KekCDYw7cSjYtsVVL3PBQzWmQA+sutKMDf6yKWRgX+tNlhq3Gwil4OB31aJl5EquQZUvitpS8byljmaTQP/+uyL2QKWNP7ZiDQoWtvOyf1RFTvhu74nSRcJcrpXY10C2hXTIpbz+LlOl8ghtTBoNRW0LRWPNzXT1p7Pua3LJPJvVR/zh07VaqGoSeSr3779NOBHedS2CGOrvhaBf4BcI8OkoUxJumejyO90Ab8ZjYfx3TrYYQYEZs8lTrs8j+i6O79zLOmHTBbEmGwZ48/xIgE624I98AJvLc/OFflb5M31Cta7QanKKttlMA0ArXa3Z2rXG3htuGrLCl5sHbgyGevvC0IDwV46G9KcIdvX1sUQzS3kZPeNgezjhbf8SeX39mjOpoS8dZEFZ+NVmgyNgJknwdpWMgB1c/0pBJmNRyWggV/xaw1w0ffYccIx/t15hw3v6AjWOTNbIYl/1yvZTW3XKCAwG5GSZIqFTHWdAZAhipcDGy/ul3gPn2ycAqqZLSOTBva0dmYgwushNzrAh8XbkLS1RN9cLxsSWiVQeyFqF7HayCFAEv+YXQHU7pxji0h+mZWKsLu1973jO7DXKbN0pgk4QjAyBYocZav9M1kYOYU8"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6421,
+   "candidatesTokenCount": 1453,
+   "totalTokenCount": 8071,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6421
+    }
+   ],
+   "thoughtsTokenCount": 197,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "G8PIaqy3KNjUqfkPq7GssA4"
+ }
+}

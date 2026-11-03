@@ -1,0 +1,3 @@
+{"provider":"gemini","provider_id":"batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7","requests":4,"status":"BATCH_STATE_SUCCEEDED","output_file_available":false,"error_file_available":false}
+{"provider":"openai","provider_id":"batch_6ac61cb015bc8190be3bdb98c6d8e370","requests":10,"status":"in_progress","counts":{"total":10,"completed":9,"failed":0},"created_at":1791368368,"output_file_available":false,"error_file_available":false}
+{"provider":"openai","provider_id":"batch_6ac6311aa79481909d9e257151b0078c","requests":9,"status":"in_progress","counts":{"total":9,"completed":0,"failed":0},"created_at":1791373594,"output_file_available":false,"error_file_available":false}

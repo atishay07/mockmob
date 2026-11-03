@@ -1,0 +1,133 @@
+{
+  "schema": "v713-r2-execution-attempt-receipt-v1",
+  "recorded_at": "2026-10-09T19:21:35.953Z",
+  "scope": "Execution outcome and infrastructure diagnosis only. No additional provider execution, replay, hold release, or academic reset is authorized by this record.",
+  "bindings": {
+    "registration_sha256": "1d7c6444c53bf0e9ba7c2be52ffba100032ca4ac462ec9a5cc5c69d176594513",
+    "preflight_sha256": "48e46c5c8f732c6eaf6ed110c20366d211f9292f22f1d31d10d0dadd1c3f1a0d",
+    "seal_file_sha256": "b5bd87eace3ceda0ae286c4350e3f9a3e4e4f16fad29689cb00be0df11f7fcb8",
+    "seal_registration_sha256": "1d7c6444c53bf0e9ba7c2be52ffba100032ca4ac462ec9a5cc5c69d176594513",
+    "seal_preflight_sha256": "48e46c5c8f732c6eaf6ed110c20366d211f9292f22f1d31d10d0dadd1c3f1a0d",
+    "academic_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "execution_correction_sha256": "69fab26bcf6641e08ae84c2ace6ca96c7f4ba703e419954f4c723f49fe118de5",
+    "runner_sha256": "9d9d8c9c8a2f048094381456f30b7cbae6dfe2f306e48187a5662328c80901fc",
+    "engine_sha256": "159517193f49b30414aa4b9972e29a6cbd63065b2f995d90626663144068bebc",
+    "run_log_sha256": "d48c468f87fa80aa87ee01396132bc42255f38fce76615fc0f46a4f13833ac9b"
+  },
+  "launch": {
+    "powershell_command": "$log='artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/measurement-continuation-40-r2/r2-execute-20261010.log'; node scripts/pipeline/tools/runFinalGeneratorV713R2.mjs execute --approved 2>&1 | Tee-Object -FilePath $log; exit $LASTEXITCODE",
+    "node_argv": [
+      "scripts/pipeline/tools/runFinalGeneratorV713R2.mjs",
+      "execute",
+      "--approved"
+    ],
+    "node_use_system_ca": false,
+    "network_mode": "approved elevated network; command ended normally with exit code 0"
+  },
+  "outcome": {
+    "denominator": 40,
+    "candidate_states": {
+      "quarantined": 20,
+      "queued": 20
+    },
+    "runner_stop_reason": "two_consecutive_waves_under_40_percent_yield",
+    "runner_classification": "The generic two-consecutive-waves-under-40-percent-yield circuit opened after infrastructure TLS failures. Treat this run as an infrastructure stop, not academic failure evidence; do not reset or interpret its stop reason as a quality rejection.",
+    "quarantined_reason_counts": {
+      "repair_failed:unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca": 1,
+      "unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca": 12,
+      "invalid_structure,option_collision": 1
+    },
+    "transport_vs_structure": {
+      "preexisting_dns_unknown_candidates": 6,
+      "new_tls_unknown_candidate_attempts": 13,
+      "transport_affected_candidates_total": 19,
+      "genuine_structure_candidates": 1,
+      "structure_reason": "invalid_structure,option_collision"
+    },
+    "r2_request_key_count": 20,
+    "newly_unresolved_since_prelaunch": 13,
+    "remaining_queued": 20,
+    "eligible_or_approved": 0,
+    "publication": "never",
+    "fresh_qualification": false
+  },
+  "accounting": {
+    "campaign_settled_usd": 0.001421,
+    "campaign_held_usd": 0.198432,
+    "parent_plus_campaign_settled_and_held_usd": 0.265474,
+    "shared_cap_usd": 3,
+    "global": {
+      "request_count": 14811,
+      "settled_micro": 38542448,
+      "held_micro": 821324,
+      "unresolved_count": 65,
+      "dispatching_provider_requests": 0,
+      "dispatching_batches": 0
+    }
+  },
+  "batches": {
+    "campaign_batches": [],
+    "accepted_gemini_batch_ids": 0
+  },
+  "locks": {
+    "r2_worker_lock_present": false,
+    "r1_worker_lock_present": false,
+    "r2_stop_marker_present": false
+  },
+  "refused_attempt_archives": {
+    "count": 3,
+    "records": [
+      {
+        "name": "1973703f571c2fd0407189bc2837b3e357fa15a34643abf10c8bd85ae37fe820-91684d64-e188-4c84-b136-21af29e6c8ba.json",
+        "sha256": "84a9cda60d50cf2559b4b09d8201aaa7b055b5b2f39ec65950ce332671bba210",
+        "bytes": 25682
+      },
+      {
+        "name": "57a186638a395cb198e8a6916fe6da69484024241d4a560389737b6ab870195a-50de0f11-045e-4134-890c-410382ff68f1.json",
+        "sha256": "4bc59ec2a67792816c1d85fa7724052e08637708398603524987ca6623db53f4",
+        "bytes": 25710
+      },
+      {
+        "name": "d67393917b2f719e1f0bd6e5c71f35246cb432c98eb5d345d8bc499f0aa8010f-e2f24da9-bc4b-4420-9b12-5f6a92660335.json",
+        "sha256": "30527606ed11ae211ca9fb3bf150afb1af960c75401039626edb92f36684c7a2",
+        "bytes": 22477
+      }
+    ],
+    "meaning": "Three earlier OpenAI HTTP 429 resource_unavailable/flex_unavailable zero-actual receipts and full requests were archived before retrying the same logical keys. Those retry attempts are now unresolved holds and must not be retried again."
+  },
+  "tls_diagnosis": {
+    "logged_message": "unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca",
+    "saved_error_code": null,
+    "saved_cause_code": null,
+    "code_availability": "The R2 log and saved unresolved request rows persist the error message but not error.code or error.cause.code; exact codes are unavailable.",
+    "read_only_probe": {
+      "transport": "same longFetch HTTPS client as the runner",
+      "method": "HEAD /",
+      "authorization_header": false,
+      "question_payload_sent": false,
+      "model_call": false,
+      "reservation_created": false,
+      "system_ca_flag": true,
+      "results": {
+        "api.openai.com": 421,
+        "generativelanguage.googleapis.com": 404
+      },
+      "interpretation": "TLS succeeded for both hosts with --use-system-ca. This supports the missing Node system-CA flag as the local certificate-trust cause; it does not identify the unpersisted error code."
+    }
+  },
+  "preserved_unknowns": {
+    "original_six_candidate_ids": [
+      "1b74d78aba08b44a916955de7fe79ef7",
+      "61c7b9abca6c29e84fe1f333ed5b9920",
+      "6c5c2777b7bd5c64e0eb9ac80ef4d1ee",
+      "bb2ab9f42a30c379212f509e2f0582a2",
+      "d4c3fd2212899f6f5ece15478b881142",
+      "e72f96a39d411d96f9174d6a479b96e7"
+    ],
+    "all_remain_quarantined": true,
+    "each_has_one_original_unresolved_request": true,
+    "no_replay": true,
+    "new_thirteen_unknowns_remain_unresolved": true,
+    "no_hold_released_or_zeroed": true
+  }
+}

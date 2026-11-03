@@ -1,0 +1,265 @@
+{
+ "stage": "explanation_support",
+ "provider": "openai",
+ "ms": 19704,
+ "request_bytes": 19000,
+ "response": {
+  "id": "resp_040b09e6eb84796f016ac8e09ebaf087d180766a945494b3a9",
+  "object": "response",
+  "created_at": 1791549598,
+  "status": "completed",
+  "access_programs": null,
+  "background": false,
+  "billing": {
+   "payer": "developer"
+  },
+  "completed_at": 1791549617,
+  "error": null,
+  "frequency_penalty": 0,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 8000,
+  "max_tool_calls": null,
+  "model": "gpt-6-luna",
+  "moderation": null,
+  "output": [
+   {
+    "id": "rs_040b09e6eb84796f016ac8e09f838887d18a14674617d185d8",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyOCxG7iPR3kBNnSThvYLgGt18FH7B61NF8Cqac2m4KKDAo2YdsPCVLqXncHxBFk18rQEoeA_tc-eumYwnQr9_fT9m2DgDOtIZc7EBGlbTx_kyh9l45U9meuWL3Z5uJlrWT6TBUGK-GzkiNKRXXCpT8SZjtfUYkCAVuWHm4wkrq8fcbk6juvG6b31PEjumBR-Q4FFWrVKHm1g9RiZ5OnZMkplc9lpK7RoI8AVQggqW42ynvtMVViZM29DQKCYfXFHk8dBCBvVFySwcrPu7VioT5Y9GZVUUkkow8JTx13L_72RBTrVuEnwPG_tmHHsQgXFOt3_FUyw-F2Vnq1PXFlIqv4RhFRJgl2w7JYZ3KxPfqB5MssuxqbZ4I8mNJIVPmkr_4kEGdnSXTXuuMAHVKS-rAF02sq1pZHAqtxtJfkH3_bU8ssdXX8KfHKsOGfwmiphE9IJM1LHCueAMiTfy1juJc0LPqANgXqNIkq5UJKBKCcEY_mFdtWF-MDl_r8I0hFJQ2KF33rbT9WXOPibhwpugdFLq5jsKysZ1Jmq4AJWwGWRwgqVO-eR0qEOsvF9Yx4-__AHiFTjcwSg8KkcHaCbIkCHjbQBBbRYedt7Q3-Jy9f1FuI_veomH4qwl8Xyvx9OqNYlxB0YZNyKNI-fSuwOrg5gJ-iBJZRH87WTN8JQV7IFRDwI2vk6_qFiRQ-2W8zG6IDlHVjgc415UKzRcxQiCSElDChM0Dka4t5nLUU_HOktO8XrjPcEox4KNFYhBr1LKWuYJHd6-TbHPQNf0W1B788OfmqGinI7QEhpdLADJnSW26vWlIDqjcyv4pFrbYvuJR5UH3A2Ei1peC9GdKCej3esAt0TDl-ImAggJwYlA2T_DHRcpyWPEbjuOBCDiRlaJNFqdFwL_zb4ImzkS72P3TCIlX6YXG10ji0lByZl0044X0vXirdM7D8wwd3B_avmfKaBjvWiGxNhHLeGeXK6ttJpoVfehLBZd-cf_vHNfL4LC2p1LwzdoFH1aTK1iQ3roYzANoK1TOTjmbQ3Ay1hNFMk_D_poHUQaBKvQzcaGDcXsulb-5lLdRV6ZZil9hM5K_0hkuxsr79bMzU9b97xwa6dnOGauujifRBqtwuRUk7YGyO8RiFD8iwzwh4gLCIiwJT64qrAwakorwIQEfy6ThXMXsZzUkjRPj11d2SDPSAqI1uM_q6jbTP8iK5Y0H714eammz93rQzvXINxtp3314umhsE68ZdULkAEk8gzUTjWQ1l_4Q2Oh-4fxurye2zadbz_dH7X3gM_wE6f6HVhXdTnskoF-mor9wvmfdkOLUxOWUzKeGcjw18WJ6k5o7ZnblO7flrwPZWVdgiFuT62Arwi0q2WVXeBIGk30NAnhmQ5SrpAlyFethPi0zAysNqvpXZsnthQ3PqgDDhA6pg5AG7au0U0WDeM-MqyB4TwkPHEB0vzzyIXBlY0nd6jWQyBKs-U7Y4jdiF-j6hX5iOShuTa1v6H_qEq7b-8BotTQoq3rSrcPXZJz5Xz44T44wKIE_0deN4NBb7Dz8lmG5Dmh0mNxJ7uqGQPkllomIov9Ilfy7lFNolho8ArDlZarKj8nB1VpWQu8HSj13GOpvNdNq0LsmzkKB7tzxMUSOyRYYaTDk-U_el_z0AMyato69Gzj0bgAlPovlA3uAG8K7xoiv2YwQrTmlxA2KmIrjxlZTWkdBTjEgq8zdyPQ9PX-4jIRGAu_Di_fNbz09Ju_1aOJGNsJIERjW0O64vf_sOHvvf7KboqHIlCDp0-I8Oqu_xO5-mzZvwirFInycmi0L-nVmXo36L-wEWgZ-lZCVrnwoHvsQSMVOJ2mTWvY_w0UfPdcCtej18mKhRFYDjWPSbU1GMcXEndYEBk6ECbuK8Sg1C27pK4NQLH1UHkeeeEk9Yk5nWs-ywMdRkSWN6kfUymQ-PUY86lTKVBND-Po35yYZ3SHzyvEzfOGdWJXpCr2-sR_DaeEn4RngcfBZoVa7NuFD75DdVstya05FitqB9NZCxXJTQCxrZcwEIKsnjg8T9YcFj1YiW1kmSrF7k66Eg-VG8cjRLsoLy1AqXcXwxZ1wi_qI_Jiae5urvO9EYOmJ6PEalVsU9eqFexKMMLZo0Ygaj6OFTXoiyKsSQllMgWbaxGY-JKv3PtRE3xkjvOb9fW-azLcQlveAvHTMxRIfBBrBEKF6OFli_GeeuOQ0YGeZPVac8FkDNiLGhseM_QU8w99x07PyqcAdMLeaHJaT0XAjnuRPE5-0JC0sEIKCRN_7Mf6RDud8tIAUH-jdlMXAi6GYJWYggJBGbJxCEdj1Xwyx_aTFoU80eNH4SfCvvXWx4_7XRai1zrHz7hps4iiO-ryhD-YYATj0wojJ-_Qb5MXjt5whBAW095Ef89FNqPBt9ad95bcKpgrtoOEf5q85hJStHZ68g8Q7VLT_M7-XbFndV1KPs2RbAeRQqMedqOAUyWMj2zvhAL2Ri8nOEBWhAr9IdYnMRNRr4sTxBzyQtfpikSW0UGFkmCOCW9CaP29oak6CHHWB6FJ3wCD0oIdloTLvjEhxweUaFb_1ZVmCziBW2-wvCHpNqyCTCuWzqLZMJvYyxpri2FsV0s4hZja6kCYrwt6nDIOVQ9FeUx6TN4y2k_ZUkYZcG0sgf7sXzFy6IEeMlGaILehhdCZBjs3JKlvoAzU3-aOQ0H0pPHw4OfTkqn_8_eG1jf1It5t-m6lYvIeXuEjJ6UmOBQbb9NIor7SNCw1H8J0W2r7CJ9OHuRvrPM_hVgDYPgnSTSck5_HdjWWUZgsGctAxyzWul6sITlpVAFK5uhTg-CVVbDdaC63GtH6xL4iW1acHD9bX41d_sJTxk-C-_xC6uUXwtrthEAZ1dLRZmEX1PwnFi0RdGkBPTYbumkVVjudeq6JlvB-6WMGAMMMGnEYKGLBmleh2aqS0jJ-QfTy3o_RWNqRE30Jaij2YMGxMu8310GJ0WO9xdgX17-sXn-E7UIbnXpz8ZzzBg4sO26cwbcoNkiIwu9l5vIF4YDeH6zG8oug6PnCPVam7g2cA4jmvoF6AmabgYzVE7C6ajUifXk0mrkPa4iTO0crXy4vQEXvhQJ59oBVbKtzy3JNpaWaJQe7BQbNjne7AXrq81ZGGuAB4iBYVN3egJ9qxzF7_eQUNzAOPQQQfH3vEvR6C6X65g_rwhgFEN5KYiwYSCPnQ_SJMtZCfbsHPoYbCXGK7RauNo5bnh4qG_odj45bU6HpuIpodoP2ZLszcxoMwmh17YohrH-zX6uDoFBhI9VVuN4GX87pqnD0iQE5xox3rwRtoKX0M0FCqPoK_q3zg-3FVPuSgQPxRBSWDlVrUEkfmR1DmWy-QuOxKUwq_A6RcpOjqlgtWVfT3a7_Ki-LMaDDqHAQZDWroz3RAK6Zw==",
+    "summary": []
+   },
+   {
+    "id": "msg_040b09e6eb84796f016ac8e0a9a5f487d186a46273088d9cf3",
+    "type": "message",
+    "status": "completed",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"candidate_id\": \"v79-r5-regression-2026-10-09-v77f-ea8f75b17d74\",\n  \"content_hash\": \"d343fbd253d74db6e9228a42e93e617580473e6ebbb6863665ff3b918175421a\",\n  \"claims\": [\n    {\n      \"claim\": \"Marginal utility is the change in total utility from one additional unit.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"30 minus 28 equals 2.\",\n      \"basis\": \"arithmetic\"\n    }\n  ],\n  \"passed\": true,\n  \"reasons\": [\n    \"The explanation uses the supplied definition and correctly calculates the increase in total utility from the stem’s values.\"\n  ],\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"resolution_audit\": {\n    \"key\": \"A\",\n    \"key_fully_supported\": true,\n    \"key_reason\": \"The supplied definition and stem values establish marginal utility as 30 − 28 = 2 units.\",\n    \"unexcluded_rival_conditions\": [],\n    \"distractors\": [\n      {\n        \"option\": \"B\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"The increase is 30 − 28 = 2 units, not 5.\"\n      },\n      {\n        \"option\": \"C\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"28 is the earlier total utility; the increase is 30 − 28 = 2 units.\"\n      },\n      {\n        \"option\": \"D\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"The increase is 30 − 28 = 2 units, not 58.\"\n      }\n    ]\n  }\n}"
+     }
+    ],
+    "phase": "final_answer",
+    "role": "assistant"
+   }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+   "context": "all_turns",
+   "effort": "high",
+   "mode": "standard",
+   "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "flex",
+  "store": false,
+  "temperature": 1,
+  "text": {
+   "format": {
+    "type": "json_schema",
+    "description": null,
+    "name": "factory_result",
+    "schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "candidate_id",
+      "content_hash",
+      "claims",
+      "passed",
+      "reasons",
+      "evidence_ids",
+      "resolution_audit"
+     ],
+     "properties": {
+      "candidate_id": {
+       "type": "string",
+       "enum": [
+        "v79-r5-regression-2026-10-09-v77f-ea8f75b17d74"
+       ]
+      },
+      "content_hash": {
+       "type": "string",
+       "enum": [
+        "d343fbd253d74db6e9228a42e93e617580473e6ebbb6863665ff3b918175421a"
+       ]
+      },
+      "claims": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "claim",
+         "basis"
+        ],
+        "properties": {
+         "claim": {
+          "type": "string"
+         },
+         "basis": {
+          "type": "string",
+          "enum": [
+           "excerpt",
+           "stem",
+           "arithmetic",
+           "fundamental",
+           "unsupported",
+           "incorrect"
+          ]
+         }
+        }
+       }
+      },
+      "passed": {
+       "type": "boolean"
+      },
+      "reasons": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "evidence_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "enum": [
+         "E1.1",
+         "E2.1",
+         "E2.2",
+         "E2.3"
+        ]
+       }
+      },
+      "resolution_audit": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "key",
+        "key_fully_supported",
+        "key_reason",
+        "unexcluded_rival_conditions",
+        "distractors"
+       ],
+       "properties": {
+        "key": {
+         "type": "string",
+         "enum": [
+          "A",
+          "B",
+          "C",
+          "D"
+         ]
+        },
+        "key_fully_supported": {
+         "type": "boolean"
+        },
+        "key_reason": {
+         "type": "string"
+        },
+        "unexcluded_rival_conditions": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "distractors": {
+         "type": "array",
+         "minItems": 3,
+         "maxItems": 3,
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+           "option",
+           "decisively_wrong",
+           "basis",
+           "reason"
+          ],
+          "properties": {
+           "option": {
+            "type": "string",
+            "enum": [
+             "A",
+             "B",
+             "C",
+             "D"
+            ]
+           },
+           "decisively_wrong": {
+            "type": "boolean"
+           },
+           "basis": {
+            "type": "string",
+            "enum": [
+             "direct_contradiction",
+             "arithmetic",
+             "passage_unsupported",
+             "category_only",
+             "source_silence",
+             "partial_truth",
+             "unsupported",
+             "incorrect"
+            ]
+           },
+           "reason": {
+            "type": "string"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "strict": true
+   },
+   "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+   "image_gen": {
+    "input_tokens": 0,
+    "input_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "output_tokens": 0,
+    "output_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "total_tokens": 0
+   },
+   "web_search": {
+    "num_requests": 0
+   }
+  },
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+   "input_tokens": 4146,
+   "input_tokens_details": {
+    "cache_write_tokens": 4143,
+    "cached_tokens": 0
+   },
+   "output_tokens": 758,
+   "output_tokens_details": {
+    "reasoning_tokens": 337
+   },
+   "total_tokens": 4904
+  },
+  "user": null,
+  "metadata": {}
+ }
+}

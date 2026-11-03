@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 14839,
+ "request_bytes": 36755,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r2-regression-2026-10-09-v77f-c6d21440345d\",\n  \"content_hash\": \"8c94f7fee4aab9e6d33dbea6c40eb24374c7101b61f3aab346fa8ae601df53c2\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.3\"],\n  \"reasons\": [\n    \"Providing instruction to increase skills and prepare for greater responsibility describes training and development.\",\n    \"Recruitment, placement, and compensation address attracting applicants, putting an employee into a post, and remuneration, respectively.\"\n  ],\n  \"syllabus_chapter\": \"Staffing\",\n  \"syllabus_topic\": \"Training and Development – meaning, need\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"An existing employee is provided instruction to upgrade job skills and prepare for higher responsibility.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"The activity that increases job skills and prepares personnel for career growth is defined as training and development.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\", \"E2.3\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The activity is attracting candidates to apply for job vacancies in the organization.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The activity refers to assigning a newly selected candidate to a specific job position.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The activity refers to establishing wages, salaries, and financial rewards for the employee.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly evaluates the core staffing concept of Training and Development.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard concise scenario-based MCQ typical of CUET Business Studies.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard Class XII NCERT recall and concept-application difficulty.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent other major steps/aspects of the staffing process.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-business_studies-bookA-q41\",\n      \"cuet2024-business_studies-bookA-q44\",\n      \"cuet2024-business_studies-bookA-q45\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Training is any process by which the aptitudes, skills and abilities of employees to perform specific jobs are increased.\",\n      \"reason\": \"Training increases skills to perform jobs, matching the stem scenario.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Recruitment\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"An employee already doing the job receives instruction to update job skills and prepare for greater responsibility.\",\n      \"reason\": \"The stem describes an existing employee learning skills, not sourcing external or prospective job candidates.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Placement\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"An employee already doing the job receives instruction to update job skills and prepare for greater responsibility.\",\n      \"reason\": \"Placement is putting an employee on the job post, whereas the stem describes receiving instruction to update skills.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Compensation\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"An employee already doing the job receives instruction to update job skills and prepare for greater responsibility.\",\n      \"reason\": \"Compensation relates to pay and rewards, not skill instruction or development.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EsYICsMIAWkUfRMiTs8lxZiRbYkcHMy6F6xn/II56TzUS2QBMJ5bpifaoDnVPVHJEvA31pxxlWzQWxKq40xYibJaf+wsUosyhh47YI8Kcs2J5gpxc33dlBsEdbcLEsRe74NxmfrxpmsKiRV2S/CV6MQFqVO8Z7r4Byc3rv/qqDinEH+RZxmZ52paXHjTaUdEkHNusKU/1NC+kg7+NpOSugtdIBN3Xb1QDVR1RMZ472NBWfobfz9vGJLk4tkaRG/1n9QGxF9TY4JpDXqCmMTnmap+xDnQGEMWZ4LQaZ2nbEtoPX/aV7u9fBpUdF1qbqfvY3mcBwz0/vDssPXDdAw1WQn9xkzX4xUPsRgPjO2lydUgfyUsHIe8MANj2DI8Dza10lALZNTMzkRExlu0/VT4rqwnqh0CGF+CxHnS3592IM8mSPGND3vZFVcbAYjfUqSCRRDXPVxAhhsNC4AMrTAyWRrQLNmbKrLoTEnYinzASYrJLelShOUsA7YBb0ASOCz0UUdd+cchtmf8kvl40L7zaSRxdTjcfAuJi+Przejf62mDVJtddDumtFI15eirJDLtM8QWB6viS6iH8V2MC8eDgqIA4V7FmiPOu2p7EPKF6AVobXILJLdHmqr/uHtUNUwNFMCKX4qPF32pu4EQ+1b3B/rEIY2McFBoQHGDMT6YhiapRRFgKUdk4FW04t2Wjg/GeJYH2EKnvR+RqZa84yfrzKa8AWmAx5DoII682IV3fI1Jqi2uxWlJtrKp8evj/cs23TmTCXZhhMms9ldTbb3GOpzNg9y7zJGgcZbQKmhVY/l7mZh2C437Z50q8jUPicn0ISDvu10MOBaT2QDblSskd1cowLxp+mzxtXAtY88dP4kuuIJDT924AVf/G8n0Cc0alh8/d+ZQwN3+AWPeetMho1PLeqnEV1Gxk48XsMKdm+qxMJLAUKMjM0Fcz3pNbXo4dANjAdNyM971iahfIR2vs4LR1c5RqJgdXyI6/smI870L3R9+l2wRrUZKWpDWa/ttxMp24387geDew38k1Og5QE9jXjboMuKEo7457TIbVLBvcCC5rswENR2r9c4G+WN3xppdA8cj+Q/eaX20Xxp0vEscvwP+bggS/6F9dSuoVfrxRoIpY7/kjj8fkJO9oRQ7y65D5h+w+l2YFtuDRCiuguz2fn6imTyGCWphpYlZ4zAJft/g92IGh9EcerWRjFK65o/WfCEArGk/Fy0cJ2bLrmGJu9IhBNAi7KOzpGLq+Vr+ZH/Ks/onUl35bykdgXx1sF0gbT4/GVA2MO9JTccpH4q9D21htTxl1l8pY56Cb8fmbOR7KatY0/Sg4I/xdjFY7vqQyh1eX1Rh+8oCZ8X6PG6qY00Qs3szGuDFWYgC1QNvvMgZ4RnTapx+2puglbuO5nbmdxBB2eGQX6WJ+ho7qEY8OSGpSWLKpqgXHYck16RUGiUVFRxkl1c="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6789,
+   "candidatesTokenCount": 1443,
+   "totalTokenCount": 8431,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6789
+    }
+   ],
+   "thoughtsTokenCount": 199,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "FM_IapjbE7fNjuMPs9eFwAY"
+ }
+}

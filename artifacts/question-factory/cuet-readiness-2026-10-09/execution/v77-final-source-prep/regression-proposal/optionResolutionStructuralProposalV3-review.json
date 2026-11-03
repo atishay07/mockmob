@@ -1,0 +1,47 @@
+{
+  "schema": "v77-local-option-resolution-structural-proposal-v3-review",
+  "reviewed_at": "2026-10-09T08:49:16Z",
+  "freeze_sha256": "3377d19d341fb3a7363f029e3bc3d054dd11ba24a164d607f55a126574bc4efc",
+  "diagnosis_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\proposal-review-v2.json",
+  "diagnosis_sha256": "d8efbdd3ccf6b763b2a34291bfffd74036c9eb134678dc45bc8d7f2591f62368",
+  "v2_freeze_sha256": "a68e3cab4e8affd735dc55a13235d5f3f53cd3271a2e6cb925c53fb91201e612",
+  "parent_reported_legacy_v2_adversarial_tests": {
+    "passed": 19,
+    "failed": 0,
+    "attribution": "reported by parent; not rerun in this V3 turn"
+  },
+  "v3_local_tests": {
+    "passed": 11,
+    "failed": 0,
+    "attribution": "run in this turn"
+  },
+  "explicit_origin_contract": {
+    "alignment": "optional clause.premise_origins array must be one-to-one with clause.premises; each object repeats the exact premise string to prevent positional drift",
+    "kinds": {
+      "excerpt": "requires one or more exact selected evidence IDs whose immutable source quote contains the exact phrase, allowing whitespace-only line-wrap variation",
+      "stem": "requires exact phrase in stem body and carries no source IDs",
+      "printed_option_input": "requires exact phrase in the exact option for that row and can be used only when clause basis is arithmetic"
+    },
+    "ambiguity": "without an explicit origin, a uniquely identifiable origin is inferred; if the same phrase matches multiple allowed origins, structural evaluation fails with premise_provenance_ambiguous",
+    "audit": "semantic clause review must repeat the exact premise_origins array and resulting premise_bindings, bound to the exact matrix and evidence-catalog digests",
+    "fail_closed": [
+      "wrong premise string",
+      "wrong source ID",
+      "stem phrase absent from body",
+      "printed option origin outside arithmetic",
+      "printed option origin not in that row",
+      "unquoted option text asserted as excerpt",
+      "forged audit origin"
+    ]
+  },
+  "representative_tests": [
+    "Repeated phrase in source and stem is rejected without explicit origin and passes only with excerpt origin plus matching audit entry.",
+    "Repeated numeric text in source and printed option is rejected without explicit arithmetic-input origin; explicit option input is distinct from the exact source rule.",
+    "A printed assertion cannot be marked excerpt unless the selected source quote actually contains it.",
+    "The independent semantic audit remains required after structurally valid explicit-origin binding.",
+    "V2 regression coverage remains inherited through the unchanged V2 freeze; V3 adds explicit-origin behavior and does not replace V2 artifacts."
+  ],
+  "scope_limit": "Positive semantic audits in tests are synthetic structural fixtures; they do not establish academic truth or reviewer independence. V3 is not imported by any frozen V77 route.",
+  "root_review_status": "pending independent root verification of V3 hashes and adversarial tests",
+  "no_runtime_qualification_claim": true
+}

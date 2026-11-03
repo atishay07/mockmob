@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-06T05:42:34.669Z",
+  "source_path": "data/question-factory-runtime/business-economics-auth-work/economics/corroboration.json",
+  "identity_sha256": "0b4e055762973cdd8257fe1885b774b4ab1c77679641ad2d8c7fe498e78d1a7e",
+  "restored_ids": [
+    28,
+    29,
+    30,
+    31,
+    32
+  ],
+  "passage": "In our quest to increase agricultural production during the last five decades or so, we almost totally neglected the use of compost and completely switched over to chemical fertilizers. The result is that large tracts of productive land have been adversely affected, water bodies including ground water system have suffered due to chemical contamination and demand for irrigation has been going up year after year. Farmers, in large numbers all over the country, have again started using compost made from organic wastes of different types. In certain parts of the country, cattle are maintained only because they produce dung which is an important fertilizer and soil conditioner. Earthworms can convert organic matter into compost faster than the normal composting process. This process is now being widely used. Indirectly, the civic authorities are benefitted too as they have to dispose reduced quantity of waste.",
+  "two_saved_full_publisher_extractions_match": true,
+  "raw_documents_changed": false,
+  "academic_release": false,
+  "production_changes": 0
+}

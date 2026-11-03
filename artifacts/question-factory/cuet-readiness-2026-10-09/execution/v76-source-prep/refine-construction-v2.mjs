@@ -1,0 +1,24 @@
+import {readFileSync,writeFileSync,existsSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const root='artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep';
+const read=p=>JSON.parse(readFileSync(`${root}/${p}`)),hash=x=>createHash('sha256').update(JSON.stringify(x)).digest('hex'),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+const save=(name,x)=>{if(existsSync(`${root}/${name}`))throw Error('preserve_construction_history');writeFileSync(`${root}/${name}`,JSON.stringify(x,null,2));};
+const draft=read('draft-cases-v1-PRIVATE.json'),overlay=read('source-overlay-v1.json'),edits=[];
+const pages=read('ncert/lebs202.pages.json'),raw=pages.find(p=>p.page===12).parts.right,heading=raw.slice(raw.indexOf('10. Physical Distribution:'),raw.indexOf('2026-27')).replace(/\s+/g,' ').trim();
+if(!heading.endsWith('in the'))throw Error('source_heading_boundary_changed');
+const rootCase=draft.cases.find(f=>f.tag==='marketing-channel-choice'),oldRef=rootCase.candidate.source_refs[0],parent=overlay.sources[oldRef.id],oldText=parent.facts[oldRef.locator].text,newText=heading+' '+oldText;
+const id='v76s-'+hash({parent:oldRef.id,newText}).slice(0,14),ref={id,version:1,locator:'decisive-excerpt',support_hash:hash(newText)};
+overlay.sources[id]={...parent,id,facts:{'decisive-excerpt':{text:newText}},supports:{'decisive-excerpt':hash(newText)},construction_correction:{basis:'Restore the heading and continuous preceding sentence explicitly naming the marketing function; no answer, stem or option changed.',reading_order:'physical page 12 right column, then page 13 left column',pages_extraction_sha256:sha(`${root}/ncert/lebs202.pages.json`)}};
+rootCase.candidate.source_refs[0]=ref;rootCase.oracle.source_refs=rootCase.candidate.source_refs;rootCase.construction_repairs_used=1;
+overlay.packs['v76-fresh-pack-business_studies'].document_ids.push(id);
+edits.push({id:rootCase.id,kind:'decisive_source_restoration',previous_ref:oldRef,current_ref:ref,stem_options_key_unchanged:true});
+const aliases={'Partnership':'Partnership Fundamentals','Marketing':'Marketing Management','Money and Banking':'Money & Banking','Government Budget and the Economy':'Government Budget & the Economy'};
+for(const f of draft.cases){const c=f.candidate,before={chapter:c.chapter,route:c.route,syllabus_unit:c.learning_objective.syllabus_unit};if(aliases[c.chapter])c.chapter=aliases[c.chapter];if(c.subject==='english'){c.chapter=c.question_type==='vocabulary'?'Vocabulary':'Narrative Passage';c.route='passage';}if(c.subject==='accountancy'&&c.chapter==='Share Capital')c.learning_objective.syllabus_unit='Unit IV: Company Accounts: Accounting for Share and Debenture Capital';
+ const after={chapter:c.chapter,route:c.route,syllabus_unit:c.learning_objective.syllabus_unit};if(JSON.stringify(before)!==JSON.stringify(after))edits.push({id:f.id,kind:'canonical_metadata_and_mandatory_passage_route',before,after,stem_options_key_unchanged:true});
+ if(f.category==='out_of_syllabus'){f.oracle.key='C';edits.push({id:f.id,kind:'construction_oracle_fix',previous:'Inherited parent key B',current:'Independent mathematical result C = 12',expected_valid_unchanged:false});}
+}
+overlay.sources['v76-original-adapted-jibhi'].adaptation_disclosure=overlay.sources['v76-original-adapted-jibhi'].adaptation_disclosure.replace('224-word','208-word');
+const packet={at:new Date().toISOString(),previous_packet_sha256:sha(`${root}/blind-review-packet-v1.json`),amendment_disclosure:edits.map(e=>({id:e.id,kind:e.kind,...e.before&&{before:e.before,after:e.after}})),answers_hidden:true,cases:draft.cases.map(f=>({id:f.id,subject:f.candidate.subject,chapter:f.candidate.chapter,body:f.candidate.body,options:f.candidate.options,passage_text:f.candidate.passage_text,route:f.candidate.route,question_type:f.candidate.question_type,learning_objective:{syllabus_unit:f.candidate.learning_objective.syllabus_unit,objective:f.candidate.learning_objective.objective,target_term:f.candidate.learning_objective.target_term},sources:f.candidate.source_refs.map(r=>({id:r.id,locator:r.locator,quote:overlay.sources[r.id].facts[r.locator].text,source_url:overlay.sources[r.id].url,identity_sha256:overlay.sources[r.id].identity_sha256}))}))};
+packet.amendment_disclosure=packet.amendment_disclosure.filter(e=>e.kind!=='construction_oracle_fix');
+save('draft-cases-v2-PRIVATE.json',{...draft,at:new Date().toISOString(),previous_sha256:sha(`${root}/draft-cases-v1-PRIVATE.json`),cases:draft.cases});save('source-overlay-v2.json',overlay);save('construction-edits-v2.json',{at:new Date().toISOString(),qualification_evaluation_started:false,edits});save('blind-review-packet-v2.json',packet);
+console.log(JSON.stringify({retained:draft.cases.length,body_option_changes:0,source_restorations:1,oracle_history_preserved:true,paid_calls:0}));

@@ -1,0 +1,4550 @@
+{
+  "kind": "v712_fresh_qualification_study",
+  "verifier": "cuet-fit-validator-v7.12-compact-resolution",
+  "contract": "1107c72a94dd5a8f408fb41e75d57f37f885d693aa268dd0ca149bf2d2d2f899",
+  "prefix": "v712-v712-qualification-q3-run-",
+  "created_at": "2026-10-09T16:33:51.888Z",
+  "cases": {
+    "v712q3-accountancy-v4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 84
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "Normal Profit = Capital Employed x Normal Rate of Return / 100 = Rs. 3,00,000 x 10 / 100 = Rs. 30,000.",
+            "Super Profit = Average Profit - Normal Profit = Rs. 45,000 - Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Super Profit x 100 / Normal Rate of Return = Rs. 15,000 x 100 / 10 = Rs. 1,50,000."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The stem supplies the normal-profit and goodwill formulas and all inputs; E1.1 supplies the super-profit formula. The calculations and distractor explanations are correct."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Normal profit = Rs. 3,00,000 × 10% = Rs. 30,000; super profit = Rs. 45,000 − Rs. 30,000 = Rs. 15,000.",
+            "Goodwill = Rs. 15,000 × 100/10 = Rs. 1,50,000 (D). E1.1 supports the super-profit capitalisation formula."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.017236,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:37:49.217Z"
+    },
+    "v712q3-accountancy-v2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 8,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 107
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Total profit is Rs. 1,50,000 divided in ratio 3:2:1, giving P = Rs. 75,000, Q = Rs. 50,000, and R = Rs. 25,000.",
+            "R's shortfall against the guaranteed Rs. 30,000 is Rs. 5,000, borne by P and Q in ratio 3:2.",
+            "P bears 3/5 of Rs. 5,000 = Rs. 3,000, leaving P with Rs. 75,000 - Rs. 3,000 = Rs. 72,000."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The stem supplies the profit, sharing ratios, guarantee, and guarantors' shortfall ratio; the stated shares and deductions follow arithmetically.",
+            "The excerpts support the minimum-guarantee mechanism and describe a shortfall borne by guaranteeing partners."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "P's original share is Rs. 1,50,000 × 3/6 = Rs. 75,000; R's share is Rs. 1,50,000 × 1/6 = Rs. 25,000.",
+            "R's guarantee shortfall is Rs. 5,000. P bears 3/5 of it, or Rs. 3,000, so P finally gets Rs. 72,000.",
+            "The excerpts support the minimum-guarantee and shortfall mechanism; the stem specifies the amounts and the guarantors' sharing ratio.",
+            "No authenticated comparator was supplied for this original-practice item; assess it directly by syllabus coverage and demand."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015425,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:37:52.726Z"
+    },
+    "v712q3-accountancy-v1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 10,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 51
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "According to NCERT Accountancy Class XII, when Profit and Loss Account shows a credit balance (net profit), it is transferred by debiting Profit and Loss A/c and crediting Profit and Loss Appropriation A/c."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "For a credit balance (net profit), the supplied NCERT entry debits Profit and Loss A/c and credits Profit and Loss Appropriation A/c.",
+            "The other choices give the net-loss entry, an interest-on-capital entry, or a different transaction."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014384,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:38:12.328Z"
+    },
+    "v712q3-accountancy-v3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 99
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "C's share is 1/4; remaining 3/4 is shared between A and B in 2:1, so A's new share is 2/4 and B's new share is 1/4.",
+            "B's proportionate capital requirement is 1/4 of Rs. 80,000, which equals Rs. 20,000.",
+            "Since B's present capital after adjustments is Rs. 15,000, B must bring in Rs. 5,000 (20,000 - 15,000) to meet the required capital."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The stem gives B one-third of the remaining three-fourths and a total capital of Rs. 80,000; the required capital is Rs. 20,000.",
+            "B has Rs. 15,000, leaving a Rs. 5,000 deficiency. E2.1 supports bringing in an additional amount to reach the required capital."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "A's share is 1/2 and B's is 1/4; B's target capital is 1/4 × Rs.80,000 = Rs.20,000. Against Rs.15,000, he must bring in Rs.5,000.",
+            "E2.1 supports allocating total capital by profit shares and adjusting a deficiency by bringing in an additional amount; E1.1 is a matching admission illustration.",
+            "The original-practice item has no authenticated comparator supplied; its inputs are stated and its calculation is answerable."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016416,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:38:37.121Z"
+    },
+    "v712q3-accountancy-d2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "second_defensible_option",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "A is current because it is expected to be realised within twelve months; D is also current because cash and cash equivalents are listed as current criteria.",
+        "The excerpt lists alternative criteria. B could qualify if held for trading, and C could qualify if involved in the operating cycle; neither status is specified.",
+        "Thus at least A and D are correct, so the singular question has no unique answer.",
+        "Defect: multiple_correct_options: Options A and D each independently meet a current-item criterion stated in the supplied excerpt.",
+        "Defect: missing_decisive_assumption: The stem does not rule out trading status for B or operating-cycle involvement for C, either of which could make that option current under the excerpt.",
+        "Defect: missing_decisive_assumption: option B is correct if If also held primarily for trading, it is current despite the stated cycle and realization facts; the excerpt allows trading as an independent criterion.",
+        "Defect: missing_decisive_assumption: option C is correct if If involved in the entity's operating cycle, the liability may be current despite the stated unconditional deferral right; cycle status is unstated.",
+        "Defect: missing_decisive_assumption: option D is correct if Cash and cash equivalent is expressly listed as a current-item criterion.",
+        "Condition missing: Whether option B's asset is held primarily for trading is unstated.",
+        "Condition missing: Whether option C's liability is involved in the entity's operating cycle is unstated.",
+        "v712_multiple_supported_options:AD",
+        "v712_multiple_supported_options:AD"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is current because it is expected to be realised within twelve months; D is also current because cash and cash equivalents are listed as current criteria.",
+            "The excerpt lists alternative criteria. B could qualify if held for trading, and C could qualify if involved in the operating cycle; neither status is specified.",
+            "Thus at least A and D are correct, so the singular question has no unique answer.",
+            "Defect: multiple_correct_options: Options A and D each independently meet a current-item criterion stated in the supplied excerpt.",
+            "Defect: missing_decisive_assumption: The stem does not rule out trading status for B or operating-cycle involvement for C, either of which could make that option current under the excerpt.",
+            "Defect: missing_decisive_assumption: option B is correct if If also held primarily for trading, it is current despite the stated cycle and realization facts; the excerpt allows trading as an independent criterion.",
+            "Defect: missing_decisive_assumption: option C is correct if If involved in the entity's operating cycle, the liability may be current despite the stated unconditional deferral right; cycle status is unstated.",
+            "Defect: missing_decisive_assumption: option D is correct if Cash and cash equivalent is expressly listed as a current-item criterion.",
+            "Condition missing: Whether option B's asset is held primarily for trading is unstated.",
+            "Condition missing: Whether option C's liability is involved in the entity's operating cycle is unstated.",
+            "v712_multiple_supported_options:AD",
+            "v712_multiple_supported_options:AD"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002581,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:38:39.310Z"
+    },
+    "v712q3-accountancy-v5": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 50
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT Section 2.2 states that the payment of interest on debentures is a charge on profits and must be paid even if there is no profit.",
+            "Option A directly articulates this principle, while Options B, C, and D state incorrect attributes of debentures."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Interest on debentures is a charge on profits, payable even when there is no profit; it is not an appropriation like dividends.",
+            "The excerpt distinguishes fixed debenture interest from profit-dependent share returns and notes that debentureholders normally have no voting rights."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016891,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:39:42.070Z"
+    },
+    "v712q3-accountancy-d4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem gives EPS = Rs. 12, market price = Rs. 96, and the formula; 96 ÷ 12 = 8, so B.",
+            "E1.1 confirms the P/E formula. No authenticated comparator was supplied; this original-practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001305,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:39:49.500Z"
+    },
+    "v712q3-business_studies-v1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The source says informal organisation may contribute to joint results, but does not establish that contribution is nonessential; it therefore does not decisively contradict option B.",
+        "The definition supports D and contradicts A and C, but the explanation overstates the evidence when rejecting B.",
+        "unsupported claim: Barnard says informal organisation only may contribute to joint results, implying contribution is not necessary.",
+        "unsupported claim: Option B is contradicted by Barnard's definition.",
+        "v712_audit_not_decisively_wrong:B:source_silence",
+        "v712_audit_not_decisively_wrong:B:source_silence"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "D matches Davis: informal relationships arise spontaneously and are not established or required by the formal organisation.",
+            "Barnard says such relationships may contribute to joint results, not that this contribution is necessary for their existence."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "D matches Davis: informal relationships arise spontaneously and are not established or required by the formal organisation.",
+            "Barnard says such relationships may contribute to joint results, not that this contribution is necessary for their existence."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "D matches Davis: informal relationships arise spontaneously and are not established or required by the formal organisation.",
+            "Barnard says such relationships may contribute to joint results, not that this contribution is necessary for their existence."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "D matches Davis: informal relationships arise spontaneously and are not established or required by the formal organisation.",
+            "Barnard says such relationships may contribute to joint results, not that this contribution is necessary for their existence."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "D matches Davis: informal relationships arise spontaneously and are not established or required by the formal organisation.",
+            "Barnard says such relationships may contribute to joint results, not that this contribution is necessary for their existence."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "Keith Davis defines informal organisation as a network of personal and social relations not established or required by the formal organisation but arising spontaneously as people associate with one another.",
+            "Option D directly reproduces the key elements of Keith Davis's definition, while Options A, B, and C contradict the textbook definitions."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The source says informal organisation may contribute to joint results, but does not establish that contribution is nonessential; it therefore does not decisively contradict option B.",
+            "The definition supports D and contradicts A and C, but the explanation overstates the evidence when rejecting B.",
+            "unsupported claim: Barnard says informal organisation only may contribute to joint results, implying contribution is not necessary.",
+            "unsupported claim: Option B is contradicted by Barnard's definition.",
+            "v712_audit_not_decisively_wrong:B:source_silence",
+            "v712_audit_not_decisively_wrong:B:source_silence"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016198,
+        "held": 0,
+        "requests": 5
+      },
+      "at": "2026-10-09T16:40:09.883Z"
+    },
+    "v712q3-accountancy-d3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The Rs. 800 answer is supported by the excerpt’s called-up amount rule and the stem’s figures.",
+        "The explanation adds unsupported claims that the Share Forfeiture Account balance must always go to General Reserve and that no profit remains.",
+        "unsupported claim: The balance of Share Forfeiture Account must always be transferred to General Reserve under the Companies Act after forfeiture.",
+        "unsupported claim: No profit remains."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.2 says Share Capital is debited with the amount called up. Calculation: 100 × Rs. 8 = Rs. 800. The Rs. 6 received and Rs. 10 face value are not the debit amount."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "On forfeiture of shares, Share Capital Account is debited with the called-up amount on the forfeited shares.",
+            "Called-up amount = 100 shares * Rs. 8 per share = Rs. 800."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The Rs. 800 answer is supported by the excerpt’s called-up amount rule and the stem’s figures.",
+            "The explanation adds unsupported claims that the Share Forfeiture Account balance must always go to General Reserve and that no profit remains.",
+            "unsupported claim: The balance of Share Forfeiture Account must always be transferred to General Reserve under the Companies Act after forfeiture.",
+            "unsupported claim: No profit remains."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016224,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:40:12.379Z"
+    },
+    "v712q3-accountancy-d1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "B matches the supplied distinction: on dissolution of partnership, assets and liabilities are revalued and a new balance sheet is drawn.",
+        "The continuing business contradicts A; the relationship continues in changed form, contradicting D.",
+        "The excerpt says a firm can be dissolved by court order but does not establish whether that is the only route, leaving C unresolved.",
+        "Defect: unsupported_fact_or_explanation: The supplied excerpt does not establish whether court order is the exclusive route for firm dissolution, so option C cannot be conclusively excluded.",
+        "Condition missing: Whether court order is the exclusive route for dissolution of a firm, needed to conclusively rule out option C.",
+        "v712_excerpt_quote_unbound:B",
+        "v712_excerpt_quote_unbound:B"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "B matches the supplied distinction: on dissolution of partnership, assets and liabilities are revalued and a new balance sheet is drawn.",
+            "The continuing business contradicts A; the relationship continues in changed form, contradicting D.",
+            "The excerpt says a firm can be dissolved by court order but does not establish whether that is the only route, leaving C unresolved.",
+            "Defect: unsupported_fact_or_explanation: The supplied excerpt does not establish whether court order is the exclusive route for firm dissolution, so option C cannot be conclusively excluded.",
+            "Condition missing: Whether court order is the exclusive route for dissolution of a firm, needed to conclusively rule out option C.",
+            "v712_excerpt_quote_unbound:B",
+            "v712_excerpt_quote_unbound:B"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003519,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:40:37.691Z"
+    },
+    "v712q3-business_studies-d3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "source_support_missing"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0,
+        "held": 0,
+        "requests": 0
+      },
+      "at": "2026-10-09T16:40:38.271Z"
+    },
+    "v712q3-business_studies-d1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 defines coordination as continuous from planning through controlling; the stem explicitly describes continuous monitoring after planning.",
+            "E1.2 describes all-pervasive coordination across management levels; this case does not show coordination at all levels.",
+            "The stem describes continuing monitoring after planning, not a one-time planning-stage function.",
+            "E1.2 expressly states coordination is required at all management levels, refuting coordination only at the top level."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 defines coordination as continuous from planning through controlling; the stem explicitly describes continuous monitoring after planning.",
+            "E1.2 describes all-pervasive coordination across management levels; this case does not show coordination at all levels.",
+            "The stem describes continuing monitoring after planning, not a one-time planning-stage function.",
+            "E1.2 expressly states coordination is required at all management levels, refuting coordination only at the top level."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 defines coordination as continuous from planning through controlling; the stem explicitly describes continuous monitoring after planning.",
+            "E1.2 describes all-pervasive coordination across management levels; this case does not show coordination at all levels.",
+            "The stem describes continuing monitoring after planning, not a one-time planning-stage function.",
+            "E1.2 expressly states coordination is required at all management levels, refuting coordination only at the top level."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "E1.1 defines coordination as continuous from planning through controlling; the stem explicitly describes continuous monitoring after planning.",
+            "E1.2 describes all-pervasive coordination across management levels; this case does not show coordination at all levels.",
+            "The stem describes continuing monitoring after planning, not a one-time planning-stage function.",
+            "E1.2 expressly states coordination is required at all management levels, refuting coordination only at the top level."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00449,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T16:41:14.653Z"
+    },
+    "v712q3-business_studies-v2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 53
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "NCERT states that employing more debt lowers overall cost of capital if cost of equity remains unaffected, while increasing fixed financial charges and financial risk."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Debt is cheaper, so with cost of equity unchanged, greater debt use is likely to lower overall cost of capital (E1.1).",
+            "The source says higher debt use increases fixed financial charges and financial risk (E1.1, E1.2)."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.012899,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:42:49.647Z"
+    },
+    "v712q3-economics-v1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 states that marginal revenue equals price for a price-taking firm; one additional quintal sold at Rs40 raises total revenue by Rs40.",
+        "But total output is unstated. If output after the sale is one quintal, option D's Rs40 multiplied by output also equals Rs40, so uniqueness is not assured.",
+        "Defect: missing_decisive_assumption: Total output is not stated. At one quintal after the sale, option D's expression equals the marginal revenue, leaving a second defensible answer.",
+        "Defect: missing_decisive_assumption: option D is correct if If total output after the sale is one quintal, Rs40 multiplied by output equals Rs40, the revenue increment from zero to one; the stem gives no output total.",
+        "Condition missing: Total output after the extra sale is unspecified; if it is one quintal, option D's Rs40 multiplied by total output equals Rs40.",
+        "v712_unresolved_alternative:D",
+        "v712_unresolved_alternative:D"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "E1.1 states that marginal revenue equals price for a price-taking firm; one additional quintal sold at Rs40 raises total revenue by Rs40.",
+            "But total output is unstated. If output after the sale is one quintal, option D's Rs40 multiplied by output also equals Rs40, so uniqueness is not assured.",
+            "Defect: missing_decisive_assumption: Total output is not stated. At one quintal after the sale, option D's expression equals the marginal revenue, leaving a second defensible answer.",
+            "Defect: missing_decisive_assumption: option D is correct if If total output after the sale is one quintal, Rs40 multiplied by output equals Rs40, the revenue increment from zero to one; the stem gives no output total.",
+            "Condition missing: Total output after the extra sale is unspecified; if it is one quintal, option D's Rs40 multiplied by total output equals Rs40.",
+            "v712_unresolved_alternative:D",
+            "v712_unresolved_alternative:D"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.005744,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T16:42:54.999Z"
+    },
+    "v712q3-business_studies-v4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Variable pay is Rs 4 × 1,800 = Rs 7,200; adding the fixed Rs 10,000 gives total direct pay of Rs 17,200.",
+        "E1.2 identifies unit-based piecework as performance-based and allows a combination of time-based pay and incentives; E1.1 classifies salaries and incentives as direct payments.",
+        "The supplied Staffing syllabus scope does not include compensation or wage and salary plans.",
+        "Defect: syllabus_mismatch: The supplied current Staffing syllabus covers staffing, recruitment, selection, and training; it does not include compensation or time-based and performance-based pay plans.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Variable pay is Rs 4 × 1,800 = Rs 7,200; adding the fixed Rs 10,000 gives total direct pay of Rs 17,200.",
+            "E1.2 identifies unit-based piecework as performance-based and allows a combination of time-based pay and incentives; E1.1 classifies salaries and incentives as direct payments.",
+            "The supplied Staffing syllabus scope does not include compensation or wage and salary plans.",
+            "Defect: syllabus_mismatch: The supplied current Staffing syllabus covers staffing, recruitment, selection, and training; it does not include compensation or time-based and performance-based pay plans.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002053,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:43:07.509Z"
+    },
+    "v712q3-business_studies-v3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 8,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 51
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "The stem describes Management by Exception (analysing deviations). According to NCERT Chapter 8 Controlling (E1.1), dealing only with significant deviations crossing a permissible limit saves managerial time and efforts, and focuses managerial attention on important areas.",
+            "Options A, B, and D directly contradict the textbook advantages: it saves rather than consumes time, facilitates rather than hinders delegation, and increases rather than lowers employee morale."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "Every factual claim in the explanation is supported by E1.1; the excerpt states the benefits and contradicts the relevant distractor claims."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The textbook says focusing on significant deviations saves managers’ time and focuses attention on important areas, exactly option C.",
+            "The stem states that only above-limit deviations are brought to the manager and routine problems are left to subordinates.",
+            "The syllabus includes steps in control; analysing deviations and its significance is a supporting application of that process."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014466,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:43:15.748Z"
+    },
+    "v712q3-business_studies-v5": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 62
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "According to NCERT Business Studies Class XII Chapter 3 (Business Environment), inputs assembled from the environment include finance, power and water.",
+            "Outputs supplied by the enterprise to the environment specifically include payment of taxes to government and return on financial investment to investors.",
+            "Therefore, items (ii) and (iv) are outputs, making Option D the uniquely correct answer."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation's classifications match E1.1 and E1.2, and the stem maps those classifications to the numbered items.",
+            "The options show that A, B and C each include (i) or (iii); E1.1 identifies both as inputs."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The excerpt classifies finance and power/water as inputs, while listing tax payments and returns on financial investment as outputs (E1.1, E1.2).",
+            "Thus the two outputs in the stem are (ii) and (iv), option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013318,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:44:09.344Z"
+    },
+    "v712q3-economics-v2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 10,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 76
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "Output is 4 units, TFC is Rs 80, and TVC is Rs 120.",
+            "AFC = TFC / 4 = 80 / 4 = Rs 20.",
+            "AVC = TVC / 4 = 120 / 4 = Rs 30.",
+            "SAC = AVC + AFC = 30 + 20 = Rs 50, which corresponds to option B."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The calculations follow from the stem, and the average-cost division rule and SAC relationship are supported by E1.1 and the stem."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "AFC = 80/4 = Rs 20; AVC = 120/4 = Rs 30; therefore SAC = 20 + 30 = Rs 50.",
+            "The output is positive (4 units), so both average costs are defined."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014953,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:44:45.295Z"
+    },
+    "v712q3-economics-v3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 70
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "numeric_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "llm_boundary_cases": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "Opportunity cost is the value of the next best alternative forgone.",
+            "The available mutually exclusive alternatives give Rs 0 (house-safe), Rs 10,000 (bank-2 at 5%), and Rs 20,000 (bank-1 at 10%).",
+            "The maximum forgone return among the alternatives is Rs 20,000 from bank-1."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The excerpt identifies bank-1 interest as the maximum forgone benefit; the stem gives the principal and rates, and permits only one use of the money."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT identifies the best forgone alternative as bank-1; 10% × Rs 2,00,000 = Rs 20,000 per year.",
+            "Bank-2 yields Rs 10,000 and the house-safe yields zero; neither exceeds bank-1's return, and the options cannot be added."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.018538,
+        "held": 0,
+        "requests": 5
+      },
+      "at": "2026-10-09T16:44:55.641Z"
+    },
+    "v712q3-business_studies-d4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Training is described as learning new skills and applying knowledge; the stem explicitly foregrounds building employees’ skills.",
+        "The stem does not establish that the skills are job-related or distinguish this programme from education or broader development.",
+        "The three-week duration does not resolve those distinctions.",
+        "Defect: missing_decisive_assumption: The stem does not state whether the skill-building is job-related or whether the programme also develops understanding or broader employee growth; these distinctions can affect classification.",
+        "Defect: missing_decisive_assumption: option A is correct if Knowledge is expressly built; if the programme also increases understanding, it fits education, and the stem leaves that distinction unstated.",
+        "Defect: missing_decisive_assumption: option B is correct if If designed to foster employee growth, this skills-and-knowledge programme fits development; the stem does not specify that broader purpose.",
+        "Condition missing: The programme’s skill-building is tied to employees’ current or intended jobs.",
+        "Condition missing: The knowledge component also increases employees’ understanding, as in education.",
+        "Condition missing: The programme is designed as a broader opportunity for employee growth, as in development.",
+        "v712_unresolved_alternative:A",
+        "v712_unresolved_alternative:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "Training is described as learning new skills and applying knowledge; the stem explicitly foregrounds building employees’ skills.",
+            "The stem does not establish that the skills are job-related or distinguish this programme from education or broader development.",
+            "The three-week duration does not resolve those distinctions.",
+            "Defect: missing_decisive_assumption: The stem does not state whether the skill-building is job-related or whether the programme also develops understanding or broader employee growth; these distinctions can affect classification.",
+            "Defect: missing_decisive_assumption: option A is correct if Knowledge is expressly built; if the programme also increases understanding, it fits education, and the stem leaves that distinction unstated.",
+            "Defect: missing_decisive_assumption: option B is correct if If designed to foster employee growth, this skills-and-knowledge programme fits development; the stem does not specify that broader purpose.",
+            "Condition missing: The programme’s skill-building is tied to employees’ current or intended jobs.",
+            "Condition missing: The knowledge component also increases employees’ understanding, as in education.",
+            "Condition missing: The programme is designed as a broader opportunity for employee growth, as in development.",
+            "v712_unresolved_alternative:A",
+            "v712_unresolved_alternative:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003414,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:47:03.592Z"
+    },
+    "v712q3-business_studies-d2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "second_defensible_option",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "E1.2 directly links the manager’s “I” to “We” practice with team spirit, mutual trust and belongingness under Esprit de Corps.",
+        "The stem asks about the manager’s practice; it separately describes the company’s suggestion system.",
+        "v712_audit_unexcluded_rival_condition:Initiative is positively shown by the separate suggestion system rewarding suggestions that substantially reduce costs; ",
+        "v712_audit_unexcluded_rival_condition:Initiative is positively shown by the separate suggestion system rewarding suggestions that substantially reduce costs; "
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The question targets the manager's use of “we” instead of “I”; E1.2 explicitly links that practice to team spirit and Esprit de corps.",
+            "The suggestion system is a separate Initiative cue, but the final phrase asks about the manager's practice."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The question targets the manager's use of “we” instead of “I”; E1.2 explicitly links that practice to team spirit and Esprit de corps.",
+            "The suggestion system is a separate Initiative cue, but the final phrase asks about the manager's practice."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The question targets the manager's use of “we” instead of “I”; E1.2 explicitly links that practice to team spirit and Esprit de corps.",
+            "The suggestion system is a separate Initiative cue, but the final phrase asks about the manager's practice."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The question targets the manager's use of “we” instead of “I”; E1.2 explicitly links that practice to team spirit and Esprit de corps.",
+            "The suggestion system is a separate Initiative cue, but the final phrase asks about the manager's practice."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The question targets the manager's use of “we” instead of “I”; E1.2 explicitly links that practice to team spirit and Esprit de corps.",
+            "The suggestion system is a separate Initiative cue, but the final phrase asks about the manager's practice."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "The stem presents two actions: the company's employee suggestion system (reflecting Initiative) and the manager's practice of replacing 'I' with 'we' in conversations.",
+            "The question specifically asks which principle is reflected in the manager's practice.",
+            "According to NCERT (E1.2), replacing 'I' with 'We' in conversations with workers is the defining practice of 'Esprit De Corps'."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "E1.2 directly links the manager’s “I” to “We” practice with team spirit, mutual trust and belongingness under Esprit de Corps.",
+            "The stem asks about the manager’s practice; it separately describes the company’s suggestion system.",
+            "v712_audit_unexcluded_rival_condition:Initiative is positively shown by the separate suggestion system rewarding suggestions that substantially reduce costs; ",
+            "v712_audit_unexcluded_rival_condition:Initiative is positively shown by the separate suggestion system rewarding suggestions that substantially reduce costs; "
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.015949,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:47:28.401Z"
+    },
+    "v712q3-economics-d2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "second_defensible_option",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Inputs double while output becomes 2.5 times its former level; output therefore increases by a larger proportion, so the source classifies this as increasing returns to scale.",
+        "Both A and B are fully correct: A names the classification, while B states the same proportional comparison. The item has no unique answer.",
+        "Defect: multiple_correct_options: A and B are both correct under the stem: output rising more than proportionally is precisely the stated basis for increasing returns to scale.",
+        "Defect: multiple_correct_options: option B is also correct as written (Output rises from its earlier level to 2.5 times that level, a 150% increase, while inputs double, a 100% increase; the full statement is true.)",
+        "cuet_fit_format_authenticity_below_2",
+        "cuet_fit_score_6_below_7",
+        "v712_excerpt_quote_unbound:A",
+        "v712_excerpt_quote_unbound:A"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Inputs double while output becomes 2.5 times its former level; output therefore increases by a larger proportion, so the source classifies this as increasing returns to scale.",
+            "Both A and B are fully correct: A names the classification, while B states the same proportional comparison. The item has no unique answer.",
+            "Defect: multiple_correct_options: A and B are both correct under the stem: output rising more than proportionally is precisely the stated basis for increasing returns to scale.",
+            "Defect: multiple_correct_options: option B is also correct as written (Output rises from its earlier level to 2.5 times that level, a 150% increase, while inputs double, a 100% increase; the full statement is true.)",
+            "cuet_fit_format_authenticity_below_2",
+            "cuet_fit_score_6_below_7",
+            "v712_excerpt_quote_unbound:A",
+            "v712_excerpt_quote_unbound:A"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001749,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:47:41.665Z"
+    },
+    "v712q3-economics-d4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The excerpt defines velocity by money changing hands and gives it as the inverse of money balance divided by transaction value.",
+        "Thus velocity = 600/150 = 4 per month, so C is the unique numerical answer.",
+        "The supplied syllabus lists money meaning/functions and money supply, creation, and multiplier, but does not include velocity of circulation.",
+        "Defect: syllabus_mismatch: The supplied current syllabus does not list velocity of circulation or transaction turnover among the Money and Banking topics.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The excerpt defines velocity by money changing hands and gives it as the inverse of money balance divided by transaction value.",
+            "Thus velocity = 600/150 = 4 per month, so C is the unique numerical answer.",
+            "The supplied syllabus lists money meaning/functions and money supply, creation, and multiplier, but does not include velocity of circulation.",
+            "Defect: syllabus_mismatch: The supplied current syllabus does not list velocity of circulation or transaction turnover among the Money and Banking topics.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003779,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T16:48:02.366Z"
+    },
+    "v712q3-economics-d1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem says the price of a complementary good rises, other things unchanged; E1.1 states that this shifts demand leftward.",
+            "This is a one-step application of the supplied demand-shift rule; no numerical calculation or additional case assumption is needed.",
+            "No authenticated comparator was supplied; the question is assessed directly as a short, syllabus-based four-option MCQ."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem says the price of a complementary good rises, other things unchanged; E1.1 states that this shifts demand leftward.",
+            "This is a one-step application of the supplied demand-shift rule; no numerical calculation or additional case assumption is needed.",
+            "No authenticated comparator was supplied; the question is assessed directly as a short, syllabus-based four-option MCQ."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem says the price of a complementary good rises, other things unchanged; E1.1 states that this shifts demand leftward.",
+            "This is a one-step application of the supplied demand-shift rule; no numerical calculation or additional case assumption is needed.",
+            "No authenticated comparator was supplied; the question is assessed directly as a short, syllabus-based four-option MCQ."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The stem says the price of a complementary good rises, other things unchanged; E1.1 states that this shifts demand leftward.",
+            "This is a one-step application of the supplied demand-shift rule; no numerical calculation or additional case assumption is needed.",
+            "No authenticated comparator was supplied; the question is assessed directly as a short, syllabus-based four-option MCQ."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002342,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:48:33.960Z"
+    },
+    "v712q3-economics-v4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "C is supported: the excerpt says imports reduce induced demand for domestic goods and therefore reduce the autonomous expenditure multiplier.",
+        "The item tests an open-economy import-leakage application; the supplied current syllabus lists the investment multiplier but not this relationship under its open-economy unit.",
+        "Defect: syllabus_mismatch: The current syllabus lists the investment multiplier and its mechanism, but its open-economy unit lists balance-of-payments and foreign-exchange topics, not the effect of imports on the autonomous expenditure multiplier.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "C is supported: the excerpt says imports reduce induced demand for domestic goods and therefore reduce the autonomous expenditure multiplier.",
+            "The item tests an open-economy import-leakage application; the supplied current syllabus lists the investment multiplier but not this relationship under its open-economy unit.",
+            "Defect: syllabus_mismatch: The current syllabus lists the investment multiplier and its mechanism, but its open-economy unit lists balance-of-payments and foreign-exchange topics, not the effect of imports on the autonomous expenditure multiplier.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003368,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:49:37.386Z"
+    },
+    "v712q3-english-v2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The key is supported by the teacher’s audience-priority question and Amina’s choice to retain the central argument.",
+        "The explanation’s word “only” asserts that the organiser did nothing else; the passage establishes that the organiser shortened speaking time but does not establish that exclusive claim.",
+        "unsupported claim: The organiser did nothing beyond shortening each speaker's time."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The teacher's audience-priority question provides the reason for Amina's cuts; she removed the anecdote while retaining the central argument.",
+            "No calculation or unstated case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "The passage states that after her teacher asked which idea she most wanted the audience to remember, Amina removed an anecdote and two examples to preserve her core purpose.",
+            "Option A is contradicted because speaking faster made words hard to follow.",
+            "Option B is contradicted because the organiser only shortened the allotted time.",
+            "Option D is contradicted because she specifically retained the central argument."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The key is supported by the teacher’s audience-priority question and Amina’s choice to retain the central argument.",
+            "The explanation’s word “only” asserts that the organiser did nothing else; the passage establishes that the organiser shortened speaking time but does not establish that exclusive claim.",
+            "unsupported claim: The organiser did nothing beyond shortening each speaker's time."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014783,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:50:14.512Z"
+    },
+    "v712q3-economics-d3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "Under the simple model, k=1/(1−0.8)=5, so ΔY=5×Rs100 crore=Rs500 crore (C).",
+        "The excerpts say import leakage reduces the open-economy multiplier, but provide neither the required formula nor leakage status or rate.",
+        "Thus the arithmetic is conditional; the supplied material and stem do not establish a unique answer.",
+        "Defect: missing_decisive_assumption: The stem does not specify the multiplier model or rule out additional leakages; the multiplier and income change can therefore vary.",
+        "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the multiplier formula needed to derive the proposed Rs500 crore result.",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: The simple multiplier model applies, without additional tax, import, or other leakage or crowding-out effects",
+        "v712_solved_key_not_supported",
+        "v712_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "Under the simple model, k=1/(1−0.8)=5, so ΔY=5×Rs100 crore=Rs500 crore (C).",
+            "The excerpts say import leakage reduces the open-economy multiplier, but provide neither the required formula nor leakage status or rate.",
+            "Thus the arithmetic is conditional; the supplied material and stem do not establish a unique answer.",
+            "Defect: missing_decisive_assumption: The stem does not specify the multiplier model or rule out additional leakages; the multiplier and income change can therefore vary.",
+            "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the multiplier formula needed to derive the proposed Rs500 crore result.",
+            "Decisive principle is not stated in the supplied excerpts",
+            "Condition missing: The simple multiplier model applies, without additional tax, import, or other leakage or crowding-out effects",
+            "v712_solved_key_not_supported",
+            "v712_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003023,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:50:33.922Z"
+    },
+    "v712q3-economics-v5": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "economics",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 55
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "NCERT keec106 explicitly presents this exact scenario to define and illustrate disguised unemployment.",
+            "More workers are engaged than needed for cultivation, meaning excess workers represent disguised unemployment rather than open or seasonal unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The staffing pattern matches the excerpt's disguised-unemployment example. The stem's year-round work contradicts the open- and seasonal-unemployment conditions stated in those options."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "Farm need is two workers plus the farmer (three people); five hired workers alone exceed that. The excerpt classifies this exact staffing pattern as disguised unemployment."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.016796,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:51:03.908Z"
+    },
+    "v712q3-english-v1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 9,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 46
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "B",
+          "reasons": [
+            "The passage explicitly states that correcting the score turned Dev's team's victory into a tie, and the captains agreed and changed the result accordingly."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The passage says the correction would turn Dev's team's victory into a tie, and the captains agreed and changed the result.",
+            "No authenticated comparator was supplied; this original item is assessed directly without claiming PYQ similarity."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.011994,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:51:51.949Z"
+    },
+    "v712q3-english-v3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 8,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 51
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "The passage states that the shelves still held the same books even though the dimmer light outside the illuminated circle made them look almost empty.",
+            "Therefore, changing where the light fell rather than what the room contained implies that the contents (the books) stayed in place despite being obscured by dimmer light."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The passage supports the unchanged books and changed lighting; its contrast supports the explanation of why the shelves looked almost empty.",
+            "Option A is supported. B and D conflict with the same-books statement; C is neither stated nor implied."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A is supported: the shelves appeared almost empty outside the light, but held the same books; the change was illumination, not contents.",
+            "B and D conflict with the passage’s statement that the shelves held the same books as always. C’s lamp replacement is neither stated nor implied.",
+            "No authenticated comparator was supplied for this original-practice item; it is assessed directly against the syllabus and the stated CUET format."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.012637,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:52:21.928Z"
+    },
+    "v712q3-english-d4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unanswerable_from_passage",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage says the grandmother went to stay with Arun’s uncle, but never states the uncle’s city.",
+        "Each listed city is consistent with the passage; no option can be selected from the text.",
+        "Defect: incomplete_stimulus_or_data: The passage omits the city needed to answer the question, so none of the options is supported by the text.",
+        "Condition missing: The city where Arun’s uncle lives",
+        "v712_solved_key_not_supported",
+        "v712_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The passage says the grandmother went to stay with Arun’s uncle, but never states the uncle’s city.",
+            "Each listed city is consistent with the passage; no option can be selected from the text.",
+            "Defect: incomplete_stimulus_or_data: The passage omits the city needed to answer the question, so none of the options is supported by the text.",
+            "Condition missing: The city where Arun’s uncle lives",
+            "v712_solved_key_not_supported",
+            "v712_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.003154,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T16:52:48.016Z"
+    },
+    "v712q3-english-v4": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The explanation treats an unrequested history as necessarily unnecessary; the stem does not establish that, so its rejection of B is unsupported.",
+        "unsupported claim: The detailed history goes beyond necessary information.",
+        "v712_audit_not_decisively_wrong:B:unsupported",
+        "v712_audit_not_decisively_wrong:B:unsupported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines concise as giving only necessary and important information in few words; option D captures both features.",
+            "This original-practice item needs no past-paper counterpart, and no authenticated comparator was supplied."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines concise as giving only necessary and important information in few words; option D captures both features.",
+            "This original-practice item needs no past-paper counterpart, and no authenticated comparator was supplied."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines concise as giving only necessary and important information in few words; option D captures both features.",
+            "This original-practice item needs no past-paper counterpart, and no authenticated comparator was supplied."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines concise as giving only necessary and important information in few words; option D captures both features.",
+            "This original-practice item needs no past-paper counterpart, and no authenticated comparator was supplied."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines concise as giving only necessary and important information in few words; option D captures both features.",
+            "This original-practice item needs no past-paper counterpart, and no authenticated comparator was supplied."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "The dictionary definition defines 'concise' as giving only necessary information using few words, which directly corresponds to option D."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The explanation treats an unrequested history as necessarily unnecessary; the stem does not establish that, so its rejection of B is unsupported.",
+            "unsupported claim: The detailed history goes beyond necessary information.",
+            "v712_audit_not_decisively_wrong:B:unsupported",
+            "v712_audit_not_decisively_wrong:B:unsupported"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.013867,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:53:39.440Z"
+    },
+    "v712q3-english-d2": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "second_defensible_option",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The passage says she sketched one bird and returned the next morning; both actions occurred after the boy spoke, so A and B are defensible.",
+        "Defect: multiple_correct_options: A and B each state an action the passage says the painter took after the boy spoke; the stem does not distinguish which action is sought.",
+        "Condition missing: Whether “after” asks for the immediate next action or any later action is not specified.",
+        "v712_multiple_supported_options:AB",
+        "v712_multiple_supported_options:AB"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The passage says she sketched one bird and returned the next morning; both actions occurred after the boy spoke, so A and B are defensible.",
+            "Defect: multiple_correct_options: A and B each state an action the passage says the painter took after the boy spoke; the stem does not distinguish which action is sought.",
+            "Condition missing: Whether “after” asks for the immediate next action or any later action is not specified.",
+            "v712_multiple_supported_options:AB",
+            "v712_multiple_supported_options:AB"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00184,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:53:43.188Z"
+    },
+    "v712q3-english-d3": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The stated answer is supported, but the explanation incorrectly attributes added details to the passage and includes unsupported claims about planting grass, a market, and a visit.",
+        "incorrect claim: The passage says that her grandfather had planted the grass along the path.",
+        "unsupported claim: Her grandfather had planted the grass along the path.",
+        "incorrect claim: The passage says that the new gate opened onto the village market.",
+        "unsupported claim: The new gate opened onto the village market.",
+        "unsupported claim: Anaya visited the market the next morning."
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The passage says that at the far fence Anaya saw a narrow track to a new gate and took that route home, matching C."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "C",
+          "reasons": [
+            "The passage explicitly states: 'At the far fence she saw another narrow track leading towards a new gate. She took that route home.'"
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The stated answer is supported, but the explanation incorrectly attributes added details to the passage and includes unsupported claims about planting grass, a market, and a visit.",
+            "incorrect claim: The passage says that her grandfather had planted the grass along the path.",
+            "unsupported claim: Her grandfather had planted the grass along the path.",
+            "incorrect claim: The passage says that the new gate opened onto the village market.",
+            "unsupported claim: The new gate opened onto the village market.",
+            "unsupported claim: Anaya visited the market the next morning."
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.014357,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T16:54:12.928Z"
+    },
+    "v712q3-english-v5": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": true,
+      "category": "valid_control",
+      "oracle_key": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": {
+        "contract": "cuet-fit-v1.2",
+        "score": 8,
+        "pass": true,
+        "validators": 2,
+        "derived_solve_seconds": 49
+      },
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "The passage explicitly states: 'Seeing the result, he realised that asking the right person could be useful assistance too.'",
+            "This matches Option A directly, whereas options B, C, and D are contradicted by details stated in the passage."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": true,
+            "reasons": []
+          }
+        },
+        "exam_fit": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "A matches the closing realisation: asking the right person to help with the search can itself be useful assistance.",
+            "The passage directly contradicts B, C and D; no numerical calculation or boundary case is involved.",
+            "The supplied syllabus includes narrative reading comprehension. No authenticated comparator was supplied; this original practice item needs no PYQ counterpart."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.012983,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T16:54:30.467Z"
+    },
+    "v712q3-english-d1": {
+      "study": "v712-qualification-2026-10-10-q3",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "Leela says she helped entries be judged as submitted, and would request the same check for another student's misplaced poster."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002549,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T16:54:54.837Z"
+    }
+  },
+  "accounting": {
+    "settled_usd": 0.345224,
+    "held_usd": 0,
+    "requests": 91,
+    "receipt_complete": true,
+    "at": "2026-10-09T16:54:55.384Z"
+  }
+}

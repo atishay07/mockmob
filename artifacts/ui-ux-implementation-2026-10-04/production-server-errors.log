@@ -1,0 +1,221 @@
+⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_ui_Glyph_jsx_02r2.2l._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  digest: '1969884093',
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\src_components_ui_Glyph_jsx_02r2.2l._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_ui_Glyph_jsx_02r2.2l._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  digest: '1969884093',
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\src_components_ui_Glyph_jsx_02r2.2l._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_ui_Glyph_jsx_02r2.2l._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  digest: '1969884093',
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\src_components_ui_Glyph_jsx_02r2.2l._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/_0vv8xx5._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\_0vv8xx5._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/_0vv8xx5._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\_0vv8xx5._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_ui_Glyph_jsx_02r2.2l._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  digest: '1969884093',
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\src_components_ui_Glyph_jsx_02r2.2l._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_ui_Glyph_jsx_02r2.2l._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  digest: '1969884093',
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\src_components_ui_Glyph_jsx_02r2.2l._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/_0vv8xx5._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\_0vv8xx5._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}
+⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/_0vv8xx5._.js from module 5670
+    at Context.loadChunkAsync [as l] (C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js:766:27) {
+  [cause]: Error: Cannot find module 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\_0vv8xx5._.js'
+  Require stack:
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\chunks\ssr\[turbopack]_runtime.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\.next\server\app\(app)\admission-compass\page.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\require.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\next.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\server\lib\start-server.js
+  - C:\Users\atish\Desktop\mockmob copy\mockmob copy\node_modules\next\dist\cli\next-start.js
+      at ignore-listed frames {
+    code: 'MODULE_NOT_FOUND',
+    requireStack: [
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\chunks\\ssr\\[turbopack]_runtime.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\.next\\server\\app\\(app)\\admission-compass\\page.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\require.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\next.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\server\\lib\\start-server.js',
+      'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\node_modules\\next\\dist\\cli\\next-start.js'
+    ]
+  }
+}

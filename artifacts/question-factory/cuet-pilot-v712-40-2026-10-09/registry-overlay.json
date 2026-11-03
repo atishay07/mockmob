@@ -1,0 +1,293 @@
+{
+  "contract": "cuet-pilot-v712-registry-overlay-v1",
+  "base_registry": {
+    "path": "data/source_registry.json",
+    "sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "modified": false
+  },
+  "stimuli_overlay": {
+    "path": "data/question-factory-runtime/original-stimuli-overlay-2026-10-09.json",
+    "sha256": "1ec41748a7a436afe584d737284d4fe8ae8140e04c15be03cb3cd8342dd7118b",
+    "sources": [
+      "mockmob-original-stimulus-v2-24847d628876f96acc83",
+      "mockmob-original-stimulus-v2-7b775a507a961b9b0cf1",
+      "mockmob-original-stimulus-v2-7258d51efc3fcc679f4e",
+      "mockmob-original-stimulus-v2-b3f5a35cf06cc8ba33a3",
+      "mockmob-original-stimulus-v2-d34eebf8daf9eea91ced",
+      "mockmob-original-stimulus-v2-424f0e6e5c4645563291",
+      "mockmob-original-stimulus-v2-6d44f56928148169dbc4",
+      "mockmob-original-stimulus-v2-b48f7c71b634e512cf31",
+      "mockmob-original-stimulus-v2-3acc237bdddea747d3c5",
+      "mockmob-original-stimulus-v2-b2bb3d438afacf9f9d89",
+      "mockmob-original-stimulus-v2-83c58d17bf99e062e725",
+      "mockmob-original-stimulus-v2-98a956ec086c17913414",
+      "mockmob-original-stimulus-v2-b945fa84e4f319a8fb87"
+    ],
+    "pack_additions": {
+      "original-english-reference-v1": [
+        "mockmob-original-stimulus-v2-24847d628876f96acc83",
+        "mockmob-original-stimulus-v2-7b775a507a961b9b0cf1",
+        "mockmob-original-stimulus-v2-7258d51efc3fcc679f4e",
+        "mockmob-original-stimulus-v2-b3f5a35cf06cc8ba33a3",
+        "mockmob-original-stimulus-v2-d34eebf8daf9eea91ced",
+        "mockmob-original-stimulus-v2-424f0e6e5c4645563291",
+        "mockmob-original-stimulus-v2-6d44f56928148169dbc4",
+        "mockmob-original-stimulus-v2-b48f7c71b634e512cf31",
+        "mockmob-original-stimulus-v2-3acc237bdddea747d3c5",
+        "mockmob-original-stimulus-v2-b2bb3d438afacf9f9d89",
+        "mockmob-original-stimulus-v2-83c58d17bf99e062e725",
+        "mockmob-original-stimulus-v2-98a956ec086c17913414",
+        "mockmob-original-stimulus-v2-b945fa84e4f319a8fb87"
+      ]
+    }
+  },
+  "private_source_overlay": null,
+  "source_context": {
+    "contract": "ncert-teaching-context-vnext-2",
+    "reports": []
+  },
+  "families_added": {
+    "original:6c5c2777b7bd5c64e0eb9ac80ef4d1ee": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:61c7b9abca6c29e84fe1f333ed5b9920": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:e72f96a39d411d96f9174d6a479b96e7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:d4c3fd2212899f6f5ece15478b881142": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1b74d78aba08b44a916955de7fe79ef7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:bb2ab9f42a30c379212f509e2f0582a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b5b1264e21803f31f0933264840539a2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c931bf54c71aa673bd40ca77df0c245c": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:87f3c625ccd021285e7d9b14526f74ca": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:be5edf533d6f3a0716a229563a6471f9": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c0b51ee0c2b9532363925fea727fd67a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:50eedb25069139ffcc5a5560cb2085c0": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3129d0f8b9269267a1b02b9027517e11": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a22c86f5afc4987f7b894381fe60eb7e": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:914c1d25bd1c1a672d17bf08f797a9a3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a1220006c8b621cb93e9b2ff24de93f7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:a63c4ffc713499e1e9e0286712d4ce4d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f5b9b2a484fad3eba3203b085e2aebe7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b9e1f7d735d6eb328ce24ff4fa16d3e3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:27cea2ead32ff0039da383f195e5e7d7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4caa299c8db37ff9442447742b520fef": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:7ec43cc3d486dd26d4ac30c3b621a665": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1885b1d0a0bdce29446c81eb37788da3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:ac7d5d5e692a6eab663764736afe2544": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c7c8ec63dbbbcacefee958bf5523c964": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:c1b832fffa8fb6c7a2625c1a626af0c8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:1335417a2ce8f9d4f1162e86ddfa9cbe": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:0fa79d89c35d75d9270093780cfdaff3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:639eaa0593f179807c5a02fa8d81f62d": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f619af6f76cb19a904a6125e819a2930": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:60f0a1973890b25a3758158200ae4f85": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:2107b6249ebb0a969e2544f92a052c33": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:da091242ed948976c52bc6cf83670a4b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:5b51439af3d516d2e4414cabe43da6a4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:b3542e3d6ced8b4021b6fceaeffc6c8b": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:4f94767d92f2698d572fef19fd51e25a": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:70da30896596a3607202dfb6389ee027": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-english-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:01e2b3197b6578ada701c4614803ca78": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-accountancy-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:f858efb82cc60af470a33afb32879a96": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-business_studies-reference-v1",
+      "kind": "original_practice"
+    },
+    "original:3883d391e8a552d8144c566e728719a6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "original-economics-reference-v1",
+      "kind": "original_practice"
+    }
+  },
+  "passage_groups_added": {},
+  "merged_registry_sha256": "00b44a6b00f93f6462b6db77297eadac41b5d5a04c1479dfd776a60adb7e6241"
+}

@@ -1,0 +1,1178 @@
+{
+ "schema": "cuet-v716-custody-v1",
+ "study_id": "cuet-v716-qualification-fresh32b",
+ "created_at": "2026-10-09T23:45:00.624485Z",
+ "construction_rule": "valid control: independent blind answer == author key with exactly one defensible option, no missing input/unanswerable flag, and independent audit key_correct with explanation supported; controlled defect: independent evidence confirms the labelled defect. All 32 confirmed; 0 revised or dropped on the permuted build.",
+ "independent_solvers": "Claude Haiku 5.5 subagents (medium effort), separate contexts: two blind solvers on label-free packets, two key/explanation auditors.",
+ "evidence_files": {
+  "blind/packet.json": "e594aef99d4eacdd5a827a619cbfce26ab4f1b93567ffde7d823a5ace2848063",
+  "blind/packet-part1.json": "11700eb495de51ee793727c4d4415189be549e12bf24925c217796a702f3a186",
+  "blind/packet-part2.json": "a4f7e0558373b61fb0b5413d6a91badd3153fe965c66fe1994ef08770bdf691b",
+  "blind/answers-part1-haiku.json": "0326d2d5d1167c58bca41e4e650df0dfc58c681a1445365025b3fb76adb995c9",
+  "blind/answers-part2-haiku.json": "58ace5b8a1404fb5444c69123faddd21cfb3c4a942f321d3d9ebb9f2a0e65dd6",
+  "blind/audit-packet-part1.json": "5e042bf04c49623e1f6f9e638e2762f3af6c8b05536bc5edc1bb2d8ac347c6bc",
+  "blind/audit-packet-part2.json": "aee4a13037dd33ff7120874e40bfabf48edcd6d0e095dacda52b519c5c8a0447",
+  "blind/audit-part1-haiku.json": "10fa6bd6b62c69be04bf6256c07e8903c54bc1413b5f82276a32ad644c1a416d",
+  "blind/audit-part2-haiku.json": "3a73c71a996c7af2b4e075cf2c68693798b148268709c9b6ee511ecd7e739075"
+ },
+ "authored_sha256": "43bc39114b7724f63e433622b4dbfb23687e7fd1293039e683c9b479031c5c27",
+ "cases_sha256": "2dabad73b82d5deb996679445c57716bded3a486d1907432ff5e63ba571232fe",
+ "answers": [
+  {
+   "id": "q716-fc60d251db352449",
+   "slot": "A-V1",
+   "subject": "accountancy",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "A",
+   "author_answer_set": [
+    "A"
+   ],
+   "difficulty_target": "medium",
+   "format": "numerical_calculation",
+   "independent_blind": {
+    "opaque_id": "q716-fc60d251db352449",
+    "answer": "A",
+    "defensible": [
+     "A"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Current assets = inventories 60,000 + trade receivables 40,000 + prepaid expenses 5,000 + cash 15,000 = 1,20,000 (prepaid expenses are current assets per the excerpt). Current liabilities = trade payables 70,000 + bank overdraft 10,000 = 80,000. Ratio 120,000 : 80,000 = 1.5 : 1."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-fc60d251db352449",
+    "key_correct": true,
+    "correct_options": [
+     "A"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Current assets are 60,000 + 40,000 + 5,000 + 15,000 = 1,20,000 and current liabilities are 70,000 + 10,000 = 80,000, giving 1.5:1. The explanation's alternative figures (1.71, 1.44, 0.69) also check out arithmetically."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-0cb57ffa675aafac",
+   "slot": "A-V2",
+   "subject": "accountancy",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-0cb57ffa675aafac",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says quick assets exclude inventories and other current assets such as prepaid expenses; cash, trade receivables and bills receivable are kept."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-0cb57ffa675aafac",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt excludes prepaid expenses from quick assets, so B is the excluded current asset. Trade receivables include bills receivable, as the explanation states."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-455a5bf939b6e1fc",
+   "slot": "A-V3",
+   "subject": "accountancy",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "A",
+   "author_answer_set": [
+    "A"
+   ],
+   "difficulty_target": "medium",
+   "format": "numerical_calculation",
+   "independent_blind": {
+    "opaque_id": "q716-455a5bf939b6e1fc",
+    "answer": "A",
+    "defensible": [
+     "A"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Old shares P 3/5, Q 2/5; new shares P 2/5, Q 2/5. Sacrifice P = 3/5 - 2/5 = 1/5, Q = 2/5 - 2/5 = 0, so the ratio is 1 : 0."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-455a5bf939b6e1fc",
+    "key_correct": true,
+    "correct_options": [
+     "A"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Old shares P 3/5 and Q 2/5 minus new shares P 2/5 and Q 2/5 give P sacrificing 1/5 and Q 0, so the sacrificing ratio is 1:0. The explanation's arithmetic and reasoning are correct."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-5793cf6e53b31bd7",
+   "slot": "A-V4",
+   "subject": "accountancy",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-5793cf6e53b31bd7",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines irredeemable (perpetual) debentures as those where the company gives no undertaking to repay, repayable only on winding up or after a long period."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-5793cf6e53b31bd7",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Debentures with no undertaking to repay, repayable only on winding up or after a very long period, are irredeemable (D). The explanation's definitions match the excerpts."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-1b7941239ab42546",
+   "slot": "A-V5",
+   "subject": "accountancy",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-1b7941239ab42546",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines a floating charge as one on all assets excluding those assigned to secured creditors, which matches the question."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-1b7941239ab42546",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "A charge on all assets other than those assigned to secured creditors is a floating charge, matching B. The explanation's fixed/floating distinction and its rejection of unsecured and inventory-only readings match the excerpts."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-d6a80a021b5fe88c",
+   "slot": "A-D1",
+   "subject": "accountancy",
+   "expected_valid": false,
+   "defect_class": "wrong_key",
+   "defect_note": "The source defines convertible debentures as those convertible into equity shares at the option of the company or holders; the stated key B is wrong and A is the unique correct answer.",
+   "author_key": "A",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-d6a80a021b5fe88c",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines convertible debentures as those convertible into equity shares at the option of the company or the debenture holders."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-d6a80a021b5fe88c",
+    "key_correct": false,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "Stated key A (Non-convertible debentures) is wrong; the excerpt defines convertible debentures as those convertible into shares at the option of the company or debenture holders.",
+     "Explanation says non-convertible debentures are the convertible ones, which contradicts the excerpt."
+    ],
+    "reason": "The excerpt defines the debentures in the question as convertible, so D is correct and both the key and explanation are wrong."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-d6a19426296c0ee6",
+   "slot": "A-D2",
+   "subject": "accountancy",
+   "expected_valid": false,
+   "defect_class": "multiple_defensible_answers",
+   "defect_note": "The source states that a very high current ratio implies heavy investment in current assets AND reflects under-utilisation or improper utilisation of resources; options A and B are both supported.",
+   "author_key": "A",
+   "author_answer_set": [
+    "A",
+    "D"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-d6a19426296c0ee6",
+    "answer": "D",
+    "defensible": [
+     "A",
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says a very high current ratio implies heavy investment in current assets and reflects under or improper utilisation of resources. Both A and D are stated, so the item has two supported answers."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-d6a19426296c0ee6",
+    "key_correct": false,
+    "correct_options": [
+     "A",
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [
+     "Option D (under-utilisation or improper utilisation of resources) is also stated in the excerpt as what a very high current ratio reflects, so the item has two defensible answers."
+    ],
+    "reason": "The excerpt says a very high current ratio implies heavy investment in current assets and also reflects under-utilisation of resources, so A is defensible but D is equally supported; the explanation's claims are accurate."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-290b91a4a6872458",
+   "slot": "A-D3",
+   "subject": "accountancy",
+   "expected_valid": false,
+   "defect_class": "missing_decisive_input",
+   "defect_note": "The bank overdraft is a current liability but its amount is not given, so the current ratio cannot be determined; the stated key silently ignores it.",
+   "author_key": "D",
+   "author_answer_set": [],
+   "difficulty_target": "medium",
+   "format": "numerical_calculation",
+   "independent_blind": {
+    "opaque_id": "q716-290b91a4a6872458",
+    "answer": "none",
+    "defensible": [],
+    "missing_input": true,
+    "unanswerable_from_passage": false,
+    "reason": "Current liabilities are 60,000 plus an unstated bank overdraft, so the ratio cannot be fixed. The overdraft is stated to exist, which rules out 2:1 (zero overdraft) and 3:1 (below payables alone), and 1.5:1 or 1:1 would depend on the missing overdraft amount."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-290b91a4a6872458",
+    "key_correct": false,
+    "correct_options": [],
+    "explanation_status": "unsupported",
+    "problems": [
+     "The question gives a bank overdraft as a current liability without an amount, so the current liabilities total of 60,000 is not determined; the key assumes the overdraft is zero.",
+     "Explanation's decisive step ignores the overdraft, which the excerpt says counts as short-term borrowing within current liabilities."
+    ],
+    "reason": "Current ratio is 120,000 divided by (60,000 plus the unstated overdraft), so no option is determinable from the printed question, and the explanation's 2:1 result rests on an unsupported assumption."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-0cbcb918cd562ba3",
+   "slot": "B-V1",
+   "subject": "business_studies",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "A",
+   "author_answer_set": [
+    "A"
+   ],
+   "difficulty_target": "medium",
+   "format": "case_application",
+   "independent_blind": {
+    "opaque_id": "q716-0cbcb918cd562ba3",
+    "answer": "A",
+    "defensible": [
+     "A"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt's sales-person example (marketing manager allows 10%, finance tells her not to exceed 5%) is the textbook violation of unity of command, defined as receiving orders from only one superior."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-0cbcb918cd562ba3",
+    "key_correct": true,
+    "correct_options": [
+     "A"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "A salesperson receiving conflicting orders from two superiors violates unity of command, matching A. The explanations of the other principles match the excerpts' definitions."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-7ad4731e3fa8a7f1",
+   "slot": "B-V2",
+   "subject": "business_studies",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-7ad4731e3fa8a7f1",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt lists the four elements of directing as supervision, motivation, leadership and communication; staffing is a separate management function."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-7ad4731e3fa8a7f1",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt lists supervision, motivation, leadership and communication as the four elements of directing, so staffing (B) is the one that is not. The explanation matches."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-4f29ebd950b469b1",
+   "slot": "B-V3",
+   "subject": "business_studies",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "C",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "medium",
+   "format": "case_application",
+   "independent_blind": {
+    "opaque_id": "q716-4f29ebd950b469b1",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines selection as choosing from the pool of prospective candidates, with tests and interviews as the rigour involved. The firm's tests and interviews after receiving applications match this step."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-4f29ebd950b469b1",
+    "key_correct": true,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Choosing among the applicant pool through tests and interviews is selection, and the excerpt defines recruitment as developing that pool, so C is correct and the explanation's distinctions are accurate."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-5d219896c544b775",
+   "slot": "B-V4",
+   "subject": "business_studies",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-5d219896c544b775",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt lists dissatisfaction among existing staff from external recruitment, who feel their promotion chances are reduced. None of the other options is a stated limitation."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-5d219896c544b775",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt says external recruitment may leave existing staff feeling their promotion chances are reduced, and that external sources are used for fresh talent and wider choice, so B and C are the opposite of the intended point and A is not a limitation."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-8e633131cb3181c2",
+   "slot": "B-V5",
+   "subject": "business_studies",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "C",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-8e633131cb3181c2",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says marketing refers to a large set of activities of which selling is just one part, and gives planning, pricing and distribution as marketing activities before the sale. Option D reverses this, and A and B contradict it."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-8e633131cb3181c2",
+    "key_correct": true,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt says marketing covers a large set of activities of which selling is just one part, and planning, pricing and outlet choices precede the sale, so the explanation's claims match the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-157e2cb25b374b68",
+   "slot": "B-D1",
+   "subject": "business_studies",
+   "expected_valid": false,
+   "defect_class": "wrong_key",
+   "defect_note": "The source says fatigue study determines the amount and frequency of rest intervals; the stated key (time study) is wrong and A is the unique correct answer.",
+   "author_key": "B",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-157e2cb25b374b68",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt states that fatigue study seeks to determine the amount and frequency of rest intervals in completing a task."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-157e2cb25b374b68",
+    "key_correct": false,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "Stated key B (Time study) is wrong; the excerpt says Fatigue study seeks to determine the amount and frequency of rest intervals.",
+     "Explanation attributes the rest-interval technique to time study, contradicting the excerpt."
+    ],
+    "reason": "The excerpt directly assigns determining the amount and frequency of rest intervals to fatigue study, so option C is correct and the stated key B is wrong."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-fab2648348aafe3d",
+   "slot": "B-D2",
+   "subject": "business_studies",
+   "expected_valid": false,
+   "defect_class": "multiple_defensible_answers",
+   "defect_note": "Staffing includes recruitment, selection, training, development, promotion, compensation and performance appraisal; options A, B and C are all correct.",
+   "author_key": "B",
+   "author_answer_set": [
+    "B",
+    "C",
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-fab2648348aafe3d",
+    "answer": "none",
+    "defensible": [
+     "B",
+     "C",
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says staffing includes recruitment, selection, training, development, promotion, compensation and performance appraisal, so recruitment, training and performance appraisal are all correct; the item has no single key."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-fab2648348aafe3d",
+    "key_correct": false,
+    "correct_options": [
+     "B",
+     "C",
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [
+     "The excerpt lists recruitment, selection, training, development, promotion, compensation and performance appraisal as staffing functions, so Training (C) and Performance appraisal (D) are also correct.",
+     "The question has more than one defensible answer and the explanation does not address this."
+    ],
+    "reason": "Recruitment, training and performance appraisal are all listed as staffing functions, so the single-key format fails. The explanation's statement that B is correct is true but incomplete."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-c48aba09fb24df8d",
+   "slot": "B-D3",
+   "subject": "business_studies",
+   "expected_valid": false,
+   "defect_class": "false_explanation",
+   "defect_note": "Key A is correct, but the explanation asserts that simplification means devising new varieties to replace existing ones, which the source attributes to standardisation; the explanation contains a false factual claim.",
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-c48aba09fb24df8d",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt states simplification aims at eliminating superfluous varieties, sizes and dimensions, while standardisation devises new varieties."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-c48aba09fb24df8d",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "The explanation says simplification means devising new varieties of a product to replace existing ones. The excerpt says that is standardisation; simplification is eliminating superfluous varieties, sizes and dimensions."
+    ],
+    "reason": "The key B is correct, but the explanation swaps the definitions of simplification and standardisation, contradicting the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-049cb25601d5d391",
+   "slot": "E-V1",
+   "subject": "economics",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "A",
+   "author_answer_set": [
+    "A"
+   ],
+   "difficulty_target": "medium",
+   "format": "numerical_calculation",
+   "independent_blind": {
+    "opaque_id": "q716-049cb25601d5d391",
+    "answer": "A",
+    "defensible": [
+     "A"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt shows that with reserves of 100 at a 20 per cent ratio, total deposits rise until reserves equal 100, i.e. deposits of 100 / 0.20 = 500."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-049cb25601d5d391",
+    "key_correct": true,
+    "correct_options": [
+     "A"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "With a 20 per cent reserve ratio and 100 of cash, total deposits stop at 100 divided by 0.20, which is 500, matching A. The excerpt confirms that reserves reach 100 only when deposits reach 500."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-5960dc1d428e5a7d",
+   "slot": "E-V2",
+   "subject": "economics",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-5960dc1d428e5a7d",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says cheques drawn on savings or current accounts (demand deposits) can be refused by anyone, which is why they are not legal tender; the other options are contradicted or irrelevant."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-5960dc1d428e5a7d",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt says cheques drawn on savings or current accounts can be refused by anyone, so demand deposits are not legal tender, matching D. The explanation's claims about legal tender, refusal and lack of intrinsic value match the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-4132c3318d5a384e",
+   "slot": "E-V3",
+   "subject": "economics",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "A",
+   "author_answer_set": [
+    "A"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-4132c3318d5a384e",
+    "answer": "A",
+    "defensible": [
+     "A"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt lists sale of shares in PSUs (disinvestment) as a capital receipt that reduces financial assets; GST, dividends and income tax are revenue receipts."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-4132c3318d5a384e",
+    "key_correct": true,
+    "correct_options": [
+     "A"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Disinvestment through sale of PSU shares is a non-debt capital receipt, so A is correct. The excerpt supports the capital-receipt definition; the claim that dividends are not capital receipts is standard and not contradicted."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-eaec14d465f3d626",
+   "slot": "E-V4",
+   "subject": "economics",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "C",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-eaec14d465f3d626",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt states that a revenue deficit means the government is dissaving and using other sectors' savings to finance part of its consumption expenditure."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-eaec14d465f3d626",
+    "key_correct": true,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The excerpt states that a revenue deficit means the government is dissaving and using other sectors' savings to finance part of consumption, which is C. The definition and the debt-build-up point in the explanation are also in the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-69cae90fe70ed169",
+   "slot": "E-V5",
+   "subject": "economics",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-69cae90fe70ed169",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines deficit balance of trade as imports of goods exceeding exports, which is the situation described."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-69cae90fe70ed169",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Imports exceeding exports makes the trade balance a deficit, and the excerpt confirms the balance of trade is distinct from the current account, which also includes invisibles."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-e864ccb583a2d54d",
+   "slot": "E-D1",
+   "subject": "economics",
+   "expected_valid": false,
+   "defect_class": "wrong_key",
+   "defect_note": "The source states that purchase of an asset abroad (an Indian buying a UK car company) is a debit item on the capital account; the stated key (credit) is wrong.",
+   "author_key": "C",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-e864ccb583a2d54d",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says an Indian buying a UK car company is a debit item on the capital account because foreign exchange flows out of India."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-e864ccb583a2d54d",
+    "key_correct": false,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "Stated key C (credit item) is wrong; the excerpt says an Indian buyer of a UK car company is a debit item because foreign exchange flows out.",
+     "Explanation claims buying a foreign company brings an asset into India as a credit, which contradicts the excerpt."
+    ],
+    "reason": "The excerpt explicitly states that this transaction is a debit item on the capital account, so the key and explanation are both wrong and D is correct."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-e76983f4b009532f",
+   "slot": "E-D2",
+   "subject": "economics",
+   "expected_valid": false,
+   "defect_class": "multiple_defensible_answers",
+   "defect_note": "Buying bonds in the open market increases reserves and money supply (stated), and reducing the reserve requirement loosens the stated limit on credit creation; options A and B both increase the money supply.",
+   "author_key": "C",
+   "author_answer_set": [
+    "A",
+    "C"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-e76983f4b009532f",
+    "answer": "A",
+    "defensible": [
+     "A",
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt says RBI buying government bonds injects reserves and increases money supply, and lowering CRR frees bank funds for credit, so both A and C increase money supply. The item is written as single-answer but has two correct options."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-e76983f4b009532f",
+    "key_correct": false,
+    "correct_options": [
+     "A",
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [
+     "Option A (reducing the CRR) also increases the money supply, since a lower reserve requirement lets banks create more credit per the excerpt, so the item has two defensible answers.",
+     "Explanation does not address option A at all."
+    ],
+    "reason": "Buying government bonds in the open market and lowering the CRR both expand reserves or credit and so increase the money supply, and the explanation's stated claims about open market operations are accurate."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-94d8de4174ece4aa",
+   "slot": "E-D3",
+   "subject": "economics",
+   "expected_valid": false,
+   "defect_class": "false_explanation",
+   "defect_note": "Key A is correct, but the explanation claims fiscal deficit always equals revenue deficit plus interest payments; the source gives Fiscal Deficit = Revenue Deficit + Capital Expenditure − non-debt creating capital receipts.",
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "medium",
+   "format": "conceptual_mcq",
+   "independent_blind": {
+    "opaque_id": "q716-94d8de4174ece4aa",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The excerpt defines fiscal deficit as total expenditure minus total receipts excluding borrowing. Tax revenue, disinvestment proceeds and loan recovery are all receipts counted in the deficit calculation."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-94d8de4174ece4aa",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "Explanation says fiscal deficit always equals revenue deficit plus interest payments, which contradicts the excerpt.",
+     "Excerpt gives Fiscal Deficit = Revenue Deficit + Capital Expenditure - non-debt creating capital receipts; interest payments are not part of this identity."
+    ],
+    "reason": "Borrowing is correctly identified as the item excluded from receipts, but the explanation's identity for fiscal deficit is false according to the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-b987344a2cca2f76",
+   "slot": "L-V1",
+   "subject": "english",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "C",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "easy",
+   "format": "correct_word_usage",
+   "independent_blind": {
+    "opaque_id": "q716-b987344a2cca2f76",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Impartial is defined as not supporting one person or group more than another, which matches a referee applying the same standard to all. The other three definitions do not fit."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-b987344a2cca2f76",
+    "key_correct": true,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Impartial matches 'not supporting one person or group more than another' and the other three definitions in the excerpts do not fit a fair referee, so C is the only correct option."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-291064574578e38e",
+   "slot": "L-V2",
+   "subject": "english",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "D",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "medium",
+   "format": "correct_word_usage",
+   "independent_blind": {
+    "opaque_id": "q716-291064574578e38e",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Sporadic means happening occasionally or at irregular intervals, which matches the showers described. The other options do not fit the rainfall."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-291064574578e38e",
+    "key_correct": true,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Sporadic means occasional or irregular intervals, which fits the few irregular showers, and the explanation's definitions of the other three words match the excerpts."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-37419460874166a4",
+   "slot": "L-V3",
+   "subject": "english",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "medium",
+   "format": "antonym",
+   "independent_blind": {
+    "opaque_id": "q716-37419460874166a4",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Indifferent means having no interest; inquisitive means very interested in learning, the opposite. The other options are not antonyms."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-37419460874166a4",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "Indifferent means having no interest, and inquisitive means very interested in learning, so B is the opposite. The explanation's definitions match the excerpts."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-239e860c6d0d67dd",
+   "slot": "L-V4",
+   "subject": "english",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "C",
+   "author_answer_set": [
+    "C"
+   ],
+   "difficulty_target": "medium",
+   "format": "reading_comprehension",
+   "independent_blind": {
+    "opaque_id": "q716-239e860c6d0d67dd",
+    "answer": "C",
+    "defensible": [
+     "C"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The passage says the departure was shifted to allow pupils in a late laboratory session to reach it. The passage also says the earlier route was retained, so D is contradicted."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-239e860c6d0d67dd",
+    "key_correct": true,
+    "correct_options": [
+     "C"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The passage states the departure was shifted to allow late laboratory pupils to reach it, and the explanation's quotations and the rejection of A, B and D match the passage."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-bf38d5bc7489125b",
+   "slot": "L-V5",
+   "subject": "english",
+   "expected_valid": true,
+   "defect_class": null,
+   "defect_note": null,
+   "author_key": "B",
+   "author_answer_set": [
+    "B"
+   ],
+   "difficulty_target": "easy",
+   "format": "reading_comprehension",
+   "independent_blind": {
+    "opaque_id": "q716-bf38d5bc7489125b",
+    "answer": "B",
+    "defensible": [
+     "B"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The passage states that pupils whose classes ended earlier consequently waited longer."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-bf38d5bc7489125b",
+    "key_correct": true,
+    "correct_options": [
+     "B"
+    ],
+    "explanation_status": "supported",
+    "problems": [],
+    "reason": "The passage explicitly says pupils whose classes ended earlier waited longer, and the explanation's quotation and the claim that other groups are not stated to wait longer are accurate."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-f6bef8adb2477abf",
+   "slot": "L-D1",
+   "subject": "english",
+   "expected_valid": false,
+   "defect_class": "wrong_key",
+   "defect_note": "Expecting to win despite losses matches optimistic (expecting good things to happen); the stated key sceptical (having doubts) is the opposite.",
+   "author_key": "C",
+   "author_answer_set": [
+    "D"
+   ],
+   "difficulty_target": "easy",
+   "format": "correct_word_usage",
+   "independent_blind": {
+    "opaque_id": "q716-f6bef8adb2477abf",
+    "answer": "D",
+    "defensible": [
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "Optimistic means expecting good things to happen; the captain kept asserting a win despite losing, so optimistic fits. Sceptical is the opposite."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-f6bef8adb2477abf",
+    "key_correct": false,
+    "correct_options": [
+     "D"
+    ],
+    "explanation_status": "incorrect",
+    "problems": [
+     "Key C (sceptical) is wrong; a captain who keeps insisting the team will win is optimistic (D).",
+     "The explanation defines sceptical as expecting good things to happen, which is the definition of optimistic and contradicts the excerpt for sceptical (having doubts)."
+    ],
+    "reason": "The context describes confidence in winning, which is optimistic (D), not sceptical. The explanation misdefines sceptical and contradicts the excerpt."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-810cdcbdb256e5b6",
+   "slot": "L-D2",
+   "subject": "english",
+   "expected_valid": false,
+   "defect_class": "multiple_defensible_answers",
+   "defect_note": "The context gives both brevity (transient: continuing for only a short time) and irregular intervals (sporadic); options A and B both fit.",
+   "author_key": "D",
+   "author_answer_set": [
+    "A",
+    "D"
+   ],
+   "difficulty_target": "medium",
+   "format": "correct_word_usage",
+   "independent_blind": {
+    "opaque_id": "q716-810cdcbdb256e5b6",
+    "answer": "D",
+    "defensible": [
+     "A",
+     "D"
+    ],
+    "missing_input": false,
+    "unanswerable_from_passage": false,
+    "reason": "The sentence describes the cuts as irregular and unpredictable, which fits sporadic, and as brief, which fits transient (continuing for only a short time). Both words fit the blank; sporadic matches the irregularity clause most directly."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-810cdcbdb256e5b6",
+    "key_correct": false,
+    "correct_options": [
+     "A",
+     "D"
+    ],
+    "explanation_status": "supported",
+    "problems": [
+     "'Transient' (continuing only a short time) also fits power cuts that were brief and lasted a few minutes, so the item has two defensible answers."
+    ],
+    "reason": "Sporadic fits the irregular intervals and the explanation's definition is accurate, but the brief duration described in the stem equally fits transient, so the key is not uniquely correct."
+   },
+   "construction_confirmed": true
+  },
+  {
+   "id": "q716-f2ed02807efdcda6",
+   "slot": "L-D3",
+   "subject": "english",
+   "expected_valid": false,
+   "defect_class": "passage_not_answerable",
+   "defect_note": "The passage mentions two missed sessions, not the number of volunteers who failed to update the board; no option is stated or implied, so the item is unanswerable from the passage.",
+   "author_key": "A",
+   "author_answer_set": [],
+   "difficulty_target": "medium",
+   "format": "reading_comprehension",
+   "independent_blind": {
+    "opaque_id": "q716-f2ed02807efdcda6",
+    "answer": "none",
+    "defensible": [],
+    "missing_input": false,
+    "unanswerable_from_passage": true,
+    "reason": "The passage mentions 'two missed sessions' but never states how many volunteers failed to update the noticeboard, so none of the numbers is supported."
+   },
+   "independent_audit": {
+    "opaque_id": "q716-f2ed02807efdcda6",
+    "key_correct": false,
+    "correct_options": [],
+    "explanation_status": "unsupported",
+    "problems": [
+     "The passage says there were two missed sessions and that replacements were arranged but the board was not changed. It does not say how many distinct volunteers failed to update the board, so the question is not answerable from the passage.",
+     "The explanation equates two missed sessions with two volunteers, which the passage does not state."
+    ],
+    "reason": "The passage does not establish a number of volunteers who failed to update the noticeboard, so neither Two nor any other option is determinable. The explanation's decisive claim that two volunteers failed is unsupported."
+   },
+   "construction_confirmed": true
+  }
+ ]
+}

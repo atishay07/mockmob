@@ -1,0 +1,40 @@
+{
+  "schema": "v73-regression-semantic-view-final-manifest-v1",
+  "status": "proposal_only_not_registered_not_executed",
+  "frozen_id": "cuet-readiness-v73-regression-semantic-view-final-2026-10-08",
+  "verifier_version": "cuet-fit-validator-v7.3",
+  "payload_hash": "988c3c63f4c591241a2ada44ec4f1a01508113a6e87713b0e2aaec007a68fe83",
+  "counts": {
+    "denominator": 40,
+    "positives": 12,
+    "negatives": 28,
+    "original_critical_defects": 12,
+    "audited_correctness_defects": 16,
+    "unscored_contract_disagreements": 2,
+    "strict_original_provenance_cases": 16,
+    "strict_context_before_transport": 11,
+    "offline_sentinel_after_context": 5,
+    "transport_dispatches": 5
+  },
+  "derivation": {
+    "base_semantic_proposal": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/v73-regression-semantic-view-2026-10-08",
+    "base_frozen_sha256": "073f750410c887636a5d2cac3e271e6f2e230938a0afd2fb685549f2d209255a",
+    "base_lineage_sha256": "f3bd0d3158420736338b422a571f9877a039f175b026d8e9cc1491d0d04b383d",
+    "strict_selector_proof": "strict-selector-correction-proof.json",
+    "frozen_changes": [
+      "id set to this separate derived study id",
+      "release_eligibility.preregistration_id aligned to same id"
+    ],
+    "preserved": [
+      "all 40 candidate contents, options, keys, explanations, source_refs, labels, and oracles byte-equivalent at semantic field level",
+      "payload_hash unchanged",
+      "first-pass lineage untouched"
+    ]
+  },
+  "scope": "Module-isolation semantic-view regression diagnostic only. Sixteen copies use diagnostic original_practice provenance view and do not represent the literal production provenance path or support an authentic/adapted claim. Strict original-provenance outcomes are separately captured in strict-selector-correction-proof.json. No execution, registration, provider, ledger, publication, or bank action occurred.",
+  "blocked_actions": [
+    "No runFreshCuetReadinessV73 prepare, preflight, execute, or report.",
+    "No provider or ledger calls.",
+    "No changes to registered parent/current41 sources/contracts, audit originals, global registry, production state, or release files."
+  ]
+}

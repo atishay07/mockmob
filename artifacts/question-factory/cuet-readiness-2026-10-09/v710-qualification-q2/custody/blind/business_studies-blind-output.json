@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "bus-b1",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Excerpt: directing through motivation, communication and leadership reduces resistance; the bonus is motivation"
+    },
+    "B": {
+     "status": "true",
+     "why": "Manager explaining why the software was needed is communication, also named in excerpt"
+    },
+    "C": {
+     "status": "false",
+     "why": "Nothing in the case describes supervision"
+    },
+    "D": {
+     "status": "false",
+     "why": "Succession planning is not part of the case or the excerpt on resistance"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Stem says 'which element' (singular) but both explaining (communication) and the bonus (motivation) are present and both are named in the excerpt; no cue says which one is meant.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Directing significance.",
+   "quality_note": "Two defensible options (A and B); the stem is ambiguous."
+  },
+  {
+   "local_id": "bus-b2",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Statement 2 contradicts F2: effect of management is noticeable though intangible"
+    },
+    "B": {
+     "status": "true",
+     "why": "Statement 1 matches F1 and Statement 2 is false"
+    },
+    "C": {
+     "status": "false",
+     "why": "Statement 2 is false"
+    },
+    "D": {
+     "status": "false",
+     "why": "Statement 1 is true"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Nature of management.",
+   "quality_note": "Clean two-statement item; Statement 2 is a plausible inversion."
+  },
+  {
+   "local_id": "bus-b3",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Sub-standard goods fail prescribed quality standards, not false genuineness claim"
+    },
+    "B": {
+     "status": "false",
+     "why": "Complaint is an allegation in writing, not a type of goods"
+    },
+    "C": {
+     "status": "true",
+     "why": "Spurious goods are goods falsely claimed to be genuine"
+    },
+    "D": {
+     "status": "false",
+     "why": "Complainant is a person, not goods"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Consumer Protection definitions.",
+   "quality_note": "Clear; distractors partly weak (Complaint/Complainant are not goods) but acceptable. Excerpt F9 also lists counterfeit goods; stem's 'falsely claiming genuine' matches the spurious definition."
+  },
+  {
+   "local_id": "bus-b4",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Matches the first sense in F6: overseeing subordinates and giving instructions for optimum utilisation and targets"
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Second sense is cut off in the excerpt and the stem does not say whether Anita is a supervisor by rank"
+    },
+    "C": {
+     "status": "false",
+     "why": "Not in F6 as a description of supervision"
+    },
+    "D": {
+     "status": "false",
+     "why": "Setting economic objectives is not supervision"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Anita's organisational position (manager vs. supervisor) is not stated; the description in the stem copies the first sense, so A is the best fit but B is not strictly excluded.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Directing - supervision.",
+   "quality_note": "Fine as a text-match item; the B/A distinction depends on the stem not naming her role."
+  },
+  {
+   "local_id": "bus-b5",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Excerpt says mere survival is not enough; profit is a further objective"
+    },
+    "B": {
+     "status": "false",
+     "why": "Growth is for the long run"
+    },
+    "C": {
+     "status": "true",
+     "why": "F3: the basic objective of any business is survival"
+    },
+    "D": {
+     "status": "false",
+     "why": "Not an economic objective in F3"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair.",
+   "quality_note": "Direct recall from the excerpt; distractors plausible."
+  },
+  {
+   "local_id": "bus-b6",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F5: people tend to resist changes"
+    },
+    "B": {
+     "status": "false",
+     "why": "F5 says directing should bring out untapped energies of every individual"
+    },
+    "C": {
+     "status": "true",
+     "why": "Matches F5 directly"
+    },
+    "D": {
+     "status": "false",
+     "why": "Excerpt says training and rewards help acceptance"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair.",
+   "quality_note": "Clear; stem repeats the excerpt example, so it is close to verbatim recall."
+  },
+  {
+   "local_id": "bus-b7",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "F12: user of goods with the buyer's approval is covered; F13: purchase for resale is outside the scope"
+    },
+    "B": {
+     "status": "false",
+     "why": "Dev bought for resale and is outside the Act"
+    },
+    "C": {
+     "status": "false",
+     "why": "The mother uses the phone with Meera's approval and is covered"
+    },
+    "D": {
+     "status": "false",
+     "why": "F12: Act applies to both offline and online transactions"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair.",
+   "quality_note": "Good application item; distractors each contradict a stated rule."
+  },
+  {
+   "local_id": "bus-b8",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "F3: to survive, an organisation must earn enough revenues to cover costs"
+    },
+    "B": {
+     "status": "false",
+     "why": "F3: a business needs to add to its prospects, so it should grow"
+    },
+    "C": {
+     "status": "false",
+     "why": "F3: mere survival is not enough; management must ensure profit"
+    },
+    "D": {
+     "status": "false",
+     "why": "F3 calls them economic objectives, not social"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair.",
+   "quality_note": "Clear; distractors are clean negations."
+  },
+  {
+   "local_id": "bus-b9",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F15: staffing is continuous in an existing enterprise"
+    },
+    "B": {
+     "status": "false",
+     "why": "F15: staffing may involve daily wagers, consultants and contract employees"
+    },
+    "C": {
+     "status": "false",
+     "why": "F16: succession planning ensures continuous survival and growth"
+    },
+    "D": {
+     "status": "true",
+     "why": "F15 states this nearly verbatim"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Staffing.",
+   "quality_note": "Clear; the correct option is nearly a verbatim lift but acceptable."
+  }
+ ]
+}

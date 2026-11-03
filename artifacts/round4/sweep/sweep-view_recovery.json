@@ -1,0 +1,476 @@
+[
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 360,
+  "h": 760,
+  "theme": "dark",
+  "errors": [],
+  "vw": 360,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 571,
+   "dockTop": 695,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 360,
+  "h": 760,
+  "theme": "light",
+  "errors": [],
+  "vw": 360,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 571,
+   "dockTop": 695,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 320,
+  "h": 700,
+  "theme": "light",
+  "errors": [],
+  "vw": 320,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 511,
+   "dockTop": 635,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 320,
+  "h": 700,
+  "theme": "dark",
+  "errors": [],
+  "vw": 320,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 511,
+   "dockTop": 635,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 390,
+  "h": 844,
+  "theme": "dark",
+  "errors": [],
+  "vw": 390,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 626,
+   "dockTop": 779,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 768,
+  "h": 1024,
+  "theme": "dark",
+  "errors": [],
+  "vw": 768,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 554,
+   "dockTop": 959,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 768,
+  "h": 1024,
+  "theme": "light",
+  "errors": [],
+  "vw": 768,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 554,
+   "dockTop": 959,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 390,
+  "h": 844,
+  "theme": "light",
+  "errors": [],
+  "vw": 390,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 626,
+   "dockTop": 779,
+   "occluded": false,
+   "lastName": "A:Review your mistakes"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1024,
+  "h": 768,
+  "theme": "light",
+  "errors": [],
+  "vw": 1024,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 595,
+   "dockTop": 768,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 820,
+  "h": 1180,
+  "theme": "dark",
+  "errors": [],
+  "vw": 820,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 563,
+   "dockTop": 1115,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 820,
+  "h": 1180,
+  "theme": "light",
+  "errors": [],
+  "vw": 820,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 563,
+   "dockTop": 1115,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1024,
+  "h": 768,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1024,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 595,
+   "dockTop": 768,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1440,
+  "h": 900,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1440,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 900,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1280,
+  "h": 860,
+  "theme": "light",
+  "errors": [],
+  "vw": 1280,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 860,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1440,
+  "h": 900,
+  "theme": "light",
+  "errors": [],
+  "vw": 1440,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 900,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1280,
+  "h": 860,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1280,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 860,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1920,
+  "h": 1080,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1920,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 1080,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 1920,
+  "h": 1080,
+  "theme": "light",
+  "errors": [],
+  "vw": 1920,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 598,
+   "dockTop": 1080,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 844,
+  "h": 390,
+  "theme": "light",
+  "errors": [],
+  "vw": 844,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 175,
+   "dockTop": 325,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ },
+ {
+  "route": "/preview/arena?view=recovery&plan=free",
+  "w": 844,
+  "h": 390,
+  "theme": "dark",
+  "errors": [],
+  "vw": 844,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [
+   "span.sr-only 107>1",
+   "span.sr-only 104>1"
+  ],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 175,
+   "dockTop": 325,
+   "occluded": false,
+   "lastName": "A:Start ordinary pract"
+  }
+ }
+]

@@ -1,0 +1,98 @@
+{
+  "at": "2026-10-08T12:16:32.261Z",
+  "id": "fresh-official-source-v73-2026-10-08-model",
+  "denominator": 41,
+  "valid_roots": 22,
+  "controlled_defects": 19,
+  "terminal_topology": 41,
+  "eligible_valid": 12,
+  "controlled_false_accepts": [],
+  "by_subject": {
+    "accountancy": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 1
+    },
+    "business_studies": {
+      "expected": 5,
+      "terminal": 5,
+      "eligible": 1
+    },
+    "economics": {
+      "expected": 7,
+      "terminal": 7,
+      "eligible": 5
+    },
+    "english": {
+      "expected": 6,
+      "terminal": 6,
+      "eligible": 5
+    }
+  },
+  "provider_outcomes": {
+    "openai": {
+      "denominator": 41,
+      "counts": {
+        "judged": 41,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 22,
+      "positive_judged": 22,
+      "positive_comparison_complete": true
+    },
+    "gemini": {
+      "denominator": 41,
+      "counts": {
+        "judged": 41,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 22,
+      "positive_judged": 22,
+      "positive_comparison_complete": true
+    },
+    "anthropic": {
+      "denominator": 41,
+      "counts": {
+        "judged": 41,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 22,
+      "positive_judged": 22,
+      "positive_comparison_complete": true
+    }
+  },
+  "provider_errors": 0,
+  "provider_stage_errors": [],
+  "stage_errors": [],
+  "execution_finished": true,
+  "release_evidence_complete": true,
+  "haiku": {
+    "role": "Fresh blinded key and CUET-fit comparison only; never substituted into publication topology.",
+    "comparison_applicable": true,
+    "valid_denominator": 22,
+    "observed": 22,
+    "comparison_complete": true,
+    "source_supported_unique_key_matches": 19,
+    "cuet_fit_passes": 22
+  },
+  "settled_usd": 0.800698,
+  "held_usd": 0,
+  "gross_usd": 0.800698,
+  "receipt_complete": true,
+  "publication_writes": 0,
+  "release": false,
+  "provenance_notice": "Fresh benchmark cases are original or adapted practice derived from their cited sources; source papers are not authenticated CUET PYQs.",
+  "limitation": "Official source keys and blinded checks are measured evidence; correlated papers/paired controls and model agreement do not establish perfect accuracy."
+}

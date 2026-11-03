@@ -1,0 +1,256 @@
+{
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "0.25 is M/T (150/600), the inverse of velocity (F19)."
+    },
+    "B": {
+     "status": "false",
+     "why": "3 does not equal 600/150."
+    },
+    "C": {
+     "status": "true",
+     "why": "V = T/M = 600/150 = 4 (F19: velocity is the inverse of the ratio of money balance to transaction value)."
+    },
+    "D": {
+     "status": "false",
+     "why": "5 does not equal 600/150."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Money balance/transactions = 150/600 = 0.25; velocity = inverse = 600/150 = 4.",
+   "syllabus_fit": "Fair; Class XII Macro, Money and Banking.",
+   "quality_note": "Clear; distractor 0.25 is the plausible inverted ratio.",
+   "source_explanation": "Per F19, velocity of circulation is the inverse of the ratio of money balance to value of transactions, so V = 600/150 = 4. 0.25 is the uninverted ratio; 3 and 5 match no computation."
+  },
+  {
+   "local_id": "eco-b2",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Imports are a leakage at each round, not an addition to domestic income (F25)."
+    },
+    "B": {
+     "status": "false",
+     "why": "F25 says the multiplier value is reduced, so it changes."
+    },
+    "C": {
+     "status": "true",
+     "why": "F25: induced demand for domestic goods is smaller and the multiplier is reduced."
+    },
+    "D": {
+     "status": "false",
+     "why": "The reduction holds regardless of size of spending; the multiplier does not depend on the size of the change."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair; open-economy multiplier, Class XII Macro.",
+   "quality_note": "Clear; distractors plausible. Chapter label BoP is acceptable.",
+   "source_explanation": "F25: with a positive import propensity, part of the induced consumption goes to foreign goods, an additional leakage at each round, so induced domestic demand and the multiplier are smaller. A is wrong since imports leak out; B contradicts F25; D is wrong because the multiplier does not depend on the size of spending."
+  },
+  {
+   "local_id": "eco-b3",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Best alternative is bank-1 at 10%: 0.10 x 2,00,000 = Rs 20,000 (F33)."
+    },
+    "B": {
+     "status": "false",
+     "why": "Rs 10,000 is 5% (bank-2), not the best forgone alternative."
+    },
+    "C": {
+     "status": "false",
+     "why": "Rs 30,000 would sum the alternatives, but only one can be used (F33)."
+    },
+    "D": {
+     "status": "false",
+     "why": "Zero return is the safe option, not the maximum forgone benefit."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "10% x 2,00,000 = 20,000.",
+   "syllabus_fit": "Fair; opportunity cost in firm theory.",
+   "quality_note": "Clear; distractors are plausible misreadings.",
+   "source_explanation": "F33: opportunity cost is the forgone interest from the best alternative, bank-1: 10% of Rs 2,00,000 = Rs 20,000. Rs 10,000 uses bank-2, Rs 30,000 adds alternatives that are mutually exclusive, and Rs 0 uses the safe."
+  },
+  {
+   "local_id": "eco-b4",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Rs 100 crore ignores the induced consumption rounds (multiplier 1)."
+    },
+    "B": {
+     "status": "false",
+     "why": "Rs 400 crore uses mpc/(1-mpc) = 4, the wrong multiplier."
+    },
+    "C": {
+     "status": "true",
+     "why": "Multiplier = 1/(1-0.8) = 5, so 5 x 100 = Rs 500 crore (assuming no taxes or imports)."
+    },
+    "D": {
+     "status": "false",
+     "why": "Rs 80 crore is mpc x change, only the first induced round."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": "Assumes no income taxes and no imports (no leakage beyond saving); F25 and F23 show imports or taxes would lower the multiplier. The stem gives only mpc, so the simple multiplier is the intended reading.",
+   "numeric_check": "Multiplier = 1/(1-mpc) = 1/0.2 = 5; delta Y = 5 x 100 = 500 crore.",
+   "syllabus_fit": "Fair; simple multiplier, Class XII Macro. Chapter label BoP is a loose fit.",
+   "quality_note": "Clear but the stem should say 'no taxes or imports' explicitly; distractors are standard.",
+   "source_explanation": "With only mpc given, the multiplier is 1/(1-0.8) = 5, so income rises by Rs 500 crore. F25/F23 note that imports and taxes act as extra leakages, but none are specified. Rs 400 crore is mpc/(1-mpc), Rs 100 crore ignores induced rounds, and Rs 80 crore is only the first induced step."
+  },
+  {
+   "local_id": "eco-b5",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "A price taker does not lower price; MR = p (F34)."
+    },
+    "B": {
+     "status": "false",
+     "why": "MR = market price, not zero (F34)."
+    },
+    "C": {
+     "status": "true",
+     "why": "F34: MR = AR = p = Rs 40 for a price-taking firm."
+    },
+    "D": {
+     "status": "false",
+     "why": "That would be total revenue, not marginal revenue."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair; perfect competition revenue.",
+   "quality_note": "Clear; distractors reflect common confusions (monopoly MR, TR).",
+   "source_explanation": "F34: for a price-taking firm the extra unit is sold at the market price, so MR = p = Rs 40. A describes a price-making firm, B is unsupported, D gives total revenue."
+  },
+  {
+   "local_id": "eco-b6",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Rs 30 is AVC (120/4) alone."
+    },
+    "B": {
+     "status": "true",
+     "why": "AFC = 80/4 = 20, AVC = 120/4 = 30, SAC = 50 (F32)."
+    },
+    "C": {
+     "status": "false",
+     "why": "Rs 200 is total cost, not average."
+    },
+    "D": {
+     "status": "false",
+     "why": "Rs 20 is AFC alone."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "AFC = 80/4 = 20; AVC = 120/4 = 30; SAC = 20 + 30 = 50. Check: TC 200 / 4 = 50.",
+   "syllabus_fit": "Fair; short-run cost curves.",
+   "quality_note": "Clear; distractors are partial components.",
+   "source_explanation": "By F32, SAC = AVC + AFC = 30 + 20 = Rs 50, equal to TC/4 = 200/4. Rs 30 and Rs 20 are single components, and Rs 200 is total cost."
+  },
+  {
+   "local_id": "eco-b7",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Matches F11: five workers plus family on a farm needing two workers and the farmer."
+    },
+    "B": {
+     "status": "false",
+     "why": "Open unemployment is persons without work seeking jobs (F11); here all work."
+    },
+    "C": {
+     "status": "false",
+     "why": "Seasonal unemployment concerns months without work (F11); here everyone works through the year."
+    },
+    "D": {
+     "status": "false",
+     "why": "Full employment misses that surplus labour is not needed; F11 calls this disguised unemployment."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair; Employment chapter.",
+   "quality_note": "Clear; stem closely paraphrases the textbook example, distractors plausible.",
+   "source_explanation": "F11 defines this exact situation as disguised unemployment: more persons are working than the farm needs. B is wrong since the extra persons are working, C because everyone works all year, D because surplus labour exists despite everyone being occupied."
+  },
+  {
+   "local_id": "eco-b8",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F29: rise in price of a complement shifts demand leftward."
+    },
+    "B": {
+     "status": "true",
+     "why": "F29 states this directly."
+    },
+    "C": {
+     "status": "false",
+     "why": "A change in a related good's price shifts the curve, it is not a movement along it."
+    },
+    "D": {
+     "status": "false",
+     "why": "Nothing in F29 implies perfect elasticity."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair; determinants of demand.",
+   "quality_note": "Clear; standard distractors.",
+   "source_explanation": "F29: an increase in the price of a complementary good shifts the demand curve leftward. A is the substitute case, C confuses a shift with a movement along the curve, D has no basis."
+  },
+  {
+   "local_id": "eco-b9",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Output 2.5x > 2x inputs, so IRS (F31)."
+    },
+    "B": {
+     "status": "true",
+     "why": "2.5 times exceeds the 2 times input increase, so output rose proportionally more."
+    },
+    "C": {
+     "status": "false",
+     "why": "CRS needs output exactly doubled (F31)."
+    },
+    "D": {
+     "status": "false",
+     "why": "DRS needs output less than doubled (F31)."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": null,
+   "numeric_check": "Inputs x2; output x2.5 > x2, so IRS.",
+   "syllabus_fit": "Fair concept (returns to scale).",
+   "quality_note": "Options A and B are both correct (B restates A), so the item has two keys; B should be replaced with a false statement.",
+   "source_explanation": "By F31, output more than doubling when inputs double means increasing returns to scale, so A is true. B merely restates this (2.5x versus 2x) and is also true, so two options are correct. C and D are contradicted by F31."
+  }
+ ]
+}

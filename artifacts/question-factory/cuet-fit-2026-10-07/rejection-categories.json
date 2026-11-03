@@ -1,0 +1,960 @@
+{
+ "cat": {
+  "syllabus_mapping :: conditions_implied": 17,
+  "explanation_support :: key_mismatch,explanation:unsupported": 2,
+  "independent_evaluation :: key_mismatch(abstain),not_single,no_source_support,exam_fit_false,principle_not_in_excerpt,score<7,defects": 1,
+  "syllabus_mapping :: presentation_not_ready,score<7,defects": 2,
+  "independent_evaluation :: chapter_mapping": 13,
+  "syllabus_mapping :: score<7,defects": 4,
+  "syllabus_mapping :: principle_not_in_excerpt,conditions_implied": 1,
+  "independent_evaluation :: exam_fit_false,score<7": 2,
+  "source_support :: key_mismatch(abstain),no_source_support,principle_not_in_excerpt,score<7,defects": 1,
+  "syllabus_mapping :: exam_fit_false,syllabus_entitlement_false,score<7,defects": 9,
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,exam_fit_false,conditions_missing,score<7,defects": 2,
+  "independent_evaluation :: conditions_implied": 1,
+  "source_support :: not_single,missing_assumptions,conditions_missing,score<7,defects": 1,
+  "explanation_support :: key_mismatch,explanation:incorrect": 1,
+  "independent_evaluation :: no_source_support,exam_fit_false,presentation_not_ready,principle_not_in_excerpt,score<7,defects": 1,
+  "source_support :: not_single,missing_assumptions,exam_fit_false,conditions_missing,score<7,defects": 1,
+  "syllabus_mapping :: exam_fit_false,score<7,defects": 4,
+  "independent_evaluation :: key_mismatch(abstain),not_single,missing_assumptions,no_source_support,exam_fit_false,principle_not_in_excerpt,conditions_missing,score<7,defects": 1,
+  "source_support :: not_single,exam_fit_false,syllabus_entitlement_false,score<7,defects": 1,
+  "independent_evaluation :: score<7": 1,
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,score<7,defects": 1,
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,exam_fit_false,syllabus_entitlement_false,conditions_missing,score<7,defects": 1,
+  "explanation_support :: key_mismatch,explanation:": 3,
+  "independent_evaluation :: exam_fit_false,score<7,defects": 2,
+  "source_support :: key_mismatch(abstain),not_single,exam_fit_false,score<7,defects": 1,
+  "syllabus_mapping :: principle_not_in_excerpt": 1,
+  "syllabus_mapping :: exam_fit_false,syllabus_entitlement_false,conditions_implied,score<7,defects": 1,
+  "independent_evaluation :: no_source_support,exam_fit_false,syllabus_entitlement_false,score<7,defects": 1,
+  "independent_evaluation :: ?": 1,
+  "source_support :: key_mismatch(abstain),no_source_support,score<7,defects,quotes_invalid": 1,
+  "independent_evaluation :: exam_fit_false": 1
+ },
+ "ex": {
+  "syllabus_mapping :: conditions_implied": [
+   {
+    "id": "a53940d8f0753100cbc566a085d716ca",
+    "defects": [],
+    "reasons": [
+     "C introduces the demands referred to by “These demands” in B; the demands are then acceded to in A, and D refers to that response. This gives C-B-A-D.",
+     "E2.1 supports the lexical construction in A; the ordering is answerable from the sentence set itself. E1.1 provides general clause-structure context.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "ff0307e336f8e9cfd3aa6bb5806568f4",
+    "defects": [],
+    "reasons": [
+     "Investing cash flows are outflows of ₹1,50,000 + ₹40,000 + ₹25,000 and inflows of ₹75,000 + ₹10,000 + ₹5,000. Net cash used is ₹2,15,000 − ₹90,000 = ₹1,25,000. The stated non-trading shares, third-party advance/repayment, fixed assets and dividend are supported as investing items in the excerpts.",
+     "D gives both figures. A and C have the wrong operating figure; B has the wrong investing figure.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   },
+   {
+    "id": "5321c87e9d2e5110f03b55ccad5344f0",
+    "defects": [],
+    "reasons": [
+     "The supplied multiplier principle gives total output change = autonomous expenditure change × 1/(1−MPC). Thus ΔY = ₹15 lakh × 1/(1−0.75) = ₹60 lakh.",
+     "The described successive induced-consumption rounds form a convergent geometric series because MPC = 0.75 < 1. The other options do not equal the total.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "d50d253c91d0a3a7f337ef5894b24e9f",
+    "defects": [],
+    "reasons": [
+     "Option A gives B-C-D-A. Option B puts the example before the rule is stated; C begins with 'That rule' without its antecedent; D refers to 'This example' before the clause is introduced.",
+     "The excerpts support the clause-structure statement and the quoted example; the ordering is determined by the explicit reference and sequence cues in the sentences.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "8273a3f842e4b2d49a1a5d9a9c235888",
+    "defects": [],
+    "reasons": [
+     "B introduces the clause parts, allowing A's “these parts” to refer back; C follows A because “Another” introduces the second part; D follows both because it refers to “these two labels.”",
+     "Only option A gives B, A, C, D. E1.1 supports the clause-structure content: a clause has a noun-phrase subject and a verb phrase.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "a71cdb82b29b772bcc13f617f52bfef0",
+    "defects": [],
+    "reasons": [
+     "The coherent order is A-B-C-D: A introduces Jaya and the unreadable label; B's pronoun refers to Jaya; C follows the record check; D then uses the new label. This is option C.",
+     "The other options break those dependencies: A places B before Jaya is introduced, B puts finding the name before the record check, and D replaces the label before the new one is written.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "cf0cdc1a6ae67bfefbb368b8e96a2685",
+    "defects": [],
+    "reasons": [
+     "The shareholder pays ₹10 when only ₹8 per share has been called: ₹10 − ₹8 = ₹2 paid in advance of the call. The textbook classifies payment beyond the amount due as Calls in Advance, for which a separate account is maintained (E1.1, E1.2).",
+     "B is incorrect: there are no unpaid dues, and maintaining a separate Calls-in-Arrears Account is not mandatory (E1.1). C is incorrect because the shares are issued at par, not at a premium (E1.3). D is incorrect because no failure to pay an instalment or forfeiture is stated (E1.5).",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "8d13890544952cfd5a424abfe1e7a4a2",
+    "defects": [],
+    "reasons": [
+     "The excerpts support political stability building business confidence and the subsequent investment, business creation and economic growth chain.",
+     "Option A puts investment before confidence; C puts business creation before investment; D puts economic growth first. None follows the stated causal order.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   },
+   {
+    "id": "9750891401f489a13a07efd08dd5ef18",
+    "defects": [],
+    "reasons": [
+     "The chronological chain is C → B → D → A: colonial-era agricultural conditions came before independent India’s policy response; HYV promotion preceded the Green Revolution, which led to food-grain self-sufficiency.",
+     "That sequence is option B. The excerpts support the colonial baseline and policy response, the HYV-related revolution, and the self-sufficiency outcome.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "36982fb3d14ee65aff25b2601c9768ed",
+    "defects": [],
+    "reasons": [
+     "The supplied dissolution entry for settlement of an unrecorded liability is Realisation A/c Dr. and Bank A/c Cr. Thus B records the ₹18,000 payment.",
+     "A reverses the debit and credit; C debits a separate repair-bill account despite the bill being unrecorded; D incorrectly debits partners’ capital. The tested entry and direction are directly supported by E2.1.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "1ed2b7cdd60f594ae54a91af0085d8e3",
+    "defects": [],
+    "reasons": [
+     "The other options violate these explicit chronological links: B places voting before the list is read, C starts with collection before the proposals are requested, and D places the cover-writing before the vote.",
+     "The stimulus supports the chronology directly, and rearranging sentence parts is within the supplied English syllabus.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "37b2a315f8ddc42a4a9438ac84c7dddc",
+    "defects": [],
+    "reasons": [
+     "The excerpt identifies a retiring partner’s share of accumulated losses as a deduction from the amount due.",
+     "The other listed items—share of accumulated profits, credit balance of capital, and salary due—are included in the amount due, not deducted. No numerical calculation is required.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "9e165eedb0c7a92b5554888fab72c7c2",
+    "defects": [],
+    "reasons": [
+     "The canonical derivation is: identify the initial quantity (B), plot the initial price–quantity point (D), reduce the banana price and find the new equilibrium quantity (C), then plot that point and repeat (A). Thus the order is B-D-C-A.",
+     "E2.2–E2.3 support that sequence directly. The income and mango price are stated to remain unchanged; no numerical calculation is required.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   },
+   {
+    "id": "46c8ef0e5f061e15de4542f6cc1b25c7",
+    "defects": [],
+    "reasons": [
+     "Constant returns to scale means proportionately scaling both inputs by t scales output by t. Here, f(3x₁, 3x₂) = 3 × 40 = 120 units, so D is correct; A, B, and C do not match the result.",
+     "The constant-returns rule and its application to scaling both inputs are supported by the supplied NCERT excerpts.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   },
+   {
+    "id": "f5d34b33b3b7a4202cb69b7328540bb5",
+    "defects": [],
+    "reasons": [
+     "The logical sequence is (B), (D), (A), (C): prepare the statements in comparative form, disclose the accounting-principle deviation in a footnote, compare corresponding figures, then interpret the trend and direction.",
+     "E1.3 states that deviations in accounting principles should be footnoted and that comparative figures indicate trends and direction. The other choices put the disclosure before preparing the comparative statements, after comparison, or interpretation before comparison.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   },
+   {
+    "id": "1a760b4974638a28ae80327484d1d9ed",
+    "defects": [],
+    "reasons": [
+     "Year 2 combined non-current assets are ₹8 lakh + ₹2 lakh = ₹10 lakh; their share is 10/15 × 100 = 66.67%. The change from Year 1 to Year 2 is 66.67% − 70.83% = −4.17 percentage points, so B is correct.",
+     "A has the wrong direction; C and D have the wrong magnitude. The given totals, component definition, base and rounding instruction make the calculation determinate.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   },
+   {
+    "id": "a3f62504ba811d69dc69d7c106e90cf9",
+    "defects": [],
+    "reasons": [
+     "Year 2 current assets are ₹4 lakh + ₹1 lakh = ₹5 lakh; their share is 5/15 × 100 = 33.33%. The change is an increase of 4.17 percentage points, so D is correct.",
+     "The supplied excerpts support the common-size balance-sheet base and provide the figures used in the calculation.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   }
+  ],
+  "explanation_support :: key_mismatch,explanation:unsupported": [
+   {
+    "id": "9f2da14caa436891946d6a8c3f3435ab",
+    "defects": [],
+    "reasons": [
+     "The supplied excerpts define “coherent” and the other options, but none defines “incoherent” or establishes that it is the antonym; the explanation’s decisive claim is therefore unsupported.",
+     "unsupported claim: “Incoherent” expresses the opposite of those qualities."
+    ]
+   },
+   {
+    "id": "0ea7587b18211fd4b7a68a8bfbd3ac81",
+    "defects": [],
+    "reasons": [
+     "The excerpts state that the Realisation Account records realisation expenses, but do not establish the debit direction for those expenses. The remaining account treatments and calculations are supported.",
+     "unsupported claim: The Realisation Account is debited ₹15,000 for realisation expenses paid."
+    ]
+   }
+  ],
+  "independent_evaluation :: key_mismatch(abstain),not_single,no_source_support,exam_fit_false,principle_not_in_excerpt,score<7,defects": [
+   {
+    "id": "2ba3c12856a4db71470c590b5e050098",
+    "defects": [
+     "'Used' is not an antonym of 'obsolete' (an obsolete item can be either used or unused; genuine antonyms are 'modern' or 'current'). None of the given options is a valid antonym."
+    ],
+    "reasons": [
+     "Defect: 'Used' is not an antonym of 'obsolete' (an obsolete item can be either used or unused; genuine antonyms are 'modern' or 'current'). None of the given options is a valid antonym.",
+     "Quality score 2/10",
+     "Decisive principle is not stated in the supplied excerpts"
+    ],
+    "score": 2
+   }
+  ],
+  "syllabus_mapping :: presentation_not_ready,score<7,defects": [
+   {
+    "id": "933cb99617e3b800bde2f7a7909e526a",
+    "defects": [
+     "The stem already gives the full claim that the question asks students to identify, and option D repeats it nearly verbatim. This duplicates the answer in the stem and makes the item tautological."
+    ],
+    "reasons": [
+     "E1.1 directly supports the comparison. No calculation or additional case-specific assumption is needed.",
+     "Defect: The stem already gives the full claim that the question asks students to identify, and option D repeats it nearly verbatim. This duplicates the answer in the stem and makes the item tautological.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "15da78c84dfb38871b4fb5143182df8b",
+    "defects": [
+     "The lead-in phrase “and posts designated as supervisor in its organisational hierarchy” is syntactically awkward and ambiguous about whether “posts” means positions or an action."
+    ],
+    "reasons": [
+     "The lead-in phrase “and posts designated as supervisor” is awkward and admits different parses; revise it to clearly identify the supervisor-designated positions.",
+     "Defect: The lead-in phrase “and posts designated as supervisor in its organisational hierarchy” is syntactically awkward and ambiguous about whether “posts” means positions or an action.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   }
+  ],
+  "independent_evaluation :: chapter_mapping": [
+   {
+    "id": "5e38fb720cf32a813b0e2ac7ee4f5437",
+    "defects": [],
+    "reasons": [
+     "Options A and B directly contradict the stem premises, and C posits the exact opposite of the historical reality described.",
+     "Quality score 8/10",
+     "Indian Economic Development 1950–1990 is not covered by the cited sources (Economic Reforms Since 1991)"
+    ],
+    "score": 8
+   },
+   {
+    "id": "0c5c67058a6be6759d5c53cd2585c296",
+    "defects": [],
+    "reasons": [
+     "As explicitly noted in NCERT Chapter 4, common size statements allow an analyst to compare the operating and financing characteristics of two enterprises that differ substantially in size within the same industry.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   },
+   {
+    "id": "7a93c8de73ec619cb84689e1965a9590",
+    "defects": [],
+    "reasons": [
+     "Options B, C, and D describe comparative statement functions or general financial analysis objectives rather than the specific cross-company purpose described.",
+     "Quality score 7/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 7
+   },
+   {
+    "id": "7e37af3d60a0835b0ed8e531ae2c3bfb",
+    "defects": [],
+    "reasons": [
+     "This yields the unique mapping (A)-(I), (B)-(II), (C)-(III), (D)-(IV), corresponding exclusively to Option B.",
+     "Quality score 7/10",
+     "Both blind evaluators map this item to Match the Following, not Vocabulary"
+    ],
+    "score": 7
+   },
+   {
+    "id": "bc63d5a17a5312fff9c3fd219f7a949e",
+    "defects": [],
+    "reasons": [
+     "Thus, Company A is 10% and Company B is 20%, matching Option A.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   },
+   {
+    "id": "53ca73d4fb723d99f798f2b380b453ab",
+    "defects": [],
+    "reasons": [
+     "This rightward shift of the market demand curve directly matches NCERT Microeconomics analysis (E1.1, E1.2).",
+     "Quality score 9/10",
+     "Introduction & Theory of Consumer Behaviour is not covered by the cited sources (Market Equilibrium & Simple Applications)"
+    ],
+    "score": 9
+   },
+   {
+    "id": "691e27ce60182d0350a899446bf97203",
+    "defects": [],
+    "reasons": [
+     "Transfer to Capital Reserve = ₹900 - ₹300 = ₹600, corresponding to Option B.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Share Capital, not Financial Statements of Company"
+    ],
+    "score": 9
+   },
+   {
+    "id": "d8f28c1ea8343634cbb3a856b6c35669",
+    "defects": [],
+    "reasons": [
+     "Option D erroneously describes trend percentage analysis (percentage of a base year) rather than common-size statements.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   },
+   {
+    "id": "de2c8aa1aef39b8fc185db73d17a7415",
+    "defects": [],
+    "reasons": [
+     "The unique logical sequence is B-C-D-A, which corresponds to Option C.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Change in Profit Sharing Ratio, not Goodwill Valuation"
+    ],
+    "score": 9
+   },
+   {
+    "id": "e1ae83111627cd8fac2dd3ce8b1040f6",
+    "defects": [],
+    "reasons": [
+     "At zero output, no additional unit has been produced, so short-run marginal cost (SMC) is explicitly undefined (as also shown in NCERT Table 3.3).",
+     "Quality score 9/10",
+     "Theory of Firms under Perfect Competition is not covered by the cited sources (Production & Costs)"
+    ],
+    "score": 9
+   },
+   {
+    "id": "920c55b8c2c93e62685fd2ef0a13f25a",
+    "defects": [],
+    "reasons": [
+     "This logical progression directly corresponds to the stem's instructions ('moves from what the statements present, through the comparability qualification, to the use of the comparative figures'), yielding (B), (D), (C), (A).",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   },
+   {
+    "id": "4953502c898d94f81490d11b6a11a781",
+    "defects": [],
+    "reasons": [
+     "The change from Company P to Company Q is 20% − 15% = +5 percentage points, matching option D.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   },
+   {
+    "id": "9e909111a1663488c9cd19302f527cfc",
+    "defects": [],
+    "reasons": [
+     "This establishes the unique and defensible sequence (C)-(B)-(A), corresponding to Option C.",
+     "Quality score 9/10",
+     "Both blind evaluators map this item to Comparative & Common Size Statements, not Analysis of Financial Statements"
+    ],
+    "score": 9
+   }
+  ],
+  "syllabus_mapping :: score<7,defects": [
+   {
+    "id": "a471b61b944863dd4ba2b7343fa623bc",
+    "defects": [
+     "Option B is partly true: equilibrium income does fall, although aggregate saving does not. Its conjunction is false overall, but it is a partly true distractor."
+    ],
+    "reasons": [
+     "A is false; B has one true clause (income falls) but wrongly says saving falls; D is false. B is therefore false as a conjunction, leaving C as the sole fully correct choice.",
+     "Defect: Option B is partly true: equilibrium income does fall, although aggregate saving does not. Its conjunction is false overall, but it is a partly true distractor.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "73e74aa61aa9ffa414718b02d7ba220d",
+    "defects": [
+     "Option A is partly true under the stem because it gives both correct ratios, although its claim that the rise proves improved profitability is false in this case. This leaves a partly correct distractor."
+    ],
+    "reasons": [
+     "C uses closing rather than average inventory; D adds gross profit to revenue instead of subtracting it. A has the correct ratios but its conclusion overstates what they establish.",
+     "Defect: Option A is partly true under the stem because it gives both correct ratios, although its claim that the rise proves improved profitability is false in this case. This leaves a partly correct distractor.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "627e9d4ef2432eaf705e52fcab7b7a99",
+    "defects": [
+     "Option C is partly true: its claim that the practice could harm the company's image is supported, even though its denial of government action makes the complete option false."
+    ],
+    "reasons": [
+     "The stem explicitly identifies the company, online sale, and exploitative practice; no numerical computation is required.",
+     "Defect: Option C is partly true: its claim that the practice could harm the company's image is supported, even though its denial of government action makes the complete option false.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "baff2e6262a59b428031efabc59f2b6f",
+    "defects": [
+     "Options A and D are partly true: A gives the correct calls-in-advance classification and account treatment for Q, while D correctly describes P's calls in arrears and account treatment. These are partly true distractors."
+    ],
+    "reasons": [
+     "C is the only wholly correct option. A and D each contain a fully correct case description, making those distractors partly true.",
+     "Defect: Options A and D are partly true: A gives the correct calls-in-advance classification and account treatment for Q, while D correctly describes P's calls in arrears and account treatment. These are partly true distractors.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   }
+  ],
+  "syllabus_mapping :: principle_not_in_excerpt,conditions_implied": [
+   {
+    "id": "9cb76f438526a1daedc17f3795a38085",
+    "defects": [],
+    "reasons": [
+     "E1.1 supports the subject/verb distinction stated in B. E2.1 does not support this item.",
+     "Quality score 7/10",
+     "Decisive principle is not stated in the supplied excerpts"
+    ],
+    "score": 7
+   }
+  ],
+  "independent_evaluation :: exam_fit_false,score<7": [
+   {
+    "id": "696fa5599816a6150e6452e5b3d72527",
+    "defects": [],
+    "reasons": [
+     "The stem explicitly defines 'impartial' as not supporting one person or group more than another; its direct antonym is 'partial' (biased/favoring one side).",
+     "The item adopts an artificial meta-prompt format ('In this item, ... means ...') alien to CUET pattern, spoon-feeds dictionary definitions in the question stem, and includes the stimulus word itself ('impartial') as Option D.",
+     "Quality score 4/10"
+    ],
+    "score": 4
+   },
+   {
+    "id": "f24037a5c7979713d15504a8f1704fbc",
+    "defects": [],
+    "reasons": [
+     "A reviewer summarising the outcomes as only concerning (iv) (educational attainment) omits (i), (ii), and (iii).",
+     "Therefore, evaluation A is uniquely correct as a direct logical inference from the text provided in the stem.",
+     "Quality score 4/10"
+    ],
+    "score": 4
+   }
+  ],
+  "source_support :: key_mismatch(abstain),no_source_support,principle_not_in_excerpt,score<7,defects": [
+   {
+    "id": "31b96fecb8c4e05e16fb0c1633152499",
+    "defects": [
+     "The supplied excerpts do not state the debit/credit direction for the required past-adjustment entry, despite the question asking which partners’ accounts to debit and credit."
+    ],
+    "reasons": [
+     "Defect: The supplied excerpts do not state the debit/credit direction for the required past-adjustment entry, despite the question asking which partners’ accounts to debit and credit.",
+     "Quality score 6/10",
+     "Decisive principle is not stated in the supplied excerpts"
+    ],
+    "score": 6
+   }
+  ],
+  "syllabus_mapping :: exam_fit_false,syllabus_entitlement_false,score<7,defects": [
+   {
+    "id": "4fe70ce50a4740fdad3f08b760abf4de",
+    "defects": [
+     "The tested concepts—returns to scale and the direction of LRAC—are not specified in the supplied current syllabus unit outline, so the item is outside the stated CUET syllabus."
+    ],
+    "reasons": [
+     "The supplied syllabus lists long-run production functions but does not specify returns to scale or LRAC; those are the tested concepts. The textbook excerpts support the principles, but the item is not syllabus-entitled.",
+     "Defect: The tested concepts—returns to scale and the direction of LRAC—are not specified in the supplied current syllabus unit outline, so the item is outside the stated CUET syllabus.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "4767cbd768b8eb550ab330182c3f929d",
+    "defects": [
+     "Buy-back requirements are not included in the supplied current CUET syllabus topics for Share Capital; the item tests an out-of-scope topic."
+    ],
+    "reasons": [
+     "The supplied current syllabus lists share issuance, allotment, forfeiture and reissue, but does not include buy-back conditions.",
+     "Defect: Buy-back requirements are not included in the supplied current CUET syllabus topics for Share Capital; the item tests an out-of-scope topic.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "1514806a6e8022cb91b0c27a0fce1404",
+    "defects": [
+     "The question tests the specific financial/non-financial measures distinction and human-resources-as-assets framing, which are supported by the excerpt but are not specified in the supplied current syllabus topics for Staffing."
+    ],
+    "reasons": [
+     "The item is clear and answerable, but its non-financial-measure distinction and asset framing are not specified in the supplied current syllabus topics. That scope mismatch makes it unsuitable as a syllabus-bound CUET item.",
+     "Defect: The question tests the specific financial/non-financial measures distinction and human-resources-as-assets framing, which are supported by the excerpt but are not specified in the supplied current syllabus topics for Staffing.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "2e373a55b26c273d4a20219f6f2bd3a6",
+    "defects": [
+     "Syllabus mismatch: the question tests Fayol’s five functions and their order, which are not specified in the supplied current syllabus topics."
+    ],
+    "reasons": [
+     "The supplied syllabus specifies Fayol’s principles, but not his five functions or their order; the item is source-supported but outside the stated syllabus scope.",
+     "Defect: Syllabus mismatch: the question tests Fayol’s five functions and their order, which are not specified in the supplied current syllabus topics.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "ff06a287b207a5525c27b98615caa6cf",
+    "defects": [
+     "Buy-back provisions are not included in the supplied current CUET syllabus topics for Share Capital."
+    ],
+    "reasons": [
+     "The supplied CUET syllabus list does not include buy-back provisions among its Share Capital topics, so the item is outside the stated syllabus despite being supported by the NCERT excerpt.",
+     "Defect: Buy-back provisions are not included in the supplied current CUET syllabus topics for Share Capital.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "5ae0462e47872696fd44f339b9e805ac",
+    "defects": [
+     "The question tests a Share Capital/Unit IV principle, while the supplied matched-unit scope lists only Unit V in relevant_units; it is therefore outside the stated scope. The assigned Financial Statements of Company chapter is also mismatched."
+    ],
+    "reasons": [
+     "The tested topic is calls in arrears under Share Capital (Unit IV), not Financial Statements of Company. Under the supplied matched-unit scope, the detailed relevant_units list only Unit V, so this item is outside that stated scope.",
+     "Defect: The question tests a Share Capital/Unit IV principle, while the supplied matched-unit scope lists only Unit V in relevant_units; it is therefore outside the stated scope. The assigned Financial Statements of Company chapter is also mismatched.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "a9c9c1d754e2f32a68c9154710d3f5c4",
+    "defects": [
+     "Syllabus mismatch: the supplied Production & Costs syllabus specifies short-run cost curves, whereas the item assesses long-run average and marginal cost curves."
+    ],
+    "reasons": [
+     "The supplied syllabus lists short-run cost curves but not long-run cost curves. This item tests LRAC/LRMC behaviour, so it is out of the stated syllabus.",
+     "Defect: Syllabus mismatch: the supplied Production & Costs syllabus specifies short-run cost curves, whereas the item assesses long-run average and marginal cost curves.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "bc982f16835f7ffa846da91256fb985b",
+    "defects": [
+     "The tested extraordinary-item classification and disclosure rule is not within the supplied CUET syllabus scope, which specifies other cash-flow adjustments."
+    ],
+    "reasons": [
+     "The supplied CUET scope lists specified cash-flow adjustments but does not include extraordinary-item treatment. The item is therefore source-supported but not syllabus-entitled.",
+     "Defect: The tested extraordinary-item classification and disclosure rule is not within the supplied CUET syllabus scope, which specifies other cash-flow adjustments.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "3421864f65b3c157df5dfc4a4176c1b4",
+    "defects": [
+     "The tested rationale for adopting partnership is not a listed outcome in the supplied current syllabus."
+    ],
+    "reasons": [
+     "The item tests this general rationale for choosing an organisational form, which is not among the supplied current syllabus outcomes; the listed partnership content is limited to partnership deed and partnership accounting.",
+     "Defect: The tested rationale for adopting partnership is not a listed outcome in the supplied current syllabus.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   }
+  ],
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,exam_fit_false,conditions_missing,score<7,defects": [
+   {
+    "id": "a55cd52550264c7f7b367567554bd15d",
+    "defects": [
+     "A and C may be equivalent: if “total liabilities” refers to the total equity-and-liabilities side, the balance-sheet equation makes that denominator equal to total assets. The stem does not define the term or otherwise distinguish the options, so there is no uniquely defensible answer."
+    ],
+    "reasons": [
+     "Defect: A and C may be equivalent: if “total liabilities” refers to the total equity-and-liabilities side, the balance-sheet equation makes that denominator equal to total assets. The stem does not define the term or otherwise distinguish the options, so there is no uniquely defensible answer.",
+     "Quality score 5/10",
+     "Condition missing: Whether “total liabilities” means liabilities alone or the total equity-and-liabilities side."
+    ],
+    "score": 5
+   },
+   {
+    "id": "83fec3ff2280d2bd2aa9ae196dcd9e2f",
+    "defects": [
+     "The stem does not state whether unused cash at the end of Year 1 is available to meet Year 2 payments; this changes the maximum annual debt service.",
+     "No opening cash balance is stated. Under a cumulative cash-balance interpretation, the maximum cannot be determined from the given flows alone; even assuming zero opening cash gives ₹3.75L, absent from the options."
+    ],
+    "reasons": [
+     "Quality score 5/10",
+     "Condition missing: Opening cash balance",
+     "Condition missing: Whether unused Year 1 cash is carried forward and available in Year 2"
+    ],
+    "score": 5
+   }
+  ],
+  "independent_evaluation :: conditions_implied": [
+   {
+    "id": "7f246a7a17b3c8fcc02e38fc52c002d6",
+    "defects": [],
+    "reasons": [
+     "According to the law of demand (and consumer equilibrium analysis), other things remaining unchanged, the relationship between price and quantity demanded is generally negative.",
+     "When price rises from ₹20 to ₹25 with other conditions unchanged, quantity demanded is likely to decrease from the initial 10 units to below 10 units.",
+     "Quality score 8/10"
+    ],
+    "score": 8
+   }
+  ],
+  "source_support :: not_single,missing_assumptions,conditions_missing,score<7,defects": [
+   {
+    "id": "2a725f63f74147af7156c4c7d8fd271b",
+    "defects": [
+     "B is not reliably false: if “total liabilities” means the complete liabilities/equity side, its total equals total assets, making B equivalent to D. The item does not clarify the term, so it lacks one defensible answer."
+    ],
+    "reasons": [
+     "Defect: B is not reliably false: if “total liabilities” means the complete liabilities/equity side, its total equals total assets, making B equivalent to D. The item does not clarify the term, so it lacks one defensible answer.",
+     "Quality score 5/10",
+     "Condition missing: For B to overlap with D, “total liabilities” denotes the full liabilities/equity-side aggregate, equal to total assets."
+    ],
+    "score": 5
+   }
+  ],
+  "explanation_support :: key_mismatch,explanation:incorrect": [
+   {
+    "id": "1e75296de0cba07b1de99b7755bb4952",
+    "defects": [],
+    "reasons": [
+     "The distractor explanation does not describe option C: it places the resource constraint before stating the goals, rather than putting the implication before the choice or placing the constraint after prioritisation.",
+     "incorrect claim: The other sequences put the implication before the choice or place the resource constraint after the prioritisation."
+    ]
+   }
+  ],
+  "independent_evaluation :: no_source_support,exam_fit_false,presentation_not_ready,principle_not_in_excerpt,score<7,defects": [
+   {
+    "id": "eca81275b02255f4ecf591c4ff5b3d47",
+    "defects": [
+     "The correct answer choice ('careless') is duplicated and explicitly defined inside the stem to bypass evidence requirements.",
+     "The evidence catalog does not contain source support for 'careless'."
+    ],
+    "reasons": [
+     "Defect: The evidence catalog does not contain source support for 'careless'.",
+     "Quality score 2/10",
+     "Decisive principle is not stated in the supplied excerpts"
+    ],
+    "score": 2
+   }
+  ],
+  "source_support :: not_single,missing_assumptions,exam_fit_false,conditions_missing,score<7,defects": [
+   {
+    "id": "d35d364a52e95ed58aba9d18bf93a510",
+    "defects": [
+     "Option B is ambiguous and may be equivalent to D: if “total liabilities” denotes the entire equity-and-liabilities side of the balance sheet, it equals total assets and gives the same asset percentages. If it excludes equity, it need not equal total assets. The stem does not clarify the intended meaning, so the answer is not uniquely defensible."
+    ],
+    "reasons": [
+     "Defect: Option B is ambiguous and may be equivalent to D: if “total liabilities” denotes the entire equity-and-liabilities side of the balance sheet, it equals total assets and gives the same asset percentages. If it excludes equity, it need not equal total assets. The stem does not clarify the intended meaning, so the answer is not uniquely defensible.",
+     "Quality score 5/10",
+     "Condition missing: Whether “total liabilities” includes equity and denotes the full balance-sheet claims side"
+    ],
+    "score": 5
+   }
+  ],
+  "syllabus_mapping :: exam_fit_false,score<7,defects": [
+   {
+    "id": "38364514a4867d5284ba67f6bc271711",
+    "defects": [
+     "Options A-C are partly valid preparation plans: each includes at least one component the source requires. Under the criterion disallowing partly true distractors, this blocks exam readiness, although D is the only complete plan."
+    ],
+    "reasons": [
+     "D includes all three before placement. A, B, and C each omit at least one required component.",
+     "Defect: Options A-C are partly valid preparation plans: each includes at least one component the source requires. Under the criterion disallowing partly true distractors, this blocks exam readiness, although D is the only complete plan.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "40d05ebb30fcea1ad76329db9c76cfac",
+    "defects": [
+     "The stem supplies the meaning of “concise” and option B repeats it, so the item gives away its answer and does not meaningfully assess vocabulary knowledge."
+    ],
+    "reasons": [
+     "The stem gives the target word’s definition, which B then repeats. A student can select B without knowing the word, undermining the item as a CUET vocabulary assessment.",
+     "Defect: The stem supplies the meaning of “concise” and option B repeats it, so the item gives away its answer and does not meaningfully assess vocabulary knowledge.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   },
+   {
+    "id": "ed89eca2d664d427cbe6350b7bbe86b1",
+    "defects": [
+     "Option A is partly true: A’s balance is correctly stated as ₹22,000 credit, although B’s balance is on the wrong side.",
+     "Option B is partly true: B’s balance is correctly stated as ₹5,000 debit, although A’s balance is incorrect."
+    ],
+    "reasons": [
+     "Defect: Option A is partly true: A’s balance is correctly stated as ₹22,000 credit, although B’s balance is on the wrong side.",
+     "Defect: Option B is partly true: B’s balance is correctly stated as ₹5,000 debit, although A’s balance is incorrect.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   },
+   {
+    "id": "5d84dc4e07430087f92322fb4fc90062",
+    "defects": [
+     "List-II (II) credits Premium for Goodwill A/c and then debits Goodwill A/c to distribute the amount. The credited Premium for Goodwill account is left unclosed, while a goodwill asset is recorded instead; the distribution entry should debit Premium for Goodwill A/c and credit the sacrificing partners’ capital accounts. Thus the stated treatment is substantively incorrect even though the supplied excerpt prints the same account name."
+    ],
+    "reasons": [
+     "Although E1.2 prints the same debit to Goodwill A/c as List-II (II), that entry does not debit the Premium for Goodwill A/c credited immediately before it. The item is therefore not sound accounting practice as written.",
+     "Defect: List-II (II) credits Premium for Goodwill A/c and then debits Goodwill A/c to distribute the amount. The credited Premium for Goodwill account is left unclosed, while a goodwill asset is recorded instead; the distribution entry should debit Premium for Goodwill A/c and credit the sacrificing partners’ capital accounts. Thus the stated treatment is substantively incorrect even though the supplied excerpt prints the same account name.",
+     "Quality score 4/10"
+    ],
+    "score": 4
+   }
+  ],
+  "independent_evaluation :: key_mismatch(abstain),not_single,missing_assumptions,no_source_support,exam_fit_false,principle_not_in_excerpt,conditions_missing,score<7,defects": [
+   {
+    "id": "000dbae7a50bc0c0da4bd885d0b1be50",
+    "defects": [
+     "The question invents consecutive stages from a single descriptive definition in NCERT.",
+     "Ambiguity between chronological logic (B -> C -> A) and verbatim textual order (C -> B -> A), leaving no single defensible answer."
+    ],
+    "reasons": [
+     "Quality score 3/10",
+     "Decisive principle is not stated in the supplied excerpts",
+     "Condition missing: Whether the ordering follows managerial chronology or textual phrase order"
+    ],
+    "score": 3
+   }
+  ],
+  "source_support :: not_single,exam_fit_false,syllabus_entitlement_false,score<7,defects": [
+   {
+    "id": "8117ea405fb42fd8e3d3ff9fab8cf788",
+    "defects": [
+     "Option B is partly true under the stem: changing consumer preferences and further changes also illustrate the dynamic nature of the business environment, so the item does not have one fully defensible answer.",
+     "The supplied CUET syllabus scope lists meaning and importance of the business environment and its dimensions, but does not include its features such as inter-relatedness."
+    ],
+    "reasons": [
+     "Defect: Option B is partly true under the stem: changing consumer preferences and further changes also illustrate the dynamic nature of the business environment, so the item does not have one fully defensible answer.",
+     "Defect: The supplied CUET syllabus scope lists meaning and importance of the business environment and its dimensions, but does not include its features such as inter-relatedness.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   }
+  ],
+  "independent_evaluation :: score<7": [
+   {
+    "id": "7b9903104d5edc8434f12f601fa51660",
+    "defects": [],
+    "reasons": [
+     "The stem directly specifies that Company M receives ₹60 lakh from issuing securities and ₹40 lakh through a loan involving no securities issue.",
+     "Therefore, the amount raised specifically through securities issuance is ₹60 lakh (Option B).",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   }
+  ],
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,score<7,defects": [
+   {
+    "id": "449ff20bdd1110a481f8d3d6e4f8accc",
+    "defects": [
+     "The order of the two independent reasons A and B is not logically fixed by the statements. B-C-A-D is coherent as well as the intended A-B-C-D; the item does not specify that students must reproduce the textbook’s sentence order."
+    ],
+    "reasons": [
+     "But B-C-A-D is also a coherent sequence: it states and qualifies the market constraint before adding the lack-of-capital reason, then concludes that these reasons warranted government action. A and B are independent reasons, and the stem does not require reproducing the source’s exact sentence order.",
+     "Defect: The order of the two independent reasons A and B is not logically fixed by the statements. B-C-A-D is coherent as well as the intended A-B-C-D; the item does not specify that students must reproduce the textbook’s sentence order.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   }
+  ],
+  "source_support :: key_mismatch(abstain),not_single,missing_assumptions,exam_fit_false,syllabus_entitlement_false,conditions_missing,score<7,defects": [
+   {
+    "id": "b7a164270aab70c490668729c25d2c8e",
+    "defects": [
+     "The listed syllabus specifies short-run cost curves; it does not expressly include the tested long-run LRAC–LRMC relationship.",
+     "The phrase “over this interval” includes the endpoint. If LRAC reaches its minimum at 100 units, LRMC equals LRAC there, so the intended strict inequality is not guaranteed throughout the interval and D can be defended."
+    ],
+    "reasons": [
+     "Defect: The phrase “over this interval” includes the endpoint. If LRAC reaches its minimum at 100 units, LRMC equals LRAC there, so the intended strict inequality is not guaranteed throughout the interval and D can be defended.",
+     "Quality score 5/10",
+     "Condition missing: LRAC is still falling at 100 units rather than reaching its minimum there"
+    ],
+    "score": 5
+   }
+  ],
+  "explanation_support :: key_mismatch,explanation:": [
+   {
+    "id": "6eb162231c9df0e0202a6a6052cfe29f",
+    "defects": [],
+    "reasons": [
+     "The explanation follows the chronological cues in the stem. The supplied excerpt concerns a different account and is not needed."
+    ]
+   },
+   {
+    "id": "7397139d7c9902b317d7753e7ea9ae39",
+    "defects": [],
+    "reasons": []
+   },
+   {
+    "id": "e9b518f7ddefb2fc5f8cad856f6c3d10",
+    "defects": [],
+    "reasons": [
+     "Each total is the stated quantity multiplied by its stated price, and the resulting matches correspond to option A."
+    ]
+   }
+  ],
+  "independent_evaluation :: exam_fit_false,score<7,defects": [
+   {
+    "id": "ae4902769da0d454081499bdde88adb8",
+    "defects": [
+     "The stem gives an explicit definition for 'arduous' as a case instruction, but 'arduous' appears nowhere in either list, creating confusing, misleading student-facing wording."
+    ],
+    "reasons": [
+     "The matching task is a trivial, literal pairing of sentences to their identical restatements rather than a valid CUET English vocabulary or verbal ability question.",
+     "Defect: The stem gives an explicit definition for 'arduous' as a case instruction, but 'arduous' appears nowhere in either list, creating confusing, misleading student-facing wording.",
+     "Quality score 3/10"
+    ],
+    "score": 3
+   },
+   {
+    "id": "720ce18cfd7b72e17c78738ae81814f8",
+    "defects": [
+     "The question is completely tautological: the stem explicitly defines all elements of the task to be performed, and the correct option simply repeats those same elements back, testing basic reading of the stem rather than any economic knowledge or syllabus competency."
+    ],
+    "reasons": [
+     "However, the question lacks exam fit for an economics paper because the question stem itself fully states the exact task to be carried out, making option B a mere verbatim paraphrase/repetition of the prompt rather than a conceptual assessment of economics.",
+     "Defect: The question is completely tautological: the stem explicitly defines all elements of the task to be performed, and the correct option simply repeats those same elements back, testing basic reading of the stem rather than any economic knowledge or syllabus competency.",
+     "Quality score 2/10"
+    ],
+    "score": 2
+   }
+  ],
+  "source_support :: key_mismatch(abstain),not_single,exam_fit_false,score<7,defects": [
+   {
+    "id": "54c349e86f5d3fe71c30f81a130ea378",
+    "defects": [
+     "B and D are not distinct causal events: an increase in dollar demand is represented by a rightward shift of its demand curve. Their ordering is arbitrary, making the sequence question ambiguous."
+    ],
+    "reasons": [
+     "But B (dollar demand increases) and D (the dollar-demand curve shifts right) describe the same demand change, not distinct causal events. The stem supplies no basis for ordering these equivalent descriptions, so the ordering is not uniquely defensible.",
+     "Defect: B and D are not distinct causal events: an increase in dollar demand is represented by a rightward shift of its demand curve. Their ordering is arbitrary, making the sequence question ambiguous.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   }
+  ],
+  "syllabus_mapping :: principle_not_in_excerpt": [
+   {
+    "id": "434e17bb03511b3fd2889b26a6062d54",
+    "defects": [],
+    "reasons": [
+     "The source excerpt supports the environmental context. The hypothetical audit counts and exclusive assignment rule are supplied in the stem.",
+     "Quality score 7/10",
+     "Decisive principle is not stated in the supplied excerpts"
+    ],
+    "score": 7
+   }
+  ],
+  "syllabus_mapping :: exam_fit_false,syllabus_entitlement_false,conditions_implied,score<7,defects": [
+   {
+    "id": "e8708874ac8dd69eedf95b6b1c0322e8",
+    "defects": [
+     "Syllabus mismatch: the supplied current syllabus does not specify the tested floating-charge asset-coverage rule; its reference to debenture as collateral security is a different listed topic."
+    ],
+    "reasons": [
+     "The supplied syllabus lists debenture as collateral security but does not list the tested classification/rule for floating charges. The source supports the concept, but the item is outside the stated syllabus scope.",
+     "Defect: Syllabus mismatch: the supplied current syllabus does not specify the tested floating-charge asset-coverage rule; its reference to debenture as collateral security is a different listed topic.",
+     "Quality score 6/10"
+    ],
+    "score": 6
+   }
+  ],
+  "independent_evaluation :: no_source_support,exam_fit_false,syllabus_entitlement_false,score<7,defects": [
+   {
+    "id": "cddd2a161b8149588f5a4bc6b5e864e3",
+    "defects": [
+     "The tested relationship/formula is an artificial construct not covered by the syllabus or academic excerpts, violating syllabus entitlement."
+    ],
+    "reasons": [
+     "CUET Economics does not feature contrived elementary percentage calculations dressed up as Indian Economic Development content.",
+     "Defect: The tested relationship/formula is an artificial construct not covered by the syllabus or academic excerpts, violating syllabus entitlement.",
+     "Quality score 4/10"
+    ],
+    "score": 4
+   }
+  ],
+  "independent_evaluation :: ?": [
+   {
+    "id": "0045757c0780f56dae942e71bdedd6da",
+    "defects": [],
+    "reasons": [
+     "Under the indirect method, finance costs deducted in the Statement of Profit and Loss are added back to net profit when calculating cash flows from operating activities because finance costs represent a cash outflow of financing activities.",
+     "Statements (A), (B), and (D) are incorrect because finance cost is not a non-cash item, nor is it subtracted again or left unadjusted as an operating cash outflow.",
+     "Quality score 9/10"
+    ],
+    "score": 9
+   }
+  ],
+  "source_support :: key_mismatch(abstain),no_source_support,score<7,defects,quotes_invalid": [
+   {
+    "id": "8f6e24649b1d4f3c6d3e8f3f92d6bfe4",
+    "defects": [
+     "The cited stimulus evidence is mismatched: E1.1 concerns a chair-seating task rather than the poster-preparation task presented."
+    ],
+    "reasons": [
+     "The only supplied evidence excerpt, E1.1, describes a chair-seating task, not Meera's poster task. No catalog evidence supports the candidate's referenced stimulus, so I abstain.",
+     "Defect: The cited stimulus evidence is mismatched: E1.1 concerns a chair-seating task rather than the poster-preparation task presented.",
+     "Quality score 5/10"
+    ],
+    "score": 5
+   }
+  ],
+  "independent_evaluation :: exam_fit_false": [
+   {
+    "id": "24e97ca136cfd7b6f0c865c3f8c7d4fe",
+    "defects": [],
+    "reasons": [
+     "This yields the match (A)-(I), (B)-(II), (C)-(IV), (D)-(III), uniquely corresponding to Option C.",
+     "However, this item reduces a Class XII Business Studies topic to trivial arithmetic multiplication, explicitly spelling out the elementary formula in the stem, which does not reflect authentic CUET Business Studies exam depth or question style.",
+     "Quality score 7/10"
+    ],
+    "score": 7
+   }
+  ]
+ }
+}

@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11763,
+ "request_bytes": 29202,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-english-d3\",\n  \"content_hash\": \"262a9a0b1d228ae59bd6a7f32cde43742a5794df4f41e6226aaa8101a3471e4e\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\"],\n  \"reasons\": [\n    \"The passage explicitly states: 'Nila noticed that a lamp flickered whenever its cable moved. She switched off the power and asked the technician to inspect it.'\",\n    \"Therefore, option C directly reflects the immediate action taken by Nila.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Reading Comprehension - Factual / Narrative Recall\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Nila switched off the power and asked the technician to inspect the lamp immediately after noticing the flickering cable.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Nila took the lamp directly to the hall without waiting for any repairs.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Nila herself repaired the faulty cable before testing.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Nila reported that the delivery would arrive ahead of schedule.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests reading comprehension and narrative sequence recall from the provided text.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option single-correct reading comprehension question format used in CUET UG English.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Standard direct factual comprehension aligned with typical CUET passage questions.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors effectively test chronological sequence and agent attribution from the passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"carried it straight to the community hall\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Nila then carried the working lamp to the community hall.\",\n      \"reason\": \"She carried it only after the technician repaired and tested it.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"herself\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"After replacing the damaged cable, the technician tested the lamp.\",\n      \"reason\": \"The technician replaced the cable, not Nila.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"She switched off the power and asked the technician to inspect it.\",\n      \"reason\": \"Directly matches the text immediately following the observation.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"would be early\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"She told the organiser that noticing the fault had delayed the delivery but prevented them from using a damaged cable.\",\n      \"reason\": \"The delivery was delayed, not early.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 4858,
+   "candidatesTokenCount": 1279,
+   "totalTokenCount": 6460,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 4858
+    }
+   ],
+   "thoughtsTokenCount": 323,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "6vHIasTaNb-1g8UP_NOAwQ4"
+ }
+}

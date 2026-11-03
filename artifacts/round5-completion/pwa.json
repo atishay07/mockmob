@@ -1,0 +1,12 @@
+{
+  "manifest": true,
+  "workerHeaders": true,
+  "assets": [
+    "/offline.html",
+    "/pwa/icon-192.png",
+    "/pwa/icon-512.png"
+  ],
+  "apiFailedOffline": true,
+  "navigationFallback": true,
+  "isolatedBrowser": true
+}

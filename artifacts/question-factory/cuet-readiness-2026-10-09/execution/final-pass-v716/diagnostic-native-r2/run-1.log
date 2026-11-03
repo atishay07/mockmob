@@ -1,0 +1,63 @@
+{"at":"2026-10-09T23:16:26.894Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:17:01.484Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:17:16.698Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:17:58.379Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:17:58.379Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:17:58.380Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:18:29.685Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:18:29.686Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:18:29.686Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:01.480Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:01.480Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:01.480Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:32.756Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:32.757Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:19:32.757Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:04.558Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:04.559Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:04.559Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:35.835Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:35.836Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:20:35.836Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:21:54.792Z","id":"f-234e398c6040b350","state":"eligible","outcome":"eligible","reasons":[]}
+{"at":"2026-10-09T23:23:04.453Z","id":"f-a7899d6bca12a82b","state":"eligible","outcome":"eligible","reasons":[]}
+{"at":"2026-10-09T23:23:05.645Z","id":"f-c3a378b4d2de5478","state":"eligible","outcome":"eligible","reasons":[]}
+{
+  "id": "cuet-v716-diagnostic-r2",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 3,
+  "terminal": 3,
+  "valid_total": 3,
+  "valid_eligible": 3,
+  "valid_by_subject": {
+    "accountancy": {
+      "ok": 1,
+      "n": 1
+    },
+    "business_studies": {
+      "ok": 0,
+      "n": 0
+    },
+    "economics": {
+      "ok": 1,
+      "n": 1
+    },
+    "english": {
+      "ok": 1,
+      "n": 1
+    }
+  },
+  "controlled_defects": 0,
+  "controlled_false_accepts": [],
+  "review_incomplete": [],
+  "unfinished": [],
+  "decision_rule": "Diagnostic only: complete blind+independent+explanation-audit path and actual cost on three inspected valid R3 regression cases. Not qualification or release evidence.",
+  "decision": "diagnostic_only",
+  "settled_usd": 0.018903,
+  "held_usd": 0,
+  "receipt_complete": true,
+  "publication": "never",
+  "release_record": false
+}
+exit=0

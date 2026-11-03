@@ -1,0 +1,158 @@
+{
+  "schema": "owner-one-off-independent-solution-v1",
+  "subject": "accountancy",
+  "batch": "accountancy-04",
+  "input_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/owner-127-review/accountancy-04.blind.json",
+  "input_sha256": "1cd54c6ff4d365c64117886e35b46d4e38a9ab106d43912bf9fab62fdc51cad5",
+  "input_offset": 30,
+  "input_denominator": 36,
+  "independent_solutions_saved_at": "2026-10-08T14:13:00.958Z",
+  "comparison_opened": false,
+  "notice": "Solved blind from stems/options/supplied excerpts before this batch comparison.",
+  "items": [
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "defensible_option": "D",
+      "answer_check": "A-I, B-II, C-III, D-IV",
+      "derivation_or_rule": "Private payment bypasses firm books, I; cash into firm credited Premium for Goodwill then distributed, II; alternative initial credit to incoming partner capital then transfer to sacrifice partners, III; amounts already credited and retained means no extra posting, IV.",
+      "source": {
+        "key": "ncert-leac102:1:span-8a1d40054567",
+        "locator": null,
+        "excerpt_quote": "If paid directly to old partners, no entry in firm books; through firm, bank to premium, then distribute in sacrificing ratio; alternatively credit new partner’s capital then adjust.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Mappings all distinct; option D only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+      "defensible_option": "A",
+      "answer_check": "P ₹72,000; Q ₹60,000; R ₹0",
+      "derivation_or_rule": "Sacrifices: P 1/2−2/5=1/10; Q 1/3−1/4=1/12; R 1/6−1/5=−1/30 (gain). P:Q sacrifice ratio 6:5, so ₹1,32,000 distributes ₹72,000, ₹60,000, ₹0.",
+      "source": {
+        "key": "ncert-leac102:1:span-aa617840faf0",
+        "locator": null,
+        "excerpt_quote": "Sacrifice = old share minus new share; premium is shared by existing partners in sacrifice ratio.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "All old/new shares sum to 1. Option A only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+      "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+      "defensible_option": "B",
+      "answer_check": "No interest on capital",
+      "derivation_or_rule": "No partnership-deed provision means no interest is allowed on partner capitals; unequal capital and equal profit-sharing alone do not create entitlement.",
+      "source": {
+        "key": "ncert-leac101:1:quality-v4-4f456816afcf",
+        "locator": null,
+        "excerpt_quote": "“No interest is allowed on partners’ capitals unless it is expressly agreed.”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option B.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "6314a93c1f302347c03562d66b15f2d3",
+      "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+      "defensible_option": "B",
+      "answer_check": "₹1,18,200",
+      "derivation_or_rule": "14,400 shareholders pay ₹8 = ₹1,15,200; 600 pay ₹5 = ₹3,000; total paid-up capital ₹1,18,200. Applications above shares offered establish oversubscription but do not alter paid-up amount for shares allotted.",
+      "source": {
+        "key": "ncert-leac201:1:pdf-page-4",
+        "locator": null,
+        "excerpt_quote": "Paid-up capital concerns amount actually paid on subscribed/called shares.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option B; call shortfall included once.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+      "defensible_option": "A",
+      "answer_check": "A loses 3/20; B gains 1/20; C gains 2/20; D unchanged",
+      "derivation_or_rule": "Old total 20; new total 20. A 8→5 loses3/20; B5→6 gains1/20; C3→5 gains2/20; D4→4 unchanged. Option A.",
+      "source": {
+        "key": "ncert-leac102:1:span-88acd5a861b0",
+        "locator": null,
+        "excerpt_quote": "A ratio change causes gains for some partners and loss of share for others.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Each match is unique.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "99519ad997494b32a08ca17d0c48315b",
+      "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+      "defensible_option": "D",
+      "answer_check": "B-C-D-A",
+      "derivation_or_rule": "Compare ₹280 with nominal ₹250; calculate premium ₹30; credit Securities Premium Reserve; show it under Reserves and Surpluses on liabilities side.",
+      "source": {
+        "key": "ncert-leac202:1:span-2bf9ffb186bb",
+        "locator": null,
+        "excerpt_quote": "Premium is issue price above nominal; premium is credited to Securities Premium Reserve and shown under Reserves and Surpluses.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option D is coherent order.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    }
+  ]
+}

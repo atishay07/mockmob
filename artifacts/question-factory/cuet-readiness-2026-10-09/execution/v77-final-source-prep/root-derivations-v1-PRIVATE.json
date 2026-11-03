@@ -1,0 +1,252 @@
+{
+  "at": "2026-10-09T06:46:33.481Z",
+  "packet_sha256": "8546f0a2b2b6ce1a937f96eddb78defae1d38c2a3a72ff492f253bf2a16bd956",
+  "proposed_keys_or_private_labels_seen": false,
+  "other_reviewer_derivations_seen": false,
+  "scope": "Independent root derivation from blind packet only before proposed answers/labels. Evidence sufficiency is case-local; no hidden passage import.",
+  "cases": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Two months from acquisition satisfies the normally three-month maturity test, with convertibility and insignificant value risk stated. Other options fail the described nature/maturity."
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "proposed_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": "Customer receipts are operating by the quoted rule. Machine disposal would be investing but that decisive principle is absent from this case excerpt; add verified investing excerpt before construction completion."
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "proposed_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "The excerpt states cash inflows/outflows under operating, investing and financing as the primary objective. Profit-only/year-end-only and replacement claims do not express that objective."
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "proposed_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Cash payment for a multi-year delivery van is acquisition of a fixed asset, explicitly classified as investing by the excerpt."
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Identifying workforce requirements followed by recruitment and selection is the stated staffing process."
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Updating skills and preparing for higher responsibilities directly matches training and development."
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Obtaining relief when the product falls short is expressly seek-redressal in the supplied source."
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "The opportunity to present a complaint is expressly the right to be heard."
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Marginal utility of the fifth unit equals 30 minus28 =2 under the supplied change-in-total-utility definition."
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Ranking without numerical measurement is the stated ordinal approach."
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Same-curve bundles are indifferent by the supplied interpretation. Equal price or identical quantities are not entailed by indifference; the question asks what this interpretation says."
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "The excerpt explicitly allows utility to change with place and time. A room heater in summer versus winter instantiates that principle."
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": "Ledger normally means written record book, but this passage question has no passage/excerpt, so its required contextual source evidence is missing."
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": "No library passage is supplied; why Mira moves and records the box cannot be derived from stem/options."
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": "No ferry passage is supplied for this case; the cause of cancelling noon crossing cannot be established. Another case contains a ferry passage but may not be silently attached."
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": "No orchard passage is supplied; the purpose of Leela list is not independently answerable."
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": "Customer cash is operating; machine disposal should be investing, but the investing principle is absent from this case source evidence."
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": "Short term/low risk alone does not establish the normally three-month acquisition maturity, known cash amount and insignificant value risk. Yes can hold for some investments, no for others; equity/over-one-year clauses do not resolve the missing facts."
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "The stem explicitly calls both transactions operating. Net =12000 minus4500 =7500. No unstated transaction status is imported."
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Identifying requirements, recruitment, selection and placement match the staffing definition."
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "proposed_keys": [
+        "A",
+        "B"
+      ],
+      "unique_answer": false,
+      "source_evidence_sufficient": true,
+      "derivation": "The stem asks both complaint/hearing and relief. A fits hearing; B fits relief using the redressal quote supplied elsewhere in this same blind packet. Two defensible rights; no single correct answer."
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": "Causal forest is plausibly the advanced causal method, but the supplied staffing excerpt cannot establish this key and the named specialist method has no stated CUET entitlement."
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Marginal utility =30 minus28 =2."
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": "The stated diminishing-MU law assumes other commodities consumption held constant. The stem does not establish that model, and asks what must follow; unconditional decline is not justified."
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "proposed_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Ranking without numerical measurement is ordinal utility by the excerpt."
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "The workshop passage explicitly requests comparing second-hand movement with escapement sound."
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": "Fresh date means newly/recently written in the daily updating context, rather than temperature or damage."
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "proposed_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": "Mandative subjunctive uses base form be after recommended that. The passage offers no grammar-rule evidence and the supplied English syllabus excerpt concerns narrative comprehension, not this specialist rule."
+    }
+  ]
+}

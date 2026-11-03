@@ -1,0 +1,212 @@
+{
+  "schema": "v73-semantic-view-private-overlay-proposal-v1",
+  "sources": {},
+  "families": {
+    "pyq:cuet2024-english-bookA-q46": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-english-bookA-q46",
+      "source_pack_id": "cuet2024-english-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-english-bookA-q49": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-english-bookA-q49",
+      "source_pack_id": "cuet2024-english-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-accountancy-bookA-q17": {
+      "state": "active",
+      "version": 13,
+      "anchor_id": "cuet2024-accountancy-bookA-q17",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-accountancy-bookA-q20": {
+      "state": "active",
+      "version": 13,
+      "anchor_id": "cuet2024-accountancy-bookA-q20",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-accountancy-bookA-q3": {
+      "state": "active",
+      "version": 13,
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-accountancy-bookA-q7": {
+      "state": "active",
+      "version": 13,
+      "anchor_id": "cuet2024-accountancy-bookA-q7",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q26": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q26",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q45": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q45",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q8": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q8",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q49": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q49",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q7": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q7",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    },
+    "pyq:cuet2024-economics-bookA-q25": {
+      "state": "active",
+      "version": 12,
+      "anchor_id": "cuet2024-economics-bookA-q25",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "semantic_view_only": true
+    }
+  },
+  "packs": {
+    "cuet2024-english-bookA": {
+      "id": "cuet2024-english-bookA",
+      "subject": "english",
+      "version": 12,
+      "state": "active",
+      "registered_at": "2026-10-06T18:46:01.528Z",
+      "document_ids": [
+        "cuet2024-english-bookA-paper",
+        "cuet2024-english-bookA-final-key",
+        "cuet2026-english-syllabus",
+        "cuet2024-english-bookA-q1-reference",
+        "cuet2024-english-bookA-q2-reference",
+        "cuet2024-english-bookA-q4-reference",
+        "cuet2024-english-bookA-q11-reference",
+        "cuet2024-english-bookA-q45-reference",
+        "cuet2024-english-bookA-q3-capture-3e3f458c43b6",
+        "cuet2024-english-bookA-q3-capture-cc1c96beb7ae",
+        "cuet2024-english-bookA-q3-capture-326425b8f64f",
+        "cuet2024-english-bookA-q3-capture-56b0bf92fd42",
+        "cuet2024-english-bookA-q5-capture-9afbb5f4cad4",
+        "cuet2024-english-bookA-q7-capture-43323598b7d1",
+        "cuet2024-english-bookA-q7-capture-91277353a6e9",
+        "cuet2024-english-bookA-q7-capture-a263a86c7c0c",
+        "cuet2024-english-bookA-q7-capture-c88ff3c5f3c1",
+        "cuet2024-english-bookA-q8-capture-20ab82d4322f",
+        "cuet2024-english-bookA-q42-capture-348a1ab48a1f",
+        "cuet2024-english-bookA-q44-capture-d2ed8528ef33",
+        "cuet2024-english-bookA-q44-capture-eaf8e0ff4817",
+        "cuet2024-english-bookA-q44-capture-bf1d37318c14",
+        "cuet2024-english-bookA-q44-capture-508289a752a0",
+        "cuet2024-english-bookA-q46-capture-2326f94598e9",
+        "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+        "cuet2024-english-bookA-q48-capture-5b560b67fcda",
+        "cuet2024-english-bookA-q49-capture-fec22fec900f",
+        "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+        "oxford-quality-benevolent",
+        "oxford-quality-frugal",
+        "oxford-quality-resolute",
+        "oxford-quality-candid",
+        "oxford-quality-diligent",
+        "oxford-quality-hostile",
+        "oxford-quality-sparse",
+        "oxford-quality-obsolete",
+        "oxford-quality-prudent",
+        "oxford-quality-tedious",
+        "oxford-quality-meticulous",
+        "oxford-quality-perilous",
+        "oxford-quality-arduous",
+        "oxford-quality-coherent",
+        "oxford-quality-conspicuous",
+        "oxford-quality-impartial",
+        "oxford-quality-inevitable",
+        "oxford-quality-tranquil",
+        "oxford-quality-authentic",
+        "oxford-quality-elated",
+        "oxford-quality-concise",
+        "oxford-quality-gregarious",
+        "oxford-quality-arrogant",
+        "oxford-quality-feeble",
+        "oxford-quality-transient"
+      ],
+      "semantic_view_only": true,
+      "note": "Private overlay copy solely to let this diagnostic reach academic semantic checks; base/global source-pack state is unchanged."
+    },
+    "cuet2024-accountancy-bookA": {
+      "id": "cuet2024-accountancy-bookA",
+      "subject": "accountancy",
+      "version": 13,
+      "state": "active",
+      "registered_at": "2026-10-06T13:28:53.249Z",
+      "document_ids": [
+        "cuet2024-accountancy-bookA-paper",
+        "cuet2024-accountancy-bookA-final-key",
+        "cuet2026-accountancy-syllabus",
+        "ncert-leac204",
+        "ncert-leac201",
+        "ncert-leac205",
+        "ncert-leac101",
+        "ncert-leac104",
+        "ncert-leac102",
+        "ncert-leac103",
+        "ncert-leac202",
+        "ncert-leac206"
+      ],
+      "semantic_view_only": true,
+      "note": "Private overlay copy solely to let this diagnostic reach academic semantic checks; base/global source-pack state is unchanged."
+    },
+    "cuet2024-economics-bookA": {
+      "id": "cuet2024-economics-bookA",
+      "subject": "economics",
+      "version": 12,
+      "state": "active",
+      "registered_at": "2026-10-06T18:42:54.176Z",
+      "document_ids": [
+        "cuet2024-economics-bookA-paper",
+        "cuet2024-economics-bookA-final-key",
+        "cuet2026-economics-syllabus",
+        "ncert-leec104",
+        "ncert-leec102",
+        "ncert-leec103",
+        "ncert-keec101",
+        "ncert-leec105",
+        "ncert-leec106",
+        "ncert-leec201",
+        "ncert-leec202",
+        "ncert-leec203",
+        "ncert-leec204",
+        "ncert-leec205",
+        "ncert-keec102",
+        "ncert-keec103",
+        "ncert-keec104",
+        "ncert-keec105",
+        "ncert-keec106",
+        "ncert-keec107",
+        "ncert-keec108"
+      ],
+      "semantic_view_only": true,
+      "note": "Private overlay copy solely to let this diagnostic reach academic semantic checks; base/global source-pack state is unchanged."
+    }
+  },
+  "note": "Proposal-only overlay: overrides active pack/family metadata for the 16 semantic-view audit copies. It does not write or mutate the global registry."
+}

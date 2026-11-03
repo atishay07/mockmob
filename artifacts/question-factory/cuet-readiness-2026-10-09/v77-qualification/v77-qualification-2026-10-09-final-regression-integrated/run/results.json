@@ -1,0 +1,48 @@
+{
+  "benchmark": {
+    "id": "v77-qualification-2026-10-09-final-regression-integrated",
+    "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9"
+  },
+  "verifier_version": "cuet-fit-validator-v7.7-local-draft",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.7-local-draft",
+    "prompt_hash": "71a45c62d599d38bfa0886cd8da565b57eb59a2a913c2bee669d4f352c94bb90",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    },
+    "parent_policy": "cuet-fit-release-v2",
+    "fresh_false_accepts_max": 0,
+    "regression_false_accepts_max": 0,
+    "valid_survival_min": 0.85,
+    "per_subject_valid_survival_min": 0.7
+  },
+  "release_eligibility": {
+    "scope": "regression",
+    "classification": "regression",
+    "approved_before_evaluation": true,
+    "previously_read": true,
+    "tuned_on": true,
+    "preregistration_id": "v77-qualification-2026-10-09-final-regression-integrated"
+  },
+  "evaluations": {},
+  "topologies": {
+    "dual_blind": []
+  }
+}

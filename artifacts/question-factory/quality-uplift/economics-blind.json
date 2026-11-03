@@ -1,0 +1,869 @@
+{
+  "subject": "economics",
+  "syllabus": {
+    "state": "verified",
+    "syllabus_version": "cuet-2026-provisional-for-2027",
+    "pattern_version": "cuet-2024-authenticated-bookA-v1",
+    "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+    "included_topics": [
+      "PAGE 1\r\n \r\n \r\nFor the Year 2026 \r\n \r\n  \r\nEconomics/Business \r\nEconomics – 309 \r\nSyllabus for     \r\nCUET(UG)\r\n \r\n \r\n\r\nPAGE 2\r\n \r\n1 | P a g e   \r\nCourse I Introductory Microeconomics \r\nUnit I: Introduction, Theory of Consumer Behaviour \r\n What is microeconomics? \r\n Central problems of an economy \r\n Consumer’s Equilibrium: meaning and attainment of equilibrium through \r\nUtility Approach: One and two commodity cases, Consumers Budget and \r\nOptimal choice of the consumer. \r\n Demand: market demand, determinants of demand, demand schedule, \r\ndemand curve, movement along and shifts in the demand curve, price \r\nelasticity of demand, measurement of price elasticity of demand – \r\npercentage, total expenditure, factor determining price elasticity of demand \r\nfor a good. \r\nUnit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR. \r\n \r\nUnit III: The Theory of the firms under perfect competition \r\n Features of perfect competition  \r\n Profit maximization. \r\n Price determination under perfect competition – equilibrium price, effects of \r\nshifts in demand and supply. \r\n Supply: market supply, determinants of supply, supply schedule, supply \r\ncurve movement along and shifts in supply curve, price elasticity of supply, \r\nmeasurement of price elasticity of supply. \r\n \r\nUnit IV: Market Equilibrium and Simple Applications  \r\n Market equilibrium, excess demand, excess supply, \r\n Applications:=- Price ceiling and Price flooring. \r\n \r\n \r\nCourse II Introductory Macroeconomics \r\n \r\nUnit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare \r\n \r\nUnit II: Money and Banking \r\n Meaning and functions, supply of money - Money Creation and Money \r\nMultiplier. \r\n Central bank and its functions (example of the Reserve Bank of India) \r\n Policy tools to control money supply. \r\n \r\nUnit III: Determination of Income and Employment \r\n Aggregate demand and its components.  \r\n Determination of Income in two sector model. \r\n Problems of excess demand and deficient demand; measures to correct \r\nthem - changes in government spending, taxes and money supply \r\n Multiplier mechanism. \r\n \r\nUnit IV: Government Budget and the Economy \r\n Government budget - meaning, objectives and components \r\n Classification of receipts - revenue receipts and capital receipts; \r\n Classification of expenditure – revenue expenditure and capital \r\nexpenditure. \r\n Balanced, Surplus and Deficit Budget – measures of government deficit. \r\n \r\nUnit V: Open Economy Macroeconomics \r\n Balance of payments account - meaning and components; \r\n  Balance of payments – Surplus and Deficit  \r\n Foreign exchange rate - meaning of fixed and flexible rates and managed \r\nfloating. Merits and demerits of exchange rate regimes. \r\n Determination of exchange rate.  \r\n Managed Floating \r\n \r\n Course III: Indian Economic Development \r\nUnit I: Development Policies and Experience (1947-90)  \r\n\r\nPAGE 4\r\n \r\n3 | P a g e   \r\n A brief introduction of the state of Indian economy on the eve of \r\nindependence. \r\n Indian economic system and common goals of Five Year Plans \r\n Main features, problems and policies of agriculture (institutional aspects \r\nand new agricultural strategy), industry (IPR 1956; SSI – role & \r\nimportance) and foreign trade. \r\n \r\nUnit II Economic Reforms since 1991: Macroeconomics: Meaning. \r\n Economic Reforms since 1991: \r\n Features and appraisals of liberalisation, globalisation and privatisation \r\n(LPG policy);  \r\n \r\nUnit III: Current challenges facing the Indian Economy \r\n \r\n Human Capital Formation: How people become resource; Role of human \r\ncapital in economic development; Growth of Education Sector in India  \r\n Rural development: Key issues - credit and marketing - role of \r\ncooperatives; agricultural market system, Agriculture diversification; \r\nalternative farming - organic farming  \r\n Employment: Growth and changes in work force participation rate in \r\nformal and informal sectors; problems and policies  \r\n Environment and Sustainable Development: Definition and Functions, \r\nState of India’s environment, Strategies for sustainable development. \r\n \r\nUnit IV: Development Experiences of India: A comparison with \r\nneighbours. \r\n A comparison with neighbours. \r\n Issues: economic growth, population, sectoral development and other \r\nHuman Development Indicators. \r\n Development Strategies. \r\n \r\n "
+    ],
+    "excluded_topics": [],
+    "pattern_rules": [
+      "Use the authenticated paper examples for wording, format and depth.",
+      "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+      "Historical paper timing and attempt rules do not establish 2027 examination rules."
+    ],
+    "source_refs": [
+      {
+        "id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus"
+      },
+      {
+        "id": "cuet2024-economics-bookA-paper",
+        "locator": "q1"
+      }
+    ]
+  },
+  "sources": {
+    "cuet2024-economics-bookA-paper:q10": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q10",
+      "text": "10. Under flexible exchange rate, when the price of domestic currency in terms of foreign currency increases, it is called ___________ . (1) Depreciation of domestic currency (2) Appreciation of domestic currency (3) Devaluation of domestic currency (4) Revaluation of domestic currency",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec106:pdf-page-8": {
+      "id": "ncert-leec106",
+      "locator": "pdf-page-8",
+      "text": "92 92929292Introductory Macroeconomics increase (whether it actually increases depends on a number of factors, particularly elasticity of demand for exports and imports. 6.2.2 Determination of the Exchange Rate Different countries have different methods of determining their currency’s exchange rate. It can be determined through Flexible Exchange Rate, Fixed Exchange Rate or Managed Floating Exchange Rate. Flexible Exchange Rate This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate . As depicted in Fig. 6.1, the exchange rate is determined where the demand curve intersects with the supply curve, i.e., at point e on the Y – axis. Point q on the x – axis determines the quantity of US Dollars that have been demanded and supplied on e exchange rate. In a completely flexible system, the Central banks do not intervene in the foreign exchange market. Suppose the demand for foreign goods and services increases (for example, due to increased international travelling by Indians), then as depicted in Fig. 6.2, the demand curve shifts upward and right to the original demand curve. The increase in demand for foreign goods and services result in a change in the exchange rate. The initial exchange rate e0 = 50, which means that we need to exchange Rs 50 for one dollar . At the new equilibrium, the exchange rate becomes e1 = 70, which means that we need to pay more rupees for a dollar now (i.e., Rs 70). It indicates that the value of rupees in terms of dollars has fallen and value of dollar in terms of rupees has risen. Increase in exchange rate implies that the price of foreign currency (dollar) in terms of domestic currency (rupees) has increased. This is called Depreciation of domestic currency (rupees) in terms of foreign currency (dollars). Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars). This means that the Equilibrium under Flexible Exchange Rates Fig. 6.2 D D D D' S S Rs/$ e1 e* $ Effect of an Increase in Demand for Imports in the Foreign Exchange Market Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec106:pdf-page-10": {
+      "id": "ncert-leec106",
+      "locator": "pdf-page-10",
+      "text": "94 94949494Introductory Macroeconomics (quantitative limits on imports), exchange rates should eventually adjust so that the same product costs the same whether measured in rupees in India, or dollars in the US, yen in Japan and so on, except for differences in transportation. Over the long run, therefore, exchange rates between any two national currencies adjust to reflect differences in the price levels in the two countries. EXAMPLE 6.1 If a shirt costs $8 in the US and Rs 400 in India, the rupee-dollar exchange rate should be Rs 50. To see why, at any rate higher than Rs 50, say Rs 60, it costs Rs 480 per shirt in the US but only Rs 400 in India. In that case, all foreign customers would buy shirts from India. Similarly, any exchange rate below Rs 50 per dollar will send all the shirt business to the US. Next, we suppose that prices in India rise by 20 per cent while prices in the US rise by 50 per cent. Indian shirts would now cost Rs 480 per shirt while American shirts cost $12 per shirt. For these two prices to be equivalent, $12 must be worth Rs 480, or one dollar must be worth Rs 40. The dollar, therefore, has depreciated. Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In Fig. 6.3, the market determined exchange rate is e. However, let us suppose that for some reason the Indian Government wants to encourage exports for which it needs to make rupee cheaper for foreigners it would do so by fixing a higher exchange rate, say Rs 70 per dollar from the current exchange rate of Rs 50 per dollar. Thus, the new exchange rate set by the Government is e1, where e1 > e. At this exchange rate, the supply of dollars exceeds the demand for dollars. The RBI intervenes to purchase the dollars for rupees in the foreign exchange market in order to absorb this excess supply which has been marked as AB in the figure. Thus, through intervention, the Government can maintain any exchange rate in the economy. But it will be accumulating more and more foreign exchange so long as this intervention goes on. On the other hand if the goverment was to set an exchange rate at a level such as e 2, there would be an excess demand for dollars in the foreign exchange market. To meet this excess demand for dollars, the government would have to withdraw dollars from its past holdings of dollars. If it fails to do so, a black market for dollars may come up. In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system. Foreign Exchange Market with Fixed Exchange Rates 2 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q26": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q26",
+      "text": "26. Identify the correct set of statements. (A) Ex Ante Saving represents what is actually planned to save. (B) Ex Post Saving represents what is actually planned to save. (C) Ex Post Saving depicts what has actually happened. (D) Ex Ante Post Saving represents what is actually saved. Choose the correct answer from the options given below : (1) (A) and (D) only (2) (A) and (C) only (3) (B) and (D) only (4) (C) and (D) only",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec104:pdf-page-2": {
+      "id": "ncert-leec104",
+      "locator": "pdf-page-2",
+      "text": "54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be different from what she ends up doing. Suppose the producer plans to add Rs 100 worth goods to her stock by the end of the year. Her planned investment is, therefore, Rs 100 in that year. However, due to an unforeseen upsurge of demand for her goods in the market the volume of her sales exceeds what she had planned to sell and, to meet this extra demand, she has to sell goods worth Rs 30 from her stock. Therefore, at the end of the year , her inventory goes up by Rs (100 – 30) = Rs 70 only. Her planned investment is Rs 100 whereas her actual, or ex post, investment is Rs 70 only. We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures. In simple words, ex-ante depicts what has been planned, and ex-post depicts what has actually happened. In order to understand the determination of income, we need to know the planned values of different components of aggregate demand. Let us look at these components now. 4.1.1. Consumption The most important determinant of consumption demand is household income. A consumption function describes the relation between consumption and income. The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption. We can describe this function as: C C cY= + (4.1) The above equation is called the consumption function. Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income. When income rises by Re 1. induced consumption rises by MPC i.e. c or the marginal propensity to consume. It may be explained as a rate of change of consumption as income changes. CMPC c Y ∆= =∆ Now, let us look at the value that MPC can take. When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values). This means that as income increases either Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec104:pdf-page-4": {
+      "id": "ncert-leec104",
+      "locator": "pdf-page-4",
+      "text": "56 5656 5656Introductory Macroeconomics 4.1.2. Investment Investment is defined as addition to the stock of physical capital (such as machines, buildings, roads etc., i.e. anything that adds to the future productive capacity of the economy) and changes in the inventory (or the stock of finished goods) of a producer. Note that ‘investment goods’ (such as machines) are also part of the final goods – they are not intermediate goods like raw materials. Machines produced in an economy in a given year are not ‘used up’ to produce other goods but yield their services over a number of years. Investment decisions by producers, such as whether to buy a new machine, depend, to a large extent, on the market rate of interest. However, for simplicity, we assume here that firms plan to invest the same amount every year. We can write the ex ante investment demand as I = I (4.2) where I is a positive constant which represents the autonomous (given or exogenous) investment in the economy in a given year. 4.2 DETERMINATION OF INCOME IN TWO-SECTOR MODEL In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I. Substituting the values of C and I from equations (4.1) and (4.2), aggregate demand for final goods can be written as AD = C + I + c.Y If the final goods market is in equilibrium this can be written as Y = C + I + c.Y where Y is the ex ante, or planned, ouput of final goods. This equation can be further simplified by adding up the two autonomous terms, C and I , making it Y = A + c.Y (4.3) where A = C + I is the total autonomous expenditure in the economy. In reality, these two components of autonomous expenditure behave in different ways. C , representing subsistence consumption level of an economy, remains more or less stable over time. However, I has been observed to undergo periodic fluctuations. A word of caution is in order. The term Y on the left hand side of equation (4.3) represents the ex ante output or the planned supply of final goods. On the other hand, the expression on the right hand side denotes ex ante or planned aggregate demand for final goods in the economy. Ex ante supply is equal to ex ante demand only when the final goods market, and hence the economy, is in equilibrium. Equation (4.3) should not, therefore, be confused with the accounting identity of Chapter 2, which states that the ex post value of total output must always be equal to the sum total of ex post consumption and ex post investment in the economy. If ex ante demand for final goods falls short of the output of final goods that the producers have planned to produce in a given year, equation (4.3) will not hold. Stocks will be piling up in the warehouses which we may consider as unintended accumulation of inventories . It should be noted that inventories or stocks refers to that part of output produced which is not sold and therefore remains with the firm. Change in inventory is called Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q3": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q3",
+      "text": "3. Which of the following statements are true ? (A) Quantitative tools control the extent of money supply by changing the CRR. (B) There are two types of open market operations – outright and upright. (C) A fall in the bank rate can decrease the money supply. (D) Selling of a bond by RBI leads to reduction in quantity of reserves. (E) The RBI can influence money supply by changing the rate at which it gives loan to the commercial banks. Choose the correct answer from the options given below : (1) (A), (C) and (D) only (2) (A), (B) and (D) only (3) (B), (D) and (E) only (4) (A), (D) and (E) only",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec103:pdf-page-7": {
+      "id": "ncert-leec103",
+      "locator": "pdf-page-7",
+      "text": "42 42424242Introductory Macroeconomics Since the bank is only expected to keep 20 per cent of its deposits as reserves, thus, reserves of Rs 100 (20per cent of 500 = 100) can support the deposits of Rs 500. In other words, our bank can give a loan of Rs 400. Table 3.3 demonstrates its balance sheet. M1 = Currency + Deposits = 0 + 500 = 500 Thus, money supply increases from Rs 100 to Rs 500. Given a CRR of 20 per cent, the bank cannot give a loan beyond Rs 400. Hence, requirement of reserves acts as a limit to money creation. In our example, money multiplier . Thus, reserves of Rs 100 create deposits of Rs (5 × 100)=Rs 500. 3.4 POLICY TOOLS TO CO NTROL MONEY SUPPLY Reserve Bank is the only institution which can issue currency. When commercial banks need more funds in order to be able to create more credit, they may go to market for such funds or go to the Central Bank. Central bank provides them funds through various instruments. This role of RBI, that of being ready to lend to banks at all times is another important function of the central bank, and due to this central bank is said to be the lender of last resort. The RBI controls the money supply in the economy in various ways. The tools used by the Central bank to control money supply can be quantitative or qualitative. Quantitative tools, control the extent of money supply by changing the CRR, or bank rate or open market operations. Qualitative tools include persuasion by the Central bank in order to make commercial banks discourage or encourage lending which is done through moral suasion, margin requirement, etc. It should be evident by now that if the Central bank changes the reserve ratio, this would lead to changes in lending by the banks which, in turn, would impact the deposits and hence, the money supply. In the previously discussed example, what would the money multiplier be if the RBI increases the reserve ratio to 25 per cent? Notice that in the previous case, Rs 100 in reserves could support deposits of Rs 400. But the banking system would now be able to loan Rs 300 only. It would have to call back some loans to meet the increased reserve requirements. Hence, money supply would fall. Another important tool by which the RBI also influences money supply is Open Market Operations. Open Market Operations refers to buying and selling of bonds issued by the Government in the open market. This purchase and sale is entrusted to the Central bank on behalf of the Government. When RBI buys a Government bond in the open market, it pays for it by giving a cheque. This cheque increases the total amount of reserves in the economy and thus increases the money supply. Selling of a bond by RBI (to private individuals or institutions) leads to reduction in quantity of reserves and hence the money supply. There are two types of open market operations: outright and repo. Outright open market operations are permanent in nature: when the central bank buys these securities (thus injecting money into the system), it is without any promise to sell them later. Similarly, when the central bank sells these securities (thus withdrawing money from the system), it is without any promise to buy them Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec103:pdf-page-3": {
+      "id": "ncert-leec103",
+      "locator": "pdf-page-3",
+      "text": "38 3838 3838Introductory Macroeconomics 3.2.2. Supply of Money In a modern economy, money comprises cash and bank deposits. Depending on what types of bank deposits are being included, there are many measures of money1. These are created by a system comprising two types of institutions: central bank of the economy and the commercial banking system. Central bank Central Bank is a very important institution in a modern economy. Almost every country has one central bank. India got its central bank in 1935. Its name is the ‘Reserve Bank of India’. Central bank has several important functions. It issues the currency of the country. It controls money supply of the country through various methods, like bank rate, open market operations and variations in reserve ratios. It acts as a banker to the government. It is the custodian of the foreign exchange reserves of the economy. It also acts as a bank to the banking system, which is discussed in detail later. From the point of view of money supply, we need to focus on its function of issuing currency. This currency issued by the central bank can be held by the public or by the commercial banks, and is called the ‘high-powered money’ or ‘reserve money’ or ‘monetary base’ as it acts as a basis for credit creation. Commercial Banks Commercial banks are the other type of institutions which are a part of the money-creating system of the economy. In the following section we look at the commercial banking system in detail. They accept deposits from the public and lend out part of these funds to those who want to borrow. The interest rate paid by the banks to depositors is lower than the rate charged from the borrowers. This difference between these two types of interest rates, called the ‘spread’ is the profit appropriated by the bank. The process of deposit and loan (credit) creation by banks is explained below. In order to understand this process, let us discuss a story. Once there was a goldsmith named Lala in a village. In this village, people used gold and other precious metals in order to buy goods and services. In other words, these metals were acting as money. People in the village started keeping their gold with Lala for safe-keeping. In return for keeping their gold, Lala issued paper receipts to people of the village and charged a small fee from them. Slowly, over time, the paper receipts issued by Lala began to circulate as money. This means that instead of giving gold for purchasing wheat, someone would pay for wheat or shoes or any other good by giving the paper receipts issued by Lala. Thus, the paper receipts started acting as money since everyone in the village accepted these as a medium of exchange. Now, let us suppose that Lala had 100 Kgs of gold, deposited by different people and he had issued receipts corresponding to 100 kgs of gold. At this time Ramu comes to Lala and asks for a loan of 25 kgs of gold. Can Lala give the loan? The 100 kgs of gold with him already has claimants. However, Lala could decide that everyone with gold deposits will not come to withdraw their deposits at the same time and so he may as well give the loan to Ramu and charge him for it. If Lala gives the loan of 25 kgs of gold, Ramu could also pay Ali with these 25 kgs of gold and Ali could keep the 25 kgs of gold with Lala in return for a paper receipt. In effect, the paper receipts, acting as money, would 1See the box on the measures of money supply at the end of the chapter. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q47": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q47",
+      "text": "47. Identify the correct statements : (A) Stocks are defined over a period of time. (B) Flows are defined over a period of time. (C) Flows are defined at a particular point of time. (D) Stocks are defined at a particular point of time. (E) GVA at factor costs + Indirect Taxes – Subsidies = GVA at market prices. Choose the correct answer from the options given below : (1) (A), (C) and (E) only (2) (B), (C) and (D) only (3) (B), (D) and (E) only (4) (C), (D) and (E) only",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec102:pdf-page-4": {
+      "id": "ncert-leec102",
+      "locator": "pdf-page-4",
+      "text": "12 1212 1212Introductory Macroeconomics In contrast, capital goods or consumer durables once produced do not wear out or get consumed in a delineated time period. In fact capital goods continue to serve us through different cycles of production. The buildings or machines in a factory are there irrespective of the specific time period. There can be addition to, or deduction from, these if a new machine is added or a machine falls in disuse and is not replaced. These are called stocks. Stocks are defined at a particular point of time. However we can measure a change in stock over a specific period of time like how many machines wer e added this year . Such changes in stocks are thus flows, which can be measured over specific time periods. A particular machine can be part of the capital stock for many years (unless it wears out); but that machine can be part of the flow of new machines added to the capital stock only for a single year when it was initially installed. To further understand the difference between stock variables and flow variables, let us take the following example. Suppose a tank is being filled with water coming from a tap. The amount of water which is flowing into the tank from the tap per minute is a flow. But how much water there is in the tank at a particular point of time is a stock concept. To come back to our discussion on the measure of final output, that part of our final output that comprises of capital goods constitutes gross investment of an economy1. These may be machines, tools and implements; buildings, office spaces, storehouses or infrastructure like roads, bridges, airports or jetties. But all the capital goods produced in a year do not constitute an addition to the capital stock already existing. A significant part of current output of capital goods goes in maintaining or replacing part of the existing stock of capital goods. This is because the already existing capital stock suffers wear and tear and needs maintenance and replacement. A part of the capital goods produced this year goes for replacement of existing capital goods and is not an addition to the stock of capital goods already existing and its value needs to be subtracted from gross investment for arriving at the measure for net investment. This deletion, which is made from the value of gross investment in order to accommodate regular wear and tear of capital, is called depreciation . So new addition to capital stock in an economy is measured by net investment or new capital formation, which is expressed as Net Investment = Gross investment – Depreciation Let us examine this concept called depreciation a little more in detail. Let us consider a new machine that a firm invests in. This machine may be in service for the next twenty years after which it falls into disrepair and needs to be replaced. We can now imagine as if the machine is being gradually used up in each year’s production process and each year one twentieth of its original value is getting depreciated. So, instead of considering a bulk investment for replacement after twenty years, we consider an annual depreciation cost every year. This is the usual sense in which the term depreciation is used and inherent in its conception is the expected life of a particular capital good, like twenty years in our example of the machine. Depreciation is thus an annual allowance for wear and tear of a 1This is how economists define investment. This must not be confused with the commonplace notion of investment which implies using money to buy physical or financial assets. Thus use of the term investment to denote purchase of shares or property or even having an insurance policy has nothing to do with how economists define investment. Investment for us is always capital formation, a gross or net addition to capital stock. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec102:pdf-page-16": {
+      "id": "ncert-leec102",
+      "locator": "pdf-page-16",
+      "text": "24 2424 2424Introductory Macroeconomics 4 In this example, we have left out factor payments in the form of rent and interest. But this will not make any difference to the basic result, because after paying wages the remainder of value added by a firm will be distributed between rent, interest and profits (together called operating surplus). Table 2.3: Distributions of factor incomes of firms A and B Firm A Firm B Wages 20 60 Profits 30 90 Recall that GDP by income method = sum total of factor incomes, which is equal to total wages received (workers of A and B) and total profits earned (by A and B), which is equal4 to 80 + 120 = 200. 2.2.4 Factor Cost, Basic Prices and Market Prices In India, the most highlighted measure of national income has been the GDP at factor cost. The Central Statistics Office (CSO) of the Government of India has been reporting the GDP at factor cost and at market prices. In its revision in January 2015 the CSO replaced GDP at factor cost with the GVA at basic prices, and the GDP at market prices, which is now called only GDP, is now the most highlighted measure. The idea of GVA has already been discussed: it is the value of total output produced in the economy less the value of intermediate consumption (the output which is used in production of output further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc. Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q45": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q45",
+      "text": "45. If there is no government and no foreign trade, then : (1) G = T = M = X > 1 (2) G = T = M = X = 1 (3) G = T = M = X = 0 (4) G = T = M = X < 1",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec104:pdf-page-5": {
+      "id": "ncert-leec104",
+      "locator": "pdf-page-5",
+      "text": "57 57575757 Determination of Income and Employment inventory investment. It can be negative as well as positive: if there is a rise in inventory, it is positive inventory investment, while a depletion of inventory is negative inventory investment. The inventory investment can take place due to two reasons: (i) the firm decides to keep some stocks for various reasons (this is called planned inventory investment) (ii) the sales differ from the planned level of sales, in which case the firm has to add to/run down existing inventories (this is called unplanned inventory investment). Thus even though planned Thus even though planned Thus even though planned Thus even though planned Thus even though planned YYY YY is is is is is greater than planned greater than planned greater than planned greater than planned greater than planned C CC CC + + + + + I II II, actual , actual , actual , actual , actual Y YY YY will be equal to actual will be equal to actual will be equal to actual will be equal to actual will be equal to actual C CC CC + + + + + I II II, with , with, with , with, with the extra output showing up as unintended accumulation of inventoriesthe extra output showing up as unintended accumulation of inventoriesthe extra output showing up as unintended accumulation of inventoriesthe extra output showing up as unintended accumulation of inventoriesthe extra output showing up as unintended accumulation of inventories in the ex post in the ex post in the ex post in the ex post in the ex post I II II on the right hand side of the accounting identity on the right hand side of the accounting identity on the right hand side of the accounting identity on the right hand side of the accounting identity on the right hand side of the accounting identity . At this point, we can introduce a government in this economy. The major economic activities of the government that affect the aggregate demand for final goods and services can be summarized by the fiscal variables Tax ( T) and Government Expenditure (G), both autonomous to our analysis. Government, through its expenditure G on final goods and services, adds to the aggregate demand like other firms and households. On the other hand, taxes imposed by the government take a part of the income away from the household, whose disposable income, therefore, becomes Yd = Y – T. Households spend only a fraction of this disposable income for consumption purpose. Hence, equation (4.3) has to be modified in the following way to incorporate the government Y = C + I + G + c (Y – T ) Note that G – c.T , like C or I , just adds to the autonomous term A . It does not significantly change the analysis in any qualitative way. W e shall, for the sake of simplicity, ignor e the gover nment sector for the r est of this chapter . Observe also, that without the government imposing indirect taxes and subsidies, the total value of final goods and services produced in the economy, GDP, becomes identically equal to the National Income. Henceforth, throughout the rest of the chapter, we shall refer to Y as GDP or National Income interchangeably. 4.3 D4.3 D4.3 D 4.3 D4.3 DETERMINATIONETERMINATIONETERMINATIONETERMINATIONETERMINATION OFOFOF OFOF E E E E EQUILIBRIUMQUILIBRIUMQUILIBRIUMQUILIBRIUMQUILIBRIUM I I I I INCOME NCOMENCOME NCOMENCOME IN ININ ININ THE THETHE THETHE S S S S SHORT HORTHORT HORTHORT R R R R RUN UNUN UNUN You would recall that in microeconomic theory when we analyse the equilibrium of demand and supply in a single market, the demand and supply curves simultaneously determine the equilibrium price and the equilibrium quantity. In macroeconomic theory we proceed in two steps: at the first stage, we work out a macroeconomic equilibrium taking the price level as fixed. At the second stage, we allow the price level to vary and again, analyse macroeconomic equilibrium. What is the justification for taking the price level as fixed? Two reasons can be put forward: (i) at the first stage, we are assuming an economy with unused resources: machineries, buildings and labours. In such a situation, the law of diminishing returns will not apply; hence additional output can be produced without increasing marginal cost. Accordingly, price level does not vary even if the quantity produced changes (ii) this is just a simplifying assumption which will be changed later. 4.3.1 Macroeconomic Equilibrium with Price Level Fixed4.3.1 Macroeconomic Equilibrium with Price Level Fixed4.3.1 Macroeconomic Equilibrium with Price Level Fixed4.3.1 Macroeconomic Equilibrium with Price Level Fixed4.3.1 Macroeconomic Equilibrium with Price Level Fixed (A) (A)(A)(A)(A) Graphical Method Graphical Method Graphical Method Graphical Method Graphical Method As already explained, the consumers demand can be expressed by the equation C C cY  Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q8": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q8",
+      "text": "8. All those elements which create liability and decrease the assets of government are known as : (1) Capital Receipts (2) Capital Payments (3) Revenue Receipts (4) Revenue Payments",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec105:pdf-page-4": {
+      "id": "ncert-leec105",
+      "locator": "pdf-page-4",
+      "text": "69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts. When government takes fresh loans it will mean that in future these loans will have to be returned and interest will have to be paid on these loans. Similarly, when government sells an asset, then it means that in future its earnings from that asset, will disappear. Thus, these receipts can be debt creating or non-debt creating. 5.1.3. Classification of Expenditure Revenue Expenditure Revenue Expenditure is expenditure incurred for purposes other than the creation of physical or financial assets of the central government. It relates to those expenses incurred for the normal functioning of the government departments and various services, interest payments on debt incurred by the government, and grants given to state governments and other parties (even though some of the grants may be meant for creation of assets). Budget documents classify total expenditure into plan and non-plan expenditure 3. This is shown in item 6 on Table 5.1 within revenue expenditure, a distinction is made between plan and non-plan. According to this classification, plan revenue expenditure relates to central Plans (the Five-Year Plans) and central assistance for State and Union Territory plans. Non-plan expenditure, the more important component of revenue expenditure, covers a vast range of general, economic and social services of the 3A case against this kind of classification has been put forth on the ground that it has led to an increasing tendency to start new schemes/projects neglecting maintenance of existing capacity and service levels. It has also led to the misperception that non-plan expenditure is inherently wasteful, adversely affecting resource allocation to social sectors like education and health where salary comprises an important element. Government Budget Revenue Budget Capital Budget Revenue Receipts Revenue Expenditure Capital Receipts Capital Expenditure Non-tax Revenue Tax Revenue Plan Revenue Expenditure Non-plan Revenue Expenditure Non-plan Capital Expenditure Plan Capital Expenditure Chart 1: The Components of the Government Budget Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec105:pdf-page-3": {
+      "id": "ncert-leec105",
+      "locator": "pdf-page-3",
+      "text": "68 68686868Introductory Macroeconomics Stabilisation Function of Government Budget The government may need to correct fluctuations in income and employment. The overall level of employment and prices in the economy depends upon the level of aggregate demand which depends on the spending decisions of millions of private economic agents apart from the government. These decisions, in turn, depend on many factors such as income and credit availability. In any period, the level of demand may not be sufficient for full utilisation of labour and other resources of the economy. Since wages and prices do not fall below a level, employment cannot be brought back to the earlier level automatically. The government needs to intervene to raise the aggregate demand. On the other hand, there may be times when demand exceeds available output under conditions of high employment and thus may give rise to inflation. In such situations, restrictive conditions may be needed to reduce demand. The intervention of the government whether to expand demand or reduce it constitutes the stabilisation function. 5.1.2 Classification of Receipts Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues. Tax revenues, an important component of revenue receipts, have for long been divided into direct taxes (personal income tax) and firms (corporation tax), and indirect taxes like excise taxes (duties levied on goods produced within the country), customs duties (taxes imposed on goods imported into and exported out of India) and service tax1. Other direct taxes like wealth tax, gift tax and estate duty (now abolished) have never brought in large amount of revenue and thus have been referred to as ‘paper taxes’. The redistribution objective is sought to be achieved through progressive income taxation, in which higher the income, higher is the tax rate. Firms are taxed on a proportional basis, where the tax rate is a particular proportion of profits. With respect to excise taxes, necessities of life are exempted or taxed at low rates, comforts and semi-luxuries are moderately taxed, and luxuries, tobacco and petroleum products are taxed heavily. Non-tax revenue of the central government mainly consists of interest receipts on account of loans by the central government, dividends and profits on investments made by the government, fees and other receipts for services rendered by the government. Cash grants-in-aid from foreign countries and international organisations are also included. The estimates of revenue receipts take into account the effects of tax proposals made in the Finance Bill2. Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q25": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q25",
+      "text": "25. Identify the correct statement in the context of Circular Flow of Income in a two sector economy : (1) Household receives factor services from firms. (2) Household invests while firm saves. (3) Firms produce goods and services. (4) Household supplies factor services to Government.",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec102:pdf-page-6": {
+      "id": "ncert-leec102",
+      "locator": "pdf-page-6",
+      "text": "14 1414 1414Introductory Macroeconomics Thus the economic cycle not only rolls on, higher production of capital goods enables the economy to expand. It is possible to find another view of the circular flow in the discussion we have made so far. Since we are dealing with all goods and services that are produced for the market, the crucial factor enabling such sale is demand for such products backed by pur chasing power. One must have the necessary ability to pur chase commodities. Otherwise one’s need for commodities does not get recognised by the market. We have already discussed above that one’s ability to buy commodities comes from the income one earns as labourer (earning wages), or as entrepreneur (earning profits), or as landlord (earning rents), or as owner of capital (earning interests). In short, the incomes that people earn as owners of factors of production are used by them to meet their demand for goods and services. So we can see a circular flow here which is facilitated through the market. Simply put, the firms’ demand for factors of production to run the production process creates payments to the public. In turn, the public’s demand for goods and services creates payments to the firms and enables the sale of the products they produce. So the social act of consumption and production are intricately linked and, in fact, there is a circular causation here. The process of production in an economy generates factor payments for those involved in production and generates goods and services as the outcome of the production process. The incomes so generated create the capacity to purchase the final consumption goods and thus enable their sale by the business enterprises, the basic object of their production. The capital goods which are also generated in the production process also enable their producers to earn income – wages, profits etc. in a similar manner. The capital goods add to, or maintain, the capital stock of an economy and thus make production of other commodities possible. 2.2 CIRCULAR FLOW OF INCOME AND METHODS OF CALCULATING NATIONAL INCOME The description of the economy in the previous section enables us to have a rough idea of how a simple economy – without a government, external trade or any savings – may function. The households receive their payments from the firms for productive activities they perform for the latter. As we have mentioned before, there may fundamentally be four kinds of contributions that can be made during the production of goods and services (a) contribution made by human labour, remuneration for which is called wage (b) contribution made by capital, remuneration for which is called interest (c) contribution made by entrepreneurship, remuneration of which is profit (d) contribution made by fixed natural resources (called ‘land’), remuneration for which is called rent. In this simplified economy, there is only one way in which the households may dispose off their earnings – by spending their entire income on the goods and services produced by the domestic firms. The other channels of disposing their income are closed: we have assumed that the households do not save, they do not pay taxes to the government – since there is no government, and neither do they buy imported goods since there is no external trade in this simple economy. In other words, factors of production use their remunerations to buy the goods and services which they assisted in producing. The aggregate consumption by the households of the economy is equal to the aggregate expenditure on goods and services produced by the firms in the economy. The Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec102:pdf-page-7": {
+      "id": "ncert-leec102",
+      "locator": "pdf-page-7",
+      "text": "15 1515 1515National Income Accounting entire income of the economy, therefore, comes back to the producers in the form of sales revenue. There is no leakage from the system – there is no difference between the amount that the firms had distributed in the form of factor payments (which is the sum total of remunerations earned by the four factors of production) and the aggregate consumption expenditure that they receive as sales revenue. In the next period the firms will once again produce goods and services and pay remunerations to the factors of production. These remunerations will once again be used to buy the goods and services. Hence year after year we can imagine the aggregate income of the economy going through the two sectors, firms and households, in a circular way. This is represented in Fig. 2.1. When the income is being spent on the goods and services produced by the firms, it takes the form of aggregate expenditure received by the firms. Since the value of expenditure must be equal to the value of goods and services, we can equivalently measure the aggregate income by “calculating the aggregate value of goods and services pr oduced by the fir ms”. When the aggr egate revenue received by the firms is paid out to the factors of production it takes the form of aggregate income. In Fig. 2.1, the uppermost arrow, going from the households to the firms, represents the spending the households undertake to buy goods and services produced by the firms. The second arrow going from the firms to the households is the counterpart of the arrow above. It stands for the goods and services which are flowing from the firms to the households. In other words, this flow is what the households are getting from the firms, for which they are making the expenditures. In short, the two arrows on the top represent the goods and services market – the arrow above represents the flow of payments for the goods and services, the arrow below represents the flow of goods and services. The two arrows at the bottom of the diagram similarly represent the factors of production market. The lower most arrow going from the households to the firms symbolises the services that the households are rendering to the firms. Using these services the firms are manufacturing the output. The arrow above this, going from the firms to the households, represents the payments made by the firms to the households for the services provided by the latter. Since the same amount of money, representing the aggregate value of goods and services, is moving in a circular way, if we want to estimate the aggregate value of goods and services produced during a year we can measure the annual value of the flows at any of the dotted lines indicated in the diagram. W e can measure the uppermost flow (at point A) by measuring the aggregate value of spending that the firms receive for the final goods and services which they produce. This method will be called the expenditure method. If we measure the flow at B by measuring the aggregate value of final goods and services produced by all Fig. 2.1: Circular Flow of Income in a Simple Economy Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q49": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q49",
+      "text": "49. Nominal Interest Rate =___________ (1) Real Interest Rate  Inflation Rate (2) Real Interest Rate – Inflation rate (3) Real Interest Rate / Inflation rate (4) Real Interest Rate + Inflation rate",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec103:pdf-page-2": {
+      "id": "ncert-leec103",
+      "locator": "pdf-page-2",
+      "text": "37 3737 3737Money and Banking money itself with respect to other commodities. In the above example, a rupee is worth 1 ÷ 2 = 0.5 pencil or 1 ÷ 10 = 0.1 pen. Thus if prices of all commodities increase in terms of money i.e., there is a general increase in the price level, the value of money in terms of any commodity must have decreased – in the sense that a unit of money can now pur chase less of any commodity. W e call it a deterioration in the purchasing power of money. A barter system has other deficiencies. It is difficult to carry forward one’s wealth under the barter system. Suppose you have an endowment of rice which you do not wish to consume today entirely. You may regard this stock of surplus rice as an asset which you may wish to consume, or even sell off, for acquiring other commodities at some future date. But rice is a perishable item and cannot be stored beyond a certain period. Also, holding the stock of rice requires a lot of space. You may have to spend considerable time and resources looking for people with a demand for rice when you wish to exchange your stock for buying other commodities. This problem can be solved if you sell your rice for money. Money is not perishable and its storage costs ar e also considerably lower . It is also acceptable to anyone at any point of time. Thus money can act as a store of value for individuals. Wealth can be stored in the form of money for future use. However, to perform this function well, the value of money must be sufficiently stable. A rising price level may erode the purchasing power of money. It may be noted that any asset other than money can also act as a store of value, e.g. gold, landed property, houses or even bonds (to be intr oduced shortly). However , they may not be easily convertible to other commodities and do not have universal acceptability. Some countries have made an attempt to move towards an economy which use less of cash and more of digital transactions. A cashless society describes an economic state whereby financial transactions are not connected with money in the form of physical bank notes or coins but rather through the transfer of digital information (usually an electronic representation of money) between the transacting parties. In India government has been consistently investing in various reforms for greater financial inclusion. During the last few years’ initiatives such as Jan Dhan accounts, Aadhar enabled payment systems, e –Wallets, National financial Switch (NFS) and others have strengthened the government resolve to go cashless. Today, financial inclusion is seen as a realistic dream because of mobile and smart phone penetration across the country. 3.2 DEMAND FOR MONEY AND SUPPLY OF MONEY 3.2.1. Demand for Money The demand for money tells us what makes people desire a certain amount of money. Since money is required to conduct transactions, the value of transactions will determine the money people will want to keep: the larger is the quantum of transactions to be made, the larger is the quantity of money demanded. Since the quantum of transactions to be made depends on income, it should be clear that a rise in income will lead to rise in demand for money. Also, when people keep their savings in the form of money rather than putting it in a bank which gives them interest, how much money people keep also depends on rate of interest. Specifically, when interest rates go up, people become less interested in holding money since holding money amounts to holding less of interest-earning deposits, and thus less interest received. Therefore, at higher interest rates, money demanded comes down. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec103:pdf-page-10": {
+      "id": "ncert-leec103",
+      "locator": "pdf-page-10",
+      "text": "45 4545 4545Money and Banking where Y is the real GDP and P is the general price level or the GDP deflator. The above equation tells us that transaction demand for money is positively related to the real income of an economy and also to its average price level. The Speculative Motive An individual may hold her wealth in the form of landed property, bullion, bonds, money etc. For simplicity, let us club all forms of assets other than money together into a single category called ‘bonds’. Typically, bonds are papers bearing the promise of a future stream of monetary returns over a certain period of time. These papers are issued by governments or firms for borrowing money from the public and they are tradable in the market. Consider the following two-period bond. A firm wishes to raise a loan of Rs 100 from the public. It issues a bond that assures Rs 10 at the end of the first year and Rs 10 plus the principal of Rs 100 at the end of the second year. Such a bond is said to have a face value of Rs 100, a maturity period of two years and a coupon rate of 10 per cent. Assume that the rate of interest prevailing in your savings bank account is equal to 5 per cent. Naturally you would like to compare the earning from this bond with the interest earning of your savings bank account. The exact question that you would ask is as follows: How much money, if kept in my savings bank account, will generate Rs 10 at the end of one year? Let this amount be X. Therefore X (1 + 5 100 ) = 10 In other words, X = 10 1 5 100( )+ This amount, Rs X, is called the present value of Rs 10 discounted at the market rate of interest. Similarly, let Y be the amount of money which if kept in the savings bank account will generate Rs 110 at the end of two years. Thus, the present value of the stream of returns from the bond should be equal to PV = X + Y = 10 1 5 100( )+ + ( ) ( ) 10 100 1 5 100 2 + + Calculation reveals that it is Rs 109.29 (approx.). It means that if you put Rs 109.29 in your savings bank account it will fetch the same return as the bond. But the seller of the bond is offering the same at a face value of only Rs 100. Clearly the bond is more attractive than the savings bank account and people will rush to get hold of the bond. Competitive bidding will raise the price of the bond above its face value, till price of the bond is equal to its PV. If price rises above the PV the bond becomes less attractive compared to the savings bank account and people would like to get rid of it. The bond will be in excess supply and there will be downward pressure on the bond-price which will bring it back to the PV . It is clear that under competitive assets market condition the price of a bond must always be equal to its present value in equilibrium. Now consider an increase in the market rate of interest from 5 per cent to 6 per cent. The present value, and hence the price of the same bond, will become Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-economics-bookA-paper:q7": {
+      "id": "cuet2024-economics-bookA-paper",
+      "locator": "q7",
+      "text": "7. Article 112 deals with : (1) Consolidated Fund of India (2) Public Account (3) Union Budget (4) Contingency Fund",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "publisher": "cuet.careerguide.com",
+      "title": null
+    },
+    "ncert-leec105:pdf-page-5": {
+      "id": "ncert-leec105",
+      "locator": "pdf-page-5",
+      "text": "70 7070 7070Introductory Macroeconomics government. The main items of non-plan expenditure are interest payments, defence services, subsidies, salaries and pensions. Interest payments on market loans, external loans and from various reserve funds constitute the single largest component of non-plan revenue expenditure. Defence expenditure, is committed expenditure in the sense that given the national security concerns, there exists little scope for drastic reduction. Subsidies are an important policy instrument which aim at increasing welfare. Apart from providing implicit subsidies through under-pricing of public goods and services like education and health, the government also extends subsidies explicitly on items such as exports, interest on loans, food and fertilisers. The amount of subsidies as a percent of GDP was 2.02 per cent in 2014-15 and is 1.8 percent of GDP in 2015-16, 1 percent in 2018-19, 3.6 percent in 2020-21 and 1.2 percent in 2022-23 (B.E). Capital ExpenditureCapital ExpenditureCapital ExpenditureCapital ExpenditureCapital Expenditure There are expenditures of the government which result in creation of physical or financial assets or reduction in financial liabilities. This includes expenditure on the acquisition of land, building, machinery, equipment, investment in shares, and loans and advances by the central government to state and union territory governments, PSUs and other parties. Capital expenditure is also categorised as plan and non-plan in the budget documents. Plan capital expenditure, like its revenue counterpart, relates to central plan and central assistance for state and union territory plans. Non-plan capital expenditure covers various general, social and economic services provided by the government. The budget is not merely a statement of receipts and expenditures. Since Independence, with the launching of the Five-Year Plans, it has also become a significant national policy statement. The budget, it has been argued, reflects and shapes, and is, in turn, shaped by the country’s economic life. Along with the budget, three policy statements are mandated by the Fiscal Responsibility and Budget Management Act, 2003 (FRBMA) 4. The Medium-term Fiscal Policy Statement sets a three- year rolling target for specific fiscal indicators and examines whether revenue expenditure can be financed through revenue receipts on a sustainable basis and how productively capital receipts including market borrowings are being utilised. The Fiscal Policy Strategy Statement sets the priorities of the government in the fiscal area, examining current policies and justifying any deviation in important fiscal measures. The Macroeconomic Framework Statement assesses the prospects of the economy with respect to the GDP growth rate, fiscal balance of the central government and external balance 5. 5.2 BALANCED, S URPLUS AND DEFICIT BUDGET The government may spend an amount equal to the revenue it collects. This is known as a balanced budget. If it needs to incur higher expenditure, it will have 4Box 5.2 provides a brief account of this legistation and its implication for Government finances. 5The 2005-06 Indian Budget introduced a statement highlighting the gender sensitivities of the budgetary allocations. Gender budgeting is an exercise to translate the stated gender commitments of the government into budgetary commitments, involving special initiatives for empowering women and examination of the utilisation of resources allocated for women and the impact of public expenditure and policies of the government on women. The 2006- 07 budget enlarged the earlier statement. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leec105:pdf-page-18": {
+      "id": "ncert-leec105",
+      "locator": "pdf-page-18",
+      "text": "83 8383 8383 Government Budget and the Economy Credit (ITC). The total value included taxes paid on intermediate goods/services. This amounted to cascading of tax. Under GST, the tax is discharged at every stage of supply and the credit of tax paid at the previous stage is available for set off at the next stage of supply of goods and/or services. It is thus effectively a tax on value addition at each stage of supply. In view of our large and fast growing economy, it addresses to establish parity in taxation across the country, and extend principles of ‘value- added taxation’ to all goods and services. It has replaced various types of taxes/cesses, levied by the Central and State/UT Governments. Some of the major taxes that were levied by Centre were Central Excise Duty, Service Tax, Central Sales Tax, Cesses like KKC and SBC. The major State taxes were VAT/Sales Tax, Entry Tax, Luxury Tax, Octroi, Entertainment Tax, Taxes on Advertisements, Taxes on Lottery /Betting/ Gambling, State Cesses on goods etc. These have been subsumed in GST. Five petroleum products have been kept out of GST for the time being but with passage of time, they will get subsumed in GST. State Governments will continue to levy VAT on alcoholic liquor for human consumption. Tobacco and tobacco products will attract both GST and Central Excise Duty. Under GST, there are 6 (six) standard rates applied i.e. 0%, 3%,5%, 12%,18% and 28% on supply of all goods and/or services across the country. GST is the biggest tax reform in the country since independence and was rolled out on the mid-night of 30 June/1 July, 2017 during a special midnight session of the Parliament. The 101 th Constitution Amendment Act received assent of the President of India on 8 September, 2016. The amendment introduced Article 246A in the Constitution cross empowering Parliament and Legislatures of States to make laws with reference to Goods and Service Tax imposed by the Union and the States. Thereafter CGST Act, UTGST Act and SGST Acts were enacted for GST. GST has simplified the multiplicity of taxes on goods and services. The laws, procedures and rates of taxes across the country are standardised. It has facilitated the freedom of movement of goods and services and created a common market in the country. It is aimed at reducing the cost of business operations and cascading effect of various taxes on consumers. It has also reduced the overall cost of production, which will make Indian products/services more competitive in the domestic and international markets. It will also result into higher economic growth as GDP is expected to rise by about 2%. Compliance will also be easier as all tax payment related services like registration, returns, payments are available online through a common portal www.gst.gov.in. It has expanded the tax base, introduced higher transparency in the taxation system, reduced human interface between Taxpayer and Government and is furthering ease of doing business. 1. Explain why public goods must be provided by the government. 2. Distinguish between revenue expenditure and capital expenditure. 3. ‘The fiscal deficit gives the borrowing requirement of the government’. Elucidate. 4. Give the relationship between the revenue deficit and the fiscal deficit. 5. Suppose that for a particular economy, investment is equal to 200, government purchases are 150, net taxes (that is lump-sum taxes minus transfers) is 100 and consumption is given by C = 100 + 0.75 Y (a) What ? ?Exercises ExercisesExercises ExercisesExercises Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "title": null
+    }
+  },
+  "questions": [
+    {
+      "id": "7398cc0e-85ff-4daf-b51e-d66316c6124f",
+      "content_hash": "de8f9e854c159fc8f3078fc0dc7a9316aa1e70b1f3222bd2a3ee4495549e5d9d",
+      "chapter": "Balance of Payments",
+      "body": "Under flexible exchange rate, when the price of domestic currency in terms of foreign currency increases, it is called ___________ .",
+      "options": [
+        "Depreciation of domestic currency",
+        "Appreciation of domestic currency",
+        "Devaluation of domestic currency",
+        "Revaluation of domestic currency"
+      ],
+      "passage": "",
+      "question_type": "direct_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q10"
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "chapter": "Income Determination",
+      "body": "Identify the correct set of statements. (A) Ex Ante Saving represents what is actually planned to save. (B) Ex Post Saving represents what is actually planned to save. (C) Ex Post Saving depicts what has actually happened. (D) Ex Ante Post Saving represents what is actually saved. Choose the correct answer from the options given below :",
+      "options": [
+        "(A) and (D) only",
+        "(A) and (C) only",
+        "(B) and (D) only",
+        "(C) and (D) only"
+      ],
+      "passage": "",
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q26"
+    },
+    {
+      "id": "bfef7eb8-0e03-4f97-a848-f8cab4f76776",
+      "content_hash": "59360281763818faf6a8de9c8e55f5dcb5026b7a23b4506c13c4d45387bf0653",
+      "chapter": "Money & Banking",
+      "body": "Which of the following statements are true ? (A) Quantitative tools control the extent of money supply by changing the CRR. (B) There are two types of open market operations – outright and upright. (C) A fall in the bank rate can decrease the money supply. (D) Selling of a bond by RBI leads to reduction in quantity of reserves. (E) The RBI can influence money supply by changing the rate at which it gives loan to the commercial banks. Choose the correct answer from the options given below :",
+      "options": [
+        "(A), (C) and (D) only",
+        "(A), (B) and (D) only",
+        "(B), (D) and (E) only",
+        "(A), (D) and (E) only"
+      ],
+      "passage": "",
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q3"
+    },
+    {
+      "id": "241254c1-410a-4e91-81b4-d623b89fcb73",
+      "content_hash": "9eb41ec71bd1c1e55347e96e9035953df6bf194a075a1cbb2a4c379e294d905b",
+      "chapter": "National Income & Related Aggregates",
+      "body": "Identify the correct statements : (A) Stocks are defined over a period of time. (B) Flows are defined over a period of time. (C) Flows are defined at a particular point of time. (D) Stocks are defined at a particular point of time. (E) GVA at factor costs + Indirect Taxes – Subsidies = GVA at market prices. Choose the correct answer from the options given below :",
+      "options": [
+        "(A), (C) and (E) only",
+        "(B), (C) and (D) only",
+        "(B), (D) and (E) only",
+        "(C), (D) and (E) only"
+      ],
+      "passage": "",
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q47"
+    },
+    {
+      "id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "chapter": "Income Determination",
+      "body": "If there is no government and no foreign trade, then :",
+      "options": [
+        "G = T = M = X > 1",
+        "G = T = M = X = 1",
+        "G = T = M = X = 0",
+        "G = T = M = X < 1"
+      ],
+      "passage": "",
+      "question_type": "direct_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q45",
+          "support_hash": "d905e92825428fd3baafb81ad59cc4a34de5db99bd3513ef94e33f3eb3572644"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "0e5fdc77b4b50404c293c474363d3a4fee8354a5c6aabb877fca6aad55b25097"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q45"
+    },
+    {
+      "id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "chapter": "Government Budget & the Economy",
+      "body": "All those elements which create liability and decrease the assets of government are known as :",
+      "options": [
+        "Capital Receipts",
+        "Capital Payments",
+        "Revenue Receipts",
+        "Revenue Payments"
+      ],
+      "passage": "",
+      "question_type": "direct_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q8"
+    },
+    {
+      "id": "02fc49a9-7017-459b-9d70-d571d0a0edf3",
+      "content_hash": "7407a0968a37759e2371fc875b82452ca7a61b3dffcf5c8a723badbe55e041a0",
+      "chapter": "National Income & Related Aggregates",
+      "body": "In a two-sector economy consisting only of households and firms, households spend all their income on goods and services produced by domestic firms. There is no saving, government, or external trade, and firms distribute all their sales receipts as factor income. If firms receive ₹720 crore from household purchases during a year, what is the aggregate factor income received by households?",
+      "options": [
+        "₹720 crore",
+        "₹360 crore",
+        "₹0 crore",
+        "₹1,440 crore"
+      ],
+      "passage": "",
+      "question_type": "multiple_choice_numerical",
+      "concept_id": "circular_flow_income_two_sector",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q25"
+    },
+    {
+      "id": "736b38df-f7fd-4c72-82f1-55bd7789e2d4",
+      "content_hash": "e99654fc414314cfcb5ee392f25c48b90d057961a9d7ab60d3305e66c33d1a28",
+      "chapter": "Income Determination",
+      "body": "A household plans to consume ₹36,000 and save ₹9,000 during a month. At the end of the month, it has actually consumed ₹39,000 and saved ₹7,000. Assuming disposable income is divided only between consumption and saving, what are its planned disposable income and actual disposable income, respectively?",
+      "options": [
+        "₹45,000 and ₹39,000",
+        "₹36,000 and ₹46,000",
+        "₹45,000 and ₹46,000",
+        "₹46,000 and ₹45,000"
+      ],
+      "passage": "",
+      "question_type": "numerical_calculation",
+      "concept_id": "ex_ante_ex_post_saving",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q26"
+    },
+    {
+      "id": "331a63d4-1402-48fa-83d0-e65ebd16419f",
+      "content_hash": "40928fd31c334dc55c665aa6a28ab5a6078359dbfbe5deedd71b22cff89fb82b",
+      "chapter": "Balance of Payments",
+      "body": "Under a flexible exchange rate, the foreign-currency price of one unit of domestic currency rises from $0.04 to $0.05. What is the percentage increase in this price, and what does the change indicate?",
+      "options": [
+        "20%; appreciation of the domestic currency",
+        "25%; appreciation of the domestic currency",
+        "25%; depreciation of the domestic currency",
+        "20%; revaluation of the domestic currency"
+      ],
+      "passage": "",
+      "question_type": "numerical_multiple_choice",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q10"
+    },
+    {
+      "id": "7910a488-0ca9-4524-a5fd-c019b6a9710a",
+      "content_hash": "114ac3aedee8d3c13c98a89c3bd0bfb59d1bd5da6ea548ce6a77f857a09b1039",
+      "chapter": "Money & Banking",
+      "body": "In a simplified banking system, the required reserve ratio is 20%, banks hold no excess reserves, and there is no cash leakage. Each ₹1 of reserves can therefore support up to ₹5 of bank deposits. After the RBI sells government bonds, the system’s maximum deposit-creation capacity falls by ₹150 crore. Assuming the sale withdraws reserves from banks rupee-for-rupee, what is the value of the bonds sold?",
+      "options": [
+        "₹30 crore",
+        "₹150 crore",
+        "₹750 crore",
+        "₹7.5 crore"
+      ],
+      "passage": "",
+      "question_type": "numerical_multiple_choice",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q3"
+    },
+    {
+      "id": "2c29250c-6a94-428d-9f4a-6b809f2472ec",
+      "content_hash": "c9bff0b853665616bc6ce0923ddaa65d71ed9f720bef6eab3b03c16298a38179",
+      "chapter": "Government Budget & the Economy",
+      "body": "The government receives money by selling some of its shares in a public-sector enterprise. The sale does not create a liability for the government. How is this receipt classified?",
+      "options": [
+        "Capital receipt",
+        "Revenue receipt",
+        "Revenue expenditure",
+        "Capital expenditure"
+      ],
+      "passage": "",
+      "question_type": "application_single_correct",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q8"
+    },
+    {
+      "id": "1cf1f238-b143-4aa7-8acd-c5550ec35eeb",
+      "content_hash": "f4bdb91a5284a844b17f0640e30406f9c5de9b323c6d98cc2543189cfc656f66",
+      "chapter": "National Income & Related Aggregates",
+      "body": "An economy records GVA at market prices of ₹950 crore. If indirect taxes are ₹120 crore and subsidies are ₹30 crore, what is its GVA at factor cost?",
+      "options": [
+        "₹860 crore",
+        "₹800 crore",
+        "₹920 crore",
+        "₹1,100 crore"
+      ],
+      "passage": "",
+      "question_type": "numerical_multiple_choice",
+      "concept_id": "national_income_gva_factor_cost_market_prices",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q47"
+    },
+    {
+      "id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "chapter": "Money & Banking",
+      "body": "Using the simplified relationship that nominal interest rate equals real interest rate plus the inflation rate, what is the real interest rate if the nominal interest rate is 9% and inflation is 4%?",
+      "options": [
+        "5%",
+        "13%",
+        "2.25%",
+        "36%"
+      ],
+      "passage": "",
+      "question_type": "multiple_choice",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "edeffb07173e998181322b0a59a59587ed56279259112f778edadfc481932acb"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "3423cf95e2a968a93e76ce68b239394aa996fe5ac70a7f30d76a2b485c90494f"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "516d9a3c52f50b14ef7f2e6164572a1e5b0f2583c55b10abd0ae3cc115c3ec2c"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q49"
+    },
+    {
+      "id": "4ecf0ccf-8840-4b54-93e0-2867b7df8c7a",
+      "content_hash": "c1fc0767d8d7469d8e43dbe6b94f9a95c6b7435cc7489d491656979ee419499d",
+      "chapter": "National Income & Related Aggregates",
+      "body": "In a simple two-sector economy consisting of households and firms, which of the following describes a real flow in the factor market?",
+      "options": [
+        "Households provide factor services to firms.",
+        "Firms provide factor payments to households.",
+        "Firms provide final goods and services to households.",
+        "Households provide consumption expenditure to firms."
+      ],
+      "passage": "",
+      "question_type": "conceptual_application",
+      "concept_id": "circular_flow_of_income_two_sector_economy",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q25"
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "chapter": "Government Budget & the Economy",
+      "body": "According to the chapter, since Independence and alongside the Five-Year Plans, the Union Budget came to be regarded as more than a statement of receipts and expenditure. What additional role did it acquire?",
+      "options": [
+        "A yearly statement confined to government receipts and expenditure",
+        "A significant national policy statement",
+        "An instrument exclusively for approving taxation",
+        "A report on only the government’s capital expenditure"
+      ],
+      "passage": "",
+      "question_type": "direct_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "9c80af9d9945eb799a51f79ab5c674fe62c4638a6a25b972e97984faba6a6f8a"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "80cbd7f335f1012af407cb7133bff0bb64af36c911df2d39675fabb28e5d6d2c"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q7"
+    },
+    {
+      "id": "dd83debc-8114-4729-b431-222013a04bfc",
+      "content_hash": "5df659590a0bc1f066cb0ffe88ed4c0eeb5b20af9b9c694ece374f2f6c02a7cd",
+      "chapter": "Income Determination",
+      "body": "At the start of a year, a household expects an income of ₹1,20,000 and plans consumption of ₹90,000. By the end of the year, its actual income is ₹1,10,000 and its actual consumption is ₹95,000. Using saving = income − consumption, identify the correct set of statements. (A) Its ex ante saving is ₹30,000. (B) Its ex post saving is ₹15,000. (C) Its ex ante saving is ₹15,000. (D) Its ex post saving is ₹30,000. Choose the correct answer from the options given below:",
+      "options": [
+        "(A) and (C) only",
+        "(A) and (B) only",
+        "(B) and (D) only",
+        "(C) and (D) only"
+      ],
+      "passage": "",
+      "question_type": "statement_selection",
+      "concept_id": "income-determination-ex-ante-ex-post",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-economics-bookA-q26"
+    },
+    {
+      "id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "chapter": "National Income & Related Aggregates",
+      "body": "Identify the correct statement in the context of Circular Flow of Income in a two sector economy :",
+      "options": [
+        "Household receives factor services from firms.",
+        "Household invests while firm saves.",
+        "Firms produce goods and services.",
+        "Household supplies factor services to Government."
+      ],
+      "passage": "",
+      "question_type": "direct_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-economics-bookA-q25"
+    }
+  ]
+}

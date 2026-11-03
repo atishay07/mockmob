@@ -1,0 +1,73 @@
+{
+  "at": "2026-10-08T21:07:45.702Z",
+  "goal": "active",
+  "qualification": "registered, not executed",
+  "sets": [
+    {
+      "role": "fresh",
+      "dir": "artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v76-qualification-2026-10-09-fresh-bounded-input",
+      "id": "v76-qualification-2026-10-09-fresh-bounded-input",
+      "denominator": 28,
+      "valid": 16,
+      "defects": 12,
+      "payload_hash": "ae1db0736ab19b0aacd25f6febfd4ed5dc2203585d2fb0f3e51f98bbd1e04d9f",
+      "frozen_sha256": "cce1e6d69779f68e14f066fca8415e5a9763c73ad051317a2a46ee1477c3cbfd",
+      "plan_sha256": "51f3c9e759bd0594e7cf4afa0b4d11900475b0015f02302ac4f3a50f7a88a739",
+      "preflight_sha256": "a60795c3512299754fd40253abc2b98fd4b4e23de4c37ce13c28e705a26d6e00",
+      "blinded_captures": 56,
+      "maximum_bytes": 30318,
+      "positive_local_failures": 0,
+      "maximum_cost_usd": 1.6275
+    },
+    {
+      "role": "regression",
+      "dir": "artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v76-qualification-2026-10-09-regression-bounded-input",
+      "id": "v76-qualification-2026-10-09-regression-bounded-input",
+      "denominator": 13,
+      "valid": 4,
+      "defects": 9,
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "frozen_sha256": "25afff09b19005cce29eb1027fd33257304830aa0e105f175e095e1f9be8b898",
+      "plan_sha256": "0c6ace4b131f8ce204b54b0bc226cf196ccd763bbea980585e55e53d7cc40f0a",
+      "preflight_sha256": "32faccf9432dfbf8c319cde5ca52a45903643f7edbbdf792501014c583b667e0",
+      "blinded_captures": 26,
+      "maximum_bytes": 33897,
+      "positive_local_failures": 0,
+      "maximum_cost_usd": 0.755625
+    }
+  ],
+  "maximum_combined_reservation_usd": 2.3831249999999997,
+  "cap_usd": 4,
+  "lifetime": {
+    "settled_usd": 34.477538,
+    "held_usd": 0.507892,
+    "remaining_usd": 15.01457,
+    "unresolved": 37,
+    "requests": 13807
+  },
+  "paid_v76_calls": 0,
+  "active_qualification_worker": false,
+  "v75_held_request": "2bc7cf40a3ff06087ead004c052379838b428faf2ba073532b4f2176bebef654",
+  "source_custody": "Frozen independent answer-free derivations precede private explanations/labels and official-key acquisition; 16 valid/12 invalid confirmed",
+  "changed_files": [
+    "scripts/pipeline/lib/contractV76.mjs",
+    "scripts/pipeline/lib/factoryEvidenceV76.mjs",
+    "scripts/pipeline/lib/verifyV76.mjs",
+    "scripts/pipeline/lib/preparationValueV76.mjs",
+    "scripts/pipeline/lib/originalAuthorPolicyV76.mjs",
+    "scripts/pipeline/lib/releaseEvidenceV76.mjs",
+    "scripts/pipeline/lib/factoryProfileV76.mjs",
+    "scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs",
+    "scripts/pipeline/tools/runFreshCuetReadinessV76.mjs",
+    "scripts/pipeline/tools/runFreshCuetReadinessV76BoundedInput.mjs",
+    "scripts/pipeline/lib/ideaAllocationV76.mjs",
+    "scripts/pipeline/tests/ideaAllocationV76.test.mjs",
+    "scripts/pipeline/lib/cuetFitPublicationV76.mjs",
+    "scripts/pipeline/tools/publishCuetFitCampaignV76.mjs",
+    "scripts/pipeline/lib/stagingControlLifecycle.mjs",
+    "scripts/pipeline/controller.mjs",
+    "scripts/pipeline/autonomous/worker.mjs",
+    "scripts/pipeline/lib/offlineBatchFactory.mjs"
+  ],
+  "next": "Await independent reservation-adapter review; refresh provider/process state immediately before bounded fresh/regression execute. Preserve every accepted request. Failure means diagnosis and no pilot/staging dispatch."
+}

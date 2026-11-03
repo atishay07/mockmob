@@ -1,0 +1,63 @@
+{
+  "schema": "cuet-v73-runtime-contract-v1",
+  "parent_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+  "parent_files": [
+    "factoryEvidenceV7.mjs",
+    "verifyV7.mjs",
+    "cuetFit.mjs",
+    "authorIntegrityV7.mjs",
+    "factoryCore.mjs",
+    "factoryEvidence.mjs",
+    "evidencePipeline.mjs",
+    "focusedCoverage.mjs",
+    "focusedSources.mjs",
+    "../../../data/cuet_fit_rubric.mjs",
+    "../../../data/cuet_fit_evidence.mjs",
+    "../../../data/content_evidence.js",
+    "../../../data/question_factory_policy.mjs",
+    "../../../data/question_presentation.mjs",
+    "../../../data/canonical_json.mjs"
+  ],
+  "additive_files": [
+    "contractV73.mjs",
+    "factoryEvidenceV73.mjs",
+    "verifyV73.mjs",
+    "cuetExemplarPolicyVNext.mjs",
+    "releaseEvidenceV73.mjs"
+  ],
+  "policy_ids": {
+    "exemplar": "cuet-exemplar-selection-vnext-1",
+    "numericRouteDiagnostic": "cuet-numeric-route-format-diagnostic-v1",
+    "selectorValidator": "cuet-fit-validator-vnext-exemplar-policy-1",
+    "sourceViews": [
+      "cuet-authenticated-exemplar-blind-view-v1",
+      "cuet-original-optional-comparator-view-v1"
+    ],
+    "originalPracticeRule": "original-practice-does-not-require-pyq-counterpart-v1",
+    "authenticPyqRule": "exact-authenticated-paper-and-final-key-required-v1"
+  },
+  "binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  }
+}

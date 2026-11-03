@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11720,
+ "request_bytes": 29678,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-english-v4\",\n  \"content_hash\": \"dae632dd8020667b49ef64547a6a27869bb4674ca467fd259f2f32b5029dbdeb\",\n  \"solved_key\": \"D\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The concluding sentence of the passage states: 'For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving.', directly confirming Option D.\"\n  ],\n  \"syllabus_chapter\": \"Literary Passage\",\n  \"syllabus_topic\": \"Reading Comprehension - Identifying stated contrast and literary detail\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": false,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The tea seller's observed contrast is derived directly from the explicit text of the passage.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The child asked whether trains stopped, suggesting trains stopped running just like the clock.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Travellers glanced at the clock and checked their watches to align their schedules.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The tea seller worked right below the clock, so it could have been within reach.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests direct reading comprehension and identifying textual contrast in a literary passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option single-correct reading comprehension question format used in CUET UG English.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Accurately calibrated to CUET UG English factual and literary comprehension questions.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target misreadings of specific preceding details in the text.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The trains had stopped running, just like the station clock\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"He pointed to a train sliding past the far platform.\",\n      \"reason\": \"The passage states a train was sliding past, so trains had not stopped running.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Travellers trusted the station clock more than their own watches\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Each morning, travellers looked up, checked their watches and continued towards the platform.\",\n      \"reason\": \"The passage shows travellers checked their own watches when seeing the stopped clock.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"within his reach\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"The tea seller never corrected the clock; it was beyond his reach.\",\n      \"reason\": \"The passage explicitly states the clock was beyond his reach.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving.\",\n      \"reason\": \"This matches the explicit statement of the passage.\"\n    }\n  ]\n}",
+       "thoughtSignature": "ErgGCrUGAWkUfROLF6CnhnUg8mcfuCA/IWeGbtJSvT9HORPRc/8kL+Er8MvBHBM2cN3DHR7tQp7wFnXQ10P8bOBQRKtgstWOx2Hnmc3JBOLRpdt7BNY/WhBgQ26DYA9GlxxNkJ95V35m44HUf9Dk633VGK45uclET5vUcElTT0uzMdqOk0/ZArtCVN8K5w9sp9yroScHncgpYmY3t1fx90iJZstwhUCTNKAVQ4Oz+eeKPW/AJBXH30l7XYzyklM9+h0K8qheHuc/GZQevotaUjoGVyJw5Q/LvCldPlJZD1X4lWvwoBgNcyVFBKuniLAyd0wBbMtdWf5mOhfkblIqDLpEjsveoyow4LMid+aCCcxLtPnT/zjiXHTYlFsokZrXs3FMu3zGmsIvn680cQTBCNlyYdcKh/OJM5EUpWLXnmiqN6lwkpfog52STTvXPId3qyqi4uudEzWmac2bZ7XkzUiMtYdk73j1MqAf21IZRf64SKUMiFxwQqfUQfWyAWXbCiS/SOemWYDwTfarOvN3NJI7YpWzidumfeKsDIerF1OPXNzbM75DxiSZT0Q4wypa3E9FkV8ZgcTAkwaKpag/J/QdcIKzij5nUiNHDAZWPnzmCZEDvcPOM/+I88ZsM5FytErflhMhMOQSLPlbEQCfNmHJQD4/542VsiW2iPAHitRdAuIx534moEmUuh4wBt1FG4X7kf3kYXzwXWmlYG4V3Y09bgflW4RbPb1NCxRSG3BbVbvRVtUyeVnsoH7gwKtgckGtgWOQieEyz7GgQw1jYN53D3XFNEyyZyW9RECSBpfTyesAiDB+U+hvZE7mBkyXfHydT1WMJ9ZZb2ITHuZL4X/EEG7x1dmP/0HKECKh8E4PEIBUUNSqGkhGNEeAGArvPO5ofodDPMd5750/Y9JwRTgQz7s/9C9cn5R3WW+usf73U60bHYDmAXa9MySNao6QuzBazDvqgggpQ1E6N3slW5IbVjOod8EXOeZjyXf1dq5R2l4q+UDN7QJCbtqvFG0tEemAoG+BPgvocDmHjb9xwahcLEDiRYS7bkxPHUXPJXat7sW+saZWS/g2XBBjXn5GmybxjZKmivBcnyA="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 4970,
+   "candidatesTokenCount": 1320,
+   "totalTokenCount": 6444,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 4970
+    }
+   ],
+   "thoughtsTokenCount": 154,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "dfHIaruWGPXHjuMPx5S7mAU"
+ }
+}

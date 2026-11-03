@@ -1,0 +1,125 @@
+{
+  "contract": "evidence-content-idea-inspection-v3",
+  "content_hash": "6e28316b01b809e263300f76907863774b910593d6a5dde85f820012b18d00b9",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 84,
+  "answer_positions": {
+    "B": 22,
+    "D": 20,
+    "A": 24,
+    "C": 18
+  },
+  "answer_positions_by_format": {
+    "synonym": {
+      "B": 2,
+      "C": 1,
+      "A": 1
+    },
+    "sequence_ordering": {
+      "D": 6,
+      "A": 4,
+      "C": 2,
+      "B": 2
+    },
+    "matching": {
+      "D": 4,
+      "B": 2,
+      "A": 6,
+      "C": 5
+    },
+    "correct_word_usage": {
+      "A": 1,
+      "B": 1,
+      "C": 1,
+      "D": 1
+    },
+    "antonym": {
+      "B": 2,
+      "A": 1
+    },
+    "numerical_calculation": {
+      "C": 1,
+      "B": 3,
+      "D": 1
+    },
+    "statement_selection": {
+      "A": 3,
+      "B": 3,
+      "C": 3,
+      "D": 2
+    },
+    "case_application": {
+      "A": 3,
+      "C": 4,
+      "D": 2,
+      "B": 3
+    },
+    "conceptual_mcq": {
+      "B": 4,
+      "A": 5,
+      "C": 1,
+      "D": 3
+    },
+    "direct_mcq": {
+      "D": 1
+    }
+  },
+  "formats": {
+    "synonym": 4,
+    "sequence_ordering": 14,
+    "matching": 17,
+    "correct_word_usage": 4,
+    "antonym": 3,
+    "numerical_calculation": 5,
+    "statement_selection": 11,
+    "case_application": 12,
+    "conceptual_mcq": 13,
+    "direct_mcq": 1
+  },
+  "difficulty": {
+    "medium": 44,
+    "easy": 28,
+    "hard": 12
+  },
+  "longest_same_answer_run": 3,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 491,
+  "inventory_ids_hash": "85f99b77a30d1b55793076a8bbaccb9ef5f4e03c4eef3d81393187ff13a577f3",
+  "applied_decisions": [
+    {
+      "id": "82574b4883d9af2fb1cc931428940600",
+      "reason": "inspection_passage_group_contract",
+      "details": "complete_passage_group_publication_required",
+      "group_id": "original-passage-0640bfac6d71f74032be"
+    },
+    {
+      "id": "57e8ad38d84e4c608287679d48fb56cf",
+      "reason": "inspection_passage_group_contract",
+      "details": "complete_passage_group_publication_required",
+      "group_id": "original-passage-0640bfac6d71f74032be"
+    },
+    {
+      "id": "5dd4945ecda7bf6fce161b48c93d1c32",
+      "reason": "inspection_passage_group_contract",
+      "details": "complete_passage_group_publication_required",
+      "group_id": "original-passage-0640bfac6d71f74032be"
+    },
+    {
+      "id": "325691f151fd62c5480c2fdf61165e3e",
+      "reason": "inspection_passage_group_contract",
+      "details": "complete_passage_group_publication_required",
+      "group_id": "original-passage-0640bfac6d71f74032be"
+    },
+    {
+      "id": "3c166eb4a93d03d39f242d795cbb3297",
+      "reason": "inspection_passage_group_contract",
+      "details": "complete_passage_group_publication_required",
+      "group_id": "original-passage-0640bfac6d71f74032be"
+    }
+  ],
+  "at": "2026-10-07T10:53:46.173Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

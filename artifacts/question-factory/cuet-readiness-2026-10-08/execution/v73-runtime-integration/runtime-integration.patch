@@ -1,0 +1,223 @@
+diff --git a/scripts/pipeline/lib/factoryProfileV73.mjs b/scripts/pipeline/lib/factoryProfileV73.mjs
+new file mode 100644
+--- /dev/null
++++ b/scripts/pipeline/lib/factoryProfileV73.mjs
+@@ -0,0 +1,42 @@
++import { hashJSON } from '../../../data/question_factory_policy.mjs';
++import { canonicalJSON } from '../../../data/canonical_json.mjs';
++import { expectedReleaseBindingV73 } from './releaseEvidenceV73.mjs';
++import { currentCuetCalibrationReadyVNext } from './currentCuetCalibrationGateVNext.mjs';
++
++export const FACTORY_PROFILE_V73 = 'factory-validation-profile-v1';
++const profileKeys = binding => ['profile_version','campaign_id',...Object.keys(binding),'source_registry_version','source_registry_sha256','release_sha256','profile_sha256'].sort();
++const sha = value => hashJSON(canonicalJSON(value));
++const base = ({campaignId, binding, registry, release}) => ({profile_version:FACTORY_PROFILE_V73,campaign_id:campaignId,
++  ...binding,source_registry_version:registry.version,source_registry_sha256:sha(registry),release_sha256:sha(release)});
++const validCampaignId = id => typeof id==='string' && /^[a-z0-9][a-z0-9-]{2,79}$/i.test(id);
++
++export function createFactoryProfileV73({campaignId,manifest,registry}) {
++  const binding=expectedReleaseBindingV73(),release=manifest?.cuet_fit_releases?.[binding.topology];
++  if(!validCampaignId(campaignId))throw Error('factory_campaign_id_required');
++  if(!currentCuetCalibrationReadyVNext({manifest,registry,binding}))throw Error('v73_current_release_required');
++  const value=base({campaignId,binding,registry,release});
++  return {...value,profile_sha256:sha(value)};
++}
++
++export function assertFactoryProfileV73(profile,{manifest,registry}) {
++  const binding=expectedReleaseBindingV73();
++  if(!profile || typeof profile!=='object' || Array.isArray(profile))throw Error('factory_validation_profile_required');
++  if(profile.profile_version!==FACTORY_PROFILE_V73)throw Error('factory_validation_profile_unknown_version');
++  if(Object.keys(profile).sort().join('|')!==profileKeys(binding).join('|'))throw Error('factory_validation_profile_unknown_or_missing_field');
++  if(!validCampaignId(profile.campaign_id))throw Error('factory_campaign_id_required');
++  const release=manifest?.cuet_fit_releases?.[binding.topology];
++  const value=base({campaignId:profile.campaign_id,binding,registry,release});
++  if(profile.profile_sha256!==sha(value))throw Error('factory_validation_profile_hash_mismatch');
++  for(const [key,expected] of Object.entries(binding))if(canonicalJSON(profile[key])!==canonicalJSON(expected))throw Error(`factory_validation_profile_binding_mismatch:${key}`);
++  if(profile.source_registry_version!==registry?.version || profile.source_registry_sha256!==sha(registry) || profile.release_sha256!==sha(release))throw Error('factory_validation_profile_current_release_mismatch');
++  if(!currentCuetCalibrationReadyVNext({manifest,registry,binding}))throw Error('v73_current_release_required');
++  return profile;
++}
++
++export function pinNewJobsToFactoryProfileV73(jobs,profile) {
++  if(!Array.isArray(jobs) || jobs.some(j=>!j?.id || j.candidate || ['published','eligible','pilot_eligible'].includes(j.state)))throw Error('factory_profile_new_jobs_only');
++  return jobs.map(job=>{
++    if(job.generation_brief?.validation_profile)throw Error('factory_validation_profile_already_pinned');
++    return {...job,generation_brief:{...(job.generation_brief||{}),validation_profile:structuredClone(profile)}};
++  });
++}
+diff --git a/data/v73_runtime_evidence.mjs b/data/v73_runtime_evidence.mjs
+new file mode 100644
+--- /dev/null
++++ b/data/v73_runtime_evidence.mjs
+@@ -0,0 +1,14 @@
++import { currentCuetCalibrationReadyVNext } from '../scripts/pipeline/lib/currentCuetCalibrationGateVNext.mjs';
++import { expectedReleaseBindingV73 } from '../scripts/pipeline/lib/releaseEvidenceV73.mjs';
++
++const V73='cuet-fit-validator-v7.3';
++export function v73RuntimeEvidenceCurrent(record,{manifest,registry}) {
++  const known=new Set(['cuet-fit-validator-v7.1','cuet-fit-validator-v7.2',V73]);
++  if(typeof record?.verifier_version==='string' && record.verifier_version.startsWith('cuet-fit-validator-v7.') && !known.has(record.verifier_version))return false;
++  if(record?.verifier_version!==V73)return true;
++  const binding=expectedReleaseBindingV73(),release=manifest?.cuet_fit_releases?.[binding.topology];
++  return Boolean(record.validation_contract_hash===binding.validation_contract_hash &&
++    release?.validation_contract_hash===record.validation_contract_hash &&
++    currentCuetCalibrationReadyVNext({manifest,registry,binding}));
++}
++
+diff --git a/data/evidence_registry.js b/data/evidence_registry.js
+--- a/data/evidence_registry.js
++++ b/data/evidence_registry.js
+@@ -5,2 +5,3 @@
+ import { isCuetFitRecord,cuetFitReleased,evaluateEvidenceV7 } from './cuet_fit_evidence.mjs';
++import { v73RuntimeEvidenceCurrent } from './v73_runtime_evidence.mjs';
+ export function currentRegistry() { return JSON.parse(readFileSync(new URL('./source_registry.json', import.meta.url), 'utf8')); }
+@@ -14,5 +14,6 @@
+     // CUET-fit (v7) records are verified by their own contract and a measured per-topology release; legacy paths are untouched.
+     if(isCuetFitRecord(record)){
+       if(!cuetFitReleased(manifest,registry,record))return {eligible:false,reasons:['cuet_fit_release_required']};
++      if(!v73RuntimeEvidenceCurrent(record,{manifest,registry}))return {eligible:false,reasons:['v73_current_contract_release_required']};
+       return evaluateEvidenceV7(question,registry);
+     }
+diff --git a/next.config.mjs b/next.config.mjs
+--- a/next.config.mjs
++++ b/next.config.mjs
+@@ -22,4 +22,6 @@ const nextConfig = {
+       './scripts/pipeline/lib/factoryEvidenceV7.mjs',
+       './scripts/pipeline/lib/verifyV7.mjs',
++      './scripts/pipeline/lib/factoryProfileV73.mjs',
++      './data/v73_runtime_evidence.mjs',
+       './scripts/pipeline/lib/cuetFit.mjs',
+       './scripts/pipeline/lib/authorIntegrityV7.mjs',
+diff --git a/scripts/pipeline/factory.mjs b/scripts/pipeline/factory.mjs
+--- a/scripts/pipeline/factory.mjs
++++ b/scripts/pipeline/factory.mjs
+@@ -20,3 +20,5 @@
+ import { factoryCostReport } from './lib/factoryCosts.mjs';
+ import { localPilotStep } from './lib/localFactoryPilot.mjs';
+ 
++import { validateFactoryCandidateV73 } from './lib/verifyV73.mjs';
++import { createFactoryProfileV73, assertFactoryProfileV73, pinNewJobsToFactoryProfileV73 } from './lib/factoryProfileV73.mjs';
+@@ -30,6 +30,7 @@
+-async function enqueueJobs(db,registry,phase,perSubject=50,pilotTarget=FACTORY_PILOT_TARGET) {
++async function enqueueJobs(db,registry,phase,perSubject=50,pilotTarget=FACTORY_PILOT_TARGET,profile=null) {
+   const existing=await readAllRows(db,'question_factory_jobs'),publications=await allPublications(db),bank=await bankRows(db);
+-  const jobs=planFactoryJobs(registry,existing,publications,{phase,perSubject,pilotTarget,inventory:new Set(bank.map(inventoryFingerprint))});
+-  if(jobs.length){const {error}=await db.from('question_factory_jobs').insert(jobs);if(error)throw new Error(`factory_enqueue_failed:${error.code}`);}
+-  return jobs.length;
++  const planned=planFactoryJobs(registry,existing,publications,{phase,perSubject,pilotTarget,inventory:new Set(bank.map(inventoryFingerprint))});
++  const jobs=profile?pinNewJobsToFactoryProfileV73(planned,profile):planned;
++  if(jobs.length){const {error}=await db.from('question_factory_jobs').insert(jobs);if(error)throw new Error(`factory_enqueue_failed:${error.code}`);}
++  return jobs.length;
+ }
+@@ -82,1 +82,0 @@
+-      if(!blocker && !factoryCalibrationReady(read('data/calibration_manifest.json'),registry,FACTORY_VERIFIER_VERSION))blocker='route_calibration_required';
+@@ -110,3 +110,11 @@
+       if(!blocker)for(const job of jobs) {
+         if(stopped)break;
++        const manifest=read('data/calibration_manifest.json'),profile=job.generation_brief?.validation_profile||null;
++        try {
++          if(profile)assertFactoryProfileV73(profile,{manifest,registry});
++          else if(!factoryCalibrationReady(manifest,registry,FACTORY_VERIFIER_VERSION))throw Error('route_calibration_required');
++        } catch(error) {
++          await updateJob(db,job.id,{state:'waiting',stage:'calibration_gate',result:{reasons:[error.message]}});
++          continue;
++        }
+         let repairing=job.state==='repairing';
+@@ -125,1 +125,2 @@
+-          let result=await validateFactoryCandidate(candidate,config);
++          const validatePinned=(q)=>profile?validateFactoryCandidateV73(q,{...config,topology:undefined}):validateFactoryCandidate(q,config);
++          let result=await validatePinned(candidate);
+@@ -136,1 +137,1 @@
+-            result=await validateFactoryCandidate(candidate,config);
++            result=await validatePinned(candidate);
+@@ -132,2 +139,3 @@
+           if(result.state==='eligible') {
++            if(profile){assertFactoryProfileV73(profile,{manifest:read('data/calibration_manifest.json'),registry});if(result.question?.evidence?.record?.validation_contract_hash!==profile.validation_contract_hash)throw Error('publication_profile_evidence_mismatch');}
+             if(job.passage_group_id)
+@@ -149,2 +150,8 @@
+-          try{await publishFactoryGroup(members.map(j=>j.candidate),db,registry);}
++          try {
++            const profiles=members.map(j=>j.generation_brief?.validation_profile||null),hashes=new Set(profiles.map(p=>p?.profile_sha256||'legacy'));
++            if(hashes.size!==1)throw Error('passage_group_validation_profile_mismatch');
++            if(profiles[0])assertFactoryProfileV73(profiles[0],{manifest:read('data/calibration_manifest.json'),registry});
++            for(const member of members)if(profiles[0] && member.candidate?.evidence?.record?.validation_contract_hash!==profiles[0].validation_contract_hash)throw Error('publication_profile_evidence_mismatch');
++            await publishFactoryGroup(members.map(j=>j.candidate),db,registry);
++          }
+           catch(error){if(/checkpoint|target|budget|configuration|publication_evidence/.test(error.message)){blocker=error.message;break;}
+@@ -183,1 +183,1 @@ async function main() {
+-  if(command==='worker')return (await import('./tools/focusedFactory.mjs')).runFocusedWorker({once:process.argv.includes('--once')});
++  if(command==='worker')return process.argv.includes('--queue')?runWorker({once:process.argv.includes('--once')}):(await import('./tools/focusedFactory.mjs')).runFocusedWorker({once:process.argv.includes('--once')});
+@@ -273,7 +294,20 @@ async function main() {
+     } else if(command==='enqueue') {
+       const registry=currentRegistry(),db=dbClient();
+       if(sourceReadiness(registry).some(s=>!s.ready))throw new Error('four_subject_authenticated_sources_required');
+       const {data:control,error:controlError}=await db.from('question_factory_control').select('phase,pilot_target').eq('id',1).single();
+       if(controlError)throw new Error('factory_migration_required');
+       const queued=await enqueueJobs(db,registry,control.phase,Number(arg || 50),control.pilot_target);console.log(JSON.stringify({queued,phase:control.phase}));
++    } else if(command==='profile-v73') {
++      if(!arg || !output)throw new Error('usage: profile-v73 <campaign-id> <profile.json>');
++      const registry=currentRegistry(),manifest=read('data/calibration_manifest.json');
++      save(output,createFactoryProfileV73({campaignId:arg,manifest,registry}));
++    } else if(command==='enqueue-v73') {
++      if(!arg)throw new Error('usage: enqueue-v73 <profile.json> [count]');
++      const profile=read(arg),registry=currentRegistry(),manifest=read('data/calibration_manifest.json');
++      assertFactoryProfileV73(profile,{manifest,registry});
++      if(sourceReadiness(registry).some(s=>!s.ready))throw new Error('four_subject_authenticated_sources_required');
++      const db=dbClient(),{data:control,error}=await db.from('question_factory_control').select('phase,pilot_target').eq('id',1).single();
++      if(error)throw new Error('factory_migration_required');
++      const queued=await enqueueJobs(db,registry,control.phase,Number(output||50),control.pilot_target,profile);
++      console.log(JSON.stringify({queued,phase:control.phase,campaign_id:profile.campaign_id,profile_sha256:profile.profile_sha256}));
+     } else if(command==='export-review-bundles') {
+@@ -300,1 +311,1 @@
+-    } else throw new Error('Commands: catalog, screen rows.json|--database [directory], doctor, register-source pack.json, reconcile-history report.json, prepare-pattern input.json output.json, research query output.json, calibrate fixtures.json, enqueue, worker [--once], local-pilot [--once], reconcile-batches');
++    } else throw new Error('Commands: catalog, screen rows.json|--database [directory], doctor, register-source pack.json, reconcile-history report.json, prepare-pattern input.json output.json, research query output.json, calibrate fixtures.json, profile-v73 <campaign-id> <profile.json>, enqueue-v73 <profile.json> [count], enqueue, worker [--queue] [--once], local-pilot [--once], reconcile-batches');
+diff --git a/scripts/pipeline/tests/factoryProfileV73.test.mjs b/scripts/pipeline/tests/factoryProfileV73.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/scripts/pipeline/tests/factoryProfileV73.test.mjs
+@@ -0,0 +1,45 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import { createFactoryProfileV73, assertFactoryProfileV73, pinNewJobsToFactoryProfileV73 } from '../lib/factoryProfileV73.mjs';
++import { expectedReleaseBindingV73 } from '../lib/releaseEvidenceV73.mjs';
++import { RELEASE_POLICY_V7 } from '../lib/releaseEvidenceV7.mjs';
++import { evaluationCacheKeyV73 } from '../lib/contractV73.mjs';
++
++const registry={version:58};
++function fixture(){
++  const b=expectedReleaseBindingV73(),release={state:'released',topology:b.topology,problems:[],fresh_false_accepts:[],regression_false_accepts:[],
++    valid_survival:.9,valid_by_subject:Object.fromEntries(['accountancy','business_studies','economics','english'].map(s=>[s,{ok:9,n:10}])),
++    release_policy:RELEASE_POLICY_V7,critical_false_accepts:0,verifier_version:b.verifier_version,prompt_hash:b.prompt_hash,
++    cuet_fit_contract:b.cuet_fit_contract,effort_policy:b.effort_policy,efforts:b.efforts,validation_contract_hash:b.validation_contract_hash,
++    source_registry_version:registry.version,benchmark:{state:'completed',payload_hash:'a'.repeat(64)}};
++  return {manifest:{cuet_fit_releases:{[b.topology]:release}}};
++}
++
++test('profile binds current verifier, contract, sources and release',()=>{
++  const {manifest}=fixture(),profile=createFactoryProfileV73({campaignId:'prospective-73',manifest,registry});
++  assert.equal(assertFactoryProfileV73(profile,{manifest,registry}),profile);
++  assert.throws(()=>createFactoryProfileV73({campaignId:'prospective-73',manifest:{},registry}),/v73_current_release_required/);
++  assert.throws(()=>assertFactoryProfileV73({...profile,unknown:true},{manifest,registry}),/unknown_or_missing_field/);
++  assert.throws(()=>assertFactoryProfileV73({...profile,validation_contract_hash:'0'.repeat(64)},{manifest,registry}),/profile_hash_mismatch/);
++  assert.throws(()=>assertFactoryProfileV73(profile,{manifest,registry:{version:59}}),/current_release_mismatch/);
++});
++
++test('pinning affects only new jobs and refuses an existing pin',()=>{
++  const {manifest}=fixture(),profile=createFactoryProfileV73({campaignId:'prospective-73',manifest,registry});
++  const jobs=[{id:'new-job',subject:'english',generation_brief:null}],pinned=pinNewJobsToFactoryProfileV73(jobs,profile);
++  assert.equal(jobs[0].generation_brief,null);
++  assert.notEqual(pinned[0].generation_brief.validation_profile,profile);
++  assert.equal(pinned[0].generation_brief.validation_profile.profile_sha256,profile.profile_sha256);
++  assert.throws(()=>pinNewJobsToFactoryProfileV73([{...pinned[0],id:'second'}],profile),/already_pinned/);
++});
++
++test('student evidence rejects unknown v7 validator versions while preserving known releases',async()=>{
++  const { v73RuntimeEvidenceCurrent } = await import('../../../data/v73_runtime_evidence.mjs');
++  assert.equal(v73RuntimeEvidenceCurrent({verifier_version:'cuet-fit-validator-v7.4'},{manifest:{},registry}),false);
++  assert.equal(v73RuntimeEvidenceCurrent({verifier_version:'cuet-fit-validator-v7.2'},{manifest:{},registry}),true);
++});
++
++test('evaluation cache identity separates contract versions',()=>{
++  const input={candidate_id:'x'},base={input,provider:'openai',model:'gpt-6-luna',effort:'high',output:7500,promptHash:'p',policyVersion:'cuet-llm-v3'};
++  assert.notEqual(evaluationCacheKeyV73({...base,contractHash:'a'.repeat(64)}),evaluationCacheKeyV73({...base,contractHash:'b'.repeat(64)}));
++});

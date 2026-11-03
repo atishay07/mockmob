@@ -1,0 +1,1311 @@
+{
+  "at": "2026-10-07T07:26:42.258Z",
+  "campaign": "cost-native-cohort-008",
+  "paid_requests": 0,
+  "candidates_measured": 100,
+  "maximum_bytes": 19935,
+  "all_input_bounds_pass": true,
+  "quote_constraint_present": true,
+  "rows": [
+    {
+      "id": "82574b4883d9af2fb1cc931428940600",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9300,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "6d1a6e2d431da8211dd4fc471ed454278db4c49250e1ad1ba043a6ba552f3fd9",
+      "quote_choices": 3
+    },
+    {
+      "id": "6f8be5461f535165ed7de1f7d8beecf8",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13312,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "e93188941761fc857d307e6fc5295d20930ae7ae4f5d4c42f40a277b3eb8c543",
+      "quote_choices": 4
+    },
+    {
+      "id": "90c24807e1a72c192a3c7d75ee9ed454",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 12632,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "b81549e04b755ef32412d94a86121e668d6ad3202b01a37be826117f04c07059",
+      "quote_choices": 2
+    },
+    {
+      "id": "46a75100c48da2751b3daa76f73de665",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 14392,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "1be6b83c70b3c0a0e0aeaa0c2e003e4c0527666d5ac49e6256723bd68f0049fd",
+      "quote_choices": 4
+    },
+    {
+      "id": "78da66f177b1ad60ba00a05294399a3d",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9742,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "98abe2fc436c59a7cdea0445d0f9a4b3ebda5f9b8c63558b0566ceac5bd83f64",
+      "quote_choices": 4
+    },
+    {
+      "id": "5d9ffad0adcacc6252853a38d4f8d1d7",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13228,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2822673598010e9cb36d020bf6e852817cf11c74725dccd1b0209440f4f95393",
+      "quote_choices": 4
+    },
+    {
+      "id": "57e8ad38d84e4c608287679d48fb56cf",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9300,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "5cfede773d37005641ef2ddfbc4b99d8aad1d5af30738ac2d21de0be88f062e0",
+      "quote_choices": 3
+    },
+    {
+      "id": "c6eac54db23692e188f253448f5e6b36",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13253,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "866246b6eea2005f23f3b0f36ab0ae7087f2645bb0172e6797d1b935b114962e",
+      "quote_choices": 4
+    },
+    {
+      "id": "792a2de8e6e896455610f3d9100ccd79",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 12584,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "cf3185109ceb0123ed114caacdd863d566231d1416d29ed8031c97f20d864650",
+      "quote_choices": 2
+    },
+    {
+      "id": "c22fe4759d5ec9f195e45c733209481e",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 14664,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0eaf93163feb7ab1e9ba915457e2e5a62229d8c4fccdf7f4a720518acde03267",
+      "quote_choices": 4
+    },
+    {
+      "id": "f0e3e49a2d75d7480e01d15f9d536736",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9755,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "d4418864df80501d8f947ea4077a08f58c1e419516099b8833027862dd11c0c1",
+      "quote_choices": 4
+    },
+    {
+      "id": "26e2b72eb0f16c31868306372d610d2d",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13171,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0740a28abf76c35dbd7332e9abac74ed3c0f7a672a72c2e9c26034819c114a26",
+      "quote_choices": 4
+    },
+    {
+      "id": "5dd4945ecda7bf6fce161b48c93d1c32",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9300,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8997cfab824522949218c1159773dd1cdf7fc539778908173b10ddbbfa257f67",
+      "quote_choices": 3
+    },
+    {
+      "id": "4a61924e675c35253ff085debc70e1d5",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13357,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "eccb4c6cc808008bc0380a38ae574bf80d98b5b930243ce181657146ea4293cb",
+      "quote_choices": 4
+    },
+    {
+      "id": "0247258de456a670df19039e3a2c4dfa",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 12594,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8f085e36e8274dcd2e21b9f5691d1f404f1b29436225560a432095d9c6d73791",
+      "quote_choices": 2
+    },
+    {
+      "id": "60511b2272bcced89bed6cca9eb0ab01",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 14635,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "5f83f7ba7044c91af35d15e6ea52536c4649e564692613f33a460b71eb9ac659",
+      "quote_choices": 4
+    },
+    {
+      "id": "f89c31ca89d7727d925bbaca1e94e73a",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9940,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "fb329433e380e02165bc8cc720aac1ac4920a2276d2e5c182693a3dd7868c168",
+      "quote_choices": 4
+    },
+    {
+      "id": "b555ce7a9098df8538f567506fbaa36e",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13319,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a651f9ca790fde27bd235ec2a2ea6b0c5488476d9498a95c1b067f4784b7e246",
+      "quote_choices": 4
+    },
+    {
+      "id": "325691f151fd62c5480c2fdf61165e3e",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9300,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "896295bdc5ffaddb7d6c065436970b042370119c433d4f24a58f1fbd2e10ba7b",
+      "quote_choices": 3
+    },
+    {
+      "id": "bd7f5c49e29e94a1739b02b24f784000",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13468,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "573662daaee2bf820fe07568852fc94115a3cd91a9e141008b221f83dce835f0",
+      "quote_choices": 4
+    },
+    {
+      "id": "23be84e9a8a798f5249456b77ea00570",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 12600,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a9bfb94302047e4b325fa551a04b36bdc2de598039c8676f21c51f79e21ac59c",
+      "quote_choices": 2
+    },
+    {
+      "id": "f58d7ce329f167054f7e42d9774a6203",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 14304,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "7225911995e4cb560f49f97e6b2ad8bb484adf4f7071cf36df4e8c694e1b2721",
+      "quote_choices": 4
+    },
+    {
+      "id": "3936d671d69dce13796bfd5d39217eaa",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9696,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0e6f3cf64583a979072d19cdd8d55e711c327b07afa864c60c02bd51dfb24669",
+      "quote_choices": 4
+    },
+    {
+      "id": "99de722eb49ebfa10306bd2d9dd3e88d",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 13376,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "ff24669e321eb52f1ce6c2f5ef9d374a252661ba427700bd08a5f07660f9ad79",
+      "quote_choices": 4
+    },
+    {
+      "id": "3c166eb4a93d03d39f242d795cbb3297",
+      "subject": "english",
+      "provider": "openai",
+      "input_bytes": 9300,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "fb50faf1d7e456e30d5e0c671773bcdc92e76209eb350e813ab363b9bc2a76f1",
+      "quote_choices": 3
+    },
+    {
+      "id": "5ae0462e47872696fd44f339b9e805ac",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 11565,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "19c56bb8010299e121c4b322985005298cec55e5b00abb23eff00166dadda689",
+      "quote_choices": 6
+    },
+    {
+      "id": "575cd491e458989dd6e11567e24afda3",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 12874,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2cfaa46fd089fa55fc9947489f3048d63e45b938cd2a01e731eb4647e853e3a7",
+      "quote_choices": 9
+    },
+    {
+      "id": "c8e88f23f90481aefd67b064008ae16a",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 13556,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0856ddff2f5df33bafeb59c71d85cf7e5a0411c163ae52494d53bf4cf34252c3",
+      "quote_choices": 8
+    },
+    {
+      "id": "2ed22543b3098d60ab0ae73bcf02421d",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15599,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "4d8fe325a0b1b7ff4e1c414908e84d64cb4ca105cdcc07205d4d20004c2000bb",
+      "quote_choices": 13
+    },
+    {
+      "id": "8ad2e554e891c8095bb7e5cabd4426b9",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 11988,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8e7b7a01c73b66ed17a9fa7cbed1be1a1a7ad3f8523a172df4529e14c082ac29",
+      "quote_choices": 5
+    },
+    {
+      "id": "bb3b190778c93cefa0f07ea760f763ee",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15851,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "80b5f422e5381160bb2723c72b0c548aa8ab9fd3e00774f1c3907cd4f306cd4b",
+      "quote_choices": 13
+    },
+    {
+      "id": "927ee52805af21d8a6d5567233cb07e2",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 14734,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a9d4f648c941357119642b8a8c075d22aae82d5ad26e59ce72452ab0b19a7c6e",
+      "quote_choices": 10
+    },
+    {
+      "id": "f6ab31107fd33dcf20ca57cc77d51f58",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16733,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "877238dd8aabffa570a7733b584b4b6f23a27e603bbe1c268fccd579510c494f",
+      "quote_choices": 14
+    },
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15102,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0c3ebf11c6279bd5206bc03ce790887e92bc4ebd5edd816502974d2878c9097a",
+      "quote_choices": 10
+    },
+    {
+      "id": "f271685e4003335bfd8453bd4f14ad0f",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15921,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "fc64baa091854682e333bd6549606746329fee5a9fe93e858606587302154a87",
+      "quote_choices": 12
+    },
+    {
+      "id": "4d69e552876e65aff448b861f358824b",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 17130,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "3c608cb15298f2da88c63bbbcd3db4cc4f92c8600f488e9a0140601550434567",
+      "quote_choices": 12
+    },
+    {
+      "id": "d8f28c1ea8343634cbb3a856b6c35669",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15461,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "4646498ac0efcb1e8265fe517cf8c9578c1e992e5de3f56fff83c99cc183779a",
+      "quote_choices": 9
+    },
+    {
+      "id": "3dd32fdfc9817472c66dfadc0dffb423",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16885,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "98915725aee22f784b1f8b6d6aad065688f1277adb8456d8fd435c868af84e05",
+      "quote_choices": 13
+    },
+    {
+      "id": "e8708874ac8dd69eedf95b6b1c0322e8",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 13726,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "cb0e59300cae99c9ea4497ccecca7f5657247aedc199171856339de0e182fdd7",
+      "quote_choices": 8
+    },
+    {
+      "id": "ebd0f2b156cc8c3c9a22ecf98cd6e3de",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16746,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "d0bd443d25856b2615ba047f91389c0afcc78709b1a9f487b2a703a4f82330cb",
+      "quote_choices": 14
+    },
+    {
+      "id": "2ccb63342873c1185d095b3bb04a7cd2",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 14467,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "9fef739744ab69eb16d9a79faea104ed67124dfe9fc7e020a0b3c2ce70868e28",
+      "quote_choices": 9
+    },
+    {
+      "id": "de2c8aa1aef39b8fc185db73d17a7415",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15906,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "f225205250e0bcddda93c785450d310ce353887dccfd6391092955e991c90b19",
+      "quote_choices": 12
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16687,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a705ce2dab9d0b02d0ef6e3ca859bca477525408b6a9a1c8f20319d1cd3b0db3",
+      "quote_choices": 10
+    },
+    {
+      "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16021,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "ef2e282f4308f6349e5e63488e5bd131148629422b967ea172d8a326176abe86",
+      "quote_choices": 12
+    },
+    {
+      "id": "11d15c6f3584da5e14e78df9b61b763c",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 17134,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "fbfcc2c69dcf4fc2d31a2918a1bcb75fcbdcb81343f8bf4eb28ebef373d94b5e",
+      "quote_choices": 12
+    },
+    {
+      "id": "2a7fcb9311bfff8bd5257ff4c7b2d0e5",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 15455,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "6ff858a58a8e01d212d3bbf2517a268a15f7409c9cb4bd189e7e62ee22c8ffda",
+      "quote_choices": 9
+    },
+    {
+      "id": "31b6998510491c0838b7ddf4f4028f53",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16424,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "705dfe5cf619efe85149ab00443a7c62ff3415fb63d4fb8e1bb571313ec8790c",
+      "quote_choices": 12
+    },
+    {
+      "id": "0e0ff59456edcbb0b1a19fc45d69a52e",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 16169,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "f96d1a4752cdc4b9d1e55c4d74a62c5670a4f030f8773a2ee36eebe963cc183f",
+      "quote_choices": 13
+    },
+    {
+      "id": "2ca403e13da61d66ebcb9dc2870cf3df",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 14328,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "47fd1b06fdb151a940dd48983e348129d7e1283753c3b76911dfe33502261e7a",
+      "quote_choices": 6
+    },
+    {
+      "id": "d7410c574d1b3dd93cdb55fab63e8812",
+      "subject": "accountancy",
+      "provider": "openai",
+      "input_bytes": 13808,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "28ff8fdcb005ffdaba5e505a8a64d27d4cffcb6ddcc6fed51c53c255968fc863",
+      "quote_choices": 8
+    },
+    {
+      "id": "5cbcfa1db6c7d4c710040796161282f1",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7785,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2a76f3746c35074aaa230e36e9439b7e9060e5bdb05596501ddeb6ee17f57eca",
+      "quote_choices": 1
+    },
+    {
+      "id": "0e7096a92381547900257a62c54b54e8",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7770,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "aca986ae0698ab8ca379a319a8ba1abff536258d5aa63b57408846b897bb7a64",
+      "quote_choices": 1
+    },
+    {
+      "id": "3b863b1c64e6a1ba2e0e16f1e4dc5204",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7773,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "1912f4a62a66e39e7abda9026f4d7563b64dbbb423b7b4f6a8c8257b8903f4e2",
+      "quote_choices": 1
+    },
+    {
+      "id": "bb9b372e0b1d5755194b0fa9b32c5a2f",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7779,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8ae4be2ee42eac61835ef2aea5fb727015f4cd76963444d9a0c771c59f4cdf77",
+      "quote_choices": 1
+    },
+    {
+      "id": "2dd37898930493cfa5b889cb4ac84b07",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14927,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "20fd5871e1c98b9d45dd79c9f47f3913618b26d92ab48d248bd045677f7aac83",
+      "quote_choices": 9
+    },
+    {
+      "id": "df66f3f1d1838a203d8bc159f5d5e2b9",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14272,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8057b9846f46dc254387e3b18577c37c7d6c9edf0fcc32e3521428955075da71",
+      "quote_choices": 9
+    },
+    {
+      "id": "09394a53ee85fd213deb9f2865715570",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7768,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "c5d39341a9320a78d58936e79928622a87a3c94c398517184ea337d0c810eb62",
+      "quote_choices": 1
+    },
+    {
+      "id": "44f5892633b870a9b56e981dd436d6c3",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14914,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "d7a45f2fcfc6bd1c35fb87262d13c84e2743852c7d21cb8364b9f1b832e8da16",
+      "quote_choices": 9
+    },
+    {
+      "id": "96ecafc518ab1917c40209eb5405096f",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 17311,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a11655fdd845b32469ca7da6eddb9fc7e4befcc464d73289406a95157f1d16c3",
+      "quote_choices": 14
+    },
+    {
+      "id": "19d71b5ce3744260e5fd6585a64b7b48",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 15395,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "9ced2277ee9e092078ac6b9133207fad4ee117452008e336db8b816b4d3e8749",
+      "quote_choices": 9
+    },
+    {
+      "id": "c95dd57eb172a9c54ee3d6147f8c33f6",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7787,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "5eda070d736635ead728e24506e464d9c5adb6745d1045a5959bee68e593d6f7",
+      "quote_choices": 1
+    },
+    {
+      "id": "73d09cd70479e9a22a536deba2e35553",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 11451,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "76b1a1f1eb8c846deb140f8a16e5b0504b9a365a4e3e03acb8f2d7bf5f6a211d",
+      "quote_choices": 4
+    },
+    {
+      "id": "7a01bb62422657763ca6d1da4eef01b4",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14831,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0b0449ae4a8339e7edd602cbd08f434e62aeaaa1f97f0ce04f4d99ecd82b93aa",
+      "quote_choices": 9
+    },
+    {
+      "id": "4b177d3146e440649f4f8dbea1b2e581",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 18851,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "9ddf5326d50902943b0b3cf9b7b27fc7b10252059eb104b2edd2bd804d2e66bd",
+      "quote_choices": 15
+    },
+    {
+      "id": "9ea83c0e4f7dc6c133f9a1bb16bee6a7",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 11274,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "90b8c900215ffe1ec717a46f1a52b2886b1adae77aa73a442eb986518f530fb2",
+      "quote_choices": 4
+    },
+    {
+      "id": "e47ed75943c0b08c8f64310dcf0b34f6",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7766,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "d559d3573e7df2dc36d69a78ec598747041f60d0fc3d82475484b51ffee99664",
+      "quote_choices": 1
+    },
+    {
+      "id": "51849b957de396b004916276652a4b32",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14926,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "ad4e5db3532d7b843ef32ed957523c42bb98e8dc4b02814ef4c2e62f85738e24",
+      "quote_choices": 9
+    },
+    {
+      "id": "43664a348707d1e3097147b946477de1",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 17445,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "32b6df92dcf73855d0a38eebd59bc53c0e3faf5b48622e7abbd5b6725e3bd8f6",
+      "quote_choices": 14
+    },
+    {
+      "id": "43406ac6c98c08f1737d73974a91b8ec",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 18720,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "a47ee7bcebca30f6ea418c1e8b4a2ce791ba42efa9d46d172e73d51e62f64c07",
+      "quote_choices": 13
+    },
+    {
+      "id": "b9dfb6ca00675f1bdea2efefc3b72a49",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 19935,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2d1936adf1993232373b23ceac2510293692db7850a4efb0a4e734806f4557ec",
+      "quote_choices": 14
+    },
+    {
+      "id": "bdf6d40c4a3e15f7a3c8915bddda53f0",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 18801,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "53571f1d7b2698e57bf6f056f513e862889282ea2ac85f6b16df2caddef54749",
+      "quote_choices": 15
+    },
+    {
+      "id": "88695bc3f91a3eb7dd90b09912cc5da0",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 11049,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "361bc19132a25a92f70bb256fda2408ee714bf928d27f397ba6aeb2b24241866",
+      "quote_choices": 3
+    },
+    {
+      "id": "1670079b3e8c801354374a52bf4ed31d",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 7792,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "46ecf6e6aef8a85b2dc298126fab38cf62beda723a639947ea5dfb5a8e2e8b93",
+      "quote_choices": 1
+    },
+    {
+      "id": "1a481d5ee893bbb590b57d934d6b5cf2",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 11533,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "da26e81068b09d09551e1505310a7b850b378db60c981405ba2aad137bf9ec57",
+      "quote_choices": 5
+    },
+    {
+      "id": "e8a06388bc4cc402576482908fd381f8",
+      "subject": "business_studies",
+      "provider": "openai",
+      "input_bytes": 14695,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "ffcee0509f4ddf44db55e44d5019456c0aee8b0d4c46a0734dfaf25118e40687",
+      "quote_choices": 9
+    },
+    {
+      "id": "d0d6a3e0e48b65edce79baf962808f09",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 9731,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2691e43470f55b0692b0b86514f0510bd5eb1fe1ae5978f310b6f9e511f46956",
+      "quote_choices": 2
+    },
+    {
+      "id": "231b32d8c2cb12c1b8ccf4463f11a271",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 17984,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "f1f5a538a1d84c0272a91969ab0283714bde24b897634b2d6e0b92f839f384ad",
+      "quote_choices": 15
+    },
+    {
+      "id": "86d76029e629b9f6ef1430035cc5765f",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 18621,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "005d3cc802899d2867c54c7e18a2bce59e0075bac9b20ce34d3eb4bc0f36cb19",
+      "quote_choices": 14
+    },
+    {
+      "id": "08e9ca4ce15512f3c5357d2852d5c21d",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15713,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "9b768137204113047068c6cd6428cdb14eba040f28fed9351e7ecbda27787f13",
+      "quote_choices": 8
+    },
+    {
+      "id": "75ec5aa6e1c81eda20121fb91aa2db43",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15777,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "c823d16987e9f1ce2e44b14a35b5c73e2a74d7edd3a03d0a45490ca364b3e219",
+      "quote_choices": 10
+    },
+    {
+      "id": "2fc5d2b616d989d89cdb24ddcb45a34b",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16928,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "ef6dd434ddc9bc7e449b0ab8a63cf55573ad8a68b141788de9819764ee8bd436",
+      "quote_choices": 10
+    },
+    {
+      "id": "e1ae83111627cd8fac2dd3ce8b1040f6",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 18439,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "8e92c1db2087e691ed4d7f743b8faa69ab0c699903d890afc34cf722c2e76f49",
+      "quote_choices": 14
+    },
+    {
+      "id": "08d6dda9691c02625c105e39895343e3",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15592,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "7e1554006e94ed66b867fe4074ebb8a91954ebdf27afe0c898dc82065c41f8c9",
+      "quote_choices": 8
+    },
+    {
+      "id": "be39abb660525f86fd664b8df9629b11",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16447,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "4622499ca543e736e4515c7bda99f4b4535d80d7cfde344962aba056bd48644a",
+      "quote_choices": 12
+    },
+    {
+      "id": "faad2bade6a3a416b2c75e49ecafa977",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 19070,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "be9131816e28117c5075c83be9030ce5730a33ee90a232cb1af604717ec06dcb",
+      "quote_choices": 13
+    },
+    {
+      "id": "575bb42bc8bbb0ae3338c331b1fb1dde",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 14333,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "439242fdf3938a2bfc1f69538dd3fd133572de2e5ea4d62d6a7111e1ccec86e3",
+      "quote_choices": 7
+    },
+    {
+      "id": "ea1434b63fed9b916708438120026842",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16678,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "686f3ed7d05ac9988258b2632bb2c8aa756686e0702ce435eb3d05858bec9a51",
+      "quote_choices": 10
+    },
+    {
+      "id": "ea0352db044b73bb7158800c58be188d",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 10595,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "f3b371fb581aa27a03bec8c7bc37f014cb091f22853a9e5c3eab5a4498e209b9",
+      "quote_choices": 2
+    },
+    {
+      "id": "af5aa1c337402262a710eace8dc504ab",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15653,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2f955a82d14baf77e62a2cb938a5632fc6bbbf4bfcfc218b3550b2e6d2a11419",
+      "quote_choices": 10
+    },
+    {
+      "id": "48d224455d1f1c8c7720bc233da3597f",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16493,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "0bd4cdaddcdf97da87d20c0dbd770bcfccc3fa491c6e0dc806132be1b362235f",
+      "quote_choices": 9
+    },
+    {
+      "id": "46c8ef0e5f061e15de4542f6cc1b25c7",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15551,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "43b94a9ec7939b8daae1b3c81a18956dec962fdc48ab2e43e6d11ca713e8f94f",
+      "quote_choices": 9
+    },
+    {
+      "id": "19b7ed950e806e724879610847497e68",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 17318,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "dad71e189d4bdc486494dbe2cce7f1f267c959b2666286980439a3aa553b4b0a",
+      "quote_choices": 10
+    },
+    {
+      "id": "17b22c6e7575cec573a9cb15b2749f8c",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 17779,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "2730a6b80f456c817254ec3cb2e792dff9231886ce8d6fdd5f85314b5a9e5ea7",
+      "quote_choices": 11
+    },
+    {
+      "id": "bdfcfb0ca1ae93f87871930d7198c756",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16380,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "60a816e23edab1510de0a285fb0e76a8d9d5aa91aea4108a8af6ee963090883f",
+      "quote_choices": 10
+    },
+    {
+      "id": "cddd2a161b8149588f5a4bc6b5e864e3",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 16475,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "4c03d838c96d53a8345c7568915dd7cf6314809bff29268371d0b7e429bc0ff5",
+      "quote_choices": 11
+    },
+    {
+      "id": "b5a9f4fa9f7213517ae3d372e11c0035",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15999,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "23b4da4ecafd92067ff07a9ef626d2de1d0e53457d30cf4e9e49973a78f46dee",
+      "quote_choices": 11
+    },
+    {
+      "id": "134752050e428884fc1f527ebb19a319",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 15936,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "3392cee07de4fe76f6c07f77b53bb26e695e22516cf7cfcb6b9a144cfdae3511",
+      "quote_choices": 10
+    },
+    {
+      "id": "d6f21457604377bf3b550e5bacd626e3",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 14236,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "e282c775b20b175bade7ca53662644e7e124596be44467cab805d4c5af0ea62d",
+      "quote_choices": 9
+    },
+    {
+      "id": "423d3c063e285068e8e4e131cb65d6f9",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 14325,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "62e275dda2673283a637f352804b58b0b85718698f30e358f4078c0a29c6ffde",
+      "quote_choices": 7
+    },
+    {
+      "id": "c9557cd208cfc88032d6349e0e5ced8c",
+      "subject": "economics",
+      "provider": "openai",
+      "input_bytes": 17556,
+      "maximum_input_tokens": 32768,
+      "maximum_output_tokens": 6500,
+      "reasoning": {
+        "effort": "high"
+      },
+      "body_hash": "d1e5fd889496a06501072728cc6da2c1b97d9125ab3cd4cc3a6437e566ddb695",
+      "quote_choices": 11
+    }
+  ]
+}

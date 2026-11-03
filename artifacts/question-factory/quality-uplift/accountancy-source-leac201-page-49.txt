@@ -1,0 +1,43 @@
+Accounting for Share Capital 49
+According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares),
+for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares
+(1,600 shares × 6/5).
+(d) Allotment money received
+(Amount actually due on Allotment) 1,68,000
+Less Amount unpaid by Chitnis (6,720)
+Amount received 1,61,280
+II. Balance on Shares Forfeited Account
+Amount paid by Chitnis :
+1,920 Shares applied for × Rs. 4 per share 7,680
+Amount paid by Jagdale :
+2,000 Shares × (Rs. 4 + Rs. 3) Rs.7 per share 14,000
+Total balance 21,680
+Note : Premium amount on Jagdale’s shares will not be taken into account as it has
+been received in full by the company.
+1.7.1 Reissue of Forfeited Shares
+The directors can either cancel or re-issue the forefeited shares. In most cases,
+they reissue such shares which may be at par, at premium or at a discount.
+Forfeited shares may be reissued as fully paid at a par, premium, discount. In
+this context, it may be noted that the amount of discount allowed cannot exceed
+the amount that had been received on forfeited shares at the time of initial issue,
+and that the discount allowed on reissue of forfeited shares should be debited to
+the ‘Forfeited Share Account’. The balance, if any, left in the Share-Forfeited
+Account relating to reissued Shares, should be treated as capital profit and
+transferred to Capital Reserve Account. For example, when a company forfeits
+200 shares of Rs. 10 each on which Rs. 600 had been received, it can allow a
+maximum discount of Rs. 600 on their reissue. Assuming that the company
+reissues these shares for Rs. 1,800 as fully paid, the necessary journal entry
+will be:
+Bank A/c Dr. 1,800
+Share Forfeiture A/c Dr. 200
+To Share Capital A/c 2,000
+(Reissue of 200 forfeited shares at Rs. 9 per
+share as fully paid)
+This shall leave a balance of Rs. 400 in share forfeited account which should
+be transferred to Capital Reserve Account by recording the following journal
+entry:
+Share Forfeiture A/c Dr. 400
+To Capital Reserve 400
+(Profit on reissue of forfeited shares
+transferred)
+Reprint 2026-27

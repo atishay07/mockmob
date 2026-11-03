@@ -1,0 +1,15 @@
+# Staging status evidence
+
+This is a read-only evidence review. No staging or production writes, migrations, emails, or paid provider calls were made.
+
+Current live staging was checked with `node --use-system-ca`, HTTPS GET/SELECT, and the authorized existing admin/student identities. The current control is `paused:false`, `phase:1000`, `publication_enabled:true`; no control action was invoked. Anonymous admin access returned 401, student admin access returned 404, and signed admin overview returned 200.
+
+The current read-only check found 666 staging publication rows and 666 in the admin overview, with 662 usable factory publications. All 662 continuation-bank published IDs are in the publication table and retrievable from the student feed (zero missing). Of 253 quarantined IDs, none appeared in the feed and none remains live or eligible in the database. Four publications are outside that legacy set. Feed counts are English 173, Accountancy 141, Business Studies 183, and Economics 165. The current student AI cap is USD 25. The saved proof is [current-staging-read-only.json](./current-staging-read-only.json); the rerunnable read-only checker is [readOnlyCurrentStagingCheck.mjs](./readOnlyCurrentStagingCheck.mjs).
+
+The local continuation artifact contains 1,000 rows: 662 published, 253 quarantined/rejected, 76 eligible but unpublished, and 9 waiting for authoring. The separate approved-published file contains 662 rows. These are local artifact counts, not a live staging recount.
+
+The current V7 execution is measurement-only. The local manifest has no `cuet_fit_releases` field, and the execution state says publication is disabled. The live publication rows contain zero matches for current V7 job/question ID markers; four extra rows outside the legacy bank also have no such match. Latest local measurements show the baseline arm at 18 eligible, 3 rejected, and 79 pending out of 100. Whole-bank reassessment has 36 complete (32 eligible under the unreleased contract, 4 rejected) and 626 pending. Its saved zero-cost figure is invalid because of the known attribution bug and must not be used.
+
+Local migration files currently end at `20261005185759_question_factory.sql`; the student AI cap is defined by `20261004120000_runtime_ai_monthly_cap.sql`. Staging currently exposes both the question-factory tables and the USD 25 cap field. PostgREST does not expose the Supabase migration ledger, so the exact applied latest migration version remains unverified. A historical staging dry run included the question-factory migration and recorded zero production writes. The local source registry is version 58 with SHA-256 `d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991`.
+
+I did not run either available retrieval helper. `checkContinuationRetrieval.mjs` performs staging checkpoint release actions and writes evidence; `checkPublishedStaging.mjs` creates and resolves a test dispute, changing staging rows before restoring them. They are not read-only checks.

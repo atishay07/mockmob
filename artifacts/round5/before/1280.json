@@ -1,0 +1,86 @@
+{
+  "stations": [
+    {
+      "id": "hero",
+      "y": 145.875
+    },
+    {
+      "id": "lab",
+      "y": 1852.4375
+    },
+    {
+      "id": "compass",
+      "y": 2955.609375
+    },
+    {
+      "id": "demo",
+      "y": 6868.375
+    },
+    {
+      "id": "close",
+      "y": 14426.203125
+    }
+  ],
+  "samples": [
+    {
+      "y": 0,
+      "perch": "hero",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 1672,
+      "perch": "lab",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 2776,
+      "perch": "compass",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 6688,
+      "perch": "compass",
+      "visible": "false",
+      "flyer": false
+    },
+    {
+      "y": 14246,
+      "perch": "close",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 14246,
+      "perch": "close",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 6688,
+      "perch": "close",
+      "visible": "false",
+      "flyer": false
+    },
+    {
+      "y": 2776,
+      "perch": "compass",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 1672,
+      "perch": "lab",
+      "visible": "true",
+      "flyer": false
+    },
+    {
+      "y": 0,
+      "perch": "hero",
+      "visible": "true",
+      "flyer": false
+    }
+  ]
+}

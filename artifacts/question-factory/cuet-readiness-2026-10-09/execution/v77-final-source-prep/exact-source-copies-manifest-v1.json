@@ -1,0 +1,373 @@
+{
+  "schema": "v77-final-exact-source-copies-v1",
+  "created_at": "2026-10-09T06:42:30.000Z",
+  "source_copy_root": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep",
+  "files": [
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-MS-p1.png",
+      "sha256": "c011746389d4dfdff66051dddd49e540470449e430bcd21958664cad61a50fcb",
+      "bytes": 101851,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-MS-p1.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-MS.pages.json",
+      "sha256": "0d8cac8162a337365137ecb892ca3c9cce19bc24f022e0ab9307889332d8bc83",
+      "bytes": 934,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-MS.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-MS.pdf",
+      "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2",
+      "bytes": 515115,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-MS.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-01.png",
+      "sha256": "847c1914392aa7afe218288f04e1d22d270cf629bad3734b0e9bcbebe49cca93",
+      "bytes": 203423,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-01.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-02.png",
+      "sha256": "168ca25cd7709497f270231dcf709156fea98d282be41de74ea074a230b707e0",
+      "bytes": 147666,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-02.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-03.png",
+      "sha256": "226a01dd051213baf1fcba4d071ec54bdaeefb6d0b5f6f0380d2106a8d1990b9",
+      "bytes": 153021,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP-p-03.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP.pages.json",
+      "sha256": "2219faa3cb42797bb456d413643da6317160744ac48a173ba0c5d4b2c039aa7e",
+      "bytes": 29615,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP.pdf",
+      "sha256": "69d5fdc004020303ecab5db8f01137b13a3d86782cfb3bd3143f01303ed7d9d7",
+      "bytes": 549146,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Accountancy-SQP.txt",
+      "sha256": "500ae4a6732dd3e4e5dbfce9a345f64de5f25988afa6db3be002808496e448e1",
+      "bytes": 28818,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Accountancy-SQP.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-MS.pages.json",
+      "sha256": "23c19d3e8402badddb496b1646b012e7bc6b1922938787beff9007357ad1ec44",
+      "bytes": 693,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-MS.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-MS.pdf",
+      "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459",
+      "bytes": 426272,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-MS.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-01.png",
+      "sha256": "36608472a9192712923d2b72750b3e0410fac243ef36d02415aae55121993aee",
+      "bytes": 127346,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-01.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-02.png",
+      "sha256": "be70d557f97758092ab05178ea3196cd4f0e190e1f25489fc901ea94d54d288e",
+      "bytes": 154444,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-02.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-03.png",
+      "sha256": "c1f1fd78e928a603dd30f04e6a67de5d160b55d0aa0b5ed5ad7c059254ef2acd",
+      "bytes": 171255,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP-p-03.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.pages.json",
+      "sha256": "6f776ad1fe7f82cc567dede436ab41fbcba9544e4f65c1c05f5071e0d05db3e5",
+      "bytes": 23266,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.pdf",
+      "sha256": "30ff1c796aad76e2fc8e64ee3caa965f9bbedd3736ec911f6670bdaa98095e17",
+      "bytes": 607790,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.txt",
+      "sha256": "c6380bf286e19c5493e6e98aedc63c1a9d90f64f41c536c05b677c8c42532edb",
+      "bytes": 22733,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\BusinessStudies-SQP.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-MS.pages.json",
+      "sha256": "1474394898f047c195e26193f712693f5059a1ddfb7d85a947e37aba76dc3c6b",
+      "bytes": 558,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-MS.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-MS.pdf",
+      "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0",
+      "bytes": 554409,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-MS.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP-p-01.png",
+      "sha256": "8ceb273299a49f22385b59a18380f99c2e50decba0c5f8454d0aa435120ef972",
+      "bytes": 263676,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP-p-01.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP-p-02.png",
+      "sha256": "62acad7894dab6d2fb89226415a4884f9e5669d79a9da611f0a359cb22c23aef",
+      "bytes": 217716,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP-p-02.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP-p-03.png",
+      "sha256": "ff5a08cee053b17dc8bf54fd33537bc4aa082daa6511588e199d139e504819d4",
+      "bytes": 211157,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP-p-03.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP.pages.json",
+      "sha256": "cac6b295960b56ced8acd8ab19389c6c6746bd1fb10ceddbcad632fc7c5e40f5",
+      "bytes": 30480,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP.pdf",
+      "sha256": "6af42b3bc39cfd8c0d385feffdca87d8a4688616c30d85771e7c75f392037679",
+      "bytes": 498652,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\Economics-SQP.txt",
+      "sha256": "55087d1e8169e482e4de199797878705adea503dbf095296efcdb59024e17430",
+      "bytes": 29980,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\Economics-SQP.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-01.png",
+      "sha256": "0766d1e797f595357f293da8cbbad347c0692fe1e82527998c0ee571b155f6fd",
+      "bytes": 277284,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-01.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-02.png",
+      "sha256": "5be9a866cf52fb9e5963610fa53341e56b5d233d840624a5e7e2c1ed463cd978",
+      "bytes": 238632,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-02.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-03.png",
+      "sha256": "8a37d4d6f470b7576761ca09fa30c5cfd5059b98480627b78c9d9e399e3d9a34",
+      "bytes": 217542,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP-p-03.png"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP.pages.json",
+      "sha256": "17c18bb831a7ef66477d7042a67e69cca9bee7b90fd41e1378e6a6e783b579c2",
+      "bytes": 30331,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP.pdf",
+      "sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+      "bytes": 536017,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\EnglishCore-SQP.txt",
+      "sha256": "a9270137bbfe3c0a5c466aa39d1d25861a54c3d4ede6f743342d712f322ce6aa",
+      "bytes": 29794,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\EnglishCore-SQP.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\acquisition-manifest.json",
+      "sha256": "d3bcd3a1e82a13613f6d7d5d86cc41455e279044bbcff3aeb70400adebf7f7d0",
+      "bytes": 1752,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\acquisition-manifest.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\acquisition-2021-22\\official-key-acquisition-manifest.json",
+      "sha256": "dcc881527c24d3e72e3690591860956d4ff235c8d45e7138f3f64de6d1df2e60",
+      "bytes": 1807,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\acquisition-2021-22\\official-key-acquisition-manifest.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\keec101.pages.json",
+      "sha256": "19d28bc035e23cfda9fc677140b4d702803ddbf32d9471c1488ae17bebecf47f",
+      "bytes": 58239,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\keec101.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac101.pages.json",
+      "sha256": "d0c91273569d61df2b3f2d097c678a45473639c6afe60214e6b781f3b4cd82b4",
+      "bytes": 208745,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leac101.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac201.pages.json",
+      "sha256": "90d37fa4196b713a78a43b25aea453e14ce3a53363ef754b1105e9d46f4939f6",
+      "bytes": 290397,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leac201.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac206.normalized.txt",
+      "sha256": "1c914fc5562034092c94e23a7c8095b13f9bdb915d16dd81574bda9a9de50db3",
+      "bytes": 76091,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leac206.normalized.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac206.pages.json",
+      "sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "bytes": 76783,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leac206.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac206.pdf",
+      "sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "bytes": 3722022,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leac206.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs102.pages.json",
+      "sha256": "b8103ab2dddb1d120c1a35bad4684800866d700a399cf401718d7ead03f01793",
+      "bytes": 180106,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs102.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs103.pages.json",
+      "sha256": "08f0b5923d65025292bc0aae239f5ebbaf784609fc02bfe941c904a40513c7d9",
+      "bytes": 147874,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs103.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs104.pages.json",
+      "sha256": "66422ae1820afe0e366c5f570a8fb38ca29639e9d1d21e061afd85e70454a1d9",
+      "bytes": 85538,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs104.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs106.normalized.txt",
+      "sha256": "a77b8c20793bda1e8405563e83308b66b2dff90b3c88913afd2fba8df0b703f6",
+      "bytes": 68190,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs106.normalized.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs106.pages.json",
+      "sha256": "5b13599c461be12a2ff17783aa484cf712fae7f33a3ab81159b7e10107a35f7a",
+      "bytes": 68642,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs106.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs106.pdf",
+      "sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "bytes": 2915161,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs106.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs202.pages.json",
+      "sha256": "00811d203126f68af2bd5f5d6514261df02e0e6a79d37f4e0f593fab276e2f9c",
+      "bytes": 350504,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs202.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs203.normalized.txt",
+      "sha256": "8a41bf76c58e8a065c35054bcaf28731f59c0a6ca6cb7ef03117dc9cdb493bc8",
+      "bytes": 33384,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs203.normalized.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs203.pages.json",
+      "sha256": "7d6bd928bb3d6d09d937097081b2acde65340c96452c987523c29f48467a282e",
+      "bytes": 33626,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs203.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs203.pdf",
+      "sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "bytes": 2219285,
+      "source_path": "data/question-factory-runtime/reference-downloads\\lebs203.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec103.pages.json",
+      "sha256": "5db084d7ab29e01ad4590921728f4db8a79f6755d95f0a39d28001518835cacf",
+      "bytes": 96536,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec103.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec105.pages.json",
+      "sha256": "899829ace57cfb934a267f29b51ba3f70639a9f8e850d2cef05fb7866004f4b6",
+      "bytes": 112218,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec105.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec106.pages.json",
+      "sha256": "dd79d5865b22a3aa7c9969f70f7dbaf6633101b6f54e8cae0fcd63590fd106bd",
+      "bytes": 77021,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec106.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec202.normalized.txt",
+      "sha256": "88e18af333c42abc0e7b76bcfb3828e1fc6c4a40fabbe79991e5f8414512d5dc",
+      "bytes": 69959,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leec202.normalized.txt"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec202.pages.json",
+      "sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "bytes": 70381,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leec202.pages.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec202.pdf",
+      "sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "bytes": 4066289,
+      "source_path": "data/question-factory-runtime/reference-downloads\\leec202.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\local-verified-manifest-v2.json",
+      "sha256": "786b8abe3343c718a4451c58b02b2ded0c3916d4751d1b644f52538981453b97",
+      "bytes": 970,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\local-verified-manifest-v2.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\local-verified-manifest.json",
+      "sha256": "f718d566bfbf9f5b8fe9231f5a92108159806986b480a0ed14385f392ad60291",
+      "bytes": 4638,
+      "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\local-verified-manifest.json"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+      "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "bytes": 398323,
+      "source_path": "data/CUET 2026\\accountancy.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+      "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "bytes": 345090,
+      "source_path": "data/CUET 2026\\business_studies.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+      "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "bytes": 1023162,
+      "source_path": "data/CUET 2026\\economics.pdf"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+      "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "bytes": 231641,
+      "source_path": "data/CUET 2026\\english.pdf"
+    }
+  ]
+}

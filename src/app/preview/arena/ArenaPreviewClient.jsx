@@ -34,6 +34,7 @@ import { FIXTURE_SUBJECTS, fixtureFeed, fixtureChapters, fixtureUploads, fixture
 
 // Original illustrative questions (the homepage sample set), never real bank rows.
 const SAMPLE = [
+  ['Organising', 'Match List-I with List-II.\nList-I (Term)\n(A) Authority\n(B) Responsibility\n(C) Accountability\n(D) Delegation\nList-II (Meaning)\n(I) Answerability for the outcome of an assigned task\n(II) Right to command subordinates\n(III) Entrustment of work with matching authority\n(IV) Obligation to perform an assigned task\nChoose the correct answer from the options given below:', ['(A)-(II), (B)-(IV), (C)-(I), (D)-(III)', '(A)-(IV), (B)-(II), (C)-(I), (D)-(III)', '(A)-(II), (B)-(I), (C)-(IV), (D)-(III)', '(A)-(III), (B)-(IV), (C)-(I), (D)-(II)']],
   ['Partnership Fundamentals', 'Goodwill brought in by an incoming partner is shared by old partners in:', ['New ratio', 'Old ratio', 'Sacrificing ratio', 'Equal ratio']],
   ['Partnership Fundamentals', 'Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?', ['₹30,000', '₹50,000', '₹80,000', '₹1,10,000']],
   ['Money and Banking', 'Which of these is NOT a function of the Reserve Bank of India?', ['Banker to the government', 'Issuing currency', 'Accepting public deposits', 'Controlling credit']],
@@ -232,7 +233,7 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (url.pathname === '/api/recovery/repair' && method === 'POST') {
       const kind = fixture.get('repair') || 'explained';
       const base = { practiceHref: '/test?subject=accountancy&mode=quick&count=5&chapter=Partnership+Fundamentals&recoveryFrom=fixture-attempt', chosenIndex: 0, keyIndex: 2 };
-      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
+      if (kind === 'held') return json({ ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: 2, secondIndex: 2 }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' });
       if (kind === 'unexplained') return json({ ok: true, status: 'not_explained', charged: 0, ...base, message: 'Illustrative: no explanation was prepared. Review the recorded answer or try another question.' });
       if (kind === 'malformed') return json({ ok: true, status: 'unexpected' });
       if (kind === 'released') return json({ ok: false, error: 'operation_released', message: 'Illustrative: that request was released. Nothing was charged. Try again.' }, 409);

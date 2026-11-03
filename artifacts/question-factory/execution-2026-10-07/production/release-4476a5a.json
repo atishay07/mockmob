@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-07T14:33:01.444Z",
+  "deployment": "8MzzAQBiuYNgwVuwdZw1bB2k29v1",
+  "source_commit": "4476a5af8710093b2d7fc220d4e97aef7e1db2e8",
+  "status": "Ready",
+  "latest": true,
+  "environment": "Production",
+  "domain": "www.mockmob.in",
+  "duration_seconds": 66,
+  "evidence": "Observed authenticated Vercel deployment detail and exact original browser screenshot",
+  "academic_contract": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+  "paid_provider_calls": 0
+}

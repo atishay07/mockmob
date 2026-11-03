@@ -1,0 +1,118 @@
+{
+ "id": "cuet-v716-authoring-diag-r1",
+ "jobs": [
+  {
+   "id": "0df7c7e2190a3e83680e021df42c3d08",
+   "number": 1,
+   "subject": "accountancy",
+   "chapter": "Profit & Loss Appropriation Account",
+   "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner\nmay be guaranteed a minimum amount by way of his share in profits. If, in any\nyear, the share of prof. Test a distinct implication, application or calculation supported by it.",
+   "kind": "original_practice",
+   "format": "numerical_calculation",
+   "difficulty": "medium",
+   "branch": "common",
+   "family_id": "original:0df7c7e2190a3e83680e021df42c3d08",
+   "source_pack_id": "original-accountancy-reference-v1",
+   "source_pack_version": 1,
+   "variant_index": 6,
+   "requested_answer_position": "C",
+   "avoidance": [
+    "A partner advances ₹1,20,000 to a firm for business use. The loan remains outstanding for six months without repayment. The partnership deed is silent on interest on the loan. Apply the annual rate proportionately for six months. Consider the following statements:\n(A) No interest is payable because the deed is silent.\n(B) Interest payable for six months is ₹3,600.\n(C) The applicable annual rate is 6%.\n(D) Interest payable for six months is ₹7,200.",
+    "After the accounts for a year have been prepared and the profit distributed, A, B and C discover that the deed-provided salary to A and interest on capital for all three partners were omitted. The firm decides to correct the omission without altering the old accounts and chooses the direct method rather than a Profit and Loss Adjustment Account. Where should it make the adjustment?",
+    "Match each transaction in List-I with the corresponding journal entry in List-II. In each entry, the account before “To” is debited and the account after “To” is credited. For (A), the Profit and Loss A/c has a credit balance (net profit).\nList-I\n(A) Transfer of net profit from the Profit and Loss A/c\n(B) Allowing interest on capital\n(C) Charging interest on drawings to partners’ capital/current accounts\n(D) Transfer of interest on drawings to the Profit and Loss Appropriation A/c\nList-II\n(I) Interest on Drawings A/c Dr.; To Profit and Loss Appropriation A/c\n(II) Profit and Loss A/c Dr.; To Profit and Loss Appropriation A/c\n(III) Partners’ Capital/Current A/cs (individually) Dr.; To Interest on Drawings A/c\n(IV) Interest on Capital A/c Dr.; To Partners’ Capital/Current A/cs (individually)\nChoose the correct answer from the options given below:",
+    "A partnership firm's Profit and Loss A/c has a debit balance of ₹18,000, representing the entire net loss for the year. The entry requested is only the transfer of that balance to the Profit and Loss Appropriation A/c, before any loss is allocated to partners. Which journal entry records this transfer?",
+    "A firm has prepared its Profit and Loss A/c, which shows a net profit. Its partnership terms provide for a partner’s salary and interest on capital, and the firm needs to record these adjustments and show how the profit is appropriated among the partners. Which account should it use?",
+    "A partnership has a profit remaining after all appropriations, which is to be distributed among its partners. It maintains a separate current account for each partner. Only the distribution of this remaining profit is being recorded. Which journal entry records the distribution?",
+    "P and Q share profits in the ratio 3:2. For a year, Q’s share calculated on that basis is below Q’s guaranteed minimum profit. P is the only partner who has given the guarantee. Who bears the deficiency?"
+   ],
+   "official_syllabus_topic": "Accounts of Partnership: Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+   "source_refs": [
+    {
+     "id": "ncertcol-leac101-v1",
+     "version": 1,
+     "locator": "p36-c0-g1-s0",
+     "support_hash": "0ada8cc65e1fb151fb885f5475dec0e6f4cc510f816605fe4abc7ea279d88aaa"
+    },
+    {
+     "id": "ncertcol-leac101-v1",
+     "version": 1,
+     "locator": "p5-c0-g2-s0",
+     "support_hash": "f660fe4b6323853b4e2037a8336830bbb74e0a045a1a3a0ec4df07a469d337bb"
+    }
+   ],
+   "passage_text": null
+  },
+  {
+   "id": "047604488af129fc2cca5c60faa37f21",
+   "number": 2,
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "topic": "Factual Passage: test the stated reason behind the club's purchase decision in this printed fictional passage.",
+   "kind": "original_practice",
+   "format": "reading_comprehension",
+   "difficulty": "medium",
+   "branch": null,
+   "family_id": "original:047604488af129fc2cca5c60faa37f21",
+   "source_pack_id": "original-english-reference-v1",
+   "source_pack_version": 1,
+   "variant_index": 8,
+   "requested_answer_position": "B",
+   "avoidance": [],
+   "official_syllabus_topic": "Factual",
+   "source_refs": [
+    {
+     "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+     "version": 1,
+     "locator": "stimulus",
+     "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+    }
+   ],
+   "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+   "passage_group_id": "grp716-2ccff2770312e32d",
+   "order_index": 1,
+   "passage_group": {
+    "id": "grp716-2ccff2770312e32d",
+    "member_ids": [
+     "047604488af129fc2cca5c60faa37f21",
+     "f89008be9de2adeb6f34bbe44efd701c"
+    ]
+   }
+  },
+  {
+   "id": "f89008be9de2adeb6f34bbe44efd701c",
+   "number": 3,
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "topic": "Factual Passage: test what the minutes explicitly did or did not claim, or the stated condition for reconsidering the drill, in this printed fictional passage. Do not ask about the reason for buying the cable and switches.",
+   "kind": "original_practice",
+   "format": "reading_comprehension",
+   "difficulty": "medium",
+   "branch": null,
+   "family_id": "original:f89008be9de2adeb6f34bbe44efd701c",
+   "source_pack_id": "original-english-reference-v1",
+   "source_pack_version": 1,
+   "variant_index": 8,
+   "requested_answer_position": "D",
+   "avoidance": [],
+   "official_syllabus_topic": "Factual",
+   "source_refs": [
+    {
+     "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+     "version": 1,
+     "locator": "stimulus",
+     "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+    }
+   ],
+   "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+   "passage_group_id": "grp716-2ccff2770312e32d",
+   "order_index": 2,
+   "passage_group": {
+    "id": "grp716-2ccff2770312e32d",
+    "member_ids": [
+     "047604488af129fc2cca5c60faa37f21",
+     "f89008be9de2adeb6f34bbe44efd701c"
+    ]
+   }
+  }
+ ]
+}

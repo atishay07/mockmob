@@ -1,0 +1,83 @@
+{
+  "observed_at": "2026-10-07T21:02:35.636Z",
+  "scope": "read-only evidence review; no staging or production writes, migrations, emails, or paid provider calls",
+  "live_staging_status": {
+    "project_ref": "onwkqxmjqjrhfbjjdydu",
+    "application_base": "http://localhost:3101",
+    "current_http": "verified by current read-only application requests",
+    "current_supabase": "verified with HTTPS GET/SELECT using Node system CA and existing staging credentials",
+    "factory_control": { "paused": false, "phase": "1000", "publication_enabled": true }
+  },
+  "current_live_staging_counts": {
+    "publication_rows": 666,
+    "admin_reported_total": 666,
+    "admin_reported_usable_factory": 662,
+    "legacy_campaign_published_ids_in_publication_table": 662,
+    "legacy_campaign_published_ids_retrieved": 662,
+    "legacy_campaign_missing": 0,
+    "legacy_quarantined_ids": 253,
+    "quarantined_ids_in_student_feed": 0,
+    "quarantined_ids_still_live_or_eligible_in_database": 0,
+    "additional_publications_outside_legacy_campaign": 4,
+    "current_v7_job_or_id_marker_matches": 0,
+    "local_current_v7_candidate_ids_checked": 100,
+    "published_matches_against_current_v7_candidate_ids": 0,
+    "student_feed_available_by_subject": { "english": 173, "accountancy": 141, "business_studies": 183, "economics": 165 },
+    "authorization_status": { "anonymous_admin": 401, "student_admin": 404, "signed_admin": 200 }
+  },
+  "historical_staging_evidence": {
+    "artifact": "artifacts/question-factory/continuation-500/staging-retrieval.json",
+    "at": "2026-10-07T16:35:57.911Z",
+    "passed": true,
+    "admin_publication_count": 666,
+    "targeted_campaign_published_expected": 662,
+    "targeted_campaign_retrieved": 662,
+    "missing": 0,
+    "rejected_received": 0,
+    "complete_passage_groups": 11,
+    "student_ai_monthly_cap_usd": 25,
+    "paid_provider_calls": 0,
+    "emails_sent": 0,
+    "production_writes": 0,
+    "freshness": "historical; does not establish current staging state"
+  },
+  "local_bank_artifact_counts": {
+    "source": "artifacts/question-factory/continuation-500/all-candidates.json",
+    "total_rows": 1000,
+    "published_legacy_bank_rows": 662,
+    "quarantined_or_rejected_rows": 253,
+    "eligible_unpublished_rows": 76,
+    "waiting_authoring_rows": 9,
+    "approved_published_file_rows": 662
+  },
+  "current_v7_measurement_and_publication": {
+    "new_v7_published_rows_confirmed_locally": 0,
+    "basis": "current execution state has measurement_publication=false; local calibration_manifest.json has no cuet_fit_releases field",
+    "live_staging_v7_publication_count": 0,
+    "classification_basis": "All current publication rows were scanned for current V7 job/question ID markers; zero matched. Four rows are outside the legacy published ID set and likewise do not match those markers.",
+    "baseline_arm_latest_local": { "planned": 100, "eligible": 18, "rejected": 3, "pending": 79, "complete": false, "at": "2026-10-07T20:53:55.082Z" },
+    "whole_bank_reassessment_latest_local": { "denominator": 662, "completed": 36, "eligible_under_unreleased_contract": 32, "rejected": 4, "provider_errors": 0, "pending": 626, "publication": "never", "at": "2026-10-07T20:54:10.392Z", "reported_committed_usd": "invalid zero from known attribution bug; do not use" }
+  },
+  "runtime_ai_budget": {
+    "authorized_monthly_cap_usd": 25,
+    "local_migration_version": "20261004120000_runtime_ai_monthly_cap.sql",
+    "historical_staging_check_verified_usd": 25,
+    "current_staging_value": 25
+  },
+  "migration_evidence": {
+    "latest_local_migration_file": "20261005185759_question_factory.sql",
+    "historical_staging_dry_run": "artifacts/question-factory/execution-2026-10-07/staging/dry-run.json",
+    "dry_run_at": "2026-10-06T20:38:22.306Z",
+    "latest_file_in_dry_run": "20261005185759_question_factory.sql",
+    "dry_run_production_writes": 0,
+    "currently_applied_staging_version": "unverified; dry-run is not an applied-migration record"
+  },
+  "local_registry": {
+    "version": 58,
+    "sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991"
+  },
+  "script_safety_findings": {
+    "checkContinuationRetrieval.mjs": "not read-only in staging mode: logs in an existing identity, calls release_1000 twice and release_10000 once, and writes a proof file; not run",
+    "checkPublishedStaging.mjs": "mutates staging dispute/question rows then restores the question and writes artifacts; not run"
+  }
+}

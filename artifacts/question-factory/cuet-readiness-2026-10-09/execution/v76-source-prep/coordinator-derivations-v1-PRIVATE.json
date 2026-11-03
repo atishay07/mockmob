@@ -1,0 +1,203 @@
+{
+  "at": "2026-10-08T20:38:16.273Z",
+  "official_key_content_opened": false,
+  "independent_reviewer_solutions_seen": false,
+  "cases": [
+    {
+      "id": "v76f-e0932269d0",
+      "key": "B",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share."
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "The allotted-to-applied ratio is 2,000:2,400, or 5:6. An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 48 shares."
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "G’s ordinary share is 2/8 × ₹3,12,000 = ₹78,000. This is ₹2,000 below the ₹80,000 guarantee. The agreement assigns that deficiency to E, so E bears ₹2,000."
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Equal mid-month withdrawals have an average outstanding period of six months. If each withdrawal is x, total drawings are 12x. Interest is 12x × 8/100 × 6/12 = 0.48x. Setting this equal to ₹4,800 gives x = ₹10,000."
+    },
+    {
+      "id": "v76f-10a1826742",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Fayol’s discipline concerns obedience to organisational rules and employment agreements. The decisive feature here is that workers and management honour their mutual commitments. Division of work concerns specialisation; unity of direction concerns one head and one plan for activities sharing an objective; unity of command concerns receiving orders from one superior."
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Primacy means that planning precedes the other managerial functions and provides their framework. Planning at all levels describes pervasiveness, successive periods describe continuity, and predetermined goals describe the focus on objectives."
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "key": "B",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Physical distribution includes decisions about distribution channels and marketing intermediaries. The specified decision is which wholesalers and retailers to use. Transportation concerns moving goods, promotion concerns communicating product merits, and gathering market information concerns information for marketing decisions."
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "The stem identifies a compulsory regulation governing an advertisement. The legal environment includes legislation and administrative orders that enterprises must obey. That legal requirement is the feature being classified."
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "The cash reserve ratio is the prescribed percentage of deposits to be held as cash reserves. The statutory liquidity ratio concerns additional liquid reserves, while bank rate and repo rate are interest rates rather than deposit-reserve percentages."
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "key": "B",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Managed floating combines market-driven exchange-rate movement with central-bank intervention to moderate it. A completely flexible system has no such intervention, while a fixed system sets an official rate. The combination in the stem is the defining feature of managed floating."
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Public goods are collectively consumed, so I is true. Their defining features are non-rivalry and non-excludability, which contradict II. Therefore I is true and II is false."
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Occupational structure describes the distribution of working people across industries and sectors. It is a distribution among sectors, rather than a total count of people or a description of one worker’s tasks."
+    },
+    {
+      "id": "v76f-461c8da728",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Paragraph 1 links Srinagar’s landscape to memories of Jibhi and contrasts Srinagar’s many tourists with Jibhi’s anonymity. That comparison prompted the narrator’s return. The 2008 scheme and the pandemic occur later; paragraph 2 describes converting a traditional family house."
+    },
+    {
+      "id": "v76f-71ed304404",
+      "key": "B",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated."
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Paragraph 2 states that the traditional house kept its original character and gained windows for sunlight. This supports retention with a limited change, rather than wholesale replacement or no alteration. The project began before the pandemic stoppage described later."
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": true,
+      "basis": "Paragraph 4 describes learning, friendships and pride in establishing tourism. Paragraph 3 describes pressure on nature and the opportunity to seek sustainable solutions. Together they support a positive but reflective attitude towards growth."
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The independently derived deficiency is ₹2,000 (D); the proposed key has been changed to B only."
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "key": "B",
+      "unique_answer": false,
+      "expected_valid": false,
+      "basis": "The issue premium is absent; several final-call amounts are possible. No supplied normative example supplies this case-specific rate."
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The retained formula is correct, but 40 × 6/5 equals 48, not the explanation’s 44."
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "key": "D",
+      "unique_answer": false,
+      "expected_valid": false,
+      "basis": "Both B and D are full, directly supported descriptions of planning’s primacy."
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The year and identity of this rule are not supplied; the explanation invents a decisive factual claim."
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The supplied rule gives the unique numerical answer C, but a pure derivative objective is not a Business Studies syllabus objective."
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The description establishes CRR (D); only the proposed key is changed to A."
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "key": "D",
+      "unique_answer": false,
+      "expected_valid": false,
+      "basis": "The formula and reserve amount are supplied but the case-specific ratio is missing. The explanation silently imports 20%."
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "key": "A",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The extra explanation clause contradicts the decisive definition of non-rivalry."
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "key": "D",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The 2008 scheme occurred after the 1992 guesthouse; the established initial-motive key D is changed to A only."
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "key": "B",
+      "unique_answer": false,
+      "expected_valid": false,
+      "basis": "B and C both express the contextual meaning of anonymity, with complete defensible alternatives."
+    },
+    {
+      "id": "v76f-10e903f685",
+      "key": "C",
+      "unique_answer": true,
+      "expected_valid": false,
+      "basis": "The passage establishes growth, but gives no yearly visitor counts or doubling rule."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "created_at": "2026-10-10T05:30:14.042Z",
+  "native_calls": 0,
+  "old_artifacts_preserved": true,
+  "changes": [
+    {
+      "slot": "A_V1",
+      "old_id": "v717-fresh32-a-v1",
+      "new_id": "v717-fresh32-a-v1-custody-r1",
+      "reason": "Replace trend computation whose official syllabus entitlement was not established with explicitly entitled common-size comparison."
+    },
+    {
+      "slot": "A_D2",
+      "old_id": "v717-fresh32-a-d2",
+      "new_id": "v717-fresh32-a-d2-custody-r1",
+      "reason": "Remove incidental trend syllabus gap; retain the intended missing decisive input defect."
+    },
+    {
+      "slot": "A_D3",
+      "old_id": "v717-fresh32-a-d3",
+      "new_id": "v717-fresh32-a-d3-custody-r1",
+      "reason": "Remove incidental trend syllabus gap while preserving an independently false explanation."
+    },
+    {
+      "slot": "E_V4",
+      "old_id": "v717-fresh32-e-v4",
+      "new_id": "v717-fresh32-e-v4-custody-r1",
+      "reason": "Supply the decisive marginal-cost definition and remove the unsupported claim about the headerless schedule."
+    },
+    {
+      "slot": "E_D1",
+      "old_id": "v717-fresh32-e-d1",
+      "new_id": "v717-fresh32-e-d1-custody-r1",
+      "reason": "Print all decisive values and supply the marginal-cost definition; preserve the wrong-key defect."
+    },
+    {
+      "slot": "E_D3",
+      "old_id": "v717-fresh32-e-d3",
+      "new_id": "v717-fresh32-e-d3-custody-r1",
+      "reason": "Remove unlabeled schedule dependence and explicit-answer retrieval; preserve the false explanation."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/sealed/authored-custody-r1.json",
+      "sha256": "258ad54e39d1a5b4f989165bf8efca0926e51ed9eaecbc852a3950145e458f0a"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/sealed/blind-id-map-custody-r1.json",
+      "sha256": "0b09d5b7b7d40bf58396a8d9eb9dc92d2afeee90f32495fa6f241f62805377f6"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/blind/packet-custody-r1.json",
+      "sha256": "52fdb60ea16ff764e647c6e4987824e30b00274d917ad330f67f8dc466897dbe"
+    }
+  ]
+}

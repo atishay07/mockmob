@@ -1,0 +1,254 @@
+{
+  "schema": "owner-one-off-independent-solution-v1",
+  "subject": "accountancy",
+  "batch": "accountancy-03",
+  "input_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/owner-127-review/accountancy-03.blind.json",
+  "input_sha256": "3f6ffc666737e46ff58c54cd3b1396eec08733052ea3673f3cacab89e63d419f",
+  "input_offset": 20,
+  "input_denominator": 36,
+  "independent_solutions_saved_at": "2026-10-08T14:12:37.405Z",
+  "comparison_opened": false,
+  "notice": "Solved blind from stems/options/supplied excerpts before this batch comparison.",
+  "items": [
+    {
+      "id": "5114300ab4bc8333ce6507832947954c",
+      "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+      "defensible_option": "A",
+      "answer_check": "Premium ₹120",
+      "derivation_or_rule": "Issue price ₹2,520 exceeds nominal ₹2,400 by ₹120; therefore issued at premium ₹120.",
+      "source": {
+        "key": "ncert-leac202:1:span-2bf9ffb186bb",
+        "locator": null,
+        "excerpt_quote": "A debenture is issued at a premium when price charged exceeds nominal value.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Single correct option A; simple recall is valid.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "9c305b5aa044a48c55786a3aef03d903",
+      "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+      "defensible_option": "C",
+      "answer_check": "A-B-C-D; goodwill ₹1,92,000",
+      "derivation_or_rule": "Profits sum ₹1,44,000; average ₹48,000; ×4 years purchase = ₹1,92,000. Correct order A,B,C,D.",
+      "source": {
+        "key": "ncert-leac102:1:span-d26e7974c48b",
+        "locator": null,
+        "excerpt_quote": "Goodwill under average profits method is past average profit multiplied by years purchase.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Order uniquely follows the calculation; option C.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "495c4536f5869a65e46ae8a6d92010c8",
+      "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+      "defensible_option": "B",
+      "answer_check": "Credit balance ₹17,000; P credit ₹10,200; Q credit ₹6,800",
+      "derivation_or_rule": "Revaluation: asset increase +20,000; asset decrease −8,000; liability decrease +2,000; liability increase −5,000; unrecorded asset +12,000; unrecorded liability −4,000. Net gain ₹17,000, split 3:2 => P 10,200; Q 6,800.",
+      "source": {
+        "key": "ncert-leac102:1:span-2c978c97c40a",
+        "locator": null,
+        "excerpt_quote": "Revaluation gains/losses on assets and liabilities transfer to the old partners’ capital accounts in old ratio.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option B only. Prompt states all items and no other adjustments.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+      "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+      "defensible_option": "D",
+      "answer_check": "A alone bears ₹2,000",
+      "derivation_or_rule": "B’s ratio share is ₹50,000×2/5=₹20,000; guarantee is ₹22,000, deficiency ₹2,000. Since A alone guaranteed, A alone bears it.",
+      "source": {
+        "key": "ncert-leac101:1:pdf-page-36",
+        "locator": null,
+        "excerpt_quote": "If guarantee is by any partner, that partner alone bears deficiency.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option D. No ambiguity in guarantor.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "9a3a683cde6b70963343775b8264da5a",
+      "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+      "defensible_option": "B",
+      "answer_check": "81:55:32:72",
+      "derivation_or_rule": "D share 3/10; A contributes 1/10, B 1/12, C supplies remainder 7/60. New A=7/16−1/10=27/80; B=5/16−1/12=11/48; C=4/16−7/60=2/15; D=3/10. Scale by 240 gives 81:55:32:72.",
+      "source": {
+        "key": "ncert-leac102:1:span-72d2f4711e2e",
+        "locator": null,
+        "excerpt_quote": "New partner acquires share from old partners as mutually agreed; ratio reflects each partner’s contribution.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Shares sum to 1; option B only. All transfers are explicit.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "20e278c61e343db83349eded6916c255",
+      "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+      "defensible_option": "C",
+      "answer_check": "A→II, B→I, C→III, D→IV",
+      "derivation_or_rule": "The excerpt says valuation is difficult; methods can yield differing values; the parties may agree method; and multiple methods are listed. Mapping is A-II, B-I, C-III, D-IV.",
+      "source": {
+        "key": "ncert-leac102:1:span-ae361e8a3770",
+        "locator": null,
+        "excerpt_quote": "“goodwill is an intangible asset” and “very difficult to accurately calculate its value”; methods may differ and be agreed.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "All four mappings distinct; option C.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "ca5dcf7b46049d36029298f5117cbdac",
+      "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+      "defensible_option": "D",
+      "answer_check": "D-B-C-A; partner share ₹15,000",
+      "derivation_or_rule": "Take ₹2,40,000 annual base; divide by 12 = ₹20,000/month; ×3 = ₹60,000 period profit; ×1/4 = ₹15,000 share. Therefore D,B,C,A.",
+      "source": {
+        "key": "ncert-leac103:1:span-ce862e7dfa8c",
+        "locator": null,
+        "excerpt_quote": "Intervening profit may be estimated using preceding year profit from balance sheet date to death.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Prompt provides method inputs and period; option D only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "ff811eea3631a75486bfd7a8b58442be",
+      "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+      "defensible_option": "B",
+      "answer_check": "Inventory 20% all; P cash 10% stable; Q cash 15%→10%",
+      "derivation_or_rule": "P inventory 160/800=20%, 200/1000=20%; P cash 80/800=10%, 100/1000=10%. Q inventory 20% in both years; cash 300/2000=15%, 250/2500=10%.",
+      "source": {
+        "key": "ncert-leac204:1:pdf-page-12",
+        "locator": null,
+        "excerpt_quote": "A common-size balance sheet shows each asset as a percentage of total assets.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option B; calculations use each year’s total assets as base.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "8ad2e554e891c8095bb7e5cabd4426b9",
+      "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+      "defensible_option": "D",
+      "answer_check": "A-B-C-D",
+      "derivation_or_rule": "Identify reserve as accumulated profit; restrict distribution to old P,Q in 3:2; compute ₹72,000 and ₹48,000; transfer to capital/current accounts.",
+      "source": {
+        "key": "ncert-leac102:1:span-3c34b723c489",
+        "locator": null,
+        "excerpt_quote": "Accumulated profits distributed to old partners in old profit-sharing ratio, transferred to capital/current accounts.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "New partner not entitled; correct order is option D.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "bb3b190778c93cefa0f07ea760f763ee",
+      "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+      "defensible_option": "A",
+      "answer_check": "Aarav alone exactly meets requirements",
+      "derivation_or_rule": "Total listed outflows: Aarav ₹18 lakh, Bela ₹19 lakh, Charu ₹21 lakh, Dev ₹18 lakh. Compared with operating cash 18,18,20,17 respectively, only Aarav can meet all requirements.",
+      "source": {
+        "key": "ncert-leac206:1:span-50f51ffb",
+        "locator": null,
+        "excerpt_quote": "Cash flows are separately classified as operating, investing and financing; stem restricts available source to operating cash.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Option A. Explicitly excludes other cash sources/opening balance, so no missing assumption.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    }
+  ]
+}

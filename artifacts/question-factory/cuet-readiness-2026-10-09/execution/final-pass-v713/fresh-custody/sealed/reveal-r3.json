@@ -1,0 +1,263 @@
+{
+  "schema": "cuet-v713-reveal-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "created_at": "2026-10-09T19:10:02.085Z",
+  "author_sha256": "c1930133120d37aa1a367db90e0403e95036a9d00dfe21261587ab6264d0bff9",
+  "blind_freeze_sha256": "9eb9bfa14879ef780538a8c8216ba8bde1baad60294508a94ef8620799169d14",
+  "map_sha256": "88feee50847183e517c55724463631cf7b4982b1cf5c173e2a0a3252ffc95928",
+  "rows": [
+    {
+      "fixture_id": "f-c797dd7934bbaf7c",
+      "opaque_id": "b-0d5accc535791d33",
+      "content_hash": "ea297db698f6e317a8b117e2bfd2883b6bf8257a7dcf24c7c7e071b6208700bc",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-155f31f2eda73df9",
+      "opaque_id": "b-45e79e88b2a4f6fd",
+      "content_hash": "b1491b050020726256267b5a79cc694034891bd35e68dee42af6c6b8cb26ecc2",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-f84de07c56f68390",
+      "opaque_id": "b-6dd258b1d39a5a9a",
+      "content_hash": "36c63dfc7f44fc9f1e4bdb6568ab1ec5e3462d4eb66502018783b195ae6b0609",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-80c4d9b3dc5ee51a",
+      "opaque_id": "b-dac4417a2190210c",
+      "content_hash": "f90ecf4c7e2fab535ee92b06d58462f29e4d98ebb6dd90678a9e4ad55471ce02",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-234e398c6040b350",
+      "opaque_id": "b-35a60d455181bcc0",
+      "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-2c7dfe572963691f",
+      "opaque_id": "b-9a64438bf310b0cb",
+      "content_hash": "4200dfba052e84274fc31654e9d4b0e239106976dcce93561e3f6768f1570db3",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-90b386844e029292",
+      "opaque_id": "b-5ea7eae1c4deb8b1",
+      "content_hash": "eebef33c18023493c850e34553d98fb3e42e293a66e7297b22ca7d31cbe69a44",
+      "correct_answer": "C",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-184a13bcc63cf86c",
+      "opaque_id": "b-2dcf37129094fae7",
+      "content_hash": "0fd55fe6e2bbe52bcd916a5dffbef063013868d4232606be36d277a5f3ccd472",
+      "correct_answer": "B",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-5b234a758a448dc8",
+      "opaque_id": "b-24a54e6dea5a2344",
+      "content_hash": "e625d4470e204eef74b536fa2e9162e0c110fd2fdf24df57ee4104c8bc7972ad",
+      "correct_answer": "C",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-793e37a7f34732b6",
+      "opaque_id": "b-8432cc44edd298e6",
+      "content_hash": "0da376f6d8f1ff8c456e54d8a93dc63e324808f0e08cf03ca4e45dd9aecbed6d",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-77e94cc5395b2677",
+      "opaque_id": "b-337eedc18a82b3d7",
+      "content_hash": "a508cd843dc4ce6cbc933b33e42a7dfc28e541cc6be85f45f95d302a047e9f75",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-d9454913816921de",
+      "opaque_id": "b-4c286d2dc87e66a9",
+      "content_hash": "9a9eed2ddef10c51b13161104eb152e2276ee1d55c6ef41bd82325b5d1e3c6d4",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-cb416cf89196c0bf",
+      "opaque_id": "b-685f748735604295",
+      "content_hash": "65640f6fe00878cee97debb51d6fb0147c4c5594a47783123f56a1590bb1b7ef",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-6eda2239b5467db1",
+      "opaque_id": "b-d081c519a0ab4e77",
+      "content_hash": "b44cf7dbae128c5d35b9a3a31a1b25b7851bd1e04b32b758de65acb99c591b76",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-46825bc2c14ef05c",
+      "opaque_id": "b-f2396462ff608bca",
+      "content_hash": "610f3949715e91c3ca815327191159b38e3bed0e6c6557cdf72834ead5bf47e2",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-245cd38b73b4511b",
+      "opaque_id": "b-84b2a8791e84077a",
+      "content_hash": "ac212cf7b56213593d1bf6bc5750eadb6606fd2bc1b0c484600cd41edfc88cf3",
+      "correct_answer": "B",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-2ce95d51cba0d537",
+      "opaque_id": "b-99f7bc17eeb11945",
+      "content_hash": "1b27da013b878df35143b2d02c6313bccb17efde6fb4acde4f00f3f7c1819573",
+      "correct_answer": "B",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-6077c08612302c6d",
+      "opaque_id": "b-2d3e488f521d4d85",
+      "content_hash": "b7edf328ca5bd6746f3b549e1b7702daf4f766d1db32400388e8c5e61e50f88a",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-9395f51e189443a6",
+      "opaque_id": "b-5675c1c9293ace15",
+      "content_hash": "ce36326ba58a5dd823329f7c5f821392b7b7c628f1a8337f0377a42e25c2b470",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-1b75678e8ba8214c",
+      "opaque_id": "b-93ddfec899fd45a1",
+      "content_hash": "96d31208428b3a77f07a092081ac1de2f57940235ea300fb18e4758e84a02967",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-c3a378b4d2de5478",
+      "opaque_id": "b-f4d256d63df94c0b",
+      "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-3e5f9ea9839935c1",
+      "opaque_id": "b-e47f088fee725e9c",
+      "content_hash": "8b3b1021fe8058892adf5fa409ed4fa3d3aea59499986ebbe1e940d5af71e32b",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-07957bcf309f84ab",
+      "opaque_id": "b-df2dc3c52b1ad6cd",
+      "content_hash": "27aafa0fb00ad845fc6b4d2b503a4009c7aec283528c33e70907e22ec71eef8b",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-db88f4c129bb9ecb",
+      "opaque_id": "b-a6c01024ecc0773b",
+      "content_hash": "288f516fa3b0d6ef9bd5e46c5f680a51d0d2d178d542cafd5bb8a460a54d7ff3",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-10586873a94495b4",
+      "opaque_id": "b-14cb93d38fd74b74",
+      "content_hash": "e178e382299effa021318af9a6ebe6ca3be202c9113423f759d0a0c3f9ba4115",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-2b0c7cb80a5b0ff1",
+      "opaque_id": "b-67fe7e122cc47feb",
+      "content_hash": "1b3f1effdcc0d934591826ddfcada48de8faa31d90405a1deea2a8fc526af3f7",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-d95fe16105eb4952",
+      "opaque_id": "b-7b07ed9049cf5c1a",
+      "content_hash": "af23c21055a558f2635b26278a9e28868c1e6597a338e71123f625e24ffd1968",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-a537d870af8cd07f",
+      "opaque_id": "b-569c6993cca0d705",
+      "content_hash": "51a6f3ca68524e454ae974b4f841803aa42796b9e6979720f40bdbcd496dff5d",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-538b04e18ffd75ea",
+      "opaque_id": "b-c06e967f0448b1e8",
+      "content_hash": "70b7cb20fe5b27e4750af4fb141b06d8227616dfe29306507927b96f06cacde4",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-ab86b54ef0601f16",
+      "opaque_id": "b-18c1178f4f4170c4",
+      "content_hash": "a25e4c1c707b2470a02a256831897ec622abc38861b91a333cdf61d0c1f3da16",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-958b02eadb40ed70",
+      "opaque_id": "b-1ceaa7f14bb30e06",
+      "content_hash": "0569192f3723c897864764a2836919c3aa571b64a93626cbb9e9a45cdda18825",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-a7899d6bca12a82b",
+      "opaque_id": "b-1a1efbf3efb21002",
+      "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+      "correct_answer": "A",
+      "expected_valid": true
+    },
+    {
+      "fixture_id": "f-8b58fde354fa4d4d",
+      "opaque_id": "b-9a2be05bdeddf50e",
+      "content_hash": "d256dd21bf9f20e0e45c2a865ced1b2d1e0376f74baf88384932efde64bdc1f8",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-844a877a73613f48",
+      "opaque_id": "b-8c21f5a54171f05d",
+      "content_hash": "1164be86056c95542f80d97d351a87d60710c7463668b94583c5a8d74eae0b05",
+      "correct_answer": "B",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-7a98463c79d8af56",
+      "opaque_id": "b-9e9fc188905b0efc",
+      "content_hash": "42e1bb673223f6f859a492edca09882be01e1909e6cb31c9f6584f5f5b2e6a4d",
+      "correct_answer": "A",
+      "expected_valid": false
+    },
+    {
+      "fixture_id": "f-6bdb69ae95a734ea",
+      "opaque_id": "b-c3c90c1f721f9b5f",
+      "content_hash": "0f8e17fef3bd98cf8293d3b13620ccfaac2cc5171fbf5c173e1589b68bb4e6f2",
+      "correct_answer": "A",
+      "expected_valid": false
+    }
+  ]
+}

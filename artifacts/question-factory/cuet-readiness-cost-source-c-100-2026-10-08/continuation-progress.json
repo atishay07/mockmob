@@ -1,0 +1,709 @@
+{
+  "campaign_id": "cuet-readiness-cost-source-c-100-2026-10-08",
+  "started_at": 1791448288737,
+  "polls": 26,
+  "worker_starts": 26,
+  "worker_pid": null,
+  "events": [
+    {
+      "at": "2026-10-08T08:31:30.075Z",
+      "event": "worker_started",
+      "pid": 33352,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 100,
+        "terminal": 0
+      }
+    },
+    {
+      "at": "2026-10-08T08:45:25.985Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 99,
+        "terminal": 1,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T08:45:57.107Z",
+      "event": "worker_started",
+      "pid": 33984,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 99,
+        "terminal": 1,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T08:48:25.885Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 98,
+        "terminal": 2,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 9
+      }
+    },
+    {
+      "at": "2026-10-08T08:49:26.975Z",
+      "event": "worker_started",
+      "pid": 8960,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 98,
+        "terminal": 2,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 9
+      }
+    },
+    {
+      "at": "2026-10-08T08:53:49.284Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 98,
+        "terminal": 2,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 10
+      }
+    },
+    {
+      "at": "2026-10-08T08:55:50.266Z",
+      "event": "worker_started",
+      "pid": 5668,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 98,
+        "terminal": 2,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 10
+      }
+    },
+    {
+      "at": "2026-10-08T08:56:42.961Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 90,
+        "terminal": 10,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T09:00:43.998Z",
+      "event": "worker_started",
+      "pid": 32076,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 90,
+        "terminal": 10,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T09:11:42.230Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 90,
+        "terminal": 10,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T09:19:43.337Z",
+      "event": "worker_started",
+      "pid": 22376,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 90,
+        "terminal": 10,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T09:23:09.812Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 82,
+        "terminal": 18,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T09:38:10.948Z",
+      "event": "worker_started",
+      "pid": 34376,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 82,
+        "terminal": 18,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T09:51:23.067Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 81,
+        "terminal": 19,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T10:06:24.218Z",
+      "event": "worker_started",
+      "pid": 15060,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 81,
+        "terminal": 19,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 7
+      }
+    },
+    {
+      "at": "2026-10-08T10:15:47.709Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 74,
+        "terminal": 26,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T10:30:48.935Z",
+      "event": "worker_started",
+      "pid": 29068,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 74,
+        "terminal": 26,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T10:41:17.817Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 70,
+        "terminal": 30,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T10:56:19.568Z",
+      "event": "worker_started",
+      "pid": 40052,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 70,
+        "terminal": 30,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T11:04:06.870Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 67,
+        "terminal": 33,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T11:19:08.077Z",
+      "event": "worker_started",
+      "pid": 33780,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 67,
+        "terminal": 33,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T11:32:49.894Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 61,
+        "terminal": 39,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T11:47:51.396Z",
+      "event": "worker_started",
+      "pid": 37260,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 61,
+        "terminal": 39,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T11:59:36.674Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 57,
+        "terminal": 43,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T12:14:38.076Z",
+      "event": "worker_started",
+      "pid": 39964,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 57,
+        "terminal": 43,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T12:20:55.047Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 52,
+        "terminal": 48,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T12:35:56.441Z",
+      "event": "worker_started",
+      "pid": 23544,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 52,
+        "terminal": 48,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T12:40:56.278Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 47,
+        "terminal": 53,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T12:55:57.550Z",
+      "event": "worker_started",
+      "pid": 39680,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 47,
+        "terminal": 53,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T13:02:42.470Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 42,
+        "terminal": 58,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T13:17:43.972Z",
+      "event": "worker_started",
+      "pid": 38616,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 42,
+        "terminal": 58,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T13:34:54.751Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 38,
+        "terminal": 62,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T13:49:56.172Z",
+      "event": "worker_started",
+      "pid": 40868,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 38,
+        "terminal": 62,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T13:57:08.765Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 35,
+        "terminal": 65,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T14:12:10.659Z",
+      "event": "worker_started",
+      "pid": 30408,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 35,
+        "terminal": 65,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T14:22:05.312Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 31,
+        "terminal": 69,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T14:37:07.029Z",
+      "event": "worker_started",
+      "pid": 40956,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 31,
+        "terminal": 69,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 5
+      }
+    },
+    {
+      "at": "2026-10-08T14:43:22.720Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 26,
+        "terminal": 74,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T14:58:24.070Z",
+      "event": "worker_started",
+      "pid": 34952,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 26,
+        "terminal": 74,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T15:10:21.831Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 23,
+        "terminal": 77,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 6
+      }
+    },
+    {
+      "at": "2026-10-08T15:25:23.144Z",
+      "event": "worker_started",
+      "pid": 18104,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 23,
+        "terminal": 77,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 6
+      }
+    },
+    {
+      "at": "2026-10-08T15:32:07.513Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 16,
+        "terminal": 84,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T15:47:08.663Z",
+      "event": "worker_started",
+      "pid": 38372,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 16,
+        "terminal": 84,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T15:56:58.515Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 12,
+        "terminal": 88,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T16:11:59.860Z",
+      "event": "worker_started",
+      "pid": 40488,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 12,
+        "terminal": 88,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 4
+      }
+    },
+    {
+      "at": "2026-10-08T16:22:40.619Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 6,
+        "terminal": 94,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 2
+      }
+    },
+    {
+      "at": "2026-10-08T16:37:42.258Z",
+      "event": "worker_started",
+      "pid": 33948,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 6,
+        "terminal": 94,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 2
+      }
+    },
+    {
+      "at": "2026-10-08T16:43:50.959Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 4,
+        "terminal": 96,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T16:58:52.600Z",
+      "event": "worker_started",
+      "pid": 30948,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 4,
+        "terminal": 96,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 3
+      }
+    },
+    {
+      "at": "2026-10-08T17:02:38.331Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 1,
+        "terminal": 99,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T17:17:39.792Z",
+      "event": "worker_started",
+      "pid": 40120,
+      "progress": {
+        "complete": false,
+        "denominator": 100,
+        "pending": 1,
+        "terminal": 99,
+        "provider_processing_complete": false,
+        "pending_provider_requests": 1
+      }
+    },
+    {
+      "at": "2026-10-08T17:19:26.331Z",
+      "event": "worker_exited",
+      "code": 0,
+      "progress": {
+        "complete": true,
+        "denominator": 100,
+        "pending": 0,
+        "terminal": 100,
+        "provider_processing_complete": true,
+        "pending_provider_requests": 0
+      }
+    },
+    {
+      "at": "2026-10-08T17:34:26.998Z",
+      "event": "campaign_complete",
+      "progress": {
+        "complete": true,
+        "denominator": 100,
+        "pending": 0,
+        "terminal": 100,
+        "provider_processing_complete": true,
+        "pending_provider_requests": 0
+      }
+    }
+  ],
+  "progress": {
+    "complete": true,
+    "denominator": 100,
+    "pending": 0,
+    "terminal": 100,
+    "provider_processing_complete": true,
+    "pending_provider_requests": 0
+  },
+  "worker_identity": null,
+  "status": "complete",
+  "last_worker_exit": {
+    "code": 0,
+    "signal": null
+  }
+}

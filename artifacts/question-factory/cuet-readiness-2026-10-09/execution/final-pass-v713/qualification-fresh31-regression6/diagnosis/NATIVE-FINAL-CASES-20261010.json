@@ -1,0 +1,424 @@
+{
+  "schema": "mockmob-native-final-two-case-diagnosis-v1",
+  "created_at": "2026-10-09T21:56:54.015Z",
+  "snapshot_updated_at": "2026-10-09T21:43:52.874Z",
+  "evidence": {
+    "state_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\qualification-fresh31-regression6\\state.json",
+    "state_sha256": "b4dd7867349f534da817cfc3fdc14e192064e739e8e2b3a9e86ee553a271212f",
+    "frozen_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\qualification-fresh31-regression6\\frozen.json",
+    "frozen_sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+    "registry_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\qualification-fresh31-regression6\\registry.json",
+    "registry_sha256": "0cd90b86dab2816c1e276f6a8bc23d340e608c1f2274f45685c7f17cd68b3730",
+    "case_count": 37
+  },
+  "cases": [
+    {
+      "fixture_id": "f-a7899d6bca12a82b",
+      "expected_valid": true,
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "state": "quarantined",
+      "failed_stage": "source_support",
+      "failed_reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The reader is no longer used after a newer replacement arrived, matching the supplied definition of obsolete.",
+        "The other choices describe care and effort, hostility, or clarity and organization—not the change described for this reader.",
+        "The item tests the syllabus objective of choosing a contextually appropriate word.",
+        "cuet_fit_syllabus_objective_below_2",
+        "cuet_fit_format_authenticity_below_2",
+        "cuet_fit_level_calibration_below_1",
+        "cuet_fit_score_3_below_7"
+      ],
+      "gate_components": {
+        "source_support": true,
+        "single_defensible_answer": true,
+        "principle_ok": true,
+        "conditions_ok": true,
+        "challenges_ok": false,
+        "challenge_reason": "option_challenges_incomplete",
+        "fit_score": 3,
+        "fit_reasons": [
+          "cuet_fit_syllabus_objective_below_2",
+          "cuet_fit_format_authenticity_below_2",
+          "cuet_fit_level_calibration_below_1",
+          "cuet_fit_score_3_below_7"
+        ],
+        "blocking_defects": [],
+        "explanation_stage_executed": false
+      },
+      "answer_conditions": [
+        {
+          "condition": "A newer system replaced the reader, after which staff stopped using it.",
+          "status": "explicit",
+          "alters_key_if_changed": true,
+          "convention_evidence_ids": []
+        }
+      ],
+      "providers": {
+        "openai": {
+          "solved_key": "A",
+          "source_support": true,
+          "verdict_passed": false,
+          "challenges_ok": false,
+          "challenge_reason": "option_challenges_incomplete",
+          "challenged_options": [
+            {
+              "option": "A",
+              "correct_under_reading": true,
+              "reading_status": "stated_by_stem"
+            },
+            {
+              "option": "B",
+              "correct_under_reading": false,
+              "reading_status": "strained"
+            },
+            {
+              "option": "C",
+              "correct_under_reading": false,
+              "reading_status": "strained"
+            }
+          ],
+          "fit_levels": {
+            "syllabus_objective": 0,
+            "format_authenticity": 0,
+            "level_calibration": 0,
+            "discrimination_value": 0
+          },
+          "fit_score": 3,
+          "fit_reasons": [
+            "cuet_fit_syllabus_objective_below_2",
+            "cuet_fit_format_authenticity_below_2",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_3_below_7"
+          ],
+          "matrix": [
+            {
+              "option": "A",
+              "status": "supported",
+              "premise_source": "stem",
+              "evidence_id": "",
+              "premise_quote": "staff stopped using it after the replacement arrived.",
+              "false_part": ""
+            },
+            {
+              "option": "B",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E2.1",
+              "premise_quote": "showing care and effort in your work or duties",
+              "false_part": "diligent"
+            },
+            {
+              "option": "C",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E3.1",
+              "premise_quote": "aggressive or unfriendly and ready to argue or fight",
+              "false_part": "hostile"
+            },
+            {
+              "option": "D",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E4.1",
+              "premise_quote": "logical and well organized; easy to understand and clear",
+              "false_part": "coherent"
+            }
+          ]
+        },
+        "gemini": {
+          "solved_key": "A",
+          "source_support": true,
+          "verdict_passed": false,
+          "challenges_ok": true,
+          "challenge_reason": null,
+          "challenged_options": [
+            {
+              "option": "B",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            },
+            {
+              "option": "C",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            },
+            {
+              "option": "D",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            }
+          ],
+          "fit_levels": {
+            "syllabus_objective": 3,
+            "format_authenticity": 3,
+            "level_calibration": 3,
+            "discrimination_value": 3
+          },
+          "fit_score": 10,
+          "fit_reasons": [],
+          "matrix": [
+            {
+              "option": "A",
+              "status": "supported",
+              "premise_source": "excerpt",
+              "evidence_id": "E1.1",
+              "premise_quote": "no longer used because something new has been invented",
+              "false_part": ""
+            },
+            {
+              "option": "B",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E2.1",
+              "premise_quote": "showing care and effort in your work or duties",
+              "false_part": "diligent"
+            },
+            {
+              "option": "C",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E3.1",
+              "premise_quote": "aggressive or unfriendly and ready to argue or fight",
+              "false_part": "hostile"
+            },
+            {
+              "option": "D",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E4.1",
+              "premise_quote": "logical and well organized; easy to understand and clear",
+              "false_part": "coherent"
+            }
+          ]
+        }
+      },
+      "registered_source_excerpts": [
+        {
+          "id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "excerpt": "no longer used because something new has been invented"
+        },
+        {
+          "id": "oxford-quality-diligent",
+          "locator": "definition",
+          "excerpt": "showing care and effort in your work or duties"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "locator": "definition",
+          "excerpt": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "id": "oxford-quality-coherent",
+          "locator": "definition",
+          "excerpt": "logical and well organized; easy to understand and clear"
+        }
+      ],
+      "classification": "The English item is supported by the registry and both providers solved A. The native V713 quarantine followed Luna option_challenges_incomplete (A included and D omitted) and low CUET-fit ratings (0 across four rated criteria; Gemini rated 3 across those criteria and scored 10). These are prompt/representation and provider-fit-judgment failures in this record; no explanation audit ran, and this is not native V715 evidence."
+    },
+    {
+      "fixture_id": "v75f-825e60a00f",
+      "expected_valid": false,
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "state": "quarantined",
+      "failed_stage": "source_support",
+      "failed_reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The listed departments match a functional structure; lack of training for top management is an expressly listed functional-structure disadvantage (E1.1, E3.1)."
+      ],
+      "gate_components": {
+        "source_support": true,
+        "single_defensible_answer": true,
+        "principle_ok": true,
+        "conditions_ok": false,
+        "challenges_ok": true,
+        "challenge_reason": null,
+        "fit_score": 9,
+        "fit_reasons": [],
+        "blocking_defects": [],
+        "explanation_stage_executed": false
+      },
+      "answer_conditions": [
+        {
+          "condition": "The listed departments are functional departments rather than product divisions.",
+          "status": "inferred_fact",
+          "alters_key_if_changed": true,
+          "convention_evidence_ids": [
+            "E1.1"
+          ]
+        }
+      ],
+      "providers": {
+        "openai": {
+          "solved_key": "D",
+          "source_support": true,
+          "verdict_passed": false,
+          "challenges_ok": true,
+          "challenge_reason": null,
+          "challenged_options": [
+            {
+              "option": "A",
+              "correct_under_reading": false,
+              "reading_status": "standard_convention"
+            },
+            {
+              "option": "B",
+              "correct_under_reading": false,
+              "reading_status": "standard_convention"
+            },
+            {
+              "option": "C",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            }
+          ],
+          "fit_levels": {
+            "syllabus_objective": 3,
+            "format_authenticity": 3,
+            "level_calibration": 2,
+            "discrimination_value": 2
+          },
+          "fit_score": 9,
+          "fit_reasons": [],
+          "matrix": [
+            {
+              "option": "A",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E4.1",
+              "premise_quote": "It may lead to increase in costs since there may be a duplication of activities across products.",
+              "false_part": "It may lead to an increase in cost."
+            },
+            {
+              "option": "B",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E5.1",
+              "premise_quote": "may gain power and in a bid to assert his independence may ignore organisational interests.",
+              "false_part": "Managers may gain power, assert independence and ignore organisational interests."
+            },
+            {
+              "option": "C",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E2.1",
+              "premise_quote": "It ensures that different functions get due attention.",
+              "false_part": "It ensures that different functions get due attention."
+            },
+            {
+              "option": "D",
+              "status": "supported",
+              "premise_source": "excerpt",
+              "evidence_id": "E3.1",
+              "premise_quote": "Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+              "false_part": ""
+            }
+          ]
+        },
+        "gemini": {
+          "solved_key": "D",
+          "source_support": true,
+          "verdict_passed": false,
+          "challenges_ok": true,
+          "challenge_reason": null,
+          "challenged_options": [
+            {
+              "option": "A",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            },
+            {
+              "option": "B",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            },
+            {
+              "option": "C",
+              "correct_under_reading": false,
+              "reading_status": "contradicts_stem"
+            }
+          ],
+          "fit_levels": {
+            "syllabus_objective": 3,
+            "format_authenticity": 3,
+            "level_calibration": 3,
+            "discrimination_value": 3
+          },
+          "fit_score": 10,
+          "fit_reasons": [],
+          "matrix": [
+            {
+              "option": "A",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E4.1",
+              "premise_quote": "It may lead to increase in costs since there may be a duplication of activities across products.",
+              "false_part": "It may lead to an increase in cost."
+            },
+            {
+              "option": "B",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E5.1",
+              "premise_quote": "may gain power and in a bid to assert his independence may ignore organisational interests.",
+              "false_part": "Managers may gain power, assert independence and ignore organisational interests."
+            },
+            {
+              "option": "C",
+              "status": "contradicted",
+              "premise_source": "excerpt",
+              "evidence_id": "E2.1",
+              "premise_quote": "(f) It ensures that different functions get due attention.",
+              "false_part": "It ensures that different functions get due attention."
+            },
+            {
+              "option": "D",
+              "status": "supported",
+              "premise_source": "excerpt",
+              "evidence_id": "E3.1",
+              "premise_quote": "Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+              "false_part": ""
+            }
+          ]
+        }
+      },
+      "registered_source_excerpts": [
+        {
+          "id": "v75f-s-8d877e6df3cc",
+          "locator": "decisive-excerpt",
+          "excerpt": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together."
+        },
+        {
+          "id": "v75f-s-d70b6385c98d",
+          "locator": "decisive-excerpt",
+          "excerpt": "(f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus"
+        },
+        {
+          "id": "v75f-s-c66a1d325241",
+          "locator": "decisive-excerpt",
+          "excerpt": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas."
+        },
+        {
+          "id": "v75f-s-6e21e3af87ba",
+          "locator": "decisive-excerpt",
+          "excerpt": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager"
+        },
+        {
+          "id": "v75f-s-5d7f6593d351",
+          "locator": "decisive-excerpt",
+          "excerpt": "may gain power and in a bid to assert his independence may ignore organisational interests."
+        }
+      ],
+      "classification": "This unchanged expected-false V75 regression was quarantined because conditions_ok=false: the adapter classified the stem-supported functional-department classification as an inferred_fact, although it cites E1.1. Both provider matrices independently select D and quote the exact functional-structure disadvantage in E3.1; stage output itself says D is expressly listed. Therefore this quarantine is not evidence of catching an actual wrong-answer defect; preserve the frozen expected-false label, and do not claim the source gate proved it invalid."
+    }
+  ],
+  "qualification": "diagnosis_only_native_outcomes_unchanged",
+  "provider_calls": 0,
+  "explanation_audits_claimed": 0
+}

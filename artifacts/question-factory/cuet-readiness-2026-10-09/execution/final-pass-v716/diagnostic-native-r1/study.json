@@ -1,0 +1,11 @@
+{
+  "schema": "cuet-v716-study-v1",
+  "id": "cuet-v716-diagnostic-r1",
+  "kind": "diagnostic",
+  "publication": "never",
+  "cap_usd": 0.6,
+  "execution_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-DIAGNOSTIC-EXECUTION-FREEZE-R3.json",
+  "decision_rule": "Diagnostic only: native V716 report format compliance, outcome labelling and actual cost on six already-inspected R3 regression cases. Not qualification or release evidence; any later prompt change is followed by a fresh benchmark.",
+  "source": "R3 frozen fixtures (inspected regression evidence)",
+  "created_at": "2026-10-09T22:58:14.155771Z"
+}

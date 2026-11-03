@@ -1,0 +1,6 @@
+{
+  "schema": "cuet-v713-execution-preflight-seal-v1",
+  "registration_sha256": "45ddc15b8e4f668ba1151c2e2e513b92a2f55dfec3d1e2925a930b2112018fff",
+  "preflight_sha256": "ac9cf2b64b004c620c5233350bde3987700d0044704c1b7d44c337456384075f",
+  "created_at": "2026-10-09T20:38:58.735Z"
+}

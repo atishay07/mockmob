@@ -1,0 +1,304 @@
+{
+ "subject": "economics",
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "body": "A firm in a perfectly competitive market has total revenue of Rs 36 from selling 3 boxes and Rs 48 from selling 4 boxes. What is the marginal revenue from the 4th box?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 9"
+    },
+    {
+     "key": "B",
+     "text": "Rs 36"
+    },
+    {
+     "key": "C",
+     "text": "Rs 48"
+    },
+    {
+     "key": "D",
+     "text": "Rs 14"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F17",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "text": "so the firm’s AR curve under perfect competition The price line also depicts the demand curve facing a firm. Observe that the demand curve is perfectly elastic. This means that a firm can sell as many units of the good as it wants to sell at price p. The marginal revenue (MR) of a firm is defined as the increase in total revenue for a unit increase in the firm’s output. Consider table 4.1 again. Total revenue from the sale of 2 boxes of candles is Rs.20. Total revenue from the sale of 3 boxes of candles is Rs.30. Changeintotalrevenue 30-20 MarginalRevenue(MR)= = =10 Changeinquantity 3-2 Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b2",
+   "chapter": "Government Budget & the Economy",
+   "body": "The government receives money in the following ways. Which one is a revenue receipt?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Corporation tax collected from firms, which the government never has to return"
+    },
+    {
+     "key": "B",
+     "text": "A loan raised by issuing bonds that the government must repay on maturity"
+    },
+    {
+     "key": "C",
+     "text": "Money borrowed from a foreign government, to be repaid with interest"
+    },
+    {
+     "key": "D",
+     "text": "Funds raised through securities that are redeemable after a fixed period"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F4",
+     "chapter": "Government Budget & the Economy",
+     "text": "Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b3",
+   "chapter": "Money & Banking",
+   "body": "The RBI sells government bonds worth Rs 500 crore in the open market to private individuals and institutions. According to the NCERT discussion of open market operations, what is the effect of this sale?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Reserves in the economy increase, so the money supply rises"
+    },
+    {
+     "key": "B",
+     "text": "Reserves in the economy fall, but the money supply is not affected"
+    },
+    {
+     "key": "C",
+     "text": "Neither reserves nor the money supply change, since only the ownership of bonds changes"
+    },
+    {
+     "key": "D",
+     "text": "Reserves in the economy fall, so the money supply is reduced"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Money & Banking",
+     "text": "When RBI buys a Government bond in the open market, it pays for it by giving a cheque. This cheque increases the total amount of reserves in the economy and thus increases the money supply. Selling of a bond by RBI (to private individuals or institutions) leads to reduction in quantity of reserves and hence the money supply."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b4",
+   "chapter": "Income Determination",
+   "body": "In an economy the marginal propensity to consume is 0.75. If autonomous investment rises by Rs 40 crore, by how much does equilibrium income rise?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 30 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 160 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 40 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 53 crore"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F12",
+     "chapter": "Income Determination",
+     "text": "In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b5",
+   "chapter": "Balance of Payments",
+   "body": "Under a fixed exchange rate system, the government changes the official exchange rate from Rs 75 per dollar to Rs 80 per dollar, so that one dollar now costs more rupees. According to the NCERT definitions, this government action is called:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Revaluation of the rupee"
+    },
+    {
+     "key": "B",
+     "text": "Devaluation of the rupee"
+    },
+    {
+     "key": "C",
+     "text": "Appreciation of the rupee"
+    },
+    {
+     "key": "D",
+     "text": "Floating of the exchange rate"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F7",
+     "chapter": "Balance of Payments",
+     "text": "This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate ."
+    },
+    {
+     "ref": "F8",
+     "chapter": "Balance of Payments",
+     "text": "Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars)."
+    },
+    {
+     "ref": "F9",
+     "chapter": "Balance of Payments",
+     "text": "In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b6",
+   "chapter": "Money & Banking",
+   "body": "A bank is required to keep 20 per cent of its deposits as reserves. If the bank holds reserves of Rs 300 crore, what is the maximum amount of deposits that these reserves can support?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 60 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 240 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 1,500 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 375 crore"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F2",
+     "chapter": "Money & Banking",
+     "text": "Since the bank is only expected to keep 20 per cent of its deposits as reserves, thus, reserves of Rs 100 (20per cent of 500 = 100) can support the deposits of Rs 500."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b7",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "body": "A firm in a perfectly competitive market can sell any quantity at a market price of Rs 23 per unit. Its marginal cost (MC) of producing the 1st to 6th unit is Rs 5, Rs 8, Rs 12, Rs 17, Rs 23 and Rs 30 respectively, and MC rises with output. Which output level maximises its profit?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "2 units"
+    },
+    {
+     "key": "B",
+     "text": "3 units"
+    },
+    {
+     "key": "C",
+     "text": "4 units"
+    },
+    {
+     "key": "D",
+     "text": "5 units"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F18",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "text": "that change in total revenue per unit increase in output is the marginal revenue; and the change in total cost per unit increase in output is the marginal cost. Therefore, we can conclude that as long as marginal revenue is greater than marginal cost, profits are increasing. By the same logic, as long as marginal revenue is less than marginal cost, profits will fall. It follows that for profits to be maximum, marginal revenue should equal marginal cost. In other words, profits are maximum at the level of output (which we have called q ) for which MR = MC 0 For the perfectly competitive firm, we have established that the MR = P. So the firm’s profit maximizing output becomes the level of output at which P=MC. 4.3.2 Condition 2 Consider the second condition that must hold when the profit-maximising output level is positive. Why is it the case that the marginal cost curve cannot slope π 1It is a convention in economics to denote profit with the Greek letter . Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b8",
+   "chapter": "Balance of Payments",
+   "body": "In a flexible exchange rate regime, the price of one rupee in the foreign exchange market rises from 0.0125 dollar to 0.0133 dollar because of changes in demand and supply. This change is called:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Appreciation of the rupee"
+    },
+    {
+     "key": "B",
+     "text": "Revaluation of the rupee"
+    },
+    {
+     "key": "C",
+     "text": "Devaluation of the rupee"
+    },
+    {
+     "key": "D",
+     "text": "Fixing of the exchange rate"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F7",
+     "chapter": "Balance of Payments",
+     "text": "This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate ."
+    },
+    {
+     "ref": "F8",
+     "chapter": "Balance of Payments",
+     "text": "Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars)."
+    },
+    {
+     "ref": "F9",
+     "chapter": "Balance of Payments",
+     "text": "In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b9",
+   "chapter": "Income Determination",
+   "body": "A simple consumption function is C = 80 + 0.6Y, where C and Y are in Rs crore. Which of the following statements is correct?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Even when income is zero, consumption is Rs 80 crore"
+    },
+    {
+     "key": "B",
+     "text": "When income is zero, consumption is also zero"
+    },
+    {
+     "key": "C",
+     "text": "Rs 80 crore is the level of consumption that is independent of income"
+    },
+    {
+     "key": "D",
+     "text": "The term 0.6Y is the autonomous consumption, since it changes at a constant rate"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F11",
+     "chapter": "Income Determination",
+     "text": "The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption."
+    }
+   ]
+  }
+ ]
+}

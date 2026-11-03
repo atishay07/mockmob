@@ -1,0 +1,374 @@
+{
+ "subject": "business_studies",
+ "items": [
+  {
+   "local_id": "business_studies-v1",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Organising",
+    "body": "Using the definitions by Chester Barnard and Keith Davis, which statement about an informal organisation is correct?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "It is established by the formal organisation to define authority relationships among activities"
+     },
+     {
+      "key": "B",
+      "text": "It exists only when its relationships contribute to joint results"
+     },
+     {
+      "key": "C",
+      "text": "It is created through a conscious purpose set by management"
+     },
+     {
+      "key": "D",
+      "text": "It arises spontaneously as people associate with one another, without being established or required by the formal organisation"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Keith Davis describes informal organisation as a network of personal and social relations not established or required by the formal organisation but arising spontaneously as people associate. Barnard says it is without any conscious purpose and that it only 'may' contribute to joint results, so options B and C are contradicted. Defining activities and establishing authority relationships is Haimman's definition of organising, not of informal organisation, which rules out A.",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Organising",
+     "objective": "Distinguish formal and informal organisation",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-v2",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Anil Ltd raises a larger share of its capital through debt instead of equity, and its cost of equity remains unaffected. Which statement is correct as per the textbook discussion of debt?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "The overall cost of capital is likely to rise, because debt is costlier than equity"
+     },
+     {
+      "key": "B",
+      "text": "The overall cost of capital is likely to fall, but fixed financial charges and financial risk increase"
+     },
+     {
+      "key": "C",
+      "text": "Financial risk falls, because payment of interest and return of principal is not obligatory"
+     },
+     {
+      "key": "D",
+      "text": "Financial risk remains unchanged, because equity is considered riskless for the business"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "The excerpt says higher debt is likely to lower the overall cost of capital if the cost of equity is unaffected, since debt is cheaper. It also says higher use of debt increases fixed financial charges and therefore financial risk. Option C is contradicted because payment of interest and return of principal is obligatory, and option D because increased use of debt increases financial risk.",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Financial Management",
+     "objective": "Explain the effect of debt on cost of capital and financial risk",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-v3",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Controlling",
+    "body": "A regional sales head fixes a permissible limit for monthly expense variance. Only deviations that cross this limit are brought to her attention, and routine problems are left to subordinates. Which consequence of this approach is established by the textbook?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Managers must personally examine every deviation, so more managerial time is consumed"
+     },
+     {
+      "key": "B",
+      "text": "Delegation of authority becomes harder, because subordinates handle routine problems"
+     },
+     {
+      "key": "C",
+      "text": "Managerial time is saved and attention is focused on important areas"
+     },
+     {
+      "key": "D",
+      "text": "Employee morale falls, because routine problems are left to subordinates"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "Dealing only with significant deviations saves the time and efforts of managers and focuses managerial attention on important areas, so there is better utilisation of managerial talent. The excerpt says leaving routine problems to subordinates facilitates delegation of authority and increases morale, which contradicts options B and D. Option A is contradicted since managers deal with only significant deviations.",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Controlling",
+     "objective": "Explain management by exception and its advantages",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-v4",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Ravi's employer pays a fixed salary of Rs 10,000 per month plus Rs 4 for every unit he produces. In a month he produces 1,800 units. What is his total direct pay for the month, and how is the plan classified in the textbook's terms?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 17,200; a combination of time based pay plus incentive for higher performance"
+     },
+     {
+      "key": "B",
+      "text": "Rs 7,200; a performance based plan only"
+     },
+     {
+      "key": "C",
+      "text": "Rs 10,000; a time based plan only"
+     },
+     {
+      "key": "D",
+      "text": "Rs 17,200; an indirect payment like employer paid insurance"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The incentive is 1,800 x 4 = Rs 7,200, so the total is 10,000 + 7,200 = Rs 17,200. The fixed monthly salary is time based and the per-unit amount is performance based, so the plan combines time based pay with incentives. Options B and C count only one component, and option D is contradicted because salaries and incentives are direct financial payments.",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "route": "numerical",
+    "learning_objective": {
+     "syllabus_unit": "Staffing",
+     "objective": "Compute compensation under time based and performance based plans",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-v5",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Business Environment",
+    "body": "A firm obtains (i) finance from financiers, (ii) pays taxes to the government, (iii) draws power and water, and (iv) pays a return on financial investment to its investors. Using the textbook's classification of inputs and outputs, which two are outputs supplied by the enterprise to its environment?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "(i) and (iii)"
+     },
+     {
+      "key": "B",
+      "text": "(i) and (ii)"
+     },
+     {
+      "key": "C",
+      "text": "(ii) and (iii)"
+     },
+     {
+      "key": "D",
+      "text": "(ii) and (iv)"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "The enterprise assembles inputs like finance, machines, raw materials, power and water, labour from its environment. It supplies outputs such as goods and services, payment of taxes to government, and return on financial investment to investors. So (ii) and (iv) are outputs, while (i) and (iii) are inputs, and each of options A, B and C includes at least one of these inputs.",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Business Environment",
+     "objective": "Explain the firm's exchange of inputs and outputs with its environment",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-d1",
+   "expected_valid": false,
+   "defect_category": "wrong_key",
+   "defect_evidence": "Recorded key B (all pervasive) is wrong. F1 places Smita's June planning and continuous monitoring under 'Coordination is a continuous process: it begins at the planning stage and continues till controlling', so A is established; the explanation rationalises the wrong option.",
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Smita plans her Diwali collection in June, then continuously monitors whether production proceeds according to plan and briefs the marketing department in time. Which feature of coordination does this illustrate?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Coordination is a continuous process"
+     },
+     {
+      "key": "B",
+      "text": "Coordination is an all pervasive function"
+     },
+     {
+      "key": "C",
+      "text": "Coordination is a one-time function performed at the planning stage"
+     },
+     {
+      "key": "D",
+      "text": "Coordination is required only at the top level of management"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Smita has to align efforts of several departments, which shows that coordination is required at all levels because of the interdependence of activities. This makes it an all pervasive function.",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Nature & Significance of Management",
+     "objective": "Identify the features of coordination",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-d2",
+   "expected_valid": false,
+   "defect_category": "second_defensible_option",
+   "defect_evidence": "Stem contains both a rewarded suggestion system (F3 Initiative) and 'we' instead of 'I' (F3 Esprit De Corps); both A and B are fully established, so the single recorded key B is not unique.",
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "A company runs an employee suggestion system that rewards suggestions bringing substantial cost reduction, and its manager uses 'we' instead of 'I' in all conversations with workers. Which Fayol principle is reflected in the manager's practice?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Initiative"
+     },
+     {
+      "key": "B",
+      "text": "Esprit de corps"
+     },
+     {
+      "key": "C",
+      "text": "Unity of direction"
+     },
+     {
+      "key": "D",
+      "text": "Centralisation"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Replacing 'I' with 'We' fosters team spirit, mutual trust and belongingness among team members, which is esprit de corps. Unity of direction and centralisation are not described in the case.",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Principles of Management",
+     "objective": "Apply Fayol's principles to situations",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-d3",
+   "expected_valid": false,
+   "defect_category": "unsupported_explanation",
+   "defect_evidence": "Key A (45 days) is correct, but the explanation's last sentence claims the State Commission hears only appeals and never original complaints; F20 states the State Commission has jurisdiction to entertain complaints. Unsupported and false.",
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Consumer Protection",
+    "body": "A party is not satisfied with the order of the District Commission. Within how many days from the date of order may it appeal to the State Commission on the grounds of facts or law?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Forty five days"
+     },
+     {
+      "key": "B",
+      "text": "Thirty days"
+     },
+     {
+      "key": "C",
+      "text": "Sixty days"
+     },
+     {
+      "key": "D",
+      "text": "Fifteen days"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt states that a dissatisfied party can appeal to the State Commission within a period of forty five days from the date of the order. The State Commission hears only appeals and never original complaints.",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Consumer Protection",
+     "objective": "Outline the redressal agencies and appeal periods",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  },
+  {
+   "local_id": "business_studies-d4",
+   "expected_valid": false,
+   "defect_category": "missing_decisive_assumption",
+   "defect_evidence": "Stem gives no information on whether the programme targets a specific job or broader personal growth. F12 separates training (specific jobs) from development (personality growth), so the key Training depends on an unstated assumption.",
+   "candidate": {
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "A firm sends its employees to a three-week programme that builds their skills and knowledge. Which term best describes the programme?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "Education"
+     },
+     {
+      "key": "B",
+      "text": "Development"
+     },
+     {
+      "key": "C",
+      "text": "Selection"
+     },
+     {
+      "key": "D",
+      "text": "Training"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Training increases the aptitudes, skills and abilities of employees, and it is a process of learning new skills and application of knowledge. The programme builds skills and knowledge, so it is training.",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Staffing",
+     "objective": "Distinguish training, education and development",
+     "target_term": ""
+    },
+    "fact_refs": ""
+   }
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-09T08:03:15.036Z",
+  "file": "scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs",
+  "sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+  "original_file": "scripts/pipeline/tools/runFreshCuetReadinessV77.mjs",
+  "original_sha256": "85662477d7fdc48bc27c211f92f4458d657dcf8cb339511bf31910449acbf221",
+  "academic_change": false,
+  "paid_transport_change": false,
+  "source_cases_keys_labels_pricing_and_guards_unchanged": true,
+  "changes": [
+    "Require exact additive executable and freeze hashes in concrete scope authorization.",
+    "During blind offline capture, return no synthetic cached evaluation.",
+    "Enable synthetic evaluation cache only during offline explanation-audit sizing."
+  ],
+  "demonstrated_original_fault": {
+    "blind_captures": 0,
+    "required_blind_captures": 56,
+    "audit_captures": 28,
+    "required_audit_captures": 28
+  },
+  "native_calls": 0,
+  "original_transport_freeze_unchanged": true
+}

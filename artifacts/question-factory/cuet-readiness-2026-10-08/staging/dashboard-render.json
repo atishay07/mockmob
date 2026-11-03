@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-08T06:44:40.780Z",
+  "base": "http://localhost:3101",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "checks": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "authenticated_heading": true,
+      "refresh_status": 200,
+      "coverage_expanded": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "authenticated_heading": true,
+      "refresh_status": 200,
+      "coverage_expanded": true,
+      "no_horizontal_overflow": true
+    }
+  ],
+  "page_errors": [],
+  "paid_provider_calls": 0,
+  "publication_writes": 0,
+  "production_writes": 0,
+  "emails_sent": 0
+}

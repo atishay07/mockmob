@@ -1,0 +1,116 @@
+{
+  "contract": "evidence-content-idea-inspection-v1",
+  "content_hash": "3d2be14d357112fc0c8c4314ccd7840beb53ac1c2d1daadcd331976a2681e977",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 52,
+  "answer_positions": {
+    "A": 15,
+    "C": 14,
+    "B": 14,
+    "D": 9
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "A": 2,
+      "C": 1
+    },
+    "synonym": {
+      "C": 1,
+      "B": 2
+    },
+    "matching": {
+      "C": 5,
+      "D": 1,
+      "B": 2,
+      "A": 2
+    },
+    "correct_word_usage": {
+      "C": 1
+    },
+    "sequence_ordering": {
+      "A": 2,
+      "D": 4,
+      "C": 2,
+      "B": 2
+    },
+    "antonym": {
+      "D": 1
+    },
+    "conceptual_mcq": {
+      "A": 5,
+      "B": 2,
+      "D": 1,
+      "C": 1
+    },
+    "numerical_calculation": {
+      "B": 2,
+      "A": 1,
+      "C": 1
+    },
+    "case_application": {
+      "C": 1,
+      "A": 3,
+      "D": 1,
+      "B": 1
+    },
+    "statement_selection": {
+      "C": 1,
+      "B": 3,
+      "D": 1
+    }
+  },
+  "formats": {
+    "reading_comprehension": 3,
+    "synonym": 3,
+    "matching": 10,
+    "correct_word_usage": 1,
+    "sequence_ordering": 10,
+    "antonym": 1,
+    "conceptual_mcq": 9,
+    "numerical_calculation": 4,
+    "case_application": 6,
+    "statement_selection": 5
+  },
+  "difficulty": {
+    "easy": 19,
+    "medium": 25,
+    "hard": 8
+  },
+  "longest_same_answer_run": 5,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "applied_decisions": [
+    {
+      "id": "fbade95931ba773ec5d278b843aed702",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "2331a9ad39313c879b90b515b3dd9d98",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "34a001ae32f3cfb832913e7a17ba2e12",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "822819a13b2bc21181108b166fca10b8",
+      "reason": "missing_financial_enterprise_status",
+      "basis": "NCERT Cash Flow Statement 6.5.4: financial-enterprise interest/dividends received are operating; non-financial-enterprise receipts are investing."
+    },
+    {
+      "id": "167dd3d49f78a2782db0516b2a1c2413",
+      "reason": "duplicate_idea_conservative",
+      "duplicate_of": "e3861557218c01d4e4a32e4fbf8a072d"
+    }
+  ],
+  "at": "2026-10-07T03:26:29.532Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

@@ -1,0 +1,3176 @@
+{
+  "benchmark_id": "fresh-full-v6-source-keyed-2026-10-08",
+  "contains_answers": false,
+  "contains_explanations": false,
+  "contains_labels": false,
+  "items": [
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-1",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "concept_id": null,
+      "body": "Which arrangement describes a partnership?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Two or more persons agree to carry on business and share its profits"
+        },
+        {
+          "key": "B",
+          "text": "One proprietor employs a salaried manager"
+        },
+        {
+          "key": "C",
+          "text": "Shareholders subscribe to a company’s equity capital"
+        },
+        {
+          "key": "D",
+          "text": "A lender advances money to a sole proprietor"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-partnership-fundamentals-1",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-2",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "concept_id": null,
+      "body": "A partner lends ₹20,000 to the firm for business purposes for one full year. The partnership deed is silent about interest on the loan. What interest is payable?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹12,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,200"
+        },
+        {
+          "key": "C",
+          "text": "₹2,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,400"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_calculation",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-partnership-fundamentals-2",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "quality-v4-63927dc5d1aa",
+          "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-3",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "concept_id": null,
+      "body": "In a partnership, the persons who join to establish a business are called:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Equity shareholders"
+        },
+        {
+          "key": "B",
+          "text": "Employees"
+        },
+        {
+          "key": "C",
+          "text": "Partners"
+        },
+        {
+          "key": "D",
+          "text": "Debenture holders"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-partnership-fundamentals-3",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-4",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "concept_id": null,
+      "body": "Consider these statements about partnership:\n(1) Two or more persons join to establish a business.\n(2) They agree to share its profits.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither"
+        },
+        {
+          "key": "B",
+          "text": "Only 1"
+        },
+        {
+          "key": "C",
+          "text": "Only 2"
+        },
+        {
+          "key": "D",
+          "text": "Both 1 and 2"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-partnership-fundamentals-4",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-1",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "concept_id": null,
+      "body": "On admission to a partnership firm, an incoming partner acquires a share of profit from:",
+      "options": [
+        {
+          "key": "A",
+          "text": "The existing partners"
+        },
+        {
+          "key": "B",
+          "text": "The firm’s trade creditors"
+        },
+        {
+          "key": "C",
+          "text": "The firm’s customers"
+        },
+        {
+          "key": "D",
+          "text": "The firm’s employees"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-change-in-profit-sharing-ratio-1",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-2",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "concept_id": null,
+      "body": "A and B share 3:2. A newcomer receives 1/5 from them in their old ratio. Their respective sacrifices are:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3/5 and 2/5"
+        },
+        {
+          "key": "B",
+          "text": "3/25 and 2/25"
+        },
+        {
+          "key": "C",
+          "text": "1/5 and 1/5"
+        },
+        {
+          "key": "D",
+          "text": "2/25 and 3/25"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-change-in-profit-sharing-ratio-2",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-3",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "concept_id": null,
+      "body": "A new partner acquires a profit share from the existing partners. The existing partners’ reduction in profit share is called:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Revaluation surplus"
+        },
+        {
+          "key": "B",
+          "text": "Gaining share"
+        },
+        {
+          "key": "C",
+          "text": "Sacrificing share"
+        },
+        {
+          "key": "D",
+          "text": "Capital reserve"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-change-in-profit-sharing-ratio-3",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-4",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "concept_id": null,
+      "body": "On admission of a new partner, consider these statements:\n(1) The new partner acquires a profit share from the existing partners.\n(2) The existing partners sacrifice the share so acquired.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither"
+        },
+        {
+          "key": "B",
+          "text": "Only 1"
+        },
+        {
+          "key": "C",
+          "text": "Only 2"
+        },
+        {
+          "key": "D",
+          "text": "Both 1 and 2"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-change-in-profit-sharing-ratio-4",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-share-capital-1",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "concept_id": null,
+      "body": "Which defines authorised capital?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Capital authorised for issue by the Memorandum"
+        },
+        {
+          "key": "B",
+          "text": "Capital actually received on calls"
+        },
+        {
+          "key": "C",
+          "text": "Money refunded to applicants"
+        },
+        {
+          "key": "D",
+          "text": "Profit transferred to reserve"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "direct_recall",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-share-capital-1",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-share-capital-2",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "concept_id": null,
+      "body": "Authorised capital is ₹12 lakh and ₹9 lakh has been issued. Maximum additional issue without changing it?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹2 lakh"
+        },
+        {
+          "key": "B",
+          "text": "₹3 lakh"
+        },
+        {
+          "key": "C",
+          "text": "₹21 lakh"
+        },
+        {
+          "key": "D",
+          "text": "₹1 lakh"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-share-capital-2",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-share-capital-3",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "concept_id": null,
+      "body": "Match List-I with List-II.\nList-I\n(A) Authorised capital\n(B) Issued capital\n(C) Subscribed capital\n(D) Called-up capital\nList-II\n(I) Amount actually subscribed by the public\n(II) Amount called for payment on subscribed shares\n(III) Maximum issue authorised by the Memorandum\n(IV) Part offered for subscription\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "medium",
+      "question_type": "matching",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-share-capital-3",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-share-capital-4",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "concept_id": null,
+      "body": "Without changing its authorised capital, consider these statements about a company:\n(1) It may issue share capital exceeding the amount specified in its Memorandum.\n(2) Authorised capital limits the amount of share capital it may issue.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both"
+        },
+        {
+          "key": "B",
+          "text": "Neither"
+        },
+        {
+          "key": "C",
+          "text": "Only 1"
+        },
+        {
+          "key": "D",
+          "text": "Only 2"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-share-capital-4",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-accounting-ratios-1",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "concept_id": null,
+      "body": "Which measure is calculated by dividing 365 by the trade receivables turnover ratio?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Average collection period"
+        },
+        {
+          "key": "B",
+          "text": "Average payment period"
+        },
+        {
+          "key": "C",
+          "text": "Inventory turnover ratio"
+        },
+        {
+          "key": "D",
+          "text": "Capital employed turnover ratio"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-accounting-ratios-1",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-accounting-ratios-2",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "concept_id": null,
+      "body": "Trade receivables turnover is 5 times. Using the cited 365-day convention, collection period is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5 days"
+        },
+        {
+          "key": "B",
+          "text": "73 days"
+        },
+        {
+          "key": "C",
+          "text": "365 days"
+        },
+        {
+          "key": "D",
+          "text": "1,825 days"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-accounting-ratios-2",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-accounting-ratios-3",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "concept_id": null,
+      "body": "Using a 365-day year, which formula gives the average collection period?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Trade receivables turnover ratio ÷ 365"
+        },
+        {
+          "key": "B",
+          "text": "365 ÷ trade payables turnover ratio"
+        },
+        {
+          "key": "C",
+          "text": "365 ÷ trade receivables turnover ratio"
+        },
+        {
+          "key": "D",
+          "text": "365 × trade receivables turnover ratio"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-accounting-ratios-3",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-accountancy-accounting-ratios-4",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "concept_id": null,
+      "body": "Use average collection period = 365 ÷ trade receivables turnover ratio.\n(1) A turnover ratio of 10 gives 36.5 days.\n(2) A turnover ratio of 5 gives 1,825 days.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 2"
+        },
+        {
+          "key": "B",
+          "text": "Both"
+        },
+        {
+          "key": "C",
+          "text": "Neither"
+        },
+        {
+          "key": "D",
+          "text": "Only 1"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-accountancy-accounting-ratios-4",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-accountancy-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-1",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "concept_id": null,
+      "body": "A plan is prepared for an event that is not expected to recur. Which type of plan is it?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Single-use plan"
+        },
+        {
+          "key": "B",
+          "text": "Standing plan"
+        },
+        {
+          "key": "C",
+          "text": "Policy"
+        },
+        {
+          "key": "D",
+          "text": "Procedure"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-planning-1",
+      "source_refs": [
+        {
+          "id": "fresh-v5r-planning-normative-excerpts",
+          "version": 1,
+          "locator": "teaching",
+          "support_hash": "b278af75e17f8b065781f21904c8ece2ac13db85c589c69904f5491198a6d1e3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "concept_id": null,
+      "body": "A college prepares a plan for a one-day seminar that it does not intend to repeat. Which type of plan is appropriate?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Routine admissions procedure"
+        },
+        {
+          "key": "B",
+          "text": "Single-use plan"
+        },
+        {
+          "key": "C",
+          "text": "Standing plan"
+        },
+        {
+          "key": "D",
+          "text": "Recruitment policy"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "case_application",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-planning-2",
+      "source_refs": [
+        {
+          "id": "fresh-v5r-planning-normative-excerpts",
+          "version": 1,
+          "locator": "teaching",
+          "support_hash": "b278af75e17f8b065781f21904c8ece2ac13db85c589c69904f5491198a6d1e3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-3",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "concept_id": null,
+      "body": "Match List-I with List-II.\nList-I\n(A) Policy\n(B) Procedure\n(C) Method\n(D) Rule\nList-II\n(I) Chronological steps for carrying out work\n(II) General guide to thinking and decisions\n(III) Specific statement allowing no discretion\n(IV) Prescribed way to perform one task\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "medium",
+      "question_type": "matching",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-planning-3",
+      "source_refs": [
+        {
+          "id": "fresh-v5r-planning-normative-excerpts",
+          "version": 1,
+          "locator": "teaching",
+          "support_hash": "b278af75e17f8b065781f21904c8ece2ac13db85c589c69904f5491198a6d1e3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "concept_id": null,
+      "body": "(1) A one-time seminar may use a single-use plan. (2) Such plans are expected to recur routinely.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 2"
+        },
+        {
+          "key": "B",
+          "text": "Both"
+        },
+        {
+          "key": "C",
+          "text": "Neither"
+        },
+        {
+          "key": "D",
+          "text": "Only 1"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-planning-4",
+      "source_refs": [
+        {
+          "id": "fresh-v5r-planning-normative-excerpts",
+          "version": 1,
+          "locator": "teaching",
+          "support_hash": "b278af75e17f8b065781f21904c8ece2ac13db85c589c69904f5491198a6d1e3"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-1",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "concept_id": null,
+      "body": "Which activity belongs to organising?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Grouping activities and establishing authority relationships"
+        },
+        {
+          "key": "B",
+          "text": "Motivating employees to initiate action"
+        },
+        {
+          "key": "C",
+          "text": "Comparing actual results with standards"
+        },
+        {
+          "key": "D",
+          "text": "Setting objectives and choosing a course of action"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-organising-1",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-2",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "concept_id": null,
+      "body": "After departmentalisation in the organising process, which step comes next?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Establishing reporting relationships"
+        },
+        {
+          "key": "B",
+          "text": "Assignment of duties"
+        },
+        {
+          "key": "C",
+          "text": "Selection of a planning alternative"
+        },
+        {
+          "key": "D",
+          "text": "Identification and division of work"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-organising-2",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-3",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "concept_id": null,
+      "body": "Departmentalisation and assignment of duties are respectively which steps in the organising process?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fourth and first"
+        },
+        {
+          "key": "B",
+          "text": "First and second"
+        },
+        {
+          "key": "C",
+          "text": "Second and third"
+        },
+        {
+          "key": "D",
+          "text": "Third and fourth"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-organising-3",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-4",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "concept_id": null,
+      "body": "In the organising process, work has been identified and divided. Choose the correct order of the remaining steps.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reporting → duties → departmentalisation"
+        },
+        {
+          "key": "B",
+          "text": "Departmentalisation → reporting → duties"
+        },
+        {
+          "key": "C",
+          "text": "Duties → departmentalisation → reporting"
+        },
+        {
+          "key": "D",
+          "text": "Departmentalisation → duties → reporting"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "ordering_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-organising-4",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-directing-1",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "concept_id": null,
+      "body": "Which description identifies directing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Instructing, guiding, counselling, motivating and leading people toward organisational objectives"
+        },
+        {
+          "key": "B",
+          "text": "Grouping activities and establishing authority relationships"
+        },
+        {
+          "key": "C",
+          "text": "Setting objectives and selecting an appropriate course of action"
+        },
+        {
+          "key": "D",
+          "text": "Comparing actual performance with predetermined standards"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-directing-1",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-directing-2",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "concept_id": null,
+      "body": "Which managerial function initiates action while planning, organising and staffing prepare the setting for action?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Organising"
+        },
+        {
+          "key": "B",
+          "text": "Directing"
+        },
+        {
+          "key": "C",
+          "text": "Staffing"
+        },
+        {
+          "key": "D",
+          "text": "Planning"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-directing-2",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-directing-3",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "concept_id": null,
+      "body": "In an organisation, directing is performed:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only by first-line supervisors"
+        },
+        {
+          "key": "B",
+          "text": "Only when managerial personnel change"
+        },
+        {
+          "key": "C",
+          "text": "At every level where superior–subordinate relationships exist"
+        },
+        {
+          "key": "D",
+          "text": "Only by the top executive"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-directing-3",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-directing-4",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "concept_id": null,
+      "body": "(1) Motivation and leadership are included. (2) Directing is limited to communication alone.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 2"
+        },
+        {
+          "key": "B",
+          "text": "Both"
+        },
+        {
+          "key": "C",
+          "text": "Neither"
+        },
+        {
+          "key": "D",
+          "text": "Only 1"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-directing-4",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-marketing-management-1",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "concept_id": null,
+      "body": "Which element covers making products available to target customers?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Place"
+        },
+        {
+          "key": "B",
+          "text": "Product"
+        },
+        {
+          "key": "C",
+          "text": "Promotion"
+        },
+        {
+          "key": "D",
+          "text": "Packaging"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "direct_recall",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-marketing-management-1",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-marketing-management-2",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "concept_id": null,
+      "body": "A manufacturer appoints dealers and arranges storage and transportation so its products reach target customers. Which marketing-mix element is illustrated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Product"
+        },
+        {
+          "key": "B",
+          "text": "Place"
+        },
+        {
+          "key": "C",
+          "text": "Price"
+        },
+        {
+          "key": "D",
+          "text": "Promotion"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "case_application",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-marketing-management-2",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-marketing-management-3",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "concept_id": null,
+      "body": "Selecting intermediaries to make products available to customers is mainly a decision about:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Product"
+        },
+        {
+          "key": "B",
+          "text": "Price"
+        },
+        {
+          "key": "C",
+          "text": "Place"
+        },
+        {
+          "key": "D",
+          "text": "Promotion"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-marketing-management-3",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-business_studies-marketing-management-4",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "concept_id": null,
+      "body": "Consider these statements about the marketing mix:\n(1) Place decisions include selecting dealers.\n(2) Place means setting the selling price.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 2"
+        },
+        {
+          "key": "B",
+          "text": "Both"
+        },
+        {
+          "key": "C",
+          "text": "Neither"
+        },
+        {
+          "key": "D",
+          "text": "Only 1"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-business_studies-marketing-management-4",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-business_studies-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-money-banking-1",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "concept_id": null,
+      "body": "In a modern economy, money comprises which of the following?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cash and bank deposits"
+        },
+        {
+          "key": "B",
+          "text": "Company shares and debentures"
+        },
+        {
+          "key": "C",
+          "text": "Government taxes and subsidies"
+        },
+        {
+          "key": "D",
+          "text": "Exports and imports"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-money-banking-1",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-money-banking-2",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "concept_id": null,
+      "body": "A household holds ₹4,000 in cash and ₹6,000 in bank deposits. Using a measure that includes both these holdings, their total money holding is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹6,000"
+        },
+        {
+          "key": "B",
+          "text": "₹10,000"
+        },
+        {
+          "key": "C",
+          "text": "₹24,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,000"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_calculation",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-money-banking-2",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-money-banking-3",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "concept_id": null,
+      "body": "Match List-I with List-II.\nList-I\n(A) Central bank\n(B) Commercial bank\n(C) Reserve money\n(D) Interest spread\nList-II\n(I) Currency issued by the central bank as a basis for credit creation\n(II) Difference between lending and deposit interest rates\n(III) Institution that accepts deposits and lends part of them\n(IV) Institution that issues the country’s currency\nChoose the correct answer from the options given below:",
+      "options": [
+        {
+          "key": "A",
+          "text": "(A)-(II), (B)-(I), (C)-(IV), (D)-(III)"
+        },
+        {
+          "key": "B",
+          "text": "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "C",
+          "text": "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+        },
+        {
+          "key": "D",
+          "text": "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "medium",
+      "question_type": "matching",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-money-banking-3",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-money-banking-4",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "concept_id": null,
+      "body": "Consider these statements about money supply in a modern economy:\n(1) Bank deposits are included in measures of money.\n(2) Commercial banks form part of the money-creating system.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither"
+        },
+        {
+          "key": "B",
+          "text": "Only 1"
+        },
+        {
+          "key": "C",
+          "text": "Only 2"
+        },
+        {
+          "key": "D",
+          "text": "Both"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-money-banking-4",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-income-determination-1",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "concept_id": null,
+      "body": "The investment multiplier is the ratio of:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Total increase in equilibrium output to the initial increase in autonomous expenditure"
+        },
+        {
+          "key": "B",
+          "text": "Initial increase in autonomous expenditure to total increase in equilibrium output"
+        },
+        {
+          "key": "C",
+          "text": "Consumption expenditure to total tax receipts"
+        },
+        {
+          "key": "D",
+          "text": "Money supply to currency held by the public"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-income-determination-1",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-income-determination-2",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "concept_id": null,
+      "body": "In a two-sector model MPC is 0.8. Using k = 1/(1−MPC), k equals:",
+      "options": [
+        {
+          "key": "A",
+          "text": "4"
+        },
+        {
+          "key": "B",
+          "text": "5"
+        },
+        {
+          "key": "C",
+          "text": "8"
+        },
+        {
+          "key": "D",
+          "text": "2"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-income-determination-2",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-income-determination-3",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "concept_id": null,
+      "body": "In the investment-multiplier mechanism, successive rounds of consumption expenditure generate additional:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only foreign-exchange reserves"
+        },
+        {
+          "key": "B",
+          "text": "Only currency issued by the central bank"
+        },
+        {
+          "key": "C",
+          "text": "Final-goods output and income"
+        },
+        {
+          "key": "D",
+          "text": "Only tax receipts"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-income-determination-3",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-income-determination-4",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "concept_id": null,
+      "body": "In the investment-multiplier account, consider these statements:\n(1) Additional final-goods output is also additional income.\n(2) The output-income increment is defined as tax revenue.\nWhich statements are correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 2"
+        },
+        {
+          "key": "B",
+          "text": "Both"
+        },
+        {
+          "key": "C",
+          "text": "Neither"
+        },
+        {
+          "key": "D",
+          "text": "Only 1"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-income-determination-4",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-government-budget-the-economy-1",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "concept_id": null,
+      "body": "How is primary deficit calculated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fiscal deficit minus interest payments"
+        },
+        {
+          "key": "B",
+          "text": "Fiscal deficit plus interest payments"
+        },
+        {
+          "key": "C",
+          "text": "Revenue receipts minus capital receipts"
+        },
+        {
+          "key": "D",
+          "text": "Exports minus imports"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "direct_recall",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-government-budget-the-economy-1",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-government-budget-the-economy-2",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "concept_id": null,
+      "body": "Gross fiscal deficit is ₹90 crore. Interest payments are ₹25 crore and government interest receipts are zero. What is the gross primary deficit?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹3,600 crore"
+        },
+        {
+          "key": "B",
+          "text": "₹65 crore"
+        },
+        {
+          "key": "C",
+          "text": "₹90 crore"
+        },
+        {
+          "key": "D",
+          "text": "₹115 crore"
+        }
+      ],
+      "route": "numerical",
+      "difficulty": "medium",
+      "question_type": "numerical_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-government-budget-the-economy-2",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-government-budget-the-economy-3",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "concept_id": null,
+      "body": "Primary deficit is measured to focus on:",
+      "options": [
+        {
+          "key": "A",
+          "text": "The value of all government assets"
+        },
+        {
+          "key": "B",
+          "text": "The balance between exports and imports"
+        },
+        {
+          "key": "C",
+          "text": "Present fiscal imbalances excluding interest obligations on past debt"
+        },
+        {
+          "key": "D",
+          "text": "The entire accumulated stock of public debt"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-government-budget-the-economy-3",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-government-budget-the-economy-4",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "concept_id": null,
+      "body": "(1) Interest payments are subtracted from fiscal deficit. (2) The result is primary deficit.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither"
+        },
+        {
+          "key": "B",
+          "text": "Only 1"
+        },
+        {
+          "key": "C",
+          "text": "Only 2"
+        },
+        {
+          "key": "D",
+          "text": "Both"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-government-budget-the-economy-4",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-1",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "concept_id": null,
+      "body": "Under a flexible exchange-rate system, what determines the exchange rate?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Market demand and supply"
+        },
+        {
+          "key": "B",
+          "text": "A fixed legal ratio only"
+        },
+        {
+          "key": "C",
+          "text": "Company share capital"
+        },
+        {
+          "key": "D",
+          "text": "Tax receipts only"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "direct_recall",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-balance-of-payments-1",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-2",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "concept_id": null,
+      "body": "In a completely flexible exchange-rate system, demand for foreign currency increases while its supply curve is unchanged. Which statement is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Demand changes cannot affect the exchange rate"
+        },
+        {
+          "key": "B",
+          "text": "The market-determined exchange rate can change"
+        },
+        {
+          "key": "C",
+          "text": "The exchange rate must remain fixed"
+        },
+        {
+          "key": "D",
+          "text": "Central-bank intervention fixes the rate by definition"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "case_application",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-balance-of-payments-2",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-3",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "concept_id": null,
+      "body": "Flexible exchange rate is also called:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Authorised capital"
+        },
+        {
+          "key": "B",
+          "text": "Single-use plan"
+        },
+        {
+          "key": "C",
+          "text": "Floating exchange rate"
+        },
+        {
+          "key": "D",
+          "text": "Primary deficit"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "conceptual_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-balance-of-payments-3",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-4",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "concept_id": null,
+      "body": "(1) Demand and supply determine the rate. (2) Flexible rate is also called floating rate.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither"
+        },
+        {
+          "key": "B",
+          "text": "Only 1"
+        },
+        {
+          "key": "C",
+          "text": "Only 2"
+        },
+        {
+          "key": "D",
+          "text": "Both"
+        }
+      ],
+      "route": "conceptual",
+      "difficulty": "easy",
+      "question_type": "statement_mcq",
+      "passage_text": "",
+      "family_id": "fresh-v5r-family-fresh-v5r-economics-balance-of-payments-4",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-economics-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-1-1",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Which measure did the library use?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Late returns per one hundred loans"
+        },
+        {
+          "key": "B",
+          "text": "Raw readers"
+        },
+        {
+          "key": "C",
+          "text": "Staff per branch"
+        },
+        {
+          "key": "D",
+          "text": "Reminders printed"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_direct",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-1-1",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-1-2",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Which result is supported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Readers were randomly assigned"
+        },
+        {
+          "key": "B",
+          "text": "Both branches had fewer late returns per hundred loans at the end"
+        },
+        {
+          "key": "C",
+          "text": "Only exit notice improved"
+        },
+        {
+          "key": "D",
+          "text": "Branches served equal readers"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_statement",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-1-2",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-1-3",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Why avoid raw totals?",
+      "options": [
+        {
+          "key": "A",
+          "text": "One branch had no loans"
+        },
+        {
+          "key": "B",
+          "text": "Trial lasted one day"
+        },
+        {
+          "key": "C",
+          "text": "Branches served different reader counts"
+        },
+        {
+          "key": "D",
+          "text": "No late returns were recorded"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_inference",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-1-3",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-1-4",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Which limitation was reported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "No returns were recorded"
+        },
+        {
+          "key": "B",
+          "text": "No comparison measure was used"
+        },
+        {
+          "key": "C",
+          "text": "Only one method was tested"
+        },
+        {
+          "key": "D",
+          "text": "Readers were not randomly assigned"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_detail",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-1-4",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-2-1",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "concept_id": null,
+      "body": "What remained on while the speaker was silent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Indicator light"
+        },
+        {
+          "key": "B",
+          "text": "Notebook"
+        },
+        {
+          "key": "C",
+          "text": "Volume control"
+        },
+        {
+          "key": "D",
+          "text": "School bell"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_detail",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-2-1",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-2-2",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "concept_id": null,
+      "body": "What was the order of checks?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Power lead, speaker wire, volume control"
+        },
+        {
+          "key": "B",
+          "text": "Power lead, volume control, speaker wire"
+        },
+        {
+          "key": "C",
+          "text": "Speaker wire, power lead, volume control"
+        },
+        {
+          "key": "D",
+          "text": "Volume control, speaker wire, power lead"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_order",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-2-2",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-2-3",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "concept_id": null,
+      "body": "Why record the sequence?",
+      "options": [
+        {
+          "key": "A",
+          "text": "To replace the technician"
+        },
+        {
+          "key": "B",
+          "text": "To show repair was impossible"
+        },
+        {
+          "key": "C",
+          "text": "So the next student could repeat checks"
+        },
+        {
+          "key": "D",
+          "text": "To record the radio price"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_inference",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-2-3",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-2-4",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "concept_id": null,
+      "body": "What does “leave behind” refer to?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The broken radio"
+        },
+        {
+          "key": "B",
+          "text": "The loose wire"
+        },
+        {
+          "key": "C",
+          "text": "A room key"
+        },
+        {
+          "key": "D",
+          "text": "The notebook entry"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_vocabulary_in_context",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-2-4",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-3-1",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "concept_id": null,
+      "body": "Where was the chair first placed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Beneath the neem tree"
+        },
+        {
+          "key": "B",
+          "text": "In the corridor"
+        },
+        {
+          "key": "C",
+          "text": "By the cups"
+        },
+        {
+          "key": "D",
+          "text": "At the gate"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_detail",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-3-1",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-3-2",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "concept_id": null,
+      "body": "What does “voices had travelled indoors” mean?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The tree moved indoors"
+        },
+        {
+          "key": "B",
+          "text": "The gathering continued inside"
+        },
+        {
+          "key": "C",
+          "text": "The song stopped"
+        },
+        {
+          "key": "D",
+          "text": "The chairs disappeared"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_inference",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-3-2",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-3-3",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "concept_id": null,
+      "body": "Select the reported sequence.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Wind lifts leaves; song stops; child leaves"
+        },
+        {
+          "key": "B",
+          "text": "Invitation folded; tree moved; gathering begins"
+        },
+        {
+          "key": "C",
+          "text": "Chair outside; wind lifts leaves; chair inside; child follows song"
+        },
+        {
+          "key": "D",
+          "text": "Child follows song; chair outside; cups removed"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_order",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-3-3",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-3-4",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "concept_id": null,
+      "body": "“Threaded with the clink of cups” suggests:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cups were made of thread"
+        },
+        {
+          "key": "B",
+          "text": "Song was replaced by silence"
+        },
+        {
+          "key": "C",
+          "text": "Child was outside"
+        },
+        {
+          "key": "D",
+          "text": "Song and cup sounds were heard together"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_vocabulary_in_context",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-3-4",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-4-1",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Which label passed most checks?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Name and sowing date"
+        },
+        {
+          "key": "B",
+          "text": "Date only"
+        },
+        {
+          "key": "C",
+          "text": "Plant name only"
+        },
+        {
+          "key": "D",
+          "text": "Seed log alone"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_detail",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another showed only the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-4-1",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "9df6414e94c05e77d8dc159c86fd8a87d25c49f38694cf46512eb7e4adf9ee6b"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-4-2",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "What did the group choose next?",
+      "options": [
+        {
+          "key": "A",
+          "text": "No labels"
+        },
+        {
+          "key": "B",
+          "text": "Combined label"
+        },
+        {
+          "key": "C",
+          "text": "Date-only label"
+        },
+        {
+          "key": "D",
+          "text": "Name-only label"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_detail",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another showed only the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-4-2",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "9df6414e94c05e77d8dc159c86fd8a87d25c49f38694cf46512eb7e4adf9ee6b"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-4-3",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "Which limitation did the group mention?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Several years of data"
+        },
+        {
+          "key": "B",
+          "text": "Every seed collection"
+        },
+        {
+          "key": "C",
+          "text": "One collection and one month"
+        },
+        {
+          "key": "D",
+          "text": "No labels tested"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_statement",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another showed only the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-4-3",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "9df6414e94c05e77d8dc159c86fd8a87d25c49f38694cf46512eb7e4adf9ee6b"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    },
+    {
+      "id": "fresh-v5r-english-4-4",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "concept_id": null,
+      "body": "How many more checks did the combined label pass than the name-only label?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "11"
+        },
+        {
+          "key": "C",
+          "text": "18"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "route": "passage",
+      "difficulty": "medium",
+      "question_type": "passage_numerical",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another showed only the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "family_id": "fresh-v5r-family-fresh-v5r-english-4-4",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "9df6414e94c05e77d8dc159c86fd8a87d25c49f38694cf46512eb7e4adf9ee6b"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ],
+      "provenance": {
+        "kind": "original_practice",
+        "anchor_id": null,
+        "adaptation_family": null,
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v5r-english-overlay",
+        "source_pack_version": 1
+      }
+    }
+  ]
+}

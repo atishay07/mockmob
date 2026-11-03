@@ -1,0 +1,228 @@
+{
+  "at": "2026-10-07T23:45:03.242Z",
+  "complete": true,
+  "denominator": 96,
+  "valid_denominator": 64,
+  "eligible_valid": 52,
+  "valid_retention": 0.8125,
+  "controlled_defects": 32,
+  "false_accepts": [],
+  "by_subject": {
+    "accountancy": {
+      "valid": 16,
+      "valid_eligible": 15,
+      "defects": 8,
+      "defect_accepted": 0
+    },
+    "business_studies": {
+      "valid": 16,
+      "valid_eligible": 11,
+      "defects": 8,
+      "defect_accepted": 0
+    },
+    "economics": {
+      "valid": 16,
+      "valid_eligible": 14,
+      "defects": 8,
+      "defect_accepted": 0
+    },
+    "english": {
+      "valid": 16,
+      "valid_eligible": 12,
+      "defects": 8,
+      "defect_accepted": 0
+    }
+  },
+  "positive_failures": [
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-2",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "E1.2 states that a partner who advances a loan to the firm for business purposes is entitled to 6% interest per annum.",
+        "Calculation: ₹20,000 × 6% × 1 year = ₹1,200, so option B is correct.",
+        "The supplied current syllabus list does not expressly include the default interest rule for a partner's loan when the deed is silent; this is a syllabus-scope defect.",
+        "Defect: syllabus_mismatch: The supplied current syllabus lists partnership deed meaning and importance, profit division, and related partnership accounts, but does not expressly include the default 6% interest rule for a partner's loan when the deed is silent.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "route": "numerical"
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-1",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "A one-time event not expected to recur fits a single-use plan; standing plans are for activities that occur regularly (E1.1, E1.2).",
+        "The supplied syllabus lists several plan types but does not name single-use or standing plans, so the item falls outside the stated syllabus entitlement.",
+        "Defect: syllabus_mismatch: The supplied syllabus lists specific plan types but does not include single-use or standing plans.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "route": "conceptual"
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "A plan for a one-time, non-recurring event is a single-use plan; the supplied excerpt explicitly gives a one-day seminar as an example (E1.1).",
+        "The stem states that the seminar is not intended to recur, so a standing plan for regularly occurring activities is not the appropriate classification (E1.2).",
+        "The supplied syllabus lists specific plan types but does not name the single-use/standing-plan classification; this creates a syllabus-entitlement defect despite the concept being supported by the excerpt.",
+        "Defect: syllabus_mismatch: The supplied syllabus lists Objectives, Strategy, Policy, Procedure, Method, Rule, Budget and Programme as types of plans, but does not include the single-use/standing-plan classification tested here.",
+        "cuet_fit_syllabus_objective_below_2"
+      ],
+      "route": "conceptual"
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-2",
+      "state": "quarantined",
+      "stage": "numeric_solution",
+      "reasons": [
+        "failed:numeric_solution"
+      ],
+      "details": [
+        "The supplied NCERT excerpt lists the organising steps in order: identification and division of work, departmentalisation, assignment of duties, then establishing reporting relationships. Thus the step immediately after departmentalisation is assignment of duties (B)."
+      ],
+      "route": "numerical"
+    },
+    {
+      "id": "fresh-v5r-business_studies-directing-2",
+      "state": "quarantined",
+      "stage": "numeric_solution",
+      "reasons": [
+        "failed:numeric_solution"
+      ],
+      "details": [
+        "The supplied NCERT excerpt states that directing initiates action while other functions prepare the setting, so the answer is B.",
+        "Planning, organising and staffing are named in the stem as preparatory functions; no calculation or additional case-specific assumption is needed."
+      ],
+      "route": "numerical"
+    },
+    {
+      "id": "fresh-v5r-business_studies-marketing-management-2",
+      "state": "quarantined",
+      "stage": "numeric_solution",
+      "reasons": [
+        "failed:numeric_solution"
+      ],
+      "details": [
+        "The stem describes appointing dealers and arranging storage and transportation to make products available to customers. The source identifies dealer selection and activities that make products available as Place/Physical Distribution, and also names storage and transportation (E1.1, E1.2).",
+        "Therefore B, Place, is the only defensible answer; no calculation is required."
+      ],
+      "route": "numerical"
+    },
+    {
+      "id": "fresh-v5r-english-1-1",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The passage explicitly says the library compared late returns per one hundred loans rather than raw totals, supporting A as the intended outcome metric (E2.1).",
+        "However, “measure” can also mean an intervention. On that reasonable reading, printed reminders were one method used at checkout, making D partly correct. The stem should say “comparison metric” to distinguish these meanings.",
+        "This is a direct factual-passage retrieval question; the figures do not require calculation.",
+        "Defect: multiple_correct_options: A answers the intended comparison-metric reading, but D is also defensible if “measure” means an intervention: the passage says readers received printed reminders at checkout.",
+        "Defect: missing_decisive_assumption: option D is correct if If “measure” means an intervention, readers at checkout received printed reminders, one of the methods the library tested.",
+        "Condition implied_decisive: “Measure” is understood as the comparison metric rather than as an intervention."
+      ],
+      "route": "passage"
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-2",
+      "state": "quarantined",
+      "stage": "explanation_support",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "details": [
+        "The cited excerpt does supply the direction for an increase in foreign-exchange demand: the exchange rate rises in its rupees-per-dollar example.",
+        "incorrect claim: The direction of the exchange-rate change is not supplied here."
+      ],
+      "route": "conceptual"
+    },
+    {
+      "id": "fresh-v5r-economics-balance-of-payments-4",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The excerpt states that a flexible exchange rate is determined by market demand and supply and is also known as a floating exchange rate, supporting intended key D.",
+        "Statement (1) does not specify a flexible exchange-rate system. Read as a general claim about exchange rates across regimes, it is too broad, making C defensible; the stem needs to delimit its scope.",
+        "Defect: missing_decisive_assumption: Statement (1) omits that it concerns a flexible exchange-rate system. Without that scope, a prepared candidate can reasonably read it as a general claim, changing the answer from D to C.",
+        "Defect: multiple_correct_options: The unqualified reading of statement (1) makes option C defensible, while the intended flexible-rate reading makes D correct.",
+        "Defect: missing_decisive_assumption: option C is correct if Read statement (1) as an unqualified claim about exchange rates generally, rather than as limited to the flexible-rate system.",
+        "Condition missing: Statement (1) is intended to refer specifically to determination under a flexible exchange-rate system."
+      ],
+      "route": "conceptual"
+    },
+    {
+      "id": "fresh-v5r-english-3-2",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The phrase means the gathering’s voices and sounds continued indoors: the passage says they had not vanished, the same song is heard from the corridor, and the child follows it.",
+        "The other options conflict with the passage: the tree remains outside, the song continues, and the chairs are moved rather than disappearing."
+      ],
+      "route": "passage"
+    },
+    {
+      "id": "fresh-v5r-english-3-1",
+      "state": "quarantined",
+      "stage": "explanation_support",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "details": [
+        "The opening sentence describes the courtyard; the chair’s first placement is stated in the second sentence.",
+        "incorrect claim: The passage states the answer in its opening sentence."
+      ],
+      "route": "passage"
+    },
+    {
+      "id": "fresh-v5r-english-3-3",
+      "state": "quarantined",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The passage says the caretaker places a chair beneath the tree, carries it inside after the wind lifts leaves, and the child then follows the song indoors; C gives that sequence (E2.1).",
+        "A also admits a plausible location-specific reading: the song stops being heard in the courtyard as it moves indoors, and the child leaves the courtyard to follow it. That makes the intended key insufficiently unique.",
+        "Defect: multiple_correct_options: Option A can reasonably describe the courtyard sound ceasing as the song moves indoors and the child leaving the courtyard to follow it. Because A does not specify that the song ends altogether, both A and the more explicit C can be defended.",
+        "Defect: missing_decisive_assumption: option A is correct if The courtyard song stops being heard there as it moves indoors, and the child leaves the courtyard to follow that same song.",
+        "Condition implied_decisive: In option A, “song stops” is read as the song ending altogether, rather than its courtyard sound ceasing as it moves indoors; “child leaves” is read as leaving the courtyard to follow it."
+      ],
+      "route": "passage"
+    }
+  ],
+  "cost": {
+    "settled_usd": 1.168724,
+    "held_usd": 0.026384,
+    "gross_usd": 1.195108,
+    "receipt_complete": false,
+    "provider_invoices": "not obtained"
+  },
+  "release": "paused",
+  "basis": "Full current academic contract run, including the registered fixture-family envelope correction. No printed question, key, source, blind view, prompt, expected label or observed academic outcome was edited after fit evaluation.",
+  "limitations": [
+    "64 independently source/key audited positive roots with shared documents and 32 derived correlated controls; counts are not independent statistical observations.",
+    "12 intended valid roots failed; three Business Studies fixtures carried numerical route metadata despite non-numerical printed questions. Those failures remain in the denominator.",
+    "81.25% valid retention is below the 85% release policy threshold for this set alone. A complete current-contract regression and formal combined assessment are still required.",
+    "Zero accepted controlled defects does not establish perfect accuracy."
+  ],
+  "publication_writes": 0
+}

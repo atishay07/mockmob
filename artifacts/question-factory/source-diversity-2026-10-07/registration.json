@@ -1,0 +1,557 @@
+{
+  "at": "2026-10-07T04:43:17.303Z",
+  "new_documents_this_run": [],
+  "all_registered_documents": [
+    {
+      "id": "oxford-quality-ambiguous",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "b139829d3f3bba1c0efd3bf7767dbab50739d2c8f612cd6362cea370a23dd39e",
+      "supports": {
+        "definition": "180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8"
+      }
+    },
+    {
+      "id": "oxford-quality-resilient",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/resilient",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "9ae37cf1d78cf02c3910d26696775c981425d0f497cc5f18a02cbc39689e4ccb",
+      "supports": {
+        "definition": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+      }
+    },
+    {
+      "id": "oxford-quality-plausible",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/plausible",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "3a61a81e18163e80d781d894b1715007384c6fe868c475b0380ba9dfbc863271",
+      "supports": {
+        "definition": "831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763"
+      }
+    },
+    {
+      "id": "oxford-quality-assertive",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/assertive",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "88f0341e9864b671f544d491279ef3ad7590e272f4940e87d6a103474e8a5ce0",
+      "supports": {
+        "definition": "56b3bf779e12e979b1285e68387ccaab86e7f0ff80316e8e287bcc011745fcb2"
+      }
+    },
+    {
+      "id": "oxford-quality-sceptical",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "5f691494e19cc00610b5af30299eca4c3034c26ecf9250db06a78b96ce2d27d1",
+      "supports": {
+        "definition": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf"
+      }
+    },
+    {
+      "id": "oxford-quality-conscientious",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/conscientious",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "c48b855e2e6692cc22d5e129ec7eb42383e1dc3ef3a03a247956f365f8514603",
+      "supports": {
+        "definition": "a35e92e227cb43005089981123210283d75761f07e4a6275aa84e91331c8ff98"
+      }
+    },
+    {
+      "id": "oxford-quality-versatile",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/versatile",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "2dfc82f272b799828396460dd8d49e02cdf1c943e0eb2b13a19d949be3adeebe",
+      "supports": {
+        "definition": "6f64d8b5df1e19607dfeb2c359da94b7aaa823bb2b57946f83d36b7451db098b"
+      }
+    },
+    {
+      "id": "oxford-quality-reluctant",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/reluctant",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "2a8cd43310c86bd75372791b69e34d298e98123ffb180760eb132ab0bde131ec",
+      "supports": {
+        "definition": "f75b1d16b75cb4413e21a255fb7ecd57955b0b6caa09a18ac6f96815a691a972"
+      }
+    },
+    {
+      "id": "oxford-quality-sporadic",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sporadic",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "22b01d12c7552af7fc399ad41dea584f9ca9c1d15bf210bd62e3f0fac2b6bd86",
+      "supports": {
+        "definition": "a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12"
+      }
+    },
+    {
+      "id": "oxford-quality-vigilant",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "80bcc81994d24be2ce1e2f17f1c51e4cb87af74c252bce25ae177383bf90e72b",
+      "supports": {
+        "definition": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+      }
+    },
+    {
+      "id": "oxford-quality-indifferent",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/indifferent",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "981f94b56870ace01e6ce9c452e0c43e4440c7d1b261693b5e8790a44c72587c",
+      "supports": {
+        "definition": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+      }
+    },
+    {
+      "id": "oxford-quality-discreet",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/discreet",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "f9624a62635d25dcd85596bd7e95be3628547f80607e8cb4398ef77eb93edd5a",
+      "supports": {
+        "definition": "b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652"
+      }
+    },
+    {
+      "id": "oxford-quality-inquisitive",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "08dac78797ea1ab40131d5fe724ce1f11ef79bd87c4555291b4f0c48cedd4e0a",
+      "supports": {
+        "definition": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c"
+      }
+    },
+    {
+      "id": "oxford-quality-optimistic",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/optimistic",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ],
+      "identity_sha256": "1795be7545a2b1ed1dc9757be54dacf11c2b7b07d10a607304d31f31c2c28809",
+      "supports": {
+        "definition": "ebdb74c34f036bbc994262381a18d7b5d649c39faa98a5e76b2056a693eacda9"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "29fc5fba377b6cf91e65653a10aad806278e8c4c10083be3adb9ab0b97f3c50f",
+      "supports": {
+        "stimulus": "f9eb0805a5e7fd60e096492a9e51761e4080959e37329b7af51aa7d78001057e"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "7d6b9fca8118cab98864a52f8afbe080cbb80e3bb82d681936e7d411a55e7103",
+      "supports": {
+        "stimulus": "ed36d8aa4d17deb79410fc5b1e8bf631b7ba1deba98d0c407052d52169d9b8d7"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "a621682b36917d6d7712146af84c9df2a19d59c86c9bcc59354785a94aa3504a",
+      "supports": {
+        "stimulus": "68a47e790a83674e179726c7194e6c103cb230536fa0565ae7adc1a95f9e3c05"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "e791bc1237b527d4f6043d02bb0342632ac42ce5c44c9d2d5097a9d0c920a272",
+      "supports": {
+        "stimulus": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1c50ae82eadd1e146363",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "2ebdb1f42e06bae78c6614a31b8e108dd9b3141168965f4d1cc1afa3067f2747",
+      "supports": {
+        "stimulus": "55922040766b35e1f5ad79e96636a73379038cc68c9e335a49df89306b6f424a"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "c1eefe0760ebf1c36596942fe4e72c1c04cd6bb5768692eec7fc6144a3550602",
+      "supports": {
+        "stimulus": "7bcc4b407053c94c173fd0b1ed18bc8a332656575b186c1a067f1fab0b7fff64"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "0cc1bb41e56c8ff6dd60acb2db4125d0262f05f45aee5ac2f29159edb36b5305",
+      "supports": {
+        "stimulus": "d0029585f1fde6bd791626341161762de0494b524bf645f6661b5b34a835d3e1"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1db049ea642cfdc07dd9",
+      "chapters": [
+        "Factual Passage"
+      ],
+      "identity_sha256": "2daa40e1d54bc9167e846339a93ebe7457940bab49db118fe6b882d5b7d857a3",
+      "supports": {
+        "stimulus": "a5702009034b3a99ee0d5d7e2d526e6a6204e42a1580316c555cdd68018cdec2"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-510f9bbd4bc64432d387",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "378ec7b72b076a0e1d28d14ffdd3e9a4f3717689bc431713d477a1d17378daa4",
+      "supports": {
+        "stimulus": "598368bb567b59917744e7ddc9e34aad18afcfb3b693e0a57c57f83b74028098"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-472847ac635002331231",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-472847ac635002331231",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "c4568a82a0187f0be58e04a1a53653c5ff760ec329351abab14155ea1802c903",
+      "supports": {
+        "stimulus": "903b172712fbfe33f3f16786378fca32047760589ea629a829e6114191d7af3f"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "da44127f40382c73451f019091b4a4b8edcffb9dae9a6e8fdef7e27b041ec6f5",
+      "supports": {
+        "stimulus": "fb5531a74c9398346ac00088ca53cda101e03a285a835245d149fc4e2af7c5d9"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-1aac0ed9ae1a8577192d",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "7aa8712d3e7883b7adf6fc40bfd98e99991c80e33867c747d257d9ad28326aed",
+      "supports": {
+        "stimulus": "c817ea208da28c6f48eae7f433bef7a34772b0e2323f61b8821b32909d2583c5"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c63fbc9fa21c99a84fed",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "ced4d81fed67b80496cc074ffa096c5ac542ad19dffcb3ad67ad6ab3a256f70d",
+      "supports": {
+        "stimulus": "bb99b0c7d0fe496355c1777e471e9486779643b882e503bfb98ebb724742e93c"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-91c02ffcf8f4941d3485",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "9eb87303fed7258a12e568964a83126eef566e4602c4f37af0c5fe507d036022",
+      "supports": {
+        "stimulus": "02a0102fbd48401ae4146deaf61d41cc04ea616a344967cbeb158fe1ceea9418"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-417811c0a74bd16691b0",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "4d9e138ecce77d93e0a8f7e504fed778263f83b8a2cc2128b0cfe5cfade905ae",
+      "supports": {
+        "stimulus": "9d1eab24da7237b812d5405a2f6d3aa60a68ea647b7a3e12a8681bc0384fa841"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-2217e25a7820dee25623",
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "identity_sha256": "dcf52dc5058d1e170c1787b25439c1815ca962114c1ac822a2e8060b166786e4",
+      "supports": {
+        "stimulus": "afe8e00b04308152e3f35f549a378d77e82ceffce7a96f350c236145ba896f0e"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "98817379dfbe6a5c32610dcaa97550cc404514379b51db24a5dbac87fd69db51",
+      "supports": {
+        "stimulus": "4353d4dcc03f6ba051c2df95fa98882ff2a85deb0a291a734d8e44bfdadaa731"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "27014215ea5b684bd1a68734c4a38ee1ab20c00207068469283f43b18209eebe",
+      "supports": {
+        "stimulus": "a3e7490cf190bccb8e701e4c769a23c8f1547c9b0f4dd3eb400a484f4406a75c"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "0e83481a664384bf53796a9bf7d5bc3c6a5555045d769c4797e50a6ad0d2b6ba",
+      "supports": {
+        "stimulus": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5bccc0efd63fcfe655b6",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "21c8b49eb22951ecd46a28e5a607aab673b4425ab992a46e6d8f2af5edf0203a",
+      "supports": {
+        "stimulus": "4d7abbd2322d13e852ad34a316fecccdbe14ae531343f6d4d53db87a1a1b1dd9"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-05bbe6744d361ebf1979",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "b9a221e96d0d9cd54de3dff87778fd42c8163c51c37b0217ad8f767d259cd622",
+      "supports": {
+        "stimulus": "15a2072b2bca0ff612d61f3fcdfabb3884b15fa0ab1f8346755a4a1d235b90c4"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "3906de556c93c0e8553903e4b8aa9ce39c0ab8a14f51da9053a8e62031102daa",
+      "supports": {
+        "stimulus": "0f66e0dbff5a4e5e9269650d4bb06e3a1f0a896ffc07462a1a4c3802b43bf675"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d2844000ff163a362bd2",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "72570040992ad9e3613c938c3736a946be1cfebb25c36ab38e532ee8ef6c0d9a",
+      "supports": {
+        "stimulus": "83b1895dac0ad4a745503e778c548646ec1d695bee9bf95b07329718f8a6b167"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-b064a6420839abc60456",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b064a6420839abc60456",
+      "chapters": [
+        "Literary Passage"
+      ],
+      "identity_sha256": "92f9c510d54fcf152f91b90c1ee21eba3588fb8902406920d1912bde8676057e",
+      "supports": {
+        "stimulus": "ad9f114bfaa30f3a58f44d30b90ba0fb517913165552eb1a21c9aafebfe5ef6e"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "9e3faab0de9d83c7149543e1249676f07ab11fa5e56c080e9cedb8491170c425",
+      "supports": {
+        "stimulus": "471f4627f60fd619c43eeb876b3b0211e2697610f28d9c9dd9482635a2a3a4e9"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "45c6ac59d256a5a110e3ffbc87f55a05d2483d3f73a43beea5194ed1c381e199",
+      "supports": {
+        "stimulus": "4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-4efcc3a591240675bfbb",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-4efcc3a591240675bfbb",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "7d7eee045637f16b1879aee623b354bfe5af1fa0afa47f6d2e0fb5af0fcabedf",
+      "supports": {
+        "stimulus": "a80addc11e4144c89de2cff208bba2bba678e1e01a1f3bdc3060d7fa3d3f7c57"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "21ecb1b540e1735a1b7b1688b457bebd87e02ccb34c6fdde67d6b07489e2f448",
+      "supports": {
+        "stimulus": "33c6d52009bfb0888e83a8fc43f46a47bd7cb357f3b16edda4fad64ad20cb00b"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "b56d71bcca201c0041b9c85540d6df7cd981686f01c71b7bda4bfe2adf284fe0",
+      "supports": {
+        "stimulus": "917b0bbf6103e224c68c5f54c9c150eadba4fc80eb43b7d05401b1d20f739e21"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "3253a786643c34945305e6f41b736bb7b8b58ee6aac87e0fe538aee08cb39365",
+      "supports": {
+        "stimulus": "108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-357c4b58483657c5c82a",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-357c4b58483657c5c82a",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "a1cbc10fcad5c743279051cf11fa973490917df4239fc9ccd46ce0579d2fff04",
+      "supports": {
+        "stimulus": "1765d61ca1c170c01d374c041ab97ad15638c9b77eacb331054b20de6cbe3360"
+      }
+    },
+    {
+      "id": "mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "chapters": [
+        "Para Jumbles"
+      ],
+      "identity_sha256": "45b5fbb82f19560a75758372dc87bb00da88ebc88a029b5835d47d13c8b61c71",
+      "supports": {
+        "stimulus": "228f37c6b99bceb5f777469158f0bf51ae731bc58d0b05b83c3bdfbdf7e3406d"
+      }
+    }
+  ],
+  "paid_requests": 0,
+  "existing_sources_unchanged": true,
+  "benchmark_basis": "Existing dated sample; newly retrieved vocabulary and original fictional stimuli are checked independently per candidate and are not fresh benchmark evidence."
+}

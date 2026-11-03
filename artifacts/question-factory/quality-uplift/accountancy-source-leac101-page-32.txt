@@ -1,0 +1,39 @@
+32 Accountancy – Partnership Accounts
+Do It Yourself
+Kavita and Lalit are partners sharing profits in the ratio of 2:1. They decide to admit
+Mohan with share in profits with a guaranteed amount of Rs. 25,000. Both Kavita
+and Lalita undertake to meet the liability arising out of Guaranteed amount to
+Mohan in their respective profit sharing ratio. The profit sharing ratio between Kavita
+and Lalit does not change. The firm earned profits of Rs. 76,000 for the year
+2006–07.Show the distribution of profit amongst the partners.
+1.7 Past Adjustments
+Sometimes a few omissions or errors in the recording of transactions or the
+preparation of summary statements are found after the final accounts have been
+prepared and the profits distributed among the partners. The omission may be
+in respect of interest on capitals, interest on drawings, interest on partners’ loan,
+partner’s salary, partner’s commission or outstanding expenses. There may also
+be some changes in the provisions of partnership deed or system of accounting
+having impact with retrospective effect. All these acts of omission and commission
+need adjustments for correction of their impact. Instead of altering old accounts,
+necessary adjustments can be made either; (a) through ‘Profit and Loss
+Adjustment Account’, or (b) directly in the capital accounts of the concerned
+partners. This is explained with the help of following example.
+Rameez and Zaheer are equal partners. Their capitals as on April 01, 2015
+were Rs. 50,000 and Rs. 1,00,000 respectively. After the accounts for the financial
+year ending March 31, 2016 have been prepared, it is discovered that interest at
+the rate of 6 per cent per annum, as provided in the partnership deed has not
+been credited to the partners’ capital accounts before distribution of profit. In
+this case, the interest on capital not credited to the partners’ capital accounts
+works out to be Rs. 3000 (6/100 × Rs. 50,000) for Rameez and Rs. 6,000
+(6/100 × Rs. 1,00,000) for Zaheer. Had the interest on capital been duly provided,
+the firm’s profit would have reduced by Rs. 9,000. By this omission, the whole
+amount of profit as per Profit and Loss Account (without adjustment of Rs.
+9,000) has been distributed among the partners in their profit sharing ratio,
+and the amounts of interest on capital have not been credited to their capital
+accounts. This error can be rectified in any of the following ways;
+(a) Through Profit and Loss Adjustment Account
+(i) Profit and Loss Adjustment A/c Dr. 9,000
+To Rameez’s capital A/c 3,000
+To Zaheer’s capital A/c 6,000
+ (Interest on capital)
+Reprint 2026-27

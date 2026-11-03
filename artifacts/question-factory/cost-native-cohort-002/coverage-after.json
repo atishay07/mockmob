@@ -1,0 +1,3957 @@
+{
+  "contract": "syllabus-usable-inventory-v1",
+  "baseline": "CUET UG 2026, provisional for 2027; four options, +5 correct, -1 incorrect, 0 unanswered, 50 questions, 60 minutes, 250 maximum raw marks",
+  "final_2027_rules_verified": false,
+  "inventory_at": "2026-10-07T05:55:37.052Z",
+  "inventory_hash": "e23aab20fc1c5b28cabd18337964d42eb5d084fa7bc3f724c1830c5e4e7e5e10",
+  "total_usable": 103,
+  "excluded": {},
+  "cells": [
+    {
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "topic": "Factual Passage",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "reading_comprehension": 2
+      },
+      "difficulties": {
+        "easy": 2
+      },
+      "ideas": [
+        {
+          "id": "214d5d62a815697a1055a9956c8b9cde",
+          "body": "What did the librarian propose doing before deciding whether to continue the programme?",
+          "concept_id": "factual_passage_identifying_stated_proposal",
+          "fingerprint": "68159d777b83151becfb7ca66d57bae796f02889874c2cd2fc4b93006a264ca8"
+        },
+        {
+          "id": "54c8469794935f5493fe018c477dcf61",
+          "body": "Why did the librarian propose discussing a few notes with students before deciding whether to continue the programme?",
+          "concept_id": "english_factual_passage_inference_about_evidence",
+          "fingerprint": "cce29a6cf3f5d63d2bf185b373adde5e0a99000b5e1e0d150c1708f43196f5af"
+        }
+      ],
+      "topics": [
+        {
+          "id": "880cc83da90f951dca5f",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "214d5d62a815697a1055a9956c8b9cde",
+          "tags": [
+            "Reading comprehension: factual passage; retrieval of an explicitly stated proposal",
+            "Reading Comprehension - Factual Passage"
+          ],
+          "format": "reading_comprehension",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "54c8469794935f5493fe018c477dcf61",
+          "tags": [
+            "Reading Comprehension: Factual passage",
+            "Reading Comprehension - Factual Passage"
+          ],
+          "format": "reading_comprehension",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "topic": "Narrative Passage",
+      "branch": null,
+      "usable": 3,
+      "formats": {
+        "reading_comprehension": 3
+      },
+      "difficulties": {
+        "easy": 3
+      },
+      "ideas": [
+        {
+          "id": "1ed8f3fc9f348753fa08672cfd1d439d",
+          "body": "After deciding she could reach home in time if she left immediately, what did Mira do?",
+          "concept_id": "english_reading_comprehension_narrative_sequence",
+          "fingerprint": "5666a217dadb498e46e37208976d4fbf16f14bb62e1258c6c62733345953b477"
+        },
+        {
+          "id": "351b2b5fbb84714d8487272b58aec6df",
+          "body": "What did Mira do when rain began during the journey home?",
+          "concept_id": "narrative_reading_comprehension_explicit_detail",
+          "fingerprint": "fc365367a9ecefd9ced826720e63f751502d3f5904fd6a747e77cac10eede05e"
+        },
+        {
+          "id": "a9417080710f69ccf49d5ae0ed8c43c9",
+          "body": "Why did Mira remain at the workshop until the radio’s wooden case was ready?",
+          "concept_id": "english.narrative.inference_of_character_motive",
+          "fingerprint": "de1c36a264f84efa68d7ee27ae1b99f228869616090548df8d8ce2a5a9e53100"
+        }
+      ],
+      "topics": [
+        {
+          "id": "9a8e2f736bdc555d7362",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "1ed8f3fc9f348753fa08672cfd1d439d",
+          "tags": [
+            "Reading Comprehension: narrative passage—explicit detail and event sequence",
+            "Direct detail / chronological sequence comprehension"
+          ],
+          "format": "reading_comprehension",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "351b2b5fbb84714d8487272b58aec6df",
+          "tags": [
+            "Reading comprehension: retrieving an explicitly stated action from a narrative passage",
+            "Reading Comprehension: Narrative Passage"
+          ],
+          "format": "reading_comprehension",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a9417080710f69ccf49d5ae0ed8c43c9",
+          "tags": [
+            "Reading comprehension: identifying a character’s reason or motivation in a narrative passage",
+            "Reading Comprehension: Narrative"
+          ],
+          "format": "reading_comprehension",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "topic": "Literary Passage",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "608a13cd27c015c0aa71",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Para Jumbles",
+      "topic": "Para Jumbles",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "sequence_ordering": 2
+      },
+      "difficulties": {
+        "medium": 2
+      },
+      "ideas": [
+        {
+          "id": "44a68c3a74bc36acd586a1e1c13e39b5",
+          "body": "Rearrange the following sentences to form a coherent paragraph.\n(A) The verb phrase is the other of these parts.\n(B) Both categories named above belong to the structure of every English clause.\n(C) Every English clause has at least two parts.\n(D) Among these parts, the noun phrase is the subject.\nChoose the correct sequence from the options given below:",
+          "concept_id": "english.para_jumbles.sequence_ordering",
+          "fingerprint": "22408cb423484f39957ec9004d33e1675be715869088f4ea726febb4b27a0905"
+        },
+        {
+          "id": "7d10fc7f53286803800ad017f85322cc",
+          "body": "Arrange the following sentences to form a coherent paragraph.\n(A) This identification illustrates the two-part structure stated at the beginning.\n(B) In it, “He” is the noun phrase (subject), while “acceded to demands for his resignation” is the verb phrase.\n(C) All clauses in English have at least two parts: a noun phrase (subject) and a verb phrase.\n(D) For instance, consider the clause “He acceded to demands for his resignation.”\nChoose the correct sequence from the options given below:",
+          "concept_id": "english.para_jumbles.sequence_ordering",
+          "fingerprint": "626b6347801cded4a6555f36f5c59a66d859ce7d7c34e91b8c8db70474e5033b"
+        }
+      ],
+      "topics": [
+        {
+          "id": "5cbbdd24eb728ea418d6",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "44a68c3a74bc36acd586a1e1c13e39b5",
+          "tags": [
+            "Verbal Ability: rearranging sentence parts to form a coherent paragraph",
+            "Rearranging the parts to form a coherent paragraph"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "7d10fc7f53286803800ad017f85322cc",
+          "tags": [
+            "Rearranging parts of text into a coherent sequence (sentence ordering)",
+            "Rearranging the parts"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "chapter": "Match the Following",
+      "topic": "Match the Following",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "matching": 2
+      },
+      "difficulties": {
+        "easy": 2
+      },
+      "ideas": [
+        {
+          "id": "13f2d5542173e339abc4c88ea18bddbd",
+          "body": "Match List-I with List-II. Each entry in List-I is to be matched with one entry in List-II, and each entry in List-II is to be used once.\n\nList-I\n(A) Benevolent\n(B) Candid\n(C) Coherent\n(D) Concise\n\nList-II\n(I) Giving only the information that is necessary and important, using few words\n(II) Logical and well organised; easy to understand and clear\n(III) Kind, helpful and generous\n(IV) Saying what you think openly and honestly; not hiding your thoughts\n\nChoose the correct answer from the options given below:",
+          "concept_id": "english-vocabulary-word-meanings",
+          "fingerprint": "3bb9a6f76f56d6c4b2a5abc43f255c3ca7ef36531cafa77cc888a703c58f516c"
+        },
+        {
+          "id": "a703edc635378894e7004a8d408f429f",
+          "body": "Match each situation in List-I with the word in List-II that best describes it. Each word in List-II is to be used once.\n\nList-I\n(A) Mira’s report contains only the essential points.\n(B) Dev states his opinion openly and does not hide it.\n(C) The ideas in the explanation are arranged logically and are easy to understand.\n(D) Ravi is kind to others and readily offers help.\n\nList-II\n(I) Benevolent\n(II) Candid\n(III) Coherent\n(IV) Concise\n\nChoose the correct answer from the options given below:",
+          "concept_id": "english_vocabulary_word-meaning-in-context",
+          "fingerprint": "2a0ba52d80389dd28bd789433681aee5878f28a04a519c794ed5f93617565dfd"
+        }
+      ],
+      "topics": [
+        {
+          "id": "a4ea0561c714f85a03e5",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "13f2d5542173e339abc4c88ea18bddbd",
+          "tags": [
+            "Matching the meanings of benevolent, candid, coherent, and concise",
+            "Word meanings and definitions"
+          ],
+          "format": "matching",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a703edc635378894e7004a8d408f429f",
+          "tags": [
+            "Matching words describing qualities with contextual descriptions",
+            "One-word substitution / Vocabulary definitions"
+          ],
+          "format": "matching",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "topic": "Vocabulary",
+      "branch": null,
+      "usable": 10,
+      "formats": {
+        "synonym": 6,
+        "antonym": 2,
+        "vocabulary_meaning": 1,
+        "contextual vocabulary": 1
+      },
+      "difficulties": {
+        "easy": 3,
+        "hard": 2,
+        "medium": 5
+      },
+      "ideas": [
+        {
+          "id": "31c9b04448450069518088901c9cc5ba",
+          "body": "Choose the option closest in meaning to \"prudent\" in the sentence below.\nBefore approving the proposal, the treasurer took a prudent approach, weighing possible risks carefully.",
+          "concept_id": "english.vocabulary.synonyms.prudent",
+          "fingerprint": "f062f5e64a13f99ab72dcc47c92517dc378e901150453575814e753d22486d5c"
+        },
+        {
+          "id": "34187742884e82ff04925abfef8b10d4",
+          "body": "Although Leena was resolute in carrying out her plan, she had been prudent in choosing it: she considered her options and avoided unnecessary risks. Which phrase is opposite in meaning to \"prudent\" as used here?",
+          "concept_id": "vocabulary.antonyms.contextual",
+          "fingerprint": "2a0456e8eb85b06f3049e2cdcc71ff5958ce41b6fa0b183a9264f58a15af9efc"
+        },
+        {
+          "id": "35150358022dec606938893ff263c005",
+          "body": "Choose the phrase closest in meaning to \"benevolent\".",
+          "concept_id": "english_vocabulary_synonyms",
+          "fingerprint": "d1f894ad82e134ff9043fdd519e65ef7b7a99b81c95d6cb462a88596fced6677"
+        },
+        {
+          "id": "5bb3304243eced3f7921751972122d75",
+          "body": "A caterer prepares only the quantity of food needed for a meal, and its use of food is described as “frugal”. Which phrase expresses an antonym of “frugal” in this context?",
+          "concept_id": "vocabulary.antonyms.frugal",
+          "fingerprint": "806bb10377944d26348de39e2961cb9c8a96a7d21713932aa8181b2acbeb8c20"
+        },
+        {
+          "id": "969087a9352795113be2bda8def8d501",
+          "body": "Choose the word closest in meaning to \"arrogant\".",
+          "concept_id": "english.vocabulary.synonyms.arrogant",
+          "fingerprint": "0393f24ab38999c6b3f2c2a66e961e931bfa666fc04fe3511b45e6685d7020ee"
+        },
+        {
+          "id": "9fb19b37af88e3fd26211399a702a68e",
+          "body": "Choose the word that means \"not supporting one person or group more than another\".",
+          "concept_id": "vocabulary_synonyms_impartial",
+          "fingerprint": "69eb3d761b50b1bd036981691dfb600d5cd89750858be5224d70ecfda01615fc"
+        },
+        {
+          "id": "a9cda88616d00ec5cc2ab6ec076e9b9e",
+          "body": "Choose the word closest in meaning to \"conspicuous\" in the sentence below.\nThough the room was decorated in muted colours, the large gold clock above the doorway remained conspicuous.",
+          "concept_id": "english.vocabulary.synonym.conspicuous",
+          "fingerprint": "2ffd970e6587c23e01dba67e08497e5add11b6087470ffd9791d1885440be4c7"
+        },
+        {
+          "id": "bd8a43c8a3249bdd23757022b51c6607",
+          "body": "In the sentence, \"Mira was diligent in carrying out her assigned duties,\" which phrase is closest in meaning to \"diligent\"?",
+          "concept_id": "english.vocabulary.synonyms.diligent",
+          "fingerprint": "75cf8a1b4a8bbef604cb6c6a08949c9be671f42c59df71441a71b4930bcff39b"
+        },
+        {
+          "id": "c46788496fede6ef21510a83b0c8a8a4",
+          "body": "An editor prepares two notices. Both are logical and well organised, prepared with equal care, and equally easy to see. The first gives only the information that is necessary and important, using few words. The second adds repeated wording and nonessential details. Which word names the first notice’s quality of giving only necessary and important information in few words, a quality the second lacks?",
+          "concept_id": "english_vocabulary_antonym_concise",
+          "fingerprint": "ce486e144ff9be1d4caa7ef12b7c6a0f31bc5220b480285a8a83ffb70ddd4221"
+        },
+        {
+          "id": "eeafcc925d5f01368aa1ffd21cde6e13",
+          "body": "Which word is closest in meaning to \"hostile\"?",
+          "concept_id": "vocabulary.synonyms.hostile",
+          "fingerprint": "2d3371ed2761a581e7b13ef8ba8e006ce3345abebec4a67ee193317799a7acb9"
+        }
+      ],
+      "topics": [
+        {
+          "id": "fc907ec7460c47bf8cf5",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 4,
+          "formats": {
+            "antonym": 1,
+            "synonym": 3
+          },
+          "difficulties": {
+            "hard": 1,
+            "medium": 3
+          }
+        }
+      ],
+      "topic_unclassified": 6,
+      "validated_topic_observations": [
+        {
+          "id": "31c9b04448450069518088901c9cc5ba",
+          "tags": [
+            "Synonyms: identifying a word’s closest meaning in context",
+            "Synonyms and Antonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "34187742884e82ff04925abfef8b10d4",
+          "tags": [
+            "Synonyms and Antonyms — contextual antonym of “prudent”",
+            "Synonyms and Antonyms"
+          ],
+          "format": "antonym",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "35150358022dec606938893ff263c005",
+          "tags": [
+            "Synonyms and Antonyms — synonym recognition",
+            "Synonyms and Antonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "5bb3304243eced3f7921751972122d75",
+          "tags": [
+            "Synonyms and Antonyms",
+            "Antonyms"
+          ],
+          "format": "antonym",
+          "difficulty": "hard",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "969087a9352795113be2bda8def8d501",
+          "tags": [
+            "Synonyms: identifying the closest meaning of a word",
+            "Synonyms and Antonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "9fb19b37af88e3fd26211399a702a68e",
+          "tags": [
+            "Synonyms and Antonyms: identifying a word from its meaning",
+            "Word meanings / Vocabulary"
+          ],
+          "format": "vocabulary_meaning",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a9cda88616d00ec5cc2ab6ec076e9b9e",
+          "tags": [
+            "Synonyms",
+            "Synonyms and Antonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "medium",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "bd8a43c8a3249bdd23757022b51c6607",
+          "tags": [
+            "Synonyms",
+            "Synonyms and Antonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "medium",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "c46788496fede6ef21510a83b0c8a8a4",
+          "tags": [
+            "Choosing the correct word: contextual vocabulary",
+            "Choosing the correct word"
+          ],
+          "format": "contextual vocabulary",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "eeafcc925d5f01368aa1ffd21cde6e13",
+          "tags": [
+            "Synonyms",
+            "Synonyms"
+          ],
+          "format": "synonym",
+          "difficulty": "medium",
+          "official_topic_assigned": true
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "chapter": "Correct Word Usage",
+      "topic": "Correct Word Usage",
+      "branch": null,
+      "usable": 1,
+      "formats": {
+        "correct_word_usage": 1
+      },
+      "difficulties": {
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "b64d12e2ab797dcdc203ce7264b19de9",
+          "body": "Assume that a report’s key findings are the only information necessary and important. Choose the sentence in which “concise” is used correctly to mean giving only necessary and important information, using few words.",
+          "concept_id": "english.correct_word_usage.concise",
+          "fingerprint": "a40416e5c9620fa06b0feb2c83b567001890f46df7d30093f46c94555917387c"
+        }
+      ],
+      "topics": [
+        {
+          "id": "2dbd86c11e77b16a2ec1",
+          "text": "FOR THE YEAR 2026 CUET (UG) SYLLABUS FOR ENGLISH - 101  Questions from the Language Section will be from the following topics but are not limited to: 1. Reading Comprehension: There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary 2. Verbal Ability a. Rearranging the parts b. Match the following c. Choosing the correct word d. Synonyms and Antonyms SYLLABUS FOR ENGLISH - 101",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "b64d12e2ab797dcdc203ce7264b19de9",
+          "tags": [
+            "Choosing the correct word: using “concise” to describe brief communication of essential information.",
+            "Choosing the correct word"
+          ],
+          "format": "correct_word_usage",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "topic": "Partnership Fundamentals",
+      "branch": "common",
+      "usable": 3,
+      "formats": {
+        "sequence_ordering": 2,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "medium": 2,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "09c85f711cdb03859e7e32faac75a1dc",
+          "body": "Assume a partnership deed provides for interest on capital, but it is omitted from the accounts. The final accounts are prepared and profit is distributed before the omission is discovered. Arrange the following stages of the past adjustment in the correct order:\n(A) Make the correction through the Profit and Loss Adjustment Account or directly in the concerned partners’ capital accounts, without altering the old accounts.\n(B) Prepare the final accounts and distribute the profit.\n(C) Calculate the omitted interest and determine its effect on the distribution already made.\n(D) Discover the omission.\nChoose the correct sequence.",
+          "concept_id": "partnership_past_adjustments",
+          "fingerprint": "a4df857fd2e2d3871200ba14e924d3bd2f9c18556dc4b543e5dd6210fed319a7"
+        },
+        {
+          "id": "3b59e422f1bb829b8427fb3609581aa0",
+          "body": "A partnership firm has no specific agreement among its partners about the distribution of profits. Which rule governs this issue?",
+          "concept_id": "partnership_fundamentals_act_default_profit_distribution",
+          "fingerprint": "9e5444dbf1104a42d75caaa83e69fa44cf8f721bb4fa4000ceafbd76b0bcf7bf"
+        },
+        {
+          "id": "a64910be7fed2e5356a7e3d0838e875e",
+          "body": "A partnership’s Profit and Loss Account has a credit balance representing net profit, and interest on capital is to be allowed. Arrange the following journal-entry steps in the order used to prepare the Profit and Loss Appropriation Account:\n(A) Allow interest on capital: debit Interest on Capital A/c and credit the partners’ Capital/Current A/cs.\n(B) Transfer net profit: debit Profit and Loss A/c and credit Profit and Loss Appropriation A/c.\n(C) Transfer interest on capital: debit Profit and Loss Appropriation A/c and credit Interest on Capital A/c.\nChoose the correct sequence.",
+          "concept_id": "partnership.profit_loss_appropriation.entry_sequence_interest_capital",
+          "fingerprint": "6e11e1a6b823fcd33f0c146d320961c6972bd13cda2fbd1dd6b9a1d75062a2fb"
+        }
+      ],
+      "topics": [
+        {
+          "id": "ab3b09bd7609153e801f",
+          "text": "Nature of Partnership Firm: Partnership deed (meaning, importance).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "15e35363ebd031bad82e",
+          "text": "Accounts of Partnership: Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "09c85f711cdb03859e7e32faac75a1dc",
+          "tags": [
+            "Past adjustments: correcting omitted interest on capital after final accounts and profit distribution",
+            "Past Adjustments"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "3b59e422f1bb829b8427fb3609581aa0",
+          "tags": [
+            "Division of profits among partners when there is no specific agreement",
+            "Provisions of the Indian Partnership Act, 1932 relevant for accounting in the absence of partnership deed"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a64910be7fed2e5356a7e3d0838e875e",
+          "tags": [
+            "Journal entries and their sequence for transferring net profit and recording interest on capital in the Profit and Loss Appropriation Account",
+            "Profit and Loss Appropriation account and related journal entries"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Profit & Loss Appropriation Account",
+      "topic": "Profit & Loss Appropriation Account",
+      "branch": "common",
+      "usable": 2,
+      "formats": {
+        "matching": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "9fabd13b104fe5b4786634cbb8940300",
+          "body": "Match each transaction in List-I with the corresponding journal entry in List-II. In each entry, the account before “To” is debited and the account after “To” is credited. For (A), the Profit and Loss A/c has a credit balance (net profit).\nList-I\n(A) Transfer of net profit from the Profit and Loss A/c\n(B) Allowing interest on capital\n(C) Charging interest on drawings to partners’ capital/current accounts\n(D) Transfer of interest on drawings to the Profit and Loss Appropriation A/c\nList-II\n(I) Interest on Drawings A/c Dr.; To Profit and Loss Appropriation A/c\n(II) Profit and Loss A/c Dr.; To Profit and Loss Appropriation A/c\n(III) Partners’ Capital/Current A/cs (individually) Dr.; To Interest on Drawings A/c\n(IV) Interest on Capital A/c Dr.; To Partners’ Capital/Current A/cs (individually)\nChoose the correct answer from the options given below:",
+          "concept_id": "partnership_appropriation_journal_entries",
+          "fingerprint": "b9d1ceaa175d096f5e91f2871a687a22c266c9073b5a750fac300f77e81376b5"
+        },
+        {
+          "id": "bbdbdcd5c4cedcf788d194dc4f4b2d85",
+          "body": "After the accounts for a year have been prepared and the profit distributed, A, B and C discover that the deed-provided salary to A and interest on capital for all three partners were omitted. The firm decides to correct the omission without altering the old accounts and chooses the direct method rather than a Profit and Loss Adjustment Account. Where should it make the adjustment?",
+          "concept_id": "accountancy_partnership_past_adjustments_direct_capital_adjustment",
+          "fingerprint": "a2a677393beb3d9ded920fec788c4adfa8f236b3da77d9c18160328254fb7c4f"
+        }
+      ],
+      "topics": [
+        {
+          "id": "4761ca91b7a3fb3e08f5",
+          "text": "Nature of Partnership Firm: Partnership deed (meaning, importance).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "aa179a883f56d5448b0a",
+          "text": "Accounts of Partnership: Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "9fabd13b104fe5b4786634cbb8940300",
+          "tags": [
+            "Journal entries for transferring net profit and accounting for interest on capital and interest on drawings through the Profit and Loss Appropriation Account.",
+            "Journal entries relating to Profit and Loss Appropriation Account"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "bbdbdcd5c4cedcf788d194dc4f4b2d85",
+          "tags": [
+            "Past adjustments: correcting omissions discovered after final accounts and profit distribution, using the direct method",
+            "Past adjustments"
+          ],
+          "format": "case_application",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "topic": "Change in Profit Sharing Ratio",
+      "branch": "common",
+      "usable": 5,
+      "formats": {
+        "numerical_calculation": 2,
+        "sequence_ordering": 1,
+        "conceptual_mcq": 1,
+        "matching": 1
+      },
+      "difficulties": {
+        "medium": 4,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "43dba584009752ea6e97144240929090",
+          "body": "Four existing partners, A, B, C and D, share profits in the ratio 1/2 : 1/4 : 1/6 : 1/12. They change their profit-sharing ratio to 13/30 : 3/20 : 13/60 : 1/5, with no partner admitted or retiring. What are the sacrificing ratio A:B and the gaining ratio C:D?",
+          "concept_id": "accountancy.partnership.change_in_profit_sharing_ratio.sacrificing_gaining_ratio",
+          "fingerprint": "9fc67d368c2862330f98a1df2bf9ad98e98e0e1783af0f5c3d74bebbbab61395"
+        },
+        {
+          "id": "a12dd4264482abb0ab67dd85442fb25d",
+          "body": "A firm’s existing partners change their profit-sharing ratio without admitting or retiring a partner. The firm undertakes revaluation of its assets and reassessment of its liabilities. Arrange the following steps in the order in which the revaluation adjustment is completed:\n(A) Transfer the final balance of the Revaluation Account to the old partners’ capital accounts in their old profit-sharing ratio.\n(B) Identify assets and liabilities requiring value changes, including any unrecorded items.\n(C) Record revaluation gains and losses in the Revaluation Account.\n(D) Determine whether the Revaluation Account has a credit or debit balance.\nChoose the correct answer from the options given below:",
+          "concept_id": "accountancy.partnership.revaluation_sequence_on_ratio_change",
+          "fingerprint": "466c55b2217e17713a8672d5a45929484e1c097d95f155607a0ade6c09438e55"
+        },
+        {
+          "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+          "body": "A, B, C and D share profits in the ratio 4:3:2:1. They change their profit-sharing ratio to 2:2:3:3. Each ratio represents the partners’ shares of total profits, in the order A, B, C and D. A partner’s sacrifice or gain is the difference between their old share and new share. What are the sacrificing ratio (A:B) and the gaining ratio (C:D), respectively?",
+          "concept_id": "accountancy.partnership.change_ratio.sacrificing_gaining_ratio",
+          "fingerprint": "fae9a9ebf000346e56f74eafb0b1eaca1eaba262b490bf445908380427914a5b"
+        },
+        {
+          "id": "c9c2fe29f421c2e8eee7c5b8f32ee3e6",
+          "body": "P and Q continue as partners in a firm, with no admission or retirement. They revise their profit-sharing ratio, under which P sacrifices a share and Q gains a share. A goodwill adjustment is required. Which treatment correctly records this adjustment?",
+          "concept_id": "partnership.change_in_profit_sharing_ratio.goodwill_adjustment",
+          "fingerprint": "8164d796e8530c2ad94953ac33784139c115f600312e994ec7cdc423e5e63e1d"
+        },
+        {
+          "id": "cc27a3f506bd16c0aa2a9a9ea6aacb24",
+          "body": "Partners P, Q, R and S change their profit-sharing ratio from 5:4:2:1 to 3:5:1:3, respectively. There is no admission or retirement of a partner. Match each partner with the change in that partner’s share.\nList-I\n(A) Partner P\n(B) Partner Q\n(C) Partner R\n(D) Partner S\nList-II\n(I) Sacrifices 1/12\n(II) Gains 1/12\n(III) Sacrifices 1/6\n(IV) Gains 1/6\nChoose the correct answer from the options given below:",
+          "concept_id": "accountancy.partnership.existing_ratio.sacrificing_gaining_ratio",
+          "fingerprint": "7dcacff6e3d85a05c24e1b9d1dbc8bb334836736223645ed2a64d86532a5efb5"
+        }
+      ],
+      "topics": [
+        {
+          "id": "011fb409989e87cc9415",
+          "text": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "60ea680d219ca0d3b5df",
+          "text": "Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of reserves and accumulated profits.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5e749537589afcbc1f1c",
+          "text": "Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit and Capitalisation methods.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "041939c7f7fb568b053c",
+          "text": "Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, Accounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , Reserves adjustment/distribution of (accumulated profits) and adjustment of capitals.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "798d5f20b90f71b6f79d",
+          "text": "Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of goodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated profits (Reserves) , Preparation of deceased partner’s capital account and his executor’s account, Preparation of Loan Account.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 5,
+      "validated_topic_observations": [
+        {
+          "id": "43dba584009752ea6e97144240929090",
+          "tags": [
+            "Calculating sacrificing and gaining ratios from partners’ old and new profit shares when the existing partners change their ratio.",
+            "Changes in profit sharing ratio among existing partners – Sacrificing ratio and Gaining ratio"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a12dd4264482abb0ab67dd85442fb25d",
+          "tags": [
+            "Revaluation of assets and reassessment of liabilities when existing partners change their profit-sharing ratio; sequence of Revaluation Account treatment.",
+            "Accounting for Revaluation of Assets and reassessment of Liabilities"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+          "tags": [
+            "Change in profit-sharing ratio among existing partners: calculation of sacrificing and gaining ratios from old and new shares.",
+            "Sacrificing ratio and Gaining ratio among existing partners"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "c9c2fe29f421c2e8eee7c5b8f32ee3e6",
+          "tags": [
+            "Goodwill adjustment between sacrificing and gaining partners on a change in profit-sharing ratio",
+            "Adjustment for Goodwill on Change in Profit Sharing Ratio"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "cc27a3f506bd16c0aa2a9a9ea6aacb24",
+          "tags": [
+            "Change in profit-sharing ratio among existing partners: determining each partner’s gain or sacrifice from the old and new shares.",
+            "Sacrificing ratio and Gaining ratio among existing partners"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation",
+      "topic": "Goodwill Valuation",
+      "branch": "common",
+      "usable": 1,
+      "formats": {
+        "statement_selection": 1
+      },
+      "difficulties": {
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "ac76f1ab2669f4bcaaaea5de000b45ba",
+          "body": "Consider the following statements about goodwill under the Average Profits Method:\n(A) Goodwill is calculated by multiplying average past profits by the agreed number of years’ purchase.\n(B) Goodwill is calculated by dividing average past profits by the agreed number of years’ purchase.\n(C) The method is based on the assumption that a new business will not be able to earn profits during its first few years of operations.\n(D) This method always gives the same goodwill value as every other method.\nWhich of the statements given above are correct?",
+          "concept_id": "accountancy.goodwill.average_profits_method",
+          "fingerprint": "30f13224002dc6806735b61ca3ec1a21b4ef30917e8d38d6d049e25eb67cce73"
+        }
+      ],
+      "topics": [
+        {
+          "id": "04db8677eafb297a8a65",
+          "text": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "d333aeaa493731697a89",
+          "text": "Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of reserves and accumulated profits.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "80ab3201fcd7ed3033d1",
+          "text": "Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit and Capitalisation methods.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "14676f9a455981d0b85a",
+          "text": "Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, Accounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , Reserves adjustment/distribution of (accumulated profits) and adjustment of capitals.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "eeedb86721ae8963ac01",
+          "text": "Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of goodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated profits (Reserves) , Preparation of deceased partner’s capital account and his executor’s account, Preparation of Loan Account.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "ac76f1ab2669f4bcaaaea5de000b45ba",
+          "tags": [
+            "Goodwill valuation methods: Average Profits Method, its formula and underlying assumption",
+            "Methods of valuation of goodwill: Average profit method"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "topic": "Admission of Partner",
+      "branch": "common",
+      "usable": 3,
+      "formats": {
+        "sequence_ordering": 2,
+        "statement_selection": 1
+      },
+      "difficulties": {
+        "medium": 2,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "0ce7bd027c7907d5c70f59e2e6346105",
+          "body": "At the admission of a partner, a firm undertakes the following revaluation-related steps. Arrange them in the correct procedural order.\n(A) Transfer the final balance of the Revaluation Account to the old partners’ capital accounts in their old profit-sharing ratio.\n(B) Check whether the recorded assets are shown at their current values.\n(C) Revalue overstated or understated assets, reassess liabilities, and bring any unrecorded assets and liabilities into the books.\n(D) Prepare the Revaluation Account.\n(E) Record gains or losses from the asset and liability adjustments, and the entries for unrecorded items, in the Revaluation Account.\nChoose the correct sequence from the options given below:",
+          "concept_id": "accountancy.partnership.revaluation_sequence_admission",
+          "fingerprint": "e355b8cdfe18c796f3968290352a52f20e959d7e6fdf7080699ae269d2f7c0fa"
+        },
+        {
+          "id": "26e013938707cad0ddca6fab9c51ebce",
+          "body": "In a partnership firm, consider the following statements about choosing a method to value goodwill:\n(A) The existing partners and the incoming partner cannot specifically decide the method.\n(B) The existing partners and the incoming partner may specifically decide the method.\n(C) The incoming partner alone may decide the method.\n(D) The existing partners alone may decide the method.\nWhich statement is correct?",
+          "concept_id": "accountancy.partnership.admission.goodwill.valuation_method_selection",
+          "fingerprint": "95eb4d31bedd5cbdc73c8ac16bfa75493bc0d4b1c02eb8d53ba9f5af54ebe6a4"
+        },
+        {
+          "id": "d22480150b91318da59627780cb695ad",
+          "body": "At the admission of a partner, arrange the following steps in the order described for revaluation of assets and reassessment of liabilities.\n(A) Transfer the balance of the Revaluation Account to the old partners’ capital accounts in their old profit-sharing ratio.\n(B) Prepare the Revaluation Account.\n(C) Ascertain whether assets are shown at current values and reassess liabilities to their correct values.\n(D) Transfer the gain or loss on revaluation of each asset and liability to the Revaluation Account.\nChoose the correct sequence from the options given below:",
+          "concept_id": "accounting_partnership_revaluation_sequence",
+          "fingerprint": "edcd3c8a5cd0b7d8229d8a909ae54dfea5246a868e4b1c0ffc77cb212cf32bab"
+        }
+      ],
+      "topics": [
+        {
+          "id": "04bdd0736a82b5a9cff7",
+          "text": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "ddf60ddf9a79021646fd",
+          "text": "Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of reserves and accumulated profits.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5ae3ece7e4a84fea51ad",
+          "text": "Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit and Capitalisation methods.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "4d7d2824b3860bfd1898",
+          "text": "Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, Accounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , Reserves adjustment/distribution of (accumulated profits) and adjustment of capitals.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "76b27d0baa7a0f87b366",
+          "text": "Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of goodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated profits (Reserves) , Preparation of deceased partner’s capital account and his executor’s account, Preparation of Loan Account.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "0ce7bd027c7907d5c70f59e2e6346105",
+          "tags": [
+            "Revaluation of assets and reassessment of liabilities at admission; preparation and settlement of the Revaluation Account",
+            "Revaluation of assets and reassessment of liabilities"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "26e013938707cad0ddca6fab9c51ebce",
+          "tags": [
+            "Methods of valuation of goodwill: agreement on the method between existing partners and an incoming partner",
+            "Methods of Valuation of Goodwill on Admission of a Partner"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "d22480150b91318da59627780cb695ad",
+          "tags": [
+            "Revaluation of assets and reassessment of liabilities on admission; sequence of Revaluation Account procedures",
+            "Revaluation of assets and reassessment of liabilities"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Retirement & Death of Partner",
+      "topic": "Retirement & Death of Partner",
+      "branch": "common",
+      "usable": 3,
+      "formats": {
+        "matching": 1,
+        "statement_selection": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "easy": 3
+      },
+      "ideas": [
+        {
+          "id": "3d27077cf078b2c9d27c44a98b86feae",
+          "body": "Assume all four items below apply and are attributable to the deceased partner. Match List-I with List-II.\n\nList-I\n(A) Deceased partner’s share of accumulated profits (reserves)\n(B) Deceased partner’s share of accumulated losses\n(C) Interest on the deceased partner’s capital up to the date of death\n(D) Interest on the deceased partner’s drawings up to the date of death\n\nList-II\n(I) Included in the deceased partner’s claim as a share of accumulated profits\n(II) Deducted from the deceased partner’s claim as a share of accumulated losses\n(III) Included in the deceased partner’s claim as interest on capital\n(IV) Deducted from the deceased partner’s claim as interest on drawings\n\nChoose the correct answer from the options given below:",
+          "concept_id": "partnership.deceased_partner_claim_items",
+          "fingerprint": "6428ed73e57508a32c868ffc6bc7b14ac0057638c9fcf9adaa90db89414c1101"
+        },
+        {
+          "id": "d21677fb8e5f18da0e7e7b0debb842a6",
+          "body": "Consider the following statements about the amount due to a deceased partner:\n(A) The partner’s share of accumulated profits is included in the amount due.\n(B) Interest on capital, if applicable, up to the date of death is included in the amount due.\n(C) Interest on drawings, if applicable, up to the date of death is deducted from the partner’s share.\n(D) The partner’s share of a loss on revaluation is added to the amount due.\nWhich of the statements are correct?",
+          "concept_id": "accounting_partnership_deceased_partner_claim_components",
+          "fingerprint": "854e339faa7dbc3f6f5470568e49614674fd3d5f2669fdbfee80aadda8709223"
+        },
+        {
+          "id": "f99d38d2b710dac30b73fa792426f074",
+          "body": "A firm's accounting year runs from 1 January to 31 December. Its last balance sheet was prepared on 30 June, and a partner died on 31 October. Which interval is relevant for accounting for the deceased partner's share of profit or loss, interest on capital and, where applicable, interest on drawings in the partner's claim?",
+          "concept_id": "accountancy.retirement_death.intervening_period_claim",
+          "fingerprint": "af9368189b467b228f0a2662369680d9aacb7b14a55aab9f48cbb8f37d601d00"
+        }
+      ],
+      "topics": [
+        {
+          "id": "a4f0586e39f8e8eacfb6",
+          "text": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "aa9e6acb6b28eff56593",
+          "text": "Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of reserves and accumulated profits.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "4b123d0b9d69be3f0b43",
+          "text": "Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit and Capitalisation methods.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "666f2d5d8a6bbe7ca540",
+          "text": "Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, Accounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , Reserves adjustment/distribution of (accumulated profits) and adjustment of capitals.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "0d6e10f63755cbd3c4c2",
+          "text": "Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of goodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated profits (Reserves) , Preparation of deceased partner’s capital account and his executor’s account, Preparation of Loan Account.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "3d27077cf078b2c9d27c44a98b86feae",
+          "tags": [
+            "Deceased partner’s claim: adjustment for accumulated profits and losses, interest on capital, and interest on drawings.",
+            "Ascertaining the claim of a deceased partner"
+          ],
+          "format": "matching",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "d21677fb8e5f18da0e7e7b0debb842a6",
+          "tags": [
+            "Amount due to a deceased partner: adjustment for accumulated profits, interest on capital and drawings, and revaluation loss.",
+            "Ascertaining the amount due to a deceased partner"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "f99d38d2b710dac30b73fa792426f074",
+          "tags": [
+            "Deceased partner’s claim: profit or loss and applicable interest for the intervening period from the last balance sheet to death",
+            "Ascertaining the Amount Due to Deceased Partner and Share of Profit up to Date of Death"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership Firm",
+      "topic": "Dissolution of Partnership Firm",
+      "branch": "common",
+      "usable": 3,
+      "formats": {
+        "case_application": 1,
+        "numerical_calculation": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "hard": 1,
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "40d8ffd980223cc65286a43053bf04de",
+          "body": "On dissolution, all the firm’s assets have been realised in cash for ₹6,70,000. The firm owes ₹3,20,000 to outside creditors. After those creditors are paid, the only partner advances due are loans of ₹1,20,000 to P and ₹80,000 to Q. Capital claims are ₹1,20,000 for P and ₹1,80,000 for Q, and P and Q share profits equally. There are no other liabilities, realisation expenses, assets, or partner contributions. How much should P receive in total against the partner loan and capital?",
+          "concept_id": "accountancy.dissolution.settlement_priority_and_proportionate_capital",
+          "fingerprint": "1bf62e6b93c1469febe9a725c4d20d2b8eeaaa9e641c981ce34bde71e968daeb"
+        },
+        {
+          "id": "c6f1c8305a2882ca83281c8f223f09e1",
+          "body": "On dissolution, a firm has ₹4,20,000 cash available from realised assets. It owes ₹1,20,000 to outside creditors, ₹2,80,000 as a partner loan to K and ₹1,20,000 as a partner loan to M. These are the only amounts payable, and there are no unpaid realisation expenses or partner contributions. Outside creditors are paid before partner loans, and the remaining cash is insufficient to pay both partner loans in full. How much should be paid to M against his partner loan?",
+          "concept_id": "partnership_dissolution_proportionate_settlement_of_partner_loans",
+          "fingerprint": "fca904a9fb95a8ed7bd3ea0a44dc75fc410b39fe38fb6b27714c8b810a274e80"
+        },
+        {
+          "id": "e4c3e4f72ec627d69a72ab2b5b60f0c9",
+          "body": "Which statement correctly describes the relationship between dissolution of a firm and dissolution of the partnership?",
+          "concept_id": "accountancy.dissolution_firm_vs_partnership",
+          "fingerprint": "f4152613fa2cf9763cfc674654f66a3a7231eed9c015666ed889c49606c17614"
+        }
+      ],
+      "topics": [
+        {
+          "id": "55ed534ff766314dcee0",
+          "text": "Meaning, Settlement of accounts: Preparation of Realisation Account and related Accounts (excluding piecemeal distribution, sale to a company and insolvency of a Partner).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "40d8ffd980223cc65286a43053bf04de",
+          "tags": [
+            "Settlement of accounts on dissolution: order of payment of outside liabilities, partner loans and capital claims.",
+            "Settlement of accounts on dissolution"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "c6f1c8305a2882ca83281c8f223f09e1",
+          "tags": [
+            "Settlement of accounts on dissolution: priority of outside creditors and proportionate repayment of partner loans from realised assets.",
+            "Settlement of Accounts - Application of Assets (Section 48)"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "e4c3e4f72ec627d69a72ab2b5b60f0c9",
+          "tags": [
+            "Meaning of dissolution of a firm and its relationship to dissolution of partnership",
+            "Dissolution of Partnership vs. Dissolution of Firm"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "topic": "Share Capital",
+      "branch": "common",
+      "usable": 6,
+      "formats": {
+        "matching": 2,
+        "statement_selection": 1,
+        "numerical_calculation": 1,
+        "conceptual_mcq": 2
+      },
+      "difficulties": {
+        "medium": 4,
+        "easy": 2
+      },
+      "ideas": [
+        {
+          "id": "50639c77250d95b0d71ad7a78b41ccdf",
+          "body": "A company receives applications for more shares than it offered. Match each description of the directors’ approach or the accounting perspective with the corresponding statement.\n\nList-I\n(A) Some applications are accepted in full and the others are rejected\n(B) A pro-rata allotment is made to all applicants\n(C) The directors combine the two approaches described in (A) and (B)\n(D) Accounting perspective on when and within which process over-subscription is resolved\n\nList-II\n(I) Shares are allotted to all applicants proportionately\n(II) Full acceptance and rejection are used together with pro-rata allotment\n(III) It is resolved with allotment and considered within the application-and-allotment process\n(IV) Selected applications are accepted in full, and the others are rejected\n\nChoose the correct answer from the options given below:",
+          "concept_id": "company_accounts.over_subscription.alternatives_and_resolution",
+          "fingerprint": "fa2db8c456a4963c07f258f7c86e9ef9944895cd0651f9093224fbc2d6692031"
+        },
+        {
+          "id": "6b7095b153eb3669152ea69a91395029",
+          "body": "Consider the following statements about collecting the amount on shares:\n(A) The first instalment collected with the application is called application money.\n(B) The second instalment, collected on allotment, is called allotment money.\n(C) Any remaining instalments are termed calls on shares.\n(D) A company is required to collect the amount on shares in at least three instalments.\n\nChoose the correct answer from the options given below:",
+          "concept_id": "share_capital_collection_stages",
+          "fingerprint": "beeac2c224ef6f3bd954ed0c5ebdf2b6c136007dc3902fb97d283f38d0241fc2"
+        },
+        {
+          "id": "a3c3883cfc9c67446d03d200b89099db",
+          "body": "At the reporting date, a company has received ₹4,80,000 as calls in advance. Before that date, ₹1,80,000 of this amount was adjusted when the related call became due. The company also received a further ₹90,000 in advance for a call not yet due. No other receipts or adjustments affect the Calls in Advance Account. What balance should be shown under current liabilities as Calls in Advance?",
+          "concept_id": "share_capital_calls_in_advance_balance",
+          "fingerprint": "c8ebb3cf81649e05063f53d25383129e8e8fa64428067f3ef3809251e0ffcc29"
+        },
+        {
+          "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+          "body": "A company invites applications for 2,00,000 shares and receives applications for 1,90,000 shares. Which subscription condition is indicated?",
+          "concept_id": "share_capital_under_subscription",
+          "fingerprint": "a26ac259f8cf24ac52c1732689a2f8e04a0be1541683de2b96abfed6c8c4d984"
+        },
+        {
+          "id": "d957911859009012bfb4039c17ce8141",
+          "body": "A company purchases a business from a vendor and settles the entire purchase price by issuing fully paid shares to that vendor. No cash is paid to the vendor. In the same period, the company receives application money in cash from public applicants for a separate share issue. How should the shares issued to the vendor be classified?",
+          "concept_id": "accounting.share_capital.issue_shares_for_consideration_other_than_cash",
+          "fingerprint": "7d0e94f6b38792d99b0a0fcde9e71ca56f4fe93220b5e5314627c7e7f5684cd4"
+        },
+        {
+          "id": "fdafe2a9bcd4bac693681c5e31984a91",
+          "body": "Match List-I with List-II.\n\nList-I\n(A) Authorised capital\n(B) Issued capital\n(C) Subscribed capital\n(D) Called-up capital\n\nList-II\n(I) The amount of share capital a company is authorised to issue by its Memorandum of Association\n(II) The part of authorised capital actually issued to the public for subscription, including shares allotted to vendors and signatories to the company’s memorandum\n(III) The part of issued capital actually subscribed by the public\n(IV) The part of subscribed capital called up by the company for payment\n\nChoose the correct answer from the options given below:",
+          "concept_id": "company_accounts.share_capital.categories",
+          "fingerprint": "e0eeead912df1c05f4e7169972531bd1f34ca349c00dd1b68a9600d96ffe4deb"
+        }
+      ],
+      "topics": [
+        {
+          "id": "db01bf20531f09b2afab",
+          "text": "Features and type of companies.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "822f27c7d74555ee1f35",
+          "text": "Share Capital: Meaning, Nature and Types",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "fdb7d54ee45615e6abf1",
+          "text": "Accounting for Share Capital: Issue and Allotment of Equity and Preference Shares; Over subscription and Under subscription; Issue at par and premium; Calls in advance, Calls in arrears, Issue of shares for consideration other than cash.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "52c31934ae1de7a0da55",
+          "text": "Accounting treatment of Forfeiture of Shares and Re-issue of forfeited shares.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "0cdc3e7e1d832cd8056d",
+          "text": "Presentation of shares capital and Debentures in company’s balance sheet.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "d192458edb6e3a292096",
+          "text": "Issue of Debenture – At par, premium and discount; Issue of debentures for consideration other than cash. Issue of debentures with terms of redemption, Debenture as collateral security- concept, Interest on debentures, writing off discount/Loss on issues of debenture.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 6,
+      "validated_topic_observations": [
+        {
+          "id": "50639c77250d95b0d71ad7a78b41ccdf",
+          "tags": [
+            "Oversubscription: directors’ allotment alternatives and its accounting treatment within the application-and-allotment process",
+            "Over subscription and Under subscription of shares"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "6b7095b153eb3669152ea69a91395029",
+          "tags": [
+            "Stages and terminology of collecting share capital: application money, allotment money, and calls on shares",
+            "Issue and Allotment of Shares"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a3c3883cfc9c67446d03d200b89099db",
+          "tags": [
+            "Accounting for Calls in Advance and their presentation in the company balance sheet",
+            "Calls in advance and presentation in company's balance sheet"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+          "tags": [
+            "Accounting for share capital: identifying under-subscription by comparing shares applied for with shares offered",
+            "Over subscription and Under subscription"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "d957911859009012bfb4039c17ce8141",
+          "tags": [
+            "Issue of shares for consideration other than cash; distinction from cash issues collected at application, allotment or call stages",
+            "Issue of shares for consideration other than cash"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "fdafe2a9bcd4bac693681c5e31984a91",
+          "tags": [
+            "Categories of share capital: authorised, issued, subscribed, and called-up capital",
+            "Share Capital: Meaning, Nature and Types"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "topic": "Debentures",
+      "branch": "common",
+      "usable": 3,
+      "formats": {
+        "case_application": 1,
+        "matching": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "hard": 1,
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "26ed891ba03aee169c2bd2b1f8be2f56",
+          "body": "A company issues 800 debentures of nominal value ₹100 each for ₹112 each, 500 debentures of nominal value ₹200 each for ₹218 each, and 300 debentures of nominal value ₹500 each for ₹506 each. All the debentures are issued for the stated prices, and there are no other adjustments. Which option correctly states the total premium on issue and its balance sheet presentation?",
+          "concept_id": "debentures_issue_premium_presentation",
+          "fingerprint": "adf5097180ba1395f72af6ccaa36f69d7035462e887bdaeaf6778acf7a568d5f"
+        },
+        {
+          "id": "37a8e9413523b30482b6b1577d627f72",
+          "body": "Match List-I with List-II using the terms defined here: an issue price equal to nominal value is at par, above nominal value is at a premium, and below nominal value is at a discount. A redemption amount equal to nominal value is redeemable at par; an amount above nominal value is redeemable at a premium. All amounts are per debenture.\n\nList-I\n(A) Nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,000\n(B) Nominal value ₹1,000; issue price ₹1,100; redemption amount ₹1,000\n(C) Nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,100\n(D) Nominal value ₹1,000; issue price ₹900; redemption amount ₹1,100\n\nList-II\n(I) Issued at par and redeemable at par\n(II) Issued at a discount and redeemable at a premium\n(III) Issued at par and redeemable at a premium\n(IV) Issued at a premium and redeemable at par\n\nChoose the correct answer from the options given below:",
+          "concept_id": "accountancy.debentures.issue_redemption_terms",
+          "fingerprint": "69b21bb2ccfb74b00cd8a5436b9835a2fbfafef9bd6c9405e00b8df86a598fc8"
+        },
+        {
+          "id": "8ff4d57f639a0fba0a49450c382bebe1",
+          "body": "A company issues debentures with a nominal value of ₹100 each for ₹110 each. Considering only the premium on issue, which account is credited with the ₹10 premium per debenture?",
+          "concept_id": "debentures_issue_at_premium_accounting_treatment",
+          "fingerprint": "867e1a613ce014c7e53254413d4c074e3c5d5405ea5119bffe328d48aae91e74"
+        }
+      ],
+      "topics": [
+        {
+          "id": "40a1c5c1f2a15d266421",
+          "text": "Features and type of companies.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "821477a57b3b04fe6630",
+          "text": "Share Capital: Meaning, Nature and Types",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "3cd0b74955f351e9933f",
+          "text": "Accounting for Share Capital: Issue and Allotment of Equity and Preference Shares; Over subscription and Under subscription; Issue at par and premium; Calls in advance, Calls in arrears, Issue of shares for consideration other than cash.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "85a76c97344c98f0f12c",
+          "text": "Accounting treatment of Forfeiture of Shares and Re-issue of forfeited shares.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "a417351d8dff4918fc90",
+          "text": "Presentation of shares capital and Debentures in company’s balance sheet.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "d5ef211f58aa41ffd72a",
+          "text": "Issue of Debenture – At par, premium and discount; Issue of debentures for consideration other than cash. Issue of debentures with terms of redemption, Debenture as collateral security- concept, Interest on debentures, writing off discount/Loss on issues of debenture.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "26ed891ba03aee169c2bd2b1f8be2f56",
+          "tags": [
+            "Issue of debentures at premium and balance-sheet presentation of Securities Premium Reserve",
+            "Issue of Debentures at premium and Balance Sheet presentation"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "37a8e9413523b30482b6b1577d627f72",
+          "tags": [
+            "Classification of debentures by issue price and redemption amount: issue at par, premium or discount; redemption at par or premium.",
+            "Issue of debentures with terms of redemption"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "8ff4d57f639a0fba0a49450c382bebe1",
+          "tags": [
+            "Issue of debentures at a premium and accounting treatment of the premium",
+            "Issue of Debentures at Premium"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "topic": "Financial Statements of Company",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "44cbadec1573ab9f5543",
+          "text": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "de48ef58d237283aa7ed",
+          "text": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "548a41ea32cca1eb2683",
+          "text": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "b7b41de6fbed617b99fd",
+          "text": "Accounting Ratios: Meaning and Objectives and types: Liquidity Ratio, Solvency Ratio, Activity Ratio, Profitability Ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "607af5fa6d92e17d5b49",
+          "text": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "topic": "Analysis of Financial Statements",
+      "branch": "financial_analysis",
+      "usable": 3,
+      "formats": {
+        "statement_selection": 2,
+        "matching": 1
+      },
+      "difficulties": {
+        "easy": 2,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "5d5cbe3a6d01bd317032694801215f21",
+          "body": "Consider the following statements about uses of financial statement analysis:\n(A) Analysis of financial statements of various firms can help an economist judge the extent of concentration of economic power.\n(B) Financial statement analysis can provide a basis for governmental actions relating to licensing, controls and fixing of prices.\n(C) Financial statement analysis provides no basis for government action concerning licensing, controls or fixing of prices.\nWhich of the statements are correct?",
+          "concept_id": "financial_analysis_broader_economic_and_governmental_uses",
+          "fingerprint": "f0804726289d86511afb84e0767e7ff05559f060940a6585e1dafbb86015548e"
+        },
+        {
+          "id": "70f912d32e64083504e6fa5b7527eb83",
+          "body": "Match List-I with List-II.\n\nList-I\n(A) Assess current profitability and operational efficiency to judge the firm’s financial health.\n(B) Ascertain the relative importance of components of the firm’s financial position.\n(C) Identify reasons for a change in profitability or financial position.\n(D) Judge the firm’s ability to repay debt and assess its short-term and long-term liquidity.\n\nList-II\n(I) Which components have greater or lesser importance in the firm’s financial position?\n(II) What explains the change in the firm’s profitability or financial position?\n(III) How able is the firm to repay debt, and what is its short-term and long-term liquidity position?\n(IV) How profitable and operationally efficient is the firm, overall and across its departments, for judging its financial health?\n\nChoose the correct answer from the options given below:",
+          "concept_id": "financial_analysis_purposes",
+          "fingerprint": "8ed7131bb24e4509b01f344ff5be59914a7e9e88dc6d1aa91a84ef4682c3c153"
+        },
+        {
+          "id": "fad9f99b851328f9093bc54706fec9c8",
+          "body": "Consider the following statements about the purposes of financial statement analysis.\n(A) It may assess the current profitability and operational efficiency of a firm as a whole and of its departments.\n(B) It may ascertain the relative importance of different components of the firm’s financial position.\n(C) It may identify reasons for changes in profitability or financial position.\n(D) Its purpose is limited to judging the ability to repay long-term debt and excludes short-term liquidity.\nWhich of the above statements are correct?",
+          "concept_id": "financial_analysis_purposes",
+          "fingerprint": "ac8fa2facd1e07f4ea3046910000cd318cec47437c1279f23842df01b69b8422"
+        }
+      ],
+      "topics": [
+        {
+          "id": "7f9196f6b3989891a60e",
+          "text": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "01b5c86eadc58c4b9ae6",
+          "text": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2a56dfdc775286d5824a",
+          "text": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "ac3eb857037ced3f0b52",
+          "text": "Accounting Ratios: Meaning and Objectives and types: Liquidity Ratio, Solvency Ratio, Activity Ratio, Profitability Ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "f4d8d684b796308870c1",
+          "text": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "5d5cbe3a6d01bd317032694801215f21",
+          "tags": [
+            "Financial analysis: purpose and significance, including uses of analysis for economists and government",
+            "Financial Analysis: Significance and Purpose"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "70f912d32e64083504e6fa5b7527eb83",
+          "tags": [
+            "Financial analysis: meaning, significance, purposes and limitations; purposes of financial statement analysis.",
+            "Financial Analysis: Meaning, Significance, Purpose and Limitations"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "fad9f99b851328f9093bc54706fec9c8",
+          "tags": [
+            "Meaning, significance and purposes of financial statement analysis",
+            "Financial Analysis: Meaning, Significance, Purpose and Limitations"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Comparative & Common Size Statements",
+      "topic": "Comparative & Common Size Statements",
+      "branch": "financial_analysis",
+      "usable": 2,
+      "formats": {
+        "numerical_calculation": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "hard": 1
+      },
+      "ideas": [
+        {
+          "id": "13c8f8cff4c3db04b09070b0d51f8c57",
+          "body": "A company reports the following figures: total assets are ₹24 lakh in Year 1 and ₹15 lakh in Year 2; inventories are ₹5 lakh in Year 1 and ₹4 lakh in Year 2. What percentage of total assets is represented by Year 1 inventories in a common-size balance sheet? Give your answer to two decimal places.",
+          "concept_id": "common_size_balance_sheet_percentage_of_total_assets",
+          "fingerprint": "103e917e5df4b4304682b56f84d9687139221b6bfa8c92bfe106694b6fe77f45"
+        },
+        {
+          "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+          "body": "An analyst is preparing a common-size statement of profit and loss for each year to compare the expenditure structure of two firms of different sizes. The figures are:\nFirm A — Year 1: revenue from operations ₹10,00,000; total expenditure ₹8,00,000. Year 2: revenue from operations ₹16,00,000; total expenditure ₹12,00,000.\nFirm B — Year 1: revenue from operations ₹20,00,000; total expenditure ₹14,00,000. Year 2: revenue from operations ₹24,00,000; total expenditure ₹18,00,000.\nUsing each year's revenue from operations as the base for that year's expenditure percentage, which conclusion is correct?",
+          "concept_id": "common_size_statement_profit_and_loss_expenditure_percentage",
+          "fingerprint": "14f5a47abcdfc446fb43b549cf951286f8e61393277ce69922b6c43defcff9af"
+        }
+      ],
+      "topics": [
+        {
+          "id": "c420b3cc1850d8328ed5",
+          "text": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "df3bab8513a5156ca189",
+          "text": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2c1fff393be4c5ab9179",
+          "text": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "061dab496f73d26f335a",
+          "text": "Accounting Ratios: Meaning and Objectives and types: Liquidity Ratio, Solvency Ratio, Activity Ratio, Profitability Ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "1f84179751c23eef3953",
+          "text": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "13c8f8cff4c3db04b09070b0d51f8c57",
+          "tags": [
+            "Common-size balance sheet: calculating an asset item's percentage of total assets.",
+            "Common Size Balance Sheet"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+          "tags": [
+            "Common-size statement of profit and loss: expenditure as a percentage of revenue from operations and comparison across years and firms.",
+            "Common Size Statements (Preparation and Interpretation)"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "topic": "Accounting Ratios",
+      "branch": "financial_analysis",
+      "usable": 3,
+      "formats": {
+        "matching": 1,
+        "case_application": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "hard": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "627b2213bafa116b0a47eda7bc456b18",
+          "body": "Match List-I with List-II.\n\nList-I\n(A) Activity ratios\n(B) Inventory turnover ratio\n(C) Higher activity turnover ratio\n(D) Low inventory turnover\n\nList-II\n(I) Indicates the number of times inventory is converted into revenue from operations during an accounting period\n(II) May be due to bad buying or obsolete inventory and is a danger signal\n(III) Indicates the speed at which business activities are performed\n(IV) Indicates better utilisation of assets and improved efficiency and profitability\n\nChoose the correct answer from the options given below:",
+          "concept_id": "accounting_ratios.activity_ratio.inventory_turnover_interpretation",
+          "fingerprint": "a856a1e1f00e1649c007a8a89226abbb1b225e9069f82bd95a4b53657a36c541"
+        },
+        {
+          "id": "67fe249b34753b62b0c637326975e001",
+          "body": "Use Inventory Turnover Ratio = Cost of Revenue from Operations ÷ Average Inventory. For the same company, the following figures relate to accounting periods of equal length: Year 1—Cost of Revenue from Operations ₹12,00,000 and Average Inventory ₹1,50,000; Year 2—Cost of Revenue from Operations ₹18,00,000 and Average Inventory ₹1,50,000. In Year 2, the company began selling inventory quickly at a low margin to realise cash. Which conclusion is best supported?",
+          "concept_id": "accounting_ratios_inventory_turnover_interpretation",
+          "fingerprint": "f63ddb99b7fe9b957ecff334c1d921d17ef08fc91cf3c60ad6b5eca1df4c3524"
+        },
+        {
+          "id": "ff04567f8a9895cab31b75daf43c0fa0",
+          "body": "A company reports an inventory turnover ratio of 6 times for an accounting period. What does this figure mean?",
+          "concept_id": "accountancy.accounting_ratios.inventory_turnover_interpretation",
+          "fingerprint": "9170a92114188cc04c0fb62c1a21f622714bd8630ae21edcbed48b7595ec384d"
+        }
+      ],
+      "topics": [
+        {
+          "id": "4bca12d35999ac73ec06",
+          "text": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "db0d12d02dc216f1d20d",
+          "text": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "254d1ceb038146697890",
+          "text": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "494739ef736a3e8b3533",
+          "text": "Accounting Ratios: Meaning and Objectives and types: Liquidity Ratio, Solvency Ratio, Activity Ratio, Profitability Ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2de29b53f17cd8b354ee",
+          "text": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "627b2213bafa116b0a47eda7bc456b18",
+          "tags": [
+            "Activity (turnover) ratios: meaning and significance; inventory turnover ratio and interpretation of low inventory turnover.",
+            "Activity (or Turnover) Ratios: Meaning, Types and Significance"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "67fe249b34753b62b0c637326975e001",
+          "tags": [
+            "Activity ratios: Inventory Turnover Ratio—calculation and interpretation",
+            "Activity (or Turnover) Ratios - Inventory Turnover Ratio and its interpretation"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "ff04567f8a9895cab31b75daf43c0fa0",
+          "tags": [
+            "Activity ratios: inventory turnover ratio and its interpretation",
+            "Activity/Turnover Ratios: Inventory Turnover Ratio meaning and interpretation"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "topic": "Cash Flow Statement",
+      "branch": "financial_analysis",
+      "usable": 2,
+      "formats": {
+        "conceptual_mcq": 1,
+        "sequence_ordering": 1
+      },
+      "difficulties": {
+        "easy": 1,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "774fae6c1244e20f676a2f110fcb1c31",
+          "body": "A company has calculated the aggregate net cash flow (or use) from its operating, investing and financing activities for an accounting period. Which expression gives its cash and cash equivalents at the end of the period?",
+          "concept_id": "cash_flow_statement_closing_cash_and_cash_equivalents",
+          "fingerprint": "ab05c0e00e74510e2cc2667d7b89d77d83836ed5642406cc44d0f04b8b4d5637"
+        },
+        {
+          "id": "b2494ef8327bc904caf3e9b820899501",
+          "body": "In the indirect method, cash flow from operating activities starts with net profit/loss. Since the Statement of Profit and Loss is prepared on an accrual basis and includes non-operating and non-cash items, net profit/loss is adjusted to arrive at cash flows from operating activities. Arrange the following steps in their logical order:\n(A) Adjust net profit/loss for the identified non-operating and non-cash items.\n(B) Begin with net profit/loss.\n(C) Identify the non-operating and non-cash items included in the Statement of Profit and Loss.\n(D) Arrive at cash flows from operating activities.\nChoose the correct sequence from the options given below:",
+          "concept_id": "cash_flow_statement_indirect_method_sequence",
+          "fingerprint": "3a41a545f49ad24b5478004795422cdff38fa9f4524ce7f1ed1ce12281c3291f"
+        }
+      ],
+      "topics": [
+        {
+          "id": "084d2a28c577d185b36f",
+          "text": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e981370a41275528a574",
+          "text": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "cec7bfecf4c06f55e138",
+          "text": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "f82341a2d4598c68d3a2",
+          "text": "Accounting Ratios: Meaning and Objectives and types: Liquidity Ratio, Solvency Ratio, Activity Ratio, Profitability Ratio.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "851cbec7c3c09be218c5",
+          "text": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "774fae6c1244e20f676a2f110fcb1c31",
+          "tags": [
+            "Preparation of a Cash Flow Statement: deriving closing cash and cash equivalents from opening cash and cash equivalents and the net increase or decrease.",
+            "Cash Flow Statement: Meaning and Objectives, Preparation"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "b2494ef8327bc904caf3e9b820899501",
+          "tags": [
+            "Indirect method: sequence for determining cash flows from operating activities",
+            "Preparation of Cash Flow Statement: Indirect Method for Operating Activities"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Computerized Accounting System",
+      "topic": "Computerized Accounting System",
+      "branch": "computerized",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "6526d4af11f709cc7307",
+          "text": "Overview of Concept and Types of Computerised Accounting System (CAS).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "6e3c439b396df9e1df41",
+          "text": "Features of a Computerised Accounting System, Advantages, limitations",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2ce2517268a99241a1cb",
+          "text": "Structure of a Computerised Accounting System: chart of accounts, Codification and Hierarchy of account heads.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "797d10c159bfa463226d",
+          "text": "Accounting information system (AIS).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "b64c5d2595738f8f8df3",
+          "text": "Accounting Applications of Electronic Spreadsheet.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2ad5060e75420b2cd988",
+          "text": "Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in generating accounting information, preparing reports using pivot Table, common errors in spreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "91e9d77888e28ab02dbd",
+          "text": "Graphs and Charts in electronic spreadsheet for Business Data.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "topic": "Nature & Significance of Management",
+      "branch": null,
+      "usable": 3,
+      "formats": {
+        "conceptual_mcq": 2,
+        "matching": 1
+      },
+      "difficulties": {
+        "easy": 1,
+        "hard": 1,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "c33bc6a5b06b390208dfc363cca7f964",
+          "body": "Employees in an organisation may have personal goals, while the organisation has its own objectives. Which management action is identified as promoting harmony between them?",
+          "concept_id": "management_objectives_personnel_objectives",
+          "fingerprint": "4c1c1845e37328e6343d23235023f6e5bcf274f703f7c1863bf25b791d745104"
+        },
+        {
+          "id": "e884107bee4c5b9e2465764755a74f57",
+          "body": "A firm’s employees joined for different reasons: some value competitive salaries, others peer recognition, and others personal growth. The employees are expected to contribute to one common organisational goal. The manager accommodates their differing personal goals and arranges their work so that each person’s effort supports that common goal. Which conclusion best describes coordination in this situation?",
+          "concept_id": "business_studies.nature_significance_management.coordination_nature_importance",
+          "fingerprint": "478e5eb2963382ba754d0424c9b0fd87299fd87ff8de85f6b745ff427196dd46"
+        },
+        {
+          "id": "fc059ff89393bce9fa0aed09439ec5a5",
+          "body": "Match List-I with List-II:\nList-I\n(A) Social objective of an organisation\n(B) Financial need of personnel\n(C) Social need of personnel\n(D) Higher-level need of personnel\nList-II\n(I) Peer recognition\n(II) Personal growth and development\n(III) Creation of benefit for society, including employment opportunities for underprivileged sections\n(IV) Competitive salaries and perks\nChoose the correct answer from the options given below:",
+          "concept_id": "business_studies.management.objectives.social_objective_personnel_needs",
+          "fingerprint": "1ac5e021ac8f5b8716e3363b9c0ae08d16a8863e02b45a2ecda99540c5a17c11"
+        }
+      ],
+      "topics": [
+        {
+          "id": "accf97de4ed38182d40d",
+          "text": "Management – concept, objectives, importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e4b9cbedadae283a2cd4",
+          "text": "Nature of management; Management as Science, Art, Profession.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "38fa522350e739e4f2a6",
+          "text": "Levels of management – top, middle supervisory (First level).",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e995d91556d5edb9b07c",
+          "text": "Management functions – planning, organising, staffing, directing and controlling.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5f4dd13db2a799a2eee4",
+          "text": "Coordination – nature and importance.",
+          "usable": 1,
+          "formats": {
+            "conceptual_mcq": 1
+          },
+          "difficulties": {
+            "hard": 1
+          }
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "c33bc6a5b06b390208dfc363cca7f964",
+          "tags": [
+            "Management objectives: personal objectives and reconciling them with organisational objectives",
+            "Objectives of Management (Personnel objectives)"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "e884107bee4c5b9e2465764755a74f57",
+          "tags": [
+            "Coordination – nature and importance; reconciling personnel objectives with organisational objectives",
+            "Coordination – nature and importance"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "hard",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "fc059ff89393bce9fa0aed09439ec5a5",
+          "tags": [
+            "Objectives of management: social objectives and personnel objectives (financial, social and higher-level needs).",
+            "Management – concept, objectives, importance"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Principles of Management",
+      "topic": "Principles of Management",
+      "branch": null,
+      "usable": 3,
+      "formats": {
+        "case_application": 1,
+        "direct_mcq": 1,
+        "matching": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "easy": 2
+      },
+      "ideas": [
+        {
+          "id": "141ee7ef52dc4753f82ba22dbc16eef5",
+          "body": "At a manufacturing firm, the production team has a daily output target. One employee asks to leave two hours early each day while retaining the same pay; granting the request would make the team miss that target. The manager’s authority to set the schedule is not disputed, and the manager rejects the personal exception. Which Fayol principle is most directly illustrated?",
+          "concept_id": "business_studies.principles_of_management.fayol.subordination_of_individual_interest_to_general_interest",
+          "fingerprint": "df80df0ee50aeb9c2f9ed600687ca1c491ff6cf7532be2e6c0f56b84d95969ec"
+        },
+        {
+          "id": "52145a4612dc9d79a5a4189953ccbddf",
+          "body": "Which of the following is a technique of scientific management associated with Taylor?",
+          "concept_id": "business_studies.principles_of_management.taylor_scientific_management.techniques",
+          "fingerprint": "667026cc40acfa3f44305fb8c1043051f53c073101cc569bff3956f7e0af5e3e"
+        },
+        {
+          "id": "677b884678361070a9173b2205ba742b",
+          "body": "Match List-I with List-II:\nList-I\n(A) Meaning of principles of management\n(B) Nature of management principles\n(C) Why understanding their significance matters\n(D) Significance of management principles\nList-II\n(I) Proper understanding of their significance is essential to make sound decisions by managers.\n(II) General guidelines that can be used for conduct in work places under certain situations.\n(III) Formed by practice; general guidelines; universal; flexible; behavioural; contingent; and cause and effect relationship.\n(IV) Increase in efficiency; optimum utilisation of resources; scientific decision making; adaptation to changing environment; fulfilling social responsibilities; research and development; training managers; and effective administration.\nChoose the correct answer from the options given below:",
+          "concept_id": "business_studies.principles_of_management.meaning_nature_significance",
+          "fingerprint": "cd75d39e4a21258e7b4085cfa0c27deb0a0ab73f32faf2d460d1f7268a794f12"
+        }
+      ],
+      "topics": [
+        {
+          "id": "07b9e705a33f8b486d73",
+          "text": "Principles of Management – meaning, nature and significance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "126fa55a1055107cc918",
+          "text": "Fayol’s principles of management.",
+          "usable": 1,
+          "formats": {
+            "case_application": 1
+          },
+          "difficulties": {
+            "medium": 1
+          }
+        },
+        {
+          "id": "a8bf5d3a01e20573c83b",
+          "text": "Taylor’s Scientific Management – Principles and Techniques.",
+          "usable": 1,
+          "formats": {
+            "direct_mcq": 1
+          },
+          "difficulties": {
+            "easy": 1
+          }
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "141ee7ef52dc4753f82ba22dbc16eef5",
+          "tags": [
+            "Fayol’s principles of management — subordination of individual interest to general interest",
+            "Fayol’s principles of management"
+          ],
+          "format": "case_application",
+          "difficulty": "medium",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "52145a4612dc9d79a5a4189953ccbddf",
+          "tags": [
+            "Taylor’s Scientific Management — principles and techniques",
+            "Taylor’s Scientific Management – Principles and Techniques"
+          ],
+          "format": "direct_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": true
+        },
+        {
+          "id": "677b884678361070a9173b2205ba742b",
+          "tags": [
+            "Meaning, nature and significance of principles of management",
+            "Principles of Management – meaning, nature and significance"
+          ],
+          "format": "matching",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "topic": "Business Environment",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "4f4ab89962246baf620a",
+          "text": "Business Environment – meaning and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "4a86767b254496aba23b",
+          "text": "Dimensions of Business Environment – Economic, Social, Technological, Political and Legal.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "topic": "Planning",
+      "branch": null,
+      "usable": 4,
+      "formats": {
+        "conceptual_mcq": 1,
+        "case_application": 1,
+        "statement_selection": 2
+      },
+      "difficulties": {
+        "easy": 2,
+        "hard": 1,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "45b964d399567a44fbe72112ecfef33a",
+          "body": "A comprehensive plan is being prepared to accomplish an organisation’s objectives. Which set correctly identifies its three dimensions?",
+          "concept_id": "planning_comprehensive_plan_dimensions",
+          "fingerprint": "25c7042cc3924b2a8f66da5d3e326fc6da6a9cb61c21455d8542c87552c1b3ef"
+        },
+        {
+          "id": "4970a8be8e8e6db127819071a958eaf4",
+          "body": "A business is formulating a comprehensive plan. It has determined its long-term objective, adopted a course of action and considered the business environment. However, it has not decided what resources are necessary to achieve the objective. Which dimension of the comprehensive plan remains incomplete?",
+          "concept_id": "business_studies.planning.comprehensive_plan_dimensions",
+          "fingerprint": "769ed3ca578f3cf42f3b3d436021949669ebcc5fa6430e9b058617af7829af3f"
+        },
+        {
+          "id": "79afa547d104c9bb9b35f5ee63ad4b97",
+          "body": "An organisation is formulating a strategy. Consider the following statements:\n(A) The business environment needs to be considered while formulating the strategy.\n(B) Changes in the economic, political, social, legal and technological environment affect the organisation’s strategy.\n(C) Considering the business environment replaces the need to determine long-term objectives and allocate resources.\n(D) The business environment needs to be considered only if the organisation plans to enter a new line of business.\nChoose the correct answer from the options given below:",
+          "concept_id": "planning_strategy_environment",
+          "fingerprint": "1fc8bab90112345bc893480c6575d094629dac017162a95e45df41595ec3b737"
+        },
+        {
+          "id": "f102077934ecb729afd0a41028339099",
+          "body": "Consider the following statements about procedures, methods and rules in an organisation:\n(A) A procedure specifies the steps to be followed in particular circumstances.\n(B) A method specifies the manner in which a task has to be performed.\n(C) A rule specifies the manner in which a task has to be performed.\n(D) A rule states exactly what has to be done.\n\nSelect the correct statements.",
+          "concept_id": "business_studies_planning_types_of_plans_procedure_method_rule",
+          "fingerprint": "7ffe284357cd7251f514965cf5ba4489094dfa850f7a01b9b1f265335341efdf"
+        }
+      ],
+      "topics": [
+        {
+          "id": "2800482abc34b01f3483",
+          "text": "Meaning, features, importance, limitations.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "df51325194738d52c405",
+          "text": "Planning process.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "f628a93a346eab25aec5",
+          "text": "Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 4,
+      "validated_topic_observations": [
+        {
+          "id": "45b964d399567a44fbe72112ecfef33a",
+          "tags": [
+            "Types of plans—strategy and the dimensions of a comprehensive plan.",
+            "Types of Plans – Strategy"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "4970a8be8e8e6db127819071a958eaf4",
+          "tags": [
+            "Types of Plans: Strategy—dimensions of a comprehensive plan",
+            "Types of Plans – Strategy"
+          ],
+          "format": "case_application",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "79afa547d104c9bb9b35f5ee63ad4b97",
+          "tags": [
+            "Types of plans—strategy; environmental considerations in strategy formulation",
+            "Types of Plans – Strategy"
+          ],
+          "format": "statement_selection",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "f102077934ecb729afd0a41028339099",
+          "tags": [
+            "Types of plans: procedures, methods and rules",
+            "Types of Plans – Procedure, Method, Rule"
+          ],
+          "format": "statement_selection",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "topic": "Organising",
+      "branch": null,
+      "usable": 3,
+      "formats": {
+        "sequence_ordering": 1,
+        "case_application": 1,
+        "statement_selection": 1
+      },
+      "difficulties": {
+        "medium": 2,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "27e508fe302e60fbef8368cc49a64d38",
+          "body": "Arrange the following statements in the causal order in which a functional structure promotes efficiency in the utilisation of manpower, starting with its design feature.\n(A) Employees perform similar tasks within a department and are able to improve performance.\n(B) Efficiency in the utilisation of manpower is promoted.\n(C) Similar or related jobs are grouped together.\n(D) Emphasis on specific functions leads to occupational specialisation.\nChoose the correct sequence:",
+          "concept_id": "organising_functional_structure_specialisation",
+          "fingerprint": "818c5b26f77805c65bed6c86b5ff33f5dc37b6167162965da8e6b376ce056e33"
+        },
+        {
+          "id": "b3f4243b668404705b01fd106f44126d",
+          "body": "A company prepares a chart that names each employee's immediate superior and reporting channel. After the chart is shared, employees know whom to approach with work-related questions. No tasks are redistributed, and no change in resource use or organisational size is described. Which importance of organising is most directly illustrated?",
+          "concept_id": "business_studies.organising.meaning_importance.reporting_clarity",
+          "fingerprint": "7a4cb6fc65cd8e3c1cbbbfe3b81df75e7cf134f8a3a288ad18935a456ea37fd5"
+        },
+        {
+          "id": "fb8e10321af71ed2a9998f0102f38ce0",
+          "body": "Consider the following statements about delegation:\n(A) Delegation transfers authority from a superior to a subordinate.\n(B) Delegation transfers authority from a subordinate to a superior.\n(C) Delegation establishes superior-subordinate relationships that form the basis of management hierarchy.\n(D) The extent of delegated authority helps determine the power enjoyed by each job position.\nChoose the correct answer from the options given below:",
+          "concept_id": "business_studies.organising.delegation_hierarchy",
+          "fingerprint": "d852f43aad8cdd40ba42ce68ba0538ac72741881aebdd8095451185dc9bbe657"
+        }
+      ],
+      "topics": [
+        {
+          "id": "dc769a30f4ab209fd9ec",
+          "text": "Meaning and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "787d813fc3036ec25e45",
+          "text": "Steps in the process of organising.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "113aeea1a950959b8aac",
+          "text": "Structure of organization – functional and divisional.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "8352408de6b3df3191b0",
+          "text": "Formal and informal organisation.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "a4eb48113665543ca699",
+          "text": "Delegation: meaning, elements and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "3a4cd2263df5608248a4",
+          "text": "Decentralization: meaning and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "07af5282510ba9644a22",
+          "text": "Difference between delegation and decentralisation.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "27e508fe302e60fbef8368cc49a64d38",
+          "tags": [
+            "Functional structure: grouping related jobs, occupational specialisation and efficiency in manpower utilisation.",
+            "Structure of organization – functional and divisional"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "b3f4243b668404705b01fd106f44126d",
+          "tags": [
+            "Importance of organising: clarity in reporting relationships",
+            "Meaning and importance of organising"
+          ],
+          "format": "case_application",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "fb8e10321af71ed2a9998f0102f38ce0",
+          "tags": [
+            "Delegation: meaning and importance, including authority relationships and hierarchy.",
+            "Delegation: meaning, elements and importance"
+          ],
+          "format": "statement_selection",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "topic": "Staffing",
+      "branch": null,
+      "usable": 1,
+      "formats": {
+        "sequence_ordering": 1
+      },
+      "difficulties": {
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "714de597221c734abca065eeda2bb6f8",
+          "body": "Arrange the following stages in the order in which staffing responsibility is described as an organisation moves from a small organisation to a larger one:\n(A) Managers in a small organisation may handle employees’ salaries, welfare and working conditions.\n(B) The organisation grows and the number of persons employed increases.\n(C) A separate human resource department is formed.\n(D) Specialists in that department manage people.\nChoose the correct sequence:",
+          "concept_id": "staffing_as_part_of_hrm",
+          "fingerprint": "a4a27a8415108e4ef7309d1a0d19b6b8cc3c6ce7ae9c7a41fb596f683ad085da"
+        }
+      ],
+      "topics": [
+        {
+          "id": "7bfb1354d7680d88a092",
+          "text": "Meaning, need and importance of staffing.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "63dafacd9a2238ff88d3",
+          "text": "Staffing as a part of Human Resources Management.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5b7b25537589fe7a71cf",
+          "text": "Steps in staffing process.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "6461c0795a137c8d023b",
+          "text": "Recruitment – meaning, process and sources, Merits and demerits of internal and external sources of recruitment.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "f096543b5d32b5ee3a6f",
+          "text": "Selection – meaning and process.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e525bca7bb3796a012e9",
+          "text": "Training and Development – meaning, need, methods – on the job and off the job methods of training.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "714de597221c734abca065eeda2bb6f8",
+          "tags": [
+            "Staffing as part of Human Resource Management: employee-related responsibilities as an organisation grows.",
+            "Staffing as a part of Human Resources Management"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "topic": "Directing",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "c7fc84c0b77010241896",
+          "text": "Meaning, importance and principles.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "196654cda1858a4db2ac",
+          "text": "Elements of Direction: – Supervision – meaning and importance – Motivation – meaning and importance, Maslow’s hierarchy of needs; Financial and non- financial incentives. – Leadership – meaning, importance, style- authoritative, democratic and laissez-faire. – Communication – meaning and importance, formal and informal communication; barriers to effective communication, how to over come the barriers?",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "topic": "Controlling",
+      "branch": null,
+      "usable": 1,
+      "formats": {
+        "statement_selection": 1
+      },
+      "difficulties": {
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "d708a1708ce7351e4285cb261fe1972a",
+          "body": "A manager sets critical points, focuses attention on significant deviations that cross the permissible limit, and leaves routine problems to subordinates. Consider the following statements about this arrangement:\n(A) It can save managers’ time and effort.\n(B) It directs managerial attention to routine problems rather than important areas.\n(C) It facilitates delegation of authority.\n(D) It decreases employee morale.\nChoose the correct answer from the options given below:",
+          "concept_id": "controlling_critical_point_control_management_by_exception_advantages",
+          "fingerprint": "e17417575054221baa7b9b3df83d396fce59488b0a3ab829e3ba883e144eb8f2"
+        }
+      ],
+      "topics": [
+        {
+          "id": "90496da3bac605852f3a",
+          "text": "Meaning and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "f5e7960148fa9cdebde0",
+          "text": "Relationship between planning and controlling.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "bff2edc26e07de32bee6",
+          "text": "Steps in the process of control.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "d708a1708ce7351e4285cb261fe1972a",
+          "tags": [
+            "Analysis of deviations: critical point control and management by exception",
+            "Steps in the process of control - Analysing Deviations (Critical Point Control and Management by Exception)"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "topic": "Financial Management",
+      "branch": null,
+      "usable": 3,
+      "formats": {
+        "matching": 3
+      },
+      "difficulties": {
+        "medium": 1,
+        "hard": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "1f6f587e8bc3c88279935796997d1c07",
+          "body": "Match List-I with List-II.\nList-I\n(A) Cost reduction in procurement\n(B) Risk control\n(C) Effective deployment of funds\n(D) Fund availability without idleness\nList-II\n(I) Keep the risk associated with finance under control\n(II) Have enough funds whenever needed while avoiding idle funds\n(III) Lower the cost incurred in obtaining funds\n(IV) Put funds to effective use\nChoose the correct answer from the options given below:",
+          "concept_id": "financial_management_objectives",
+          "fingerprint": "98b5d985c41d256e5c8cdfe66916a2b244d4ae29285e5545f3e1bc37c54e6a8f"
+        },
+        {
+          "id": "bcec7ae463601afaeee89c49449b3cd6",
+          "body": "Match List-I with List-II.\nList-I\n(A) Interest Coverage Ratio (ICR)\n(B) Debt Service Coverage Ratio (DSCR)\n(C) Return on Investment (RoI)\n(D) Cost of debt\nList-II\n(I) A higher value indicates lower risk of failing to meet interest payments, but this measure does not capture a low cash balance or repayment obligations.\n(II) Cash profits from operations are compared with the total cash required to service debt and preference share capital; this measure addresses the stated deficiencies of the interest-based ratio.\n(III) A higher value can support the use of trading on equity to increase EPS; this factor concerns the company’s return from investment.\n(IV) A lower rate at which the firm can borrow increases its capacity to employ debt.\nChoose the correct answer from the options given below:",
+          "concept_id": "financial_management.capital_structure.factors",
+          "fingerprint": "d90a123c6df4f9f953456d284eb9dcc0a246284aaec41534d2b01f8d6cdaf792"
+        },
+        {
+          "id": "c7e85e2a1896bf27a569a4b21a992eb6",
+          "body": "Match List-I with List-II:\nList-I\n(A) Estimating funds required for long-term assets\n(B) Estimating when funds must be available\n(C) Specifying possible sources of funds\n(D) Dealing with surplus funds\nList-II\n(I) Put the surplus to the best possible use\n(II) Identify where funds may be obtained\n(III) Determine the time when funds are needed\n(IV) Estimate the amount required for long-term assets\nChoose the correct answer from the options given below:",
+          "concept_id": "financial_planning_objectives",
+          "fingerprint": "fed342349733f2dd41f5b4db81b7c75c4582cb8e1d367dfa825fcaacb52d2773"
+        }
+      ],
+      "topics": [
+        {
+          "id": "fb1abc24a9fe69580537",
+          "text": "Business finance – meaning, role, objectives of financial management.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "3c9a97b05bb6397dbd4e",
+          "text": "Financial decisions: investing, financing and dividend-Meaning and factors affecting.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5f69b72d45c639ea6e9b",
+          "text": "Financial planning – meaning and importance.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "85b58c15cf94b6ffb737",
+          "text": "Capital Structure – meaning and factors.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5bc10e078819131679c5",
+          "text": "Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 3,
+      "validated_topic_observations": [
+        {
+          "id": "1f6f587e8bc3c88279935796997d1c07",
+          "tags": [
+            "Objectives of financial management: reducing cost of funds, controlling risk, effective deployment, and ensuring adequate availability while avoiding idle funds",
+            "Meaning, role, and objectives of financial management"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "bcec7ae463601afaeee89c49449b3cd6",
+          "tags": [
+            "Capital structure: factors affecting the choice of financing, including ICR, DSCR, return on investment and cost of debt.",
+            "Capital Structure – factors affecting choice of capital structure"
+          ],
+          "format": "matching",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "c7e85e2a1896bf27a569a4b21a992eb6",
+          "tags": [
+            "Financial planning: estimating fund requirements and timing, specifying sources of funds, and using surplus funds.",
+            "Financial planning – meaning and importance / objectives"
+          ],
+          "format": "matching",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Markets",
+      "topic": "Financial Markets",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "6e469824e6850e3a5060",
+          "text": "Concept of Financial Market",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "81f30876533e51eff68d",
+          "text": "Money Market: Concept, instruments.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e228cb7907de096d5f1d",
+          "text": "Capital market and its types (primary and secondary market)",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "55ace88746b610948c56",
+          "text": "Stock Exchange-Functions, trading procedure.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "d4cf7d8af846a72574be",
+          "text": "Depository services and demat account.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "ad6e46bd55940928ec02",
+          "text": "Securities and Exchange Board of India (SEBI) – Objectives, Functions.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "topic": "Marketing Management",
+      "branch": null,
+      "usable": 4,
+      "formats": {
+        "sequence_ordering": 3,
+        "matching": 1
+      },
+      "difficulties": {
+        "easy": 2,
+        "medium": 1,
+        "hard": 1
+      },
+      "ideas": [
+        {
+          "id": "21acf04b6b876ec71add04ae24ec8cd5",
+          "body": "A marketing description states that goods are manufactured, packaged, branded, priced and promoted before being made available to customers. Arrange the following activities in that order:\n(1) Price the product\n(2) Make the product available to customers\n(3) Manufacture the product\n(4) Promote the product\n(5) Brand the product\n(6) Package the product",
+          "concept_id": "business_studies.marketing_management.sequence_before_availability",
+          "fingerprint": "6786536a8db9d4a0c2e1e23b56ac386816d3176dc17414d8afb3f874cdc93ce3"
+        },
+        {
+          "id": "4782bbd9d5f91fbe895d96c11510bb64",
+          "body": "A firm has manufactured a product. It completes packaging, branding, pricing and promotion before dispatching the product. In this workflow, physical movement from the place of production to the place of distribution is completed before the product is recorded as available to customers. Treat each description below as a separate stage and arrange the stages from first to last.\n(A) The product is available to customers at the right place, in the right quantity and at the right time.\n(B) The product is manufactured.\n(C) The product is packaged, branded, priced and promoted.\n(D) The product is physically handled and moved from production to distribution.\nChoose the correct sequence from the options below:",
+          "concept_id": "marketing_physical_distribution_sequence",
+          "fingerprint": "dd152b5223b9cfb40c98b94fb737cb73818df02c29a1e346ca681e2f3e908866"
+        },
+        {
+          "id": "8fedb9108c2a328b2963e088373b2873",
+          "body": "Using the standard four-P sequence of the marketing mix, arrange the following elements:\n(A) Place\n(B) Promotion\n(C) Product\n(D) Price\nChoose the correct sequence.",
+          "concept_id": "business_studies.marketing.marketing_mix.elements_order",
+          "fingerprint": "bda7a919bca947907deff9075c9e678b042e7709143e34e7ecc265b61e8cf3c3"
+        },
+        {
+          "id": "a16e39232c7d786caacf29f78cc35ffb",
+          "body": "Match List-I with List-II. Each entry in List-II is to be used once.\n\nList-I\n(A) Transportation\n(B) Decision regarding channels of distribution\n(C) Storage or warehousing\n(D) Inventory management\n\nList-II\n(I) Managing the levels of stock of goods\n(II) Storing goods to maintain a smooth flow in the market when production or procurement and sale or use are separated by a time gap\n(III) Physically moving goods from one place to another\n(IV) Deciding which marketing intermediaries, such as wholesalers or retailers, are to be used\n\nChoose the correct answer from the options given below:",
+          "concept_id": "business_studies.marketing_management.physical_distribution_functions",
+          "fingerprint": "87fab8d1bd76bfc0032c1a00d4385a30f2cd6efe56c2b33eae322723895bd7a6"
+        }
+      ],
+      "topics": [
+        {
+          "id": "1f5657caf607c6ba3d51",
+          "text": "Marketing – meaning, functions, role and philosophies.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "da0f3baeba6fd9a68d68",
+          "text": "Distinction between marketing and selling.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "83788dd2513c23bd40c6",
+          "text": "Marketing mix – concept and elements: – Product – nature, classification, branding, labeling and packaging – Physical distribution: meaning, role; Components, Channels of distribution, – meaning, types, factors determining choice of channels. – Promotion – meaning and role, promotion mix, Advertising, Personal selling sales promotion and public relation, Role of Advertising, objections to Advertising. – Price: factors influencing pricing.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 4,
+      "validated_topic_observations": [
+        {
+          "id": "21acf04b6b876ec71add04ae24ec8cd5",
+          "tags": [
+            "Marketing mix: product packaging and branding, pricing, promotion, and physical distribution",
+            "Physical Distribution - Meaning and Role"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "4782bbd9d5f91fbe895d96c11510bb64",
+          "tags": [
+            "Marketing mix: product, price and promotion, and place/physical distribution (meaning and role).",
+            "Physical Distribution - Meaning and Role"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "8fedb9108c2a328b2963e088373b2873",
+          "tags": [
+            "Marketing mix: the four Ps and their standard sequence",
+            "Marketing mix – concept and elements"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a16e39232c7d786caacf29f78cc35ffb",
+          "tags": [
+            "Marketing mix: physical distribution and its components, including channels of distribution, inventory management, storage/warehousing, and transportation",
+            "Physical distribution: meaning, role, and components"
+          ],
+          "format": "matching",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "topic": "Consumer Protection",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "conceptual_mcq": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "hard": 2
+      },
+      "ideas": [
+        {
+          "id": "3ca6f8a34eb42aeb67ce5a4842f16da9",
+          "body": "For this question, a complainant may be one or more consumers, a voluntary consumer association, the Central or a State Government, the Central Authority, a legal heir or legal representative, or a parent or legal representative in the case of a minor. A complaint is an allegation in writing by a complainant seeking relief concerning a restrictive trade practice, a defect in goods, deficiency in services, overcharging, or goods or services injurious to life and safety. Which case satisfies both definitions?",
+          "concept_id": "consumer_protection.complaint_and_complainant_definitions",
+          "fingerprint": "f282153717ac976a086b6bc170b41cff9e22f685db1ed60ddd9767767b64a833"
+        },
+        {
+          "id": "69a5f5b276d3756e0bab00ed790efa2a",
+          "body": "A minor consumer is involved in a complaint concerning a school bag, and the minor’s parent proposes to file on the minor’s behalf. Separately, an adult consumer who bought a home appliance for household use has died, and that consumer’s legal heir proposes to file a complaint. The people and entities named in options B–D are not consumers, voluntary consumer associations, central or state governments, the central authority, legal heirs, legal representatives, or parents or legal representatives in a minor’s case. Which proposed pair consists of two categories included in the definition of “complainant”?",
+          "concept_id": "consumer_protection_who_can_file_a_complaint",
+          "fingerprint": "dfee8e348e3994e1ab25838cf32b2e87f311eb92bcfff433eac913ada63819ae"
+        }
+      ],
+      "topics": [
+        {
+          "id": "e3594370789e8a207c88",
+          "text": "Meaning and concept.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "7040fcfbfc21c009869b",
+          "text": "Meaning, Importance of consumer protection.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "0d3189e777cd54979a9f",
+          "text": "The Consumer protection Act,2019. [http://egazette.nic.in/WriteReadData/2019/210422.pdf]",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "502e4028f33375799919",
+          "text": "Consumer rights.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "9b0daec803f2ff5a187d",
+          "text": "Consumer responsibilities.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "4e67365f88a196521c06",
+          "text": "Who can file a complaint?",
+          "usable": 1,
+          "formats": {
+            "case_application": 1
+          },
+          "difficulties": {
+            "hard": 1
+          }
+        },
+        {
+          "id": "0234c16155acfaea784b",
+          "text": "Ways and means of consumer protection – Consumer awareness and legal redressal with special reference to Consumer protection Act 2019, Remedies available.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "c4c58896ec2d51c8dd79",
+          "text": "Role of consumer organizations and NGOs.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "3ca6f8a34eb42aeb67ce5a4842f16da9",
+          "tags": [
+            "Consumer Protection Act, 2019: meaning of complaint and complainant; who can file a complaint",
+            "The Consumer Protection Act, 2019 - Terms and Definitions"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "69a5f5b276d3756e0bab00ed790efa2a",
+          "tags": [
+            "Consumer Protection Act, 2019: definition of complainant and who can file a complaint",
+            "Who can file a complaint?"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": true
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "topic": "Introduction & Theory of Consumer Behaviour",
+      "branch": null,
+      "usable": 1,
+      "formats": {
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "c4914a05ee6943ccfecd89dfc880086d",
+          "body": "A consumer’s optimal bundle is at a point where the budget line is tangent to an indifference curve. At that point, how does the absolute value of the indifference-curve slope (MRS) compare with the absolute value of the budget-line slope (price ratio)?",
+          "concept_id": "consumer_equilibrium_optimal_choice_mrs_price_ratio",
+          "fingerprint": "720c2faf022791f3510e0d17233e4a3580d19c3ed4a5e70a529336639faa2f9c"
+        }
+      ],
+      "topics": [
+        {
+          "id": "a117eb1526aa0630026e",
+          "text": "What is microeconomics?",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5337509b5c32e9333c27",
+          "text": "Central problems of an economy",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "0a51ab2cc9b62ba15c09",
+          "text": "Consumer’s Equilibrium: meaning and attainment of equilibrium through Utility Approach: One and two commodity cases, Consumers Budget and Optimal choice of the consumer.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "901427210b04b9d55689",
+          "text": "Demand: market demand, determinants of demand, demand schedule, demand curve, movement along and shifts in the demand curve, price elasticity of demand, measurement of price elasticity of demand – percentage, total expenditure, factor determining price elasticity of demand for a good.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "c4914a05ee6943ccfecd89dfc880086d",
+          "tags": [
+            "Consumer’s equilibrium: optimal choice and the tangency condition relating MRS to the price ratio.",
+            "Optimal choice of the consumer (Consumer's Equilibrium through indifference curve approach)"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "topic": "Production & Costs",
+      "branch": null,
+      "usable": 1,
+      "formats": {
+        "matching": 1
+      },
+      "difficulties": {
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "1febd746d32111b554addf8828fd4ae2",
+          "body": "For a firm operating in the short run, match each cost concept in List-I with its description in List-II.\nList-I\n(A) Total fixed cost (TFC)\n(B) Total variable cost (TVC)\n(C) Total cost (TC)\n(D) Short-run marginal cost (SMC)\nList-II\n(I) The vertical sum of TFC and TVC\n(II) Does not change when output changes\n(III) The increase in TVC from producing one additional unit\n(IV) The sum of marginal costs up to an output level\nChoose the correct answer from the options given below:",
+          "concept_id": "economics.production_costs.short_run_cost_relationships",
+          "fingerprint": "61a94b3a9f56c0295890d64bff19fcd40def8ff6f3754c8264cb7af3faf238c1"
+        }
+      ],
+      "topics": [
+        {
+          "id": "a23b88983aaf5daba535",
+          "text": "Production function: Short run and Long run production function",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "04c62e4b31e6298c67f3",
+          "text": "Shapes of TP, MP and AP curves",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "e32a2fed2f6912e32d9f",
+          "text": "Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and variable costs; total, average and marginal costs); concepts of revenue – total, average and marginal revenue and their relationship. Producer’s equilibrium – with the help of MC and MR.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "1febd746d32111b554addf8828fd4ae2",
+          "tags": [
+            "Short-run cost concepts: fixed, variable, total and marginal costs",
+            "Short-run Costs and Cost Curves"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "topic": "Theory of Firms under Perfect Competition",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "sequence_ordering": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "3dce0344d7ad78f4346cd451c509983e",
+          "body": "Arrange the following steps in the correct sequence for constructing a market supply curve from the supply schedules of the same firms at a range of market prices.\n(A) Add the quantities supplied by all firms at a given market price.\n(B) Read the quantity supplied by each firm at that market price.\n(C) Repeat the process for other market prices.\n(D) Plot the aggregate quantity supplied against the corresponding market price.",
+          "concept_id": "economics.perfect_competition.market_supply_curve_construction",
+          "fingerprint": "be5bc4cccbe2109e56bc0f47a3fce49230e3514aedc5bd7e24c3369fc3ac34dd"
+        },
+        {
+          "id": "97f258261db5438427f6a1cadac3437c",
+          "body": "A firm is a price-taking firm in a perfectly competitive market. Which description applies to the demand curve faced by this firm?",
+          "concept_id": "perfect_competition_firm_demand_curve",
+          "fingerprint": "86d3e3d5de17e6ac0f2c69ad0929c52fc29da19fa044b1d3966e641a3ff513b3"
+        }
+      ],
+      "topics": [
+        {
+          "id": "3f467f79b0fb5362b0c0",
+          "text": "Features of perfect competition",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "244a3dd12d42a6af20ae",
+          "text": "Profit maximization.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "84c355a5fb8cae23f99d",
+          "text": "Price determination under perfect competition – equilibrium price, effects of shifts in demand and supply.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "91342ce3cffdfef2e171",
+          "text": "Supply: market supply, determinants of supply, supply schedule, supply curve movement along and shifts in supply curve, price elasticity of supply, measurement of price elasticity of supply.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "3dce0344d7ad78f4346cd451c509983e",
+          "tags": [
+            "Market supply: horizontal summation of individual firms’ supply schedules and construction of the market supply curve",
+            "Market supply curve and horizontal summation"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "97f258261db5438427f6a1cadac3437c",
+          "tags": [
+            "Perfect competition: the demand curve faced by an individual price-taking firm",
+            "Features of perfect competition"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Market Equilibrium & Simple Applications",
+      "topic": "Market Equilibrium & Simple Applications",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "numerical_calculation": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "hard": 1
+      },
+      "ideas": [
+        {
+          "id": "54db3fe34409d7fe3604b0107bdaf6f8",
+          "body": "A market has the following aggregate quantities demanded and supplied at different prices:\nAt ₹10 per unit: quantity demanded = 90 units; quantity supplied = 30 units\nAt ₹20 per unit: quantity demanded = 70 units; quantity supplied = 50 units\nAt ₹30 per unit: quantity demanded = 50 units; quantity supplied = 50 units\nAt ₹40 per unit: quantity demanded = 30 units; quantity supplied = 70 units\nUsing the condition that market equilibrium occurs when quantity demanded equals quantity supplied, calculate the equilibrium price and equilibrium quantity.",
+          "concept_id": "market_equilibrium_condition",
+          "fingerprint": "73664122c684dfc11dc72bdb6ea01deb74174070d5a79fb8f6fdd962cd18a4e9"
+        },
+        {
+          "id": "943f365d7c65129196adee176ca413ec",
+          "body": "Two independent markets, X and Y, are initially in equilibrium. In Market X, the equilibrium price is ₹50 per unit. A price ceiling of ₹40 is imposed; at this price, quantity demanded is 90 units and quantity supplied is 55 units. In Market Y, the equilibrium price is ₹30 per unit. A price floor of ₹36 is imposed; at this price, quantity demanded is 40 units and quantity supplied is 72 units. For each market, calculate the excess-demand gap as quantity demanded minus quantity supplied, or the excess-supply gap as quantity supplied minus quantity demanded, as applicable.\nWhich option correctly identifies the resulting gaps?",
+          "concept_id": "market_equilibrium_price_ceiling_floor_excess",
+          "fingerprint": "1b713b2067bc0f9ee3bc19d8e4298bca06a7a6145cfa4b844ffbc33e5362832b"
+        }
+      ],
+      "topics": [
+        {
+          "id": "aa4b7f92dba95e99827d",
+          "text": "Market equilibrium, excess demand, excess supply,",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "661ec87f2cd4e2608bd9",
+          "text": "Applications:=- Price ceiling and Price flooring. Course II Introductory Macroeconomics",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "54db3fe34409d7fe3604b0107bdaf6f8",
+          "tags": [
+            "Market equilibrium: identifying equilibrium price and quantity from aggregate demand and supply schedules",
+            "Market equilibrium"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "943f365d7c65129196adee176ca413ec",
+          "tags": [
+            "Market equilibrium; excess demand and excess supply under price ceilings and price floors, including gap calculation.",
+            "Applications of Market Equilibrium: Price Ceiling and Price Floor"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "topic": "National Income & Related Aggregates",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "numerical_calculation": 1,
+        "statement_selection": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "630fb0980fc158515c959b79be5fedd6",
+          "body": "An economy follows the simplified circular-flow assumptions of no government, no external trade and no saving. Households spend their entire income on goods and services produced by domestic firms. During a period, households receive wages of ₹4,80,000, interest of ₹70,000, profits of ₹1,30,000 and rent of ₹20,000, with no other household income. What is their aggregate consumption expenditure on the domestic firms’ goods and services?",
+          "concept_id": "national_income_circular_flow",
+          "fingerprint": "a3b9e498e65ec83e6b02b6a21f45e53f256ed1a7c897f18dde3a267a15f0d347"
+        },
+        {
+          "id": "851f2f5bd527b8aba3d82fd91e0e80cc",
+          "body": "Consider the following statements about factor cost, basic prices and market prices:\n(A) Factor cost includes payments to factors of production and excludes taxes.\n(B) Market prices are obtained from factor cost by adding total indirect taxes less total subsidies.\n(C) Basic prices include product taxes less product subsidies, but exclude production taxes less production subsidies.\nWhich of the statements given above are correct?",
+          "concept_id": "national_income_valuation_aggregates_tax_subsidy_treatment",
+          "fingerprint": "13031d802d2a47e99e0e0dacbb2fcaead1c6982ac46ce3c09f4e74e9f30516d8"
+        }
+      ],
+      "topics": [
+        {
+          "id": "72ffc7da326aec44d9eb",
+          "text": "What is macroeconomics?",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "7de01f33c07ab75b1d04",
+          "text": "Basic concepts in macroeconomics:",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "9d2a668846eb91a64155",
+          "text": "Circular flow of income; Methods of calculating National Income - Value Added or Product method, Expenditure method, Income method",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "23d4c5cb5a61054412fe",
+          "text": "Aggregates related to National Income: Factor Cost, Basic Prices and Market Price. GDP and Welfare",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "630fb0980fc158515c959b79be5fedd6",
+          "tags": [
+            "Circular flow of income in a two-sector economy; factor incomes and aggregate consumption expenditure",
+            "Circular flow of income"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "851f2f5bd527b8aba3d82fd91e0e80cc",
+          "tags": [
+            "Aggregates related to National Income: factor cost, basic prices and market prices",
+            "Aggregates related to National Income: Factor Cost, Basic Prices and Market Price"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "topic": "Money & Banking",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "matching": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "ba68b5da7fa2da79bc4da55d61148cc3",
+          "body": "Match List-I with List-II.\n\nList-I\n(A) Repurchase agreement (repo)\n(B) Repo rate\n(C) Reverse repurchase agreement (reverse repo)\n(D) Reverse repo rate\n\nList-II\n(I) Rate at which money is lent under a repo\n(II) Rate at which money is withdrawn under a reverse repo\n(III) Agreement under which the central bank sells securities with a specified date and price for repurchase\n(IV) Agreement under which the central bank buys securities with a specified date and price for resale\n\nChoose the correct answer from the options given below:",
+          "concept_id": "money_banking_repo_reverse_repo",
+          "fingerprint": "9b3f77eb1d989f51c029474f33f05bfc9862a9bf300c9d7307a95e332c0c1c05"
+        },
+        {
+          "id": "deee68aae269baeef189c9cca24344d1",
+          "body": "A resident has surplus rice that they do not wish to consume today. They sell it for money and hold the money for future use. Assume the value of money is sufficiently stable. Which statement about money is illustrated?",
+          "concept_id": "money_store_of_value",
+          "fingerprint": "065513570b04bb8793d5460cf2f765b9b322bc6c7009d8762f3866cd4285a68d"
+        }
+      ],
+      "topics": [
+        {
+          "id": "726b8fe18b3784581fd9",
+          "text": "Meaning and functions, supply of money - Money Creation and Money Multiplier.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "2f3330efeb9e4029923d",
+          "text": "Central bank and its functions (example of the Reserve Bank of India)",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5c2d05e1b79ff9bfcd70",
+          "text": "Policy tools to control money supply.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "ba68b5da7fa2da79bc4da55d61148cc3",
+          "tags": [
+            "Central bank policy tools: repo, reverse repo, and their rates",
+            "Policy tools to control money supply (Repo and Reverse Repo)"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "deee68aae269baeef189c9cca24344d1",
+          "tags": [
+            "Meaning and functions of money: money as a store of value",
+            "Meaning and functions of money (Store of Value)"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "topic": "Income Determination",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "statement_selection": 1,
+        "sequence_ordering": 1
+      },
+      "difficulties": {
+        "easy": 1,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "d03862b65899f0dcdae662824a18069e",
+          "body": "Consider the following statements about the paradox of thrift. It states that if all people increase the proportion of income they save, total savings will not increase; they will either decline or remain unchanged. In an illustration, aggregate saving is 10 both before and after an increase in thrift.\n(A) An increase in the proportion of income saved necessarily raises total savings.\n(B) When people become more thrifty, total savings may remain unchanged.\n(C) Total savings must decline whenever people become more thrifty.\n(D) In the illustration, aggregate saving is 10 at both points.\nChoose the correct answer using the options below:",
+          "concept_id": "income_determination.paradox_of_thrift",
+          "fingerprint": "f2438bc6f645bf074cbdeaa1028007db8dc5977f4b9836f71d28e4fb5e7428fe"
+        },
+        {
+          "id": "e79b90fca1eef4869512e54beaabb1b6",
+          "body": "In a final-goods market initially in equilibrium, autonomous expenditure increases and creates excess demand. Assume there are no indirect taxes or subsidies, the additional output is distributed as factor payments, households spend the mpc fraction of their additional income on consumption, and producers increase planned output to clear excess demand. Arrange the following events in the order through the first induced-consumption response.\n(A) Households increase consumption by the mpc fraction of their additional income.\n(B) Producers increase planned output to clear the excess demand.\n(C) The increase in autonomous expenditure gives rise to excess demand.\n(D) The additional output is distributed as factor payments, raising income.\nChoose the correct sequence from the options given below:",
+          "concept_id": "multiplier_mechanism_income_consumption_feedback",
+          "fingerprint": "a42c5bb5f3d609f314581320310899a0443d5774446cd241085e1863a0466569"
+        }
+      ],
+      "topics": [
+        {
+          "id": "87bb607dee0445f93c33",
+          "text": "Aggregate demand and its components.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "9fe87a30031ad1df494f",
+          "text": "Determination of Income in two sector model.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "a348126d9fc0249bb8c7",
+          "text": "Problems of excess demand and deficient demand; measures to correct them - changes in government spending, taxes and money supply",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "c10dae91ee40195913d6",
+          "text": "Multiplier mechanism.",
+          "usable": 1,
+          "formats": {
+            "sequence_ordering": 1
+          },
+          "difficulties": {
+            "medium": 1
+          }
+        }
+      ],
+      "topic_unclassified": 1,
+      "validated_topic_observations": [
+        {
+          "id": "d03862b65899f0dcdae662824a18069e",
+          "tags": [
+            "Paradox of thrift in the two-sector income-determination model and its effect on aggregate saving",
+            "Paradox of Thrift"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "e79b90fca1eef4869512e54beaabb1b6",
+          "tags": [
+            "Multiplier mechanism in the final-goods market: autonomous expenditure, excess demand, induced output, factor income and consumption",
+            "Multiplier mechanism"
+          ],
+          "format": "sequence_ordering",
+          "difficulty": "medium",
+          "official_topic_assigned": true
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "topic": "Government Budget & the Economy",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "numerical_calculation": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "medium": 1,
+        "hard": 1
+      },
+      "ideas": [
+        {
+          "id": "b9214d6f466afd7c117d4880e872a3a2",
+          "body": "During a budget period, a government records only these receipts: revenue receipts of ₹2,40,000, fresh loans of ₹1,20,000, and ₹35,000 from selling shares in a public sector undertaking. What is the total amount of capital receipts for the period?",
+          "concept_id": "economics.government_budget.classification_of_receipts.capital_receipts",
+          "fingerprint": "9e543a7e5c3b3331e726d7c657a11ae3ebb82ef2b54e89b924c9fbd4d1e7ed9f"
+        },
+        {
+          "id": "d028195e75345ff11f26261a650ac444",
+          "body": "A government reviews two periods. In Period I, aggregate demand is insufficient for full utilisation of labour and other resources, and employment has not recovered automatically because wages and prices do not fall below a certain level. In Period II, aggregate demand exceeds available output while employment is high, and inflation arises. Which pair of responses best represents the government’s stabilisation function in these periods?",
+          "concept_id": "government_budget_stabilisation_function",
+          "fingerprint": "1626b50c506839d7a7d1459767686e5f74bc6c375d1340e8dbf9e481c6f0b034"
+        }
+      ],
+      "topics": [
+        {
+          "id": "42f71af390f440db310c",
+          "text": "Government budget - meaning, objectives and components",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "1804855e6a89cff30c66",
+          "text": "Classification of receipts - revenue receipts and capital receipts;",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "c9a361f7c9e4fc76b59e",
+          "text": "Classification of expenditure – revenue expenditure and capital expenditure.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "6ebc74e94e0feefeed72",
+          "text": "Balanced, Surplus and Deficit Budget – measures of government deficit.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "b9214d6f466afd7c117d4880e872a3a2",
+          "tags": [
+            "Classification of government receipts into revenue receipts and capital receipts; calculating total capital receipts.",
+            "Classification of receipts - revenue receipts and capital receipts"
+          ],
+          "format": "numerical_calculation",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "d028195e75345ff11f26261a650ac444",
+          "tags": [
+            "Government budget objectives: stabilisation function through expansionary and restrictive aggregate-demand responses",
+            "Objectives of Government Budget (Stabilisation Function)"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "topic": "Balance of Payments",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "case_application": 1,
+        "conceptual_mcq": 1
+      },
+      "difficulties": {
+        "hard": 1,
+        "easy": 1
+      },
+      "ideas": [
+        {
+          "id": "4a4c939646cb3639931a530edc410eb3",
+          "body": "A central bank allows its exchange rate to move and does not hold it at an announced fixed rate. Whenever it considers appropriate, the bank buys or sells foreign currencies to moderate exchange-rate movements. Assume these are the only relevant policy features. Which description correctly identifies the exchange-rate system and the status of official reserve transactions?",
+          "concept_id": "ECON_BOP_MANAGED_FLOATING",
+          "fingerprint": "03795f8d3a01ac3086f71b2c94336165b9ab77129cc020118c84d852d9f60e43"
+        },
+        {
+          "id": "b0edf02c04da350e2f1044d72211493e",
+          "body": "A country's reserve bank sells foreign exchange as an official reserve transaction solely to bridge a gap in its balance of payments. How should this transaction be classified?",
+          "concept_id": "bop_autonomous_accommodating_transactions",
+          "fingerprint": "0238676dbd1af7cd8580b87d8821c7ba47d146f7006ee2770b718bb26849cafb"
+        }
+      ],
+      "topics": [
+        {
+          "id": "8cce81ec90262af760c5",
+          "text": "Balance of payments account - meaning and components;",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "1af3a2de8cc6803ea0e3",
+          "text": "Balance of payments – Surplus and Deficit",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "40f2c854b14a45dbfd67",
+          "text": "Foreign exchange rate - meaning of fixed and flexible rates and managed floating. Merits and demerits of exchange rate regimes.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "8fda344edfe155357268",
+          "text": "Determination of exchange rate.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "bd1ebf1aad6151f8880c",
+          "text": "Managed Floating Course III: Indian Economic Development",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "4a4c939646cb3639931a530edc410eb3",
+          "tags": [
+            "Foreign exchange-rate regimes: fixed, flexible and managed floating; central-bank intervention and official reserve transactions.",
+            "Foreign exchange rate - managed floating"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "b0edf02c04da350e2f1044d72211493e",
+          "tags": [
+            "Autonomous and accommodating transactions; above-the-line and below-the-line items",
+            "Balance of payments – Surplus and Deficit; Autonomous and accommodating transactions"
+          ],
+          "format": "conceptual_mcq",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "topic": "Indian Economy on the Eve of Independence",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "statement_selection": 1,
+        "case_application": 1
+      },
+      "difficulties": {
+        "easy": 1,
+        "hard": 1
+      },
+      "ideas": [
+        {
+          "id": "77f43b88164d52132f9f2ead098eff24",
+          "body": "Consider the following statements about the colonial economy of India:\n(A) Colonial policies prioritised the economic interests of Britain over the development of the Indian economy.\n(B) These policies transformed India into a supplier of raw materials and a consumer of finished industrial products from Britain.\n(C) Colonial policies were more concerned with developing India than with protecting and promoting the economic interests of Britain.\n(D) India had no manufacturing activities before British rule.\nWhich of the statements are correct?",
+          "concept_id": "colonial_economic_policies_india",
+          "fingerprint": "1970067af62f0fef240669bc5c3431b32af30c4fff9955ec735953a06eed9164"
+        },
+        {
+          "id": "a6198867e944cd3a3e3e7c2e48136939",
+          "body": "An economist is asked to prepare a report with two objectives: explain the historical roots of India’s present-day economic structure and assess the kind and level of development attained during the seven and a half decades after independence. Which approach best meets both objectives?",
+          "concept_id": "indian_economy_eve_independence_historical_roots_and_development_assessment",
+          "fingerprint": "a0ee2c2dc23dc8ea2508af02f14ff79874974ca6d938c943e25ca1d2677890aa"
+        }
+      ],
+      "topics": [
+        {
+          "id": "6166b46d408f81bd3e3b",
+          "text": "A brief introduction of the state of Indian economy on the eve of independence.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "d9e7763aa5190b844a78",
+          "text": "Indian economic system and common goals of Five Year Plans",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "37f49af2882f366927cc",
+          "text": "Main features, problems and policies of agriculture (institutional aspects and new agricultural strategy), industry (IPR 1956; SSI – role & importance) and foreign trade.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "77f43b88164d52132f9f2ead098eff24",
+          "tags": [
+            "Colonial rule: priorities of colonial economic policy, India’s role as a raw-material supplier and market for British manufactures, and pre-colonial manufacturing",
+            "Low level of economic development under colonial rule"
+          ],
+          "format": "statement_selection",
+          "difficulty": "easy",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "a6198867e944cd3a3e3e7c2e48136939",
+          "tags": [
+            "A brief introduction to the state of the Indian economy on the eve of independence, including colonial historical roots relevant to post-independence development.",
+            "Introduction: Historical roots of India's economic structure"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economic Development 1950–1990",
+      "topic": "Indian Economic Development 1950–1990",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "93908e8f1f4d489eea33",
+          "text": "A brief introduction of the state of Indian economy on the eve of independence.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5635a03850b3635352ad",
+          "text": "Indian economic system and common goals of Five Year Plans",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "17b851a88ecb6799d304",
+          "text": "Main features, problems and policies of agriculture (institutional aspects and new agricultural strategy), industry (IPR 1956; SSI – role & importance) and foreign trade.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Economic Reforms Since 1991",
+      "topic": "Economic Reforms Since 1991",
+      "branch": null,
+      "usable": 2,
+      "formats": {
+        "case_application": 1,
+        "matching": 1
+      },
+      "difficulties": {
+        "hard": 1,
+        "medium": 1
+      },
+      "ideas": [
+        {
+          "id": "44337f81bb4f1b4b7ade81e162eb760a",
+          "body": "A planning review summarises two findings for India after forty years of planned development: (i) a strong industrial base had been achieved and food-grain production had become self-sufficient; (ii) a major segment of the population continued to depend on agriculture for its livelihood. Treat both findings as accurate. A reviewer argues that finding (ii) cannot be true once finding (i) is true. Which assessment best applies the findings?",
+          "concept_id": "ECON_PLANNED_DEVELOPMENT_FOODGRAIN_LIVELIHOOD_DEPENDENCE",
+          "fingerprint": "02b917e14d9e53ead66ad7801941266b7685136370fd4881e2d876610c76df42"
+        },
+        {
+          "id": "f5c7d0572d7d7222effd5b40f5f8a117",
+          "body": "Consider the following facts: After forty years of planned development, India achieved a strong industrial base and became self-sufficient in the production of food grains. In 1991, a crisis in the balance of payments led to the introduction of economic reforms.\n\nMatch List-I with List-II.\n\nList-I\n(A) Forty years of planned development\n(B) Strong industrial base\n(C) Self-sufficiency in the production of food grains\n(D) 1991 balance-of-payments crisis\n\nList-II\n(I) Led to the introduction of economic reforms\n(II) Achievement stated for India after planned development\n(III) Achievement in food-grain production stated for India\n(IV) Period after which the two achievements in (II) and (III) are reported\n\nChoose the correct answer from the options given below:\nA. (A)-(IV), (B)-(III), (C)-(II), (D)-(I)\nB. (A)-(II), (B)-(IV), (C)-(III), (D)-(I)\nC. (A)-(IV), (B)-(II), (C)-(III), (D)-(I)\nD. (A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+          "concept_id": "economic_reforms_since_1991-planned_development_and_reform_context",
+          "fingerprint": "074aa017b9006f8996371722e73ece36bb8b2dd1206cfdd3fd4635661b75d3d2"
+        }
+      ],
+      "topics": [
+        {
+          "id": "cca758a6429eeeacfc64",
+          "text": "Economic Reforms since 1991:",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5438415ecffd6d0ffb35",
+          "text": "Features and appraisals of liberalisation, globalisation and privatisation (LPG policy);",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 2,
+      "validated_topic_observations": [
+        {
+          "id": "44337f81bb4f1b4b7ade81e162eb760a",
+          "tags": [
+            "Achievements and continuing agricultural livelihood dependence after planned development",
+            "Background to Economic Reforms Since 1991"
+          ],
+          "format": "case_application",
+          "difficulty": "hard",
+          "official_topic_assigned": false
+        },
+        {
+          "id": "f5c7d0572d7d7222effd5b40f5f8a117",
+          "tags": [
+            "Background to the 1991 reforms: achievements after planned development and the balance-of-payments crisis",
+            "Background of economic reforms in 1991"
+          ],
+          "format": "matching",
+          "difficulty": "medium",
+          "official_topic_assigned": false
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "chapter": "Human Capital Formation",
+      "topic": "Human Capital Formation",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "0b562ce365a1059328b0",
+          "text": "Human Capital Formation: How people become resource; Role of human capital in economic development; Growth of Education Sector in India",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Rural Development",
+      "topic": "Rural Development",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "b25b64d51bc560ceffde",
+          "text": "Rural development: Key issues - credit and marketing - role of cooperatives; agricultural market system, Agriculture diversification; alternative farming - organic farming",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Employment",
+      "topic": "Employment",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "fe23e0b29a3c4f95909c",
+          "text": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Environment & Sustainable Development",
+      "topic": "Environment & Sustainable Development",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "5326ee0cce54c9fa7516",
+          "text": "Human Capital Formation: How people become resource; Role of human capital in economic development; Growth of Education Sector in India",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "bbd249d90372726b3a0f",
+          "text": "Environment and Sustainable Development: Definition and Functions, State of India’s environment, Strategies for sustainable development.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Development Experiences of India",
+      "topic": "Development Experiences of India",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": [],
+      "topics": [
+        {
+          "id": "f31b366f9547fb0f1c64",
+          "text": "A comparison with neighbours.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "a4601121381026371e36",
+          "text": "Issues: economic growth, population, sectoral development and other Human Development Indicators.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        },
+        {
+          "id": "5294785f3776b3ea3a25",
+          "text": "Development Strategies.",
+          "usable": 0,
+          "formats": {},
+          "difficulties": {}
+        }
+      ],
+      "topic_unclassified": 0,
+      "validated_topic_observations": []
+    }
+  ],
+  "topic_contract": "official-unit-exact-tag-agreement-v2",
+  "topic_assignment": "Exact official unit/alternative selection, then a topic fills only when both existing blind validators identify the same unique official syllabus topic. Ambiguous or legacy tags stay unclassified."
+}

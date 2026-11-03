@@ -1,0 +1,45 @@
+2026-10-06T18:10:08.894Z eslint:cli CLI args: [ '--debug', 'src/components/admin/QuestionFactoryDashboard.jsx' ]
+2026-10-06T18:10:08.896Z eslint:cli Using flat config? true
+2026-10-06T18:10:08.898Z eslint:cli Running on files
+2026-10-06T18:10:08.899Z eslint:eslint Using config loader LegacyConfigLoader
+2026-10-06T18:10:08.900Z eslint:eslint Using file patterns: src/components/admin/QuestionFactoryDashboard.jsx
+2026-10-06T18:10:08.900Z eslint:eslint Deleting cache file at C:\Users\atish\Desktop\mockmob copy\mockmob copy\.eslintcache
+2026-10-06T18:10:08.901Z eslint:config-loader Calculating config for file C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:08.901Z eslint:config-loader Searching for eslint.config.js
+2026-10-06T18:10:08.902Z eslint:config-loader [Legacy]: Calculating config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:08.902Z eslint:config-loader [Legacy]: Using config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs and base path C:\Users\atish\Desktop\mockmob copy\mockmob copy
+2026-10-06T18:10:08.902Z eslint:config-loader Calculating config array from config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs and base path C:\Users\atish\Desktop\mockmob copy\mockmob copy
+2026-10-06T18:10:08.903Z eslint:config-loader Loading config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs
+2026-10-06T18:10:08.903Z eslint:config-loader Loading config from C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs
+2026-10-06T18:10:08.903Z eslint:config-loader Config file URL is file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/eslint.config.mjs
+2026-10-06T18:10:10.763Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2026-10-06T18:10:10.781Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2026-10-06T18:10:10.798Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2026-10-06T18:10:10.800Z eslint:rules Loading rule 'max-params' (remaining=288)
+2026-10-06T18:10:10.833Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2026-10-06T18:10:10.840Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2026-10-06T18:10:10.861Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2026-10-06T18:10:10.864Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2026-10-06T18:10:10.866Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2026-10-06T18:10:10.868Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2026-10-06T18:10:10.900Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2026-10-06T18:10:10.973Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2026-10-06T18:10:10.984Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2026-10-06T18:10:11.005Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+2026-10-06T18:10:11.892Z eslint:config-loader Config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs is not empty
+2026-10-06T18:10:11.894Z eslint:eslint 1 file(s) found in 2994 ms
+2026-10-06T18:10:11.894Z eslint:eslint Linting in single-thread mode.
+2026-10-06T18:10:11.894Z eslint:config-loader Looking up cached config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:11.894Z eslint:config-loader [Legacy]: Looking up cached config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin
+2026-10-06T18:10:11.931Z eslint:eslint-helpers File "C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx" read in 1 ms
+2026-10-06T18:10:11.931Z eslint:linter Linting code for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx (pass 1)
+2026-10-06T18:10:11.931Z eslint:linter Verify
+2026-10-06T18:10:11.931Z eslint:linter With flat config: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:11.932Z eslint:languages:js Parsing: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:12.142Z eslint:languages:js Parsing successful: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:12.142Z eslint:languages:js Scope analysis: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:12.142Z eslint:languages:js Scope analysis successful: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx
+2026-10-06T18:10:12.763Z eslint:linter Generating fixed text for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx (pass 1)
+2026-10-06T18:10:12.763Z eslint:source-code-fixer Applying fixes
+2026-10-06T18:10:12.763Z eslint:source-code-fixer shouldFix parameter was false, not attempting fixes
+2026-10-06T18:10:12.763Z eslint:eslint-helpers File "C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\components\admin\QuestionFactoryDashboard.jsx" linted in 832 ms

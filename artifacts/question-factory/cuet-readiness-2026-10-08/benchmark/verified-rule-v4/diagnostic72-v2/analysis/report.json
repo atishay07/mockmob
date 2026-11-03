@@ -1,0 +1,789 @@
+{
+  "schema": "mockmob-diagnostic72-v2-independent-analysis-v1",
+  "captured_at": "2026-10-07T22:00:52.938Z",
+  "run": {
+    "preregistration_id": "cuet-readiness-diagnostic72-v2",
+    "preregistration_payload_sha256": "0208d911d80da808755cb79d785732c05209b138db1b2f30b78f54d68e529107",
+    "diagnostic_scope": "diagnostic; never a release or publication decision",
+    "fixture_denominator": 72,
+    "source_key_valid_roots": 40,
+    "controlled_defects": 32,
+    "expected_provider_judgments": 216,
+    "observed_judgments": 214,
+    "provider_errors": 2,
+    "topology_rows": 72,
+    "topology_complete": false,
+    "topology_states": {
+      "eligible": 35,
+      "quarantined": 36,
+      "error": 1
+    },
+    "valid_eligible": 35,
+    "valid_denominator": 40,
+    "primary_valid_eligible": 34,
+    "primary_valid_denominator": 39,
+    "controlled_eligible_false_accepts": [],
+    "publication_writes": 0
+  },
+  "release_policy_context": {
+    "release_evidence_v7_policy": {
+      "policy": "cuet-fit-release-v2",
+      "fresh_false_accepts_max": 0,
+      "regression_false_accepts_max": 0,
+      "valid_survival_min": 0.85,
+      "per_subject_valid_survival_min": 0.7
+    },
+    "factory_calibration_policy": {
+      "policy": "strict-quality-v4",
+      "valid_survival_overall": 0.85,
+      "valid_survival_route": 0.8,
+      "small_route_size": 3,
+      "answered_accuracy": 0.95,
+      "max_abstention": 0.15
+    },
+    "expected_release_binding_matches_frozen": true,
+    "expected_release_binding": {
+      "topology": "dual_blind",
+      "verifier_version": "cuet-fit-validator-v7.2",
+      "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+      "cuet_fit_contract": "cuet-fit-v1.2",
+      "effort_policy": "effort-policy-v1",
+      "validation_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+      "efforts": {
+        "blind": {
+          "default": "high",
+          "medium_when": {
+            "subject": "english",
+            "formats": [
+              "synonym",
+              "antonym",
+              "correct_word_usage",
+              "matching"
+            ]
+          }
+        },
+        "explanation": "high",
+        "gemini": "medium"
+      }
+    },
+    "measured_diagnostic_survival": {
+      "all_valid_including_contested": {
+        "eligible": 35,
+        "denominator": 40,
+        "rate": 0.875,
+        "meets_overall_floor_numerically": true
+      },
+      "unambiguous_primary": {
+        "eligible": 34,
+        "denominator": 39,
+        "rate": 0.8718,
+        "meets_overall_floor_numerically": true
+      },
+      "by_subject": {
+        "accountancy": {
+          "eligible": 10,
+          "denominator": 10,
+          "survival": 1,
+          "meets_minimum": true
+        },
+        "business_studies": {
+          "eligible": 9,
+          "denominator": 10,
+          "survival": 0.9,
+          "meets_minimum": true
+        },
+        "economics": {
+          "eligible": 6,
+          "denominator": 10,
+          "survival": 0.6,
+          "meets_minimum": false
+        },
+        "english": {
+          "eligible": 10,
+          "denominator": 10,
+          "survival": 1,
+          "meets_minimum": true
+        }
+      }
+    },
+    "interpretation": "Observed survival in this diagnostic exceeds the V7 85% overall floor, but Economics is below the V7 70% subject minimum. The 95% figure is answered-key accuracy in factory calibration, not valid survival; this diagnostic does not establish that release metric. Incomplete judgments/topology, diagnostic-only scope and absence of the required paired fresh/regression release evidence independently prevent a release conclusion."
+  },
+  "raw_provider_results": {
+    "openai": {
+      "model": "GPT-6 Luna",
+      "provider": "openai",
+      "judgments": 72,
+      "errors": 0,
+      "valid": {
+        "n": 40,
+        "key_match_first_pass": 40,
+        "key_mismatch": 0,
+        "abstain": 0,
+        "fit_pass": 40,
+        "conditions_ok": 35,
+        "conditions_failed": 5,
+        "fit_mean": 8.475,
+        "fit_distribution": {
+          "8": 24,
+          "9": 13,
+          "10": 3
+        }
+      },
+      "controls": {
+        "n": 32,
+        "judgments": 32,
+        "errors": 0,
+        "abstain": 1,
+        "correct_source_key_on_wrong_key": 8,
+        "correct_source_key_on_numeric": 4,
+        "overlap_blocked": 8,
+        "missing_condition_blocked": 1,
+        "syllabus_mismatch_blocked": 2,
+        "unsupported_explanation_blind_action": null
+      }
+    },
+    "gemini": {
+      "model": "Gemini Flash",
+      "provider": "gemini",
+      "judgments": 70,
+      "errors": 2,
+      "valid": {
+        "n": 40,
+        "key_match_first_pass": 40,
+        "key_mismatch": 0,
+        "abstain": 0,
+        "fit_pass": 40,
+        "conditions_ok": 40,
+        "conditions_failed": 0,
+        "fit_mean": 9.775,
+        "fit_distribution": {
+          "9": 9,
+          "10": 31
+        }
+      },
+      "controls": {
+        "n": 30,
+        "judgments": 30,
+        "errors": 2,
+        "abstain": 7,
+        "correct_source_key_on_wrong_key": 8,
+        "correct_source_key_on_numeric": 4,
+        "overlap_blocked": 8,
+        "missing_condition_blocked": 0,
+        "syllabus_mismatch_blocked": 3,
+        "unsupported_explanation_blind_action": null
+      }
+    },
+    "anthropic": {
+      "model": "Claude Haiku 5.5",
+      "provider": "anthropic",
+      "judgments": 72,
+      "errors": 0,
+      "valid": {
+        "n": 40,
+        "key_match_first_pass": 40,
+        "key_mismatch": 0,
+        "abstain": 0,
+        "fit_pass": 26,
+        "conditions_ok": 31,
+        "conditions_failed": 9,
+        "fit_mean": 7.725,
+        "fit_distribution": {
+          "6": 2,
+          "7": 11,
+          "8": 23,
+          "9": 4
+        }
+      },
+      "controls": {
+        "n": 32,
+        "judgments": 32,
+        "errors": 0,
+        "abstain": 9,
+        "correct_source_key_on_wrong_key": 8,
+        "correct_source_key_on_numeric": 4,
+        "overlap_blocked": 8,
+        "missing_condition_blocked": 1,
+        "syllabus_mismatch_blocked": 3,
+        "unsupported_explanation_blind_action": null
+      }
+    }
+  },
+  "pairwise_blind_agreement": {
+    "openai_gemini": {
+      "all72": {
+        "n": 70,
+        "fields": {
+          "solved_key": {
+            "agree": 63,
+            "n": 70
+          },
+          "single_defensible_answer": {
+            "agree": 68,
+            "n": 70
+          },
+          "source_support": {
+            "agree": 68,
+            "n": 70
+          },
+          "syllabus_entitlement": {
+            "agree": 69,
+            "n": 70
+          },
+          "conditions_ok": {
+            "agree": 57,
+            "n": 70
+          }
+        },
+        "blocking_defect_presence_agree": 65
+      },
+      "valid40": {
+        "n": 40,
+        "fields": {
+          "solved_key": {
+            "agree": 40,
+            "n": 40
+          },
+          "single_defensible_answer": {
+            "agree": 40,
+            "n": 40
+          },
+          "source_support": {
+            "agree": 40,
+            "n": 40
+          },
+          "syllabus_entitlement": {
+            "agree": 40,
+            "n": 40
+          },
+          "conditions_ok": {
+            "agree": 35,
+            "n": 40
+          }
+        },
+        "blocking_defect_presence_agree": 38
+      },
+      "controls32": {
+        "n": 30,
+        "fields": {
+          "solved_key": {
+            "agree": 23,
+            "n": 30
+          },
+          "single_defensible_answer": {
+            "agree": 28,
+            "n": 30
+          },
+          "source_support": {
+            "agree": 28,
+            "n": 30
+          },
+          "syllabus_entitlement": {
+            "agree": 29,
+            "n": 30
+          },
+          "conditions_ok": {
+            "agree": 22,
+            "n": 30
+          }
+        },
+        "blocking_defect_presence_agree": 27
+      }
+    },
+    "openai_anthropic": {
+      "all72": {
+        "n": 72,
+        "fields": {
+          "solved_key": {
+            "agree": 64,
+            "n": 72
+          },
+          "single_defensible_answer": {
+            "agree": 70,
+            "n": 72
+          },
+          "source_support": {
+            "agree": 69,
+            "n": 72
+          },
+          "syllabus_entitlement": {
+            "agree": 71,
+            "n": 72
+          },
+          "conditions_ok": {
+            "agree": 61,
+            "n": 72
+          }
+        },
+        "blocking_defect_presence_agree": 51
+      },
+      "valid40": {
+        "n": 40,
+        "fields": {
+          "solved_key": {
+            "agree": 40,
+            "n": 40
+          },
+          "single_defensible_answer": {
+            "agree": 40,
+            "n": 40
+          },
+          "source_support": {
+            "agree": 40,
+            "n": 40
+          },
+          "syllabus_entitlement": {
+            "agree": 40,
+            "n": 40
+          },
+          "conditions_ok": {
+            "agree": 34,
+            "n": 40
+          }
+        },
+        "blocking_defect_presence_agree": 25
+      },
+      "controls32": {
+        "n": 32,
+        "fields": {
+          "solved_key": {
+            "agree": 24,
+            "n": 32
+          },
+          "single_defensible_answer": {
+            "agree": 30,
+            "n": 32
+          },
+          "source_support": {
+            "agree": 29,
+            "n": 32
+          },
+          "syllabus_entitlement": {
+            "agree": 31,
+            "n": 32
+          },
+          "conditions_ok": {
+            "agree": 27,
+            "n": 32
+          }
+        },
+        "blocking_defect_presence_agree": 26
+      }
+    },
+    "gemini_anthropic": {
+      "all72": {
+        "n": 70,
+        "fields": {
+          "solved_key": {
+            "agree": 66,
+            "n": 70
+          },
+          "single_defensible_answer": {
+            "agree": 68,
+            "n": 70
+          },
+          "source_support": {
+            "agree": 67,
+            "n": 70
+          },
+          "syllabus_entitlement": {
+            "agree": 70,
+            "n": 70
+          },
+          "conditions_ok": {
+            "agree": 49,
+            "n": 70
+          }
+        },
+        "blocking_defect_presence_agree": 49
+      },
+      "valid40": {
+        "n": 40,
+        "fields": {
+          "solved_key": {
+            "agree": 40,
+            "n": 40
+          },
+          "single_defensible_answer": {
+            "agree": 40,
+            "n": 40
+          },
+          "source_support": {
+            "agree": 40,
+            "n": 40
+          },
+          "syllabus_entitlement": {
+            "agree": 40,
+            "n": 40
+          },
+          "conditions_ok": {
+            "agree": 31,
+            "n": 40
+          }
+        },
+        "blocking_defect_presence_agree": 23
+      },
+      "controls32": {
+        "n": 30,
+        "fields": {
+          "solved_key": {
+            "agree": 26,
+            "n": 30
+          },
+          "single_defensible_answer": {
+            "agree": 28,
+            "n": 30
+          },
+          "source_support": {
+            "agree": 27,
+            "n": 30
+          },
+          "syllabus_entitlement": {
+            "agree": 30,
+            "n": 30
+          },
+          "conditions_ok": {
+            "agree": 18,
+            "n": 30
+          }
+        },
+        "blocking_defect_presence_agree": 26
+      }
+    }
+  },
+  "subject_retention": {
+    "accountancy": {
+      "denominator": 10,
+      "eligible": 10
+    },
+    "business_studies": {
+      "denominator": 10,
+      "eligible": 9
+    },
+    "economics": {
+      "denominator": 10,
+      "eligible": 6
+    },
+    "english": {
+      "denominator": 10,
+      "eligible": 10
+    }
+  },
+  "controlled_defect_topology_actions": {
+    "overlapping_options": {
+      "n": 8,
+      "quarantined": 8,
+      "errors": 0,
+      "eligible": 0,
+      "outcomes": {
+        "option_collision": 8
+      }
+    },
+    "unsupported_explanation": {
+      "n": 8,
+      "quarantined": 7,
+      "errors": 1,
+      "eligible": 0,
+      "outcomes": {
+        "failed:explanation_support": 5,
+        "failed:source_support": 2,
+        "provider_output_incomplete": 1
+      }
+    },
+    "wrong_key": {
+      "n": 8,
+      "quarantined": 8,
+      "errors": 0,
+      "eligible": 0,
+      "outcomes": {
+        "blind_key_contradiction": 6,
+        "failed:source_support": 2
+      }
+    },
+    "missing_decisive_condition": {
+      "n": 1,
+      "quarantined": 1,
+      "errors": 0,
+      "eligible": 0,
+      "outcomes": {
+        "failed:source_support": 1
+      }
+    },
+    "syllabus_mismatch": {
+      "n": 3,
+      "quarantined": 3,
+      "errors": 0,
+      "eligible": 0,
+      "outcomes": {
+        "failed:source_support": 2,
+        "failed:syllabus_mapping": 1
+      }
+    },
+    "numeric_error": {
+      "n": 4,
+      "quarantined": 4,
+      "errors": 0,
+      "eligible": 0,
+      "outcomes": {
+        "blind_key_contradiction": 4
+      }
+    }
+  },
+  "valid_rejections": [
+    {
+      "id": "business_studies-BS-10-valid",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The NCERT excerpt defines development as learning opportunities designed to help employees grow, so B is the only matching option.",
+        "The stem refers to a cited passage, but the passage field is empty. The source excerpt supports the intended definition but is not supplied as candidate-facing passage text.",
+        "Defect: incomplete_stimulus_or_data: The stem asks what the cited passage says, but no passage is supplied in the question.",
+        "Condition missing: The cited passage is supplied to the candidate."
+      ]
+    },
+    {
+      "id": "economics-EC-04-valid",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The NCERT excerpt states that agricultural work is seasonal, village employment is unavailable in some months, and people then go to urban areas to look for jobs.",
+        "Option D expresses that explanation. A, B, and C do not."
+      ]
+    },
+    {
+      "id": "economics-EC-05-valid",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "E1.1 states that workers in the formal sector enjoy social security benefits, so A is the supported answer.",
+        "B is inconsistent with the source excerpt's comparison of formal- and informal-sector earnings; C conflicts with the stated benefit; D is not a benefit.",
+        "The stem refers to 'the text' but supplies no text or identifiable source in the candidate-facing question.",
+        "Defect: incomplete_stimulus_or_data: The question asks what 'the text' associates with formal-sector workers, but no text is supplied or identified for the candidate.",
+        "Condition missing: The unspecified 'text' means the NCERT Employment text containing the cited formal-sector statement."
+      ]
+    },
+    {
+      "id": "economics-EC-09-valid",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "The NCERT excerpt identifies fossil fuel as an example of a non-renewable resource; it identifies trees in forests and fish in the ocean as renewable resources.",
+        "The syllabus includes Environment and Sustainable Development, and the source excerpt directly supports the classification tested."
+      ]
+    },
+    {
+      "id": "economics-EC-07-valid",
+      "stage": "source_support",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "details": [
+        "E1.1 states that physical capital is separable from its owner whereas human capital is inseparable, so C is the supported comparison.",
+        "A and B conflict with E1.1; D conflicts with E1.3, which says physical capital creates private benefits.",
+        "This is an original practice item, so no past-paper counterpart is required."
+      ]
+    }
+  ],
+  "conditional_answer_notes": {
+    "general_rule_vs_missing_case_fact": "The CUET-fit contract treats a sourced definition or rule as academic knowledge and blocks only an omitted answer-changing case fact. EC-04, EC-07 and EC-09 have exact supporting source spans, yet Luna classified the sourced proposition as inferred_fact; Gemini marked it convention and Haiku did not flag it as a missing case fact. This is the main likely false-rejection mechanism.",
+    "reference_completeness": "BS-10 and EC-05 explicitly ask what an absent cited passage/text says. The saved source excerpt supports the intended key, but the student-facing passage field is empty. Their current stems have a real completeness defect; the underlying syllabus knowledge is valid and could be tested with direct wording.",
+    "tested_conditional_control": "AC-COND-CAPITAL-INTEREST: Luna and Haiku flag missing deed/rate conditions; Gemini solves D and reports no blocker. The fused topology quarantines it. This is direct evidence that pairwise blind agreement is not a uniformly reliable substitute for condition audits.",
+    "positive_condition_contest": "AC-05: all three judges accept A as a convention, but the quoted rule only says no interest is charged if the deed is silent. The converse is not stated. Preserve the independently recorded wording dispute; model agreement does not settle it.",
+    "haiku_overflag_example": "AC-09: Luna and Gemini accept the stated general guarantee rule; Haiku marks the guarantors/shortfall setup missing even though the question asks for the generic rule and its source gives the guarantee mechanism. This is a likely over-flag, not evidence of an incorrect key."
+  },
+  "five_valid_rejection_review": [
+    {
+      "id": "business_studies-BS-10-valid",
+      "key": "B",
+      "source_quote": "Development refers to the learning opportunities designed to help employees grow.",
+      "syllabus": "Unit VI Staffing: Training and Development – meaning, need, methods; also steps in staffing process.",
+      "judgment": "The key and syllabus topic are supported. The phrase “in the cited passage” points to a passage that is absent from passage_text, and the source-support failure explicitly records incomplete stimulus. A valid completeness block for this wording; likely easy to repair as a direct definition question."
+    },
+    {
+      "id": "economics-EC-04-valid",
+      "key": "D",
+      "source_quote": "work in agriculture is seasonal; there are no employment opportunities in the village for all months in the year. When there is no work to do on farms, people go to urban areas and look for jobs.",
+      "syllabus": "Unit III Current challenges: Employment – growth and changes in workforce participation in formal and informal sectors; problems and policies.",
+      "judgment": "The source directly entails D and no case-specific fact is missing. Luna alone tags the sourced seasonal-work rule as inferred_fact; Gemini and Haiku pass the condition. Likely false rejection under the contract, not a legitimate academic gate."
+    },
+    {
+      "id": "economics-EC-05-valid",
+      "key": "A",
+      "source_quote": "Those who are working in the formal sector enjoy social security benefits.",
+      "syllabus": "Unit III Current challenges: Employment – growth and changes in workforce participation in formal and informal sectors; problems and policies.",
+      "judgment": "The content/key are source- and syllabus-supported. The exact stem asks what “the text” says, but no text is present; the source-support failure explicitly records incomplete stimulus and missing text identity. Legitimate completeness block for this wording; the underlying recall concept is CUET-appropriate."
+    },
+    {
+      "id": "economics-EC-09-valid",
+      "key": "A",
+      "source_quote": "Non-renewable resources ... get exhausted with extraction and use, for example, fossil fuel.",
+      "syllabus": "Unit III Current challenges: Environment and Sustainable Development – definition and functions, state of India’s environment, strategies for sustainable development.",
+      "judgment": "The source directly states A and syllabus fit is true. Luna marks this sourced textbook classification as inferred_fact; Gemini treats it as convention. The recorded failure contains no unsupported-key or out-of-syllabus finding. Likely false rejection; the “in the source” phrasing could still be made more direct."
+    },
+    {
+      "id": "economics-EC-07-valid",
+      "key": "C",
+      "source_quote": "Physical capital is separable from its owner, whereas human capital is inseparable from its owner.",
+      "syllabus": "Unit III Current challenges: Human Capital Formation – how people become a resource; role of human capital in economic development; growth of education sector.",
+      "judgment": "The source directly entails C and all three judges mark the syllabus entitled. Luna labels the exact source statement inferred_fact and Haiku treats the source reference as missing; Gemini marks it convention. The topology reason does not identify a second defensible key. Likely false rejection under the stated rule-versus-case-fact contract, with a minor source-reference clarity opportunity."
+    }
+  ],
+  "key_and_fit_uncertainty": {
+    "independent_first_pass_key_agreement": "40/40 with author oracle and proposed key; one root AC-05 is expressly contested on positive-condition entailment, leaving 39 unambiguous roots.",
+    "valid_key_wilson95_descriptive_percent": {
+      "all40": [
+        91.2,
+        100
+      ],
+      "uncontested39": [
+        91,
+        100
+      ]
+    },
+    "current_primary_retention_wilson95_descriptive_percent": [
+      73.3,
+      94.4
+    ],
+    "caveat": "Intervals are illustrative binomial intervals only. This is a deliberately selected diagnostic with shared source families, controlled variants and a tiny fixed root set; they are not population confidence bounds or proof of CUET academic truth."
+  },
+  "haiku_slot_recommendation": {
+    "recommendation": "Keep Luna and Gemini in their existing roles; keep Haiku measurement-only. Do not promote Haiku or replace Gemini on this run.",
+    "measured_haiku": "40/40 first-pass key matches and no valid abstentions, but only 26/40 CUET-fit pass scores and 9/40 valid condition failures. It showed no valid-key accuracy lift over Luna/Gemini on this easy, correlated set and its stricter condition judgments include likely false flags.",
+    "measured_slot_cost": {
+      "haiku_72_raw_judgments_usd": 0.19125,
+      "gemini_first_call_for_each_of_72_candidates_usd": 0.83351,
+      "gemini_additional_8_topology_requests_usd": 0.169522,
+      "caveat": "This is observed diagnostic cost, not an equal-topology future estimate. Gemini’s 8 repeated calls arose in the measured pipeline; a Haiku topology was not executed."
+    },
+    "conclusion_limit": "No end-to-end Luna+Haiku topology, independent academic truth set or representative student timing was measured. Do not infer lower future costs or better/worse production yield from the 72 raw Haiku calls."
+  },
+  "cost": {
+    "scope_prefix": "cuet-readiness-diagnostic72-v2:",
+    "ledger_receipts": 279,
+    "receipts_complete": true,
+    "settled_usd": 1.509084,
+    "held_usd": 0,
+    "gross_usd": 1.509084,
+    "cap_usd": 4,
+    "by_model": {
+      "gpt-6-luna": {
+        "requests": 127,
+        "settled_usd": 0.314802,
+        "input_tokens": 637223,
+        "output_tokens": 492106,
+        "stages": {
+          "blind_solution": 87,
+          "explanation_support": 40
+        },
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 33024,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        }
+      },
+      "gemini-3.8-flash": {
+        "requests": 80,
+        "settled_usd": 1.003032,
+        "input_tokens": 421444,
+        "output_tokens": 183178,
+        "stages": {
+          "independent_evaluation": 80
+        },
+        "rates": {
+          "provider_host": "generativelanguage.googleapis.com",
+          "max_input_tokens": 33024,
+          "input_per_million": 0.75,
+          "output_per_million": 3.75,
+          "batch": {
+            "input_per_million": 0.375,
+            "output_per_million": 1.875
+          }
+        }
+      },
+      "claude-haiku-5-5": {
+        "requests": 72,
+        "settled_usd": 0.19125,
+        "input_tokens": 796292,
+        "output_tokens": 223174,
+        "stages": {
+          "independent_evaluation": 72
+        },
+        "rates": {
+          "provider_host": "api.anthropic.com",
+          "max_input_tokens": 32768,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "scope": "measurement_only",
+          "note": "Claude Haiku 5.5, released 7 Oct 2026. Prices apply to prompts up to 100,000 tokens (above that USD 0.50/2.50); this pipeline never sends more than 32,768 bytes. Same text is about 30% more tokens than on Haiku 4.5. Source: platform.claude.com/docs/en/models/haiku-5-5/overview, read 8 Oct 2026."
+        }
+      }
+    },
+    "first_call_cost_by_model": {
+      "gpt-6-luna": {
+        "unique_candidates": 72,
+        "first_call_per_candidate_usd": 0.237053,
+        "repeated_calls": 55,
+        "repeated_call_cost_usd": 0.077749
+      },
+      "gemini-3.8-flash": {
+        "unique_candidates": 72,
+        "first_call_per_candidate_usd": 0.83351,
+        "repeated_calls": 8,
+        "repeated_call_cost_usd": 0.169522
+      },
+      "claude-haiku-5-5": {
+        "unique_candidates": 72,
+        "first_call_per_candidate_usd": 0.19125,
+        "repeated_calls": 0,
+        "repeated_call_cost_usd": 0
+      }
+    },
+    "invoices": "No provider invoices were present; these are usage-receipt ledger charges, including billable failed/incomplete responses and repeat requests."
+  },
+  "limits": [
+    "40 valid roots (10 per subject), with only five valid roots per subject in the release partition.",
+    "45 declared roots across 72 selected rows; controlled mutations share source roots and do not add independent sample size.",
+    "Accountancy valid roots share one partnership-basics NCERT document; Business Studies roots share one Staffing chapter; economics chapters and authored English stimuli do not create a representative CUET sample.",
+    "Benchmark designer contributed to validator design. The independent first-pass keys help audit answer selection but do not establish CUET fit, source truth or the truth of author certificates.",
+    "All 214 judgments and this completed payload are now observed regression evidence, never a fresh release benchmark. No changes to fixtures, labels or contracts were made.",
+    "The 0 controlled false accepts applies only to 31 conclusive controlled-defect verdicts. One of 32 controlled rows ended in provider/topology error; this is not a successful rejection. The 32 fixtures are a coverage set, not a prevalence sample.",
+    "Estimated solve times are rubric heuristics, not measured candidate timing. CUET 2026 syllabus is the cached baseline and remains provisional for CUET UG 2027."
+  ],
+  "input_hashes": {
+    "frozen.json": "a4c8264ca35f12dd7ac3a99fb4cc982c3d1d520d77249dac6e398b71a973af9d",
+    "results.json": "cb6ff3e04b76e6ee93abf3f27d5155199874eadef58f0bbfefefd8e68f506388",
+    "summary.json": "82267cd9f7bd454312e54c10b7beebc577b9e225b9c8a612f4eaa4414eb8a3e8",
+    "PREREGISTRATION.json": "5247dafa03f01ca09dd232e678b03aaca49a8e291bd62b10180af04121ac4936"
+  },
+  "first_pass_key_sha256": "beff179bcb383a73b78bc1373e112e5517bf730bc325776a2cad1da23b174e13",
+  "first_pass_audit_report_sha256": "f165b602069a87ba550e929a6bbbea502468ac264af1c0c55ccdaa78e2c09323"
+}

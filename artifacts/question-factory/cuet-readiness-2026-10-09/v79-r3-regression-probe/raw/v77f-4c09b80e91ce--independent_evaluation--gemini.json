@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12388,
+ "request_bytes": 33323,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r3-regression-2026-10-09-v77f-4c09b80e91ce\",\n  \"content_hash\": \"d78f241e6972667e2b255a924c01b5df8c04a81d6fab3609ce548998bb610690\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E3.1\"],\n  \"reasons\": [\n    \"In the passage, Mira 'entered the move in a ledger', indicating an account or record book where actions and events are systematically written down.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Vocabulary in Context\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The contextual meaning of 'ledger' is determined by Mira's action of entering the move into it.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The passage mentions 'map boxes' separately from the ledger.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The passage mentions opening windows, not a window covering.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The passage mentions a donor speaking to Mira, not a receipt.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests vocabulary in context from a narrative reading comprehension passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option vocabulary-in-context question based on a short passage.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Aligns with CUET passage-based vocabulary items like exemplar q21.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors pull from other nouns in the passage ('box', 'windows', 'donor') to test genuine comprehension.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\"cuet2024-english-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"One enters a record of an event or movement into a written record book.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A box used to store maps\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"The box is the object being moved, not the ledger in which the move is entered.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A window covering\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Mira opened the reading-room windows for twenty minutes before shelving returned books.\",\n      \"reason\": \"Windows are opened; a ledger is where the movement of boxes is entered.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A donor’s receipt\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk\",\n      \"reason\": \"A donor asked a verbal question; the passage mentions no receipt.\"\n    }\n  ]\n}",
+       "thoughtSignature": "Et8HCtwHAWkUfRP2zmOfAqf54EeFD+DMjjx1mDSh/J7o9rYDBmxVTegG0HG9iRe2slP8j0x4s1msL+W/noL2ANNn6fkJ3rq8QmV/gxv7I8C/9KVfJvy6zdq5wUnsMz4DVsuUAVayAC26UCGHkH8/obU/3kPWNsf4koS/ljm+Krz/ib8R2R8MWPLzrAlP+zJ6xHbRSYfiQoot07zp2RDScM0x3zpIXg5NpvhHbwSMlQxAAOVt2Rp3oR3BfB10HJefWqV3Mhnd4pFav58do7NrB2ul+FuHF4KYZYBywWKtAsFmO12c4qeG/El7LtDhehfxlAXee4EegylcFGCAWzKcddHDeaf7S0AjqxckpcDIBP8RuC8JZFj6Pa0EN3KBSVIM3tOC87SM8zYHG0fMOW4W7NtKfOgY32LqogSyZlBNJpgBKTBizUdEwsV2Hz0H/RgL/3ecrFIMyFPkltk9Zxz42oU7eH4pavwAxwaN12s8+hQfAYlSpsc7SC2TDSYQconoYJNiXj+03QgP0aIgj3ZlcRKtAUq3RoLdbqJ1A9r0geNAwYKlGNKQsFfwbCiJk9kHoL5Y6kvlhUIQQUqM4ebepGdnaRxpAdeM7e2hCpPbEwEzIGmJIO6ADmz5T5CkQzhYvUdi6Xirdew26Puq9j02Lhyg1FlxE7QqOMCsBMhNa9l1N+n5dlLZp3K0Yn3SqKZzYLtYzwgbksex8kM6TJ98hJEwQSiSbPD97QF4YZB3u6zx/2BsPdUtfkj8R49uYUAYBvFNVczI9zowV+VPZiOV+Sak4zwxgCLKk+/utddqbrhDgofOnc5UvP2fqASKSm+kjubpJ+WpptdTDWrlabDFfZmtKdKNFvsKDkjl6zENyHpTROGCXcsCItznX0cW4yIDxaz4AzP9dzyZ6+HIhhY9sh+LmdD6T1DjFHGlEZZtw0gwWCs9Cc9LALhxPbbQOt992V9OOcFJMLSPlrVPH2fsyBAJZZtLVWDnFZXA6tdOgFUYCSyX1Y/j0HxnJUH4lsIvPIGQAKf1Fgab8+apcQI7dUgKz28CHyKkCbb5w+vlq5nTtcYoKYWzIyIv7OL0MpEAoeR05NKp5f7GWDRfNhzgSPNaEiwFSa4Cx4k3zqrHT6MWtmV5u26euZDBuXYX5aNzutMDIzaPKtc8fp7/sqHTOAiHSJItxmKi1GWkg55ADRj+MULnwJncWW/gX1WkZjIjNAAlxgAn1oOg1Rnmz4zeziGAzJ3e6hA7K6hInKsdBmGMu7umQbt/hmzCxzv6tVI55UBpc6FGyodl4alvFG3M6ke1gySOXcmG1WorHoxEqKPW9Q=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6145,
+   "candidatesTokenCount": 1323,
+   "totalTokenCount": 7675,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6145
+    }
+   ],
+   "thoughtsTokenCount": 207,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "9dfIaofmC_zEg8UPy9GyiQU"
+ }
+}

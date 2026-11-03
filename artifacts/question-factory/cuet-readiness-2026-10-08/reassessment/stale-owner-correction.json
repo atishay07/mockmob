@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-07T23:59:07.503Z",
+  "previous_progress": {
+    "at": "2026-10-07T23:58:00.824Z",
+    "owner_pid": 6916,
+    "state": "recovery_pass_finished",
+    "code": 0,
+    "publication_writes": 0,
+    "production_writes": 0
+  },
+  "correction": "The recorded PID 6916 had ended but a restarted full-bank worker 32888 remains live. Do not claim original current worker drainage from that stale PID.",
+  "actual_full_bank_pid": 32888,
+  "recovery_pid": 42612,
+  "recovery_ids": [
+    "47a4dee6a1ea6f25e5fbe174d719295a",
+    "386dca46542a02901d2837324bf0b69e",
+    "4a75b3dbae759dd8001d1f124ba35314",
+    "7b4662c4e2166c62f863a6ae1da78ba6",
+    "bd6ee0839dba5995f84adf40a31ad10e"
+  ],
+  "active_requests": [
+    {
+      "pid": 32888,
+      "id": "638859f46423652f65bfcbf74e5d2c089846e624c8af2168e397ebf32166b44d",
+      "provider": "openai",
+      "candidate": "bdaab4d57192e82d8905bcfedc1179ba"
+    },
+    {
+      "pid": 32888,
+      "id": "cf728941d603ca44c5de8778c713a41f83e96580d4d40321b4f8351aa881c716",
+      "provider": "openai",
+      "candidate": "11a1cd0da911c0091e9884629edb5165"
+    },
+    {
+      "pid": 32888,
+      "id": "fc05795d71fd9ffd077206f7012f7687868e9331ff9b2191f638caad19a2b1f8",
+      "provider": "openai",
+      "candidate": "ae253e2c74d85c7ca58b6c8be1807189"
+    },
+    {
+      "pid": 32888,
+      "id": "36f50593345245d3ece43c2f1e483609f00b4f424026ecf6464231bea9b3d11b",
+      "provider": "openai",
+      "candidate": "99519ad997494b32a08ca17d0c48315b"
+    },
+    {
+      "pid": 32888,
+      "id": "19693ef8d4d0dfc912e1af2b9ad0ef11043232a1feb740f74dd6def5d752d76e",
+      "provider": "openai",
+      "candidate": "3840664fceb9afc9c36309542c0ab16f"
+    },
+    {
+      "pid": 32888,
+      "id": "718ea15ce08e44b37e406e011bfe2870ae76781a5da1a661c2d64b75b01abc54",
+      "provider": "openai",
+      "candidate": "34290716ce452501a80ebac2b51e9a2e"
+    },
+    {
+      "pid": 32888,
+      "id": "30eb91ad03974098208595946c20afe93fa11f0f83ce02883c89bcc227360901",
+      "provider": "openai",
+      "candidate": "1daaddc92c0285704924e8448eafbb35"
+    },
+    {
+      "pid": 32888,
+      "id": "f7c6cfce9f7b59de68338824eb75366572996273d52d02b83359ab57a6631d03",
+      "provider": "openai",
+      "candidate": "0282ab544a312eaf839c21d2feeb915f"
+    }
+  ],
+  "overlap_on_recovery_ids": [],
+  "future_recovery_requires_explicit_current_pid": true,
+  "workers_killed": 0,
+  "requests_resubmitted": 0,
+  "holds_removed": 0
+}

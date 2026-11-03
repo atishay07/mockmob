@@ -1,0 +1,872 @@
+{
+  "schema": "v77-final-blind-review-v1",
+  "created_at": "2026-10-09T06:42:30.000Z",
+  "case_construction_started_at": "2026-10-09T06:42:30.000Z",
+  "contract_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-contract-freeze.json",
+  "contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "transport_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-transport-freeze.json",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "transport_freeze_contract_sha256": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "instructions": "Derive a valid answer independently for every case before judging the item. Review all options adversarially; assess source entailment, decisive assumptions, syllabus entitlement, numerics, passage completeness, and presentation. Do not infer labels from ordering. No answer keys, oracle, labels, proposed explanations, construction tags, or rationale are included.",
+  "syllabus": {
+    "accountancy": {
+      "subject": "Accountancy",
+      "unit": "Analysis of Financial Statements",
+      "chapter": "Cash Flow Statement",
+      "official_pdf": "data/CUET 2026/accountancy.pdf",
+      "official_scope_excerpt": "Cash Flow Statement",
+      "canonical_unit": "Analysis of Financial Statements",
+      "canonical_chapter": "Cash Flow Statement"
+    },
+    "business_studies": {
+      "subject": "Business Studies",
+      "unit": "Staffing / Consumer Protection",
+      "chapter": "Staffing; Consumer Protection",
+      "official_pdf": "data/CUET 2026/business_studies.pdf",
+      "official_scope_excerpt": "Staffing; Consumer Protection",
+      "canonical_units": [
+        "Staffing",
+        "Consumer Protection"
+      ]
+    },
+    "economics": {
+      "subject": "Economics",
+      "unit": "Introductory Microeconomics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "official_pdf": "data/CUET 2026/economics.pdf",
+      "official_scope_excerpt": "Introduction & Theory of Consumer Behaviour",
+      "canonical_unit": "Introductory Microeconomics",
+      "canonical_chapter": "Introduction & Theory of Consumer Behaviour"
+    },
+    "english": {
+      "subject": "English",
+      "unit": "Reading Comprehension",
+      "chapter": "Narrative Passage",
+      "official_pdf": "data/CUET 2026/english.pdf",
+      "official_scope_excerpt": "Reading Comprehension: Narrative Passage",
+      "canonical_unit": "Reading Comprehension",
+      "canonical_chapter": "Narrative Passage"
+    }
+  },
+  "format_reference": {
+    "accountancy": {
+      "source_id": "cuet2024-accountancy-bookA-paper",
+      "reference_only": true,
+      "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "identity_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+      "authentication_type": "corroborated_mirror",
+      "publisher_group": "aglasem_edutech_private_limited",
+      "identity": {
+        "subject_code": "301",
+        "language": "Assamese",
+        "paper_languages": [
+          "English",
+          "Assamese"
+        ],
+        "booklet": "A",
+        "key_date_token": "17.05.2024",
+        "year": 2024
+      },
+      "catalog": {
+        "url": "https://www.ndl.gov.in/cd_document/cuet_ug/cuetug/acc_qp_2024",
+        "quote": "Accountancy Question Paper for CUET (UG) 2024 (17th May 2024)",
+        "identity_sha256": "b4bf56593372c67ea8611ec5e84c6a0e42be35fb016b564b69c8bc89fecb03d8"
+      },
+      "question_count": 50,
+      "official_key_source_id": "cuet2024-accountancy-bookA-final-key",
+      "key_or_question_text_included": false,
+      "permission": {
+        "basis": "Owner reuse attestation; no independently verified licence document",
+        "reference": "Owner commissioning message, 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    "business_studies": {
+      "source_id": "cuet2024-business_studies-bookA-paper",
+      "reference_only": true,
+      "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+      "identity_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+      "authentication_type": "corroborated_mirror",
+      "publisher_group": "careerguide",
+      "identity": {
+        "subject_code": "305",
+        "language": "English",
+        "booklet": "A",
+        "year": 2024,
+        "key_date_token": "17.05.2024"
+      },
+      "catalog": {
+        "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/bus_qp_2024",
+        "quote": "Business Studies Question Paper for CUET (UG) 2024 (17th May 2024) Question Paper",
+        "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+      },
+      "question_count": 50,
+      "official_key_source_id": "cuet2024-business_studies-bookA-final-key",
+      "key_or_question_text_included": false,
+      "permission": {
+        "basis": "Owner reuse attestation; no independently verified licence document",
+        "reference": "Owner commissioning message, 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    "economics": {
+      "source_id": "cuet2024-economics-bookA-paper",
+      "reference_only": true,
+      "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+      "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+      "identity_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+      "authentication_type": "corroborated_mirror",
+      "publisher_group": "careerguide",
+      "identity": {
+        "subject_code": "309",
+        "language": "English",
+        "booklet": "A",
+        "year": 2024,
+        "key_date_token": "16.05.2024"
+      },
+      "catalog": {
+        "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eco_qp_2024",
+        "quote": "Economics/Business Economics Question Paper for CUET (UG) 2024 (16th May 2024)",
+        "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+      },
+      "question_count": 50,
+      "official_key_source_id": "cuet2024-economics-bookA-final-key",
+      "key_or_question_text_included": false,
+      "permission": {
+        "basis": "Owner reuse attestation; no independently verified licence document",
+        "reference": "Owner commissioning message, 6 October 2026",
+        "independently_verified_licence": false
+      }
+    },
+    "english": {
+      "source_id": "cuet2024-english-bookA-paper",
+      "reference_only": true,
+      "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+      "url": "https://infinitylearn.com/surge/wp-content/uploads/securepdfs/2025/05/CUET-English-Question-Paper-2024.pdf",
+      "identity_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+      "authentication_type": "corroborated_mirror",
+      "publisher_group": "InfinityLearn / Rankguru Technology Solutions Private Limited",
+      "identity": {
+        "subject_code": "101",
+        "language": "English",
+        "booklet": "A",
+        "key_date_token": "15.05.2024",
+        "year": 2024
+      },
+      "catalog": {
+        "url": "https://ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eng_qp_15may2024",
+        "quote": "English Language Question Paper for CUET (UG) 2024 (15th May 2024)",
+        "identity_sha256": "d63edc05a2f4c688461bf399cea0b4a7273924b500ca7741e3dc578829406159"
+      },
+      "question_count": 50,
+      "official_key_source_id": "cuet2024-english-bookA-final-key",
+      "key_or_question_text_included": false,
+      "permission": {
+        "basis": "Owner reuse attestation; no independently verified licence document",
+        "reference": "Owner commissioning message, 6 October 2026",
+        "independently_verified_licence": false
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Which investment can qualify as a cash equivalent under the stated maturity test?",
+      "options": [
+        "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+        "Equity shares held for resale with no stated redemption date",
+        "A five-year government bond acquired today",
+        "A deposit maturing four months after acquisition"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 3",
+          "quote": "“Cash equivalents” means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A garment maker reports two cash receipts: payment from customers for delivered garments and proceeds from selling an old cutting machine. Which classification is correct?",
+      "options": [
+        "Both are operating cash inflows",
+        "Customer payment is operating; machine-sale proceeds are investing",
+        "Customer payment is investing; machine-sale proceeds are operating",
+        "Both are financing cash inflows"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 4",
+          "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "What is the primary purpose of presenting operating, investing and financing cash flows separately?",
+      "options": [
+        "To show only the profit earned in the period",
+        "To provide information about cash inflows and outflows under the three activity heads",
+        "To replace the income statement and balance sheet",
+        "To report only cash held at year end"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 2",
+          "quote": "The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A company pays cash to acquire a delivery van for use over several years. Which activity is this cash outflow?",
+      "options": [
+        "Operating",
+        "Investing",
+        "Financing",
+        "It is excluded because the van is a fixed asset"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 5",
+          "quote": "Examples of cash flows arising from investing activities are cash payments to acquire fixed assets including intangibles and cash receipt from disposal of fixed assets including intangibles.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "body": "A new firm has approved its structure and now identifies workforce needs before recruiting and selecting people. Which management function is it carrying out?",
+      "options": [
+        "Staffing",
+        "Controlling",
+        "Marketing",
+        "Financial planning"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Staffing",
+      "sources": [
+        {
+          "id": "v77src-lebs106",
+          "locator": "NCERT physical page 2",
+          "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+        }
+      ]
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "body": "An employee already doing the job receives instruction to update job skills and prepare for greater responsibility. Which staffing activity is described?",
+      "options": [
+        "Training and development",
+        "Recruitment",
+        "Placement",
+        "Compensation"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Staffing",
+      "sources": [
+        {
+          "id": "v77src-lebs106",
+          "locator": "NCERT physical page 6",
+          "quote": "Employees need to be trained for upgradation of knowledge and skills and for preparing for higher responsibilities. Staff training and development is another important aspect of the staffing process.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+        }
+      ]
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "body": "A buyer seeks relief after a product falls short of the seller’s stated expectations. Which consumer right most directly addresses obtaining that relief?",
+      "options": [
+        "Right to seek redressal",
+        "Right to be heard",
+        "Right to choose",
+        "Right to consumer education"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Consumer Protection",
+      "sources": [
+        {
+          "id": "v77src-lebs203",
+          "locator": "NCERT physical page 8",
+          "quote": "The Consumer Protection Act 2019 provides for six rights of consumers. The right to seek redressal gives the consumer a right to get relief against unfair trade practice or restrictive trade practices or unscrupulous exploitation in case the product or service falls short of expectations.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+          "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+        }
+      ]
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "body": "A customer files a complaint and asks the company to consider it. Which consumer right is directly engaged by the opportunity to present the complaint?",
+      "options": [
+        "Right to be heard",
+        "Right to seek information",
+        "Right to safety",
+        "Right to choose"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Consumer Protection",
+      "sources": [
+        {
+          "id": "v77src-lebs203",
+          "locator": "NCERT physical page 8",
+          "quote": "The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+          "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+        }
+      ]
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "A student’s total utility rises from 28 units after four units of a good to 30 after five. What is the marginal utility of the fifth unit?",
+      "options": [
+        "2 units",
+        "5 units",
+        "28 units",
+        "58 units"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "numerical_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 2",
+          "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "A consumer ranks three bundles from most preferred to least preferred but does not assign them numerical utility values. Which approach is being used?",
+      "options": [
+        "Ordinal utility analysis",
+        "Cardinal utility analysis",
+        "Cash-flow analysis",
+        "Cost-plus pricing"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 4",
+          "quote": "The consumer does not measure utility in numbers, though she often ranks various consumption bundles. This forms the starting point of ordinal utility analysis.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "Two bundles lie on the same indifference curve. What does the source-supported interpretation say about the consumer’s evaluation of them?",
+      "options": [
+        "They are considered indifferent",
+        "The bundle farther right must be preferred",
+        "They have equal prices",
+        "They contain identical quantities of both goods"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 6",
+          "quote": "All points on an indifference curve represent bundles which are considered indifferent by the consumer.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "A room heater gives the same person different utility in Chennai in summer and Ladakh in winter. Which explanation is supported?",
+      "options": [
+        "Utility can change with place and time",
+        "Utility is always identical for the same person",
+        "Utility depends only on the product’s price",
+        "The heater has become a different commodity"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 2",
+          "quote": "Utility that one individual gets from the commodity can change with change in place and time.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "In the library passage, what does “ledger” most nearly mean?",
+      "options": [
+        "A written record book",
+        "A box used to store maps",
+        "A window covering",
+        "A donor’s receipt"
+      ],
+      "passage_text": null,
+      "route": "passage",
+      "question_type": "reading_vocabulary",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "library",
+          "source_url": null,
+          "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Why does Mira record a box move even though no map has yet been damaged?",
+      "options": [
+        "The records help track preventive steps before damage occurs",
+        "The donor requires a list of damaged maps",
+        "The map boxes cannot be moved without written permission",
+        "The paper strips are used to write the ledger"
+      ],
+      "passage_text": null,
+      "route": "passage",
+      "question_type": "reading_inference",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "library",
+          "source_url": null,
+          "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Why does Dev cross out the noon ferry crossing?",
+      "options": [
+        "The operator cancelled it when the current became too strong",
+        "The timetable was familiar to the visitors",
+        "Dev preferred to travel in the morning",
+        "The board had been washed away again"
+      ],
+      "passage_text": null,
+      "route": "passage",
+      "question_type": "reading_detail",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "ferry",
+          "source_url": null,
+          "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What does Leela’s list help her do?",
+      "options": [
+        "Make small delays visible while there is still time to adjust",
+        "Guarantee that every buyer arrives early",
+        "Avoid telling buyers about collection times",
+        "Prevent all harvest batches from being uneven"
+      ],
+      "passage_text": null,
+      "route": "passage",
+      "question_type": "reading_main_idea",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "orchard",
+          "source_url": null,
+          "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A company receives cash from customers for goods sold and cash from disposal of an old machine. Which classification is correct?",
+      "options": [
+        "Customer receipt is operating; machine proceeds are investing",
+        "Customer receipt is investing; machine proceeds are operating",
+        "Both are investing",
+        "Both are financing"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 4",
+          "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "An investment is described as “short term, readily convertible and low risk.” Does it qualify as a cash equivalent?",
+      "options": [
+        "Yes",
+        "No",
+        "Only if it is an equity share",
+        "Only if it is held for more than one year"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 3",
+          "quote": "“Cash equivalents” means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers. What is the net cash from these two operating transactions?",
+      "options": [
+        "₹7,500",
+        "₹8,500",
+        "₹16,500",
+        "₹6,500"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "numerical_single_best",
+      "learning_objective": "Cash Flow Statement",
+      "sources": [
+        {
+          "id": "v77src-leac206",
+          "locator": "NCERT physical page 4",
+          "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "body": "An organisation identifies workforce requirements, recruits, selects and places a candidate. Which function is this?",
+      "options": [
+        "Staffing",
+        "Controlling",
+        "Marketing",
+        "Financing"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Staffing",
+      "sources": [
+        {
+          "id": "v77src-lebs106",
+          "locator": "NCERT physical page 2",
+          "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+        }
+      ]
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "body": "A dissatisfied buyer wants to file a complaint and be heard, and also wants relief after a defective product caused loss. Which right applies?",
+      "options": [
+        "Right to be heard",
+        "Right to seek redressal",
+        "Right to choose",
+        "Right to information"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "application_single_best",
+      "learning_objective": "Consumer Protection",
+      "sources": [
+        {
+          "id": "v77src-lebs203",
+          "locator": "NCERT physical page 8",
+          "quote": "The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+          "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+        }
+      ]
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "body": "A question asks learners to estimate the causal effect of algorithmic candidate scoring on long-run organisational citizenship behaviour. Which named advanced method is being tested?",
+      "options": [
+        "Causal forest estimation",
+        "Workforce requirement analysis",
+        "Recruitment",
+        "Selection"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Staffing",
+      "sources": [
+        {
+          "id": "v77src-lebs106",
+          "locator": "NCERT physical page 2",
+          "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+        }
+      ]
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "Total utility is 28 after four units and 30 after five. What is marginal utility of the fifth unit?",
+      "options": [
+        "2",
+        "5",
+        "−2",
+        "30"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "numerical_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 2",
+          "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "As consumption of a good rises, its marginal utility changes. Which claim must follow?",
+      "options": [
+        "It declines",
+        "It may decline only if the consumer’s income also falls",
+        "It rises at every additional unit",
+        "It stays constant"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 2",
+          "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "body": "A consumer ranks bundles without assigning numerical utility values. Which approach is this?",
+      "options": [
+        "Cardinal utility",
+        "Ordinal utility",
+        "Cost accounting",
+        "Market supply"
+      ],
+      "passage_text": null,
+      "route": "source_grounded_conceptual",
+      "question_type": "conceptual_single_best",
+      "learning_objective": "Introduction & Theory of Consumer Behaviour",
+      "sources": [
+        {
+          "id": "v77src-leec202",
+          "locator": "NCERT physical page 4",
+          "quote": "The consumer does not measure utility in numbers, though she often ranks various consumption bundles. This forms the starting point of ordinal utility analysis.",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+          "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+        }
+      ]
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "In the workshop passage, what did Arun ask the apprentice to compare before deciding what to do?",
+      "options": [
+        "The second-hand movement and the escapement sound",
+        "The clock’s colour and the tray depth",
+        "The room’s temperature and the tool length",
+        "The apprentice’s notes and the village timetable"
+      ],
+      "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+      "route": "passage",
+      "question_type": "reading_detail",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "workshop",
+          "quote": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+          "source_url": null,
+          "identity_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+        }
+      ]
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "In the ferry passage, the word “fresh” in “fresh date” means:",
+      "options": [
+        "Recently written",
+        "Cool to the touch",
+        "Unfamiliar to the visitor",
+        "Damaged by rain"
+      ],
+      "passage_text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+      "route": "passage",
+      "question_type": "reading_vocabulary",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "ferry",
+          "quote": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+          "source_url": null,
+          "identity_sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e"
+        }
+      ]
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Select the clause that uses the English subjunctive mood after a mandative verb.",
+      "options": [
+        "The committee recommended that the clock be repaired",
+        "The clock was repaired yesterday",
+        "The apprentice repaired the clock carefully",
+        "The clock may need repair"
+      ],
+      "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+      "route": "passage",
+      "question_type": "grammar_rule",
+      "learning_objective": "Narrative Passage",
+      "sources": [
+        {
+          "id": "v77src-english-narratives",
+          "locator": "workshop",
+          "quote": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+          "source_url": null,
+          "identity_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+        }
+      ]
+    }
+  ]
+}

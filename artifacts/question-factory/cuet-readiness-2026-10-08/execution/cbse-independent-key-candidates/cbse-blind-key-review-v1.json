@@ -1,0 +1,340 @@
+{
+  "schema": "cbse-independent-blind-key-review-v1",
+  "input_file": "questions-blinded.json",
+  "input_sha256": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+  "candidate_count": 32,
+  "items": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The assertion is true: securities premium is a capital reserve and is not credited to profit and loss. The reason is also true: when premium due on forfeited shares was not received, the premium account is debited. That forfeiture treatment does not explain why received premium is excluded from profit and loss.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "Pro-rata allotment is 50,000/60,000 = 5/6. An applicant for 6,000 shares receives 5,000, so allotment due is 5,000 x ₹4 = ₹20,000. Application money paid is 6,000 x ₹3 = ₹18,000; ₹3,000 excess application money on the 1,000-share shortfall is adjusted, leaving ₹17,000 cash due on allotment.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "Forty percent of ₹3,00,000 is ₹1,20,000; M takes that portion for ₹1,10,000, a ₹10,000 decrease. The remaining ₹1,80,000 is revalued to ₹1,50,000, a ₹30,000 decrease. The total ₹40,000 decrease is exactly covered by the ₹40,000 Investment Fluctuation Reserve, so the reserve offsets the investment losses and the net effect on Revaluation Account is nil.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "If ₹12,00,000 is 80% of the machinery's value because it is undervalued by 20%, the corrected value is ₹12,00,000/0.8 = ₹15,00,000.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "Consideration is 12,000 shares x ₹125 (₹100 face value plus 25% premium) + ₹1,00,000 bank draft = ₹16,00,000. Net assets taken over are ₹18,00,000 - ₹2,50,000 = ₹15,50,000. Consideration exceeds net assets by ₹50,000, giving goodwill.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "The creditors' book balances transferred to Realisation total ₹40,000 + ₹15,000 = ₹55,000. They are settled for ₹30,000 + ₹15,000 = ₹45,000; the ₹10,000 difference is a gain on settlement, but does not change the liability amount transferred to close the creditors account.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The ₹50 called per share includes ₹6 securities premium, so called-up share capital is ₹44 per share. For 1,000 shares, subscribed but not fully paid-up share capital shown is ₹44,000; premium is excluded from share capital.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "C",
+      "reasoning": "Goodwill is a non-cash asset transferred to Realisation; Employees Provident Fund is an outside liability transferred there; and provision for doubtful debts is transferred with the related asset adjustment. General reserve is distributed to partners' capital accounts, while debit bank balance is a cash/bank item and remains outside Realisation. Thus D and E are not transferred.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "C",
+      "reasoning": "A quality control supervisor is a lower-level manager concerned with output quality, safety implementation, and reducing material wastage. Analysing the broad business environment and survival implications is a top-level management responsibility.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The Differential Piece Wage System links compensation to worker efficiency by paying different piece rates according to whether the standard is met.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "C",
+      "reasoning": "A divisional structure gives divisional managers autonomy and broad responsibility across functions, which supports managerial development through varied experience.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The case describes failure to notice and respond to changing preferences and increasing competition, both external threats. Understanding the environment provides threat identification and early warning signals.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "Controlling closes the current management cycle and supplies feedback that improves planning in the next cycle. Initiating action is associated with directing; control also looks ahead and can use qualitative standards.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "Option D gives the core statutory definition: a person buying goods or availing services for consideration paid, promised, partly paid/promised, or deferred. The other choices contradict the Act's coverage or expressly include resale/commercial-purpose buyers.",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "Option D omits the statutory exclusions for resale/commercial purpose and the inclusion of approved users/beneficiaries; it is the only option matching the core definition, with those standard qualifications understood."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "The Central Consumer Protection Authority (CCPA) is the authority established under the Consumer Protection Act, 2019 to protect consumer rights and address unfair trade practices, including through investigation and necessary action.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "The company assesses future funding needs, their timing, and how to arrange the funds before acting. This is financial planning.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "Construction of highways creates a physical asset and installing the Kavach system creates/acquires capital infrastructure, so (ii) and (iv) are capital expenditure. Salaries and interest payments are revenue expenditure.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "Statement 2 correctly defines demand deposits as withdrawable on demand. The standard M1 measure includes currency with the public, demand deposits with the banking system, and other deposits with RBI; Statement 1's exhaustive two-part wording omits the third component and is false.",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "This key reads 'constitutes currency and demand deposits' as an exhaustive definition; if intended only as shorthand for major components, Statement 1 is imprecise and could be read differently."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "A rise in the foreign-currency price makes imports costlier (iii). Lower import demand reduces demand for foreign currency (ii); the resulting improvement in net exports can raise national income (i). The sequence is (iii), (ii), (i).",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "The final income effect assumes the standard open-economy chain in which lower imports improve net exports and raise aggregate demand, with other conditions held constant."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "Fiscal deficit = expenditure - (revenue receipts + non-debt capital receipts). Thus ₹5,000 = ₹18,000 - (tax revenue + ₹3,000), so tax revenue = ₹10,000 crore.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "A duty exemption for a production sector is a fiscal measure that can redirect resources and encourage activity in that sector, fitting the government's allocation function. The other listed functions concern income redistribution or macroeconomic stabilisation; 'disposition' is not the relevant standard function here.",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "The stem does not state an explicit policy rationale; the key assumes the exemption is intended to promote fishing-sector production/resource allocation."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "An export of a good is a credit in the current account of the Balance of Payments because it earns foreign exchange and is a goods transaction.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "C",
+      "reasoning": "Currency removes barter's exchange difficulty as a medium of exchange. Repayment of a loan in fixed instalments over time uses money as a standard of deferred payments.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "A photographer running a studio is self-employed (p-iii); an ONGC engineer is a regular salaried employee (q-i); and a construction worker is the casual-wage example (r-ii). This is option D.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The supplied text says the apparent origin, the radiant, helps identify the shower. It is therefore a visual guide for locating/identifying the shower, not the physical source, entry speed, or an exact disappearance area.",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "The item cites paragraph 3, while the radiant's identifying role is stated in paragraph 2 of the supplied adaptation; paragraph 3 says it rises after midnight and improves sighting chances. The full passage still supports B."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "The passage presents factual explanations about the shower, its radiant, viewing conditions, historical activity, and meteor appearance. Its tone is explanatory and informative.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "D",
+      "reasoning": "The text explains the Geminids' origin and characteristics and gives practical viewing information. This combines scientific explanation with practical observation; no other option captures the passage as a whole.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "Paragraph 1 directly says the study tracked changes in everyday payment habits through UPI data across four Octobers. B is the closest statement of that purpose. The passage does not specifically identify different user groups, so that modifier is not independently established; the other options introduce technical infrastructure, vendor counts, or a direct cash comparison not stated as the study's purpose.",
+      "multiple_keys": [],
+      "missing_assumptions": [
+        "The 'different user groups' detail in option B is not stated in the supplied passage; B remains the closest supported purpose if that phrase is read broadly."
+      ],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "Transaction count rises each year from 4.21 to 16.58 billion, and transaction value rises each year from ₹7.71 to ₹23.49 lakh crore. Both increase steadily over the four observations.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "B",
+      "reasoning": "Use across shops, homes, workplaces, and small roadside vendors indicates adoption across varied formal and informal settings.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "C",
+      "reasoning": "The passage discusses transaction growth, user confidence, small-business effects, and cash use. It does not describe a governing policy framework for digital payments.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "solved_key": "A",
+      "reasoning": "Use by small roadside vendors supports the inference that digital payment systems have become inclusive; exclusive and marginal contradict the example.",
+      "multiple_keys": [],
+      "missing_assumptions": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    }
+  ]
+}

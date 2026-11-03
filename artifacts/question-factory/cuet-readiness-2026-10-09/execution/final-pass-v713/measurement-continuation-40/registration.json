@@ -1,0 +1,51 @@
+{
+  "version": "v713-fixed-denominator-diagnostic-continuation",
+  "created_at": "2026-10-09T18:36:47.402Z",
+  "campaign_id": "cuet-v713-measurement-continuation-40",
+  "denominator": 40,
+  "purpose": "Measure repaired pipeline on original allocated ideas; exposed items are NOT fresh qualification.",
+  "parent_directory": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-pilot-v712-40-2026-10-09",
+  "parent_hashes": {
+    "PREREGISTRATION.json": "e117f9002cdda7d32d44edcf6b7e73ed8398193959081b631b3ab644dd185097",
+    "campaign.json": "8cfe1e8b2d742eac3c32921762d820181e247b05467caaaa5a9cce0b4d425fe0",
+    "registry.json": "00b44a6b00f93f6462b6db77297eadac41b5d5a04c1479dfd776a60adb7e6241",
+    "state.json": "d253d8e32d20e536ce5f9df50eb0cc37f014f0cbc03d4b419bfbbc361dac9c7e"
+  },
+  "campaign_sha256": "26ffc44465c0f1fad41e8481d44ef1fe28b56141e41e547e5ab4a2988166918b",
+  "registry_sha256": "00b44a6b00f93f6462b6db77297eadac41b5d5a04c1479dfd776a60adb7e6241",
+  "contract_hash": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+  "prompt_hash": "a273fed3c6b7bb5ee7a900e04513bb39fedd1693acbb6ba519c40af922be970f",
+  "cost_profile": {
+    "version": "v713-luna-flex-gemini-native-batch",
+    "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+    "stages": {
+      "authoring": "openai_flex",
+      "blind_solution": "openai_flex",
+      "independent_evaluation": "gemini_batch",
+      "explanation_support": "openai_flex",
+      "repair": "openai_flex"
+    },
+    "target_per_publishable_usd": 0.01,
+    "target_per_10000_usd": 100,
+    "rates_are_estimates_until_receipts": true,
+    "lifetime_limit_usd": 50,
+    "input_byte_bounds": {
+      "gpt-6-luna": 33024,
+      "gemini-3.8-flash": 33024
+    }
+  },
+  "execution_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "execution_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "cap_usd": 3,
+  "total_parent_and_continuation_cap_usd": 3,
+  "parent_committed_usd": 0.065621,
+  "no_regeneration": true,
+  "maximum_repairs_per_candidate": 1,
+  "idea_allocation": "Existing forty durable allocations imported explicitly; no new reservation or reset.",
+  "publication_policy": "never",
+  "qualification": false,
+  "untouched_requested_difficulty": "medium",
+  "runner_sha256": "83919fc863620773ecf135fa18a50035f4b0444f9d062418d32f82544dfacdcb",
+  "engine_sha256": "82e872332279161ae4b77d7642fa356bf099f99bfedec4c4fc3af2b9f4d6d7a6",
+  "preflight_required": "all author/blind/Gemini/audit/repair bodies, including bounded continuation retries"
+}

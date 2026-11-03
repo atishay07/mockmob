@@ -1,0 +1,606 @@
+{
+  "date": "2026-10-02",
+  "method": "Public award listing and detail-page title survey; not 120 individual visual audits.",
+  "references": [
+    {
+      "title": "20-years-inspired-by-people",
+      "url": "https://www.awwwards.com/sites/20-years-inspired-by-people",
+      "status": 429
+    },
+    {
+      "title": "21 Hrs On The Moon",
+      "url": "https://www.awwwards.com/sites/21-hrs-on-the-moon",
+      "status": 200
+    },
+    {
+      "title": "2xa-studio",
+      "url": "https://www.awwwards.com/sites/2xa-studio",
+      "status": 429
+    },
+    {
+      "title": "aardvark-book-club",
+      "url": "https://www.awwwards.com/sites/aardvark-book-club",
+      "status": 429
+    },
+    {
+      "title": "ai-in-design-report-2026",
+      "url": "https://www.awwwards.com/sites/ai-in-design-report-2026",
+      "status": 429
+    },
+    {
+      "title": "alethia",
+      "url": "https://www.awwwards.com/sites/alethia",
+      "status": 429
+    },
+    {
+      "title": "apechain",
+      "url": "https://www.awwwards.com/sites/apechain",
+      "status": 429
+    },
+    {
+      "title": "artem-shcherbakov",
+      "url": "https://www.awwwards.com/sites/artem-shcherbakov",
+      "status": 429
+    },
+    {
+      "title": "aspen-search",
+      "url": "https://www.awwwards.com/sites/aspen-search",
+      "status": 429
+    },
+    {
+      "title": "balmoral",
+      "url": "https://www.awwwards.com/sites/balmoral",
+      "status": 429
+    },
+    {
+      "title": "bleibtgleich&#039;26",
+      "url": "https://www.awwwards.com/sites/bleibtgleich26",
+      "status": 200
+    },
+    {
+      "title": "Boc.Studio",
+      "url": "https://www.awwwards.com/sites/boc-studio",
+      "status": 200
+    },
+    {
+      "title": "brunello-cucinelli-ai-e-com",
+      "url": "https://www.awwwards.com/sites/brunello-cucinelli-ai-e-com",
+      "status": 429
+    },
+    {
+      "title": "bucks-sauce",
+      "url": "https://www.awwwards.com/sites/bucks-sauce",
+      "status": 429
+    },
+    {
+      "title": "Butter",
+      "url": "https://www.awwwards.com/sites/butter",
+      "status": 200
+    },
+    {
+      "title": "cerebrium",
+      "url": "https://www.awwwards.com/sites/cerebrium",
+      "status": 429
+    },
+    {
+      "title": "ciao-energy-launch-website",
+      "url": "https://www.awwwards.com/sites/ciao-energy-launch-website",
+      "status": 429
+    },
+    {
+      "title": "cipher",
+      "url": "https://www.awwwards.com/sites/cipher",
+      "status": 429
+    },
+    {
+      "title": "coffeetech-r",
+      "url": "https://www.awwwards.com/sites/coffeetech-r",
+      "status": 429
+    },
+    {
+      "title": "Colonia Zacamil",
+      "url": "https://www.awwwards.com/sites/colonia-zacamil",
+      "status": 200
+    },
+    {
+      "title": "CoMinVi",
+      "url": "https://www.awwwards.com/sites/cominvi",
+      "status": 200
+    },
+    {
+      "title": "crav-burgers",
+      "url": "https://www.awwwards.com/sites/crav-burgers",
+      "status": 429
+    },
+    {
+      "title": "decathlon-yestalgia",
+      "url": "https://www.awwwards.com/sites/decathlon-yestalgia",
+      "status": 429
+    },
+    {
+      "title": "depo-luxe",
+      "url": "https://www.awwwards.com/sites/depo-luxe",
+      "status": 429
+    },
+    {
+      "title": "digitalists-1",
+      "url": "https://www.awwwards.com/sites/digitalists-1",
+      "status": 429
+    },
+    {
+      "title": "dragonfly-redux",
+      "url": "https://www.awwwards.com/sites/dragonfly-redux",
+      "status": 429
+    },
+    {
+      "title": "elva",
+      "url": "https://www.awwwards.com/sites/elva",
+      "status": 429
+    },
+    {
+      "title": "era-residence",
+      "url": "https://www.awwwards.com/sites/era-residence",
+      "status": 429
+    },
+    {
+      "title": "everswap",
+      "url": "https://www.awwwards.com/sites/everswap",
+      "status": 429
+    },
+    {
+      "title": "Fauna Robotics",
+      "url": "https://www.awwwards.com/sites/fauna-robotics",
+      "status": 200
+    },
+    {
+      "title": "gil-huybrecht",
+      "url": "https://www.awwwards.com/sites/gil-huybrecht",
+      "status": 429
+    },
+    {
+      "title": "gionatan-nese-26",
+      "url": "https://www.awwwards.com/sites/gionatan-nese-26",
+      "status": 429
+    },
+    {
+      "title": "glitch-grit",
+      "url": "https://www.awwwards.com/sites/glitch-grit",
+      "status": 429
+    },
+    {
+      "title": "gucci-mystery-unfolds",
+      "url": "https://www.awwwards.com/sites/gucci-mystery-unfolds",
+      "status": 429
+    },
+    {
+      "title": "haoqi-design",
+      "url": "https://www.awwwards.com/sites/haoqi-design",
+      "status": 429
+    },
+    {
+      "title": "hearst-exhibit-2026",
+      "url": "https://www.awwwards.com/sites/hearst-exhibit-2026",
+      "status": 429
+    },
+    {
+      "title": "hilden-kaira",
+      "url": "https://www.awwwards.com/sites/hilden-kaira",
+      "status": 429
+    },
+    {
+      "title": "hiroto-sato",
+      "url": "https://www.awwwards.com/sites/hiroto-sato",
+      "status": 429
+    },
+    {
+      "title": "hobro-digital",
+      "url": "https://www.awwwards.com/sites/hobro-digital",
+      "status": 429
+    },
+    {
+      "title": "house-of-honey-1",
+      "url": "https://www.awwwards.com/sites/house-of-honey-1",
+      "status": 429
+    },
+    {
+      "title": "hubtown",
+      "url": "https://www.awwwards.com/sites/hubtown",
+      "status": 429
+    },
+    {
+      "title": "il-capo-production",
+      "url": "https://www.awwwards.com/sites/il-capo-production",
+      "status": 429
+    },
+    {
+      "title": "Illoca",
+      "url": "https://www.awwwards.com/sites/illoca",
+      "status": 200
+    },
+    {
+      "title": "indigo-laboratory",
+      "url": "https://www.awwwards.com/sites/indigo-laboratory",
+      "status": 429
+    },
+    {
+      "title": "ivress-spin-a-tale",
+      "url": "https://www.awwwards.com/sites/ivress-spin-a-tale",
+      "status": 429
+    },
+    {
+      "title": "IZANAMI",
+      "url": "https://www.awwwards.com/sites/izanami",
+      "status": 200
+    },
+    {
+      "title": "Jesper Landberg",
+      "url": "https://www.awwwards.com/sites/jesper-landberg-4",
+      "status": 200
+    },
+    {
+      "title": "julien-calot",
+      "url": "https://www.awwwards.com/sites/julien-calot",
+      "status": 429
+    },
+    {
+      "title": "kononenko-architectural-bureau",
+      "url": "https://www.awwwards.com/sites/kononenko-architectural-bureau",
+      "status": 429
+    },
+    {
+      "title": "l-i-s-a",
+      "url": "https://www.awwwards.com/sites/l-i-s-a",
+      "status": 429
+    },
+    {
+      "title": "Lacoste Ace Breaker",
+      "url": "https://www.awwwards.com/sites/lacoste-ace-breaker",
+      "status": 200
+    },
+    {
+      "title": "lacoste-polo-factory",
+      "url": "https://www.awwwards.com/sites/lacoste-polo-factory",
+      "status": 429
+    },
+    {
+      "title": "Lama Lama",
+      "url": "https://www.awwwards.com/sites/lama-lama-2",
+      "status": 200
+    },
+    {
+      "title": "Léo Parpeix - Portfolio 2026",
+      "url": "https://www.awwwards.com/sites/leo-parpeix-portfolio-2026",
+      "status": 200
+    },
+    {
+      "title": "LIKOVA",
+      "url": "https://www.awwwards.com/sites/likova",
+      "status": 200
+    },
+    {
+      "title": "longbow",
+      "url": "https://www.awwwards.com/sites/longbow",
+      "status": 429
+    },
+    {
+      "title": "lxl-creative",
+      "url": "https://www.awwwards.com/sites/lxl-creative",
+      "status": 429
+    },
+    {
+      "title": "made-with-gsap-1",
+      "url": "https://www.awwwards.com/sites/made-with-gsap-1",
+      "status": 429
+    },
+    {
+      "title": "meech213",
+      "url": "https://www.awwwards.com/sites/meech213",
+      "status": 429
+    },
+    {
+      "title": "MEER MOHSIN",
+      "url": "https://www.awwwards.com/sites/meer-mohsin",
+      "status": 200
+    },
+    {
+      "title": "michael-gatt",
+      "url": "https://www.awwwards.com/sites/michael-gatt",
+      "status": 429
+    },
+    {
+      "title": "miu-miu-a-house-that-we-shaped",
+      "url": "https://www.awwwards.com/sites/miu-miu-a-house-that-we-shaped",
+      "status": 429
+    },
+    {
+      "title": "monolog",
+      "url": "https://www.awwwards.com/sites/monolog",
+      "status": 429
+    },
+    {
+      "title": "mosbys-files",
+      "url": "https://www.awwwards.com/sites/mosbys-files",
+      "status": 429
+    },
+    {
+      "title": "Moto Finance",
+      "url": "https://www.awwwards.com/sites/moto-finance",
+      "status": 200
+    },
+    {
+      "title": "no-art",
+      "url": "https://www.awwwards.com/sites/no-art",
+      "status": 429
+    },
+    {
+      "title": "noho",
+      "url": "https://www.awwwards.com/sites/noho",
+      "status": 429
+    },
+    {
+      "title": "noomo-showcase",
+      "url": "https://www.awwwards.com/sites/noomo-showcase",
+      "status": 429
+    },
+    {
+      "title": "normal-is-boring",
+      "url": "https://www.awwwards.com/sites/normal-is-boring",
+      "status": 429
+    },
+    {
+      "title": "nothin",
+      "url": "https://www.awwwards.com/sites/nothin",
+      "status": 429
+    },
+    {
+      "title": "nrg-build-your-data-center",
+      "url": "https://www.awwwards.com/sites/nrg-build-your-data-center",
+      "status": 429
+    },
+    {
+      "title": "obys-r-experiment-space",
+      "url": "https://www.awwwards.com/sites/obys-r-experiment-space",
+      "status": 429
+    },
+    {
+      "title": "oimachi",
+      "url": "https://www.awwwards.com/sites/oimachi",
+      "status": 429
+    },
+    {
+      "title": "pacome-pertant-portfolio",
+      "url": "https://www.awwwards.com/sites/pacome-pertant-portfolio",
+      "status": 429
+    },
+    {
+      "title": "Partizan",
+      "url": "https://www.awwwards.com/sites/partizan",
+      "status": 200
+    },
+    {
+      "title": "paul-kalkbrenner",
+      "url": "https://www.awwwards.com/sites/paul-kalkbrenner",
+      "status": 429
+    },
+    {
+      "title": "Pensatori Irrazionali",
+      "url": "https://www.awwwards.com/sites/pensatori-irrazionali",
+      "status": 200
+    },
+    {
+      "title": "podium",
+      "url": "https://www.awwwards.com/sites/podium",
+      "status": 429
+    },
+    {
+      "title": "pp-neue-montreal",
+      "url": "https://www.awwwards.com/sites/pp-neue-montreal",
+      "status": 429
+    },
+    {
+      "title": "produx-design",
+      "url": "https://www.awwwards.com/sites/produx-design",
+      "status": 429
+    },
+    {
+      "title": "px-push",
+      "url": "https://www.awwwards.com/sites/px-push",
+      "status": 429
+    },
+    {
+      "title": "radian",
+      "url": "https://www.awwwards.com/sites/radian",
+      "status": 429
+    },
+    {
+      "title": "Realevate",
+      "url": "https://www.awwwards.com/sites/realevate",
+      "status": 200
+    },
+    {
+      "title": "revelatio-studio",
+      "url": "https://www.awwwards.com/sites/revelatio-studio",
+      "status": 429
+    },
+    {
+      "title": "risk",
+      "url": "https://www.awwwards.com/sites/risk",
+      "status": 429
+    },
+    {
+      "title": "rpa-comunicacion",
+      "url": "https://www.awwwards.com/sites/rpa-comunicacion",
+      "status": 429
+    },
+    {
+      "title": "sakazuki",
+      "url": "https://www.awwwards.com/sites/sakazuki",
+      "status": 429
+    },
+    {
+      "title": "seasats",
+      "url": "https://www.awwwards.com/sites/seasats",
+      "status": 429
+    },
+    {
+      "title": "serotoninn",
+      "url": "https://www.awwwards.com/sites/serotoninn",
+      "status": 429
+    },
+    {
+      "title": "serve-robotics",
+      "url": "https://www.awwwards.com/sites/serve-robotics",
+      "status": 429
+    },
+    {
+      "title": "Sharplink",
+      "url": "https://www.awwwards.com/sites/sharplink",
+      "status": 200
+    },
+    {
+      "title": "sobha-privy-collection",
+      "url": "https://www.awwwards.com/sites/sobha-privy-collection",
+      "status": 429
+    },
+    {
+      "title": "sohub",
+      "url": "https://www.awwwards.com/sites/sohub",
+      "status": 429
+    },
+    {
+      "title": "son-daven",
+      "url": "https://www.awwwards.com/sites/son-daven",
+      "status": 429
+    },
+    {
+      "title": "spotify-wrapped-party",
+      "url": "https://www.awwwards.com/sites/spotify-wrapped-party",
+      "status": 429
+    },
+    {
+      "title": "squarespace-foundations",
+      "url": "https://www.awwwards.com/sites/squarespace-foundations",
+      "status": 429
+    },
+    {
+      "title": "sstr-friction-reduction",
+      "url": "https://www.awwwards.com/sites/sstr-friction-reduction",
+      "status": 429
+    },
+    {
+      "title": "steven-com",
+      "url": "https://www.awwwards.com/sites/steven-com",
+      "status": 429
+    },
+    {
+      "title": "Studio K95",
+      "url": "https://www.awwwards.com/sites/studio-k95-3",
+      "status": 200
+    },
+    {
+      "title": "sui",
+      "url": "https://www.awwwards.com/sites/sui",
+      "status": 429
+    },
+    {
+      "title": "ten-years-away",
+      "url": "https://www.awwwards.com/sites/ten-years-away",
+      "status": 429
+    },
+    {
+      "title": "The Power of Storytelling",
+      "url": "https://www.awwwards.com/sites/the-power-of-storytelling",
+      "status": 200
+    },
+    {
+      "title": "The Tie-break",
+      "url": "https://www.awwwards.com/sites/the-tie-break",
+      "status": 200
+    },
+    {
+      "title": "the-state-of-the-gallery",
+      "url": "https://www.awwwards.com/sites/the-state-of-the-gallery",
+      "status": 429
+    },
+    {
+      "title": "the-tuscan-journey-begins",
+      "url": "https://www.awwwards.com/sites/the-tuscan-journey-begins",
+      "status": 429
+    },
+    {
+      "title": "the-watch",
+      "url": "https://www.awwwards.com/sites/the-watch",
+      "status": 429
+    },
+    {
+      "title": "tresmares-capital",
+      "url": "https://www.awwwards.com/sites/tresmares-capital",
+      "status": 429
+    },
+    {
+      "title": "trevor-noah",
+      "url": "https://www.awwwards.com/sites/trevor-noah",
+      "status": 429
+    },
+    {
+      "title": "trionn-2",
+      "url": "https://www.awwwards.com/sites/trionn-2",
+      "status": 429
+    },
+    {
+      "title": "united-carriers",
+      "url": "https://www.awwwards.com/sites/united-carriers",
+      "status": 429
+    },
+    {
+      "title": "Units",
+      "url": "https://www.awwwards.com/sites/units",
+      "status": 200
+    },
+    {
+      "title": "usavionix",
+      "url": "https://www.awwwards.com/sites/usavionix",
+      "status": 429
+    },
+    {
+      "title": "vectr",
+      "url": "https://www.awwwards.com/sites/vectr",
+      "status": 429
+    },
+    {
+      "title": "vero-new-york",
+      "url": "https://www.awwwards.com/sites/vero-new-york",
+      "status": 429
+    },
+    {
+      "title": "Warm &amp; Fuzzy",
+      "url": "https://www.awwwards.com/sites/warm-fuzzy",
+      "status": 200
+    },
+    {
+      "title": "wembi",
+      "url": "https://www.awwwards.com/sites/wembi",
+      "status": 429
+    },
+    {
+      "title": "white-desert",
+      "url": "https://www.awwwards.com/sites/white-desert",
+      "status": 429
+    },
+    {
+      "title": "why-zero",
+      "url": "https://www.awwwards.com/sites/why-zero",
+      "status": 429
+    },
+    {
+      "title": "Wolverine Worldwide",
+      "url": "https://www.awwwards.com/sites/wolverine-worldwide",
+      "status": 200
+    },
+    {
+      "title": "zeroz-brand-site",
+      "url": "https://www.awwwards.com/sites/zeroz-brand-site",
+      "status": 429
+    }
+  ]
+}

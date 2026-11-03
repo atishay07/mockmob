@@ -1,0 +1,47 @@
+66 Accountancy – Partnership Accounts
+Books of Sunil and Dalip
+Journal
+Date Particulars L.F. Debit Credit
+(Rs.) (Rs.)
+(i) Bank A/c Dr. 24,000
+To Sachin’s Capital A/c 20,000
+To Premium for Goodwill A/c 4,000
+(The amount brought in by Sachin as
+Capital and Goodwill)
+(ii) Premium for Goodwill A/c Dr. 4,000
+To Sunil’s Capital A/c 2,500
+To Dalip’s Capital A/c 1,500
+(Goodwill transferred to Sunil and Dalip
+in the ratio of 5:3)
+Alternatively,
+(i) Cash A/c Dr. 24,000
+To Sachin’s Capital A/c 24,000
+(ii) Sachin’s Capital A/c Dr 4,000
+To Sunil’s Capital A/c 2,500
+To Dalip’s Capital A/c 1,500
+Note: It assumed that the sacrificing ratio is the same as old profit sharing ratio.
+(b) When the amount of goodwill credited to existing partners is fully
+withdrawn.
+Journal
+Date Particulars L.F. Debit Credit
+(Rs.) (Rs.)
+1. Same as in (a) above
+2. Same as in (a) above,
+3. Sunil’s Capital A/c Dr. 2,500
+Dalip’s Capital A/c Dr. 1,500
+To Bank A/c 4,000
+(Cash withdrawn by Sunil and Dalip
+equal to their share of goodwill)
+(c) When 50% of the amount of goodwill credited to existing partners
+is withdrawn.
+Journal
+Date Particulars L.F. Debit Credit
+(Rs.) (Rs.)
+1. Same as in (a) above,
+2. Same as in (a) above
+3. Sunil’s Capital A/c Dr. 1,250
+Dalip’s Capital A/c Dr. 750
+To Cash A/c 2,000
+(Cash withdrawn for 50% of their share
+of goodwill)
+Reprint 2026-27

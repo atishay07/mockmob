@@ -1,0 +1,223 @@
+{
+ "items": [
+  {
+   "local_id": "bus-b1",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Replacing 'I' with 'We' fosters team spirit, mutual trust and belongingness (esprit de corps)",
+     "label": "stated",
+     "why": "F3 xiv"
+    },
+    {
+     "claim": "Unity of direction and centralisation are not described in the case",
+     "label": "entailed",
+     "why": "Neither appears in the stem or F3"
+    }
+   ],
+   "explanation_supported": true,
+   "note": "Key fails: the stem also describes a suggestion system rewarding cost reduction, which F3 gives as Initiative, so A and B both fit and there is no single answer."
+  },
+  {
+   "local_id": "bus-b2",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Higher debt likely lowers overall cost of capital if cost of equity unaffected",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Debt is cheaper",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Higher debt increases fixed financial charges and financial risk",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "C contradicted: interest and principal payment is obligatory",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "D contradicted: increased debt increases financial risk",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "bus-b3",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "A dissatisfied party can appeal to the State Commission within forty five days of the order",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "The State Commission hears only appeals and never original complaints",
+     "label": "unsupported",
+     "why": "The excerpt says the State Commission has jurisdiction to entertain complaints above a value threshold, so this contradicts it"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "bus-b4",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Training increases aptitudes, skills and abilities of employees",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Training is a process of learning new skills and application of knowledge",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "The programme builds skills and knowledge so it is training",
+     "label": "entailed",
+     "why": "Education is only knowledge and understanding, development is growth; skills plus knowledge application is the training definition"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "bus-b5",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Smita aligns efforts of several departments, showing coordination is required at all levels",
+     "label": "unsupported",
+     "why": "The stem describes planning in June, continuous monitoring and timely briefing, which F1 (iii) gives as continuous process, not all-pervasive"
+    },
+    {
+     "claim": "This makes coordination an all pervasive function",
+     "label": "unsupported",
+     "why": "Contradicts the stem's cues; correct key is A"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "bus-b6",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Dealing only with significant deviations saves managers' time and effort",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "It focuses managerial attention on important areas, giving better utilisation of managerial talent",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Leaving routine problems to subordinates facilitates delegation and increases morale, contradicting B and D",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "A is contradicted since managers deal with only significant deviations",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "bus-b7",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Inputs include finance, machines, raw materials, power and water, labour",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Outputs include goods and services, taxes to government, return on investment to investors",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "(ii) and (iv) are outputs; (i) and (iii) are inputs",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "A, B, C each include an input",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "bus-b8",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Davis: network of personal and social relations not established or required by the formal organisation, arising spontaneously",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Barnard: without any conscious purpose, and it only 'may' contribute to joint results",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "B and C are contradicted",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Defining activities and establishing authority relationships is Haimman's definition of organising",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "This rules out A",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "bus-b9",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Incentive 1,800 x 4 = Rs 7,200; total 17,200",
+     "label": "entailed",
+     "why": "Exact arithmetic"
+    },
+    {
+     "claim": "Fixed salary is time based; per-unit pay is performance based; combined plan",
+     "label": "entailed",
+     "why": "Matches F11 definitions"
+    },
+    {
+     "claim": "B and C count only one component",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "D contradicted: salaries and incentives are direct financial payments",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  }
+ ]
+}

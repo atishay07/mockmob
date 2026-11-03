@@ -1,0 +1,707 @@
+PAGE 1
+SAMPLE QUESTION PAPER (TERM-1) 2021-22
+ACCOUNTANCY
+SUBJECT CODE: 055
+Time Allowed: 90 Minutes Maximum Marks: 40
+General Instructions:
+Read the following instructions very carefully and strictly follow them:
+1. This question paper comprises three PARTS – I, II and III. There
+are 69 questions in the question paper.
+2. Part - I -is compulsory for all candidates.
+3. Part - II Analysis of Financial Statement and Part -III
+Computerized Accounting. You have to attempt only one of the given
+OPTIONS.
+4. There is an internal choice provided in each Sections.
+I. Part-I, contains three Sections -A, B and C. Section A has
+questions from 1 to 18 and Section B has questions from 19 to
+36, you have to attempt any 15 questions each in both the
+sections.
+II. Part I, Section C has questions from 37 to 41. You have to
+attempt any four questions.
+III. Part II, contains two Sections – A and B. Section A has
+questions from 42 to 48, you have to attempt any five questions
+and Section B has questions from 49 to 55, you have to
+attempt any six questions.
+IV. Part III, contains two Sections – A and B. Section A has
+questions from 49 to 62, you have to attempt any five questions
+and Section B has questions from 63 to 69, you have to
+attempt any six questions.
+5. All questions carry equal marks. There is no negative marking.
+6. Specific Instructions related to each Part and subdivisions (Section)
+is mentioned clearly before the questions. Candidates should read
+them thoroughly and attempt accordingly.
+PAGE 2
+Part – I
+Section – A
+Instructions:
+ From question number 1 to 18, attempt any 15 questions.
+1. Gain / loss on revaluation at the time of change in profit sharing
+ratio of existing partners is shared by ___(i)______ whereas in case
+of admission of a partner it is shared by____(ii)_____.
+(A) (i) Remaining Partners, (ii) All Partners.
+(B) (i) All Partners, (ii) Old partners.
+(C) (i) New Partner, (ii) All partner.
+(D) (i) Sacrificing Partner, (ii) Incoming partner.
+2. Calculate the amount of second & final call when Abhijit Ltd, issues
+Equity shares of ₹10 each at a premium of 40% payable on
+Application ₹3, On Allotment ₹5, On First Call ₹2.
+(A) Second & final call ₹3.
+(B) Second & final call ₹4.
+(C) Second & final call ₹1.
+(D) Second & final call ₹14.
+3. Anish Ltd, issued a prospectus inviting applications for 2,000
+shares. Applications were received for 3,000 shares and pro- rata
+allotment was made to the applicants of 2,400 shares. If Dhruv has
+been allotted 40 shares, how many shares he must have applied
+for?
+(A) 40
+(B) 44
+(C) 48
+(D) 52
+PAGE 3
+4. Ambrish Ltd offered 2,00,000 Equity Shares of ₹10 each, of these
+1,98,000 shares were subscribed. The amount was payable as ₹3
+on application, ₹4 an allotment and balance on first call. If a
+shareholder holding 3,000 shares has defaulted on first call, what is
+the amount of money received on first call?
+(A) ₹9,000.
+(B) ₹5,85,000.
+(C) ₹5,91,000.
+(D) ₹6,09,000.
+5. What will be the correct sequence of events?
+(i) Forfeiture of shares. (ii) Default on Calls.
+(iii) Re-issue of shares. (iv) Amount transferred to capital reserve.
+Options:
+(A) (i), (iv), (ii), (iii)
+(B) (ii), (iv), (i), (iii)
+(C) (ii), (i), (iii), (iv)
+(D) (iii), (iv), (i) (ii)
+6. Arun and Vijay are partners in a firm sharing profits and losses in the
+ratio of 5:1.
+Balance Sheet (Extract)
+Liabilities ₹ Assets ₹
+Machinery 40,000
+If the value of machinery reflected in the balance sheet is overvalued by
+33 %, find out the value of Machinery to be shown in the new Balance
+Sheet:
+(A) ₹ 44,000
+(B) ₹48,000
+(C) ₹ 32,000
+(D) ₹30,000
+7. Which of the following is true regarding Salary to a partner when
+the firm maintains fluctuating capital accounts?
+PAGE 4
+(A) Debit Partner’s Loan A/c and Credit P & L Appropriation A/c.
+(B) Debit P & L A/c and Credit Partner’s Capital A/c.
+(C) Debit P & L Appropriation A/c and Credit Partner’s Current A/c.
+(D) Debit P & L Appropriation A/c and Credit Partner’s Capital A/c.
+8. At the time of reconstitution of a partnership firm, recording of an
+unrecorded liability will lead to:
+(A) Gain to the existing partners
+(B) Loss to the existing partners
+(C) Neither gain nor loss to the existing partners
+(D) None of the above
+9. E, F and G are partners sharing profits in the ratio of 3:3:2.
+According to the partnership agreement, G is to get a minimum
+amount of ₹80,000 as his share of profits every year and any
+deficiency on this account is to be personally borne by E. The net
+profit for the year ended 31st March 2021 amounted to ₹3,12 ,000.
+Calculate the amount of deficiency to be borne by E?
+(A) ₹1,000
+(B) ₹4,000
+(C) ₹8,000
+(D) ₹2,000
+10. At the time of admission of a partner, what will be the effect of the
+following information?
+Balance in Workmen compensation reserve ₹40,000. Claim for
+workmen compensation ₹45,000.
+(A) ₹45,000 Debited to the Partner’s capital Accounts.
+(B) ₹40,000 Debited to Revaluation Account.
+(C) ₹5,000 Debited to Revaluation Account.
+(D) ₹5,000 Credited to Revaluation Account.
+PAGE 5
+11. In the absence of partnership deed, a partner is entitled to an
+interest on the amount of additional capital advanced by him to the
+firm at a rate of:
+(A) entitled for 6% p.a. on their additional capital, only when there are
+profits.
+(B) entitled for 10% p.a. on their additional capital
+(C) entitled for 12% p.a. on their additional capital
+(D) not entitled for any interest on their additional capitals.
+12. Revaluation of assets at the time of reconstitution is necessary
+because their present value may be different from their:
+(A) Market Value.
+(B) Net Value.
+(C) Cost of Asset
+(D) Book Value.
+13. If average capital employed in a firm is ₹8,00,000, average of
+actual profits is ₹1,80,000 and normal rate of return is10%, then
+value of goodwill as per capitalization of average profits is:
+(A) ₹10,00,000
+(B) ₹18,00,000
+(C) ₹80,00,000
+(D) ₹78,20,000
+14. In which of the following situation Companies Act 2013 allows for
+issue of shares at discount?
+(A) Issued to vendors.
+(B) Issued to public.
+(C) Issued as sweat equity.
+(D) None of the above.
+15. As per Section 52 of Companies Act 2013, Securities Premium
+Reserve cannot be utilised for:
+PAGE 6
+(A) Writing off capital losses.
+(B) Issue of fully paid bonus shares.
+(C) Writing off discount on issue of securities.
+(D) Writing off preliminary expenses.
+16. Net Assets minus Capital Reserve is:
+(A) Purchase consideration
+(B) Goodwill
+(C) Total assets
+(D) Liquid assets
+17. Kalki and Kumud were partners sharing profits and losses in the
+ratio of 5:3. On 1st April,2021 they admitted Kaushtubh as a new
+partner and new ratio was decided as 3:2:1.
+Goodwill of the firm was valued as ₹3,60,000. Kaushtubh couldn’t
+bring any amount for goodwill. Amount of goodwill share to be
+credited to Kalki and Kumud Account’s will be: -
+(A) ₹ 37,500 and ₹22,500 respectively
+(B) ₹ 30,000 and ₹30,000 respectively
+(C) ₹ 36,000 and ₹24,000 respectively
+(D) ₹ 45,000 and ₹15,000 respectively
+18. Sarvesh, Sriniketan and Srinivas are partners in the ratio of 5:3: 2.
+If Sriniketan’s share of profit at the end of the year amounted to
+₹1,50,000, what will be Sarvesh’s share of profits?
+(A) ₹5,00,000.
+(B) ₹1,50,000.
+(C) ₹3,00,000.
+(D) ₹2,50,000.
+PAGE 7
+Part – I
+Section – B
+Instructions:
+ From question number 19 to 36, attempt any 15 questions.
+19. Angle and Circle ware partners in a firm. Their Balance Sheet
+showed Furniture at ₹2,00,000; Stock at ₹1,40,000; Debtors at
+₹1,62,000 and Creditors at ₹60,000. Square was admitted and new
+profit-sharing ratio was agreed at 2:3:5. Stock was revalued at
+₹1,00,000, Creditors of ₹15,000 are not likely to be claimed,
+Debtors for ₹2,000 have become irrecoverable and Provision for
+doubtful debts to be provided @ 10%.
+Angle’s share in loss on revaluation amounted to ₹30,000. Revalued
+value of Furniture will be:
+(A) ₹2,17,000
+(B) ₹1,03,000
+(C) ₹3,03,000
+(D) ₹1,83,000
+20. Asha and Nisha are partner’s sharing profits in the ratio of 2:1.
+Kashish was admitted for 1/4 share of which 1/8 was gifted by
+Asha. The remaining was contributed by Nisha.
+Goodwill of the firm is valued at ₹ 40,000. How much amount for
+goodwill will be credited to Nisha’s Capital account?
+(A) ₹2,500.
+(B) ₹5,000.
+(C) ₹20,000.
+(D) ₹ 40,000.
+21. At the time of admission of new partner Vasu, Old partners Paresh
+and Prabhav had debtors of ₹6,20,000 and a provision for doubtful
+debts of ₹20,000 in their books. As per terms of admission, assets
+were revalued, and it was found that debtors worth ₹15,000 had
+turned bad and hence should be written off. Which journal entry
+reflects the correct accounting treatment of the above situation.
+PAGE 8
+(A) Bad Debts A/c Dr. 15,000
+To Sundry Debtors 15,000
+Provision for Doubtful Debts A/c Dr. 15,000
+To Bad Debts A/c 15,000
+(B) Bad Debt A/c Dr. 1 5 , 0 0 0
+To Sundry Debtors 15,000
+Revaluation A/c Dr. 1 5 , 0 0 0
+To Provision for Doubtful Debts A/c 15,000
+(C) Revaluation A/c Dr. 1 5 , 0 0 0
+To Sundry Debtors A/c 15,000
+(D) Bad Debt A/c Dr. 1 5 , 0 0 0
+To Revaluation A/c 15,000
+22. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R)
+Assertion (A): Transfer to reserves is shown in P & L Appropriation
+A/c.
+Reason (R): Reserves are charge against the profits.
+In the context of the above statements, which one of the following
+is correct?
+Codes:
+(A) (A) is correct, but (R) is wrong.
+(B) Both (A) and (R) are correct.
+(C) (A) is wrong, but (R) is correct.
+(D) Both (A) and (R) are wrong.
+23. Anubhav, Shagun and Pulkit are partners in a firm sharing profits
+and losses in the ratio of 2:2:1. On 1st April 2021, they decided to
+change their profit-sharing ratio to 5:3:2. On that date, debit
+balance of Profit & Loss A/c ₹30,000 appeared in the balance sheet
+and partners decided to pass an adjusting entry for it.
+Which of the undermentioned options reflect correct treatment for
+the above treatment?
+PAGE 9
+(A) Shagun's capital account will be debited by ₹3,000 and Anubhav’s
+capital account credited by ₹3,000
+(B) Pulkit's capital account will be credited by ₹3,000 and Shagun's
+capital account will be credited by ₹3,000
+(C) Shagun's capital account will be debited by ₹30,000 and Anubhav’s
+capital account credited by ₹30,000
+(D) Shagun's capital account will be debited by ₹3,000 and Anubhav’s
+and Pulkit’s capital account credited by ₹2,000 and ₹1,000
+respectively.
+24. A, B and C are partners, their partnership deed provides for interest
+on drawings at 8% per annum. B withdrew a fixed amount in the
+middle of every month and his interest on drawings amounted to
+₹4,800 at the end of the year. What was the amount of his monthly
+drawings?
+(A) ₹10,000.
+(B) ₹5,000.
+(C) ₹1,20,000.
+(D) ₹48,000.
+25. Abhay and Baldwin are partners sharing profit in the ratio 3:1. On
+31st March 2021, firm’s net profit is ₹1,25,000. The partnership
+deed provided interest on capital to Abhay and Baldwin ₹15,000 &
+₹10,000 respectively and Interest on drawings for the year
+amounted to ₹6000 from Abhay and ₹4000 from Baldwin. Abhay is
+also entitled to commission @10% on net divisible profits. Calculate
+profit to be transferred to Partners Capital A/c’s.
+(A) ₹1,00,000
+(B) ₹1,10,000
+(C) ₹1,07,000
+(D) ₹90,000
+26. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R):
+Assertion (A): Revaluation A/c is prepared at the time of
+Admission of a partner.
+PAGE 10
+Reason (R): It is required to adjust the values of assets and
+liabilities at the time of admission of a partner, so that the true
+financial position of the firm is reflected.
+In the context of the above two statements, which of the following
+is correct?
+Codes:
+(A) Both (A) and (R) are correct and (R) is the correct reason of (A).
+(B) Both (A) and (R) are correct but (R) is not the correct reason of (A).
+(C) Only (R) is correct.
+(D) Both (A) and (R) are wrong.
+27. Apaar Ltd forfeited 4,000 shares of ₹20 each, fully called up, on
+which only application money of ₹6 has been paid. Out of these
+2,000 shares were reissued and ₹8,000 has been transferred to
+capital reserve. Calculate the rate at which these shares were
+reissued.
+(A) ₹20 Per share
+(B) ₹18 Per share
+(C) ₹22 Per share
+(D) ₹8 Per share
+28. Which of the following statement is/are true?
+(i) Authorized Capital < Issued Capital
+(ii) Authorized Capital ≥ Issued Capital
+(iii) Subscribed Capital ≤ Issued Capital
+(iv) Subscribed Capital > Issued Capital
+(A) (i) only
+(B) (i) and (iv) Both
+(C) (ii) and (iii) Both
+(D) (ii) only
+29. Mickey, Tom and Jerry were partners in the ratio of 5:3:2. On 31st
+March 2021, their books reflected a net profit of ₹2,10,000. As per
+the terms of the partnership deed they were entitled for interest on
+PAGE 11
+capital which amounted to ₹80,000, ₹60,000 and ₹40,000
+respectively. Besides this a salary of ₹60,000 each was payable to
+Mickey and Tom.
+Calculate the ratio in which the profits would be appropriated.
+(A) 1:1:1
+(B) 5:3:2
+(C) 7:6:2
+(D) 4:3:2
+30. Mohit had been allotted for 600 shares by a Govinda Ltd on pro rata
+basis which had issued two shares for every three applied. He had
+paid application money of ₹3 per share and could not pay allotment
+money of ₹5 per share. First and final call of ₹2 per share was not
+yet made by the company. His shares were forfeited. the following
+entry will be passed:
+Equity Share Capital A/c Dr ₹X
+To share Forfeited A/c ₹Y
+To Equity Share Allotment A/c ₹Z
+Here X, Y and Z are:
+(A) ₹ 6,000; ₹2,700; ₹3,000 respectively.
+(B) ₹ 9,000; ₹2,700; ₹4,500 respectively.
+(C) ₹ 4,800; ₹2,700; ₹2,100 respectively.
+(D) ₹ 7,200; ₹2,700; ₹4,500 respectively.
+31. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R):
+Assertion (A): In case of shares issued on Pro–rata basis, excess
+money received at the time of application can be utilised till
+allotment only.
+Reason (R): Company has to pay interest on calls in advance
+@12% p.a. for amount adjusted towards calls (if any). In the
+context of the above two statements, which of the following is
+correct?
+PAGE 12
+Codes:
+(A) Both (A) and (R) are true, but (R) is not the explanation of working
+capital management.
+(B) Both(A) and (R) are true and (R) is a correct explanation of (A).
+(C) Both (A) and (R) are false.
+(D) (A) is false, but (R) is true.
+32. Ajay and Vinod are partners in the ratio of 3:2. Their fixed Capital
+were ₹3,00,000 and ₹4,00,000 respectively. After the close of
+accounts for the year it was observed that the Interest on Capital
+which was agreed to be provided at 5% pa was erroneously
+provided at 10%p.a. By what amount will Ajay’s account be affected
+if partners decide to pass an adjustment entry for the same?
+(A) Ajay’s Current A/c will be Debited by ₹15,000.
+(B) Ajay’s Current A/c will be Credited by ₹6,000.
+(C) Ajay’s Current A/c will be Credited by ₹35,000.
+(D) Ajay’s Current A/c will be Debited by ₹20,000.
+33. Vishnu Ltd. forfeited 20 shares of ₹10 each, ₹8 called up, on which
+John had paid application and allotment money of ₹5 per share, of
+these, 15 shares were reissued to Parker as fully paid up for ₹6 per
+share. What is the balance in the share Forfeiture Account after the
+relevant amount has been transferred to Capital Reserve Account?
+(A) ₹0
+(B) ₹5
+(C) ₹25
+(D) ₹100
+34. Newfound Ltd took over business of Old land ltd and paid for it by
+issue of 30,000, Equity Shares of ₹100 each at a par along with 6%
+Preference Shares of ₹1,00,00,000 at a premium of 5% and a
+cheque of ₹8,00,000. What was the total agreed purchase
+consideration payable to Old Land ltd.
+(A) ₹1,05,00,000.
+(B) ₹1,43,00,000.
+PAGE 13
+(C) ₹1,40,00,000.
+(D) ₹1,35,00,000.
+35. A and B are partners in the ratio of 3:2. C is admitted as a partner
+and he takes ¼th of his share from A. B gives 3/16 from his share
+to C. What is the share of C?
+(A) 1/4
+(B) 1/16
+(C) 1/6
+(D) 1/16
+36. Krishan Ltd has Issued Capital of 20, 00,000 Equity shares of ₹10
+each. Till Date ₹8 per share have been called up and the entire
+amount received except calls of ₹4 per share on 800 shares and ₹3
+per share from another holder who held 500 shares. What will be
+amount appearing as ‘Subscribed but not fully paid capital’ in the
+balance sheet of the company?
+(A) ₹ 2,00,00,000
+(B) ₹ 1,95,99,000
+(C) ₹ 1,59,95,300
+(D) ₹ 1,99,95,300
+Part – I
+Section – C
+Instructions:
+ From question number 37 to 41, attempt any 4 questions.
+Question no.’s 37 and 38 are based on the hypothetical
+situation given below.
+Bright Star Limited is engaged in manufacture of high-end medical
+equipment. Considering the prospects of high growth in this segment
+the company has decided to expand and for this purpose additional
+investment of ₹50,00,00,000 is required. Directors have decided that
+PAGE 14
+20% of this requirement would be financed by raising long term debts
+and balance by issue of Equity shares.
+As per memorandum of association of the company the face value of
+Equity shares is ₹100 each. Also, considering the market standing of
+the company these shares would be issued at a premium of 25%.
+Directors decided to issue sufficient shares to collect the desired
+amount (including premium).
+The prospectus was issued to public, and the issue was oversubscribed
+by 2,00,000 shares which were issued letters of regret. Answer the
+below mentioned questions considering that the entire amount was
+payable on application.
+37. What is the total amount collected on application?
+(A) ₹42,50,00,000
+(B) ₹40,00,00,000
+(C) ₹32,00,00,000
+(D) None of the above
+38. How many Equity shares were offered for issue by Bright Star Ltd?
+(A) 40,00,000 shares.
+(B) 50,00,000 shares.
+(C) 35,00,000 shares.
+(D) 32,00,000 shares.
+Question no.’s 39, 40 and 41 are based on the hypothetical
+situation given below.
+On 1st September 2020, twenty students of Modern College started
+their Partnership Firm in the name of “Be Safe” for selling sanitisers
+on digital mode. Since they were good friends of each other, they
+were not having any explicit agreement in place. All of them have
+agreed to invest ₹15,000/- each as capital. The books were closed
+on 31st March 2021, on which date the following information was
+provided by the firm:
+PAGE 15
+PARTICULARS AMOUNT (₹)
+Sale of Sanitisers 1,20,000
+Cost of goods sold 50,000
+Total Remuneration to partners 2,000 per month
+Rent to a partner 1,000 per month
+Manager’s Commission 5,000
+Closing Stock as on March 31,2021 9,000
+6% Fixed Deposit (made on 31.3.2021) 20,000
+39. Calculate the amount of profits to be transferred to Profit and Loss
+Appropriation Account. -
+(A) Profit ₹58,000
+(B) Profit ₹44,000
+(C) Profit ₹59,200
+(D) Profit ₹58,700
+40. On 31st March 2021, Remuneration to Partners will be provided to
+the partners of “Be Safe” but only out of:
+(A) Profits for the accounting year
+(B) Reserves
+(C) Accumulated Profits
+(D) Goodwill
+41. On 01st December 2020 one of the partners of the firm introduced
+additional capital of ₹30,000 and also advanced a loan of ₹40,000
+to the firm. Calculate the amount of interest that Partner will
+receive for the current accounting period-
+(A) ₹4,200
+(B) ₹1,400
+(C) ₹ 1575
+(D) ₹ 800
+PAGE 16
+Part – II
+Section – A
+Instructions:
+ From question number 42 to 48, attempt any 5 questions.
+42. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R):
+Assertion (A): The focus of calculation of working capital revolves
+around managing the operating cycle of the business.
+Reason (R): It is because the concept of operating cycle is
+required to ascertain the liquidity of assets and urgency of
+payments to liabilities.
+In the context of the above two statements, which of the following
+is correct?
+Codes:
+(A) Both (A) and (R) are true, but (R) is not the explanation of working
+capital management.
+(B) Both(A) and (R) are true and (R) is a correct explanation of (A).
+(C) Both (A) and (R) are false.
+(D) (A) is false, but (R) is true.
+43. Which of the following are included in traditional classification of
+ratios?
+(i) Liquidity Ratios.
+(ii) Statement of Profit and loss Ratios.
+(iii) Balance Sheet Ratios.
+(iv) Profitability Ratios.
+(v) Composite Ratios.
+(vi) Solvency Ratios.
+(A) (ii), (iii) and (v)
+(B) (i), (iv) and (vi)
+(C) (i), (ii) and (vi)
+(D) All (i), (ii), (iii), (iv), (v), (vi)
+PAGE 17
+44. The following groups of ratios primarily measure risk:
+(A) solvency, activity, and profitability
+(B) liquidity, efficiency, and solvency
+(C) liquidity, activity, and profitability
+(D) liquidity, solvency, and profitability
+45. Which one of the following is correct?
+(i) A ratio is an arithmetical relationship of one number to another
+number.
+(ii) Liquid ratio is also known as acid test ratio.
+(iii) Ideally accepted current ratio is 1: 1.
+(iv) Debt equity ratio is the relationship between outsider’s funds and
+shareholders’ funds.
+In the context of the above two statements, which of the following
+options is correct?
+(A) All (i), (ii), (iii) and (iv) are correct.
+(B) Only (i), (ii) and (iv) are correct.
+(C) Only (ii), (iii) and (iv) are correct.
+(D) Only (ii) and (iv) are correct.
+46. Which of the following are the tools of Vertical Analysis?
+(i) Ratio Analysis.
+(ii) Comparative Statements.
+(iii) Common Size Statements.
+(A) Only (iii)
+(B) Both (i) and (iii)
+(C) Both (i) and (ii)
+(D) Only (i)
+PAGE 18
+47. Match the items given in Column I with the headings/subheadings
+(Balance sheet) as defined in Schedule III of Companies Act 2013.
+Column I Column II
+(I) Loose Tools (a) Intangible fixed assets
+(Ii) Patents (b)Other current assets
+(III) Prepaid insurance (c) Long term Borrowings
+(IV) Debentures (d) Inventories
+(V) Machinery (e) Tangible Fixed assets
+Choose the correct option:
+A. (I)-(a), (II)-(b), (III)- (d), (IV)- (c), (V)-(e)
+B. (I)-(d), (II)- (a), (III)-(b), (IV)- (c), (V)-(e)
+C. (I)-(d), (II)- (a), (III)-(b), (IV)-(e), (V)-(c)
+D. (I)- (e), (II)- (d), (III)- (a), (IV)-(b), (V)-(b)
+48. Which ratio indicates the proportion of assets financed out of
+shareholders’ funds?
+(A) Debt equity ratio.
+(B) Fixed assets turnover ratio.
+(C) Proprietary ratio.
+(D) Total assets to debt ratio.
+Part – II
+Section – B
+Instructions:
+ From question number 49 to 55, attempt any 6 questions.
+49. If Total sales is ₹2,50,000 and credit sales is 25% of Cash sales.
+The amount of credit sales is:
+(A) ₹50,000
+(B) ₹2,50,000
+(C) ₹16,000
+(D) ₹3,00,000
+PAGE 19
+50. What will be the amount of gross profit of a firm if its average
+inventory is ₹80,000, Inventory turnover ratio is 6 times, and the
+Selling price is 25% above cost?
+(A) ₹1,20,000.
+(B) ₹1,60,000.
+(C) ₹2,00,000.
+(D) None of the above.
+51. Which of the following statements are false?
+a) When all the comparative figures in a balance sheet are stated as
+percentage of the total, it is termed as horizontal analysis.
+b) When financial statements of several years are analysed, it is
+termed as vertical analysis.
+c) Vertical Analysis is also termed as time series analysis.
+Choose from the following options:
+(A) Both (a) and (b)
+(B) Both (a) and (c)
+(C) Both (b) and (c)
+(D) All three (a), (b), (c)
+52. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R):
+Assertion (A): Increasing the value of closing inventory increases
+profit.
+Reason (R): Increasing the value of closing inventory reduces cost
+of goods sold.
+In the context of the above two statements, which of the following
+is correct?
+Codes:
+(A) Both (A) and (R) are correct and (R) is the correct reason of (A).
+(B) Both (A) and (R) are correct but (R) is not the correct reason of (A).
+(C) Only (R) is correct.
+(D) Both (A) and (R) are wrong.
+PAGE 20
+53. Given below are two statements, one labelled as Assertion (A) and
+the other labelled as Reason (R):
+Assertion (A): A high operating ratio indicates a favourable
+position.
+Reasoning (R): A high operating ratio leaves a high margin to
+meet non-operating expenses.
+In the context of the above two statements, which of the following
+is correct?
+Code:
+(A) (A) and (R) both are correct and (R) correctly explains (A).
+(B) Both (A) and (R) are correct but (R) does not explain (A).
+(C) Both (A) and (R) are incorrect.
+(D) (A) is correct but (R) is incorrect.
+54. Current ratio of Adaar Ltd. is 2.5:1. Accountant wants to maintain it
+at 2:1. Following options are available.
+(i) He can repay Bills Payable
+(ii) He can purchase goods on credit
+(iii) He can take short term loan
+Choose the correct option.
+(A) Only (i) is correct
+(B) Only (ii) is correct
+(C) Only (i) and (iii) are correct
+(D) Only (ii) and (iii) are correct
+55. A company has an operating cycle of eight months. It has accounts
+receivables amounting to ₹1,00,000 out of which ₹60,000 have a
+maturity period of 11 months. How would this information be
+presented in the balance sheet?
+(A) ₹40000 as current assets and ₹60,000 as non-current assets.
+(B) ₹60,000 as current assets and ₹40,000 as non-current assets.
+(C) ₹1,00,000 as non-current assets.
+(D) ₹1,00,000 as Current assets.
+PAGE 21
+Part – III
+Section – A
+Instructions:
+ From question number 56 to 62, attempt any 5 questions.
+56. Which key combination collapses the ribbon?
+(A). [Ctrl]+[F1]
+(B). [Ctrl]+[F3]
+(C). [Ctrl]+[F5]
+(D). [Ctrl]+[F7]
+57. The CAS should be-
+(A) Simple and integrated, transparent, accurate, scalability, reliability.
+(B) Complex, Accurate, Transparent, faster to work.
+(C) Able to transform the manual accounting system to computerised
+accounting system.
+(D) None of the above.
+58. The components of Computerised Accounting System are:
+(A) Data, Report, Ledger, Hardware, Software.
+(B) Data, People, Procedure, Hardware, Software.
+(C) People, Procedure, Ledger, Data, Chart of Accounts.
+(D) Data, Coding, Procedure, Rules, Output.
+59. Where are amounts owed by customers for credit purchases found?
+(A) accounts receivable journal
+(B) general ledger
+(C) sales journal
+(D) accounts receivable subsidiary ledger
+PAGE 22
+60. What is the activity sequence of the basic information processing
+model?
+(A) Organise data, process data, and collect data
+(B) Collect data, organise and process data, and communicate
+information
+(C) Process data, organise data, and collect data
+(D) Organise data, collect data, and communicate information
+61. Codification of Accounts required for the purpose of:
+(A) Hierarchical relationship between groups and components
+(B) Data processing faster and preparing of final accounts
+(C) Keeping data and information secured
+(D) None of the above.
+62. Which mathematical operator is represented by an asterisk (*)?
+(A). Exponentiation
+(B). Addition
+(C). Subtraction
+(D). Multiplication
+Part – III
+Section – B
+Instructions:
+ From question number 63 to 69, attempt any 6 questions.
+63 What category of functions is used in this formula: =PMT (C10/12,
+C8, C9,1)
+(A) Logical
+(B) Financial
+(C) Payment
+(D) Statistical
+PAGE 23
+64 When Extend Selection is active, what is the keyboard shortcut for
+selecting all data up to and including the last row?
+(A) [Ctrl]+[Down-arrow]
+(B) [Ctrl]+[Home]
+(C) [Ctrl]+[Shift]
+(D) [Ctrl]+ [Up Arrow]
+65 Which formulae would result in TRUE if C4 is less than 10 and D4 is
+less than 100?
+(A) =AND(C4>10, D4>10)
+(B) =AND(C4>10, C4<100).
+(C) =AND(C4>10, D4<10).
+(D) =AND (C4<10, D4,100)
+66 Where is the address of the active cell displayed?
+(A) Row heading
+(B) Status bar
+(C) Name Box
+(D) Formula bar
+67 Which of the following arguments in a financial function represents
+the total number of payments?
+(A) FV
+(B) PV
+(C) Nper
+(D) Rate
+68 Which function results can be displayed in Auto Calculate?
+(A). SUM and AVERAGE
+(B). MAX and LOOK
+(C). LABEL and AVERAGE
+(D). MIN and BLANK
+PAGE 24
+69 When navigating in a workbook, which command is used to move to
+the beginning of the current row?
+A. [Ctrl]+[Home]
+B. [Page Up]
+C. [Home]
+D. [Ctrl]+[Backspace]

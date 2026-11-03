@@ -1,0 +1,663 @@
+id,subject,chapter,format,difficulty,reading_words,over_pyq_max
+54c8469794935f5493fe018c477dcf61,english,"Factual Passage",reading_comprehension,easy,90,false
+969087a9352795113be2bda8def8d501,english,"Vocabulary",synonym,medium,12,false
+13f2d5542173e339abc4c88ea18bddbd,english,"Match the Following",matching,easy,125,false
+b64d12e2ab797dcdc203ce7264b19de9,english,"Correct Word Usage",correct_word_usage,medium,102,false
+a9cda88616d00ec5cc2ab6ec076e9b9e,english,"Vocabulary",synonym,medium,33,false
+5bb3304243eced3f7921751972122d75,english,"Vocabulary",antonym,hard,65,false
+a9417080710f69ccf49d5ae0ed8c43c9,english,"Narrative Passage",reading_comprehension,easy,80,false
+eeafcc925d5f01368aa1ffd21cde6e13,english,"Vocabulary",synonym,medium,12,false
+214d5d62a815697a1055a9956c8b9cde,english,"Factual Passage",reading_comprehension,easy,69,false
+7d10fc7f53286803800ad017f85322cc,english,"Para Jumbles",sequence_ordering,medium,97,false
+ff04567f8a9895cab31b75daf43c0fa0,accountancy,"Accounting Ratios",conceptual_mcq,easy,71,false
+43dba584009752ea6e97144240929090,accountancy,"Change in Profit Sharing Ratio",numerical_calculation,medium,107,false
+70f912d32e64083504e6fa5b7527eb83,accountancy,"Analysis of Financial Statements",matching,medium,173,true
+a12dd4264482abb0ab67dd85442fb25d,accountancy,"Change in Profit Sharing Ratio",sequence_ordering,medium,122,false
+fa6d913f5a2d1b5b97ac7da2ef540715,accountancy,"Comparative & Common Size Statements",case_application,hard,194,true
+8ff4d57f639a0fba0a49450c382bebe1,accountancy,"Debentures",conceptual_mcq,easy,48,false
+c6f1c8305a2882ca83281c8f223f09e1,accountancy,"Dissolution of Partnership Firm",numerical_calculation,medium,98,false
+50639c77250d95b0d71ad7a78b41ccdf,accountancy,"Share Capital",matching,medium,163,true
+ac76f1ab2669f4bcaaaea5de000b45ba,accountancy,"Goodwill Valuation",statement_selection,easy,106,false
+a64910be7fed2e5356a7e3d0838e875e,accountancy,"Partnership Fundamentals",sequence_ordering,medium,112,false
+bbdbdcd5c4cedcf788d194dc4f4b2d85,accountancy,"Profit & Loss Appropriation Account",case_application,easy,114,false
+f99d38d2b710dac30b73fa792426f074,accountancy,"Retirement & Death of Partner",conceptual_mcq,easy,78,false
+d957911859009012bfb4039c17ce8141,accountancy,"Share Capital",conceptual_mcq,medium,97,false
+627b2213bafa116b0a47eda7bc456b18,accountancy,"Accounting Ratios",matching,medium,120,false
+26e013938707cad0ddca6fab9c51ebce,accountancy,"Admission of Partner",statement_selection,easy,75,false
+c9c2fe29f421c2e8eee7c5b8f32ee3e6,accountancy,"Change in Profit Sharing Ratio",conceptual_mcq,easy,82,false
+13c8f8cff4c3db04b09070b0d51f8c57,accountancy,"Comparative & Common Size Statements",numerical_calculation,medium,65,false
+37a8e9413523b30482b6b1577d627f72,accountancy,"Debentures",matching,medium,194,true
+3b59e422f1bb829b8427fb3609581aa0,accountancy,"Partnership Fundamentals",conceptual_mcq,easy,56,false
+c7e85e2a1896bf27a569a4b21a992eb6,business_studies,"Financial Management",matching,easy,110,false
+8fedb9108c2a328b2963e088373b2873,business_studies,"Marketing Management",sequence_ordering,easy,42,false
+e884107bee4c5b9e2465764755a74f57,business_studies,"Nature & Significance of Management",conceptual_mcq,hard,121,false
+b3f4243b668404705b01fd106f44126d,business_studies,"Organising",case_application,easy,67,false
+f102077934ecb729afd0a41028339099,business_studies,"Planning",statement_selection,medium,86,false
+1f6f587e8bc3c88279935796997d1c07,business_studies,"Financial Management",matching,medium,102,false
+4782bbd9d5f91fbe895d96c11510bb64,business_studies,"Marketing Management",sequence_ordering,medium,129,false
+c33bc6a5b06b390208dfc363cca7f964,business_studies,"Nature & Significance of Management",conceptual_mcq,easy,65,false
+79afa547d104c9bb9b35f5ee63ad4b97,business_studies,"Planning",statement_selection,hard,99,false
+714de597221c734abca065eeda2bb6f8,business_studies,"Staffing",sequence_ordering,medium,85,false
+bcec7ae463601afaeee89c49449b3cd6,business_studies,"Financial Management",matching,hard,167,true
+21acf04b6b876ec71add04ae24ec8cd5,business_studies,"Marketing Management",sequence_ordering,easy,77,false
+b0edf02c04da350e2f1044d72211493e,economics,"Balance of Payments",conceptual_mcq,easy,49,false
+f5c7d0572d7d7222effd5b40f5f8a117,economics,"Economic Reforms Since 1991",matching,medium,192,true
+d028195e75345ff11f26261a650ac444,economics,"Government Budget & the Economy",case_application,hard,114,false
+77f43b88164d52132f9f2ead098eff24,economics,"Indian Economy on the Eve of Independence",statement_selection,easy,96,false
+943f365d7c65129196adee176ca413ec,economics,"Market Equilibrium & Simple Applications",case_application,hard,162,true
+630fb0980fc158515c959b79be5fedd6,economics,"National Income & Related Aggregates",numerical_calculation,medium,84,false
+1febd746d32111b554addf8828fd4ae2,economics,"Production & Costs",matching,medium,122,false
+3dce0344d7ad78f4346cd451c509983e,economics,"Theory of Firms under Perfect Competition",sequence_ordering,medium,88,false
+4a4c939646cb3639931a530edc410eb3,economics,"Balance of Payments",case_application,hard,127,false
+35150358022dec606938893ff263c005,english,"Vocabulary",synonym,medium,35,false
+a703edc635378894e7004a8d408f429f,english,"Match the Following",matching,easy,123,false
+c46788496fede6ef21510a83b0c8a8a4,english,"Vocabulary",contextual vocabulary,easy,69,false
+bd8a43c8a3249bdd23757022b51c6607,english,"Vocabulary",synonym,medium,44,false
+351b2b5fbb84714d8487272b58aec6df,english,"Narrative Passage",reading_comprehension,easy,71,false
+9fb19b37af88e3fd26211399a702a68e,english,"Vocabulary",vocabulary_meaning,easy,18,false
+44a68c3a74bc36acd586a1e1c13e39b5,english,"Para Jumbles",sequence_ordering,medium,76,false
+34187742884e82ff04925abfef8b10d4,english,"Vocabulary",antonym,hard,70,false
+31c9b04448450069518088901c9cc5ba,english,"Vocabulary",synonym,easy,30,false
+1ed8f3fc9f348753fa08672cfd1d439d,english,"Narrative Passage",reading_comprehension,easy,81,false
+774fae6c1244e20f676a2f110fcb1c31,accountancy,"Cash Flow Statement",conceptual_mcq,easy,82,false
+a3c3883cfc9c67446d03d200b89099db,accountancy,"Share Capital",numerical_calculation,medium,83,false
+cc27a3f506bd16c0aa2a9a9ea6aacb24,accountancy,"Change in Profit Sharing Ratio",matching,medium,115,false
+5d5cbe3a6d01bd317032694801215f21,accountancy,"Analysis of Financial Statements",statement_selection,easy,90,false
+b2494ef8327bc904caf3e9b820899501,accountancy,"Cash Flow Statement",sequence_ordering,medium,126,false
+40d8ffd980223cc65286a43053bf04de,accountancy,"Dissolution of Partnership Firm",case_application,hard,105,false
+c25dbd80031ae32eb2e1f4f6770ccc2e,accountancy,"Share Capital",conceptual_mcq,easy,35,false
+b8b28bb38dc46bf5ce60a077b4def73d,accountancy,"Change in Profit Sharing Ratio",numerical_calculation,medium,104,false
+9fabd13b104fe5b4786634cbb8940300,accountancy,"Profit & Loss Appropriation Account",matching,medium,186,true
+d21677fb8e5f18da0e7e7b0debb842a6,accountancy,"Retirement & Death of Partner",statement_selection,easy,105,false
+0ce7bd027c7907d5c70f59e2e6346105,accountancy,"Admission of Partner",sequence_ordering,medium,127,false
+67fe249b34753b62b0c637326975e001,accountancy,"Accounting Ratios",case_application,hard,185,true
+fdafe2a9bcd4bac693681c5e31984a91,accountancy,"Share Capital",matching,medium,130,false
+fad9f99b851328f9093bc54706fec9c8,accountancy,"Analysis of Financial Statements",statement_selection,easy,105,false
+d22480150b91318da59627780cb695ad,accountancy,"Admission of Partner",sequence_ordering,medium,105,false
+26ed891ba03aee169c2bd2b1f8be2f56,accountancy,"Debentures",case_application,hard,103,false
+e4c3e4f72ec627d69a72ab2b5b60f0c9,accountancy,"Dissolution of Partnership Firm",conceptual_mcq,easy,84,false
+3d27077cf078b2c9d27c44a98b86feae,accountancy,"Retirement & Death of Partner",matching,easy,161,true
+6b7095b153eb3669152ea69a91395029,accountancy,"Share Capital",statement_selection,easy,87,false
+09c85f711cdb03859e7e32faac75a1dc,accountancy,"Partnership Fundamentals",sequence_ordering,medium,113,false
+677b884678361070a9173b2205ba742b,business_studies,"Principles of Management",matching,easy,143,true
+3ca6f8a34eb42aeb67ce5a4842f16da9,business_studies,"Consumer Protection",conceptual_mcq,hard,141,true
+fb8e10321af71ed2a9998f0102f38ce0,business_studies,"Organising",statement_selection,medium,83,false
+69a5f5b276d3756e0bab00ed790efa2a,business_studies,"Consumer Protection",case_application,hard,155,true
+d708a1708ce7351e4285cb261fe1972a,business_studies,"Controlling",statement_selection,easy,85,false
+fc059ff89393bce9fa0aed09439ec5a5,business_studies,"Nature & Significance of Management",matching,medium,98,false
+27e508fe302e60fbef8368cc49a64d38,business_studies,"Organising",sequence_ordering,medium,85,false
+45b964d399567a44fbe72112ecfef33a,business_studies,"Planning",conceptual_mcq,easy,84,false
+141ee7ef52dc4753f82ba22dbc16eef5,business_studies,"Principles of Management",case_application,medium,78,false
+4970a8be8e8e6db127819071a958eaf4,business_studies,"Planning",case_application,easy,66,false
+a16e39232c7d786caacf29f78cc35ffb,business_studies,"Marketing Management",matching,hard,132,false
+52145a4612dc9d79a5a4189953ccbddf,business_studies,"Principles of Management",direct_mcq,easy,24,false
+e79b90fca1eef4869512e54beaabb1b6,economics,"Income Determination",sequence_ordering,medium,133,true
+c4914a05ee6943ccfecd89dfc880086d,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,89,false
+deee68aae269baeef189c9cca24344d1,economics,"Money & Banking",conceptual_mcq,easy,75,false
+44337f81bb4f1b4b7ade81e162eb760a,economics,"Economic Reforms Since 1991",case_application,hard,140,true
+b9214d6f466afd7c117d4880e872a3a2,economics,"Government Budget & the Economy",numerical_calculation,medium,55,false
+d03862b65899f0dcdae662824a18069e,economics,"Income Determination",statement_selection,easy,118,false
+a6198867e944cd3a3e3e7c2e48136939,economics,"Indian Economy on the Eve of Independence",case_application,hard,112,false
+54db3fe34409d7fe3604b0107bdaf6f8,economics,"Market Equilibrium & Simple Applications",numerical_calculation,medium,101,false
+ba68b5da7fa2da79bc4da55d61148cc3,economics,"Money & Banking",matching,medium,123,false
+851f2f5bd527b8aba3d82fd91e0e80cc,economics,"National Income & Related Aggregates",statement_selection,easy,80,false
+97f258261db5438427f6a1cadac3437c,economics,"Theory of Firms under Perfect Competition",conceptual_mcq,easy,63,false
+0a27f308377925246465b8c7b64246fa,english,"Literary Passage",reading_comprehension,easy,98,false
+dffb2044ebcb43f66bf26fe470c48227,english,"Vocabulary",synonym,medium,67,false
+a65d834b667f318d9ce07a34d6cf8daa,english,"Para Jumbles",sequence_ordering,medium,91,false
+c203c2a940ad8a1d108e7ef7c802b278,english,"Match the Following",matching,easy,139,true
+802be37438b2e90cc1fb6912b73aa8a6,english,"Correct Word Usage",correct_word_usage,medium,70,false
+88ed950b9b61ccadc5096692b8695217,english,"Vocabulary",meaning in context,medium,66,false
+a7bd660f711431eb12cea1b99dd3ed36,english,"Literary Passage",reading_comprehension,easy,73,false
+5d150ead4cb95cffe2221629901079ba,english,"Vocabulary",synonym,medium,56,false
+783a0d212622dcd4d7e24d3b361e354b,english,"Correct Word Usage",correct_word_usage,medium,68,false
+efd5073278a5b9862be45fb89c7e7cf6,english,"Vocabulary",antonym,hard,54,false
+288cc9c74867c52469c363a05e6ec5d6,english,"Narrative Passage",reading_comprehension,easy,78,false
+b7b7e9358ed2fc2a03d80893a060d198,english,"Para Jumbles",sequence_ordering,medium,94,false
+2130f881886cb0899ed42dbb4880e51b,english,"Match the Following",matching,easy,150,true
+05a2f46d60a39f85982d79dfed56548d,english,"Correct Word Usage",correct_word_usage,medium,66,false
+a68b518be4fdf34048c1a685de2fee51,english,"Vocabulary",antonym,hard,36,false
+6c03291a2924115aeec20daef514568d,english,"Literary Passage",reading_comprehension,easy,94,false
+9cad22a17f57ed29322e49747ffe701f,english,"Vocabulary",synonym,medium,40,false
+6e65669238f8a31b656dbe0e711a7e70,english,"Para Jumbles",sequence_ordering,medium,88,false
+5dcebe35b11f524fa86438bfd1152cf1,english,"Match the Following",matching,easy,144,true
+13baa89b0354877f55f5d8a5c4afaa7e,english,"Correct Word Usage",correct_word_usage,medium,58,false
+f1d9a9559a3f9b3baba787ccf0352a22,english,"Vocabulary",antonym,hard,29,false
+65e181043829eb4b07115b16cac9368e,english,"Narrative Passage",reading_comprehension,easy,130,false
+1e446d2c4fe8062640b863b9fc58c95c,accountancy,"Partnership Fundamentals",direct MCQ,easy,53,false
+5555ae878321fe6cf96722a52f4b6a7b,accountancy,"Accounting Ratios",case_application,hard,94,false
+86ce1c38fcc1a0b398e1b772635cf69f,accountancy,"Cash Flow Statement",numerical_calculation,medium,117,false
+0166182252bbd35e78a67e62375f3773,accountancy,"Comparative & Common Size Statements",statement_selection,easy,111,false
+14b9a08153be30e61e5eb1206ef12b88,accountancy,"Dissolution of Partnership Firm",conceptual_mcq,easy,85,false
+4115a8da29d5db85791e1ebac2a51510,accountancy,"Partnership Fundamentals",sequence_ordering,medium,145,true
+7d4f9cd896720a1363a56c34bc4b9c7f,accountancy,"Accounting Ratios",case_application,hard,128,false
+09589dc0ae8bb2d6fe9d7da47b9e142c,business_studies,"Business Environment",conceptual_mcq,easy,93,false
+47a4dee6a1ea6f25e5fbe174d719295a,business_studies,"Consumer Protection",case_application,medium,151,true
+08ad320eb1c269d513722c6ccb2aea13,business_studies,"Controlling",statement_selection,medium,97,false
+5002095300ec7ecc5ee50c532d6410ee,business_studies,"Principles of Management",matching,easy,170,true
+6c41b3b4bb651d5bc1ceec2a386935fd,business_studies,"Consumer Protection",conceptual_mcq,hard,90,false
+a4d80d1a0ff12c6bb111a305e08fdf79,business_studies,"Controlling",case_application,easy,75,false
+559faf76f7e7e566fc44bf875c5d9370,business_studies,"Principles of Management",matching,medium,104,false
+0b91f109767655fcbba9740ce805eeae,business_studies,"Staffing",sequence_ordering,easy,55,false
+3c228a8b754b4e9ac6f0cfa37f8f92bd,business_studies,"Business Environment",conceptual_mcq,medium,103,false
+f29bdfa666f5575a28dfe749ec329a45,business_studies,"Consumer Protection",case_application,hard,135,true
+30c559b7cee4ab97a2a9c9c85ca4bd30,business_studies,"Controlling",direct_mcq,easy,77,false
+f11ef5eebac10bd2383fa48f1b3e2ac3,business_studies,"Nature & Significance of Management",matching,medium,160,true
+63d0bf8816190dc2b39ed3a6956ef437,business_studies,"Organising",sequence_ordering,medium,98,false
+b8a35951561b0ad8929b3334534212a9,business_studies,"Planning",conceptual_mcq,easy,119,false
+e7da4e590c4ee3a50663a7372e74af63,business_studies,"Principles of Management",case_application,medium,153,true
+e30a79f8c520a84adbad10ab1e75ec9d,business_studies,"Staffing",statement_selection,hard,122,false
+1a2c585354c150236adece19594fc02d,business_studies,"Business Environment",matching,easy,120,false
+7171ab3d5c3a800442da13b15e1d4bfa,business_studies,"Consumer Protection",sequence_ordering,medium,80,false
+90e1807ce32ab631df636473068579cd,business_studies,"Controlling",conceptual_mcq,medium,67,false
+7a4cd41414c7d65e47de1f074165fd74,business_studies,"Planning",case_application,easy,109,false
+5482e7dfb92bb644e603093b75664fe7,business_studies,"Marketing Management",matching,hard,161,true
+90ec25792703058c191b0275f1912a44,business_studies,"Principles of Management",direct_mcq,easy,68,false
+9e62010f5c2d2f0291f8874bd0f108bc,economics,"Development Experiences of India",conceptual_mcq,easy,90,false
+a086a294fae62986ef3cc7451ac08f81,economics,"Employment",numerical_calculation,medium,182,true
+b3d1f652d7e33e434ffa0ec9bac5705a,economics,"Environment & Sustainable Development",matching,medium,172,true
+38cb4b550d35356da23677aea7916afe,economics,"Human Capital Formation",statement_selection,easy,87,false
+5b7da85f1e8f63828638edbab860c4c3,economics,"Income Determination",sequence_ordering,medium,81,false
+2094d96bab39ffe581a046de8c17d1c1,economics,"Indian Economic Development 1950–1990",case_application,hard,198,true
+b26c48b73d3af972154a476ba7d8f802,economics,"Rural Development",matching,medium,202,true
+c1200fc6d87fe7c96f3b0bb492e919e8,economics,"Employment",sequence_ordering,medium,78,false
+d3914d5feb8c26b4f85a31d0a89a65ba,economics,"Economic Reforms Since 1991",case_application,medium,92,false
+f3640bb9d15db1f5760e2a3af21c9de4,economics,"Environment & Sustainable Development",conceptual_mcq,easy,50,false
+c8bc69b2f74ad69e04c7281c8711350c,economics,"Government Budget & the Economy",numerical_calculation,medium,81,false
+3c8d31764c62441ee2a27c97059c5b08,economics,"Human Capital Formation",direct_mcq,medium,134,true
+95330eb8759182117ede979f793b3730,economics,"Income Determination",statement_selection,easy,113,false
+397e3da3c1165567498dfec7e69441a2,economics,"Indian Economy on the Eve of Independence",case_application,hard,149,true
+a4f5009dafb38b88e70ca4a41605931d,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,107,false
+f6b9ec075f306d1a7094e35b3b7d0810,economics,"Market Equilibrium & Simple Applications",numerical_calculation,medium,88,false
+e19e65cb0bf8741eea6dbd48826f6566,economics,"Money & Banking",matching,medium,179,true
+386dca46542a02901d2837324bf0b69e,economics,"National Income & Related Aggregates",statement_selection,easy,118,false
+62e100e42f36266d6d34568360f3952a,economics,"Rural Development",sequence_ordering,medium,75,false
+a0edb4867a7ef1d83ea436bca72ffaa3,economics,"Production & Costs",case_application,hard,106,false
+3c554d365bf8cf8ec3b8976f5a1e9ee3,economics,"Theory of Firms under Perfect Competition",conceptual_mcq,easy,129,false
+1aca16379d61c37b5f84487b136b87e8,english,"Literary Passage",reading_comprehension,easy,70,false
+74d976848985c48f5b5697a9203b959b,english,"Para Jumbles",sequence_ordering,medium,98,false
+576dc4a91d39eee85df6729f99ed8a96,english,"Match the Following",matching,easy,131,false
+66e4697bc7076cb177be755f3046ac71,english,"Correct Word Usage",correct_word_usage,medium,35,false
+40f5a079c78b73071b6f8e88df589c6e,english,"Vocabulary",antonym,hard,72,false
+b1203f7f3231b57d0a610f14f17cf1a8,english,"Literary Passage",reading_comprehension,easy,66,false
+c8c84f0d38809205de6570a864ae4a66,english,"Vocabulary",synonym,medium,71,false
+843dbff98d887fa97d091dd73de2b1c0,english,"Para Jumbles",sequence_ordering,medium,94,false
+6e1136f379358985d63524831b9971be,english,"Match the Following",matching,easy,139,true
+e0efc66b54bc8aab89939e99970f901c,english,"Correct Word Usage",correct_word_usage,medium,80,false
+14eec8eff7926ca92409549e6da4973d,english,"Vocabulary",antonym,hard,56,false
+c7215261f1e55247d54ae4ebcfa5c7db,english,"Narrative Passage",reading_comprehension,easy,63,false
+69c08375f5218d8cc766ab0172bc7d95,english,"Vocabulary",synonym,easy,45,false
+9d134d424cc6abd3b6e68b7b66773b24,english,"Para Jumbles",sequence_ordering,medium,82,false
+d9110e80bb26a1232515cd85ea85c2ea,english,"Match the Following",matching,easy,126,false
+9721d9b0f1f334d38af2ef240c62e70a,english,"Correct Word Usage",correct_word_usage,medium,95,false
+21380dd66b3bbb0f1ed0379e901ffe14,english,"Vocabulary",antonym,hard,42,false
+de3f511b3cdd2ae9a202b927930abb80,english,"Literary Passage",reading_comprehension,easy,77,false
+c696b0691dcda100924ef54aad29a825,english,"Vocabulary",synonym,medium,31,false
+f7119751c3481939c8fbb406810d5ff1,english,"Para Jumbles",sequence_ordering,medium,96,false
+b71e96d2bb78a3ada6a3a46e7129aa05,english,"Match the Following",matching,easy,134,true
+7b9747022fdea215e8fec49f152d33d1,english,"Correct Word Usage",correct_word_usage,medium,62,false
+82876d025acfb9d500d6c12bcd73b0f5,english,"Vocabulary",antonym,hard,34,false
+9237512a3a83da1470593cf713987e5d,english,"Narrative Passage",reading_comprehension,easy,134,true
+4ce0bf1aeb945873ee29e20bbc291e1e,accountancy,"Comparative & Common Size Statements",statement_selection,easy,81,false
+b9ba1bafc94d058b0749f29b2a6ec259,accountancy,"Dissolution of Partnership Firm",case_application,hard,126,false
+4e6f0b3f57cb181f2829778fd79c8b75,accountancy,"Share Capital",conceptual_mcq,easy,88,false
+5e199ce624a9f0d720290c5bb8d7e48b,accountancy,"Accounting Ratios",case_application,hard,101,false
+f5dcf4c0d1ccf4c1f1db3e308289742c,accountancy,"Share Capital",matching,medium,146,true
+8d05b5af0b17421d5f30f945d84a0b98,accountancy,"Comparative & Common Size Statements",statement_selection,easy,122,false
+e70b85dac7db634d33a1ef94b692c709,accountancy,"Admission of Partner",sequence_ordering,medium,155,true
+d969351168999ffc0b7148656e7e361a,accountancy,"Share Capital",statement_selection,easy,86,false
+472649398aea0050e35860544ec8f803,accountancy,"Partnership Fundamentals",sequence_ordering,medium,117,false
+f2af0e9817e43ed2da3c4ce215c058bd,accountancy,"Accounting Ratios",case_application,hard,89,false
+321aff6a1d23a1e7c42ad48dc61d7bd6,accountancy,"Comparative & Common Size Statements",conceptual_mcq,easy,99,false
+058e3838e0aa7b6fd6e856e5f007874c,business_studies,"Business Environment",conceptual_mcq,easy,77,false
+3a4fb951521a500585e594e37c05655c,business_studies,"Controlling",statement_selection,medium,122,false
+d569af4c8cb225ac6ce8a9e56e74316c,business_studies,"Directing",direct_mcq,easy,70,false
+6ea53193d76d8487afcee3793f3e867e,business_studies,"Principles of Management",sequence_ordering,medium,104,false
+e3e527f9757d9efbe3a207bbd753be49,business_studies,"Business Environment",conceptual_mcq,hard,75,false
+618a6b7e123cffb6719a9fd7b0b88e05,business_studies,"Consumer Protection",case_application,easy,180,true
+8902a01efc6678d1e84e74ac155b13ab,business_studies,"Controlling",statement_selection,medium,135,true
+3c3dc84340e498d008434f1ac09fe859,business_studies,"Directing",matching,medium,138,true
+a456cb49a0a5eccf2e12cbbd591f608c,business_studies,"Principles of Management",direct_mcq,easy,70,false
+8bb58d9e6c26546c0a2f3592424e070a,business_studies,"Business Environment",direct_mcq,easy,33,false
+16c797c8408fc9ba8756b60ad446fca1,business_studies,"Consumer Protection",matching,medium,145,true
+8b7de18aae93288768547c30c348e728,business_studies,"Controlling",sequence_ordering,medium,85,false
+515954339906a6c49efc4423523f9b6d,business_studies,"Directing",conceptual_mcq,easy,88,false
+b73886f6d75f5eeaa07547eaa7d93f31,business_studies,"Nature & Significance of Management",case_application,medium,112,false
+41cc615aea2de7a739208eff94f81af0,business_studies,"Organising",statement_selection,hard,126,false
+73c3c2cd2255cbbb03c466b8b3a89273,business_studies,"Planning",matching,easy,118,false
+eea59608d26fd48fe31d175d5419027c,business_studies,"Principles of Management",sequence_ordering,medium,67,false
+97c1905bbdc3283108e181a3c8eff727,business_studies,"Staffing",conceptual_mcq,medium,87,false
+5f2b6c7e884a9c49ce67f2939e5abb6d,business_studies,"Business Environment",case_application,easy,57,false
+64beb5aa6c1055b952e57ac43dc13ecf,business_studies,"Consumer Protection",statement_selection,medium,149,true
+fb730c06677c81e8bc5dfa47822cb49e,business_studies,"Controlling",matching,hard,143,true
+08dd617023c37fb90cb529db7cfbf13c,business_studies,"Directing",sequence_ordering,easy,88,false
+55758cb8cbdb5096897a4a447c435626,economics,"Development Experiences of India",conceptual_mcq,easy,113,false
+99fd8c060e5861d9bdb811e641dd6138,economics,"Employment",numerical_calculation,medium,74,false
+749c7d54f592dbfc93ca164595ca5cff,economics,"Environment & Sustainable Development",matching,medium,118,false
+20d17d6168c3fbf2eb5c0ee350eaf85e,economics,"Human Capital Formation",statement_selection,easy,118,false
+0de322e27637f76ac593c99028e4cafa,economics,"Income Determination",sequence_ordering,medium,153,true
+8b7a12e7cce479ddec3b443b1a09f92a,economics,"Indian Economic Development 1950–1990",case_application,hard,204,true
+57842ace59d6faa4a4eafedd7411fe40,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,110,false
+e9b2f62cc47bd224b0a1d39323ed215a,economics,"Money & Banking",numerical_calculation,medium,82,false
+6fab29cd296a469da2128386c355f75b,economics,"Rural Development",matching,medium,120,false
+559f599c8fa9caddcb113a5b81282e96,economics,"Employment",sequence_ordering,medium,92,false
+22f30f28d5016fafaf9555efee095db3,economics,"Economic Reforms Since 1991",case_application,hard,111,false
+04ca2fca91db21c308168c9b235e64d2,economics,"Environment & Sustainable Development",conceptual_mcq,easy,73,false
+49903f236d25c1673b31b22d90fc7b6f,economics,"Government Budget & the Economy",numerical_calculation,medium,70,false
+fd9eaf33932c7909306fc591a15f48b6,economics,"Income Determination",statement_selection,easy,105,false
+765c28539460d21e44556e18f6ea5dc3,economics,"Indian Economy on the Eve of Independence",case_application,medium,81,false
+9282c0283babc2024ac620ed60b57826,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,58,false
+503c33acf0f9dcf7fa763bdbe91d9559,economics,"Market Equilibrium & Simple Applications",direct_mcq,easy,89,false
+2c8b0866864628fdac320cbf3f44005b,economics,"Money & Banking",matching,medium,144,true
+7c338ab4c57c4e44e847e4777a8831f5,economics,"National Income & Related Aggregates",statement_selection,easy,130,false
+8a22899760eeac80109c033f919d3933,economics,"Rural Development",sequence_ordering,medium,83,false
+7090d9e2e218732200960586d6371158,economics,"Production & Costs",case_application,hard,74,false
+2ae58f936c168e6cfef75783e9a30e7f,economics,"Theory of Firms under Perfect Competition",conceptual_mcq,easy,72,false
+aa457563a906481660791e4d051e9e90,english,"Literary Passage",reading_comprehension,easy,84,false
+8db859a1b7eab5aac1eb13818e0863fc,english,"Vocabulary",synonym,medium,41,false
+a601205cfe584a89b63c47661c258937,english,"Para Jumbles",sequence_ordering,medium,88,false
+379191f2d6fa6e4844bf6a8b159f1a10,english,"Match the Following",matching,easy,193,true
+762829e64d0018f9924de752e31fb832,english,"Correct Word Usage",correct_word_usage,medium,63,false
+a7bb8bb4cabed4cc11d13a431a776674,english,"Literary Passage",reading_comprehension,easy,83,false
+e75c7604908254529c7572bda2c4b722,english,"Vocabulary",synonym,medium,44,false
+21ffdb2198b350582fa6e53d8a820211,english,"Para Jumbles",sequence_ordering,medium,90,false
+4ce51f89959ceb021a0f5cfd78f63779,english,"Match the Following",matching,easy,176,true
+a1cfa36df1658a324564c0ee4bb3b017,english,"Correct Word Usage",correct_word_usage,medium,87,false
+bf18390487fde0f4f26df578e1964dce,english,"Vocabulary",antonym,medium,73,false
+056d994754438131e76f75a3c1895aeb,english,"Narrative Passage",reading_comprehension,easy,53,false
+08c9dff7d4a536b90a7b7ad46e092703,english,"Vocabulary",synonym,medium,62,false
+f547e34627af9ffec31cffd2d0d62be9,english,"Para Jumbles",sequence_ordering,medium,89,false
+085008293e76ae369f244c779d29a881,english,"Match the Following",matching,easy,90,false
+9b36b0de835e19b77a09ca3890248ee5,english,"Correct Word Usage",correct_word_usage,medium,86,false
+2ba43117067ffb85467af3eb10a9a830,english,"Vocabulary",antonym,hard,68,false
+24e40787d738137e8f0bc0c5b96c3cf6,english,"Literary Passage",reading_comprehension,easy,78,false
+a64559586761c9cafcfd80def1465390,english,"Vocabulary",synonym,medium,63,false
+8b93316006439c791a59e7a5a664f278,english,"Para Jumbles",sequence_ordering,medium,115,false
+8557c1f8bc775dbb27a8c2b573a4c270,english,"Match the Following",matching,easy,142,true
+92d0afb657c60d04ead0b8d703fcf2da,english,"Correct Word Usage",correct_word_usage,medium,38,false
+c5961ca1d655542533164e7482307b11,english,"Narrative Passage",reading_comprehension,easy,76,false
+5c0ff3b273ed93f68d50e597fc817afd,accountancy,"Dissolution of Partnership Firm",case_application,hard,166,true
+a87b45a648099096ccf7573e8acd92a8,accountancy,"Accounting Ratios",case_application,hard,124,false
+93ed281468941f09ececd8de355f0f25,accountancy,"Share Capital",matching,medium,127,false
+4a75b3dbae759dd8001d1f124ba35314,accountancy,"Dissolution of Partnership Firm",conceptual_mcq,easy,126,false
+7b4662c4e2166c62f863a6ae1da78ba6,accountancy,"Partnership Fundamentals",sequence_ordering,medium,131,false
+24bc774e92f50c1d451abdcdaac8d7b4,accountancy,"Accounting Ratios",numerical_calculation,medium,123,false
+5f26152b53fefae18cd68e26bc206ecf,business_studies,"Business Environment",conceptual_mcq,easy,37,false
+5ff905a96b12e94b7f90e53d699d5160,business_studies,"Consumer Protection",case_application,medium,60,false
+bd6ee0839dba5995f84adf40a31ad10e,business_studies,"Controlling",statement_selection,medium,174,true
+296e6c135c976583eb0f54b193502fef,business_studies,"Directing",matching,easy,110,false
+07d4b9e7ee63d8ec0174de729131afbb,business_studies,"Principles of Management",sequence_ordering,medium,102,false
+3d6eda9fbb38c16c89857de099a99096,business_studies,"Business Environment",conceptual_mcq,hard,147,true
+865bfa291ab89dccd088f14affdb8440,business_studies,"Controlling",statement_selection,medium,109,false
+e60626a40aa29da30296f560b1588371,business_studies,"Directing",matching,medium,138,true
+e0cfe81041f8ab2aa13c68770042ed62,business_studies,"Organising",conceptual_mcq,medium,78,false
+2b79e114731558f4af89074accfbe63e,business_studies,"Business Environment",statement_selection,easy,124,false
+ee105beccb596e159dc0091a541c619f,business_studies,"Consumer Protection",matching,medium,143,true
+24ff7d610823ce693405abfbdfc938f6,business_studies,"Controlling",sequence_ordering,medium,101,false
+16ce97d1487c7f508ba64a0309be38fd,business_studies,"Directing",conceptual_mcq,easy,26,false
+dc12ed0398378043105490220f051527,business_studies,"Nature & Significance of Management",case_application,medium,114,false
+3a4c2ec45488f735267ef08d67f61ff9,business_studies,"Organising",statement_selection,hard,118,false
+25bdc704a2e39355c5281c510905147e,business_studies,"Planning",matching,easy,155,true
+03af9b8d66acc25de02057a70a47d0f8,business_studies,"Staffing",conceptual_mcq,medium,113,false
+3567fb5736b09efcd72b7d417d28aa88,business_studies,"Business Environment",case_application,easy,102,false
+daa666e1007ecea50139579ad1e4ef8c,business_studies,"Consumer Protection",statement_selection,medium,124,false
+ed7bb5598ff5e89266efbdd5501f84a2,business_studies,"Controlling",matching,hard,199,true
+afa748cb2aa84953f846bad4cda2c9ad,economics,"Development Experiences of India",conceptual_mcq,easy,81,false
+cdc3a551a3bb3c1b64042e7644776205,economics,"Employment",numerical_calculation,medium,81,false
+bd4f58e44864fb13c551cd163812857d,economics,"Human Capital Formation",statement_selection,easy,111,false
+a5a7a58c64716aee1144d2e29d409bb2,economics,"Indian Economic Development 1950–1990",case_application,hard,134,true
+8c1cc9b05e28b915f65be085a1f701f1,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,81,false
+bd47a6f6756de11e42e75967d477b7d4,economics,"Money & Banking",case_application,medium,98,false
+67e0304f12f707fb58d2769d90e85798,economics,"Rural Development",matching,medium,167,true
+30c3a34367918e4e32226824d48c4813,economics,"Development Experiences of India",statement_selection,easy,147,true
+5740306fa88c829b6907f6410bb4e246,economics,"Employment",sequence_ordering,medium,119,false
+b64c22f983e97bbc5e915898ba0085ea,economics,"Economic Reforms Since 1991",case_application,hard,137,true
+642c90266fa0dcdd6f6b1fb8259c144e,economics,"Environment & Sustainable Development",conceptual_mcq,easy,106,false
+8ae5b51a291e1e4af741fed6b275739c,economics,"Government Budget & the Economy",numerical_calculation,medium,64,false
+e28748f678ef9c8fff1c553cb667a2a2,economics,"Human Capital Formation",matching,medium,252,true
+abe7a511fc305acc8e503d33a8a9db99,economics,"Income Determination",statement_selection,easy,133,true
+dfe119a36518933ac33780d01f3d313a,economics,"Indian Economic Development 1950–1990",sequence_ordering,medium,118,false
+a569c7716fbd8a493df492763edd4c21,economics,"Indian Economy on the Eve of Independence",case_application,hard,132,false
+9f7f0f7e4c9d5cb5e6670be2479da5f2,economics,"Introduction & Theory of Consumer Behaviour",conceptual_mcq,easy,55,false
+b9f3a426b4105a7edf8aadd6ef3988dc,economics,"Market Equilibrium & Simple Applications",numerical_calculation,medium,111,false
+fe969660f7f1fb6be5d0305e84b3381d,economics,"Money & Banking",matching,medium,145,true
+1df755826f9078ec6ff1992c51d38b83,economics,"National Income & Related Aggregates",statement_selection,easy,137,true
+a726aeaa9f7ce193c5ee5ed4e402698e,economics,"Production & Costs",case_application,medium,154,true
+90c0efb048add1dbde2112db46487d91,economics,"Theory of Firms under Perfect Competition",conceptual_mcq,easy,110,false
+bbab60f8d4303571149c713af0b0551f,english,"Literary Passage",reading_comprehension,easy,94,false
+995205f96f49073b44b66043f1cb1c72,english,"Vocabulary",synonym,medium,68,false
+09513d692e04a2ab548d0c5f21434fc4,english,"Para Jumbles",sequence_ordering,medium,84,false
+c575dcc4fe8af8b0991602929a5ce232,english,"Match the Following",matching,easy,154,true
+c41b2c41c0fbbbeb4ba60fcace13f02e,english,"Correct Word Usage",correct_word_usage,medium,87,false
+9048d2f486336e85842313066cbff939,english,"Literary Passage",reading_comprehension,easy,89,false
+253b603d56e8104f41758dffab65384b,english,"Vocabulary",synonym,medium,36,false
+373d250d21b4c8d7cff3367cd69d7b25,english,"Para Jumbles",sequence_ordering,medium,107,false
+b903828e7653c069ceae49279b031b51,english,"Match the Following",matching,easy,133,true
+0b106c458873ea92e998d275178ca663,english,"Correct Word Usage",correct_word_usage,medium,77,false
+050eabfb0b60dbd8a567b1d31da10d6d,english,"Literary Passage",reading_comprehension,easy,71,false
+26c5d2ac584f37f60da67fae4da93944,english,"Vocabulary",synonym,medium,39,false
+c849acd03ebfad2a2878f7b65f647a2a,english,"Match the Following",matching,easy,128,false
+f377f9c2f3dae6ce82326f048bf38b1f,english,"Correct Word Usage",correct_word_usage,medium,79,false
+7f06219fa89856483c44d00c0e39965d,english,"Vocabulary",antonym,hard,75,false
+ae787229d7f06404c872f26ab9ac7f0d,english,"Factual Passage",reading_comprehension,easy,63,false
+d25cc262e66ed26d5766e68f0acc3f1d,english,"Vocabulary",synonym,medium,50,false
+9bd2d77281ddf33604855c9a579c0c71,english,"Para Jumbles",sequence_ordering,medium,88,false
+b43c82d6619ce97ddbdca183a4d1555d,english,"Match the Following",matching,easy,119,false
+82d3698b9973e8b58b67691d2e0c9792,english,"Vocabulary",vocabulary_in_context,medium,116,false
+da302dc03b0b1c38eaab0d2a69ddf3b7,english,"Vocabulary",antonym,hard,79,false
+824ac5f16d42f7764c59279ee9c3463a,english,"Literary Passage",reading_comprehension,easy,77,false
+b29a66fb56b078260537399fe3a3fcf1,accountancy,"Share Capital",conceptual_mcq,easy,86,false
+bba704f2476d1a93fd7bffb1d59cb20b,accountancy,"Change in Profit Sharing Ratio",matching,medium,139,true
+d784574057a5377e3f479a20080d1ea2,accountancy,"Comparative & Common Size Statements",statement_selection,easy,101,false
+6cb91dc50c0e981ac4c14fcd7b9c15f0,accountancy,"Share Capital",sequence_ordering,medium,120,false
+fee4773681139f1301d399d5c8614b4e,accountancy,"Cash Flow Statement",case_application,hard,164,true
+20cc88e8ab11b76d9e44bd28a36ac435,accountancy,"Change in Profit Sharing Ratio",direct_mcq,easy,96,false
+f939099a958200657b70fa887861020a,accountancy,"Profit & Loss Appropriation Account",numerical_calculation,medium,117,false
+fc2ffd649fa06058f1bc436560bc2a99,accountancy,"Share Capital",matching,medium,173,true
+3d4979939de146e350662db039002937,accountancy,"Comparative & Common Size Statements",statement_selection,easy,110,false
+b5df7177ed911c47b68418405ff1dedb,accountancy,"Goodwill Valuation",sequence_ordering,easy,119,false
+f6fb9e300d41be6c1c7dcf7d53de2cde,accountancy,"Admission of Partner",case_application,medium,89,false
+5ba493b328da9d4d750da357343709fa,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,124,false
+f74b0e047a2918432dd268ad9eb8d428,accountancy,"Retirement & Death of Partner",numerical_calculation,medium,157,true
+eb1958766a21035ab526db1f780f7200,accountancy,"Cash Flow Statement",matching,medium,162,true
+bd005715a5fd7476805bea341f3ebcd6,accountancy,"Accounting Ratios",statement_selection,easy,123,false
+4a2f6c3dc560031ae7ab4591ad7c868e,accountancy,"Partnership Fundamentals",case_application,hard,112,false
+5114300ab4bc8333ce6507832947954c,accountancy,"Debentures",conceptual_mcq,easy,55,false
+0cf1015aadfe60906a113fda711ce576,accountancy,"Dissolution of Partnership Firm",conceptual_mcq,medium,77,false
+7714c60329545f7b4effbd1021ff7c18,accountancy,"Share Capital",matching,medium,150,true
+0721a41a083968d2ba537460e2c1d0ce,accountancy,"Comparative & Common Size Statements",statement_selection,easy,103,false
+9c305b5aa044a48c55786a3aef03d903,accountancy,"Goodwill Valuation",sequence_ordering,medium,109,false
+495c4536f5869a65e46ae8a6d92010c8,accountancy,"Admission of Partner",case_application,hard,190,true
+d9fc948f12264168dd7497c0c9bc4305,accountancy,"Partnership Fundamentals",conceptual_mcq,easy,54,false
+b2cd81d802882b6fd6b3a9a3980c5573,business_studies,"Directing",case_application,medium,119,false
+f0be958141f8d75bab9d6a8289f922e7,business_studies,"Financial Markets",statement_selection,medium,94,false
+d7ae5ca2dc3ab16913411d7d7f870893,business_studies,"Business Environment",matching,easy,113,false
+5f649f52cbfb1439a77ef9b48ba42e8b,business_studies,"Controlling",sequence_ordering,medium,113,false
+6c951c04b2b20220469363fb1b611c3f,business_studies,"Directing",conceptual_mcq,hard,90,false
+189a56abe28f09eff1ab4bce6003aa40,business_studies,"Financial Markets",case_application,easy,77,false
+a6d58fa3ff99013646936efdb020fb92,business_studies,"Staffing",statement_selection,medium,104,false
+684ab73b0ddaaff73a4ffdcfa10df0c9,business_studies,"Business Environment",matching,medium,115,false
+0770bc13c7a41ec756bd3eb7e647b84b,business_studies,"Consumer Protection",sequence_ordering,easy,101,false
+bb1a7ca0a4ee7cc8edeacdf6d7325c20,business_studies,"Controlling",conceptual_mcq,medium,111,false
+fe101b7495e7315c80f12b9878128752,business_studies,"Directing",case_application,hard,150,true
+e149e021c60749248d86a62a0696b652,business_studies,"Financial Markets",statement_selection,easy,88,false
+7f1bc47d0771f5876c1b01b5319ee016,business_studies,"Staffing",matching,medium,131,false
+afc43092abb2114fd7e994a035d2c7e7,business_studies,"Business Environment",sequence_ordering,medium,99,false
+d07c71ebfb3d4efe4a2f59734a7ae67a,business_studies,"Directing",conceptual_mcq,easy,79,false
+9b02b95061688dc7d44200f1b3599f13,business_studies,"Controlling",case_application,medium,144,true
+89cfa7dc25a1ec3a95e633660a40ce0d,business_studies,"Consumer Protection",matching,easy,250,true
+8102a31ba0ac00416fc867a8b2a2ce2f,business_studies,"Financial Management",sequence_ordering,medium,81,false
+8e98b518feff4c1b398b685d795a40a8,business_studies,"Principles of Management",conceptual_mcq,medium,87,false
+ad29c5de1d24fb5396df27831a600ef9,business_studies,"Staffing",case_application,easy,116,false
+d16cee2c536d8c3e99d986d927930e3e,business_studies,"Nature & Significance of Management",statement_selection,medium,106,false
+03824f20d921c1ad06b965b1d0a4b44e,business_studies,"Organising",matching,hard,149,true
+3bc7fafa93e813835f6814a18d27ec72,business_studies,"Business Environment",sequence_ordering,easy,75,false
+408f13979a80deed76e1e0fa28426c08,economics,"Development Experiences of India",conceptual_mcq,easy,107,false
+5d2cf0d217e3ccb43730a4b1eecdab61,economics,"Employment",numerical_calculation,medium,77,false
+8e2d8a69af3a9f812213d9e4a12dcb19,economics,"Environment & Sustainable Development",matching,medium,126,false
+a8b5198327b59578ceda83116ea01c99,economics,"Human Capital Formation",statement_selection,easy,111,false
+d07b4f779e64ceaabc490eebdd437dcd,economics,"Indian Economic Development 1950–1990",sequence_ordering,medium,83,false
+6e446ae75181808ba9ac4238fd3d5486,economics,"Rural Development",case_application,hard,116,false
+435e48ce37fbd17c87658815528aba5d,economics,"Development Experiences of India",conceptual_mcq,easy,114,false
+d751bcf89c249e469e1f22631a3fd496,economics,"Employment",numerical_calculation,medium,71,false
+3fa5a3fd55dd4c216682224a140527af,economics,"Human Capital Formation",direct_mcq,easy,68,false
+f89fb84b67c0caf41ca158bb26790ce3,economics,"Introduction & Theory of Consumer Behaviour",case_application,hard,148,true
+4fb55b87a5ff415e0f63ec461139e0f7,economics,"Rural Development",numerical_calculation,medium,92,false
+dacb0ca01c43cd1fffa545998eed65e3,economics,"Balance of Payments",matching,medium,122,false
+52b9d78d281ebd92bf8a312e697d1130,economics,"Employment",sequence_ordering,medium,73,false
+58cd0ed02dfc261ba99638aae0875484,economics,"Environment & Sustainable Development",case_application,hard,141,true
+71da857338dc032fb961c1da41623775,economics,"Economic Reforms Since 1991",conceptual_mcq,easy,93,false
+a79e5e82cbf1f836af8fb5c7428f666e,economics,"Human Capital Formation",numerical_calculation,medium,103,false
+1ab5cf38e8786f60a950e7a6b67762ed,economics,"Indian Economic Development 1950–1990",matching,medium,140,true
+6a3047616b115c8b84fd31b2f17b6eda,economics,"Government Budget & the Economy",statement_selection,easy,108,false
+7c9d79eb923e3c7cd31062b712f4f196,economics,"Indian Economy on the Eve of Independence",sequence_ordering,medium,97,false
+b8d36fa96d30fc861cc80117e7b4b15d,economics,"Income Determination",case_application,hard,130,false
+da6943969141734f920de78cef27cf03,english,"Vocabulary",synonym,medium,67,false
+acfe4927de77c0cc2c95d1a664d206b0,english,"Para Jumbles",sequence_ordering,medium,115,false
+59e5b314a247b24a5bb79e908ea44635,english,"Match the Following",matching,easy,145,true
+1fb8165980588d409ac0224c191e5ffb,english,"Correct Word Usage",correct_word_usage,medium,82,false
+ba91d0be754c94fd86b37ed7dff0594b,english,"Vocabulary",antonym,easy,84,false
+6e80d3335e51535eb61880c52b32caa5,english,"Vocabulary",synonym,medium,62,false
+39e09ce54267c6d56a9b954d8bf3ed1c,english,"Para Jumbles",sequence_ordering,easy,78,false
+e1746c9ba0e4f943f01be46b59426a80,english,"Match the Following",matching,easy,127,false
+e9f21082434b025f399a715f9f2e3401,english,"Correct Word Usage",correct_word_usage,medium,71,false
+bf06364eaf1233ab3c4fa7eaf164e502,english,"Vocabulary",antonym,easy,49,false
+9081a9c01da9a7634cfc78b889b8129f,english,"Literary Passage",reading_comprehension,easy,85,false
+88203504d8681843ed4741d2cb2b5aba,english,"Vocabulary",synonym,medium,69,false
+c0241624bb19a6e0ccabc6cfd9e8799b,english,"Correct Word Usage",correct_word_usage,medium,71,false
+ede22f8e1fcb4240734c14efa7b7b556,english,"Vocabulary",synonym,medium,62,false
+850ff821eb18ed00ba2aff76d05c04fa,english,"Para Jumbles",sequence_ordering,medium,106,false
+194b0b9a3be52737caf18426885146d1,english,"Match the Following",matching,easy,146,true
+e4832620aecc1b9c84b21e5d4f1f582f,english,"Correct Word Usage",correct_word_usage,medium,124,false
+12a0365139728085758891691f5caac9,english,"Vocabulary",antonym,hard,79,false
+7c93ba5270b262b8aba33c51780d0ea0,english,"Literary Passage",reading_comprehension,easy,73,false
+973e9b158b1be6c5345e3cdf524d91f6,accountancy,"Admission of Partner",matching,medium,151,true
+e04a3b166be67c0ae7ee1d41effa17df,accountancy,"Comparative & Common Size Statements",statement_selection,easy,122,false
+cbda21e6a857dda3c4f29b0ce3a13c4d,accountancy,"Share Capital",sequence_ordering,easy,83,false
+6512cacde6d13b32936c7c15b73f1838,accountancy,"Cash Flow Statement",case_application,hard,100,false
+c344cd5d6a58409c9e45ef14b9bcc5cc,accountancy,"Comparative & Common Size Statements",statement_selection,easy,113,false
+3d6589fe0f5154b9cb2c5685191fa063,accountancy,"Goodwill Valuation",numerical_calculation,medium,59,false
+816315078cbe65feab3e2b9aaf52b8bb,accountancy,"Admission of Partner",case_application,medium,94,false
+94fdb333647dbf55a393f9d5a3dcfc4d,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,82,false
+ca7747aa501115ba448aefad0a86bce0,accountancy,"Retirement & Death of Partner",numerical_calculation,medium,156,true
+277920fc14f2de7866f7a4fd4f9e93a7,accountancy,"Cash Flow Statement",matching,medium,162,true
+9a3a683cde6b70963343775b8264da5a,accountancy,"Admission of Partner",case_application,hard,87,false
+cbb119dfc5eb2fbd38119a0f3444ffe0,accountancy,"Comparative & Common Size Statements",conceptual_mcq,easy,71,false
+6ccf337276ead9daa4ee798866c3c51e,accountancy,"Share Capital",numerical_calculation,medium,84,false
+20e278c61e343db83349eded6916c255,accountancy,"Goodwill Valuation",matching,medium,165,true
+ca5dcf7b46049d36029298f5117cbdac,accountancy,"Retirement & Death of Partner",sequence_ordering,medium,151,true
+ff811eea3631a75486bfd7a8b58442be,accountancy,"Comparative & Common Size Statements",case_application,medium,205,true
+a4ea354afe87a692ebe73acc358225c6,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,72,false
+142b3279f6170ddd638a367ddfab9bea,business_studies,"Financial Markets",conceptual_mcq,easy,64,false
+327fcbd426fb910b53f6e30406ad967d,business_studies,"Financial Markets",case_application,medium,89,false
+1b0a82064702b908d1dc1ed5cd64ed9f,business_studies,"Financial Markets",statement_selection,medium,107,false
+ce70d705a52d899c9ddff4d9a52ef75f,business_studies,"Financial Markets",sequence_ordering,medium,116,false
+3e6c76762ebb1f93be44153d6ba11c16,business_studies,"Financial Management",conceptual_mcq,hard,113,false
+7482e9324d86f795bc3da374f49f9572,business_studies,"Staffing",case_application,easy,53,false
+d34d98f5c8e8a86179e7009c710a86cd,business_studies,"Business Environment",matching,medium,160,true
+8c33b254f02833e867ac2224fd9cb2b1,business_studies,"Financial Markets",sequence_ordering,easy,65,false
+9f3948e4f91557ce1b63d1f6d8962788,business_studies,"Financial Management",conceptual_mcq,medium,96,false
+f1a908f0ff5692422b3672c48d53398f,business_studies,"Directing",case_application,hard,146,true
+f59e284d003b87149aa99a6d86c1f040,business_studies,"Staffing",direct_mcq,easy,76,false
+4ac8e7618ac1d22864eb51944a82dd90,business_studies,"Marketing Management",matching,medium,190,true
+a78fedcd7b109ee803f403026c44b254,business_studies,"Nature & Significance of Management",sequence_ordering,medium,117,false
+e2be070e69ea3e324de18d24e09ef43b,business_studies,"Principles of Management",conceptual_mcq,easy,28,false
+3bbd57e7437f786a81a3207e07b62cfe,business_studies,"Financial Markets",case_application,medium,67,false
+7503801cd498c5b7d9499f994a289ada,business_studies,"Directing",statement_selection,hard,150,true
+b673279c45ec0e28ecb49df06cb19917,business_studies,"Staffing",matching,easy,127,false
+be2c0a039a6bdceccb1c518e4397fc6e,business_studies,"Business Environment",sequence_ordering,medium,54,false
+8abf88448915821cc5b590de0b1a7206,business_studies,"Financial Management",conceptual_mcq,medium,154,true
+86e58009856980d4a18eb7020c45d951,business_studies,"Controlling",case_application,easy,103,false
+a70d05a908bbcf3ea12b4c5395021085,business_studies,"Marketing Management",statement_selection,medium,121,false
+ae43729fcff6eefaa71403c6b001dfd9,business_studies,"Organising",matching,hard,128,false
+f7ab22fc55d043b03c48465d35cfdee5,business_studies,"Consumer Protection",sequence_ordering,easy,111,false
+dbc59b85a5de76376d5076a322cbc542,economics,"Rural Development",conceptual_mcq,easy,51,false
+dcfd6f830603113f3ee7e5b4e151d092,economics,"Environment & Sustainable Development",numerical_calculation,medium,96,false
+2e5cb9729dcc59d58e1916e4fc972c54,economics,"Balance of Payments",matching,medium,182,true
+9b5641d80acf50265cebd959dedce465,economics,"Employment",statement_selection,easy,121,false
+625a65a8ebc2b5d43ffecf1736ec00f9,economics,"Development Experiences of India",sequence_ordering,medium,47,false
+dc4db76608580950806f4e934a9a1cb0,economics,"Environment & Sustainable Development",case_application,hard,137,true
+707423f7dc7a8427c5d39b121bc4e391,economics,"Human Capital Formation",numerical_calculation,medium,90,false
+ed7694f86d0e19862f1c89cba5bafb7f,economics,"Rural Development",matching,medium,177,true
+331811df731779f1411fea83fa7f8db6,economics,"Development Experiences of India",case_application,hard,116,false
+68cfc94f40e75cdcd1d6f596ea45cf91,economics,"Economic Reforms Since 1991",conceptual_mcq,easy,74,false
+c8a1c42c391a251f2d76b33be6319236,economics,"Indian Economy on the Eve of Independence",matching,medium,121,false
+b8107df814fd857c6cb002a6181427ce,economics,"Employment",statement_selection,easy,102,false
+4f250730c95d316a7a6a05c1b80d4112,economics,"Human Capital Formation",case_application,hard,163,true
+9d0f453ebd22ac33ffef890f8d5122a0,economics,"Government Budget & the Economy",conceptual_mcq,easy,85,false
+08d664a15924a20fc35f62c68db8981d,economics,"Income Determination",numerical_calculation,medium,52,false
+9879b5d09980815f1d7413c453ee4f6d,economics,"Indian Economic Development 1950–1990",matching,medium,157,true
+e45120ad2a41c4c6db11baacb2c42be0,economics,"Market Equilibrium & Simple Applications",direct_mcq,easy,131,false
+d31f7aa7ec197f4394d79c13d65c0973,economics,"Rural Development",case_application,hard,129,false
+57ca09c40d436951142d6ea85c9a5ddd,economics,"Production & Costs",conceptual_mcq,easy,91,false
+6f8be5461f535165ed7de1f7d8beecf8,english,"Vocabulary",synonym,medium,69,false
+90c24807e1a72c192a3c7d75ee9ed454,english,"Para Jumbles",sequence_ordering,medium,114,false
+46a75100c48da2751b3daa76f73de665,english,"Match the Following",matching,easy,135,true
+78da66f177b1ad60ba00a05294399a3d,english,"Correct Word Usage",correct_word_usage,medium,72,false
+c6eac54db23692e188f253448f5e6b36,english,"Vocabulary",synonym,medium,64,false
+792a2de8e6e896455610f3d9100ccd79,english,"Para Jumbles",sequence_ordering,medium,101,false
+c22fe4759d5ec9f195e45c733209481e,english,"Match the Following",matching,easy,204,true
+f0e3e49a2d75d7480e01d15f9d536736,english,"Correct Word Usage",correct_word_usage,medium,51,false
+26e2b72eb0f16c31868306372d610d2d,english,"Vocabulary",antonym,hard,70,false
+4a61924e675c35253ff085debc70e1d5,english,"Vocabulary",synonym,medium,83,false
+0247258de456a670df19039e3a2c4dfa,english,"Para Jumbles",sequence_ordering,medium,82,false
+60511b2272bcced89bed6cca9eb0ab01,english,"Match the Following",matching,easy,121,false
+f89c31ca89d7727d925bbaca1e94e73a,english,"Correct Word Usage",correct_word_usage,medium,40,false
+b555ce7a9098df8538f567506fbaa36e,english,"Vocabulary",antonym,hard,70,false
+bd7f5c49e29e94a1739b02b24f784000,english,"Vocabulary",synonym,medium,89,false
+23be84e9a8a798f5249456b77ea00570,english,"Para Jumbles",sequence_ordering,medium,95,false
+f58d7ce329f167054f7e42d9774a6203,english,"Match the Following",matching,easy,183,true
+3936d671d69dce13796bfd5d39217eaa,english,"Correct Word Usage",correct_word_usage,medium,37,false
+99de722eb49ebfa10306bd2d9dd3e88d,english,"Vocabulary",antonym,hard,52,false
+575cd491e458989dd6e11567e24afda3,accountancy,"Share Capital",numerical_calculation,medium,66,false
+c8e88f23f90481aefd67b064008ae16a,accountancy,"Admission of Partner",matching,medium,161,true
+2ed22543b3098d60ab0ae73bcf02421d,accountancy,"Share Capital",statement_selection,easy,110,false
+8ad2e554e891c8095bb7e5cabd4426b9,accountancy,"Admission of Partner",sequence_ordering,medium,136,true
+bb3b190778c93cefa0f07ea760f763ee,accountancy,"Cash Flow Statement",case_application,hard,186,true
+927ee52805af21d8a6d5567233cb07e2,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,93,false
+5bde762f1a36a3a7d894f0aa45f655e9,accountancy,"Admission of Partner",matching,medium,233,true
+f271685e4003335bfd8453bd4f14ad0f,accountancy,"Cash Flow Statement",statement_selection,easy,119,false
+4d69e552876e65aff448b861f358824b,accountancy,"Retirement & Death of Partner",sequence_ordering,medium,120,false
+3dd32fdfc9817472c66dfadc0dffb423,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,67,false
+ebd0f2b156cc8c3c9a22ecf98cd6e3de,accountancy,"Share Capital",matching,medium,187,true
+2ccb63342873c1185d095b3bb04a7cd2,accountancy,"Cash Flow Statement",statement_selection,easy,121,false
+f639cd2aa78712420d9f804401e05f20,accountancy,"Admission of Partner",case_application,hard,125,false
+ed1a18bb53f82e06a2c7a0beea2293e2,accountancy,"Profit & Loss Appropriation Account",conceptual_mcq,easy,91,false
+11d15c6f3584da5e14e78df9b61b763c,accountancy,"Retirement & Death of Partner",numerical_calculation,medium,138,true
+2a7fcb9311bfff8bd5257ff4c7b2d0e5,accountancy,"Comparative & Common Size Statements",matching,medium,198,true
+31b6998510491c0838b7ddf4f4028f53,accountancy,"Debentures",statement_selection,easy,145,true
+0e0ff59456edcbb0b1a19fc45d69a52e,accountancy,"Share Capital",sequence_ordering,medium,101,false
+2ca403e13da61d66ebcb9dc2870cf3df,accountancy,"Admission of Partner",case_application,medium,114,false
+d7410c574d1b3dd93cdb55fab63e8812,accountancy,"Admission of Partner",conceptual_mcq,easy,95,false
+5cbcfa1db6c7d4c710040796161282f1,business_studies,"Financial Markets",conceptual_mcq,easy,91,false
+0e7096a92381547900257a62c54b54e8,business_studies,"Financial Markets",case_application,medium,103,false
+3b863b1c64e6a1ba2e0e16f1e4dc5204,business_studies,"Financial Markets",statement_selection,easy,77,false
+bb9b372e0b1d5755194b0fa9b32c5a2f,business_studies,"Financial Markets",matching,easy,127,false
+2dd37898930493cfa5b889cb4ac84b07,business_studies,"Financial Management",sequence_ordering,medium,115,false
+df66f3f1d1838a203d8bc159f5d5e2b9,business_studies,"Staffing",conceptual_mcq,hard,129,false
+09394a53ee85fd213deb9f2865715570,business_studies,"Financial Markets",case_application,easy,60,false
+44f5892633b870a9b56e981dd436d6c3,business_studies,"Financial Management",statement_selection,medium,106,false
+96ecafc518ab1917c40209eb5405096f,business_studies,"Staffing",matching,medium,136,true
+19d71b5ce3744260e5fd6585a64b7b48,business_studies,"Marketing Management",direct_mcq,easy,47,false
+c95dd57eb172a9c54ee3d6147f8c33f6,business_studies,"Financial Markets",conceptual_mcq,medium,89,false
+73d09cd70479e9a22a536deba2e35553,business_studies,"Staffing",case_application,medium,115,false
+7a01bb62422657763ca6d1da4eef01b4,business_studies,"Financial Management",statement_selection,easy,144,true
+4b177d3146e440649f4f8dbea1b2e581,business_studies,"Marketing Management",matching,medium,122,false
+9ea83c0e4f7dc6c133f9a1bb16bee6a7,business_studies,"Nature & Significance of Management",sequence_ordering,medium,108,false
+e47ed75943c0b08c8f64310dcf0b34f6,business_studies,"Financial Markets",conceptual_mcq,easy,78,false
+51849b957de396b004916276652a4b32,business_studies,"Financial Management",case_application,medium,86,false
+43664a348707d1e3097147b946477de1,business_studies,"Staffing",statement_selection,hard,160,true
+43406ac6c98c08f1737d73974a91b8ec,business_studies,"Organising",matching,easy,166,true
+b9dfb6ca00675f1bdea2efefc3b72a49,business_studies,"Planning",sequence_ordering,medium,81,false
+bdf6d40c4a3e15f7a3c8915bddda53f0,business_studies,"Marketing Management",conceptual_mcq,medium,98,false
+88695bc3f91a3eb7dd90b09912cc5da0,business_studies,"Nature & Significance of Management",case_application,easy,100,false
+1670079b3e8c801354374a52bf4ed31d,business_studies,"Financial Markets",statement_selection,medium,93,false
+1a481d5ee893bbb590b57d934d6b5cf2,business_studies,"Staffing",matching,hard,223,true
+e8a06388bc4cc402576482908fd381f8,business_studies,"Financial Management",sequence_ordering,easy,104,false
+d0d6a3e0e48b65edce79baf962808f09,economics,"Balance of Payments",conceptual_mcq,easy,64,false
+231b32d8c2cb12c1b8ccf4463f11a271,economics,"Balance of Payments",numerical_calculation,medium,84,false
+86d76029e629b9f6ef1430035cc5765f,economics,"Development Experiences of India",matching,medium,142,true
+08e9ca4ce15512f3c5357d2852d5c21d,economics,"Indian Economic Development 1950–1990",statement_selection,easy,90,false
+75ec5aa6e1c81eda20121fb91aa2db43,economics,"Environment & Sustainable Development",sequence_ordering,medium,54,false
+2fc5d2b616d989d89cdb24ddcb45a34b,economics,"Human Capital Formation",case_application,hard,127,false
+08d6dda9691c02625c105e39895343e3,economics,"Rural Development",numerical_calculation,medium,95,false
+be39abb660525f86fd664b8df9629b11,economics,"Balance of Payments",matching,medium,170,true
+575bb42bc8bbb0ae3338c331b1fb1dde,economics,"Development Experiences of India",sequence_ordering,medium,94,false
+ea1434b63fed9b916708438120026842,economics,"Employment",case_application,hard,81,false
+ea0352db044b73bb7158800c58be188d,economics,"Government Budget & the Economy",conceptual_mcq,easy,96,false
+af5aa1c337402262a710eace8dc504ab,economics,"Environment & Sustainable Development",numerical_calculation,medium,54,false
+48d224455d1f1c8c7720bc233da3597f,economics,"Indian Economic Development 1950–1990",matching,medium,189,true
+19b7ed950e806e724879610847497e68,economics,"Human Capital Formation",sequence_ordering,medium,128,false
+17b22c6e7575cec573a9cb15b2749f8c,economics,"National Income & Related Aggregates",case_application,hard,120,false
+bdfcfb0ca1ae93f87871930d7198c756,economics,"Rural Development",conceptual_mcq,easy,131,false
+b5a9f4fa9f7213517ae3d372e11c0035,economics,"Theory of Firms under Perfect Competition",matching,medium,126,false
+134752050e428884fc1f527ebb19a319,economics,"Market Equilibrium & Simple Applications",statement_selection,easy,86,false
+423d3c063e285068e8e4e131cb65d6f9,economics,"Development Experiences of India",case_application,hard,126,false
+c9557cd208cfc88032d6349e0e5ced8c,economics,"Economic Reforms Since 1991",conceptual_mcq,easy,98,false
+fbb5b5887c59bdde2a603b20bea37d5c,english,"Factual Passage",reading_comprehension,easy,77,false
+43d1832c48e9bcab1d5ee03e93eabbfc,english,"Vocabulary",synonym,medium,39,false
+c159d74b4d72ea24a97a9398294284fc,english,"Para Jumbles",sequence_ordering,medium,107,false
+2e7ee67a5644cd51b1ece61d2af07979,english,"Match the Following",matching,easy,185,true
+2a67d3c5dc869a05a9fc4434c149c4b9,english,"Correct Word Usage",correct_word_usage,medium,118,false
+2c9a16eb863b2309b1735321aa43d938,english,"Vocabulary",antonym,easy,51,false
+1d89bf05d120b1435e6abd976fb84795,english,"Factual Passage",reading_comprehension,easy,59,false
+5e8cee853565283c6a372d7287dead96,english,"Vocabulary",synonym,medium,57,false
+a65094cc32d7797098bdfa33fc8ab015,english,"Para Jumbles",sequence_ordering,medium,95,false
+d2d9953661b99ad9dac4afd2af59a90d,english,"Match the Following",matching,easy,183,true
+68c3b1ca776a23d1ba4fb2dc449fa6a7,english,"Correct Word Usage",correct_word_usage,medium,98,false
+ac33be6bfb6236cb41ff36ffab60c6a8,english,"Vocabulary",antonym,easy,43,false
+0e9b9602747176f1df2575fcdbbf0855,english,"Factual Passage",reading_comprehension,easy,91,false
+302d8d707e481216910d656ad853463b,english,"Vocabulary",synonym,medium,59,false
+11a1cd0da911c0091e9884629edb5165,english,"Para Jumbles",sequence_ordering,medium,91,false
+8d1800f4b20e731395d48361f6c4842e,english,"Match the Following",matching,easy,172,true
+246b07ecc64527cc6bb4f40f5c47d6b6,english,"Correct Word Usage",correct_word_usage,medium,35,false
+5473ff16b2f7b98462dca9136d963ed3,english,"Factual Passage",reading_comprehension,easy,80,false
+841d7cfaa48c0eedf1f6b093489b1542,english,"Vocabulary",synonym,medium,41,false
+3840664fceb9afc9c36309542c0ab16f,english,"Para Jumbles",sequence_ordering,medium,91,false
+d717500da583078e515b5b1a457366fd,english,"Match the Following",matching,easy,123,false
+0f662d12bdd206b0d260c7d41f50892f,english,"Correct Word Usage",correct_word_usage,medium,100,false
+27d9c1bbed193a6cdfb58172422bde4e,english,"Vocabulary",antonym,hard,68,false
+1924c42b397a1effaabb64d9d745744b,english,"Factual Passage",reading_comprehension,easy,64,false
+a09dc9b7d73b7cd0831d1ff2586793c3,accountancy,"Share Capital",conceptual_mcq,easy,76,false
+6314a93c1f302347c03562d66b15f2d3,accountancy,"Share Capital",numerical_calculation,medium,88,false
+a9b529d47e88daf86f04fd5eeb317015,accountancy,"Share Capital",matching,medium,132,false
+012e105dd550c2448e3e3d5364b83bd9,accountancy,"Change in Profit Sharing Ratio",case_application,medium,188,true
+bdaab4d57192e82d8905bcfedc1179ba,accountancy,"Share Capital",conceptual_mcq,easy,85,false
+341d2ffb9c69a0f0bef64c9eea5e2706,accountancy,"Change in Profit Sharing Ratio",matching,medium,119,false
+ae253e2c74d85c7ca58b6c8be1807189,accountancy,"Cash Flow Statement",statement_selection,easy,162,true
+99519ad997494b32a08ca17d0c48315b,accountancy,"Debentures",sequence_ordering,medium,109,false
+34290716ce452501a80ebac2b51e9a2e,accountancy,"Retirement & Death of Partner",case_application,hard,128,false
+1daaddc92c0285704924e8448eafbb35,accountancy,"Partnership Fundamentals",conceptual_mcq,easy,79,false
+0282ab544a312eaf839c21d2feeb915f,accountancy,"Retirement & Death of Partner",case_application,hard,104,false
+8efd0113e531609d22cd8d0ed84efab6,accountancy,"Partnership Fundamentals",direct_mcq,easy,93,false
+e4c4ed87fff0daa17cdf749948a2f75f,accountancy,"Debentures",numerical_calculation,medium,63,false
+9fc3c1a4b5550b6c6fbabbb5243369d9,accountancy,"Share Capital",matching,medium,134,true
+34213425ce9d3f37be68c4d58bf0344a,accountancy,"Cash Flow Statement",statement_selection,easy,127,false
+1b6f75f8c3aff60a5dbde12dd68bddbd,accountancy,"Comparative & Common Size Statements",sequence_ordering,medium,80,false
+c98ce6fb23fd56c60d1c9cfa53252e3c,accountancy,"Change in Profit Sharing Ratio",case_application,hard,150,true
+c98f9ea42e2d955bc12ae6e97f8cb537,accountancy,"Admission of Partner",conceptual_mcq,easy,77,false
+c1efc9c1860a86dad435030d3ff9eb00,business_studies,"Financial Markets",conceptual_mcq,easy,113,false
+adafe219ad9e208659aa51e4bac76d27,business_studies,"Marketing Management",case_application,medium,109,false
+39de78985f53d2fe54712af903c62173,business_studies,"Financial Management",statement_selection,medium,138,true
+251bc7fd6f8435645205895462340198,business_studies,"Financial Markets",matching,easy,161,true
+6786ea9fe689d8be6d065bd84f478f75,business_studies,"Financial Management",conceptual_mcq,hard,87,false
+363ebd22a65b13d4f8acbf88e7d5cf84,business_studies,"Marketing Management",case_application,easy,67,false
+7c12fbed684c0a6043ba94fc55303270,business_studies,"Marketing Management",statement_selection,medium,137,true
+b83fde0bf273e92c0790a2bbe9f86f1a,business_studies,"Financial Markets",matching,medium,195,true
+e2a961b449db8c3c96c30377c26adcfb,business_studies,"Nature & Significance of Management",sequence_ordering,easy,68,false
+7c95644eaf337d180a08bf064264b36f,business_studies,"Financial Management",conceptual_mcq,medium,91,false
+e32ac036ae3abedf9227a091547d6403,business_studies,"Staffing",case_application,medium,102,false
+0e246f1fa8b92cea8ee25770a06348cc,business_studies,"Planning",statement_selection,easy,93,false
+9c3ef452b9eefb394c82a073bc9032b9,business_studies,"Financial Markets",matching,medium,131,false
+3fc5b39b68a109ff9e820611fd315549,business_studies,"Planning",sequence_ordering,medium,55,false
+fdebdbcc51b915e219e73a8cab6bfb31,business_studies,"Financial Management",conceptual_mcq,easy,144,true
+adcfb9eb0d527f6ac32dd43065b253b1,business_studies,"Marketing Management",case_application,medium,87,false
+f6b5ee4fdc779565b56c28ac568798e6,business_studies,"Staffing",statement_selection,hard,139,true
+cf89da48f2392c7c1f489c0a5add08cf,business_studies,"Nature & Significance of Management",matching,easy,126,false
+f3e8e74061bf6e5cfc408edc3e934bb6,business_studies,"Organising",sequence_ordering,medium,73,false
+55cd9b7ce67f3002fb6c53fb37f6c2d1,business_studies,"Financial Markets",conceptual_mcq,medium,89,false
+f6e3008ab6bcc38f50c48bdfe0468cdd,business_studies,"Financial Management",case_application,easy,80,false
+bec4af483a95c48127929f9b6bdd281b,business_studies,"Marketing Management",statement_selection,medium,116,false
+864f95c5082df34b7069a666787820bb,business_studies,"Principles of Management",matching,hard,128,false
+3fbbd0f9ae9ab64ad3c12726f135e796,business_studies,"Nature & Significance of Management",sequence_ordering,easy,69,false
+bed8bc8e230728ca27bed266b6112698,economics,"Balance of Payments",numerical_calculation,medium,84,false
+0f44c14e933747834e111aca3949b18a,economics,"National Income & Related Aggregates",matching,medium,159,true
+263331945731754a620248a2d4cb6d7a,economics,"Production & Costs",statement_selection,easy,73,false
+2d345252964b37f132c390dffd0986e1,economics,"Balance of Payments",sequence_ordering,medium,117,false
+1a1da7cdf9a901c9d7d93dbdbf9d365b,economics,"Theory of Firms under Perfect Competition",case_application,hard,134,true
+ceb78659a116438dd3c1483edb323f71,economics,"Development Experiences of India",numerical_calculation,medium,105,false
+c31b413968295cd43207f8cae79a60bb,economics,"Indian Economic Development 1950–1990",statement_selection,easy,120,false
+74bee44cf60bb259dda6590b3cf1ffdf,economics,"Balance of Payments",sequence_ordering,medium,101,false
+79d2ed5cf53f4e123c8ed1f83f3b9971,economics,"Theory of Firms under Perfect Competition",case_application,hard,93,false
+5b3d948c2f39b3bc132f271f00f28290,economics,"Production & Costs",numerical_calculation,easy,79,false
+feb840a6e49b6592386adcc5fd2bf8a2,economics,"Indian Economy on the Eve of Independence",matching,medium,218,true
+1d169b91bb1212eaace41647147933e2,economics,"Rural Development",statement_selection,easy,116,false
+022715ffbd5f9ddc00637221a98a8363,economics,"Environment & Sustainable Development",sequence_ordering,medium,89,false
+887948b76a30543c0dd9aec79ae1ed3d,economics,"Government Budget & the Economy",case_application,hard,97,false
+d217b7904660205b8aa4836a99eca029,economics,"Market Equilibrium & Simple Applications",conceptual_mcq,easy,71,false
+10c2dc43e1708dd77ce8a2096c2b3a53,economics,"Development Experiences of India",case_application,medium,143,true
+7e7fd38d335993753a03453ae8d818f7,economics,"Introduction & Theory of Consumer Behaviour",matching,medium,155,true
+e8d49de7cf3dc444a48142a263886517,economics,"Indian Economic Development 1950–1990",statement_selection,easy,109,false
+bc294a9b39cfc830dd3077ae0b6f23ee,economics,"Balance of Payments",direct_mcq,easy,38,false
+296c159a29a991573e77266004038898,economics,"Human Capital Formation",case_application,hard,128,false
+72cee0436dddd6f3eb028de629edfcd6,economics,"Production & Costs",conceptual_mcq,easy,97,false

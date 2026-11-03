@@ -18,6 +18,7 @@
 # next.js
 /.next/
 /.next-dev/
+/.next-staging/
 /out/
 
 # production
@@ -52,6 +53,8 @@ scripts/pipeline/data/
 
 # Persistent private content-production ledger (back up outside Git)
 data/pipeline-budget.sqlite*
+/data/question-factory-runtime/
+/.cache/
 mobile/node_modules/
 mobile/dist/
 mobile/ios/
@@ -62,3 +65,8 @@ mobile/android/**/*.keystore
 
 # DU source PDFs (public, re-downloadable; SHA-256 recorded in public/du/2026/index.json)
 /data/du-csas-2026/source/
+
+# Re-downloadable study references; selected licensed receipts remain tracked.
+/data/study/sources/dict/
+/data/study/sources/*.tar.gz
+/data/study/sources/*.pdf

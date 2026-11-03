@@ -1,0 +1,264 @@
+{
+  "note": "Software evidence only: real signed V716 records from the failed qualification persisted through the local table shape; no release manifest exists, so the only remaining blocker must be qualified_scorecard_release_required. Not a publication.",
+  "summary": {
+    "records": 16,
+    "persisted": 16,
+    "all_signatures_ok": true,
+    "all_content_ok": true,
+    "all_decisions_reproduced": true,
+    "only_blocker": [
+      "qualified_scorecard_release_required"
+    ],
+    "nta_blockers": [
+      "qualified_scorecard_release_required"
+    ],
+    "bands": {
+      "strong": 16
+    },
+    "difficulties": {
+      "easy": 16
+    }
+  },
+  "rows": [
+    {
+      "id": "q716-eaec14d465f3d626",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8783,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-0cbcb918cd562ba3",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.87,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-5793cf6e53b31bd7",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8466,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-0cb57ffa675aafac",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.84,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-455a5bf939b6e1fc",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8533,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-4132c3318d5a384e",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8516,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-37419460874166a4",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8266,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-fc60d251db352449",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8383,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-049cb25601d5d391",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.86,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-5d219896c544b775",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.835,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-b987344a2cca2f76",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.87,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-69cae90fe70ed169",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.85,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-239e860c6d0d67dd",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.83,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-291064574578e38e",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8083,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-bf38d5bc7489125b",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.84,
+      "band": "strong",
+      "difficulty": "easy"
+    },
+    {
+      "id": "q716-8e633131cb3181c2",
+      "signature_ok": true,
+      "content_ok": true,
+      "reasons_practice": [
+        "qualified_scorecard_release_required"
+      ],
+      "reasons_nta": [
+        "qualified_scorecard_release_required"
+      ],
+      "decision_reproduced": true,
+      "quality": 0.8633,
+      "band": "strong",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,2321 @@
+{
+  "schema": "cuet-v717-pre-registration-custody-approval-v1",
+  "created_at": "2026-10-10T05:40:33.693Z",
+  "approved_by": "/root",
+  "approved": true,
+  "native_evaluation_calls": 0,
+  "case_count": 32,
+  "valid_controls": 20,
+  "controlled_defects": 12,
+  "evidence_files": {
+    "sealed/authored.json": "c9dd8b9c70999bf55b989a83c7938cbc8d6008ed0b883628395d0eaf47e5e63b",
+    "sealed/authored-custody-r1.json": "258ad54e39d1a5b4f989165bf8efca0926e51ed9eaecbc852a3950145e458f0a",
+    "sealed/authored-custody-r2.json": "d9fef4fdf9ca2d54735cc405d0d0b1b8cff0056c7c9ebaee12e6fc90b9e02c7a",
+    "sealed/blind-id-map.json": "13d241223e76bb493588837747e89ed1bda4dc5beeecd2980a05fa4171a21bd6",
+    "sealed/blind-id-map-custody-r1.json": "0b09d5b7b7d40bf58396a8d9eb9dc92d2afeee90f32495fa6f241f62805377f6",
+    "source-registry.json": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+    "blind/packet.json": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530",
+    "blind/packet-custody-r1.json": "52fdb60ea16ff764e647c6e4987824e30b00274d917ad330f67f8dc466897dbe",
+    "blind/independent-commerce.json": "e529b69c8b9b6209117edeca3442794ab37890691ff0b62cf7d2d643e60674bd",
+    "blind/independent-language-business.json": "35f41205b5a519e122d96a72641a65b9464db6031b7579390c6a9d7b97d4f848",
+    "blind/independent-commerce-custody-r1.json": "0b2c2dc3db7f48e14b0fc9b486290eb16728ec37dc12f3d19cfdbf3851a7b7c6",
+    "blind/explanation-commerce.json": "b32ec778e76b4d6ec73f74c3679877b3ab54b10020cabb0f681cf00e4a340432",
+    "blind/explanation-language-business.json": "3aa9ec401b6f728a8ecf1debf7313d84b2b648309c29a71ddb7ae5a5fbab8802",
+    "blind/explanation-commerce-custody-r1.json": "357d45ed4fb9511073afbebd5560d9c84e99054baa0e1c07f148a8895d8250a2",
+    "blind/explanation-business-negative-r1.json": "9cf35a3d4d5a5cc86b28a61ca43e9449836c956fc16bee7435e3299f8d1fd66a",
+    "blind/reconciliation-commerce-custody-r1.json": "d9565980141fec4e497b539b24a7b4c4f8d83e0527a05ae310a8ad3b80a5ad86",
+    "sealed/PRE-REGISTRATION-REVISIONS.json": "6194cdd95416b135d32a8346435106b5da422a88444dc4fa2ffa4ab6ddc235e1",
+    "sealed/NEGATIVE-CONTROL-CONSTRUCTION-CORRECTION.json": "3d77eda34da917e035e4914186940058f6751e1a057bb531534df37b2c7bd719"
+  },
+  "reasoning": "All32 keys/labels independently established before model evaluation. Two positive-source/syllabus flaws and one invalid negative draft independently detected, corrected before registration; associated incidental gaps removed. Originals preserved. Active references come only from corrected candidate.sources. Demand disagreement is a routing measurement, never a truth-gate failure. No native outcome or prior qualification case reused to select survivors.",
+  "cases": [
+    {
+      "id": "q717-4a082f0b51de029bb76828b2",
+      "authored_id": "v717-fresh32-a-v1-custody-r1",
+      "slot": "A_V1",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-4a082f0b51de029bb76828b2",
+        "subject": "accountancy",
+        "answerability": "uniquely_answerable",
+        "answer_set": [
+          "A"
+        ],
+        "calculation": "Common-size expense share = expense / revenue × 100. P: 600/800 × 100 = 75%. Q: 160/200 × 100 = 80%. P has the lower expense share.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "version": 1,
+            "locator": "p4-c0-g2-s0",
+            "support": "Common-size statements express each item as a percentage of a common item and allow inter-firm comparisons."
+          },
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s0",
+            "support": "For a profit-and-loss common-size statement, expenditure items are percentages of revenue from operations."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Unit V: Analysis of Financial Statements",
+          "topic": "Tools for Financial Analysis: Common size statements."
+        },
+        "option_review": {
+          "A": "Correct: P is 75% and Q is 80%, so P has the lower share.",
+          "B": "Incorrect: compares absolute rupee expenses (₹600 versus ₹160) rather than shares of revenue; Q's share is actually higher.",
+          "C": "Incorrect: reverses the two calculated percentages and the resulting comparison.",
+          "D": "Incorrect: being below revenue does not make the shares equal; they are 75% and 80%."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p4-c0-g2-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-788316349ae649f0a9203eac",
+      "authored_id": "v717-fresh32-a-v2",
+      "slot": "A_V2",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-788316349ae649f0a9203eac",
+        "subject": "accountancy",
+        "question": "A comparative balance sheet shows reserves and surplus of ₹4 lakh in the earlier year and ₹3 lakh in the later year. What is the percentage change, using the earlier year as the base?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "20% decrease"
+          },
+          {
+            "key": "B",
+            "text": "25% decrease"
+          },
+          {
+            "key": "C",
+            "text": "33⅓% decrease"
+          },
+          {
+            "key": "D",
+            "text": "25% increase"
+          }
+        ],
+        "answer_set": "B",
+        "solved_key": "B",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Change is 3-4=-1 lakh. Relative to earlier 4 lakh, -1/4 x 100=-25 percent, hence 25 percent decrease. A has wrong magnitude; C divides by later 3; D has the correct magnitude but wrong direction.",
+        "calculation": "(3 - 4) / 4 * 100 = -25",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Choose earlier-year denominator, subtract and express percentage with sign. Easy application.",
+        "syllabus_operation_observation": "Comparative statements explicitly appear in the supplied syllabus. Source gives current-minus-first-year direction, while the stem explicitly specifies the percentage base; basic percentage arithmetic supplies the remaining operation.",
+        "source_or_presentation_limitation": "The comparative source ends before its displayed percentage formula, but the explicit earlier-year-base instruction and ordinary percentage arithmetic determine the result without a missing domain formula.",
+        "source_ids": [
+          "ncertcol-leac204-v1",
+          "cuet2026-accountancy-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p6-c0-g1-s0",
+            "kind": null,
+            "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1200
+            }
+          },
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p9-c0-g1-s0",
+            "kind": null,
+            "quote": "Illustration 3\nThe following are the Balance Sheets of J. Ltd. as at March 31, 2016 and\n2017. Prepare a Comparative balance sheet.\nParticulars Note March 31, March 31,\nNo. 2017 2016\n(Rs.) (Rs.)\nI. Equity and Liabilities\n1. Shareholders’ Funds\na) Share capital 20,00,000 15,00,000\nb) Reserve and surplus 3,00,000 4,00,000\n2. Non-current Liabilities\nLong-term borrowings 9,00,000 6,00,000\n3. Current liabilities\nTrade payables 3,00,000 2,00,000\nTotal 35,00,000 27,00,000\nII. Assets\n1. Non-current assets\na) Fixed assets\n- Tangible assets 20,00,000 15,00,000\n- Intangible assets 9,00,000 6,00,000\n2. Current assets\n- Inventories 3,00,000 4,00,000\n- Cash and cash equivalents 3,00,000 2,00,000",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 689
+            }
+          },
+          {
+            "source_id": "cuet2026-accountancy-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 749
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p6-c0-g1-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p9-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-4b8c94e15c91fec0939499ea",
+      "authored_id": "v717-fresh32-a-v3",
+      "slot": "A_V3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-4b8c94e15c91fec0939499ea",
+        "subject": "accountancy",
+        "question": "A company reports total assets of ₹40 lakh, including inventory of ₹8 lakh. In a common-size balance sheet, what percentage of total assets is inventory?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "12.5%"
+          },
+          {
+            "key": "B",
+            "text": "15%"
+          },
+          {
+            "key": "C",
+            "text": "20%"
+          },
+          {
+            "key": "D",
+            "text": "25%"
+          }
+        ],
+        "answer_set": "C",
+        "solved_key": "C",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Common-size assets are expressed relative to total assets. Inventory share=8/40 x 100=20 percent, uniquely C; the other three percentages do not equal that ratio.",
+        "calculation": "8 / 40 * 100 = 20",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Select total-assets denominator using common-size rule and compute a component percentage. Easy application.",
+        "syllabus_operation_observation": "Common-size statements expressly listed; source states each asset percentage of total assets.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leac204-v1",
+          "cuet2026-accountancy-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p12-c0-g2-s0",
+            "kind": null,
+            "quote": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1740
+            }
+          },
+          {
+            "source_id": "cuet2026-accountancy-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 749
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-d961cf3760b64db3afac6efc",
+      "authored_id": "v717-fresh32-a-v4",
+      "slot": "A_V4",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-d961cf3760b64db3afac6efc",
+        "subject": "accountancy",
+        "question": "Which statement is NOT correct?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "A comparative statement presents figures for two periods."
+          },
+          {
+            "key": "B",
+            "text": "Comparative statements can show absolute and relative changes."
+          },
+          {
+            "key": "C",
+            "text": "Common-size statements express items as percentages of a relevant aggregate."
+          },
+          {
+            "key": "D",
+            "text": "A comparative statement of profit and loss necessarily expresses each expense as a percentage of revenue."
+          }
+        ],
+        "answer_set": "D",
+        "solved_key": "D",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "A and B match comparative statements showing two periods and absolute/relative changes. C matches component percentage common-size analysis. D asserts necessity of expense/revenue percentages in a comparative P&L. The supplied comparative procedure can show two-year amounts and their changes without component/revenue ratios; the source assigns expense/revenue ratios to common-size P&L. A comparative statement can also contain such ratios voluntarily, but necessarily is false.",
+        "calculation": "",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Distinguish two financial-analysis operations and assess the necessity quantifier rather than deciding by category label alone. Easy conceptual discrimination.",
+        "syllabus_operation_observation": "Both comparative and common-size statement tools expressly listed.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leac204-v1",
+          "cuet2026-accountancy-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p6-c0-g1-s0",
+            "kind": null,
+            "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1200
+            }
+          },
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p12-c0-g2-s0",
+            "kind": null,
+            "quote": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1740
+            }
+          },
+          {
+            "source_id": "cuet2026-accountancy-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 749
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p6-c0-g1-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-cc59a1372724c8ad2f9fa370",
+      "authored_id": "v717-fresh32-a-v5",
+      "slot": "A_V5",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-cc59a1372724c8ad2f9fa370",
+        "subject": "accountancy",
+        "question": "A comparative statement reports profit after tax of ₹3.6 lakh in the earlier year and ₹5.4 lakh in the later year. What is the percentage increase over the earlier year?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "50%"
+          },
+          {
+            "key": "B",
+            "text": "25%"
+          },
+          {
+            "key": "C",
+            "text": "40%"
+          },
+          {
+            "key": "D",
+            "text": "60%"
+          }
+        ],
+        "answer_set": "A",
+        "solved_key": "A",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Profit increase=5.4-3.6=1.8 lakh, divided by earlier 3.6 gives 50 percent. Exact source illustration independently shows 360000 to 540000, increase180000, percentage50. B/C/D have wrong magnitude.",
+        "calculation": "(5.4 - 3.6) / 3.6 * 100 = 50",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Comparative percentage change with subtraction and prior-year denominator. Easy application; supplied worked illustration also permits lookup.",
+        "syllabus_operation_observation": "Comparative statements expressly listed.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leac204-v1",
+          "cuet2026-accountancy-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p6-c0-g1-s0",
+            "kind": null,
+            "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1200
+            }
+          },
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p8-c0-g3-s0",
+            "kind": null,
+            "quote": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 460
+            }
+          },
+          {
+            "source_id": "cuet2026-accountancy-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 749
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p6-c0-g1-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p8-c0-g3-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-836e7021a8dc9f69e20dabe8",
+      "authored_id": "v717-fresh32-a-d1",
+      "slot": "A_D1",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The percentage increase must use the earlier-year amount as the base: (20−16)/16 × 100 = 25%. The candidate keys 20%, obtained by dividing by the later amount.",
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-836e7021a8dc9f69e20dabe8",
+        "subject": "accountancy",
+        "question": "Revenue from operations rose from ₹16 lakh to ₹20 lakh. What was the percentage increase over the earlier year?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "20%"
+          },
+          {
+            "key": "B",
+            "text": "25%"
+          },
+          {
+            "key": "C",
+            "text": "₹4 lakh"
+          },
+          {
+            "key": "D",
+            "text": "125%"
+          }
+        ],
+        "answer_set": "B",
+        "solved_key": "B",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Increase=20-16=4 lakh. Percentage over earlier 16 is 4/16 x 100=25 percent, B. A uses later-year denominator, C is the absolute increase rather than a percentage, D is the later/base index rather than percentage increase. The source illustration shows the same figures and25.",
+        "calculation": "(20 - 16) / 16 * 100 = 25",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Distinguish absolute change, base-year level and percentage change; routine comparative calculation or provided illustration lookup. Easy.",
+        "syllabus_operation_observation": "Comparative statements expressly listed.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leac204-v1",
+          "cuet2026-accountancy-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p6-c0-g1-s0",
+            "kind": null,
+            "quote": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1200
+            }
+          },
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "source_version": 1,
+            "locator": "p8-c0-g3-s0",
+            "kind": null,
+            "quote": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 460
+            }
+          },
+          {
+            "source_id": "cuet2026-accountancy-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 749
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p6-c0-g1-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p8-c0-g3-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-e584ab5fb5543a34e09e6cec",
+      "authored_id": "v717-fresh32-a-d2-custody-r1",
+      "slot": "A_D2",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "defect_note": "Revenue from operations is missing. Different positive revenues produce different percentages; the proposed numeric key is not determined.",
+      "author_key": "B",
+      "independently_established_answer_set": [],
+      "independent_blind": {
+        "opaque_id": "q717-e584ab5fb5543a34e09e6cec",
+        "subject": "accountancy",
+        "answerability": "not_uniquely_answerable_missing_revenue_denominator",
+        "answer_set": [],
+        "calculation": "The required percentage is ₹100 lakh / revenue from operations × 100. Revenue from operations is not given, so no unique percentage follows. Each listed percentage could arise under a different revenue denominator.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s0",
+            "support": "Expenditure is expressed as a percentage of revenue from operations; the base is required to calculate the percentage."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Unit V: Analysis of Financial Statements",
+          "topic": "Common size statements."
+        },
+        "option_review": {
+          "A": "80% is not determined; it would require revenue of ₹125 lakh.",
+          "B": "125% is not determined; it would require revenue of ₹80 lakh.",
+          "C": "100% is not determined; it would require revenue of ₹100 lakh.",
+          "D": "20% is not determined; it would require revenue of ₹500 lakh."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-9ac63f86dadab0ed3f237782",
+      "authored_id": "v717-fresh32-a-d3-custody-r1",
+      "slot": "A_D3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "The correct expense/revenue ratio is 150/200 = 75%, option C. The explanation gives the reversed ratio 200/150 = 133.33% and misstates the common-size rule.",
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-9ac63f86dadab0ed3f237782",
+        "subject": "accountancy",
+        "answerability": "uniquely_answerable",
+        "answer_set": [
+          "C"
+        ],
+        "calculation": "Cost-of-goods-sold share = 150/200 × 100 = 75% of revenue.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leac204-v1",
+            "version": 1,
+            "locator": "p12-c0-g2-s0",
+            "support": "Profit-and-loss expenditure items are expressed as a percentage of revenue from operations."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Unit V: Analysis of Financial Statements",
+          "topic": "Common size statements."
+        },
+        "option_review": {
+          "A": "Incorrect: 25% is the remainder share (₹200−₹150) / ₹200, not cost of goods sold.",
+          "B": "Incorrect: 133.33% reverses the ratio (₹200/₹150) and is not the expense share of revenue.",
+          "C": "Correct: ₹150/₹200 × 100 = 75%.",
+          "D": "Incorrect: 50% does not follow from the given cost and revenue figures."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-823c642827fa0755990d20a6",
+      "authored_id": "v717-fresh32-b-v1",
+      "slot": "B_V1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-823c642827fa0755990d20a6",
+        "subject": "business_studies",
+        "answer_set": [
+          "B"
+        ],
+        "solved_key": "B",
+        "derivation": "Identify a long-term investment decision from its defining features.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "For example, making investment in a new machine to replace an existing one or acquiring a new fixed asset or opening a new branch, etc. These decisions are very crucial for any business since they affect its earning capacity in the long run."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Identify a long-term investment decision from its defining features.",
+          "concepts_conditions": [
+            "capital budgeting",
+            "large irreversible fixed-asset investment"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p5-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "case_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-deae7562fbbcc6865560a309",
+      "authored_id": "v717-fresh32-b-v2",
+      "slot": "B_V2",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-deae7562fbbcc6865560a309",
+        "subject": "business_studies",
+        "answer_set": [
+          "C"
+        ],
+        "solved_key": "C",
+        "derivation": "Compare two stated returns while holding assessed risk equal.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Suppose, there are two projects, A and B (with the same risk involved), with a rate of return of 10 per cent and 12 per cent, respectively, then under normal circumstance, project B should be selected."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Compare two stated returns while holding assessed risk equal.",
+          "concepts_conditions": [
+            "investment selection",
+            "same risk",
+            "relative expected return"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p6-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-24a5b6b47bfb7b7caa018bf3",
+      "authored_id": "v717-fresh32-b-v3",
+      "slot": "B_V3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-24a5b6b47bfb7b7caa018bf3",
+        "subject": "business_studies",
+        "answer_set": [
+          "D"
+        ],
+        "solved_key": "D",
+        "derivation": "Apply one stated financing factor to a debt-versus-equity choice.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "A stronger cash flow position may make debt financing more viable than funding through equity."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Apply one stated financing factor to a debt-versus-equity choice.",
+          "concepts_conditions": [
+            "cash-flow position",
+            "debt financing",
+            "equity financing"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p8-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "case_based_mcq",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-41d4531e8657244ffdc2276d",
+      "authored_id": "v717-fresh32-b-v4",
+      "slot": "B_V4",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-41d4531e8657244ffdc2276d",
+        "subject": "business_studies",
+        "answer_set": [
+          "A"
+        ],
+        "solved_key": "A",
+        "derivation": "Evaluate a NOT-supported statement by contrasting long-term planning with budgets.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Long-term planning relates to long term growth and investment. It focuses on capital expenditure programmes. Short-term planning covers short-term financial plan called budget."
+          },
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Plans made for periods of one year or less are termed as budgets. Budgets are example of financial planning exercise in greater details. They include detailed plan of action for a period of one year or less."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "medium",
+          "operation": "Evaluate a NOT-supported statement by contrasting long-term planning with budgets.",
+          "concepts_conditions": [
+            "financial planning",
+            "long-term growth and investment",
+            "short-term budget horizon"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "A standard CUET-level inference contrasting related facts or evidence.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p11-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-81165e9f76d2fe017fbae7a6",
+      "authored_id": "v717-fresh32-b-v5",
+      "slot": "B_V5",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-81165e9f76d2fe017fbae7a6",
+        "subject": "business_studies",
+        "answer_set": [
+          "B"
+        ],
+        "solved_key": "B",
+        "derivation": "Apply the growth-opportunity factor to earnings retention and dividends.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Companies having good growth opportunities retain more money out of their earnings so as to finance the required investment. The dividend in growth companies is, therefore, smaller, than that in the non-growth companies."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Apply the growth-opportunity factor to earnings retention and dividends.",
+          "concepts_conditions": [
+            "growth opportunities",
+            "retained earnings",
+            "dividend size"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p9-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "case_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-9955b8830fbf37578383f2fa",
+      "authored_id": "v717-fresh32-b-d1",
+      "slot": "B_D1",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "At equal risk, the source-supported comparison favors the 12% Project B, not the keyed 10% Project A.",
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-9955b8830fbf37578383f2fa",
+        "subject": "business_studies",
+        "answer_set": [
+          "C"
+        ],
+        "solved_key": "C",
+        "derivation": "Select the higher-return project when assessed risk is the same.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Suppose, there are two projects, A and B (with the same risk involved), with a rate of return of 10 per cent and 12 per cent, respectively, then under normal circumstance, project B should be selected."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Select the higher-return project when assessed risk is the same.",
+          "concepts_conditions": [
+            "investment selection",
+            "equal risk",
+            "relative return"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p6-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-96f23a45cd5ddc58d0235eda",
+      "authored_id": "v717-fresh32-b-d2",
+      "slot": "B_D2",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "Both a stronger cash-flow position and lower fixed operating costs can support debt financing according to the source; the single-answer stem has two defensible options.",
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "B",
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-96f23a45cd5ddc58d0235eda",
+        "subject": "business_studies",
+        "answer_set": [
+          "B",
+          "C"
+        ],
+        "solved_key": "uncertain",
+        "derivation": "Choose a factor that can make debt financing more viable; two listed factors independently satisfy the supplied rule.. Two supplied rules support distinct options, so uniqueness is not established.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "A stronger cash flow position may make debt financing more viable than funding through equity."
+          },
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "Similarly, if fixed operating cost is less, more of debt financing may be preferred."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [
+          {
+            "option": "B",
+            "reason": "The excerpt says stronger cash flow may make debt financing more viable."
+          },
+          {
+            "option": "C",
+            "reason": "The excerpt says lower fixed operating costs may make more debt financing preferable."
+          }
+        ],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Choose a factor that can make debt financing more viable; two listed factors independently satisfy the supplied rule.",
+          "concepts_conditions": [
+            "cash-flow position",
+            "fixed operating costs",
+            "debt financing"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p8-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-23393bb7b488f77a58ed3c66",
+      "authored_id": "v717-fresh32-b-d3",
+      "slot": "B_D3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "The key is the source-supported covenant check, but the explanation states that loan-agreement restrictions never affect dividend declarations, directly contradicting the source.",
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-23393bb7b488f77a58ed3c66",
+        "subject": "business_studies",
+        "answer_set": [
+          "D"
+        ],
+        "solved_key": "D",
+        "derivation": "Check a proposed dividend against the stated loan-agreement restriction.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "ncertcol-lebs201-v1",
+            "quote": "The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Check a proposed dividend against the stated loan-agreement restriction.",
+          "concepts_conditions": [
+            "dividend decision",
+            "loan agreement terms",
+            "compliance"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-business-negative-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-lebs201-v1",
+          "p10-c0-g1-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "case_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-3b013aed1a7f3b84786475c4",
+      "authored_id": "v717-fresh32-e-v1",
+      "slot": "E_V1",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-3b013aed1a7f3b84786475c4",
+        "subject": "economics",
+        "question": "With all other inputs held constant, a firm’s total output is 10 units with 1 worker, 22 with 2 workers, 37 with 3 workers and 48 with 4 workers. What is the marginal product of the fourth worker?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "10 units"
+          },
+          {
+            "key": "B",
+            "text": "15 units"
+          },
+          {
+            "key": "C",
+            "text": "11 units"
+          },
+          {
+            "key": "D",
+            "text": "48 units"
+          }
+        ],
+        "answer_set": "C",
+        "solved_key": "C",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Source defines marginal product as output change per unit input change, other inputs constant. Fourth-worker MP=(48-37)/(4-3)=11 units,C. A is first total output, B is third increment, D is fourth total output.",
+        "calculation": "(48 - 37) / (4 - 3) = 11",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Select adjacent total products and calculate an incremental output per worker. Easy application.",
+        "syllabus_operation_observation": "TP/MP/AP shapes and production functions expressly listed; supplied source gives decisive marginal-product rule and stem fixes other inputs.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leec203-v1",
+          "cuet2026-economics-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p4-c0-g3-s16",
+            "kind": null,
+            "quote": "Marginal product of an input is defined as the change in output per unit of\nchange in the input when all other inputs are held constant. When capital is held\nconstant, the marginal product of labour is",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 201
+            }
+          },
+          {
+            "source_id": "cuet2026-economics-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 402
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p4-c0-g3-s16"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-e938379d50e33c8cb672d8bd",
+      "authored_id": "v717-fresh32-e-v2",
+      "slot": "E_V2",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-e938379d50e33c8cb672d8bd",
+        "subject": "economics",
+        "question": "The marginal products of the first three units of labour are 8, 12 and 10 units. What is the average product at the third unit of labour?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "8 units"
+          },
+          {
+            "key": "B",
+            "text": "9 units"
+          },
+          {
+            "key": "C",
+            "text": "12 units"
+          },
+          {
+            "key": "D",
+            "text": "10 units"
+          }
+        ],
+        "answer_set": "D",
+        "solved_key": "D",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Exact supplied rule says AP is average of all MP up to employment level. (8+12+10)/3=10 units,D. A is only first MP, C only second MP, B not the mean. This uses the supplied AP relation rather than assuming an unstated initial-output convention.",
+        "calculation": "(8 + 12 + 10) / 3 = 10",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Aggregate three marginal products and divide by employment count under explicit AP rule. Easy application.",
+        "syllabus_operation_observation": "TP/MP/AP and production functions expressly listed, with decisive AP relation supplied.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leec203-v1",
+          "cuet2026-economics-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p5-c0-g2-s0",
+            "kind": null,
+            "quote": "Average product of an input at any level of employment is the average of all\nmarginal products up to that level. Average and marginal products are often\nreferred to as average and marginal returns, respectively, to the variable input.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 234
+            }
+          },
+          {
+            "source_id": "cuet2026-economics-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 402
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p5-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-9dc7d2d4f57b273001bb739d",
+      "authored_id": "v717-fresh32-e-v3",
+      "slot": "E_V3",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-9dc7d2d4f57b273001bb739d",
+        "subject": "economics",
+        "question": "Which pattern is consistent with the source’s description of marginal product under the law of variable proportions?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "Marginal product initially rises and, after a level of employment, starts falling."
+          },
+          {
+            "key": "B",
+            "text": "Marginal product falls at every successive unit from the outset."
+          },
+          {
+            "key": "C",
+            "text": "Marginal product remains constant at every level of employment."
+          },
+          {
+            "key": "D",
+            "text": "Marginal product continues to rise at every higher level of employment."
+          }
+        ],
+        "answer_set": "A",
+        "solved_key": "A",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Source explicitly describes MP initially rising and subsequently falling after a level of employment. Full A matches both phases. B contradicts initially rises, C contradicts both changing phases, D contradicts subsequent fall.",
+        "calculation": "",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Recognize the two-phase marginal-product pattern in a supplied description. Easy recall/comprehension; text closely supplies answer.",
+        "syllabus_operation_observation": "MP curve shape/production functions expressly listed.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leec203-v1",
+          "cuet2026-economics-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p6-c0-g2-s20",
+            "kind": null,
+            "quote": "output.\nAccording to the law of\nvariable proportions, the\nmarginal product of an input\ninitially rises and then after a\ncertain level of employment, it\nstarts falling. The MP curve",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 180
+            }
+          },
+          {
+            "source_id": "cuet2026-economics-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 402
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p6-c0-g2-s20"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-6901065455b2e85d5839fb5c",
+      "authored_id": "v717-fresh32-e-v4-custody-r1",
+      "slot": "E_V4",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-6901065455b2e85d5839fb5c",
+        "subject": "economics",
+        "answerability": "uniquely_answerable",
+        "answer_set": [
+          "B"
+        ],
+        "calculation": "Marginal cost for the increase from 3 to 4 units = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s23",
+            "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Course I, Unit II: Production and Costs",
+          "topic": "Short-run cost curves, including marginal costs."
+        },
+        "option_review": {
+          "A": "Incorrect: ₹4 is not the change in total cost; total cost rises by ₹5 for one additional unit.",
+          "B": "Correct: the total-cost increase is ₹5 over one unit of output.",
+          "C": "Incorrect: ₹6 does not equal the observed cost difference.",
+          "D": "Incorrect: ₹8 does not equal the observed cost difference."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-3e2045907713fe98e12fda8c",
+      "authored_id": "v717-fresh32-e-v5",
+      "slot": "E_V5",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-3e2045907713fe98e12fda8c",
+        "subject": "economics",
+        "question": "At an output of 5 units, a firm has total fixed cost ₹20 and total variable cost ₹33. What is its short-run average cost?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "₹9.83"
+          },
+          {
+            "key": "B",
+            "text": "₹10"
+          },
+          {
+            "key": "C",
+            "text": "₹10.60"
+          },
+          {
+            "key": "D",
+            "text": "₹12.25"
+          }
+        ],
+        "answer_set": "C",
+        "solved_key": "C",
+        "unique_academic_answer": true,
+        "answer_status": "derived_from_supplied_rule_or_printed_information",
+        "independent_derivation": "Supplied source explicitly gives TC=TVC+TFC and defines SAC as total cost per unit output. TC=33+20=53, then53/5=10.60,C. A is schedule cost at another output6, B does not equal53/5, D is at another output4.",
+        "calculation": "(20 + 33) / 5 = 10.60",
+        "answer_changing_missing_inputs": [],
+        "possible_keys_under_missing_inputs": [],
+        "rival_realizations": [],
+        "actual_operation_and_demand_heuristic": "Combine fixed and variable costs before dividing by output; two linked steps. Easy application.",
+        "syllabus_operation_observation": "Total/fixed/variable/average cost concepts expressly listed; both decisive relations are printed.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leec203-v1",
+          "cuet2026-economics-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p9-c0-g0-s0",
+            "kind": null,
+            "quote": "produces, this cost remains fixed for the firm. To produce any required\nlevel of output, the firm, in the short run, can adjust only variable inputs.\nAccordingly, the cost that a firm incurs to employ these variable inputs is\ncalled the total variable cost (TVC). Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)\nIn order to increase the production of output, the firm must employ more of\nthe variable inputs. As a result, total variable cost and total cost will increase.\nTherefore, as output increases, total variable cost and total cost increase.\nIn Table 3.3, we have an example of cost function of a typical firm. The first\ncolumn shows different levels of output. For all levels of output, the total fixed\ncost is Rs 20. Total variable cost increases as output increases. With output\nzero, TVC is zero. For 1 unit of output, TVC is Rs 10; for 2 units of output, TVC\nis Rs 18 and so on. In the fourth column, we obtain the total cost (TC) as the\nsum of the corresponding values in second column (TFC) and third column\n(TVC). At zero level of output, TC is just the fixed cost, and hence, equal to Rs\n20. For 1 unit of output, total cost is Rs 30; for 2 units of output, the TC is Rs 38\nand so on.\nThe short run average cost (SAC) incurred by the firm is defined as the\ntotal cost per unit of output. We calculate it as",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 1373
+            }
+          },
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p10-c0-g3-s0",
+            "kind": null,
+            "quote": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 273
+            }
+          },
+          {
+            "source_id": "cuet2026-economics-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 402
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s0"
+        ],
+        [
+          "ncertcol-leec203-v1",
+          "p10-c0-g3-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-de1089f449002fb3f7ee64c0",
+      "authored_id": "v717-fresh32-e-d1-custody-r1",
+      "slot": "E_D1",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The independently determined answer is B, ₹5; the candidate key C is ₹8.",
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-de1089f449002fb3f7ee64c0",
+        "subject": "economics",
+        "answerability": "uniquely_answerable",
+        "answer_set": [
+          "B"
+        ],
+        "calculation": "Short-run marginal cost = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s23",
+            "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Course I, Unit II: Production and Costs",
+          "topic": "Short-run cost curves, including marginal costs."
+        },
+        "option_review": {
+          "A": "Incorrect: ₹6 is not the change in total cost over the one-unit output increase.",
+          "B": "Correct: ₹5/1 unit = ₹5 per unit.",
+          "C": "Incorrect: ₹8 is not supported by the stated totals.",
+          "D": "Incorrect: ₹10 is not supported by the stated totals."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-2fad25ee3a7dbbdbd91d636d",
+      "authored_id": "v717-fresh32-e-d2",
+      "slot": "E_D2",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "defect_note": "All three printed bundles can produce 50 units, but no factor prices are given. The source makes least-cost choice depend on input prices and technology.",
+      "author_key": "A",
+      "independently_established_answer_set": [],
+      "independent_blind": {
+        "opaque_id": "q717-2fad25ee3a7dbbdbd91d636d",
+        "subject": "economics",
+        "question": "A firm can produce 50 units using any one of these input bundles: (L=6, K=3), (L=4, K=4) or (L=3, K=6). Which bundle is the least-cost choice?",
+        "full_options": [
+          {
+            "key": "A",
+            "text": "(L=6, K=3)"
+          },
+          {
+            "key": "B",
+            "text": "(L=4, K=4)"
+          },
+          {
+            "key": "C",
+            "text": "(L=3, K=6)"
+          },
+          {
+            "key": "D",
+            "text": "All three necessarily have the same cost"
+          }
+        ],
+        "answer_set": null,
+        "solved_key": "uncertain",
+        "unique_academic_answer": false,
+        "answer_status": "underdetermined_input",
+        "independent_derivation": "Least-cost bundle depends on labour price w and capital price r. Costs A=6w+3r, B=4w+4r, C=3w+6r. For w=1,r=4, costs18,20,27 makeA cheapest; forw=r=1 costs9,8,9 makeB cheapest; forw=4,r=1 costs27,20,18 makeC cheapest. All produce50 under the supplied technology. Source expressly conditions choice on given input prices, but neither price is provided. D necessarily equal is refuted by all three realizations.",
+        "calculation": "A=6w+3r; B=4w+4r; C=3w+6r",
+        "answer_changing_missing_inputs": [
+          "Relative labour and capital input prices"
+        ],
+        "possible_keys_under_missing_inputs": [
+          "A",
+          "B",
+          "C"
+        ],
+        "rival_realizations": [
+          "w=1 r=4 => A18 B20 C27 => A cheapest",
+          "w=1 r=1 => A9 B8 C9 => B cheapest",
+          "w=4 r=1 => A27 B20 C18 => C cheapest"
+        ],
+        "actual_operation_and_demand_heuristic": "Identify missing relative factor prices and exhibit rival least-cost realizations. Determinate selection impossible.",
+        "syllabus_operation_observation": "Cost function and production function concepts are within supplied Production/Costs syllabus.",
+        "source_or_presentation_limitation": "",
+        "source_ids": [
+          "ncertcol-leec203-v1",
+          "cuet2026-economics-syllabus"
+        ],
+        "decisive_quote_evidence": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "source_version": 1,
+            "locator": "p8-c0-g2-s0",
+            "kind": null,
+            "quote": "In order to produce output, the firm needs to employ inputs. But a given level\nof output, typically, can be produced in many ways. There can be more than\none input combinations with which a firm can produce a desired level of output.\nIn Table 3.1, we can see that 50 units of output can be produced by three\ndifferent input combinations (L = 6, K = 3), (L = 4, K = 4) and (L = 3, K = 6). The\nquestion is which input combination will the firm choose? With the input prices\ngiven, it will choose that combination of inputs which is least expensive. So,\nfor every level of output, the firm chooses the least cost input combination.\nThus the cost function describes the least cost of producing each level of output\ngiven prices of factors of production and technology.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 764
+            }
+          },
+          {
+            "source_id": "cuet2026-economics-syllabus",
+            "source_version": 1,
+            "locator": "full-syllabus",
+            "kind": "official_syllabus",
+            "quote": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+            "exact_substring_verification": {
+              "verified": true,
+              "comparison": "ordinal",
+              "offset": 0,
+              "length": 402
+            }
+          }
+        ],
+        "all_full_options_considered": true,
+        "author_proposed_key_seen": false,
+        "author_explanation_seen": false,
+        "author_label_inferred_or_seen": false,
+        "accept_reject_command_issued": false
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p8-c0-g2-s0"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "case_application",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-6920a1ed5fb5a21c884c8425",
+      "authored_id": "v717-fresh32-e-d3-custody-r1",
+      "slot": "E_D3",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Total costs are ₹80 and ₹95, so the incremental cost is ₹15, D. The explanation falsely defines MC as TVC/output, which is AVC.",
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-6920a1ed5fb5a21c884c8425",
+        "subject": "economics",
+        "answerability": "uniquely_answerable",
+        "answer_set": [
+          "D"
+        ],
+        "calculation": "Total cost = fixed cost + variable cost. TC rises from ₹20+₹60=₹80 to ₹20+₹75=₹95. For one additional unit, SMC = (₹95−₹80)/(9−8) = ₹15 per unit; equivalently, fixed cost is unchanged so the ₹15 increase in variable cost is the total-cost increase.",
+        "source_support": [
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support": "The excerpt states TC = TVC + TFC and explains that fixed cost stays constant while variable cost changes with output."
+          },
+          {
+            "source_id": "ncertcol-leec203-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s23",
+            "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."
+          }
+        ],
+        "syllabus_support": {
+          "source_id": "cuet2026-economics-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "unit": "Course I, Unit II: Production and Costs",
+          "topic": "Fixed and variable costs; total and marginal costs."
+        },
+        "option_review": {
+          "A": "Incorrect: ₹8.33 is close to an average variable-cost calculation (₹75/9), not marginal cost.",
+          "B": "Incorrect: ₹10.55 does not equal the ₹15 increase in total cost for one extra unit.",
+          "C": "Incorrect: ₹13 does not equal the ₹15 increase in variable/total cost for one extra unit.",
+          "D": "Correct: with fixed cost unchanged, total cost rises by ₹15 for the one-unit output increase."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-commerce-custody-r1.json",
+      "decisive_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s0"
+        ],
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "numerical_calculation",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-4f74bc0977085544510a0c54",
+      "authored_id": "v717-fresh32-l-v1",
+      "slot": "L_V1",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-4f74bc0977085544510a0c54",
+        "subject": "english",
+        "answer_set": [
+          "D"
+        ],
+        "solved_key": "D",
+        "derivation": "Infer the word that describes careful judgment after checking risks.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "oxford-quality-prudent",
+            "quote": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks"
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Infer the word that describes careful judgment after checking risks.",
+          "concepts_conditions": [
+            "contextual vocabulary",
+            "careful judgment",
+            "risk avoidance"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "oxford-quality-prudent",
+          "definition"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "correct_word_usage",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-a9ee331ee3870ef6bd58be41",
+      "authored_id": "v717-fresh32-l-v2",
+      "slot": "L_V2",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-a9ee331ee3870ef6bd58be41",
+        "subject": "english",
+        "answer_set": [
+          "A"
+        ],
+        "solved_key": "A",
+        "derivation": "Choose the word meaning easy to see or notice in the described context.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "oxford-quality-conspicuous",
+            "quote": "easy to see or notice; likely to attract attention"
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Choose the word meaning easy to see or notice in the described context.",
+          "concepts_conditions": [
+            "contextual vocabulary",
+            "visibility"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "oxford-quality-conspicuous",
+          "definition"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "correct_word_usage",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-1e1c41b571d2ecd7230552fb",
+      "authored_id": "v717-fresh32-l-v3",
+      "slot": "L_V3",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-1e1c41b571d2ecd7230552fb",
+        "subject": "english",
+        "answer_set": [
+          "B"
+        ],
+        "solved_key": "B",
+        "derivation": "Infer why qualitative notes complement the numerical return records before a decision.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "mockmob-original-stimulus-factual-passage",
+            "quote": "The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "medium",
+          "operation": "Infer why qualitative notes complement the numerical return records before a decision.",
+          "concepts_conditions": [
+            "factual reading comprehension",
+            "numerical records",
+            "students’ experience"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "A standard CUET-level inference contrasting related facts or evidence.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "mockmob-original-stimulus-factual-passage",
+          "stimulus"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "reading_comprehension",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-c9935a08a1dadd15bc03c6fe",
+      "authored_id": "v717-fresh32-l-v4",
+      "slot": "L_V4",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "C",
+      "independently_established_answer_set": [
+        "C"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-c9935a08a1dadd15bc03c6fe",
+        "subject": "english",
+        "answer_set": [
+          "C"
+        ],
+        "solved_key": "C",
+        "derivation": "Identify the statement contradicted by the passage in a NOT-supported question.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "mockmob-original-stimulus-factual-passage",
+            "quote": "The librarian recorded the number of books returned, but did not grade the notes."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Identify the statement contradicted by the passage in a NOT-supported question.",
+          "concepts_conditions": [
+            "factual reading comprehension",
+            "negative-stem polarity",
+            "note grading"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "mockmob-original-stimulus-factual-passage",
+          "stimulus"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "reading_comprehension",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-c3520ac2c10a06a48b19552b",
+      "authored_id": "v717-fresh32-l-v5",
+      "slot": "L_V5",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "D"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-c3520ac2c10a06a48b19552b",
+        "subject": "english",
+        "answer_set": [
+          "D"
+        ],
+        "solved_key": "D",
+        "derivation": "Retrieve the librarian’s explicitly stated proposal.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "mockmob-original-stimulus-factual-passage",
+            "quote": "She proposed discussing a few notes with students before deciding whether to continue the programme."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Retrieve the librarian’s explicitly stated proposal.",
+          "concepts_conditions": [
+            "factual reading comprehension",
+            "locating an explicit action"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "mockmob-original-stimulus-factual-passage",
+          "stimulus"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "reading_comprehension",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-cbbef17389750dffae8dc207",
+      "authored_id": "v717-fresh32-l-d1",
+      "slot": "L_D1",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The context describes kindness and generosity, which matches the registered definition of benevolent at option A. The candidate keys D, whose meaning is not supported by that source.",
+      "author_key": "D",
+      "independently_established_answer_set": [
+        "A"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-cbbef17389750dffae8dc207",
+        "subject": "english",
+        "answer_set": [
+          "A"
+        ],
+        "solved_key": "A",
+        "derivation": "Choose the word meaning kind, helpful, and generous from the context.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "oxford-quality-benevolent",
+            "quote": "kind, helpful and generous"
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Choose the word meaning kind, helpful, and generous from the context.",
+          "concepts_conditions": [
+            "contextual vocabulary",
+            "meaning in context"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "oxford-quality-benevolent",
+          "definition"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "correct_word_usage",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-35134360a9497d7ed3cf3105",
+      "authored_id": "v717-fresh32-l-d2",
+      "slot": "L_D2",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "passage_not_answerable",
+      "defect_note": "The passage reports only that returns rose in weeks two and three and decreased slightly in week four; it supplies no numerical count from which a four-week total could be calculated.",
+      "author_key": "A",
+      "independently_established_answer_set": [],
+      "independent_blind": {
+        "opaque_id": "q717-35134360a9497d7ed3cf3105",
+        "subject": "english",
+        "answer_set": [],
+        "solved_key": "uncertain",
+        "derivation": "The requested operation is a direct total-count lookup, but the passage gives no weekly or aggregate counts; the easy intended operation is not answerable as written.. No supplied evidence determines any listed numeric total.",
+        "decisive_evidence": [
+          {
+            "source_id": "mockmob-original-stimulus-factual-passage",
+            "quote": "The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth."
+          }
+        ],
+        "missing_decisive_inputs": [
+          {
+            "input": "Weekly return counts or the recorded four-week total."
+          }
+        ],
+        "plausible_rivals": [
+          {
+            "option": "A",
+            "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+          },
+          {
+            "option": "B",
+            "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+          },
+          {
+            "option": "C",
+            "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+          },
+          {
+            "option": "D",
+            "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+          }
+        ],
+        "difficulty": {
+          "level": "easy",
+          "operation": "The requested operation is a direct total-count lookup, but the passage gives no weekly or aggregate counts; the easy intended operation is not answerable as written.",
+          "concepts_conditions": [
+            "factual reading comprehension",
+            "quantitative retrieval",
+            "missing count data"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": "Question is unanswerable as written; easy denotes the intended direct operation only."
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "mockmob-original-stimulus-factual-passage",
+          "stimulus"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "reading_comprehension",
+      "construction_confirmed": true
+    },
+    {
+      "id": "q717-3662a54735c8a56d98672412",
+      "authored_id": "v717-fresh32-l-d3",
+      "slot": "L_D3",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Option B is the passage-supported answer. The explanation asserts that records measured reading care, while the passage says they showed return timing rather than how carefully books had been read.",
+      "author_key": "B",
+      "independently_established_answer_set": [
+        "B"
+      ],
+      "independent_blind": {
+        "opaque_id": "q717-3662a54735c8a56d98672412",
+        "subject": "english",
+        "answer_set": [
+          "B"
+        ],
+        "solved_key": "B",
+        "derivation": "Retrieve what the librarian said the borrowing records measured, preserving the explicit contrast with reading care.. The decisive supplied excerpt directly entails the selected option.",
+        "decisive_evidence": [
+          {
+            "source_id": "mockmob-original-stimulus-factual-passage",
+            "quote": "The librarian said the records showed when books were returned, rather than how carefully they had been read."
+          }
+        ],
+        "missing_decisive_inputs": [],
+        "plausible_rivals": [],
+        "difficulty": {
+          "level": "easy",
+          "operation": "Retrieve what the librarian said the borrowing records measured, preserving the explicit contrast with reading care.",
+          "concepts_conditions": [
+            "factual reading comprehension",
+            "explicit contrast"
+          ],
+          "comparison_basis": "heuristic",
+          "exemplar_ids": [],
+          "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+          "validity_caveat": null
+        }
+      },
+      "independent_explanation_audit_file": "blind/explanation-language-business.json",
+      "decisive_source_refs": [
+        [
+          "mockmob-original-stimulus-factual-passage",
+          "stimulus"
+        ]
+      ],
+      "historical_provenance_refs_used_for_registration": false,
+      "difficulty_target": "medium",
+      "format": "reading_comprehension",
+      "construction_confirmed": true
+    }
+  ]
+}

@@ -1,0 +1,1182 @@
+{
+  "at": "2026-10-08T08:39:40.727Z",
+  "role": "Answer-blind source construction audit; no official key files read by this tool",
+  "input_bindings": [
+    {
+      "path": "questions-blinded-v2.json",
+      "sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f"
+    },
+    {
+      "path": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55"
+    }
+  ],
+  "denominator": 16,
+  "option_claims": 62,
+  "construction_passes": 11,
+  "withheld": [
+    {
+      "id": "cbse26-eng-q2-iii",
+      "reasons": [
+        "misdirected_paragraph_reference"
+      ]
+    },
+    {
+      "id": "cbse26-eng-q2-vii",
+      "reasons": [
+        "four_options_required"
+      ]
+    },
+    {
+      "id": "cbse25-26-eng-q1-VI",
+      "reasons": [
+        "four_options_required"
+      ]
+    },
+    {
+      "id": "cbse25-26-eng-q2-II",
+      "reasons": [
+        "four_options_required"
+      ]
+    },
+    {
+      "id": "cbse25-26-eng-q2-VIII",
+      "reasons": [
+        "multiple_defensible_exclusions",
+        "four_options_required"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "56dca44c3048fb40a34ab46438ef0107ec54d22893d0ea910885288cb88d8ed3",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "stimulus_words": 100,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "This apparent origin, called the radiant, helps identify the shower.",
+          "start": 247,
+          "end": 315,
+          "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "It is the physical location where cosmic debris is created.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage describes an apparent direction, not a debris-creation site.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "It serves as visual guide for observers to locate the shower.",
+          "judgment": "supported_answer",
+          "reason": "The radiant identifies the shower to an observer.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "It determines the speed fragments enter the atmosphere.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Speed is discussed separately; the radiant is not said to determine it.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "It represents the exact area where all meteors disappear",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage does not describe a disappearance site.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "bed84ef80fce2b866fdd50cdeaafa9d7f71d9d50024313d21b6f83cd841f6107",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "stimulus_words": 100,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Each December, Earth crosses a debris stream associated with asteroid 3200 Phaethon, producing the Geminids.",
+          "start": 3,
+          "end": 111,
+          "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024"
+        },
+        {
+          "quote": "Telescopes and binoculars are not needed; clouds, atmospheric clarity, moonlight, and light pollution affect visibility.",
+          "start": 396,
+          "end": 516,
+          "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "persuasive and promotional, encouraging mass participation",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No promotional appeal or request for participation occurs.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "explanatory and informative, aimed at scientific understanding",
+          "judgment": "supported_answer",
+          "reason": "The passage explains the phenomenon and observation conditions using factual statements.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "speculative and argumentative, questioning existing theories",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No competing theory or argument is presented.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "celebratory and emotional, highlighting wonder over facts",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage gives facts rather than an emotional celebration.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "37a33ca24227dd7ac72a9b0cbe3795217a8aaa19aeb90db26fa8f20a7fe14990",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "stimulus_words": 100,
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Each December, Earth crosses a debris stream associated with asteroid 3200 Phaethon, producing the Geminids.",
+          "start": 3,
+          "end": 111,
+          "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024"
+        },
+        {
+          "quote": "The radiant rises higher after midnight, improving the chances of sightings.",
+          "start": 319,
+          "end": 395,
+          "stimulus_text_sha256": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "technical process of how asteroids shed cosmic debris",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage does not explain the technical process of shedding debris.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "impact of light pollution on modern scientific learning",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Light pollution is one observation factor, not the whole topic.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "historical evolution of astronomy since the nineteenth century",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "One historical statement does not make general astronomy history the main idea.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "scientific explanation and practical observation of Geminids",
+          "judgment": "supported_answer",
+          "reason": "The passage explains the Geminids and how to observe them.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "1ea737ab70d001d32486fef3d7ad6527cafb0b92bc5129f5d95e1e4bac415229",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "stimulus_words": 100,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "A study tracked changes in everyday payment habits through UPI data for four Octobers.",
+          "start": 3,
+          "end": 89,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The purpose sentence contains no infrastructure analysis.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in everyday payment habits across India",
+          "judgment": "supported_answer",
+          "reason": "The purpose is explicitly changes in everyday payment habits.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No vendor-count study is described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Cash use is mentioned later, but a digital-versus-cash comparison is not the stated study purpose.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "a725aee5029282887fb0e96659429b2eb2988f83908ad8df6553d871602e6722",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "stimulus_words": 100,
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Transaction counts rose from 4.21 billion in October 2021 to 7.30 billion in 2022, 11.40 billion in 2023, and 16.58 billion in 2024.",
+          "start": 93,
+          "end": 225,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        },
+        {
+          "quote": "Transaction value also rose: ₹7.71 lakh crore in 2021, ₹12.11 lakh crore in 2022, ₹17.15 lakh crore in 2023, and ₹23.49 lakh crore in 2024.",
+          "start": 229,
+          "end": 368,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Both the number of transactions and the total value of transactions increase steadily over the four years.",
+          "judgment": "supported_answer",
+          "reason": "Each successive count and value is larger, using paragraphs 2 and 3 together.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "The number of transactions increases, but the total value of transactions decreases year after year.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The values rise, so the asserted fall is false.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "The total value of transactions increases, but the number of transactions stays almost unchanged.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The counts rise substantially, so they are not almost unchanged.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Both the number of transactions and the total value of transactions decrease after an initial increase.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both series rise throughout; neither shows the claimed decline.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "misdirected_paragraph_reference"
+      ],
+      "language_note": "The key is derivable from the complete stimulus, but the stem specifically refers to paragraph 3, which contains only the value series. This construction mismatch must be resolved before treating the item as a clean valid root.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "90b03f10fec156c0a5bb4ff08f80916721a64423bb53fc6e984070caeac3f3d2",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "stimulus_words": 100,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "UPI use extended to shops, homes, workplaces, and small roadside vendors, for purchases and services.",
+          "start": 372,
+          "end": 473,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Dependence on organised commercial establishments",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Roadside vendors and homes contradict an organised-establishment-only reading.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Widespread adoption across formal and informal settings",
+          "judgment": "supported_answer",
+          "reason": "The listed commercial, domestic and roadside settings support breadth across formal and informal settings.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Usage limited to digitally advanced urban spaces",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage does not restrict use to advanced urban settings.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Usage restricted to specific consumer groups",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The diverse settings contradict a restriction to specific groups.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "f454685af5726dab73b7d9d750e26c62021ca7d6a6a77f31de370f5c3c4b2fb0",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "stimulus_words": 100,
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Transaction counts rose from 4.21 billion in October 2021 to 7.30 billion in 2022, 11.40 billion in 2023, and 16.58 billion in 2024.",
+          "start": 93,
+          "end": 225,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        },
+        {
+          "quote": "The paper describes users as more confident in digital payments and notes effects on small businesses and cash use.",
+          "start": 474,
+          "end": 589,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "The growth pattern of UPI transactions over time",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both transaction series and years are directly discussed.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "The changing public attitude towards digital payments",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Increased confidence directly describes an attitude toward digital payments.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "The policy framework governing digital payment systems",
+          "judgment": "supported_answer",
+          "reason": "No policy framework is described anywhere in the complete stimulus.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "The effect of UPI adoption on small businesses",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The stimulus explicitly notes effects on small businesses.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "05f78d3efe4a0a0dfdba7b46cb0b86015134062271f8c89ce95c1f05d40d7a6d",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "stimulus_words": 100,
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "UPI use extended to shops, homes, workplaces, and small roadside vendors, for purchases and services.",
+          "start": 372,
+          "end": 473,
+          "stimulus_text_sha256": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "inclusive",
+          "judgment": "supported_answer",
+          "reason": "Inclusion of small roadside vendors supports inclusive use.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "exclusive",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Exclusive use would exclude groups, contrary to the listed settings.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "marginal",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The wide spread of use does not support marginal use.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "four_options_required"
+      ],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "145d0b5f0fb7c6cdc90dd0bfb28271c3ce1ecea54003d3c88baabefc0dd33f95",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "stimulus_words": 77,
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "At dusk, Pip is alone in a marsh churchyard near the sea.",
+          "start": 0,
+          "end": 57,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        },
+        {
+          "quote": "Pip is cold, wet, shaking and afraid.",
+          "start": 255,
+          "end": 292,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        },
+        {
+          "quote": "Keep still, or I’ll make you pay!",
+          "start": 364,
+          "end": 397,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "The harsh setting near the sea",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The lonely, cold marsh setting emphasises exposure.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "The man’s threatening behaviour",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The man seizes Pip and threatens a consequence.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Pip’s helpless fear",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Cold, shaking, afraid and helpless explicitly establish vulnerability.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Pip’s knowledge of the surrounding area",
+          "judgment": "supported_answer",
+          "reason": "Knowledge of the area is not described; this is the exception, without asserting that Pip lacks such knowledge.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "e4f12a781f74dbbef5a49230b79950d8f5b2d52163c0753418fbb21d758823e8",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "stimulus_words": 77,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Keep still, or I’ll make you pay!",
+          "start": 364,
+          "end": 397,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "caution",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A caution warns of danger; this speaker promises an adverse consequence he will impose.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "threat",
+          "judgment": "supported_answer",
+          "reason": "The conditional adverse consequence imposed by the speaker is a threat.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "prediction",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A neutral prediction does not capture the speaker threatening to act.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "announcement",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A neutral announcement does not capture the conditional threat.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "f09630a20bdd168ec667195fbb87751f5d54cd3b4d5d8b14b4d37ad407ecce1a",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "stimulus_words": 77,
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Tell us your name! Quick! Give it mouth!",
+          "start": 311,
+          "end": 351,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Speak louder",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Nothing in the stimulus says Pip answered too quietly.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Open his mouth wide",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The surrounding demand concerns providing his name, not a physical mouth-opening exercise.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Answer the question",
+          "judgment": "supported_answer",
+          "reason": "The command follows a request for Pip’s name, so it asks him to answer.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "four_options_required"
+      ],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "f9b5d9c7d0c3e9432a476c356b0c5e02799d702734efbec11dbe46304ca68b59",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "stimulus_words": 77,
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "A rough, frightened-looking man with an iron on his leg seizes him and turns him so Pip must look up helplessly.",
+          "start": 58,
+          "end": 170,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        },
+        {
+          "quote": "The man asks about a file and food, then orders Pip to bring both the next morning.",
+          "start": 171,
+          "end": 254,
+          "stimulus_text_sha256": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Pip’s encounter with a frightening man who demands information",
+          "judgment": "supported_answer",
+          "reason": "The encounter and the man’s demands form the action across the stimulus.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "the harshness of Pip’s environment and the fear it creates",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The setting contributes to the encounter but does not capture the main action.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Pip’s struggle to understand the man’s intentions and stay calm",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The passage does not narrate an attempt to understand intentions or stay calm.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "the importance of family relationships in Pip’s life",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Family relationships are absent.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "c1b46f97c975cce35eb55eddbe9dbc758b6e894966a82389d3f40809f2464ea6",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "stimulus_words": 97,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "A survey of 2,000 college students and young professionals examined career aspirations and the influences behind them.",
+          "start": 0,
+          "end": 118,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "To compare job popularity in rural and urban areas",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No rural-versus-urban job-popularity comparison is the stated purpose.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "To explore career aspirations and the factors influencing them",
+          "judgment": "supported_answer",
+          "reason": "Career aspirations and their influences are the explicit purpose.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "To analyse the success rate of start-ups and family businesses",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Business success rates are not studied.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "To assess salary expectations of young professionals",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Salary expectations are not the stated purpose.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-II",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "35cbee518d4929da7a4b145b30ff645006b6ba7b6382448e518faad3656afd2a",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "stimulus_words": 97,
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Participants represented different genders, economic backgrounds, education levels and career stages so the findings would reflect a broad range of views.",
+          "start": 119,
+          "end": 273,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "accurate",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A broad sample aims at representing views; this sentence does not guarantee accuracy.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "representative",
+          "judgment": "supported_answer",
+          "reason": "Reflecting varied groups and views is representative coverage.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "specific",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The stated aim is broad views, not specificity to a narrow group.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "four_options_required"
+      ],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "c676e26ea090c70955dfe1fcca1055125e72cb9a107984940564ef0e888ef6f5",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "stimulus_words": 97,
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "quote": "Participants also reported difficulty finding experienced people to guide career choices.",
+          "start": 541,
+          "end": 630,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Lack of money to hire mentors",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A lack of money is not stated.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Absence of training programmes in semi-urban areas",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Training programmes or semi-urban locations are not stated.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Reluctance to seek advice from strangers",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Reluctance to seek advice is not stated.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Difficulty finding experienced professionals to guide career paths",
+          "judgment": "supported_answer",
+          "reason": "The sentence directly describes difficulty finding experienced career guides.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": "The quoted phrase in the stem is absent verbatim from the adapted passage; its paraphrased meaning is directly present. Record this language note for CUET-fit review.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VIII",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "20f1e65b90d59a06bead68fcb08af902c8b96648fa4d81c4e9387f75f0059142",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "stimulus_words": 97,
+      "independently_derived_key": null,
+      "unique_key_supported": false,
+      "decisive_support": [
+        {
+          "quote": "A survey of 2,000 college students and young professionals examined career aspirations and the influences behind them.",
+          "start": 0,
+          "end": 118,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        },
+        {
+          "quote": "Preferences varied by region.",
+          "start": 511,
+          "end": 540,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        },
+        {
+          "quote": "The researchers suggested that later studies could examine gender, emerging industries and technology’s effects on work.",
+          "start": 631,
+          "end": 751,
+          "stimulus_text_sha256": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "The survey’s purpose",
+          "judgment": "uncertain_exclusion",
+          "reason": "The purpose is explicitly addressed.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "The impact of gender on career preferences",
+          "judgment": "uncertain_exclusion",
+          "reason": "Gender impact is proposed for a later study, not presented as a result here.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Regional and demographic variations",
+          "judgment": "uncertain_exclusion",
+          "reason": "Varied demographics and regional variation are mentioned, though demographic effects are not analysed.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Challenges reported by respondents",
+          "judgment": "uncertain_exclusion",
+          "reason": "Difficulty finding career guides is explicitly reported.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "E",
+          "text": "The methodology used for data collection",
+          "judgment": "uncertain_exclusion",
+          "reason": "A survey and sample size are mentioned, but a data-collection procedure is not supplied.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "multiple_defensible_exclusions",
+        "four_options_required"
+      ],
+      "language_note": "The precise scope of methodology is not supplied. Both B and a reasonable reading of E can be selected as topics not addressed; do not force a unique key.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    }
+  ],
+  "limitations": [
+    "Stimulus entailment establishes passage answerability; it does not authenticate the adapted stimulus as a CUET PYQ or establish CUET fit.",
+    "Underlying original-paper facts and provenance remain separately bound in the source audit.",
+    "No paid validator, application publication, ledger mutation or sealed-key read occurred."
+  ]
+}

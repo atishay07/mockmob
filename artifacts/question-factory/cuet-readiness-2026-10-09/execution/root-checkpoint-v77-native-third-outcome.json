@@ -1,0 +1,89 @@
+{
+  "at": "2026-10-09T08:29:15.693Z",
+  "read_only": true,
+  "lifetime": {
+    "settled_usd": 35.194605,
+    "held_usd": 0.517892,
+    "remaining_usd": 14.287503,
+    "unresolved": 37
+  },
+  "scope": {
+    "provider_requests": 12,
+    "complete": 11,
+    "settled_usd": 0.067087,
+    "held_usd": 0.01,
+    "pending": [
+      {
+        "id": "4abdd87ee5c38dafafea73891ba088b40b1dadf2cead2e07803406f714726443",
+        "provider": "openai",
+        "state": "dispatching",
+        "candidate": "v77-qualification-2026-10-09-v77f-3546cbf8ea19",
+        "stage": "blind_solution",
+        "budget_state": "reserved",
+        "actual": null,
+        "reserved": 10000
+      }
+    ]
+  },
+  "owner": {
+    "pid": 36876,
+    "nonce": "4b665d61-e63b-4df1-a91f-6d5cea4e56c7",
+    "started_at": "2026-10-09T08:06:06.808Z"
+  },
+  "studies": {
+    "fresh": {
+      "denominator": 28,
+      "terminal": 4,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [
+        {
+          "id": "v77f-ad344a8b5f2d",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-2105354e5de1",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-662880a2c5fb",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        },
+        {
+          "id": "v77f-073bdc31e03c",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "failed_stage": "source_support"
+        }
+      ],
+      "errors": [],
+      "evaluated_case_ids": [
+        "v77f-ad344a8b5f2d",
+        "v77f-2105354e5de1",
+        "v77f-662880a2c5fb",
+        "v77f-073bdc31e03c"
+      ],
+      "blind_judgments": 8
+    },
+    "regression": {
+      "denominator": 13,
+      "terminal": 0,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [],
+      "errors": [],
+      "evaluated_case_ids": [],
+      "blind_judgments": 0
+    }
+  }
+}

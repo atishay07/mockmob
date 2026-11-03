@@ -1,0 +1,589 @@
+{
+  "schema": "fresh-source-derivation-v4",
+  "at": "2026-10-08T10:53:15.802Z",
+  "subject": "accountancy",
+  "raw_denominator": 8,
+  "option_claims": 32,
+  "provisional_positive": 6,
+  "withheld": 2,
+  "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "official_marking_scheme_read": false,
+  "paid_validator_results_seen": false,
+  "construction_author_also_prepared_question_view": true,
+  "independent_second_review_required": true,
+  "CUET_fit": "not_evaluated",
+  "release": false,
+  "publication": false,
+  "items": [
+    {
+      "item_id": "cbse24-ac-q01",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "da1af0fe05cf516d211e320ca39da701e9f1ff138aa2c6228f628a730ed75800",
+      "source_derived_provisional_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Equal ordinary loss shares are −60000 each. Anthony must finish at +60000, so the deficiency is 120000, divided equally between the other two. Amar bears his own 60000 loss plus a 60000 guarantee adjustment: total capital debit 120000.",
+      "calculations": {
+        "ordinary_loss_each": -60000,
+        "guaranteed_anthony_share": 60000,
+        "deficiency": 120000,
+        "amar_guarantee_debit": 60000,
+        "amar_total_debit": 120000,
+        "allocation_check": -180000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 26,
+          "quote_start": 1766,
+          "quote_end": 1921,
+          "quote": "The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount.",
+          "page_text_sha256": "2754b184f8dd289da5d067eb144f86aeff2b87aa3dc5659c7d2642faccab542f",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "₹60,000",
+          "assessment": "Includes only Amar’s ordinary loss and omits his guarantee burden."
+        },
+        {
+          "option": "B",
+          "text": "₹1,20,000",
+          "assessment": "Includes both required debit components."
+        },
+        {
+          "option": "C",
+          "text": "₹90,000",
+          "assessment": "Understates the required adjustment."
+        },
+        {
+          "option": "D",
+          "text": "₹80,000",
+          "assessment": "Does not allocate the full deficiency equally while preserving the total loss."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q02",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "18a9b2a41953d157e6e6e2832a97e031844d4c16fdd0a76168e2b5d2cce09a09",
+      "source_derived_provisional_key": "D",
+      "unique_key_supported": true,
+      "derivation": "Fixed capitals use separate current accounts for non-capital-change transactions. Fluctuating capitals use the capital account itself. Therefore A is false and R is true.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 5,
+          "quote_start": 1758,
+          "quote_end": 1926,
+          "quote": "All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account.",
+          "page_text_sha256": "0e3636ba7560392239592af4fc7fb352808398743a6734088d87738e157d99eb",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 6,
+          "quote_start": 864,
+          "quote_end": 1208,
+          "quote": "Fluctuating Capital Method: Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner. All the adjustments such as share of profit and loss, interest on capital, drawings, interest on drawings, salary or commission to partners, etc are recorded directly in the capital accounts of the partners.",
+          "page_text_sha256": "983ebf9d6ddba6c2ed2a6d150ee4a1991bf2f6f5a8d1dbc55b37b77a1d3b39b1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Both A and R are true, and R correctly explains A.",
+          "assessment": "The assertion contradicts the fluctuating-capital rule."
+        },
+        {
+          "option": "B",
+          "text": "Both A and R are true, but R does not correctly explain A.",
+          "assessment": "The assertion is false, so both cannot be true."
+        },
+        {
+          "option": "C",
+          "text": "A is true, but R is false.",
+          "assessment": "Reverses both classifications."
+        },
+        {
+          "option": "D",
+          "text": "A is false, but R is true.",
+          "assessment": "Matches the separate fixed-current and single fluctuating-capital methods."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q03",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "e6b33c76e326535bcffd1e69e602017ea324f86e110506067fcb8d1473bcbff2",
+      "source_derived_provisional_key": null,
+      "unique_key_supported": false,
+      "derivation": "Forfeiture cancels the subscription and reverses called-up share capital through a debit. The alternatives separately list subscribed and called-up capital without asking for the reporting category or the specific journal amount. Both reductions are defensible, so this is not a clean one-answer oracle.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 4,
+          "quote_start": 1234,
+          "quote_end": 1341,
+          "quote": "Subscribed Capital: It is that part of the issued capital which has been actually subscribed by the public.",
+          "page_text_sha256": "9fd6f3909ea0afc9c0b8d66a3c0b503715c7bbdc0e599c081a8c4ffe9f2ebd44",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 4,
+          "quote_start": 1908,
+          "quote_end": 2357,
+          "quote": "Called up Capital: It is that part of the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share.",
+          "page_text_sha256": "9fd6f3909ea0afc9c0b8d66a3c0b503715c7bbdc0e599c081a8c4ffe9f2ebd44",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 37,
+          "quote_start": 1911,
+          "quote_end": 2119,
+          "quote": "share capital account is debited with the amount called-up in respect of shares are forfeited and crediting the respective unpaid calls accounts’s or calls in arrears account with the amount already received.",
+          "page_text_sha256": "b5d81d9c20ea3a04484cb16814f4bd6b64433bacde8e54519bc553dcc947232d",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Authorised capital",
+          "assessment": "The authorised ceiling is not reduced merely by forfeiture."
+        },
+        {
+          "option": "B",
+          "text": "Issued capital",
+          "assessment": "The amount offered for issue is not the uniquely identified accounting reduction."
+        },
+        {
+          "option": "C",
+          "text": "Subscribed capital",
+          "assessment": "Cancellation reduces the subscribed shares, a defensible answer."
+        },
+        {
+          "option": "D",
+          "text": "Called-up capital",
+          "assessment": "The source expressly reverses the called-up capital amount, also a defensible answer."
+        }
+      ],
+      "issues": [
+        "subscribed_and_called_up_reduction_not_exclusive"
+      ],
+      "note": null,
+      "source_key_construction_state": "withheld",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q04",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "22426725dda17c443da96d887eb52e33d3b7bcc48e89c5eec72f2c84ce3d653a",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The existing 20000 provision covers the 15000 write-off. Debit Bad Debts and credit Debtors; then debit the provision and credit Bad Debts. Remaining provision is 5000 and net debtor value stays 600000; no new revaluation loss is invented.",
+      "calculations": {
+        "new_debtors": 605000,
+        "remaining_provision": 5000,
+        "net_debtors_before": 600000,
+        "net_debtors_after": 600000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-keac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\ncert-keac202.pages.json",
+          "cache_sha256": "389de247e8365dd11312156a99bdee5ed13eedc9f6b435f814ee8f684b30ca53",
+          "physical_pdf_page": 15,
+          "quote_start": 931,
+          "quote_end": 1048,
+          "quote": "When such a provision already exists, the loss due to bad debts during the current year are adjusted against the same",
+          "page_text_sha256": "f2989f71fe128ece61989d16832fd8bda0c8cba0f9b46330fc2e6014286ca2ec",
+          "document_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\ncert-keac202.pdf",
+          "document_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        },
+        {
+          "source_id": "ncert-keac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\ncert-keac202.pages.json",
+          "cache_sha256": "389de247e8365dd11312156a99bdee5ed13eedc9f6b435f814ee8f684b30ca53",
+          "physical_pdf_page": 16,
+          "quote_start": 156,
+          "quote_end": 343,
+          "quote": "Bad debts A/c Dr. 1,000 31, 2017 To Sundry debtors 1,000 (Futher bad debts) (b) Provision for doubtful debts A/c Dr. 3,000 To Bad debts A/c 3,000 (Bad debts adjusted against the provision",
+          "page_text_sha256": "723e49697109810458e84615371edab58caf10c6cfb8371d2791332746b3d55b",
+          "document_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\ncert-keac202.pdf",
+          "document_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000.",
+          "assessment": "Matches the write-off and its adjustment against the existing provision."
+        },
+        {
+          "option": "B",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000.",
+          "assessment": "Creates or increases a provision through Revaluation instead of consuming the existing provision."
+        },
+        {
+          "option": "C",
+          "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000.",
+          "assessment": "Charges a new revaluation loss while leaving the covering provision unadjusted."
+        },
+        {
+          "option": "D",
+          "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000.",
+          "assessment": "Does not credit debtors and improperly credits Revaluation."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q05",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "a29cc36c016314f84ddf717d47b1dfbb3c70d189ee8fc69b18459af172e48715",
+      "source_derived_provisional_key": "C",
+      "unique_key_supported": true,
+      "derivation": "The supplied profit before retaining reserve is 75000 + 15000 = 90000. Net tangible capital is 1000000 − 300000 = 700000; capitalised value equals that capital plus goodwill 50000, or 750000. Normal return = 90000/750000 × 100 = 12%.",
+      "calculations": {
+        "profit_before_reserve": 90000,
+        "net_assets": 700000,
+        "capitalised_value": 750000,
+        "normal_return_percent": 12
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 15,
+          "quote_start": 484,
+          "quote_end": 1444,
+          "quote": "Capitalisation of Average Profits: Under this method, the value of goodwill is ascertained by deducting the actual firm’s capital in the business from the capitalized value of the average profits on the basis of normal rate of return. This involves the following steps: (i) Ascertain the average profits based on the past few years’ performance. (ii) Capitalize the average profits on the basis of the normal rate of return to ascertain the capitalised value of average profits as follows: Average Profits × 100/Normal Rate of Return (iii) Ascertain the actual firm’s capital (net assets) by deducting outside liabilities from the total assets (excluding goodwill and ficticious assets). Firms’ Capital = Total Assets (excluding goodwill) – Outside Liabilities Where outside Liabilities include both long term and short term Liabilities. (iv) Compute the value of goodwill by deducting net assets from the capitalised value of average profits, i.e. (ii) – (iii",
+          "page_text_sha256": "869537f06d82fd3961539aef2311cda04dffb487e834b3a487191bf4194c1a5d",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "10%",
+          "assessment": "10% would capitalise 90000 at 900000 and give goodwill 200000."
+        },
+        {
+          "option": "B",
+          "text": "5%",
+          "assessment": "5% would capitalise 90000 at 1800000 and give goodwill 1100000."
+        },
+        {
+          "option": "C",
+          "text": "12%",
+          "assessment": "12% capitalises 90000 at 750000 and gives the stated goodwill 50000."
+        },
+        {
+          "option": "D",
+          "text": "8%",
+          "assessment": "8% would capitalise 90000 at 1125000 and give goodwill 425000."
+        }
+      ],
+      "issues": [],
+      "note": "The stated capitalisation method is applied to the supplied pre-reserve profit figure. No separate historical average or abnormal-profit adjustment is invented; independent CUET-fit review must check adequacy of that presentation.",
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q06",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "7668f02d0245309124b662cc49c53ba0005e5ead99ff3fa5587797e350ab1f50",
+      "source_derived_provisional_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Allotted shares = 900 × 2/3 = 600. Called capital excludes the unmade call: 600 × (3+5) = 4800. Application received is 2700, including 900 excess adjusted to allotment. Allotment arrears = 600 × 5 − 900 = 2100. Forfeiture credit is the full 2700 face capital already received; 4800 = 2700+2100.",
+      "calculations": {
+        "shares_allotted": 600,
+        "called_capital": 4800,
+        "application_cash": 2700,
+        "excess_application": 900,
+        "allotment_arrears": 2100,
+        "forfeiture_credit": 2700,
+        "journal_balance": 0
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 9,
+          "quote_start": 1755,
+          "quote_end": 1856,
+          "quote": "the excess application money must be adjusted towards the amount due on allotment from the allottees.",
+          "page_text_sha256": "fdfbde0aa5c3d77d587db63a2b2a1327239b6b0bd80be0b07ae0cb2a79b84264",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 38,
+          "quote_start": 264,
+          "quote_end": 480,
+          "quote": "the share capital is debited to the extent to called-up capital and credited to (i) respective unpaid calls account i.e., calls in arrears and (ii) share forfeiture account with the amount already received on shares.",
+          "page_text_sha256": "6591e8f682a6ee1418336339a3d776214297b9fc361374fc0bbf5c9894bf107b",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "₹6,000; ₹2,700; ₹3,300",
+          "assessment": "Includes the unmade final call in capital and fails the excess-application adjustment."
+        },
+        {
+          "option": "B",
+          "text": "₹4,800; ₹2,700; ₹2,100",
+          "assessment": "Balances all three accounts with called capital and the adjusted allotment arrears."
+        },
+        {
+          "option": "C",
+          "text": "₹4,800; ₹1,800; ₹3,000",
+          "assessment": "Omits the received excess application from forfeiture and ignores its allotment adjustment."
+        },
+        {
+          "option": "D",
+          "text": "₹6,000; ₹1,800; ₹4,200",
+          "assessment": "Includes uncalled capital and incorrect unpaid/paid amounts."
+        }
+      ],
+      "issues": [],
+      "note": "The printed option values were checked against the rendered official question page. The original packet span ends at C; its full page/PDF hashes and the rendered D value remain preserved.",
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q07",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "b54c754d3587a957ecc4faf1e4ef94a174c84be24e050354424012893c8a3347",
+      "source_derived_provisional_key": null,
+      "unique_key_supported": false,
+      "derivation": "The source establishes the lender’s right to invoke collateral security after primary security is insufficient. It does not specify the coupon-interest commencement date for this sequence of default, primary sale and later market sale. Choosing any date would require a further decisive rule or debenture terms.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac202.logical-pages-v5.json",
+          "cache_sha256": "37c3f086e840ad9a5e0e895ab1e5285c1e147d10bada764173bb8140abd8b64f",
+          "physical_pdf_page": 20,
+          "quote_start": 522,
+          "quote_end": 903,
+          "quote": "If the company fails to repay the loan along with interest, the lender is free to receive his money from the sale of primary security and if the realisable value of the primary security falls short to cover the entire amount, the lender has the right to invoke the benefit of collateral security whereby debentures may either be presented for redemption or sold in the open market.",
+          "page_text_sha256": "b1f6cd58386df3f54b314bbd1a083ac3c9bc946a3053ead56a2002359da904a8",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac202.pdf",
+          "pdf_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "1 April 2019",
+          "assessment": "A collateral issue is not shown here to create ordinary coupon payments from issue."
+        },
+        {
+          "option": "B",
+          "text": "31 March 2024",
+          "assessment": "Default alone does not establish the missing coupon-start rule."
+        },
+        {
+          "option": "C",
+          "text": "1 April 2024",
+          "assessment": "Primary-security insufficiency establishes a right to invoke collateral, not the exact interest date."
+        },
+        {
+          "option": "D",
+          "text": "1 May 2024",
+          "assessment": "The later sale date is plausible but the quoted source does not establish it as the required coupon start."
+        }
+      ],
+      "issues": [
+        "collateral_debenture_interest_start_rule_unestablished"
+      ],
+      "note": null,
+      "source_key_construction_state": "withheld",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-ac-q08",
+      "subject": "accountancy",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "1b13a206145570cd8fbe1c208dd4d1ec8d38ababfb4d6be4304e65d65e77fe7b",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The source credits Realisation for the value at which an already-transferred asset is taken over, and debits a partner-loan liability when it is settled. Here the explicit consideration is full discharge of the 60000 loan, so Partner’s Loan is debited and Realisation credited by 60000. The machinery book amount was transferred earlier; it is not the settlement consideration.",
+      "calculations": {
+        "loan_settled": 60000,
+        "realisation_credit": 60000,
+        "earlier_book_debit": 50000,
+        "net_realisation_effect": 10000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 9,
+          "quote_start": 1105,
+          "quote_end": 1306,
+          "quote": "For an asset taken over by a partner Partner’s Capital A/c Dr. To Realisation A/c 5. For payment of liabilities Realisation A/c Dr. To Bank A/c with the same value with the amount assets are taken over",
+          "page_text_sha256": "fc97ca9b6a733b58de165b914dcc1873262ef17f22a519261f216e90b76cde87",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 11,
+          "quote_start": 858,
+          "quote_end": 929,
+          "quote": "For payment of loans due to partners Partner’s Loan A/c Dr. To Bank A/c",
+          "page_text_sha256": "61f684697d5c1fe544e1998f87b6e902b169c59b32dd1905e4985a7ee620f1e6",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Credit of ₹60,000",
+          "assessment": "Closes the full loan with the stated settlement consideration."
+        },
+        {
+          "option": "B",
+          "text": "Credit of ₹10,000",
+          "assessment": "10000 is the net gain after the earlier book transfer, not the settlement entry credit."
+        },
+        {
+          "option": "C",
+          "text": "Credit of ₹50,000",
+          "assessment": "50000 is the earlier book transfer, not the loan discharged by this entry."
+        },
+        {
+          "option": "D",
+          "text": "No effect",
+          "assessment": "A partner’s loan is separately settled; the external-creditor no-entry convention does not replace this partner-loan settlement."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    }
+  ]
+}

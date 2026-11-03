@@ -1,0 +1,25 @@
+{
+  "commit": "a6a61cc276d9df36b43e4760c08df0dfe83802a3",
+  "branch": "origin/main",
+  "project": "mockmob",
+  "deployment": "https://vercel.com/atishay07s-projects/mockmob/FeimHt2rAGpA3qG4Eepoqfa43PNJ",
+  "state": "Ready",
+  "deploymentDurationSeconds": 49,
+  "readyTimeShown": "2026-10-04 23:21:17 Asia/Calcutta",
+  "domain": "https://www.mockmob.in",
+  "productionFlags": {
+    "STUDY_CONTENT_ENABLED": true,
+    "STUDY_RECALL_ENABLED": true,
+    "STUDY_GUIDED_PLAN_ENABLED": true
+  },
+  "publishedUnits": 2,
+  "publishedCards": 23,
+  "distinctTestsPassed": 166,
+  "lint": "passed",
+  "productionBuild": "passed locally and Vercel",
+  "anonymousLiveHttp": "passed",
+  "authenticatedLocalDatabaseAndUI": "passed",
+  "authenticatedLiveUI": "passed: two published units, preserved Pro access, saved lesson progress, recall resume and persistent reveal",
+  "contentGenerationModelCalls": 0,
+  "migrationHistoryReconciled": false
+}

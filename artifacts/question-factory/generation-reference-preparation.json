@@ -1,0 +1,141 @@
+{
+  "at": "2026-10-06T05:43:53.352Z",
+  "draft_only": true,
+  "production_changes": 0,
+  "attached": [
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q3"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q5"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q7"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q8"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q42"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q44"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q46"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q48"
+    },
+    {
+      "subject": "english",
+      "anchor_id": "cuet2024-english-bookA-q49"
+    },
+    {
+      "subject": "accountancy",
+      "anchor_id": "cuet2024-accountancy-bookA-q14"
+    },
+    {
+      "subject": "accountancy",
+      "anchor_id": "cuet2024-accountancy-bookA-q17"
+    },
+    {
+      "subject": "accountancy",
+      "anchor_id": "cuet2024-accountancy-bookA-q20"
+    },
+    {
+      "subject": "accountancy",
+      "anchor_id": "cuet2024-accountancy-bookA-q38"
+    },
+    {
+      "subject": "business_studies",
+      "anchor_id": "cuet2024-business_studies-bookA-q2"
+    },
+    {
+      "subject": "business_studies",
+      "anchor_id": "cuet2024-business_studies-bookA-q3"
+    },
+    {
+      "subject": "business_studies",
+      "anchor_id": "cuet2024-business_studies-bookA-q18"
+    },
+    {
+      "subject": "economics",
+      "anchor_id": "cuet2024-economics-bookA-q1"
+    },
+    {
+      "subject": "economics",
+      "anchor_id": "cuet2024-economics-bookA-q4"
+    },
+    {
+      "subject": "economics",
+      "anchor_id": "cuet2024-economics-bookA-q48"
+    }
+  ],
+  "excluded": [
+    {
+      "subject": "english",
+      "number": "12",
+      "reason": "insufficient_or_time_sensitive_reference_support"
+    },
+    {
+      "subject": "accountancy",
+      "number": "6",
+      "reason": "insufficient_or_time_sensitive_reference_support"
+    },
+    {
+      "subject": "accountancy",
+      "number": "19",
+      "reason": "insufficient_or_time_sensitive_reference_support"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-share-capital-issued-unissued-ref01",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-calls-in-advance-ref02",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-oversubscription-ref03",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-common-size-base-ref04",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-horizontal-analysis-ref05",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-current-ratio-classification-ref06",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-receivable-turnover-ref07",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    },
+    {
+      "subject": "accountancy",
+      "id": "acct-ncert-activity-ratio-meaning-ref08",
+      "reason": "new_practice_draft_not_authenticated_PYQ_anchor"
+    }
+  ],
+  "source_registry_version": 15
+}

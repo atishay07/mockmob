@@ -1,0 +1,2019 @@
+{
+  "pages": [
+    {
+      "width": 320,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 935,
+          "width": 280,
+          "top": -116,
+          "scrollHeight": 935
+        },
+        {
+          "cls": "ml__stage",
+          "height": 703,
+          "width": 280,
+          "top": 57,
+          "scrollHeight": 701
+        },
+        {
+          "cls": "ml__panel",
+          "height": 519,
+          "width": 278,
+          "top": 156,
+          "scrollHeight": 519
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 166,
+          "width": 290,
+          "top": 110,
+          "scrollHeight": 164
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 532,
+          "width": 252,
+          "top": 110,
+          "scrollHeight": 532
+        },
+        {
+          "cls": "srl-step",
+          "height": 674,
+          "width": 252,
+          "top": 642,
+          "scrollHeight": 674
+        },
+        {
+          "cls": "srl-step",
+          "height": 275,
+          "width": 252,
+          "top": 1316,
+          "scrollHeight": 275
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 935,
+          "width": 280,
+          "top": -116,
+          "scrollHeight": 935
+        },
+        {
+          "cls": "ml__stage",
+          "height": 703,
+          "width": 280,
+          "top": 57,
+          "scrollHeight": 701
+        },
+        {
+          "cls": "ml__panel",
+          "height": 519,
+          "width": 278,
+          "top": 156,
+          "scrollHeight": 519
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 166,
+          "width": 290,
+          "top": 110,
+          "scrollHeight": 164
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 532,
+          "width": 252,
+          "top": 110,
+          "scrollHeight": 532
+        },
+        {
+          "cls": "srl-step",
+          "height": 674,
+          "width": 252,
+          "top": 642,
+          "scrollHeight": 674
+        },
+        {
+          "cls": "srl-step",
+          "height": 275,
+          "width": 252,
+          "top": 1316,
+          "scrollHeight": 275
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 262,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 915,
+          "width": 320,
+          "top": -116,
+          "scrollHeight": 915
+        },
+        {
+          "cls": "ml__stage",
+          "height": 683,
+          "width": 320,
+          "top": 56,
+          "scrollHeight": 681
+        },
+        {
+          "cls": "ml__panel",
+          "height": 499,
+          "width": 318,
+          "top": 156,
+          "scrollHeight": 499
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 166,
+          "width": 330,
+          "top": 110,
+          "scrollHeight": 164
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 463,
+          "width": 292,
+          "top": 110,
+          "scrollHeight": 463
+        },
+        {
+          "cls": "srl-step",
+          "height": 610,
+          "width": 292,
+          "top": 573,
+          "scrollHeight": 610
+        },
+        {
+          "cls": "srl-step",
+          "height": 253,
+          "width": 292,
+          "top": 1183,
+          "scrollHeight": 253
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 915,
+          "width": 320,
+          "top": -116,
+          "scrollHeight": 915
+        },
+        {
+          "cls": "ml__stage",
+          "height": 683,
+          "width": 320,
+          "top": 56,
+          "scrollHeight": 681
+        },
+        {
+          "cls": "ml__panel",
+          "height": 499,
+          "width": 318,
+          "top": 156,
+          "scrollHeight": 499
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 166,
+          "width": 330,
+          "top": 110,
+          "scrollHeight": 164
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 463,
+          "width": 292,
+          "top": 110,
+          "scrollHeight": 463
+        },
+        {
+          "cls": "srl-step",
+          "height": 610,
+          "width": 292,
+          "top": 573,
+          "scrollHeight": 610
+        },
+        {
+          "cls": "srl-step",
+          "height": 253,
+          "width": 292,
+          "top": 1183,
+          "scrollHeight": 253
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 302,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 897,
+          "width": 350,
+          "top": -116,
+          "scrollHeight": 897
+        },
+        {
+          "cls": "ml__stage",
+          "height": 665,
+          "width": 350,
+          "top": 56,
+          "scrollHeight": 663
+        },
+        {
+          "cls": "ml__panel",
+          "height": 499,
+          "width": 348,
+          "top": 156,
+          "scrollHeight": 499
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 360,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 399,
+          "width": 322,
+          "top": 110,
+          "scrollHeight": 399
+        },
+        {
+          "cls": "srl-step",
+          "height": 610,
+          "width": 322,
+          "top": 509,
+          "scrollHeight": 610
+        },
+        {
+          "cls": "srl-step",
+          "height": 208,
+          "width": 322,
+          "top": 1119,
+          "scrollHeight": 208
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 897,
+          "width": 350,
+          "top": -116,
+          "scrollHeight": 897
+        },
+        {
+          "cls": "ml__stage",
+          "height": 665,
+          "width": 350,
+          "top": 56,
+          "scrollHeight": 663
+        },
+        {
+          "cls": "ml__panel",
+          "height": 499,
+          "width": 348,
+          "top": 156,
+          "scrollHeight": 499
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 360,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 399,
+          "width": 322,
+          "top": 110,
+          "scrollHeight": 399
+        },
+        {
+          "cls": "srl-step",
+          "height": 610,
+          "width": 322,
+          "top": 509,
+          "scrollHeight": 610
+        },
+        {
+          "cls": "srl-step",
+          "height": 208,
+          "width": 322,
+          "top": 1119,
+          "scrollHeight": 208
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 332,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 744,
+          "width": 390,
+          "top": -76,
+          "scrollHeight": 744
+        },
+        {
+          "cls": "ml__stage",
+          "height": 541,
+          "width": 390,
+          "top": 67,
+          "scrollHeight": 539
+        },
+        {
+          "cls": "ml__panel",
+          "height": 385,
+          "width": 388,
+          "top": 156,
+          "scrollHeight": 385
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 400,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 399,
+          "width": 362,
+          "top": 110,
+          "scrollHeight": 399
+        },
+        {
+          "cls": "srl-step",
+          "height": 565,
+          "width": 362,
+          "top": 509,
+          "scrollHeight": 565
+        },
+        {
+          "cls": "srl-step",
+          "height": 208,
+          "width": 362,
+          "top": 1074,
+          "scrollHeight": 208
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 744,
+          "width": 390,
+          "top": -76,
+          "scrollHeight": 744
+        },
+        {
+          "cls": "ml__stage",
+          "height": 541,
+          "width": 390,
+          "top": 67,
+          "scrollHeight": 539
+        },
+        {
+          "cls": "ml__panel",
+          "height": 385,
+          "width": 388,
+          "top": 156,
+          "scrollHeight": 385
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 400,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 399,
+          "width": 362,
+          "top": 110,
+          "scrollHeight": 399
+        },
+        {
+          "cls": "srl-step",
+          "height": 565,
+          "width": 362,
+          "top": 509,
+          "scrollHeight": 565
+        },
+        {
+          "cls": "srl-step",
+          "height": 208,
+          "width": 362,
+          "top": 1074,
+          "scrollHeight": 208
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 469,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 537,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 605,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 372,
+          "top": 673,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 744,
+          "width": 704,
+          "top": -76,
+          "scrollHeight": 744
+        },
+        {
+          "cls": "ml__stage",
+          "height": 541,
+          "width": 704,
+          "top": 67,
+          "scrollHeight": 539
+        },
+        {
+          "cls": "ml__panel",
+          "height": 402,
+          "width": 702,
+          "top": 156,
+          "scrollHeight": 402
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 731,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 714,
+          "width": 682,
+          "top": 110,
+          "scrollHeight": 714
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 682,
+          "top": 824,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 682,
+          "top": 1167,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 456,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 524,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 592,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 660,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 744,
+          "width": 704,
+          "top": -76,
+          "scrollHeight": 744
+        },
+        {
+          "cls": "ml__stage",
+          "height": 541,
+          "width": 704,
+          "top": 67,
+          "scrollHeight": 539
+        },
+        {
+          "cls": "ml__panel",
+          "height": 402,
+          "width": 702,
+          "top": 156,
+          "scrollHeight": 402
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 147,
+          "width": 731,
+          "top": 110,
+          "scrollHeight": 145
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 714,
+          "width": 682,
+          "top": 110,
+          "scrollHeight": 714
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 682,
+          "top": 824,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 682,
+          "top": 1167,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 456,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 524,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 592,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 710,
+          "top": 660,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 566,
+          "width": 960,
+          "top": 65,
+          "scrollHeight": 566
+        },
+        {
+          "cls": "ml__stage",
+          "height": 566,
+          "width": 539,
+          "top": 65,
+          "scrollHeight": 564
+        },
+        {
+          "cls": "ml__panel",
+          "height": 408,
+          "width": 537,
+          "top": 156,
+          "scrollHeight": 408
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 433,
+          "width": 340,
+          "top": 110,
+          "scrollHeight": 431
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 714,
+          "width": 695,
+          "top": 110,
+          "scrollHeight": 714
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 695,
+          "top": 823,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 695,
+          "top": 1166,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 358,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 426,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 494,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 562,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 566,
+          "width": 960,
+          "top": 65,
+          "scrollHeight": 566
+        },
+        {
+          "cls": "ml__stage",
+          "height": 566,
+          "width": 539,
+          "top": 65,
+          "scrollHeight": 564
+        },
+        {
+          "cls": "ml__panel",
+          "height": 408,
+          "width": 537,
+          "top": 156,
+          "scrollHeight": 408
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 433,
+          "width": 340,
+          "top": 110,
+          "scrollHeight": 431
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 714,
+          "width": 695,
+          "top": 110,
+          "scrollHeight": 714
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 695,
+          "top": 823,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 695,
+          "top": 1166,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 358,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 426,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 494,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 409,
+          "top": 562,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 510,
+          "width": 1120,
+          "top": 102,
+          "scrollHeight": 510
+        },
+        {
+          "cls": "ml__stage",
+          "height": 510,
+          "width": 623,
+          "top": 102,
+          "scrollHeight": 508
+        },
+        {
+          "cls": "ml__panel",
+          "height": 408,
+          "width": 621,
+          "top": 156,
+          "scrollHeight": 408
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 433,
+          "width": 340,
+          "top": 110,
+          "scrollHeight": 431
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 671,
+          "width": 842,
+          "top": 110,
+          "scrollHeight": 671
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 842,
+          "top": 781,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 842,
+          "top": 1123,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 358,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 426,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 494,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 562,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "home",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "lab": [
+        {
+          "cls": "ml",
+          "height": 510,
+          "width": 1120,
+          "top": 102,
+          "scrollHeight": 510
+        },
+        {
+          "cls": "ml__stage",
+          "height": 510,
+          "width": 623,
+          "top": 102,
+          "scrollHeight": 508
+        },
+        {
+          "cls": "ml__panel",
+          "height": 408,
+          "width": 621,
+          "top": 156,
+          "scrollHeight": 408
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "pr-summary",
+          "height": 433,
+          "width": 340,
+          "top": 110,
+          "scrollHeight": 431
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "srl-step",
+          "height": 671,
+          "width": 842,
+          "top": 110,
+          "scrollHeight": 671
+        },
+        {
+          "cls": "srl-step",
+          "height": 343,
+          "width": 842,
+          "top": 781,
+          "scrollHeight": 343
+        },
+        {
+          "cls": "srl-step",
+          "height": 141,
+          "width": 842,
+          "top": 1123,
+          "scrollHeight": 141
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "tiles": 0,
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 358,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 426,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 494,
+          "scrollHeight": 56
+        },
+        {
+          "cls": "nta-option ",
+          "height": 58,
+          "width": 788,
+          "top": 562,
+          "scrollHeight": 56
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "reduced": true,
+      "state": {
+        "step": "Replay the session",
+        "tiles": 10,
+        "running": "false",
+        "overflow": 0
+      }
+    },
+    {
+      "width": 390,
+      "textZoom": "200%",
+      "state": {
+        "step": "Replay the session",
+        "tiles": 10,
+        "running": "false",
+        "overflow": 0
+      },
+      "geometry": [
+        {
+          "cls": "ml__panels",
+          "height": 1424,
+          "width": 348,
+          "top": 110,
+          "scrollHeight": 1430
+        },
+        {
+          "cls": "ml__panel",
+          "height": 1424,
+          "width": 348,
+          "top": 110,
+          "scrollHeight": 1424
+        },
+        {
+          "cls": "ml__panel",
+          "height": 1424,
+          "width": 348,
+          "top": 116,
+          "scrollHeight": 1424
+        },
+        {
+          "cls": "ml__panel",
+          "height": 1424,
+          "width": 348,
+          "top": 116,
+          "scrollHeight": 1424
+        },
+        {
+          "cls": "ml__panel",
+          "height": 1424,
+          "width": 348,
+          "top": 116,
+          "scrollHeight": 1424
+        }
+      ]
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "reduced": false,
+      "state": {
+        "step": "Replay the session",
+        "tiles": 0,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      }
+    }
+  ],
+  "timing": [
+    {
+      "width": 390,
+      "before": {
+        "step": "Replay the session",
+        "tiles": 0,
+        "running": "false",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "playing": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "paused": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "false",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "resumed": {
+        "step": "Replay the session",
+        "tiles": 4,
+        "running": "true",
+        "overflow": 0,
+        "guide": "local"
+      },
+      "manualAndRestart": "passed"
+    },
+    {
+      "width": 1440,
+      "before": {
+        "step": "Replay the session",
+        "tiles": 0,
+        "running": "false",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "playing": {
+        "step": "Replay the session",
+        "tiles": 2,
+        "running": "true",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "paused": {
+        "step": "Replay the session",
+        "tiles": 3,
+        "running": "false",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "resumed": {
+        "step": "Replay the session",
+        "tiles": 4,
+        "running": "true",
+        "overflow": 0,
+        "guide": "on"
+      },
+      "manualAndRestart": "passed"
+    }
+  ],
+  "interactions": [
+    {
+      "width": 320,
+      "theme": "dark",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 320,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 320,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "dark",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 360,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 360,
+      "theme": "light",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 360,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 390,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 696,
+          "width": 390,
+          "top": 62,
+          "scrollHeight": 734
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "dark",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 681,
+          "width": 430,
+          "top": 62,
+          "scrollHeight": 680
+        }
+      ]
+    },
+    {
+      "width": 430,
+      "theme": "light",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 681,
+          "width": 430,
+          "top": 62,
+          "scrollHeight": 680
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 681,
+          "width": 768,
+          "top": 62,
+          "scrollHeight": 680
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "menu": "More/no-jump/Escape/focus passed",
+      "geometry": [
+        {
+          "cls": "arena-sheet arena-mobile-only",
+          "height": 681,
+          "width": 768,
+          "top": 62,
+          "scrollHeight": 680
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

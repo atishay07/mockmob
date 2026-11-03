@@ -1,4 +1,5 @@
 import AppLayoutClient from './AppLayoutClient';
+import { connection } from 'next/server';
 
 export const metadata = {
   robots: {
@@ -11,6 +12,7 @@ export const metadata = {
   },
 };
 
-export default function AppLayout({ children }) {
-  return <AppLayoutClient>{children}</AppLayoutClient>;
+export default async function AppLayout({ children }) {
+  await connection();
+  return <AppLayoutClient studyEnabled={process.env.STUDY_CONTENT_ENABLED==='true'}>{children}</AppLayoutClient>;
 }

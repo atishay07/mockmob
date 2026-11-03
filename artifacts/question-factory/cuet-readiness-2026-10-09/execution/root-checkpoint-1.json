@@ -1,0 +1,303 @@
+{
+  "at": "2026-10-08T20:15:39.980Z",
+  "v75": {
+    "at": "2026-10-08T20:07:21.242Z",
+    "id": "v75-fresh-cbse2022-2026-10-09",
+    "denominator": 27,
+    "valid_roots": 13,
+    "controlled_defects": 14,
+    "terminal_topology": 27,
+    "eligible_valid": 8,
+    "controlled_false_accepts": [
+      "v75f-825e60a00f"
+    ],
+    "by_subject": {
+      "accountancy": {
+        "expected": 4,
+        "terminal": 4,
+        "eligible": 1
+      },
+      "business_studies": {
+        "expected": 3,
+        "terminal": 3,
+        "eligible": 3
+      },
+      "economics": {
+        "expected": 4,
+        "terminal": 4,
+        "eligible": 2
+      },
+      "english": {
+        "expected": 2,
+        "terminal": 2,
+        "eligible": 2
+      }
+    },
+    "provider_outcomes": {
+      "openai": {
+        "denominator": 27,
+        "counts": {
+          "judged": 27,
+          "error": 0,
+          "guard_blocked": 0,
+          "missing": 0,
+          "other": 0
+        },
+        "complete": true,
+        "positive_denominator": 13,
+        "positive_judged": 13,
+        "positive_comparison_complete": true
+      },
+      "gemini": {
+        "denominator": 27,
+        "counts": {
+          "judged": 27,
+          "error": 0,
+          "guard_blocked": 0,
+          "missing": 0,
+          "other": 0
+        },
+        "complete": true,
+        "positive_denominator": 13,
+        "positive_judged": 13,
+        "positive_comparison_complete": true
+      },
+      "anthropic": {
+        "denominator": 27,
+        "counts": {
+          "judged": 26,
+          "error": 1,
+          "guard_blocked": 0,
+          "missing": 0,
+          "other": 0
+        },
+        "complete": false,
+        "positive_denominator": 13,
+        "positive_judged": 13,
+        "positive_comparison_complete": true
+      }
+    },
+    "provider_errors": 1,
+    "provider_stage_errors": [
+      {
+        "id": "v75f-349175e27e",
+        "stage": "blinded_evaluation",
+        "provider": "anthropic",
+        "status": "error",
+        "error": "fetch failed"
+      }
+    ],
+    "stage_errors": [
+      {
+        "id": "v75f-349175e27e",
+        "stage": "blinded_evaluation",
+        "provider": "anthropic",
+        "status": "error",
+        "error": "fetch failed"
+      }
+    ],
+    "execution_finished": true,
+    "release_evidence_complete": false,
+    "haiku": {
+      "role": "Fresh blinded key and CUET-fit comparison only; never substituted into publication topology.",
+      "comparison_applicable": true,
+      "valid_denominator": 13,
+      "observed": 13,
+      "comparison_complete": false,
+      "source_supported_unique_key_matches": 11,
+      "cuet_fit_passes": 10
+    },
+    "settled_usd": 0.522978,
+    "held_usd": 0.008596,
+    "gross_usd": 0.531574,
+    "receipt_complete": false,
+    "publication_writes": 0,
+    "release": false,
+    "provenance_notice": "Fresh benchmark cases are original or adapted practice derived from their cited sources; source papers are not authenticated CUET PYQs.",
+    "limitation": "Official source keys and blinded checks are measured evidence; correlated papers/paired controls and model agreement do not establish perfect accuracy."
+  },
+  "v75_bound_files": [
+    {
+      "path": "scripts/pipeline/lib/originalAuthorPolicyV74.mjs",
+      "expected": "6eccb64a815ffae581bf9c89793485f2d57179ae6b4d0f5b77242faccedd6a42",
+      "actual": "6eccb64a815ffae581bf9c89793485f2d57179ae6b4d0f5b77242faccedd6a42"
+    },
+    {
+      "path": "scripts/pipeline/lib/originalAuthorPolicyV75.mjs",
+      "expected": "8aab789d46c3d96fff0c4361e0a91184beb0b9be1e0c5cfbad0143163f9f1890",
+      "actual": "8aab789d46c3d96fff0c4361e0a91184beb0b9be1e0c5cfbad0143163f9f1890"
+    },
+    {
+      "path": "scripts/pipeline/lib/preparationValueV75.mjs",
+      "expected": "118f81e6b436fc34346496fac99629b36b7d352568548b29e1f41c878e6f0977",
+      "actual": "118f81e6b436fc34346496fac99629b36b7d352568548b29e1f41c878e6f0977"
+    },
+    {
+      "path": "scripts/pipeline/lib/contractV74.mjs",
+      "expected": "c99486eae474dff1ad68718b5a46b8579c74faa80357c8691ede8620c270c05b",
+      "actual": "c99486eae474dff1ad68718b5a46b8579c74faa80357c8691ede8620c270c05b"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidenceV74.mjs",
+      "expected": "7e1ba75a7c5f6460ec722cab3403b2c21cd057e3b0616dfa60374b4d69c78f91",
+      "actual": "7e1ba75a7c5f6460ec722cab3403b2c21cd057e3b0616dfa60374b4d69c78f91"
+    },
+    {
+      "path": "scripts/pipeline/lib/verifyV74.mjs",
+      "expected": "02fb15bdcef81c85982f33283e01145ba39508251927cb51c6651b1cf34f8e2d",
+      "actual": "02fb15bdcef81c85982f33283e01145ba39508251927cb51c6651b1cf34f8e2d"
+    },
+    {
+      "path": "scripts/pipeline/lib/releaseEvidenceV74.mjs",
+      "expected": "6f64018613338a3786f0f8e834f5d77424edbf9ff6b170e4f232e85af7125ffb",
+      "actual": "6f64018613338a3786f0f8e834f5d77424edbf9ff6b170e4f232e85af7125ffb"
+    },
+    {
+      "path": "scripts/pipeline/lib/contractV73.mjs",
+      "expected": "6c632c342f4d2cf011c7ee1ba478303d48104c73358527922df3106c38c83db4",
+      "actual": "6c632c342f4d2cf011c7ee1ba478303d48104c73358527922df3106c38c83db4"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidenceV73.mjs",
+      "expected": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+      "actual": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e"
+    },
+    {
+      "path": "scripts/pipeline/lib/verifyV73.mjs",
+      "expected": "6ea101a08b07947798ebd9e8c289eae2f1d3fc7ce666a9cb05f7346ea8b2ec5f",
+      "actual": "6ea101a08b07947798ebd9e8c289eae2f1d3fc7ce666a9cb05f7346ea8b2ec5f"
+    },
+    {
+      "path": "scripts/pipeline/lib/releaseEvidenceV73.mjs",
+      "expected": "d76a46880c5c19128a053e10b8137dc43076540b2b7ee3264912c2e5451036a7",
+      "actual": "d76a46880c5c19128a053e10b8137dc43076540b2b7ee3264912c2e5451036a7"
+    },
+    {
+      "path": "scripts/pipeline/tools/runFreshCuetReadinessV75.mjs",
+      "expected": "b754b9076a29193b3a12099bfd94fc5080c105dd9a17425520aff3852a994922",
+      "actual": "b754b9076a29193b3a12099bfd94fc5080c105dd9a17425520aff3852a994922"
+    },
+    {
+      "path": "scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs",
+      "expected": "c003c070dbc3363147914432e06fe4d99d55c9667152c60cde97043911577317",
+      "actual": "c003c070dbc3363147914432e06fe4d99d55c9667152c60cde97043911577317"
+    },
+    {
+      "path": "scripts/pipeline/lib/releaseEvidenceV75.mjs",
+      "expected": "276f82b7b772fdef3c04483e23eadae9d88de62e50a966e2a92d0f8f78fbc88e",
+      "actual": "276f82b7b772fdef3c04483e23eadae9d88de62e50a966e2a92d0f8f78fbc88e"
+    },
+    {
+      "path": "scripts/pipeline/lib/releaseEvidenceV7.mjs",
+      "expected": "315288c1cc9c7b2a51a89200730fa9e94b0d35542cd63615d41abc0fbb0fcf10",
+      "actual": "315288c1cc9c7b2a51a89200730fa9e94b0d35542cd63615d41abc0fbb0fcf10"
+    },
+    {
+      "path": "scripts/pipeline/lib/campaignExecutionV7.mjs",
+      "expected": "489f302f60cc2e40a2c19c90f50aa3d2c1b8f15b53ea2aa9fc388129abf84f16",
+      "actual": "489f302f60cc2e40a2c19c90f50aa3d2c1b8f15b53ea2aa9fc388129abf84f16"
+    },
+    {
+      "path": "scripts/pipeline/lib/scopedAccounting.mjs",
+      "expected": "c8f25c99a307c4aacc98a9a82762d0bbbf8851133364d4065f5d2b72996564fb",
+      "actual": "c8f25c99a307c4aacc98a9a82762d0bbbf8851133364d4065f5d2b72996564fb"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryTransport.mjs",
+      "expected": "40df58fccc18ad9ddfb7e589bba6aab1a899cff1f8cdf68514a31a7a91fc1be8",
+      "actual": "40df58fccc18ad9ddfb7e589bba6aab1a899cff1f8cdf68514a31a7a91fc1be8"
+    },
+    {
+      "path": "scripts/pipeline/lib/budgetLedger.mjs",
+      "expected": "4942d10e062b70bdf18320c1bef9559d56273a1c9152fb122744f18960597f41",
+      "actual": "4942d10e062b70bdf18320c1bef9559d56273a1c9152fb122744f18960597f41"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidenceV75.mjs",
+      "expected": "ff4df76e882505a4d6d08ebf755c73212cd4bdb8b77a94f9bc8f11fc03b4bc7b",
+      "actual": "ff4df76e882505a4d6d08ebf755c73212cd4bdb8b77a94f9bc8f11fc03b4bc7b"
+    },
+    {
+      "path": "scripts/pipeline/lib/verifyV75.mjs",
+      "expected": "459f14e23f3c6d1ba76278174464287a17e3d4d9daf09208011d1ba51b4c056f",
+      "actual": "459f14e23f3c6d1ba76278174464287a17e3d4d9daf09208011d1ba51b4c056f"
+    },
+    {
+      "path": "scripts/pipeline/lib/evidencePipeline.mjs",
+      "expected": "0557f6f10aa32f3f7dd276d1cf32c5c82a1d3796c37da631a568cac66842a741",
+      "actual": "0557f6f10aa32f3f7dd276d1cf32c5c82a1d3796c37da631a568cac66842a741"
+    },
+    {
+      "path": "scripts/pipeline/lib/atomicArtifact.mjs",
+      "expected": "b1fd0508f098738595bc55837c9ae59e771a6d8c4186ff02ff0750b7694ac1c2",
+      "actual": "b1fd0508f098738595bc55837c9ae59e771a6d8c4186ff02ff0750b7694ac1c2"
+    },
+    {
+      "path": "scripts/pipeline/lib/cuetExemplarPolicyVNext.mjs",
+      "expected": "725a667be53c4043080f77d41643f35b8ae1fc479b0c33b2f8f773f538024221",
+      "actual": "725a667be53c4043080f77d41643f35b8ae1fc479b0c33b2f8f773f538024221"
+    },
+    {
+      "path": "scripts/pipeline/lib/contractV75.mjs",
+      "expected": "6e4ee9b80fe3ce521692f84bd6a0ec9d4b3ce10493bdd58fa06f0e25073d3994",
+      "actual": "6e4ee9b80fe3ce521692f84bd6a0ec9d4b3ce10493bdd58fa06f0e25073d3994"
+    },
+    {
+      "path": "scripts/pipeline/lib/cuetFitBenchmark.mjs",
+      "expected": "1700fba3750f5941db1e1ab32c485f165c81c4cd3bafbcc94d6ffcba9cac51be",
+      "actual": "1700fba3750f5941db1e1ab32c485f165c81c4cd3bafbcc94d6ffcba9cac51be"
+    },
+    {
+      "path": "data/question_presentation.mjs",
+      "expected": "b357af315aae1bea1189515d3dc82d33e581e597b5e3ac1a44bd48bd8913b5c0",
+      "actual": "b357af315aae1bea1189515d3dc82d33e581e597b5e3ac1a44bd48bd8913b5c0"
+    },
+    {
+      "path": "data/question_factory_policy.mjs",
+      "expected": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3",
+      "actual": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3"
+    },
+    {
+      "path": "data/cuet_fit_evidence.mjs",
+      "expected": "7f203bed864975b4ed1f4b74c3805ebb361b36073fd54f164a1b8906bd61bd36",
+      "actual": "7f203bed864975b4ed1f4b74c3805ebb361b36073fd54f164a1b8906bd61bd36"
+    }
+  ],
+  "frozen_v75_integrity": true,
+  "v76_freeze": {
+    "verifier_version": "cuet-fit-validator-v7.6",
+    "validation_contract_hash": "1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec",
+    "parent_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "prompt_hash": "9e84c690509fbf97a8228d9ea1f904f1a5e64d36435aeba859a0edc30c00c672",
+    "author_policy_hash": "11b190d2bb925ff2fe64f1bf1ad7c32c911bbd277c825428beb67f7b08e94fed",
+    "file_sha256": {
+      "scripts/pipeline/lib/contractV76.mjs": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97",
+      "scripts/pipeline/lib/preparationValueV76.mjs": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4",
+      "scripts/pipeline/lib/originalAuthorPolicyV76.mjs": "27ea271b6a47dbd6a2f2672c423acca27777026581d9ca1205f86b1a9c5a30eb",
+      "scripts/pipeline/lib/factoryEvidenceV76.mjs": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+      "scripts/pipeline/lib/verifyV76.mjs": "66ad1cd5b6da9b71dc9305779379214a101daf39655d55bafb5d1c1132e38af9",
+      "scripts/pipeline/lib/releaseEvidenceV76.mjs": "7e84580947ccf9fdf1c9b64ff7bc9b32ba15594f523f0dceaa227e5ffe0fd130",
+      "scripts/pipeline/lib/factoryProfileV76.mjs": "b5e06863a95aea3180eeea628c1e27519df2a4f0aa58c1dd21fb48b175bcb4e8",
+      "scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs": "0141d237275dfc4ccfdfd85d9ef494764a0201b7d10ad4c6b7a67cf02417b932",
+      "scripts/pipeline/tools/runFreshCuetReadinessV76.mjs": "d4819ae23fa47a53244e5532371db62cf290c232b23ef9a02312c1031e69e59a"
+    },
+    "frozen_at": "2026-10-08T20:15:38.538Z"
+  },
+  "tests": {
+    "factory": 662,
+    "recovery": 40,
+    "selected_question_payment_budget": 38,
+    "local_application_build": "passed"
+  },
+  "lifetime": {
+    "settled_usd": 34.477538,
+    "held_usd": 0.507892,
+    "committed_usd": 34.98543,
+    "remaining_usd": 15.01457,
+    "unresolved": 37
+  },
+  "paid_calls_this_continuation": 0,
+  "publication": 0,
+  "qualification_next": "construct fresh source-keyed packet after freeze, then independent custody before evaluation",
+  "goal": "active"
+}

@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-09T08:05:12.739Z",
+  "read_only_database": true,
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.36459,
+    "unresolved": 37,
+    "requests": 13925
+  },
+  "v75": {
+    "total": 100,
+    "states": {
+      "complete": 99,
+      "unresolved": 1
+    },
+    "unresolved_records": [
+      {
+        "id": "2bc7cf40a3ff06087ead004c052379838b428faf2ba073532b4f2176bebef654",
+        "state": "unresolved",
+        "reservation_id": "1235a9c2-694d-4547-99c5-e23d5e97c0cc"
+      }
+    ]
+  },
+  "v76": {
+    "total": 118,
+    "states": {
+      "complete": 118
+    },
+    "unresolved_records": []
+  },
+  "v77": {
+    "total": 0,
+    "states": {},
+    "unresolved_records": []
+  },
+  "lease_present": false,
+  "pricing": {
+    "expires_at": "2026-10-12T21:37:55.116Z",
+    "valid": true
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-07T04:02:38.533Z",
+  "project_ref": "isrxrxzjocewrdureyhp",
+  "checks": [
+    {
+      "table": "questions",
+      "readable": true,
+      "error": null
+    },
+    {
+      "table": "passage_groups",
+      "readable": true,
+      "error": null
+    },
+    {
+      "table": "recovery_family_holds",
+      "readable": true,
+      "error": null
+    },
+    {
+      "table": "question_factory_control",
+      "readable": false,
+      "error": {
+        "code": "PGRST205",
+        "message": "Could not find the table 'public.question_factory_control' in the schema cache"
+      }
+    }
+  ],
+  "prerequisites_readable": true,
+  "factory_schema_exists": false,
+  "migration_sha256": "a8171a0ec1d1ae60042fd240eed8546925f334572615323bf46f8173efb52fca",
+  "staging_dry_run": "../staging/dry-run.json",
+  "staging_atomicity": "../staging/storage-contract-checks.json",
+  "production_writes": 0,
+  "approval_required": true
+}

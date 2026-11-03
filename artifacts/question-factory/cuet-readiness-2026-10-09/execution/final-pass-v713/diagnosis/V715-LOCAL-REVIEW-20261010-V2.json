@@ -1,0 +1,66 @@
+{
+  "schema": "cuet-v715-local-review-v1",
+  "created_at": "2026-10-09T21:51:50.172Z",
+  "verifier_version": "cuet-fit-validator-v7.15-printed-source-binding",
+  "validation_contract_hash": "e44f34f94187283d851db1d6b46d95615e02de089bcbc783d7a312344f77de9d",
+  "prompt_hash": "d900a166e86cf3607cc823f9fc664a04901a721deb222711df2a4105a38e3521",
+  "files": {
+    "scripts/pipeline/lib/contractV715.mjs": "7d7d98a2bf32f90dbc7d2b47453a12a48b664cd08aaa413fec041a1c22c574fd",
+    "scripts/pipeline/lib/factoryEvidenceV715.mjs": "2bb1ff6b950aef2a56425c821749096f82373b71678e3cea134f804812dc2372",
+    "scripts/pipeline/lib/verifyV715.mjs": "038cf00cd5734171d07715224bfac00f0d766adfa45badb584965ab46b932f5f",
+    "scripts/pipeline/lib/compactValidationV715.mjs": "113f0eda9f4fcc639a7f838a5ccca125f44c7c5ca73fa168804e7f0511d69139",
+    "scripts/pipeline/lib/optionResolutionV715.mjs": "cdabd204e1097d6a43db4fb6151cb0696c0ee7c47728d6536c72ab8ccd4decd8"
+  },
+  "focused_test": {
+    "path": "scripts/pipeline/tests/v715OptionResolution.test.mjs",
+    "sha256": "054fcc39f3a11cc74142ff62048957d34b71142d7fd282c36a23a50566c64618",
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "coverage": [
+      "literal printed line-hyphen quote",
+      "inherited source line-hyphen join",
+      "word/hyphen/numeric boundaries",
+      "complete four-option matrix",
+      "arithmetic empty evidence ID and excerpt ID rejection",
+      "current adapter schema/profile stamps",
+      "end-to-end current profile and two matrix audit",
+      "stale profile fail-closed",
+      "missing resolution audit fail-closed"
+    ]
+  },
+  "body_sizing": {
+    "artifact": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/v715-body-size-diagnostic.json",
+    "artifact_sha256": "939baf6e64acfd5dd0b73863dbf978666ff819b51c1bc02f1e53a0763b2b6023",
+    "fixture_count": 37,
+    "request_count": 222,
+    "maximum_request_bytes": 32811,
+    "input_bound_bytes": 33024,
+    "headroom_bytes": 213,
+    "over_bound": 0,
+    "synthetic_responses": true,
+    "academic_evidence": false
+  },
+  "immutable_dependencies": {
+    "v714": {
+      "manifest_sha256": "095b049fc43bf20f014c09b0f4dad4bb6d1870cfcc6421aca88aedd985d98092",
+      "checked": 5,
+      "expected_checked": 5
+    },
+    "v713": {
+      "manifest_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+      "checked": 118,
+      "expected_checked": 118
+    },
+    "r3": {
+      "manifest_sha256": "9af13e0e9d3c99646a454b45fa60ca7fd03a09159f4fba11f5d10239e37be4e1",
+      "checked": 8,
+      "expected_checked": 8
+    }
+  },
+  "paid_calls": 0,
+  "qualification": "not_run",
+  "release": false,
+  "supersedes_invalid_json_artifact_sha256": "21c277c40116d5f59df8ffeabd3b04ab2646e0deb749e6c13e937f31e48d110e",
+  "artifact_note": "Corrected create-only copy; the original artifact is preserved. Only its trailing literal backslash-n was removed."
+}

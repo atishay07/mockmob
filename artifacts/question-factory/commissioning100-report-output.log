@@ -1,0 +1,225 @@
+{
+  "at": "2026-10-06T08:06:08.387Z",
+  "target": 100,
+  "generated": 100,
+  "terminal": 100,
+  "eligible": 48,
+  "quarantined": 52,
+  "published": 0,
+  "acceptance": 0.48,
+  "by_subject": {
+    "english": {
+      "generated": 25,
+      "eligible": 5,
+      "quarantined": 20,
+      "chapters": [
+        "Vocabulary"
+      ]
+    },
+    "accountancy": {
+      "generated": 25,
+      "eligible": 15,
+      "quarantined": 10,
+      "chapters": [
+        "Financial Statements of Company",
+        "Profit & Loss Appropriation Account",
+        "Partnership Fundamentals",
+        "Share Capital"
+      ]
+    },
+    "business_studies": {
+      "generated": 25,
+      "eligible": 11,
+      "quarantined": 14,
+      "chapters": [
+        "Business Environment",
+        "Marketing Management"
+      ]
+    },
+    "economics": {
+      "generated": 25,
+      "eligible": 17,
+      "quarantined": 8,
+      "chapters": [
+        "Government Budget & the Economy",
+        "Balance of Payments",
+        "Money & Banking",
+        "Income Determination",
+        "National Income & Related Aggregates"
+      ]
+    }
+  },
+  "formats": {
+    "synonym": 15,
+    "antonym": 7,
+    "synonym in context": 1,
+    "vocabulary in context": 1,
+    "match_type": 10,
+    "sequence_ordering": 6,
+    "application_mcq": 1,
+    "application MCQ": 1,
+    "concept_identification": 12,
+    "concept_application": 3,
+    "application_classification": 1,
+    "application": 2,
+    "direct_recall": 9,
+    "matching": 1,
+    "multiple_choice": 2,
+    "reverse_identification": 1,
+    "sequence": 1,
+    "antonym in context": 1,
+    "conceptual_mcq": 2,
+    "factual_recall": 2,
+    "numerical_mcq": 1,
+    "single_correct_numerical": 1,
+    "single_correct_mcq": 1,
+    "statement_selection": 4,
+    "multiple_choice_numerical": 1,
+    "numerical_calculation": 1,
+    "numerical_multiple_choice": 3,
+    "application_single_correct": 1,
+    "conceptual_application": 2,
+    "case_application": 6
+  },
+  "routes": {
+    "conceptual": 80,
+    "application": 1,
+    "numerical": 9,
+    "passage": 10
+  },
+  "difficulty": {
+    "easy": 64,
+    "medium": 36
+  },
+  "format_groups": {
+    "vocabulary": 25,
+    "matching": 11,
+    "sequence": 7,
+    "concept/application MCQ": 34,
+    "numerical MCQ": 9,
+    "statement selection": 4,
+    "passage group": 10
+  },
+  "eligible_routes": {
+    "conceptual": 34,
+    "numerical": 9,
+    "passage": 5
+  },
+  "eligible_source_kinds": {
+    "authentic_pyq": 19,
+    "pyq_adapted": 29
+  },
+  "source_kinds": {
+    "pyq_adapted": 71,
+    "authentic_pyq": 29
+  },
+  "unique_fingerprints": 97,
+  "eligible_unique_fingerprints": 48,
+  "unique_anchor_families": 29,
+  "passage_groups": 2,
+  "eligible_anchor_families": 25,
+  "repairs": 51,
+  "rejection_reasons": {
+    "failed:source_support": 14,
+    "provider_output_incomplete": 18,
+    "duplicate_existing_inventory": 3,
+    "repair_abstained": 10,
+    "invalid_key": 1,
+    "failed:explanation_support": 4,
+    "unknown_route": 1,
+    "passage_sibling_quarantined": 5
+  },
+  "cost": {
+    "campaign_gross_usd": 0.769063,
+    "campaign_stages": {
+      "authoring": {
+        "requests": 102,
+        "cost_usd": 0.052610000000000025,
+        "input_tokens": 256872,
+        "output_tokens": 53763,
+        "reasoning_tokens": 38096
+      },
+      "blind_solution": {
+        "requests": 126,
+        "cost_usd": 0.1561780000000001,
+        "input_tokens": 445743,
+        "output_tokens": 223095,
+        "reasoning_tokens": 186684
+      },
+      "independent_evaluation": {
+        "requests": 68,
+        "cost_usd": 0.46977399999999997,
+        "input_tokens": 278299,
+        "output_tokens": 69606,
+        "reasoning_tokens": 46096
+      },
+      "repair": {
+        "requests": 51,
+        "cost_usd": 0.03904599999999999,
+        "input_tokens": 79502,
+        "output_tokens": 62144,
+        "reasoning_tokens": 55809
+      },
+      "explanation_support": {
+        "requests": 67,
+        "cost_usd": 0.047596999999999993,
+        "input_tokens": 282835,
+        "output_tokens": 38569,
+        "reasoning_tokens": 28218
+      }
+    },
+    "conservative_failure_debit_usd": 0.003858,
+    "provider_usage_cost_usd": 0.765205,
+    "per_candidate_usd": 0.007690629999999999,
+    "per_eligible_usd": 0.01602214583333333,
+    "ledger_gross_usd": 1.419007,
+    "held_usd": 0,
+    "available_usd": 48.580993,
+    "mode": "standard direct requests",
+    "batch_equivalent_usd": 0.382712,
+    "batch_forecast_10000_eligible_usd": 79.73166666666665,
+    "additional_eligible_affordable": 6093,
+    "prospective_total_eligible_affordable": 6141,
+    "shortfall_to_10000_usd": 30.767961666666643,
+    "forecast_basis": "Token-priced batch estimate at observed acceptance. Not a completed batch invoice or a throughput guarantee; source expansion may change these costs.",
+    "credits_applied": "Unverified; report uses gross API cost"
+  },
+  "calibration": {
+    "state": "released",
+    "valid": 16,
+    "valid_eligible": 16,
+    "known_bad": 12,
+    "known_bad_accepted": 0,
+    "by_subject": {
+      "english": {
+        "sample_size": 3,
+        "luna": 1,
+        "gemini": 1
+      },
+      "accountancy": {
+        "sample_size": 6,
+        "luna": 1,
+        "gemini": 1
+      },
+      "business_studies": {
+        "sample_size": 4,
+        "luna": 1,
+        "gemini": 1
+      },
+      "economics": {
+        "sample_size": 3,
+        "luna": 1,
+        "gemini": 1
+      }
+    },
+    "verifier": "luna-gemini-cuET-v3.1"
+  },
+  "publication_row_preparation": 48,
+  "production_changes": 0,
+  "caveats": [
+    "Eligible means all configured automated checks passed, not a guarantee of zero errors.",
+    "Quarantine includes redundancy, incomplete model output and unsupported content; it is not automatically a wrong academic answer.",
+    "Sources span four 2024 paper identities; coverage is too narrow to claim a 10000-question source foundation.",
+    "Staging migration, authenticated admin operations and deployment remain unverified."
+  ]
+}

@@ -1,0 +1,38 @@
+38 Accountancy : Company Accounts and Analysis of Financial Statements
+It may be noted here that when the shares are forfeited, all entries relating to the
+forfeited shares must be reversed except the entry relating to share premium received, if
+any. Accordingly, the share capital is debited to the extent to called-up capital and credited
+to (i) respective unpaid calls account i.e., calls in arrears and (ii) share forfeiture account
+with the amount already received on shares.
+The balance of shares forfeited account is shown as an addition to the total
+paid-up capital of the company under the head ‘Share Capital’ under title
+‘Equity and Liabilities’ of the Balance Sheet till the forfeited shares are reissued.
+Illustration 10
+Honda Limited issued 10,000 equity shares of 100 each payable as follows:
+Rs. 20 on application, Rs. 30 on allotment, Rs. 20 on first call and Rs. 30 on
+second and final calls 10,000 shares were applied for and allotted. All money
+due was received with the exception of both calls on 300 shares held by Supriya.
+These shares were forfeited. Give necessary journal entries.
+Solution
+Books of Honda Limited
+Journal
+ Date Particulars L.F. Debit Credit
+Amount Amount
+(Rs.) (Rs.)
+Bank A/c Dr. 2,00,000
+To Equity Share Application A/c 2,00,000
+(Application money on 10,000 shares
+@Rs.20 per share received)
+Share Application A/c Dr. 2,00,000
+To Equity Share Capital A/c 2,00,000
+(Application money transferred to
+share capital)
+Share Allotment A/c Dr. 3,00,000
+To Equity Share Capital A/c 3,00,000
+(Money due on allotment of 10,000 shares
+@Rs. 30 per share)
+Bank A/c Dr. 3,00,000
+To Equity Share Allotment A/c 3,00,000
+(Allotment Money received on 10,000 shares
+@ Rs. 30 per share on )
+Reprint 2026-27

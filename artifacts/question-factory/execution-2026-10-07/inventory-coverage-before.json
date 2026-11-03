@@ -1,0 +1,525 @@
+{
+  "contract": "syllabus-usable-inventory-v1",
+  "baseline": "CUET UG 2026, provisional for 2027; four options, +5 correct, -1 incorrect, 0 unanswered, 50 questions, 60 minutes, 250 maximum raw marks",
+  "final_2027_rules_verified": false,
+  "inventory_at": "2026-10-06T20:24:04.886Z",
+  "inventory_hash": "aad300cbc6514d4125fd77de76e093e78d80a2deac31769b4dffccc45f42b477",
+  "total_usable": 0,
+  "excluded": {
+    "outside_current_syllabus": 6440,
+    "not_usable": 2719,
+    "disputed_or_family_held": 83
+  },
+  "cells": [
+    {
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "topic": "Factual Passage",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "topic": "Narrative Passage",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "topic": "Literary Passage",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Para Jumbles",
+      "topic": "Para Jumbles",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Match the Following",
+      "topic": "Match the Following",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "topic": "Vocabulary",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "english",
+      "chapter": "Correct Word Usage",
+      "topic": "Correct Word Usage",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "topic": "Partnership Fundamentals",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Profit & Loss Appropriation Account",
+      "topic": "Profit & Loss Appropriation Account",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "topic": "Change in Profit Sharing Ratio",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation",
+      "topic": "Goodwill Valuation",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "topic": "Admission of Partner",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Retirement & Death of Partner",
+      "topic": "Retirement & Death of Partner",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership Firm",
+      "topic": "Dissolution of Partnership Firm",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "topic": "Share Capital",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "topic": "Debentures",
+      "branch": "common",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "topic": "Financial Statements of Company",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "topic": "Analysis of Financial Statements",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Comparative & Common Size Statements",
+      "topic": "Comparative & Common Size Statements",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "topic": "Accounting Ratios",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "topic": "Cash Flow Statement",
+      "branch": "financial_analysis",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Computerized Accounting System",
+      "topic": "Computerized Accounting System",
+      "branch": "computerized",
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "topic": "Nature & Significance of Management",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Principles of Management",
+      "topic": "Principles of Management",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "topic": "Business Environment",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "topic": "Planning",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "topic": "Organising",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "topic": "Staffing",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "topic": "Directing",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "topic": "Controlling",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "topic": "Financial Management",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Financial Markets",
+      "topic": "Financial Markets",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "topic": "Marketing Management",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "topic": "Consumer Protection",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "topic": "Introduction & Theory of Consumer Behaviour",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "topic": "Production & Costs",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "topic": "Theory of Firms under Perfect Competition",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Market Equilibrium & Simple Applications",
+      "topic": "Market Equilibrium & Simple Applications",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "topic": "National Income & Related Aggregates",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "topic": "Money & Banking",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "topic": "Income Determination",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "topic": "Government Budget & the Economy",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "topic": "Balance of Payments",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "topic": "Indian Economy on the Eve of Independence",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Indian Economic Development 1950–1990",
+      "topic": "Indian Economic Development 1950–1990",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Economic Reforms Since 1991",
+      "topic": "Economic Reforms Since 1991",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Human Capital Formation",
+      "topic": "Human Capital Formation",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Rural Development",
+      "topic": "Rural Development",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Employment",
+      "topic": "Employment",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Environment & Sustainable Development",
+      "topic": "Environment & Sustainable Development",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    },
+    {
+      "subject": "economics",
+      "chapter": "Development Experiences of India",
+      "topic": "Development Experiences of India",
+      "branch": null,
+      "usable": 0,
+      "formats": {},
+      "difficulties": {},
+      "ideas": []
+    }
+  ]
+}

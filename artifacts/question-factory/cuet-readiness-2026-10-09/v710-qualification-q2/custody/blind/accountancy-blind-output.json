@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "6,00,000 applications exceed 5,00,000 offered: over subscription per excerpt F3."
+    },
+    "B": {
+     "status": "true",
+     "why": "5,50,000 applications also exceed 5,00,000 offered: also over subscription."
+    },
+    "C": {
+     "status": "false",
+     "why": "Exactly equal to the offer is not more than offered, so not over subscription."
+    },
+    "D": {
+     "status": "false",
+     "why": "4,50,000 < 5,00,000 is under subscription."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Two options (A and B) both satisfy the definition; stem asks for 'which' situation with no way to pick one.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair CUET Share Capital concept.",
+   "quality_note": "Defective: two correct options (A and B); needs rewriting (e.g. only one option exceeding the offer)."
+  },
+  {
+   "local_id": "acc-b2",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Charge is on a specific machine, i.e. fixed, not floating (F12)."
+    },
+    "B": {
+     "status": "false",
+     "why": "A charge on an asset makes them secured; lump-sum repayment after 10 years makes them redeemable."
+    },
+    "C": {
+     "status": "true",
+     "why": "Specific asset held for use in operations -> fixed charge; payable in lump sum on expiry of a specified period -> redeemable."
+    },
+    "D": {
+     "status": "false",
+     "why": "Payable on expiry of 10 years is redeemable (F12), not irredeemable."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair for Debentures chapter.",
+   "quality_note": "Clear, single answer; distractors plausible."
+  },
+  {
+   "local_id": "acc-b3",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Does not result from any consistent NCERT-method computation."
+    },
+    "B": {
+     "status": "true",
+     "why": "Beginning of quarter: avg period 7.5 months on total withdrawn: 96,000 x 10% x 7.5/12 = 6,000."
+    },
+    "C": {
+     "status": "false",
+     "why": "7,200 would correspond to 9 months (96,000x10%x9/12); not the NCERT period."
+    },
+    "D": {
+     "status": "false",
+     "why": "9,600 is a full year's interest, 96,000x10%; wrong period."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Total drawings = 24,000x4 = 96,000. Average period = (12+3)/2 = 7.5 months. Interest = 96,000 x 10/100 x 7.5/12 = 9,600 x 0.625 = 6,000.",
+   "syllabus_fit": "Fair for Partnership Fundamentals.",
+   "quality_note": "Clear; 'NCERT method' wording slightly meta but excerpt supports it."
+  },
+  {
+   "local_id": "acc-b4",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Premium paid privately by new partner to old partners: no entry in the firm's books (F6)."
+    },
+    "B": {
+     "status": "false",
+     "why": "Bank/premium entry applies only when amount is paid through the firm."
+    },
+    "C": {
+     "status": "false",
+     "why": "Crediting new partner's capital applies only when brought into firm."
+    },
+    "D": {
+     "status": "false",
+     "why": "Goodwill A/c is not raised here; amount not received by firm."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair for Admission of a Partner.",
+   "quality_note": "Clear, single answer; distractors are the through-the-firm treatments."
+  },
+  {
+   "local_id": "acc-b5",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Not matching any period computation."
+    },
+    "B": {
+     "status": "false",
+     "why": "4,800 would use 6 months (120,000x8%x6/12); not the end-of-quarter period."
+    },
+    "C": {
+     "status": "false",
+     "why": "6,000 would use 7.5 months (beginning-of-quarter); drawings are at the end."
+    },
+    "D": {
+     "status": "true",
+     "why": "End of quarter: average period 4.5 months: 1,20,000 x 8% x 4.5/12 = 3,600."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Total = 30,000x4 = 1,20,000. Average period = (9+0)/2 = 4.5 months. Interest = 1,20,000 x 8/100 x 4.5/12 = 9,600 x 0.375 = 3,600.",
+   "syllabus_fit": "Fair for Partnership Fundamentals.",
+   "quality_note": "Clear; good distractor (beginning-of-quarter answer)."
+  },
+  {
+   "local_id": "acc-b6",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "1,35,000 = 45,000x3, wrong number of years."
+    },
+    "B": {
+     "status": "true",
+     "why": "Goodwill = average profit x years = 45,000 x 4 = 1,80,000."
+    },
+    "C": {
+     "status": "false",
+     "why": "4,500 has no basis."
+    },
+    "D": {
+     "status": "false",
+     "why": "49,000 = 45,000+4,000, adds rather than multiplies."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Goodwill = 45,000 x 4 = 1,80,000.",
+   "syllabus_fit": "Fair for Admission of a Partner.",
+   "quality_note": "Clear, single answer."
+  },
+  {
+   "local_id": "acc-b7",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Ratio reversed: P's share is 2/3 = 20,000."
+    },
+    "B": {
+     "status": "true",
+     "why": "General reserve distributed in profit-sharing ratio 2:1: P 30,000x2/3 = 20,000; Q 10,000."
+    },
+    "C": {
+     "status": "false",
+     "why": "Equal split ignores 2:1 ratio."
+    },
+    "D": {
+     "status": "false",
+     "why": "Reserve is credited to partners' capital accounts (F13), not Realisation A/c."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "P = 30,000 x 2/3 = 20,000; Q = 30,000 x 1/3 = 10,000.",
+   "syllabus_fit": "Fair for Dissolution of a Partnership Firm.",
+   "quality_note": "Clear; no stated exception (e.g. any agreement otherwise), standard treatment."
+  },
+  {
+   "local_id": "acc-b8",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Allotment cannot exceed applications received."
+    },
+    "B": {
+     "status": "false",
+     "why": "20,000 is the shortfall, not the allotted number."
+    },
+    "C": {
+     "status": "true",
+     "why": "Per F4, in under subscription allotment is confirmed to the number applied for: 1,80,000."
+    },
+    "D": {
+     "status": "false",
+     "why": "1,90,000 is the textbook's own example figure, not this question's data."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair for Share Capital.",
+   "quality_note": "Clear; option D slightly meta ('used in the textbook') but acceptable distractor."
+  },
+  {
+   "local_id": "acc-b9",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "5,00,000 is the share capital (10,000x50), not premium."
+    },
+    "B": {
+     "status": "true",
+     "why": "Premium per share = 56-50 = 6; total = 10,000 x 6 = 60,000."
+    },
+    "C": {
+     "status": "false",
+     "why": "5,60,000 is total amount received."
+    },
+    "D": {
+     "status": "false",
+     "why": "6,000 is premium for 1,000 shares / per-share error by factor of 10."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Premium per share = 56 - 50 = 6. Securities Premium = 10,000 x 6 = 60,000. (Total 5,60,000 less capital 5,00,000 = 60,000.)",
+   "syllabus_fit": "Fair for Share Capital.",
+   "quality_note": "Clear, single answer; stem gives away the account name, trivial."
+  }
+ ]
+}

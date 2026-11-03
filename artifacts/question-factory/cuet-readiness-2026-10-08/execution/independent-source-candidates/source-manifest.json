@@ -1,0 +1,167 @@
+{
+  "schema": "cuet-source-candidate-manifest-v1",
+  "as_of": "2026-10-08",
+  "sources": [
+    {
+      "id": "ncert-accountancy-share-capital",
+      "kind": "official_textbook_chapter",
+      "title": "Accountancy: Company Accounts and Analysis of Financial Statements, Chapter 1: Accounting for Share Capital",
+      "publisher": "NCERT",
+      "edition": "Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+      "local_file": "sources/ncert-accountancy-share-capital.pdf",
+      "sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "bytes": 5566363,
+      "pages": 74,
+      "candidate_locator": { "pdf_page": 4, "printed_page": 3 },
+      "reused_chapter_in_known_v4_or_legacy_set": false,
+      "reuse_permission": "not independently established; internal research custody only"
+    },
+    {
+      "id": "ncert-business-studies-financial-management",
+      "kind": "official_textbook_chapter",
+      "title": "Business Studies II, Chapter 9: Financial Management",
+      "publisher": "NCERT",
+      "edition": "Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "local_file": "sources/ncert-business-studies-financial-management.pdf",
+      "sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+      "bytes": 2921632,
+      "pages": 27,
+      "candidate_locator": { "pdf_page": 2, "printed_page": 216 },
+      "reused_chapter_in_known_v4_or_legacy_set": false,
+      "reuse_permission": "not independently established; internal research custody only"
+    },
+    {
+      "id": "ncert-economics-consumer-behaviour",
+      "kind": "official_textbook_chapter",
+      "title": "Introductory Microeconomics, Chapter 2: Theory of Consumer Behaviour",
+      "publisher": "NCERT",
+      "edition": "Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "local_file": "sources/ncert-economics-consumer-behaviour.pdf",
+      "sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "bytes": 4066289,
+      "pages": 28,
+      "candidate_locator": { "pdf_page": 2, "printed_page": 12 },
+      "reused_chapter_in_known_v4_or_legacy_set": false,
+      "reuse_permission": "not independently established; internal research custody only"
+    },
+    {
+      "id": "ncert-english-flamingo-last-lesson",
+      "kind": "official_textbook_chapter",
+      "title": "Flamingo, Prose Chapter 1: The Last Lesson",
+      "publisher": "NCERT",
+      "edition": "Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lefl101.pdf",
+      "local_file": "sources/ncert-english-flamingo-chapter-1.pdf",
+      "sha256": "e19ff6e302c23736c0090eb9f34a9c4b241c9d895ec49ed8823e7bd9bc894a56",
+      "bytes": 1746415,
+      "pages": 12,
+      "candidate_locator": { "pdf_page": 4, "printed_page": 3 },
+      "reused_chapter_in_known_v4_or_legacy_set": false,
+      "reuse_permission": "not independently established; internal research custody only",
+      "quoted_excerpt_words": 17
+    },
+    {
+      "id": "cuet2026-english-syllabus",
+      "kind": "official_syllabus",
+      "publisher": "NTA/CUET UG",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+      "local_file": "syllabus/cuet-2026-english-syllabus.pdf",
+      "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "bytes": 231641,
+      "pages": 2,
+      "candidate_locator": { "pdf_page": 2, "clause": "Reading Comprehension: literary passages, maximum 300 words" }
+    },
+    {
+      "id": "cuet2026-accountancy-syllabus",
+      "kind": "official_syllabus",
+      "publisher": "NTA/CUET UG",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+      "local_file": "syllabus/cuet-2026-accountancy-syllabus.pdf",
+      "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "bytes": 398323,
+      "pages": 3,
+      "candidate_locator": { "pdf_page": 2, "clause": "Unit IV: Company Accounts; share capital meaning, nature and types" }
+    },
+    {
+      "id": "cuet2026-business_studies-syllabus",
+      "kind": "official_syllabus",
+      "publisher": "NTA/CUET UG",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+      "local_file": "syllabus/cuet-2026-business-studies-syllabus.pdf",
+      "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "bytes": 345090,
+      "pages": 4,
+      "candidate_locator": { "pdf_page": 3, "clause": "Unit IX: Business Finance; meaning, role and objectives of financial management" }
+    },
+    {
+      "id": "cuet2026-economics-syllabus",
+      "kind": "official_syllabus",
+      "publisher": "NTA/CUET UG",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+      "local_file": "syllabus/cuet-2026-economics-syllabus.pdf",
+      "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "bytes": 1023162,
+      "pages": 4,
+      "candidate_locator": { "pdf_page": 2, "clause": "Course I, Unit I: Theory of Consumer Behaviour; utility approach" }
+    },
+    {
+      "id": "nta-cuet-2025-final-key",
+      "kind": "official_final_answer_key",
+      "publisher": "NTA",
+      "url": "https://nta.ac.in/Download/Notice/Notice_20250701201050.pdf",
+      "evidence": "The 324-page file is labeled CUET (UG) 2025 Final Answer Keys and provides Question Id./Key rows; it has no full question stems/options."
+    },
+    {
+      "id": "nta-cuet-2025-challenge-notice",
+      "kind": "official_challenge_notice",
+      "publisher": "NTA",
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20250617191216.pdf",
+      "evidence": "Instructions say candidates log in using application number, password, and captcha, then choose View Question Paper."
+    },
+    {
+      "id": "nta-cuet-2026-final-key",
+      "kind": "official_final_answer_key",
+      "publisher": "NTA",
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20260621191633.pdf",
+      "evidence": "Official final answer-key source; IDs/key only, without the full question wording/options."
+    },
+    {
+      "id": "nta-cuet-2026-challenge-notice",
+      "kind": "official_challenge_notice",
+      "publisher": "NTA",
+      "url": "https://nta.ac.in/Download/Notice/Notice_20260609150917.pdf",
+      "evidence": "Instructions say candidates log in using credentials, then use View Question Paper; the notice also describes matching question IDs to the answer-key list."
+    },
+    {
+      "id": "nta-downloads-page",
+      "kind": "official_retrieval_route",
+      "publisher": "NTA",
+      "url": "https://www.nta.ac.in/Downloads",
+      "indexed_form": "The public search index exposes Year, Exam Type, Paper filters and QP/AK columns.",
+      "live_fetch_result": "HTTP route redirects to generic NTA homepage; no live exam paper rows or filter endpoint/results were available in public page content.",
+      "qualified_question_paper_families": 0
+    }
+  ],
+  "retrieval_limits": {
+    "new_authenticated_cuet_2025_2026_paper_final_key_families": 0,
+    "candidate_view_question_paper_public_without_login": false,
+    "candidate_view_question_paper_tested": "No candidate account was available or used; official instructions gate the view behind login. No endpoint was guessed/probed.",
+    "third_party_mirrors_admissible": 0,
+    "reason": "No written reuse permission and no official question-ID/option-ID match were established for mirrors.",
+    "ncert_fallback_candidate_items": 4,
+    "ncert_fallback_subject_families": 4,
+    "ncert_fallback_families_are_authentic_pyqs": false
+  },
+  "research_safety": {
+    "primary_authority_sources_only": true,
+    "credentials_used": false,
+    "login_or_access_control_bypassed": false,
+    "undocumented_api_probed": false,
+    "paid_provider_calls": false,
+    "sealed_benchmark_item_bodies_opened": false,
+    "product_or_pipeline_fixtures_changed": false
+  }
+}

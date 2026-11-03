@@ -1,0 +1,73 @@
+{"complete":1,"total":100,"eligible":1}
+{"complete":2,"total":100,"eligible":2}
+{"complete":3,"total":100,"eligible":2}
+{"complete":4,"total":100,"eligible":2}
+{"complete":5,"total":100,"eligible":2}
+{"complete":6,"total":100,"eligible":2}
+{"complete":7,"total":100,"eligible":2}
+{"complete":8,"total":100,"eligible":2}
+{"complete":9,"total":100,"eligible":2}
+{"complete":10,"total":100,"eligible":2}
+{"complete":11,"total":100,"eligible":2}
+{"complete":12,"total":100,"eligible":2}
+{"complete":13,"total":100,"eligible":2}
+{"complete":14,"total":100,"eligible":2}
+{"complete":15,"total":100,"eligible":2}
+{"complete":16,"total":100,"eligible":2}
+{"complete":17,"total":100,"eligible":3}
+{"complete":18,"total":100,"eligible":3}
+{"complete":19,"total":100,"eligible":3}
+{"complete":20,"total":100,"eligible":3}
+{"complete":21,"total":100,"eligible":3}
+{"complete":22,"total":100,"eligible":4}
+{"complete":23,"total":100,"eligible":4}
+{"complete":24,"total":100,"eligible":4}
+{"complete":25,"total":100,"eligible":4}
+{"complete":26,"total":100,"eligible":4}
+{"complete":27,"total":100,"eligible":5}
+{"complete":28,"total":100,"eligible":5}
+{"complete":29,"total":100,"eligible":5}
+{"complete":30,"total":100,"eligible":6}
+{"complete":31,"total":100,"eligible":7}
+{"complete":32,"total":100,"eligible":8}
+{"complete":33,"total":100,"eligible":8}
+{"complete":34,"total":100,"eligible":9}
+{"complete":35,"total":100,"eligible":9}
+{"complete":36,"total":100,"eligible":10}
+{"complete":37,"total":100,"eligible":10}
+{"complete":38,"total":100,"eligible":11}
+{"complete":39,"total":100,"eligible":12}
+{"complete":40,"total":100,"eligible":13}
+{"complete":41,"total":100,"eligible":14}
+{"complete":42,"total":100,"eligible":14}
+{"complete":43,"total":100,"eligible":14}
+{"complete":44,"total":100,"eligible":15}
+{"complete":45,"total":100,"eligible":15}
+{"complete":46,"total":100,"eligible":16}
+{"complete":47,"total":100,"eligible":16}
+{"complete":48,"total":100,"eligible":17}
+{"complete":49,"total":100,"eligible":18}
+{"complete":50,"total":100,"eligible":18}
+{"complete":51,"total":100,"eligible":19}
+{"complete":52,"total":100,"eligible":20}
+{"complete":53,"total":100,"eligible":21}
+{"complete":54,"total":100,"eligible":21}
+{"complete":55,"total":100,"eligible":21}
+{"complete":56,"total":100,"eligible":21}
+{"complete":57,"total":100,"eligible":21}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:45
+    if (!response.ok) throw new Error(`provider_http_${response.status}`);
+                            ^
+
+Error: provider_http_400
+    at request (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:45:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:86:32)
+    at async authorCandidate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryCore.mjs:41:27)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:70:30
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:31:7
+    at async Promise.allSettled (index 2)
+    at async parallel (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:29:2)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:67:3
+
+Node.js v24.15.0

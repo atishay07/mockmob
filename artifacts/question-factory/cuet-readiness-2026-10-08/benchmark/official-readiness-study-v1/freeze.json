@@ -1,0 +1,47 @@
+{
+  "frozen_at": "2026-10-07T20:35:21.321Z",
+  "contract_hash": "f46f148ebd5b45ba340ebcb824e1101c3fcf00ce3e80d7ef0872819f17de00a3",
+  "contract": {
+    "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+    "runner_sha256": "ba1089911cf1786f1b164ffce4393afc2af04376f14c0c2f8be8f6cbe55f3c95",
+    "frozen_fixture_hash": "b5fc17b356b126a27ad93ceef18f2835c37c398930183164f0929dea3c00738f",
+    "registry_snapshot_hash": "c56bf21c7fffbdf670c7a7937a59b26a950e1cf891d1a1704f85d60973c98cf2",
+    "custody_inventory_hash": "a0b6af8f6f055d4aeb65d7f960a7930ac11a22fbc5f2e6d5ab152ad600ace666",
+    "fixture_id": "cuet-readiness-source-keyed-v4-2026-10-08",
+    "verifier_source_hash": "875636e32df77ca62470d69fbe016df4c8484b9b3d66ad314d26168ba277ee98",
+    "transport_source_hash": "7fb6de7575175ed60a4a201a8b4872afd72f3d4dc71320966e4b419d480ae1c4",
+    "rubric_source_hash": "90c154e14cff46ac40aa3f37173a7883c7560350a0c225377b1797ed08e5aa92",
+    "scoring_contract_hash": "a06581a7dc39ddb756b55881a361a573364e31364bf486dee98c9c79ea5732ad",
+    "eval_schema_hash": "70c719adda6e77f6976a899e7b0600b86db8bbe30d09233fa67a90600a4fe86c",
+    "verifier": "cuet-fit-validator-v7.2",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+    "topology": "single_direct_blind_measurement_only_no_release",
+    "providers": [
+      "openai:gpt-6-luna",
+      "gemini:gemini-3.8-flash",
+      "anthropic:claude-haiku-5-5"
+    ],
+    "partition": "limited_heldout",
+    "case_limit": null,
+    "effort_policy": {
+      "id": "effort-policy-v1",
+      "luna": "effortsFor(candidate).blind",
+      "gemini": "effortsFor(candidate).gemini",
+      "haiku": "medium"
+    },
+    "calibration_rule": "Only the 95 previously exposed exemplars are supplied as format calibration; their answer keys and explanations are never supplied. All 78 non-exemplars are excluded from calibration context.",
+    "key_blinding_rule": "Remove every final_key reference before blindView/context. Proposed key and oracle key remain scoring-only. Official key is read only after the provider response is returned.",
+    "control_manifest_hash": "70ee7023ecda9bf549dc5d26a87c8849e5152f94d887850a7cc517d8911bf284",
+    "cap_usd": 6,
+    "publication": false,
+    "claims": "173 authenticated 2024 prior-paper calibration roots across four paper families, not a fresh/source-independent release set; controls are linked authored mutations."
+  },
+  "registry_snapshot_hash": "c56bf21c7fffbdf670c7a7937a59b26a950e1cf891d1a1704f85d60973c98cf2",
+  "evidence": {
+    "fixture_hash": "b5fc17b356b126a27ad93ceef18f2835c37c398930183164f0929dea3c00738f",
+    "authentic_roots": 173,
+    "paper_families": 4,
+    "controls": 8
+  }
+}

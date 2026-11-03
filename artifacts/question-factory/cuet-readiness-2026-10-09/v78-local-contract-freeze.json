@@ -1,0 +1,86 @@
+{
+  "frozen_at": "2026-10-09T09:23:54.083Z",
+  "scope": "Additive local implementation freeze only. No benchmark, runner, paid request, profile, pilot or publication.",
+  "verifier_version": "cuet-fit-validator-v7.8-local-draft",
+  "validation_contract_hash": "e4be26f3e6dcb651edcf736049f872a736abaed1ed4db5b6299d6aaccb613d58",
+  "prompt_hash": "7711966eaf5d41def4bcc229e38b97ae1aa39eca235accca4deaf432260bac5e",
+  "parent_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "qualification_state": "unqualified",
+  "dispatch_eligible": false,
+  "publication_eligible": false,
+  "native_provider_calls": 0,
+  "file_sha256": {
+    "scripts/pipeline/lib/contractV78.mjs": "809ccfb78e901921512ee4272bd5ff2fea73ac8acaaa952f527dd18581023a50",
+    "scripts/pipeline/lib/premiseBindingV78.mjs": "88735861cf248c6d399a679e0b059a89c2d0a39a3aea9c29004d80d9e051f696",
+    "scripts/pipeline/lib/optionResolutionV78.mjs": "d69e30dd37a24e04fb5816e132e80d0638b0374d365aec9eff23a8a292ce7e2a",
+    "scripts/pipeline/lib/optionResolutionAuditV78.mjs": "617b2ca6cc41f14a1f9112c2bb5472f71f76cf0085ec07d38dcaa0f247b23280",
+    "scripts/pipeline/lib/factoryEvidenceV78.mjs": "adb097bd6615e39fa800655c649d64b3fb24b404249ba4dad87d73a60c0bf680",
+    "scripts/pipeline/lib/verifyV78.mjs": "f86124f859812868bbf790ac82557b8b46bed7828626e9a50ee6c4c1d708c4d6"
+  },
+  "test_sha256": {
+    "scripts/pipeline/tests/optionResolutionV78.test.mjs": "627938a42b815caec2c2c12c9d2f226c5e6167fc978c1a99f0c730ec24388112",
+    "scripts/pipeline/tests/optionResolutionV78.exportedRegression.test.mjs": "e8013ea15257825463ed4673109d702f2efa9014abbdc74ad2820271b2cf094f",
+    "scripts/pipeline/tests/v78Integration.test.mjs": "ffb783fa04611537c0754141e941cbba9b8c36eb426d9a90f96008b14e716a54",
+    "scripts/pipeline/tests/v78MissingBindingsIndependent.test.mjs": "7d8b275f088d074d54d77b3d5f8ea312a3bf824d90b2d0684d54d513490d116d"
+  },
+  "independent_review": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v78-local-integration-review.md",
+    "sha256": "ac74d501b71f27f3f5986657f6ce05e97b4f94a23727610c57f5f8b80b314d0f"
+  },
+  "tests": {
+    "factory": {
+      "pass": 742,
+      "fail": 0,
+      "count": 742,
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/root-factory-tests-v78-normal-access.log",
+      "sha256": "21b14c594d48a0c9c563cc22f8cbf18ca628bc0b8805c5bd41bcef7ef286b817"
+    },
+    "recovery": {
+      "pass": 40,
+      "fail": 0,
+      "count": 40,
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/root-recovery-tests-v78.log",
+      "sha256": "d0c9411e8026df0387119d2024c1cd782a7dfab869998cb1825b32756d8b6401"
+    },
+    "payment_question_student_budget": {
+      "pass": 51,
+      "fail": 0,
+      "count": 51,
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/root-payment-question-tests-v78.log",
+      "sha256": "baf9ade97abbc00b6fe5a6aa2b23e52b77db457a1897b08f31548edb48effaec"
+    }
+  },
+  "application_build": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/root-build-v78-normal-access.log",
+    "sha256": "dff87e8cd0c13fc9f27b075e215fde966f3fe6f0d228d04635b4b566671749ba",
+    "static_pages": null
+  },
+  "preservation": {
+    "historical_checks": 228,
+    "historical_distinct_paths": 61,
+    "v77_bound_files_checked": 56,
+    "mismatches": [],
+    "inspected_native_export_sha256": "bef35e60b203d58c72048921709b07da7fbddb96210184a65142a165167257f6"
+  },
+  "release_gates": {
+    "legacy_factory_calibration_ready": false,
+    "cuet_fit_released": false,
+    "current_cuet_calibration_ready": false
+  },
+  "corrections": [
+    "explicit positional premise origins",
+    "mixed exact source rules and printed case facts",
+    "whitespace-only quote normalization",
+    "paraphrased context independent of exact anchored premises",
+    "hypothetical printed-option arithmetic input with independent premise",
+    "whole-option and clause semantic audits of both frozen blind matrices",
+    "exact V78 prompt/version/contract cache binding"
+  ],
+  "limitations": [
+    "Local synthetic semantic audits test contracts, not academic truth or model independence.",
+    "Origins projected onto saved V77 outputs are regression only; native outputs/labels remain immutable.",
+    "All inherited mandatory gates and 21 criteria remain; easy items are permitted.",
+    "No measured V78 quality, fresh qualification, publishable yield, 10000-publishable cost, qualified pilot or live staging proof.",
+    "The final authorized V77 study cannot pass, and another paid qualification needs new explicit scope."
+  ]
+}

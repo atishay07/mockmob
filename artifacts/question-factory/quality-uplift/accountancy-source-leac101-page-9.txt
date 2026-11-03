@@ -1,0 +1,46 @@
+Accounting for Partnership : Basic Concepts 9
+4. Partner’s Salary:
+(a) For Allowing partner’s salary to partner’s capital account:
+Salary to Partner A/c Dr.
+To Partner’s Capital/Current A/c’s (individually)
+(b) For transferring partner’s salary to Profit and Loss Appropriation Account:
+Profit and Loss Appropriation A/c Dr.
+To Salary to Partner’s A/c
+5. Partner’s Commission:
+(a) For crediting commission allowed to a partner, to partner’s capital account:
+Commission to Partner A/c Dr.
+To Partner’s Capital/Current A/c’s (individually)
+(b) For transferring commission allowed to partners to Profit and Loss Appropriation
+Account.
+Profit and Loss Appropriation A/c Dr.
+To Commission to Partners Capital/Current A/c
+6. Share of Profit or Loss after appropriations:
+(a) If Profit:
+Profit and Loss Appropriation A/c Dr.
+To Partner’s Capital/Current A/c’s (individually)
+(b) If Loss:
+Partner’s Capital/Current A/c (individually)
+To Profit and Loss Appropriation A/c
+Note: In case firm suffers a loss, no interest on capital, salary, remuneration is to be
+allowed to partners.
+The Proforma of Profit and Loss Appropriation Account is given as follows:
+Profit and Loss Appropriation Account
+Dr. Cr.
+Particulars Amount Particulars Amount
+(Rs.) (Rs.)
+Profit and Loss Profit and Loss xxx
+(if there is loss) xxx (if there is profit)
+Interest on Capital xxx Interest on Drawings xxx
+Salary to Partner xxx Partners’ Capital/Current Accounts xxx
+Commission to Partner xxx (distribution of Loss)
+Partners’ Capital/Current Accounts xxx
+(distribution of profit)
+xxxx xxxx
+Fig. 1.3: Proforma of Profit and Loss Appropriation Account
+Illustration 1
+Sameer and Yasmin are partners with capitals of Rs.15,00,000 and Rs. 10,00,000
+respectively. They agreed to share profits in the ratio of 3:2. Show how the following
+transactions will be recorded in the capital accounts of the partners in case:
+(i) the capitals are fixed, and (ii) the capitals are fluctuating. The books are closed
+on March 31, every year.
+Reprint 2026-27

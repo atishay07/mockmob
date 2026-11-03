@@ -1,0 +1,31 @@
+{
+  "schema": "mockmob-v716-v717-freeze-preservation-v1",
+  "created_at": "2026-10-10T06:06:32.693Z",
+  "method": "Read each saved freeze manifest, SHA-256 every listed workspace file, and compare with its frozen hash; no provider, ledger, or test operations.",
+  "results": [
+    {
+      "version": "V717",
+      "freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/V717-FINAL-EXECUTION-FREEZE.json",
+      "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+      "schema": "cuet-v717-execution-freeze-v1",
+      "profile": "cuet-fit-validator-v7.17-report-policy",
+      "listed_file_count": 105,
+      "verified_file_count": 105,
+      "missing": [],
+      "mismatches": [],
+      "all_match": true
+    },
+    {
+      "version": "V716",
+      "freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-FINAL-EXECUTION-FREEZE.json",
+      "freeze_sha256": "d807498d6452914b2d932d52f20493c48ff72622d9aa99e9ab8dcff849b5138e",
+      "schema": "cuet-v716-execution-freeze-v1",
+      "profile": "cuet-fit-validator-v7.16-report-policy",
+      "listed_file_count": 99,
+      "verified_file_count": 99,
+      "missing": [],
+      "mismatches": [],
+      "all_match": true
+    }
+  ]
+}

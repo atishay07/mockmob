@@ -1,0 +1,181 @@
+Browser tab: 1, Title: "MockMob Pro Pricing: ₹99 to start", URL: "http://localhost:3010/pricing".
+1 AXWebArea MockMob Pro Pricing: ₹99 to start, URL: localhost:3010/pricing
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 heading ₹99 gets you in., Value: 1
+				8 text ₹99 gets you in.
+			9 text Start free and stay free if that is enough. For everything, one payment of ₹99 covers access through 31 July 2027. Monthly Pro at ₹99 opens soon, and nobody who paid now loses a day.
+		10 container
+			11 heading Free, Value: 3
+				12 text Free
+			13 container
+				14 text ₹0 forever
+			15 text Enough to find out whether MockMob is for you, with no card involved.
+			16 content list
+				17 container
+					18 image
+					19 text Quick Practice, 5 to 20 questions — credit-gated
+				20 container
+					21 image
+					22 text Full Mock, 50 questions in 60 minutes — credit-gated
+				23 container
+					24 image
+					25 text Weekly progress tracking
+				26 container
+					27 image
+					28 text 25 saved questions
+				29 container
+					30 image
+					31 text Community leaderboard
+			32 link Description: Create a free account, Value: localhost:3010/signup
+			33 text Everything unlocked
+			34 heading Pro access, Value: 3
+				35 text Pro access
+			36 container
+				37 text ₹99 once
+			38 text One payment covers you through 31 July 2027. Monthly Pro at ₹99 opens soon.
+			39 content list
+				40 container
+					41 image
+					42 text Unlimited Quick Practice and Full Mocks
+				43 container
+					44 image
+					45 text NTA Mode — 2026-format baseline, 50 Q / 60 min; 2027 rules provisional
+				46 container
+					47 image
+					48 text Smart Practice — adaptive, targets your weak chapters
+				49 container
+					50 image
+					51 text Full Radar: every ranked chapter, pace and changed-answer detail
+				52 container
+					53 image
+					54 text Compass Pro: your practice projected paper by paper, against your DU shortlist
+				55 container
+					56 image
+					57 text Compass Pro next move: the paper and chapter that can move your total most
+				58 container
+					59 image
+					60 text Free DU eligibility and sourced historical cutoffs
+				61 container
+					62 image
+					63 text Difficulty selector: easy, medium, hard or auto
+				64 container
+					65 image
+					66 text Unlimited bookmarks
+			67 text Pro is already active on this account
+			68 text Access ends 31 July 2027. No auto-renewal on this payment.
+		69 container
+			70 heading Free and Pro, line by line., Value: 2
+				71 text Free and Pro, line by line.
+			72 text Free is genuinely usable: credits gate how often you can generate, not what you can see.
+			73 heading CORE TEST MODES, Value: 3
+				74 text CORE TEST MODES
+			75 text Quick Practice (5 to 20 Qs) FREE Credit-gated · 10 credits each PRO Unlimited with Pro Full Mock (50 Qs · 60 min) FREE Credit-gated · 50 credits each PRO Unlimited with Pro
+			76 heading PLATFORM BASICS, Value: 3
+				77 text PLATFORM BASICS
+			78 text Saved questions FREE 25 saves PRO Unlimited saves Community leaderboard FREE
+			79 image
+			80 text Included PRO
+			81 image
+			82 text Included Weekly progress tracking FREE
+			83 image
+			84 text Included PRO
+			85 image
+			86 text Included
+			87 heading ADVANCED FEATURES, Value: 3
+				88 text ADVANCED FEATURES
+			89 text DU eligibility and historical cutoffs FREE
+			90 image
+			91 text Included PRO
+			92 image
+			93 text Included Compass Pro: practice projection, DU shortlist and next move FREE Not included PRO
+			94 image
+			95 text Included Difficulty selector FREE Not included PRO Easy, medium, hard, auto Radar: marks ledger, top three chapters, weekly summary FREE
+			96 image
+			97 text Included PRO
+			98 image
+			99 text Included Radar: every ranked chapter, pace and changed-answer detail FREE Not included PRO
+			100 image
+			101 text Included
+			102 heading ADVANCED TEST MODES, Value: 3
+				103 text ADVANCED TEST MODES
+			104 text Smart Practice — adaptive FREE Not included PRO Unlimited NTA Mode — CUET exam simulation FREE Not included PRO Unlimited
+		105 container
+			106 heading PrepOS, and its own credits., Value: 2
+				107 text PrepOS, and its own credits.
+			108 text PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail. AI replies, Mistake Repair and AI Rival use a separate PrepOS wallet, never mixed with practice credits. Free includes  10  credits a month and Pro includes  50 . Need more? Top up any time. Top-up credits never expire and are spent after your monthly credits.
+			109 content list PrepOS credit top-ups
+				110 container
+					111 text Starter ₹ 10 50  CREDITS  ₹ 0.20  EACH
+					112 button BUY FOR ₹10
+						113 text BUY FOR ₹10
+				114 container
+					115 text Focus ₹ 20 150  CREDITS  ₹ 0.13  EACH
+					116 button BUY FOR ₹20
+						117 text BUY FOR ₹20
+				118 container
+					119 text Sprint Best value ₹ 50 400  CREDITS  ₹ 0.13  EACH
+					120 button BUY FOR ₹50
+						121 text BUY FOR ₹50
+			122 link Description: See your PrepOS wallet, Value: localhost:3010/pricing/prepos
+		123 container
+			124 heading Questions people actually ask., Value: 2
+				125 text Questions people actually ask.
+			126 button (collapsed) Is Pro a monthly subscription?, Secondary Actions: Expand
+				127 text Is Pro a monthly subscription?
+			128 button (collapsed) What happens when I cancel?, Secondary Actions: Expand
+				129 text What happens when I cancel?
+			130 button (collapsed) What does Admission Compass compare?, Secondary Actions: Expand
+				131 text What does Admission Compass compare?
+			132 button (collapsed) Is Compass the same as Radar?, Secondary Actions: Expand
+				133 text Is Compass the same as Radar?
+			134 button (collapsed) Are the community mocks reliable?, Secondary Actions: Expand
+				135 text Are the community mocks reliable?
+			136 button (collapsed) How does the leaderboard work?, Secondary Actions: Expand
+				137 text How does the leaderboard work?
+			138 text Need team or institute pricing?
+			139 link Description: Email us, Value: mailto:support@mockmob.in?subject=Team%20%2F%20institute%20pricing
+			140 text and we will set it up.
+		141 link Description: MockMob ., Value: localhost:3010/
+		142 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		143 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		144 heading PRACTICE, Value: 3
+			145 text PRACTICE
+		146 content list
+			147 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			148 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			149 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			150 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			151 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			152 link Description: Features, Value: localhost:3010/features
+			153 link Description: Pricing, Value: localhost:3010/pricing
+		154 heading SUBJECTS, Value: 3
+			155 text SUBJECTS
+		156 content list
+			157 link Description: English, Value: localhost:3010/cuet/english
+			158 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			159 link Description: Economics, Value: localhost:3010/cuet/economics
+			160 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			161 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		162 heading COMPANY, Value: 3
+			163 text COMPANY
+		164 content list
+			165 link Description: About, Value: localhost:3010/about
+			166 link Description: Contact, Value: localhost:3010/contact
+			167 link Description: Privacy, Value: localhost:3010/privacy
+			168 link Description: Terms, Value: localhost:3010/terms
+			169 link Description: Refunds, Value: localhost:3010/refunds
+		170 container
+			171 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		172 heading Recovery is still in development, Value: 2
+			173 text Recovery is still in development
+		174 container
+			175 text Recovery pathways are awaiting permitted sources and independent calibration. You can review mistakes or continue ordinary practice.  Planned recovery capabilities are excluded from the live paid comparison.
+		176 text Unlimited access covers available content and reattempts. It does not promise unlimited unique questions.
+		177 text ₹99 once, through 31 July 2027.
+		178 link Description: Start free, Value: localhost:3010/signup
+
+The focused UI element is 1 AXWebArea MockMob Pro Pricing: ₹99 to start, URL: localhost:3010/pricing

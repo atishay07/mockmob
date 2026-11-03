@@ -1,0 +1,10 @@
+{
+  "captured_at": "2026-10-07T22:00:23.9481504Z",
+  "preserved_report_md_sha256": "3240EEECC1424A1A57129D7E5E485813589336044D569BD9766190CD12756750",
+  "preserved_report_json_sha256": "E10DA05FB9FDDC6AD71BB2E0237744C2F486EA5E4418E26259403359E1B867B8",
+  "correction": "Original report mislabeled 95% as valid-survival threshold. QUALITY.md Calibration (lines 71-73) says shared strict-quality-v4 release policy uses 85% overall valid survival, route floors, and 95% answered-key accuracy; historical 95% survival prose is superseded. releaseEvidenceV7 RELEASE_POLICY_V7 uses 85% overall and 70% minimum per subject. Correct report will retain observed outcomes and identify diagnostic incompleteness as an independent release blocker.",
+  "old_markdown_claims": [
+    "37/39 (94.9%) still just below the 95% calibration target",
+    "34/39 (87.2%) below the 95% quality-contract threshold"
+  ]
+}

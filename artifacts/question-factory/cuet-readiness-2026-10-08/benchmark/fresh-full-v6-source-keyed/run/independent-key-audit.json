@@ -1,0 +1,1008 @@
+{
+  "id": "fresh-full-v6-source-keyed-2026-10-08",
+  "oracle_hidden_during_keying": true,
+  "model": "claude-haiku-5-5",
+  "prompt_hash": "0e0adb82b6c9ea5c731db0b80d4f3b3db98f69930532410808fe0544fcd61a42",
+  "input_hashes": {
+    "packet": "2d94070f2ba6a3f7cedfc792713e15182f2bdad1055a004e605fd1ad48c19626",
+    "sources": "fc9a66bb103e968fb845eb535cd504d4f841e8bf9fc578ebbe4e768be50cbaaa"
+  },
+  "answers": {
+    "fresh-v5r-accountancy-partnership-fundamentals-1": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-partnership-fundamentals-1",
+      "content_hash": "cc0acf3dae0270ecc7cfc4f28c0ceca61d31a4834a1644b67ecc4ef04b2138e3",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Option A matches the source definition: a partnership firm comes into existence when two or more persons come together to establish business and share its profits (NCERT Accountancy Ch.1, Nature of Partnership, also citing Section 4 of the Indian Partnership Act 1932). B describes a sole proprietor with a manager, C describes company shareholders, and D describes a lender to a sole proprietor; none involves two or more persons sharing business profits.",
+      "uncertainties": [
+        "The excerpt is truncated before the full Section 4 wording, but the printed sentence already states the required features (two or more persons, business, sharing profits), so the key does not depend on the omitted text."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-partnership-fundamentals-2": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-partnership-fundamentals-2",
+      "content_hash": "00897e5333c01f035647046e1efa3fc2e5e2388fddcb6c0ec6c28a501987b168",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt states that a partner who advances a loan to the firm for business purposes is entitled to interest at 6% per annum on the loan amount. Interest = ₹20,000 × 6% × 1 year = ₹1,200, which is option B. The other options do not match: A (₹12,000) would be 60%, C (₹2,000) 10%, and D (₹2,400) 12%. The excerpt's statement that no interest on capital is payable when the deed is silent concerns capital, not loans, so it does not change the answer.",
+      "uncertainties": [
+        "The solution assumes the 6% rate in the NCERT text applies as the statutory default for this question, with no contrary rate stated in the deed or elsewhere.",
+        "The question does not state whether the loan was advanced at the start of the year, but 'one full year' is taken to mean a simple 12-month period."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-partnership-fundamentals-3": {
+      "status": "judged",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "candidate_id": "fresh-v5r-accountancy-partnership-fundamentals-3",
+      "content_hash": "9b02b6503741118f601daa8956f6586b788c4793ec3d91b61e0daa13aedf1aa4",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The excerpt says that when two or more persons join to set up a business and share its profits and losses, they are in partnership; those persons are partners. The other options name shareholders, employees, or debenture holders, not the persons who establish a partnership.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-partnership-fundamentals-4": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-partnership-fundamentals-4",
+      "content_hash": "6d873c12baca51ff9c3daf7cc5542780a17ae1650fa07950d8c68c2f544a3e85",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt says a partnership firm comes into existence when two or more persons come together to establish business and share its profits, and elsewhere says partners set up a business and share its profits and losses. Statement 1 (two or more persons join to establish a business) matches this, and Statement 2 (they agree to share profits) matches the stated profit-sharing element. Both statements are correct, so only option D ('Both 1 and 2') is right; A, B and C each contradict a correct statement.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-change-in-profit-sharing-ratio-1": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-1",
+      "content_hash": "a74fc2263d70193f4802eed3202422aa637605627f1dd6c0712f8372a41f8e63",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks from whom an incoming partner acquires a share of profit on admission. The NCERT excerpt states that when a new partner is admitted he acquires his share in profits from the old partners, with the old partners sacrificing a share of their profit in his favour. Option A (The existing partners) matches. Options B (trade creditors), C (customers) and D (employees) are not partners and do not give up profit shares, so they are wrong.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-change-in-profit-sharing-ratio-2": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-2",
+      "content_hash": "5cca5257a03b7bc9da71e051c25fedbe3e98f449278cf01ead20c784e86a1b99",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "A and B share profits in 3:2, so their old shares are 3/5 and 2/5. The newcomer takes 1/5 of the profit. Since the question says he takes it in their old ratio, each old partner sacrifices in that ratio. A sacrifices 3/5 of 1/5 = 3/25, and B sacrifices 2/5 of 1/5 = 2/25. Option B matches. Option A gives the old shares themselves, not the sacrifice. Option C gives equal sacrifices, which ignores the 3:2 ratio. Option D reverses the two sacrifices. The NCERT excerpt supports the rule that when nothing is specified about how the new partner acquires his share, he is assumed to take it in the old partners' profit sharing ratio.",
+      "uncertainties": [
+        "The stem does not state the newcomer's share in words beyond 1/5 taken from the old partners, so it is read as 1/5 of total profit."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-change-in-profit-sharing-ratio-3": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-3",
+      "content_hash": "8965e36e1aff03939e16c5238aba87038b7e1a2d3e49ca728aa10691d8bba061",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem describes the existing partners giving up part of their profit share to a new partner. The NCERT excerpt states that on admission of a new partner, the old partners sacrifice a share of their profit in favour of the new partner. The reduction in an existing partner's profit share is therefore termed sacrificing share. A: revaluation surplus is an accounting gain on asset revaluation, not a profit-share reduction. B: gaining share is the increase in share acquired by a partner who gains, not the existing partners' reduction. D: capital reserve is an reserve item, not a share term. Only C fits.",
+      "uncertainties": [
+        "The excerpt is a brief attributed excerpt; the terminology 'sacrificing share' is taken from the standard reconstitution context as stated in the source."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-change-in-profit-sharing-ratio-4": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-change-in-profit-sharing-ratio-4",
+      "content_hash": "bac5ed30e2798315d3e8594b7960d8e06e4aa6771ee0165f304a8e6d94e7fbd8",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Statement 1 is correct: the NCERT excerpt says a new partner acquires his share in profits from the old partners. Statement 2 is correct: the same excerpt says that on admission of a new partner the old partners sacrifice a share of their profit in favour of the new partner. Both statements are true, so option D (Both 1 and 2) is the only choice that follows.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-share-capital-1": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-share-capital-1",
+      "content_hash": "96a4e5ec072c89ffb28d1814ed93562dbe4afa8934bc4b878f88914fbb4fdb77",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt defines Authorised Capital as the amount of share capital which a company is authorised to issue by its Memorandum of Association, also called nominal or registered capital. Option A matches this wording directly. Option B describes called-up/paid-up capital actually received on calls, not authorised capital. Option C (money refunded to applicants) and option D (profit transferred to reserve) are unrelated to the definition of share capital categories. Only A is correct.",
+      "uncertainties": [
+        "The passage is empty; the question relies solely on the printed stem and the NCERT excerpt, which is a brief attributed excerpt rather than full text."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-share-capital-2": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-share-capital-2",
+      "content_hash": "bb85da788e05421e4139cd3c5921cee53c9222cabb3f8f6cf25e9cf7080f8e54",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Authorised capital is the maximum the company may issue (Memorandum cap). Issued capital is the part of authorised capital actually issued. Unissued capital = authorised capital minus issued capital = 12 lakh - 9 lakh = 3 lakh. Additional issue without changing authorised capital can be at most 3 lakh, which is option B. Options A (2 lakh), C (21 lakh, which is the sum), and D (1 lakh) do not match this calculation.",
+      "uncertainties": [
+        "Assumes the question asks about issuing shares within the existing authorised capital without any increase procedure, and that all of the 9 lakh issued is the relevant figure (no calls-in-arrears or other adjustments are asked about)."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-share-capital-3": {
+      "status": "judged",
+      "candidate_id": "fresh-v5r-accountancy-share-capital-3",
+      "content_hash": "fb9c91ae9ca428086e78267a102561446603c86ab3daa1d3c762329902afff1b",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Per the NCERT excerpt: Authorised capital is the amount the company is authorised to issue by its Memorandum, so A matches III. Issued capital is the part of authorised capital actually issued/offered for public subscription, so B matches IV. Subscribed capital is the part of issued capital actually subscribed by the public, so C matches I. Called-up capital is the part of subscribed capital the company has called up for payment, so D matches II. This gives (A)-(III), (B)-(IV), (C)-(I), (D)-(II), which is option C. Options A, B and D each pair at least one item incorrectly (for example, A pairs Authorised with the subscribed amount and Issued with the called amount).",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-share-capital-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-accountancy-share-capital-4",
+      "content_hash": "f0dfd279abb4e8c3b3dcec98dc1224cd19941c7de236b206f672d8f6d8892826",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Statement (1) is false: the NCERT excerpt says the company cannot raise more than the capital specified in the Memorandum, and any issue must not exceed the authorised capital. Statement (2) is true: authorised capital is the amount the company is authorised to issue by its Memorandum, so it limits the share capital it may issue. Only statement 2 is correct, so the answer is D.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-accounting-ratios-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-accountancy-accounting-ratios-1",
+      "content_hash": "db1be7fb485be24e285a4b3875d03c6b47a35535419bd143bd356805f52ec968",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks for the measure computed as 365 divided by the trade receivables turnover ratio. The decisive NCERT excerpt states 'Average Collection Period = 365 / Trade Receivables Turnover Ratio', which matches option A. The other options are not this formula: B (average payment period) is 365 divided by trade payables turnover, C (inventory turnover) is cost of goods sold divided by average inventory, and D (capital employed turnover) is revenue from operations divided by capital employed. The passage is empty, so no reading comprehension is involved.",
+      "uncertainties": [
+        "The question is a direct recall of the standard formula, so the only assumption is that the standard NCERT definition of the average collection period is intended."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-accounting-ratios-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-accountancy-accounting-ratios-2",
+      "content_hash": "89b0586e9162d5e0a0cbb8ca64c4b110a58bb7045f911bfb33a90249b22e5d36",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Average collection period = 365 / trade receivables turnover ratio (NCERT Accountancy Vol. II, p. 220, as shown in the excerpt, where the example computes 365 / 8.18 = 45 days). With turnover = 5 times, collection period = 365 / 5 = 73 days, which is option B. Options A (5 days), C (365 days) and D (1,825 days, i.e. 365 x 5) do not follow from the formula. Only B matches.",
+      "uncertainties": [
+        "The excerpt's division signs are garbled in extraction, so the formula is inferred from the worked example (365 / 8.18 = 45 days) and the printed label 'Average Collection Period = 365 / Trade Receivables Turnover Ratio'.",
+        "The question's 'cited 365-day convention' is taken to mean the standard 365-day year used in the source."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-accounting-ratios-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-accountancy-accounting-ratios-3",
+      "content_hash": "c156f8b41f3a4ae1fb483d9d8a62c13c1cf1acc6b093da1b4f4531e368afb556",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The average collection period is the number of days it takes to collect receivables, computed as 365 divided by the trade receivables turnover ratio. The supplied NCERT excerpt states 'Average Collection Period = 365 / Trade Receivables Turnover Ratio'. Option C matches this. Option A multiplies nothing and divides the turnover by 365, which is inverted. Option B uses payables turnover, which gives the average payment period. Option D multiplies rather than divides, which is wrong.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-accountancy-accounting-ratios-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-accountancy-accounting-ratios-4",
+      "content_hash": "2eecdbe562b629859e359561fb7134649156167c84a102962c512634e5a15f74",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Using the stated formula, average collection period = 365 ÷ turnover. Statement (1): 365 ÷ 10 = 36.5 days, so it is correct. Statement (2): 365 ÷ 5 = 73 days, not 1,825 (1,825 is 365 × 5, a multiplication error), so it is incorrect. Only statement 1 is correct, so the answer is D. The NCERT excerpt supports the formula Average Collection Period = 365 ÷ Trade Receivables Turnover Ratio.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-planning-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-planning-1",
+      "content_hash": "25807d6c37c7046f9f593831dc092d832367ee40c4d65fdc168612bb85151455",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem describes an event not expected to recur, i.e., a non-recurring situation. The NCERT excerpt defines single-use plans as developed for one-time events or projects, not likely to be repeated, for non-recurring situations, and gives organising an event or seminar as an example. Standing plans (B) are for regularly recurring activities; policy (C) is a general guide to thinking and action; procedure (D) is a sequence of routine steps. Only A matches.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-planning-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-planning-2",
+      "content_hash": "98e79e05c4310c262250fe2abe56b2c1975cc265c3fc899af2dfe50ac9cd8a65",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The question describes a one-time, non-recurring event (a one-day seminar not to be repeated). The source defines a single-use plan as developed for a one-time event or project, not likely to be repeated, for non-recurring situations, and explicitly gives a one-day seminar or conference as an example. Standing plans (C) are for activities occurring regularly and are reusable; routine admissions procedure (A) is a procedure, a standing plan type; recruitment policy (D) is a policy, a standing plan type. Hence only B fits.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-planning-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-planning-3",
+      "content_hash": "c50285266c6cd324d9ab23996ee83a4cbdd5489b37d1a3921c752744d2772756",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The source defines each term: Policy is a general standing plan/guide to thinking and decisions, so A matches II. Procedure is routine steps in chronological order, so B matches I. Method is the prescribed way to perform a single task, so C matches IV. Rule is a specific statement allowing no discretion, so D matches III. This gives (A)-(II), (B)-(I), (C)-(IV), (D)-(III), which is option C. No other option matches all four pairs.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-planning-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-planning-4",
+      "content_hash": "b3f11d4369f7407379bad41dedbf97dd67d5fef3677c7dbe616ca15acb9436df",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The source defines a single-use plan as developed for a one-time event or project that is not likely to be repeated, meaning it is for non-recurring situations. It explicitly lists a seminar or conference as an example. Statement 1 is therefore true. Statement 2 says such plans are expected to recur routinely, which contradicts the source's statement that they are not likely to be repeated; it is false. Only statement 1 is true, so the answer is option D, 'Only 1'.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-organising-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-organising-1",
+      "content_hash": "7a440b3f45539f31a7a17c91cbf5c54c7723c981bded5632894af2503732f88c",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt defines organising as 'the process of defining and grouping activities and establishing authority relationships among them.' Option A matches this wording directly. Option B describes motivating (directing function), option C describes controlling (comparing actual results with standards), and option D describes planning (setting objectives and choosing a course of action). Only A is an organising activity.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-organising-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-organising-2",
+      "content_hash": "17d04a843fae9902349dd619cfdac079b448d6a2f4c8a3c21e92d1d853ccd6ba",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The supplied NCERT excerpt lists the organising steps in order: (a) Identification and division of work, (b) Departmentalisation, (c) Assignment of Duties, (d) Establishing reporting relationships. Departmentalisation is step (b), so the next step is (c) Assignment of duties, which is option B. Option A is the final step, option C belongs to planning, and option D is the first step, so only B fits.",
+      "uncertainties": [
+        "Relies on the NCERT ordering of organising steps as presented in the supplied excerpt; other textbooks may list the steps differently but the sequence still places assignment of duties after departmentalisation."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-organising-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-organising-3",
+      "content_hash": "c87c9a2cbbf08c7da25945418f2c26ea5812ae1ea524e97a370b368d0003f728",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt lists the organising process as (a) identification and division of work, (b) departmentalisation, (c) assignment of duties, (d) establishing reporting relationships. Departmentalisation is step 2 and assignment of duties is step 3, so 'Second and third' (C) is the only matching option. A: fourth and first is wrong; B: first and second is wrong; D: third and fourth is wrong.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-organising-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-organising-4",
+      "content_hash": "e77c5e3394dbf12c265a17205fcaac412804f530067977b27752482f79604565",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt lists the organising process in order: (a) identification and division of work, (b) departmentalisation, (c) assignment of duties, (d) establishing reporting relationships. With work already identified and divided, the remaining steps are b, c, d in that order: departmentalisation, then duties, then reporting. This matches option D only. Options A, B and C each reorder these steps incorrectly.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-directing-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-directing-1",
+      "content_hash": "eda5b93f7fb15847d58db32e44446e2d25986ff23f581c4aa43235605e3e805b",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt defines directing as the process of instructing, guiding, counselling, motivating and leading people in the organisation to achieve its objectives. Option A matches this wording exactly. Option B describes organising (grouping activities and establishing authority relationships), option C describes planning (setting objectives and selecting a course of action), and option D describes controlling (comparing actual performance with standards). Only A is correct.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-directing-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-directing-2",
+      "content_hash": "3669d20bf23fc329d75bd669ad8b23fec5234d0ac713dd2399531fdf4cf7aedf",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks which managerial function initiates action while planning, organising and staffing prepare the setting for action. The NCERT excerpt states: 'While other functions prepare a setting for action, directing initiates action in the organisation.' Thus the answer is Directing (B). Options A (Organising), C (Staffing) and D (Planning) are among the functions the source describes as preparing the setting for action, so they are excluded.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-directing-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-directing-3",
+      "content_hash": "1750d8374719b62065daf2038040109b0e167b60d184d048202bb5b206107646",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Source excerpt states directing takes place at every level of management, from top executive to supervisor, wherever superior-subordinate relations exist. Option C matches this. A, B, and D are each contradicted: directing is not limited to first-line supervisors, is continuous rather than tied to managerial changes, and is not only performed by the top executive.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-directing-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-directing-4",
+      "content_hash": "e2faf1fc564641b5eb5ed8277c2ec72b2d919066c228aaaa5084925fa2a7cf1a",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The source defines directing as instructing, guiding, counselling, motivating and leading people, and states that directing is not a mere issue of communication but encompasses supervision, motivation and leadership. Statement (1) is therefore true. Statement (2) is false because the source explicitly rejects limiting directing to communication. Only statement 1 is correct, matching option D 'Only 1'.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-marketing-management-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-marketing-management-1",
+      "content_hash": "cd83b035ef4ba2061c20407a47baae634a7c0f62d6aba5d71ea9f72c5774512d",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt defines the Place element as activities that make the firm's products available to the target customers (distribution, intermediaries, inventory, storage, transportation). Product covers the bundle of utilities, Promotion covers communication and persuasion, and Packaging is not one of the four Ps described in the excerpt. Therefore the answer is A, Place.",
+      "uncertainties": [
+        "Packaging is not explicitly discussed in the excerpt, but it is not the element described, so it does not compete with Place."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-marketing-management-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-marketing-management-2",
+      "content_hash": "2f52a03dd2fe5d15ac02d92624db65f08367b6401931f0ad35093fc94a838b17",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem describes appointing dealers and arranging storage and transportation so products reach target customers. The NCERT excerpt defines Place (physical distribution) as activities that make the firm's products available to target customers, listing selection of dealers or intermediaries, managing inventory, storage and warehousing, and transportation of goods. Product, Price and Promotion are defined separately in the same excerpt and do not cover distribution logistics. Therefore the answer is Place, option B.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-marketing-management-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-marketing-management-3",
+      "content_hash": "d0fbf0840fba8a0fa0a58e67af5b2f784a5d51d006ce561b0d79c094d9ffb3fe",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks about selecting intermediaries to make products available to customers. The NCERT excerpt defines Place as activities that make the firm's products available to target customers, and states that important decision areas include selection of dealers or intermediaries to reach customers. Product concerns the bundle of utilities, Price concerns value/pricing, and Promotion concerns communication and persuasion, so only Place (option C) matches.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-business_studies-marketing-management-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-business_studies-marketing-management-4",
+      "content_hash": "8280aeeed844009b6939e6a636e0f56c4affb50dbd4aad0dacfc1decf0c3204e",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt lists Place (physical distribution) as including selection of dealers or intermediaries, so statement (1) is correct. The same excerpt describes Price as a separate element (value-based price perception, item 2) and Place as distribution activities such as intermediaries, inventory, storage, and transportation, not setting the selling price, so statement (2) is false. Only statement 1 is correct, which is option D.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-money-banking-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-money-banking-1",
+      "content_hash": "41b7ee13beb1d79fe362fcadbb7491df4f0002ff1a671af571dd91a4f1e80efc",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks what money comprises in a modern economy. The decisive NCERT excerpt states: 'In a modern economy, money comprises cash and bank deposits.' Option A matches exactly. Option B (company shares and debentures) are financial assets, not money. Option C (government taxes and subsidies) are fiscal flows, not money. Option D (exports and imports) are trade flows, not stock of money. Only A is correct.",
+      "uncertainties": [
+        "Source excerpt is a brief attributed passage; the key rests on the explicit sentence it contains, with no reliance on metadata."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-money-banking-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-money-banking-2",
+      "content_hash": "759bdb965d57912b62f6c97f289dffb7ae5591824178b030bb3e2e5f84b49016",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The question asks for total money holding under a measure that includes both cash and bank deposits. The NCERT excerpt states that in a modern economy money comprises cash and bank deposits, with different measures depending on which deposits are included. Cash ₹4,000 + bank deposits ₹6,000 = ₹10,000, which is option B. Options A, C and D do not equal the sum (A is only deposits, C is a product-like figure, D is a difference).",
+      "uncertainties": [
+        "The excerpt does not specify which deposit types are included in the measure; the question stipulates a measure including both holdings, so the sum is taken as given."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-money-banking-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-money-banking-4",
+      "content_hash": "06ce5109df848088919c8eb281894f20810ab2a2d1c6e5c472ab85d3561ebeae",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Statement (1) is correct: the NCERT excerpt says 'In a modern economy, money comprises cash and bank deposits', and measures of money depend on which bank deposits are included. Statement (2) is correct: the excerpt says 'Commercial banks are the other type of institutions which are a part of the money-creating system of the economy.' Both statements are true, so option D ('Both') is the only option that matches, and options A, B and C are each contradicted by a true statement.",
+      "uncertainties": [
+        "The excerpt is a brief attributed extract from NCERT; the full textbook context was not checked beyond this excerpt.",
+        "The question wording 'Which statements are correct?' is read as asking which of the printed statements are true, not as a trick about a particular measure of money (e.g., M1 vs M3)."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-income-determination-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-income-determination-1",
+      "content_hash": "2c89a4990dad30db1c62011b001aaac9fd6bb3f7eba2990702a9a0fdf69e075a",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt states that the ratio of the total increment in equilibrium value of final goods output to the initial increment in autonomous expenditure is called the investment multiplier (k = ΔY/ΔA). Option A gives total increase in equilibrium output over initial increase in autonomous expenditure, matching this definition. Option B inverts the ratio. Option C and D are unrelated ratios (consumption to tax, money supply to currency), so they are not the multiplier. The worked example (10/(1-0.8)=50 over initial 10) gives a multiplier of 5, consistent with ΔY/ΔA.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-income-determination-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-income-determination-2",
+      "content_hash": "d6d2f42edeca7b9e8d702d4a4eeaa66606d2ed3a6a51145d3fb50c76750686c7",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "With MPC = 0.8, k = 1/(1 − 0.8) = 1/0.2 = 5, which is option B. The NCERT excerpt gives the investment multiplier as 1/(1 − c) with c = mpc, and its worked example (10 + 0.8·10 + 0.8²·10 + … = 10/(1 − 0.8) = 50) gives a ratio of 50/10 = 5 at MPC 0.8. Options A (4), C (8), and D (2) do not equal 1/(1 − 0.8).",
+      "uncertainties": [
+        "The question does not specify whether k refers to the simple investment multiplier of a two-sector model with no taxes or imports; the standard formula 1/(1 − MPC) is assumed, as the question states."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-income-determination-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-income-determination-3",
+      "content_hash": "46ea5c38a03827d1ff996f127c1a8c7320be5966fdc0f62391d25cbcd966053c",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks what successive rounds of consumption expenditure generate in the multiplier mechanism. The NCERT excerpt (Table 4.1) states that the last column measures the increments in the value of the output of final goods (and hence the income of the economy) in each round, and that the total increase in final goods output is the sum of the infinite geometric series 10 + (0.8)10 + (0.8)^2 10 + ... = 50. Option C matches this directly. Option A (foreign-exchange reserves), B (central bank currency), and D (tax receipts) are not produced by the consumption-spending rounds in the multiplier mechanism described in the source, so they are wrong.",
+      "uncertainties": [
+        "The source excerpt is a brief attributed extract; the answer rests on the general multiplier concept it describes rather than the specific numerical example."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-income-determination-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-income-determination-4",
+      "content_hash": "b885b7900b9b13a6c22f71bf5c5ea69a2e7a7c7690ecc86404269488d81e6a7f",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt states that the increments in the value of final-goods output measure 'the income of the economy' (output/income column), so statement 1 is correct. The same excerpt defines the multiplier in terms of the total increment in final goods output (Y-delta), not tax revenue, so statement 2 is false. Only statement 1 is correct, which is option D.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-government-budget-the-economy-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-government-budget-the-economy-1",
+      "content_hash": "89c28d83bd0ae668ec29436ab4d43b046f0828a4a29985c988bc194b72f08be4",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Primary deficit is defined as fiscal deficit minus interest payments (NCERT Macroeconomics excerpt: 'It is simply the fiscal deficit minus the interest payments', equivalently gross primary deficit = gross fiscal deficit minus net interest liabilities). Option A matches. Option B adds interest instead of subtracting it. Option C describes revenue deficit-type difference, not primary deficit. Option D is trade balance, unrelated.",
+      "uncertainties": [
+        "Exam conventions sometimes use net interest liabilities rather than gross interest payments; the option wording follows the basic definition, so A remains the best fit."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-government-budget-the-economy-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-government-budget-the-economy-2",
+      "content_hash": "89f1b7655bb54ee47629b94ab6c42b9292d4b7a7360159c1df007be142a5c0f2",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Gross primary deficit = Gross fiscal deficit − Net interest liabilities. Net interest liabilities = interest payments − interest receipts on net domestic lending = 25 − 0 = 25. So GPD = 90 − 25 = 65 crore, which is option B. The other options do not follow: 90 is the GFD itself, 115 adds interest instead of subtracting it, and 3,600 is an unsupported multiplication.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-government-budget-the-economy-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-government-budget-the-economy-3",
+      "content_hash": "8f1c383eac51f5d047d8f31471d415adc6866f837cb150e9d0c38aa524dae364",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks what primary deficit is measured to focus on. The NCERT excerpt states the goal of measuring primary deficit is to focus on present fiscal imbalances, and defines primary deficit as fiscal deficit minus interest payments (gross primary deficit = gross fiscal deficit minus net interest liabilities). Option C 'Present fiscal imbalances excluding interest obligations on past debt' matches this. A is wrong (government assets are not the measure); B is wrong (trade balance is unrelated); D is wrong (total accumulated debt includes the interest-bearing stock that primary deficit excludes).",
+      "uncertainties": [
+        "Option C's wording is a paraphrase of the source; the source states the focus and the definition separately rather than in one sentence."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-government-budget-the-economy-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-government-budget-the-economy-4",
+      "content_hash": "d5951ce31edfbb12f4a199b7fba59112ee7ec90ba6440566ae7038c90f978779",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The NCERT excerpt states that primary deficit is simply the fiscal deficit minus the interest payments, so statement (1) matches the source. The same passage defines the primary deficit as the result of that subtraction, so statement (2) also matches. Both statements are true, so option D (Both) is the only option that fits.",
+      "uncertainties": [
+        "The source's formal definition uses net interest liabilities (interest payments minus interest receipts on net domestic lending) and gross fiscal deficit, while statement (1) says only interest payments are subtracted. The source's own prose sentence says 'minus the interest payments', which supports reading statement (1) as true, but a stricter reading could treat it as an imprecise simplification."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-balance-of-payments-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-balance-of-payments-1",
+      "content_hash": "72848149f702116a887b1c69a0b1c48702f0513018c22c8620ed5973b7ea034f",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Under a flexible (floating) exchange-rate system, the NCERT excerpt states the exchange rate is determined by market forces of demand and supply, where the demand and supply curves intersect (equilibrium). Option A matches this. Option B describes a fixed-rate legal ratio, not a flexible system. Option C (company share capital) and option D (tax receipts) have no bearing on the exchange rate determination in the source. Only A is correct.",
+      "uncertainties": [
+        "The excerpt is an attributed NCERT reference for local validation; the answer rests on the printed textbook statement rather than an unkeyed exercise."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-balance-of-payments-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-balance-of-payments-2",
+      "content_hash": "11ea32d7a0d86c3c62c023ec3a11450b69864291a32574eca9b1cebdcf93c787",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "In a completely flexible system the exchange rate is set by demand and supply, with no central-bank intervention (NCERT excerpt). An increase in demand for foreign currency with supply unchanged shifts the demand curve right, so the equilibrium exchange rate rises (the source's example goes from 50 to 70 rupees per dollar). Option B, that the market-determined rate can change, is therefore correct. A is false because the source says demand changes do change the rate. C is false because a flexible rate is not fixed. D is false because in a completely flexible system central banks do not intervene, so intervention does not fix the rate by definition.",
+      "uncertainties": [
+        "The question is a conceptual stem with no passage, so the answer depends only on the flexible-rate principle in the excerpt."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-balance-of-payments-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-balance-of-payments-3",
+      "content_hash": "9f081ff3ba0e1418d0d1ba9496e10579fdcdf6907185e1a9db58feb234aee0bf",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The stem asks for another name of a flexible exchange rate. The NCERT excerpt states that the flexible exchange rate 'is determined by the market forces of demand and supply' and 'It is also known as Floating Exchange Rate.' Option C, Floating exchange rate, matches exactly. Option A (Authorised capital), B (Single-use plan), and D (Primary deficit) are not alternative names for an exchange rate regime and are not supported by the excerpt. Exactly one option follows, so the key is C.",
+      "uncertainties": [
+        "The excerpt is a local-validation NCERT extract; the synonym relation is taken directly from its printed text."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-balance-of-payments-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-balance-of-payments-4",
+      "content_hash": "508a8150e8ce7de4f5b5a59a6ec5ffd9f80adc6dbaf335bc2b2c6bf5e0decfd6",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Statement (1): The NCERT excerpt says under Flexible Exchange Rate 'This exchange rate is determined by the market forces of demand and supply', so the statement is true. Statement (2): The excerpt says 'It is also known as Floating Exchange Rate', so the statement is true. Both statements are true, so option D ('Both') is the only choice that matches. Options A, B and C each deny the truth of one or both statements, which the source contradicts.",
+      "uncertainties": [
+        "Statement (1) does not name a regime. Read as a general claim it is incomplete, since fixed and managed systems involve central bank intervention. The source supports it for the flexible rate, which is the regime the question is evidently about.",
+        "The excerpt is an attributed official NCERT reprint used for local validation, not an unrestricted source, and the question itself is an unkeyed practice item."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-1-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-1-1",
+      "content_hash": "9c96c45771a777b1e5cef30032775c4a7bdd059e75496fdd969ef0901219d273",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage states directly: 'The library compared late returns per one hundred loans rather than raw totals.' Option A matches this. Option B (raw readers) is not the measure used; the passage says the library rejected raw totals. Option C (staff per branch) and Option D (reminders printed) are not described as the comparison measure. The question is answerable from the printed passage alone, and the source excerpt matches the stimulus text.",
+      "uncertainties": [
+        "The syllabus licence is an owner reuse attestation without an independently verified licence document; this does not affect the answer, which rests on the passage text."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-1-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-1-2",
+      "content_hash": "21ca96f346b998336d5afbfe26236ac0fa23e17b08c9254606905d22b66e81a2",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Option B matches the passage: the exit-notice branch fell from 14 to 10 late returns per hundred loans, and the checkout-reminder branch fell from 12 to 9, so both branches had fewer late returns per hundred loans at the end. Option A is false because the passage says readers were not randomly assigned. Option C is false because the checkout-reminder branch also improved. Option D is false because the passage says the branches served different numbers of readers.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-1-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-1-3",
+      "content_hash": "fc1b0b60b1c7c3be9240211c455a97a000925c6d707248e12586cab6037ee203",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage states that the branches served different numbers of readers and that the library compared late returns per one hundred loans rather than raw totals, so option C gives the reason. Option A is false because both branches had loans (14 and 12 late returns per hundred loans). Option B is false because the trial ran over four weeks. Option D is false because late returns were recorded and the passage reports them falling from 14 to 10 and from 12 to 9 per hundred loans. The syllabus excerpt only confirms that factual passages are a reading comprehension type and does not supply the answer.",
+      "uncertainties": [
+        "The syllabus permission is an owner attestation without an independently verified licence, which does not affect the answer."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-1-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-1-4",
+      "content_hash": "5207d1e7d708f723744ecc71cc7f59007fcd64c8a5f37db5f824ff1e78ffae97",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage states directly that 'readers were not randomly assigned to branches', which is a limitation of the design. Option A is false because the passage says late returns were recorded and reports figures for both branches. Option B is false because the library compared late returns per one hundred loans and the two branches were compared with each other. Option C is false because two methods were tested (an exit notice and a checkout reminder). Only D matches the printed text.",
+      "uncertainties": [
+        "The syllabus excerpt supports only the existence of factual passages in the Reading Comprehension section; it adds no case facts, and the answer rests on the passage itself.",
+        "The source permission is an owner attestation without an independently verified licence, which does not affect the solved key."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-2-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-2-1",
+      "content_hash": "60cfa1341c27f7ab2cd50ba6ee308f7518bea613347382323391fd279e6d68ad",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The question asks what stayed on while the speaker was silent. The passage states directly: 'She noted that the indicator light remained on while the speaker was silent.' Option A, Indicator light, matches. Notebook (B) is where Kavya added the sequence, not something that stayed on. Volume control (C) is a connection she tested, not something left on. School bell (D) is not mentioned. The answer is answerable from the printed passage alone.",
+      "uncertainties": [
+        "The syllabus excerpt is supporting context for the narrative reading-comprehension format only; the answer relies on the passage text itself.",
+        "Licence for the syllabus excerpt rests on an owner attestation, not an independently verified licence document; this does not affect the answer's support."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-2-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-2-2",
+      "content_hash": "71ec5d59ff0c9e349f9f0b173d4580dbea2ddd68df7c011bde56c0ed15d18709",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The printed passage states the technician asked Kavya to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. This matches option B (Power lead, volume control, speaker wire). Options A, C and D each misplace at least one step, so only B is correct. The passage excerpt in the source matches the printed stem, and the syllabus excerpt lists narrative passages under Reading Comprehension, which is consistent with the question type.",
+      "uncertainties": [
+        "The syllabus excerpt's reuse permission is an owner attestation without an independently verified licence; this does not affect the answer, which rests on the printed passage."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-2-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-2-3",
+      "content_hash": "4023d571e417336e1d45d8c7dea0926f4409ab54f4ec07f83afcb4c79edd1db8",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage states that Kavya added the sequence to the repair notebook 'so the next student could repeat the checks,' which directly matches option C. Option A is wrong because the technician is never replaced; he only directs the testing. Option B is wrong because the repair succeeded (the loose speaker wire was tightened and the radio worked). Option D is wrong because no radio price is mentioned. The syllabus excerpt only lists general reading comprehension topics and does not bear on the answer.",
+      "uncertainties": [
+        "The syllabus excerpt's licence basis is an owner reuse attestation without an independently verified licence document; it was not needed for the answer."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-2-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-2-4",
+      "content_hash": "0552196673f7f2ce8f3d8b31985c299711b690eb1f8aa985135ba4f5b261bf87",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The printed sentence reads 'the notebook became the part she was most pleased to leave behind', so 'leave behind' refers to the repair notebook. The radio (A) is repaired and returned to service, not the thing she is pleased to leave behind. The loose wire (B) is the fault that was tightened. No room key (C) appears in the passage. The notebook entry (D) is the closest printed option: she added the test sequence to the notebook, so the notebook and its entry are the object in question. Only D matches the referent.",
+      "uncertainties": [
+        "The passage names the notebook itself, while option D says 'notebook entry'; D is still the only option that matches the referent.",
+        "The syllabus excerpt supports only the reading-comprehension category, not this specific item, and the reuse basis is an owner attestation rather than a verified licence."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-3-1": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-3-1",
+      "content_hash": "0ca4b1b49592b08802c62facac82541031969ca16d35d8af54d0a61b77de8246",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage states that the caretaker first placed the chair beneath the neem tree and only later carried it inside when the wind lifted the dry leaves. Option A matches this. Options B, C and D are places the passage mentions later or not at all for the chair's first placement, so they are not supported as the first location.",
+      "uncertainties": [
+        "The source excerpt for the syllabus is an owner-attested reuse without independently verified licence, which does not affect answering the passage question."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-3-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-3-2",
+      "content_hash": "8db189b59fffa03effc22259e95eacd0abaf010e426445b27d89569a14b594b9",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage says the voices 'had not vanished; they had travelled indoors', and that from the corridor came 'the same song, softer now, threaded with the clink of cups'. So the voices and gathering carry on inside, which is option B. A is wrong because only the chair, not the tree, is carried inside, and the tree 'kept its quiet place' outside. C is wrong because the song continues. D is wrong because the chairs are moved, not made to disappear.",
+      "uncertainties": [
+        "The syllabus reuse rests on an owner attestation with no independently verified licence document, so source permission for the syllabus excerpt is unverified; the answer itself depends only on the printed passage."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-3-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-3-3",
+      "content_hash": "807bf4d6ab114658267f05887e0eb017a933960c3d755207824962202ea1cb4b",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage reports this order: the caretaker places a chair beneath the neem tree; the wind lifts the first dry leaves, and the chair is carried inside; the song continues from the corridor; the child folds the invitation and follows the sound. Option C matches this order: chair outside, wind lifts leaves, chair inside, child follows song. Option A is wrong because the song does not stop; it moves indoors. Option B is wrong because the tree is never moved and the invitation is folded only at the end. Option D is wrong because it places the child following the song first and the passage does not report cups being removed.",
+      "uncertainties": [
+        "The exact chronology of the invitation being folded relative to the wind is not stated, but this does not affect the choice of C."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-3-4": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-3-4",
+      "content_hash": "f54cb794d9a32adfc12485ada7738d98d668c97a9cf814e0cbbe3cd0a851118f",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The printed passage says the song came from the corridor, 'softer now, threaded with the clink of cups.' 'Threaded with' means the cup sounds run through the song, so the song and cup sounds are heard together, which is option D. A is literal nonsense. B is contradicted because the song continues. C is contradicted because the child goes indoors toward the sound, and the text says the child followed the sound, not that the child was outside. The answer depends only on the printed stimulus; the syllabus excerpt confirms only that literary passages are a tested type.",
+      "uncertainties": [
+        "The syllabus permission rests on an owner attestation rather than an independently verified licence; this does not affect the answer."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-4-1": {
+      "status": "judged",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "candidate_id": "fresh-v5r-english-4-1",
+      "content_hash": "1528ce590d01c2595b97eccbdc48ed9a636945397342ce91e1b212de2f6296fa",
+      "solved_key": "A",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage reports 18 successful checks for the combined label, versus 15 for the name-only label and 11 for the date-only label. The combined label records both the plant name and sowing date, matching A.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-4-2": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-english-4-2",
+      "content_hash": "4bce41ea6ce3a057bfd43bc733411f08da3d14c91b219570f8377f69e54c8bb2",
+      "solved_key": "B",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The printed passage states directly: 'It chose the combined label for the next planting cycle.' The combined label is option B. Options A, C and D are the no-label, date-only and name-only alternatives, and the passage says the group did not choose them. The check counts (18/20, 11, 15) are not needed to answer the question. The syllabus excerpt supports only that factual passages are a CUET English reading category.",
+      "uncertainties": [
+        "The syllabus source is licensed by owner attestation without an independently verified licence document, so it is used only for passage-category context.",
+        "The question asks about the group's next choice, which the passage states explicitly; no case facts are drawn from source metadata."
+      ],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-4-3": {
+      "status": "judged",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "candidate_id": "fresh-v5r-english-4-3",
+      "content_hash": "39ffb4e0fc4c61596055001309ec859eedcc2f79b25810c0e43b5d6fcbc88b0b",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The passage says the group cautioned that its small trial covered only its own collection and one month. This matches option C; the other options do not state that limitation.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-english-4-4": {
+      "status": "judged",
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "candidate_id": "fresh-v5r-english-4-4",
+      "content_hash": "2c34e9f9f07d4dd66d50b3e71600a2855d0b7e3327cb73abe9a1bbd0b5a75e16",
+      "solved_key": "D",
+      "unique": true,
+      "source_supported": true,
+      "proof": "The combined label passed 18 checks and the name-only label passed 15. The difference is 18 − 15 = 3, option D.",
+      "uncertainties": [],
+      "imported_from": "fresh-full-v5-repaired-2026-10-08"
+    },
+    "fresh-v5r-economics-money-banking-3": {
+      "status": "judged",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "candidate_id": "fresh-v5r-economics-money-banking-3",
+      "content_hash": "b56c683e241c238d6d8875d1cd5987fefac83e863b8deda7cc5b58320ade7581",
+      "solved_key": "C",
+      "unique": true,
+      "source_supported": true,
+      "proof": "Central bank matches (IV), since the excerpt says it issues the country's currency. Commercial bank matches (III), since it accepts deposits and lends part of them. Reserve money matches (I), since the excerpt calls currency issued by the central bank 'high-powered money' or 'reserve money' that acts as a basis for credit creation. Interest spread matches (II), since the excerpt defines the spread as the difference between the rate charged to borrowers and the rate paid to depositors. This gives A-IV, B-III, C-I, D-II, which is option C. No other option matches all four pairs.",
+      "uncertainties": []
+    }
+  },
+  "started_at": "2026-10-07T23:07:37.156Z",
+  "attempt_history": [
+    {
+      "id": "fresh-v5r-accountancy-partnership-fundamentals-3",
+      "status": "error",
+      "error": "Cannot read properties of undefined (reading 'maxOutputTokens')",
+      "original_key": "e839dfe8f3fb60878fc579965b6591bede065d79210f662c0fc759df0cc74ca1",
+      "reason": "Single independent provider fallback for missing transport observation. Original ID is not resubmitted and its full hold remains committed."
+    },
+    {
+      "id": "fresh-v5r-accountancy-share-capital-4",
+      "status": "error",
+      "error": "budget_usage_unresolved",
+      "reason": "Guard refused before any native dispatch; retry after proven hold reconstruction."
+    },
+    {
+      "id": "fresh-v5r-english-4-1",
+      "status": "error",
+      "error": "provider_request_unresolved_do_not_resubmit",
+      "original_key": "978e946fa0ecbcbb66f2828a3d291f2701f99ae565c8d1d6aad4371a36ca8bc3",
+      "reason": "Single independent provider fallback for missing transport observation. Original ID is not resubmitted and its full hold remains committed."
+    },
+    {
+      "id": "fresh-v5r-english-4-3",
+      "status": "error",
+      "error": "provider_request_unresolved_do_not_resubmit",
+      "original_key": "e3f3d0f3e2c80fc2993bcf879b5cddcf8e0eba9dc27a7cfc02f3aa48d6032aa6",
+      "reason": "Single independent provider fallback for missing transport observation. Original ID is not resubmitted and its full hold remains committed."
+    },
+    {
+      "id": "fresh-v5r-english-4-4",
+      "status": "error",
+      "error": "provider_request_unresolved_do_not_resubmit",
+      "original_key": "08eaa3a1e30216fd5b3b5e32882f73de119b9d36ca509905b9842923cf484ea4",
+      "reason": "Single independent provider fallback for missing transport observation. Original ID is not resubmitted and its full hold remains committed."
+    }
+  ],
+  "imports": {
+    "id": "fresh-full-v5-repaired-2026-10-08",
+    "audit_sha256": "b7078c3c70c1a2556c8d9e112f29118d2994895283dd7d410b1c302ae807e5d6",
+    "packet_sha256": "7ab2ed5d683e965a85321540d21f06fc2abfa65ed967ea5629277f8bee81764d",
+    "sources_sha256": "a5bc8156bec72c3e728451ae1acbc015c7f36e3d621710343ba7b5a62f406e59",
+    "directory": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/fresh-full-v5-repaired",
+    "ids": [
+      "fresh-v5r-accountancy-partnership-fundamentals-1",
+      "fresh-v5r-accountancy-partnership-fundamentals-2",
+      "fresh-v5r-accountancy-partnership-fundamentals-3",
+      "fresh-v5r-accountancy-partnership-fundamentals-4",
+      "fresh-v5r-accountancy-change-in-profit-sharing-ratio-1",
+      "fresh-v5r-accountancy-change-in-profit-sharing-ratio-2",
+      "fresh-v5r-accountancy-change-in-profit-sharing-ratio-3",
+      "fresh-v5r-accountancy-change-in-profit-sharing-ratio-4",
+      "fresh-v5r-accountancy-share-capital-1",
+      "fresh-v5r-accountancy-share-capital-2",
+      "fresh-v5r-accountancy-share-capital-3",
+      "fresh-v5r-accountancy-share-capital-4",
+      "fresh-v5r-accountancy-accounting-ratios-1",
+      "fresh-v5r-accountancy-accounting-ratios-2",
+      "fresh-v5r-accountancy-accounting-ratios-3",
+      "fresh-v5r-accountancy-accounting-ratios-4",
+      "fresh-v5r-business_studies-planning-1",
+      "fresh-v5r-business_studies-planning-2",
+      "fresh-v5r-business_studies-planning-3",
+      "fresh-v5r-business_studies-planning-4",
+      "fresh-v5r-business_studies-organising-1",
+      "fresh-v5r-business_studies-organising-2",
+      "fresh-v5r-business_studies-organising-3",
+      "fresh-v5r-business_studies-organising-4",
+      "fresh-v5r-business_studies-directing-1",
+      "fresh-v5r-business_studies-directing-2",
+      "fresh-v5r-business_studies-directing-3",
+      "fresh-v5r-business_studies-directing-4",
+      "fresh-v5r-business_studies-marketing-management-1",
+      "fresh-v5r-business_studies-marketing-management-2",
+      "fresh-v5r-business_studies-marketing-management-3",
+      "fresh-v5r-business_studies-marketing-management-4",
+      "fresh-v5r-economics-money-banking-1",
+      "fresh-v5r-economics-money-banking-2",
+      "fresh-v5r-economics-money-banking-4",
+      "fresh-v5r-economics-income-determination-1",
+      "fresh-v5r-economics-income-determination-2",
+      "fresh-v5r-economics-income-determination-3",
+      "fresh-v5r-economics-income-determination-4",
+      "fresh-v5r-economics-government-budget-the-economy-1",
+      "fresh-v5r-economics-government-budget-the-economy-2",
+      "fresh-v5r-economics-government-budget-the-economy-3",
+      "fresh-v5r-economics-government-budget-the-economy-4",
+      "fresh-v5r-economics-balance-of-payments-1",
+      "fresh-v5r-economics-balance-of-payments-2",
+      "fresh-v5r-economics-balance-of-payments-3",
+      "fresh-v5r-economics-balance-of-payments-4",
+      "fresh-v5r-english-1-1",
+      "fresh-v5r-english-1-2",
+      "fresh-v5r-english-1-3",
+      "fresh-v5r-english-1-4",
+      "fresh-v5r-english-2-1",
+      "fresh-v5r-english-2-2",
+      "fresh-v5r-english-2-3",
+      "fresh-v5r-english-2-4",
+      "fresh-v5r-english-3-1",
+      "fresh-v5r-english-3-2",
+      "fresh-v5r-english-3-3",
+      "fresh-v5r-english-3-4",
+      "fresh-v5r-english-4-1",
+      "fresh-v5r-english-4-2",
+      "fresh-v5r-english-4-3",
+      "fresh-v5r-english-4-4"
+    ]
+  }
+}

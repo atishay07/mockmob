@@ -1,0 +1,50 @@
+{
+  "schema": "cuet-v717-explanation-reconciliation-v1",
+  "created_at": "2026-10-10T05:38:06.5623118Z",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "scope": {
+    "fixture_id": "v717-fresh32-b-d3",
+    "opaque_id": "q717-23393bb7b488f77a58ed3c66",
+    "subject": "business_studies",
+    "review": "revised explanation only"
+  },
+  "bindings": {
+    "authored_r2_sha256": "d9fef4fdf9ca2d54735cc405d0d0b1b8cff0056c7c9ebaee12e6fc90b9e02c7a",
+    "original_authored_sha256": "c9dd8b9c70999bf55b989a83c7938cbc8d6008ed0b883628395d0eaf47e5e63b",
+    "blind_packet_sha256": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530",
+    "prior_independent_audit_sha256": "3aa9ec401b6f728a8ecf1debf7313d84b2b648309c29a71ddb7ae5a5fbab8802",
+    "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+  },
+  "unchanged_non_explanation_fields": {
+    "objective": true,
+    "body": true,
+    "difficulty": true,
+    "sources": true,
+    "options": true,
+    "key": true,
+    "syllabus_unit": true,
+    "chapter": true,
+    "concept": true,
+    "question_type": true
+  },
+  "author_key": "D",
+  "blind_independent_answer_set": [
+    "D"
+  ],
+  "blind_independent_unique_solution": "D",
+  "revised_explanation": "Loan-agreement restrictions never affect dividend declarations, so management may ignore those terms when deciding whether to declare a dividend. Option D is correct.",
+  "decisive_registered_source": {
+    "source_id": "ncertcol-lebs201-v1",
+    "excerpt_id": "p10-c0-g1-s0",
+    "quote": "The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard."
+  },
+  "assessment": {
+    "explanation_contradicts_source": true,
+    "reason": "The revised explanation asserts that loan-agreement restrictions never affect dividend declarations and that management may ignore them. The registered excerpt expressly requires companies to ensure a dividend does not violate loan-agreement terms. This is a direct contradiction, not a faithful paraphrase or source-backed inference.",
+    "answer_key_remains_source_supported": true,
+    "controlled_false_explanation_defect_is_present": true,
+    "all_non_explanation_author_fields_unchanged": true,
+    "original_negative_label_retained_without_relabel": true,
+    "registration_or_native_evaluation_performed": false
+  }
+}

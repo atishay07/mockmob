@@ -1,0 +1,9 @@
+{
+  "case_construction_started_at": "2026-10-09T06:42:30.000Z",
+  "contract_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-contract-freeze.json",
+  "contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "transport_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-transport-freeze.json",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "transport_freeze_contract_sha256": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1"
+}

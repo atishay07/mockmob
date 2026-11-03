@@ -1,0 +1,1395 @@
+{
+  "at": "2026-10-08T09:04:00.910Z",
+  "role": "Answer-blind source construction audit; this tool reads no official keys",
+  "denominator": 16,
+  "option_claims": 64,
+  "construction_passes": 14,
+  "withheld": [
+    {
+      "id": "cbse25-26-bs-q3",
+      "reasons": [
+        "overlapping_true_options_A_D"
+      ]
+    },
+    {
+      "id": "cbse25-26-bs-q10",
+      "reasons": [
+        "no_option_matches_registered_communication_process"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-bs-q01",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "5e6251b19733b79e4777ccafdb3351b5744676d6b2d0013e2527afa19a73e265",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+          "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+          "physical_pdf_page": 18,
+          "page_text_sha256": "b92e1b2f1a03e2cc8d0fcc332343b495714a3c4938800ef2de555fa9675fde10",
+          "quote_start": 698,
+          "quote_end": 786,
+          "quote": "They analyse the business environment and its implications for the survival of the firm.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs101.pdf",
+          "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+          "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+          "physical_pdf_page": 19,
+          "page_text_sha256": "419dbe24de9685d62e2e00236494eaeda5be8120ee5fcc794b14cd86d860bf8d",
+          "quote_start": 631,
+          "quote_end": 756,
+          "quote": "Through their efforts quality of output is maintained, wastage of materials is minimised and safety standards are maintained.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs101.pdf",
+          "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Ensuring the quality of output of workers.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Quality of workers’ output is explicitly a supervisory responsibility.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Confirming that safety standards are maintained in the organisation.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Safety standards are explicitly maintained through supervisors’ efforts.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Analysing the business environment and its implications for the survival of the firm.",
+          "judgment": "supported_answer",
+          "reason": "Analysis of the environment for firm survival is described under top management.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Minimising the wastage of materials.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Minimising material wastage is explicitly a supervisory responsibility.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "fb60564b194aa5d3fcbac0984c2a8695359f0c916ab3447e8f14b4647c885155",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+          "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+          "physical_pdf_page": 21,
+          "page_text_sha256": "521428f62ebe3ac0ef08fcc11def3bfeaa248553d5f79e12112b9a7d9e1d1034",
+          "quote_start": 2070,
+          "quote_end": 2486,
+          "quote": "Taylor was a strong advocate of piece wage system. He wanted to differentiate between efficient and inefficient workers. The standard time and other parameters should be determined on the basis of the work- study discussed above. The workers can then be classified as efficient or inefficient on the basis of these standards. He wanted to reward efficient workers. So he introduced different rate of wage payment for",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+          "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+          "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+          "physical_pdf_page": 22,
+          "page_text_sha256": "bafeaaa04ea633f65d966aa65a17aea85d8df1d5a296bf1929b876e712cc21a9",
+          "quote_start": 28,
+          "quote_end": 106,
+          "quote": "those who performed above standard and for those who performed below standard.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+          "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+          "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+          "physical_pdf_page": 20,
+          "page_text_sha256": "d0957d289e18dcb6c8ae4148ea9826ae5a2518a297706b41909e06d42df5a626",
+          "quote_start": 1800,
+          "quote_end": 2072,
+          "quote": "Motion study refers to the study of movements like lifting, putting objects, sitting and changing positions, etc., which are undertaken while doing a typical job. Unnecessary movements are sought to be eliminated so that it takes less time to complete the job efficiently.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+          "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+          "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+          "physical_pdf_page": 21,
+          "page_text_sha256": "521428f62ebe3ac0ef08fcc11def3bfeaa248553d5f79e12112b9a7d9e1d1034",
+          "quote_start": 1369,
+          "quote_end": 1466,
+          "quote": "Fatigue study seeks to determine the amount and frequency of rest intervals in completing a task.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+          "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Motion Study",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Motion study eliminates unnecessary movements; it is not the differentiated wage-rate mechanism.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Differential Piece Wage System",
+          "judgment": "supported_answer",
+          "reason": "Different rates for efficient and inefficient workers link compensation to efficiency.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Standardisation and Simplification of work",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Standardisation/simplification does not name the differentiated wage-rate scheme described by the decisive excerpt.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Fatigue Study",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Fatigue study determines rest intervals, not different piece wage rates.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "84edb9c87366c52c77a5c69e78516d42e74f71ab66b6a901f2466a97266debc5",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 9,
+          "page_text_sha256": "53da7243f1a3c17eee185426e742c31a494dcb0b633810d01121c3f4c4d30060",
+          "quote_start": 1204,
+          "quote_end": 1377,
+          "quote": "Each division is multifunctional because within each division functions like production, marketing, finance, purchase, etc., are performed together to achieve a common goal.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "21e80ed17dd91e3caeb3b5e9f47c7cb1c7116716baaeef1b7d59dc7a17fdc7f1",
+          "quote_start": 663,
+          "quote_end": 795,
+          "quote": "It promotes flexibility and initiative because each division functions as an autonomous unit which leads to faster decisio n making.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Functional Structure",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Functional departments specialise by function, while the case requires experience in multiple functions.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Span of management",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Span is a count of subordinates, not the structure with autonomous multifunctional divisions.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Divisional Structure",
+          "judgment": "supported_answer",
+          "reason": "Multifunctional, autonomous divisions match the case’s development objective.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Informal organisation",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The case requires a designed organisation structure, not emergent informal relationships.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "fba0af93775b4f6fd0c9735a342d705df1e28aee817731c654cc6b768ef8f48d",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 4,
+          "page_text_sha256": "dcd7c7ca4aaf617ba1d18f1a5c594587aa1de7890f0394709568eb6ea7acb299",
+          "quote_start": 1860,
+          "quote_end": 2220,
+          "quote": "It helps the firm to identify threats and early warning signals: Threats refer to the exter nal environment trends and changes that will hinder a firm’s performance. Besides oppor­ tunities, environment happens to be the source of many threats. Environmental awareness can help managers to identify various threats on time and serve as an early warning signal.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "It helps in tapping useful resources.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Obtaining resources is not the failure described in the case.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "It helps the firm to identify threats and early warning signals.",
+          "judgment": "supported_answer",
+          "reason": "Changing preferences and entry of competitors are adverse trends requiring early warning.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "It helps in assisting in planning and policy formulation",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The described missed signal is an environmental threat; no planning or policy exercise is identified.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "It enables the firm to identify opportunities and get the first mover advantage.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A first-mover opportunity is not the adverse later competition described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "6ae6fc214277f4bfb96d00475751eb52ca36198e5ab9cf4ec952c58e3311242b",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs108",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs108.logical-pages-v5.json",
+          "cache_sha256": "a431cd1846019daea888cd686292043f454312c81f07a711ed7c8ac4e5341542",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "ba985891959cc144230125916160cc2441f081ca3e226dc5312e690b648f86f0",
+          "quote_start": 1221,
+          "quote_end": 1320,
+          "quote": "controlling only completes one cycle of management process and improves planning in the next cycle.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs108.pdf",
+          "pdf_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs108",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs108.logical-pages-v5.json",
+          "cache_sha256": "a431cd1846019daea888cd686292043f454312c81f07a711ed7c8ac4e5341542",
+          "physical_pdf_page": 5,
+          "page_text_sha256": "a912744961657f9ce18b014ec8f69aad19c5a54fc35dd31c3ad5c4c00221c452",
+          "quote_start": 2045,
+          "quote_end": 2140,
+          "quote": "Thus, planning and controlling are both backward-looking as well as a forward-looking function.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs108.pdf",
+          "pdf_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs108",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs108.logical-pages-v5.json",
+          "cache_sha256": "a431cd1846019daea888cd686292043f454312c81f07a711ed7c8ac4e5341542",
+          "physical_pdf_page": 6,
+          "page_text_sha256": "e1511ccdef44e1f55f12058d8b64c1c0f7e168cc27883f0bb66df1c7dca36b39",
+          "quote_start": 409,
+          "quote_end": 480,
+          "quote": "Standards can be set in both quantitative as well as qualitative terms.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs108.pdf",
+          "pdf_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Controlling completes one cycle of management process and improves planning in the next cycle.",
+          "judgment": "supported_answer",
+          "reason": "This is the stated link from controlling to the next planning cycle.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Controlling is the function of management that initiates action by people in the organisation.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Initiating action by directing people is not the evaluation/correction cycle described.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Controlling involves only looking back and not looking ahead.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The excerpt explicitly includes forward-looking controlling.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Standards in the controlling process must be set in quantitative terms only.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The excerpt explicitly permits qualitative standards as well as quantitative ones.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "c89a5b87d9de1d2663c9c0526b8fe48f246f7a83050038ac6ee5e64aab7f02d4",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "consumer-protection-act-2019",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\consumer-protection-act-2019.pages.json",
+          "cache_sha256": "b402f9a8255e04bfecc5074b665670619a18e029c2daba6364940e850b88c759",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "821d214e93c778b5c99e7f4a957592631c114487c1f9d2ff2dfec3010e6fae88",
+          "quote_start": 944,
+          "quote_end": 2453,
+          "quote": "7) \"consumer\" means any person who— (i) buys any goods for a consideration which has been paid or promised or partly paid and partly promised, or under any system of deferred payment and includes any user of such goods other than the person who buys such goods for consideration paid or promised or partly paid or partly promised, or under any system of deferred payment, when such use is made with the approval of such person, but does not include a person who obtains such goods for resale or for any commercial purpose; or (ii) hires or avails of any service for a consideration which has been paid or promised or partly paid and partly promised, or under any system of deferred payment and includes any beneficiary of such service other than the person who hires or avails of the services for consideration paid or promised, or partly paid and partly promised, or under any system of deferred payment, when such services are availed of with the approval of the first mentioned person, but does not include a person who avails of such service for any commercial purpose. Explanation.—For the purposes of this clause,— (a) the expression \"commercial purpose\" does not include use by a person of goods bought and used by him exclusively for the purpose of earning his livelihood, by means of self-employment; (b) the expressions \"buys any goods\" and \"hires or avails any services\" includes offline or online transactions through electronic means or by teleshopping or direct selling or multi-level marketing;",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\consumer-protection-act-2019.pdf",
+          "pdf_sha256": "0ae7f82ab5b77d50087cd4cd2dd2dbc12755c0bdb31371fdefd042b020d50756",
+          "official_url": "https://consumeraffairs.gov.in/public/upload/files/CP%20Act%202019_1732700731.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The Act requires approval of the buyer/first hirer, not disapproval.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The definition expressly includes offline as well as online transactions.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Resale and commercial-purpose uses are excluded subject to the stated goods/self-employment exception.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "A person who buys goods or avails services for consideration, including an approved user of goods or beneficiary of services; resale or commercial-purpose use is excluded, except goods used exclusively to earn a livelihood through self-employment.",
+          "judgment": "supported_answer",
+          "reason": "The consideration, approved-user/beneficiary rule and goods/self-employment exception match section 2(7).",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "bb969525b5078ab07b61111d9561457c542fcdc09cce07696f7b1e4cf8475c6c",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "consumer-protection-act-2019",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\consumer-protection-act-2019.pages.json",
+          "cache_sha256": "b402f9a8255e04bfecc5074b665670619a18e029c2daba6364940e850b88c759",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "7cf2933374d7873713987379a42ee4d6eab2c73d6ecec58ab053b3d2f5cb665c",
+          "quote_start": 2197,
+          "quote_end": 2668,
+          "quote": "10. (1) The Central Government shall, by notification, establish with effect from such date as it may specify in that notification, a Central Consumer Protection Authority to be known as the Central Authority to regulate matters relating to violation of rights of consumers, unfair trade practices and false or misleading advertisements which are prejudicial to the interests of public and consumers and to promote, protect and enforce the rights of consumers as a class.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\consumer-protection-act-2019.pdf",
+          "pdf_sha256": "0ae7f82ab5b77d50087cd4cd2dd2dbc12755c0bdb31371fdefd042b020d50756",
+          "official_url": "https://consumeraffairs.gov.in/public/upload/files/CP%20Act%202019_1732700731.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Central Consumer Protection Authority",
+          "judgment": "supported_answer",
+          "reason": "Section 10(1) expressly establishes this authority for consumer-rights violations and unfair trade practices.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Non-Governmental Organisations",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The named statutory regulator is the CCPA, not a voluntary NGO.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Supreme Court",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The section establishes the CCPA; it does not designate the Supreme Court as that regulator.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Consumer affairs Ministry",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The minister/department context does not replace the separately established statutory authority.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": "The source supports the identity and statutory remit of the authority. No date, ministerial meeting or guideline issuance is asserted in the explanation.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "310cf300f36296f06b308a6d887c91e44677dd2daf5ea4bff26285ffd8cde0c5",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs201.logical-pages-v5.json",
+          "cache_sha256": "00d66585865d21651efcbf8c8702c48328f12be1623dfd67faddc954e63fa081",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "c6434a6e9ce235eb772d9f1ee32ee4df30be5c66d246caa4b51951d7f8b0d82b",
+          "quote_start": 247,
+          "quote_end": 457,
+          "quote": "Financial planning is essentially the preparation of a financial blueprint of an organisation’s future operations. The objective of financial planning is to ensure that enough funds are available at right time.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs201.pdf",
+          "pdf_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs201.logical-pages-v5.json",
+          "cache_sha256": "00d66585865d21651efcbf8c8702c48328f12be1623dfd67faddc954e63fa081",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "c6434a6e9ce235eb772d9f1ee32ee4df30be5c66d246caa4b51951d7f8b0d82b",
+          "quote_start": 2035,
+          "quote_end": 2108,
+          "quote": "Financial planning also tries to specify possible sources of these funds.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs201.pdf",
+          "pdf_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Capital structure",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No debt/equity proportion is being chosen.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Financial control",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The case forecasts requirements rather than checking past performance against a standard.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Investment",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "It is not a decision to acquire one specified investment.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Financial planning",
+          "judgment": "supported_answer",
+          "reason": "The case matches estimating fund requirements, their timing and possible sources.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "c8ea1da1cccaf5797cb3091f8a91c12e2c9ef6230382f455e0337a949bc772f5",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+          "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+          "physical_pdf_page": 8,
+          "page_text_sha256": "f04612f6d6e07aeb47742ee342a23807cac33e2373795c0072271b663793373c",
+          "quote_start": 812,
+          "quote_end": 1072,
+          "quote": "Management is a continuous process: The process of manage- ment is a series of continuous, composite, but separate functions (planning, organising, directing, staffing and controlling). These functions are simultaneously performed by all managers all the time.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs101.pdf",
+          "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Management is a dynamic function",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Adapting to a changing environment is not the emphasis of the stem.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Management is a continuous process",
+          "judgment": "supported_answer",
+          "reason": "Ongoing simultaneous functions match the stated continuous process.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Management is an intangible force",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No inference from invisible results is the point of the stem.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Management is goal oriented",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Targets are mentioned, but ongoing simultaneous functions are the specific characteristic asked.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "414c74f914e4863ca486bae01f04fd4743fbe7d0f323a3005a0af979a7ddcff4",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+          "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+          "physical_pdf_page": 5,
+          "page_text_sha256": "4126a96fe416a40a5e36c9e8541164899870891b570f567eb97365f2912b68ad",
+          "quote_start": 1759,
+          "quote_end": 1916,
+          "quote": "Formed by practice and experi­ mentation: The principles of management are formed by experience and collective wisdom of managers as well as experimentation.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+          "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Universal applicability",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The stem describes origin in experience, not application across settings.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Flexible",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No adaptation of a principle to circumstances is described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Mainly behavioral",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Human conduct is involved, but the question explicitly asks about how the principle evolved.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Formed by practice and experimentation",
+          "judgment": "supported_answer",
+          "reason": "Experience and collective wisdom directly match formation through practice and experimentation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q3",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "125fe444f40aef0c7e4ffc134bb2041c832bea36548b5e37e4f5be8ce6315a77",
+      "independently_derived_key": null,
+      "unique_key_supported": false,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs107",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+          "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+          "physical_pdf_page": 12,
+          "page_text_sha256": "4f2a74e9feff38b9e9ac52976e7ff63e26bc66db97863f5a4cfc1a4e454de4a9",
+          "quote_start": 569,
+          "quote_end": 788,
+          "quote": "Maslow’s Theory focuses on the needs as the basis for motivation. This theory is widely recognised and appreciated. However, some of his propositions are questioned on his classification of needs and hierarchy of needs.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs107.pdf",
+          "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Both Assertion and Reason are true.",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "Both statements are true, so this option is a defensible answer as written.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Both Assertion and Reason are false.",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "The excerpt contradicts both-false.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Both are true, but Reason is not the correct explanation of Assertion.",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "The described classification/hierarchy criticism explains the assertion, so this qualification is false.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Both are true, and Reason is the correct explanation of Assertion.",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "Both are true and the stated criticism explains the assertion; this is also defensible.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "overlapping_true_options_A_D"
+      ],
+      "language_note": "A states only that both statements are true. D includes the same truth claim plus the explanation relationship. The unqualified stem does not make A false; this is withheld as a naturally defective construction case.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "723a1deadf286f21625a0801bf5eaa2cbac295a44c67b77f123409ba06aafb99",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+          "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "9add0dc886a2ec37f4ed12ef9a26a370474446bc539b0a6d0cca64cf2d78974a",
+          "quote_start": 653,
+          "quote_end": 747,
+          "quote": "A time based plan means salary and wages are paid either daily, weekly or monthly or annually.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs106.pdf",
+          "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+          "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "9add0dc886a2ec37f4ed12ef9a26a370474446bc539b0a6d0cca64cf2d78974a",
+          "quote_start": 1018,
+          "quote_end": 1132,
+          "quote": "Certain pay plans can be created which are a combination of time based pay plus incentives for higher performance.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs106.pdf",
+          "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs107",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+          "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+          "physical_pdf_page": 14,
+          "page_text_sha256": "ee153a754066d74bb79329903c90eba4fd13e8184a559e618bb7cc6337496e1a",
+          "quote_start": 120,
+          "quote_end": 236,
+          "quote": "Under these incentive schemes, employees are offered company shares at a set price which is lower than market price.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs107.pdf",
+          "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Time-based direct financial payment",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "This identifies the salary component but omits the explicitly offered share incentive.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Indirect financial payment",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The stem does not describe indirect benefits such as paid insurance or vacations.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Time-based pay plus incentives",
+          "judgment": "supported_answer",
+          "reason": "An annual salary is time based and discounted company shares are an incentive.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Performance-based direct financial payment",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No output/piecework-only salary calculation is described.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "0698515717d4e464ae31d2b7887585a26c3f494143e88bb55ea4c991cd3ec7e3",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs202.logical-pages-v5.json",
+          "cache_sha256": "690399004431c16152eb0d8190d57730c29a8715adc3ab09950febdc00119ada",
+          "physical_pdf_page": 14,
+          "page_text_sha256": "707fd4eecee23c4e9660e819a8f1533c0a76d68ab4e77e8ce7da57c0f01fe700",
+          "quote_start": 840,
+          "quote_end": 968,
+          "quote": "The important product decisions include deciding about the features, quality, packaging, labelling and branding of the products.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs202.pdf",
+          "pdf_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Promotion",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "These decisions concern what is offered, not promotion.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Place",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "These decisions concern the offering, not distribution/location.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Product",
+          "judgment": "supported_answer",
+          "reason": "Features, quality, packaging, labelling and branding are explicitly product decisions.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Price",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Price is not the set of offering-design decisions listed.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "05208cfd2fd6408f14cb6e0788799c8cffe54742c2fc239d127e3c0bbcf08f35",
+      "independently_derived_key": null,
+      "unique_key_supported": false,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs107",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+          "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+          "physical_pdf_page": 20,
+          "page_text_sha256": "41a906419d774abc6cc49d911cc87232f804f3ee89989fa37cae5a5de12c1583",
+          "quote_start": 1504,
+          "quote_end": 1633,
+          "quote": "i) Sender: Sender means person who conveys his thoughts or ideas to the receiver . The sender represents source of communication.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs107.pdf",
+          "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs107",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+          "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+          "physical_pdf_page": 20,
+          "page_text_sha256": "41a906419d774abc6cc49d911cc87232f804f3ee89989fa37cae5a5de12c1583",
+          "quote_start": 1635,
+          "quote_end": 1740,
+          "quote": "ii) Message: It is the content of ideas, feelings, suggestions, order, etc., intended to be communicated.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs107.pdf",
+          "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs107",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+          "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+          "physical_pdf_page": 21,
+          "page_text_sha256": "dff3d300f1fbc5d46797546cbb9665fb7558e536dc04a403097c5142be73d65c",
+          "quote_start": 683,
+          "quote_end": 1113,
+          "quote": "iv) Media: It is the path through which encoded message is transmitted to r eceiver. The channel may be in written form, face to face, phone call, Internet etc., (v) Decoding: It is the process of converting encoded symbols of the sender. (vi) Receiver: The person who receives communication of the sender. (vii) Feedback: It includes all those actions of receiver indicating that he has received and understood message of sender.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs107.pdf",
+          "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "iii, i, vii, ii, v, iv, vi",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "Media precedes message and encoding, so this cannot transmit an encoded message in the given order.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "iii, ii, vii, i, v, iv, vi",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "This places receiver before decoding, contrary to the NCERT process diagram/order used by this construction.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "ii, iii, vii, vi, iv, v, i",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "The proposed order begins with message before sender and includes feedback before decoding.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "ii, i, vii, iii, v, iv, vi",
+          "judgment": "not_unique_or_wrong_sequence",
+          "reason": "The proposed order begins with message/media before sender and encoding.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "no_option_matches_registered_communication_process"
+      ],
+      "language_note": "The prior single repair did not supply the NCERT diagram sequence iii, ii, vii, i, iv, v, vi. Retain quarantine; no second repair.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "cdd411a159c40078ef66fe543498dd5a8ef84fef2dd684d357b16af95a831d20",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs104.logical-pages-v5.json",
+          "cache_sha256": "b19c43331a7982b37827a6198530664df695b9e18f1c4441f3faa1c1526ef409",
+          "physical_pdf_page": 7,
+          "page_text_sha256": "21022658e969ddbaf3981b8790c25f0ee4e837cb9d98fc477c3eefaac658df04",
+          "quote_start": 1295,
+          "quote_end": 1647,
+          "quote": "Planning may not work in a dynamic environment: The business environment is dynamic, nothing is constant. The environment consists of a number of dimensions, economic, political, physical, legal and social dimensions. The organisation has to constantly adapt itself to changes. It becomes difficult to accurately assess future trends in the environment",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs104.pdf",
+          "pdf_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Planning leads to rigidity.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No enforced rigidity of a fixed plan is described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Planning may not work in a dynamic environment.",
+          "judgment": "supported_answer",
+          "reason": "Changing dimensions and difficulty assessing trends directly match this limitation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Planning does not guarantee success.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The case describes environmental change rather than reliance on past success or automatic guaranteed success.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Planning reduces creativity.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No restriction of employee creativity is described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "c65b32a84cd9cf9f137dbc0a066f6eeef26f8ef1763acda2ba04b7bc12dec5e0",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+          "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+          "physical_pdf_page": 9,
+          "page_text_sha256": "c7b5c4a777033bebb79d2b08d11ccb3a03b23c8a1a00419a618332e31c570c42",
+          "quote_start": 88,
+          "quote_end": 824,
+          "quote": "Training and Development: What people seek is not simply a job but a career. Every one must have the opportunity to rise to the top. The best way to provide such an opportunity is to facilitate employee learning. Organisations have either in ­ house training centers or have forged alliances with training and educational institutes to ensur e continuing learning of their employees. The organisations too benefit in turn. If employee motivation is high, their competencies are strengthened, they perform better and thus, contribute more to organisational effectiveness and efficiency. By offering the opportunities for career advancement to their members, organisations are not only able to attract but also retain its talented people.",
+          "retrieval_match": "Whitespace/punctuation tolerant phrase location; quoted bytes and offsets retain the exact source text",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs106.pdf",
+          "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "permission_basis": "Brief attributed official source excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Placement and orientation",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Initial placement/orientation is not the continuing learning and advancement described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Recruitment",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Finding candidates is not facilitating employees’ continuing learning.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Training and development",
+          "judgment": "supported_answer",
+          "reason": "The textbook ties training/development to learning, career advancement, attraction and retention.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Performance appraisal",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Appraisal evaluates performance rather than providing the learning opportunity described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    }
+  ],
+  "limitations": [
+    "Every item remains in the construction denominator. No paid judge or CUET release has run.",
+    "Topic labels, source presence and agreement are not correctness evidence. Source support is limited to the actual decisive teaching/statutory excerpts and stem data."
+  ]
+}

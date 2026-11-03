@@ -1,0 +1,61 @@
+{
+  "id": "cuet-v716-diagnostic-r2",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "created_at": "2026-10-09T23:15:07.942Z",
+  "contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+  "prompt_hash": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+  "campaign_sha256": "cda5ad9186203daac78b75d31970c08658c20fdfa684c736b2c269750ff6fa10",
+  "registry_sha256": "ea8b2eb8026b64e85364717fff32c1eb8acdbc33f168bcda698ea3b0b55a34f4",
+  "runner_sha256": "9bbb78f9f376e36dff35d59a5db592fc31d1c773e2e48acd4eba89a4034321a5",
+  "engine_sha256": "898156b51e30ecbac28b8c6ee58576dd59b79c95369d004762d39ec76b3ad3cf",
+  "registry_hash": "ea8b2eb8026b64e85364717fff32c1eb8acdbc33f168bcda698ea3b0b55a34f4",
+  "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+  "pricing_expires_at": "2026-10-12T21:37:55.116Z",
+  "cost_profile": {
+    "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+    "input_byte_bounds": {
+      "gpt-6-luna": 33024,
+      "gemini-3.8-flash": 33024
+    }
+  },
+  "jobs": [
+    {
+      "id": "f-234e398c6040b350",
+      "subject": "accountancy",
+      "candidate_hash": "72ae420d05b64fc2ee4deeccdb233c83b1bc315cdb80d53c4adb0b42716991fa"
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "subject": "economics",
+      "candidate_hash": "6925999a51049c148585eaa54639bb0e701dcaba7d331af4fee14a413ab7ca77"
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "subject": "english",
+      "candidate_hash": "1cfa688159a8844cb8725de2e213ff639a0edde103ad460cc6e81a18a50d4671"
+    }
+  ],
+  "qualification": false,
+  "validation_only": true,
+  "cap_usd": 0.4,
+  "publication": "never",
+  "max_repairs": 0,
+  "replacements": 0,
+  "standard_full_bound_usd": 0.508644,
+  "budget_stop_possible": true,
+  "input_byte_bound": 33024,
+  "full_retry_bounds": true,
+  "preflight_hash": "92b987262d738fc3800ad894494e15bdb7539d5b5a1bf3f9dd26f8c4806ca35e",
+  "decision_rule": "Diagnostic only: complete blind+independent+explanation-audit path and actual cost on three inspected valid R3 regression cases. Not qualification or release evidence.",
+  "standard_full_bound_exceeds_cap": true,
+  "execution_freeze": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-DIAGNOSTIC-EXECUTION-FREEZE-R4.json",
+    "sha256": "859d9292b8c9486b7d58bd6ba5b0fc491bc9396925fbfd5a2207f3594ceaf8b3"
+  },
+  "cases": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/diagnostic-native-r2/cases.json",
+    "sha256": "11fd51ee5a991599ac5d5578ac7c62751a7ca4107975366ea8849777f3d8f0c7"
+  },
+  "max_planned_request_bytes": 21195
+}

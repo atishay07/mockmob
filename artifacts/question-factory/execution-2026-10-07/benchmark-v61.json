@@ -1,0 +1,1531 @@
+{
+  "registration": {
+    "protocol": "frozen-source-keyed-cuET-v2",
+    "payload_hash": "d1b10795adda4735532be3b2821f99d337725eb062a24df3a124b466819f143e",
+    "contract_hash": "d8d79246b2a52105e55ee626988f698304ff6b8416d30957021af64de150006d",
+    "registry_version": 57,
+    "verifier_version": "luna-gemini-cuET-v6.1",
+    "frozen_at": "2026-10-06T21:26:48.808Z",
+    "unseen_at_freeze": true,
+    "source_keyed": true,
+    "independent_oracle": true,
+    "oracle_basis": "Expected answers were established before paid validation from exact authoritative excerpts plus explicit arithmetic, independently of the proposed/generated keys. These are newly written assessment items, not unchanged official PYQs.",
+    "content_hashes": [
+      "021fc617ab76075c3cf0dbd17e69ed5680f9fceed7ace45da348a0e897a1068b",
+      "954249b50c13889d450ab3128791fec1f54fe08602fa3bfa38ca9be4c3ee9853",
+      "092a620f1f245a13077bc83c9f727e278df861ce3466d3c2725995029efdeb4f",
+      "95177b971005531cba6c44e8560e7d098e64183e6132089220e5fc460accb32d",
+      "d6ccc2b26c3eba566e6bc48bcd9224c5a584da8d5e3db3684953d7e16aa9c80a",
+      "73fe225a4f12bcb6d2219972356ccab81667d9d731b0fe05395057f7ce485873",
+      "f94ca02e3c8b1be53b64ee80f42dbb88370aafc29f4063c6f963136a2dfd36e3",
+      "57fdd9fffc4986309442cfa301c1be286d3a6fdcf053fc9e8db8a75fa7ae2f3c",
+      "40ac4f0743c83ee19f99fe01830e72838d80d1111c1920999bfe3de618727c61",
+      "bfa55a3dc6f70d2f67f51c460aa4b7b5f7b88be87a6fe0f8b862bebcc49eabbf",
+      "91aebb439cd8435b4458fbb123cf9c9f353a278f9dd8d2d77b098bcd666e98fc",
+      "1c7bf78f645c7c4bf1569002b3a48f32e0cf168b40688673a446a3ac4508415b",
+      "1c0e793c419b070613ab42b9125da3e51a8f382e05de91f74683d5a19ba1cc34",
+      "ba9b1715db47aec3e1cb81fb99d80dcfb526510dc29c68450f127bf3d2fc8763",
+      "14859f7e7cd93990bbe7a6fcbb0a8d72e532460f832f34e8d11eb123ffbe6a41",
+      "11ceda82c1ac9b2bdaf6e7d857885e03d3aed1edf1b0a56f867e9e239fcee0b4",
+      "5a392d613159a5d24c0dcb647d95232b3ad900d316e4eee37f7c044c66237a7b",
+      "39600161d02b4465b8b2050cbaef5c72983dddca0987c01b02e700f0d75c19f8",
+      "4fa8e207fe91316385fc225b3b033c0545269724833bca3c8152a9b47917b492",
+      "70a2db23ed5c2d77af944ff9727ca0dbad9cb2cd5dcb1b7bb41e13b8d1c13d5f",
+      "09540a7e588c76098c960e188728cf475182706c1f4eff5c712e258f60172493",
+      "610b38f57dba2e21295c0fd7a6bbfd219400453ff3ceaf663cbd5b6e2ea74485",
+      "ecfc86a467f9474d9c53fbc3f339d9bfd38fc69cce981808af030489a53c6416",
+      "a283785e5903af52ca7240b235890498ac19cac153087cfe2547e6fb4edd7527",
+      "6f9ab34f7917cd7836ab116ab0fbf1b3546e288ea387e7c36fe722517fc9010b"
+    ],
+    "fixture_ids": [
+      "53fb513bb83f1954f51157e710de9790",
+      "e2d14ef287bdc48a116ba77b18a1f4c1",
+      "2b3dde2b986224c5231cc4578948058d",
+      "d28c0aa7bedcd6f45e1c20d2df816d82",
+      "db710a85f509a63fa48899d92adadfbb",
+      "9be20d8f5e96671fa63a7c7747c1bdf6",
+      "240fe3da6fcf1b006959379e1af7d5d4",
+      "ff0e5661c16af2426e05a249ea7287b1",
+      "b0063b80ac31f3ce44130e9108acb588",
+      "b947a680ca28df68832abd23a7a71323",
+      "007e8e6b5c23a1f2ef9626e66b52d2c2",
+      "f82a7b0158efcb8536aded87da4bb727",
+      "7215cb12063caa7570d77254ce788dda",
+      "acfcca637b50444f3dff5a28fa98b15b",
+      "55415116ba2876973ca7517309251095",
+      "9cab201ca2751bd11c550ff7992efdaa",
+      "86bddae61323d09e7688baad6a662ffd",
+      "bc1d390bd1a582bb992beb301c25d0ca",
+      "a31af273c5d0140a539cada0338cf94d",
+      "369bc94ba06c5081c054d01909d10a2b",
+      "3f18d65718382d214e741333f9f9bb94",
+      "aae7361096b4607c347e42fbacca43b7",
+      "0b827e90437358a041565487f8a4f287",
+      "402e4aa2ebaa3d9cd3daa0f6ba3a19bf",
+      "091201dd7d2b1b1c1c06a743969bb191"
+    ],
+    "state": "frozen"
+  },
+  "fixtures": [
+    {
+      "id": "53fb513bb83f1954f51157e710de9790",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "53fb513bb83f1954f51157e710de9790",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "In the sentence \"The hillside had sparse vegetation\", which phrase is closest in meaning to \"sparse\"?",
+        "options": [
+          "Densely crowded",
+          "Present in small amounts",
+          "Growing rapidly",
+          "Uniformly arranged"
+        ],
+        "correct_answer": "B",
+        "explanation": "Sparse means present in small amounts or numbers, often spread over a large area. The sentence concerns how little vegetation is present, rather than its growth rate or arrangement.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:53fb513bb83f1954f51157e710de9790",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:53fb513bb83f1954f51157e710de9790",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "basis": "Sparse means present in small amounts or numbers, often spread over a large area. The sentence concerns how little vegetation is present, rather than its growth rate or arrangement.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "e2d14ef287bdc48a116ba77b18a1f4c1",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "e2d14ef287bdc48a116ba77b18a1f4c1",
+        "subject": "english",
+        "chapter": "Match the Following",
+        "body": "Match List-I with List-II.\nList-I: (A) Frugal (B) Resolute (C) Candid\nList-II: (I) Determined (II) Open and honest (III) Economical in using resources\nChoose the correct matching.",
+        "options": [
+          "(A)-(III), (B)-(I), (C)-(II)",
+          "(A)-(I), (B)-(III), (C)-(II)",
+          "(A)-(II), (B)-(I), (C)-(III)",
+          "(A)-(III), (B)-(II), (C)-(I)"
+        ],
+        "correct_answer": "A",
+        "explanation": "Frugal describes using only necessary resources; resolute means determined; candid means open and honest. Thus A-III, B-I and C-II is the only complete matching.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "matching",
+        "passage_text": "",
+        "family_id": "heldout:e2d14ef287bdc48a116ba77b18a1f4c1",
+        "source_refs": [
+          {
+            "id": "oxford-quality-frugal",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          },
+          {
+            "id": "oxford-quality-candid",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:e2d14ef287bdc48a116ba77b18a1f4c1",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "oxford-quality-frugal",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73"
+          },
+          {
+            "id": "oxford-quality-resolute",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+          },
+          {
+            "id": "oxford-quality-candid",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+          }
+        ],
+        "basis": "Frugal describes using only necessary resources; resolute means determined; candid means open and honest. Thus A-III, B-I and C-II is the only complete matching.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "2b3dde2b986224c5231cc4578948058d",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "2b3dde2b986224c5231cc4578948058d",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "Arrange these events in the order reported in the passage: (P) The technician tested the repaired lamp. (Q) Nila noticed the flickering. (R) Nila took the lamp to the hall. (S) The technician replaced the cable.",
+        "options": [
+          "Q-P-S-R",
+          "S-Q-P-R",
+          "Q-S-P-R",
+          "Q-S-R-P"
+        ],
+        "correct_answer": "C",
+        "explanation": "The passage first reports noticing the flicker, then replacement of the damaged cable, then testing, and finally delivery to the hall: Q-S-P-R.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "sequence_ordering",
+        "passage_text": "In a fictional village workshop, Nila noticed that a lamp flickered whenever its cable moved. She switched off the power and asked the technician to inspect it. After replacing the damaged cable, the technician tested the lamp. Nila then carried the working lamp to the community hall. She told the organiser that noticing the fault had delayed the delivery but prevented them from using a damaged cable.",
+        "family_id": "heldout:2b3dde2b986224c5231cc4578948058d",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-workshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "cf42be113d83fea505bfb65ae10496af761b1747f726a7613718726a3ef530ae"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:2b3dde2b986224c5231cc4578948058d",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-workshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "cf42be113d83fea505bfb65ae10496af761b1747f726a7613718726a3ef530ae"
+          }
+        ],
+        "basis": "The passage first reports noticing the flicker, then replacement of the damaged cable, then testing, and finally delivery to the hall: Q-S-P-R.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "d28c0aa7bedcd6f45e1c20d2df816d82",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "d28c0aa7bedcd6f45e1c20d2df816d82",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "Why did Kabir change his choice of book?",
+        "options": [
+          "He wanted reading material rather than a diary for recording a trip.",
+          "The shopkeeper refused to sell the diary.",
+          "He disliked the diary’s cover.",
+          "He had stopped being interested in travel."
+        ],
+        "correct_answer": "A",
+        "explanation": "Kabir wanted something to read that evening, whereas the first book mainly offered blank expense tables. He still chose travellers’ stories, so the passage does not show that he lost interest in travel.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional bookshop, Kabir chose a travel diary because he liked its cover. Before paying, he opened it and found that most pages contained blank tables for recording expenses. He put it back and chose a collection of travellers’ stories instead. On the way home, he told his sister that the first book would have been useful for planning a trip, but he wanted something to read that evening.",
+        "family_id": "heldout:d28c0aa7bedcd6f45e1c20d2df816d82",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-bookshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "95deacc9a567231a011607f64c8443bb50f2d81123a149ee43c8cea625d92a64"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:d28c0aa7bedcd6f45e1c20d2df816d82",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-bookshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "95deacc9a567231a011607f64c8443bb50f2d81123a149ee43c8cea625d92a64"
+          }
+        ],
+        "basis": "Kabir wanted something to read that evening, whereas the first book mainly offered blank expense tables. He still chose travellers’ stories, so the passage does not show that he lost interest in travel.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "db710a85f509a63fa48899d92adadfbb",
+      "expected_valid": true,
+      "category": "valid_hard",
+      "candidate": {
+        "id": "db710a85f509a63fa48899d92adadfbb",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Revenue from operations is ₹18,00,000 and gross profit is 25% of revenue from operations. The inventory turnover ratio is 6 times and opening inventory is ₹1,80,000. Using the arithmetic average of opening and closing inventory, what is closing inventory?",
+        "options": [
+          "₹2,25,000",
+          "₹4,20,000",
+          "₹2,70,000",
+          "₹1,80,000"
+        ],
+        "correct_answer": "C",
+        "explanation": "Gross profit is 25% × ₹18,00,000 = ₹4,50,000, so cost of revenue from operations is ₹13,50,000. Average inventory is ₹13,50,000/6 = ₹2,25,000. Closing inventory is 2 × ₹2,25,000 − ₹1,80,000 = ₹2,70,000. ₹2,25,000 confuses average with closing inventory; ₹4,20,000 uses revenue instead of cost; ₹1,80,000 assumes no inventory change.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:db710a85f509a63fa48899d92adadfbb",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:db710a85f509a63fa48899d92adadfbb",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Gross profit is 25% × ₹18,00,000 = ₹4,50,000, so cost of revenue from operations is ₹13,50,000. Average inventory is ₹13,50,000/6 = ₹2,25,000. Closing inventory is 2 × ₹2,25,000 − ₹1,80,000 = ₹2,70,000. ₹2,25,000 confuses average with closing inventory; ₹4,20,000 uses revenue instead of cost; ₹1,80,000 assumes no inventory change.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "9be20d8f5e96671fa63a7c7747c1bdf6",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "9be20d8f5e96671fa63a7c7747c1bdf6",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Consider these statements about inventory turnover: (I) Average inventory is the arithmetic average of opening and closing inventory. (II) Inventory turnover uses cost of revenue from operations in the numerator. (III) A high inventory turnover always establishes efficient buying, regardless of selling margin. Which statements are correct?",
+        "options": [
+          "I only",
+          "I and II only",
+          "II and III only",
+          "I and III only"
+        ],
+        "correct_answer": "B",
+        "explanation": "I and II follow the stated formula. III is too broad: the source says high turnover needs careful interpretation because it can result from small-lot buying or quick sales at low margins.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:9be20d8f5e96671fa63a7c7747c1bdf6",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:9be20d8f5e96671fa63a7c7747c1bdf6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "I and II follow the stated formula. III is too broad: the source says high turnover needs careful interpretation because it can result from small-lot buying or quick sales at low margins.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "240fe3da6fcf1b006959379e1af7d5d4",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "240fe3da6fcf1b006959379e1af7d5d4",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "A company repays ₹3,60,000 of the principal of a long-term bank loan by bank transfer. Interest is not included in this amount. How is the repayment classified in its cash flow statement?",
+        "options": [
+          "Operating cash outflow",
+          "Investing cash outflow",
+          "Financing cash inflow",
+          "Financing cash outflow"
+        ],
+        "correct_answer": "D",
+        "explanation": "Repaying borrowed principal reduces borrowings and is a financing cash outflow. The stated amount excludes interest, so no classification convention for interest is needed.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:240fe3da6fcf1b006959379e1af7d5d4",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:240fe3da6fcf1b006959379e1af7d5d4",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "basis": "Repaying borrowed principal reduces borrowings and is a financing cash outflow. The stated amount excludes interest, so no classification convention for interest is needed.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "ff0e5661c16af2426e05a249ea7287b1",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "ff0e5661c16af2426e05a249ea7287b1",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "In the short run, a firm’s total cost rises from ₹80 at five units of output to ₹92 at six units. What is the marginal cost of the sixth unit?",
+        "options": [
+          "₹12",
+          "₹15.33",
+          "₹80",
+          "₹92"
+        ],
+        "correct_answer": "A",
+        "explanation": "Marginal cost is change in total cost divided by change in output: (₹92 − ₹80)/(6 − 5) = ₹12. The ₹15.33 figure is the average cost at six units.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:ff0e5661c16af2426e05a249ea7287b1",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:ff0e5661c16af2426e05a249ea7287b1",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "basis": "Marginal cost is change in total cost divided by change in output: (₹92 − ₹80)/(6 − 5) = ₹12. The ₹15.33 figure is the average cost at six units.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "b0063b80ac31f3ce44130e9108acb588",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "b0063b80ac31f3ce44130e9108acb588",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "With capital and all other inputs fixed, total product is 20 units with three workers and 27 units with four workers. What is the marginal product of the fourth worker?",
+        "options": [
+          "27 units",
+          "6.75 units",
+          "7 units",
+          "20 units"
+        ],
+        "correct_answer": "C",
+        "explanation": "Marginal product is the change in total product when one more worker is employed, with other inputs fixed: 27 − 20 = 7 units. The 6.75 figure is average product at four workers.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:b0063b80ac31f3ce44130e9108acb588",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:b0063b80ac31f3ce44130e9108acb588",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "Marginal product is the change in total product when one more worker is employed, with other inputs fixed: 27 − 20 = 7 units. The 6.75 figure is average product at four workers.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "b947a680ca28df68832abd23a7a71323",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "b947a680ca28df68832abd23a7a71323",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "body": "In a closed two-sector economy without government, planned consumption expenditure is ₹350 crore and planned investment expenditure is ₹80 crore. What is ex ante aggregate demand for final goods?",
+        "options": [
+          "₹270 crore",
+          "₹80 crore",
+          "₹350 crore",
+          "₹430 crore"
+        ],
+        "correct_answer": "D",
+        "explanation": "For the stated two-sector economy, ex ante aggregate demand is planned consumption plus planned investment: ₹350 crore + ₹80 crore = ₹430 crore.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:b947a680ca28df68832abd23a7a71323",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:b947a680ca28df68832abd23a7a71323",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "basis": "For the stated two-sector economy, ex ante aggregate demand is planned consumption plus planned investment: ₹350 crore + ₹80 crore = ₹430 crore.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "007e8e6b5c23a1f2ef9626e66b52d2c2",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "007e8e6b5c23a1f2ef9626e66b52d2c2",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Match List-I with List-II.\nList-I: (A) Authority (B) Responsibility (C) Accountability\nList-II: (I) Answerability for an assigned task’s outcome (II) Right to command (III) Obligation to perform an assigned duty\nChoose the correct matching.",
+        "options": [
+          "(A)-(I), (B)-(III), (C)-(II)",
+          "(A)-(II), (B)-(III), (C)-(I)",
+          "(A)-(III), (B)-(II), (C)-(I)",
+          "(A)-(II), (B)-(I), (C)-(III)"
+        ],
+        "correct_answer": "B",
+        "explanation": "Authority is the right to command, responsibility is the obligation to perform an assigned duty, and accountability is answerability for its outcome. The matching is A-II, B-III, C-I.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "matching",
+        "passage_text": "",
+        "family_id": "heldout:007e8e6b5c23a1f2ef9626e66b52d2c2",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:007e8e6b5c23a1f2ef9626e66b52d2c2",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "Authority is the right to command, responsibility is the obligation to perform an assigned duty, and accountability is answerability for its outcome. The matching is A-II, B-III, C-I.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "f82a7b0158efcb8536aded87da4bb727",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "f82a7b0158efcb8536aded87da4bb727",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "A manufacturer groups all production jobs in one department, finance jobs in another and personnel jobs in a third. Which organising concept does this arrangement directly illustrate?",
+        "options": [
+          "Divisional structure based on products",
+          "Delegation of authority",
+          "Functional structure",
+          "Decentralisation of decisions"
+        ],
+        "correct_answer": "C",
+        "explanation": "A functional structure groups similar or related jobs by function. The grouping criterion here is production, finance and personnel functions, not products. The described grouping does not itself establish how authority is delegated or how widely decisions are decentralised.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:f82a7b0158efcb8536aded87da4bb727",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-18f392ccae68",
+            "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:f82a7b0158efcb8536aded87da4bb727",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-18f392ccae68",
+            "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "A functional structure groups similar or related jobs by function. The grouping criterion here is production, finance and personnel functions, not products. The described grouping does not itself establish how authority is delegated or how widely decisions are decentralised.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "7215cb12063caa7570d77254ce788dda",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "7215cb12063caa7570d77254ce788dda",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Consider these statements: (I) Formal organisation is deliberately designed by management. (II) Informal organisation arises from social interaction among employees. (III) Informal communication must always follow the formal scalar chain. Which statements are correct?",
+        "options": [
+          "I only",
+          "II and III only",
+          "I and III only",
+          "I and II only"
+        ],
+        "correct_answer": "D",
+        "explanation": "I and II correctly identify the origins of formal and informal organisation. III is incorrect because informal communication does not follow a planned route and can move in any direction.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:7215cb12063caa7570d77254ce788dda",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:7215cb12063caa7570d77254ce788dda",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          }
+        ],
+        "basis": "I and II correctly identify the origins of formal and informal organisation. III is incorrect because informal communication does not follow a planned route and can move in any direction.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "acfcca637b50444f3dff5a28fa98b15b",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "candidate": {
+        "id": "acfcca637b50444f3dff5a28fa98b15b",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Revenue from operations is ₹18,00,000 and gross profit is 25% of revenue from operations. The inventory turnover ratio is 6 times and opening inventory is ₹1,80,000. Using the arithmetic average of opening and closing inventory, what is closing inventory?",
+        "options": [
+          "₹2,25,000",
+          "₹4,20,000",
+          "₹2,70,000",
+          "₹1,80,000"
+        ],
+        "correct_answer": "A",
+        "explanation": "Gross profit is 25% × ₹18,00,000 = ₹4,50,000, so cost of revenue from operations is ₹13,50,000. Average inventory is ₹13,50,000/6 = ₹2,25,000. Closing inventory is 2 × ₹2,25,000 − ₹1,80,000 = ₹2,70,000. ₹2,25,000 confuses average with closing inventory; ₹4,20,000 uses revenue instead of cost; ₹1,80,000 assumes no inventory change.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:acfcca637b50444f3dff5a28fa98b15b",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:acfcca637b50444f3dff5a28fa98b15b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Independent calculation gives closing inventory ₹2,70,000, option C, not average inventory in A.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "55415116ba2876973ca7517309251095",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "candidate": {
+        "id": "55415116ba2876973ca7517309251095",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "body": "In a closed two-sector economy without government, planned consumption expenditure is ₹350 crore and planned investment expenditure is ₹80 crore. What is ex ante aggregate demand for final goods?",
+        "options": [
+          "₹270 crore",
+          "₹80 crore",
+          "₹350 crore",
+          "₹430 crore"
+        ],
+        "correct_answer": "A",
+        "explanation": "For the stated two-sector economy, ex ante aggregate demand is planned consumption plus planned investment: ₹350 crore + ₹80 crore = ₹430 crore.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:55415116ba2876973ca7517309251095",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:55415116ba2876973ca7517309251095",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "basis": "350 + 80 = 430, option D, not A.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "9cab201ca2751bd11c550ff7992efdaa",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "candidate": {
+        "id": "9cab201ca2751bd11c550ff7992efdaa",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "In the short run, a firm’s total cost rises from ₹80 at five units of output to ₹92 at six units. What is the marginal cost of the sixth unit?",
+        "options": [
+          "₹12",
+          "More than ₹10",
+          "₹80",
+          "₹92"
+        ],
+        "correct_answer": "A",
+        "explanation": "Marginal cost is change in total cost divided by change in output: (₹92 − ₹80)/(6 − 5) = ₹12. The ₹15.33 figure is the average cost at six units.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:9cab201ca2751bd11c550ff7992efdaa",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:9cab201ca2751bd11c550ff7992efdaa",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "basis": "₹12 and more than ₹10 both describe the computed marginal cost.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "86bddae61323d09e7688baad6a662ffd",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "candidate": {
+        "id": "86bddae61323d09e7688baad6a662ffd",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "In the sentence \"The hillside had sparse vegetation\", which phrase is closest in meaning to \"sparse\"?",
+        "options": [
+          "Present in small amounts",
+          "Thinly distributed",
+          "Crowded together",
+          "Abundant"
+        ],
+        "correct_answer": "B",
+        "explanation": "Sparse means present in small amounts or numbers, often spread over a large area. The sentence concerns how little vegetation is present, rather than its growth rate or arrangement.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:86bddae61323d09e7688baad6a662ffd",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:86bddae61323d09e7688baad6a662ffd",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "basis": "The first two choices both express sparse vegetation.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "bc1d390bd1a582bb992beb301c25d0ca",
+      "expected_valid": false,
+      "category": "missing_assumptions",
+      "candidate": {
+        "id": "bc1d390bd1a582bb992beb301c25d0ca",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Revenue from operations is ₹15,00,000 and opening inventory is ₹1,50,000. What is the inventory turnover ratio?",
+        "options": [
+          "₹2,25,000",
+          "₹4,20,000",
+          "₹2,70,000",
+          "₹1,80,000"
+        ],
+        "correct_answer": "C",
+        "explanation": "Gross profit is 25% × ₹18,00,000 = ₹4,50,000, so cost of revenue from operations is ₹13,50,000. Average inventory is ₹13,50,000/6 = ₹2,25,000. Closing inventory is 2 × ₹2,25,000 − ₹1,80,000 = ₹2,70,000. ₹2,25,000 confuses average with closing inventory; ₹4,20,000 uses revenue instead of cost; ₹1,80,000 assumes no inventory change.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:bc1d390bd1a582bb992beb301c25d0ca",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:bc1d390bd1a582bb992beb301c25d0ca",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Gross profit or cost of revenue and closing or average inventory are absent.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "a31af273c5d0140a539cada0338cf94d",
+      "expected_valid": false,
+      "category": "missing_assumptions",
+      "candidate": {
+        "id": "a31af273c5d0140a539cada0338cf94d",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "A firm employs four workers. What is the marginal product of the fourth worker?",
+        "options": [
+          "27 units",
+          "6.75 units",
+          "7 units",
+          "20 units"
+        ],
+        "correct_answer": "C",
+        "explanation": "Marginal product is the change in total product when one more worker is employed, with other inputs fixed: 27 − 20 = 7 units. The 6.75 figure is average product at four workers.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:a31af273c5d0140a539cada0338cf94d",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:a31af273c5d0140a539cada0338cf94d",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "Total products for three and four workers are missing.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "369bc94ba06c5081c054d01909d10a2b",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "candidate": {
+        "id": "369bc94ba06c5081c054d01909d10a2b",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "Why did Kabir change his choice of book?",
+        "options": [
+          "He wanted reading material rather than a diary for recording a trip.",
+          "The shopkeeper refused to sell the diary.",
+          "He disliked the diary’s cover.",
+          "He had stopped being interested in travel."
+        ],
+        "correct_answer": "A",
+        "explanation": "Kabir changed his choice because Indian law prohibits using travel diaries for leisure reading.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional bookshop, Kabir chose a travel diary because he liked its cover. Before paying, he opened it and found that most pages contained blank tables for recording expenses. He put it back and chose a collection of travellers’ stories instead. On the way home, he told his sister that the first book would have been useful for planning a trip, but he wanted something to read that evening.",
+        "family_id": "heldout:369bc94ba06c5081c054d01909d10a2b",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-bookshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "95deacc9a567231a011607f64c8443bb50f2d81123a149ee43c8cea625d92a64"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:369bc94ba06c5081c054d01909d10a2b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "mockmob-v61-bookshop-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "95deacc9a567231a011607f64c8443bb50f2d81123a149ee43c8cea625d92a64"
+          }
+        ],
+        "basis": "The alleged legal restriction has no basis in the fictional passage.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "3f18d65718382d214e741333f9f9bb94",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "candidate": {
+        "id": "3f18d65718382d214e741333f9f9bb94",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Consider these statements about inventory turnover: (I) Average inventory is the arithmetic average of opening and closing inventory. (II) Inventory turnover uses cost of revenue from operations in the numerator. (III) A high inventory turnover always establishes efficient buying, regardless of selling margin. Which statements are correct?",
+        "options": [
+          "I only",
+          "I and II only",
+          "II and III only",
+          "I and III only"
+        ],
+        "correct_answer": "B",
+        "explanation": "I and II are correct because every company is legally required to value inventory at its selling price.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:3f18d65718382d214e741333f9f9bb94",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:3f18d65718382d214e741333f9f9bb94",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "The alleged legal valuation requirement is absent and does not support the formula.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "aae7361096b4607c347e42fbacca43b7",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "candidate": {
+        "id": "aae7361096b4607c347e42fbacca43b7",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "Which subatomic particle has a negative electric charge?",
+        "options": [
+          "Proton",
+          "Neutron",
+          "Electron",
+          "Photon"
+        ],
+        "correct_answer": "C",
+        "explanation": "An electron has a negative electric charge.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:aae7361096b4607c347e42fbacca43b7",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:aae7361096b4607c347e42fbacca43b7",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sparse",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+          }
+        ],
+        "basis": "Particle physics is outside this English language entitlement and dictionary support.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "0b827e90437358a041565487f8a4f287",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "candidate": {
+        "id": "0b827e90437358a041565487f8a4f287",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Which organ filters blood to produce urine?",
+        "options": [
+          "Heart",
+          "Kidney",
+          "Lung",
+          "Stomach"
+        ],
+        "correct_answer": "B",
+        "explanation": "The kidney filters blood to produce urine.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:0b827e90437358a041565487f8a4f287",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:0b827e90437358a041565487f8a4f287",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          }
+        ],
+        "basis": "Human renal physiology is outside Business Studies and the supplied organising excerpts.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "402e4aa2ebaa3d9cd3daa0f6ba3a19bf",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "candidate": {
+        "id": "402e4aa2ebaa3d9cd3daa0f6ba3a19bf",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "In the short run, a firm’s total cost rises from ₹80 at five units of output to ₹92 at six units. What is the marginal cost of the sixth unit?",
+        "options": [
+          "₹13",
+          "₹15.33",
+          "₹80",
+          "₹92"
+        ],
+        "correct_answer": "A",
+        "explanation": "92 minus 80 is 13, so marginal cost is ₹13.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:402e4aa2ebaa3d9cd3daa0f6ba3a19bf",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:402e4aa2ebaa3d9cd3daa0f6ba3a19bf",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p9-c1856",
+            "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+          }
+        ],
+        "basis": "92 − 80 = 12, absent from the choices; the calculation and key are faulty.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "091201dd7d2b1b1c1c06a743969bb191",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "candidate": {
+        "id": "091201dd7d2b1b1c1c06a743969bb191",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Revenue from operations is ₹18,00,000 and gross profit is 25% of revenue from operations. The inventory turnover ratio is 6 times and opening inventory is ₹1,80,000. Using the arithmetic average of opening and closing inventory, what is closing inventory?",
+        "options": [
+          "₹2,25,000",
+          "₹4,20,000",
+          "₹2,70,000",
+          "₹1,80,000"
+        ],
+        "correct_answer": "B",
+        "explanation": "Average inventory is revenue divided by turnover, 18,00,000/6 = 3,00,000. Closing inventory is 2 × 3,00,000 − 1,80,000 = 4,20,000.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:091201dd7d2b1b1c1c06a743969bb191",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:091201dd7d2b1b1c1c06a743969bb191",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "The turnover numerator is cost of revenue, 13,50,000, giving average inventory 2,25,000 and closing inventory 2,70,000.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-09T08:36:57.516Z",
+  "scope": "Fixed qualification evidence, not generated pilot or publication. Correlated root/defect pairs and shared source passages.",
+  "denominator": 41,
+  "terminal": 5,
+  "pending": 36,
+  "eligible_valid": 0,
+  "valid_controls": 20,
+  "accepted_invalid_ids": [],
+  "settled_usd": 0.084744,
+  "held_usd": 0,
+  "provider_requests": 14,
+  "quality_on_eligible_valid_only": {},
+  "limitations": "Model criteria are conditional on eligibility and do not prove correctness or observed student performance. A high score never compensates academic failure. Full qualification decision is in release assessment, requiring fixed-denominator complete outcomes and receipts."
+}

@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 15304,
+ "request_bytes": 34225,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79q1-run-v79q1-accountancy-v1\",\n  \"content_hash\": \"d6c993cfed08fcbf7c012bdf1694acc82da9acd5d8556c20e1a4e4f07a11ba4d\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\"],\n  \"reasons\": [\n    \"Under NCERT Class 12 Accountancy (Section 1.6.2), money received from shareholders towards calls not yet made is termed 'Calls in Advance'.\",\n    \"It is credited to Calls in Advance A/c and treated as a liability until adjusted against the call when it becomes due.\"\n  ],\n  \"syllabus_chapter\": \"Share Capital\",\n  \"syllabus_topic\": \"Calls in advance\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The amount paid represents an advance towards calls not yet made by the directors.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Calls received in advance are credited to Calls in Advance Account and treated as a liability until the call falls due.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The company directly credits paid-up share capital for any money received from shareholders.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The advance payment is credited to Calls in Arrears Account to reduce outstanding dues.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The uncalled receipt is treated as capital reserve and credited to Securities Premium Reserve.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly assesses 'Calls in advance' listed under Accounting for Share Capital.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option conceptual MCQ matching CUET exam format.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct conceptual application fully in line with CUET Class 12 difficulty level.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent common student confusions between arrears, share capital, and reserves.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": [\"cuet2024-accountancy-bookA-q6\", \"cuet2024-accountancy-bookA-q14\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Credit it to Share Capital A/c immediately and treat it as part of owners' equity\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.”\",\n      \"reason\": \"Advance call money is not part of share capital until calls fall due.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Credit it to Calls in Arrears A/c and show it as an asset of the company\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.”\",\n      \"reason\": \"The call has not been made, so it cannot be Calls in Arrears.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.”\",\n      \"reason\": \"Matches the textbook treatment for calls received before being called.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Credit it to Securities Premium Reserve A/c as a capital reserve of the company\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.”\",\n      \"reason\": \"Call in advance is a liability, not securities premium.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EvcICvQIAWkUfROq7XUUVU/1+Z9g2JezpZ9UBWxbTnXBvPw8QKmOpVUDxlXyX83TObBy6ireFL8R7TIY8kqiDcX3wz23D+Z8+XdpSE5tMKjnoIXSctkENPf2MaMLG5fh807jghIaW/9FxduQSN7tPMhVeHhtRuYrlKbuh9M9ZwrMoU6Df3f2OyzeA7psS1TVBLAmZEi57BjCW0nnblWdTY7ILWem3ZmQL5k/4LrweaSzxSoI1orZM36CaTkARZi9/gcsM55cQE464GHi+7MMgseEso9g284hoMwRIZTE7Tnkej7aOSPtytVHF0MaIGc88OD9zcwrSHHBErN4ay0Zx7JkBdBg2N8mFnCXJT+yxKPt0a+cbkyINiUbF9exIddkvAkiMo5zgoE7kPajX2PxNmwnoBMJ5pjSXCSiO3WGkoGs5QWHTmfXZ89bZKPpG7zsaU/YJiZ/7B/GwU90o4izJ3tZtwi4AFx0FdO4zlNenMQ0v9KKd31sf1FhO+mzEiC8iKjCp/hx1w2Jt3sNfuomJn7qL3L/Dq6i6djVXPDDuaB9iK4pi5JR8UvQsYNdzvpZ6OvLz0oftT7aE9vKdrjgJrPhyhIeZGOs5GIkWcXkCgbFuro1tDiAgGYMgUj1shsFjc0q0h89t2F5faHwjq1OGWmXM168k8/LMOf7wfaGviIjwnzOiySUbQ+2ZUEGwT0H0AUxUIzdGn1dLP0xh/re8F0WQ+WYX4tJEMjk/z8qzLWZvLPhukyOOFKBYrExvsKWgtDs3KbBETP3MsBuo+4d5HDF/IZWVLN9lqcnLOCfOw/fvHSiNwESmxg21t9u9dwVnTTXjWfoayyqfHBrJWfA4SoW3OfsuwrrmEOwr8w+vl5AWnQlsBJNd94aE39TEKbJUi6kC42qK1RTJREyqh4xUdxATq7uUNf0PocZkT3D8p//JjZJkHK8GVSkpEBs4ix7TnP5vMe4bqczcNxKQXlv9U9fXJv7XKGcSL1su7ENCL54BR0xuuTbQnZE5l3cwJKhBaqMm3R44dWPbPGNJHPDBDTVcm3qlbi8c+8K0mMNxdwC8jZem/QmoVqeHGX4vjgbvXRArfR2ncffnyqX7W0r8+rlWPfeR/jbkLrZY+HqSVf8hXvfryUjTiqs4K8bByNiePUvVUf2s7jS8kNSTn3Xnpgz1Cwr1mRUcQKQrOZv/Q82fYi51zFtB0kx2qSK6/cz9TgclqSkv8YVQGEti+WqUcDwEXrA6SXMetjvUBRoLCOuox4B0M5x6TTUibM+pbAZEVLScB+BquipVrALGw2l/CqlphzJ1jAx89bHcs+/RpNxKCKSo3+B9oY/ECvhmsovNO1tPbAV7089uDzmMJ31Dg3xWyVvUWmfKhx/zbpQlha4xG+CDG4nb3I8dloLoBrQi5dnJngOWprl386zR06btN7n19jRx0lnMtJBAxM8cwVhlNR0qP5bEhxmlEab7xBticR6VkBdK/sS8+KC2LiVq6RVKowF7g8c8Kob/mmaGeMRg7BqTcQ3a5kc"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6086,
+   "candidatesTokenCount": 1483,
+   "totalTokenCount": 7809,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6086
+    }
+   ],
+   "thoughtsTokenCount": 240,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "lufIauf5G-T_g8UPnu2GyA0"
+ }
+}

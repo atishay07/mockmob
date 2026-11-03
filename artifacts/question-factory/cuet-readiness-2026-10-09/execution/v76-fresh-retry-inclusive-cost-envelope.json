@@ -1,0 +1,774 @@
+{
+  "at": "2026-10-08T22:18:59.877Z",
+  "paid_calls": 0,
+  "price_expires_at": "2026-10-12T21:37:55.116Z",
+  "source": "Actual frozen V76 request builders; maximum FULL input/output reservations at registered rates, including cache-write bound AND existing exactly-one billed output-completion retry with doubled output ceiling; realized Flex discounts are not assumed. Audit builder uses synthetic empty cached solutions: its displayed bytes are not the final audit input size. Real audits remain guarded by full input/output reservations.",
+  "supersedes": "v2 captured duplicate blind evaluations and omitted audit requests; v3 omitted existing billed completion retries. All historical estimates are preserved. This post-result correction is not retroactive preregistration.",
+  "cases": 28,
+  "maximum_stage_reservations_usd": {
+    "blind_solution": 0.02,
+    "independent_evaluation": 0.103125,
+    "explanation_support": 0.01625
+  },
+  "initial_requests_bound_usd": 1.6275,
+  "all_stages_with_retries_bound_usd": 3.9025,
+  "maximum_request_bytes": 30318,
+  "captures": [
+    {
+      "id": "v76f-e0932269d0",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27725,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-e0932269d0",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27727,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-e0932269d0",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11172,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26270,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26272,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 9673,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27078,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27080,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10503,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27236,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27238,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10713,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-10a1826742",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27955,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-10a1826742",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27957,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-10a1826742",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11708,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28025,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28027,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11678,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 29994,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 29996,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 13678,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 25439,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 25441,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 9101,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28726,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28728,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 12096,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28359,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28361,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11761,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26938,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26940,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10261,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26780,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26782,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10141,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-461c8da728",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27414,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-461c8da728",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27416,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-461c8da728",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11249,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-71ed304404",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27309,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-71ed304404",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27311,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-71ed304404",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11079,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27413,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27415,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11232,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27474,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27476,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11267,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27078,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27080,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10503,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27733,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27735,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11180,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26270,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26272,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 9673,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28063,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28065,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11716,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 25439,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 25441,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 9156,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 25164,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 25166,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 8672,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28726,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28728,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 12096,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 30316,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 30318,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 12147,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26938,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26940,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10356,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27414,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27416,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11249,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27298,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27300,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11068,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v76f-10e903f685",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27474,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v76f-10e903f685",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27476,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v76f-10e903f685",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11350,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    }
+  ]
+}

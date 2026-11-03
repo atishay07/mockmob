@@ -1,0 +1,730 @@
+[
+  {
+    "width": 390,
+    "mode": "guide",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 1856,
+        "render": 1856,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2272,
+        "render": 2272,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2834.2000000029802,
+        "duration": 137
+      },
+      {
+        "start": 3226.0999999940395,
+        "duration": 51
+      }
+    ],
+    "frames": {
+      "count": 406,
+      "p50": 12,
+      "p95": 24.30000000000109,
+      "over33": 7
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2021
+    }
+  },
+  {
+    "width": 390,
+    "mode": "guide",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 2836,
+        "render": 2836,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 3636,
+        "render": 3636,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 4266.29999999702,
+        "duration": 153
+      },
+      {
+        "start": 4695.20000000298,
+        "duration": 64
+      }
+    ],
+    "frames": {
+      "count": 382,
+      "p50": 12.100000000000364,
+      "p95": 30.299999999999272,
+      "over33": 6
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2012
+    }
+  },
+  {
+    "width": 390,
+    "mode": "static",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 1764,
+        "render": 1764,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2420,
+        "render": 2420,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2143.5,
+        "duration": 108
+      },
+      {
+        "start": 2823.3999999910593,
+        "duration": 147
+      },
+      {
+        "start": 3075.8999999910593,
+        "duration": 50
+      },
+      {
+        "start": 3267.699999988079,
+        "duration": 66
+      }
+    ],
+    "frames": {
+      "count": 433,
+      "p50": 6.200000000000728,
+      "p95": 24.200000000000728,
+      "over33": 2
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "static",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2016.0999999940395
+    }
+  },
+  {
+    "width": 390,
+    "mode": "static",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 1992,
+        "render": 1992,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2300,
+        "render": 2300,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2824.199999988079,
+        "duration": 149
+      },
+      {
+        "start": 3096.2999999970198,
+        "duration": 52
+      },
+      {
+        "start": 3313.0999999940395,
+        "duration": 70
+      }
+    ],
+    "frames": {
+      "count": 405,
+      "p50": 12.099999999998545,
+      "p95": 24.299999999999272,
+      "over33": 1
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "static",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2010.1000000089407
+    }
+  },
+  {
+    "width": 390,
+    "mode": "no-hero-entry",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 2784,
+        "render": 2784,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 365.90000000596046,
+        "duration": 1904
+      },
+      {
+        "start": 2774.2000000029802,
+        "duration": 148
+      },
+      {
+        "start": 3198.7999999970198,
+        "duration": 51
+      },
+      {
+        "start": 3400.7000000029802,
+        "duration": 65
+      }
+    ],
+    "frames": {
+      "count": 352,
+      "p50": 12.100000000000364,
+      "p95": 24.30000000000109,
+      "over33": 1
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2007.8999999910593
+    }
+  },
+  {
+    "width": 390,
+    "mode": "no-hero-entry",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 2380,
+        "render": 2380,
+        "load": 0,
+        "size": 31613,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 366.70000000298023,
+        "duration": 1909
+      },
+      {
+        "start": 2868.300000011921,
+        "duration": 159
+      },
+      {
+        "start": 3472.800000011921,
+        "duration": 72
+      }
+    ],
+    "frames": {
+      "count": 366,
+      "p50": 12.100000000000364,
+      "p95": 24.30000000000109,
+      "over33": 4
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2010.2000000029802
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "guide",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 1836,
+        "render": 1836,
+        "load": 0,
+        "size": 31650,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2348,
+        "render": 2348,
+        "load": 0,
+        "size": 40885,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2791.5,
+        "duration": 152
+      },
+      {
+        "start": 3059,
+        "duration": 54
+      },
+      {
+        "start": 3276,
+        "duration": 65
+      }
+    ],
+    "frames": {
+      "count": 329,
+      "p50": 12.100000000000364,
+      "p95": 30.299999999999272,
+      "over33": 5
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2006.9000000059605
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "guide",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 1652,
+        "render": 1652,
+        "load": 0,
+        "size": 31650,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2264,
+        "render": 2264,
+        "load": 0,
+        "size": 40885,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2945.5,
+        "duration": 159
+      },
+      {
+        "start": 3204.7999999970198,
+        "duration": 50
+      },
+      {
+        "start": 3395.7999999970198,
+        "duration": 67
+      }
+    ],
+    "frames": {
+      "count": 338,
+      "p50": 12.100000000000364,
+      "p95": 30.299999999999272,
+      "over33": 5
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2009.7999999970198
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "static",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 1724,
+        "render": 1724,
+        "load": 0,
+        "size": 31650,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2332,
+        "render": 2332,
+        "load": 0,
+        "size": 40885,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2835.699999988079,
+        "duration": 147
+      },
+      {
+        "start": 3088.699999988079,
+        "duration": 50
+      },
+      {
+        "start": 3283.3999999910593,
+        "duration": 61
+      }
+    ],
+    "frames": {
+      "count": 389,
+      "p50": 12.100000000000364,
+      "p95": 24.399999999999636,
+      "over33": 5
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "static",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2013.5999999940395
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "static",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 1624,
+        "render": 1624,
+        "load": 0,
+        "size": 31650,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2324,
+        "render": 2324,
+        "load": 0,
+        "size": 40885,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2800.2000000029802,
+        "duration": 145
+      },
+      {
+        "start": 3269.1000000089407,
+        "duration": 62
+      }
+    ],
+    "frames": {
+      "count": 332,
+      "p50": 12.100000000000364,
+      "p95": 30.30000000000109,
+      "over33": 13
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "static",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2012.1000000089407
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "no-hero-entry",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 2508,
+        "render": 2508,
+        "load": 0,
+        "size": 41225,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0.0008747574562250181,
+    "long": [
+      {
+        "start": 2987.2000000029802,
+        "duration": 160
+      },
+      {
+        "start": 3465.9000000059605,
+        "duration": 54
+      },
+      {
+        "start": 3695.2999999970198,
+        "duration": 72
+      },
+      {
+        "start": 4032.5999999940395,
+        "duration": 54
+      }
+    ],
+    "frames": {
+      "count": 299,
+      "p50": 12.199999999998909,
+      "p95": 36.29999999999927,
+      "over33": 17
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 136,
+      "ms": 2023.0999999940395
+    }
+  },
+  {
+    "width": 1280,
+    "mode": "no-hero-entry",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 2524,
+        "render": 2524,
+        "load": 0,
+        "size": 41225,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0.0008747574562250181,
+    "long": [
+      {
+        "start": 3061.2000000029802,
+        "duration": 166
+      },
+      {
+        "start": 3297.7000000029802,
+        "duration": 187
+      },
+      {
+        "start": 3603.9000000059605,
+        "duration": 55
+      },
+      {
+        "start": 3833.7000000029802,
+        "duration": 73
+      }
+    ],
+    "frames": {
+      "count": 339,
+      "p50": 12.100000000000364,
+      "p95": 30.200000000000728,
+      "over33": 7
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=256&q=75",
+        "bytes": 14658,
+        "encoded": 14358
+      },
+      {
+        "url": "http://localhost:3003/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=256&q=75",
+        "bytes": 16440,
+        "encoded": 16140
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2008.199999988079
+    }
+  }
+]

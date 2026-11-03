@@ -1,0 +1,130 @@
+[
+ {
+  "id": "v77f-ad344a8b5f2d",
+  "subject": "accountancy",
+  "chapter": "Cash Flow Statement",
+  "concept_id": "accountancy:cash-flow-statement",
+  "body": "Which investment can qualify as a cash equivalent under the stated maturity test?",
+  "options": [
+   {
+    "key": "A",
+    "text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk"
+   },
+   {
+    "key": "B",
+    "text": "Equity shares held for resale with no stated redemption date"
+   },
+   {
+    "key": "C",
+    "text": "A five-year government bond acquired today"
+   },
+   {
+    "key": "D",
+    "text": "A deposit maturing four months after acquisition"
+   }
+  ],
+  "correct_answer": "A",
+  "explanation": "The instrument is short-term, readily convertible, and matures within three months of acquisition. The other choices either exceed the maturity limit or lack the stated low-risk, short-maturity features.",
+  "route": "conceptual",
+  "difficulty": "easy",
+  "question_type": "conceptual_mcq",
+  "passage_text": null,
+  "family_id": "v77-final-v2-family-cash-equivalent-eligibility",
+  "source_refs": [
+   {
+    "id": "v77v2src-leac206-p3-ac_cash",
+    "version": 1,
+    "locator": "physical-pdf-page-3",
+    "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+   },
+   {
+    "id": "v77v2src-syllabus_accountancy-p3",
+    "version": 1,
+    "locator": "CUET-2026-syllabus-physical-page-3",
+    "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+   }
+  ],
+  "learning_objective": {
+   "syllabus_unit": "Analysis of Financial Statements",
+   "objective": "Evaluate investment facts against cash-flow classification criteria.",
+   "target_term": "cash-flow classification criteria"
+  },
+  "provenance": {
+   "kind": "original_practice",
+   "anchor_id": "v77v2src-leac206-p3-ac_cash",
+   "adaptation_family": "v77-final-v2-family-cash-equivalent-eligibility",
+   "adaptation_type": "source-grounded-original-practice",
+   "syllabus_version": "cuet-2026-provisional-for-2027",
+   "pattern_version": "cuet-2024-authenticated-bookA-v1",
+   "source_pack_id": "v77-final-v2-pack-accountancy",
+   "source_pack_version": 1
+  }
+ },
+ {
+  "id": "v77f-4c09b80e91ce",
+  "subject": "english",
+  "chapter": "Narrative Passage",
+  "concept_id": "english:narrative-passage",
+  "body": "In the library passage, what does “ledger” most nearly mean?",
+  "options": [
+   {
+    "key": "A",
+    "text": "A written record book"
+   },
+   {
+    "key": "B",
+    "text": "A box used to store maps"
+   },
+   {
+    "key": "C",
+    "text": "A window covering"
+   },
+   {
+    "key": "D",
+    "text": "A donor’s receipt"
+   }
+  ],
+  "correct_answer": "A",
+  "explanation": "Mira enters each move in the ledger; the passage uses it as a written record.",
+  "route": "passage",
+  "difficulty": "easy",
+  "question_type": "vocabulary_in_context",
+  "passage_text": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely.",
+  "family_id": "v77-final-v2-family-library-passage",
+  "source_refs": [
+   {
+    "id": "v77v2src-english-library",
+    "version": 1,
+    "locator": "original-stimulus:library",
+    "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+   },
+   {
+    "id": "v77v2src-syllabus_english-p2",
+    "version": 1,
+    "locator": "CUET-2026-syllabus-physical-page-2",
+    "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+   },
+   {
+    "id": "v77v2src-syllabus_english-p2",
+    "version": 1,
+    "locator": "CUET-2026-syllabus-physical-page-2",
+    "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+   }
+  ],
+  "learning_objective": {
+   "syllabus_unit": "Narrative Passage",
+   "objective": "Infer a word’s contextual meaning from narrative details.",
+   "target_term": "ledger"
+  },
+  "provenance": {
+   "kind": "original_practice",
+   "anchor_id": "v77v2src-english-library",
+   "adaptation_family": "v77-final-v2-family-library-passage",
+   "adaptation_type": "source-grounded-original-practice",
+   "syllabus_version": "cuet-2026-provisional-for-2027",
+   "pattern_version": "cuet-2024-authenticated-bookA-v1",
+   "source_pack_id": "v77-final-v2-pack-english",
+   "source_pack_version": 1
+  }
+ }
+]

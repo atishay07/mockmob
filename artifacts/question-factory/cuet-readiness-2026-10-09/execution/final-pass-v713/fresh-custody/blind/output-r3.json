@@ -1,0 +1,1270 @@
+{
+  "schema": "cuet-v713-blind_output-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "packet_sha256": "649fcd826def293914c8b8306c22ff45936f6db13ab289a587ba11121c3abb3d",
+  "reviewer_id": "/root/fresh_v713_blind_r3",
+  "created_at": "2026-10-09T19:09:40.136Z",
+  "items": [
+    {
+      "opaque_id": "b-0d5accc535791d33",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations."
+        }
+      ],
+      "decisive_basis": "Both garment sales receipts and raw-material supplier payments arise from the manufacturer principal operations.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct application of the stated garment-manufacturer examples.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-45e79e88b2a4f6fd",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty."
+        }
+      ],
+      "decisive_basis": "A cash flow statement reports cash inflows and outflows and helps assess cash generation, use, timing, and certainty.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the statement objective.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-6dd258b1d39a5a9a",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing."
+        }
+      ],
+      "decisive_basis": "Sale of a production machine is disposal of a fixed asset, so the cash receipt is investing.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct application of the fixed-asset disposal example.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-dac4417a2190210c",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Cash proceeds from issuing equity shares change owners capital and are financing."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Cash proceeds from issuing equity shares change owners capital and are financing."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Cash proceeds from issuing equity shares change owners capital and are financing."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Cash proceeds from issuing equity shares change owners capital and are financing."
+        }
+      ],
+      "decisive_basis": "Cash proceeds from issuing equity shares change owners capital and are financing.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the financing definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-35a60d455181bcc0",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere."
+        }
+      ],
+      "decisive_basis": "A share-for-machinery exchange uses no cash; the excerpt says such investing/financing transactions are excluded and disclosed elsewhere.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Directly covered non-cash transaction example.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-9a64438bf310b0cb",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct."
+        },
+        {
+          "option": "C",
+          "status": "true",
+          "basis": "Supported: The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct."
+        }
+      ],
+      "decisive_basis": "The excerpt identifies operating, investing, and financing as the three standard headings; A, B, and C are all correct.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The stem asks for one heading although three listed choices qualify.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-5ea7eae1c4deb8b1",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds."
+        }
+      ],
+      "decisive_basis": "The excerpt explicitly says financing-flow disclosure helps predict claims on future cash flows by providers of funds.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct retrieval from the stated purpose.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-2dcf37129094fae7",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items."
+        }
+      ],
+      "decisive_basis": "Under the indirect method, the stated starting point is net profit or loss before tax and extraordinary items.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct retrieval from the method description.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-24a54e6dea5a2344",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted."
+        },
+        {
+          "option": "C",
+          "status": "true",
+          "basis": "Supported: Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted."
+        }
+      ],
+      "decisive_basis": "Both A and B accurately describe accepted methods, and C accurately says both descriptions are accepted.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct reading confirms the direct and indirect methods are both accepted.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-8432cc44edd298e6",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Planning is setting objectives, forming possible courses of action, and selecting the best alternative."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Planning is setting objectives, forming possible courses of action, and selecting the best alternative."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Planning is setting objectives, forming possible courses of action, and selecting the best alternative."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Planning is setting objectives, forming possible courses of action, and selecting the best alternative."
+        }
+      ],
+      "decisive_basis": "Planning is setting objectives, forming possible courses of action, and selecting the best alternative.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Near-direct match to the supplied definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-337eedc18a82b3d7",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The excerpt says planning lays the base and provides the framework within which other functions are performed."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt says planning lays the base and provides the framework within which other functions are performed."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt says planning lays the base and provides the framework within which other functions are performed."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The excerpt says planning lays the base and provides the framework within which other functions are performed."
+        }
+      ],
+      "decisive_basis": "The excerpt says planning lays the base and provides the framework within which other functions are performed.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the feature described.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-4c286d2dc87e66a9",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: A programme for a one-time branch opening is a single-use plan for a non-recurring project."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A programme for a one-time branch opening is a single-use plan for a non-recurring project."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A programme for a one-time branch opening is a single-use plan for a non-recurring project."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A programme for a one-time branch opening is a single-use plan for a non-recurring project."
+        }
+      ],
+      "decisive_basis": "A programme for a one-time branch opening is a single-use plan for a non-recurring project.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Directly supported by the single-use plan definition and example.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-685f748735604295",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The supplied planning sequence says setting objectives is the first step."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The supplied planning sequence says setting objectives is the first step."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The supplied planning sequence says setting objectives is the first step."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The supplied planning sequence says setting objectives is the first step."
+        }
+      ],
+      "decisive_basis": "The supplied planning sequence says setting objectives is the first step.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct retrieval from the first-step rule.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-d081c519a0ab4e77",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: A strategy gives the broad contours, direction, and scope of the business over the long run."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A strategy gives the broad contours, direction, and scope of the business over the long run."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A strategy gives the broad contours, direction, and scope of the business over the long run."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A strategy gives the broad contours, direction, and scope of the business over the long run."
+        }
+      ],
+      "decisive_basis": "A strategy gives the broad contours, direction, and scope of the business over the long run.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-f2396462ff608bca",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included."
+        },
+        {
+          "option": "C",
+          "status": "true",
+          "basis": "Supported: Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included."
+        },
+        {
+          "option": "D",
+          "status": "true",
+          "basis": "Supported: Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included."
+        }
+      ],
+      "decisive_basis": "Planning/pricing, selecting outlets, and selling are each within the broad range of marketing; D also states that all listed activities are included.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The excerpt explicitly places all three listed activities within marketing.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-84b2a8791e84077a",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: A plan for a non-recurring event is a single-use plan."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A plan for a non-recurring event is a single-use plan."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A plan for a non-recurring event is a single-use plan."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: A plan for a non-recurring event is a single-use plan."
+        }
+      ],
+      "decisive_basis": "A plan for a non-recurring event is a single-use plan.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-99f7bc17eeb11945",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Physical distribution moves goods from production locations to places of use or consumption."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Physical distribution moves goods from production locations to places of use or consumption."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Physical distribution moves goods from production locations to places of use or consumption."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Physical distribution moves goods from production locations to places of use or consumption."
+        }
+      ],
+      "decisive_basis": "Physical distribution moves goods from production locations to places of use or consumption.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the supplied definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-2d3e488f521d4d85",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify."
+        },
+        {
+          "option": "C",
+          "status": "true",
+          "basis": "Supported: The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify."
+        },
+        {
+          "option": "D",
+          "status": "true",
+          "basis": "Supported: The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify."
+        }
+      ],
+      "decisive_basis": "The excerpt lists Product, Price, Place, and Promotion as the four marketing-mix elements; all four options qualify.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "All four options are expressly named as elements.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-5675c1c9293ace15",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP."
+        }
+      ],
+      "decisive_basis": "GDP counts final production taking place within the domestic economy; foreign ownership does not remove domestic production from GDP.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct application of the domestic-territory definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-93ddfec899fd45a1",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore."
+        }
+      ],
+      "decisive_basis": "GNP equals GDP plus net factor income from abroad: ₹640 crore + ₹25 crore = ₹665 crore.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "One-step substitution into the stated relation.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-f4d256d63df94c0b",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330."
+        }
+      ],
+      "decisive_basis": "Value added is farmer output ₹150 plus baker output net of intermediate wheat, ₹240 − ₹60 = ₹180; total ₹330.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Apply the supplied no-double-counting rule once.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-e47f088fee725e9c",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Summing final expenditures is identified as the expenditure method."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Summing final expenditures is identified as the expenditure method."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Summing final expenditures is identified as the expenditure method."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Summing final expenditures is identified as the expenditure method."
+        }
+      ],
+      "decisive_basis": "Summing final expenditures is identified as the expenditure method.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the method definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-df2dc3c52b1ad6cd",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore."
+        }
+      ],
+      "decisive_basis": "GVA at basic prices is 200 + 8 = 208; at market prices add net product taxes: 208 + 12 = ₹220 crore.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Follow the two-step conversion sequence given in the excerpt.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-a6c01024ecc0773b",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Real GDP is evaluated at constant prices, and option B restates that defining property."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Real GDP is evaluated at constant prices, and option B restates that defining property."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Real GDP is evaluated at constant prices, and option B restates that defining property."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Real GDP is evaluated at constant prices, and option B restates that defining property."
+        }
+      ],
+      "decisive_basis": "Real GDP is evaluated at constant prices, and option B restates that defining property.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "A and B express the same measure in the stem terms.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-14cb93d38fd74b74",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost."
+        }
+      ],
+      "decisive_basis": "Both A and B say to express the current-year cost of the same basket as a percentage of its base-year cost.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The source definition makes A and B equivalent.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-67fe7e122cc47feb",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall."
+        }
+      ],
+      "decisive_basis": "The source says a rising GDP may not raise welfare when gains are concentrated and many incomes fall.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct application of the distribution caveat.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-7b07ed9049cf5c1a",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes."
+        },
+        {
+          "option": "C",
+          "status": "true",
+          "basis": "Supported: Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes."
+        }
+      ],
+      "decisive_basis": "Nominal GDP depends on both output and current prices; the supplied source says nominal GDP alone cannot compare production volumes.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "The two nominal GDP values do not identify which year had greater real output.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-569c6993cca0d705",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Mara persists with a considered course despite setbacks; resolute means strong and determined."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Mara persists with a considered course despite setbacks; resolute means strong and determined."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Mara persists with a considered course despite setbacks; resolute means strong and determined."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Mara persists with a considered course despite setbacks; resolute means strong and determined."
+        }
+      ],
+      "decisive_basis": "Mara persists with a considered course despite setbacks; resolute means strong and determined.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The actions and definition support resolute.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c06e967f0448b1e8",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Careful checking, dating, and following up on missing figures show care and effort in duties."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Careful checking, dating, and following up on missing figures show care and effort in duties."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Careful checking, dating, and following up on missing figures show care and effort in duties."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Careful checking, dating, and following up on missing figures show care and effort in duties."
+        }
+      ],
+      "decisive_basis": "Careful checking, dating, and following up on missing figures show care and effort in duties.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The conduct fits diligent.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-18c1178f4f4170c4",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile."
+        }
+      ],
+      "decisive_basis": "Insults, angry challenges, and threats are aggressive and unfriendly, matching hostile.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-1ceaa7f14bb30e06",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly."
+        }
+      ],
+      "decisive_basis": "Only two of twelve locations have observations and many pages are blank, so the observations are few and spread thinly.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "The scenario fits sparse.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-1a1efbf3efb21002",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The replaced reader is no longer used because a newer system replaced it, matching obsolete."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The replaced reader is no longer used because a newer system replaced it, matching obsolete."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The replaced reader is no longer used because a newer system replaced it, matching obsolete."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The replaced reader is no longer used because a newer system replaced it, matching obsolete."
+        }
+      ],
+      "decisive_basis": "The replaced reader is no longer used because a newer system replaced it, matching obsolete.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct match to the definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-9a2be05bdeddf50e",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words."
+        }
+      ],
+      "decisive_basis": "Meticulous means paying careful attention to every detail; option B gives that same meaning in plain words.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Both A and B describe the editor careful attention to detail.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-8c21f5a54171f05d",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Long, sustained effort and energy over several days fits arduous."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Long, sustained effort and energy over several days fits arduous."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Long, sustained effort and energy over several days fits arduous."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Long, sustained effort and energy over several days fits arduous."
+        }
+      ],
+      "decisive_basis": "Long, sustained effort and energy over several days fits arduous.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct contextual fit to the supplied definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-9e9fc188905b0efc",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: The final statement is logically organized, clear, and connected, which is coherent."
+        },
+        {
+          "option": "B",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The final statement is logically organized, clear, and connected, which is coherent."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The final statement is logically organized, clear, and connected, which is coherent."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: The final statement is logically organized, clear, and connected, which is coherent."
+        }
+      ],
+      "decisive_basis": "The final statement is logically organized, clear, and connected, which is coherent.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct contextual fit to the supplied definition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c3c90c1f721f9b5f",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": "true",
+          "basis": "Supported: Tranquil means quiet and peaceful, and option B states the same meaning."
+        },
+        {
+          "option": "B",
+          "status": "true",
+          "basis": "Supported: Tranquil means quiet and peaceful, and option B states the same meaning."
+        },
+        {
+          "option": "C",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Tranquil means quiet and peaceful, and option B states the same meaning."
+        },
+        {
+          "option": "D",
+          "status": "false",
+          "basis": "Contradicted by the supplied premise/source: Tranquil means quiet and peaceful, and option B states the same meaning."
+        }
+      ],
+      "decisive_basis": "Tranquil means quiet and peaceful, and option B states the same meaning.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Both A and B describe the courtyard with the same meaning.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    }
+  ]
+}

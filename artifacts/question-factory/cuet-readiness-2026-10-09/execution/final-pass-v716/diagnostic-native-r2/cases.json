@@ -1,0 +1,217 @@
+{
+  "schema": "cuet-v716-cases-v1",
+  "study_id": "cuet-v716-diagnostic-r2",
+  "created_at": "2026-10-09T23:15:07.600260Z",
+  "cases": [
+    {
+      "id": "f-234e398c6040b350",
+      "subject": "accountancy",
+      "measurement_role": "regression",
+      "candidate": {
+        "id": "f-234e398c6040b350",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:noncash-financing-investing-exclusion",
+        "body": "A company acquires machinery by issuing its own equity shares directly to the seller; no cash or cash equivalent changes hands. How should this transaction be treated in the cash flow statement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Exclude it from the cash flow statement and disclose it elsewhere in the financial statements."
+          },
+          {
+            "key": "B",
+            "text": "Record a cash investing outflow and an equal operating inflow."
+          },
+          {
+            "key": "C",
+            "text": "Record a financing cash inflow because shares were issued, even though no cash was received."
+          },
+          {
+            "key": "D",
+            "text": "Treat the machinery as a cash equivalent."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Investing and financing transactions that do not use cash or cash equivalents are excluded from the cash flow statement and disclosed elsewhere.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-4578af8d21f01777",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Apply the cash-use test for investing and financing transactions.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-4578af8d21f01777",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "subject": "economics",
+      "measurement_role": "regression",
+      "candidate": {
+        "id": "f-c3a378b4d2de5478",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:product-method-double-counting",
+        "body": "Farmers produce wheat worth ₹150. Bakers buy ₹60 of that wheat and use it to make bread worth ₹240; assume no other intermediate inputs. What total value is counted by the product method when intermediate value is not counted twice?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹330"
+          },
+          {
+            "key": "B",
+            "text": "₹390"
+          },
+          {
+            "key": "C",
+            "text": "₹240"
+          },
+          {
+            "key": "D",
+            "text": "₹150"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Count the farmers’ ₹150 output and the bakers’ value added of ₹240 − ₹60 = ₹180. Total value added is ₹330.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-8dd4bf91c335ae28",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Apply the value-added method and avoid counting an intermediate input twice.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-8dd4bf91c335ae28",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "subject": "english",
+      "measurement_role": "regression",
+      "candidate": {
+        "id": "f-a7899d6bca12a82b",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-obsolete",
+        "body": "The archive replaced its old storage reader with a newer system. The reader no longer works with current files, and staff stopped using it after the replacement arrived. The device is now _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "obsolete"
+          },
+          {
+            "key": "B",
+            "text": "diligent"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "coherent"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Obsolete describes something no longer used because something new has been invented; the old reader was replaced and is no longer used.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-74f0b79789fa2eb6",
+        "source_refs": [
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "obsolete"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-obsolete",
+          "adaptation_family": "fam-74f0b79789fa2eb6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    }
+  ]
+}

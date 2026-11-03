@@ -1,0 +1,35 @@
+[
+  {
+    "start": "https://mockmob.in/",
+    "chain": [
+      {
+        "url": "https://mockmob.in/",
+        "status": 307,
+        "location": "https://www.mockmob.in/"
+      },
+      {
+        "url": "https://www.mockmob.in/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "finalUrl": "https://www.mockmob.in/",
+    "status": 200,
+    "guidedTour": true,
+    "dropdown": false
+  },
+  {
+    "start": "https://www.mockmob.in/",
+    "chain": [
+      {
+        "url": "https://www.mockmob.in/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "finalUrl": "https://www.mockmob.in/",
+    "status": 200,
+    "guidedTour": true,
+    "dropdown": false
+  }
+]

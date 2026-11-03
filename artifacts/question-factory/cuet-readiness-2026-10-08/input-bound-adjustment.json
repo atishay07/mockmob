@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T21:12:41.735Z",
+  "old": {
+    "gpt-6-luna": 32768,
+    "gemini-3.8-flash": 32768
+  },
+  "new_bound_bytes": 33024,
+  "measured_diagnostic_max_bytes": 32816,
+  "prices_changed": false,
+  "lifetime_cap_changed": false,
+  "academic_prompt_or_cases_changed": false,
+  "persisted_request_contracts_preserved": true,
+  "reason": "Offline captured three syllabus-exclusion cases exceeded the prior conservative byte bound by 40–48 bytes; increased reservation bound by256 without removing decisive evidence."
+}

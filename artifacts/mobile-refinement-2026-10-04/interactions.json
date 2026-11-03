@@ -1,0 +1,171 @@
+{
+  "checks": [
+    {
+      "width": 320,
+      "theme": "light",
+      "skin": "mockmob",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "skin": "nta",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "landing": "sample state retained across skins; mark/clear; theme/reload passed"
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "freeState": "ready",
+      "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1Cost10 credits10 credits are charged only after a complete set is built.Start Quick Practice",
+      "overflow": 0,
+      "height": 166,
+      "disabled": false
+    },
+    {
+      "width": 320,
+      "theme": "light",
+      "freeState": "subject-error",
+      "errorVisible": true,
+      "launchAbsent": true
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "skin": "mockmob",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "skin": "nta",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "landing": "sample state retained across skins; mark/clear; theme/reload passed"
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "freeState": "ready",
+      "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1Cost10 credits10 credits are charged only after a complete set is built.Start Quick Practice",
+      "overflow": 0,
+      "height": 166,
+      "disabled": false
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "freeState": "subject-error",
+      "errorVisible": true,
+      "launchAbsent": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "skin": "mockmob",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "skin": "nta",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "landing": "sample state retained across skins; mark/clear; theme/reload passed"
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "freeState": "ready",
+      "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1Cost10 credits10 credits are charged only after a complete set is built.Start Quick Practice",
+      "overflow": 0,
+      "height": 146.5,
+      "disabled": false
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "freeState": "subject-error",
+      "errorVisible": true,
+      "launchAbsent": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "skin": "mockmob",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "skin": "nta",
+      "runner": "answer/clear/mark/next/palette/Escape/focus/cancel submission passed"
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "landing": "sample state retained across skins; mark/clear; theme/reload passed"
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "freeState": "ready",
+      "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1Cost10 credits10 credits are charged only after a complete set is built.Start Quick Practice",
+      "overflow": 0,
+      "height": 146.5,
+      "disabled": false
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "freeState": "subject-error",
+      "errorVisible": true,
+      "launchAbsent": true
+    }
+  ],
+  "contrast": [
+    {
+      "width": 320,
+      "view": "result",
+      "theme": "dark",
+      "checked": 155,
+      "skipped": 0,
+      "fails": []
+    },
+    {
+      "width": 320,
+      "view": "result",
+      "theme": "light",
+      "checked": 155,
+      "skipped": 0,
+      "fails": []
+    },
+    {
+      "width": 390,
+      "view": "result",
+      "theme": "dark",
+      "checked": 155,
+      "skipped": 0,
+      "fails": []
+    },
+    {
+      "width": 390,
+      "view": "result",
+      "theme": "light",
+      "checked": 157,
+      "skipped": 0,
+      "fails": []
+    }
+  ],
+  "errors": []
+}

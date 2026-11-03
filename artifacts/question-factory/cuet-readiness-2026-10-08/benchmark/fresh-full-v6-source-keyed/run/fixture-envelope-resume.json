@@ -1,0 +1,36 @@
+{
+  "contract": "original-fixture-family-envelope-v1",
+  "at": "2026-10-07T23:16:00.738Z",
+  "payload_hash": "cbfe07f8510e80f31f5d09ffa08a0b7b224c2eb61d717eb927e8ba8911e465b3",
+  "helper_sha256": "74aec389eead35bea5c058515406d73de4f4995b01c2b4eec95187ce39eff7ef",
+  "candidate_count": 96,
+  "question_and_blind_content_unchanged": true,
+  "prior_results_sha256": "c70ad6fcbaa8e6b94052b3af063023b098be71d3a8bb3d1302e1e17a97f500a3",
+  "prior_results_path": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/fresh-full-v6-source-keyed/run/checkpoint-history/family-envelope-failure-c70ad6fcbaa8e6b94052b3af063023b098be71d3a8bb3d1302e1e17a97f500a3.json",
+  "prior_metadata_outcomes": 21,
+  "cleared_pre_dispatch_guard_errors": [
+    {
+      "id": "fresh-v5r-business_studies-planning-3",
+      "provider": "gemini",
+      "reason": "Guard refused dispatch during cooperative drain; saved accepted responses replay at their original IDs."
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4",
+      "provider": "gemini",
+      "reason": "Guard refused dispatch during cooperative drain; saved accepted responses replay at their original IDs."
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-1",
+      "provider": "openai",
+      "reason": "Guard refused dispatch during cooperative drain; saved accepted responses replay at their original IDs."
+    },
+    {
+      "id": "fresh-v5r-business_studies-organising-1",
+      "provider": "gemini",
+      "reason": "Guard refused dispatch during cooperative drain; saved accepted responses replay at their original IDs."
+    }
+  ],
+  "academic_labels_prompts_and_criteria_changed": false,
+  "paid_calls": 0,
+  "limitation": "This repairs a fixture envelope after early local provenance rejection. Existing blind model judgments are retained; the unchanged body/key/source contract does not become independent source-family evidence."
+}

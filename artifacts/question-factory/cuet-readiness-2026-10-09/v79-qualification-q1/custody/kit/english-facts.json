@@ -1,0 +1,170 @@
+[
+ {
+  "ref": "F1",
+  "source_id": "mockmob-original-stimulus-factual-passage",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "c442ce7b41039ca9ff5068d68fc8cba50af49fecbb99960a11e48dcbd7a6c32f",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-factual-passage",
+  "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+ },
+ {
+  "ref": "F2",
+  "source_id": "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "f9eb0805a5e7fd60e096492a9e51761e4080959e37329b7af51aa7d78001057e",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+  "text": "In this fictional report, a school canteen tested two ways of reducing disposable cups. During the first week, a sign asked students to bring their own cups. During the second, the canteen also lent washable cups against a refundable deposit. Disposable-cup use fell in both weeks, with a larger fall in the second. However, attendance was lower during the second week because one class was away. The report therefore recommended comparing cups used per student before attributing the larger fall to the lending scheme. It also recorded that most borrowed cups were returned. The trial suggested a possible benefit, while leaving the size of that benefit uncertain."
+ },
+ {
+  "ref": "F3",
+  "source_id": "mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "ed36d8aa4d17deb79410fc5b1e8bf631b7ba1deba98d0c407052d52169d9b8d7",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-b68ce49974f19052c19e",
+  "text": "A fictional neighbourhood reading room introduced a reservation system for its single discussion table. Groups could book thirty-minute slots, but no group could book consecutive slots. Unreserved time remained available to any visitor. After a month, more groups had used the table, although some regular visitors complained that they could no longer hold long meetings there. The committee kept the reservation rule and offered a separate room for meetings lasting more than thirty minutes. Its decision aimed to share access to a scarce facility while accommodating a different need elsewhere. The report did not suggest that short meetings were inherently better than long ones."
+ },
+ {
+  "ref": "F4",
+  "source_id": "mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Factual Passage",
+  "chapters": [
+   "Factual Passage"
+  ],
+  "support_hash": "68a47e790a83674e179726c7194e6c103cb230536fa0565ae7adc1a95f9e3c05",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c30a4349b9045ae344c0",
+  "text": "In a fictional exhibition, visitors received either a printed map or a map containing the same information with larger lettering. Volunteers recorded how often each group asked for directions. Those receiving the larger lettering asked less often. The organisers noted that volunteers had handed out the maps on different days, when different galleries were open. They proposed a second trial in which both versions would be distributed on the same day. Meanwhile, both maps remained available. The first trial provided a reason to investigate readability, but it could not separate the effect of lettering from differences between the days."
+ },
+ {
+  "ref": "F5",
+  "source_id": "mockmob-original-stimulus-narrative-passage",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "4455b4ff50b09e4657e667ec1be1797e9a639ff4646878c00f54b7b7ce971a8e",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-narrative-passage",
+  "text": "Mira had promised to bring her grandfather’s repaired radio home before sunset. At the workshop she found that the repairer had finished the electrical work, but the wooden case still needed to dry. “It will play,” he said, “but carrying it now may spoil the finish.” Mira looked at the dark clouds and then at the road to her village. She could reach home in time if she left immediately. Instead, she telephoned her grandfather and explained the delay. “A promise includes care,” he replied. She sat beside the workshop window until the case was ready. On the journey home the rain began, and she covered the radio with her coat. When she arrived, her grandfather switched it on. Neither of them mentioned the missed sunset; they listened quietly to the music."
+ },
+ {
+  "ref": "F6",
+  "source_id": "mockmob-fresh-benchmark-stimulus",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7",
+  "title": "Separate original held-out reading stimulus",
+  "url": "local://mockmob/heldout/mockmob-fresh-benchmark-stimulus",
+  "text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work."
+ },
+ {
+  "ref": "F7",
+  "source_id": "mockmob-v61-workshop-stimulus",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "cf42be113d83fea505bfb65ae10496af761b1747f726a7613718726a3ef530ae",
+  "title": "Separate original held-out fictional reading stimulus",
+  "url": "local://mockmob/heldout/mockmob-v61-workshop-stimulus",
+  "text": "In a fictional village workshop, Nila noticed that a lamp flickered whenever its cable moved. She switched off the power and asked the technician to inspect it. After replacing the damaged cable, the technician tested the lamp. Nila then carried the working lamp to the community hall. She told the organiser that noticing the fault had delayed the delivery but prevented them from using a damaged cable."
+ },
+ {
+  "ref": "F8",
+  "source_id": "mockmob-v61-bookshop-stimulus",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Narrative Passage",
+  "chapters": [
+   "Narrative Passage"
+  ],
+  "support_hash": "95deacc9a567231a011607f64c8443bb50f2d81123a149ee43c8cea625d92a64",
+  "title": "Separate original held-out fictional reading stimulus",
+  "url": "local://mockmob/heldout/mockmob-v61-bookshop-stimulus",
+  "text": "In a fictional bookshop, Kabir chose a travel diary because he liked its cover. Before paying, he opened it and found that most pages contained blank tables for recording expenses. He put it back and chose a collection of travellers’ stories instead. On the way home, he told his sister that the first book would have been useful for planning a trip, but he wanted something to read that evening."
+ },
+ {
+  "ref": "F9",
+  "source_id": "mockmob-original-stimulus-literary-passage",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "6ddea2c8989626c63b7a162199f9cae6ad0d6388f9b51c469014ed2e2a80cd39",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-literary-passage",
+  "text": "The small courtyard held a single neem tree. Every morning its shadow crossed the cracked stones like a slow hand searching for something. Arun used to hurry past it on his way to school. After his grandmother left to stay with his uncle, he began to stop there. He noticed a cup-shaped hollow in the trunk, the fallen leaves caught in a corner, and a bird that returned to the same branch. The courtyard had not changed, yet it seemed larger. One evening he placed his grandmother’s empty chair beneath the tree. He did not sit in it. He stood nearby until the shadow reached the chair’s legs, then went inside to write her a letter."
+ },
+ {
+  "ref": "F10",
+  "source_id": "mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "4353d4dcc03f6ba051c2df95fa98882ff2a85deb0a291a734d8e44bfdadaa731",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-65ceddcf01346ac5e677",
+  "text": "The station clock had stopped at ten past four. Each morning, travellers looked up, checked their watches and continued towards the platform. The tea seller never corrected the clock; it was beyond his reach. One afternoon, a child asked whether the trains had stopped too. He pointed to a train sliding past the far platform. Its windows caught the sun one after another. The child watched until it disappeared, then looked back at the clock. For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving."
+ },
+ {
+  "ref": "F11",
+  "source_id": "mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "a3e7490cf190bccb8e701e4c769a23c8f1547c9b0f4dd3eb400a484f4406a75c",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-cf6856d6e1ff98beb41c",
+  "text": "The old tailor kept a drawer of buttons. Some were pairs; most had lost their companions long ago. When his niece offered to throw away the unmatched ones, he spread them across the counter. There was a small blue button from her first school shirt. She recognised it by its chipped rim, although she could no longer remember losing it. The tailor did not ask her to keep the whole drawer. He handed her the blue button, and together they sorted the rest. By evening, the drawer was lighter, but it had not become empty."
+ },
+ {
+  "ref": "F12",
+  "source_id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+  "version": 1,
+  "locator": "stimulus",
+  "chapter": "Literary Passage",
+  "chapters": [
+   "Literary Passage"
+  ],
+  "support_hash": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71",
+  "title": "MockMob original fictional reading stimulus",
+  "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+  "text": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented."
+ }
+]

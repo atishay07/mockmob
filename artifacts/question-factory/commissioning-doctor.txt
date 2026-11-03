@@ -1,0 +1,121 @@
+
+> mockmob@0.1.0 factory
+> node --use-system-ca scripts/pipeline/factory.mjs doctor
+
+{
+  "sources": [
+    {
+      "subject": "english",
+      "authenticated_anchors": 0,
+      "active_packs": 0,
+      "chapters": [],
+      "missing_chapters": [
+        "Factual Passage",
+        "Narrative Passage",
+        "Literary Passage",
+        "Para Jumbles",
+        "Match the Following",
+        "Vocabulary",
+        "Correct Word Usage"
+      ],
+      "syllabus_version": null,
+      "ready": false,
+      "reason": "authenticated_papers_final_keys_and_permission_required"
+    },
+    {
+      "subject": "accountancy",
+      "authenticated_anchors": 0,
+      "active_packs": 0,
+      "chapters": [],
+      "missing_chapters": [
+        "Partnership Fundamentals",
+        "Profit & Loss Appropriation Account",
+        "Change in Profit Sharing Ratio",
+        "Goodwill Valuation",
+        "Admission of Partner",
+        "Retirement & Death of Partner",
+        "Dissolution of Partnership",
+        "Dissolution of Partnership Firm",
+        "Share Capital",
+        "Debentures",
+        "Financial Statements of Company",
+        "Analysis of Financial Statements",
+        "Comparative & Common Size Statements",
+        "Accounting Ratios",
+        "Cash Flow Statement",
+        "Computerized Accounting System"
+      ],
+      "syllabus_version": null,
+      "ready": false,
+      "reason": "authenticated_papers_final_keys_and_permission_required"
+    },
+    {
+      "subject": "business_studies",
+      "authenticated_anchors": 0,
+      "active_packs": 0,
+      "chapters": [],
+      "missing_chapters": [
+        "Nature & Significance of Management",
+        "Principles of Management",
+        "Business Environment",
+        "Planning",
+        "Organising",
+        "Staffing",
+        "Directing",
+        "Controlling",
+        "Financial Management",
+        "Financial Markets",
+        "Marketing Management",
+        "Consumer Protection",
+        "Entrepreneurship Development"
+      ],
+      "syllabus_version": null,
+      "ready": false,
+      "reason": "authenticated_papers_final_keys_and_permission_required"
+    },
+    {
+      "subject": "economics",
+      "authenticated_anchors": 0,
+      "active_packs": 0,
+      "chapters": [],
+      "missing_chapters": [
+        "Introduction & Theory of Consumer Behaviour",
+        "Production & Costs",
+        "Theory of Firms under Perfect Competition",
+        "Market Equilibrium & Simple Applications",
+        "National Income & Related Aggregates",
+        "Money & Banking",
+        "Income Determination",
+        "Government Budget & the Economy",
+        "Balance of Payments",
+        "Indian Economy on the Eve of Independence",
+        "Indian Economic Development 1950–1990",
+        "Economic Reforms Since 1991",
+        "Human Capital Formation",
+        "Rural Development",
+        "Employment",
+        "Infrastructure",
+        "Environment & Sustainable Development",
+        "Development Experiences of India"
+      ],
+      "syllabus_version": null,
+      "ready": false,
+      "reason": "authenticated_papers_final_keys_and_permission_required"
+    }
+  ],
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 0,
+    "requests": 0,
+    "unresolved": null
+  },
+  "historical_reconciled": false,
+  "signing_key_configured": true,
+  "author_configured": true,
+  "costs": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": []
+  },
+  "calibration": "paused",
+  "api_calls": 0
+}

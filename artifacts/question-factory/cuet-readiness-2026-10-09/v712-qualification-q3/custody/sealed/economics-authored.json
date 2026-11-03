@@ -1,0 +1,393 @@
+{
+ "subject": "economics",
+ "items": [
+  {
+   "local_id": "economics-v1",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A wheat farmer in a perfectly competitive market is a price-taking firm and sells every unit at the market price of Rs 40 per quintal. If she sells one more quintal, her marginal revenue from that extra quintal is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Less than Rs 40, because she must lower the price to sell the extra quintal"
+     },
+     {
+      "key": "B",
+      "text": "Rs 0, because the extra quintal is sold at the same price as the earlier ones"
+     },
+     {
+      "key": "C",
+      "text": "Rs 40, because the extra unit is sold at the market price"
+     },
+     {
+      "key": "D",
+      "text": "Rs 40 multiplied by her total output, because all units are sold at that price"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "For a price-taking firm, the extra unit is sold at the market price, so marginal revenue is precisely the market price, i.e. MR = AR = p = Rs 40. The firm does not need to lower its price, so MR is not below Rs 40. The extra quintal adds Rs 40 to revenue, so MR is not zero or Rs 40 times total output.",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Explain that for a perfectly competitive firm marginal revenue equals the market price",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F34"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-v2",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Production & Costs",
+    "body": "At an output of 4 units, a firm has a total fixed cost of Rs 80 and a total variable cost of Rs 120. Using SAC = AVC + AFC, what is the short run average cost (SAC) at 4 units?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 30"
+     },
+     {
+      "key": "B",
+      "text": "Rs 50"
+     },
+     {
+      "key": "C",
+      "text": "Rs 200"
+     },
+     {
+      "key": "D",
+      "text": "Rs 20"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "AFC is obtained by dividing fixed cost by output (80/4 = Rs 20) and AVC by dividing variable cost by output (120/4 = Rs 30). Since SAC = AVC + AFC, SAC = 30 + 20 = Rs 50. Rs 30 is only AVC and Rs 20 is only AFC; Rs 200 is the total of 80 + 120, not a per-unit cost.",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "route": "numerical",
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Calculate short run average cost as the sum of average variable cost and average fixed cost",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F32"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-v3",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A person invests Rs 2,00,000 in her family business. The alternatives she could have chosen were: keeping the money in a house-safe (zero return), depositing it in bank-1 at 10 per cent interest per year, or depositing it in bank-2 at 5 per cent interest per year. She can use the money in only one of these ways. The opportunity cost per year of investing in the family business is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 20,000"
+     },
+     {
+      "key": "B",
+      "text": "Rs 10,000"
+     },
+     {
+      "key": "C",
+      "text": "Rs 30,000"
+     },
+     {
+      "key": "D",
+      "text": "Rs 0"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The maximum benefit from the other alternatives is the interest from bank-1, and the opportunity cost of the family business is that forgone interest. 10 per cent of Rs 2,00,000 is Rs 20,000. Bank-2 gives only Rs 10,000, which is not the best alternative; the safe gives zero; and since the alternatives are either/or, their returns are not added to Rs 30,000.",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "route": "numerical",
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Compute opportunity cost as the forgone return of the best alternative use of funds",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F33"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-v4",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Balance of Payments",
+    "body": "Government spending on domestic goods rises in an open economy where a proportion of the induced increase in consumption is spent on imported goods. Compared with a closed economy in which all induced consumption is spent on domestic goods, the autonomous expenditure multiplier in this open economy is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Larger, because imported goods add to domestic income at each round"
+     },
+     {
+      "key": "B",
+      "text": "Unchanged, because only the change in autonomous expenditure matters"
+     },
+     {
+      "key": "C",
+      "text": "Smaller, because the induced effect on demand for domestic goods is smaller"
+     },
+     {
+      "key": "D",
+      "text": "Smaller or larger depending on the size of the government spending"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "With a positive mpc, part of the induced consumption becomes demand for foreign, not domestic, goods. So the induced effect on domestic income is smaller, and imports per unit of income are an additional leakage at each round that reduces the value of the multiplier. It is therefore not larger or unchanged, and nothing in the stem or excerpt links the size of spending to the direction of the change.",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Open Economy Macroeconomics",
+     "objective": "Explain how imports act as a leakage that reduces the autonomous expenditure multiplier",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F25"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-v5",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Employment",
+    "body": "A farmer's four-acre farm needs only two workers and himself to carry out its operations through the year. He employs five workers along with his wife and children, and everyone on the farm works throughout the year. This situation is best described as:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Disguised unemployment, because more persons are employed than the farm actually needs"
+     },
+     {
+      "key": "B",
+      "text": "Open unemployment, because the extra persons have no work at all and are seeking jobs"
+     },
+     {
+      "key": "C",
+      "text": "Seasonal unemployment, because farm work is available only in some months of the year"
+     },
+     {
+      "key": "D",
+      "text": "Full employment, because every person on the farm is working"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The farm needs only two workers and the farmer, yet employs five workers plus family members; this situation is known as disguised unemployment. It is not open unemployment since the stem says everyone on the farm works, and not seasonal since they work throughout the year. Full employment is contradicted by the excerpt, which labels this very situation disguised unemployment.",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Employment: Growth, Informalisation and Other Issues",
+     "objective": "Identify disguised unemployment in Indian agriculture from a case",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F11"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-d1",
+   "expected_valid": false,
+   "defect_category": "wrong_key",
+   "defect_evidence": "Recorded key is A (rightward shift), but F29 says an increase in the price of a complementary good shifts the demand curve leftward, so the correct option is B. Key and explanation contradict the cited excerpt.",
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "body": "The price of a complementary good of coffee rises, other things remaining the same. The demand curve for coffee will:",
+    "options": [
+     {
+      "key": "A",
+      "text": "Shift rightward"
+     },
+     {
+      "key": "B",
+      "text": "Shift leftward"
+     },
+     {
+      "key": "C",
+      "text": "Remain unchanged, with only a movement along the same curve"
+     },
+     {
+      "key": "D",
+      "text": "Become perfectly elastic"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "When the price of a complementary good increases, the demand curve for the good shifts rightward, so coffee demand rises at every price. The other options are not supported.",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Consumer's Equilibrium and Demand",
+     "objective": "Predict shifts of the demand curve from a change in the price of related goods",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F29"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-d2",
+   "expected_valid": false,
+   "defect_category": "second_defensible_option",
+   "defect_evidence": "Options A and B are both established: F31 says that if output is more than doubled when inputs double, IRS holds, so 'increasing returns to scale' (A) and 'output has grown by a larger proportion than inputs' (B) are equivalent true statements. Two options are correct.",
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Production & Costs",
+    "body": "In a production process all inputs are doubled and output rises to 2.5 times its earlier level. Which statement is correct?",
+    "options": [
+     {
+      "key": "A",
+      "text": "The production function exhibits increasing returns to scale"
+     },
+     {
+      "key": "B",
+      "text": "Output has increased by a larger proportion than inputs"
+     },
+     {
+      "key": "C",
+      "text": "The production function exhibits constant returns to scale"
+     },
+     {
+      "key": "D",
+      "text": "The production function exhibits decreasing returns to scale"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Output (2.5 times) has grown by a larger proportion than inputs (2 times), which is the case of more than doubled output and hence increasing returns to scale. Constant returns would need output exactly doubled and decreasing returns would need it less than doubled.",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Producer Behaviour and Supply",
+     "objective": "Classify returns to scale from the proportional change in output when all inputs change",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F31"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-d3",
+   "expected_valid": false,
+   "defect_category": "missing_decisive_assumption",
+   "defect_evidence": "Stem gives only mpc = 0.8 and a spending rise of Rs 100 crore. The key 500 uses the simple closed-economy multiplier 1/(1-mpc) = 5. F25 says imports are an additional leakage that reduces the multiplier, and F23 shows taxes lower disposable income, so the answer changes if the economy has imports or income-dependent taxes. The stem does not say there are none, so the key depends on an unstated assumption.",
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Balance of Payments",
+    "body": "Government spending rises by Rs 100 crore and the mpc is 0.8. By how much does equilibrium income rise?",
+    "options": [
+     {
+      "key": "A",
+      "text": "Rs 100 crore"
+     },
+     {
+      "key": "B",
+      "text": "Rs 400 crore"
+     },
+     {
+      "key": "C",
+      "text": "Rs 500 crore"
+     },
+     {
+      "key": "D",
+      "text": "Rs 80 crore"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "The multiplier is 1/(1 - mpc) = 1/0.2 = 5, so income rises by 5 x 100 = Rs 500 crore. Rs 100 crore ignores the induced rounds, Rs 400 crore is the induced part only, and Rs 80 crore is mpc x 100.",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "route": "numerical",
+    "learning_objective": {
+     "syllabus_unit": "Open Economy Macroeconomics",
+     "objective": "Apply the autonomous expenditure multiplier to a change in government spending",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F25",
+     "F23"
+    ]
+   }
+  },
+  {
+   "local_id": "economics-d4",
+   "expected_valid": false,
+   "defect_category": "numerical_fault",
+   "defect_evidence": "Explanation and recorded key D (5) state 600/150 = 5, but 600/150 = 4. Velocity is T divided by money balance (F19: inverse of the ratio of money balance to transactions), which is 4, so the arithmetic in the key and explanation is wrong.",
+   "candidate": {
+    "subject": "economics",
+    "passage_text": "",
+    "chapter": "Money & Banking",
+    "body": "An economy uses money balance worth Rs 150 to make transactions worth Rs 600 per month. The velocity of circulation of money is:",
+    "options": [
+     {
+      "key": "A",
+      "text": "0.25"
+     },
+     {
+      "key": "B",
+      "text": "3"
+     },
+     {
+      "key": "C",
+      "text": "4"
+     },
+     {
+      "key": "D",
+      "text": "5"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Velocity of circulation is the number of times a unit of money changes hands in the period, the inverse of the ratio of money balance to the value of transactions. It equals 600/150 = 5.",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "route": "numerical",
+    "learning_objective": {
+     "syllabus_unit": "Money and Banking",
+     "objective": "Calculate velocity of circulation from money balance and the value of transactions",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F19"
+    ]
+   }
+  }
+ ]
+}

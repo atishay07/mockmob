@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "15% exceeds the Table F ceiling of 12% on calls in advance"
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "10% is within 'not exceeding 12%', so literally it can also be paid; the stem asks which rate 'can' be paid, not the maximum"
+    },
+    "C": {
+     "status": "true",
+     "why": "12% p.a. is the stated Table F ceiling on calls in advance"
+    },
+    "D": {
+     "status": "false",
+     "why": "18% exceeds the 12% ceiling"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Stem should say 'maximum rate'; Table F says 'not exceeding 12%', so 10% is also a permissible rate.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Class XII Share Capital, calls in advance.",
+   "quality_note": "Intended answer 12% is clear, but B (10%, the calls-in-arrears rate) is also literally permissible; reword to 'maximum rate'."
+  },
+  {
+   "local_id": "acc-b2",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Under fixed capital method these items go to current accounts; capital stays fixed"
+    },
+    "B": {
+     "status": "true",
+     "why": "Capital shows credit balance, fixed unless capital added or withdrawn"
+    },
+    "C": {
+     "status": "false",
+     "why": "Current account may show debit or credit balance"
+    },
+    "D": {
+     "status": "false",
+     "why": "Debit balance of current account is shown on the assets side"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Partnership Fundamentals, fixed vs fluctuating capital.",
+   "quality_note": "Clean; distractors plausible (fluctuating-method features)."
+  },
+  {
+   "local_id": "acc-b3",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Net purchases 6,00,000 / (70,000+30,000) = 6 times"
+    },
+    "B": {
+     "status": "false",
+     "why": "8.57 would use only creditors 70,000 as denominator, omitting bills payable"
+    },
+    "C": {
+     "status": "false",
+     "why": "3 times would need denominator 2,00,000"
+    },
+    "D": {
+     "status": "false",
+     "why": "12 times would need denominator 50,000"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": "None material: stem states no credit purchases info (use total purchases) and no opening balances (use year-end figures), consistent with the source footnotes.",
+   "numeric_check": "Trade payables = creditors 70,000 + bills payable 30,000 = 1,00,000. Turnover = 6,00,000 / 1,00,000 = 6 times. Distractor 6,00,000/70,000 = 8.57.",
+   "syllabus_fit": "Fair: Accounting Ratios, trade payables turnover.",
+   "quality_note": "Good; stem supplies the conventions needed; 8.57 is a plausible trap."
+  },
+  {
+   "local_id": "acc-b4",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Average = 1,08,000/3 = 36,000; x4 = 1,44,000"
+    },
+    "B": {
+     "status": "false",
+     "why": "36,000 is just the average profit, not multiplied by 4"
+    },
+    "C": {
+     "status": "false",
+     "why": "1,08,000 is the sum of profits (3 years' purchase of average) not 4"
+    },
+    "D": {
+     "status": "false",
+     "why": "4,32,000 = 1,08,000 x 4, wrongly multiplying the total"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Total = 30,000+36,000+42,000 = 1,08,000; average = 36,000; goodwill = 36,000 x 4 = 1,44,000.",
+   "syllabus_fit": "Fair: goodwill valuation (average profits), Class XII.",
+   "quality_note": "Clear; distractors map to common slips. Excerpt tagged Admission of Partner chapter vs Goodwill label, minor."
+  },
+  {
+   "local_id": "acc-b5",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Premium was received, so Securities Premium is not debited"
+    },
+    "B": {
+     "status": "false",
+     "why": "No half-premium rule exists; premium received is not debited"
+    },
+    "C": {
+     "status": "false",
+     "why": "No refund of premium; premium is not debited and no bank credit"
+    },
+    "D": {
+     "status": "true",
+     "why": "Per source, SPR not debited when premium received; forfeiture amount excludes premium"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Share Capital, forfeiture of shares issued at premium.",
+   "quality_note": "Clear; the stem states the premium was received so the rule applies directly; distractors plausible."
+  },
+  {
+   "local_id": "acc-b6",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "3:2 would be the assumption only if new ratio were not given; here sacrifice = old - new"
+    },
+    "B": {
+     "status": "true",
+     "why": "X: 3/5-5/10=1/10; Y: 2/5-3/10=1/10; ratio 1:1"
+    },
+    "C": {
+     "status": "false",
+     "why": "5:3 is the new ratio of X and Y, not the sacrifice"
+    },
+    "D": {
+     "status": "false",
+     "why": "2:3 does not match the computed sacrifices"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": "None: new ratio is given, so sacrifice = old share - new share per source (the old-ratio assumption applies only when new ratio is not given).",
+   "numeric_check": "Old X=3/5=6/10, Y=2/5=4/10. New X=5/10, Y=3/10, Z=2/10. Sacrifice X=1/10, Y=1/10, ratio 1:1.",
+   "syllabus_fit": "Fair: Admission of a Partner, sacrificing ratio.",
+   "quality_note": "Good; phrase 'does not say' invites the 3:2 trap, which is a plausible distractor, but source F9 could briefly confuse."
+  },
+  {
+   "local_id": "acc-b7",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Premium is not credited to Debentures A/c"
+    },
+    "B": {
+     "status": "true",
+     "why": "Premium credited to Securities Premium Reserve; shown under Reserves and Surpluses"
+    },
+    "C": {
+     "status": "false",
+     "why": "Premium is a capital item, not income"
+    },
+    "D": {
+     "status": "false",
+     "why": "Debentures are not share capital"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Debentures issued at premium.",
+   "quality_note": "Clear and directly textbook; distractors plausible."
+  },
+  {
+   "local_id": "acc-b8",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Amount received before call is made is a liability, credited to Calls in Advance"
+    },
+    "B": {
+     "status": "false",
+     "why": "Calls in Arrears relates to unpaid calls and is a debit balance, not a credit"
+    },
+    "C": {
+     "status": "true",
+     "why": "Calls in Advance A/c, a liability until call falls due"
+    },
+    "D": {
+     "status": "false",
+     "why": "Not premium; no premium involved"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Share Capital, calls in advance.",
+   "quality_note": "Clear; distractors plausible."
+  },
+  {
+   "local_id": "acc-b9",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "240 uses 12% (the calls-in-advance rate)"
+    },
+    "B": {
+     "status": "true",
+     "why": "4,000 x 10% x 6/12 = 200"
+    },
+    "C": {
+     "status": "false",
+     "why": "400 is a full year at 10%"
+    },
+    "D": {
+     "status": "false",
+     "why": "480 uses 12% for a full year"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": "None: stem says maximum Table F rate on calls in arrears, i.e. 10% p.a.",
+   "numeric_check": "Interest = 4,000 x 10/100 x 6/12 = Rs 200.",
+   "syllabus_fit": "Fair: Share Capital, calls in arrears interest.",
+   "quality_note": "Good; distractors reflect 12% vs 10% confusion and time-period slip."
+  }
+ ]
+}

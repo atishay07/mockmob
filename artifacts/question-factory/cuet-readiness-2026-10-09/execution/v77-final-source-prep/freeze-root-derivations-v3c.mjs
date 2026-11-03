@@ -1,0 +1,19 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+const prep='artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep',sha=b=>createHash('sha256').update(b).digest('hex');
+const oldRaw=readFileSync(prep+'/root-derivations-v1-PRIVATE.json'),old=JSON.parse(oldRaw),raw=readFileSync(prep+'/blind-review-packet-v3c.json'),packet=JSON.parse(raw);
+const rows=structuredClone(old.cases);
+const updates={
+ 'v77f-2105354e5de1':{source_evidence_sufficient:true,derivation:'B. The supplied operating rule classifies customer receipts from goods; the added investing heading and fixed-asset disposal bullet classify old-machine sale proceeds. Financing rules do not describe either receipt.'},
+ 'v77f-84e9ba57542c':{source_evidence_sufficient:true,derivation:'A. Customer receipt operating and fixed-asset disposal investing are both explicitly sourced by supplied headings and examples.'},
+ 'v77f-4c09b80e91ce':{source_evidence_sufficient:true,derivation:'A. Mira enters movements in a ledger; the narrative use denotes a written record book, rather than the map box, window covering or donor receipt.'},
+ 'v77f-a99cc144f9e5':{proposed_keys:['A'],unique_answer:true,source_evidence_sufficient:true,derivation:'A. Damp-strip checks and moving boxes precede any map damage, with risk reduction expressly described. Recording these actions tracks prevention. None of the other offered reasons is the described preventive purpose.'},
+ 'v77f-1ed13162f85d':{proposed_keys:['A'],unique_answer:true,source_evidence_sufficient:true,derivation:'A. Current grew too strong, operator cancelled noon, Dev crossed the line through; the passage expressly gives this causal chain.'},
+ 'v77f-dfcca21b749e':{proposed_keys:['A'],unique_answer:true,source_evidence_sufficient:true,derivation:'A. The final passage sentence expressly states the list made small delays visible while time remained to adjust. Early arrival still occurred; promises were recorded; harvest remained uneven. It supplies no guarantee.'},
+ 'v77f-e9ef75026c19':{proposed_keys:['A','B'],unique_answer:false,source_evidence_sufficient:true,derivation:'A and B are both defensible: complaint/hearing and relief are separately described in the stem, and both rights are explicitly defined in the supplied coherent page8 left-column excerpt. A single key is unjustified.'},
+ 'v77f-3e505228c987':{proposed_keys:[],unique_answer:false,source_evidence_sufficient:false,derivation:'Generic causal-effect estimation does not determine a named specialist estimator. Staffing excerpts do not establish the method; this advanced statistical objective lacks CUET staffing entitlement. No source-supported unique key.'}
+};
+for(const row of rows)Object.assign(row,updates[row.id]||{});
+const out={at:new Date().toISOString(),packet_sha256:sha(raw),parent_derivations_sha256:sha(oldRaw),proposed_v3_answers_or_labels_seen:false,independence_disclosure:'Root original keys/defect uncertainties were frozen on v1 before proposed keys or Sol solutions. Final source/passage deltas read independently; final Sol artifact was subsequently recovered after its usage interruption. V1 proposed labels were inspected only after both v1 derivations froze. No v3 private draft or proposed explanations inspected before this freeze.',cases:rows,scope:'Same28 stems/options retained; repaired source/passage and neutral metadata. Complete-option derivations are original v1 evidence plus explicit final-source delta. No model evaluation evidence claimed.'};
+const body=JSON.stringify(out,null,2)+'\n';writeFileSync(prep+'/root-derivations-v3c-PRIVATE.json',body,{flag:'wx'});writeFileSync(prep+'/root-derivations-v3c.sha256',sha(body)+'\n',{flag:'wx'});
+console.log(JSON.stringify({cases:rows.length,packet_sha256:out.packet_sha256,derivation_sha256:sha(body)}));

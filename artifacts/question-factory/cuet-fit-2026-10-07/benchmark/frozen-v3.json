@@ -1,0 +1,3621 @@
+{
+ "id": "cuet-fit-benchmark-v3-2026-10-08",
+ "registry_version": 58,
+ "additions": {
+  "sources": {
+   "v7d-passage-fares": {
+    "id": "v7d-passage-fares",
+    "kind": "reference",
+    "state": "active",
+    "version": 1,
+    "chapters": [
+     "Factual Passage"
+    ],
+    "url": "local://mockmob/cuet-fit-benchmark/v7d-passage-fares",
+    "title": "Original fictional benchmark stimulus",
+    "identity_sha256": "47ab204a6d506d3cc733fdf4c1c9dffbe88793c8c9a6de1eb4c7b67a0a60ce97",
+    "extraction_sha256": "47ab204a6d506d3cc733fdf4c1c9dffbe88793c8c9a6de1eb4c7b67a0a60ce97",
+    "extraction_checked": true,
+    "reuse_permitted": true,
+    "permission": {
+     "basis": "Original prose written for the MockMob CUET-fit benchmark; no outside claim",
+     "reference": "scripts/pipeline/tools/cuetFitBenchmarkItems.mjs"
+    },
+    "facts": {
+     "stimulus": {
+      "text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again."
+     }
+    },
+    "supports": {
+     "stimulus": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+    },
+    "source_pack_id": "original-english-reference-v1"
+   },
+   "v7d-passage-trip": {
+    "id": "v7d-passage-trip",
+    "kind": "reference",
+    "state": "active",
+    "version": 1,
+    "chapters": [
+     "Para Jumbles"
+    ],
+    "url": "local://mockmob/cuet-fit-benchmark/v7d-passage-trip",
+    "title": "Original fictional benchmark stimulus",
+    "identity_sha256": "911dc3486fb21569d25d55c94526d2ca7786897f74772807d9301219fa5f380e",
+    "extraction_sha256": "911dc3486fb21569d25d55c94526d2ca7786897f74772807d9301219fa5f380e",
+    "extraction_checked": true,
+    "reuse_permitted": true,
+    "permission": {
+     "basis": "Original prose written for the MockMob CUET-fit benchmark; no outside claim",
+     "reference": "scripts/pipeline/tools/cuetFitBenchmarkItems.mjs"
+    },
+    "facts": {
+     "stimulus": {
+      "text": "Rohan packed his bag the night before the trip. In the morning he checked the train timetable once more. He reached the station ten minutes early. The train arrived exactly on time."
+     }
+    },
+    "supports": {
+     "stimulus": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+    },
+    "source_pack_id": "original-english-reference-v1"
+   }
+  }
+ },
+ "fixtures": [
+  {
+   "id": "v7d-acc-loan-interest",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-loan-interest",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A partner has advanced a loan of ₹2,00,000 to the firm for business purposes. The partnership deed says nothing about interest on partners’ loans. How much interest is the partner entitled to for one year?",
+    "options": [
+     "₹6,000",
+     "₹12,000",
+     "₹20,000",
+     "Nil"
+    ],
+    "correct_answer": "B",
+    "explanation": "When a partner has advanced a loan to the firm for business, he or she is entitled to interest at 6 per cent per annum. For one year this is 6% of ₹2,00,000 = ₹12,000. “Nil” applies to interest on capital, not to a loan.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-acc-loan-interest",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-acc-loan-interest",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-acc-loan-interest--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-loan-interest--conditional_answer",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A partner has advanced a loan of ₹2,00,000 to the firm for business purposes. The partnership deed provides for interest on partners’ loans. How much interest is the partner entitled to for one year?",
+    "options": [
+     "₹6,000",
+     "₹12,000",
+     "₹20,000",
+     "Nil"
+    ],
+    "correct_answer": "B",
+    "explanation": "When a partner has advanced a loan to the firm for business, he or she is entitled to interest at 6 per cent per annum. For one year this is 6% of ₹2,00,000 = ₹12,000. “Nil” applies to interest on capital, not to a loan.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-loan-interest--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-loan-interest--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The deed’s rate is not given, so 6 per cent is only one of several possible rates and the keyed ₹12,000 is unsupported.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-loan-interest"
+  },
+  {
+   "id": "v7d-acc-loan-interest--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-loan-interest--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A partner has advanced a loan of ₹2,00,000 to the firm for business purposes. The partnership deed says nothing about interest on partners’ loans. How much interest is the partner entitled to for one year?",
+    "options": [
+     "₹6,000",
+     "₹12,000",
+     "₹20,000",
+     "Nil"
+    ],
+    "correct_answer": "A",
+    "explanation": "When a partner has advanced a loan to the firm for business, he or she is entitled to interest at 6 per cent per annum. For one year this is 6% of ₹2,00,000 = ₹12,000. “Nil” applies to interest on capital, not to a loan.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-loan-interest--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-loan-interest--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of acc-loan-interest",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-loan-interest"
+  },
+  {
+   "id": "v7d-acc-loan-interest--numerical_fault",
+   "group": "controlled_defect",
+   "category": "numerical_fault",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-loan-interest--numerical_fault",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A partner has advanced a loan of ₹2,50,000 to the firm for business purposes. The partnership deed says nothing about interest on partners’ loans. How much interest is the partner entitled to for one year?",
+    "options": [
+     "₹6,000",
+     "₹12,000",
+     "₹20,000",
+     "Nil"
+    ],
+    "correct_answer": "B",
+    "explanation": "When a partner has advanced a loan to the firm for business, he or she is entitled to interest at 6 per cent per annum. For one year this is 6% of ₹2,00,000 = ₹12,000. “Nil” applies to interest on capital, not to a loan.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-loan-interest--numerical_fault",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-loan-interest--numerical_fault",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The interest becomes ₹15,000, which is not an option.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-loan-interest"
+  },
+  {
+   "id": "v7d-acc-loan-interest--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-loan-interest--embedded_unsupported",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A partner has advanced a loan of ₹2,00,000 to the firm for business purposes. The partnership deed says nothing about interest on partners’ loans. How much interest is the partner entitled to for one year?",
+    "options": [
+     "₹6,000",
+     "₹12,000",
+     "₹20,000",
+     "Nil"
+    ],
+    "correct_answer": "B",
+    "explanation": "A partner who has advanced a loan for business is entitled to interest at 6 per cent per annum, so ₹12,000 for one year. This interest is payable only if the loan exceeds ₹1,00,000.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-loan-interest--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-loan-interest--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The ₹1,00,000 threshold is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-loan-interest"
+  },
+  {
+   "id": "v7d-acc-dividend-investing",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-dividend-investing",
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "body": "Kavya Ltd, a company that is not a financial enterprise, received a dividend of ₹40,000 on shares it holds in another company. In its cash flow statement prepared as per AS-3, this receipt is shown under:",
+    "options": [
+     "Operating activities",
+     "Investing activities",
+     "Financing activities",
+     "Cash and cash equivalents"
+    ],
+    "correct_answer": "B",
+    "explanation": "For a non-financial enterprise, AS-3 classifies receipt of interest and dividends as investing activities, so the dividend is shown under investing activities.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-acc-dividend-investing",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-acc-dividend-investing",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-acc-dividend-investing--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-dividend-investing--conditional_answer",
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "body": "Kavya Ltd received a dividend of ₹40,000 on shares it holds in another company. In its cash flow statement prepared as per AS-3, this receipt is shown under:",
+    "options": [
+     "Operating activities",
+     "Investing activities",
+     "Financing activities",
+     "Cash and cash equivalents"
+    ],
+    "correct_answer": "B",
+    "explanation": "For a non-financial enterprise, AS-3 classifies receipt of interest and dividends as investing activities, so the dividend is shown under investing activities.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-dividend-investing--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-dividend-investing--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "A financial enterprise shows dividends received as operating; a non-financial one as investing; the status is not given.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-dividend-investing"
+  },
+  {
+   "id": "v7d-acc-dividend-investing--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-dividend-investing--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "body": "Kavya Ltd, a company that is not a financial enterprise, received a dividend of ₹40,000 on shares it holds in another company. In its cash flow statement prepared as per AS-3, this receipt is shown under:",
+    "options": [
+     "Operating activities",
+     "Investing activities",
+     "Financing activities",
+     "Cash and cash equivalents"
+    ],
+    "correct_answer": "C",
+    "explanation": "For a non-financial enterprise, AS-3 classifies receipt of interest and dividends as investing activities, so the dividend is shown under investing activities.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-dividend-investing--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-dividend-investing--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of acc-dividend-investing",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-dividend-investing"
+  },
+  {
+   "id": "v7d-acc-dividend-investing--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-dividend-investing--second_defensible",
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "body": "Kavya Ltd, a company that is not a financial enterprise, received a dividend of ₹40,000 on shares it holds in another company. In its cash flow statement prepared as per AS-3, this receipt is shown under:",
+    "options": [
+     "Operating activities",
+     "Investing activities",
+     "Financing activities",
+     "Investing activities, as the company is not a financial enterprise"
+    ],
+    "correct_answer": "B",
+    "explanation": "For a non-financial enterprise, AS-3 classifies receipt of interest and dividends as investing activities, so the dividend is shown under investing activities.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-dividend-investing--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-dividend-investing--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options B and D state the same correct classification.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-dividend-investing"
+  },
+  {
+   "id": "v7d-acc-dividend-investing--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-dividend-investing--embedded_unsupported",
+    "subject": "accountancy",
+    "chapter": "Cash Flow Statement",
+    "body": "Kavya Ltd, a company that is not a financial enterprise, received a dividend of ₹40,000 on shares it holds in another company. In its cash flow statement prepared as per AS-3, this receipt is shown under:",
+    "options": [
+     "Operating activities",
+     "Investing activities",
+     "Financing activities",
+     "Cash and cash equivalents"
+    ],
+    "correct_answer": "B",
+    "explanation": "For a non-financial enterprise, AS-3 classifies receipt of dividends as an investing activity. Dividends received above ₹25,000 must instead be disclosed under operating activities.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-dividend-investing--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-dividend-investing--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The ₹25,000 rule is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-b0864c4bffe7",
+      "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-dividend-investing"
+  },
+  {
+   "id": "v7d-acc-payables-turnover",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-payables-turnover",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net purchases for the year are ₹9,60,000 and average trade payables are ₹1,60,000. What is the trade payables turnover ratio?",
+    "options": [
+     "0.17 times",
+     "6 times",
+     "9.6 times",
+     "1.6 times"
+    ],
+    "correct_answer": "B",
+    "explanation": "Trade payables turnover ratio = purchases ÷ average trade payables = ₹9,60,000 ÷ ₹1,60,000 = 6 times.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-acc-payables-turnover",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-acc-payables-turnover",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-acc-payables-turnover--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-payables-turnover--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net purchases for the year are ₹9,60,000 and average trade payables are ₹1,60,000. What is the trade payables turnover ratio?",
+    "options": [
+     "0.17 times",
+     "6 times",
+     "9.6 times",
+     "1.6 times"
+    ],
+    "correct_answer": "C",
+    "explanation": "Trade payables turnover ratio = purchases ÷ average trade payables = ₹9,60,000 ÷ ₹1,60,000 = 6 times.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-payables-turnover--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-payables-turnover--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of acc-payables-turnover",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-payables-turnover"
+  },
+  {
+   "id": "v7d-acc-payables-turnover--numerical_fault",
+   "group": "controlled_defect",
+   "category": "numerical_fault",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-payables-turnover--numerical_fault",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net purchases for the year are ₹10,00,000 and average trade payables are ₹1,60,000. What is the trade payables turnover ratio?",
+    "options": [
+     "0.17 times",
+     "6 times",
+     "9.6 times",
+     "1.6 times"
+    ],
+    "correct_answer": "B",
+    "explanation": "Trade payables turnover ratio = purchases ÷ average trade payables = ₹9,60,000 ÷ ₹1,60,000 = 6 times.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-payables-turnover--numerical_fault",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-payables-turnover--numerical_fault",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The ratio becomes 6.25 times, which is not an option.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-payables-turnover"
+  },
+  {
+   "id": "v7d-acc-payables-turnover--explanation_arithmetic",
+   "group": "controlled_defect",
+   "category": "explanation_arithmetic",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-acc-payables-turnover--explanation_arithmetic",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net purchases for the year are ₹9,60,000 and average trade payables are ₹1,60,000. What is the trade payables turnover ratio?",
+    "options": [
+     "0.17 times",
+     "6 times",
+     "9.6 times",
+     "1.6 times"
+    ],
+    "correct_answer": "B",
+    "explanation": "Trade payables turnover ratio = purchases ÷ average trade payables = ₹9,60,000 ÷ ₹1,60,000 = 8 times, so the answer is 6 times.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-acc-payables-turnover--explanation_arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-acc-payables-turnover--explanation_arithmetic",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The key is right but the explanation states 8 times.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7d-acc-payables-turnover"
+  },
+  {
+   "id": "v7d-bs-transfer",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-transfer",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Shifting an employee from one department to another without a substantive change in his responsibilities and status is called:",
+    "options": [
+     "promotion",
+     "transfer",
+     "placement",
+     "retrenchment"
+    ],
+    "correct_answer": "B",
+    "explanation": "A transfer involves shifting an employee from one job to another, or from one department or shift to another, without a substantive change in responsibilities and status.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-bs-transfer",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-bs-transfer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-bs-transfer--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-transfer--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Shifting an employee from one department to another without a substantive change in his responsibilities and status is called:",
+    "options": [
+     "promotion",
+     "transfer",
+     "placement",
+     "retrenchment"
+    ],
+    "correct_answer": "A",
+    "explanation": "A transfer involves shifting an employee from one job to another, or from one department or shift to another, without a substantive change in responsibilities and status.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-transfer--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-transfer--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of bs-transfer",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-transfer"
+  },
+  {
+   "id": "v7d-bs-transfer--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-transfer--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Shifting an employee from one department to another without a substantive change in his responsibilities and status is called:",
+    "options": [
+     "promotion",
+     "transfer",
+     "placement",
+     "moving an employee to another job or shift with no substantive change in responsibility"
+    ],
+    "correct_answer": "B",
+    "explanation": "A transfer involves shifting an employee from one job to another, or from one department or shift to another, without a substantive change in responsibilities and status.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-transfer--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-transfer--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Option D restates a transfer, so B and D are both correct.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-transfer"
+  },
+  {
+   "id": "v7d-bs-transfer--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-transfer--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Shifting an employee from one department to another without a substantive change in his responsibilities and status is called:",
+    "options": [
+     "promotion",
+     "transfer",
+     "placement",
+     "retrenchment"
+    ],
+    "correct_answer": "B",
+    "explanation": "A transfer shifts an employee from one department to another without a substantive change in responsibilities. A transfer is valid only with the employee’s written consent under the Industrial Employment Act.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-transfer--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-transfer--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The consent rule is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-transfer"
+  },
+  {
+   "id": "v7d-bs-cost-of-debt",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-cost-of-debt",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Consider the following statements about debt and equity:\n(A) The cost of debt is lower than the cost of equity because the lender’s risk is lower than the equity shareholder’s risk.\n(B) Interest on debt is a deductible expense in computing tax liability, whereas dividends are paid out of after-tax profit.\n(C) Equity shareholders earn an assured return and repayment of capital.\n(D) Increased use of debt is certain to raise the overall cost of capital of the firm.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "A",
+    "explanation": "The cost of debt is lower than the cost of equity because lenders bear less risk, and interest is tax deductible while dividends are paid from after-tax profit. It is lenders, not equity shareholders, who earn an assured return, and increased use of debt is likely to lower the overall cost of capital, not certain to raise it. Only (A) and (B) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7d-family-bs-cost-of-debt",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-bs-cost-of-debt",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-bs-cost-of-debt--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-cost-of-debt--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Consider the following statements about debt and equity:\n(A) The cost of debt is lower than the cost of equity because the lender’s risk is lower than the equity shareholder’s risk.\n(B) Interest on debt is a deductible expense in computing tax liability, whereas dividends are paid out of after-tax profit.\n(C) Lenders earn an assured return and repayment of capital.\n(D) Increased use of debt is certain to raise the overall cost of capital of the firm.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "A",
+    "explanation": "The cost of debt is lower than the cost of equity because lenders bear less risk, and interest is tax deductible while dividends are paid from after-tax profit. It is lenders, not equity shareholders, who earn an assured return, and increased use of debt is likely to lower the overall cost of capital, not certain to raise it. Only (A) and (B) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-cost-of-debt--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-cost-of-debt--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Statement C is now true, so (A), (B) and (C) are correct and the keyed “(A) and (B) only” excludes C.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-cost-of-debt"
+  },
+  {
+   "id": "v7d-bs-cost-of-debt--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-cost-of-debt--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Consider the following statements about debt and equity:\n(A) The cost of debt is lower than the cost of equity because the lender’s risk is lower than the equity shareholder’s risk.\n(B) Interest on debt is a deductible expense in computing tax liability, whereas dividends are paid out of after-tax profit.\n(C) Equity shareholders earn an assured return and repayment of capital.\n(D) Increased use of debt is certain to raise the overall cost of capital of the firm.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "D",
+    "explanation": "The cost of debt is lower than the cost of equity because lenders bear less risk, and interest is tax deductible while dividends are paid from after-tax profit. It is lenders, not equity shareholders, who earn an assured return, and increased use of debt is likely to lower the overall cost of capital, not certain to raise it. Only (A) and (B) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-cost-of-debt--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-cost-of-debt--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of bs-cost-of-debt",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-cost-of-debt"
+  },
+  {
+   "id": "v7d-bs-cost-of-debt--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-cost-of-debt--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Consider the following statements about debt and equity:\n(A) The cost of debt is lower than the cost of equity because the lender’s risk is lower than the equity shareholder’s risk.\n(B) Interest on debt is a deductible expense in computing tax liability, whereas dividends are paid out of after-tax profit.\n(C) Equity shareholders earn an assured return and repayment of capital.\n(D) Increased use of debt is certain to raise the overall cost of capital of the firm.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "A",
+    "explanation": "The cost of debt is lower because lenders bear less risk, and interest is tax deductible while dividends are paid from after-tax profit. Under SEBI rules a listed company may not borrow more than twice its equity.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-cost-of-debt--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-cost-of-debt--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The SEBI limit is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-cost-of-debt"
+  },
+  {
+   "id": "v7d-bs-capital-structure",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-capital-structure",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Capital structure of a company refers to the mix between:",
+    "options": [
+     "owners’ funds and borrowed funds",
+     "fixed assets and current assets",
+     "revenue receipts and capital receipts",
+     "short-term and long-term investments"
+    ],
+    "correct_answer": "A",
+    "explanation": "Capital structure refers to the mix between owners’ funds (equity) and borrowed funds (debt).",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-bs-capital-structure",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-bs-capital-structure",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-bs-capital-structure--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-capital-structure--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Capital structure of a company refers to the mix between:",
+    "options": [
+     "owners’ funds and borrowed funds",
+     "fixed assets and current assets",
+     "revenue receipts and capital receipts",
+     "short-term and long-term investments"
+    ],
+    "correct_answer": "B",
+    "explanation": "Capital structure refers to the mix between owners’ funds (equity) and borrowed funds (debt).",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-capital-structure--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-capital-structure--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of bs-capital-structure",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-capital-structure"
+  },
+  {
+   "id": "v7d-bs-capital-structure--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-capital-structure--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Capital structure of a company refers to the mix between:",
+    "options": [
+     "owners’ funds and borrowed funds",
+     "fixed assets and current assets",
+     "equity and debt",
+     "short-term and long-term investments"
+    ],
+    "correct_answer": "A",
+    "explanation": "Capital structure refers to the mix between owners’ funds (equity) and borrowed funds (debt).",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-capital-structure--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-capital-structure--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Equity and debt are owners’ funds and borrowed funds; A and C are the same.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-capital-structure"
+  },
+  {
+   "id": "v7d-bs-capital-structure--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-bs-capital-structure--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "body": "Capital structure of a company refers to the mix between:",
+    "options": [
+     "owners’ funds and borrowed funds",
+     "fixed assets and current assets",
+     "revenue receipts and capital receipts",
+     "short-term and long-term investments"
+    ],
+    "correct_answer": "A",
+    "explanation": "Capital structure is the mix of owners’ funds and borrowed funds. A debt-equity ratio of exactly 2 : 1 is required for every company by the Companies Act.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-bs-capital-structure--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-bs-capital-structure--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The 2 : 1 requirement is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-13",
+      "support_hash": "4d4c037e946ce006e46d1b8d382628569f27ac17471cf3ea99ad9156d03858f4"
+     }
+    ]
+   },
+   "derived_from": "v7d-bs-capital-structure"
+  },
+  {
+   "id": "v7d-eco-sac-sum",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-sac-sum",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At 4 units of output a firm’s average fixed cost is ₹5 and its average variable cost is ₹12. What is its short run average cost at this output?",
+    "options": [
+     "₹7",
+     "₹17",
+     "₹68",
+     "₹2.40"
+    ],
+    "correct_answer": "B",
+    "explanation": "Short run average cost is the sum of average fixed cost and average variable cost: ₹5 + ₹12 = ₹17.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-eco-sac-sum",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eco-sac-sum",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eco-sac-sum--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-sac-sum--wrong_key",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At 4 units of output a firm’s average fixed cost is ₹5 and its average variable cost is ₹12. What is its short run average cost at this output?",
+    "options": [
+     "₹7",
+     "₹17",
+     "₹68",
+     "₹2.40"
+    ],
+    "correct_answer": "A",
+    "explanation": "Short run average cost is the sum of average fixed cost and average variable cost: ₹5 + ₹12 = ₹17.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-sac-sum--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-sac-sum--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eco-sac-sum",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-sac-sum"
+  },
+  {
+   "id": "v7d-eco-sac-sum--numerical_fault",
+   "group": "controlled_defect",
+   "category": "numerical_fault",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-sac-sum--numerical_fault",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At 4 units of output a firm’s average fixed cost is ₹6.50 and its average variable cost is ₹12. What is its short run average cost at this output?",
+    "options": [
+     "₹7",
+     "₹17",
+     "₹68",
+     "₹2.40"
+    ],
+    "correct_answer": "B",
+    "explanation": "Short run average cost is the sum of average fixed cost and average variable cost: ₹5 + ₹12 = ₹17.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-sac-sum--numerical_fault",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-sac-sum--numerical_fault",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The short run average cost becomes ₹18.50, not an option.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-sac-sum"
+  },
+  {
+   "id": "v7d-eco-sac-sum--explanation_arithmetic",
+   "group": "controlled_defect",
+   "category": "explanation_arithmetic",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-sac-sum--explanation_arithmetic",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At 4 units of output a firm’s average fixed cost is ₹5 and its average variable cost is ₹12. What is its short run average cost at this output?",
+    "options": [
+     "₹7",
+     "₹17",
+     "₹68",
+     "₹2.40"
+    ],
+    "correct_answer": "B",
+    "explanation": "Short run average cost is the sum of average fixed cost and average variable cost: ₹5 + ₹12 = ₹15, so the answer is ₹17.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-sac-sum--explanation_arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-sac-sum--explanation_arithmetic",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The key is right but the explanation states ₹15.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-sac-sum"
+  },
+  {
+   "id": "v7d-eco-sac-sum--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-sac-sum--second_defensible",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "At 4 units of output a firm’s average fixed cost is ₹5 and its average variable cost is ₹12. What is its short run average cost at this output?",
+    "options": [
+     "₹7",
+     "₹17",
+     "₹68",
+     "₹17 per unit"
+    ],
+    "correct_answer": "B",
+    "explanation": "Short run average cost is the sum of average fixed cost and average variable cost: ₹5 + ₹12 = ₹17.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-sac-sum--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-sac-sum--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options B and D are the same value.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-sac-sum"
+  },
+  {
+   "id": "v7d-eco-bop-balance",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-bop-balance",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "A country’s capital account shows a net capital inflow of $50 billion, and there are no official reserve movements. For its balance of payments to be in equilibrium, its current account must show:",
+    "options": [
+     "a deficit of $50 billion",
+     "a surplus of $50 billion",
+     "a deficit of $100 billion",
+     "a deficit larger than $50 billion"
+    ],
+    "correct_answer": "A",
+    "explanation": "The current account and the capital account together sum to zero in this case, so a net capital inflow of $50 billion finances a current account deficit of exactly $50 billion.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-eco-bop-balance",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eco-bop-balance",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eco-bop-balance--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-bop-balance--conditional_answer",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "A country’s capital account shows a net capital inflow of $50 billion. For its balance of payments to be in equilibrium, its current account must show:",
+    "options": [
+     "a deficit of $50 billion",
+     "a surplus of $50 billion",
+     "a deficit of $100 billion",
+     "a deficit larger than $50 billion"
+    ],
+    "correct_answer": "A",
+    "explanation": "The current account and the capital account together sum to zero in this case, so a net capital inflow of $50 billion finances a current account deficit of exactly $50 billion.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-bop-balance--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-bop-balance--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The country could also use its reserves, so a deficit larger than $50 billion is possible; the stem no longer fixes the answer.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-bop-balance"
+  },
+  {
+   "id": "v7d-eco-bop-balance--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-bop-balance--wrong_key",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "A country’s capital account shows a net capital inflow of $50 billion, and there are no official reserve movements. For its balance of payments to be in equilibrium, its current account must show:",
+    "options": [
+     "a deficit of $50 billion",
+     "a surplus of $50 billion",
+     "a deficit of $100 billion",
+     "a deficit larger than $50 billion"
+    ],
+    "correct_answer": "B",
+    "explanation": "The current account and the capital account together sum to zero in this case, so a net capital inflow of $50 billion finances a current account deficit of exactly $50 billion.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-bop-balance--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-bop-balance--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eco-bop-balance",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-bop-balance"
+  },
+  {
+   "id": "v7d-eco-bop-balance--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-bop-balance--second_defensible",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "A country’s capital account shows a net capital inflow of $50 billion, and there are no official reserve movements. For its balance of payments to be in equilibrium, its current account must show:",
+    "options": [
+     "a deficit of $50 billion",
+     "a surplus of $50 billion",
+     "a deficit of $100 billion",
+     "a deficit equal to the capital inflow"
+    ],
+    "correct_answer": "A",
+    "explanation": "The current account and the capital account together sum to zero in this case, so a net capital inflow of $50 billion finances a current account deficit of exactly $50 billion.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-bop-balance--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-bop-balance--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and D are the same answer.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-bop-balance"
+  },
+  {
+   "id": "v7d-eco-bop-balance--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-bop-balance--embedded_unsupported",
+    "subject": "economics",
+    "chapter": "Balance of Payments",
+    "body": "A country’s capital account shows a net capital inflow of $50 billion, and there are no official reserve movements. For its balance of payments to be in equilibrium, its current account must show:",
+    "options": [
+     "a deficit of $50 billion",
+     "a surplus of $50 billion",
+     "a deficit of $100 billion",
+     "a deficit larger than $50 billion"
+    ],
+    "correct_answer": "A",
+    "explanation": "A net capital inflow of $50 billion finances a current account deficit of $50 billion. The IMF requires every member to keep its current account deficit below 3 per cent of GDP.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_application",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-bop-balance--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-bop-balance--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The IMF rule is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec106",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "912d40c6cb182f26d6340cfa234f314bea9073281557438db84cbdd13fdc947d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-bop-balance"
+  },
+  {
+   "id": "v7d-eco-price-taker",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-price-taker",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market behaves as a price taker because it believes that it:",
+    "options": [
+     "can sell as many units as it wants at the market price",
+     "can raise its price without losing any buyers",
+     "faces a downward sloping demand curve",
+     "can sell only one unit at a time"
+    ],
+    "correct_answer": "A",
+    "explanation": "In a perfectly competitive market a firm believes it can sell as many units as it wants by setting a price less than or equal to the market price, so it has no reason to set a different price: it takes the market price as given.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-eco-price-taker",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eco-price-taker",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eco-price-taker--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-price-taker--wrong_key",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market behaves as a price taker because it believes that it:",
+    "options": [
+     "can sell as many units as it wants at the market price",
+     "can raise its price without losing any buyers",
+     "faces a downward sloping demand curve",
+     "can sell only one unit at a time"
+    ],
+    "correct_answer": "C",
+    "explanation": "In a perfectly competitive market a firm believes it can sell as many units as it wants by setting a price less than or equal to the market price, so it has no reason to set a different price: it takes the market price as given.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-price-taker--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-price-taker--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eco-price-taker",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-price-taker"
+  },
+  {
+   "id": "v7d-eco-price-taker--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-price-taker--second_defensible",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market behaves as a price taker because it believes that it:",
+    "options": [
+     "can sell as many units as it wants at the market price",
+     "can raise its price without losing any buyers",
+     "faces a downward sloping demand curve",
+     "can sell any quantity it chooses at the going price"
+    ],
+    "correct_answer": "A",
+    "explanation": "In a perfectly competitive market a firm believes it can sell as many units as it wants by setting a price less than or equal to the market price, so it has no reason to set a different price: it takes the market price as given.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-price-taker--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-price-taker--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and D are the same statement.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-price-taker"
+  },
+  {
+   "id": "v7d-eco-price-taker--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eco-price-taker--embedded_unsupported",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market behaves as a price taker because it believes that it:",
+    "options": [
+     "can sell as many units as it wants at the market price",
+     "can raise its price without losing any buyers",
+     "faces a downward sloping demand curve",
+     "can sell only one unit at a time"
+    ],
+    "correct_answer": "A",
+    "explanation": "A competitive firm believes it can sell as many units as it wants at the market price, so it is a price taker. Price takers in India must register with the Competition Commission each year.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eco-price-taker--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eco-price-taker--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The registration rule is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p2-c1929",
+      "support_hash": "cbbdbe957cf473aa006553eba3c83784f629cbebdfab26c80eaf4c8a58a4a3c9"
+     }
+    ]
+   },
+   "derived_from": "v7d-eco-price-taker"
+  },
+  {
+   "id": "v7d-eng-synonym-resilient",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-synonym-resilient",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is closest in meaning to “resilient”.",
+    "options": [
+     "Quick to recover",
+     "Likely to complain",
+     "Slow to react",
+     "Easy to break"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Resilient” means able to recover quickly after something unpleasant such as a shock or injury, so “quick to recover” is closest in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "synonym",
+    "passage_text": "",
+    "family_id": "v7d-family-eng-synonym-resilient",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eng-synonym-resilient",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eng-synonym-resilient--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-synonym-resilient--wrong_key",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is closest in meaning to “resilient”.",
+    "options": [
+     "Quick to recover",
+     "Likely to complain",
+     "Slow to react",
+     "Easy to break"
+    ],
+    "correct_answer": "C",
+    "explanation": "“Resilient” means able to recover quickly after something unpleasant such as a shock or injury, so “quick to recover” is closest in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "synonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-synonym-resilient--wrong_key",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-synonym-resilient--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-synonym-resilient",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-synonym-resilient"
+  },
+  {
+   "id": "v7d-eng-synonym-resilient--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-synonym-resilient--second_defensible",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is closest in meaning to “resilient”.",
+    "options": [
+     "Quick to recover",
+     "Likely to complain",
+     "Slow to react",
+     "Able to bounce back"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Resilient” means able to recover quickly after something unpleasant such as a shock or injury, so “quick to recover” is closest in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "synonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-synonym-resilient--second_defensible",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-synonym-resilient--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and D both mean resilient.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-synonym-resilient"
+  },
+  {
+   "id": "v7d-eng-synonym-resilient--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-synonym-resilient--embedded_unsupported",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is closest in meaning to “resilient”.",
+    "options": [
+     "Quick to recover",
+     "Likely to complain",
+     "Slow to react",
+     "Easy to break"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Resilient” means able to recover quickly, so “quick to recover” is closest. It entered English from Latin in the 1620s through the writings of Francis Bacon.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "synonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-synonym-resilient--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-synonym-resilient--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The history is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-resilient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "838ce1a58d0d0ff532667f2154484e2b17226e8778a4fe938aea2da4bf092e38"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-synonym-resilient"
+  },
+  {
+   "id": "v7d-eng-antonym-candid",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-antonym-candid",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “candid”.",
+    "options": [
+     "Guarded",
+     "Honest",
+     "Frank",
+     "Open"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Candid” means saying what you think openly and honestly, not hiding your thoughts. The opposite is “guarded”, which hides thoughts; “honest”, “frank” and “open” are close to “candid”.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7d-family-eng-antonym-candid",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eng-antonym-candid",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eng-antonym-candid--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-antonym-candid--wrong_key",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “candid”.",
+    "options": [
+     "Guarded",
+     "Honest",
+     "Frank",
+     "Open"
+    ],
+    "correct_answer": "B",
+    "explanation": "“Candid” means saying what you think openly and honestly, not hiding your thoughts. The opposite is “guarded”, which hides thoughts; “honest”, “frank” and “open” are close to “candid”.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-antonym-candid--wrong_key",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-antonym-candid--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-antonym-candid",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-antonym-candid"
+  },
+  {
+   "id": "v7d-eng-antonym-candid--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-antonym-candid--second_defensible",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “candid”.",
+    "options": [
+     "Guarded",
+     "Honest",
+     "Frank",
+     "Reserved"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Candid” means saying what you think openly and honestly, not hiding your thoughts. The opposite is “guarded”, which hides thoughts; “honest”, “frank” and “open” are close to “candid”.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-antonym-candid--second_defensible",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-antonym-candid--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Guarded and reserved are both opposites of candid.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-antonym-candid"
+  },
+  {
+   "id": "v7d-eng-antonym-candid--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-antonym-candid--embedded_unsupported",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “candid”.",
+    "options": [
+     "Guarded",
+     "Honest",
+     "Frank",
+     "Open"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Candid” means open and honest, so “guarded” is its opposite. The word is used in British courts only for statements made under oath.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-antonym-candid--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-antonym-candid--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The courts claim is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-antonym-candid"
+  },
+  {
+   "id": "v7d-eng-rc-fares-detail",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-rc-fares-detail",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "What happened to the company’s total daily fare income after the fares were cut?",
+    "options": [
+     "It stayed at ₹30,000",
+     "It rose by ₹7,500",
+     "It fell by ₹6,000",
+     "It rose by 20 per cent"
+    ],
+    "correct_answer": "A",
+    "explanation": "The accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-eng-rc-fares-detail",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eng-rc-fares-detail",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eng-rc-fares-detail--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-rc-fares-detail--wrong_key",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "What happened to the company’s total daily fare income after the fares were cut?",
+    "options": [
+     "It stayed at ₹30,000",
+     "It rose by ₹7,500",
+     "It fell by ₹6,000",
+     "It rose by 20 per cent"
+    ],
+    "correct_answer": "B",
+    "explanation": "The accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-v7d-eng-rc-fares-detail--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-rc-fares-detail--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-rc-fares-detail",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-rc-fares-detail"
+  },
+  {
+   "id": "v7d-eng-rc-fares-detail--passage_unanswerable",
+   "group": "controlled_defect",
+   "category": "passage_unanswerable",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-rc-fares-detail--passage_unanswerable",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "How many buses does the company run on the hill route?",
+    "options": [
+     "It stayed at ₹30,000",
+     "It rose by ₹7,500",
+     "It fell by ₹6,000",
+     "It rose by 20 per cent"
+    ],
+    "correct_answer": "A",
+    "explanation": "The accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-v7d-eng-rc-fares-detail--passage_unanswerable",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-rc-fares-detail--passage_unanswerable",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The passage does not give the number of buses.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-rc-fares-detail"
+  },
+  {
+   "id": "v7d-eng-rc-fares-inference",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-rc-fares-inference",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why does the passage suggest that the rise in passengers cannot be credited to the lower fares alone?",
+    "options": [
+     "Because a new market opened near the bus station and may also have drawn passengers",
+     "Because the council raised the bus fares again in February",
+     "Because the company stopped running buses in the afternoon",
+     "Because the accountant disliked the lower fares"
+    ],
+    "correct_answer": "A",
+    "explanation": "The town council opened a new market near the bus station in February, and the accountant said it might have drawn more shoppers onto the buses, so the rise cannot be credited to the lower fares alone.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-eng-rc-fares-inference",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eng-rc-fares-inference",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eng-rc-fares-inference--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-rc-fares-inference--wrong_key",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why does the passage suggest that the rise in passengers cannot be credited to the lower fares alone?",
+    "options": [
+     "Because a new market opened near the bus station and may also have drawn passengers",
+     "Because the council raised the bus fares again in February",
+     "Because the company stopped running buses in the afternoon",
+     "Because the accountant disliked the lower fares"
+    ],
+    "correct_answer": "B",
+    "explanation": "The town council opened a new market near the bus station in February, and the accountant said it might have drawn more shoppers onto the buses, so the rise cannot be credited to the lower fares alone.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-v7d-eng-rc-fares-inference--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-rc-fares-inference--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-rc-fares-inference",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-rc-fares-inference"
+  },
+  {
+   "id": "v7d-eng-rc-fares-inference--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-rc-fares-inference--second_defensible",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why does the passage suggest that the rise in passengers cannot be credited to the lower fares alone?",
+    "options": [
+     "Because a new market opened near the bus station and may also have drawn passengers",
+     "Because the council raised the bus fares again in February",
+     "Because shoppers going to the new market may also have taken the buses",
+     "Because the accountant disliked the lower fares"
+    ],
+    "correct_answer": "A",
+    "explanation": "The town council opened a new market near the bus station in February, and the accountant said it might have drawn more shoppers onto the buses, so the rise cannot be credited to the lower fares alone.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "A bus company in the hill town of Raniveri cut its fares by 20 per cent in January. Over the next three months, the number of daily passengers rose from 1,200 to 1,500. The company’s accountant noted that total daily fare income stayed at ₹30,000, because the extra passengers only just made up for the lower fare on each ticket. The town council also opened a new market near the bus station in February, which the accountant said might have drawn more shoppers onto the buses. The company has decided to keep the lower fares until June and then compare the figures again.",
+    "family_id": "v7d-family-v7d-eng-rc-fares-inference--second_defensible",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-rc-fares-inference--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and C state the same supported reason.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-fares",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "686f508f2119c357be26901c4fb9eee981b6931bd0c3ef72ff622d03b8a61507"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-rc-fares-inference"
+  },
+  {
+   "id": "v7d-eng-paraj-trip",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-paraj-trip",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) The train arrived exactly on time.\n(B) He reached the station ten minutes early.\n(C) Rohan packed his bag the night before the trip.\n(D) In the morning he checked the train timetable once more.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(D)-(C)-(B)-(A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "A",
+    "explanation": "Rohan packs the night before (C). In the morning he checks the timetable (D). He then reaches the station early (B), and the train arrives on time (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7d-family-eng-paraj-trip",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-eng-paraj-trip",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-eng-paraj-trip--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-paraj-trip--wrong_key",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) The train arrived exactly on time.\n(B) He reached the station ten minutes early.\n(C) Rohan packed his bag the night before the trip.\n(D) In the morning he checked the train timetable once more.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(D)-(C)-(B)-(A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "C",
+    "explanation": "Rohan packs the night before (C). In the morning he checks the timetable (D). He then reaches the station early (B), and the train arrives on time (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-paraj-trip--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-paraj-trip--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-paraj-trip",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-paraj-trip"
+  },
+  {
+   "id": "v7d-eng-paraj-trip--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7d-eng-paraj-trip--second_defensible",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) The train arrived exactly on time.\n(B) He reached the station ten minutes early.\n(C) Rohan packed his bag the night before the trip.\n(D) In the morning he checked the train timetable once more.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(C), (D), (B), (A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "A",
+    "explanation": "Rohan packs the night before (C). In the morning he checks the timetable (D). He then reaches the station early (B), and the train arrives on time (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7d-family-v7d-eng-paraj-trip--second_defensible",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-v7d-eng-paraj-trip--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and C are the same sequence.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7d-passage-trip",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "5b8fae47b2a284c750b750a101f4750db103d6b9292fefe4f3c27582a06d20b0"
+     }
+    ]
+   },
+   "derived_from": "v7d-eng-paraj-trip"
+  },
+  {
+   "id": "v7d-oos3-acc-subscription",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos3-acc-subscription",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A club received ₹12,000 as subscriptions for the next year during the current year. In its income and expenditure account for the current year this amount is:",
+    "options": [
+     "credited as income of the current year",
+     "not shown as income of the current year",
+     "debited as an expense",
+     "shown as a fixed asset"
+    ],
+    "correct_answer": "B",
+    "explanation": "Subscriptions received in advance belong to the next year and are not income of the current year.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-oos3-acc-subscription",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-oos3-acc-subscription",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-oos3-acc-sale-company",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos3-acc-sale-company",
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership Firm",
+    "body": "On the sale of a firm to a company, the purchase consideration is ₹9,00,000. The company pays ₹3,00,000 in cash and the rest in equity shares of ₹100 each at par. How many shares are issued?",
+    "options": [
+     "3,000",
+     "6,000",
+     "9,000",
+     "12,000"
+    ],
+    "correct_answer": "B",
+    "explanation": "Shares are issued for ₹6,00,000 at ₹100 each, which gives 6,000 shares.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-oos3-acc-sale-company",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-oos3-acc-sale-company",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-oos3-bs-entrepreneurship-msme",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos3-bs-entrepreneurship-msme",
+    "subject": "business_studies",
+    "chapter": "Entrepreneurship Development",
+    "body": "Which of the following is a step in the process of setting up a new venture as an entrepreneur?",
+    "options": [
+     "Developing a business idea",
+     "Preparing a balance sheet of a competitor",
+     "Auditing a government department",
+     "Closing every existing business"
+    ],
+    "correct_answer": "A",
+    "explanation": "Developing a business idea is the first step in setting up a new venture.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-oos3-bs-entrepreneurship-msme",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "pdf-page-22",
+      "support_hash": "1d64050a5676c9be18a5dde7237126170e2651690fea3e76cda8b8efb6e61ea6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-oos3-bs-entrepreneurship-msme",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "pdf-page-22",
+      "support_hash": "1d64050a5676c9be18a5dde7237126170e2651690fea3e76cda8b8efb6e61ea6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7d-oos3-eco-std-dev",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos3-eco-std-dev",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "What is the range of the values 4, 9, 13 and 20?",
+    "options": [
+     "9",
+     "13",
+     "16",
+     "20"
+    ],
+    "correct_answer": "C",
+    "explanation": "The range is the largest value minus the smallest: 20 − 4 = 16.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7d-family-oos3-eco-std-dev",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7d-family-oos3-eco-std-dev",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ]
+   }
+  }
+ ],
+ "frozen": true,
+ "payload_hash": "7db25f1ea50ccb14b12905295a72dd7335e5c68243caa00c24cb02c63c64ccf2",
+ "frozen_at": "2026-10-07T19:13:22.293Z",
+ "verifier_version": "cuet-fit-validator-v7.1",
+ "note": "Frozen before any validator evaluated these items. PYQ explanations were written by the production explanation path; all other items were authored and keyed independently of every model."
+}

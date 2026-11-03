@@ -1,0 +1,506 @@
+{
+  "subject": "accountancy",
+  "status": "source_only_proposals_not_registered_generated_or_published",
+  "scope": "Six nonreserved active authoring anchor families q3/q5/q7/q14/q17/q20 only. Other generation-ready families are reserved and excluded from these proposals.",
+  "syllabus_version": "cuet-2026-provisional-for-2027",
+  "mapping_policy": "Map each actual generated stem to its tested task, not blindly to the anchor's original chapter. Original q3 is a company balance-sheet classification item; definitions-only share-capital adaptations of q3 belong to Share Capital. Fixed-capital posting belongs to Partnership Fundamentals; residual-profit appropriation and guarantees belong to Profit & Loss Appropriation Account.",
+  "original_disable_recommendations": [
+    {
+      "anchor": "cuet2024-accountancy-bookA-q7",
+      "action": "disable_literal_original_for_strict_single_answer_practice; allow explicitly fixed-capital adaptation",
+      "reason": "The original never specifies fixed capital. Under fluctuating capital salary is credited to Capital Account, not Current Account. Its official matching key assumes the fixed method. All generated posting variants must state the method.",
+      "source": "ncert-leac101 pdf-page-5, pdf-page-6 and pdf-page-7"
+    },
+    {
+      "anchor": "cuet2024-accountancy-bookA-q17",
+      "action": "disable_literal_original_for_strict_single_answer_practice; allow fully specified paid/unpaid-premium adaptation",
+      "reason": "Its Securities Premium debit matching is true only where credited premium remains unpaid. When premium was received, the account is not debited on forfeiture. The original matching has no premium condition.",
+      "source": "ncert-leac201 pdf-page-39"
+    }
+  ],
+  "repairable_originals_not_inherently_invalid": [
+    {
+      "anchor": "cuet2024-accountancy-bookA-q20",
+      "repair": "Remove trailing st from option 4 using printed page 12 (physical PDF page 13). This is transcription contamination from question 21's 1st July, not an academic defect. Add direct permitted source support for the acceptance-authority rule; full MCA/IndiaCode statutory retrieval was unsuccessful in the audit."
+    }
+  ],
+  "source_gaps_to_close": [
+    {
+      "purpose": "Reserve capital and subscribed-but-not-fully-paid capital",
+      "attach": [
+        "ncert-leac201:pdf-page-4",
+        "ncert-leac201:pdf-page-5"
+      ],
+      "remove_as_primary_support": "pdf-page-55 is a buy-back page and does not define reserve capital. pdf-page-66 does not supply that definition either."
+    },
+    {
+      "purpose": "Residual profit distribution journal entry",
+      "attach": [
+        "ncert-leac101:pdf-page-9",
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6"
+      ],
+      "reason": "Page 9 section 6(a) supplies debit P&L Appropriation / credit partners; pages 5-6 select Current Account under fixed capital."
+    },
+    {
+      "purpose": "Paid versus unpaid premium on forfeiture",
+      "attach": [
+        "ncert-leac201:pdf-page-38",
+        "ncert-leac201:pdf-page-39"
+      ],
+      "reason": "Page 39 directly states the condition the original q17 omits."
+    }
+  ],
+  "format_constraints": [
+    "Each matching list must be separately labelled. Use structured content supported by the renderer; raw Markdown tables are currently plain text.",
+    "Do not repeat complete options inside the stem. Use exactly four distinct ordered answer choices.",
+    "Explanations should teach the rule and arithmetic directly; avoid The authenticated question establishes or NCERT excerpt states.",
+    "Keep rupee values, per-share amounts, rates, elapsed periods and rounding rules explicit.",
+    "Do not infer fixed capital, received instalments, all-credit revenue, all-credit purchases, actual averages or day count from a stored key.",
+    "The proposals below are new source-derived practice, not claims that these exact questions or answers were asked by NTA. Independent validation and publication gates remain necessary."
+  ],
+  "safe_variant_proposals": [
+    {
+      "id": "ac-safe-forfeiture-paid-premium-count",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q17",
+      "chapter": "Share Capital",
+      "topic": "Capital received on forfeited premium shares",
+      "question_type": "numerical_one_step",
+      "stem": "A company forfeits fully called-up shares of Rs 10 each issued at a premium of Rs 2 each. All amounts due, including premium, had been received except the final call of Rs 4 per share. The Share Forfeiture Account is credited with Rs 5,400. How many shares were forfeited?",
+      "options": [
+        "540 shares",
+        "900 shares",
+        "1,350 shares",
+        "450 shares"
+      ],
+      "key": "B",
+      "explanation": "Paid share capital is Rs 10 - Rs 4 = Rs 6 per share. Received premium is excluded from forfeiture credit. Rs 5,400 / Rs 6 = 900 shares.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-38",
+        "ncert-leac201:pdf-page-39"
+      ],
+      "explicit_assumptions": [
+        "Fully called-up face capital",
+        "Only the stated final call unpaid",
+        "Premium fully received"
+      ]
+    },
+    {
+      "id": "ac-safe-forfeiture-unpaid-premium-matching",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q17",
+      "chapter": "Share Capital",
+      "topic": "Forfeiture entry where premium due remains unpaid",
+      "question_type": "match_type",
+      "stem": "A company forfeits 200 fully called-up shares of Rs 10 each issued at a premium of Rs 3. The company received Rs 4 per share towards capital on application. The allotment of Rs 5 per share (including the entire Rs 3 premium) and the final call of Rs 4 per share remain unpaid. Premium had been credited when allotment became due. A separate Calls in Arrears Account includes all unpaid allotment and call amounts. Match the accounts with the forfeiture entry amounts. List I: (A) Share Capital debit; (B) Securities Premium debit; (C) Calls in Arrears credit; (D) Share Forfeiture credit. List II: (I) Rs 800; (II) Rs 600; (III) Rs 2,000; (IV) Rs 1,800.",
+      "options": [
+        "A-III, B-I, C-IV, D-II",
+        "A-IV, B-II, C-III, D-I",
+        "A-III, B-II, C-IV, D-I",
+        "A-I, B-II, C-IV, D-III"
+      ],
+      "key": "C",
+      "explanation": "Capital debit is 200 x Rs 10 = Rs 2,000; unpaid premium debit is 200 x Rs 3 = Rs 600. Unpaid allotment and call total 200 x (Rs 5 + Rs 4) = Rs 1,800. Paid capital credit is 200 x Rs 4 = Rs 800. Both entry sides total Rs 2,600.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-38",
+        "ncert-leac201:pdf-page-39"
+      ],
+      "explicit_assumptions": [
+        "All call amounts stated reconcile to face capital plus premium",
+        "Premium credited on due entry but never received",
+        "Calls in Arrears includes the unpaid premium component"
+      ]
+    },
+    {
+      "id": "ac-safe-fixed-current-closing-balance",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q7",
+      "chapter": "Partnership Fundamentals",
+      "topic": "Fixed capital: current account movement",
+      "question_type": "numerical_mcq",
+      "stem": "A firm uses fixed capital accounts. R's Current Account opens with a credit balance of Rs 12,000. During the year R is credited with salary Rs 18,000, interest on capital Rs 6,000 and a share of residual profit Rs 24,000. R withdraws Rs 15,000 for personal use and is charged interest on drawings Rs 1,000. R also introduces Rs 40,000 as additional permanent capital. There are no other entries. What is R's closing Current Account balance?",
+      "options": [
+        "Rs 44,000 credit",
+        "Rs 84,000 credit",
+        "Rs 32,000 credit",
+        "Rs 44,000 debit"
+      ],
+      "key": "A",
+      "explanation": "Current credits total Rs 12,000 + Rs 18,000 + Rs 6,000 + Rs 24,000 = Rs 60,000. Current debits are Rs 16,000. The closing balance is Rs 44,000 credit. Additional permanent capital is recorded in Capital Account.",
+      "source_refs": [
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6"
+      ],
+      "explicit_assumptions": [
+        "Fixed capital method",
+        "Salary and interest are already allowed",
+        "Residual profit is after appropriations",
+        "Additional contribution is permanent capital",
+        "No other entries"
+      ]
+    },
+    {
+      "id": "ac-safe-residual-profit-journal",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q7",
+      "chapter": "Profit & Loss Appropriation Account",
+      "topic": "Residual-profit transfer to fixed-method current accounts",
+      "question_type": "application_based",
+      "stem": "A and B maintain fixed capital accounts and share profits 3:2. After every other appropriation has been recorded, Rs 75,000 of profit remains to be distributed. Which entry records only this residual-profit transfer?",
+      "options": [
+        "P&L Appropriation Dr Rs 75,000; A Current Cr Rs 45,000; B Current Cr Rs 30,000",
+        "A Current Dr Rs 45,000; B Current Dr Rs 30,000; P&L Appropriation Cr Rs 75,000",
+        "P&L Appropriation Dr Rs 75,000; A Capital Cr Rs 45,000; B Capital Cr Rs 30,000",
+        "P&L Dr Rs 75,000; A Current Cr Rs 45,000; B Current Cr Rs 30,000"
+      ],
+      "key": "A",
+      "explanation": "Residual profit is transferred by debiting P&L Appropriation and crediting the partners in their agreed shares. Rs 75,000 x 3/5 = Rs 45,000 and x 2/5 = Rs 30,000. Fixed capital requires the Current Accounts.",
+      "source_refs": [
+        "ncert-leac101:pdf-page-9",
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6"
+      ],
+      "explicit_assumptions": [
+        "Fixed capital",
+        "Profit-sharing ratio explicit",
+        "All other appropriations completed",
+        "Entry requested is only distribution"
+      ]
+    },
+    {
+      "id": "ac-safe-share-classification-matching",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q3",
+      "chapter": "Share Capital",
+      "topic": "Share-capital definitions, distinct from balance-sheet headings",
+      "question_type": "match_type",
+      "stem": "Match the share-capital terms with their meanings. List I: (A) Calls in arrears; (B) Calls in advance; (C) Reserve capital; (D) Securities premium. List II: (I) A portion of uncalled capital reserved to be called only on winding up; (II) Share amounts called but unpaid; (III) Excess of issue price over nominal value; (IV) Amount received from a shareholder before the corresponding call is made.",
+      "options": [
+        "A-II, B-IV, C-I, D-III",
+        "A-IV, B-II, C-I, D-III",
+        "A-II, B-I, C-IV, D-III",
+        "A-II, B-IV, C-III, D-I"
+      ],
+      "key": "A",
+      "explanation": "Arrears are called but unpaid amounts. Advance is received before its call. Reserve capital is a reserved portion of uncalled capital callable only on winding up. Securities premium is only the excess over nominal value.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-5",
+        "ncert-leac201:pdf-page-18",
+        "ncert-leac201:pdf-page-30",
+        "ncert-leac201:pdf-page-66"
+      ],
+      "explicit_assumptions": [
+        "Definitions requested, not financial-statement presentation",
+        "Only the premium excess is classified as securities premium"
+      ]
+    },
+    {
+      "id": "ac-safe-called-versus-paid-capital",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q3",
+      "chapter": "Share Capital",
+      "topic": "Called-up capital less calls in arrears",
+      "question_type": "numerical_mcq",
+      "stem": "A company has allotted 12,000 shares of Rs 10 each and called Rs 8 per share. All called amounts have been received except a call of Rs 3 per share on 2,000 of these shares. No money has been received in advance and no shares have been forfeited. What is paid-up share capital?",
+      "options": [
+        "Rs 1,20,000",
+        "Rs 96,000",
+        "Rs 90,000",
+        "Rs 1,14,000"
+      ],
+      "key": "C",
+      "explanation": "Called-up capital is 12,000 x Rs 8 = Rs 96,000. Calls in arrears are 2,000 x Rs 3 = Rs 6,000. Paid-up capital is Rs 90,000; uncalled face capital is not included.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-4",
+        "ncert-leac201:pdf-page-5"
+      ],
+      "explicit_assumptions": [
+        "Allotted shares and called amount explicit",
+        "Only specified call arrears",
+        "No advances or forfeitures"
+      ]
+    },
+    {
+      "id": "ac-safe-oversubscription-percent",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q14",
+      "chapter": "Share Capital",
+      "topic": "Excess applications as percentage of shares offered",
+      "question_type": "numerical_one_step",
+      "stem": "A company offers 48,000 shares for subscription and receives valid applications for 60,000 shares. Express the excess applications as a percentage of the number of shares offered. By what percentage is the offer oversubscribed?",
+      "options": [
+        "20%",
+        "25%",
+        "80%",
+        "125%"
+      ],
+      "key": "B",
+      "explanation": "Excess applications are 60,000 - 48,000 = 12,000. Relative to 48,000 shares offered, 12,000/48,000 x 100 = 25%. The 125% figure is total applications, not the excess.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-24"
+      ],
+      "explicit_assumptions": [
+        "Percentage base is shares offered",
+        "Percentage requested is excess applications"
+      ]
+    },
+    {
+      "id": "ac-safe-advance-receipt-journal",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q20",
+      "chapter": "Share Capital",
+      "topic": "Calls in advance receipt, not later call adjustment",
+      "question_type": "application_based",
+      "stem": "A company authorised to accept calls in advance receives Rs 1,000 from a shareholder towards a future call which has not yet been made. Which entry records only this receipt?",
+      "options": [
+        "Calls in Advance Dr Rs 1,000; Bank Cr Rs 1,000",
+        "Bank Dr Rs 1,000; Share Capital Cr Rs 1,000",
+        "Bank Dr Rs 1,000; Calls in Advance Cr Rs 1,000",
+        "Calls in Advance Dr Rs 1,000; Share Call Cr Rs 1,000"
+      ],
+      "key": "C",
+      "explanation": "Bank is debited for cash received. Because the call has not been made, Calls in Advance is credited as a liability. Adjustment against a call due occurs later.",
+      "source_refs": [
+        "ncert-leac201:pdf-page-18"
+      ],
+      "explicit_assumptions": [
+        "Authority already stipulated",
+        "Future call not yet made",
+        "Only receipt entry requested"
+      ]
+    },
+    {
+      "id": "ac-safe-profit-flow-position-matching",
+      "anchor_pattern": "cuet2024-accountancy-bookA-q5",
+      "chapter": "Partnership Fundamentals",
+      "topic": "Position in the profit-transfer and presentation chain",
+      "question_type": "match_type",
+      "stem": "A partnership traces profit from the Trading Account through final presentation in the Balance Sheet, including the partners' accounts after appropriation. Match each account with its position in that forward chain. List I: (A) Trading Account; (B) Profit and Loss Appropriation Account; (C) Balance Sheet; (D) Profit and Loss Account; (E) Partners' Capital/Current Accounts. List II: (I) First; (II) Second; (III) Third; (IV) Fourth; (V) Fifth.",
+      "options": [
+        "A-I, B-II, C-V, D-III, E-IV",
+        "A-V, B-III, C-I, D-II, E-IV",
+        "A-I, B-III, C-IV, D-II, E-V",
+        "A-I, B-III, C-V, D-II, E-IV"
+      ],
+      "key": "D",
+      "explanation": "The forward profit-transfer chain is Trading -> P&L -> P&L Appropriation -> partners' Capital/Current Accounts -> Balance Sheet. These are positions in the requested profit chain, not a claim that bookkeeping happens only in this temporal order.",
+      "source_refs": [
+        "cuet2024-accountancy-bookA-paper:q5",
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6",
+        "ncert-leac101:pdf-page-9"
+      ],
+      "explicit_assumptions": [
+        "Forward profit-transfer chain",
+        "Partner accounts included",
+        "Position convention explicit"
+      ]
+    }
+  ],
+  "limitations": [
+    "These are source-only proposed practice items; no paid model calls, learner observations, full new pipeline validation or publication occurred.",
+    "Current proposal set does not cover every Accountancy syllabus unit or every format; no zero-error or 2027-final-syllabus claim is supported.",
+    "No signed-in browser rendering of the proposed stems was performed. The current exam renderer requires a separate display repair before multiline matching can be assumed legible.",
+    "Source rules are checked against stored NCERT 2026-27 PDFs; the live NCERT partnership PDF could not be extracted through the browser tool during the audit."
+  ],
+  "anchor_mapping": [
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_original_chapter": "Financial Statements of Company",
+      "topics": [
+        "Company balance-sheet headings and classification",
+        "Definitions-only adaptations: Share Capital"
+      ],
+      "mapping_change": false,
+      "original_enabled_recommendation": true,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "ncert-leac201:pdf-page-4",
+        "ncert-leac201:pdf-page-5",
+        "ncert-leac201:pdf-page-18",
+        "ncert-leac201:pdf-page-30",
+        "ncert-leac201:pdf-page-66"
+      ],
+      "current_question_type": "match_type",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q5",
+      "current_chapter": "Partnership Fundamentals",
+      "recommended_original_chapter": "Partnership Fundamentals",
+      "topics": [
+        "Partnership final-account preparation and profit-transfer sequence"
+      ],
+      "mapping_change": false,
+      "original_enabled_recommendation": true,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "cuet2024-accountancy-bookA-paper:q5",
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6",
+        "ncert-leac101:pdf-page-9"
+      ],
+      "current_question_type": "sequence_ordering",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q7",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_original_chapter": "Partnership Fundamentals",
+      "topics": [
+        "Fixed capital and current account maintenance",
+        "Residual-profit transfer adaptations: Profit & Loss Appropriation Account"
+      ],
+      "mapping_change": true,
+      "original_enabled_recommendation": false,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "ncert-leac101:pdf-page-5",
+        "ncert-leac101:pdf-page-6",
+        "ncert-leac101:pdf-page-9"
+      ],
+      "current_question_type": "match_type",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q14",
+      "current_chapter": "Share Capital",
+      "recommended_original_chapter": "Share Capital",
+      "topics": [
+        "Oversubscription versus shares offered"
+      ],
+      "mapping_change": false,
+      "original_enabled_recommendation": true,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "ncert-leac201:pdf-page-24",
+        "ncert-leac201:pdf-page-4"
+      ],
+      "current_question_type": "conceptual_mcq",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q17",
+      "current_chapter": "Share Capital",
+      "recommended_original_chapter": "Share Capital",
+      "topics": [
+        "Forfeiture of shares; premium paid versus unpaid"
+      ],
+      "mapping_change": false,
+      "original_enabled_recommendation": false,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "ncert-leac201:pdf-page-38",
+        "ncert-leac201:pdf-page-39"
+      ],
+      "current_question_type": "match_type",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q20",
+      "current_chapter": "Share Capital",
+      "recommended_original_chapter": "Share Capital",
+      "topics": [
+        "Calls in advance; receipt and adjustment entries"
+      ],
+      "mapping_change": false,
+      "original_enabled_recommendation": true,
+      "adaptation_policy": "Map each actual adaptation to its tested task, with explicit assumptions and independent validation.",
+      "minimal_relevant_locators": [
+        "ncert-leac201:pdf-page-18"
+      ],
+      "current_question_type": "factual_recall",
+      "source_ref_trimming": "This locator list is a menu. Attach only supporting paragraphs for the particular adapted stem, not every whole page."
+    }
+  ],
+  "trimmed_source_facts": [
+    {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-5",
+      "section": "1.3.1 Reserve Capital paragraph",
+      "exact_normalized_source_paragraph": "Reserve Capital: A company may reserve a portion of its uncalled capital to be called only in the event of winding up of the company. Such uncalled amount is called ‘Reserve Capital’ of the company. It is available only for the creditors on winding up of the company.",
+      "supports": [
+        "Reserve capital is a portion of uncalled capital callable only on winding up"
+      ],
+      "source_trimming": "Only this paragraph; omit subsequent example unless specifically tested."
+    },
+    {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-9",
+      "section": "1.5.1 journal entry 6(a), residual profit",
+      "exact_source_block": "6. Share of Profit or Loss after appropriations:\n\n(a) If Profit:\n\nProfit and Loss Appropriation A/c Dr.\n\nTo Partner’s Capital/Current A/c’s (individually)",
+      "supports": [
+        "Debit P&L Appropriation / credit partners for profit"
+      ],
+      "source_trimming": "Add fixed-method p5/6 to select Current Account."
+    },
+    {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-5",
+      "section": "1.4(a) Fixed Capital Method",
+      "exact_normalized_source_paragraph": "(a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+      "supports": [
+        "Permanent capital changes versus current-account entries",
+        "Capital method must be explicit"
+      ],
+      "excluded_context": "Leading (v) and (vi) on this page continue a true/false exercise. They falsely claim default drawings interest 6% and partner loan interest 12%. Never treat these exercise statements as rules."
+    },
+    {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-6",
+      "section": "Fig. 1.1, Capital and Current Account proformas",
+      "direct_visual_artifact": "accountancy-source-leac101-page-6.png",
+      "supports": [
+        "Capital: permanent withdrawal debit, fresh capital credit",
+        "Current: drawings/interest on drawings debit; salary/commission/interest on capital/share of profit credit"
+      ],
+      "source_trimming": "Retain account heading and debit/credit side; flattened table text can misassociate values."
+    },
+    {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-18",
+      "section": "1.6.2, advance receipt and initial entry",
+      "exact_normalized_source_block": "1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)",
+      "supports": [
+        "Money received before call",
+        "Bank Dr / Calls in Advance Cr",
+        "Do not confuse later adjustment"
+      ]
+    },
+    {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-24",
+      "section": "1.6.3, opening definition",
+      "exact_normalized_source_paragraph": "1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’.",
+      "supports": [
+        "Applications compared with shares offered for subscription"
+      ]
+    },
+    {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-39",
+      "section": "Forfeiture of Shares issued at a Premium, paid/unpaid distinction",
+      "exact_normalized_source_paragraphs": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received.",
+      "supports": [
+        "Received premium excluded from forfeiture",
+        "No debit of received premium",
+        "Debit unpaid credited premium"
+      ]
+    }
+  ],
+  "source_pdf_identity": [
+    {
+      "file": "data/question-factory-runtime/reference-downloads/leac101.pdf",
+      "sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "version_label": "Reprint 2026-27",
+      "physical_pdf_page_equals_printed_page": true
+    },
+    {
+      "file": "data/question-factory-runtime/reference-downloads/leac201.pdf",
+      "sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "version_label": "Reprint 2026-27",
+      "physical_pdf_page_equals_printed_page": true
+    }
+  ],
+  "counts": {
+    "active_nonreserved_anchor_families": 6,
+    "safe_variant_proposals": 9,
+    "ambiguous_original_families_to_disable": 2
+  },
+  "preserved_holdout_boundary": "No proposed authoring example uses reserved q10/q15/q28/q29/q38/q41-50 source families. Temporary draft proposals from those families were removed.",
+  "created_utc": "2026-10-06T09:16:20.474120+00:00"
+}

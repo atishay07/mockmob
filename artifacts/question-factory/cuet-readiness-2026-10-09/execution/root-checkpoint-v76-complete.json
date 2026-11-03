@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-08T22:13:06.338Z",
+  "goal_status": "active",
+  "qualification": "failed frozen release rule",
+  "assessment_sha256": "b34349a56de6121f2c321eca1944664ec75231d45aea4062e3205ea6d5f97d81",
+  "metrics": {
+    "fresh_false_accepts": [],
+    "regression_false_accepts": [
+      "v75f-825e60a00f"
+    ],
+    "valid_survival": 0.85,
+    "valid_by_subject": {
+      "accountancy": {
+        "n": 5,
+        "ok": 5
+      },
+      "business_studies": {
+        "n": 5,
+        "ok": 4
+      },
+      "economics": {
+        "n": 5,
+        "ok": 4
+      },
+      "english": {
+        "n": 5,
+        "ok": 4
+      }
+    },
+    "fresh_defects": 12,
+    "regression_defects": 9,
+    "valid_items": 20
+  },
+  "problems": [
+    "regression_defect_false_accepts_1"
+  ],
+  "requests_complete": 118,
+  "settled_usd": 0.6499799999999999,
+  "held_usd": 0,
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.36459,
+    "unresolved": 37,
+    "requests": 13925
+  },
+  "all_41_export_manifest": {
+    "at": "2026-10-08T22:10:29.381Z",
+    "denominator": 41,
+    "terminal": 41,
+    "settled_usd": 0.64998,
+    "held_usd": 0,
+    "files": [
+      {
+        "name": "all-cases.json",
+        "sha256": "26d30a21ad6c0c01b3f5ad910e57f97c7457b9093853ba6d1925bcc1c348e47b"
+      },
+      {
+        "name": "all-cases.csv",
+        "sha256": "b8a621dbff1439a3aac08a7375c0a51908e2b547e49cb39b76d18e06ffe081aa"
+      }
+    ],
+    "limitations": "Root/defect pairs and shared passages are correlated; qualification export is not a representative generated pilot. All unfinished cases remain in denominator. Receipt-settled usage is not a provider invoice."
+  },
+  "tests": {
+    "factory": {
+      "pass": 672,
+      "fail": 0,
+      "log": "root-factory-tests-v76-final.log"
+    },
+    "recovery": {
+      "pass": 40,
+      "fail": 0,
+      "log": "root-recovery-tests.log"
+    },
+    "question_payment_student_budget": {
+      "pass": 38,
+      "fail": 0,
+      "log": "root-question-payment-tests.log"
+    },
+    "explicit_payment_entitlements": {
+      "pass": 40,
+      "fail": 0,
+      "log": "root-payment-entitlement-tests.log"
+    },
+    "application_build": {
+      "pass": true,
+      "static_pages": 67,
+      "log": "root-app-build.log"
+    }
+  },
+  "native_requests_remaining": 0,
+  "historical_unresolved": 37,
+  "historical_v75_hold_usd": 0.008596,
+  "pilot_executed": false,
+  "current_profile_staging_executed": false,
+  "production_writes": 0,
+  "next": "Complete bounded post-result diagnosis. Implement/review local additive clause-level uncertainty correction only. No new paid benchmark, pilot or staging dispatch under failed qualification. Any new version remains unqualified until separately authorized genuinely fresh evidence; never reuse inspected 41 cases as fresh or discard disputed frozen labels."
+}

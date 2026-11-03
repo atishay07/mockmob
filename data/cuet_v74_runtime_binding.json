@@ -1,0 +1,35 @@
+{
+  "schema": "cuet-v74-runtime-contract-v1",
+  "parent_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+  "additive_files": [
+    "contractV74.mjs",
+    "factoryEvidenceV74.mjs",
+    "verifyV74.mjs",
+    "releaseEvidenceV74.mjs",
+    "originalAuthorPolicyV74.mjs"
+  ],
+  "binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.4",
+    "prompt_hash": "7683aa3e5de157e85178f2086ac47c8c6dc5ec7f01ffce3f76d6c575b018c44b",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  }
+}

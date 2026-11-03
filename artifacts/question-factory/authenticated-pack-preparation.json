@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-05T22:54:53.859Z",
+  "draft_only": true,
+  "production_changes": 0,
+  "subjects": [
+    {
+      "subject": "english",
+      "authenticated_anchors": 30,
+      "reference_curated": 5,
+      "excluded_question_ids": [
+        "6",
+        "9",
+        "28",
+        "30",
+        "31",
+        "34",
+        "38"
+      ],
+      "excluded_passage_groups": [
+        "cuet2024-english-bookA-passage-2a8bb152486a",
+        "cuet2024-english-bookA-passage-207ed36bde88",
+        "cuet2024-english-bookA-passage-56dcbaf4d237"
+      ],
+      "pack_file": "english-authenticated-pack.json"
+    },
+    {
+      "subject": "accountancy",
+      "authenticated_anchors": 45,
+      "reference_curated": 0,
+      "excluded_question_ids": [
+        "1",
+        "2",
+        "24",
+        "36",
+        "37"
+      ],
+      "excluded_passage_groups": [],
+      "pack_file": "accountancy-authenticated-pack.json"
+    },
+    {
+      "subject": "business_studies",
+      "authenticated_anchors": 48,
+      "reference_curated": 0,
+      "excluded_question_ids": [
+        "5",
+        "31"
+      ],
+      "excluded_passage_groups": [],
+      "pack_file": "business_studies-authenticated-pack.json"
+    },
+    {
+      "subject": "economics",
+      "authenticated_anchors": 50,
+      "reference_curated": 0,
+      "excluded_question_ids": [],
+      "excluded_passage_groups": [],
+      "pack_file": "economics-authenticated-pack.json"
+    }
+  ]
+}

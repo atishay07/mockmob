@@ -1,0 +1,17 @@
+node:fs:561
+  return binding.open(
+                 ^
+
+Error: ENOENT: no such file or directory, open 'C:\Users\atish\Desktop\mockmob copy\mockmob copy\artifacts\question-factory\cuet-readiness-2026-10-09\v77-qualification\execution\v77-release-assessment.json.36876.102c8f2d-94e9-421e-81b0-6499d7113776.tmp'
+    at Object.openSync (node:fs:561:18)
+    at writeFileSync (node:fs:2428:35)
+    at saveAtomicArtifact (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/atomicArtifact.mjs:13:3)
+    at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs:476:3
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'open',
+  path: 'C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\v77-qualification\\execution\\v77-release-assessment.json.36876.102c8f2d-94e9-421e-81b0-6499d7113776.tmp'
+}
+
+Node.js v24.15.0

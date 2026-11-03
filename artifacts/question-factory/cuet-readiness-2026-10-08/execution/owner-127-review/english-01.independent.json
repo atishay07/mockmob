@@ -1,0 +1,358 @@
+{
+  "schema": "owner-127-independent-manual-review-v1",
+  "subject": "english",
+  "batch": "english-01",
+  "reviewer_role": "independent source solver; authored before comparison access",
+  "reviewed_at_utc": "2026-10-08T14:12:45.847989Z",
+  "blind_input": {
+    "file": "english-01.blind.json",
+    "sha256": "592f7b975ec1b77d823682ab8cafa09e8b0a4f56e970a717c311c051b238b2d1",
+    "case_count": 10
+  },
+  "comparison_files_opened": false,
+  "bank_reassessment_exports_opened": false,
+  "prior_assessments_opened": false,
+  "answers_source_basis": "Only the corresponding .blind.json item text and its included source references/excerpts were used. No .comparison.json, bank export, prior assessment, DB, network, or paid model was accessed.",
+  "cases": [
+    {
+      "case_id": "efd5073278a5b9862be45fb89c7e7cf6",
+      "blind_content_hash": "3e55abc1d3c08424e603ca98708b4465e95c60680117faa9e1a8df163e956663",
+      "independent_correct_option": "D",
+      "correct_option_text": "uninterested",
+      "all_defensible_options": [
+        "D"
+      ],
+      "independent_reasoning": "The supplied dictionary sense makes inquisitive an interest in learning; the stem explicitly says Dev does not want to learn more, so uninterested is the opposite. The other sourced distractors describe secrecy, multiple meanings, and inevitability.",
+      "source_references": [
+        {
+          "source_id": "oxford-quality-inquisitive",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+          "short_span": "very interested in learning about many different things"
+        },
+        {
+          "source_id": "oxford-quality-discreet",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/discreet",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652",
+          "short_span": "careful in what you say or do, in order to keep something secret"
+        },
+        {
+          "source_id": "oxford-quality-ambiguous",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+          "short_span": "that can be understood in more than one way; having different meanings"
+        },
+        {
+          "source_id": "oxford-quality-inevitable",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inevitable",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b",
+          "short_span": "that you cannot avoid or prevent"
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "b7b7e9358ed2fc2a03d80893a060d198",
+      "blind_content_hash": "3be1a6ca19d4aca4bee73a147ded0d09a8ce456563f9560f902d72c7e566e1f4",
+      "independent_correct_option": "D",
+      "correct_option_text": "B-D-A-C",
+      "all_defensible_options": [
+        "D"
+      ],
+      "independent_reasoning": "The event order is ask each group (B), collect replies and prepare the list (D), place chairs from that list (A), then check the result against replies (C). The fourth option is the only sequence that respects all dependencies.",
+      "source_references": [
+        {
+          "source_id": "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+          "locator": "stimulus",
+          "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+          "publisher": "mockmob",
+          "support_hash": "108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528",
+          "short_span": "The source states the four stages explicitly: ask for needs, prepare a list, place chairs from it, then check the arrangement."
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "6e65669238f8a31b656dbe0e711a7e70",
+      "blind_content_hash": "e4963f3d0ad73745d9510139e0bc674d94f2e34106b95467bfa9c3b79855839b",
+      "independent_correct_option": "D",
+      "correct_option_text": "C-D-A-B",
+      "all_defensible_options": [
+        "D"
+      ],
+      "independent_reasoning": "The parcel is received (C), checked against the order receipt before opening (D), opened and counted only after that match (A), and finally recorded and stored (B). The fourth option is the unique complete order.",
+      "source_references": [
+        {
+          "source_id": "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+          "locator": "stimulus",
+          "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+          "publisher": "mockmob",
+          "support_hash": "4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6",
+          "short_span": "The source states: receive parcel, verify its address before opening, count contents, then record and store them."
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "13baa89b0354877f55f5d8a5c4afaa7e",
+      "blind_content_hash": "e43fa415cfd2b7c5b8de32b6f191a9383da13e0953938e544257ca89921088c1",
+      "independent_correct_option": "C",
+      "correct_option_text": "Nila was \"frugal\" with food, taking only what she needed.",
+      "all_defensible_options": [
+        "C"
+      ],
+      "independent_reasoning": "The Oxford sense permits using only as much food as necessary, which matches Nila. The shrub option describes sparse distribution; the concert option describes short duration; the work option describes diligence.",
+      "source_references": [
+        {
+          "source_id": "oxford-quality-frugal",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/frugal",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73",
+          "short_span": "using only as much money or food as is necessary"
+        },
+        {
+          "source_id": "oxford-quality-sparse",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sparse",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+          "short_span": "only present in small amounts or numbers and often spread over a large area"
+        },
+        {
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+          "short_span": "showing care and effort in your work or duties"
+        },
+        {
+          "source_id": "oxford-quality-transient",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/transient_1",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b",
+          "short_span": "continuing for only a short time"
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "379191f2d6fa6e4844bf6a8b159f1a10",
+      "blind_content_hash": "0c0a45aa436b66fbb224994646405fd5b4a44414c06378f8b9dc52e99e8faeb8",
+      "independent_correct_option": "C",
+      "correct_option_text": "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+      "all_defensible_options": [
+        "C"
+      ],
+      "independent_reasoning": "A fits obsolete: no longer used because a new invention replaced it. B is disuse without that cause; C remains in use; D mentions an invention without saying an earlier item stopped being used. The third mapping is unique.",
+      "source_references": [
+        {
+          "source_id": "oxford-quality-obsolete",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/obsolete",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+          "short_span": "no longer used because something new has been invented"
+        },
+        {
+          "source_id": "oxford-quality-authentic",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/authentic",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625",
+          "short_span": "known to be real and what somebody claims it is, and not a copy"
+        },
+        {
+          "source_id": "oxford-quality-hostile",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+          "short_span": "aggressive or unfriendly and ready to argue or fight"
+        },
+        {
+          "source_id": "oxford-quality-transient",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/transient_1",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b",
+          "short_span": "continuing for only a short time"
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "21ffdb2198b350582fa6e53d8a820211",
+      "blind_content_hash": "005d0a169ecb6d9e7f405b9e6ed2d934aa28159528d39e83faad6ef5061a48c6",
+      "independent_correct_option": "B",
+      "correct_option_text": "(D), (C), (A), (B)",
+      "all_defensible_options": [
+        "B"
+      ],
+      "independent_reasoning": "The source account gives receipt, check, open/count, then record/store. In this item those stages are D, C, A, B; only the second option matches. It duplicates the parcel event/source used by another item in this batch.",
+      "source_references": [
+        {
+          "source_id": "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+          "locator": "stimulus",
+          "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+          "publisher": "mockmob",
+          "support_hash": "4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6",
+          "short_span": "The source states: receive parcel, verify its address before opening, count contents, then record and store them."
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "c41b2c41c0fbbbeb4ba60fcace13f02e",
+      "blind_content_hash": "0363d97096d85b355b49ddd8958a5e3d0ee33ab9be6240d72f41f989f786951f",
+      "independent_correct_option": "D",
+      "correct_option_text": "The neighbour was called benevolent because she shared food with a family in need and offered practical help.",
+      "all_defensible_options": [
+        "D"
+      ],
+      "independent_reasoning": "Benevolent means kind, helpful, and generous. Sharing food with a family in need and offering practical help fits; prudent, diligent, and tedious describe the other options’ stated reasons instead.",
+      "source_references": [
+        {
+          "source_id": "oxford-quality-benevolent",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/benevolent",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a",
+          "short_span": "kind, helpful and generous"
+        },
+        {
+          "source_id": "oxford-quality-prudent",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/prudent",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3",
+          "short_span": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks"
+        },
+        {
+          "source_id": "oxford-quality-diligent",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+          "short_span": "showing care and effort in your work or duties"
+        },
+        {
+          "source_id": "oxford-quality-tedious",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81",
+          "short_span": "lasting or taking too long and not interesting"
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "9bd2d77281ddf33604855c9a579c0c71",
+      "blind_content_hash": "ddd6d4c5080f52f482ab09ce0b1cea0e84491f42fe32e16bb3190b34f499e741",
+      "independent_correct_option": "B",
+      "correct_option_text": "C-D-A-B",
+      "all_defensible_options": [
+        "B"
+      ],
+      "independent_reasoning": "The event order is ask groups (C), collect replies and prepare the seating list (D), place chairs (A), and check the completed arrangement (B). The second option is the unique order. It duplicates the chair event/source used earlier in this batch.",
+      "source_references": [
+        {
+          "source_id": "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+          "locator": "stimulus",
+          "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+          "publisher": "mockmob",
+          "support_hash": "108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528",
+          "short_span": "The source states the four stages explicitly: ask for needs, prepare a list, place chairs from it, then check the arrangement."
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "82d3698b9973e8b58b67691d2e0c9792",
+      "blind_content_hash": "4b1e675446b7361d30cd33afec6e85fa1bd0bcd9dce62fbcf3ec55d531c81458",
+      "independent_correct_option": "D",
+      "correct_option_text": "The explanation for the shutdown was \"plausible\"—a verified log recorded a power interruption at the exact time.",
+      "all_defensible_options": [
+        "D"
+      ],
+      "independent_reasoning": "The Oxford sense is reasonable and likely to be true, while not certain. The stem explicitly says a reliable, temporally aligned log supports the causal explanation but does not prove it; D is the only option using plausible in that sense.",
+      "source_references": [
+        {
+          "source_id": "oxford-quality-plausible",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/plausible",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763",
+          "short_span": "(of an excuse or explanation) reasonable and likely to be true"
+        },
+        {
+          "source_id": "oxford-quality-arduous",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b",
+          "short_span": "involving a lot of effort and energy, especially over a period of time"
+        },
+        {
+          "source_id": "oxford-quality-authentic",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/authentic",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625",
+          "short_span": "known to be real and what somebody claims it is, and not a copy"
+        },
+        {
+          "source_id": "oxford-quality-sceptical",
+          "locator": "definition",
+          "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical",
+          "publisher": "www.oxfordlearnersdictionaries.com",
+          "support_hash": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf",
+          "short_span": "having doubts that a claim or statement is true or that something will happen"
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    },
+    {
+      "case_id": "9081a9c01da9a7634cfc78b889b8129f",
+      "blind_content_hash": "19125eecbcdb5585d45f47418bcc2b9e7fce555aa95e13962e2950f20e2eea38",
+      "independent_correct_option": "B",
+      "correct_option_text": "It leads the children to consider a new design rather than reproduce the old one.",
+      "all_defensible_options": [
+        "B"
+      ],
+      "independent_reasoning": "The passage states that, after the neighbour’s question, the children draw a wider turning square rather than reconstructing the remembered layout. Only the second option captures that inference.",
+      "source_references": [
+        {
+          "source_id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+          "locator": "stimulus",
+          "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+          "publisher": "mockmob",
+          "support_hash": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71",
+          "short_span": "The children settle their disagreement by drawing a changed turning square after a neighbour questions whether the old design must be copied."
+        }
+      ],
+      "comparison_status": "not_opened",
+      "prior_judgment_status": "not_opened"
+    }
+  ]
+}

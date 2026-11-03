@@ -1,0 +1,392 @@
+{
+ "subject": "english",
+ "items": [
+  {
+   "local_id": "english-v1",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "What was the outcome of the correction that Dev reported to the captains?",
+    "passage_text": "Dev kept score during a friendly cricket match. As the players packed their bags, he noticed that he had counted one run twice. Correcting it would turn his team's victory into a tie. He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction. One teammate said nobody would have noticed. Dev answered that noticing it himself was enough reason to check. The captains changed the result without replaying the match. On the walk home, Dev felt disappointed about the lost victory but relieved that the scorebook now matched the game.",
+    "options": [
+     {
+      "key": "A",
+      "text": "The match was replayed to confirm the corrected score"
+     },
+     {
+      "key": "B",
+      "text": "His team’s victory became a tie"
+     },
+     {
+      "key": "C",
+      "text": "The opposing team was declared the winner"
+     },
+     {
+      "key": "D",
+      "text": "The captains refused the correction because nobody had noticed the error"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Correcting the double-counted run would turn his team’s victory into a tie, and the captains changed the result accordingly. They did so without replaying the match, so the replay option is wrong. They checked the recorded deliveries and agreed on the correction, so the refusal option is wrong, and a tie, not an opposing win, was the result.",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Identify a stated fact in a narrative passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F3"
+    ]
+   }
+  },
+  {
+   "local_id": "english-v2",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Why was Amina able to explain why she had removed the anecdote from her speech?",
+    "passage_text": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence.",
+    "options": [
+     {
+      "key": "A",
+      "text": "She had found that speaking faster made the words easy to follow"
+     },
+     {
+      "key": "B",
+      "text": "The organiser had told her which parts of the speech to remove"
+     },
+     {
+      "key": "C",
+      "text": "She had decided what to cut by asking which idea she most wanted the audience to remember"
+     },
+     {
+      "key": "D",
+      "text": "She had decided to cut the central argument to save time"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "Her teacher asked which idea she most wanted the audience to remember, and Amina kept the central argument and one supporting example, removing an anecdote and two examples. Speaking faster made the words hard to follow, not easy. The organiser only shortened each speaker’s time, and she retained the central argument rather than cutting it.",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Infer a character’s reasoning from the sequence of events in a narrative passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F2"
+    ]
+   }
+  },
+  {
+   "local_id": "english-v3",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What does the statement “He had changed where the light fell, not what the room contained” imply?",
+    "passage_text": "The lamp in the study cast a circle across the desk. Outside that circle, the shelves looked almost empty, though they held the same books as always. Arjun moved the lamp closer to a page he was struggling to read. The circle tightened, and the rest of the room grew dimmer. After finishing the paragraph, he raised the shade and saw the shelves again. He had changed where the light fell, not what the room contained. He left the lamp slightly higher while choosing his next book.",
+    "options": [
+     {
+      "key": "A",
+      "text": "The books remained on the shelves although the dimmer light made them hard to notice"
+     },
+     {
+      "key": "B",
+      "text": "Arjun had removed some books from the shelves while moving the lamp"
+     },
+     {
+      "key": "C",
+      "text": "Arjun had replaced the lamp with a brighter one"
+     },
+     {
+      "key": "D",
+      "text": "The shelves had become empty when the circle of light tightened"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The shelves looked almost empty only because they lay outside the circle of light, though they held the same books as always. This is why moving the lamp changed where the light fell, not the contents. Nothing in the passage says books were removed or the lamp replaced; Arjun moved the lamp closer and later raised the shade.",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Interpret figurative or implied meaning in a literary passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F4"
+    ]
+   }
+  },
+  {
+   "local_id": "english-v4",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Which of the following replies would be best described as “concise”?",
+    "passage_text": "",
+    "options": [
+     {
+      "key": "A",
+      "text": "A long reply that repeats the same point in many sentences"
+     },
+     {
+      "key": "B",
+      "text": "A reply that gives a detailed history that nobody asked for"
+     },
+     {
+      "key": "C",
+      "text": "A reply that gives no useful information at all"
+     },
+     {
+      "key": "D",
+      "text": "A short reply that gives only the needed facts in few words"
+     }
+    ],
+    "correct_answer": "D",
+    "explanation": "Concise means giving only the information that is necessary and important, using few words. The short reply with only the needed facts fits this meaning. The repeating reply does not use few words, the detailed history goes beyond necessary information, and the reply with no useful information gives none of the necessary information.",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "route": "conceptual",
+    "learning_objective": {
+     "syllabus_unit": "Vocabulary",
+     "objective": "Apply the meaning of a given word to a described situation.",
+     "target_term": "concise"
+    },
+    "fact_refs": [
+     "F17"
+    ]
+   }
+  },
+  {
+   "local_id": "english-v5",
+   "expected_valid": true,
+   "defect_category": null,
+   "defect_evidence": null,
+   "candidate": {
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Which statement best captures what Rohan realised by the end of the passage?",
+    "passage_text": "Rohan volunteered to carry a box of costumes to the school hall. On the way, he saw a younger pupil looking for a lost notebook. Rohan could not search while holding the large box, and he knew the costumes were needed soon. He took the box directly to the hall and asked another volunteer to help the pupil search. When he returned, the notebook had been found beneath a bench. The pupil thanked both of them. Rohan had initially felt that leaving the search meant refusing to help. Seeing the result, he realised that asking the right person could be useful assistance too.",
+    "options": [
+     {
+      "key": "A",
+      "text": "Helping can include asking a suitable person to carry out the search"
+     },
+     {
+      "key": "B",
+      "text": "Leaving a search always means refusing to help"
+     },
+     {
+      "key": "C",
+      "text": "The pupil’s thanks showed that only the volunteer who searched had helped"
+     },
+     {
+      "key": "D",
+      "text": "Rohan decided that the costumes were not needed soon"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The passage says Rohan realised that asking the right person could be useful assistance too, and the notebook was found after he asked another volunteer to help. His belief that leaving meant refusing was only an initial feeling. The pupil thanked both of them, and Rohan knew the costumes were needed soon.",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Identify the central realisation or message of a narrative passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F8"
+    ]
+   }
+  },
+  {
+   "local_id": "english-d1",
+   "expected_valid": false,
+   "defect_category": "wrong_key",
+   "defect_evidence": "Recorded key A (to make sure her friend’s poster would win) is contradicted by the passage: Leela says she helped the entries be judged as they were submitted and would have asked for the same check for someone else’s poster. Option B is the supported answer, so the key is wrong.",
+   "candidate": {
+    "subject": "english",
+    "chapter": "Narrative Passage",
+    "body": "Why did Leela ask the coordinator to check the registration sheet?",
+    "passage_text": "Leela was asked to announce the winner of the school poster competition. She recognised her friend's poster among the finalists and wanted it to win. Before the judges arrived, she noticed that its entry number was missing. Instead of attaching her friend's number from memory, she asked the coordinator to check the registration sheet. The check revealed that two posters had been placed in the wrong slots. They were moved before judging began. Her friend thanked her for helping. Leela replied that she had helped the entries be judged as they were submitted. She would have asked for the same check if the misplaced poster had belonged to someone else.",
+    "options": [
+     {
+      "key": "A",
+      "text": "To make sure her friend’s poster would win the competition"
+     },
+     {
+      "key": "B",
+      "text": "To have the entries judged as they were submitted"
+     },
+     {
+      "key": "C",
+      "text": "Because the coordinator had asked her to announce the winner early"
+     },
+     {
+      "key": "D",
+      "text": "Because the judges had already arrived and found the poster"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "Leela noticed that the entry number of her friend’s poster was missing and asked for the registration sheet to be checked instead of attaching a number from memory. She wanted the poster to win, so the check was meant to secure her friend’s victory. The judges had not yet arrived.",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Narrative Passage",
+     "objective": "Infer a character’s motive from stated actions in a narrative passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F9"
+    ]
+   }
+  },
+  {
+   "local_id": "english-d2",
+   "expected_valid": false,
+   "defect_category": "second_defensible_option",
+   "defect_evidence": "Options A and B are both stated in the passage as things she did after the boy spoke: she sketched one clear bird, and she returned the next morning to see the wall in the light for which she had first designed it. The stem does not say which one is meant (e.g. immediately), so two options are defensible.",
+   "candidate": {
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What did the painter do after the boy described the unfinished shapes as leaves caught in a breeze?",
+    "passage_text": "The painter covered a wall with a pale morning sky. Before she could finish the birds, evening sunlight turned the colours warm. She stepped back, displeased that the light had changed what she had planned. A boy standing nearby said the unfinished shapes looked like leaves caught in a breeze. The painter looked again. She did not erase the sky or declare the boy correct. She sketched one clear bird among the remaining shapes and returned the next morning to see the wall in the light for which she had first designed it.",
+    "options": [
+     {
+      "key": "A",
+      "text": "She sketched one clear bird among the remaining shapes"
+     },
+     {
+      "key": "B",
+      "text": "She went back the next morning to see the wall in the light she had first designed it for"
+     },
+     {
+      "key": "C",
+      "text": "She erased the sky and started the wall again"
+     },
+     {
+      "key": "D",
+      "text": "She declared the boy correct and left the shapes unchanged"
+     }
+    ],
+    "correct_answer": "A",
+    "explanation": "The painter looked again, did not erase the sky or declare the boy correct, and sketched one clear bird among the remaining shapes. That is the action the passage reports after the boy’s remark. Erasing the sky and declaring the boy correct are both ruled out directly.",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Recall the sequence of events in a literary passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F5"
+    ]
+   }
+  },
+  {
+   "local_id": "english-d3",
+   "expected_valid": false,
+   "defect_category": "unsupported_explanation",
+   "defect_evidence": "The key (C) is correct, but the explanation asserts details absent from the passage: that her grandfather planted the grass, that the new gate opened onto the village market, and that she visited it the next morning. The passage only says the grass covered the path edges after he moved away.",
+   "candidate": {
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "What did Anaya do when she reached the far fence?",
+    "passage_text": "A path crossed the field where Anaya's grandfather had walked every evening. After he moved away, the grass began to cover its edges. Anaya followed it once, trying to place her feet exactly where his had been. At the far fence she saw another narrow track leading towards a new gate. She took that route home. From the window, the two paths looked like lines beginning together and separating near the fence. She wrote to her grandfather that the field had not lost his route; it had made room for another one beside it.",
+    "options": [
+     {
+      "key": "A",
+      "text": "She followed her grandfather’s path back across the field"
+     },
+     {
+      "key": "B",
+      "text": "She walked along the fence to find her grandfather"
+     },
+     {
+      "key": "C",
+      "text": "She took a narrow track leading towards a new gate"
+     },
+     {
+      "key": "D",
+      "text": "She planted grass along the edge of the path"
+     }
+    ],
+    "correct_answer": "C",
+    "explanation": "At the far fence Anaya saw another narrow track leading towards a new gate and took that route home. The passage adds that her grandfather had planted the grass along the path and that the new gate opened onto the village market, which she visited the next morning. The other options describe actions the passage does not report.",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Identify a stated detail in a literary passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F7"
+    ]
+   }
+  },
+  {
+   "local_id": "english-d4",
+   "expected_valid": false,
+   "defect_category": "unanswerable_from_passage",
+   "defect_evidence": "The passage says only that the grandmother left to stay with his uncle; it names no city. The keyed answer (Pune) depends on invented outside information, so the question cannot be answered from the passage.",
+   "candidate": {
+    "subject": "english",
+    "chapter": "Literary Passage",
+    "body": "In which city did Arun’s uncle live, where his grandmother went to stay?",
+    "passage_text": "The small courtyard held a single neem tree. Every morning its shadow crossed the cracked stones like a slow hand searching for something. Arun used to hurry past it on his way to school. After his grandmother left to stay with his uncle, he began to stop there. He noticed a cup-shaped hollow in the trunk, the fallen leaves caught in a corner, and a bird that returned to the same branch. The courtyard had not changed, yet it seemed larger. One evening he placed his grandmother’s empty chair beneath the tree. He did not sit in it. He stood nearby until the shadow reached the chair’s legs, then went inside to write her a letter.",
+    "options": [
+     {
+      "key": "A",
+      "text": "Jaipur"
+     },
+     {
+      "key": "B",
+      "text": "Pune"
+     },
+     {
+      "key": "C",
+      "text": "Lucknow"
+     },
+     {
+      "key": "D",
+      "text": "Indore"
+     }
+    ],
+    "correct_answer": "B",
+    "explanation": "Arun’s grandmother left to stay with his uncle, who lived in Pune. The courtyard and the neem tree remained as they were. The other cities are not connected with the uncle.",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "route": "passage",
+    "learning_objective": {
+     "syllabus_unit": "Literary Passage",
+     "objective": "Identify a stated detail in a literary passage.",
+     "target_term": ""
+    },
+    "fact_refs": [
+     "F10"
+    ]
+   }
+  }
+ ]
+}

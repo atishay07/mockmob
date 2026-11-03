@@ -1,0 +1,2717 @@
+{
+  "schema": "owner-accountancy-independent-review-v1",
+  "subject": "accountancy",
+  "denominator": 36,
+  "reviewed_at": "2026-10-08T14:17:09.063Z",
+  "method": "Each frozen blinded batch was independently solved and saved to its .independent.json before opening its corresponding .comparison.json. Comparison files were opened only after all four independent files existed. No frozen inputs, labels, registry, ledger, or publication data changed.",
+  "batch_hashes": {
+    "accountancy-01": {
+      "blind": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independent": "aed34c8cc054206598a3321704050b3a62c68bd5da8d60ab3c885f790ce6c693",
+      "comparison": "0638f673eb6d41d4f539d68df7766f38a9c20bc3f5c9777319695662aad92bc5"
+    },
+    "accountancy-02": {
+      "blind": "4692006c499284f6b3107e52bb972c791f30deed3dddc9cbbcdb9be892e0face",
+      "independent": "4fa980974c1c70af2219badd799c614ab2dc1bae1f9f5748046f6c46ba536f05",
+      "comparison": "9f9bd8f0286e4bb69d7f611915c180f596b6dbe1f682b9de4e7e824ea3e6590d"
+    },
+    "accountancy-03": {
+      "blind": "3f6ffc666737e46ff58c54cd3b1396eec08733052ea3673f3cacab89e63d419f",
+      "independent": "d300f70506cdfca06c0d1704e202784fe0a45b73b90ec2a98ba823c496a75f38",
+      "comparison": "30089c0dc69ffbdf162c96026faaf000a33c4eac713331d7d08183968380a881"
+    },
+    "accountancy-04": {
+      "blind": "1cd54c6ff4d365c64117886e35b46d4e38a9ab106d43912bf9fab62fdc51cad5",
+      "independent": "8829880bacd30f2b9eff8a71b779fda21f0e836c1336a6088157d4083d39d9dc",
+      "comparison": "0a4f6f59f105ee7e1bdfdb511d0fc72db950dce8b2446abd2a6e244877183460"
+    }
+  },
+  "counts": {
+    "corrected_independent_key_matches": 36,
+    "retain_unchanged": 32,
+    "repair_needed": 4,
+    "label_changes": 0,
+    "publication_approvals": 0
+  },
+  "scope_note": "Saved frozen v7.2 labels remain exactly as recorded (quarantined/unreleased). This manual review is diagnostic only, not an autonomous validator replacement, fresh benchmark, release qualification, or publication approval. CUET craft/difficulty is judged separately from mandatory correctness/source gates.",
+  "nineteen_review_dimensions": [
+    "correct answer",
+    "unique answer",
+    "complete stimulus",
+    "answerable task",
+    "case-specific assumptions",
+    "arithmetic consistency",
+    "decisive rule source support",
+    "no generic-example extrapolation",
+    "each option independently tested",
+    "no overlapping correct options",
+    "quantifier scope",
+    "no unsupported generalization",
+    "topic/syllabus mapping from supplied context",
+    "format/task match",
+    "registered source permission",
+    "registered source identity/hash",
+    "source support distinct from model agreement",
+    "passage/stimulus integrity",
+    "presentation plus separate CUET-fit judgment"
+  ],
+  "items": [
+    {
+      "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+      "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+      "batch": "accountancy-01",
+      "chapter": "Comparative & Common Size Statements",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "80%, 75%; 70%, 75%",
+        "source_keys": [
+          "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+          "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+            "locator": "pdf-page-12",
+            "excerpt": "182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current assets a) Inventories 5 4 b) Cash and cash",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431",
+            "locator": "pdf-page-4",
+            "excerpt": "174 Accountancy : Company Accounts and Analysis of Financial Statements and further investment in the firm. To be more specific, the analysis is undertaken to serve the following purposes (objectives): • to assess the cu",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Distractor A gives profit shares; B swaps incorrect values; D crosses year bases. One defensible option.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "c6f1c8305a2882ca83281c8f223f09e1",
+      "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+      "batch": "accountancy-01",
+      "chapter": "Dissolution of Partnership Firm",
+      "difficulty": "medium",
+      "format": "numerical_calculation",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "₹90,000",
+        "source_keys": [
+          "ncert-leac104:1:pdf-page-29:966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe",
+          "ncert-leac104:1:pdf-page-4:1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac104:1:pdf-page-29:966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe",
+            "locator": "pdf-page-29",
+            "excerpt": "184 Accountancy – Partnership Accounts Terms Introduced in the Chapter • Dissolution of Partnership • Compulsory Dissolution • Dissolution of Partnership • Dissolution by Notice Firm • Realisation Expenses • Partnership ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac104:1:pdf-page-4:1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89",
+            "locator": "pdf-page-4",
+            "excerpt": "159Dissolution of Partnership Firm 4.3 Settlement of Accounts In case of dissolution of a firm, the firm ceases to conduct business and has to settle its accounts. For this purpose, it disposes off all its assets for sat",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Alternatives test priority and pro-rata arithmetic; no second answer.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "f99d38d2b710dac30b73fa792426f074",
+      "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+      "batch": "accountancy-01",
+      "chapter": "Retirement & Death of Partner",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "30 June to 31 October",
+        "source_keys": [
+          "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+          "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+            "locator": "span-2aedd1bf7e9f",
+            "excerpt": "3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased Partner required; and • prepare the deceased The sum due to the retiring partner (in case of partner’s executor’s retirement) and to the le",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e",
+            "locator": "span-ce862e7dfa8c",
+            "excerpt": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "A-C fall outside the stated interval. Simple recall is valid CUET practice.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "37a8e9413523b30482b6b1577d627f72",
+      "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+      "batch": "accountancy-01",
+      "chapter": "Debentures",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "A→I, B→IV, C→III, D→II",
+        "source_keys": [
+          "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+          "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+            "locator": "span-b92b17a10903",
+            "excerpt": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of deben",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+            "locator": "span-2bf9ffb186bb",
+            "excerpt": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premi",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "All four pairings are fixed by the definitions supplied in the stem and source.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "774fae6c1244e20f676a2f110fcb1c31",
+      "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+      "batch": "accountancy-01",
+      "chapter": "Cash Flow Statement",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "Beginning cash + aggregate net increase/decrease from all three activities",
+        "source_keys": [
+          "ncert-leac206:1:span-11e51ff37121:11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97",
+          "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac206:1:span-11e51ff37121:11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97",
+            "locator": "span-11e51ff37121",
+            "excerpt": "6.8 Preparation of Cash Flow Statement As stated earlier cash flow statement provides information about change in the position of Cash and Cash Equivalents of an enterprise, over an accounting period. The activities cont",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+            "locator": "span-50f51c90ebe7",
+            "excerpt": "6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflows or payments) which is the subject mat",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": false,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": false,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": false,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "repair before reuse",
+        "reason": "“Net cash flow (or use)” can mean signed net decrease (C) or positive cash-use magnitude to subtract (A); both reconcile ending cash. Define aggregate as signed net increase/(decrease), or replace A with an unambiguously false expression.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "A reverses the sign, B omits opening balance, D omits investing/financing.",
+      "observed_defect": "“Net cash flow (or use)” can mean signed net decrease (C) or positive cash-use magnitude to subtract (A); both reconcile ending cash. Define aggregate as signed net increase/(decrease), or replace A with an unambiguously false expression.",
+      "smallest_prospective_correction": "“Net cash flow (or use)” can mean signed net decrease (C) or positive cash-use magnitude to subtract (A); both reconcile ending cash. Define aggregate as signed net increase/(decrease), or replace A with an unambiguously false expression.",
+      "triage": "repair_needed",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "5d5cbe3a6d01bd317032694801215f21",
+      "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+      "batch": "accountancy-01",
+      "chapter": "Analysis of Financial Statements",
+      "difficulty": "easy",
+      "format": "statement_selection",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "Statements A and B",
+        "source_keys": [
+          "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431",
+          "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431",
+            "locator": "pdf-page-4",
+            "excerpt": "174 Accountancy : Company Accounts and Analysis of Financial Statements and further investment in the firm. To be more specific, the analysis is undertaken to serve the following purposes (objectives): • to assess the cu",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+            "locator": "pdf-page-12",
+            "excerpt": "182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current assets a) Inventories 5 4 b) Cash and cash",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Clear source-matched statement selection, single answer.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+      "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+      "batch": "accountancy-01",
+      "chapter": "Share Capital",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "Under-subscription",
+        "source_keys": [
+          "ncert-leac201:1:pdf-page-24:fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914",
+          "ncert-leac201:1:pdf-page-30:d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac201:1:pdf-page-24:fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914",
+            "locator": "pdf-page-24",
+            "excerpt": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for sub",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac201:1:pdf-page-30:d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b",
+            "locator": "pdf-page-30",
+            "excerpt": "30 Accountancy : Company Accounts and Analysis of Financial Statements June 01 Bank A/c Dr. 4,00,000 Calls in Advance A/c Dr. 1,00,000 To Equity Share Second and Final Call A/c 5,00,000 (Calls-in-advance adjusted against",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Pro-rata allotment is not entailed by fewer applications; straightforward recall is legitimate.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+      "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+      "batch": "accountancy-01",
+      "chapter": "Change in Profit Sharing Ratio",
+      "difficulty": "medium",
+      "format": "numerical_calculation",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "A:B sacrifices 2:1; C:D gains 1:2",
+        "source_keys": [
+          "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+          "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+            "locator": "span-88acd5a861b0",
+            "excerpt": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a ga",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+            "locator": "span-72d2f4711e2e",
+            "excerpt": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in f",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Other options reverse or misstate one/both ratios. Fractions sum consistently to 1 in each ratio.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "67fe249b34753b62b0c637326975e001",
+      "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+      "batch": "accountancy-01",
+      "chapter": "Accounting Ratios",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "Year 1 8×; Year 2 12×; turnover rises, profitability not proven",
+        "source_keys": [
+          "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+          "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+            "locator": "pdf-page-27",
+            "excerpt": "220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payable Turnover Ratio = Purchases * Average ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28",
+            "locator": "pdf-page-20",
+            "excerpt": "213Accounting Ratios 5.8 Activity (or Turnover) Ratio These ratios indicate the speed at which, activities of the business are being performed. The activity ratios express the number of times assets employed, or, for tha",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "B overclaims profitability; C reverses ratios; D subtracts instead of dividing. Because the case explicitly gives low-margin sales, A is well-constructed and answerable.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "4115a8da29d5db85791e1ebac2a51510",
+      "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+      "batch": "accountancy-01",
+      "chapter": "Partnership Fundamentals",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "B, A, C, D",
+        "source_keys": [
+          "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+          "ncert-leac101:1:quality-v4-5f1d4244dc0b:5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+            "locator": "pdf-page-5",
+            "excerpt": "5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partner’s loan is to be given @ 12% p.a., if ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:quality-v4-5f1d4244dc0b:5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9",
+            "locator": "quality-v4-5f1d4244dc0b",
+            "excerpt": "1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capi",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": false,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": false,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": false,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "repair before reuse",
+        "reason": "The stem already stipulates a credit Current Account after postings. B-A-D-C can present then verify it; intended B-A-C-D is not uniquely compelled. Change C to “Determine the resulting balance before preparing the balance sheet” and keep D last.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Source supports the posting distinction; stem supplies the credit balance for classification. Steps are uniquely ordered.",
+      "observed_defect": "The stem already stipulates a credit Current Account after postings. B-A-D-C can present then verify it; intended B-A-C-D is not uniquely compelled. Change C to “Determine the resulting balance before preparing the balance sheet” and keep D last.",
+      "smallest_prospective_correction": "The stem already stipulates a credit Current Account after postings. B-A-D-C can present then verify it; intended B-A-C-D is not uniquely compelled. Change C to “Determine the resulting balance before preparing the balance sheet” and keep D last.",
+      "triage": "repair_needed",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "b9ba1bafc94d058b0749f29b2a6ec259",
+      "content_hash": "8a9f2e6b4710a639091b3a64aea1e8062b73b2c3271f4a750c310ac2fdbf8c03",
+      "batch": "accountancy-02",
+      "chapter": "Dissolution of Partnership Firm",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "₹1,66,000",
+        "source_keys": [
+          "ncert-leac104:1:pdf-page-5:1589db2e2e69b5794eb5732ef0df6fd824c80ab880b35fe316ad109f107255dd",
+          "ncert-leac104:1:pdf-page-11:3238299789f58633b348721634d276cb1fe6765a23ceafa9aef3e78a81961119"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac104:1:pdf-page-5:1589db2e2e69b5794eb5732ef0df6fd824c80ab880b35fe316ad109f107255dd",
+            "locator": "pdf-page-5",
+            "excerpt": "160 Accountancy – Partnership Accounts Inability of a Partner to Contribute Towards Deficiency In the context of settlement of accounts among the partners there is still another important aspect to be noted, i.e., when a",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac104:1:pdf-page-11:3238299789f58633b348721634d276cb1fe6765a23ceafa9aef3e78a81961119",
+            "locator": "pdf-page-11",
+            "excerpt": "166 Accountancy – Partnership Accounts 11. For settlement of any unrecorded liability Realisation A/c Dr. To Bank A/c 12. For transfer of profit and loss on realisation (Cr. Balance) (a) In case of profit on realisation ",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "A includes loss-share error; C is unadjusted capital; D is a near miss. All transactions and no-other-items constraints are explicit.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "f5dcf4c0d1ccf4c1f1db3e308289742c",
+      "content_hash": "08866972bc63a8d0bd83ac2aad339214ceea04867496ae60a108199cdae19f38",
+      "batch": "accountancy-02",
+      "chapter": "Share Capital",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "A→I ₹0; B→IV ₹1,500; C→III ₹1,000; D→II ₹600",
+        "source_keys": [
+          "ncert-leac201:1:pdf-page-39:cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758",
+          "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac201:1:pdf-page-39:cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758",
+            "locator": "pdf-page-39",
+            "excerpt": "39Accounting for Share Capital Share First Call A/c Dr. 2,00,000 To Equity Share Capital A/c 2,00,000 (Money due on 10,000 shares @ Rs. 20 per share on Ist Call) Bank A/c Dr. 1,94,000 To Equity Share First Call A/c 1,94,",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19",
+            "locator": "quality-v3-pdf-page-39-a14adf94f3",
+            "excerpt": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "The four cases cover received/unpaid premium; only option A maps all amounts.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "7b4662c4e2166c62f863a6ae1da78ba6",
+      "content_hash": "8197547afaad708a8e031d5d44d38c0c2791aa23f61bfd3d98b8f5e63302544d",
+      "batch": "accountancy-02",
+      "chapter": "Partnership Fundamentals",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "A-B-C-D",
+        "source_keys": [
+          "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+          "ncert-leac101:1:pdf-page-30:435504458c1adbea5bf3fcecbc0dfb23e92d5e18142a3233b7b1a512d276ba01"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+            "locator": "pdf-page-5",
+            "excerpt": "5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partner’s loan is to be given @ 12% p.a., if ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:pdf-page-30:435504458c1adbea5bf3fcecbc0dfb23e92d5e18142a3233b7b1a512d276ba01",
+            "locator": "pdf-page-30",
+            "excerpt": "30 Accountancy – Partnership Accounts not be less than Rs. 30,000 in any year. The capital provided was as follows: John Rs. 2,50,000, Mathew Rs. 2,00,000 and Mohanty Rs. 1,50,000. The profit for the year ending March 31",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": false,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": false,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": false,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "repair before reuse",
+        "reason": "The prompt requests a coherent reasoning order, not an accounting procedure. A-C-B-D can infer item treatment before naming the separate-account arrangement. Specify a mandatory step dependency or rewrite as concrete posting steps.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "The reasoning sequence is uniquely A→B→C→D.",
+      "observed_defect": "The prompt requests a coherent reasoning order, not an accounting procedure. A-C-B-D can infer item treatment before naming the separate-account arrangement. Specify a mandatory step dependency or rewrite as concrete posting steps.",
+      "smallest_prospective_correction": "The prompt requests a coherent reasoning order, not an accounting procedure. A-C-B-D can infer item treatment before naming the separate-account arrangement. Specify a mandatory step dependency or rewrite as concrete posting steps.",
+      "triage": "repair_needed",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "24bc774e92f50c1d451abdcdaac8d7b4",
+      "content_hash": "e61d7e28e6003aee86d4f00f0f76a6be1953ba10cd283c6de9f1d9e77eb492a7",
+      "batch": "accountancy-02",
+      "chapter": "Accounting Ratios",
+      "difficulty": "medium",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "Year 1 3.6×; Year 2 3.0×",
+        "source_keys": [
+          "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+          "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+            "locator": "pdf-page-27",
+            "excerpt": "220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payable Turnover Ratio = Purchases * Average ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28",
+            "locator": "pdf-page-20",
+            "excerpt": "213Accounting Ratios 5.8 Activity (or Turnover) Ratio These ratios indicate the speed at which, activities of the business are being performed. The activity ratios express the number of times assets employed, or, for tha",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Rounding to one decimal is specified. All numeric bases are supplied; option A only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "bba704f2476d1a93fd7bffb1d59cb20b",
+      "content_hash": "19dd7cbcec0ca05ba48b719303307cf162189b661db7b89d6e445013a39dad68",
+      "batch": "accountancy-02",
+      "chapter": "Change in Profit Sharing Ratio",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "A loses 3/20 and is credited; B gains 2/20 and is debited; C gains 1/20 and is debited; D unchanged",
+        "source_keys": [
+          "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+          "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+            "locator": "span-88acd5a861b0",
+            "excerpt": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a ga",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+            "locator": "span-2c978c97c40a",
+            "excerpt": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case ",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Matching is bijective and all four classifications are distinct; option A only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "6cb91dc50c0e981ac4c14fcd7b9c15f0",
+      "content_hash": "141712601163b56fb9e995f606cd27cb92a70ceae606816ce0e5e8c22e7c3d6c",
+      "batch": "accountancy-02",
+      "chapter": "Share Capital",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "I>II>III>IV>V>VI",
+        "source_keys": [
+          "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+          "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+            "locator": "pdf-page-4",
+            "excerpt": "4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classified as follows: • Authorised Capital: Au",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19",
+            "locator": "quality-v3-pdf-page-39-a14adf94f3",
+            "excerpt": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Ordered amounts are strictly descending, option C.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "20cc88e8ab11b76d9e44bd28a36ac435",
+      "content_hash": "d4c6a56cb4ea33df27dec2b4ba703ea8ec3c2146af2841c0c1cc9d8bc5523496",
+      "batch": "accountancy-02",
+      "chapter": "Change in Profit Sharing Ratio",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "Debit A, credit B",
+        "source_keys": [
+          "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+          "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+            "locator": "span-88acd5a861b0",
+            "excerpt": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a ga",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+            "locator": "span-2c978c97c40a",
+            "excerpt": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case ",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": "The derivation/mapping supported D; the saved independent file mistyped the option letter."
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Direction-only question has one answer, consistent with explicit scope.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "f939099a958200657b70fa887861020a",
+      "content_hash": "be635c103d11bb87a12312db1405f3262937a6f670418e94f774bdd362788095",
+      "batch": "accountancy-02",
+      "chapter": "Profit & Loss Appropriation Account",
+      "difficulty": "medium",
+      "format": "numerical_calculation",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "P ₹84,000; Q ₹56,000; R ₹1,00,000",
+        "source_keys": [
+          "ncert-leac101:1:quality-v4-45047abeb583:45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8",
+          "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:quality-v4-45047abeb583:45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8",
+            "locator": "quality-v4-45047abeb583",
+            "excerpt": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partner",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792",
+            "locator": "quality-v4-4386d49f5b11",
+            "excerpt": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions or the preparation of summary statements are found after the final accounts have been prepared and the profits distributed among t",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Stem specifies guarantee, deficiency bearers, ratio, and no other adjustments. Option A only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "b5df7177ed911c47b68418405ff1dedb",
+      "content_hash": "8ef9a39e58ed72d07e1ba50e9574b9e0fe977876c7901c80542bfe19702ee3eb",
+      "batch": "accountancy-02",
+      "chapter": "Goodwill Valuation",
+      "difficulty": "easy",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:independent_evaluation"
+        ],
+        "failed_stage": "independent_evaluation",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "Add → average → multiply three years → state goodwill; ₹1,80,000",
+        "source_keys": [
+          "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+          "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+            "locator": "span-ae361e8a3770",
+            "excerpt": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+            "locator": "span-a50bfa9f5679",
+            "excerpt": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in s",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Steps have one coherent order, option A.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "4a2f6c3dc560031ae7ab4591ad7c868e",
+      "content_hash": "7e4dcddb5ed8772f891dcdc1b4d00c65567aad41e8a6ba3ac0d0bac64b6e8825",
+      "batch": "accountancy-02",
+      "chapter": "Partnership Fundamentals",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "₹72,500",
+        "source_keys": [
+          "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+          "ncert-leac101:1:quality-v4-557e0eacf2d2:557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+            "locator": "quality-v4-4f456816afcf",
+            "excerpt": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on capital is Reprint 2026-27\n16 Accountancy –",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:quality-v4-557e0eacf2d2:557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d",
+            "locator": "quality-v4-557e0eacf2d2",
+            "excerpt": "1.5.3 Interest on Drawings The partnership agreement may also provide for charging of interest on money withdrawn out of the firm by the partners for their personal use. As stated earlier, no interest is charged on the d",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Month-count convention is explicitly given; each contribution interval is determinate. Option D only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "5114300ab4bc8333ce6507832947954c",
+      "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+      "batch": "accountancy-03",
+      "chapter": "Debentures",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "Premium ₹120",
+        "source_keys": [
+          "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+          "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+            "locator": "span-2bf9ffb186bb",
+            "excerpt": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premi",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+            "locator": "span-b92b17a10903",
+            "excerpt": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of deben",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Single correct option A; simple recall is valid.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "9c305b5aa044a48c55786a3aef03d903",
+      "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+      "batch": "accountancy-03",
+      "chapter": "Goodwill Valuation",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "A-B-C-D; goodwill ₹1,92,000",
+        "source_keys": [
+          "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0",
+          "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0",
+            "locator": "span-d26e7974c48b",
+            "excerpt": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+            "locator": "span-88acd5a861b0",
+            "excerpt": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a ga",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Order uniquely follows the calculation; option C.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "495c4536f5869a65e46ae8a6d92010c8",
+      "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+      "batch": "accountancy-03",
+      "chapter": "Admission of Partner",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "Credit balance ₹17,000; P credit ₹10,200; Q credit ₹6,800",
+        "source_keys": [
+          "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+          "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+            "locator": "span-2c978c97c40a",
+            "excerpt": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+            "locator": "span-a50bfa9f5679",
+            "excerpt": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in s",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option B only. Prompt states all items and no other adjustments.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+      "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+      "batch": "accountancy-03",
+      "chapter": "Profit & Loss Appropriation Account",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "A alone bears ₹2,000",
+        "source_keys": [
+          "ncert-leac101:1:pdf-page-36:4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0",
+          "ncert-leac101:1:quality-v4-2981d89b7e0e:2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:pdf-page-36:4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0",
+            "locator": "pdf-page-36",
+            "excerpt": "36 Accountancy – Partnership Accounts 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner may be guaranteed a minimum amount by way of his share in profits. If, in any year, the shar e of pr of",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:quality-v4-2981d89b7e0e:2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e",
+            "locator": "quality-v4-2981d89b7e0e",
+            "excerpt": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts The main points of differences between the fixed and fluctuating capital methods can be summed up as follows: Basis of Distinction Fixed Capital Fluctuatin",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option D. No ambiguity in guarantor.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "9a3a683cde6b70963343775b8264da5a",
+      "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+      "batch": "accountancy-03",
+      "chapter": "Admission of Partner",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "81:55:32:72",
+        "source_keys": [
+          "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+          "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+            "locator": "span-72d2f4711e2e",
+            "excerpt": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in f",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320",
+            "locator": "span-3c34b723c489",
+            "excerpt": "2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accumulated profits not yet transferred to capital accounts of the partners. These are usually in the form of general reserve, reserve and/or Pr",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Shares sum to 1; option B only. All transfers are explicit.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "20e278c61e343db83349eded6916c255",
+      "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+      "batch": "accountancy-03",
+      "chapter": "Goodwill Valuation",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "C",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "C",
+        "answer_check": "A→II, B→I, C→III, D→IV",
+        "source_keys": [
+          "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+          "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+            "locator": "span-ae361e8a3770",
+            "excerpt": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+            "locator": "span-a50bfa9f5679",
+            "excerpt": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in s",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": false,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": false,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": false,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "repair before reuse",
+        "reason": "Option D is also a defensible full matching: obtaining values by two methods supports that multiple methods exist; listing methods supports that methods may yield different values. Replace broad cases with uniquely distinguishing statements or replace the alternate mapping.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "All four mappings distinct; option C.",
+      "observed_defect": "Option D is also a defensible full matching: obtaining values by two methods supports that multiple methods exist; listing methods supports that methods may yield different values. Replace broad cases with uniquely distinguishing statements or replace the alternate mapping.",
+      "smallest_prospective_correction": "Option D is also a defensible full matching: obtaining values by two methods supports that multiple methods exist; listing methods supports that methods may yield different values. Replace broad cases with uniquely distinguishing statements or replace the alternate mapping.",
+      "triage": "repair_needed",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "ca5dcf7b46049d36029298f5117cbdac",
+      "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+      "batch": "accountancy-03",
+      "chapter": "Retirement & Death of Partner",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "D-B-C-A; partner share ₹15,000",
+        "source_keys": [
+          "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+          "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+            "locator": "span-2aedd1bf7e9f",
+            "excerpt": "3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased Partner required; and • prepare the deceased The sum due to the retiring partner (in case of partner’s executor’s retirement) and to the le",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e",
+            "locator": "span-ce862e7dfa8c",
+            "excerpt": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Prompt provides method inputs and period; option D only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "ff811eea3631a75486bfd7a8b58442be",
+      "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+      "batch": "accountancy-03",
+      "chapter": "Comparative & Common Size Statements",
+      "difficulty": "medium",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "Inventory 20% all; P cash 10% stable; Q cash 15%→10%",
+        "source_keys": [
+          "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+            "locator": "pdf-page-12",
+            "excerpt": "182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current assets a) Inventories 5 4 b) Cash and cash",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option B; calculations use each year’s total assets as base.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "8ad2e554e891c8095bb7e5cabd4426b9",
+      "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+      "batch": "accountancy-03",
+      "chapter": "Admission of Partner",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "A-B-C-D",
+        "source_keys": [
+          "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320",
+          "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320",
+            "locator": "span-3c34b723c489",
+            "excerpt": "2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accumulated profits not yet transferred to capital accounts of the partners. These are usually in the form of general reserve, reserve and/or Pr",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0",
+            "locator": "span-d26e7974c48b",
+            "excerpt": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "New partner not entitled; correct order is option D.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "bb3b190778c93cefa0f07ea760f763ee",
+      "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+      "batch": "accountancy-03",
+      "chapter": "Cash Flow Statement",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "Aarav alone exactly meets requirements",
+        "source_keys": [
+          "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+          "ncert-leac206:1:span-074c499a4fc2:074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+            "locator": "span-50f51c90ebe7",
+            "excerpt": "6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflows or payments) which is the subject mat",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac206:1:span-074c499a4fc2:074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0",
+            "locator": "span-074c499a4fc2",
+            "excerpt": "6.6 Ascertaining Cash Flow from Operating Activities Operating activities are the main source of revenue and expenditure in an enterprise. Therefore, the ascertainment of cash flows from operating activities need special",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option A. Explicitly excludes other cash sources/opening balance, so no missing assumption.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "batch": "accountancy-04",
+      "chapter": "Admission of Partner",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "A-I, B-II, C-III, D-IV",
+        "source_keys": [
+          "ncert-leac102:1:span-8a1d40054567:8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+          "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-8a1d40054567:8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+            "locator": "span-8a1d40054567",
+            "excerpt": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly ",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+            "locator": "span-ae361e8a3770",
+            "excerpt": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Mappings all distinct; option D only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+      "batch": "accountancy-04",
+      "chapter": "Admission of Partner",
+      "difficulty": "hard",
+      "format": "case_application",
+      "frozen_label": {
+        "key": "A",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "A",
+        "answer_check": "P ₹72,000; Q ₹60,000; R ₹0",
+        "source_keys": [
+          "ncert-leac102:1:span-aa617840faf0:aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9",
+          "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-aa617840faf0:aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9",
+            "locator": "span-aa617840faf0",
+            "excerpt": "2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio. The sacrifice by a partner is equal to : Old Share of Prof",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+            "locator": "span-a50bfa9f5679",
+            "excerpt": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in s",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "All old/new shares sum to 1. Option A only.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+      "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+      "batch": "accountancy-04",
+      "chapter": "Profit & Loss Appropriation Account",
+      "difficulty": "easy",
+      "format": "conceptual_mcq",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "No interest on capital",
+        "source_keys": [
+          "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+          "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+            "locator": "quality-v4-4f456816afcf",
+            "excerpt": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on capital is Reprint 2026-27\n16 Accountancy –",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792",
+            "locator": "quality-v4-4386d49f5b11",
+            "excerpt": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions or the preparation of summary statements are found after the final accounts have been prepared and the profits distributed among t",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option B.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "6314a93c1f302347c03562d66b15f2d3",
+      "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+      "batch": "accountancy-04",
+      "chapter": "Share Capital",
+      "difficulty": "medium",
+      "format": "numerical_calculation",
+      "frozen_label": {
+        "key": "B",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "B",
+        "answer_check": "₹1,18,200",
+        "source_keys": [
+          "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+          "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+            "locator": "pdf-page-4",
+            "excerpt": "4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classified as follows: • Authorised Capital: Au",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19",
+            "locator": "quality-v3-pdf-page-39-a14adf94f3",
+            "excerpt": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option B; call shortfall included once.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+      "batch": "accountancy-04",
+      "chapter": "Change in Profit Sharing Ratio",
+      "difficulty": "medium",
+      "format": "matching",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "A loses 3/20; B gains 1/20; C gains 2/20; D unchanged",
+        "source_keys": [
+          "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+          "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+            "locator": "span-88acd5a861b0",
+            "excerpt": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a ga",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+            "locator": "span-2c978c97c40a",
+            "excerpt": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case ",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": "The derivation/mapping supported D; the saved independent file mistyped the option letter."
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Each match is unique.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    },
+    {
+      "id": "99519ad997494b32a08ca17d0c48315b",
+      "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+      "batch": "accountancy-04",
+      "chapter": "Debentures",
+      "difficulty": "medium",
+      "format": "sequence_ordering",
+      "frozen_label": {
+        "key": "D",
+        "validator_state": "quarantined",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "eligible_under_unreleased_contract": false,
+        "preserved": true
+      },
+      "independent_solution": {
+        "option": "D",
+        "answer_check": "B-C-D-A",
+        "source_keys": [
+          "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+          "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+        ],
+        "source_details": [
+          {
+            "key": "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+            "locator": "span-2bf9ffb186bb",
+            "excerpt": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premi",
+            "registered_source_ok": true
+          },
+          {
+            "key": "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+            "locator": "span-b92b17a10903",
+            "excerpt": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of deben",
+            "registered_source_ok": true
+          }
+        ],
+        "source_support_confirmed": true,
+        "agrees_with_frozen_key": true,
+        "reviewer_letter_correction": null
+      },
+      "mandatory_source_correctness_gates": {
+        "correct_key": true,
+        "unique_defensible_answer": true,
+        "complete_stimulus": true,
+        "answerable": true,
+        "sufficient_case_assumptions": true,
+        "calculation_or_rule_valid": true,
+        "decisive_rule_supported": true,
+        "not_extrapolated_from_generic_example": true,
+        "all_options_checked": true,
+        "no_overlap_or_second_correct_option": true,
+        "definition_and_quantifier_scope_checked": true,
+        "no_unsupported_claim": true,
+        "subject_topic_consistent_with_supplied_source": true,
+        "question_type_matches_task": true,
+        "registered_source_permission_and_identity": true,
+        "source_support_independent_of_model_agreement": true,
+        "stimulus_integrity": true,
+        "presentation": "Readable and distinct in blinded packet"
+      },
+      "cuet_fit": {
+        "judgment": "valid ordinary CUET Accountancy practice",
+        "reason": "Direct recall and ordinary NCERT calculations are legitimate; artificial difficulty is not a requirement.",
+        "craft_score": "Not numerically rescored; craft kept separate from correctness."
+      },
+      "option_challenge": "Option D is coherent order.",
+      "observed_defect": null,
+      "smallest_prospective_correction": null,
+      "triage": "retain_unchanged",
+      "label_change": false,
+      "publication_approval": false
+    }
+  ]
+}

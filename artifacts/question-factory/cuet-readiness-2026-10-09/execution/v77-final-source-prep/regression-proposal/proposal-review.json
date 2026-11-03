@@ -1,0 +1,178 @@
+{
+  "schema": "v77-local-option-resolution-structural-proposal-review-v1",
+  "reviewed_at": "2026-10-09T08:36:20Z",
+  "scope": "additive local regression proposal only; no frozen/runtime/contract/registration/result edits; no new model evaluations or calls",
+  "artifacts": {
+    "proposal_module": {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposal.mjs",
+      "sha256": "a6f5f133f62e4b8b811404eca65fca29700cd528f7e019eb597435b47799d034"
+    },
+    "tests": {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposal.test.mjs",
+      "sha256": "cbb12e6fdc5e9c0b4a485d22694eb45908940cffb924c95a7ce117e61b0096a7"
+    },
+    "current_resolver": {
+      "path": "scripts\\pipeline\\lib\\optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    },
+    "blind_packet_v3c_sha256": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b",
+    "current_results_snapshot_sha256": "e0ed8bfc51df6c415689ea50f5dff6bf5e34753b4773a13e55f264a1bae2935f"
+  },
+  "frozen_contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.7-local-draft",
+    "prompt_hash": "71a45c62d599d38bfa0886cd8da565b57eb59a2a913c2bee669d4f352c94bb90",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    },
+    "parent_policy": "cuet-fit-release-v2",
+    "fresh_false_accepts_max": 0,
+    "regression_false_accepts_max": 0,
+    "valid_survival_min": 0.85,
+    "per_subject_valid_survival_min": 0.7
+  },
+  "bounded_observation": {
+    "terminal_dual_judged_cases_reviewed": 5,
+    "fixed_study_denominator": 41,
+    "sixth_case": {
+      "case_id": "v77f-c6d21440345d",
+      "status": "guard_blocked in current snapshot; excluded from judged-case findings and not called rejected"
+    }
+  },
+  "cases": [
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "evaluation_sha256": "8b5f4c0dd5193b29f4730082c5b93e46911cc70472b39b85abcc9b51863e44a0",
+      "model_results": {
+        "openai": {
+          "status": "judged",
+          "solved_key": "A",
+          "source_support": true,
+          "option_resolution_reason": "resolution_arithmetic_premises_required:A"
+        },
+        "gemini": {
+          "status": "judged",
+          "solved_key": "A",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        }
+      },
+      "diagnosis": "Both judged A with source_support=true. OpenAI A is arithmetic: the two-month premise is a printed option input and the maturity limit is source evidence; the frozen resolver cannot use option text as arithmetic input. Gemini has an exact source premise but generic decisive_context, which triggers context echo. B also relies on no stated redemption date; source silence must remain unresolved absent a direct contradiction."
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "evaluation_sha256": "6c7c020d2b81d1d285eb64679dc13c37f2a98feb00f91e0672f9d126de810ad3",
+      "model_results": {
+        "openai": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        },
+        "gemini": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        }
+      },
+      "diagnosis": "Both judged B with source_support=true. The matrix combines exact stem facts (customer receipt and old-machine sale) with source examples for operating receipts and fixed-asset disposals. The first decisive context paraphrases rather than echoing its exact bound premises; the proposal keeps exact premise binding while separating premise bindings by stem/source kind. Classification ambiguity about whether the old machine is a fixed asset still requires independent semantic adjudication."
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "evaluation_sha256": "150ee94bdd3dbd5a6eba0c6102ee8faa8ce58ccaabd966255eae1348405dd5d2",
+      "model_results": {
+        "openai": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        },
+        "gemini": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        }
+      },
+      "diagnosis": "Both judged B with source_support=true. The cited source premise exactly states the objective and three activity heads; decisive_context is a paraphrase and fails the current echo condition. This is the clean context-echo regression: proposal may accept exact premises without requiring verbatim context, but still requires a separate whole-option semantic audit."
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "evaluation_sha256": "dc49161f7a8c057ed6dd45a49f183ff71ef365c5ccb95b1211ddac2cf1103ed7",
+      "model_results": {
+        "openai": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        },
+        "gemini": {
+          "status": "judged",
+          "solved_key": "B",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        }
+      },
+      "diagnosis": "Both judged B with source_support=true. Gemini premise “Cash payments to acquire fixed assets are cash outflows from investing activities.” is not an exact excerpt; it combines heading meaning and source wording. The authentic cited span does not cure an unbound premise. Keep this rejected; whitespace-only normalization must not turn paraphrase into a quote. OpenAI cites exact stem/source components but still hits the frozen first-clause echo gate."
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "evaluation_sha256": "5e65343f0da9b89210d5cfd8c2692c4955e23df0c0a8fd3cd0b4008ef0491e36",
+      "model_results": {
+        "openai": {
+          "status": "judged",
+          "solved_key": "A",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        },
+        "gemini": {
+          "status": "judged",
+          "solved_key": "A",
+          "source_support": true,
+          "option_resolution_reason": "resolution_excerpt_premise_invalid:A"
+        }
+      },
+      "diagnosis": "Both judged A with source_support=true. OpenAI/Luna premise preserves the source word sequence but removes PDF line-wrap whitespace; whitespace-only normalization binds it to the exact quote and locator. Gemini’s premise uses ellipsis/omits source words and remains unbound. These are distinct defects."
+    }
+  ],
+  "proposal_design": {
+    "opt_in_only": true,
+    "route_allowlist": [
+      "local_regression_proposal"
+    ],
+    "publication_eligible": false,
+    "dispatch_eligible": false,
+    "premise_binding": "exact source phrase or whitespace-only equivalent, exact stem phrase, or exact printed-option phrase explicitly marked as hypothetical arithmetic input; exact option clause coverage and exact selected source spans remain mandatory",
+    "normalization": "collapse whitespace only; preserve all non-whitespace characters, word order, punctuation, numerals, and negation; source quote bytes/locator remain bound",
+    "semantic_gate": "independent auditor identity; candidate/content/matrix/evidence SHA binding; whole-option and printed-claim review for A-D; unique supported key; contradictions need direct source/stem conflict; source silence remains unresolved and blocks a passing result"
+  },
+  "local_tests": {
+    "command": "node --test artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposal.test.mjs",
+    "passed": 6,
+    "failed": 0,
+    "no_network_or_model_calls": true
+  },
+  "limitations": [
+    "Proposal is not integrated into the frozen resolver or qualification pipeline and provides no release or publication evidence.",
+    "The semantic audit is a required input contract; this proposal does not produce academic truth or waive source-silence concerns.",
+    "The captured cases are a bounded regression sample, not a full re-audit of the 41-case study."
+  ],
+  "conclusion": "Local regression proposal behaves as intended on the bounded observed matrices and adversarial fixtures. Context paraphrase alone is not a structural citation failure; unsupported/paraphrased premises, altered claims, missing option coverage, forged source spans, unresolved alternatives, and unbound audit hashes fail closed."
+}

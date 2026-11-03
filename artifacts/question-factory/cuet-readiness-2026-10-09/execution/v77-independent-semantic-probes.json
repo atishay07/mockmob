@@ -1,0 +1,17 @@
+[
+  {
+    "case": "sound arithmetic with all premises explicit stem and no source IDs",
+    "ok": true,
+    "reason": null
+  },
+  {
+    "case": "one proven false conjunct with genuinely unresolved nondecisive second conjunct",
+    "ok": true,
+    "reason": null
+  },
+  {
+    "case": "changed second matrix option audit",
+    "ok": false,
+    "reason": "resolution_audit_option_binding_failed:gemini:A"
+  }
+]

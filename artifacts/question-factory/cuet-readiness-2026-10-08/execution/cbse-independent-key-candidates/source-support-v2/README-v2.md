@@ -1,0 +1,13 @@
+# CBSE independent-source support audit v2
+
+This is a private, draft-only source and option-claim audit for all 64 CBSE sample-paper-derived candidates across eight paper families (two academic years × four subjects). These are **not CUET PYQs**; shared paper, topic, and English-passage roots make the cases correlated.
+
+The audit lists all 254 options and their current evidence disposition. It does **not** certify any candidate as fully source-supported: zero options have completed item-by-item claim checks, and zero items are certified correct, within the target CUET syllabus, and fully supported. A syllabus mapping and focused NCERT excerpt do not establish that every distractor or explanation is justified. All 64 remain in the denominator.
+
+The 2025–26 v2 repairs restore Accountancy Q3’s omitted payment schedule and Business Studies Q14’s exact scenario. The shared English Q1 passage removes one unsupported added sentence; four linked questions were independently re-solved. These changes close construction defects but remain pending official-key reconciliation and complete source-claim checks. Business Studies Q10’s single option adaptation failed its blind re-solve and is quarantined; no second repair was made.
+
+Ten material source/key or failed-repair issues remain open. They include Workmen Compensation Reserve treatment on reconstitution, Investment Fluctuation Reserve treatment, the consumption break-even rule, mutual-fund classification, the full exchange-rate causal chain, two official-key/wording disputes, and statutory support requiring a local source hash. An official India Code search surfaced the Consumer Protection Act provisions for the definition of consumer and CCPA authority; direct PDF retrieval timed out, so those records remain unbound leads. The cached NCERT scans found only dissolution examples for Workmen Compensation and Investment Fluctuation Reserve, a firm break-even point unrelated to consumption income, and a mutual-fund exercise prompt without the needed classification.
+
+The official CBSE and NCERT sources are retained for private audit. No broad redistribution rights are asserted. The official CUET 2026 syllabus is the latest bound proxy; 2027 syllabus entitlement remains unverified. No paid model call, generation run, publication, or release decision was made.
+
+`option-claim-audit-v2.json` binds the v1/v2 question hashes, non-gold blind review reports, all 64 candidate records, evidence-span references, per-option status, and the unchanged denominator. Official marking schemes are not included. A prior attempt to reference sealed gold was rejected by auto-review, so this agent did not perform the official-key comparison.

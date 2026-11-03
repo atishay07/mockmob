@@ -1,0 +1,139 @@
+{
+  "at": "2026-10-07T22:23:52.043Z",
+  "driver_session": 75525,
+  "exit_code": 1,
+  "windows_process_inventory_confirmed_owner_ended": true,
+  "owner_pid": 10880,
+  "reason": "Unexpected process exit; no stop or kill issued by this agent. Exact cause unknown.",
+  "requests": [
+    {
+      "id": "d4346e887dc5fc8d6210e7fc1b00ba0eb93d388706d25558d19f6dce6e8cb506",
+      "reservation_id": "71fcef50-b059-4fd0-a4df-322163322c8d",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 460
+    },
+    {
+      "id": "7bf05124367abdcaad5b2ac60d29d293a8e192e10e22cbf4bc0c2456d9b7484f",
+      "reservation_id": "78682268-3793-4869-acca-51cedd021532",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 607
+    },
+    {
+      "id": "06808e14a8a875de7ae3a1f34677e6f4490012e8e2d5e1646c21dea7a21982b0",
+      "reservation_id": "5acf0d85-ed0a-413c-9012-1a1efe3f5c2b",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 1349
+    },
+    {
+      "id": "1acf547039efb5b98d695a5e58a7665caf8f5c6ea12fb6b9ee26cd8c797a1765",
+      "reservation_id": "5bc78adb-4e2d-418b-b489-70810ca5fd61",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 1386
+    },
+    {
+      "id": "b1bdab4942ab4ebf878fc4db732a3f62ed240b7ddd2352a3ee40d446b9747b22",
+      "reservation_id": "d3c34f1d-8807-43ca-858a-cff1a7ef85a3",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 995
+    },
+    {
+      "id": "9608567c50233e568896d41d5f12849277f3feed40475a7026481d4bdb1f3109",
+      "reservation_id": "6d63c4c9-0d99-4c72-b192-405cb5078ac8",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 1226
+    },
+    {
+      "id": "4ed2975562b6dab9e8c6b5c0bfcd24997f7005aca9f145ae4e982427b6bb82f3",
+      "reservation_id": "c29c1e43-a1d9-4738-8531-e88cfa72202b",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 995
+    },
+    {
+      "id": "59112e7f066baebc74988e4a82fd8c277dd730d89168a5a91096b3d97b3cc892",
+      "reservation_id": "94f63bb9-261e-46c9-aabf-fbdd1a28f853",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 2284
+    },
+    {
+      "id": "ca4582a6711e7b3f0823fa3f8f98de0217fd542b764c2417da599e4d0562ced8",
+      "reservation_id": "67f7f828-108a-4e4f-92a5-ba0780ce17be",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 2023
+    },
+    {
+      "id": "c5d6f67e279557e9544454a7d26473e20bd06b267665eba0404c731529321a05",
+      "reservation_id": "3f27b4b0-8ae5-4651-a57a-aefd28c69092",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7378,
+      "actual": 1762
+    },
+    {
+      "id": "22327081600afe22fc6cf45b20ba98a494af08e4947fc0d9fccf1a20df7ed446",
+      "reservation_id": "965078af-7706-4e3e-b70e-fc9cfae364c0",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 10628,
+      "actual": 2365
+    },
+    {
+      "id": "5131bf351ee56686c1f93fe1d53e7aaa885edb89f30b6fb484c55eb7c8e328d7",
+      "reservation_id": "edd67c85-c7db-4753-8e13-ecd818667f22",
+      "state": "dispatching",
+      "budget_state": "reserved",
+      "reserved": 7878,
+      "actual": null
+    },
+    {
+      "id": "9fb745f7cd73addf1c095fad37114ee6eb2229d2a56edd4353dd2d542934c119",
+      "reservation_id": "3db11a4d-dcdb-4eb5-af22-c5d977238408",
+      "state": "dispatching",
+      "budget_state": "reserved",
+      "reserved": 7878,
+      "actual": null
+    },
+    {
+      "id": "220f584af46065dc2f58334353854f94ce9b5ca3e350a0814ff1b1f4b7b080f8",
+      "reservation_id": "072a0ed1-a031-4c88-8c0e-8d557c06be82",
+      "state": "dispatching",
+      "budget_state": "reserved",
+      "reserved": 7878,
+      "actual": null
+    },
+    {
+      "id": "3486ff7341e3da2fe07a04e96c8a38c195d4d6f26461c60685254de82444fe90",
+      "reservation_id": "40d1fd77-a923-4b40-9e04-23f66da6102b",
+      "state": "complete",
+      "budget_state": "settled",
+      "reserved": 7878,
+      "actual": 2716
+    },
+    {
+      "id": "7fed1021ffc7f2cd3b2114a3fb86c9b3b22c68e3785ceb4c3b4ad59a99c78767",
+      "reservation_id": "30f173b5-5026-4e6c-8772-17f018f0a0ad",
+      "state": "dispatching",
+      "budget_state": "reserved",
+      "reserved": 41643,
+      "actual": null
+    }
+  ],
+  "restart_policy": "Resume same campaign and saved IDs; never resubmit uncertain accepted calls; reconstruct full maximum holds from saved dispatch contracts."
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "cbse-source-restoration-evidence-v2",
+  "status": "private construction provenance; question repairs only; keys excluded",
+  "source_manifest_sha256": "070d627b9bc7c972b59b86e7f0c298e843ed306431ac60a250195d6e19ddca37",
+  "records": [
+    {
+      "label": "Accountancy Q3 omitted payment schedule and forfeiture context",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Accountancy-SQP.pdf",
+      "source_pdf_sha256": "9f776a0262d251fe985c52ab11c606ad9fade7974813a3009050e2da1601f9fe",
+      "physical_pdf_page": 1,
+      "extracted_page_text_sha256": "699122e519fba7300d9d931c2eea990a8fc240e6bbb2592e77221c4b93b61cfe",
+      "quote_start": 2163,
+      "quote_end": 2369,
+      "exact_quote": "The amount was payable as ₹3 on\nApplication (including ₹1 premium), ₹ 6 on Allotment (including ₹1 premium) and balance on\ncall. Manoj, holding 6,000 shares failed to pay allotment money and his shares were"
+    },
+    {
+      "label": "Business Studies Q10 printed stem; original options unchanged in private source PDF and disclosed as flawed in construction log",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-SQP.pdf",
+      "source_pdf_sha256": "02b3c47a92aca7d949308d2fc40f1158f1bf7c9e860ba342b971e072508f9e36",
+      "physical_pdf_page": 6,
+      "extracted_page_text_sha256": "efb290fa6a1857e697f3497362a136db51c1d79d233eef948ed5b5a5a7da2b31",
+      "quote_start": 0,
+      "quote_end": 84,
+      "exact_quote": "10. Arrange the following elements of communication process in the\ncorrect sequence:"
+    },
+    {
+      "label": "Business Studies Q14 original scenario",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-SQP.pdf",
+      "source_pdf_sha256": "02b3c47a92aca7d949308d2fc40f1158f1bf7c9e860ba342b971e072508f9e36",
+      "physical_pdf_page": 7,
+      "extracted_page_text_sha256": "3deb9418cd5aa1d67e628009a41f34b3369f03d7d0bdd0f2b8e14ae0207b801c",
+      "quote_start": 820,
+      "quote_end": 1158,
+      "exact_quote": "14. Mr Gun Amroha, the General Manager of Welworth Textiles scans the 1\nbusiness environment and adapts the organisation to the changes\ntaking place in different dimensions of the business environment.\nHowever, it is still difficult for him to accurately assess the future\ntrends. Identify the limitation of planning related to the above."
+    },
+    {
+      "label": "English Q1 shared passage repair rationale",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-SQP.pdf",
+      "source_pdf_sha256": "5073910a394c2d54d04a5dc61d6f07e927d4f13f8e8cea1e19528d1c5f7c10eb",
+      "physical_pdf_pages": [
+        1,
+        2,
+        3
+      ],
+      "claim": "The added sentence “Pip knows little about the surrounding marshland and cannot escape the man’s grip” is not part of the printed CBSE passage. It was introduced in the prior adaptation and removed in v2. This repair removes unsupported author-added text; it does not change the CBSE source."
+    }
+  ],
+  "rights": "Official CBSE sample-paper extracts retained only for private audit; no redistribution right asserted; all candidates remain clearly labeled CBSE-derived, not CUET PYQs."
+}

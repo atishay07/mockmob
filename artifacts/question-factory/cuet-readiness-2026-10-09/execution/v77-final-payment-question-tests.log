@@ -1,0 +1,48 @@
+✔ fresh non-NTA mocks rank newest rows before older high-score rows (2.1205ms)
+✔ usage pushes already-attempted rows behind unseen rows (0.8832ms)
+✔ picker preserves difficulty targets while keeping newest rows within each level (0.5053ms)
+✔ selection usage metadata records latest-window and revisit counts (1.7737ms)
+✔ NTA selector returns exactly 50 when 50+ usable questions exist (50.5911ms)
+✔ NTA selector does not fail because chapter is missing (39.8077ms)
+✔ NTA selector does not fail because quality metadata is missing (30.7113ms)
+✔ NTA selector rejects truly unusable questions (0.5985ms)
+✔ accepts valid direct recall without a depth requirement (0.3417ms)
+✔ NTA selector preserves passage group order (27.9897ms)
+✔ NTA selector returns passage context for linked questions (0.5119ms)
+✔ NTA mode forces 60-minute duration (0.2219ms)
+✔ NTA mode ignores requested count and returns 50 (28.9611ms)
+✔ Quick/full modes keep their existing count behavior (0.4291ms)
+✔ rejects one-line Read the excerpt pseudo-passage (0.4821ms)
+✔ rejects passage badge without recoverable passage text (0.6007ms)
+✔ rejects generic paraphrasing assertion-reason English theory without passage context (0.3688ms)
+✔ rejects orphan passage-dependent row even when options and answer are valid (0.2495ms)
+✔ accepts valid English passage group with real passage and four linked questions (38.0276ms)
+✔ English NTA selection excludes fake passage labels and keeps standalone verbal ability only (33.9496ms)
+✔ NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist (29.4745ms)
+✔ answer integrity guard rejects explanation that points to another key (0.7155ms)
+✔ NTA answer integrity excludes bad keyed row and refills to 50 (42.7419ms)
+✔ NTA answer integrity refuses to start when only 49 clean questions remain (37.2463ms)
+✔ NTA answer integrity refill keeps passage group ordering intact (36.4326ms)
+✔ NTA AI verifier only checks low-confidence rows and refills rejected answers (55.6817ms)
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (1.4876ms)
+✔ paid-through date prefers Razorpay invoice billing end (1.9753ms)
+✔ paid-through date falls back to a bounded paid period (0.2111ms)
+✔ effective premium survives cancellation inside paid-through window (0.2885ms)
+✔ paid evidence requires a captured payment record (0.2392ms)
+✔ discounted creator payments can validate below nominal amount (0.6534ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (1.073ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.1963ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.4058ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.3517ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1428ms)
+✔ legacy monthly plan is not live for new checkout (0.1371ms)
+✔ runtime guard blocks unknown funding/prices and preserves every reservation/receipt (1917.5536ms)
+✔ monthly cap, no global pause on missing usage, ledger reasons and wallet lifecycle (1981.3683ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2206.1504

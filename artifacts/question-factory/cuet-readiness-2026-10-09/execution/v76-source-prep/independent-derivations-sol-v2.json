@@ -1,0 +1,2750 @@
+{
+  "schema": "v76-independent-source-only-derivations-v2",
+  "reviewer": "independent-sol",
+  "frozen_at_utc": "2026-10-08T20:50:16.9885311Z",
+  "custody": {
+    "answer_free": true,
+    "official_keys_accessed": false,
+    "private_files_accessed": false,
+    "construction_scripts_accessed": false,
+    "evaluation_results_accessed": false,
+    "external_sources_accessed": false,
+    "external_provider_calls": 0,
+    "permitted_input_files": [
+      "blind-review-packet-v2.json",
+      "independent-derivations-sol-v1.json"
+    ],
+    "input_sha256": {
+      "blind_packet_v2": "4e9779adf2c471a615d29d92d35ab29044cd334bca3dad1dcb751d9cb82c1f4e",
+      "independent_derivations_v1": "4425488f6587f26aa463d64604f7dadcfbe7fa477bc56c4b8fd428b6f4a64c47"
+    },
+    "purpose": "Construction custody only. This review does not qualify native V76 Luna/Gemini validators or constitute a paid evaluation."
+  },
+  "interpretation": {
+    "solvable": "The supplied premises determine the answer or a defensible answer set; a multiple-answer set may be solvable while the single-choice format is invalid.",
+    "unique_answer": "Exactly one full printed option is academically defensible; provisional academic uniqueness does not erase an independent source-evidence gap.",
+    "entitlement": "The actual task is within the provisional 2026 subject syllabus and factory scope; a textbook/chapter label alone is not entitlement.",
+    "source_evidence_sufficient": "The exact supplied excerpts plus explicit task premises support decisive rules/classifications and all needed numerical premises.",
+    "syllabus_version": "CUET 2026 provisional for 2027; final 2027 entitlement still requires revalidation.",
+    "exact_quotation_check": "Every source quotation is copied in full from its case and checked using ordinal IndexOf; every syllabus quotation is independently checked as an exact substring of the supplied subject syllabus.",
+    "numerical_premises": "Question values are legitimate supplied exercise premises; sources need not repeat invented scenario numbers. Missing indispensable scenario values remain blocking.",
+    "weak_distractors": "Recorded as craft concerns where obvious; easy demand and precise passage wording are legitimate and are not automatic rejection grounds."
+  },
+  "summary": {
+    "total": 28,
+    "unique_answer": 24,
+    "solvable": 26,
+    "entitled": 27,
+    "source_evidence_sufficient": 26,
+    "dispatch_ready": 23,
+    "blocking_cases": 5,
+    "blocking_ids": [
+      "v76f-dcb4ca9b28",
+      "v76f-972dd21c21",
+      "v76f-6c0c03dcf8",
+      "v76f-cbcd129073",
+      "v76f-706de08f5d"
+    ],
+    "insufficient_premises": 2,
+    "multiple_defensible_options": 2,
+    "unentitled_tasks": 1,
+    "additional_clipped_source_gap": 0,
+    "dispatch_decision": "Question-only construction review: 23 answer-free items are academically eligible; five deliberately defective questions remain. This is not an explanation/label audit or native-validator qualification. All cases are retained for the authorized controlled-defect study, subject to the separate post-freeze explanation/label custody audit."
+  },
+  "cases": [
+    {
+      "id": "v76f-e0932269d0",
+      "subject": "accountancy",
+      "chapter_tag": "Share Capital",
+      "body": "A company issues equity shares with a face value of ₹10 at a premium of 40% of face value. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+      "passage_text": "",
+      "proposed_keys": [
+        "B"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Premium = 10 x 40/100 = 4. Issue price = 10 + 4 = 14; earlier instalments = 3 + 5 + 2 = 10; final call = 14 - 10 = 4. The percentage and all cash premises are printed; no missing allocation assumption is needed.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹3",
+          "assessment": "3 is application money, not the remaining 4."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4",
+          "assessment": "4 equals the remaining issue price."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹1",
+          "assessment": "1 does not equal 14 minus 10."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹14",
+          "assessment": "14 is the whole issue price, not the remaining call."
+        }
+      ],
+      "entitlement_basis": "Actual task is issue/allotment of Share Capital, including premium or oversubscription. Supplied official 2026 syllabus places Company Accounts in Unit IV; v2 metadata now matches that unit. Missing numerical premises, when present, remain separate academic defects.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Issue at par  and premium",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1980,
+          "utf16_length": 25
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 635
+          }
+        },
+        {
+          "source_id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 545
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": true,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "subject": "accountancy",
+      "chapter_tag": "Share Capital",
+      "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+      "passage_text": "",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Uniform allotted/applied ratio = 2000/2400 = 5/6. An allotment of 40 requires an application of 40 x 6/5 = 48. The supplied worked source uses precisely the inverse of the allotted:applied ratio.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "40",
+          "assessment": "40 confuses allotted shares with applied shares."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "44",
+          "assessment": "44 does not preserve the 5:6 ratio."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "48",
+          "assessment": "48 gives 48 x 5/6 = 40 allotted shares."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "52",
+          "assessment": "52 would give 43 1/3 allotted shares, not 40."
+        }
+      ],
+      "entitlement_basis": "Actual task is issue/allotment of Share Capital, including premium or oversubscription. Supplied official 2026 syllabus places Company Accounts in Unit IV; v2 metadata now matches that unit. Missing numerical premises, when present, remain separate academic defects.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "subscription and Under subscription; Issue at par  and premium;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1943,
+          "utf16_length": 63
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 179
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": true,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "subject": "accountancy",
+      "chapter_tag": "Partnership Fundamentals",
+      "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+      "passage_text": "",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "G ordinary share = 312000 x 2/(3+3+2) = 78000. Deficiency = 80000 - 78000 = 2000. The printed deed allocates the whole deficiency personally to E; E/F shares do not change the deficiency calculation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 improperly halves the deficiency; the deed names E alone."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 exceeds the 2000 difference."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹8,000",
+          "assessment": "8000 exceeds the 2000 difference."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 is the full guaranteed-profit shortfall borne by E."
+        }
+      ],
+      "entitlement_basis": "The supplied syllabus expressly includes guarantee of profit to a partner and division of profit among partners. The source supplies the minimum-guarantee rule and the stem supplies the ratio and sole guarantor.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "guarantee of profit to a partner",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 407,
+          "utf16_length": 32
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 462
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "subject": "accountancy",
+      "chapter_tag": "Partnership Fundamentals",
+      "body": "A partnership deed charges simple interest on drawings at 8% per annum. A partner withdraws the same amount in the middle of each of the twelve months of a full accounting year. Total interest on these drawings for the year is ₹4,800. What is the amount of each monthly withdrawal?",
+      "passage_text": "",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Equal mid-month drawings have a six-month average period under the supplied source. For monthly withdrawal m, interest = 12m x 0.08 x 6/12 = 0.48m. Thus m = 4800/0.48 = 10000. The stem specifies simple interest, all twelve months, and timing.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹10,000",
+          "assessment": "10000 produces interest 4800."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹5,000",
+          "assessment": "5000 produces interest 2400."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹15,000",
+          "assessment": "15000 produces interest 7200."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹20,000",
+          "assessment": "20000 produces interest 9600."
+        }
+      ],
+      "entitlement_basis": "This is partnership-account computation under a partnership deed, within Accounts of Partnership and appropriation accounting. It needs no unlisted mathematical technique beyond simple interest and the supplied timing rule.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Accounts of Partnership",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 274,
+          "utf16_length": 23
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-c1094fe215c415",
+          "locator": "decisive-excerpt",
+          "quote": "When Fixed Amounts was Withdrawn Every Month Many a time, a fixed amount of money is withdrawn by the partners, at equal time interval, say each month or each quarter. While calculating the time period, attention must be paid to whether the fixed amount was withdrawn at the beginning (first day) of the month, middle of the month or at the end (last day) of the month. If withdrawn on the first day of every month, interest on total amount will be calculated for 6½ months; if withdrawn at the end at every month, it will be calculated for 5½ months, and if withdrawn during the middle of the month, it will be calculated for 6 months. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 637
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Use the average period for equal monthly drawings to recover the monthly amount from interest.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-10a1826742",
+      "subject": "business_studies",
+      "chapter_tag": "Principles of Management",
+      "body": "Workers agree to work additional hours to help revive a firm. Management promises a wage increase after the revival. Both sides honour their commitments without prejudice. Which Fayol principle is illustrated by this mutual observance of their agreement?",
+      "passage_text": "",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Mutual observance of an employment agreement is the decisive feature. The supplied discipline source explicitly gives the revival/extra-hours/later-wages example and explains that both sides honour their commitments without prejudice.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Division of work",
+          "assessment": "No division of work into specialist jobs is described."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Unity of direction",
+          "assessment": "Shared organisational goals alone do not supply the one-head/one-plan criterion; the question asks mutual agreement observance."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Discipline",
+          "assessment": "Discipline directly names obedience to the employment agreement and mutual commitments."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Unity of command",
+          "assessment": "No one-superior reporting arrangement is described."
+        }
+      ],
+      "entitlement_basis": "The actual task distinguishes Fayol principles by a concrete employment-agreement feature; Fayol principles are explicitly entitled.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Fayol’s principles of management.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 578,
+          "utf16_length": 33
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-87d44285dea4ca",
+          "locator": "decisive-excerpt",
+          "quote": "(iii) Discipline: Discipline is the obedience to organisational rules and employment agreement which are necessary for the working of the organisation. According to Fayol, discipline requires good superiors at all levels, clear and fair agreements and judicious application of penalties. Suppose management and labour union have entered into an agreement whereby workers have agreed to put in extra hours without any additional payment to revive the company out of loss. In return the management has promised to increase wages of the workers when this mission is accomplished. Here discipline when applied would mean that the workers and management both honour their commitments without any prejudice towards one another. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 722
+          }
+        },
+        {
+          "source_id": "v76s-fe899efe69ba71",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Unity of Command: According to Fayol there should be one and only one boss for every individual employee. If an employee gets orders from two superiors at the same time the principle of unity of command is violated. The principle of unity of command states that each participant in a formal organisation should receive orders from and be responsible to only one superior. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 377
+          }
+        },
+        {
+          "source_id": "v76s-2f42089dcd1b43",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Unity of Direction: All the units of an organisation should be moving towards the same objectives through coordinated and focussed efforts. Each group of activities having the same objective must have one head and one plan. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 228
+          }
+        },
+        {
+          "source_id": "v76s-ddf508df450a19",
+          "locator": "decisive-excerpt",
+          "quote": "Division of Work: Work is divided into small tasks/ jobs. A trained specialist who is competent is required to perform each job. Thus, division of work leads to specialisation. According to Fayol, “The intent of division of work is to produce more and better work for the same effort. Specialisation is the most efficient way to use human effort.” ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 348
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Principles of Management",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Principles of Management",
+          "objective": "Distinguish a Fayol principle using the decisive feature of a workplace agreement.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "subject": "business_studies",
+      "chapter_tag": "Planning",
+      "body": "What does the statement “planning is a primary function of management” mean?",
+      "passage_text": "",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The source distinguishes objectives, primacy, pervasiveness and continuity. Primacy means planning precedes and provides the base/framework for other managerial functions; D expresses both decisive clauses.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Planning is undertaken at all management levels",
+          "assessment": "This is pervasiveness, not primacy."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Plans are prepared repeatedly for successive periods",
+          "assessment": "This is continuity, not primacy."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Plans focus on predetermined organisational goals",
+          "assessment": "This is objective orientation, not primacy."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Planning precedes and provides a basis for the other managerial functions",
+          "assessment": "Both preceding and providing a basis express the source definition of primacy."
+        }
+      ],
+      "entitlement_basis": "Actual task is distinguishing a feature of planning, expressly within Planning features.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Meaning, features, importance, limitations.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 887,
+          "utf16_length": 43
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1287
+          }
+        },
+        {
+          "source_id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 510
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Planning",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish primacy from the other features of planning.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "subject": "business_studies",
+      "chapter_tag": "Marketing Management",
+      "body": "A producer is deciding which wholesalers and retailers will carry its goods to customers. Under which marketing function does the choice of these marketing intermediaries fall?",
+      "passage_text": "",
+      "proposed_keys": [
+        "B"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The restored continuous source explicitly names Physical Distribution, then states that its two decision areas include channels/marketing intermediaries such as wholesalers and retailers. Thus B follows directly. A concerns informing/persuading customers; C concerns physical movement; D concerns information gathering/analysis. The v1 unresolved-antecedent source gap is repaired without changing any question or option.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Promotion",
+          "assessment": "Informing/persuading customers is not intermediary selection."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Physical distribution",
+          "assessment": "Correct: the restored source explicitly assigns channels/intermediary selection to Physical Distribution."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Transportation",
+          "assessment": "The supplied source defines transportation as physical movement of goods, not choosing wholesalers/retailers."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Gathering and analysing market information",
+          "assessment": "The supplied source describes information gathering/analysis; this is not the function that directly houses the stated intermediary decision."
+        }
+      ],
+      "entitlement_basis": "The actual task is classifying a channel/intermediary decision within the expressly entitled physical distribution/channels of distribution syllabus. Entitlement does not repair the clipped source attribution.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Physical distribution: meaning, role;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3415,
+          "utf16_length": 37
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-1df3d2a1a5b00e",
+          "locator": "decisive-excerpt",
+          "quote": "10. Physical Distribution: Managing physical distribution is another very important function in the marketing of goods and services. The two major decision areas under this function include (a) decision regarding channels of distribution or the marketing intermediaries (like whole salers, retailers) to be used and (b) physical movement of the product from where it is produced to a place where it is required by the customers for their consumption or use. The important decision areas under physical distribution include managing inventory (levels of stock of goods), storage and warehousing and transportation of goods from one place to the other. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 651
+          }
+        },
+        {
+          "source_id": "v76s-792292a64da9ca",
+          "locator": "decisive-excerpt",
+          "quote": "11. transportation: Transportation involves physical movement of goods from one place to the other. As generally the users of products, particularly consumer products are wide spread and geographically separated from the place these are produced, it is necessary to move them to the place where it is needed for consumption or use, For example, tea produced in Assam has to be transported not only within the state but to other far off places like Tamil Nadu, Punjab, Jammu and kashmir and Haryana, rajasthan, where it is consumed. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 532
+          }
+        },
+        {
+          "source_id": "v76s-6dd88b7799a3ca",
+          "locator": "decisive-excerpt",
+          "quote": "9. Promotion: Promotion of products and services involves informing the customers about the firm’s product, its features, etc., and persuading them to purchase these products. The four important methods of promotion include advertising, Personal Selling, Publicity and Sales Promotion. A marketer has to take several crucial, decisions in respect of promotion of the products and services such as deciding the promotion budget, the promotion mix, i.e., the combination of the promotional tools that will be use, the promotion budget, etc. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 539
+          }
+        },
+        {
+          "source_id": "v76s-14f5310a351ea2",
+          "locator": "decisive-excerpt",
+          "quote": "1. g athering and analysing Market information: One of the important functions of a marketer is to gather and analyse market information. This is necessary to identify the needs of the customers and take various decisions for the successful marketing of the products and services. This is important for making an analysis of the available opportunities and threats as well as strengths and weaknesses of the organisation and help in deciding what opportunities can best be pursued by it. For example, rapid growth is predicted in several areas in the Indian economy, say in the use of the Internet, market for cell phones and several other areas. Which of these areas a particular organisation should enter, or in which area should it expand, requires a careful scanning of the strengths and weaknesses of the organisation, which is done with the help of careful market analysis. With the growth of computers, a new trend has emerged in the collection of market information. More and more companies are using interactive sites on the internet, to gather customer views and opinions, before taking important business decisions. One of the popular TV News Channel (in Hindi) seeks viewers choice (through SMS) on which of the given four or five main news stories Ch_10.indd 251 10-08-2022 10:04:27 Reprint 2026-27\nBUSINe SS STUDIe S 252 of the day would be broadcasted as detailed story at the prime time, to ensure that the viewers get to listen to the story of their own choice. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1479
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Marketing Management",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Classify a distribution-channel decision among marketing functions.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "subject": "business_studies",
+      "chapter_tag": "Business Environment",
+      "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+      "passage_text": "",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "A compulsory requirement imposed by a regulation is a legal-environment condition. The source explicitly includes legislation and government administrative orders and requires enterprises to obey law. The precise infant warning is a supplied scenario premise; the task does not ask the student to verify a real current regulation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Legal environment",
+          "assessment": "A regulation imposing a compulsory display directly reflects the legal environment."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Social environment",
+          "assessment": "Social norms may motivate laws, but the stated direct mechanism is a regulation."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Technological environment",
+          "assessment": "No technical innovation or method is specified."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Economic environment",
+          "assessment": "No economic variable such as income, inflation or interest is specified."
+        }
+      ],
+      "entitlement_basis": "Actual task classifies a compulsory rule among Business Environment dimensions, explicitly listed including Legal.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Dimensions of Business Environment",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 768,
+          "utf16_length": 34
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 370
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Business Environment",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit III: Business Environment",
+          "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "subject": "economics",
+      "chapter_tag": "Money & Banking",
+      "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+      "passage_text": "",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The source calls the legal percentage of deposits retained as cash reserves to prevent over-lending CRR. It separately describes SLR as short-term liquid reserves, bank rate as a loan interest rate, and repo as a repurchase-agreement lending rate. The task does not ask where reserves are held.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Statutory liquidity ratio",
+          "assessment": "SLR is the separate liquid-form reserve requirement, not the named cash-reserve percentage."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Bank rate",
+          "assessment": "Bank rate is a rate on central-bank lending, not a deposit reserve percentage."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Repo rate",
+          "assessment": "Repo rate is the interest rate on lending through a repurchase agreement."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Cash reserve ratio",
+          "assessment": "CRR matches cash reserves, deposit percentage and the over-lending purpose."
+        }
+      ],
+      "entitlement_basis": "The actual task distinguishes monetary reserve and lending-rate tools under the explicitly entitled Money and Banking policy-tools unit.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Policy tools to control money supply.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2420,
+          "utf16_length": 37
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 559
+          }
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 376
+          }
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 612
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "subject": "economics",
+      "chapter_tag": "Balance of Payments",
+      "body": "An exchange rate responds to market demand and supply, but the central bank sometimes buys or sells foreign currency to moderate its movements. Which exchange-rate system does this combination describe?",
+      "passage_text": "",
+      "proposed_keys": [
+        "B"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Both clauses matter: the exchange rate responds to market forces and central banks intervene by buying/selling currency to moderate movement. The managed-floating source explicitly combines flexible determination with this intervention. A completely flexible system excludes intervention; fixed rates are set at a particular level.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Gold standard",
+          "assessment": "No gold parity or gold-conversion arrangement is described."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Managed floating",
+          "assessment": "Both market determination and moderating intervention match managed floating."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Fixed exchange rate",
+          "assessment": "The stem does not say government fixes the rate at a particular level."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Completely flexible exchange rate",
+          "assessment": "The intervention clause contradicts completely flexible exchange rates."
+        }
+      ],
+      "entitlement_basis": "Actual task classifies an exchange-rate regime by two operative features; managed floating and fixed/flexible regimes are explicitly entitled.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Managed Floating",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3424,
+          "utf16_length": 16
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-8d02a647372f48",
+          "locator": "decisive-excerpt",
+          "quote": "Managed Floating Without any formal international agreement, the world has moved on to what can be best described as a managed floating exchange rate system. It is a mixture of a flexible exchange rate system (the float part) and a fixed rate system (the managed part). Under this system, also called dirty floating, central banks intervene to buy and sell foreign currencies in an attempt to moderate exchange rate movements whenever they feel that such actions are appropriate. Official reserve transactions are, therefore, not equal to zero. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 545
+          }
+        },
+        {
+          "source_id": "v76s-2f8f7b48e6edb1",
+          "locator": "decisive-excerpt",
+          "quote": "Flexible Exchange Rate This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate . As depicted in Fig. 6.1, the exchange rate is determined where the demand curve intersects with the supply curve, i.e., at point e on the Y – axis. Point q on the x – axis determines the quantity of US Dollars that have been demanded and supplied on e exchange rate. In a completely flexible system, the Central banks do not intervene in the foreign exchange market. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 511
+          }
+        },
+        {
+          "source_id": "v76s-5c6954165ace3c",
+          "locator": "decisive-excerpt",
+          "quote": "Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 116
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Balance of Payments",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Balance of Payments",
+          "objective": "Classify an exchange-rate system from market determination and the stated central-bank intervention.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "subject": "economics",
+      "chapter_tag": "Government Budget & the Economy",
+      "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+      "passage_text": "",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The source explicitly states collective consumption, non-rivalry and non-excludability. I is true. The full conjunction II (excludable AND rivalrous) is false: both asserted properties are reversed. Therefore only A gives the correct truth pair.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "I is true and II is false",
+          "assessment": "Correct truth pair: collective consumption true, excludable-and-rivalrous false."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Both I and II are true",
+          "assessment": "II reverses both defining properties and is false."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Both I and II are false",
+          "assessment": "I is explicitly true in the source."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "I is false and II is true",
+          "assessment": "I is true and II false, the opposite of D."
+        }
+      ],
+      "entitlement_basis": "The task examines the government-provision/allocation rationale for public goods within Government Budget objectives. The supplied source explicitly links the characteristics to government provision; this substantive link, not the chapter tag alone, supports entitlement.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Government budget - meaning, objectives and components",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2817,
+          "utf16_length": 54
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 532
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "question_type": "statement_combination",
+        "learning_objective": {
+          "syllabus_unit": "Government Budget and the Economy",
+          "objective": "Apply the defining consumption and exclusion properties of public goods.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "subject": "economics",
+      "chapter_tag": "Indian Economy on the Eve of Independence",
+      "body": "In a description of the Indian economy, what does “occupational structure” refer to?",
+      "passage_text": "",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The supplied source defines occupational structure as distribution of working persons across industries and sectors. C preserves the full definition; the other choices are total counts or within-job tasks.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The total size of the labour force",
+          "assessment": "Total labour-force size is a count, not its sectoral distribution."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "The total population of the country",
+          "assessment": "Total population includes nonworkers and gives no occupational distribution."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The distribution of working people among industries and economic sectors",
+          "assessment": "Distribution of working people across industries and sectors is the explicit definition."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The tasks performed within an individual job",
+          "assessment": "Within-job tasks do not describe the economy-wide workforce distribution."
+        }
+      ],
+      "entitlement_basis": "Actual task interprets the workforce-distribution concept used to describe the colonial economy; this is within the explicitly listed eve-of-independence economic description, supported by the colonial-period source context.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "A brief introduction of the state of Indian economy on the eve of",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3577,
+          "utf16_length": 65
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-f3f35d090a16fc",
+          "locator": "decisive-excerpt",
+          "quote": "During the colonial period, the occupational structure of India, i.e., distribution of working persons across different industries and sectors, showed little sign of change. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+          "identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 174
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "A/B/D are definitionally distant counts or within-job tasks. The item remains a legitimate easy definition question; this is a craft concern, not ambiguity or lack of entitlement."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Indian Economic Development",
+          "objective": "Interpret the sectoral workforce concept used to describe an economy.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-461c8da728",
+      "subject": "english",
+      "chapter_tag": "Narrative Passage",
+      "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Paragraph 1 links Srinagar landscapes recalling Jibhi and its tourist success versus Jibhi anonymity to returning home to start tourism. D captures both clauses. The 2008 scheme and pandemic are later events; the family only later agreed to convert the traditional house.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The 2008 government scheme had already guaranteed business success",
+          "assessment": "The 2008 scheme occurs after the initial return/1992 signboard, and guaranteed success is never stated."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Tourism in Srinagar had stopped because of the pandemic",
+          "assessment": "The pandemic occurs in 2020-21 after the return; the passage says local tourism stopped and does not attribute the initial return to Srinagar pandemic tourism."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The family had already built many concrete hotels in Jibhi",
+          "assessment": "The family later agreed to one house conversion; already-built family concrete hotels are unsupported."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential",
+          "assessment": "Both recalled-home landscapes and inferred tourism opportunity are supported by paragraph 1."
+        }
+      ],
+      "entitlement_basis": "Actual task draws a motive inference and event sequence from a supplied narrative passage of 208 whitespace tokens, below the 300-word syllabus maximum.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Narrative",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 318,
+          "utf16_length": 9
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "All three incorrect options introduce blatant chronology or unsupported-building claims. They are readily eliminated; this does not invalidate a legitimate easy comprehension task."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "question_type": "reading_comprehension",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-71ed304404",
+      "subject": "english",
+      "chapter_tag": "Vocabulary",
+      "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "B"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The contrast with Srinagar welcoming many tourists makes anonymity mean Jibhi was little known to potential visitors. B captures the contextual meaning. The passage gives no prohibition and places concrete growth later.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "crowded with visitors from across the world",
+          "assessment": "Crowded with international visitors reverses the contrast with Srinagar."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "not widely known to potential visitors",
+          "assessment": "Not widely known to potential visitors is the contextual sense."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "closed to visitors by an official prohibition",
+          "assessment": "An official prohibition is not stated and does not follow from anonymity."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "already transformed into a concrete town",
+          "assessment": "Concrete development belongs to later growth, not paragraph 1 anonymity."
+        }
+      ],
+      "entitlement_basis": "Actual task infers a phrase meaning in a supplied narrative context, entitled through Reading Comprehension and verbal vocabulary; passage is under 300 words.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "A and D reverse passage contrast or chronology; C introduces a prohibition without textual support. The intended answer remains unique and suitable as an easy contextual vocabulary task."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "question_type": "vocabulary",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+          "target_term": "clouded in anonymity"
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "subject": "english",
+      "chapter_tag": "Narrative Passage",
+      "body": "Which description best matches the narrator’s approach to creating the first guesthouse?",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Paragraph 2 expressly says the traditional house kept its original character AND gained windows for sunlight. A preserves both details. C is partly attractive through preservation, but its full claim of entirely unaltered including windows contradicts the added windows.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Retain the traditional house’s character while adding windows for sunlight",
+          "assessment": "Both retention of character and addition of windows are explicitly supported."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Replace the house with a large concrete town development",
+          "assessment": "Concrete town development is later valley change, not the first house conversion."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Keep the house entirely unaltered, including its windows",
+          "assessment": "The full conjunction fails because windows were added; partial preservation does not mean entirely unaltered."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Convert an Army building after tourism had already stopped",
+          "assessment": "The supplied passage names the family traditional house, not an Army building, and the pandemic tourism stop is later."
+        }
+      ],
+      "entitlement_basis": "Actual task retrieves and combines two details from a narrative passage under 300 words; Reading Comprehension is explicitly entitled.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "B/D are exaggerated or unsupported developments. C gives a valid partial-truth trap because its full unaltered claim fails. Low demand is legitimate for detail comprehension."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "question_type": "reading_comprehension",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Identify a description consistent with both clauses of a passage detail.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "subject": "english",
+      "chapter_tag": "Narrative Passage",
+      "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Paragraph 4 supports learning, relationships and pride in establishing local tourism; paragraph 3 reports pressure on nature and the opportunity for reflection and sustainable solutions. Only C preserves both benefit and concern. Extreme all-or-nothing alternatives contradict at least one part.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Tourism has brought no worthwhile learning or relationships",
+          "assessment": "No worthwhile learning/relationships contradicts paragraph 4 explicit cultural learning and returning friends."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Every increase in tourism should be welcomed regardless of its effects",
+          "assessment": "Regardless of effects contradicts nature pressure and sustainable reflection in paragraph 3."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection",
+          "assessment": "Both personal/local benefits and sustainable reflection are supported across paragraphs 3-4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The village must permanently abandon tourism because the first venture failed",
+          "assessment": "Permanent abandonment is not advocated; residents hope tourism returns and the first venture grew rather than failed."
+        }
+      ],
+      "entitlement_basis": "Actual task synthesizes attitude across a supplied narrative passage under 300 words, within entitled Reading Comprehension.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "A/B/D use sweeping extreme claims that directly contradict the passage. This reduces distractor subtlety but does not invalidate a legitimate balanced-attitude comprehension item."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "question_type": "reading_comprehension",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "subject": "accountancy",
+      "chapter_tag": "Partnership Fundamentals",
+      "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+      "passage_text": "",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "G ordinary share = 312000 x 2/(3+3+2) = 78000. Deficiency = 80000 - 78000 = 2000. The printed deed allocates the whole deficiency personally to E; E/F shares do not change the deficiency calculation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 improperly halves the deficiency; the deed names E alone."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 exceeds the 2000 difference."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹8,000",
+          "assessment": "8000 exceeds the 2000 difference."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 is the full guaranteed-profit shortfall borne by E."
+        }
+      ],
+      "entitlement_basis": "The supplied syllabus expressly includes guarantee of profit to a partner and division of profit among partners. The source supplies the minimum-guarantee rule and the stem supplies the ratio and sole guarantor.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "guarantee of profit to a partner",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 407,
+          "utf16_length": 32
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 462
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "subject": "accountancy",
+      "chapter_tag": "Share Capital",
+      "body": "A company issues equity shares with a face value of ₹10 at a premium whose rate is not stated. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+      "passage_text": "",
+      "proposed_keys": [],
+      "proposed_key_status": "underdetermined",
+      "unique_answer": false,
+      "solvable": false,
+      "entitlement": true,
+      "source_evidence_sufficient": false,
+      "dispatch_ready": false,
+      "short_proof": "Earlier instalments total 3+5+2=10, equal to face value. If premium per share is p, issue price is 10+p and final call is p. The premium rate/amount is expressly unstated. A/B/C/D are each possible under premiums of 3/4/1/14 respectively, so no unique numerical call follows. Neither supplied source gives a case-specific premium.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹3",
+          "assessment": "3 is possible if premium is 3, but that premise is absent."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4",
+          "assessment": "4 is possible if premium is 4; no 40 percent rate may be imported from a different case."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹1",
+          "assessment": "1 is possible if premium is 1, but that premise is absent."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹14",
+          "assessment": "14 is possible if premium is 14, but that premise is absent."
+        }
+      ],
+      "entitlement_basis": "Actual task is issue/allotment of Share Capital, including premium or oversubscription. Supplied official 2026 syllabus places Company Accounts in Unit IV; v2 metadata now matches that unit. Missing numerical premises, when present, remain separate academic defects.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Issue at par  and premium",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1980,
+          "utf16_length": 25
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 635
+          }
+        },
+        {
+          "source_id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 545
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "insufficient_premises",
+          "severity": "blocking",
+          "basis": "Premium rate/amount is missing; the final call equals that unknown premium."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": true,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "subject": "accountancy",
+      "chapter_tag": "Share Capital",
+      "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+      "passage_text": "",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Uniform allotted/applied ratio = 2000/2400 = 5/6. An allotment of 40 requires an application of 40 x 6/5 = 48. The supplied worked source uses precisely the inverse of the allotted:applied ratio.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "40",
+          "assessment": "40 confuses allotted shares with applied shares."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "44",
+          "assessment": "44 does not preserve the 5:6 ratio."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "48",
+          "assessment": "48 gives 48 x 5/6 = 40 allotted shares."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "52",
+          "assessment": "52 would give 43 1/3 allotted shares, not 40."
+        }
+      ],
+      "entitlement_basis": "Actual task is issue/allotment of Share Capital, including premium or oversubscription. Supplied official 2026 syllabus places Company Accounts in Unit IV; v2 metadata now matches that unit. Missing numerical premises, when present, remain separate academic defects.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "subscription and Under subscription; Issue at par  and premium;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1943,
+          "utf16_length": 63
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 179
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": true,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "subject": "business_studies",
+      "chapter_tag": "Planning",
+      "body": "What does the statement “planning is a primary function of management” mean?",
+      "passage_text": "",
+      "proposed_keys": [
+        "B",
+        "D"
+      ],
+      "proposed_key_status": "multiple_defensible_answers",
+      "unique_answer": false,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": false,
+      "short_proof": "The same supplied primacy paragraph states that all other functions operate within plans and that planning precedes/provides the basis for them. B expresses the framework meaning; D expresses precedence and basis. Both full options are true interpretations of primacy. A is pervasiveness and C objective orientation. A single-choice key cannot distinguish B and D.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Planning is undertaken at all management levels",
+          "assessment": "Pervasiveness, not primacy."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Planning lays down the framework within which the other managerial functions are performed",
+          "assessment": "Correct: operating within the planning framework is explicitly stated within the primacy paragraph."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Plans focus on predetermined organisational goals",
+          "assessment": "Objective orientation, not primacy."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Planning precedes and provides a basis for the other managerial functions",
+          "assessment": "Correct: preceding and supplying the basis is also explicitly stated within the primacy paragraph."
+        }
+      ],
+      "entitlement_basis": "Actual task is distinguishing a feature of planning, expressly within Planning features.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Meaning, features, importance, limitations.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 887,
+          "utf16_length": 43
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1287
+          }
+        },
+        {
+          "source_id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 510
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "multiple_defensible_options",
+          "severity": "blocking",
+          "basis": "Both B and D directly paraphrase the source definition of primacy. The single-choice format requires a rewritten distractor or a changed task."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Planning",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish primacy from the other features of planning.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "subject": "business_studies",
+      "chapter_tag": "Business Environment",
+      "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+      "passage_text": "",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "A compulsory requirement imposed by a regulation is a legal-environment condition. The source explicitly includes legislation and government administrative orders and requires enterprises to obey law. The precise infant warning is a supplied scenario premise; the task does not ask the student to verify a real current regulation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Legal environment",
+          "assessment": "A regulation imposing a compulsory display directly reflects the legal environment."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Social environment",
+          "assessment": "Social norms may motivate laws, but the stated direct mechanism is a regulation."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Technological environment",
+          "assessment": "No technical innovation or method is specified."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Economic environment",
+          "assessment": "No economic variable such as income, inflation or interest is specified."
+        }
+      ],
+      "entitlement_basis": "Actual task classifies a compulsory rule among Business Environment dimensions, explicitly listed including Legal.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Dimensions of Business Environment",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 768,
+          "utf16_length": 34
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 370
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Business Environment",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Unit III: Business Environment",
+          "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "subject": "business_studies",
+      "chapter_tag": "Marketing Management",
+      "body": "For the mathematical function f(x) = x³, use the supplied rule f′(x) = 3x². What is f′(2)?",
+      "passage_text": "",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": false,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": false,
+      "short_proof": "The supplied rule gives f-prime(2) = 3 x 2 squared = 12, uniquely C. The actual task is derivative substitution with no marketing decision, marketing data interpretation or business-finance relationship. A self-contained supplied rule makes it solvable but does not entitle mathematics to a Business Studies Marketing unit.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "8",
+          "assessment": "8 is f(2), not its derivative."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "6",
+          "assessment": "6 uses 3 x 2 instead of 3 x 2 squared."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "12",
+          "assessment": "12 equals 3 x 4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "3",
+          "assessment": "3 is the coefficient alone and ignores x=2."
+        }
+      ],
+      "entitlement_basis": "The full Marketing unit lists marketing functions, mix, product, physical distribution, promotion and price. This actual derivative task is outside those objectives and outside the factory Business Studies scope, despite the printed Marketing tag.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Unit XI:  Marketing",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3172,
+          "utf16_length": 19
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-math-premise",
+          "locator": "premise",
+          "quote": "In this self-contained mathematical exercise, f(x) = x³ and the supplied differentiation rule is f′(x) = 3x².",
+          "source_url": "local:original-stimulus",
+          "identity_sha256": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 109
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "unentitled_task",
+          "severity": "blocking",
+          "basis": "Pure derivative evaluation is not a Business Studies Marketing task. Supplying the derivative rule repairs solvability but cannot establish subject entitlement."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Marketing Management",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Evaluate a derivative using a supplied mathematical rule.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": false,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "subject": "economics",
+      "chapter_tag": "Money & Banking",
+      "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+      "passage_text": "",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The source calls the legal percentage of deposits retained as cash reserves to prevent over-lending CRR. It separately describes SLR as short-term liquid reserves, bank rate as a loan interest rate, and repo as a repurchase-agreement lending rate. The task does not ask where reserves are held.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Statutory liquidity ratio",
+          "assessment": "SLR is the separate liquid-form reserve requirement, not the named cash-reserve percentage."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Bank rate",
+          "assessment": "Bank rate is a rate on central-bank lending, not a deposit reserve percentage."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Repo rate",
+          "assessment": "Repo rate is the interest rate on lending through a repurchase agreement."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Cash reserve ratio",
+          "assessment": "CRR matches cash reserves, deposit percentage and the over-lending purpose."
+        }
+      ],
+      "entitlement_basis": "The actual task distinguishes monetary reserve and lending-rate tools under the explicitly entitled Money and Banking policy-tools unit.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Policy tools to control money supply.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2420,
+          "utf16_length": 37
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 559
+          }
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 376
+          }
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 612
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "question_type": "single_choice",
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "subject": "economics",
+      "chapter_tag": "Money & Banking",
+      "body": "In a simple banking model with no cash leakage or excess reserves, total deposits equal initial cash reserves divided by the required reserve ratio. Initial cash reserves are ₹200. The required reserve ratio for this case is not stated. What total deposits can these reserves support?",
+      "passage_text": "",
+      "proposed_keys": [],
+      "proposed_key_status": "underdetermined",
+      "unique_answer": false,
+      "solvable": false,
+      "entitlement": true,
+      "source_evidence_sufficient": false,
+      "dispatch_ready": false,
+      "short_proof": "Printed model: D=200/r, where r is the required reserve ratio as a fraction. r is expressly not stated. A/B/C/D correspond respectively to r=0.20/0.10/0.05/0.04, all consistent with the given data. The supplied sources define reserve ratios and lending rates but give no applicable numerical r. No option can be established as the answer.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 would follow only if r=20 percent, not supplied."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 would follow only if r=10 percent, not supplied."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 would follow only if r=5 percent, not supplied."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹5,000",
+          "assessment": "5000 would follow only if r=4 percent, not supplied."
+        }
+      ],
+      "entitlement_basis": "The actual task is the simple reserve/deposit multiplier explicitly within Money Creation and Money Multiplier. It is entitled but underspecified.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Money Creation and Money",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2303,
+          "utf16_length": 24
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 559
+          }
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 376
+          }
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 612
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "insufficient_premises",
+          "severity": "blocking",
+          "basis": "Required reserve ratio is indispensable and missing. The source contains no case-specific ratio. Do not import a default current CRR or infer a ratio from the choices."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Money & Banking",
+        "route": "numerical",
+        "question_type": "numerical_calculation",
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Apply the simple reserve-based deposit model.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "subject": "economics",
+      "chapter_tag": "Government Budget & the Economy",
+      "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+      "passage_text": "",
+      "proposed_keys": [
+        "A"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "The source explicitly states collective consumption, non-rivalry and non-excludability. I is true. The full conjunction II (excludable AND rivalrous) is false: both asserted properties are reversed. Therefore only A gives the correct truth pair.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "I is true and II is false",
+          "assessment": "Correct truth pair: collective consumption true, excludable-and-rivalrous false."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Both I and II are true",
+          "assessment": "II reverses both defining properties and is false."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Both I and II are false",
+          "assessment": "I is explicitly true in the source."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "I is false and II is true",
+          "assessment": "I is true and II false, the opposite of D."
+        }
+      ],
+      "entitlement_basis": "The task examines the government-provision/allocation rationale for public goods within Government Budget objectives. The supplied source explicitly links the characteristics to government provision; this substantive link, not the chapter tag alone, supports entitlement.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Government budget - meaning, objectives and components",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2817,
+          "utf16_length": 54
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 532
+          }
+        }
+      ],
+      "academic_issues": [],
+      "current_metadata": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "question_type": "statement_combination",
+        "learning_objective": {
+          "syllabus_unit": "Government Budget and the Economy",
+          "objective": "Apply the defining consumption and exclusion properties of public goods.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "subject": "english",
+      "chapter_tag": "Narrative Passage",
+      "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "D"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Paragraph 1 links Srinagar landscapes recalling Jibhi and its tourist success versus Jibhi anonymity to returning home to start tourism. D captures both clauses. The 2008 scheme and pandemic are later events; the family only later agreed to convert the traditional house.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The 2008 government scheme had already guaranteed business success",
+          "assessment": "The 2008 scheme occurs after the initial return/1992 signboard, and guaranteed success is never stated."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Tourism in Srinagar had stopped because of the pandemic",
+          "assessment": "The pandemic occurs in 2020-21 after the return; the passage says local tourism stopped and does not attribute the initial return to Srinagar pandemic tourism."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The family had already built many concrete hotels in Jibhi",
+          "assessment": "The family later agreed to one house conversion; already-built family concrete hotels are unsupported."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential",
+          "assessment": "Both recalled-home landscapes and inferred tourism opportunity are supported by paragraph 1."
+        }
+      ],
+      "entitlement_basis": "Actual task draws a motive inference and event sequence from a supplied narrative passage of 208 whitespace tokens, below the 300-word syllabus maximum.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Narrative",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 318,
+          "utf16_length": 9
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "All three incorrect options introduce blatant chronology or unsupported-building claims. They are readily eliminated; this does not invalidate a legitimate easy comprehension task."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "question_type": "reading_comprehension",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "subject": "english",
+      "chapter_tag": "Vocabulary",
+      "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "B",
+        "C"
+      ],
+      "proposed_key_status": "multiple_defensible_answers",
+      "unique_answer": false,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": false,
+      "short_proof": "Anonymity in the Srinagar/Jibhi tourism contrast means being little known. B expresses not widely known to potential visitors; C expresses little known beyond the local area. Both are defensible contextual paraphrases of the same lack of wider recognition. The passage gives no geographic qualification that makes C false or decisively less appropriate. A reverses the contrast and D imports later development.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "crowded with visitors from across the world",
+          "assessment": "Reverses the tourism contrast."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "not widely known to potential visitors",
+          "assessment": "Defensible contextual meaning of anonymity."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "little known beyond the local area",
+          "assessment": "Also defensible: little known beyond the local area captures the same lack of wider recognition; no supplied wording excludes it."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "already transformed into a concrete town",
+          "assessment": "Later concrete-town growth does not describe the paragraph 1 anonymity."
+        }
+      ],
+      "entitlement_basis": "Actual task infers a phrase meaning in a supplied narrative context, entitled through Reading Comprehension and verbal vocabulary; passage is under 300 words.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "multiple_defensible_options",
+          "severity": "blocking",
+          "basis": "B and C are overlapping contextual synonyms. The phrase \"most nearly\" does not establish a decisive distinction; replace one option before dispatch."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "question_type": "vocabulary",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+          "target_term": "clouded in anonymity"
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    },
+    {
+      "id": "v76f-10e903f685",
+      "subject": "english",
+      "chapter_tag": "Narrative Passage",
+      "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "proposed_keys": [
+        "C"
+      ],
+      "proposed_key_status": "derived",
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "source_evidence_sufficient": true,
+      "dispatch_ready": true,
+      "short_proof": "Paragraph 4 supports learning, relationships and pride in establishing local tourism; paragraph 3 reports pressure on nature and the opportunity for reflection and sustainable solutions. Only C preserves both benefit and concern. Extreme all-or-nothing alternatives contradict at least one part.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Tourism has brought no worthwhile learning or relationships",
+          "assessment": "No worthwhile learning/relationships contradicts paragraph 4 explicit cultural learning and returning friends."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Every increase in tourism should be welcomed regardless of its effects",
+          "assessment": "Regardless of effects contradicts nature pressure and sustainable reflection in paragraph 3."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection",
+          "assessment": "Both personal/local benefits and sustainable reflection are supported across paragraphs 3-4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The village must permanently abandon tourism because the first venture failed",
+          "assessment": "Permanent abandonment is not advocated; residents hope tourism returns and the first venture grew rather than failed."
+        }
+      ],
+      "entitlement_basis": "Actual task synthesizes attitude across a supplied narrative passage under 300 words, within entitled Reading Comprehension.",
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "supplied_source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "exact_substring_verification": {
+            "verified": true,
+            "comparison": "ordinal",
+            "utf16_offset": 0,
+            "utf16_length": 1303
+          }
+        }
+      ],
+      "academic_issues": [
+        {
+          "type": "weak_distractors",
+          "severity": "nonblocking",
+          "basis": "A/B/D use sweeping extreme claims that directly contradict the passage. This reduces distractor subtlety but does not invalidate a legitimate balanced-attitude comprehension item."
+        }
+      ],
+      "current_metadata": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "question_type": "reading_comprehension",
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+          "target_term": ""
+        }
+      },
+      "metadata_review": {
+        "canonical_chapter_alias_appropriate": true,
+        "passage_route_appropriate": true,
+        "accountancy_unit_corrected": false,
+        "actual_task_entitlement_reused": true,
+        "basis": "Checked against the supplied 2026 syllabus and factory scope read during the initial source-only review. Canonical labels and routes do not change actual task entitlement; the derivative remains unentitled."
+      }
+    }
+  ],
+  "amendment_review": {
+    "source_restoration_accepted": [
+      "v76f-0a26fac46f"
+    ],
+    "all_28_stems_passages_and_full_options_unchanged": true,
+    "other_source_quotes_unchanged": true,
+    "metadata_corrections_accepted": true,
+    "prior_artifact_preserved": true,
+    "private_answer_disclosure_before_this_freeze": false
+  }
+}

@@ -1,0 +1,1056 @@
+{
+  "at": "2026-10-06T13:13:45.645Z",
+  "dry_run": false,
+  "documents": [
+    {
+      "id": "ncert-leac102",
+      "chapters": [
+        "Admission of Partner",
+        "Change in Profit Sharing Ratio",
+        "Goodwill Valuation"
+      ],
+      "pages": 59,
+      "identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    {
+      "id": "ncert-leac103",
+      "chapters": [
+        "Retirement & Death of Partner",
+        "Goodwill Valuation",
+        "Change in Profit Sharing Ratio"
+      ],
+      "pages": 49,
+      "identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6"
+    },
+    {
+      "id": "ncert-leac202",
+      "chapters": [
+        "Debentures"
+      ],
+      "pages": 69,
+      "identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    {
+      "id": "ncert-leac206",
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "pages": 46,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    }
+  ],
+  "chapter_maps": [
+    {
+      "id": "cuet2024-english-bookA-q1-reference",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q2-reference",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q4-reference",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q11-reference",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q45-reference",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q3-capture-3e3f458c43b6",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q3-capture-cc1c96beb7ae",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q3-capture-326425b8f64f",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q3-capture-56b0bf92fd42",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q5-capture-9afbb5f4cad4",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q7-capture-43323598b7d1",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q7-capture-91277353a6e9",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q7-capture-a263a86c7c0c",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q7-capture-c88ff3c5f3c1",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q8-capture-20ab82d4322f",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q42-capture-348a1ab48a1f",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q44-capture-d2ed8528ef33",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q44-capture-eaf8e0ff4817",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q44-capture-bf1d37318c14",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q44-capture-508289a752a0",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q46-capture-2326f94598e9",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q48-capture-5b560b67fcda",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q49-capture-fec22fec900f",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-benevolent",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-frugal",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-resolute",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-candid",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-diligent",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-hostile",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-sparse",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-obsolete",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-prudent",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-tedious",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-meticulous",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-perilous",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-arduous",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-coherent",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-conspicuous",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-impartial",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-inevitable",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-tranquil",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-authentic",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-elated",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-concise",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-gregarious",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-arrogant",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-feeble",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "oxford-quality-transient",
+      "chapters": [
+        "Vocabulary",
+        "Correct Word Usage",
+        "Match the Following",
+        "Para Jumbles"
+      ]
+    },
+    {
+      "id": "ncert-leac101",
+      "chapters": [
+        "Partnership Fundamentals",
+        "Profit & Loss Appropriation Account"
+      ]
+    },
+    {
+      "id": "ncert-leac104",
+      "chapters": [
+        "Dissolution of Partnership Firm",
+        "Dissolution of Partnership"
+      ]
+    },
+    {
+      "id": "ncert-leac201",
+      "chapters": [
+        "Share Capital",
+        "Financial Statements of Company"
+      ]
+    },
+    {
+      "id": "ncert-leac204",
+      "chapters": [
+        "Analysis of Financial Statements",
+        "Comparative & Common Size Statements"
+      ]
+    },
+    {
+      "id": "ncert-leac205",
+      "chapters": [
+        "Accounting Ratios"
+      ]
+    },
+    {
+      "id": "ncert-lebs101",
+      "chapters": [
+        "Nature & Significance of Management"
+      ]
+    },
+    {
+      "id": "ncert-lebs102",
+      "chapters": [
+        "Principles of Management"
+      ]
+    },
+    {
+      "id": "ncert-lebs103",
+      "chapters": [
+        "Business Environment"
+      ]
+    },
+    {
+      "id": "ncert-lebs104",
+      "chapters": [
+        "Planning"
+      ]
+    },
+    {
+      "id": "ncert-lebs105",
+      "chapters": [
+        "Organising"
+      ]
+    },
+    {
+      "id": "ncert-lebs108",
+      "chapters": [
+        "Controlling"
+      ]
+    },
+    {
+      "id": "ncert-lebs201",
+      "chapters": [
+        "Financial Management"
+      ]
+    },
+    {
+      "id": "ncert-lebs202",
+      "chapters": [
+        "Marketing Management"
+      ]
+    },
+    {
+      "id": "ncert-leec102",
+      "chapters": [
+        "National Income & Related Aggregates"
+      ]
+    },
+    {
+      "id": "ncert-leec103",
+      "chapters": [
+        "Money & Banking"
+      ]
+    },
+    {
+      "id": "ncert-leec104",
+      "chapters": [
+        "Income Determination"
+      ]
+    },
+    {
+      "id": "ncert-leec105",
+      "chapters": [
+        "Government Budget & the Economy"
+      ]
+    },
+    {
+      "id": "ncert-leec106",
+      "chapters": [
+        "Balance of Payments"
+      ]
+    },
+    {
+      "id": "ncert-keec101",
+      "chapters": [
+        "Indian Economy on the Eve of Independence"
+      ]
+    }
+  ],
+  "anchors": [
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q4",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q8",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q26",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q30",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q31",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q22",
+      "references": 2,
+      "original_ready": false,
+      "chapter": "Admission of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q13",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Goodwill Valuation"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q27",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Change in Profit Sharing Ratio"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q21",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Retirement & Death of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q39",
+      "references": 3,
+      "original_ready": false,
+      "chapter": "Retirement & Death of Partner"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q16",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Debentures"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q18",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Debentures"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q9",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q23",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q32",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q11",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q40",
+      "references": 3,
+      "original_ready": false,
+      "chapter": "Cash Flow Statement"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q12",
+      "references": 3,
+      "original_ready": false,
+      "chapter": "Cash Flow Statement"
+    }
+  ],
+  "spans": [
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-2c978c97c40a",
+        "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      },
+      "characters": 1751,
+      "head": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admissi",
+      "tail": "ation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-2c978c97c40a",
+        "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      },
+      "characters": 1751,
+      "head": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admissi",
+      "tail": "ation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-3c34b723c489",
+        "support_hash": "3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320"
+      },
+      "characters": 630,
+      "head": "2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accu",
+      "tail": " and/or deferred revenue expenditure appearing in the balance sheet of the firm."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-72d2f4711e2e",
+        "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+      },
+      "characters": 1069,
+      "head": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share ",
+      "tail": "ossibilities. Let us understand it with the help of the following illustrations."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-aa617840faf0",
+        "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+      },
+      "characters": 1180,
+      "head": "2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice the",
+      "tail": "trations 6 to 8 and see how sacrificing ratio is calculated in such a situation."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-a50bfa9f5679",
+        "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+      },
+      "characters": 1678,
+      "head": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires",
+      "tail": "ital accounts should be retained in business, an additional entry is not passed."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-8a1d40054567",
+        "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36"
+      },
+      "characters": 1538,
+      "head": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brough",
+      "tail": "ditional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-2c978c97c40a",
+        "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      },
+      "characters": 1751,
+      "head": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admissi",
+      "tail": "ation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-ae361e8a3770",
+        "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+      },
+      "characters": 1483,
+      "head": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it ",
+      "tail": " continue for another three years, the value of goodwill will be Rs. 60,000 (Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-d26e7974c48b",
+        "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+      },
+      "characters": 835,
+      "head": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed",
+      "tail": " continue for another three years, the value of goodwill will be Rs. 60,000 (Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac102",
+        "version": 1,
+        "locator": "span-88acd5a861b0",
+        "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+      },
+      "characters": 1596,
+      "head": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the pa",
+      "tail": "ng ratio. All this is done in the same way as in case of admission of a partner."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac103",
+        "version": 1,
+        "locator": "span-ce862e7dfa8c",
+        "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+      },
+      "characters": 1725,
+      "head": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event ",
+      "tail": " × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac103",
+        "version": 1,
+        "locator": "span-ce862e7dfa8c",
+        "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+      },
+      "characters": 1725,
+      "head": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event ",
+      "tail": " × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac103",
+        "version": 1,
+        "locator": "span-2aedd1bf7e9f",
+        "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48"
+      },
+      "characters": 1745,
+      "head": "3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased",
+      "tail": "ed assets and liabilities; 5. Distribution of accumulated profits and losses; 6."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac202",
+        "version": 1,
+        "locator": "span-b92b17a10903",
+        "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+      },
+      "characters": 1747,
+      "head": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually me",
+      "tail": "entures at a premium) 4. Issue at par and redeemable at premium (a) Bank A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac202",
+        "version": 1,
+        "locator": "span-2bf9ffb186bb",
+        "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+      },
+      "characters": 395,
+      "head": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium",
+      "tail": "e liabilities side of the balance sheet under the head “Reserves and Surpluses”."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac202",
+        "version": 1,
+        "locator": "span-1fb1c0e6fdf1",
+        "support_hash": "1fb1c0e6fdf1bcf90036facff13fdcffa6901da0d7c53c16cf588863e79f2e25"
+      },
+      "characters": 1705,
+      "head": "2.11 Redemption of Debentures Redemption of debentures refers to extinguishing o",
+      "tail": "eir right of converting their debentures into shares or new class of debentures."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac202",
+        "version": 1,
+        "locator": "span-0ddb3357efaf",
+        "support_hash": "0ddb3357efafe012a2273a2ca53c2a968e6364edf932dfbc937cc3a03508cd97"
+      },
+      "characters": 1564,
+      "head": "2.3 Types of Debentures A company may issue different kinds of debentures which ",
+      "tail": " are repayable on the winding-up of a company or on the expiry of a long period."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-bf84275049e9",
+        "support_hash": "bf84275049e91d53d5de18c87c109e657b7b8f8d3a50764cb3759d8d42ced9f5"
+      },
+      "characters": 1696,
+      "head": "6.3 Cash and Cash Equivalents As stated earlier, cash flow statement shows inflo",
+      "tail": "etc. Cash management includes the investment of excess cash in cash equivalents."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-cbb6d69418bf",
+        "support_hash": "cbb6d69418bf01920a584cb9a04b1f3337023be2641a2591f41792452e9d91cd"
+      },
+      "characters": 1735,
+      "head": "6.5.1 Cash from Operating Activities Operating activities are the activities tha",
+      "tail": "investing activities. The net position is shown in case of operating cash flows."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-9becf1f3d140",
+        "support_hash": "9becf1f3d14002f3bf14ca6b0f719a15fb0bdeb083791397d483da055e10c72a"
+      },
+      "characters": 1617,
+      "head": "6.5.2 Cash from Investing Activities As per AS-3, investing activities are the a",
+      "tail": "m loans and advances.  Dividend received from investments in other enterprises."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-a507d1e4b724",
+        "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+      },
+      "characters": 1658,
+      "head": "6.5.3 Cash from Financing Activities As the name suggests, financing activities ",
+      "tail": "Moreover, same activity may be classified differently for different enterprises."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-9becf1f3d140",
+        "support_hash": "9becf1f3d14002f3bf14ca6b0f719a15fb0bdeb083791397d483da055e10c72a"
+      },
+      "characters": 1617,
+      "head": "6.5.2 Cash from Investing Activities As per AS-3, investing activities are the a",
+      "tail": "m loans and advances.  Dividend received from investments in other enterprises."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-b0864c4bffe7",
+        "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f"
+      },
+      "characters": 1722,
+      "head": "6.5.4 Treatment of Some Peculiar Items Extraordinary items Extraordinary items a",
+      "tail": "ax paid on sale of fixed assets should be classified under investing activities."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-9becf1f3d140",
+        "support_hash": "9becf1f3d14002f3bf14ca6b0f719a15fb0bdeb083791397d483da055e10c72a"
+      },
+      "characters": 1617,
+      "head": "6.5.2 Cash from Investing Activities As per AS-3, investing activities are the a",
+      "tail": "m loans and advances.  Dividend received from investments in other enterprises."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-8f2903c3938e",
+        "support_hash": "8f2903c3938e80996ed7934206d3c8f94f90a57d6b3b8e467a1cff5a6de3955d"
+      },
+      "characters": 1798,
+      "head": "6.4 Cash Flows ‘Cash Flows’ implies movement of cash in and out due to some non-",
+      "tail": "nt of raw material, incurrence of manufacturing expenses, sale of garments, etc."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-074c499a4fc2",
+        "support_hash": "074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0"
+      },
+      "characters": 1690,
+      "head": "6.6 Ascertaining Cash Flow from Operating Activities Operating activities are th",
+      "tail": "ter the Balance Sheet Date, Proposed dividend is shown in the Notes to Accounts."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-d9b85982dd23",
+        "support_hash": "d9b85982dd23fe310c786908731f810673d60647e3e5e4285ab99c5397dc87a8"
+      },
+      "characters": 1796,
+      "head": "6.6.1 Indirect Method Indirect method of ascertaining cash flow from operating a",
+      "tail": "added back to net profit while calculating cash flows from operating activities."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-11e51ff37121",
+        "support_hash": "11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97"
+      },
+      "characters": 975,
+      "head": "6.8 Preparation of Cash Flow Statement As stated earlier cash flow statement pro",
+      "tail": "of ‘cash and cash equivalents at the end’ is arrived at as shown in Exhibit 6.2."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac206",
+        "version": 1,
+        "locator": "span-50f51c90ebe7",
+        "support_hash": "50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081"
+      },
+      "characters": 1699,
+      "head": "6.5 Classification of Activities for the Preparation of Cash Flow Statement You ",
+      "tail": "ing activities are primarily derived from the main activities of the enterprise."
+    }
+  ],
+  "registry_version": 49,
+  "production_changes": 0
+}

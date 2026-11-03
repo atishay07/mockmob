@@ -1,0 +1,94 @@
+{
+  "purpose": "Frozen independent derivations before oracle and validator disclosure",
+  "source_packet": "v75-diagnosis-blinded.json",
+  "cases": [
+    {
+      "id": "v75f-08df5940be",
+      "derived_key": "B",
+      "answer": "₹1,02,000",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-e0884a03ec8a", "quote": "Machinery Account ... Cash (proceeds from sale of machine) 13,000 ... Accumulated Depreciation 15,000 ... profit on sale of machine 3,000"},
+        {"reference_id": "v75f-s-f47fc3466d5b", "quote": "A Machine costing Rs. 25,000 with Accumulated Depreciation of Rs. 15,000 was sold for Rs. 13,000."}
+      ],
+      "derivation": "Equipment balance equation: opening carrying amount 300,000 + purchases 30,000 - depreciation 40,000 - carrying amount disposed = closing carrying amount 200,000. Thus the carrying amount sold is 90,000. The account excerpt demonstrates that sale proceeds equal disposed carrying amount plus profit; proceeds are 90,000 + 12,000 = 102,000.",
+      "strongest_alternatives_and_why_they_fail": "₹90,000 is the disposed carrying amount, not cash received. ₹1,00,000 ignores the stated profit; ₹1,12,000 adds the profit to the opening-to-closing decrease without accounting correctly for purchases and depreciation.",
+      "missing_assumptions": "The wording that these are the only changes makes the balance equation determinate. It also assumes the stated sale profit is measured against the disposed equipment's carrying amount, as illustrated by the source account.",
+      "syllabus_skill": "Prepare a fixed-asset account from opening and closing balances, additions and depreciation; distinguish carrying amount disposed from sale proceeds and use profit on sale to reconcile them."
+    },
+    {
+      "id": "v75f-6657abc5d1",
+      "derived_key": "C",
+      "answer": "Postulates",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-cd33d1be4862", "quote": "Financial statements are prepared on certain basic assumptions (pre-requisites) known as postulates"}
+      ],
+      "derivation": "The supplied passage directly names basic assumptions or prerequisites underlying financial statements as postulates.",
+      "strongest_alternatives_and_why_they_fail": "The Act and accounting standards prescribe requirements but are not the name for the basic assumptions in the question. Basis of accounting is a broader formulation and does not match the passage's explicit term.",
+      "missing_assumptions": "None material; the prompt repeats the supplied definition.",
+      "syllabus_skill": "Recognize foundational accounting terminology and distinguish accounting postulates from statutory provisions, standards and bases of accounting."
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "derived_key": "D",
+      "answer": "Heads do not get training for top management positions.",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-8d877e6df3cc", "quote": "division of work into key functions will include production, purchase, marketing, accounts and personnel"},
+        {"reference_id": "v75f-s-c66a1d325241", "quote": "Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas."},
+        {"reference_id": "v75f-s-d70b6385c98d", "quote": "It ensures that different functions get due attention."},
+        {"reference_id": "v75f-s-6e21e3af87ba", "quote": "It may lead to increase in costs since there may be a duplication of activities across products."},
+        {"reference_id": "v75f-s-5d7f6593d351", "quote": "may gain power and in a bid to assert his independence may ignore organisational interests."}
+      ],
+      "derivation": "The listed departments identify functional organisation. The cited functional-structure passage explicitly labels due attention to functions as an advantage and lack of top-management training for functional heads as a disadvantage. The cost increase and manager power/independence excerpts describe divisional-structure disadvantages, so those distractors misattribute a different structure's drawbacks.",
+      "strongest_alternatives_and_why_they_fail": "A and B are genuine disadvantages of divisional structure in the supplied excerpts, but the stem describes functional departments. C is explicitly an advantage of functional structure. D is the functional disadvantage directly supported by the source.",
+      "missing_assumptions": "The department list is understood as grouping by functions across the company, as the cited definition says. No product-wise divisions are stated.",
+      "syllabus_skill": "Identify functional organisation from its basis of departmentation and distinguish its merits and limitations from those of divisional structure."
+    },
+    {
+      "id": "v75f-9c1cf0ec0b",
+      "derived_key": "A",
+      "answer": "Commercial banks",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-ca4eda4985d7", "quote": "They accept deposits from the public and lend out part of these funds to those who want to borrow."}
+      ],
+      "derivation": "The excerpt describes commercial banks in exactly the terms asked: they accept public deposits and lend those funds to borrowers.",
+      "strongest_alternatives_and_why_they_fail": "The RBI excerpt identifies the central bank's currency, monetary-control and banking-system roles, not public deposit-taking for lending. LIC and the government are not identified in the supplied evidence as the institution performing this commercial banking function.",
+      "missing_assumptions": "The question refers to the standard commercial banking role in the money-creation system described by the passage.",
+      "syllabus_skill": "Explain the role of commercial banks in accepting deposits and extending loans, distinguishing them from the central bank."
+    },
+    {
+      "id": "v75f-f790bb5d76",
+      "derived_key": "D",
+      "answer": "Subtract it when adjusting operating profit for the extraordinary item and record an investing inflow.",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-b2e32a98eb55", "quote": "cash flows associated with extraordinary items should be classified and disclosed separately as arising from operating, investing or financing activities"},
+        {"reference_id": "v75f-s-03284d44f89a", "quote": "All investing and financing incomes are to be deducted from the amount of net profit"},
+        {"reference_id": "v75f-s-42434b4106ee", "quote": "Cash receipt from disposal of fixed assets including intangibles."}
+      ],
+      "derivation": "The claim is extraordinary and the stem says the receipt is already included in net profit. To avoid counting an investing receipt in operating cash flow, remove it from the indirect-method operating reconciliation (subtract it), then show the cash receipt as an investing inflow associated with the stolen machinery. D is the only option with both adjustments in those directions.",
+      "strongest_alternatives_and_why_they_fail": "A and B reverse one or both required adjustments. C adds the included receipt to operating cash flow and calls the associated investing cash flow an outflow, both contrary to the receipt's direction. D alone removes it from operating profit and presents a receipt as an investing inflow.",
+      "missing_assumptions": "The supplied excerpts say extraordinary items are classified by activity and investing/financing income is removed from net profit, but do not explicitly name insurance compensation for stolen fixed assets as an investing inflow. The conclusion relies on the standard textbook treatment of a claim replacing the value of a fixed asset; if that convention is not intended, the packet's excerpt alone leaves activity classification under-supported.",
+      "syllabus_skill": "Apply the indirect method to remove a non-operating extraordinary receipt already included in net profit and classify the cash receipt by its relationship to a fixed asset.",
+      "support_caveat": "One answer is defensible under the standard fixed-asset compensation convention; direct source wording for insurance claims on stolen machinery is absent from the supplied evidence."
+    },
+    {
+      "id": "v75f-f992f37503",
+      "derived_key": "C",
+      "answer": "Both statements are true.",
+      "exactly_one_defensible_option": true,
+      "decisive_excerpts": [
+        {"reference_id": "v75f-s-dc4d924b3121", "quote": "Current Account is the record of trade in goods and services and transfer payments."},
+        {"reference_id": "v75f-s-89ee2df980f5", "quote": "Non-factor income is net sale of service products like shipping, banking, tourism, software services"},
+        {"reference_id": "v75f-s-89ee2df980f5", "quote": "sale of assets like sale of share of an Indian company to a Chinese customer is a credit item on the capital account ... These items are Foreign Direct Investments (FDIs)"}
+      ],
+      "derivation": "An export of financial services is a service export and therefore a credit in the current account. FDI is a capital-account asset transaction; an inward sale of an Indian asset/share to a foreign investor is a credit. Thus both statements are true.",
+      "strongest_alternatives_and_why_they_fail": "A, B and D each require at least one statement to be false. The excerpts place services in the current account and identify FDI among capital-account transactions; the credit/debit examples establish the direction for export and inward asset sale.",
+      "missing_assumptions": "Financial services export means a service supplied by an Indian resident to a nonresident, and FDI into India means an inward investment transaction. These are the ordinary meanings of the stated terms.",
+      "syllabus_skill": "Classify cross-border services and asset transactions in the two-account balance of payments and determine credit/debit direction."
+    }
+  ]
+}

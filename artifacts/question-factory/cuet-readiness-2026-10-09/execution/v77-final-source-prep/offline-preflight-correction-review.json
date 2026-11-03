@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-09T08:05:12.879Z",
+  "complete": true,
+  "problems": [],
+  "reviewer_independent": true,
+  "scope": "Independent code-only review of the additive offline V77 harness correction; no preflight rerun, provider activity, study mutation or runtime execution.",
+  "bindings": {
+    "original_runner_path": "scripts/pipeline/tools/runFreshCuetReadinessV77.mjs",
+    "original_runner_sha256": "85662477d7fdc48bc27c211f92f4458d657dcf8cb339511bf31910449acbf221",
+    "integrated_runner_path": "scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs",
+    "integrated_runner_sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+    "correction_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/offline-preflight-correction-freeze.json",
+    "correction_freeze_sha256": "328e569ed69fbb12821e137bc44e0ee6f9be4c6facf0de440dc55420d273e8ce",
+    "dispatch_authorization_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-dispatch-authorization.json",
+    "dispatch_authorization_sha256": "8bc53484a5d2f9622b13dbe7ec32fa2f5770e3475748d0b1938a82f6cef28a73",
+    "factory_evidence_v73_path": "scripts/pipeline/lib/factoryEvidenceV73.mjs",
+    "factory_evidence_v73_sha256": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e"
+  },
+  "exact_diff": {
+    "only_authorized_edits": true,
+    "authorized_edits": [
+      "Self-hash and correction-freeze hash checks, additionally required in concrete authorization for prepare/preflight/execute/recover.",
+      "Offline cache disabled during blind capture; no cached evaluation can bypass captured blind request.",
+      "Offline cache enabled only before synthetic explanation-audit sizing, where fabricated blind results are needed to size the audit request."
+    ],
+    "academic_or_prompt_or_provider_request_logic_changed": false,
+    "original_runner_modified": false,
+    "transport_or_provider_call_branch_changed": false,
+    "other_differences": []
+  },
+  "authorization_binding": {
+    "freeze_file_matches_integrated_runner_sha256": true,
+    "freeze_binds_unchanged_original_sha256": true,
+    "concrete_dispatch_authorization_matches_runner_and_freeze": true,
+    "authorization_hash_fields": {
+      "additive_offline_preflight_runner_sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+      "additive_offline_preflight_freeze_sha256": "328e569ed69fbb12821e137bc44e0ee6f9be4c6facf0de440dc55420d273e8ce"
+    }
+  },
+  "offline_cache_behavior": {
+    "implementation": "factoryEvidenceV73.__evaluation checks ledger.getCache(`evaluation:${key}`) and returns a hit before constructing/sending the request; on a miss it builds the request, calls completeJSON(transport,...), and only afterward attempts cache set.",
+    "blind_capture_cache_enabled": false,
+    "synthetic_audit_capture_cache_enabled": true,
+    "cache_writes_forbidden": true,
+    "blind_capture_reaches_capture_transport": true,
+    "audit_sizing_reuses_synthetic_blind_judgment": true,
+    "native_provider_calls_made_by_review": 0
+  },
+  "freeze_disclosures": {
+    "academic_change": false,
+    "paid_transport_change": false,
+    "source_cases_keys_labels_pricing_and_guards_unchanged": true,
+    "reported_original_blind_captures": 0,
+    "required_blind_captures": 56,
+    "reported_audit_captures": 28,
+    "required_audit_captures": 28
+  }
+}

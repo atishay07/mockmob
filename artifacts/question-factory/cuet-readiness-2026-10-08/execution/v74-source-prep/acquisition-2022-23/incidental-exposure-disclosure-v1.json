@@ -1,0 +1,11 @@
+{
+  "schema": "v74-incidental-source-exposure-disclosure-v1",
+  "at": "2026-10-08T15:48:10.190Z",
+  "first_blind_review_sha256": "e4eceaf79c259450f5cfaff47b39d7c945e998d5842e5003cd203902dc94edba",
+  "first_blind_review_filesystem_modified_at": "2026-10-08T15:29:37.503Z",
+  "question_packet_sha256": "65a1679f4a85b4c3ecba64dbe034c0cb91b4f9b5852bbdbcbbe3d4d3a55b5905",
+  "observation": "After the first derivations were saved, an authoritative-source search incidentally returned an official CBSE Accountancy 2022-23 marking-scheme snippet for nonselected question34. Selected questions27-30 marking-scheme keys have not been opened. Original frozen custody artifacts remain unchanged.",
+  "custody_action": "Do not supply the snippet or first answers to the second blind reviewer. Official-key comparison stays after both independent derivations. Record source-family correlation and this exposure in later evidence.",
+  "publication": false,
+  "paid_calls": 0
+}

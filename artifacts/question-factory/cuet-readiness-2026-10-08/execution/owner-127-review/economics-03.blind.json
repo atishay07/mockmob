@@ -1,0 +1,571 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "economics",
+  "offset": 20,
+  "total": 53,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-keec101:1:pdf-page-5:9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1": {
+      "id": "ncert-keec101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1",
+      "text": "5INDIAN ECONOMY ON THE EVE OF INDEPENDENCE The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial govern - ment never made any sincere attempt to estimate India’s national and per capita income . Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V .K.R.V . Rao and R.C. Desai — it was Rao , whose estimates during the colonial period was considered very significant. However , most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year. 1.3 A GRICULTURAL S ECTOR India’s economy under the British colonial rule remained fundamentally agrarian — about 85 per cent of the country’s population lived mostly in villages and derived livelihood directly or indirectly from agriculture (See Box 1.2). However, despite being the occupation of such a large population, the agricultural Fig. 1.1 India’s agricultural stagnation under the British colonial rule Box 1.2: Agriculture During Pre-British India The French traveller, Bernier, described seventeenth century Bengal in the following way: “The knowledge I have acquired of Bengal in two visits inclines me to believe that it is richer than Egypt. It exports, in abundance, cottons and silks, rice, sugar and butter. It produces amply — for its own consumption — wheat, vegetables, grains, fowls, ducks and geese. It has immense herds of pigs and flocks of sheep and goats. Fish of every kind it has in profusion. From rajmahal to the sea is an endless number of canals, cut in bygone ages from the Ganges by immense labour for navigation and irrigation.” Ø Take note of the agricultural prosperity in our country in the seventeenth century. Contrast it with agricultural stagnation around the time when the British left India, around 200 years later. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1"
+    },
+    "ncert-keec101:1:quality-v3-pdf-page-4-c8de0c519a:c8de0c519a47843d73dbe015b06b2d5c595b735939d4a2343aced1b2de9120b4": {
+      "id": "ncert-keec101",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-4-c8de0c519a",
+      "support_hash": "c8de0c519a47843d73dbe015b06b2d5c595b735939d4a2343aced1b2de9120b4",
+      "text": "India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India (See Box 1.1).",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1"
+    },
+    "ncert-leec201:1:p4-c0:894811df9724cd7f385171c04a414059eb581adc90fb69c240829d961a99f8db": {
+      "id": "ncert-leec201",
+      "version": 1,
+      "locator": "p4-c0",
+      "support_hash": "894811df9724cd7f385171c04a414059eb581adc90fb69c240829d961a99f8db",
+      "text": "4 scimonoceorciM yrotcudortnI If all the resources are used in the production of corn, the maximum amount of corn that can be produced is 4 units and if all resources are used in the production of cotton, at the most, 10 units of cotton can be produced. The economy can also produce1 unit of corn and 9 units of cotton or 2 units of corn and 7 units of cotton or 3 units of corn and 4 units of cotton. There can be many other possibilities. The figure illustrates the production possibilities of the economy. Any point on or below the curve represents a combination of corn and cotton that can be produced with the economy’s resources. The curve gives the maximum amount of corn that can be produced in the economy for any given amount of cotton and vice-versa. This curve is called the production possibility frontier. Cotton The production possibility frontier gives the combinations of A B corn and cotton that can be produced when the resources of the C economy are fully utilised. Note D that a point lying strictly below the production possibility frontier E represents a combination of corn O Corn and cotton that will be produced when all or some of the resources are either underemployed or are utilised in a wasteful fashion. If more of the scarce resources are used in the production of corn, less resources are available for the production of cotton and vice versa. Therefore, if we want to have more of one of the goods, we will have less of the other good. Thus, there is always a cost of having a little more of one good in terms of the amount of the other good that has to be forgone. This is known as the opportunity costa of an additional unit of the goods. Every economy has to choose one of the many possibilities that it has. In other words, one of the central problems of the economy is to choose from one of the many production possibilities. aNote that the concept of opportunity cost is applicable to the individual as well as the society. The concept is very important and is widely used in economics.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a65235ff3a2101470a0b22f0d188bacb346175f72758f740cf23097ca5f9d820"
+    },
+    "ncert-leec201:1:p2-c1819:573fcdc297c4644ed997904c0bd78d8de9c48fa2f716abeeae7afe944bcc5f7a": {
+      "id": "ncert-leec201",
+      "version": 1,
+      "locator": "p2-c1819",
+      "support_hash": "573fcdc297c4644ed997904c0bd78d8de9c48fa2f716abeeae7afe944bcc5f7a",
+      "text": "urces of an individual are scarce, the resources of the society are also scarce in comparison to what the people in the society might collectively want to have. The scarce resources of the society have to be allocated properly in the production of different goods and services in keeping with the likes and dislikes of the people of the society. Any allocation5 of resources of the society would result in the production of a particular combination of different goods and services. The goods and services thus produced will have to be distributed among the individuals of the society. The allocation of the limited resources and the distribution of the final mix of goods and services are two of the basic economic problems faced by the society. In reality, any economy is much more complex compared to the society discussed above. In the light of what we have learnt about the society, let us now discuss the fundamental concerns of the discipline of economics some of which we shall study throughout this book. 1.2 CENTRAL PROBLEMS OF AN ECONOMY Production, exchange and consumption of goods and services are among the basic economic activities of life. In the course of these basic economic activities, every society has to face scarcity of resources and it is the scarcity of resources that gives rise to the problem of choice. The scarce resources of an economy have competing usages. In other words, every society has to decide on how to use its scarce resources. The problems of an economy are very often summarised as follows: 4Here we assume that all the goods and services produced in a society are consumed by the people in the society and that there is no scope of getting anything from outside the society. In reality, this is not true. However, the general point that is being made here about the compatibility of production and consumption of goods and services holds for any country or even for the entire world. 5By an allocation of the resources, we mean how much of which resource is devoted to the production of each of the goods and services. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a65235ff3a2101470a0b22f0d188bacb346175f72758f740cf23097ca5f9d820"
+    },
+    "ncert-leec203:1:p14-c0:2be03872180cb04aa2c3efb26ec56449001869a6a0ab6ec28f930b2b601c5c9d": {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p14-c0",
+      "support_hash": "2be03872180cb04aa2c3efb26ec56449001869a6a0ab6ec28f930b2b601c5c9d",
+      "text": "49 Production and Costs Just like the short run, in the long run, the sum of all marginal costs up to some output level gives us the total cost at that level. Shapes of the Long Run Cost Curves We have previously discussed the returns to scales. Now let us see their implications for the shape of LRAC. IRS implies that if we increase all the inputs by a certain proportion, output increases by more than that proportion. In other words, to increase output by a certain proportion, inputs need to be increased by less than that proportion. With the input prices given, cost also increases by a lesser proportion. For example, suppose we want to double the output. To do that, inputs need to be increased, but less than double. The cost that the firm incurs to hire those inputs therefore also need to be increased by less than double. What is happening to the average cost here? It must be the case that as long as IRS operates, average cost falls as the firm increases output. DRS implies that if we want to increase the output by a certain proportion, inputs need to be increased by more than that proportion. As a result, cost also increases by more than that proportion. So, as long as DRS operates, the average cost must be rising as the firm increases output. CRS implies a proportional increase in inputs resulting in a proportional increase in output. So the average cost remains constant as long as CRS operates. It is argued that in a typical firm IRS is observed at the initial level of production. This is then followed by the CRS and then by the DRS. Accordingly, the LRAC curve is a ‘U’-shaped curve. Its downward sloping part corresponds to IRS and upward rising part corresponds to DRS. At the minimum point of the LRAC curve, CRS is observed. Let us check how the LRMC curve looks like. For the first unit of output, both LRMC and LRAC are the same. Then, as output increases, LRAC initially falls, and then, after a certain point, it rises. As long as average cost is falling, marginal cost must be less than the average cost.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec203.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "67e63f8123933d0e22fd35af436d582b658a9b446e963bb19bfaa9adcef81198"
+    },
+    "ncert-leec203:1:p11-c0:a56368e08d1517cee0aededfc4aeb52cbe39343bd96a04105f52e4048a28cf05": {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "a56368e08d1517cee0aededfc4aeb52cbe39343bd96a04105f52e4048a28cf05",
+      "text": "46 yrotcudortnI scimonoceorciM Previously, we have discussed that in order to increase the Cost production of output the firm needs to employ more of the variable inputs. This results in an increase in total variable cost, and hence, an increase in total cost. Therefore, as output increases, total variable cost F C and total cost increase. Total fixed cost, however, is independent of the amount of output produced and AFC remains constant for all levels of O q production. 1 Output Figure 3.3 illustrates the shapes Fig. 3.4 of total fixed cost, total variable cost Average Fixed Cost. The average fixed cost and total cost curves for a typical curve is a rectangular hyperbola. The area firm. We place output on the x-axis of the rectangle OFCq gives us the total and costs on the y-axis. TFC is a fixed cost. 1 constant which takes the value c 1 and does not change with the change in output. It is, therefore, a horizontal straight line cutting the cost axis at the point c . At q , TVC is c and TC is c . 1 1 2 3 AFC is the ratio of TFC to q. TFC is a constant. Therefore, as q increases, AFC decreases. When output is very close to zero, AFC is arbitrarily large, and as output moves towards infinity, AFC moves towards zero. AFC curve is, in fact, a rectangular hyperbola. If we multiply any value q of output with its corresponding AFC, we always get a constant, namely TFC. Figure 3.4 shows the shape of average fixed cost curve for a typical firm. We measure output along the horizontal axis and AFC along the vertical axis. At q level of output, we get the corresponding average fixed cost at F. The TFC 1 can be calculated as TFC = AFC × quantity = OF × Oq 1 = the area of the rectangle OFCq 1 Cost We can also calculate AFC from TFC curve. In Figure 3.5, the horizontal straight line cutting the vertical axis at F is the TFC curve. At q level of output, total 0 fixed cost is equal to OF. At q 0 , the F A TFC corresponding point on the TFC curve is A. Let the angle ∠AOq 0 be θ. The AFC at q is 0 TFC O q 0 Output AFC= quantity Fig. 3.5 Aq The Total Fixed Cost Curve.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec203.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "67e63f8123933d0e22fd35af436d582b658a9b446e963bb19bfaa9adcef81198"
+    },
+    "ncert-leec204:1:p5-c0:b0054577df1b943095df347f4d5adaced355216259458e7f5191753fda46420c": {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "b0054577df1b943095df347f4d5adaced355216259458e7f5191753fda46420c",
+      "text": "57 under Perfect Competition The Theory of the Firm downwards at the profit- maximising output level? To answer this question, refer once again to Figure 4.3. Note that at output levels q and q , the 1 4 market price is equal to the marginal cost. However, at the output level q , the marginal 1 cost curve is downward sloping. We claim that q cannot be a 1 profit-maximising output level. Why? Observe that for all output levels slightly to the left of q , 1 the market price is lower than Conditions 1 and 2 for profit maximisation. the marginal cost. But, the The figure is used to demonstrate that when the market price is p, the output level of a profit- argument outlined in section maximising firm cannot be q (marginal cost curve, 4.3.1 immediately implies that 1 MC, is downward sloping), q and q (market price the firm’s profit at an output 2 3 exceeds marginal cost), or q and q (marginal cost 5 6 level slightly smaller than q exceeds market price). 1 exceeds that corresponding to the output level q . This being the case, q cannot be a profit-maximising 1 1 output level. 4.3.3 Condition 3 Consider the third condition that Price, SMC costs must hold when the profit- maximising output level is positive. Notice that the third SAC condition has two parts: one part AVC applies in the short run while the other applies in the long run. B E Case 1: Price must be greater p than or equal to AVC in the A short run We will show that the O q 1 Output statement of Case 1 (see above) is Fig. 4.4 true by arguing that a profit- Price-AVC Relationship with Profit maximising firm, in the short run, Maximisation (Short Run). The figure is used to will not produce at an output level demonstrate that a profit-maximising firm produces wherein the market price is lower zero output in the short run when the market price, than the AVC. p, is less than the minimum of its average variable cost (AVC). If the firm’s output level is q, the firm’s 1 total variable cost exceeds its revenue by an amount Let us turn to Figure 4.4. equal to the area of rectangle pEBA.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "d6a85628f214baa60dc886bc5e618d2d4dc4ba919fcf25ef01632371cd1b0af8"
+    },
+    "ncert-leec204:1:p6-c1868:6a0a53570877c34a1c9b11d1a854698b67270d0561819b013ca027e55d09efdf": {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p6-c1868",
+      "support_hash": "6a0a53570877c34a1c9b11d1a854698b67270d0561819b013ca027e55d09efdf",
+      "text": "of 1 average cost and quantity). Since the area of rectangle OEBq is 1 larger than the area of rectangle OpAq , the firm incurs a loss at the 1 output level q . But, in the long 1 run set-up, a firm that shuts down production has a profit of zero. Again, the firm chooses to exit in this case. 4.3.4 The Profit Maximisation Problem: Graphical Geometric Representation of Profit Representation Maximisation (Short Run). Given market Using the material in sections 3.1, price p, the output level of a profit-maximising 3.2 and 3.3, let us graphically firm is q . At q , the firm’s profit is equal to the 0 0 represent a firm’s profit area of rectangle EpAB. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "d6a85628f214baa60dc886bc5e618d2d4dc4ba919fcf25ef01632371cd1b0af8"
+    },
+    "ncert-keec106:1:p16-c1771:5e05e1734b76cc63c746a0cca1c29dee3c21be5e022c213a43e7894cc1c74881": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p16-c1771",
+      "support_hash": "5e05e1734b76cc63c746a0cca1c29dee3c21be5e022c213a43e7894cc1c74881",
+      "text": "p a job and stay there for some time, in half a day. but come back to their home villages There are three sources of data on as soon as the rainy season begins. unemployment : Reports of Census of Why do they do so? This is because India, National Statistical Office’s work in agriculture is seasonal; there Reports of Employment and are no employment opportunities in the Unemployment Situation, Annual village for all months in the year. When Reports of Periodic Labour Force there is no work to do on farms, people Survey, and Directorate General of go to urban areas and look for jobs. EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 107 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec106:1:p1-c0:edb0f03e1ae9aacd79bbc8f612308885422d292e10b1fbe78c21f9d32d52bacc": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "edb0f03e1ae9aacd79bbc8f612308885422d292e10b1fbe78c21f9d32d52bacc",
+      "text": "6 E : G , MPLOYMENT ROWTH I NFORMALISATION I AND OTHER SSUES After studying this chapter, the learners will • understand a few basic concepts relating to employment such as economic activity, worker, workforce and unemployment • understand the nature of participation of men and women in various economic activities in various sectors • know the nature and extent of unemployment • assess the initiatives taken by the government in generating employment opportunities in various sectors and regions. 92 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec107:1:p12-c0:910285846adda6e230991c37671bcb5b8600aa7edc374cb0f7917e93de957f65": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p12-c0",
+      "support_hash": "910285846adda6e230991c37671bcb5b8600aa7edc374cb0f7917e93de957f65",
+      "text": "LPG, Gobar Gas in Rural Areas: Households in rural areas generally use Work This Out Ø wood, dung cake or other biomass as In Delhi, buses and other public fuel. This practice has several adverse transport vehicles uses CNG as fuel implications like deforestation, instead of petrol or diesel; some reduction in green cover, wastage of vehicles use convertible engines; solar energy is being used to light cattle dung and air pollution. To rectify up the streets. What do you think the situation, subsidised LPG is being about these changes? Delhi also provided. In addition, gobar gas plants adopted odd/even scheme to restrict are being provided through easy loans the use of vehicles with registration and subsidy. As far as liquefied ending with odd/even numbers on petroleum gas (LPG) is concerned, it is alternative days, for specific period a clean fuel — it reduces household in a year. Organise a debate in class on the need for sustainable pollution to a large extent. Also, energy development practices in India. wastage is minimised. For the gobar gas plant to function, cattle dung is fed few years many other Indian cities also to the plant and gas is produced which began to use CNG. is used as fuel while the slurry which is left over is a very good organic Wind Power: In areas where speed of fertiliser and soil conditioner. wind is usually high, wind mills can provide electricity without any adverse impact on the environment. Wind CNG in Urban Areas: In Delhi, the use turbines move with the wind and of Compressed Natural Gas (CNG) as electricity is generated. No doubt, the fuel in public transport system has initial cost is high. But the benefits are significantly lowered air pollution and such that the high cost gets easily the air has become cleaner. In the last absorbed. Fig.7.4 Gobar Gas Plant uses cattle dung to produce energy 126 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    },
+    "ncert-keec107:1:p14-c1876:f9e2b06899ba68b688ef7d0e7f25dfc9802dfc5ea72253f1e654abdb408eb2bf": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p14-c1876",
+      "support_hash": "f9e2b06899ba68b688ef7d0e7f25dfc9802dfc5ea72253f1e654abdb408eb2bf",
+      "text": "r were polluted with the environment. In the initial stages pesticides. Even milk, meat and fishes of development, the demand for were found to be contaminated. environmental resources was less than To meet this challenge, efforts are that of supply. Now the world is on to bring in better methods of pest faced with increased demand for control. One such step is the use of environmental resources but their pesticides based on plant products. supply is limited due to overuse and Neem trees are proving to be quite misuse. Sustainable development aims useful. Several types of pest controlling at promoting the kind of development chemicals have been isolated from neem that minimises environmental problems and these are being used. Mixed and meets the needs of the present cropping and growing different crops generation without compromising the in consecutive years on the same land ability of the future generation to meet have also helped farmers. their own needs. 128 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    },
+    "ncert-keec102:1:p1-c0:cded2f794f2e45ca17d245ceca4c91e45dae9c0378c1099da8943c9f417e9a4f": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "cded2f794f2e45ca17d245ceca4c91e45dae9c0378c1099da8943c9f417e9a4f",
+      "text": "2 I E NDIAN CONOMY 1950–1990 After studying this chapter, the learners will • come to know the goals of India’s five year plans • know about the development policies in different sectors such as agriculture and industry from 1950-1990 • learn to think about the merits and limitations of a regulated economy. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    },
+    "ncert-keec102:1:p11-c1782:119fbe9b739b4c2341e934097c68e7786dc3acf7b23e5e58bf7852f964e7b106": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p11-c1782",
+      "support_hash": "119fbe9b739b4c2341e934097c68e7786dc3acf7b23e5e58bf7852f964e7b106",
+      "text": " justification of subsidies in are largely benefiting the fertiliser agriculture is, at present, a hotly industry and big farmers, the correct debated question. It is generally policy is not to abolish subsidies but agreed that it was necessary to use to take steps to ensure that only the subsidies to provide an incentive for poor farmers enjoy the benefits. adoption of the new HYV technology Thus, by the late 1960s, Indian by farmers in general and small agricultural productivity had increased farmers in particular. Any new sufficiently to enable the country to be technology will be looked upon as self-sufficient in food grains. This is an being risky by farmers. Subsidies achievement to be proud of. On the were, therefore, needed to encourage farmers to test the new technology. negative side, some 65 per cent of the Some economists believe that once country’s population continued to be the technology is found profitable employed in agriculture even as late as and is widely adopted, subsidies 1990. Economists have found that as 26 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    },
+    "ncert-keec108:1:p14-c0:273708c6ad9fbf8e97fa255190337ef7977436bf5891b9b1215508550cf92778": {
+      "id": "ncert-keec108",
+      "version": 1,
+      "locator": "p14-c0",
+      "support_hash": "273708c6ad9fbf8e97fa255190337ef7977436bf5891b9b1215508550cf92778",
+      "text": "Work These Out Ø While India has performed relatively well vis-à-vis other developing countries (including its Asian neighbours) in terms of economic growth, India is yet to show the world that there is considerable progress in terms of human development indicators. Where India went wrong ? Why did we not take care of our human resources? Discuss in the classroom. Ø There is a general perception going around in India that there is sudden increase in dumping of Chinese goods into India which have implications for manufacturing sector in India and also that we do not engage ourselves in trading with our neighbouring nations. Look at the following table, which shows exports from India to, and imports from, Pakistan and China. From newspapers and websites and listening to news, collect the details of goods and services transacted in trading with our neighbours. In order to get detailed information relating to international trade, you can log on to the website: http://dgft.gov.in. Country Exports from India ( Rs in crore) Imports to India (Rs in crore) 2004-2005 2024-2025 Compound 2004-2005 2024-2025 Compound Rate of Rate of Growth (%) Growth (%) Pakistan 2,341 4,720 3.6 427 4 -20.8 China 25,232 1,20,617 8.1 31,892 9,59,666 18.5 Ø Calculate exports as a % of imports for both the years and discuss the probable reasons for the trend in the class. COMPARATIVE DEVELOPMENT EXPERIENCES OF INDIA AND ITS NEIGHBOURS 145 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "cfa442e1daaf5782deae47c365e0e7ae189ed8d4ea07397db4675fed53c36386"
+    },
+    "ncert-keec108:1:p13-c0:c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660": {
+      "id": "ncert-keec108",
+      "version": 1,
+      "locator": "p13-c0",
+      "support_hash": "c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660",
+      "text": "reforms as dictated by the World Bank by handing over plots of land to and International Monetary Fund to individuals for cultivation, it brought India and Pakistan. The new prosperity to a vast number of poor leadership at that time in China was people. It created conditions for the not happy with the slow pace of growth subsequent phenomenal growth in and lack of modernisation in the rural industries and built up a strong Chinese economy under the Maoist support base for more reforms. rule. They felt that Maoist vision of Scholars quote many such examples economic development based on on how reform measures led to rapid decentralisation, self sufficiency and growth in China. shunning of foreign technology, goods Scholars argue that in Pakistan and capital had failed. Despite the reform process led to worsening of extensive land reforms, collectivisation, all the economic indicators. We have the Great Leap Forward and other seen in an earlier section that compared to 1980s, the growth rate initiatives, the per capita grain output of GDP and its sectoral constituents in 1978 was the same as it was in the have not yet improved. mid-1950s. Though the data on international It was found that establishment of poverty line for Pakistan is quite infrastructure in the areas of healthy, scholars using the official education and health, land reforms, data of Pakistan indicate rising long existence of decentralised poverty there. The proportion of poor planning and existence of small in 1960s was more than 40 per cent enterprises had helped positively in which declined to 25 per cent in 1980s improving the social and income and started rising again in the recent indicators in the post reform period. decades. The reasons for the slow- Before the introduction of reforms, down of growth and re-emergence of there had already been massive poverty in Pakistan’s economy, as extension of basic health services in scholars put it, are agricultural growth rural areas.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "cfa442e1daaf5782deae47c365e0e7ae189ed8d4ea07397db4675fed53c36386"
+    },
+    "ncert-keec106:1:p4-c1872:b9f44fd7851b42615dca6e82fe0ea20f4c7e2bc4fc8011243265676dcc4cd2e7": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p4-c1872",
+      "support_hash": "b9f44fd7851b42615dca6e82fe0ea20f4c7e2bc4fc8011243265676dcc4cd2e7",
+      "text": "at is qualifications and skills. In rural areas, actively contributing to the production people cannot stay at home as their of goods and services of a country. If economic condition may not allow them the ratio is higher, it means that the to do so. engagement of people is greater; if the ratio for a country is medium, or low, TABLE 6.1 it means that a very high proportion Worker-Population Ratio in India, of its population is not involved 2023–24 directly in economic activities. You might have already studied, Sex Worker-Population Ratio in lower classes, the meaning of the Total Rural Urban term ‘population’. Population is Men 56.4 56.3 56.4 defined as the total number of people Women 30.7 34.8 20.7 who reside in a particular locality at Total 43.7 45.6 38.9 a particular point of time. If you want EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 95 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec106:1:p14-c1841:79c8a22013df7902b946db8de80731a515613bb63ffa289676a3abaa2a2b5f51": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p14-c1841",
+      "support_hash": "79c8a22013df7902b946db8de80731a515613bb63ffa289676a3abaa2a2b5f51",
+      "text": " sector not maintain any accounts. Workers is not growing. Workers and of this sector live in slums and are enterprises in the informal sector do not squatters. Of late, owing to the efforts get regular income; they do not have of the International Labour Organisation any protection or regulation from the (ILO), the Indian government has EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 105 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec107:1:p4-c1868:c435754e5869b85c69dda1d288af59f22f1946d2d00293aa92f05bd54b962a40": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p4-c1868",
+      "support_hash": "c435754e5869b85c69dda1d288af59f22f1946d2d00293aa92f05bd54b962a40",
+      "text": "s, it is clear that the opportunity to spend huge amounts on technology costs of negative environmental and research to explore new resources. impacts are high. Added to these are the health costs of The biggest question that arises is: degraded environmental quality — are environmental problems new to this decline in air and water quality (seventy century? If so, why? The answer to this per cent of water in India is polluted) question requires some elaboration. In have resulted in increased incidence of the early days when civilisation just respiratory and water-borne diseases. began, or before this phenomenal Hence the expenditure on health is also increase in population, and before rising. To make matters worse, global countries took to industrialisation, the environmental issues such as global demand for environmental resources warming and ozone depletion also and services was much less than their contribute to increased financial supply. This meant that pollution was commitments for the government. within the absorptive capacity of the 118 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    },
+    "ncert-keec107:1:p5-c1879:2ffb4a2ddb401226d55900e1bedf738d9e2323e2a6a5f809cc10f63dac8ebefa": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p5-c1879",
+      "support_hash": "2ffb4a2ddb401226d55900e1bedf738d9e2323e2a6a5f809cc10f63dac8ebefa",
+      "text": " trend continues even today. Thus what has happened is a reversal of supply-demand relationship for environmental quality — we are now faced with increased Fig. 7.2 Damodar Valley is one of India’s most demand for environmental industrialised regions. Pollutants from the heavy resources and services but their industries along the banks of the Damodar river supply is limited due to overuse are converting it into an ecological disaster ENVIRONMENT AND SUSTAINABLE DEVELOPMENT 119 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    }
+  },
+  "cases": [
+    {
+      "id": "a569c7716fbd8a493df492763edd4c21",
+      "content_hash": "ad94f841d4f1636887dab93d3a3ba39e253acfd5e805e6b13780fb86e5649027",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 5INDIAN ECONOMY ON THE EVE OF INDEPENDENCE The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic i. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A trade analyst reviews two records. Record P lists unprocessed cotton sent from India to an overseas buyer. Record Q lists Indian cotton and silk textiles, metalwork, and precious-stone work bought in several countries; the buyers cite the materials’ fine quality and the makers’ craftsmanship. For this case, treat P as raw input and Q as completed goods. Which interpretation best distinguishes Q from P?",
+        "options": [
+          "Record Q represents an overseas market for raw Indian inputs, since cotton is one of its listed items.",
+          "Record Q represents an overseas market for Indian handicrafts, supported by material quality and craftsmanship.",
+          "Record Q represents an overseas market for finished British industrial goods, purchased by buyers in India.",
+          "Record Q represents a domestic market for Indian handicrafts, while overseas trade is confined to raw cotton."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec101:1:pdf-page-5:9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1",
+        "ncert-keec101:1:quality-v3-pdf-page-4-c8de0c519a:c8de0c519a47843d73dbe015b06b2d5c595b735939d4a2343aced1b2de9120b4"
+      ]
+    },
+    {
+      "id": "9f7f0f7e4c9d5cb5e6670be2479da5f2",
+      "content_hash": "e35ce2939d79460e46d112855cb30839c3247f2292f208aec84e226b9f78ed7f",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "topic": "Introduction & Theory of Consumer Behaviour: focus on this supplied section: 4 scimonoceorciM yrotcudortnI If all the resources are used in the production of corn, the maximum amount of corn that can be produced is 4 units and if all resources are used in t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "An economy changes its production from 1 unit of corn and 9 units of cotton to 2 units of corn and 7 units of cotton. What is the opportunity cost, in cotton, of producing the additional unit of corn?",
+        "options": [
+          "2 units of cotton",
+          "1 unit of cotton",
+          "7 units of cotton",
+          "9 units of cotton"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec201:1:p4-c0:894811df9724cd7f385171c04a414059eb581adc90fb69c240829d961a99f8db",
+        "ncert-leec201:1:p2-c1819:573fcdc297c4644ed997904c0bd78d8de9c48fa2f716abeeae7afe944bcc5f7a"
+      ]
+    },
+    {
+      "id": "a726aeaa9f7ce193c5ee5ed4e402698e",
+      "content_hash": "d085753c0109384c7e2d84ce8a169acc3a2f2cca98b40e7062f0b78588154624",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "topic": "Production & Costs: focus on this supplied section: 49 Production and Costs Just like the short run, in the long run, the sum of all marginal costs up to some output level gives us the total cost at that level. Shapes of the Long Ru. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm records the following three successive long-run production transitions. In each transition, all inputs increase by the same proportion. Input prices remain unchanged, and each listed cost is the cost of the input bundle used for that output.\nInterval I: Output rises from 80 to 120 units; input-bundle cost rises from ₹2,00,000 to ₹2,80,000.\nInterval II: Output rises from 120 to 180 units; input-bundle cost rises from ₹2,80,000 to ₹4,20,000.\nInterval III: Output rises from 180 to 270 units; input-bundle cost rises from ₹4,20,000 to ₹6,51,000.\nWhich option correctly classifies the returns to scale in Intervals I, II and III, respectively?",
+        "options": [
+          "Interval I: CRS; Interval II: IRS; Interval III: DRS.",
+          "Interval I: IRS; Interval II: CRS; Interval III: DRS.",
+          "Interval I: DRS; Interval II: CRS; Interval III: IRS.",
+          "Interval I: IRS; Interval II: DRS; Interval III: CRS."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec203:1:p14-c0:2be03872180cb04aa2c3efb26ec56449001869a6a0ab6ec28f930b2b601c5c9d",
+        "ncert-leec203:1:p11-c0:a56368e08d1517cee0aededfc4aeb52cbe39343bd96a04105f52e4048a28cf05"
+      ]
+    },
+    {
+      "id": "90c0efb048add1dbde2112db46487d91",
+      "content_hash": "7e122245ad9ef6a858fc6afb33c4c53ce67d27bda8bf231e654ee270247e7d1b",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Theory of Firms under Perfect Competition",
+        "topic": "Theory of Firms under Perfect Competition: focus on this supplied section: 57 under Perfect Competition The Theory of the Firm downwards at the profit- maximising output level? To answer this question, refer once again to Figure 4.3. Note that at output l. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A price-taking firm maximises profit in the short run and may choose zero output. It can produce 0, 10, 15 or 20 units. At 10 units, market price equals marginal cost; at 15 units, average variable cost is at its minimum of ₹8 per unit; and 20 units is the largest feasible positive output. The market price is ₹6 per unit. Which output maximises the firm’s short-run profit?",
+        "options": [
+          "0 units, as the firm shuts down in the short run.",
+          "10 units, because price equals marginal cost there.",
+          "15 units, because average variable cost is at its minimum there.",
+          "20 units, because it is the largest feasible output."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec204:1:p5-c0:b0054577df1b943095df347f4d5adaced355216259458e7f5191753fda46420c",
+        "ncert-leec204:1:p6-c1868:6a0a53570877c34a1c9b11d1a854698b67270d0561819b013ca027e55d09efdf"
+      ]
+    },
+    {
+      "id": "5d2cf0d217e3ccb43730a4b1eecdab61",
+      "content_hash": "23d65f76e8525faedd39e73b1308f38f212e621fa5186715c4dbf4cabe872490",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: p a job and stay there for some time, in half a day. but come back to their home villages There are three sources of data on as soon as the rainy season begins. unemployment : Repo. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A group of 48 workers takes temporary jobs in an urban area. Five-eighths of the group take these jobs, remain there for 3 months, and then return to their home villages; the remaining workers do not take urban jobs. Count one worker employed for one month as one worker-month. How many worker-months of urban employment does the group record during this spell?",
+        "options": [
+          "90 worker-months",
+          "144 worker-months",
+          "30 worker-months",
+          "54 worker-months"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec106:1:p16-c1771:5e05e1734b76cc63c746a0cca1c29dee3c21be5e022c213a43e7894cc1c74881",
+        "ncert-keec106:1:p1-c0:edb0f03e1ae9aacd79bbc8f612308885422d292e10b1fbe78c21f9d32d52bacc"
+      ]
+    },
+    {
+      "id": "8e2d8a69af3a9f812213d9e4a12dcb19",
+      "content_hash": "5f31727b4fd43e879b7796ff36b2dfd7b6cc873a79774a95281a126154f329e3",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: LPG, Gobar Gas in Rural Areas: Households in rural areas generally use Work This Out Ø wood, dung cake or other biomass as In Delhi, buses and other public fuel. This practice has . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Match List-I with List-II.\n\nList-I\n(A) Household use of wood, dung cake or other biomass as fuel\n(B) LPG used as a household fuel\n(C) Material fed into a gobar gas plant\n(D) Material left after gas production\n\nList-II\n(I) Cattle dung\n(II) A clean fuel that reduces household pollution to a large extent and minimises wastage\n(III) Slurry that is a good organic fertiliser and soil conditioner\n(IV) A practice associated with deforestation, reduction in green cover and air pollution\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+          "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+          "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+          "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec107:1:p12-c0:910285846adda6e230991c37671bcb5b8600aa7edc374cb0f7917e93de957f65",
+        "ncert-keec107:1:p14-c1876:f9e2b06899ba68b688ef7d0e7f25dfc9802dfc5ea72253f1e654abdb408eb2bf"
+      ]
+    },
+    {
+      "id": "d07b4f779e64ceaabc490eebdd437dcd",
+      "content_hash": "a8a7a7be8afaf483cd75af09b37ebae838985c2fb4338bc165a600736598278c",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: 2 I E NDIAN CONOMY 1950–1990 After studying this chapter, the learners will • come to know the goals of India’s five year plans • know about the development policies in different s. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following statements in the order of the reasoning, from the perceived problem to the stated outcome.\n(A) Farmers may view a new technology as risky.\n(B) Subsidies were needed to encourage farmers to test the new HYV technology.\n(C) Indian agricultural productivity had increased sufficiently.\n(D) India was thereby able to be self-sufficient in food grains by the late 1960s.\nChoose the correct sequence:",
+        "options": [
+          "(A)-(B)-(C)-(D)",
+          "(B)-(A)-(C)-(D)",
+          "(A)-(B)-(D)-(C)",
+          "(C)-(D)-(A)-(B)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec102:1:p1-c0:cded2f794f2e45ca17d245ceca4c91e45dae9c0378c1099da8943c9f417e9a4f",
+        "ncert-keec102:1:p11-c1782:119fbe9b739b4c2341e934097c68e7786dc3acf7b23e5e58bf7852f964e7b106"
+      ]
+    },
+    {
+      "id": "435e48ce37fbd17c87658815528aba5d",
+      "content_hash": "86de4a08183ab74fc637cdb1264194cbad26c842ce57e60f2d38bd37edc866a2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: Work These Out Ø While India has performed relatively well vis-à-vis other developing countries (including its Asian neighbours) in terms of economic growth, India is yet to show t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A report notes that Country P’s economic growth is relatively strong compared with other developing countries. It also records little progress in Country P’s human development indicators. The author claims that the first finding is enough to demonstrate considerable progress in human development. Which evaluation is best supported?",
+        "options": [
+          "Reject the claim because relatively strong economic growth alone does not establish considerable progress in human development.",
+          "Accept the claim because relatively strong economic growth establishes considerable progress in human development.",
+          "Reject the claim because little progress in human development establishes that economic growth was relatively weak.",
+          "Accept the claim because human development indicators need not be considered when economic growth is relatively strong."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec108:1:p14-c0:273708c6ad9fbf8e97fa255190337ef7977436bf5891b9b1215508550cf92778",
+        "ncert-keec108:1:p13-c0:c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660"
+      ]
+    },
+    {
+      "id": "52b9d78d281ebd92bf8a312e697d1130",
+      "content_hash": "9e65dcd40573ecd917f7b3e3db383aa94a7b8cfff1dcf0b051207a58aa2939d5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: at is qualifications and skills. In rural areas, actively contributing to the production people cannot stay at home as their of goods and services of a country. If economic conditi. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following groups in descending order of worker-population ratio, from greatest to least. The stated ratio values are:\n(A) Men in urban areas — 56.4\n(B) Men in rural areas — 56.3\n(C) Women in rural areas — 34.8\n(D) Women in urban areas — 20.7\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(B)-(A)-(C)-(D)",
+          "(A)-(B)-(D)-(C)",
+          "(A)-(B)-(C)-(D)",
+          "(D)-(C)-(B)-(A)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec106:1:p4-c1872:b9f44fd7851b42615dca6e82fe0ea20f4c7e2bc4fc8011243265676dcc4cd2e7",
+        "ncert-keec106:1:p14-c1841:79c8a22013df7902b946db8de80731a515613bb63ffa289676a3abaa2a2b5f51"
+      ]
+    },
+    {
+      "id": "58cd0ed02dfc261ba99638aae0875484",
+      "content_hash": "595947a38fe8f5686bb70574f78f1c8231ff0973e7eb62e8af94063c675ed8b1",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: s, it is clear that the opportunity to spend huge amounts on technology costs of negative environmental and research to explore new resources. impacts are high. Added to these are . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A district assessment uses comparable index values for demand for environmental resources and services and their available supply. Define the gap as the demand index minus the supply index. In an earlier assessment, demand was 70 and supply was 100; in a later assessment, demand was 130 and supply was 100. The assessment attributes the limited supply to overuse. Which option correctly calculates the movement in the gap and interprets it?",
+        "options": [
+          "The earlier gap is +30 and the later gap is −30, a 60-point movement towards excess supply.",
+          "The earlier gap is −30 and the later gap is +30, a 60-point movement towards excess demand.",
+          "The earlier gap is −30 and the later gap is +30, a 30-point increase in the gap.",
+          "The earlier gap is −30 and the later gap is −30, so the relationship is unchanged."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec107:1:p4-c1868:c435754e5869b85c69dda1d288af59f22f1946d2d00293aa92f05bd54b962a40",
+        "ncert-keec107:1:p5-c1879:2ffb4a2ddb401226d55900e1bedf738d9e2323e2a6a5f809cc10f63dac8ebefa"
+      ]
+    }
+  ]
+}

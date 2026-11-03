@@ -1,0 +1,255 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-03",
+  "batch_offset": 20,
+  "batch_total": 53,
+  "case_count": 10,
+  "blind_packet_sha256": "35d55f2e5df3752da5da6213ae1ee9bc73cfa881d995eef0c8e8ad501a2b55b3",
+  "created_at_utc": "2026-10-08T14:12:59+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independent solution from blind items and registered excerpts in the same packet; no comparison, answer key, original explanation, or reassessment result consulted.",
+  "cases": [
+    {
+      "id": "a569c7716fbd8a493df492763edd4c21",
+      "content_hash": "ad94f841d4f1636887dab93d3a3ba39e253acfd5e805e6b13780fb86e5649027",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 5INDIAN ECONOMY ON THE EVE OF INDEPENDENCE The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic i. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "The item explicitly defines P as raw cotton input and Q as completed textiles/crafts; the source says Indian cotton/silk textiles, metal and precious-stone crafts were sold worldwide for fine material and craftsmanship.",
+      "source_evidence": {
+        "id": "ncert-keec101",
+        "locator": "quality-v3-pdf-page-4-c8de0c519a",
+        "support_hash": "c8de0c519a47843d73dbe015b06b2d5c595b735939d4a2343aced1b2de9120b4",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "9f7f0f7e4c9d5cb5e6670be2479da5f2",
+      "content_hash": "e35ce2939d79460e46d112855cb30839c3247f2292f208aec84e226b9f78ed7f",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "topic": "Introduction & Theory of Consumer Behaviour: focus on this supplied section: 4 scimonoceorciM yrotcudortnI If all the resources are used in the production of corn, the maximum amount of corn that can be produced is 4 units and if all resources are used in t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Corn rises by one unit while cotton falls from 9 to 7, so the opportunity cost is 2 units of cotton.",
+      "source_evidence": {
+        "id": "ncert-leec201",
+        "locator": "p4-c0",
+        "support_hash": "894811df9724cd7f385171c04a414059eb581adc90fb69c240829d961a99f8db",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "1 unit of corn and 9 units of cotton or 2 units of corn and 7 units of cotton",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "a726aeaa9f7ce193c5ee5ed4e402698e",
+      "content_hash": "d085753c0109384c7e2d84ce8a169acc3a2f2cca98b40e7062f0b78588154624",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "topic": "Production & Costs: focus on this supplied section: 49 Production and Costs Just like the short run, in the long run, the sum of all marginal costs up to some output level gives us the total cost at that level. Shapes of the Long Ru. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "With unchanged input prices and equal scaling of all inputs, input-bundle cost tracks input scale. I: output +50% vs cost +40% ⇒ IRS; II: +50%/+50% ⇒ CRS; III: +50% output vs +55% cost ⇒ DRS.",
+      "source_evidence": {
+        "id": "ncert-leec203",
+        "locator": "p14-c0",
+        "support_hash": "2be03872180cb04aa2c3efb26ec56449001869a6a0ab6ec28f930b2b601c5c9d",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "IRS implies that if we increase all the inputs by a certain proportion, output increases by more than that proportion.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "90c0efb048add1dbde2112db46487d91",
+      "content_hash": "7e122245ad9ef6a858fc6afb33c4c53ce67d27bda8bf231e654ee270247e7d1b",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Theory of Firms under Perfect Competition",
+        "topic": "Theory of Firms under Perfect Competition: focus on this supplied section: 57 under Perfect Competition The Theory of the Firm downwards at the profit- maximising output level? To answer this question, refer once again to Figure 4.3. Note that at output l. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Price ₹6 is below the minimum AVC ₹8, so producing any positive output fails to cover variable cost; the short-run shutdown rule selects zero output.",
+      "source_evidence": {
+        "id": "ncert-leec204",
+        "locator": "p5-c0",
+        "support_hash": "b0054577df1b943095df347f4d5adaced355216259458e7f5191753fda46420c",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The short run supply curve of a firm is the rising part of the SMC curve from and above minimum AVC together with 0 output for all prices less than the minimum AVC.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "5d2cf0d217e3ccb43730a4b1eecdab61",
+      "content_hash": "23d65f76e8525faedd39e73b1308f38f212e621fa5186715c4dbf4cabe872490",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: p a job and stay there for some time, in half a day. but come back to their home villages There are three sources of data on as soon as the rainy season begins. unemployment : Repo. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Five-eighths of 48 is 30 workers; 30 workers × 3 months = 90 worker-months. The remaining 18 contribute no urban worker-months.",
+      "source_evidence": {
+        "id": "ncert-keec106",
+        "locator": "p16-c1771",
+        "support_hash": "5e05e1734b76cc63c746a0cca1c29dee3c21be5e022c213a43e7894cc1c74881",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "they go to urban areas, get a job and stay there for some time, but come back to their home villages",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "8e2d8a69af3a9f812213d9e4a12dcb19",
+      "content_hash": "5f31727b4fd43e879b7796ff36b2dfd7b6cc873a79774a95281a126154f329e3",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: LPG, Gobar Gas in Rural Areas: Households in rural areas generally use Work This Out Ø wood, dung cake or other biomass as In Delhi, buses and other public fuel. This practice has . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "A maps to biomass burning’s named adverse environmental effects IV; LPG to cleaner household fuel II; gobar-gas input to cattle dung I; production remainder to fertilising slurry III.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p12-c0",
+        "support_hash": "910285846adda6e230991c37671bcb5b8600aa7edc374cb0f7917e93de957f65",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "wood, dung cake or other biomass as fuel. This practice has several adverse implications like deforestation, reduction in green cover, wastage of cattle dung and air pollution.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "d07b4f779e64ceaabc490eebdd437dcd",
+      "content_hash": "a8a7a7be8afaf483cd75af09b37ebae838985c2fb4338bc165a600736598278c",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: 2 I E NDIAN CONOMY 1950–1990 After studying this chapter, the learners will • come to know the goals of India’s five year plans • know about the development policies in different s. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "The stated argument begins with farmers seeing risk (A), explains the incentive for subsidies to test HYV (B), then increased productivity (C), leading to late-1960s food-grain self-sufficiency (D).",
+      "source_evidence": {
+        "id": "ncert-keec102",
+        "locator": "p11-c1782",
+        "support_hash": "119fbe9b739b4c2341e934097c68e7786dc3acf7b23e5e58bf7852f964e7b106",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "it was necessary to use subsidies to provide an incentive for adoption of the new HYV technology by farmers in general and small",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "435e48ce37fbd17c87658815528aba5d",
+      "content_hash": "86de4a08183ab74fc637cdb1264194cbad26c842ce57e60f2d38bd37edc866a2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: Work These Out Ø While India has performed relatively well vis-à-vis other developing countries (including its Asian neighbours) in terms of economic growth, India is yet to show t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Relatively strong economic growth does not establish human-development progress; the source explicitly contrasts the two indicators and says considerable human-development progress is not shown.",
+      "source_evidence": {
+        "id": "ncert-keec108",
+        "locator": "p14-c0",
+        "support_hash": "273708c6ad9fbf8e97fa255190337ef7977436bf5891b9b1215508550cf92778",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "performed relatively well ... in terms of economic growth, India is yet to show ... considerable progress in terms of human development indicators.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "52b9d78d281ebd92bf8a312e697d1130",
+      "content_hash": "9e65dcd40573ecd917f7b3e3db383aa94a7b8cfff1dcf0b051207a58aa2939d5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: at is qualifications and skills. In rural areas, actively contributing to the production people cannot stay at home as their of goods and services of a country. If economic conditi. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Descending ratios are 56.4, 56.3, 34.8, 20.7, giving A-B-C-D. The tiny 0.1-point male difference still has a clear order from the supplied values.",
+      "source_evidence": {
+        "id": "ncert-keec106",
+        "locator": "p4-c1872",
+        "support_hash": "b9f44fd7851b42615dca6e82fe0ea20f4c7e2bc4fc8011243265676dcc4cd2e7",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Worker-Population Ratio in India, 2023–24",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "58cd0ed02dfc261ba99638aae0875484",
+      "content_hash": "595947a38fe8f5686bb70574f78f1c8231ff0973e7eb62e8af94063c675ed8b1",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: s, it is clear that the opportunity to spend huge amounts on technology costs of negative environmental and research to explore new resources. impacts are high. Added to these are . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "Using the stem’s definition: earlier gap 70−100=−30; later 130−100=+30; movement is +60 points toward excess demand.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p5-c1879",
+        "support_hash": "2ffb4a2ddb401226d55900e1bedf738d9e2323e2a6a5f809cc10f63dac8ebefa",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "increased demand for environmental resources and services but their supply is limited due to overuse",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    }
+  ]
+}

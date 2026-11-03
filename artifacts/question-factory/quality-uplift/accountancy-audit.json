@@ -1,0 +1,870 @@
+{
+  "subject": "accountancy",
+  "audited_at_utc": "2026-10-06T09:08:20.903Z",
+  "method": "Independent blind solve saved to accountancy-blind-solutions.json before opening the separate key file. All 15 stems, ordered choices, explanations and source locators then audited. Model receipts were not used as truth.",
+  "scope": "Current passing 15-question Accountancy snapshot only; artifact-only audit, no bank/DB/registry/content mutation.",
+  "counts": {
+    "questions": 15,
+    "answer_matches": 15,
+    "approve": 6,
+    "suspect": 9,
+    "incomplete": 0
+  },
+  "verdict_definition": {
+    "approve": "No blocking academic/mapping/source defect found; listed improvements may still be useful.",
+    "suspect": "Withhold strict approval until stated condition, mapping, formatting, or source-entailment defect is repaired and rechecked.",
+    "incomplete": "Required evidence unavailable; no academic decision."
+  },
+  "source_evidence": {
+    "syllabus": {
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+      "checked": "Opened live official 2026 PDF and compared local text; Unit I and Unit IV boundaries apply."
+    },
+    "ncert_share_capital": {
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "checked": "Opened live NCERT 2026-27 PDF; inspected original local PDF text and selected visuals."
+    },
+    "ncert_partnership": {
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "checked": "Browser extraction failed for both www/non-www URL. Inspected existing local NCERT PDF directly using PDFium, extracted and rendered physical pages 5,6,9; compared reference pages 1,5,36.",
+      "limitation": "Live URL delivery for this PDF was not verified; stored PDF shows Reprint 2026-27."
+    },
+    "paper": {
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "checked": "Read quoted anchors and inspected stored complete paper visual at q20, physical page 13 (printed page 12). Option 4 is Memorandum of Association; stray st comes from next question ordinal.",
+      "limitation": "Mirror-hosted paper, not NTA-hosted. This audit does not repeat whole-paper/final-key authentication; official answer identity cannot certify academic correctness."
+    }
+  },
+  "formatting_evidence": {
+    "question_renderer": "src/app/(app)/test/TestPageClient.jsx:609 renders question.question as a plain React text node; CSS at 1118 does not preserve newlines.",
+    "feed_renderer": "src/components/feed/QuestionCard.jsx:69 renders plain text; explore.css preserves whitespace but does not parse Markdown.",
+    "affected_markdown_tables": [
+      "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "f354a935-306d-40af-a914-6159be1bbcd9"
+    ],
+    "limitation": "Renderer source was inspected; no signed-in browser/device rendering of these exact 15 questions was performed."
+  },
+  "bank_level_findings": [
+    "All 15 intended keys match the blind solve; two matching/numerical questions are still conditional and cannot be certified merely from matching keys.",
+    "Three share-capital questions are incorrectly labelled Financial Statements of Company. Two fixed-capital posting questions should be remapped to Partnership Fundamentals for exact topic routing.",
+    "The 15 rows cover a narrow group of repeatedly adapted anchors q3,q5,q7,q14,q17,q20; this is not broad Accountancy syllabus coverage.",
+    "Format labels for numerical and journal-entry questions vary and should be standardised separately from academic correctness.",
+    "Do not claim zero errors, a numerical perfection grade, or 2027-final syllabus validation from this audit."
+  ],
+  "questions": [
+    {
+      "id": "fab8e8b9-af16-4d92-8b96-0363050eea8b",
+      "content_hash": "745048814e3a5d124179c76c43fb50011048d64cc8db793a5f758289c4cfcd8f",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Definition and key agree with NCERT. Four choices are distinct."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Oversubscription means applications exceed shares offered; option 2 is intended. Prefer offered for subscription to issued.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Oversubscription",
+      "current_question_type": "conceptual_mcq",
+      "recommended_question_type": "conceptual_mcq",
+      "explanation_correct": true,
+      "improvements": [
+        "Use shares offered for subscription rather than shares issued in the stem/options/explanation for precise comparison."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 24 directly defines oversubscription; the paper q14 preserves the historical wording.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The stem omits the condition that premium was previously credited but remains unpaid. Securities Premium is not debited when premium was received. The explanation correctly states the condition, but the unconditional matching stem does not.",
+        "OCR flattens the List-I/List-II headings into an interleaved run-on sentence."
+      ],
+      "answer_uniqueness": "conditional",
+      "blind_reasoning": "On forfeiture: Share Capital debit called-up capital, Share Forfeiture credit paid capital, Calls in Arrears credit unpaid calls; Securities Premium debit only the premium previously credited but unpaid. Option 2, conditional on unpaid premium.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Forfeiture of shares issued at a premium",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": "Correct under unstated condition",
+      "improvements": [
+        "State: On forfeiture of shares issued at a premium, assume the premium due has not been received and Calls in Arrears Account is maintained. Match each account with its treatment.",
+        "Use separate labelled lists; describe D-I as unpaid premium, not any amount not received."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 39 explicitly distinguishes paid and unpaid premium; page 38 shows the general forfeiture entry. Historical q17 alone cannot resolve its own missing condition.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac201 page 39 explicitly distinguishes paid and unpaid premium; page 38 shows the general forfeiture entry. Historical q17 alone cannot resolve its own missing condition."
+      ]
+    },
+    {
+      "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "solved_key": "C",
+      "solved_key_one_based": 3,
+      "recorded_key": "C",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Option 4 contains a stray st that is absent from the printed option. The rendered source shows the next question refers to 1st July: the extracted superscript leaked into q20.",
+        "Attached NCERT locators explain accounting and interest treatment but do not explicitly state the acceptance-authority rule. The mirror question gives historical wording, not an independent explanatory rule."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "The Articles of Association authorise acceptance of calls in advance; option 3. Stray st in option 4 is an OCR defect.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Authority to accept calls in advance",
+      "current_question_type": "factual_recall",
+      "recommended_question_type": "factual_recall",
+      "explanation_correct": true,
+      "improvements": [
+        "Replace option 4 exactly with Memorandum of Association.",
+        "Attach a direct permitted educational or primary Section 50(1) source for the authority rule."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "source_entailment": "Direct visual inspection of AglaSem physical PDF page 13, printed page 12, confirms all four options and the contamination origin. Intended correct option is Articles of Association. An official MCA Companies Act PDF search result identifies Section 50, but opening it returned 403; an IndiaCode PDF retrieval timed out, so this audit does not claim complete statutory verification.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct visual inspection of AglaSem physical PDF page 13, printed page 12, confirms all four options and the contamination origin. Intended correct option is Articles of Association. An official MCA Companies Act PDF search result identifies Section 50, but opening it returned 403; an IndiaCode PDF retrieval timed out, so this audit does not claim complete statutory verification."
+      ]
+    },
+    {
+      "id": "ffbf2eaa-257a-4930-bf2d-6bd6d54aad1c",
+      "content_hash": "127f068ee7eee72b939fdf2e95943402b285aba9596b3cb18c91b19d20f443df",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The explicitly backward sequence has exactly one valid option: Appropriation, P&L, Trading. Explanation reverses the authenticated sequence correctly."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Backward trace from Balance Sheet reverses Trading -> P&L -> P&L Appropriation; A,B,C, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Partnership Fundamentals",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Preparation sequence of partnership final accounts",
+      "current_question_type": "sequence_ordering",
+      "recommended_question_type": "sequence_ordering",
+      "explanation_correct": true,
+      "improvements": [
+        "Preserve the three labelled items as separate lines in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "source_entailment": "Paper q5 gives forward Trading -> P&L -> Appropriation -> Balance Sheet. NCERT leac101 pages 1 and 36 confirm partnership final accounts and the additional appropriation account.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The question tests definitions of share-capital categories, not preparation or presentation of company financial statements. Financial Statements of Company is the wrong primary chapter.",
+        "The registered NCERT page 55 concerns buy-backs and page 66 does not define reserve capital or subscribed-but-not-fully-paid capital. The historical paper is not enough to entail the fuller adapted definition of uncalled reserve capital.",
+        "The Markdown table is rendered as literal pipes and separator characters by the existing plain-text question renderer."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-III, B-I, C-IV, D-II; option 2. Definitions belong to share capital.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Categories of share capital; calls in arrears and advance; reserve capital",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Attach leac201 pages 4-5 for capital categories and reserve capital, and page 18 for calls in advance.",
+        "Use structured list content supported by the renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 pages 4-5 establish the missing definitions. Page 66 establishes unpaid calls. Syllabus Unit IV expressly includes share-capital meaning/nature/types.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 pages 4-5 establish the missing definitions. Page 66 establishes unpaid calls. Syllabus Unit IV expressly includes share-capital meaning/nature/types."
+      ]
+    },
+    {
+      "id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The primary task is maintenance of capital/current accounts, including additional and permanent withdrawal of capital. It should map to Partnership Fundamentals; Profit & Loss Appropriation Account covers only some listed items."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Profit and salary go to Current Account; additional capital and agreed permanent capital withdrawal to Capital Account: I-B, II-A, III-B, IV-A, option 2.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Fixed versus fluctuating capital; capital and current accounts",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Partnership Fundamentals with a fixed-capital-method concept.",
+        "Add leac101 page 6, whose visual account proformas directly show salary and profit in Current Account and capital changes in Capital Account.",
+        "Preserve list line breaks in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "NCERT leac101 page 5 directly distinguishes the accounts; direct page 6 visual inspection confirms the complete matching including salary.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac101 page 5 directly distinguishes the accounts; direct page 6 visual inspection confirms the complete matching including salary."
+      ]
+    },
+    {
+      "id": "b05f3b4d-275f-4c20-903f-80b9eefc4d33",
+      "content_hash": "0e09f1b85f330d9951e32050991a52d958d44ccdad3586cfd3b78c31b079e962",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "54,000 - 9,000 = 45,000; all required quantities and units are explicit. No allotment or pro-rata assumption is needed."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Shares offered = 54,000 - 9,000 = 45,000, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Oversubscription: shares offered",
+      "current_question_type": "numerical_mcq",
+      "recommended_question_type": "numerical_one_step",
+      "explanation_correct": true,
+      "improvements": [
+        "Standardise numerical_mcq to numerical_one_step for comparable format metadata."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 24 supports the oversubscription relationship; the new arithmetic is independently solved, not asserted to be an official numerical PYQ.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The item principally tests capital/current account maintenance and includes additional capital. Partnership Fundamentals is a more exact primary chapter than Profit & Loss Appropriation Account."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Interest and profit credit current; drawings debit current; additional capital credits capital: A-II B-III C-I D-II, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Fixed capital method: posting sides of capital/current accounts",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Partnership Fundamentals.",
+        "Attach leac101 page 6 for the debit and credit sides.",
+        "Preserve separate lists and line breaks in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "NCERT leac101 pages 5-6 and the printed account proformas substantiate all four postings.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac101 pages 5-6 and the printed account proformas substantiate all four postings."
+      ]
+    },
+    {
+      "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "600 is correct only if the final call is the sole unpaid capital instalment. Fully called-up means demanded, not received; the stem does not explicitly state all other capital instalments were paid.",
+        "For example, if a further Rs 4 capital instalment had also been unpaid, capital received would be Rs 3 per share and 1,400 shares would also fit Rs 4,200. The current explanation silently assumes Rs 7 received."
+      ],
+      "answer_uniqueness": "conditional",
+      "blind_reasoning": "Intended paid capital per share = 10 - 3 = 7, premium excluded; 4,200/7 = 600, option 2. Stem should explicitly say all other capital instalments were paid; otherwise received share capital is not fully specified.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Forfeiture: capital received excludes paid premium",
+      "current_question_type": "single_correct_numerical",
+      "recommended_question_type": "numerical_one_step",
+      "explanation_correct": "Correct under unstated condition",
+      "improvements": [
+        "State: All amounts due, including the premium, had been received except the final call of Rs 3 per share.",
+        "Standardise single_correct_numerical to numerical_one_step."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "source_entailment": "NCERT leac201 pages 38-39 require crediting actual capital received and excluding realised premium. The source defines the rule; it cannot supply missing facts for the generated company.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac201 pages 38-39 require crediting actual capital received and excluding realised premium. The source defines the rule; it cannot supply missing facts for the generated company."
+      ]
+    },
+    {
+      "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "solved_key": "D",
+      "solved_key_one_based": 4,
+      "recorded_key": "D",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Definitions of share-capital items are misclassified under Financial Statements of Company.",
+        "Reserve capital is not merely any amount called at winding up; it is specifically a reserved portion of uncalled capital callable only then. The explanation repeats the abbreviated definition.",
+        "Existing leac201 page 55 does not support reserve capital; page 66 supports the other three definitions."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-II B-IV C-I D-III, option 4. Reserve capital is uncalled capital reserved for winding up. Share Capital mapping.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Calls in arrears; calls in advance; securities premium; reserve capital",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Replace List-II III and the explanation with Uncalled capital reserved to be called only in the event of winding up.",
+        "Attach leac201 page 5.",
+        "Preserve list line breaks."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 page 5 defines reserve capital. The q3 paper is historical wording support, not complete textbook entailment for the adapted list.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 page 5 defines reserve capital. The q3 paper is historical wording support, not complete textbook entailment for the adapted list."
+      ]
+    },
+    {
+      "id": "5ec3ec4d-fe39-4608-a3a0-4c02f53707e3",
+      "content_hash": "3ca6b676c3f53e3ba748a3654e6961234f84a16ab7979950e82d2755bed995eb",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The explicit profit-transfer sequence has one defensible option; current/capital accounts correctly appear before the Balance Sheet."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Profit flows Trading -> P&L -> P&L Appropriation -> Capital/Current -> Balance Sheet, option 1. Options are unnecessarily repeated in stem.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Partnership Fundamentals",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Transfer and presentation of partnership profit",
+      "current_question_type": "sequence_ordering",
+      "recommended_question_type": "sequence_ordering",
+      "explanation_correct": true,
+      "improvements": [
+        "Remove the four full answer choices repeated inside the question body; retain them only in options.",
+        "Replace The authenticated question establishes / NCERT excerpt states with a direct student explanation of gross profit, net profit, appropriation, partner accounts, and balance-sheet presentation.",
+        "Attach leac101 pages 6, 8-9 for direct profit-transfer entries and presentation."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "source_entailment": "Paper q5 supports the original four-step order; leac101 page 5 supports capital/current account presentation. Direct pages 6, 8-9 strengthen the expanded transfer chain.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "6ff08f7a-b79b-4290-83a6-007f7b4df498",
+      "content_hash": "ea2f72066da04da54a9b3d04d26a34f248f78c42405247346da0b71ca8d0edac",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Bank is debited and Calls in Advance is credited. The stem distinguishes receipt before the call from adjustment on its due date."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Receipt increases Bank and creates Calls in Advance liability: Bank Dr, Calls in Advance Cr, option 2.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Calls in advance: receipt journal entry",
+      "current_question_type": "factual_recall",
+      "recommended_question_type": "application_based",
+      "explanation_correct": true,
+      "improvements": [
+        "Application_based is a more informative format label than factual_recall for journal-entry selection."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 18 directly prints this exact journal entry and separately prints the later adjustment entry.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "3d547d56-6873-4057-85d8-8a627eed611d",
+      "content_hash": "d21b26fbc1fbb1f4e3eb2747ff813517384de421ffc5035f25e7a865754ee96e",
+      "solved_key": "C",
+      "solved_key_one_based": 3,
+      "recorded_key": "C",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Applications equal shares offered; fully subscribed is uniquely correct. Premium does not follow from application count."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Equal applications and offered shares means fully subscribed, option 3.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Full subscription versus over/under subscription",
+      "current_question_type": "conceptual_mcq",
+      "recommended_question_type": "conceptual_mcq",
+      "explanation_correct": true,
+      "improvements": [
+        "Add leac201 page 4, which directly distinguishes issued and subscribed capital when the offer is fully subscribed."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 pages 24 and 30 define the over/under boundaries; direct page 4 supplies explicit equal/full subscription support.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ]
+    },
+    {
+      "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The numerical split and debit/credit direction are academically correct. However, none of the currently attached textbook locators directly prints the residual-profit transfer journal entry. A fixed-account definition and summary of final accounts do not by themselves establish debit Appropriation / credit partners."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Residual profit allocation debits Appropriation 120,000 and credits two current accounts 60,000 each, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Profit & Loss Appropriation Account",
+      "recommended_topic": "Profit and Loss Appropriation: residual-profit transfer",
+      "current_question_type": "single_correct_mcq",
+      "recommended_question_type": "application_based",
+      "explanation_correct": true,
+      "improvements": [
+        "Attach leac101 page 9, section 6(a), along with page 5 for Current Account under fixed capital.",
+        "Standardise single_correct_mcq to application_based."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "Direct visual inspection of leac101 page 9 shows P&L Appropriation Dr to Partners Capital/Current, and page 6 shows the fixed-method current-account credit. This supports repair without changing the answer.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct visual inspection of leac101 page 9 shows P&L Appropriation Dr to Partners Capital/Current, and page 6 shows the fixed-method current-account credit. This supports repair without changing the answer."
+      ]
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The situations test share-capital classifications and transactions; Financial Statements of Company is the wrong primary chapter.",
+        "Existing NCERT page 55 is unrelated to reserve-capital definition and page 66 does not define it.",
+        "Markdown table syntax is unsupported by the question renderer.",
+        "C-IV should explicitly say the premium excess, since only the excess over nominal value is credited to Securities Premium Reserve, not the entire share proceeds."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-III B-I C-IV D-II, option 2. IV must mean the excess over nominal value credited to premium, not all proceeds.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Share capital definitions and classifications",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Replace List-II IV with Excess of issue price over nominal value credited to Securities Premium Reserve.",
+        "Attach leac201 pages 5, 18 and 30-31 for direct support.",
+        "Present supported structured lists rather than raw Markdown tables."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 page 5 establishes reserve capital; page 18 establishes calls-in-advance treatment; pages 30 and 66 establish premium treatment and unpaid calls.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 page 5 establishes reserve capital; page 18 establishes calls-in-advance treatment; pages 30 and 66 establish premium treatment and unpaid calls."
+      ]
+    }
+  ]
+}

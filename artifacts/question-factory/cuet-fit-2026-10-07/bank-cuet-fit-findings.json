@@ -1,0 +1,438 @@
+{
+  "at": "2026-10-07T16:51:51.235Z",
+  "basis": "Deterministic. Authenticated CUET 2024 questions in data/source_registry.json versus the 662 approved published questions in continuation-500/all-candidates.json. Labels are the pipeline's own question_type strings mapped to families; they are approximate.",
+  "pyq_reading_words_non_passage": {
+    "n": 137,
+    "median": 48,
+    "p90": 103,
+    "p95": 116,
+    "max": 132
+  },
+  "cap_used_by_rubric": 132,
+  "bank": {
+    "approved": 662,
+    "over_pyq_max_reading_words": 136,
+    "over_pct": 20.5,
+    "reading_words": {
+      "n": 662,
+      "median": 99,
+      "p90": 155,
+      "p95": 176,
+      "max": 252
+    }
+  },
+  "by_subject": {
+    "english": {
+      "pyq_non_passage_reading_words": {
+        "n": 24,
+        "median": 53,
+        "p90": 116,
+        "p95": 120,
+        "max": 131
+      },
+      "bank_reading_words": {
+        "n": 173,
+        "median": 78,
+        "p90": 134,
+        "p95": 150,
+        "max": 204
+      },
+      "bank_over_pyq_max": {
+        "n": 19,
+        "pct": 11
+      },
+      "pyq_format_mix": {
+        "sequence_ordering": {
+          "n": 6,
+          "pct": 20
+        },
+        "vocabulary": {
+          "n": 14,
+          "pct": 46.7
+        },
+        "matching": {
+          "n": 6,
+          "pct": 20
+        },
+        "passage": {
+          "n": 4,
+          "pct": 13.3
+        }
+      },
+      "bank_format_mix": {
+        "passage": {
+          "n": 32,
+          "pct": 18.5
+        },
+        "vocabulary": {
+          "n": 86,
+          "pct": 49.7
+        },
+        "matching": {
+          "n": 28,
+          "pct": 16.2
+        },
+        "sequence_ordering": {
+          "n": 27,
+          "pct": 15.6
+        }
+      }
+    },
+    "accountancy": {
+      "pyq_non_passage_reading_words": {
+        "n": 35,
+        "median": 59,
+        "p90": 89,
+        "p95": 107,
+        "max": 112
+      },
+      "bank_reading_words": {
+        "n": 141,
+        "median": 112,
+        "p90": 165,
+        "p95": 187,
+        "max": 233
+      },
+      "bank_over_pyq_max": {
+        "n": 36,
+        "pct": 25.5
+      },
+      "pyq_format_mix": {
+        "matching": {
+          "n": 5,
+          "pct": 11.1
+        },
+        "statement_selection": {
+          "n": 7,
+          "pct": 15.6
+        },
+        "sequence_ordering": {
+          "n": 5,
+          "pct": 11.1
+        },
+        "direct_or_conceptual": {
+          "n": 10,
+          "pct": 22.2
+        },
+        "numerical": {
+          "n": 12,
+          "pct": 26.7
+        },
+        "case_application": {
+          "n": 6,
+          "pct": 13.3
+        }
+      },
+      "bank_format_mix": {
+        "direct_or_conceptual": {
+          "n": 32,
+          "pct": 22.7
+        },
+        "numerical": {
+          "n": 16,
+          "pct": 11.3
+        },
+        "matching": {
+          "n": 24,
+          "pct": 17
+        },
+        "sequence_ordering": {
+          "n": 20,
+          "pct": 14.2
+        },
+        "case_application": {
+          "n": 27,
+          "pct": 19.1
+        },
+        "statement_selection": {
+          "n": 22,
+          "pct": 15.6
+        }
+      }
+    },
+    "business_studies": {
+      "pyq_non_passage_reading_words": {
+        "n": 38,
+        "median": 47,
+        "p90": 97,
+        "p95": 126,
+        "max": 126
+      },
+      "bank_reading_words": {
+        "n": 183,
+        "median": 104,
+        "p90": 153,
+        "p95": 166,
+        "max": 250
+      },
+      "bank_over_pyq_max": {
+        "n": 42,
+        "pct": 23
+      },
+      "pyq_format_mix": {
+        "direct_or_conceptual": {
+          "n": 30,
+          "pct": 62.5
+        },
+        "matching": {
+          "n": 5,
+          "pct": 10.4
+        },
+        "sequence_ordering": {
+          "n": 6,
+          "pct": 12.5
+        },
+        "statement_selection": {
+          "n": 3,
+          "pct": 6.3
+        },
+        "case_application": {
+          "n": 4,
+          "pct": 8.3
+        }
+      },
+      "bank_format_mix": {
+        "matching": {
+          "n": 39,
+          "pct": 21.3
+        },
+        "sequence_ordering": {
+          "n": 32,
+          "pct": 17.5
+        },
+        "direct_or_conceptual": {
+          "n": 45,
+          "pct": 24.6
+        },
+        "case_application": {
+          "n": 35,
+          "pct": 19.1
+        },
+        "statement_selection": {
+          "n": 32,
+          "pct": 17.5
+        }
+      }
+    },
+    "economics": {
+      "pyq_non_passage_reading_words": {
+        "n": 40,
+        "median": 39,
+        "p90": 99,
+        "p95": 107,
+        "max": 132
+      },
+      "bank_reading_words": {
+        "n": 165,
+        "median": 109,
+        "p90": 159,
+        "p95": 182,
+        "max": 252
+      },
+      "bank_over_pyq_max": {
+        "n": 39,
+        "pct": 23.6
+      },
+      "pyq_format_mix": {
+        "direct_or_conceptual": {
+          "n": 23,
+          "pct": 46
+        },
+        "numerical": {
+          "n": 3,
+          "pct": 6
+        },
+        "statement_selection": {
+          "n": 5,
+          "pct": 10
+        },
+        "matching": {
+          "n": 5,
+          "pct": 10
+        },
+        "sequence_ordering": {
+          "n": 4,
+          "pct": 8
+        },
+        "passage": {
+          "n": 10,
+          "pct": 20
+        }
+      },
+      "bank_format_mix": {
+        "direct_or_conceptual": {
+          "n": 36,
+          "pct": 21.8
+        },
+        "matching": {
+          "n": 26,
+          "pct": 15.8
+        },
+        "case_application": {
+          "n": 35,
+          "pct": 21.2
+        },
+        "statement_selection": {
+          "n": 23,
+          "pct": 13.9
+        },
+        "numerical": {
+          "n": 25,
+          "pct": 15.2
+        },
+        "sequence_ordering": {
+          "n": 20,
+          "pct": 12.1
+        }
+      }
+    }
+  },
+  "by_format": {
+    "reading_comprehension": {
+      "n": 32,
+      "over_pyq_max": 1,
+      "median_words": 78
+    },
+    "synonym": {
+      "n": 32,
+      "over_pyq_max": 0,
+      "median_words": 56
+    },
+    "matching": {
+      "n": 117,
+      "over_pyq_max": 75,
+      "median_words": 144
+    },
+    "correct_word_usage": {
+      "n": 28,
+      "over_pyq_max": 0,
+      "median_words": 72
+    },
+    "antonym": {
+      "n": 22,
+      "over_pyq_max": 0,
+      "median_words": 68
+    },
+    "sequence_ordering": {
+      "n": 99,
+      "over_pyq_max": 6,
+      "median_words": 96
+    },
+    "conceptual_mcq": {
+      "n": 97,
+      "over_pyq_max": 4,
+      "median_words": 87
+    },
+    "numerical_calculation": {
+      "n": 41,
+      "over_pyq_max": 4,
+      "median_words": 84
+    },
+    "case_application": {
+      "n": 97,
+      "over_pyq_max": 31,
+      "median_words": 115
+    },
+    "statement_selection": {
+      "n": 77,
+      "over_pyq_max": 14,
+      "median_words": 111
+    },
+    "contextual vocabulary": {
+      "n": 1,
+      "over_pyq_max": 0,
+      "median_words": 69
+    },
+    "vocabulary_meaning": {
+      "n": 1,
+      "over_pyq_max": 0,
+      "median_words": 18
+    },
+    "direct_mcq": {
+      "n": 15,
+      "over_pyq_max": 1,
+      "median_words": 70
+    },
+    "meaning in context": {
+      "n": 1,
+      "over_pyq_max": 0,
+      "median_words": 66
+    },
+    "direct MCQ": {
+      "n": 1,
+      "over_pyq_max": 0,
+      "median_words": 53
+    },
+    "vocabulary_in_context": {
+      "n": 1,
+      "over_pyq_max": 0,
+      "median_words": 116
+    }
+  },
+  "difficulty": {
+    "pyq_labels": {
+      "medium": {
+        "n": 117,
+        "pct": 67.6
+      },
+      "easy": {
+        "n": 52,
+        "pct": 30.1
+      },
+      "hard": {
+        "n": 4,
+        "pct": 2.3
+      }
+    },
+    "bank_labels": {
+      "easy": {
+        "n": 253,
+        "pct": 38.2
+      },
+      "medium": {
+        "n": 312,
+        "pct": 47.1
+      },
+      "hard": {
+        "n": 97,
+        "pct": 14.7
+      }
+    },
+    "note": "Difficulty labels on both sides are model labels from earlier pipeline stages, not measured item statistics."
+  },
+  "legacy_craft_scores": {
+    "published_with_both": 662,
+    "luna_distribution": {
+      "7": {
+        "n": 261,
+        "pct": 39.4
+      },
+      "8": {
+        "n": 400,
+        "pct": 60.4
+      },
+      "9": {
+        "n": 1,
+        "pct": 0.2
+      }
+    },
+    "gemini_distribution": {
+      "7": {
+        "n": 29,
+        "pct": 4.4
+      },
+      "8": {
+        "n": 118,
+        "pct": 17.8
+      },
+      "9": {
+        "n": 515,
+        "pct": 77.8
+      }
+    },
+    "exact_agreement_pct": 10.1,
+    "within_one_pct": 73.6,
+    "spearman": 0.20802256412704925,
+    "reading": "Two judges rating the same items with the same prompt agree on the exact 7–10 score only for the share shown and are weakly rank-correlated, so the previous overall rating is a judge-dependent label, not a measurement of CUET fit."
+  }
+}

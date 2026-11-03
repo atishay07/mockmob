@@ -1,0 +1,261 @@
+{
+  "at": "2026-10-06T06:07:06.151Z",
+  "scope": "21 question-factory commissioning files and related evidence, budget, selector and API integration",
+  "whole_worktree_tracked_changes": 50,
+  "unrelated_user_edits_preserved": true,
+  "files": [
+    {
+      "path": "scripts/pipeline/lib/sourcePacks.mjs",
+      "bytes": 10263,
+      "sha256": "819ecdd3f9d09a075c676403c56c38a2c30e7f2d78865b0e43f1883f07ce844f",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryQueue.mjs",
+      "bytes": 3652,
+      "sha256": "e24ce35fb50b41010cf86159387640f4b5c5f7b6d2a88a13e0ceed76daf3f6ec",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCore.mjs",
+      "bytes": 10992,
+      "sha256": "6e2ab9c44f18aa99f3ea99337054edc0bb9479b73ec172415e74dfde466b5c8b",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidence.mjs",
+      "bytes": 9473,
+      "sha256": "b614085a9411f4efa8c7dca263dfeaad7117a91d71b4ee9aa2f99c9afff6ef3e",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCalibration.mjs",
+      "bytes": 7386,
+      "sha256": "b9b7a7cdc7e090466f1d6767fefa3e40c99cd1dd0b580546f545cfbeef5edbd4",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryTransport.mjs",
+      "bytes": 14153,
+      "sha256": "c94e6e9bf94ab8d932afd0576b43f3eae1a08a29133886e60a1772450017990a",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/localFactoryPilot.mjs",
+      "bytes": 7597,
+      "sha256": "484c5d33a30049292f3e433709d21dfd88b9512c6f291a71f3c7767f404542e8",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCosts.mjs",
+      "bytes": 1757,
+      "sha256": "fc5b2f5dbe5ef4aee5ed99cf763bfbf64ca8128a4742171c63c02c95e3487200",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/factory.mjs",
+      "bytes": 25648,
+      "sha256": "987855830e01816dce72cd12f96208e2034f37341ea9d8fbc2b9d721da89b093",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/benchmarkGemini.mjs",
+      "bytes": 6059,
+      "sha256": "9f526b79cb6763953e9fc546261373d71ee0eccf0161cfed46d597f994199644",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/factoryProviderProbe.mjs",
+      "bytes": 3584,
+      "sha256": "1440543e7fb1d84bd2f54abefa4a611022870148993233b22d8ec14ed3c05eb8",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareAuthenticatedPacks.mjs",
+      "bytes": 11794,
+      "sha256": "29d73cdcc6b358571de393a2f0c769a68e43f0571a70b0243b22e5e3e87e0b2d",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareCalibration.mjs",
+      "bytes": 7462,
+      "sha256": "541011f04fb50654e8528d8adfe1b658cd9f6f4b842dcc04464b64a5c582a76b",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareCalibrationFaults.mjs",
+      "bytes": 4387,
+      "sha256": "041117215cd38d34d77b63cb745788e5fb8243ba4bc054269ab6be1c7708f628",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareGenerationReferences.mjs",
+      "bytes": 7601,
+      "sha256": "b0ebfcb11dafbcde41f58850ab4e8b09335ae2495e940545fccc669bc19e68b7",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/auditSourceFoundation.mjs",
+      "bytes": 4520,
+      "sha256": "6ed3954da1c4bc4439804af40549240ff02fe5132d879e3c9b96ea6707864a7a",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tests/questionFactory.test.mjs",
+      "bytes": 51009,
+      "sha256": "d90fedcf5f0596673ac1bc2e51482a1543cc2c104c6838d323cf1e822eea228c",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "src/components/admin/QuestionFactoryDashboard.jsx",
+      "bytes": 12936,
+      "sha256": "4e2b3c1ee2d639a9632045025942ce4422cd06194f4161d7aeaead888c9c4700",
+      "syntax_check": "eslint/build"
+    },
+    {
+      "path": "src/app/preview/question-factory/page.jsx",
+      "bytes": 1126,
+      "sha256": "1219c327d9131aa5c015d464fb6bb980d8016ba1022b1f76311116907e385c06",
+      "syntax_check": "eslint/build"
+    },
+    {
+      "path": "data/source_registry.json",
+      "bytes": 1344184,
+      "sha256": "79453a8635b4adc739f29063b3fc43911db7c097478068cb0c89fc266a2a0529",
+      "syntax_check": "parsed"
+    },
+    {
+      "path": "data/calibration_manifest.json",
+      "bytes": 10730,
+      "sha256": "9cf0829da018268eb7499ff8c4785289524629e7e83eeccecb8652f2542da9ed",
+      "syntax_check": "parsed"
+    }
+  ],
+  "source_registry_version": 15,
+  "fixtures": 40,
+  "sources": [
+    {
+      "subject": "english",
+      "authenticated_anchors": 30,
+      "active_packs": 1,
+      "chapters": [
+        "Para Jumbles",
+        "Vocabulary",
+        "Match the Following",
+        "Correct Word Usage",
+        "Narrative Passage"
+      ],
+      "missing_chapters": [
+        "Factual Passage",
+        "Literary Passage"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 9,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "accountancy",
+      "authenticated_anchors": 45,
+      "active_packs": 1,
+      "chapters": [
+        "Financial Statements of Company",
+        "Admission of Partner",
+        "Partnership Fundamentals",
+        "Analysis of Financial Statements",
+        "Profit & Loss Appropriation Account",
+        "Cash Flow Statement",
+        "Comparative & Common Size Statements",
+        "Goodwill Valuation",
+        "Share Capital",
+        "Debentures",
+        "Retirement & Death of Partner",
+        "Computerized Accounting System",
+        "Change in Profit Sharing Ratio",
+        "Accounting Ratios",
+        "Dissolution of Partnership",
+        "Dissolution of Partnership Firm"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 4,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "business_studies",
+      "authenticated_anchors": 48,
+      "active_packs": 1,
+      "chapters": [
+        "Principles of Management",
+        "Business Environment",
+        "Planning",
+        "Staffing",
+        "Directing",
+        "Controlling",
+        "Financial Markets",
+        "Consumer Protection",
+        "Organising",
+        "Entrepreneurship Development",
+        "Financial Management",
+        "Nature & Significance of Management",
+        "Marketing Management"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 3,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "economics",
+      "authenticated_anchors": 50,
+      "active_packs": 1,
+      "chapters": [
+        "Income Determination",
+        "Money & Banking",
+        "Government Budget & the Economy",
+        "Balance of Payments",
+        "Employment",
+        "Indian Economic Development 1950–1990",
+        "Environment & Sustainable Development",
+        "Human Capital Formation",
+        "Infrastructure",
+        "Economic Reforms Since 1991",
+        "Development Experiences of India",
+        "Rural Development",
+        "National Income & Related Aggregates",
+        "Indian Economy on the Eve of Independence",
+        "Market Equilibrium & Simple Applications",
+        "Introduction & Theory of Consumer Behaviour"
+      ],
+      "missing_chapters": [
+        "Production & Costs",
+        "Theory of Firms under Perfect Competition"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 3,
+      "ready": true,
+      "reason": ""
+    }
+  ],
+  "missing_passages": [],
+  "pilot_generated": 0,
+  "production_changes": 0,
+  "additional_integration_files_reviewed": [
+    "data/content_evidence.js",
+    "data/question_factory_policy.mjs",
+    "scripts/pipeline/lib/evidencePipeline.mjs",
+    "scripts/pipeline/lib/budgetLedger.mjs",
+    "scripts/pipeline/lib/mirroredPaperEvidence.mjs",
+    "data/evidence_registry.js",
+    "data/mock_question_selector.js",
+    "data/practice_availability.js",
+    "src/lib/server/questionFactory.js",
+    "src/app/api/admin/question-factory/route.js",
+    "supabase/migrations/20261005185759_question_factory.sql"
+  ],
+  "known_unrelated_diff_check_issue": "Existing ProductScreens.jsx blank line at EOF; preserved",
+  "targeted_lint": "passed",
+  "production_build": "passed"
+}

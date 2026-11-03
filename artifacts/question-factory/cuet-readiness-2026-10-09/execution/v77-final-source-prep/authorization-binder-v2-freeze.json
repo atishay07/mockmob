@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-09T07:42:48.961Z",
+  "parent_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/bind-authorization.mjs",
+  "parent_sha256": "094625bf183f24a4f44a38cf8670da82d079e2322d598cf73f99b6a1ca3d30ab",
+  "file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/bind-authorization-v2.mjs",
+  "sha256": "ed1190044808cd34dfb3764a18b63418889b45c104850086904e46cbdb0e0c8d",
+  "change": "Fix only the undefined study_payloads shorthand to the already computed studyPayloads object. All validation, plan/input property order, study content, pricing, transport and academic rules unchanged.",
+  "failure_before_write": true,
+  "native_calls": 0,
+  "registrations_unchanged": true,
+  "pre_evaluation": true
+}

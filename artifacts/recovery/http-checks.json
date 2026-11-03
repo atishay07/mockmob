@@ -1,0 +1,50 @@
+[
+  {
+    "path": "/api/attempts?userId=other-user",
+    "method": "GET",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/attempts/other-attempt",
+    "method": "GET",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/recovery",
+    "method": "GET",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/analytics?userId=other-user",
+    "method": "GET",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/sessions",
+    "method": "PATCH",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/attempts",
+    "method": "POST",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/api/mobile/attempts",
+    "method": "GET",
+    "status": 401,
+    "expected": 401
+  },
+  {
+    "path": "/preview/recovery",
+    "method": "GET",
+    "status": 404,
+    "expected": 404
+  }
+]

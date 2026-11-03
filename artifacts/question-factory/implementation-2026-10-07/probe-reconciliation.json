@@ -1,0 +1,50 @@
+{
+  "at": "2026-10-06T19:08:21.801Z",
+  "known_probe_ids_only": true,
+  "reconciled": 2,
+  "new_requests": 0,
+  "batches": [
+    {
+      "id": "e862884fdfcfa77893b269c8e0695383028d07667646cf49e37be6b49e2e23c9",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377d60708190933c66a4c0c0899e",
+      "state": "complete"
+    },
+    {
+      "id": "776a86ec6ec69f1707a700c3f9285e1eadf4c37cfb6c1feafcbcbe6f39b1d0e1",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377ec0f88190945e5ee86d1484e6",
+      "state": "complete"
+    },
+    {
+      "id": "a541dd2134c409797924fe2c34f07066f20dc950ea033e051e9c677ddc01eecb",
+      "provider": "openai",
+      "provider_id": "batch_6ac5378065b4819099d2d6aecd961855",
+      "state": "complete"
+    },
+    {
+      "id": "e5803771438ed9a73be781c4449d357b18abf62a26786de57a1639f7f467be54",
+      "provider": "openai",
+      "provider_id": "batch_6ac53781cb74819086509430299c7331",
+      "state": "submitted"
+    },
+    {
+      "id": "ecacdc50f2afcba331d00a0ffc57c07b40741127268cdefc4e3e1062a360a87b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53a0cb10c8190ac0fe15e521a5bde",
+      "state": "complete"
+    },
+    {
+      "id": "b5605305e6c0cbccbc0e2f4f109dd1fd7be862b3a3ec67b80cdfc40258a88b8b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53e58f5608190ac52ee7d9dde5231",
+      "state": "submitted"
+    }
+  ],
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 6190718,
+    "requests": 2833,
+    "unresolved": 1
+  }
+}

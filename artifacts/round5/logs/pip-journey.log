@@ -1,0 +1,10 @@
+✔ fast forward and reverse jumps select the final ordered station (1.2926ms)
+✔ hysteresis prevents bouncing at a boundary and gaps retain a station (0.179ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 241.5232

@@ -1,0 +1,3081 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+      "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+      "key": "C",
+      "explanation": "For each year, expenditure as a percentage of revenue from operations is expenditure ÷ revenue from operations × 100. Firm A's percentages are 80% and 75%; Firm B's are 70% and 75%. Thus A's expenditure share falls while B's rises, even though the expenditure amount increases for both firms.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+          "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+              "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "41d0bfa8823c4c8a7e733be38aafe76c50d3d10fcdb368aedb4fc035de6195af",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+              "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+              "evidence_hash": "44a7248dc4116c6345a7b9840915a1d1f986d00dfa58ddc3d11a42cb533cf17a"
+            },
+            "source_support": {
+              "candidate_id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+              "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "A common-size statement of profit and loss expresses expenditure as a percentage of revenue from operations. Using each year's revenue as the base gives A: ₹8,00,000/₹10,00,000 = 80%; ₹12,00,000/₹16,00,000 = 75%; and B: ₹14,00,000/₹20,00,000 = 70%; ₹18,00,000/₹24,00,000 = 75%.",
+                "The expenditure percentage therefore falls for A and rises for B, while expenditure in rupees rises for both firms. This matches option C.",
+                "The common-size method and the use of revenue from operations as the base for expenditure are supported by the supplied NCERT excerpts; the stem provides all amounts and specifies the annual base.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Comparative & Common Size Statements",
+              "syllabus_topic": "Common-size statements: calculating expenditure as a percentage of revenue from operations and comparing periods and firms.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "For each year, use that year's revenue from operations as the base for that year's expenditure percentage.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The calculation is total expenditure divided by revenue from operations, multiplied by 100.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2",
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "The stated revenues and expenditures are A: ₹10,00,000 and ₹8,00,000 in Year 1, ₹16,00,000 and ₹12,00,000 in Year 2; B: ₹20,00,000 and ₹14,00,000 in Year 1, ₹24,00,000 and ₹18,00,000 in Year 2.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The resulting expenditure percentages are A: 80% then 75%, and B: 70% then 75%.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Absolute expenditure rises from Year 1 to Year 2 for both A and B.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Read the percentages as net-profit margins—the revenue balance after expenditure—rather than expenditure shares; those values rise for A and fall for B.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Read each pair in reverse chronological order, Year 2 to Year 1; the stated percentages and rise/fall directions then match.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Use Year 1 revenue as the denominator for Year 2 expenditure; this produces 120% for A and 90% for B.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Common-size statements are a named tool in the Analysis of Financial Statements syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option numerical application; it uses a multi-figure comparison rather than the simpler authenticated examples."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Applies the common-size method with several percentage calculations and trend comparisons, toward the more demanding edge of the exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect identifiable confusions about profit margins, year order, and the comparison base."
+                  }
+                },
+                "reasoning_steps": 8,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q10",
+                  "cuet2024-accountancy-bookA-q11"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac204",
+                  "locator": "pdf-page-12",
+                  "quote": " the percentage of each asset to the total assets, and that of each liability to the total liabilities. Similarly, in the common size statement of profit and loss, the items of expenditure are shown as a percentage of the revenue from operations. If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time. Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements. Inter-firm comparison or comparison of the company’s position with the related industry as a whole is",
+                  "start": 647,
+                  "end": 1295
+                },
+                {
+                  "source_id": "ncert-leac204",
+                  "locator": "pdf-page-12",
+                  "quote": " possible with the help of common size statement analysis. The following procedure may be adopted for preparing the common size statements. 1. List out absolute figures in rupees at two points of time, say year 1, and year 2 (Column 2 & 4 of Exhibit 4.2). 2. Choose a common base (as 100). For example, revenue from operations may be taken as base (100) in case of statement of profit and loss and total assets or total liabilities (100) in case of balance sheet. 3. For all items of Col. 2 and 3 work out the percentage of that total. Column 4 and 5 shows these percentages in Exhibit 4.2. Common Size Statement Particulars Year Y ear Percentage",
+                  "start": 1295,
+                  "end": 1941
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 211,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 194,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 194
+                },
+                "reasoning_steps": 8,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Analysis of Financial Statements",
+                  "Comparative & Common Size Statements"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Comparative & Common Size Statements"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac204",
+                  "version": 1,
+                  "locator": "pdf-page-12",
+                  "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+                },
+                {
+                  "id": "ncert-leac204",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "38546390425426df591fe3d9b42ad83adfd0f76f668dc908d5966e4c7842fce6"
+            }
+          },
+          "failure_details": [
+            "A common-size statement of profit and loss expresses expenditure as a percentage of revenue from operations. Using each year's revenue as the base gives A: ₹8,00,000/₹10,00,000 = 80%; ₹12,00,000/₹16,00,000 = 75%; and B: ₹14,00,000/₹20,00,000 = 70%; ₹18,00,000/₹24,00,000 = 75%.",
+            "The expenditure percentage therefore falls for A and rises for B, while expenditure in rupees rises for both firms. This matches option C.",
+            "The common-size method and the use of revenue from operations as the base for expenditure are supported by the supplied NCERT excerpts; the stem provides all amounts and specifies the annual base.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:42:19.469Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "fa6d913f5a2d1b5b97ac7da2ef540715"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "fa6d913f5a2d1b5b97ac7da2ef540715"
+        ],
+        "would_withhold_ids": [
+          "fa6d913f5a2d1b5b97ac7da2ef540715"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "c6f1c8305a2882ca83281c8f223f09e1",
+      "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+      "key": "A",
+      "explanation": "After paying the outside creditors, ₹3,00,000 remains for partner loans totalling ₹4,00,000. Since the available balance is inadequate to pay these loans in full, they are paid proportionately. M receives ₹3,00,000 × (₹1,20,000 ÷ ₹4,00,000) = ₹90,000.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "c6f1c8305a2882ca83281c8f223f09e1",
+          "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "c6f1c8305a2882ca83281c8f223f09e1",
+              "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f52fa018c9ffd183a4e72562809aa90ac7562de2c7c94d97478acb50902f9edf",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "c6f1c8305a2882ca83281c8f223f09e1",
+              "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+              "evidence_hash": "40bf07b627646feb81e9a0c6e20826fd00e52326a714b11d9ace07862ba36d17"
+            },
+            "source_support": {
+              "candidate_id": "c6f1c8305a2882ca83281c8f223f09e1",
+              "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "After paying outside creditors, ₹4,20,000 − ₹1,20,000 = ₹3,00,000 remains for partner loans.",
+                "The two partner loans total ₹4,00,000. Because the remaining amount is insufficient, the loans are repaid proportionately: M receives ₹3,00,000 × (₹1,20,000 ÷ ₹4,00,000) = ₹90,000.",
+                "The supplied text establishes both the order of applying assets and proportionate repayment when funds are insufficient for partner loans (E2.2, E2.3)."
+              ],
+              "syllabus_chapter": "Dissolution of Partnership Firm",
+              "syllabus_topic": "Settlement of accounts on dissolution: application of assets and proportionate repayment of partner loans",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Cash available from realised assets is ₹4,20,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Outside creditors are owed ₹1,20,000 and are paid before partner loans.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "K's partner loan is ₹2,80,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "M's partner loan is ₹1,20,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "These are the only amounts payable; there are no unpaid realisation expenses or partner contributions.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The remaining cash is insufficient to repay both partner loans in full.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "When funds are insufficient to repay partner loans, repay them proportionately.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.3"
+                  ]
+                },
+                {
+                  "condition": "After paying creditors, ₹3,00,000 remains for the partner loans.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Give M priority among partner lenders and settle his full ₹1,20,000 loan before paying K.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat M as being owed ₹1,50,000, including an additional amount beyond the stated loan.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat M as being owed ₹2,10,000, including an additional amount beyond the stated loan.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core dissolution procedure for applying assets to liabilities and partner loans."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A clear four-option numerical MCQ; more compact and standalone than the supplied dissolution case-based exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application of the dissolution settlement rule, within the range of the supplied numerical dissolution exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options require applying the repayment rule, though some distractors are less closely tied to the calculation."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q47",
+                  "cuet2024-accountancy-bookA-q48"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac104",
+                  "locator": "pdf-page-4",
+                  "quote": " sharing ratio. (b) Application of Assets The assets of the firm, including any sum contributed by the partners to make up deficiencies of capital, shall be applied in the following manner and order: (i) In paying the debts of the firm to the third parties; (ii) In paying each partner proportionately what is due to him/her from the firm for advances as distinguished from capital (i.e. partner’ loan); (iii) In paying to each partner proportionately what is due to him on account of capital; and (iv) the residue, if any, shall be divided among the partners in their profit sharing ratio. Thus, the amount realised from assets along with",
+                  "start": 647,
+                  "end": 1286
+                },
+                {
+                  "source_id": "ncert-leac104",
+                  "locator": "pdf-page-4",
+                  "quote": " contribution from partners, if required, shall be utilised first to pay off the outside liabilities of the firm such as creditors, loans, bank overdraft, bill payables, etc. (it may be noted that secured loans have precedence over the unsecured loans); the balance should be applied to repay loans made by the partners to the firm. (in case the balance amount is not adequate enough to pay off such loans and advances, they are to be paid propartionately). The amount left thereafter is utilised in settlement of capital account balances. Then the surplus if any is divided among partners in their profit sharing ratio. Private Debts and Firm’s",
+                  "start": 1286,
+                  "end": 1931
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 92,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 98,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 98
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Dissolution of Partnership Firm",
+                  "Dissolution of Partnership"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Dissolution of Partnership Firm"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac104",
+                  "version": 1,
+                  "locator": "pdf-page-29",
+                  "support_hash": "966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe"
+                },
+                {
+                  "id": "ncert-leac104",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "8faeeb80e5fd39eba428ca7eab937f493e962bca213748cb44ee59f444444a01"
+            }
+          },
+          "failure_details": [
+            "After paying outside creditors, ₹4,20,000 − ₹1,20,000 = ₹3,00,000 remains for partner loans.",
+            "The two partner loans total ₹4,00,000. Because the remaining amount is insufficient, the loans are repaid proportionately: M receives ₹3,00,000 × (₹1,20,000 ÷ ₹4,00,000) = ₹90,000.",
+            "The supplied text establishes both the order of applying assets and proportionate repayment when funds are insufficient for partner loans (E2.2, E2.3)."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:41:00.908Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "c6f1c8305a2882ca83281c8f223f09e1"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "c6f1c8305a2882ca83281c8f223f09e1"
+        ],
+        "would_withhold_ids": [
+          "c6f1c8305a2882ca83281c8f223f09e1"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "f99d38d2b710dac30b73fa792426f074",
+      "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+      "key": "D",
+      "explanation": "The deceased partner’s claim accounts for the stated items from the date of the last balance sheet to the date of death. Here, those dates are 30 June and 31 October, making option D correct.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "f99d38d2b710dac30b73fa792426f074",
+          "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f99d38d2b710dac30b73fa792426f074",
+              "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "5dbe061e793661a9d508ed6b7e70df1035693bda8ca61c58e3c3b3d45cb80992",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f99d38d2b710dac30b73fa792426f074",
+              "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+              "evidence_hash": "3bbd5a184596155900594631eb80a1926538aa763497c4ae480100559eaac3e8"
+            },
+            "source_support": {
+              "candidate_id": "f99d38d2b710dac30b73fa792426f074",
+              "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.1",
+                "E2.2"
+              ],
+              "reasons": [
+                "The supplied rule includes the deceased partner’s share of profit or loss, interest on capital and, if applicable, interest on drawings from the date of the last balance sheet to the date of death (E2.1).",
+                "Applying that rule to 30 June and 31 October gives option D."
+              ],
+              "syllabus_chapter": "Retirement & Death of Partner",
+              "syllabus_topic": "Preparation of the deceased partner’s capital account and executor’s account; claim items up to the date of death.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The accounting year runs from 1 January to 31 December.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The last balance sheet was prepared on 30 June.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The partner died on 31 October.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The dates refer to the same accounting year.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The relevant claim items are accounted for from the last balance sheet date to the date of death.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.1",
+                    "E2.2"
+                  ]
+                },
+                {
+                  "condition": "Interest on drawings is included only where applicable.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the question asked for the accounting year’s first quarter rather than the interval relevant to the death claim, 1 January to 31 March would fit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If the claim concerned the quarter ending at the last balance-sheet date, 1 April to 30 June would fit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If “relevant” meant the remainder of the accounting year after the partner’s death, 1 November to 31 December would fit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Option D directly pairs the two stated dates, so the distractors offer limited discrimination."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Applies the deceased partner’s claim treatment within the syllabus topic of preparing the deceased partner’s and executor’s accounts."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A direct four-option conceptual MCQ, matching the supplied CUET accountancy examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A straightforward rule application comparable in demand to the supplied easy conceptual exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "The rule is examinable, but option D visibly connects the two dates stated in the stem."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q45",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred to his executors and settled in the same manner as that of the retired partner. However, there is one major difference that, while the retirement normally takes place at the end of an accounting period, the death of a partner may occur any time. Hence, in case of a partner, his claim shall also include his share of profit or loss, interest on capital, interest on drawings (if any) from the date of the last Balance Sheet to",
+                  "start": 0,
+                  "end": 647
+                },
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": " the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27\r\nPAGE 35\r\nRetirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year",
+                  "start": 647,
+                  "end": 1296
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 68,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 78,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 78,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Retirement & Death of Partner",
+                  "Goodwill Valuation",
+                  "Change in Profit Sharing Ratio"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Retirement & Death of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-2aedd1bf7e9f",
+                  "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48"
+                },
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-ce862e7dfa8c",
+                  "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "194d00eeeef26a8af268e5699c40197684ffaf9fea4391928f6dc03f68b7c20b"
+            }
+          },
+          "failure_details": [
+            "The supplied rule includes the deceased partner’s share of profit or loss, interest on capital and, if applicable, interest on drawings from the date of the last balance sheet to the date of death (E2.1).",
+            "Applying that rule to 30 June and 31 October gives option D."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:44:45.814Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "f99d38d2b710dac30b73fa792426f074"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "f99d38d2b710dac30b73fa792426f074"
+        ],
+        "would_withhold_ids": [
+          "f99d38d2b710dac30b73fa792426f074"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "37a8e9413523b30482b6b1577d627f72",
+      "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+      "key": "C",
+      "explanation": "Compare each issue price and redemption amount with its nominal value. (A) is at par for issue and redemption; (B) is issued at a premium and redeemable at par; (C) is issued at par and redeemable at a premium; and (D) is issued at a discount and redeemable at a premium. These classifications give the mapping in option C.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "37a8e9413523b30482b6b1577d627f72",
+          "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "37a8e9413523b30482b6b1577d627f72",
+              "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f1098d0bb3d4578c3fc9a347dedf96f45070c6468370949971fa8bbbc6c337e1",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "37a8e9413523b30482b6b1577d627f72",
+              "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+              "evidence_hash": "17c899531df587e3d0481d816c96b54720ec3975defdb982050928a3933e6f3b"
+            },
+            "source_support": {
+              "candidate_id": "37a8e9413523b30482b6b1577d627f72",
+              "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E2.1"
+              ],
+              "reasons": [
+                "A is issued at par and redeemable at par (I); B is issued at a premium and redeemable at par (IV); C is issued at par and redeemable at a premium (III); D is issued at a discount and redeemable at a premium (II). This gives option C.",
+                "The equal, above-nominal and below-nominal comparisons are explicit in the stem. The supplied debenture excerpts support the issue and redemption categories.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Debentures",
+              "syllabus_topic": "Issue of debentures at par, premium or discount, and terms of redemption at par or premium",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The stem's stated definitions classify issue price by comparison with nominal value and redemption amount by comparison with nominal value.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A: nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "B: nominal value ₹1,000; issue price ₹1,100; redemption amount ₹1,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "C: nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,100.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "D: nominal value ₹1,000; issue price ₹900; redemption amount ₹1,100.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "It assigns row A to par issue and premium redemption, although both stated amounts equal nominal value.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "It assigns row B to par issue and premium redemption and row C to premium issue and par redemption, reversing their stated price comparisons.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "It assigns row B to discount issue and row D to premium issue, contrary to their stated issue prices.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core debenture issue-price and redemption categories named in the syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A workable four-option objective matching task; supplied exemplars use other four-option formats."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Straightforward repeated classification, somewhat easier than the supplied medium debenture exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "The alternative pairings can reveal issue-versus-redemption classification slips."
+                  }
+                },
+                "reasoning_steps": 8,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q16",
+                  "cuet2024-accountancy-bookA-q18"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-b92b17a10903",
+                  "quote": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of debentures by repayment made to the debenture holders. Debentures can be redeemed either at par or at a premium. Depending upon the terms and conditions of issue and redemption of debentures, the following six situations are commonly found in practice. (i) Issued at par and redeemable at par (ii) Issued at discount and redeemable at par (iii) Issued at a premium and redeemable at par (iv) Issued at par and redeemable at a premium",
+                  "start": 0,
+                  "end": 648
+                },
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-b92b17a10903",
+                  "quote": " (v) Issued at a discount and redeemable at a premium (vi) Issued at a premium and redeemable at a premium In all the above six cases, the following journal entries will be passed: Reprint 2026-27\r\nPAGE 24\r\n98 Accountancy : Company Accounts and Analysis of Financial Statements 1. Issue at par and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c (Allotment of debentures) 2. Issue at a discount and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture",
+                  "start": 648,
+                  "end": 1290
+                },
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-2bf9ffb186bb",
+                  "quote": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+                  "start": 0,
+                  "end": 395
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 211,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 194,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 194
+                },
+                "reasoning_steps": 8,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Debentures"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Debentures"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-b92b17a10903",
+                  "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+                },
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-2bf9ffb186bb",
+                  "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "1e2039c1b50b5b8c56539e1e97e4b9126047c736043e988a3b469371ffefd96a"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "37a8e9413523b30482b6b1577d627f72",
+              "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E2.1"
+              ],
+              "reasons": [
+                "A is issued at par and redeemable at par (I); B is issued at a premium and redeemable at par (IV); C is issued at par and redeemable at a premium (III); D is issued at a discount and redeemable at a premium (II). This gives option C.",
+                "The equal, above-nominal and below-nominal comparisons are explicit in the stem. The supplied debenture excerpts support the issue and redemption categories.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Debentures",
+              "syllabus_topic": "Issue of debentures at par, premium or discount, and terms of redemption at par or premium",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The stem's stated definitions classify issue price by comparison with nominal value and redemption amount by comparison with nominal value.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A: nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "B: nominal value ₹1,000; issue price ₹1,100; redemption amount ₹1,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "C: nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,100.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "D: nominal value ₹1,000; issue price ₹900; redemption amount ₹1,100.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "It assigns row A to par issue and premium redemption, although both stated amounts equal nominal value.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "It assigns row B to par issue and premium redemption and row C to premium issue and par redemption, reversing their stated price comparisons.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "It assigns row B to discount issue and row D to premium issue, contrary to their stated issue prices.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core debenture issue-price and redemption categories named in the syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A workable four-option objective matching task; supplied exemplars use other four-option formats."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Straightforward repeated classification, somewhat easier than the supplied medium debenture exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "The alternative pairings can reveal issue-versus-redemption classification slips."
+                  }
+                },
+                "reasoning_steps": 8,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q16",
+                  "cuet2024-accountancy-bookA-q18"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-b92b17a10903",
+                  "quote": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of debentures by repayment made to the debenture holders. Debentures can be redeemed either at par or at a premium. Depending upon the terms and conditions of issue and redemption of debentures, the following six situations are commonly found in practice. (i) Issued at par and redeemable at par (ii) Issued at discount and redeemable at par (iii) Issued at a premium and redeemable at par (iv) Issued at par and redeemable at a premium",
+                  "start": 0,
+                  "end": 648
+                },
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-b92b17a10903",
+                  "quote": " (v) Issued at a discount and redeemable at a premium (vi) Issued at a premium and redeemable at a premium In all the above six cases, the following journal entries will be passed: Reprint 2026-27\r\nPAGE 24\r\n98 Accountancy : Company Accounts and Analysis of Financial Statements 1. Issue at par and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c (Allotment of debentures) 2. Issue at a discount and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture",
+                  "start": 648,
+                  "end": 1290
+                },
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-2bf9ffb186bb",
+                  "quote": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+                  "start": 0,
+                  "end": 395
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 211,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 194,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 194
+                },
+                "reasoning_steps": 8,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Debentures"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Debentures"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-b92b17a10903",
+                  "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+                },
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-2bf9ffb186bb",
+                  "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "2ed3a0f4eeefa433a1c583f83368f2882ae47bb53d3c94b01633496e283fff95"
+            }
+          },
+          "failure_details": [
+            "A is issued at par and redeemable at par (I); B is issued at a premium and redeemable at par (IV); C is issued at par and redeemable at a premium (III); D is issued at a discount and redeemable at a premium (II). This gives option C.",
+            "The equal, above-nominal and below-nominal comparisons are explicit in the stem. The supplied debenture excerpts support the issue and redemption categories.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:48:13.272Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "37a8e9413523b30482b6b1577d627f72"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "37a8e9413523b30482b6b1577d627f72"
+        ],
+        "would_withhold_ids": [
+          "37a8e9413523b30482b6b1577d627f72"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "774fae6c1244e20f676a2f110fcb1c31",
+      "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+      "key": "C",
+      "explanation": "The aggregate net cash flows are shown as the net increase or decrease in cash and cash equivalents. Adding this amount to the beginning balance gives the ending balance.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "774fae6c1244e20f676a2f110fcb1c31",
+          "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "774fae6c1244e20f676a2f110fcb1c31",
+              "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "86c0adfcb63f31e97c68341d30ab3c655c0e5e7308702ff501c4ff5189ae58fd",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "774fae6c1244e20f676a2f110fcb1c31",
+              "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+              "evidence_hash": "465b6926f8d0a80f0f9fafb7f4d56426a5cb20f60b2c776a732d35c823944016"
+            },
+            "source_support": {
+              "candidate_id": "774fae6c1244e20f676a2f110fcb1c31",
+              "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+              "solved_key": "C",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": false,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "The NCERT method aggregates net flows from operating, investing and financing activities as the net increase/decrease in cash and cash equivalents, then adds that signed change to beginning cash. This supports C.",
+                "A can also be read as correct if the aggregate is a cash use stated as a positive magnitude: subtracting the use from beginning cash gives ending cash. The stem says “or use” but does not specify how that amount is represented, so the options are not unambiguously exclusive.",
+                "Defect: multiple_correct_options: Option A is defensible when the aggregate is a positive cash-use amount, a reading invited by “or use.” The stem does not specify signed-change versus positive-use representation, so A and C can both express the reconciliation.",
+                "Defect: missing_decisive_assumption: option A is correct if If the aggregate is a cash use expressed as a positive amount, ending cash equals beginning cash minus that use.",
+                "Condition missing: A cash use is represented as a signed net decrease rather than as a positive magnitude to be subtracted."
+              ],
+              "syllabus_chapter": "Cash Flow Statement",
+              "syllabus_topic": "Cash Flow Statement: preparation and the reconciliation of beginning to ending cash and cash equivalents",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The aggregate covers net flows from operating, investing and financing activities.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Ending cash and cash equivalents equals beginning cash and cash equivalents plus the aggregate net increase/decrease.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2"
+                  ]
+                },
+                {
+                  "condition": "A cash use is represented as a signed net decrease rather than as a positive magnitude to be subtracted.",
+                  "status": "missing",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the aggregate is a cash use expressed as a positive amount, ending cash equals beginning cash minus that use.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If beginning cash and cash equivalents are zero, the aggregate net change equals the ending balance.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If investing and financing activities have no combined net effect, the operating net flow alone gives the change.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "Option A is defensible when the aggregate is a positive cash-use amount, a reading invited by “or use.” The stem does not specify signed-change versus positive-use representation, so A and C can both express the reconciliation."
+                }
+              ],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core cash-flow-statement reconciliation of beginning to ending cash."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A direct four-option conceptual MCQ, matching the authenticated accountancy examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A straightforward formula-recall task within the easy conceptual range of the exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "Several options reflect identifiable errors, but A overlaps with the correct reconciliation under a reasonable reading."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "recall",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q45",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac206",
+                  "locator": "span-11e51ff37121",
+                  "quote": "6.8 Preparation of Cash Flow Statement As stated earlier cash flow statement provides information about change in the position of Cash and Cash Equivalents of an enterprise, over an accounting period. The activities contributing to this change are classified into operating, investing and financing. The methology of working out the net cash flow (or use) from all the three activities for an accounting period has been explained in details and a brief format of Cash Flow Statement has also been given in Exhibit 6.2. However, while preparing a cash flow statement, full details of inflows and outflows are given under these heads including the net",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-leac206",
+                  "locator": "span-11e51ff37121",
+                  "quote": " cash flow (or use). The aggregate of the net ‘cash flows (or use) is worked out and is shown as ‘Net Increase/Decrease in cash and Cash Equivalents’ to which the amount of ‘cash and cash equivalent at the beginning’ is added and thus the amount of ‘cash and cash equivalents at the end’ is arrived at as shown in Exhibit 6.2.",
+                  "start": 649,
+                  "end": 975
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 51,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 82,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 82,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: Option A is defensible when the aggregate is a positive cash-use amount, a reading invited by “or use.” The stem does not specify signed-change versus positive-use representation, so A and C can both express the reconciliation.",
+                "missing_decisive_assumption: option A is correct if If the aggregate is a cash use expressed as a positive amount, ending cash equals beginning cash minus that use."
+              ],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Cash Flow Statement"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Cash Flow Statement"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac206",
+                  "version": 1,
+                  "locator": "span-11e51ff37121",
+                  "support_hash": "11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97"
+                },
+                {
+                  "id": "ncert-leac206",
+                  "version": 1,
+                  "locator": "span-50f51c90ebe7",
+                  "support_hash": "50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "9af6197acbce47ad7a5fb4aa4264f848255f5fcab0404bc47bc5fc4deaa51e5c"
+            }
+          },
+          "failure_details": [
+            "The NCERT method aggregates net flows from operating, investing and financing activities as the net increase/decrease in cash and cash equivalents, then adds that signed change to beginning cash. This supports C.",
+            "A can also be read as correct if the aggregate is a cash use stated as a positive magnitude: subtracting the use from beginning cash gives ending cash. The stem says “or use” but does not specify how that amount is represented, so the options are not unambiguously exclusive.",
+            "Defect: multiple_correct_options: Option A is defensible when the aggregate is a positive cash-use amount, a reading invited by “or use.” The stem does not specify signed-change versus positive-use representation, so A and C can both express the reconciliation.",
+            "Defect: missing_decisive_assumption: option A is correct if If the aggregate is a cash use expressed as a positive amount, ending cash equals beginning cash minus that use.",
+            "Condition missing: A cash use is represented as a signed net decrease rather than as a positive magnitude to be subtracted."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:10:25.941Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "774fae6c1244e20f676a2f110fcb1c31"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "774fae6c1244e20f676a2f110fcb1c31"
+        ],
+        "would_withhold_ids": [
+          "774fae6c1244e20f676a2f110fcb1c31"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "5d5cbe3a6d01bd317032694801215f21",
+      "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+      "key": "D",
+      "explanation": "Analysis of financial statements of various firms can help an economist judge the extent of concentration of economic power and can provide a basis for specified governmental actions. Thus, statements (A) and (B) are correct, while statement (C) reverses the stated use concerning government action.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "5d5cbe3a6d01bd317032694801215f21",
+          "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5d5cbe3a6d01bd317032694801215f21",
+              "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "bdb9ada329edb8a8e62207d5232c6b0c5fbb0029a68f47a69db1dde9be3c3146",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5d5cbe3a6d01bd317032694801215f21",
+              "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+              "evidence_hash": "5cf56eab5dfc87e2b6a9de2dd4358946bf726fbab5c8b7d97ef4c3604f36e091"
+            },
+            "source_support": {
+              "candidate_id": "5d5cbe3a6d01bd317032694801215f21",
+              "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.2"
+              ],
+              "reasons": [
+                "The supplied excerpt states that analysis of various firms can help an economist judge concentration of economic power and can provide a basis for governmental actions including licensing, controls and fixing prices.",
+                "Thus (A) and (B) are correct, while (C)'s categorical denial is false. The matching choice is D."
+              ],
+              "syllabus_chapter": "Analysis of Financial Statements",
+              "syllabus_topic": "Financial analysis: meaning, significance and purpose",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Analysis of financial statements of various firms can help an economist judge concentration of economic power.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Financial statement analysis can provide a basis for the specified governmental actions.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Statement (C)'s claim that analysis provides no basis for those governmental actions is false.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If analysis helped economists assess concentration but did not provide a basis for the listed governmental actions, only (A) would be correct.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If (A) were correct and the categorical denial in (C) were accepted instead of (B)'s positive claim, (A) and (C) would be correct.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "No honest reading makes both (B) and (C) correct: they make incompatible claims about the same specified governmental actions.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Statement (C) is an explicit denial of (B), making that conflict conspicuous."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests purposes of financial analysis, explicitly named in the syllabus."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option statement-selection format closely matches the authenticated statement-based exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct conceptual recall is within the authenticated CUET range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options test recognition of the purposes, though the explicit denial in (C) is an evident distractor."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "recall",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q10",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac204",
+                  "locator": "pdf-page-4",
+                  "quote": " as well as the long-term liquidity position of the firm. Through the analysis of financial statements of various firms, an economist can judge the extent of concentration of economic power and pitfalls in the financial policies pursued. The analysis also provides the basis for many governmental actions relating to licensing, controls, fixing of prices, ceiling on profits, dividend freeze, tax subsidy and other concessions to the corporate sector. 4.4 Tools of Analysis of Financial Statements The most commonly used techniques of financial analysis are as follows: 1. Comparative Statements: These are the statements showing the profitability",
+                  "start": 649,
+                  "end": 1296
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 89,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 90,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 90
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Analysis of Financial Statements",
+                  "Comparative & Common Size Statements"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Analysis of Financial Statements"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac204",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431"
+                },
+                {
+                  "id": "ncert-leac204",
+                  "version": 1,
+                  "locator": "pdf-page-12",
+                  "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "ba041d5a62b6606680f91ad1c18476c62ef12b28fb3a0a453cd919568e48548b"
+            }
+          },
+          "failure_details": [
+            "The supplied excerpt states that analysis of various firms can help an economist judge concentration of economic power and can provide a basis for governmental actions including licensing, controls and fixing prices.",
+            "Thus (A) and (B) are correct, while (C)'s categorical denial is false. The matching choice is D."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:11:25.307Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "5d5cbe3a6d01bd317032694801215f21"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "5d5cbe3a6d01bd317032694801215f21"
+        ],
+        "would_withhold_ids": [
+          "5d5cbe3a6d01bd317032694801215f21"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+      "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+      "key": "B",
+      "explanation": "Under-subscription occurs when the number of shares applied for is less than the number for which applications were invited. Here, 1,90,000 is less than 2,00,000, so the issue is under-subscribed.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+          "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+              "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "c2872bfb30336e127ff90a897248175dc8097943c209efdd1389a22ee9a2f7a4",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+              "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+              "evidence_hash": "7e69519ffe679196f1eb2b8035a9b6ad353b9eeac433e594a2a6037b0ae53d26"
+            },
+            "source_support": {
+              "candidate_id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+              "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "Applications are for 1,90,000 shares, fewer than the 2,00,000 invited; NCERT defines this as under-subscription and gives the same figures as an example (E2.2).",
+                "Equality would not be under-subscription; applications exceeding the invited shares would indicate over-subscription. Pro-rata allotment is an allotment response described for over-subscription, while premium concerns issue price, not subscription volume (E1.1, E2.3)."
+              ],
+              "syllabus_chapter": "Share Capital",
+              "syllabus_topic": "Accounting for Share Capital: over-subscription and under-subscription",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The company invited applications for 2,00,000 shares.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The company received applications for 1,90,000 shares.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Applications received are fewer than shares invited (1,90,000 < 2,00,000).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Under-subscription means applications for fewer shares than were offered for subscription.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Over-subscription would apply if applications exceeded the shares offered, but the stated applications are fewer than the offer.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Pro-rata allotment could be a response to excess applications, but the stated number of applications is below the offer.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "The shares might independently have been issued at a premium, but the issue price is unstated and this is not a subscription condition.",
+                  "correct_under_reading": false,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The options mix subscription status, allotment method, and issue pricing; the stem’s wording keeps the requested category clear."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Over- and under-subscription are expressly named Share Capital objectives."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option conceptual MCQ directly matching the authenticated accountancy format."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application of the same subscription distinction tested in exemplar q14."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The numerical comparison distinguishes the key; related allotment and pricing terms provide plausible subject-based distractors."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac201",
+                  "locator": "pdf-page-24",
+                  "quote": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’. In such a condition, three alternatives are available to the directors to deal with the situation: (1) they can accept some applications in full and totally reject the others; (2) they can make a pro-rata allotment to all; and (3) they can adopt a combination of the above",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-leac201",
+                  "locator": "pdf-page-30",
+                  "quote": " : Share Allotment — 20,000 shares @ Rs. 7.50 1,50,000 Share Calls — 20,000 shares @ Rs. 12.50 2,50,000 4,00,0001 Amount to be refunded (including that on 11,00,000 the rejected applications) 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it",
+                  "start": 650,
+                  "end": 1298
+                },
+                {
+                  "source_id": "ncert-leac201",
+                  "locator": "pdf-page-30",
+                  "quote": " must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally",
+                  "start": 1298,
+                  "end": 1944
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 55,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 35,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 35,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Share Capital",
+                  "Financial Statements of Company"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Share Capital"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac201",
+                  "version": 1,
+                  "locator": "pdf-page-24",
+                  "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+                },
+                {
+                  "id": "ncert-leac201",
+                  "version": 1,
+                  "locator": "pdf-page-30",
+                  "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "311d36fc9bc0e43334b3223c1f1e5cb284ef43a3746ef8ac2c18275f9db5ebf8"
+            }
+          },
+          "failure_details": [
+            "Applications are for 1,90,000 shares, fewer than the 2,00,000 invited; NCERT defines this as under-subscription and gives the same figures as an example (E2.2).",
+            "Equality would not be under-subscription; applications exceeding the invited shares would indicate over-subscription. Pro-rata allotment is an allotment response described for over-subscription, while premium concerns issue price, not subscription volume (E1.1, E2.3)."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:13:22.696Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "c25dbd80031ae32eb2e1f4f6770ccc2e"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "c25dbd80031ae32eb2e1f4f6770ccc2e"
+        ],
+        "would_withhold_ids": [
+          "c25dbd80031ae32eb2e1f4f6770ccc2e"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+      "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+      "key": "B",
+      "explanation": "The old shares are 4/10, 3/10, 2/10 and 1/10, while the new shares are 2/10, 2/10, 3/10 and 3/10. A and B sacrifice 2/10 and 1/10, respectively, giving a sacrificing ratio of 2:1. C and D gain 1/10 and 2/10, respectively, giving a gaining ratio of 1:2.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "b8b28bb38dc46bf5ce60a077b4def73d",
+          "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b8b28bb38dc46bf5ce60a077b4def73d",
+              "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "57df3d9563d37e3d70612625afb04c628ab6bae458bb95b9b61b3bdc2a75cd8c",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b8b28bb38dc46bf5ce60a077b4def73d",
+              "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+              "evidence_hash": "53618fc495481652a48cc910cd6f10c52cf89b60c069ae577f7fd16bcfd1e128"
+            },
+            "source_support": {
+              "candidate_id": "b8b28bb38dc46bf5ce60a077b4def73d",
+              "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "Both ratios total 10. A and B move from 4/10 and 3/10 to 2/10 and 2/10, so their sacrifices are 2/10 and 1/10, giving 2:1.",
+                "C and D move from 2/10 and 1/10 to 3/10 and 3/10, so their gains are 1/10 and 2/10, giving 1:2. This is option B.",
+                "The stem specifies the partner order, the total-share basis, and that sacrifice or gain is the difference between old and new shares. The calculation is supported by the supplied change-in-sharing-ratio example."
+              ],
+              "syllabus_chapter": "Change in Profit Sharing Ratio",
+              "syllabus_topic": "Sacrificing and gaining ratios when existing partners change their profit-sharing ratio",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The old profit-sharing ratio is 4:3:2:1, in the order A, B, C and D.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The new profit-sharing ratio is 2:2:3:3, in the order A, B, C and D.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Each ratio represents the partners’ shares of total profits.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Sacrifice or gain is measured by the difference between each partner’s old and new share.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The ratios each sum to 10, so the shares can be compared using a common denominator of 10.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the displayed pair labels as reversed: the values then correspond to B:A = 1:2 and D:C = 2:1.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Use A and B’s old shares, 4:3, and C and D’s equal new shares, 1:1, rather than their changes.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Use A and B’s equal new shares and reverse the order of C and D’s gain amounts.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Sacrificing and gaining ratios are explicitly named in the syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option numerical MCQ matching the format of the authenticated partnership-ratio exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct ratio-change calculation, closely aligned with the one-step partner-ratio exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect recognizable errors such as using raw shares or reversing partner order."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q27"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-88acd5a861b0",
+                  "quote": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-88acd5a861b0",
+                  "quote": " they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and",
+                  "start": 650,
+                  "end": 1290
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 94,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 104,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 104
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Change in Profit Sharing Ratio"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-88acd5a861b0",
+                  "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-72d2f4711e2e",
+                  "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "870f25fd9ede1c3158c959d7eb1710d74d5f5294450acfe980e86b73c11fa821"
+            }
+          },
+          "failure_details": [
+            "Both ratios total 10. A and B move from 4/10 and 3/10 to 2/10 and 2/10, so their sacrifices are 2/10 and 1/10, giving 2:1.",
+            "C and D move from 2/10 and 1/10 to 3/10 and 3/10, so their gains are 1/10 and 2/10, giving 1:2. This is option B.",
+            "The stem specifies the partner order, the total-share basis, and that sacrifice or gain is the difference between old and new shares. The calculation is supported by the supplied change-in-sharing-ratio example."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:13:33.179Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "b8b28bb38dc46bf5ce60a077b4def73d"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "b8b28bb38dc46bf5ce60a077b4def73d"
+        ],
+        "would_withhold_ids": [
+          "b8b28bb38dc46bf5ce60a077b4def73d"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "67fe249b34753b62b0c637326975e001",
+      "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+      "key": "A",
+      "explanation": "Year 1’s ratio is ₹12,00,000 ÷ ₹1,50,000 = 8 times, and Year 2’s is ₹18,00,000 ÷ ₹1,50,000 = 12 times. The higher ratio indicates more frequent inventory conversion, but the stated quick, low-margin selling is a possible reason for high turnover, so the increase alone does not establish improved profitability.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "67fe249b34753b62b0c637326975e001",
+          "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "67fe249b34753b62b0c637326975e001",
+              "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "bc773abf86a5ad7b8d66534febae8e3634b27e039b3ae769f3979ea89bbfd1b2",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "67fe249b34753b62b0c637326975e001",
+              "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+              "evidence_hash": "cfeae98ba9214495eb8dae78e9349fd433a7d726dadd163155f8c51626952da5"
+            },
+            "source_support": {
+              "candidate_id": "67fe249b34753b62b0c637326975e001",
+              "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.1",
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "Year 1: ₹12,00,000 ÷ ₹1,50,000 = 8 times. Year 2: ₹18,00,000 ÷ ₹1,50,000 = 12 times.",
+                "Inventory turnover measures how many times inventory is converted during the period. The ratio increased, but the supplied principle cautions that high turnover can result from selling quickly at a low margin to realise cash; the increase alone does not establish improved profitability."
+              ],
+              "syllabus_chapter": "Accounting Ratios",
+              "syllabus_topic": "Activity (turnover) ratios: inventory turnover ratio and its interpretation",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The stated formula is cost of revenue from operations divided by average inventory.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Year 1 figures are cost of revenue from operations ₹12,00,000 and average inventory ₹1,50,000; Year 2 figures are ₹18,00,000 and ₹1,50,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The two accounting periods are of equal length.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Year 2 involves selling inventory quickly at a low margin to realise cash.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Inventory turnover expresses how many times inventory is converted during the period, and high turnover must be interpreted carefully because it can result from quick, low-margin selling.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.2",
+                    "E2.3"
+                  ]
+                },
+                {
+                  "condition": "The calculated ratios are 8 times in Year 1 and 12 times in Year 2.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "A general association between higher activity ratios and profitability is treated as proof that higher turnover necessarily means higher profit.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "The two years' ratios would be reversed if their stated figures were associated with the opposite years.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "The difference between the two ratios is treated as the ratio itself, although that difference does not measure inventory turnover.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Option D's difference-as-ratio error is conspicuous, so it is a relatively weak distractor."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Inventory turnover is a core activity-ratio application within the Accounting Ratios syllabus."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "It is a four-option, single-answer numerical application, with an added interpretation step beyond the calculation-focused exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "It remains within the exemplars' ratio-application range but adds a two-year comparison and interpretation."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "Option B tests an overclaim about profitability, but the reversed figures and difference-as-ratio distractors are conspicuous."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q41",
+                  "cuet2024-accountancy-bookA-q42",
+                  "cuet2024-accountancy-bookA-q43"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac205",
+                  "locator": "pdf-page-20",
+                  "quote": "213Accounting Ratios 5.8 Activity (or Turnover) Ratio These ratios indicate the speed at which, activities of the business are being performed. The activity ratios express the number of times assets employed, or, for that matter, any constituent of assets, is turned into sales during an accounting period. Higher turnover ratio means better utilisation of assets and signifies improved efficiency and profitability, and as such are known as efficiency ratios. The important activity ratios calculated under this category are 1. Inventory Turnover; 2. Trade receivable Turnover; 3. Trade payable Turnover; 4. Investment (Net assets) Turnover 5. Fixed",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-leac205",
+                  "locator": "pdf-page-20",
+                  "quote": " assets Turnover; and 6. Working capital Turnover. 5.8.1 Inventory Turnover Ratio It determines the number of times inventory is converted into revenue from operations during the accounting period under consideration. It expresses the relationship between the cost of revenue from operations and average inventory. The formula for its calculation is as follows: Inventory Turnover Ratio = Cost of Revenue from Operations / Average Inventory Where average inventory refers to arithmetic average of opening and closing inventory, and the cost of revenue from operations means revenue from operations less gross profit. Significance : It studies the",
+                  "start": 650,
+                  "end": 1296
+                },
+                {
+                  "source_id": "ncert-leac205",
+                  "locator": "pdf-page-20",
+                  "quote": " frequency of conversion of inventory of finished goods into revenue from operations. It is also a measure of liquidity. It determines how many times inventory is purchased or replaced during a year. Low turnover of inventory may be due to bad buying, obsolete inventory, etc., and is a danger signal. High turnover is good but it must be carefully interpreted as it may be due to buying in small lots or selling quickly at low margin to realise cash. Thus, it throws light on utilisation of inventory of goods. Reprint 2026-27",
+                  "start": 1296,
+                  "end": 1823
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 1,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 136,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 185,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 185
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 7,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Accounting Ratios"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Accounting Ratios"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac205",
+                  "version": 1,
+                  "locator": "pdf-page-27",
+                  "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+                },
+                {
+                  "id": "ncert-leac205",
+                  "version": 1,
+                  "locator": "pdf-page-20",
+                  "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "70b66bbb2a95e13f7b51d6370b316ad8f1ee7a37340e0d7ae099bb158abeee1a"
+            }
+          },
+          "failure_details": [
+            "Year 1: ₹12,00,000 ÷ ₹1,50,000 = 8 times. Year 2: ₹18,00,000 ÷ ₹1,50,000 = 12 times.",
+            "Inventory turnover measures how many times inventory is converted during the period. The ratio increased, but the supplied principle cautions that high turnover can result from selling quickly at a low margin to realise cash; the increase alone does not establish improved profitability."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:14:50.429Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "67fe249b34753b62b0c637326975e001"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "67fe249b34753b62b0c637326975e001"
+        ],
+        "would_withhold_ids": [
+          "67fe249b34753b62b0c637326975e001"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "4115a8da29d5db85791e1ebac2a51510",
+      "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+      "key": "B",
+      "explanation": "Under the fixed capital method, additional capital is recorded in the Partner’s Capital Account, while the share of profit and drawings are recorded in the Partner’s Current Account. Since the additional capital is introduced first, B precedes A; the Current Account balance is confirmed after its items are recorded, and its stated credit balance is then shown on the liabilities side. The correct sequence is B–A–C–D.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "4115a8da29d5db85791e1ebac2a51510",
+          "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "4115a8da29d5db85791e1ebac2a51510",
+              "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "8893acbd9526507bd81f633e6c34706dfe50b0c1dbf133b2d58579660675ae40",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "4115a8da29d5db85791e1ebac2a51510",
+              "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+              "evidence_hash": "ed9178ffb0099f0d89b871de28135db76bfca3e2945b44fabd71a58e592b9cfd"
+            },
+            "source_support": {
+              "candidate_id": "4115a8da29d5db85791e1ebac2a51510",
+              "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+              "solved_key": "B",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4"
+              ],
+              "reasons": [
+                "The intended sequence is B → A: under the fixed capital method, additional capital is dealt with through the Capital Account, while profit and drawings are recorded in the Current Account. Given a credit balance, both accounts are shown on the liabilities side.",
+                "The stem does not explicitly require confirming the credit balance (C) before presenting it (D). Since the credit status is already stipulated, a candidate could reasonably present it and then perform a final confirmation, making option D defensible under that reading.",
+                "Defect: multiple_correct_options: Option D is defensible if C is read as a final verification after presentation: the stem already stipulates the credit balance, and it does not state that confirmation must precede presentation.",
+                "Defect: missing_decisive_assumption: The intended key requires an unstated ordering condition that the Current Account balance be confirmed before the balance sheet is prepared.",
+                "Defect: missing_decisive_assumption: option D is correct if Because the credit status is stipulated, present the account after posting its items, then perform a final confirmation.",
+                "Condition implied_decisive: The Current Account balance must be confirmed before its presentation in the balance sheet."
+              ],
+              "syllabus_chapter": "Partnership Fundamentals",
+              "syllabus_topic": "Fixed and fluctuating capital; partner capital and current accounts",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The method used is the fixed capital method.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The partner introduces additional capital before later receiving profit and making drawings.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Under the fixed capital method, additional capital is recorded in the Capital Account, while share of profit and drawings are recorded in the Current Account.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "There are no other partner transactions.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The Current Account has a credit balance after the profit and drawings are recorded.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A credit-balance Current Account and the Capital Account are shown on the liabilities side of the balance sheet.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.4"
+                  ]
+                },
+                {
+                  "condition": "The Current Account balance must be confirmed before its presentation in the balance sheet.",
+                  "status": "implied_decisive",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the share of profit and drawings as recorded before the additional capital, despite the stated transaction timing.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat the Current Account balance as confirmed before recording the profit and drawings that affect it.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Because the credit status is stipulated, present the account after posting its items, then perform a final confirmation.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "Option D is defensible if C is read as a final verification after presentation: the stem already stipulates the credit balance, and it does not state that confirmation must precede presentation."
+                },
+                {
+                  "category": "missing_decisive_assumption",
+                  "detail": "The intended key requires an unstated ordering condition that the Current Account balance be confirmed before the balance sheet is prepared."
+                }
+              ],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Fixed versus fluctuating capital is named in the partnership syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option sequence-ordering format matches the authenticated accountancy sequence exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application of a partnership-accounting rule, within the demand of the sequence exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "Options test account allocation and ordering, though the final two steps are ambiguous."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac101",
+                  "locator": "pdf-page-5",
+                  "quote": " are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’",
+                  "start": 1297,
+                  "end": 1940
+                },
+                {
+                  "source_id": "ncert-leac101",
+                  "locator": "pdf-page-5",
+                  "quote": " capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance. The partner’s capital",
+                  "start": 1940,
+                  "end": 2583
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 106,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 145,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 145,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: Option D is defensible if C is read as a final verification after presentation: the stem already stipulates the credit balance, and it does not state that confirmation must precede presentation.",
+                "missing_decisive_assumption: The intended key requires an unstated ordering condition that the Current Account balance be confirmed before the balance sheet is prepared.",
+                "missing_decisive_assumption: option D is correct if Because the credit status is stipulated, present the account after posting its items, then perform a final confirmation."
+              ],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Partnership Fundamentals",
+                  "Profit & Loss Appropriation Account"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Partnership Fundamentals"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "pdf-page-5",
+                  "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+                },
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "quality-v4-5f1d4244dc0b",
+                  "support_hash": "5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "f8c52245a417a172598ce85aa4d53930070cdec2e13e3f1e7962a29f942b6342"
+            }
+          },
+          "failure_details": [
+            "The intended sequence is B → A: under the fixed capital method, additional capital is dealt with through the Capital Account, while profit and drawings are recorded in the Current Account. Given a credit balance, both accounts are shown on the liabilities side.",
+            "The stem does not explicitly require confirming the credit balance (C) before presenting it (D). Since the credit status is already stipulated, a candidate could reasonably present it and then perform a final confirmation, making option D defensible under that reading.",
+            "Defect: multiple_correct_options: Option D is defensible if C is read as a final verification after presentation: the stem already stipulates the credit balance, and it does not state that confirmation must precede presentation.",
+            "Defect: missing_decisive_assumption: The intended key requires an unstated ordering condition that the Current Account balance be confirmed before the balance sheet is prepared.",
+            "Defect: missing_decisive_assumption: option D is correct if Because the credit status is stipulated, present the account after posting its items, then perform a final confirmation.",
+            "Condition implied_decisive: The Current Account balance must be confirmed before its presentation in the balance sheet."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:40:42.213Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "4115a8da29d5db85791e1ebac2a51510"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "4115a8da29d5db85791e1ebac2a51510"
+        ],
+        "would_withhold_ids": [
+          "4115a8da29d5db85791e1ebac2a51510"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

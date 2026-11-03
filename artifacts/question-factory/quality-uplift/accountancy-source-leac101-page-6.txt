@@ -1,0 +1,40 @@
+6 Accountancy – Partnership Accounts
+Partner’s Capital Account
+Dr. Cr.
+Date Particulars J.F. Amount Date Particulars J.F. Amount
+(Rs.) (Rs.)
+Bank (permanent xxx Balance b/d xxx
+withdrawal of capital) (opening balance)
+Balance c/d xxx Bank (fresh capital xxx
+(closing balance) introduced)
+xxx xxx
+Partner’s Current Account
+Dr. Cr.
+Date Particulars J.F. Amount Date Particulars J.F. Amount
+(Rs.) (Rs.)
+Balance b/d xxx Balance b/d xxx
+(in case of debit (in case of credit
+opening balance) opening balance)
+Drawings xxx Salary xxx
+Interest on drawings xxx Commission xxx
+Profit & Loss a/c xxx Interest on capital
+Profit & Loss xxx
+Appropriation
+Balance c/d xxx (share of profit)
+(in case of credit Balance c/d xxx
+closing balance) (in case of debit
+closing balance)
+xxxx xxxx
+Fig. 1.1: Proforma of Partner’s Capital and Current Account under
+Fixed Capital Method.
+(b) Fluctuating Capital Method: Under the fluctuating capital method, only
+one account, i.e. capital account is maintained for each partner. All the
+adjustments such as share of profit and loss, interest on capital, drawings,
+interest on drawings, salary or commission to partners, etc are recorded
+directly in the capital accounts of the partners. This makes the balance
+in the capital account to fluctuate from time to time. That’s the reason
+why this method is called fluctuating capital method. In the absence of
+any instruction, the capital account should be prepared by this method.
+The proforma of capital accounts prepared under the fluctuating capital method
+is given in Fig.1.2.
+Reprint 2026-27

@@ -1,0 +1,200 @@
+{
+  "purpose": "Six-case diagnosis after independent answers were frozen; benchmark labels and outcomes retained unchanged",
+  "scope": {
+    "benchmark": "v75-fresh-cbse2022-2026-10-09",
+    "records": [
+      "benchmark/v75-fresh-cbse2022-2026-10-09/frozen.json",
+      "benchmark/v75-fresh-cbse2022-2026-10-09/run/results.json",
+      "benchmark/v75-fresh-cbse2022-2026-10-09/run/execution-plan.json"
+    ],
+    "qualification_rerun": false
+  },
+  "cases": [
+    {
+      "id": "v75f-08df5940be",
+      "frozen_category": "valid",
+      "frozen_expected_valid": true,
+      "frozen_key": "B",
+      "independent_key": "B",
+      "terminal_state": "quarantined",
+      "terminal_failure": "explanation_support",
+      "openai_luna": {"key": "B", "unique": true, "source_supported": true},
+      "gemini": {"key": "B", "unique": true, "source_supported": true},
+      "anthropic": {"key": "B", "unique": true, "source_supported": true},
+      "explanation_check": {
+        "failed": true,
+        "finding": "The last sentence says the other figures do not reconcile the whole movement, but ₹90,000 does reconcile the carrying amount disposed; it is simply not the sale proceeds. The explanation does not clearly map the remaining distractors to their errors."
+      },
+      "primary_classification": "legitimate_academic_rejection",
+      "diagnosis": "The item and key are sound; the explanation is overbroad and imprecise. The explanation-support check correctly quarantined the rationale. Replace the general claim with specific distinctions: ₹90,000 is carrying amount, while the other values omit or misapply purchase, depreciation, or profit.",
+      "certainty": "high"
+    },
+    {
+      "id": "v75f-6657abc5d1",
+      "frozen_category": "valid",
+      "frozen_expected_valid": true,
+      "frozen_key": "C",
+      "source_custody": {"first_key": "C", "second_key": "C", "official_key": "C"},
+      "independent_key": "C",
+      "terminal_state": "quarantined",
+      "terminal_failure": "source_support",
+      "openai_luna": {
+        "key": "C",
+        "unique": true,
+        "source_supported": true,
+        "finding": "Flagged syllabus_mismatch: accounting postulates/basic assumptions are absent from the listed accountancy Unit V topics."
+      },
+      "gemini": {"key": "C", "unique": true, "source_supported": true, "syllabus_blocker": false},
+      "anthropic": {
+        "key": "C",
+        "unique": true,
+        "source_supported": true,
+        "finding": "Also flagged syllabus_mismatch; the matched syllabus lists company statements, analysis, ratios and cash flow, not postulates."
+      },
+      "execution_plan_syllabus_check": "The frozen syllabus text for Unit V lists company financial statements, financial analysis, comparative/common-size statements, ratios and cash flow. It does not list postulates/basic assumptions.",
+      "primary_classification": "preparation_false_positive",
+      "diagnosis": "The term and answer are factually supported and all three blinded providers solved C. However, the expected-valid positive appears outside the frozen CUET syllabus boundary. This is a likely positive-pool/preparation false positive, not evidence that the source-supported answer is wrong. Gemini's omission of the syllabus blocker is a scope judgment miss.",
+      "certainty": "high for source key; high for syllabus omission in the supplied frozen syllabus; moderate for calling it a preparation false positive because the benchmark's valid label may mean academic validity rather than CUET eligibility."
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "frozen_category": "multiple_correct",
+      "frozen_expected_valid": false,
+      "frozen_oracle_key": "multiple_correct_B_D",
+      "frozen_official_key": "D",
+      "source_custody": {
+        "first_key": "held",
+        "independent_second_key": "D",
+        "official_key": "D",
+        "official_agrees": null,
+        "hold_basis": "Broad alternative overlap; the second reviewer says A is defensible only on a loose reading."
+      },
+      "terminal_state": "eligible",
+      "terminal_failure": null,
+      "openai_luna": {"key": "D", "unique": true},
+      "gemini": {"key": "D", "unique": true},
+      "anthropic": {
+        "key": "D",
+        "unique": false,
+        "finding": "B is partly true because the functional-structure passage says departmental interests can be pursued at the cost of organisational interests."
+      },
+      "independent_key": "D",
+      "option_B_full_conjunction_assessment": {
+        "text": "Managers may gain power, assert independence and ignore organisational interests.",
+        "evidence_for_all_clauses": false,
+        "what_functional_empires_support": "The functional-structure excerpt supports pursuing departmental interests at the cost of organisational interests, which overlaps the final clause about ignoring organisational interests.",
+        "what_it_does_not_support": "The cited functional excerpt does not say those managers gain power or assert independence. Those clauses appear together in the divisional-structure excerpt.",
+        "conclusion": "On the ordinary full-conjunction reading, B is not established as a functional-structure disadvantage; D is the supported answer. Anthropic's partial-overlap reading is understandable as a loose reading, but it does not establish the whole option."
+      },
+      "primary_classification": "defective_benchmark_construction",
+      "diagnosis": "Preserve the frozen multiple_correct_B_D label and the reported false accept for this run. The evidence and custody record conflict: official key and independent second reviewer both say D, while the first reviewer held the item and the oracle promotes partial overlap to a second correct answer. The full B wording is conjunctive; the shared final clause alone is insufficient to prove B. Do not tune the validator to reject official D on this evidence. Reconcile the annotation with a fresh, blinded academic adjudication before treating this as a stable false-accept example.",
+      "certainty": "moderate; official D is strong, but frozen provenance explicitly records one reviewer's loose-reading concern."
+    },
+    {
+      "id": "v75f-9c1cf0ec0b",
+      "frozen_category": "valid",
+      "frozen_expected_valid": true,
+      "frozen_key": "A",
+      "independent_key": "A",
+      "terminal_state": "quarantined",
+      "terminal_failure": "explanation_support",
+      "openai_luna": {"key": "A", "unique": true, "source_supported": true},
+      "gemini": {"key": "A", "unique": true, "source_supported": true},
+      "anthropic": {"key": "A", "unique": true, "source_supported": true},
+      "explanation_check": {
+        "failed": true,
+        "finding": "The final explanation rejects LIC and Government of India by saying the excerpts do not describe them as accepting deposits. Silence in the selected excerpts does not establish those distractors' factual errors."
+      },
+      "primary_classification": "legitimate_academic_rejection",
+      "diagnosis": "All three independent judgments support A and the commercial-bank excerpt directly answers the stem. The quarantine is limited to an argument from silence in the explanation, not a defect in the question or key. Rewrite the rationale around the positive defining match and avoid claiming that missing excerpt coverage disproves the other institutions' activities.",
+      "certainty": "high"
+    },
+    {
+      "id": "v75f-f790bb5d76",
+      "frozen_category": "valid",
+      "frozen_expected_valid": true,
+      "frozen_key": "D",
+      "source_custody": {"first_key": "D", "second_key": "D", "official_key": "D"},
+      "independent_key": "D",
+      "terminal_state": "quarantined",
+      "terminal_failure": "source_support",
+      "openai_luna": {
+        "key": "abstain",
+        "unique": false,
+        "finding": "The excerpts do not explicitly classify the claim as an investing inflow and the stem does not explicitly say machinery is a fixed asset rather than inventory."
+      },
+      "gemini": {
+        "key": "D",
+        "unique": true,
+        "finding": "Applied the standard treatment for insurance compensation for a fixed asset lost through theft."
+      },
+      "anthropic": {
+        "key": "D",
+        "unique": false,
+        "finding": "Agreed the included extraordinary receipt must be removed from net profit, but found the investing classification unstated and the fixed-asset disposal excerpt not directly about insurance."
+      },
+      "primary_classification": "defective_benchmark_construction",
+      "diagnosis": "The positive key is strong: frozen source custody has two D derivations and the official source key is D. The evidence packet is incomplete for the reasoning the validator was required to support: its investing excerpt is about disposal proceeds, not insurance compensation, and it does not explicitly label the machinery as a fixed asset. Luna and Anthropic's source-bound abstentions are defensible under that packet; Gemini uses the standard textbook inference. This is not a demonstrated wrong-key/model error. Add a direct source excerpt for theft insurance proceeds or make the fixed-asset convention explicit.",
+      "certainty": "high for answer D; high that direct source support is incomplete; moderate whether the stem itself needs an added fixed-asset phrase under ordinary accountancy usage."
+    },
+    {
+      "id": "v75f-f992f37503",
+      "frozen_category": "valid",
+      "frozen_expected_valid": true,
+      "frozen_key": "C",
+      "source_custody": {"first_key": "C", "second_key": "C", "official_key": "C"},
+      "independent_key": "C",
+      "terminal_state": "quarantined",
+      "terminal_failure": "source_support",
+      "openai_luna": {
+        "key": "abstain",
+        "unique": true,
+        "source_supported": false,
+        "finding": "The excerpts establish the accounts but not the credit-side direction for either transaction."
+      },
+      "gemini": {
+        "key": "C",
+        "unique": true,
+        "source_supported": true,
+        "finding": "Applied the standard rule that service exports and inward FDI are credits."
+      },
+      "anthropic": {
+        "key": "abstain",
+        "unique": false,
+        "source_supported": false,
+        "finding": "The capital-credit direction is supported by the inward asset-sale example, but the service-export credit direction is not printed."
+      },
+      "primary_classification": "defective_benchmark_construction",
+      "diagnosis": "The answer is strong: both source-key reviewers and the official source key agree on C. The excerpts establish that services belong to the current account and that inward asset sales are capital credits, but the current-account credit direction for an export is implicit rather than stated. Luna and Anthropic are consistent with a strict source-only gate; Gemini supplies the standard rule. The result points to an incomplete decisive source selection, with possible model overstrictness about requiring the export-credit rule to be printed verbatim. It is not evidence that C is academically wrong.",
+      "certainty": "high for answer C; high for a source-selection gap on service-export direction; moderate on whether an evidence-bound validator should infer the general export-credit rule."
+    }
+  ],
+  "transport_and_receipts": {
+    "preflight": {
+      "captured_requests": 81,
+      "expected_captures": 81,
+      "paid_calls_at_preflight": 0,
+      "answers_hidden": true,
+      "over_bound_requests": 0
+    },
+    "run_summary": {
+      "provider_error_count": 1,
+      "provider_error": {
+        "case_id": "v75f-349175e27e",
+        "provider": "anthropic",
+        "stage": "blinded_evaluation",
+        "status": "error",
+        "message": "fetch failed"
+      },
+      "scope_note": "The transport failure is outside the six diagnosed IDs; all three providers returned judgments for each of these six."
+    },
+    "cost_and_hold": {
+      "settled_usd": 0.522978,
+      "held_usd": 0.008596,
+      "gross_usd": 0.531574,
+      "receipt_complete": false,
+      "uncertainty": "The study summary reports only an aggregate hold and does not identify its provider request ID or per-request terminal state. No separate study-scoped request/receipt record was present in the benchmark run directory; the summary attributes the only visible fetch error to Anthropic on a different case, but does not prove that error caused the aggregate hold."
+    },
+    "recovery_option": "Use the existing study request IDs from the persistent provider ledger, if present, to fetch provider job/response status and terminal usage receipts only; reconcile the exact held request by receipt. Do not resubmit any request with unknown or accepted outcome. If no request ID/receipt mapping exists, retain the hold as unresolved and leave the ledger unchanged pending receipt-only reconciliation."
+  }
+}

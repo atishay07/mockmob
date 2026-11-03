@@ -1,0 +1,138 @@
+{
+  "at": "2026-10-07T08:02:03.348Z",
+  "environment": "separate_staging",
+  "checks": [
+    {
+      "subject": "english",
+      "mode": "quick",
+      "requested": 10,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 111,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 600
+    },
+    {
+      "subject": "english",
+      "mode": "full",
+      "requested": 50,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 111,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 3600
+    },
+    {
+      "subject": "accountancy",
+      "mode": "quick",
+      "requested": 10,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 86,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 600
+    },
+    {
+      "subject": "accountancy",
+      "mode": "full",
+      "requested": 50,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 86,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 3600
+    },
+    {
+      "subject": "business_studies",
+      "mode": "quick",
+      "requested": 10,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 111,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 600
+    },
+    {
+      "subject": "business_studies",
+      "mode": "full",
+      "requested": 50,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 111,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 3600
+    },
+    {
+      "subject": "economics",
+      "mode": "quick",
+      "requested": 10,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 105,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 600
+    },
+    {
+      "subject": "economics",
+      "mode": "full",
+      "requested": 50,
+      "http": 200,
+      "state": "available",
+      "reason": "ok",
+      "inventory": {
+        "policy": "ordinary",
+        "state": "sufficient_count",
+        "ordinaryCount": 105,
+        "checkedAt": "2026-10-07T08:01:58.347Z",
+        "note": "A count does not guarantee a complete set for every mode; the set is confirmed at launch and you are not charged if it cannot be built."
+      },
+      "duration": 3600
+    }
+  ],
+  "paid_calls": 0,
+  "credits_charged": 0,
+  "sessions_created": 0,
+  "scope": "Actual signed-in read-only launch quotes; this is not an observed full-paper session or paid transaction."
+}

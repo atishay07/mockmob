@@ -1,0 +1,277 @@
+[
+  {
+    "id": "v76f-e0932269d0",
+    "valid": true,
+    "subject": "accountancy",
+    "tag": "share-final-call",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-b2a54a1da6",
+    "valid": true,
+    "subject": "accountancy",
+    "tag": "prorata-applications",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-b43f3aebb6",
+    "valid": true,
+    "subject": "accountancy",
+    "tag": "partner-guarantee",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-e6f3811e7b",
+    "valid": true,
+    "subject": "accountancy",
+    "tag": "midmonth-drawings",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-10a1826742",
+    "valid": true,
+    "subject": "business_studies",
+    "tag": "fayol-mutual-commitments",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-3f144fd374",
+    "valid": true,
+    "subject": "business_studies",
+    "tag": "planning-primary",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-0a26fac46f",
+    "valid": true,
+    "subject": "business_studies",
+    "tag": "marketing-channel-choice",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-5628fb9f74",
+    "valid": true,
+    "subject": "business_studies",
+    "tag": "compulsory-warning",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-7ac5631def",
+    "valid": true,
+    "subject": "economics",
+    "tag": "required-cash-reserve",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-3d2cef0c02",
+    "valid": true,
+    "subject": "economics",
+    "tag": "managed-floating",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-d42ab3b35b",
+    "valid": true,
+    "subject": "economics",
+    "tag": "public-goods-features",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-5fe8e07cac",
+    "valid": true,
+    "subject": "economics",
+    "tag": "occupational-structure",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-461c8da728",
+    "valid": true,
+    "subject": "english",
+    "tag": "jibhi-initial-motive",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-71ed304404",
+    "valid": true,
+    "subject": "english",
+    "tag": "jibhi-context-vocabulary",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-d1489a9ae6",
+    "valid": true,
+    "subject": "english",
+    "tag": "jibhi-house-change",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-154e50ff60",
+    "valid": true,
+    "subject": "english",
+    "tag": "jibhi-balanced-attitude",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-5ef78612af",
+    "valid": false,
+    "subject": "accountancy",
+    "tag": "guarantee-wrong-key",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-dcb4ca9b28",
+    "valid": false,
+    "subject": "accountancy",
+    "tag": "missing-premium-rate",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-2b8bd9ddd4",
+    "valid": false,
+    "subject": "accountancy",
+    "tag": "prorata-arithmetic-fault",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-972dd21c21",
+    "valid": false,
+    "subject": "business_studies",
+    "tag": "primary-full-alternative",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-8a965d2fc3",
+    "valid": false,
+    "subject": "business_studies",
+    "tag": "regulation-invented-date",
+    "local": [],
+    "preparation": []
+  },
+  {
+    "id": "v76f-6c0c03dcf8",
+    "valid": false,
+    "subject": "business_studies",
+    "tag": "pure-derivative-objective",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-59f949e91e",
+    "valid": false,
+    "subject": "economics",
+    "tag": "cash-reserve-wrong-key",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-cbcd129073",
+    "valid": false,
+    "subject": "economics",
+    "tag": "money-model-missing-ratio",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-060c149e8f",
+    "valid": false,
+    "subject": "economics",
+    "tag": "public-goods-false-explanation",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-f4c6fb6af3",
+    "valid": false,
+    "subject": "english",
+    "tag": "jibhi-wrong-key",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-706de08f5d",
+    "valid": false,
+    "subject": "english",
+    "tag": "anonymity-second-full-answer",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  },
+  {
+    "id": "v76f-10e903f685",
+    "valid": false,
+    "subject": "english",
+    "tag": "jibhi-invented-growth-rate",
+    "local": [
+      "unsupported_mapping",
+      "current_syllabus_chapter_not_entitled"
+    ],
+    "preparation": []
+  }
+]

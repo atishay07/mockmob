@@ -1,0 +1,925 @@
+{
+  "schema": "cuet-bank-reassessment-staging-withholding-v1",
+  "contract": "cuet-bank-reassessment-staging-withholding-v1",
+  "created_at": "2026-10-08T06:27:54.124Z",
+  "completed": true,
+  "receipts": {
+    "022715ffbd5f9ddc00637221a98a8363": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-022715ffbd5f9ddc00637221a98a8363",
+      "started_at": "2026-10-08T06:28:06.083Z",
+      "completed_at": "2026-10-08T06:28:06.831Z"
+    },
+    "0247258de456a670df19039e3a2c4dfa": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-0247258de456a670df19039e3a2c4dfa",
+      "started_at": "2026-10-08T06:28:06.843Z",
+      "completed_at": "2026-10-08T06:28:07.220Z"
+    },
+    "0de322e27637f76ac593c99028e4cafa": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-0de322e27637f76ac593c99028e4cafa",
+      "started_at": "2026-10-08T06:28:07.230Z",
+      "completed_at": "2026-10-08T06:28:07.715Z"
+    },
+    "11a1cd0da911c0091e9884629edb5165": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-11a1cd0da911c0091e9884629edb5165",
+      "started_at": "2026-10-08T06:28:07.725Z",
+      "completed_at": "2026-10-08T06:28:08.097Z"
+    },
+    "13baa89b0354877f55f5d8a5c4afaa7e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-13baa89b0354877f55f5d8a5c4afaa7e",
+      "started_at": "2026-10-08T06:28:08.101Z",
+      "completed_at": "2026-10-08T06:28:08.565Z"
+    },
+    "1670079b3e8c801354374a52bf4ed31d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-1670079b3e8c801354374a52bf4ed31d",
+      "started_at": "2026-10-08T06:28:08.575Z",
+      "completed_at": "2026-10-08T06:28:08.947Z"
+    },
+    "16c797c8408fc9ba8756b60ad446fca1": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-16c797c8408fc9ba8756b60ad446fca1",
+      "started_at": "2026-10-08T06:28:08.958Z",
+      "completed_at": "2026-10-08T06:28:09.336Z"
+    },
+    "17b22c6e7575cec573a9cb15b2749f8c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-17b22c6e7575cec573a9cb15b2749f8c",
+      "started_at": "2026-10-08T06:28:09.339Z",
+      "completed_at": "2026-10-08T06:28:09.715Z"
+    },
+    "1d169b91bb1212eaace41647147933e2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-1d169b91bb1212eaace41647147933e2",
+      "started_at": "2026-10-08T06:28:09.718Z",
+      "completed_at": "2026-10-08T06:28:10.122Z"
+    },
+    "20cc88e8ab11b76d9e44bd28a36ac435": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-20cc88e8ab11b76d9e44bd28a36ac435",
+      "started_at": "2026-10-08T06:28:10.127Z",
+      "completed_at": "2026-10-08T06:28:10.491Z"
+    },
+    "20d17d6168c3fbf2eb5c0ee350eaf85e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-20d17d6168c3fbf2eb5c0ee350eaf85e",
+      "started_at": "2026-10-08T06:28:10.501Z",
+      "completed_at": "2026-10-08T06:28:10.927Z"
+    },
+    "20e278c61e343db83349eded6916c255": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-20e278c61e343db83349eded6916c255",
+      "started_at": "2026-10-08T06:28:10.931Z",
+      "completed_at": "2026-10-08T06:28:11.391Z"
+    },
+    "21acf04b6b876ec71add04ae24ec8cd5": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-21acf04b6b876ec71add04ae24ec8cd5",
+      "started_at": "2026-10-08T06:28:11.395Z",
+      "completed_at": "2026-10-08T06:28:11.920Z"
+    },
+    "21ffdb2198b350582fa6e53d8a820211": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-21ffdb2198b350582fa6e53d8a820211",
+      "started_at": "2026-10-08T06:28:11.923Z",
+      "completed_at": "2026-10-08T06:28:12.359Z"
+    },
+    "246b07ecc64527cc6bb4f40f5c47d6b6": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-246b07ecc64527cc6bb4f40f5c47d6b6",
+      "started_at": "2026-10-08T06:28:12.363Z",
+      "completed_at": "2026-10-08T06:28:12.865Z"
+    },
+    "24bc774e92f50c1d451abdcdaac8d7b4": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-24bc774e92f50c1d451abdcdaac8d7b4",
+      "started_at": "2026-10-08T06:28:12.874Z",
+      "completed_at": "2026-10-08T06:28:13.299Z"
+    },
+    "296c159a29a991573e77266004038898": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-296c159a29a991573e77266004038898",
+      "started_at": "2026-10-08T06:28:13.303Z",
+      "completed_at": "2026-10-08T06:28:13.723Z"
+    },
+    "296e6c135c976583eb0f54b193502fef": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-296e6c135c976583eb0f54b193502fef",
+      "started_at": "2026-10-08T06:28:13.726Z",
+      "completed_at": "2026-10-08T06:28:14.181Z"
+    },
+    "30c559b7cee4ab97a2a9c9c85ca4bd30": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-30c559b7cee4ab97a2a9c9c85ca4bd30",
+      "started_at": "2026-10-08T06:28:14.185Z",
+      "completed_at": "2026-10-08T06:28:14.561Z"
+    },
+    "331811df731779f1411fea83fa7f8db6": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-331811df731779f1411fea83fa7f8db6",
+      "started_at": "2026-10-08T06:28:14.565Z",
+      "completed_at": "2026-10-08T06:28:14.945Z"
+    },
+    "341d2ffb9c69a0f0bef64c9eea5e2706": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-341d2ffb9c69a0f0bef64c9eea5e2706",
+      "started_at": "2026-10-08T06:28:14.950Z",
+      "completed_at": "2026-10-08T06:28:15.354Z"
+    },
+    "3567fb5736b09efcd72b7d417d28aa88": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-3567fb5736b09efcd72b7d417d28aa88",
+      "started_at": "2026-10-08T06:28:15.357Z",
+      "completed_at": "2026-10-08T06:28:15.729Z"
+    },
+    "379191f2d6fa6e4844bf6a8b159f1a10": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-379191f2d6fa6e4844bf6a8b159f1a10",
+      "started_at": "2026-10-08T06:28:15.732Z",
+      "completed_at": "2026-10-08T06:28:16.115Z"
+    },
+    "37a8e9413523b30482b6b1577d627f72": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-37a8e9413523b30482b6b1577d627f72",
+      "started_at": "2026-10-08T06:28:16.118Z",
+      "completed_at": "2026-10-08T06:28:16.491Z"
+    },
+    "386dca46542a02901d2837324bf0b69e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-386dca46542a02901d2837324bf0b69e",
+      "started_at": "2026-10-08T06:28:16.495Z",
+      "completed_at": "2026-10-08T06:28:16.925Z"
+    },
+    "3936d671d69dce13796bfd5d39217eaa": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-3936d671d69dce13796bfd5d39217eaa",
+      "started_at": "2026-10-08T06:28:16.928Z",
+      "completed_at": "2026-10-08T06:28:17.293Z"
+    },
+    "3a4fb951521a500585e594e37c05655c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-3a4fb951521a500585e594e37c05655c",
+      "started_at": "2026-10-08T06:28:17.296Z",
+      "completed_at": "2026-10-08T06:28:17.669Z"
+    },
+    "3c8d31764c62441ee2a27c97059c5b08": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-3c8d31764c62441ee2a27c97059c5b08",
+      "started_at": "2026-10-08T06:28:17.672Z",
+      "completed_at": "2026-10-08T06:28:18.126Z"
+    },
+    "3dce0344d7ad78f4346cd451c509983e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-3dce0344d7ad78f4346cd451c509983e",
+      "started_at": "2026-10-08T06:28:18.136Z",
+      "completed_at": "2026-10-08T06:28:18.513Z"
+    },
+    "4115a8da29d5db85791e1ebac2a51510": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-4115a8da29d5db85791e1ebac2a51510",
+      "started_at": "2026-10-08T06:28:18.518Z",
+      "completed_at": "2026-10-08T06:28:18.896Z"
+    },
+    "435e48ce37fbd17c87658815528aba5d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-435e48ce37fbd17c87658815528aba5d",
+      "started_at": "2026-10-08T06:28:18.906Z",
+      "completed_at": "2026-10-08T06:28:19.284Z"
+    },
+    "44337f81bb4f1b4b7ade81e162eb760a": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-44337f81bb4f1b4b7ade81e162eb760a",
+      "started_at": "2026-10-08T06:28:19.288Z",
+      "completed_at": "2026-10-08T06:28:19.657Z"
+    },
+    "495c4536f5869a65e46ae8a6d92010c8": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-495c4536f5869a65e46ae8a6d92010c8",
+      "started_at": "2026-10-08T06:28:19.667Z",
+      "completed_at": "2026-10-08T06:28:20.061Z"
+    },
+    "4a2f6c3dc560031ae7ab4591ad7c868e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-4a2f6c3dc560031ae7ab4591ad7c868e",
+      "started_at": "2026-10-08T06:28:20.064Z",
+      "completed_at": "2026-10-08T06:28:20.435Z"
+    },
+    "5114300ab4bc8333ce6507832947954c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-5114300ab4bc8333ce6507832947954c",
+      "started_at": "2026-10-08T06:28:20.444Z",
+      "completed_at": "2026-10-08T06:28:20.906Z"
+    },
+    "52b9d78d281ebd92bf8a312e697d1130": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-52b9d78d281ebd92bf8a312e697d1130",
+      "started_at": "2026-10-08T06:28:20.909Z",
+      "completed_at": "2026-10-08T06:28:21.291Z"
+    },
+    "559f599c8fa9caddcb113a5b81282e96": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-559f599c8fa9caddcb113a5b81282e96",
+      "started_at": "2026-10-08T06:28:21.301Z",
+      "completed_at": "2026-10-08T06:28:21.694Z"
+    },
+    "58cd0ed02dfc261ba99638aae0875484": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-58cd0ed02dfc261ba99638aae0875484",
+      "started_at": "2026-10-08T06:28:21.698Z",
+      "completed_at": "2026-10-08T06:28:22.067Z"
+    },
+    "5bde762f1a36a3a7d894f0aa45f655e9": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-5bde762f1a36a3a7d894f0aa45f655e9",
+      "started_at": "2026-10-08T06:28:22.070Z",
+      "completed_at": "2026-10-08T06:28:22.534Z"
+    },
+    "5d2cf0d217e3ccb43730a4b1eecdab61": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-5d2cf0d217e3ccb43730a4b1eecdab61",
+      "started_at": "2026-10-08T06:28:22.543Z",
+      "completed_at": "2026-10-08T06:28:22.984Z"
+    },
+    "5d5cbe3a6d01bd317032694801215f21": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-5d5cbe3a6d01bd317032694801215f21",
+      "started_at": "2026-10-08T06:28:22.995Z",
+      "completed_at": "2026-10-08T06:28:23.364Z"
+    },
+    "5f649f52cbfb1439a77ef9b48ba42e8b": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-5f649f52cbfb1439a77ef9b48ba42e8b",
+      "started_at": "2026-10-08T06:28:23.368Z",
+      "completed_at": "2026-10-08T06:28:23.762Z"
+    },
+    "625a65a8ebc2b5d43ffecf1736ec00f9": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-625a65a8ebc2b5d43ffecf1736ec00f9",
+      "started_at": "2026-10-08T06:28:23.772Z",
+      "completed_at": "2026-10-08T06:28:24.302Z"
+    },
+    "6314a93c1f302347c03562d66b15f2d3": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-6314a93c1f302347c03562d66b15f2d3",
+      "started_at": "2026-10-08T06:28:24.306Z",
+      "completed_at": "2026-10-08T06:28:24.689Z"
+    },
+    "67fe249b34753b62b0c637326975e001": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-67fe249b34753b62b0c637326975e001",
+      "started_at": "2026-10-08T06:28:24.698Z",
+      "completed_at": "2026-10-08T06:28:25.073Z"
+    },
+    "68cfc94f40e75cdcd1d6f596ea45cf91": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-68cfc94f40e75cdcd1d6f596ea45cf91",
+      "started_at": "2026-10-08T06:28:25.077Z",
+      "completed_at": "2026-10-08T06:28:25.486Z"
+    },
+    "6cb91dc50c0e981ac4c14fcd7b9c15f0": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-6cb91dc50c0e981ac4c14fcd7b9c15f0",
+      "started_at": "2026-10-08T06:28:25.489Z",
+      "completed_at": "2026-10-08T06:28:26.204Z"
+    },
+    "6e65669238f8a31b656dbe0e711a7e70": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-6e65669238f8a31b656dbe0e711a7e70",
+      "started_at": "2026-10-08T06:28:26.208Z",
+      "completed_at": "2026-10-08T06:28:26.578Z"
+    },
+    "749c7d54f592dbfc93ca164595ca5cff": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-749c7d54f592dbfc93ca164595ca5cff",
+      "started_at": "2026-10-08T06:28:26.582Z",
+      "completed_at": "2026-10-08T06:28:26.949Z"
+    },
+    "75ec5aa6e1c81eda20121fb91aa2db43": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-75ec5aa6e1c81eda20121fb91aa2db43",
+      "started_at": "2026-10-08T06:28:26.952Z",
+      "completed_at": "2026-10-08T06:28:27.322Z"
+    },
+    "765c28539460d21e44556e18f6ea5dc3": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-765c28539460d21e44556e18f6ea5dc3",
+      "started_at": "2026-10-08T06:28:27.326Z",
+      "completed_at": "2026-10-08T06:28:27.858Z"
+    },
+    "774fae6c1244e20f676a2f110fcb1c31": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-774fae6c1244e20f676a2f110fcb1c31",
+      "started_at": "2026-10-08T06:28:27.863Z",
+      "completed_at": "2026-10-08T06:28:28.231Z"
+    },
+    "7b4662c4e2166c62f863a6ae1da78ba6": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-7b4662c4e2166c62f863a6ae1da78ba6",
+      "started_at": "2026-10-08T06:28:28.240Z",
+      "completed_at": "2026-10-08T06:28:28.637Z"
+    },
+    "7c93ba5270b262b8aba33c51780d0ea0": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-7c93ba5270b262b8aba33c51780d0ea0",
+      "started_at": "2026-10-08T06:28:28.641Z",
+      "completed_at": "2026-10-08T06:28:29.001Z"
+    },
+    "7c9d79eb923e3c7cd31062b712f4f196": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-7c9d79eb923e3c7cd31062b712f4f196",
+      "started_at": "2026-10-08T06:28:29.005Z",
+      "completed_at": "2026-10-08T06:28:29.389Z"
+    },
+    "82d3698b9973e8b58b67691d2e0c9792": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-82d3698b9973e8b58b67691d2e0c9792",
+      "started_at": "2026-10-08T06:28:29.392Z",
+      "completed_at": "2026-10-08T06:28:29.773Z"
+    },
+    "86d76029e629b9f6ef1430035cc5765f": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-86d76029e629b9f6ef1430035cc5765f",
+      "started_at": "2026-10-08T06:28:29.783Z",
+      "completed_at": "2026-10-08T06:28:30.164Z"
+    },
+    "89cfa7dc25a1ec3a95e633660a40ce0d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-89cfa7dc25a1ec3a95e633660a40ce0d",
+      "started_at": "2026-10-08T06:28:30.167Z",
+      "completed_at": "2026-10-08T06:28:30.573Z"
+    },
+    "8ad2e554e891c8095bb7e5cabd4426b9": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-8ad2e554e891c8095bb7e5cabd4426b9",
+      "started_at": "2026-10-08T06:28:30.579Z",
+      "completed_at": "2026-10-08T06:28:31.035Z"
+    },
+    "8ae5b51a291e1e4af741fed6b275739c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-8ae5b51a291e1e4af741fed6b275739c",
+      "started_at": "2026-10-08T06:28:31.049Z",
+      "completed_at": "2026-10-08T06:28:31.424Z"
+    },
+    "8b7a12e7cce479ddec3b443b1a09f92a": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-8b7a12e7cce479ddec3b443b1a09f92a",
+      "started_at": "2026-10-08T06:28:31.427Z",
+      "completed_at": "2026-10-08T06:28:31.798Z"
+    },
+    "8c1cc9b05e28b915f65be085a1f701f1": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-8c1cc9b05e28b915f65be085a1f701f1",
+      "started_at": "2026-10-08T06:28:31.802Z",
+      "completed_at": "2026-10-08T06:28:32.255Z"
+    },
+    "8e2d8a69af3a9f812213d9e4a12dcb19": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-8e2d8a69af3a9f812213d9e4a12dcb19",
+      "started_at": "2026-10-08T06:28:32.258Z",
+      "completed_at": "2026-10-08T06:28:32.627Z"
+    },
+    "9081a9c01da9a7634cfc78b889b8129f": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9081a9c01da9a7634cfc78b889b8129f",
+      "started_at": "2026-10-08T06:28:32.630Z",
+      "completed_at": "2026-10-08T06:28:32.992Z"
+    },
+    "90c0efb048add1dbde2112db46487d91": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-90c0efb048add1dbde2112db46487d91",
+      "started_at": "2026-10-08T06:28:33.002Z",
+      "completed_at": "2026-10-08T06:28:33.386Z"
+    },
+    "90c24807e1a72c192a3c7d75ee9ed454": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-90c24807e1a72c192a3c7d75ee9ed454",
+      "started_at": "2026-10-08T06:28:33.390Z",
+      "completed_at": "2026-10-08T06:28:33.755Z"
+    },
+    "90ec25792703058c191b0275f1912a44": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-90ec25792703058c191b0275f1912a44",
+      "started_at": "2026-10-08T06:28:33.765Z",
+      "completed_at": "2026-10-08T06:28:34.164Z"
+    },
+    "94fdb333647dbf55a393f9d5a3dcfc4d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-94fdb333647dbf55a393f9d5a3dcfc4d",
+      "started_at": "2026-10-08T06:28:34.168Z",
+      "completed_at": "2026-10-08T06:28:34.534Z"
+    },
+    "99519ad997494b32a08ca17d0c48315b": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-99519ad997494b32a08ca17d0c48315b",
+      "started_at": "2026-10-08T06:28:34.538Z",
+      "completed_at": "2026-10-08T06:28:34.982Z"
+    },
+    "99de722eb49ebfa10306bd2d9dd3e88d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-99de722eb49ebfa10306bd2d9dd3e88d",
+      "started_at": "2026-10-08T06:28:34.986Z",
+      "completed_at": "2026-10-08T06:28:35.343Z"
+    },
+    "9a3a683cde6b70963343775b8264da5a": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9a3a683cde6b70963343775b8264da5a",
+      "started_at": "2026-10-08T06:28:35.352Z",
+      "completed_at": "2026-10-08T06:28:35.732Z"
+    },
+    "9bd2d77281ddf33604855c9a579c0c71": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9bd2d77281ddf33604855c9a579c0c71",
+      "started_at": "2026-10-08T06:28:35.736Z",
+      "completed_at": "2026-10-08T06:28:36.200Z"
+    },
+    "9c305b5aa044a48c55786a3aef03d903": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9c305b5aa044a48c55786a3aef03d903",
+      "started_at": "2026-10-08T06:28:36.203Z",
+      "completed_at": "2026-10-08T06:28:36.561Z"
+    },
+    "9e62010f5c2d2f0291f8874bd0f108bc": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9e62010f5c2d2f0291f8874bd0f108bc",
+      "started_at": "2026-10-08T06:28:36.565Z",
+      "completed_at": "2026-10-08T06:28:36.935Z"
+    },
+    "9ea83c0e4f7dc6c133f9a1bb16bee6a7": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9ea83c0e4f7dc6c133f9a1bb16bee6a7",
+      "started_at": "2026-10-08T06:28:36.939Z",
+      "completed_at": "2026-10-08T06:28:37.307Z"
+    },
+    "9f7f0f7e4c9d5cb5e6670be2479da5f2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-9f7f0f7e4c9d5cb5e6670be2479da5f2",
+      "started_at": "2026-10-08T06:28:37.310Z",
+      "completed_at": "2026-10-08T06:28:37.683Z"
+    },
+    "a086a294fae62986ef3cc7451ac08f81": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a086a294fae62986ef3cc7451ac08f81",
+      "started_at": "2026-10-08T06:28:37.693Z",
+      "completed_at": "2026-10-08T06:28:38.093Z"
+    },
+    "a16e39232c7d786caacf29f78cc35ffb": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a16e39232c7d786caacf29f78cc35ffb",
+      "started_at": "2026-10-08T06:28:38.097Z",
+      "completed_at": "2026-10-08T06:28:38.466Z"
+    },
+    "a569c7716fbd8a493df492763edd4c21": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a569c7716fbd8a493df492763edd4c21",
+      "started_at": "2026-10-08T06:28:38.476Z",
+      "completed_at": "2026-10-08T06:28:38.844Z"
+    },
+    "a70d05a908bbcf3ea12b4c5395021085": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a70d05a908bbcf3ea12b4c5395021085",
+      "started_at": "2026-10-08T06:28:38.847Z",
+      "completed_at": "2026-10-08T06:28:39.206Z"
+    },
+    "a726aeaa9f7ce193c5ee5ed4e402698e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a726aeaa9f7ce193c5ee5ed4e402698e",
+      "started_at": "2026-10-08T06:28:39.216Z",
+      "completed_at": "2026-10-08T06:28:39.589Z"
+    },
+    "a79e5e82cbf1f836af8fb5c7428f666e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-a79e5e82cbf1f836af8fb5c7428f666e",
+      "started_at": "2026-10-08T06:28:39.592Z",
+      "completed_at": "2026-10-08T06:28:39.958Z"
+    },
+    "af5aa1c337402262a710eace8dc504ab": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-af5aa1c337402262a710eace8dc504ab",
+      "started_at": "2026-10-08T06:28:39.961Z",
+      "completed_at": "2026-10-08T06:28:40.322Z"
+    },
+    "b26c48b73d3af972154a476ba7d8f802": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b26c48b73d3af972154a476ba7d8f802",
+      "started_at": "2026-10-08T06:28:40.325Z",
+      "completed_at": "2026-10-08T06:28:40.687Z"
+    },
+    "b5df7177ed911c47b68418405ff1dedb": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b5df7177ed911c47b68418405ff1dedb",
+      "started_at": "2026-10-08T06:28:40.697Z",
+      "completed_at": "2026-10-08T06:28:41.058Z"
+    },
+    "b7b7e9358ed2fc2a03d80893a060d198": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b7b7e9358ed2fc2a03d80893a060d198",
+      "started_at": "2026-10-08T06:28:41.062Z",
+      "completed_at": "2026-10-08T06:28:41.423Z"
+    },
+    "b8a35951561b0ad8929b3334534212a9": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b8a35951561b0ad8929b3334534212a9",
+      "started_at": "2026-10-08T06:28:41.433Z",
+      "completed_at": "2026-10-08T06:28:41.819Z"
+    },
+    "b8b28bb38dc46bf5ce60a077b4def73d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b8b28bb38dc46bf5ce60a077b4def73d",
+      "started_at": "2026-10-08T06:28:41.831Z",
+      "completed_at": "2026-10-08T06:28:42.210Z"
+    },
+    "b8d36fa96d30fc861cc80117e7b4b15d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b8d36fa96d30fc861cc80117e7b4b15d",
+      "started_at": "2026-10-08T06:28:42.214Z",
+      "completed_at": "2026-10-08T06:28:42.576Z"
+    },
+    "b9214d6f466afd7c117d4880e872a3a2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b9214d6f466afd7c117d4880e872a3a2",
+      "started_at": "2026-10-08T06:28:42.579Z",
+      "completed_at": "2026-10-08T06:28:42.960Z"
+    },
+    "b9ba1bafc94d058b0749f29b2a6ec259": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-b9ba1bafc94d058b0749f29b2a6ec259",
+      "started_at": "2026-10-08T06:28:42.970Z",
+      "completed_at": "2026-10-08T06:28:43.355Z"
+    },
+    "bb3b190778c93cefa0f07ea760f763ee": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-bb3b190778c93cefa0f07ea760f763ee",
+      "started_at": "2026-10-08T06:28:43.359Z",
+      "completed_at": "2026-10-08T06:28:43.709Z"
+    },
+    "bba704f2476d1a93fd7bffb1d59cb20b": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-bba704f2476d1a93fd7bffb1d59cb20b",
+      "started_at": "2026-10-08T06:28:43.713Z",
+      "completed_at": "2026-10-08T06:28:44.084Z"
+    },
+    "bc294a9b39cfc830dd3077ae0b6f23ee": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-bc294a9b39cfc830dd3077ae0b6f23ee",
+      "started_at": "2026-10-08T06:28:44.088Z",
+      "completed_at": "2026-10-08T06:28:44.468Z"
+    },
+    "be39abb660525f86fd664b8df9629b11": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-be39abb660525f86fd664b8df9629b11",
+      "started_at": "2026-10-08T06:28:44.472Z",
+      "completed_at": "2026-10-08T06:28:44.826Z"
+    },
+    "c25dbd80031ae32eb2e1f4f6770ccc2e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-c25dbd80031ae32eb2e1f4f6770ccc2e",
+      "started_at": "2026-10-08T06:28:44.836Z",
+      "completed_at": "2026-10-08T06:28:45.207Z"
+    },
+    "c41b2c41c0fbbbeb4ba60fcace13f02e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-c41b2c41c0fbbbeb4ba60fcace13f02e",
+      "started_at": "2026-10-08T06:28:45.211Z",
+      "completed_at": "2026-10-08T06:28:45.592Z"
+    },
+    "c6f1c8305a2882ca83281c8f223f09e1": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-c6f1c8305a2882ca83281c8f223f09e1",
+      "started_at": "2026-10-08T06:28:45.596Z",
+      "completed_at": "2026-10-08T06:28:45.949Z"
+    },
+    "c8a1c42c391a251f2d76b33be6319236": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-c8a1c42c391a251f2d76b33be6319236",
+      "started_at": "2026-10-08T06:28:45.961Z",
+      "completed_at": "2026-10-08T06:28:46.349Z"
+    },
+    "c9557cd208cfc88032d6349e0e5ced8c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-c9557cd208cfc88032d6349e0e5ced8c",
+      "started_at": "2026-10-08T06:28:46.359Z",
+      "completed_at": "2026-10-08T06:28:46.755Z"
+    },
+    "ca5dcf7b46049d36029298f5117cbdac": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ca5dcf7b46049d36029298f5117cbdac",
+      "started_at": "2026-10-08T06:28:46.759Z",
+      "completed_at": "2026-10-08T06:28:47.204Z"
+    },
+    "d03862b65899f0dcdae662824a18069e": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-d03862b65899f0dcdae662824a18069e",
+      "started_at": "2026-10-08T06:28:47.207Z",
+      "completed_at": "2026-10-08T06:28:47.622Z"
+    },
+    "d07b4f779e64ceaabc490eebdd437dcd": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-d07b4f779e64ceaabc490eebdd437dcd",
+      "started_at": "2026-10-08T06:28:47.637Z",
+      "completed_at": "2026-10-08T06:28:48.098Z"
+    },
+    "d31f7aa7ec197f4394d79c13d65c0973": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-d31f7aa7ec197f4394d79c13d65c0973",
+      "started_at": "2026-10-08T06:28:48.101Z",
+      "completed_at": "2026-10-08T06:28:48.487Z"
+    },
+    "dc4db76608580950806f4e934a9a1cb0": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-dc4db76608580950806f4e934a9a1cb0",
+      "started_at": "2026-10-08T06:28:48.491Z",
+      "completed_at": "2026-10-08T06:28:48.858Z"
+    },
+    "dcfd6f830603113f3ee7e5b4e151d092": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-dcfd6f830603113f3ee7e5b4e151d092",
+      "started_at": "2026-10-08T06:28:48.861Z",
+      "completed_at": "2026-10-08T06:28:49.264Z"
+    },
+    "dfe119a36518933ac33780d01f3d313a": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-dfe119a36518933ac33780d01f3d313a",
+      "started_at": "2026-10-08T06:28:49.267Z",
+      "completed_at": "2026-10-08T06:28:49.709Z"
+    },
+    "e0cfe81041f8ab2aa13c68770042ed62": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-e0cfe81041f8ab2aa13c68770042ed62",
+      "started_at": "2026-10-08T06:28:49.719Z",
+      "completed_at": "2026-10-08T06:28:50.107Z"
+    },
+    "e28748f678ef9c8fff1c553cb667a2a2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-e28748f678ef9c8fff1c553cb667a2a2",
+      "started_at": "2026-10-08T06:28:50.110Z",
+      "completed_at": "2026-10-08T06:28:50.486Z"
+    },
+    "e30a79f8c520a84adbad10ab1e75ec9d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-e30a79f8c520a84adbad10ab1e75ec9d",
+      "started_at": "2026-10-08T06:28:50.490Z",
+      "completed_at": "2026-10-08T06:28:50.863Z"
+    },
+    "e8a06388bc4cc402576482908fd381f8": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-e8a06388bc4cc402576482908fd381f8",
+      "started_at": "2026-10-08T06:28:50.872Z",
+      "completed_at": "2026-10-08T06:28:51.258Z"
+    },
+    "ea0352db044b73bb7158800c58be188d": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ea0352db044b73bb7158800c58be188d",
+      "started_at": "2026-10-08T06:28:51.261Z",
+      "completed_at": "2026-10-08T06:28:51.631Z"
+    },
+    "ea1434b63fed9b916708438120026842": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ea1434b63fed9b916708438120026842",
+      "started_at": "2026-10-08T06:28:51.635Z",
+      "completed_at": "2026-10-08T06:28:52.015Z"
+    },
+    "ed1a18bb53f82e06a2c7a0beea2293e2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ed1a18bb53f82e06a2c7a0beea2293e2",
+      "started_at": "2026-10-08T06:28:52.027Z",
+      "completed_at": "2026-10-08T06:28:52.391Z"
+    },
+    "ed7bb5598ff5e89266efbdd5501f84a2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ed7bb5598ff5e89266efbdd5501f84a2",
+      "started_at": "2026-10-08T06:28:52.396Z",
+      "completed_at": "2026-10-08T06:28:52.767Z"
+    },
+    "efd5073278a5b9862be45fb89c7e7cf6": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-efd5073278a5b9862be45fb89c7e7cf6",
+      "started_at": "2026-10-08T06:28:52.771Z",
+      "completed_at": "2026-10-08T06:28:53.145Z"
+    },
+    "f29bdfa666f5575a28dfe749ec329a45": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f29bdfa666f5575a28dfe749ec329a45",
+      "started_at": "2026-10-08T06:28:53.155Z",
+      "completed_at": "2026-10-08T06:28:53.541Z"
+    },
+    "f3e8e74061bf6e5cfc408edc3e934bb6": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f3e8e74061bf6e5cfc408edc3e934bb6",
+      "started_at": "2026-10-08T06:28:53.544Z",
+      "completed_at": "2026-10-08T06:28:53.913Z"
+    },
+    "f5c7d0572d7d7222effd5b40f5f8a117": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f5c7d0572d7d7222effd5b40f5f8a117",
+      "started_at": "2026-10-08T06:28:53.923Z",
+      "completed_at": "2026-10-08T06:28:54.287Z"
+    },
+    "f5dcf4c0d1ccf4c1f1db3e308289742c": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f5dcf4c0d1ccf4c1f1db3e308289742c",
+      "started_at": "2026-10-08T06:28:54.291Z",
+      "completed_at": "2026-10-08T06:28:54.679Z"
+    },
+    "f639cd2aa78712420d9f804401e05f20": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f639cd2aa78712420d9f804401e05f20",
+      "started_at": "2026-10-08T06:28:54.690Z",
+      "completed_at": "2026-10-08T06:28:55.084Z"
+    },
+    "f6e3008ab6bcc38f50c48bdfe0468cdd": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "started_at": "2026-10-08T06:28:55.088Z",
+      "completed_at": "2026-10-08T06:28:55.469Z"
+    },
+    "f939099a958200657b70fa887861020a": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f939099a958200657b70fa887861020a",
+      "started_at": "2026-10-08T06:28:55.479Z",
+      "completed_at": "2026-10-08T06:28:55.946Z"
+    },
+    "f99d38d2b710dac30b73fa792426f074": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-f99d38d2b710dac30b73fa792426f074",
+      "started_at": "2026-10-08T06:28:55.950Z",
+      "completed_at": "2026-10-08T06:28:56.405Z"
+    },
+    "fa6d913f5a2d1b5b97ac7da2ef540715": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-fa6d913f5a2d1b5b97ac7da2ef540715",
+      "started_at": "2026-10-08T06:28:56.415Z",
+      "completed_at": "2026-10-08T06:28:56.795Z"
+    },
+    "feb840a6e49b6592386adcc5fd2bf8a2": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-feb840a6e49b6592386adcc5fd2bf8a2",
+      "started_at": "2026-10-08T06:28:56.799Z",
+      "completed_at": "2026-10-08T06:28:57.173Z"
+    },
+    "ff811eea3631a75486bfd7a8b58442be": {
+      "state": "complete",
+      "dispute_id": "cuet-reassessment-v1-6f27a6113168-ff811eea3631a75486bfd7a8b58442be",
+      "started_at": "2026-10-08T06:28:57.183Z",
+      "completed_at": "2026-10-08T06:28:57.660Z"
+    }
+  },
+  "withhold_update": {
+    "state": "complete",
+    "completed_at": "2026-10-08T06:28:06.080Z",
+    "count": 127
+  },
+  "jobs": {
+    "state": "complete",
+    "completed_at": "2026-10-08T06:28:57.900Z",
+    "count": 127
+  },
+  "source_contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+  "source_captured_at": "2026-10-08T06:07:12.928Z",
+  "expected_ids": [
+    "022715ffbd5f9ddc00637221a98a8363",
+    "0247258de456a670df19039e3a2c4dfa",
+    "0de322e27637f76ac593c99028e4cafa",
+    "11a1cd0da911c0091e9884629edb5165",
+    "13baa89b0354877f55f5d8a5c4afaa7e",
+    "1670079b3e8c801354374a52bf4ed31d",
+    "16c797c8408fc9ba8756b60ad446fca1",
+    "17b22c6e7575cec573a9cb15b2749f8c",
+    "1d169b91bb1212eaace41647147933e2",
+    "20cc88e8ab11b76d9e44bd28a36ac435",
+    "20d17d6168c3fbf2eb5c0ee350eaf85e",
+    "20e278c61e343db83349eded6916c255",
+    "21acf04b6b876ec71add04ae24ec8cd5",
+    "21ffdb2198b350582fa6e53d8a820211",
+    "246b07ecc64527cc6bb4f40f5c47d6b6",
+    "24bc774e92f50c1d451abdcdaac8d7b4",
+    "296c159a29a991573e77266004038898",
+    "296e6c135c976583eb0f54b193502fef",
+    "30c559b7cee4ab97a2a9c9c85ca4bd30",
+    "331811df731779f1411fea83fa7f8db6",
+    "341d2ffb9c69a0f0bef64c9eea5e2706",
+    "3567fb5736b09efcd72b7d417d28aa88",
+    "379191f2d6fa6e4844bf6a8b159f1a10",
+    "37a8e9413523b30482b6b1577d627f72",
+    "386dca46542a02901d2837324bf0b69e",
+    "3936d671d69dce13796bfd5d39217eaa",
+    "3a4fb951521a500585e594e37c05655c",
+    "3c8d31764c62441ee2a27c97059c5b08",
+    "3dce0344d7ad78f4346cd451c509983e",
+    "4115a8da29d5db85791e1ebac2a51510",
+    "435e48ce37fbd17c87658815528aba5d",
+    "44337f81bb4f1b4b7ade81e162eb760a",
+    "495c4536f5869a65e46ae8a6d92010c8",
+    "4a2f6c3dc560031ae7ab4591ad7c868e",
+    "5114300ab4bc8333ce6507832947954c",
+    "52b9d78d281ebd92bf8a312e697d1130",
+    "559f599c8fa9caddcb113a5b81282e96",
+    "58cd0ed02dfc261ba99638aae0875484",
+    "5bde762f1a36a3a7d894f0aa45f655e9",
+    "5d2cf0d217e3ccb43730a4b1eecdab61",
+    "5d5cbe3a6d01bd317032694801215f21",
+    "5f649f52cbfb1439a77ef9b48ba42e8b",
+    "625a65a8ebc2b5d43ffecf1736ec00f9",
+    "6314a93c1f302347c03562d66b15f2d3",
+    "67fe249b34753b62b0c637326975e001",
+    "68cfc94f40e75cdcd1d6f596ea45cf91",
+    "6cb91dc50c0e981ac4c14fcd7b9c15f0",
+    "6e65669238f8a31b656dbe0e711a7e70",
+    "749c7d54f592dbfc93ca164595ca5cff",
+    "75ec5aa6e1c81eda20121fb91aa2db43",
+    "765c28539460d21e44556e18f6ea5dc3",
+    "774fae6c1244e20f676a2f110fcb1c31",
+    "7b4662c4e2166c62f863a6ae1da78ba6",
+    "7c93ba5270b262b8aba33c51780d0ea0",
+    "7c9d79eb923e3c7cd31062b712f4f196",
+    "82d3698b9973e8b58b67691d2e0c9792",
+    "86d76029e629b9f6ef1430035cc5765f",
+    "89cfa7dc25a1ec3a95e633660a40ce0d",
+    "8ad2e554e891c8095bb7e5cabd4426b9",
+    "8ae5b51a291e1e4af741fed6b275739c",
+    "8b7a12e7cce479ddec3b443b1a09f92a",
+    "8c1cc9b05e28b915f65be085a1f701f1",
+    "8e2d8a69af3a9f812213d9e4a12dcb19",
+    "9081a9c01da9a7634cfc78b889b8129f",
+    "90c0efb048add1dbde2112db46487d91",
+    "90c24807e1a72c192a3c7d75ee9ed454",
+    "90ec25792703058c191b0275f1912a44",
+    "94fdb333647dbf55a393f9d5a3dcfc4d",
+    "99519ad997494b32a08ca17d0c48315b",
+    "99de722eb49ebfa10306bd2d9dd3e88d",
+    "9a3a683cde6b70963343775b8264da5a",
+    "9bd2d77281ddf33604855c9a579c0c71",
+    "9c305b5aa044a48c55786a3aef03d903",
+    "9e62010f5c2d2f0291f8874bd0f108bc",
+    "9ea83c0e4f7dc6c133f9a1bb16bee6a7",
+    "9f7f0f7e4c9d5cb5e6670be2479da5f2",
+    "a086a294fae62986ef3cc7451ac08f81",
+    "a16e39232c7d786caacf29f78cc35ffb",
+    "a569c7716fbd8a493df492763edd4c21",
+    "a70d05a908bbcf3ea12b4c5395021085",
+    "a726aeaa9f7ce193c5ee5ed4e402698e",
+    "a79e5e82cbf1f836af8fb5c7428f666e",
+    "af5aa1c337402262a710eace8dc504ab",
+    "b26c48b73d3af972154a476ba7d8f802",
+    "b5df7177ed911c47b68418405ff1dedb",
+    "b7b7e9358ed2fc2a03d80893a060d198",
+    "b8a35951561b0ad8929b3334534212a9",
+    "b8b28bb38dc46bf5ce60a077b4def73d",
+    "b8d36fa96d30fc861cc80117e7b4b15d",
+    "b9214d6f466afd7c117d4880e872a3a2",
+    "b9ba1bafc94d058b0749f29b2a6ec259",
+    "bb3b190778c93cefa0f07ea760f763ee",
+    "bba704f2476d1a93fd7bffb1d59cb20b",
+    "bc294a9b39cfc830dd3077ae0b6f23ee",
+    "be39abb660525f86fd664b8df9629b11",
+    "c25dbd80031ae32eb2e1f4f6770ccc2e",
+    "c41b2c41c0fbbbeb4ba60fcace13f02e",
+    "c6f1c8305a2882ca83281c8f223f09e1",
+    "c8a1c42c391a251f2d76b33be6319236",
+    "c9557cd208cfc88032d6349e0e5ced8c",
+    "ca5dcf7b46049d36029298f5117cbdac",
+    "d03862b65899f0dcdae662824a18069e",
+    "d07b4f779e64ceaabc490eebdd437dcd",
+    "d31f7aa7ec197f4394d79c13d65c0973",
+    "dc4db76608580950806f4e934a9a1cb0",
+    "dcfd6f830603113f3ee7e5b4e151d092",
+    "dfe119a36518933ac33780d01f3d313a",
+    "e0cfe81041f8ab2aa13c68770042ed62",
+    "e28748f678ef9c8fff1c553cb667a2a2",
+    "e30a79f8c520a84adbad10ab1e75ec9d",
+    "e8a06388bc4cc402576482908fd381f8",
+    "ea0352db044b73bb7158800c58be188d",
+    "ea1434b63fed9b916708438120026842",
+    "ed1a18bb53f82e06a2c7a0beea2293e2",
+    "ed7bb5598ff5e89266efbdd5501f84a2",
+    "efd5073278a5b9862be45fb89c7e7cf6",
+    "f29bdfa666f5575a28dfe749ec329a45",
+    "f3e8e74061bf6e5cfc408edc3e934bb6",
+    "f5c7d0572d7d7222effd5b40f5f8a117",
+    "f5dcf4c0d1ccf4c1f1db3e308289742c",
+    "f639cd2aa78712420d9f804401e05f20",
+    "f6e3008ab6bcc38f50c48bdfe0468cdd",
+    "f939099a958200657b70fa887861020a",
+    "f99d38d2b710dac30b73fa792426f074",
+    "fa6d913f5a2d1b5b97ac7da2ef540715",
+    "feb840a6e49b6592386adcc5fd2bf8a2",
+    "ff811eea3631a75486bfd7a8b58442be"
+  ],
+  "affected_groups": [
+    {
+      "id": "original-passage-cd55b65c95234040105a",
+      "ids": [
+        "7c93ba5270b262b8aba33c51780d0ea0",
+        "9081a9c01da9a7634cfc78b889b8129f"
+      ]
+    }
+  ],
+  "source_hashes": {
+    "export_sha256": "70934506d98a7383db64f0bf26a86809e03978d29b1bff79c851f26c6002bccb",
+    "plan_sha256": "17a0c7474a500937f30c04fff9dd435c33328932e01d27969dfe63497acca662"
+  },
+  "completed_at": "2026-10-08T06:28:57.910Z"
+}

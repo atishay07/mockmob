@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T21:34:30.789Z",
+  "command": "node --test scripts/pipeline/tests/budgetContinuation.test.mjs",
+  "result": { "passed": 11, "failed": 0 },
+  "coverage": [
+    "dead worker restart recovery and living lease protection",
+    "unresolved request hold survives restart and cannot be resubmitted",
+    "native batch acceptance is uploaded once and reconciled idempotently",
+    "lost grouped acceptance recovers matching IDs without repost"
+  ],
+  "provider_calls": 0,
+  "production_writes": 0,
+  "scope_note": "Local temporary SQLite and mocked transport tests; not a staging worker restart or academic-release test."
+}

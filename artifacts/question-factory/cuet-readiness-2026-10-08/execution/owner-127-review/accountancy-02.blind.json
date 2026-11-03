@@ -1,0 +1,529 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "accountancy",
+  "offset": 10,
+  "total": 36,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-leac104:1:pdf-page-5:1589db2e2e69b5794eb5732ef0df6fd824c80ab880b35fe316ad109f107255dd": {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "1589db2e2e69b5794eb5732ef0df6fd824c80ab880b35fe316ad109f107255dd",
+      "text": "160 Accountancy – Partnership Accounts Inability of a Partner to Contribute Towards Deficiency In the context of settlement of accounts among the partners there is still another important aspect to be noted, i.e., when a partner is unable to contribute towards the deficiency of his capital account (the account finally showing a debit balance), he/she is said to be insolvent, and the sum not recoverable is treated as capital loss for the firm. In the absence of any agreement, to the contrary, such a capital loss is to be borne by the remaining solvent partners in accordance with the principle laid down in Garner vs. Murray case, which states that the solvent partners have to bear such loss in the ratio of their capitals as on the date of dissolution. However , the accounting treatment relating to dissolution of partnership on account of insolvency of partners is not being taken up at this stage. 4.4 Accounting Treatment When the firm is dissolved, its books of account are to be closed and the profit or loss arising on realisation of its assets and discharge of liabilities is to be computed. For this purpose, a Realisation Account is prepared to ascertain the net effect (profit or loss) of realisation of assets and payment of liabilities which may be is transferred to partner’s capital accounts in their profit sharing ratio. Hence, all assets (other than cash in hand bank balance and fictitious assets, if any), and all external liabilities are transferred to this account. It also records the sale of assets, and payment of liabilities and realisation expenses. The balance in this account is termed as profit or loss on realisation which is transferred to partners’ capital accounts in the profit sharing ratio (see figure 4.1). Dr. Realisation Account Cr. Particulars Amount Particulars Amount (Rs.) (Rs.) Intangible Assets xxx Bank Loan Mortgage xxx Land and Building xxx Sundry creditors xxx Plant and Machinery xxx Bills payables xxx Furniture and Fittings xxx Bank overdraft xxx Loan to other parties xxx Outstanding expenses xxx Bills receivables xxx Provision for doubtful debts xxx Sundry debtors xxx Cash/Bank (sale of assets) xxx Cash/Bank xxx Partner’s capital account xxx (payment of liabilities) (assets taken by the partner) Cash/Bank xxx Loss (transferred to partners xxx (payment of unrecorded liabilities) capital accounts) Partner’s capital account xxx Loss (transferred to partners xxx Investments xxx Investment Fluctuation Fund xxx (liability assumed by the partner) Profit (transferred to partners’ xxx capital account’s in their profit sharing ratio) Total xxxxx Total xxxxx Fig. 4.1: Format of Realisation Account Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe"
+    },
+    "ncert-leac104:1:pdf-page-11:3238299789f58633b348721634d276cb1fe6765a23ceafa9aef3e78a81961119": {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-11",
+      "support_hash": "3238299789f58633b348721634d276cb1fe6765a23ceafa9aef3e78a81961119",
+      "text": "166 Accountancy – Partnership Accounts 11. For settlement of any unrecorded liability Realisation A/c Dr. To Bank A/c 12. For transfer of profit and loss on realisation (Cr. Balance) (a) In case of profit on realisation Realisation A/c Dr. To Partners’ Capital A/c (individually) A/c (b) In case of loss on realisation Partners’ Capital A/c (individually) Dr. (Dr. Balance) To Realisation A/c 13. For settlement of loan by a fir m to a partner: Bank A/c Dr. To loan to partners A/c 14. For transfer of accumulated pr ofits in the for m of general r eserve to partners’ capital accounts in their profit sharing ratio: General Reserve A/c Dr. To Partners’ Capital A/c (individually) 15. For transfer of fictitious assets, if any, to partners’ capital accounts in their profit sharing ratio: Partners’ Capital A/c (individually) Dr. To Fictitious Asset A/c 16. For payment of loans due to partners Partner’s Loan A/c Dr. To Bank A/c 17. For settlement of partners’ accounts If the partner’s capital account shows a debit balance after posting of rebount entries firms. He brings in the necessary cash for which the entry will be: Bank A/c Dr. To Partner’s Capital A/c The balance is paid to partners whose capital accounts show a credit balance and the following entry is recorded. Partners’ Capitals A/cs (individually) Dr. To Bank A/c It may be noted that the aggregate amount finally payable to the partners must equal to the amount available in bank and cash accounts. Thus, all accounts of a firm are closed in case of dissolution. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe"
+    },
+    "ncert-leac201:1:pdf-page-39:cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758",
+      "text": "39Accounting for Share Capital Share First Call A/c Dr. 2,00,000 To Equity Share Capital A/c 2,00,000 (Money due on 10,000 shares @ Rs. 20 per share on Ist Call) Bank A/c Dr. 1,94,000 To Equity Share First Call A/c 1,94,000 (First call money received except for 300 shares) Share Second and Final Call A/c Dr. 3,00,000 To Equity Share Capital A/c 3,00,000 (Money due on 10,000 shares @ Rs. 30 per share on Second and Final Call) Bank A/c Dr. 2,91,000 To Equity Share Second and Final Call A/c 2,91,000 (Second and Final Call money received except for 300 shares) Share Capital A/c Dr. 30,000 To Equity Share First Call A/c 6,000 To Equity Share Second and Final Call A/c 9,000 To Share Forfeiture A/c 15,000 (300 shares forfeited) Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received. Thus, the journal entry to record the forfeiture of shares issued at a premium on which premium has not been fully received, will be : Share Capital A/c Dr. Securities Premium Reserve A/c Dr. To Share Forfeiture A/c Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-39-a14adf94f3",
+      "support_hash": "a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19",
+      "text": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+      "text": "5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partner’s loan is to be given @ 12% p.a., if the deed is silent about the rate. 1.3 Special Aspects of Partnership Accounts Accounting treatment for partnership firm is similar to that of a sole proprietorship business with the exception of the following aspects: • Maintenance of Partners’ Capital Accounts; • Distribution of Profit and Loss among the partners; • Adjustments for Wrong Appropriation of Profits in the Past; • Reconstitution of the Partnership Firm; and • Dissolution of Partnership Firm. The first three aspects mentioned above have been taken up in the following sections of this chapter . The r emaining aspects have been cover ed in the subsequent chapters. 1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capital, withdrawal of capital, share of profit, interest on capital, interest on drawings, partner’s salary, commission to partners, etc. There are two methods by which the capital accounts of partners can be maintained. These are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance. The partner’s capital account and the current account under the fixed capital method would appear as shown in Fig.1.1. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:pdf-page-30:435504458c1adbea5bf3fcecbc0dfb23e92d5e18142a3233b7b1a512d276ba01": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-30",
+      "support_hash": "435504458c1adbea5bf3fcecbc0dfb23e92d5e18142a3233b7b1a512d276ba01",
+      "text": "30 Accountancy – Partnership Accounts not be less than Rs. 30,000 in any year. The capital provided was as follows: John Rs. 2,50,000, Mathew Rs. 2,00,000 and Mohanty Rs. 1,50,000. The profit for the year ending March 31,2015 amounted to Rs. 1,50,000 before providing interest on capital. Show the Profit & Loss Appropriation Account if new profit sharing ratio is 3:2:1. Solution Books of John and Mathew Profit and Loss Appropriation Account for the year ending..... Dr. Cr. Particulars Amount Particulars Amount (Rs.) (Rs.) Interest on capital Net profit 1,50,000 John 25,000 Mathew 20,000 Mohanty 15,000 60,000 Capital accounts shared info : John 45,000 Less: Share of deficiency 15,000 30,000 Mathew 30,000 Mohanty 15,000 Add: Deficiency 15,000 30,000 received from John 1,50,000 1,50,000 Working Notes: Profit after interest on capital is Rs. 90,000, which is to be distributed in the ratio of 3:2:1 as follows: John gets Rs. 45,000 (3/6 × Rs. 90,000), Mathew Rs. 30,000, Mohanty Rs. 15,000. Deficiency of Mohanty from the guaranteed profit of Rs. 15,000 will be borne by John. John will therefore get Rs. 45,000 – Rs. 15,000 = Rs. 30,000, Mathew Rs. 30,000 and Mohanty Rs. 30,000. Illustration 13 Mahesh and Dinesh share profits and losses in the ratio of 2:1. From January 01, 2014 they admit Rakesh into their firm who is to be given a share of 1/10 of the profits with a guaranteed minimum of Rs. 25,000. Mahesh and Dinesh continue to share profits as before but agree to bear any deficiency on account of guarantee to Rakesh in the ratio of 3:2 respectively. The profits of the firm for the year ending December 31, 2015 amounted to Rs. 1,20,000. Prepare Profit and Loss Appropriation Account. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da": {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+      "text": "220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payable Turnover Ratio = Purchases * Average Trade Payables = Purchases Creditors + Bills payable = 4,20,000 90,000 + 52,000 = 4,20,000 1,42,000 = 2.96 times (iv) Average Payment Period = 365 Trade Payables Turnover Ratio = 365 2.96 = 123 days *Since no information regarding credit purchase is given, hence it will be related as net purchases. 5.8.4 Net Assets or Capital Employed Turnover Ratio It reflects relationship between revenue from operations and net assets (capital employed) in the business. Higher turnover means better activity and profitability. It is calculated as follows : Net Assets or Capital Employed Turnover ratio = Revenue from Operation Capital Employed Capital employed turnover ratio which studies turnover of capital employed (or Net Assets) is analysed further by following two turnover ratios : (a) Fixed Assets Turnover Ratio : It is computed as follows: Fixed asset turnover Ratio = Net Revenue from Operation Net Fixed Assets Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac205.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0"
+    },
+    "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28": {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-20",
+      "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28",
+      "text": "213Accounting Ratios 5.8 Activity (or Turnover) Ratio These ratios indicate the speed at which, activities of the business are being performed. The activity ratios express the number of times assets employed, or, for that matter, any constituent of assets, is turned into sales during an accounting period. Higher turnover ratio means better utilisation of assets and signifies improved efficiency and profitability, and as such are known as efficiency ratios. The important activity ratios calculated under this category are 1. Inventory Turnover; 2. Trade receivable Turnover; 3. Trade payable Turnover; 4. Investment (Net assets) Turnover 5. Fixed assets Turnover; and 6. Working capital Turnover. 5.8.1 Inventory Turnover Ratio It determines the number of times inventory is converted into revenue from operations during the accounting period under consideration. It expresses the relationship between the cost of revenue from operations and average inventory. The formula for its calculation is as follows: Inventory Turnover Ratio = Cost of Revenue from Operations / Average Inventory Where average inventory refers to arithmetic average of opening and closing inventory, and the cost of revenue from operations means revenue from operations less gross profit. Significance : It studies the frequency of conversion of inventory of finished goods into revenue from operations. It is also a measure of liquidity. It determines how many times inventory is purchased or replaced during a year. Low turnover of inventory may be due to bad buying, obsolete inventory, etc., and is a danger signal. High turnover is good but it must be carefully interpreted as it may be due to buying in small lots or selling quickly at low margin to realise cash. Thus, it throws light on utilisation of inventory of goods. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac205.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0"
+    },
+    "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-88acd5a861b0",
+      "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+      "text": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and liabilities, transfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio and adjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio. All this is done in the same way as in case of admission of a partner.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-2c978c97c40a",
+      "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+      "text": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27\r\nPAGE 31\r\n78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+      "text": "4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classified as follows: • Authorised Capital: Authorised capital is the amount of share capital which a company is authorised to issue by its Memorandum of Association. The company cannot raise more than the amount of capital as specified in the Memorandum of Association. It is also called Nominal or Registered capital. The authorised capital can be increased or decreased as per the procedure laid down in the Companies Act. It should be noted that the company need not issue the entire authorised capital for public subscription at a time. Depending upon its requirement, it may issue share capital but in any case, it should not be more than the amount of authorised capital. • Issued Capital: It is that part of the authorised capital which is actually issued to the public for subscription including the shares allotted to vendors and the signatories to the company’s memorandum. The authorised capital which is not offered for public subscription is known as ‘unissued capital’. Unissued capital may be offered for public subscription at a later date. • Subscribed Capital: It is that part of the issued capital which has been actually subscribed by the public. When the shares offered for public subscription are subscribed fully by the public the issued capital and subscribed capital would be the same. It may be noted that ultimately, the subscribed capital may be equal to or less than issued capital. In case the number of shares subscribed is less than what is offered, the company allots only the number of shares for which subscription has been received. In case it is higher than what is offered, the allotment will be equal to the offer. In other words, the fact of over subscription is not reflected in the books. • Called up Capital: It is that part of the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share. The remaining Rs. 3 may be collected from its shareholders as and when needed. • Paid up Capital: It is that portion of the called up capital which has been actually received from the shareholders. When the shareholders have paid all the called amount, the called up capital is the same to the paid up capital. If any of the shareholders has not paid amount on calls, such an amount may be called as ‘calls in arrears’. Therefore, paid up capital is equal to the called-up capital minus call in arrears. • Uncalled Capital: That portion of the subscribed capital which has not yet been called up. As stated earlier, the company may collect this amount any time when it needs further funds. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac101:1:quality-v4-45047abeb583:45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-45047abeb583",
+      "support_hash": "45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8",
+      "text": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. For example, Madhulika and Rakshita, who are partners in a firm decide to admit Kanishka into their firm, giving her the guarantee of a minimum of Rs.25,000 as her share in firm’s profits. The firm earned a profit of Rs.1,20,000 during the year and the agreed profit sharing ratio between the partners is decided as 2:3:1. As per this ratio, Madhulika’s share in profit comes to Rs.40,000 (2/6 of Rs. 1,20,000); Rakshita, Rs. 60,000 (3/6 of Rs. 1,20,000) and Kanishka Rs. 20,000 (1/6 of Rs. 1,20,000). The share of Kanishka works out to be Rs.5,000 short of the guaranteed amount. This shall be borne by the guaranteeing partners Madhulika and Rakshita in Reprint 2026-27\n27Accounting for Partnership : Basic Concepts their profit sharing ratio, which in this case is 2:3, Madhulika’s share in the deficiency comes to Rs.2,000 (2/5 of Rs. 5,000), and that of Rakshita Rs.3,000. The total profit of the firm will be distributed among the partners as follows Madhulika will get Rs.38,000 (her share 40,000 minus share in deficiency Rs.2,000); Rakshita Rs.57,000 (60,000–3,000) and Kanishka Rs. 25,000 (Rs. 20,000 + Rs. 2,000 + Rs. 3,000). If only one partner gives the guarantee, say in the above case, only Rakshita gives the guarantee, the whole amount of deficiency (Rs.5,000) will be borne by her only.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-4386d49f5b11",
+      "support_hash": "4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792",
+      "text": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions or the preparation of summary statements are found after the final accounts have been prepared and the profits distributed among the partners. The omission may be in respect of interest on capitals, interest on drawings, interest on partners’ loan, partner’s salary, partner’s commission or outstanding expenses. There may also be some changes in the provisions of partnership deed or system of accounting having impact with retrospective effect. All these acts of omission and commission need adjustments for correction of their impact. Instead of altering old accounts, necessary adjustments can be made either; (a) through ‘Profit and Loss Adjustment Account’, or (b) directly in the capital accounts of the concerned partners. This is explained with the help of following example. Rameez and Zaheer are equal partners. Their capitals as on April 01, 2015 were Rs. 50,000 and Rs. 1,00,000 respectively. After the accounts for the financial year ending March 31, 2016 have been prepared, it is discovered that interest at the rate of 6 per cent per annum, as provided in the partnership deed has not been credited to the partners’ capital accounts before distribution of profit. In this case, the interest on capital not credited to the partners’ capital accounts works out to be Rs. 3000 (6/100 × Rs. 50,000) for Rameez and Rs. 6,000 (6/100 × Rs. 1,00,000) for Zaheer. Had the interest on capital been duly provided, the firm’s profit would have reduced by Rs. 9,000. By this omission, the whole amount of profit as per Profit and Loss Account (without adjustment of Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-ae361e8a3770",
+      "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+      "text": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method 2.5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-a50bfa9f5679",
+      "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+      "text": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill). 2.5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-4f456816afcf",
+      "support_hash": "4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+      "text": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on capital is Reprint 2026-27\n16 Accountancy – Partnership Accounts credited to the partners at the agreed rate with reference to the time period for which the capital remained in business during a financial year. Interest on capital is generally provided for in two situations : (i) when the partners contribute unequal amounts of capitals but share profits equally, and (ii) where the capital contribution is same but profit sharing is unequal. Interest on capital is calculated with due allowance for any addition or withdrawal of capital during the accounting period. For example, Mohini, Rashmi and Navin entered into partnership, bringing in Rs. 3,00,000, Rs. 2,00,000 and Rs. 1,00,000 respectively into the business. They decided to share profits and losses equally and agreed that interest on capital will be provided to the partners @10 per cent per annum. There was no addition or withdrawal of capital by any partner during the year . The inter est on capital works out to Rs. 30,000 (10% on 30,000) for Mohini, Rs. 20,000 (10% on 2,00,000) for Rashmi, and Rs. 10,000 (10% on 1,00,000) for Navin. Take another case of Mansoor and Reshma who are partners in a firm and their capital accounts showed the balance of Rs. 2,00,000 and Rs. 1,50,000 respectively on April 1, 2019. Mansoor introduced additional capital of Rs. 1,00,000 on August 1, 2019 and Reshma brought in further capital of Rs. 1,50,000 on October 1, 2019. Interest is to be allowed @ 6% p.a. on the capitals. It shall be worked as follows: For Mansoor 6 6 8Rs. 2,00,000 Rs. 1,00,000100 100 12              = Rs. 12,000 + Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:quality-v4-557e0eacf2d2:557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-557e0eacf2d2",
+      "support_hash": "557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d",
+      "text": "1.5.3 Interest on Drawings The partnership agreement may also provide for charging of interest on money withdrawn out of the firm by the partners for their personal use. As stated earlier, no interest is charged on the drawings if there is no express agreement among the partners about it. However if the partnership deed so provides for it, the interest is charged at an agreed rate, for the period for which drawings have been made. Remained outstanding from the partners during an accounting year. Charging interest on drawings discourages excessive amounts of drawings by the partners. The calculation of interest on drawings under different situations is shown as here under. When Fixed Amounts was Withdrawn Every Month Many a time, a fixed amount of money is withdrawn by the partners, at equal time interval, say each month or each quarter. While calculating the time period, attention must be paid to whether the fixed amount was withdrawn at the beginning (first day) of the month, middle of the month or at the end (last day) of the month. If withdrawn on the first day of every month, interest on total amount will be calculated for 6½ months; if withdrawn at the end at every month, it will be calculated for 5½ months, and if withdrawn during the middle of the month, it will be calculated for 6 months. Suppose, Aashish withdrew Rs. 10,000 per month from the firm for his personal use during the year ending March 31, 2017. The calculation of average period and the interest on drawings, in different situations would be as follows: (a) When the amount is withdrawn at the beginning of each month: Average Period = No. of months of 1 drawings + No. of month of last drawings 2 = 12+1 2 = 16 2 months.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    }
+  },
+  "cases": [
+    {
+      "id": "b9ba1bafc94d058b0749f29b2a6ec259",
+      "content_hash": "8a9f2e6b4710a639091b3a64aea1e8062b73b2c3271f4a750c310ac2fdbf8c03",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Dissolution of Partnership Firm",
+        "topic": "Dissolution of Partnership Firm: focus on this supplied section: 160 Accountancy – Partnership Accounts Inability of a Partner to Contribute Towards Deficiency In the context of settlement of accounts among the partners there is still another im. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "On dissolution, A and B share profits and losses in the ratio 3:2. Immediately before recording the result of realisation, their capital accounts show credit balances of ₹2,60,000 and ₹2,00,000, respectively. The firm has non-cash assets with a book value of ₹5,00,000 and bank balance of ₹80,000; its only external liability is ₹1,20,000. All the non-cash assets are realised for ₹4,20,000, the liability is settled for ₹1,15,000, and realisation expenses of ₹10,000 are paid. There are no other assets, liabilities, expenses, reserves, partner loans, or capital movements. What amount should be paid to B on final settlement?",
+        "options": [
+          "₹1,49,000",
+          "₹1,66,000",
+          "₹2,00,000",
+          "₹1,64,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac104:1:pdf-page-5:1589db2e2e69b5794eb5732ef0df6fd824c80ab880b35fe316ad109f107255dd",
+        "ncert-leac104:1:pdf-page-11:3238299789f58633b348721634d276cb1fe6765a23ceafa9aef3e78a81961119"
+      ]
+    },
+    {
+      "id": "f5dcf4c0d1ccf4c1f1db3e308289742c",
+      "content_hash": "08866972bc63a8d0bd83ac2aad339214ceea04867496ae60a108199cdae19f38",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "topic": "Financial Statements of Company: focus on this supplied section: 39Accounting for Share Capital Share First Call A/c Dr. 2,00,000 To Equity Share Capital A/c 2,00,000 (Money due on 10,000 shares @ Rs. 20 per share on Ist Call) Bank A/c Dr. 1,94,. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Shares were issued at a premium. The stated shares in each case are forfeited for non-payment of call money. Match each case with the amount to be debited to Securities Premium Reserve Account at forfeiture. All amounts are in rupees.\n\nList-I\n(A) 400 shares; premium of ₹6 per share fully received\n(B) 300 shares; premium of ₹5 per share wholly unpaid\n(C) 250 shares; premium of ₹8 per share, of which ₹4 per share remains unpaid\n(D) 200 shares; premium of ₹7 per share, of which ₹3 per share remains unpaid\n\nList-II\n(I) ₹0\n(II) ₹600\n(III) ₹1,000\n(IV) ₹1,500\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)",
+          "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+          "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac201:1:pdf-page-39:cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758",
+        "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+      ]
+    },
+    {
+      "id": "7b4662c4e2166c62f863a6ae1da78ba6",
+      "content_hash": "8197547afaad708a8e031d5d44d38c0c2791aa23f61bfd3d98b8f5e63302544d",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "topic": "Partnership Fundamentals: focus on this supplied section: 5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partn. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A partner’s capital accounts are maintained under the fixed capital method. The transactions being considered are capital introduced or withdrawn, share of profit, drawings, interest on capital and interest on drawings. Arrange the following reasoning steps in a coherent order, from identifying the method to determining the treatment of transactions and the resulting capital-account balance:\n(A) Identify the stipulated method as the fixed capital method.\n(B) Maintain a separate Capital Account and Current Account for the partner.\n(C) Allocate capital introductions or withdrawals to the Capital Account and the other listed transactions to the Current Account.\n(D) Conclude that the Capital Account changes only for capital introductions or withdrawals.\nChoose the correct sequence.",
+        "options": [
+          "(A), (C), (B), (D)",
+          "(A), (B), (C), (D)",
+          "(B), (A), (C), (D)",
+          "(A), (B), (D), (C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+        "ncert-leac101:1:pdf-page-30:435504458c1adbea5bf3fcecbc0dfb23e92d5e18142a3233b7b1a512d276ba01"
+      ]
+    },
+    {
+      "id": "24bc774e92f50c1d451abdcdaac8d7b4",
+      "content_hash": "e61d7e28e6003aee86d4f00f0f76a6be1953ba10cd283c6de9f1d9e77eb492a7",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "topic": "Accounting Ratios: focus on this supplied section: 220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payab. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company’s financial analyst compares its inventory turnover ratios for two successive accounting periods. The reported figures are:\nYear 1: Revenue from operations ₹14,40,000; gross profit ₹3,60,000; opening inventory ₹2,40,000; closing inventory ₹3,60,000.\nYear 2: Revenue from operations ₹16,80,000; gross profit ₹4,80,000; opening inventory ₹3,60,000; closing inventory ₹4,40,000.\nWhich comparison correctly states the inventory turnover ratio for each year? Round each ratio to one decimal place.",
+        "options": [
+          "Year 1: 3.6 times; Year 2: 3.0 times",
+          "Year 1: 4.8 times; Year 2: 4.2 times",
+          "Year 1: 3.0 times; Year 2: 2.7 times",
+          "Year 1: 4.5 times; Year 2: 3.3 times"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+        "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+      ]
+    },
+    {
+      "id": "bba704f2476d1a93fd7bffb1d59cb20b",
+      "content_hash": "19dd7cbcec0ca05ba48b719303307cf162189b661db7b89d6e445013a39dad68",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Change in Profit Sharing Ratio",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retir. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Four existing partners change their future profit-sharing ratio from 8:5:4:3 to 5:7:5:3, with no admission or retirement. The firm has goodwill, and only the goodwill adjustment arising from this ratio change is considered. Match each partner with the change in share and the corresponding goodwill-adjustment treatment.\n\nList-I\n(A) Partner A\n(B) Partner B\n(C) Partner C\n(D) Partner D\n\nList-II\n(I) Loses 3/20; sacrificing partner, credited\n(II) Gains 2/20; gaining partner, debited\n(III) Gains 1/20; gaining partner, debited\n(IV) Share unchanged; neither gaining nor sacrificing\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+        "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      ]
+    },
+    {
+      "id": "6cb91dc50c0e981ac4c14fcd7b9c15f0",
+      "content_hash": "141712601163b56fb9e995f606cd27cb92a70ceae606816ce0e5e8c22e7c3d6c",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "topic": "Financial Statements of Company: focus on this supplied section: 4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classif. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company has authorised 12,000 shares of ₹10 each. It issues all 10,000 shares offered to the public. Applications are received for 9,000 shares, and those 9,000 shares are allotted. The company calls ₹6 per allotted share and receives ₹48,600 in total against this call. No other amount has been called or received. Arrange the following capital amounts from largest to smallest:\n(I) Authorised capital\n(II) Issued capital\n(III) Subscribed capital\n(IV) Called-up capital\n(V) Paid-up capital\n(VI) Uncalled capital\nChoose the correct answer from the options given below:",
+        "options": [
+          "(I), (II), (III), (VI), (IV), (V)",
+          "(I), (II), (III), (IV), (VI), (V)",
+          "(I), (II), (III), (IV), (V), (VI)",
+          "(I), (III), (II), (IV), (V), (VI)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+        "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+      ]
+    },
+    {
+      "id": "20cc88e8ab11b76d9e44bd28a36ac435",
+      "content_hash": "d4c6a56cb4ea33df27dec2b4ba703ea8ec3c2146af2841c0c1cc9d8bc5523496",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Change in Profit Sharing Ratio",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retir. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "direct_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A and B are the only partners in a firm and share profits in the ratio 3:2. No partner is admitted or retires. They agree to share future profits in the ratio 2:3. Goodwill is to be adjusted between them; only the direction of the capital-account entries is required. Which treatment is appropriate?",
+        "options": [
+          "Debit A's capital account and credit B's capital account.",
+          "Credit both A's and B's capital accounts.",
+          "Debit both A's and B's capital accounts.",
+          "Credit A's capital account and debit B's capital account."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+        "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      ]
+    },
+    {
+      "id": "f939099a958200657b70fa887861020a",
+      "content_hash": "be635c103d11bb87a12312db1405f3262937a6f670418e94f774bdd362788095",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Profit & Loss Appropriation Account",
+        "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assur. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "P and Q admit R as a partner. Their profit-sharing ratio is 3:2:3, respectively. The firm earns a profit of ₹2,40,000. P and Q guarantee R a minimum share of ₹1,00,000, and any deficiency in R’s share is to be borne by P and Q in their relative profit-sharing ratio of 3:2. No other adjustments apply. What is the final distribution of profit among P, Q and R?",
+        "options": [
+          "P: ₹84,000; Q: ₹56,000; R: ₹1,00,000",
+          "P: ₹90,000; Q: ₹60,000; R: ₹90,000",
+          "P: ₹80,000; Q: ₹60,000; R: ₹1,00,000",
+          "P: ₹86,000; Q: ₹54,000; R: ₹1,00,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:quality-v4-45047abeb583:45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8",
+        "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+      ]
+    },
+    {
+      "id": "b5df7177ed911c47b68418405ff1dedb",
+      "content_hash": "8ef9a39e58ed72d07e1ba50e9574b9e0fe977876c7901c80542bfe19702ee3eb",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Goodwill Valuation",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the val. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm reports profits of ₹48,000, ₹56,000, ₹64,000 and ₹72,000 in four successive past years. The partners have agreed to value goodwill by the Average Profits Method at three years’ purchase. Treat average profit as the arithmetic mean of the four stated annual profits, with no other adjustment. Arrange the steps in the correct order to determine goodwill.\n(A) Add the four annual profits.\n(B) Divide their total by four to obtain average past profit.\n(C) Multiply the average past profit by three.\n(D) State the resulting amount as goodwill.\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(B)-(C)-(D)",
+          "(B)-(A)-(C)-(D)",
+          "(A)-(C)-(B)-(D)",
+          "(A)-(B)-(D)-(C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+        "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+      ]
+    },
+    {
+      "id": "4a2f6c3dc560031ae7ab4591ad7c868e",
+      "content_hash": "7e4dcddb5ed8772f891dcdc1b4d00c65567aad41e8a6ba3ac0d0bac64b6e8825",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "topic": "Partnership Fundamentals: focus on this supplied section: 1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on cap. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A, B and C have opening capitals of ₹2,40,000, ₹3,00,000 and ₹1,80,000, respectively, on 1 April. A introduces a further ₹60,000 on 1 July; B withdraws ₹1,20,000 from capital on 1 October; and C introduces a further ₹60,000 on 1 December. The partnership deed expressly provides for interest on capital at 10% per annum for the financial year ending 31 March. There are no other capital changes. For this question, count whole months from the first day of each stated month through 31 March. What is the total interest on capital for the year?",
+        "options": [
+          "₹66,000",
+          "₹78,500",
+          "₹74,000",
+          "₹72,500"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+        "ncert-leac101:1:quality-v4-557e0eacf2d2:557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d"
+      ]
+    }
+  ]
+}

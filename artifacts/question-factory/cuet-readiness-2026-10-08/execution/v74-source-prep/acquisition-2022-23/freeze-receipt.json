@@ -1,0 +1,42 @@
+{
+  "schema": "v74-source-acquisition-freeze-receipt-v1",
+  "frozen_at_utc": "2026-10-08T13:45:53.817299Z",
+  "selected_case_count": 16,
+  "held_construction_count": 1,
+  "english_adaptation_pending": true,
+  "key_values_in_review_packet": false,
+  "answer_reviews_started": false,
+  "release": false,
+  "paid_calls": 0,
+  "manifest_hashes": {
+    "source_url_inventory_sha256": "199ae5d32faba60872d5b5ae1fdc814b14a43da51d1db0d715a389d21f186164",
+    "exclusion_manifest_sha256": "fe929d9d206b12334c8b126e07bf4df43645de968e361a0c46b0ae7674b07e5d",
+    "pre_acquisition_binding_sha256": "625b95e8e70720ea445c60456e9b53cc58b8ed5c13c32d91edec12a293d20a3d"
+  },
+  "artifact_hashes": {
+    "acquisition-receipt.json": "943542bc54197ad4b6fcf1f5046855b4aab865efbba88651a86b4a22a53efbd9",
+    "custody-disclosure.json": "b5223bec2571c713723a8125bffe5dd4613ce4d05e697fce1ceea66270680479",
+    "raw16-locator-packet.json": "d052f87fe57d0d4a250e803a8fbba0226a075bb09086c8830af310c322c8540e",
+    "raw16-source-span-integrity.json": "117f026603508066c9f8d0ae15862526f1983515ac6f1ba329bdd27b4c72f767"
+  },
+  "integrity_manifest_sha256": "117f026603508066c9f8d0ae15862526f1983515ac6f1ba329bdd27b4c72f767",
+  "source_pdf_hashes": {
+    "Accountancy-SQP.pdf": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+    "BusinessStudies-SQP.pdf": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+    "Economics-SQP.pdf": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+    "EnglishCore-SQP.pdf": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745"
+  },
+  "source_text_hashes": {
+    "Accountancy-SQP.txt": "3c5af677deb8dd40bb0f47f86c43da7a199ef996470fa098ae70c9e66e176ab1",
+    "BusinessStudies-SQP.txt": "64ad14a78a4ac2bdb6d6c08817d9d021960b997fd76cb2bbe2ca58771eacf767",
+    "Economics-SQP.txt": "f1725e452d1b77ca27d381ba3e03ae17a9475d2f7819d911d9fa614c1ed9b732",
+    "EnglishCore-SQP.txt": "99fd3e700e4633d8d92625d629d115bc63d046d2b58dbbc46a8b68f32b4e1a4c"
+  },
+  "validation": {
+    "json_files_parse": true,
+    "all_downloads_match_receipt": true,
+    "all_16_source_spans_match_hashes": true,
+    "packet_and_integrity_ids_match": true,
+    "frozen_inventory_and_exclusion_manifests_unchanged": true
+  }
+}

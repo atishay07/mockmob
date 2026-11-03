@@ -1,0 +1,345 @@
+{
+  "at": "2026-10-08T20:48:30.275Z",
+  "qualification_evaluation_started": false,
+  "edits": [
+    {
+      "id": "v76f-0a26fac46f",
+      "kind": "decisive_source_restoration",
+      "previous_ref": {
+        "id": "v76s-4c88c6e320b3b4",
+        "version": 1,
+        "locator": "decisive-excerpt",
+        "support_hash": "ee4629924a6b7fb3e082dc96360d8810f40172f614226cc26d364fcc54a81090"
+      },
+      "current_ref": {
+        "id": "v76s-1df3d2a1a5b00e",
+        "version": 1,
+        "locator": "decisive-excerpt",
+        "support_hash": "31ec310380145ba7b291dbc6ba3e4866c495db69f7d24a74f431dc39a698cb54"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-e0932269d0",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Marketing",
+        "route": "conceptual",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "after": {
+        "chapter": "Marketing Management",
+        "route": "conceptual",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Government Budget and the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "after": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-461c8da728",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-71ed304404",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Marketing",
+        "route": "numerical",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "after": {
+        "chapter": "Marketing Management",
+        "route": "numerical",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "kind": "construction_oracle_fix",
+      "previous": "Inherited parent key B",
+      "current": "Independent mathematical result C = 12",
+      "expected_valid_unchanged": false
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "numerical",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "numerical",
+        "syllabus_unit": "Money and Banking"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Government Budget and the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "after": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    },
+    {
+      "id": "v76f-10e903f685",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "stem_options_key_unchanged": true
+    }
+  ]
+}

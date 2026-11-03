@@ -1,0 +1,3049 @@
+{
+  "publication_ready": false,
+  "guaranteed_accuracy": false,
+  "reviewed_count": 49,
+  "questions": [
+    {
+      "id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct SYNONYM for \"benevolent\" from the options given below.",
+      "options": [
+        "generous",
+        "influential",
+        "articulate",
+        "hostile"
+      ],
+      "correct_answer": "A",
+      "explanation": "The supplied definition describes benevolent as “kind, helpful and generous”. Therefore, generous matches the stated sense.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-english-bookA-q48",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q48",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q48",
+        "adaptation_type": "pyq_adapted_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q48",
+          "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+        },
+        {
+          "id": "oxford-quality-benevolent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a"
+        }
+      ],
+      "question_type": "synonym",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Choose the correct SYNONYM for \"benevolent\" from the options given below.",
+      "review": {
+        "n": 1,
+        "id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+        "content_hash": "28a0768633f53ec8ed6122ce1ed6e14b9258659c49627b687eeabcd9f6a89cfe",
+        "subject": "english",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "benevolent -> generous; supported sense.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "b016c1ba-e593-4a54-889f-3e46739e47dd",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "During the town-hall meeting, the audience gave the proposal a \"hostile\" reception, responding with angry interruptions and repeated challenges. Identify the option closest in meaning to the quoted word \"hostile\" as used in the sentence.",
+      "options": [
+        "cautious",
+        "attentive",
+        "unfriendly",
+        "welcoming"
+      ],
+      "correct_answer": "C",
+      "explanation": "The word describes the audience’s attitude towards the proposal, shown by angry interruptions and repeated challenges. The supplied definition includes being “unfriendly” and ready to argue, making “unfriendly” the closest option.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-english-bookA-q46",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q46",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q46",
+        "adaptation_type": "contextualised synonym",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q46",
+          "support_hash": "d164f096352ccebcf374c70b8c387432c2ab44ec612fe03cd5a2998b0a972c2a"
+        },
+        {
+          "id": "oxford-quality-hostile",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+        }
+      ],
+      "question_type": "synonym",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "During the town-hall meeting, the audience gave the proposal a \"hostile\" reception, responding with angry interruptions and repeated challenges. Identify the option closest in meaning to the quoted word \"hostile\" as used in the sentence.",
+      "review": {
+        "n": 6,
+        "id": "b016c1ba-e593-4a54-889f-3e46739e47dd",
+        "content_hash": "1b69f42660f829351dae78fe1817f85ae21d86d02fd044b8c53385c40fe197b3",
+        "subject": "english",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Context fixes the sense of hostile.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "80128a04-efc4-4dda-875a-1de62e3b6715",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct ANTONYM for \"obsolete\" from the options given below.",
+      "options": [
+        "in use",
+        "durable",
+        "electronic",
+        "antiquated"
+      ],
+      "correct_answer": "A",
+      "explanation": "The supplied definition says that \"obsolete\" means no longer used because something new has been invented. \"In use\" expresses the opposite use-status.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-english-bookA-q49",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q49",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q49",
+        "adaptation_type": "New antonym item using the specified dictionary sense",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "c3c68e301906dcc02f653de4b3c28cc25f428af157374c0c29bcefbf7f2e5960"
+        },
+        {
+          "id": "oxford-quality-obsolete",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+        }
+      ],
+      "question_type": "antonym",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Choose the correct ANTONYM for \"obsolete\" from the options given below.",
+      "review": {
+        "n": 8,
+        "id": "80128a04-efc4-4dda-875a-1de62e3b6715",
+        "content_hash": "e6b5654809dd387d9620b1a7e89a93d85d8eb6ecbd45eed4e9a346b1d6ad047c",
+        "subject": "english",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Antonym 'in use'; 'antiquated' is a good synonym trap. Two-word key is acceptable.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "06e12149-3182-4996-a0a3-1ce255770929",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct SYNONYM for \"tedious\" from the options given below.",
+      "options": [
+        "uninteresting",
+        "difficult",
+        "predictable",
+        "entertaining"
+      ],
+      "correct_answer": "A",
+      "explanation": "The supplied definition of \"tedious\" includes “not interesting”. “Uninteresting” directly expresses that sense.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-english-bookA-q48",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q48",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q48",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q48",
+          "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+        },
+        {
+          "id": "oxford-quality-tedious",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+        }
+      ],
+      "question_type": "synonym",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Choose the correct SYNONYM for \"tedious\" from the options given below.",
+      "review": {
+        "n": 10,
+        "id": "06e12149-3182-4996-a0a3-1ce255770929",
+        "content_hash": "44a6da303011ff97ea8e4ba866ee1cf0cf618ed6d7723a84442e887c74ed5df8",
+        "subject": "english",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "tedious -> uninteresting.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "849dc884-83dc-4d91-b0d7-c4944af77416",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct SYNONYM for \"gregarious\" from the options given below.",
+      "options": [
+        "popular",
+        "solitary",
+        "sociable",
+        "generous"
+      ],
+      "correct_answer": "C",
+      "explanation": "Gregarious means “liking to be with other people”, so sociable matches the stated sense. Popularity, being alone and generosity do not express that preference for company.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-english-bookA-q48",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q48",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q48",
+        "adaptation_type": "new vocabulary synonym item using the supplied sense",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q48",
+          "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+        },
+        {
+          "id": "oxford-quality-gregarious",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+        }
+      ],
+      "question_type": "synonym",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Choose the correct SYNONYM for \"gregarious\" from the options given below.",
+      "review": {
+        "n": 22,
+        "id": "849dc884-83dc-4d91-b0d7-c4944af77416",
+        "content_hash": "f6b79ca8908c2368f021f153e57fab41acce747b514b18e1ced4344438d47781",
+        "subject": "english",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "gregarious -> sociable; 'popular' is a fair trap.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "337f9816-1231-4d79-b3f8-fe8592b8f4ab",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "body": "Which of the following would affect the Revaluation Account at the time of admission of a partner ? (A) Increase in assets (B) Drawings against capital (C) Recording of unrecorded assets (D) Decrease in liabilities Choose the correct answer from the options given below :",
+      "options": [
+        "(A), (B) and (C) only",
+        "(A), (B) and (D) only",
+        "(A), (C) and (D) only",
+        "(B), (C) and (D) only"
+      ],
+      "correct_answer": "C",
+      "explanation": "An increase in an asset and a decrease in a liability are gains credited to the Revaluation Account; an unrecorded asset is also credited to it. Drawings against capital are not a revaluation of an asset or liability, so the correct selection is (A), (C) and (D) only.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q8",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-accountancy-bookA-q8",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q8",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "01100ebeb958272feb542120084b698d821980862685b546c1f90a9402f69c5c"
+        },
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-2c978c97c40a",
+          "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        }
+      ],
+      "question_type": "statement_based",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Which of the following would affect the Revaluation Account at the time of admission of a partner ?\n(A) Increase in assets\n(B) Drawings against capital\n(C) Recording of unrecorded assets\n(D) Decrease in liabilities\nChoose the correct answer from the options given below :",
+      "review": {
+        "n": 27,
+        "id": "337f9816-1231-4d79-b3f8-fe8592b8f4ab",
+        "content_hash": "c48f97635b0f94054b750fcce7555f303c967d2a2dd33f59bb17c70a9492fd35",
+        "subject": "accountancy",
+        "kind": "authentic_pyq",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Authentic original q8.",
+        "display_changed": true,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "7531d589-9880-461b-b20e-75193ad67378",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Calculate the resulting cash flow and state the nature of cash flow from the following information : Acquired machinery for ₹ 3,50,000 by issuing cheque.",
+      "options": [
+        "Investing activity and outflow ₹ 3,50,000",
+        "Investing activity and inflow ₹ 3,50,000",
+        "Investing activity and no flow",
+        "Operating activity and outflow ₹ 3,50,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "Machinery is a fixed asset, so its acquisition is an investing activity. Payment by cheque is a cash outflow of ₹3,50,000.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q11",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-accountancy-bookA-q11",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q11",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q11",
+          "support_hash": "148dc46d491269688435abde577d782a8017dd0b93b37cc6f640ab5d291a4741"
+        },
+        {
+          "id": "ncert-leac206",
+          "version": 1,
+          "locator": "span-9becf1f3d140",
+          "support_hash": "9becf1f3d14002f3bf14ca6b0f719a15fb0bdeb083791397d483da055e10c72a"
+        },
+        {
+          "id": "ncert-leac206",
+          "version": 1,
+          "locator": "span-8f2903c3938e",
+          "support_hash": "8f2903c3938e80996ed7934206d3c8f94f90a57d6b3b8e467a1cff5a6de3955d"
+        }
+      ],
+      "question_type": "numerical_one_step",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Calculate the resulting cash flow and state the nature of cash flow from the following information : Acquired machinery for ₹ 3,50,000 by issuing cheque.",
+      "review": {
+        "n": 29,
+        "id": "7531d589-9880-461b-b20e-75193ad67378",
+        "content_hash": "439ddcd377c3b3fe195e59b9e79a8eebd23edd68625b722d7d62e7c5484dffcf",
+        "subject": "accountancy",
+        "kind": "authentic_pyq",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Authentic original q11.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "5c7f7bc7-8480-4896-a4a3-95dde7d4abc6",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A first call of ₹2,400 is due from a shareholder on 15 October. The shareholder has not paid any of it after that date. What is the accounting term for the unpaid ₹2,400?",
+      "options": [
+        "Calls in Arrears",
+        "Calls in Advance",
+        "Securities Premium Reserve",
+        "Forfeiture of Shares"
+      ],
+      "correct_answer": "A",
+      "explanation": "An amount due on a call but not paid by the shareholder is called Calls in Arrears or Unpaid Calls. Here, the ₹2,400 call is due and remains unpaid.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q3",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q3",
+        "adaptation_type": "case_application",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-18-b5a4c91410",
+          "support_hash": "b5a4c91410db7ce3bed1b67623adf7665fef51c35db7791b18fc83ae210ef2eb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "quality-v4-2497dc78d958",
+          "support_hash": "2497dc78d958be2d4210c2e353aba7a6d8beb08c254ab502ea84ae4a3970100b"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A first call of ₹2,400 is due from a shareholder on 15 October. The shareholder has not paid any of it after that date. What is the accounting term for the unpaid ₹2,400?",
+      "review": {
+        "n": 34,
+        "id": "5c7f7bc7-8480-4896-a4a3-95dde7d4abc6",
+        "content_hash": "e34e784e188bfe60efc4aae233968fee67445489edbfac04c152c5a83d2f7df2",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Calls in arrears; easy but sound.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "3a2d6d96-40a7-42ee-b841-cfa1a6c7b101",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "body": "At the admission of a partner, the firm's assets are revalued and its liabilities are reassessed. After these entries are recorded, the Revaluation Account has a final credit balance. What does this balance indicate?",
+      "options": [
+        "An overall net gain from the revaluation of assets and liabilities.",
+        "An overall net loss from the revaluation of assets and liabilities.",
+        "Only changes in asset values, without indicating an overall net result.",
+        "A net gain only if no liabilities were reassessed."
+      ],
+      "correct_answer": "A",
+      "explanation": "A final credit balance in the Revaluation Account indicates a net gain. The account includes gains and losses arising from the revaluation of assets and liabilities.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q4",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q4",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q4",
+        "adaptation_type": "Direct MCQ interpreting the final balance after asset revaluation and liability reassessment",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q4",
+          "support_hash": "e6577a9f3c11713c407d13a3dabf02afacd18a63605dc041a30153c5cdba1f1f"
+        },
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-2c978c97c40a",
+          "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "At the admission of a partner, the firm's assets are revalued and its liabilities are reassessed. After these entries are recorded, the Revaluation Account has a final credit balance. What does this balance indicate?",
+      "review": {
+        "n": 35,
+        "id": "3a2d6d96-40a7-42ee-b841-cfa1a6c7b101",
+        "content_hash": "e9f6eceac899b0b605ceca57d928f4386266a05ab212657b8520d41882e8db52",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Options C and D are contrived and easy to eliminate.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "2b07d0fa-b34d-4a3a-bcce-c697b3b86279",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "A firm maintains partners’ accounts under the fixed capital method. At year-end, it records each partner’s share of profit. In which account is this item recorded?",
+      "options": [
+        "Each partner’s Current Account",
+        "Each partner’s Capital Account",
+        "One combined Partners’ Capital Account for all partners",
+        "The firm’s Profit and Loss Account"
+      ],
+      "correct_answer": "A",
+      "explanation": "Under the fixed capital method, each partner’s share of profit is recorded in the Partner’s Current Account. The capital account remains separate from the current account.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q5",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q5",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q5",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-5-58df58a906",
+          "support_hash": "58df58a90618154e7ea61331ea0035c889352b2af75c47964848adc082dd7bbc"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "quality-v4-5f1d4244dc0b",
+          "support_hash": "5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A firm maintains partners’ accounts under the fixed capital method. At year-end, it records each partner’s share of profit. In which account is this item recorded?",
+      "review": {
+        "n": 36,
+        "id": "2b07d0fa-b34d-4a3a-bcce-c697b3b86279",
+        "content_hash": "e811f5c200cf2c07817b15066a0375631c27a15554d8404c9249c207aeb1a150",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Fixed capital: profit share to current account.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "body": "On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?",
+      "options": [
+        "X: ₹24,000; Y: ₹16,000",
+        "X: ₹12,000; Y: ₹8,000",
+        "X: ₹27,000; Y: ₹18,000",
+        "X: ₹20,000; Y: ₹20,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "An increase in an asset and a decrease in a liability are gains; a decrease in an asset and an increase in a liability are losses. The net revaluation gain is ₹40,000 + ₹10,000 − ₹5,000 − ₹5,000 = ₹40,000. Sharing this gain in the old ratio of 3:2 gives X ₹24,000 and Y ₹16,000.",
+      "difficulty": "medium",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q8",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q8",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q8",
+        "adaptation_type": "numerical_application_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "01100ebeb958272feb542120084b698d821980862685b546c1f90a9402f69c5c"
+        },
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-2c978c97c40a",
+          "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?",
+      "review": {
+        "n": 38,
+        "id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+        "content_hash": "0142b4d46af17a4c32f51efd8f37a5a81ae983af91c0a9d6b5f6db89e0087a54",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Net revaluation gain Rs 40,000 split 3:2; distractors from named errors.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "4b5d0834-3386-4c04-926b-6c7a4b00bc12",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "For shares issued at a premium, consider the following statements about when the premium may be called:\n(A) The amount of premium may technically be called at any stage of the issue of shares.\n(B) Premium is generally called with the amount due on allotment.\n(C) Premium is sometimes called with the application money.\n(D) Premium is never called with call money.\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A), (B) and (C) only",
+        "(A), (B) and (D) only",
+        "(A), (C) and (D) only",
+        "(B), (C) and (D) only"
+      ],
+      "correct_answer": "A",
+      "explanation": "The premium may technically be called at any stage, is generally called with allotment money, and is sometimes called with application money. It is rarely called with call money, so statement (D), which says “never”, is incorrect; therefore, the first combination is correct.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q14",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q14",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q14",
+        "adaptation_type": "Source-derived statement-selection variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "quality-v4-f7aa34da4f0a",
+          "support_hash": "f7aa34da4f0ac06c55962a655eb6e9efb505f23fa75e0fca34ecc1dc199804d1"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For shares issued at a premium, consider the following statements about when the premium may be called:\n(A) The amount of premium may technically be called at any stage of the issue of shares.\n(B) Premium is generally called with the amount due on allotment.\n(C) Premium is sometimes called with the application money.\n(D) Premium is never called with call money.\nChoose the correct answer from the options given below:",
+      "review": {
+        "n": 43,
+        "id": "4b5d0834-3386-4c04-926b-6c7a4b00bc12",
+        "content_hash": "6848c25cee5d931799cc3192ef42a4eba9546e3987600cb5f3be22cacc9b81ed",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Statements on calling premium follow the excerpt.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "024746b3-3570-4a3c-a6cb-724aa7c0cca7",
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "body": "A company issues 1,000 debentures, each with a nominal value of ₹100, at an issue price of ₹110 per debenture. What is the total issue premium?",
+      "options": [
+        "₹10,000",
+        "₹1,10,000",
+        "₹1,00,000",
+        "₹10"
+      ],
+      "correct_answer": "A",
+      "explanation": "The premium per debenture is ₹110 − ₹100 = ₹10. For 1,000 debentures, the total issue premium is ₹10 × 1,000 = ₹10,000.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q16",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q16",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q16",
+        "adaptation_type": "blueprint_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q16",
+          "support_hash": "58054081a4a296526cbd79913d3cff7b6b2b15b96896e4a34fb528d5fc77c5cc"
+        },
+        {
+          "id": "ncert-leac202",
+          "version": 1,
+          "locator": "span-2bf9ffb186bb",
+          "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A company issues 1,000 debentures, each with a nominal value of ₹100, at an issue price of ₹110 per debenture. What is the total issue premium?",
+      "review": {
+        "n": 44,
+        "id": "024746b3-3570-4a3c-a6cb-724aa7c0cca7",
+        "content_hash": "62116197fa59b7ebd68326ea24dc059397ce22436f9e9da12a33c37017e83c6f",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Distractor 'Rs 10' is trivially eliminable.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "3d5079c4-4e0e-44bf-98cd-b862fef1b9db",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A company receives ₹24,000 through its bank from shareholders for calls that have not yet been made. The entire amount is received in advance, and the entry required is the entry at the time of receipt. Which journal entry should be recorded?",
+      "options": [
+        "Bank A/c Dr. ₹24,000; To Calls in Advance A/c ₹24,000",
+        "Calls in Advance A/c Dr. ₹24,000; To Bank A/c ₹24,000",
+        "Bank A/c Dr. ₹24,000; To Share First Call A/c ₹24,000",
+        "Bank A/c Dr. ₹24,000; To Calls in Arrears A/c ₹24,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "An amount received for calls not yet made is calls in advance. At the time of receipt through the bank, Bank A/c is debited and Calls in Advance A/c is credited.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q20",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q20",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q20",
+        "adaptation_type": "Case application: journal entry for receipt of calls in advance",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-18-b5a4c91410",
+          "support_hash": "b5a4c91410db7ce3bed1b67623adf7665fef51c35db7791b18fc83ae210ef2eb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "quality-v4-2497dc78d958",
+          "support_hash": "2497dc78d958be2d4210c2e353aba7a6d8beb08c254ab502ea84ae4a3970100b"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A company receives ₹24,000 through its bank from shareholders for calls that have not yet been made. The entire amount is received in advance, and the entry required is the entry at the time of receipt. Which journal entry should be recorded?",
+      "review": {
+        "n": 47,
+        "id": "3d5079c4-4e0e-44bf-98cd-b862fef1b9db",
+        "content_hash": "795394e3abf54055cba63ee7d14f3d374c62f5fd229cdaf7968efc43770dca22",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Calls in advance entry.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "238cc906-ee04-4574-9ada-d75ac01a8f87",
+      "subject": "accountancy",
+      "chapter": "Retirement & Death of Partner",
+      "body": "A, B and C are partners sharing profits in the ratio of 1:2:3. The accounting year runs from 1 April to 31 March, and the profit for the year ended 31 March was ₹2,40,000. C died on 30 June of the ensuing year. Estimate C’s share of profit for the period from 1 April to the date of death using the preceding year’s profit, apportioned by time over the year. Exclude interest on capital and interest on drawings from the calculation.\n\nWhat is C’s estimated share of profit?",
+      "options": [
+        "₹1,20,000",
+        "₹30,000",
+        "₹20,000",
+        "₹90,000"
+      ],
+      "correct_answer": "B",
+      "explanation": "C’s share is calculated as preceding year’s profit × proportion of the year elapsed × C’s profit-sharing fraction. Thus, ₹2,40,000 × 3/12 × 3/6 = ₹30,000.",
+      "difficulty": "medium",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q21",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q21",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q21",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q21",
+          "support_hash": "991820c8032dfb66f58d2682de16dcb9756cf31bdc2f39fad0a8a0d05278502f"
+        },
+        {
+          "id": "ncert-leac103",
+          "version": 1,
+          "locator": "span-ce862e7dfa8c",
+          "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A, B and C are partners sharing profits in the ratio of 1:2:3. The accounting year runs from 1 April to 31 March, and the profit for the year ended 31 March was ₹2,40,000. C died on 30 June of the ensuing year. Estimate C’s share of profit for the period from 1 April to the date of death using the preceding year’s profit, apportioned by time over the year. Exclude interest on capital and interest on drawings from the calculation.\n\nWhat is C’s estimated share of profit?",
+      "review": {
+        "n": 48,
+        "id": "238cc906-ee04-4574-9ada-d75ac01a8f87",
+        "content_hash": "771ca8dc5ade15b68ff131fcc7e4d6cf71f183bd87b989b1056cbd2964efc953",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Deceased partner's share Rs 2,40,000 x 3/12 x 3/6 = Rs 30,000.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "73a0be2c-2484-4c8e-b5ab-ffcee3c3c995",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "A non-financial enterprise prepares its cash flow statement under AS-3. It pays a cash instalment of ₹1,20,000 for a fixed asset acquired on deferred payment basis. The instalment consists only of separately identifiable interest of ₹20,000 and repayment of the loan principal of ₹1,00,000. How should the two elements be classified in its cash flow statement?",
+      "options": [
+        "Interest element: investing activity; loan element: investing activity",
+        "Interest element: financing activity; loan element: financing activity",
+        "Interest element: operating activity; loan element: investing activity",
+        "Interest element: financing activity; loan element: investing activity"
+      ],
+      "correct_answer": "D",
+      "explanation": "For an instalment paid for a fixed asset acquired on deferred payment basis, the interest element is classified under financing activities and the loan element under investing activities. Thus, the ₹20,000 interest is a financing outflow and the ₹1,00,000 loan repayment is an investing outflow.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-accountancy-bookA-q23",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q23",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q23",
+        "adaptation_type": "Case-based application of deferred-payment instalment classification",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 13
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q23",
+          "support_hash": "5020dcaba61ef894b048b56427dc4b7eb08db468ce9e1241d95857904933c4bd"
+        },
+        {
+          "id": "ncert-leac206",
+          "version": 1,
+          "locator": "span-a507d1e4b724",
+          "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A non-financial enterprise prepares its cash flow statement under AS-3. It pays a cash instalment of ₹1,20,000 for a fixed asset acquired on deferred payment basis. The instalment consists only of separately identifiable interest of ₹20,000 and repayment of the loan principal of ₹1,00,000. How should the two elements be classified in its cash flow statement?",
+      "review": {
+        "n": 50,
+        "id": "73a0be2c-2484-4c8e-b5ab-ffcee3c3c995",
+        "content_hash": "953df1dc527e3b012c0931a80205d9b07c6bc8337118520a78eb2ea080a15557",
+        "subject": "accountancy",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Deferred-payment instalment classification per the cash-flow excerpt; stem is long but complete.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "ac914c80-ef24-41d4-aab5-b612ca50dc2a",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Match List-I with List-II on the basis of meaning and the term : List-I List-II (Meaning) (Term) (A) Right to command (I) Answerability (B) Obligation to perform task (II) Delegation (C) Accountability (III) Authority (D) Basis of management hierarchy (IV) Responsibility Choose the correct answer from the options given below :",
+      "options": [
+        "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+        "(A) - (I), (B) - (III), (C) - (II), (D) - (IV)",
+        "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+        "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+      ],
+      "correct_answer": "D",
+      "explanation": "Authority means the right to command, and responsibility is the obligation to perform an assigned task. Accountability means answerability for the outcome of the assigned task, while delegation establishes the superior–subordinate relationships that form the basis of management hierarchy. Thus, the correct matching is (A)-(III), (B)-(IV), (C)-(I) and (D)-(II).",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q24",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-business_studies-bookA-q24",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q24",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q24",
+          "support_hash": "15b60aad185e3eb7b0b32c9cb514f77a72ff9b0086ae8d5a7017e4bb2ce9dce4"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-910ff72d0f84",
+          "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-b1bc338a616f",
+          "support_hash": "b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54"
+        }
+      ],
+      "question_type": "matching",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Match List-I with List-II on the basis of meaning and the term :\n\nList-I (Meaning)\n(A) Right to command\n(B) Obligation to perform task\n(C) Accountability\n(D) Basis of management hierarchy\n\nList-II (Term)\n(I) Answerability\n(II) Delegation\n(III) Authority\n(IV) Responsibility\n\nChoose the correct answer from the options given below :",
+      "review": {
+        "n": 51,
+        "id": "ac914c80-ef24-41d4-aab5-b612ca50dc2a",
+        "content_hash": "07172920cc1402444b2e9f7ff6781b5f09895c7f869c504fc515f879b6658767",
+        "subject": "business_studies",
+        "kind": "authentic_pyq",
+        "historical_verdict": "defect",
+        "classification": "display_restored_needs_revalidation",
+        "lint": [],
+        "review_note": "Authentic original q24 is stored with flattened List-I/List-II text that renders as one run-on line; content correct, presentation not exam-ready.",
+        "display_changed": true,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "dfa84aaf-fceb-4b55-8744-d66145709295",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "The informal organisation offers many benefits. Important among them are given below : (A) Prescribed lines of communication are not followed. Thus, informal organisation leads to faster spread of information as well as quick feedback. (B) It helps to fulfil the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (C) It contributes towards fulfilment of organisational objectives by compensating for inadequacies in the formal organisation. (D) Unity of command is maintained through an established chain of command. Choose the correct answer from the options given below :",
+      "options": [
+        "(A), (B) and (D) only",
+        "(A), (B) and (C) only",
+        "(A), (B), (C) and (D)",
+        "(B), (C) and (D) only"
+      ],
+      "correct_answer": "B",
+      "explanation": "Statements (A), (B) and (C) describe benefits of informal organisation: it supports faster communication and feedback, fulfils members’ social needs, and can compensate for inadequacies in formal organisation. Statement (D) is inconsistent with the informal organisation, whose communication does not follow a planned route. Therefore, option (B) is correct.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q27",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-business_studies-bookA-q27",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q27",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q27",
+          "support_hash": "24b610a45b3a1427131ec6493abf41733c95d7bdc80ff97cec2522024f31525b"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-e5d85ed5309a",
+          "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "The informal organisation offers many benefits. Important among them are given below :\n(A) Prescribed lines of communication are not followed. Thus, informal organisation leads to faster spread of information as well as quick feedback.\n(B) It helps to fulfil the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation.\n(C) It contributes towards fulfilment of organisational objectives by compensating for inadequacies in the formal organisation.\n(D) Unity of command is maintained through an established chain of command.\nChoose the correct answer from the options given below :",
+      "review": {
+        "n": 53,
+        "id": "dfa84aaf-fceb-4b55-8744-d66145709295",
+        "content_hash": "a68b51987477b7a1af3e84c1e2e8f860d645282eada669b26ac7e97106f3dc5f",
+        "subject": "business_studies",
+        "kind": "authentic_pyq",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Authentic original q27.",
+        "display_changed": true,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "b6ac036b-59ac-496e-bba4-a122eda36737",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "\"Management always works by keeping an end result or aim of the organisation. All activities of managers are directed towards the end result.\" From the above statement, identify the feature of management.",
+      "options": [
+        "Management is multidimensional",
+        "Management is continuous",
+        "Management is intangible",
+        "Management is a goal oriented process"
+      ],
+      "correct_answer": "D",
+      "explanation": "The statement says that management directs activities towards the organisation’s aim or end result. Management unites individuals’ efforts towards achieving organisational goals; therefore, management is a goal-oriented process.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q37",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-business_studies-bookA-q37",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q37",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q37",
+          "support_hash": "8b74903bd51eaf4b6022851ced43a0d478647bacc89095776dda2651b1cde075"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-6ecbeb2308f3",
+          "support_hash": "6ecbeb2308f319fdc08190f57c0eb448494ffb9a3cd84369616ae1471f12f5e3"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-12f33385e060",
+          "support_hash": "12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-80cbe19c5a06",
+          "support_hash": "80cbe19c5a06c77897fd44d8ab57a880d05c23c9b1f3628bfe18192db3211a5a"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-9fc81b5f6682",
+          "support_hash": "9fc81b5f6682a9b6093ca7df7fe7f0ecc6b23cec6dd9892023f6156a94d59512"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-a6fbf530d291",
+          "support_hash": "a6fbf530d29134be11c9c0cd1024420769c1c21ed64a251de29c5e173f7557d3"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-ed90283b33f1",
+          "support_hash": "ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d"
+        }
+      ],
+      "question_type": "concept_identification",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "\"Management always works by keeping an end result or aim of the organisation. All activities of managers are directed towards the end result.\" From the above statement, identify the feature of management.",
+      "review": {
+        "n": 55,
+        "id": "b6ac036b-59ac-496e-bba4-a122eda36737",
+        "content_hash": "b91827bcb460356960972abdbb4a06c326269554f45e8c2e715977b0af3970ca",
+        "subject": "business_studies",
+        "kind": "authentic_pyq",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Authentic original q37.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "414f6e75-bf33-4ed5-8a55-d63493c61c61",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Which of the following are advantages of functional structure of an organisation ? (A) Leads to occupational specialisation. (B) Places less emphasis on organisational objectives. (C) Promotes coordination and control within a department. (D) Increases operational efficiency. Choose the correct answer from the options given below :",
+      "options": [
+        "(A), (B) and (C) only",
+        "(A) and (B) only",
+        "(A), (C) and (D) only",
+        "(C) and (D) only"
+      ],
+      "correct_answer": "C",
+      "explanation": "A functional structure leads to occupational specialisation, promotes coordination and control within a department, and increases operational efficiency. Placing less emphasis on overall organisational objectives is a disadvantage, so (B) is not included.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q40",
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-business_studies-bookA-q40",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q40",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q40",
+          "support_hash": "c5891be87b67d818343a353bd0a70d9a5f93266e472bdeb3d7b82c57623b3995"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-18f392ccae68",
+          "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Which of the following are advantages of functional structure of an organisation ?\n(A) Leads to occupational specialisation.\n(B) Places less emphasis on organisational objectives.\n(C) Promotes coordination and control within a department.\n(D) Increases operational efficiency.\nChoose the correct answer from the options given below :",
+      "review": {
+        "n": 56,
+        "id": "414f6e75-bf33-4ed5-8a55-d63493c61c61",
+        "content_hash": "0ec96588af6eda022bee3eb6bd747be8114d7b3470dde184c688359896c4b50b",
+        "subject": "business_studies",
+        "kind": "authentic_pyq",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Authentic original q40.",
+        "display_changed": true,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "d913de0e-3d30-4a5b-9a5b-1e9c5c653763",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Select the correct statements regarding the delegability of authority, responsibility and accountability:\n(A) Authority can be delegated.\n(B) Responsibility cannot be entirely delegated.\n(C) Accountability can be delegated in part.\n(D) Authority cannot be delegated.\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A) and (B) only",
+        "(A) and (C) only",
+        "(B) and (D) only",
+        "(C) and (D) only"
+      ],
+      "correct_answer": "A",
+      "explanation": "Authority can be delegated, and responsibility cannot be entirely delegated, so statements (A) and (B) are correct. Accountability cannot be delegated at all, making (C) incorrect; authority can be delegated, making (D) incorrect.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q24",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q24",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q24",
+        "adaptation_type": "blueprint_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q24",
+          "support_hash": "15b60aad185e3eb7b0b32c9cb514f77a72ff9b0086ae8d5a7017e4bb2ce9dce4"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-910ff72d0f84",
+          "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Select the correct statements regarding the delegability of authority, responsibility and accountability:\n(A) Authority can be delegated.\n(B) Responsibility cannot be entirely delegated.\n(C) Accountability can be delegated in part.\n(D) Authority cannot be delegated.\nChoose the correct answer from the options given below:",
+      "review": {
+        "n": 58,
+        "id": "d913de0e-3d30-4a5b-9a5b-1e9c5c653763",
+        "content_hash": "2020abb76bd36f44072f1198425953e274906ef8af5718bbac42d84ac2a183c4",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Delegability of authority/responsibility/accountability.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "c6019c80-8086-41bc-b0eb-f4fef92abb7c",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Match each advantage of formal organisation in List-I with its stated basis in List-II. Use each entry in List-II once.\nList-I\n(A) Easier to fix responsibility\n(B) No ambiguity in roles and avoidance of duplication of effort\n(C) Unity of command\n(D) Stability of the organisation\nList-II\n(I) Employees’ behaviour is fairly predictable because specific rules guide them\n(II) Mutual relationships are clearly defined\n(III) Duties are specified\n(IV) An established chain of command\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)",
+        "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)",
+        "(A)-(II), (B)-(III), (C)-(IV), (D)-(I)",
+        "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)"
+      ],
+      "correct_answer": "C",
+      "explanation": "Fixing responsibility is linked to clearly defined mutual relationships, while role clarity and avoidance of duplication follow from specified duties. Unity of command is maintained through an established chain of command, and stability is supported by predictable behaviour guided by specific rules.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q26",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q26",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q26",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "bac1aace02c8d47d320c5de44b629ad602338bb73b8096e24d68163bead687a5"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-c8d4ce1fa39d",
+          "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+        }
+      ],
+      "question_type": "matching",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Match each advantage of formal organisation in List-I with its stated basis in List-II. Use each entry in List-II once.\nList-I\n(A) Easier to fix responsibility\n(B) No ambiguity in roles and avoidance of duplication of effort\n(C) Unity of command\n(D) Stability of the organisation\nList-II\n(I) Employees’ behaviour is fairly predictable because specific rules guide them\n(II) Mutual relationships are clearly defined\n(III) Duties are specified\n(IV) An established chain of command\nChoose the correct answer from the options given below:",
+      "review": {
+        "n": 59,
+        "id": "c6019c80-8086-41bc-b0eb-f4fef92abb7c",
+        "content_hash": "4378f0ccc870db19ddf7bebf4afa57147a307844ef30103ac44f81fd54b41e1c",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Formal-organisation advantages matched to bases; textbook-faithful.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "a1f2184c-de2c-4e1b-b4d2-102995f7f0d6",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Match List-I with List-II:\n\nList-I\n(A) Origin\n(B) Authority\n(C) Behaviour\n(D) Leadership\n\nList-II\n(I) Formal organisation: behaviour is directed by rules; informal organisation: there is no set behaviour pattern.\n(II) Formal organisation: managers are leaders; informal organisation: leaders are chosen by the group and may or may not be managers.\n(III) Formal organisation: arises from company rules and policies; informal organisation: arises from social interaction.\n(IV) Formal organisation: authority arises from position in management; informal organisation: authority arises from personal qualities.\n\nIn each List-II entry, the formal organisation is stated before the informal organisation. Match each basis in List-I with the corresponding paired characteristic in List-II, using each List-II entry once. Choose the correct answer from the options given below:",
+      "options": [
+        "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+        "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)",
+        "(A)-(II), (B)-(IV), (C)-(I), (D)-(III)",
+        "(A)-(IV), (B)-(III), (C)-(I), (D)-(II)"
+      ],
+      "correct_answer": "A",
+      "explanation": "Origin matches company rules and policies in formal organisation with social interaction in informal organisation. Authority is based on position in management or personal qualities, behaviour is directed by rules or has no set pattern, and leadership is provided by managers or by group-chosen leaders who may or may not be managers. Thus the correct mapping is (A)-(III), (B)-(IV), (C)-(I), (D)-(II).",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q27",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q27",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q27",
+        "adaptation_type": "pyq_adapted_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q27",
+          "support_hash": "24b610a45b3a1427131ec6493abf41733c95d7bdc80ff97cec2522024f31525b"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-e5d85ed5309a",
+          "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+        }
+      ],
+      "question_type": "matching",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Match List-I with List-II:\n\nList-I\n(A) Origin\n(B) Authority\n(C) Behaviour\n(D) Leadership\n\nList-II\n(I) Formal organisation: behaviour is directed by rules; informal organisation: there is no set behaviour pattern.\n(II) Formal organisation: managers are leaders; informal organisation: leaders are chosen by the group and may or may not be managers.\n(III) Formal organisation: arises from company rules and policies; informal organisation: arises from social interaction.\n(IV) Formal organisation: authority arises from position in management; informal organisation: authority arises from personal qualities.\n\nIn each List-II entry, the formal organisation is stated before the informal organisation. Match each basis in List-I with the corresponding paired characteristic in List-II, using each List-II entry once. Choose the correct answer from the options given below:",
+      "review": {
+        "n": 60,
+        "id": "a1f2184c-de2c-4e1b-b4d2-102995f7f0d6",
+        "content_hash": "1b38b985a16e734061c30000358e233c028bfede1701f6720c2919ebc387a2f4",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Correct but verbose; an extra instruction paragraph repeats the format.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "b7313d0f-f78c-41c5-bcc8-d8c78a354d37",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "A retail organisation faces a change in its external environment. Its managers change the organisation and its goals to meet the needs arising from that environmental change. Which feature of management is illustrated specifically by this response?",
+      "options": [
+        "Management is a continuous process",
+        "Management is all pervasive",
+        "Management is a dynamic function",
+        "Management is an intangible force"
+      ],
+      "correct_answer": "C",
+      "explanation": "The managers change the organisation and its goals in response to changing environmental needs. Management’s adaptation to a changing environment, including changing an organisation and its goals according to environmental needs, is its dynamic function.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q37",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q37",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q37",
+        "adaptation_type": "Case application of a management feature in a new organisational context",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q37",
+          "support_hash": "8b74903bd51eaf4b6022851ced43a0d478647bacc89095776dda2651b1cde075"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-12f33385e060",
+          "support_hash": "12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-80cbe19c5a06",
+          "support_hash": "80cbe19c5a06c77897fd44d8ab57a880d05c23c9b1f3628bfe18192db3211a5a"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-a6fbf530d291",
+          "support_hash": "a6fbf530d29134be11c9c0cd1024420769c1c21ed64a251de29c5e173f7557d3"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A retail organisation faces a change in its external environment. Its managers change the organisation and its goals to meet the needs arising from that environmental change. Which feature of management is illustrated specifically by this response?",
+      "review": {
+        "n": 62,
+        "id": "b7313d0f-f78c-41c5-bcc8-d8c78a354d37",
+        "content_hash": "e0d06ae28c43b2d953a344699b5197c4f3fe2376f9158881da8fc32457c98c34",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Dynamic function.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "24b0a999-915d-454e-b511-248b529f0ba8",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "A division head is a middle manager. Which task is a main responsibility of this managerial level?",
+      "options": [
+        "Formulate overall organisational goals and strategies",
+        "Carry out plans formulated by top managers",
+        "Directly oversee the efforts of the workforce",
+        "Take responsibility for the organisation’s welfare and survival"
+      ],
+      "correct_answer": "B",
+      "explanation": "Carrying out plans formulated by top managers is identified as a main task of middle management. Formulating overall goals and strategies and taking responsibility for the organisation’s welfare and survival are top-management tasks, while directly overseeing workforce efforts is assigned to supervisory or operational management.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q38",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q38",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q38",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q38",
+          "support_hash": "54000f3a36fc0a2b75f079015d938ee0b09030f3c06f273fe39d7c5c76bd1dd5"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-99eb9fc192b1",
+          "support_hash": "99eb9fc192b1fca28ebf5b105d83fba2ff2aa4c829cf38a98bd31c22016bcecb"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A division head is a middle manager. Which task is a main responsibility of this managerial level?",
+      "review": {
+        "n": 63,
+        "id": "24b0a999-915d-454e-b511-248b529f0ba8",
+        "content_hash": "bcad23879e8a7f7b9e5fc74f17bc0415accf15d47190b8b7b8d031d610163ac4",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Middle management task.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "e37d3f34-9cd2-498e-8ba0-a40c1380356a",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "In a functional structure, which result is specifically linked to minimal duplication of effort?",
+      "options": [
+        "It leads to economies of scale, which lower cost.",
+        "It leads to occupational specialisation, which improves manpower utilisation.",
+        "It leads to coordination and control within a department.",
+        "It makes employee training easier by limiting the range of skills."
+      ],
+      "correct_answer": "A",
+      "explanation": "Minimal duplication of effort leads to economies of scale, which lower cost. Occupational specialisation, departmental coordination and control, and easier training are also stated advantages of a functional structure, but they are linked to other features.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q40",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q40",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q40",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q40",
+          "support_hash": "c5891be87b67d818343a353bd0a70d9a5f93266e472bdeb3d7b82c57623b3995"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-18f392ccae68",
+          "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "In a functional structure, which result is specifically linked to minimal duplication of effort?",
+      "review": {
+        "n": 64,
+        "id": "e37d3f34-9cd2-498e-8ba0-a40c1380356a",
+        "content_hash": "8f1694c6d33bbfff1e6b19d51476c9062e18ea0ae35143b94c0965ecc076602f",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "All four options are true advantages; the item tests a rote textbook pairing.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "dc55033f-1e94-4e87-ba45-e8b7de7c7424",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "A customer chooses a particular music player because owning it helps the customer gain acceptance among a peer group. Which type of benefit is the customer seeking?",
+      "options": [
+        "Functional benefit",
+        "Psychological benefit",
+        "Social benefit",
+        "Economic benefit"
+      ],
+      "correct_answer": "C",
+      "explanation": "The benefit being classified is acceptance from a group. This is a social benefit; the excerpt distinguishes it from functional and psychological benefits.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q44",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q44",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q44",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q44",
+          "support_hash": "33fe88cf44a8da4b672f3514cccd94c5bac3b3446ba82a355544829810886522"
+        },
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "passage-db192e12db3c",
+          "support_hash": "db192e12db3cffbcbcbfcd8b3197ad7262b4adaa8fb30bc34bf45fe070e37ba3"
+        },
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A customer chooses a particular music player because owning it helps the customer gain acceptance among a peer group. Which type of benefit is the customer seeking?",
+      "review": {
+        "n": 68,
+        "id": "dc55033f-1e94-4e87-ba45-e8b7de7c7424",
+        "content_hash": "be166ba8da0f8dcc63182377bf0686ea7703c26e299edd9269e7a15646a6a94c",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Social benefit.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "7f3afb35-dc5a-4cc0-8611-21c64c1e4ec1",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "A buyer purchases a motorcycle seeking (i) transportation, (ii) prestige and esteem, and (iii) acceptance from a group through riding it. How should these three benefits be classified, respectively?",
+      "options": [
+        "Functional, functional, functional",
+        "Functional, psychological, psychological",
+        "Functional, psychological, social",
+        "Functional, social, social"
+      ],
+      "correct_answer": "C",
+      "explanation": "Transportation is a functional utility of a motorcycle. Prestige and esteem are psychological benefits, while acceptance from a group is a social benefit; therefore, in the order given, the classification is functional, psychological and social.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q45",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q45",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q45",
+        "adaptation_type": "New case application of the product-benefit classification",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q45",
+          "support_hash": "464ffb5276ee9a26231b4a36c21ecdc8e96d871f11d0880912dab8e23450ec54"
+        },
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "passage-db192e12db3c",
+          "support_hash": "db192e12db3cffbcbcbfcd8b3197ad7262b4adaa8fb30bc34bf45fe070e37ba3"
+        },
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A buyer purchases a motorcycle seeking (i) transportation, (ii) prestige and esteem, and (iii) acceptance from a group through riding it. How should these three benefits be classified, respectively?",
+      "review": {
+        "n": 69,
+        "id": "7f3afb35-dc5a-4cc0-8611-21c64c1e4ec1",
+        "content_hash": "1919c7003f00bbe06e96e67bd61407d3b6d43701ddd4061a19500a20c3df3db5",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Functional, psychological, social.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "7b3edef9-9a8e-4e60-8bd5-7cffc853ec92",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "At a firm, employees from different departments interact and build a network of social relationships. Management did not create this network as a structure of authority relationships. Which paired description correctly identifies this network and contrasts it with formal organisation?",
+      "options": [
+        "The network is informal organisation; formal organisation is a structure of authority relationships created by management.",
+        "The network is formal organisation; informal organisation is a structure of authority relationships created by management.",
+        "Both the network and formal organisation are structures of authority relationships created by management.",
+        "Both the network and formal organisation are networks of social relationships arising from employee interaction."
+      ],
+      "correct_answer": "A",
+      "explanation": "The employees’ network is informal organisation because it arises from social interaction among employees. Formal organisation is the structure of authority relationships created by management.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q27",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q27",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q27",
+        "adaptation_type": "case_application_from_definition",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q27",
+          "support_hash": "24b610a45b3a1427131ec6493abf41733c95d7bdc80ff97cec2522024f31525b"
+        },
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "quality-v4-e5d85ed5309a",
+          "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "At a firm, employees from different departments interact and build a network of social relationships. Management did not create this network as a structure of authority relationships. Which paired description correctly identifies this network and contrasts it with formal organisation?",
+      "review": {
+        "n": 72,
+        "id": "7b3edef9-9a8e-4e60-8bd5-7cffc853ec92",
+        "content_hash": "59ce92a1048afc6701dfb75f8788e86f1db82ff6858fdf79a8792377a892629d",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Informal organisation network.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "b474b153-3757-48eb-b3f2-e2bf30e89fff",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "Consider the following statements about needs addressed through personnel objectives:\n(A) Competitive salaries and perks are financial needs.\n(B) Peer recognition is a financial need.\n(C) Personal growth and development are social needs.\n(D) Personal growth and development are higher-level needs.\nWhich of the above statements are correct?",
+      "options": [
+        "(A) and (D) only",
+        "(B) and (C) only",
+        "(A) and (C) only",
+        "(B) and (D) only"
+      ],
+      "correct_answer": "A",
+      "explanation": "Competitive salaries and perks are financial needs, while personal growth and development are higher-level needs. Peer recognition is a social need. Therefore, only statements (A) and (D) are correctly classified.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q36",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q36",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q36",
+        "adaptation_type": "blueprint variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q36",
+          "support_hash": "52e26c156178e8adfd19a7bae455408cdd3673dae1af322f27a8b9837d420f9a"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-864b5b8ea540",
+          "support_hash": "864b5b8ea540e93a10418c17f94ea1dc4fd609c642c76043f07cd4be61fb9843"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Consider the following statements about needs addressed through personnel objectives:\n(A) Competitive salaries and perks are financial needs.\n(B) Peer recognition is a financial need.\n(C) Personal growth and development are social needs.\n(D) Personal growth and development are higher-level needs.\nWhich of the above statements are correct?",
+      "review": {
+        "n": 73,
+        "id": "b474b153-3757-48eb-b3f2-e2bf30e89fff",
+        "content_hash": "42e024d9934220f41bf00281618e75a5681f1316ae2ca19afa55f7c2f62bff65",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Personnel-objective needs classification.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "6dc5619f-7788-4137-b25d-fd77cde09130",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "Match List-I with List-II. Each management level is to be matched once with its best corresponding responsibility.\n\nList-I\n(A) Top management\n(B) Middle management\n(C) Supervisory management\n\nList-II\n(I) Directly oversee the efforts of the workforce\n(II) Formulate overall organisational goals and strategies\n(III) Implement and control plans and strategies developed by top management\n\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A)-(II), (B)-(III), (C)-(I)",
+        "(A)-(III), (B)-(II), (C)-(I)",
+        "(A)-(II), (B)-(I), (C)-(III)",
+        "(A)-(I), (B)-(III), (C)-(II)"
+      ],
+      "correct_answer": "A",
+      "explanation": "Top management formulates overall organisational goals and strategies, middle management implements and controls plans developed by top management, and supervisors directly oversee the workforce. These responsibilities give the mapping shown in option A.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-business_studies-bookA-q38",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-business_studies-bookA-q38",
+        "adaptation_family": "pyq:cuet2024-business_studies-bookA-q38",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 10
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-business_studies-bookA-paper",
+          "version": 1,
+          "locator": "q38",
+          "support_hash": "54000f3a36fc0a2b75f079015d938ee0b09030f3c06f273fe39d7c5c76bd1dd5"
+        },
+        {
+          "id": "ncert-lebs101",
+          "version": 1,
+          "locator": "quality-v4-99eb9fc192b1",
+          "support_hash": "99eb9fc192b1fca28ebf5b105d83fba2ff2aa4c829cf38a98bd31c22016bcecb"
+        }
+      ],
+      "question_type": "matching",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Match List-I with List-II. Each management level is to be matched once with its best corresponding responsibility.\n\nList-I\n(A) Top management\n(B) Middle management\n(C) Supervisory management\n\nList-II\n(I) Directly oversee the efforts of the workforce\n(II) Formulate overall organisational goals and strategies\n(III) Implement and control plans and strategies developed by top management\n\nChoose the correct answer from the options given below:",
+      "review": {
+        "n": 75,
+        "id": "6dc5619f-7788-4137-b25d-fd77cde09130",
+        "content_hash": "9f09037038c38864b413a338f64e23aadcf9ee08dea3065f8069f271fce0066d",
+        "subject": "business_studies",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Three-level matching; correct.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "e1ec2b03-2fe4-4cfa-8b50-20735bdf8e99",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "A bank holds reserves equal to exactly 20% of its deposits. It has ₹2,40,000 in reserves backing the deposits being considered, and no other constraint limits the deposits supported. How much in deposits can these reserves support?",
+      "options": [
+        "₹48,000",
+        "₹12,00,000",
+        "₹12,000",
+        "₹1,92,000"
+      ],
+      "correct_answer": "B",
+      "explanation": "Reserves are 20% of deposits, so deposits supported = ₹2,40,000 ÷ 0.20 = ₹12,00,000. The reserve ratio must be used as 0.20 when calculating deposits from reserves.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-economics-bookA-q3",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q3",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-7-d2a5125880",
+          "support_hash": "d2a51258804ad4a90cd6cccc9ca6b9cdc82c3f257b923484c5259c801ebd9fd8"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A bank holds reserves equal to exactly 20% of its deposits. It has ₹2,40,000 in reserves backing the deposits being considered, and no other constraint limits the deposits supported. How much in deposits can these reserves support?",
+      "review": {
+        "n": 78,
+        "id": "e1ec2b03-2fe4-4cfa-8b50-20735bdf8e99",
+        "content_hash": "9c1e5dd416ea3b5a8d040ea1037ad5a148bbe1d247bd40160c74e0b964773216",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Deposits = Rs 2,40,000 / 0.20.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "e8df2960-bcf3-4076-a2ea-656a01865aa0",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "The RBI sells a Government bond in the open market to private individuals, who pay for it. No other operation affecting reserves or money supply occurs at the same time. What is the resulting effect?",
+      "options": [
+        "Reserves increase, and money supply increases.",
+        "Reserves increase, and money supply remains unchanged.",
+        "Reserves remain unchanged, and money supply remains unchanged.",
+        "Reserves decrease, and money supply decreases."
+      ],
+      "correct_answer": "D",
+      "explanation": "When the RBI sells a Government bond to private individuals, the quantity of reserves falls and, consequently, the money supply falls. The stem excludes any simultaneous operation that could offset this effect, so D is correct.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q5",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q5",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q5",
+        "adaptation_type": "case-based application",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "5c482c36b5eb20817700cbff481d55a4bb9f714b3c19162847007bc0ead9d51c"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-7-d838c7ed2c",
+          "support_hash": "d838c7ed2c1ac22b8982468ca861e899f3bab82ab7891b77defb6d457f8ac943"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "The RBI sells a Government bond in the open market to private individuals, who pay for it. No other operation affecting reserves or money supply occurs at the same time. What is the resulting effect?",
+      "review": {
+        "n": 79,
+        "id": "e8df2960-bcf3-4076-a2ea-656a01865aa0",
+        "content_hash": "60701c4877e7f348e3e8c05763023da7ded1332ac60da88c69dc6d9976a8faa8",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Open-market sale lowers reserves and money supply.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "2d491e7e-eb7d-4196-a666-169819500893",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "Revenue receipts are divided into which two categories?",
+      "options": [
+        "Tax and non-tax revenues",
+        "Tax and capital receipts",
+        "Revenue and capital receipts",
+        "Redeemable and non-redeemable receipts"
+      ],
+      "correct_answer": "A",
+      "explanation": "Revenue receipts are divided into tax and non-tax revenues. Therefore, option A identifies the two categories. Non-redeemable describes a characteristic of revenue receipts, rather than the stated division into categories.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q8",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q8",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q8",
+        "adaptation_type": "conceptual_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-3-681bdd9372",
+          "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Revenue receipts are divided into which two categories?",
+      "review": {
+        "n": 81,
+        "id": "2d491e7e-eb7d-4196-a666-169819500893",
+        "content_hash": "13666ebd52fafe598d2fafa337f2e229400ea09a6b0937ad30a0ed3eb6778d03",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Tax and non-tax revenue.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "5bf22a44-44fd-4bb6-a6a3-ea8692c1b089",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Which exchange-rate regime is one in which the exchange rate is determined by market forces of demand and supply?",
+      "options": [
+        "Floating exchange rate",
+        "Fixed exchange rate",
+        "Devaluation",
+        "Revaluation"
+      ],
+      "correct_answer": "A",
+      "explanation": "An exchange rate determined by market forces of demand and supply is also known as a floating exchange rate. Devaluation and revaluation refer to government actions in a fixed exchange rate system, not to the regime identified in the question.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q10",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q10",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q10",
+        "adaptation_type": "new_regime_identification",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-8-687c9c8f4e",
+          "support_hash": "687c9c8f4eb46f9322e8aac9b63e19d74686339a49039d4d34235ac69d703faf"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-10-2c8bfe854e",
+          "support_hash": "2c8bfe854e92acf5972635c5bbc22bca29869683453fd99b712346a675ce896a"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Which exchange-rate regime is one in which the exchange rate is determined by market forces of demand and supply?",
+      "review": {
+        "n": 82,
+        "id": "5bf22a44-44fd-4bb6-a6a3-ea8692c1b089",
+        "content_hash": "85c1db3a2f05027ee1a002b21352d240db7b555fbf2a8e8fa7ec37f9c211ec37",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Devaluation and revaluation are actions, not regimes; easy elimination.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "e374fd28-32fe-468f-99f8-6328573e5c4d",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "A government fixes the exchange rate at ₹70 per US dollar. At this rate, the supply of dollars in the foreign exchange market exceeds the demand for dollars, and the government seeks to maintain the fixed rate. Which action should the RBI take to absorb the excess supply?",
+      "options": [
+        "The RBI purchases the excess dollars and pays rupees for them.",
+        "The RBI sells dollars and receives rupees for them.",
+        "The RBI sets the fixed rate above ₹70 per US dollar.",
+        "The RBI makes no purchase or sale and allows the exchange rate to adjust."
+      ],
+      "correct_answer": "A",
+      "explanation": "With a fixed exchange rate and an excess supply of dollars, the RBI absorbs the excess by purchasing dollars and paying rupees. This intervention helps maintain the fixed rate.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q11",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q11",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q11",
+        "adaptation_type": "case-based application of fixed-exchange-rate intervention",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q11",
+          "support_hash": "b8c38ca2f50b351f296c82f823a97cea6175cca3df935664d5a12e57cacde9fb"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "quality-v4-ead0c0a1a3fa",
+          "support_hash": "ead0c0a1a3faec022da85464525c91173f7f465d380a8a0152fa643b31e43327"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "A government fixes the exchange rate at ₹70 per US dollar. At this rate, the supply of dollars in the foreign exchange market exceeds the demand for dollars, and the government seeks to maintain the fixed rate. Which action should the RBI take to absorb the excess supply?",
+      "review": {
+        "n": 83,
+        "id": "e374fd28-32fe-468f-99f8-6328573e5c4d",
+        "content_hash": "d02abaab5d2ec4f5beb3e9503fcdc94adcd15dfdc9c1e945aeb578801d2e6efc",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "RBI buys dollars to absorb excess supply.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "7b651fcb-ec32-4fc8-8333-bf64354e266f",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "During one year, a producer plans to add ₹1,00,000 to inventory. To meet sales above the planned level during that same year, the producer sells goods worth ₹30,000 from inventory. Assume there are no other inventory changes during the year. What is the producer’s actual (ex post) investment in inventory for the year?",
+      "options": [
+        "₹70,000",
+        "₹1,00,000",
+        "₹1,30,000",
+        "₹30,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "The producer plans to add ₹1,00,000 to inventory, but sells ₹30,000 worth of goods from stock during the same year. With no other inventory changes, the actual investment is the net increase in inventory: ₹1,00,000 − ₹30,000 = ₹70,000. Thus, option A is correct.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-economics-bookA-q22",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q22",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q22",
+        "adaptation_type": "numerical_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q22",
+          "support_hash": "5bf5223bbb112782f4f9f5a89890fdb14a9ab07e6c5967b7de2511e815e307c9"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "quality-v4-87826f6f5d78",
+          "support_hash": "87826f6f5d7828da4ac250ee6f3ac1f26b6d3aba6dbb74772c7d530ead2cd4e4"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "During one year, a producer plans to add ₹1,00,000 to inventory. To meet sales above the planned level during that same year, the producer sells goods worth ₹30,000 from inventory. Assume there are no other inventory changes during the year. What is the producer’s actual (ex post) investment in inventory for the year?",
+      "review": {
+        "n": 84,
+        "id": "7b651fcb-ec32-4fc8-8333-bf64354e266f",
+        "content_hash": "231591ec6e4f51500a3c6b418c7bc124e98844ef802148f5a69117916800c820",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Ex post inventory investment Rs 70,000.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "2d6fcd66-5b15-4b43-80c7-6e3e95a16f94",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "In a circular-flow model with no leakage, firms distribute aggregate factor payments of ₹12 lakh during a period. For that same period, “sales revenue” means the aggregate consumption expenditure received by firms. Which relationship holds between the factor payments and this sales revenue?",
+      "options": [
+        "Sales revenue is ₹10 lakh, which is ₹2 lakh less than factor payments.",
+        "Sales revenue is ₹14 lakh, which is ₹2 lakh more than factor payments.",
+        "Sales revenue is ₹12 lakh, equal to factor payments.",
+        "Sales revenue cannot be determined from the stated information."
+      ],
+      "correct_answer": "C",
+      "explanation": "With no leakage, factor payments distributed by firms do not differ from the aggregate consumption expenditure they receive as sales revenue. Since factor payments are ₹12 lakh and sales revenue is defined as that expenditure for the same period, sales revenue is also ₹12 lakh.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q25",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q25",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q25",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-7-ec2810240f",
+          "support_hash": "ec2810240f4780ad44fb35348906ec314e6ccc48211993723b693dbc356470e5"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "In a circular-flow model with no leakage, firms distribute aggregate factor payments of ₹12 lakh during a period. For that same period, “sales revenue” means the aggregate consumption expenditure received by firms. Which relationship holds between the factor payments and this sales revenue?",
+      "review": {
+        "n": 85,
+        "id": "2d6fcd66-5b15-4b43-80c7-6e3e95a16f94",
+        "content_hash": "3acfc0f743473b820aeb7bbceed5332ee69b4c3c6b7e7732d298f8337180e0de",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "No-leakage circular flow equality.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "448f147f-badc-4f4d-9968-5cbe48758a6e",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "In an economy without a government, ex-ante consumption expenditure on final goods for a period is ₹4,80,000 and ex-ante investment expenditure on final goods for the same period is ₹1,20,000. What is the ex-ante aggregate demand for final goods for that period?",
+      "options": [
+        "₹6,00,000",
+        "₹3,60,000",
+        "₹4,80,000",
+        "₹1,20,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "For an economy without a government, ex-ante aggregate demand for final goods is the sum of ex-ante consumption and investment expenditure. Therefore, AD = ₹4,80,000 + ₹1,20,000 = ₹6,00,000.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-economics-bookA-q26",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q26",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q26",
+        "adaptation_type": "New numerical application of the ex-ante aggregate-demand formula; distinct from the anchor's statement-selection format and target.",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-2-4c12ff7f8f",
+          "support_hash": "4c12ff7f8fcab5fb27f4cf2106340aaab8a074cc26a109d22394dbd59a054962"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-4-5fac2a1794",
+          "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": "income_determination_ex_ante_aggregate_demand",
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "In an economy without a government, ex-ante consumption expenditure on final goods for a period is ₹4,80,000 and ex-ante investment expenditure on final goods for the same period is ₹1,20,000. What is the ex-ante aggregate demand for final goods for that period?",
+      "review": {
+        "n": 86,
+        "id": "448f147f-badc-4f4d-9968-5cbe48758a6e",
+        "content_hash": "f6b7ec865cdb813eb9f4ced2edb681d7f649209778faadc96d8f3ae5e4bf51a4",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "AD = C + I numerical (kept as the numerical representative).",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "239e0c1f-2dcc-4044-8bea-7f37985abcaa",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "The Annual Financial Statement presents estimated receipts and expenditures of the government for each financial year. For the government financial year to which this statement relates, which pair of dates marks its beginning and end, respectively?",
+      "options": [
+        "1 January to 31 December",
+        "1 April to 31 March",
+        "31 March to 30 March",
+        "1 April to 31 December"
+      ],
+      "correct_answer": "B",
+      "explanation": "The financial year runs from 1 April to 31 March. Therefore, its beginning is 1 April and its end is 31 March.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q27",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q27",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q27",
+        "adaptation_type": "New direct MCQ based on the blueprint; distinct from the matching-format anchor",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q27",
+          "support_hash": "73a6d7c86d173bd371a98a4adfb319a7969e16ba87123d0eb2419c4224d8f6c0"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "quality-v4-7bca1f78c90d",
+          "support_hash": "7bca1f78c90d1fa1cab14053a43b3707539050f01111209347192cd8c74bd757"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "The Annual Financial Statement presents estimated receipts and expenditures of the government for each financial year. For the government financial year to which this statement relates, which pair of dates marks its beginning and end, respectively?",
+      "review": {
+        "n": 87,
+        "id": "239e0c1f-2dcc-4044-8bea-7f37985abcaa",
+        "content_hash": "85bb99a33fb09d90550e2b17810a2374ac9a0ad715ce2e419b41ce9d4d2309ad",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Financial-year dates; low exam value and an implausible distractor ('31 March to 30 March').",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "bee206df-b2c0-42cf-b1e1-cb4c79f9552e",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "For basic prices, which treatment applies to production taxes/subsidies and product taxes/subsidies?",
+      "options": [
+        "Production taxes less production subsidies, but not product taxes less product subsidies.",
+        "Product taxes less product subsidies, but not production taxes less production subsidies.",
+        "Both production taxes less production subsidies and product taxes less product subsidies.",
+        "Neither production taxes less production subsidies nor product taxes less product subsidies."
+      ],
+      "correct_answer": "A",
+      "explanation": "Basic prices include production taxes less production subsidies, but exclude product taxes less product subsidies. This matches option A.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q47",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q47",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q47",
+        "adaptation_type": "conceptual_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-16-aa3fba62bc",
+          "support_hash": "aa3fba62bcff1f01f31dce42a68794dadc40e4075585a2b6123ce02a24801a6f"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For basic prices, which treatment applies to production taxes/subsidies and product taxes/subsidies?",
+      "review": {
+        "n": 89,
+        "id": "bee206df-b2c0-42cf-b1e1-cb4c79f9552e",
+        "content_hash": "ea360e2562130eea13805715a41c81b4469a1a78248c2ee1646015a2c3381b21",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Basic prices treatment.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "28e0818f-da35-4e92-a447-3c7e12e53e1b",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a policy situation, the RBI raises the bank rate. Assume that no other policy change or offsetting change affects the outcomes, and consider only the bank-rate channel. Which sequence gives the directions of change in the cost of loans taken by commercial banks, their reserves and the money supply?",
+      "options": [
+        "Loans become more expensive → reserves decrease → money supply decreases.",
+        "Loans become more expensive → reserves increase → money supply increases.",
+        "Loans become less expensive → reserves increase → money supply increases.",
+        "Loans become more expensive → reserves decrease → money supply increases."
+      ],
+      "correct_answer": "A",
+      "explanation": "An increase in the bank rate makes loans taken by commercial banks more expensive, reduces their reserves and hence decreases the money supply. Option D gives the wrong direction for money supply when reserves decrease; options B and C conflict with the stated effects of a bank-rate increase.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q3",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q3",
+        "adaptation_type": "Case-based application of the bank-rate channel",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-8-66d989857f",
+          "support_hash": "66d989857fe081862cfcddfba866800082f6d5e8ad6d6eeb97f35482a61cf4e0"
+        }
+      ],
+      "question_type": "case_application",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "In a policy situation, the RBI raises the bank rate. Assume that no other policy change or offsetting change affects the outcomes, and consider only the bank-rate channel. Which sequence gives the directions of change in the cost of loans taken by commercial banks, their reserves and the money supply?",
+      "review": {
+        "n": 90,
+        "id": "28e0818f-da35-4e92-a447-3c7e12e53e1b",
+        "content_hash": "31e56ae3be922643710eb80b9db0ce7507d19ad8c03ba77eb671405faece476e",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Bank-rate channel sequence.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "8c0232d7-0ab2-438d-b1b9-3d397a90ecfa",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "For government revenue receipts, which statement correctly describes their relationship to a claim on the government and redeemability?",
+      "options": [
+        "They do not lead to a claim on the government and are therefore non-redeemable.",
+        "They lead to a claim on the government and are therefore non-redeemable.",
+        "They do not lead to a claim on the government and are therefore redeemable.",
+        "They lead to a claim on the government and are therefore redeemable."
+      ],
+      "correct_answer": "A",
+      "explanation": "Government revenue receipts do not lead to a claim on the government; they are therefore non-redeemable. The other options reverse one or both parts of this stated relationship.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q8",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q8",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q8",
+        "adaptation_type": "relationship identification",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-3-681bdd9372",
+          "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For government revenue receipts, which statement correctly describes their relationship to a claim on the government and redeemability?",
+      "review": {
+        "n": 92,
+        "id": "8c0232d7-0ab2-438d-b1b9-3d397a90ecfa",
+        "content_hash": "9ba39b3003d9ca2eaf71a2ce8535e314e61dca9873d25a0364f575d744dd7a69",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Revenue receipts non-redeemable.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "d06ec060-4020-455b-af86-6a0b4ead9c02",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Under a fixed exchange-rate system, the government changes the quoted rate from ₹86 per US dollar to ₹82 per US dollar. Which term names this government action?",
+      "options": [
+        "Devaluation, making the rupee costlier",
+        "Revaluation, making the rupee costlier",
+        "Devaluation, making the rupee cheaper",
+        "Revaluation, making the rupee cheaper"
+      ],
+      "correct_answer": "B",
+      "explanation": "The quoted rate decreases from ₹86 to ₹82 per US dollar. In a fixed exchange-rate system, a government decrease in the exchange rate is a revaluation, which makes the domestic currency costlier. Devaluation refers to a government increase in the exchange rate, which makes the domestic currency cheaper.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q11",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q11",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q11",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q11",
+          "support_hash": "b8c38ca2f50b351f296c82f823a97cea6175cca3df935664d5a12e57cacde9fb"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "quality-v4-ead0c0a1a3fa",
+          "support_hash": "ead0c0a1a3faec022da85464525c91173f7f465d380a8a0152fa643b31e43327"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "Under a fixed exchange-rate system, the government changes the quoted rate from ₹86 per US dollar to ₹82 per US dollar. Which term names this government action?",
+      "review": {
+        "n": 94,
+        "id": "d06ec060-4020-455b-af86-6a0b4ead9c02",
+        "content_hash": "1002d06101590081dad5595e57ac4edbbbf87e480f76519869dfe81e56909e21",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Revaluation from Rs 86 to Rs 82.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "c8212d8b-a1bd-4c44-823a-2cd2954617a4",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "For the same period, a producer's planned inventory investment is ₹100, while the actual investment is ₹70. Consider the following statements:\n(A) Planned consumption is an ex ante measure.\n(B) The actual investment of ₹70 in this case is an ex ante measure.\n(C) Planned output of final goods is an ex ante measure.\n(D) The planned investment of ₹100 in this case is an ex post measure.\nWhich of the statements given above are correct?",
+      "options": [
+        "(A) and (B) only",
+        "(A) and (C) only",
+        "(B) and (D) only",
+        "(C) and (D) only"
+      ],
+      "correct_answer": "B",
+      "explanation": "The planned values of consumption and output of final goods are ex ante measures, so (A) and (C) are correct. For the stated same-period figures, ₹100 is planned investment and ₹70 is actual, or ex post, investment; therefore, (B) and (D) are incorrect.",
+      "difficulty": "medium",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q22",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q22",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q22",
+        "adaptation_type": "pyq_adapted_statement_selection",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q22",
+          "support_hash": "5bf5223bbb112782f4f9f5a89890fdb14a9ab07e6c5967b7de2511e815e307c9"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "quality-v4-87826f6f5d78",
+          "support_hash": "87826f6f5d7828da4ac250ee6f3ac1f26b6d3aba6dbb74772c7d530ead2cd4e4"
+        }
+      ],
+      "question_type": "statement_selection",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For the same period, a producer's planned inventory investment is ₹100, while the actual investment is ₹70. Consider the following statements:\n(A) Planned consumption is an ex ante measure.\n(B) The actual investment of ₹70 in this case is an ex ante measure.\n(C) Planned output of final goods is an ex ante measure.\n(D) The planned investment of ₹100 in this case is an ex post measure.\nWhich of the statements given above are correct?",
+      "review": {
+        "n": 95,
+        "id": "c8212d8b-a1bd-4c44-823a-2cd2954617a4",
+        "content_hash": "a85c17e9372d4e0d354d54fb47882c3a9d8cac5e9161c854b44ef93306853a2f",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Ex ante / ex post statements.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "0fd5b59a-25d6-4a25-9e8a-b72572294fb3",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "In a circular-flow account, firms distribute aggregate factor payments. What do these payments comprise?",
+      "options": [
+        "The sum total of remuneration earned by one factor of production",
+        "The sum total of remuneration earned by the four factors of production",
+        "The sum total of remuneration earned by three factors of production",
+        "The sum total of remuneration earned by two factors of production"
+      ],
+      "correct_answer": "B",
+      "explanation": "Firms’ aggregate factor payments comprise the sum total of remuneration earned by the four factors of production. Hence, option B is correct.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q25",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q25",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q25",
+        "adaptation_type": "pyq_adapted",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-7-ec2810240f",
+          "support_hash": "ec2810240f4780ad44fb35348906ec314e6ccc48211993723b693dbc356470e5"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "In a circular-flow account, firms distribute aggregate factor payments. What do these payments comprise?",
+      "review": {
+        "n": 96,
+        "id": "0fd5b59a-25d6-4a25-9e8a-b72572294fb3",
+        "content_hash": "f359e98f3714a1112b1f92956a292ff8fca9ec10ade1ca3c4c4caf81459fbaca",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "acceptable_weak",
+        "classification": "acceptable_weak",
+        "lint": [],
+        "review_note": "Distractors only change the count of factors; easy elimination.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "ad10fd1a-e15f-420c-b8e3-659ed5ff93ec",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "For the two-sector model of an economy without a government, which expression gives ex ante aggregate demand for final goods?",
+      "options": [
+        "Ex ante consumption expenditure + ex ante investment expenditure",
+        "Ex ante consumption expenditure alone",
+        "Ex ante investment expenditure alone",
+        "Ex ante consumption expenditure + ex post investment expenditure"
+      ],
+      "correct_answer": "A",
+      "explanation": "In this model, ex ante aggregate demand for final goods is the sum of ex ante consumption expenditure and ex ante investment expenditure. Option D uses ex post investment expenditure instead of ex ante investment expenditure, so it does not give the stated expression.",
+      "difficulty": "easy",
+      "route": "conceptual",
+      "family_id": "pyq:cuet2024-economics-bookA-q26",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q26",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q26",
+        "adaptation_type": "blueprint_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-4-5fac2a1794",
+          "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+        }
+      ],
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For the two-sector model of an economy without a government, which expression gives ex ante aggregate demand for final goods?",
+      "review": {
+        "n": 97,
+        "id": "ad10fd1a-e15f-420c-b8e3-659ed5ff93ec",
+        "content_hash": "5b5a1fc5229d6106dda2a8d1e92944bfb21997a42b85de68e7eb447ca0a7b50c",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "AD = C + I expression (kept as the conceptual representative).",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "0a1f1cb8-f56d-43a4-a5d5-184d7dd25e5d",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "For a given period, exports are ₹5,25,000 and imports are ₹4,80,000. Both figures are in rupees and refer to the same period. Calculate net exports (NX).",
+      "options": [
+        "₹45,000",
+        "−₹45,000",
+        "₹10,05,000",
+        "₹4,80,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "Net exports are exports minus imports: ₹5,25,000 − ₹4,80,000 = ₹45,000. Since exports exceed imports, NX is positive and indicates a trade surplus.",
+      "difficulty": "medium",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-economics-bookA-q27",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q27",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q27",
+        "adaptation_type": "Numerical application with a distinct target and format from the anchor",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q27",
+          "support_hash": "73a6d7c86d173bd371a98a4adfb319a7969e16ba87123d0eb2419c4224d8f6c0"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "quality-v4-b66ef79f1ac6",
+          "support_hash": "b66ef79f1ac68b863747b0f1b1a8b9667af2aa93380f47e17315166b44edeba5"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "For a given period, exports are ₹5,25,000 and imports are ₹4,80,000. Both figures are in rupees and refer to the same period. Calculate net exports (NX).",
+      "review": {
+        "n": 98,
+        "id": "0a1f1cb8-f56d-43a4-a5d5-184d7dd25e5d",
+        "content_hash": "b64aeee63d28e6db8850abf5bff6e27aa91c939fa66d32f95d5c21e436d7127f",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "Net exports Rs 45,000.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    },
+    {
+      "id": "efb8cf73-2757-4e89-9160-98491c19fca5",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "An enterprise reports GVA at factor cost of ₹80,000. For the same period, indirect taxes are ₹12,000 and subsidies are ₹2,000. Assuming these are the only adjustments needed to convert GVA at factor cost to GVA at market prices, what is GVA at market prices?",
+      "options": [
+        "₹90,000",
+        "₹92,000",
+        "₹94,000",
+        "₹70,000"
+      ],
+      "correct_answer": "A",
+      "explanation": "GVA at market prices is obtained by adding indirect taxes and subtracting subsidies from GVA at factor cost. Therefore, ₹80,000 + ₹12,000 − ₹2,000 = ₹90,000. ₹92,000 omits the subsidy adjustment, while ₹94,000 adds the subsidy instead of subtracting it.",
+      "difficulty": "easy",
+      "route": "numerical",
+      "family_id": "pyq:cuet2024-economics-bookA-q47",
+      "provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q47",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q47",
+        "adaptation_type": "pyq_adapted_numerical_variant",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 11
+      },
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-16-aa3fba62bc",
+          "support_hash": "aa3fba62bcff1f01f31dce42a68794dadc40e4075585a2b6123ce02a24801a6f"
+        }
+      ],
+      "question_type": "numerical_calculation",
+      "concept_id": null,
+      "passage_text": "",
+      "generator_version": "luna-gemini-cuET-v5.3",
+      "display_body": "An enterprise reports GVA at factor cost of ₹80,000. For the same period, indirect taxes are ₹12,000 and subsidies are ₹2,000. Assuming these are the only adjustments needed to convert GVA at factor cost to GVA at market prices, what is GVA at market prices?",
+      "review": {
+        "n": 100,
+        "id": "efb8cf73-2757-4e89-9160-98491c19fca5",
+        "content_hash": "a7d2972b906673b2f9114e2d30986d035ef156f44144c068a40ef638067f8811",
+        "subject": "economics",
+        "kind": "pyq_adapted",
+        "historical_verdict": "publish_ready",
+        "classification": "publish_ready",
+        "lint": [],
+        "review_note": "GVA at market prices Rs 90,000.",
+        "display_changed": false,
+        "new_publication_evidence": false,
+        "publication_ready": false
+      }
+    }
+  ]
+}

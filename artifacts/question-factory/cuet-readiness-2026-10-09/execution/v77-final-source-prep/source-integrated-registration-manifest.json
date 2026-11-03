@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-09T07:59:32.097Z",
+  "dirs": {
+    "fresh": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated",
+    "regression": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression-integrated"
+  },
+  "ids": {
+    "fresh": "v77-qualification-2026-10-09-final-fresh-integrated",
+    "regression": "v77-qualification-2026-10-09-final-regression-integrated"
+  },
+  "denominator": 41,
+  "provider_calls": 0,
+  "old_registrations_unchanged": true,
+  "supplemental": {
+    "source_extraction_attestation_sha256": "9963251052c001161baf32243a48ce839492f3d3533df3afecb0f11eb8371f1e",
+    "source_overlay_sha256": "be9b24a885b5ad7e5771206d274b9419512637b6f9e1ee99535c2feccce2da56",
+    "source_integration_freshness_sha256": "68132bca4f8ddeb3ee03d7d967da949a4695cf811e7e1eb2bab003e2ea004b1e",
+    "full_local_verifier_seam_sha256": "c3833b9f396dfa45dfaa4903416d5fa29d1c250068e5e8980871eabf9113a9a4",
+    "registration_addendum_sha256": "2806a76bd755c0b50e564c92762301ee7288e0a98fb28018d4e0335532f4aeae",
+    "authored_identity_clarification_sha256": "02ff17070f4e97d6f9fa97924cfc78fcdf82d425ae3110320f3105d77d38dfb1",
+    "authorization_binder_v3_freeze_sha256": "0c89396a0595b6fbd3ac46a7c8d20a21262786cdbeff7da31b67948313eb82f3",
+    "authorization_binder_v3_review_sha256": "1f98eb8691bf95bab80eb0124dd31680855809b473b43e720538907ab9189026"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-05T22:55:03.234Z",
+  "draft_only": true,
+  "production_changes": 0,
+  "academic_release": false,
+  "development": 7,
+  "held_out": 21,
+  "by_subject": {
+    "english": {
+      "development": 2,
+      "held_out": 3
+    },
+    "accountancy": {
+      "development": 1,
+      "held_out": 6
+    },
+    "business_studies": {
+      "development": 2,
+      "held_out": 6
+    },
+    "economics": {
+      "development": 2,
+      "held_out": 6
+    }
+  },
+  "reserved_anchors": 28,
+  "source_registry_version": 9
+}

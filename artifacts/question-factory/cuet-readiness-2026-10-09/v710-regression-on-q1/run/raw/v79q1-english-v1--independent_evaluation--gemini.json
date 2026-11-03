@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11724,
+ "request_bytes": 30066,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-english-v1\",\n  \"content_hash\": \"61b9dc881439571f601029bf792594e1ecb082d7728d80a8c85d905c14dd9344\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The passage explicitly states: 'Each Friday they returned at least one book and wrote a short note about it.'\"\n  ],\n  \"syllabus_chapter\": \"Factual Passage\",\n  \"syllabus_topic\": \"Direct factual recall from passage\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Students' weekly Friday requirement is described in the text.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": false,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Students had to borrow two new books and grade records each Friday.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Students had to return both books and discuss notes with the librarian on Friday.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Students had to write a graded note on every book borrowed that week.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Direct factual reading comprehension is explicitly tested under CUET English RC.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option single-correct comprehension format.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct retrieval of stated detail matches standard CUET English passage items.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors test careful reading of details versus fabricated actions.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Borrow two new books and grade the librarian's records\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Each Friday they returned at least one book and wrote a short note about it.\",\n      \"reason\": \"The passage specifies returning at least one book and writing a note, not borrowing books or grading.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Each Friday they returned at least one book and wrote a short note about it.\",\n      \"reason\": \"Direct verbatim match with the text.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Return both books and discuss the notes with the librarian\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Each Friday they returned at least one book and wrote a short note about it.\",\n      \"reason\": \"Students returned at least one book, not both, and discussions were merely proposed later.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Write a graded note on every book borrowed that week\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The librarian recorded the number of books returned, but did not grade the notes.\",\n      \"reason\": \"Notes were not graded, and students returned at least one book, not necessarily all.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EvkECvYEAWkUfRNSFvh+PHd0YikX7bB/0ykzLgEA7NsHDfpu7XHyEnvqPXkDRGgS2Z/XAbEr9MSqt0fpB/05HVyifgOJU7m6LEGc+5uWanXuQzvzTbyU0a87anpLbmx34h4vBg5F/MCm7r/LcOW14drqOwSmAhoQ91aMxXPTGBTyQRNz1Km1Ku0GExDyhkgcqeJmYJDa1ZY8HyVQFC9c/4ZDn6JsOx0+idllk4dHKyRyB9cWaN3Zy4jQNJOpcRjH5Ytv+/gmVoWCP9XP9fKF/Wtaf5eLKE+B0QENvG2EAi9npeNOQnPI61Vr5leYjC0JFt5WHabCZ/G35KtbXgIslNVnfjWPD4RyY4vKCysjD6hF+hqiAzSLqwJy9zdLWFbVSMozGAK3PjOZKi7Rm2w21HrC4JZc2ZJj86xu7tu1cM9GBB13LEvsMftMvsKOEO5SmjegSEUs6yCvMA1zj+8K3XQQVHh9NywrBvMUQE/xM8s18MztkR7RxqVUuYiIFYOndhs2ernLf19aJaj5qzBqWgMaEFX32pkDtGp3nq4LdaN6xuHgqtmbdnw/knlyDHRFuj8A7WGJac+QIhPkdDZRLEklv6AfVjQmWHiNPe0hyKO01EH2ZUIImltcqbDqd7wlyMKIBDj8PPtzOCa8dDRbA7a60CQL6clXVC0s6N3L1jF4x24+7okZQAKGLWcG1Q0oaTJOlHT8KHtRpLO+70vCrUZGYe2UuJCXHokg5UsjYI/aTNRRIVBg65I+KvocjTvQR0r+g17Re2qBwBePqUkV4Rp++kNEAV6ei4OoFISA0EL9lztt6Mb17onP/1bKWC1vJmOFvTXnFItsBZJR"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5017,
+   "candidatesTokenCount": 1300,
+   "totalTokenCount": 6435,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5017
+    }
+   ],
+   "thoughtsTokenCount": 118,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "2PHIasaTI_CbjuMPxJ3vwQ8"
+ }
+}

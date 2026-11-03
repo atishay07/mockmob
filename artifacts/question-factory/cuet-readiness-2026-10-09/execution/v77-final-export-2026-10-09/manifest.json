@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-09T08:36:57.527Z",
+  "denominator": 41,
+  "terminal": 5,
+  "files": [
+    {
+      "name": "all-cases.json",
+      "sha256": "bef35e60b203d58c72048921709b07da7fbddb96210184a65142a165167257f6"
+    },
+    {
+      "name": "summary.json",
+      "sha256": "402bdc2f279a036a0d159d817ec1a2b452042951e57e7b9f7838a4b0022bd52a"
+    },
+    {
+      "name": "all-cases.csv",
+      "sha256": "b957b47db6e7905ad78705f87946174b42120c87edd83d510869fc67eda8c045"
+    }
+  ]
+}

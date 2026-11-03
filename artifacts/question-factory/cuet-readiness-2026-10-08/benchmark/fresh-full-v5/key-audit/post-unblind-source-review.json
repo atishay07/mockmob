@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-07T22:25:34.853Z",
+  "item": "fresh-v5-accountancy-partnership-fundamentals-2",
+  "draft_key": "C",
+  "correct_academic_key": "A",
+  "correct_interest_rupees": 1200,
+  "normative_source_ref": {
+    "id": "ncert-leac101",
+    "version": 1,
+    "locator": "quality-v4-63927dc5d1aa",
+    "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+  },
+  "normative_quote": "If any partner has advanced loan to the firm for the purpose of business, he/she shall be entitled to get an interest on the loan amount at the rate of 6 per cent per annum.",
+  "failure": "Author and blind answer both followed an unkeyed exercise statement. Agreement does not establish source truth.",
+  "action": "No paid evaluation; retain immutable first pass and draft; repair source/key/derived controls before a newly recorded benchmark freeze."
+}

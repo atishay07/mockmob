@@ -1,0 +1,304 @@
+{
+ "subject": "accountancy",
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "chapter": "Share Capital",
+   "body": "As per Table F of the Companies Act, at which of the following rates can interest be paid on calls received in advance?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "15% per annum"
+    },
+    {
+     "key": "B",
+     "text": "10% per annum"
+    },
+    {
+     "key": "C",
+     "text": "12% per annum"
+    },
+    {
+     "key": "D",
+     "text": "18% per annum"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Share Capital",
+     "text": "1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b2",
+   "chapter": "Partnership Fundamentals",
+   "body": "A partnership firm maintains partners' capitals under the fixed capital method. Which of the following statements is correct?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Capital accounts change every year as profit share, interest and drawings are recorded in them"
+    },
+    {
+     "key": "B",
+     "text": "Capital accounts show a credit balance that stays fixed unless capital is added or withdrawn by agreement"
+    },
+    {
+     "key": "C",
+     "text": "Current accounts always show a credit balance and appear only on the liabilities side"
+    },
+    {
+     "key": "D",
+     "text": "A debit balance in a partner's current account is shown on the liabilities side of the balance sheet"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F17",
+     "chapter": "Partnership Fundamentals",
+     "text": "(a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b3",
+   "chapter": "Accounting Ratios",
+   "body": "From the following, calculate the Trade Payables Turnover Ratio. Total purchases Rs 6,00,000 (no information about credit purchases is given); creditors at the end of the year Rs 70,000; bills payable at the end of the year Rs 30,000. Opening balances are not available.",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "6 times"
+    },
+    {
+     "key": "B",
+     "text": "8.57 times"
+    },
+    {
+     "key": "C",
+     "text": "3 times"
+    },
+    {
+     "key": "D",
+     "text": "12 times"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F21",
+     "chapter": "Accounting Ratios",
+     "text": "219Accounting Ratios Average Trade Payables = Creditors in the beginning + Bills payables in the beginning + Creditors at the end + Bills payables at the end 2 = Rs. 3,00,000 + Rs. 1,00,000 + Rs. 1,30,000 + Rs. 70,000 2 = Rs. 3,00,000 ∴ Trade Payables Turnover Ratio = Rs. 12,00,000 Rs. 3,00,000 = 4 times Illustration 17 From the following information, calculate – (i) Trade receivables turnover ratio (ii) Average collection period (iii) Trade rayable turnover ratio (iv) Average payment period Given : Rs. Revenue from Operations 8,75,000 Creditors 90,000 Bills receivable 48,000 Bills payable 52,000 Purchases 4,20,000 Trade debtors 59,000 Solution: (i) Trade Receivables Turnover Ratio = Net Credit Revenue from operation Average Trade Receivable = * Rs. 8,75,000 (Rs. 59,000 + Rs. 48,000) = 8.18 times * This figure has not been divided by 2, in order to calculate average Trade Receivables as the figures of debtors and bills receivables in the beginning of the year are not available. So when only year-end figures are available use the same as it is. Reprint 2026-27"
+    },
+    {
+     "ref": "F22",
+     "chapter": "Accounting Ratios",
+     "text": "220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payable Turnover Ratio = Purchases * Average Trade Payables = Purchases Creditors + Bills payable = 4,20,000 90,000 + 52,000 = 4,20,000 1,42,000 = 2.96 times (iv) Average Payment Period = 365 Trade Payables Turnover Ratio = 365 2.96 = 123 days *Since no information regarding credit purchase is given, hence it will be related as net purchases. 5.8.4 Net Assets or Capital Employed Turnover Ratio It reflects relationship between revenue from operations and net assets (capital employed) in the business. Higher turnover means better activity and profitability. It is calculated as follows : Net Assets or Capital Employed Turnover ratio = Revenue from Operation Capital Employed Capital employed turnover ratio which studies turnover of capital employed (or Net Assets) is analysed further by following two turnover ratios : (a) Fixed Assets Turnover Ratio : It is computed as follows: Fixed asset turnover Ratio = Net Revenue from Operation Net Fixed Assets Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b4",
+   "chapter": "Goodwill Valuation",
+   "body": "The profits of a firm for the last three years were Rs 30,000, Rs 36,000 and Rs 42,000. Goodwill is to be valued at 4 years' purchase of the average profits of these three years. What is the value of goodwill?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 1,44,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs 36,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs 1,08,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 4,32,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F13",
+     "chapter": "Admission of Partner",
+     "text": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b5",
+   "chapter": "Share Capital",
+   "body": "A company issued 100 shares of Rs 10 each at a premium of Rs 2 per share. The premium was fully received along with the allotment money. A shareholder holding these shares then failed to pay the first call, and the directors forfeited the shares. What is the correct treatment of Securities Premium Reserve at the time of forfeiture?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "It is debited with Rs 200 together with Share Capital A/c, as the premium is lost"
+    },
+    {
+     "key": "B",
+     "text": "It is debited with Rs 100, being half the premium, and Share Capital A/c with the rest"
+    },
+    {
+     "key": "C",
+     "text": "It is debited with Rs 200 and Bank A/c is credited to refund the premium"
+    },
+    {
+     "key": "D",
+     "text": "It is not debited, because the premium was received and the forfeiture amount excludes the premium"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F5",
+     "chapter": "Share Capital",
+     "text": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b6",
+   "chapter": "Admission of Partner",
+   "body": "X and Y share profits in the ratio 3:2. They admit Z, and the new profit sharing ratio of X, Y and Z becomes 5:3:2. The agreement does not say in what ratio Z acquires his share from X and Y. What is the sacrificing ratio of X and Y?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "3:2"
+    },
+    {
+     "key": "B",
+     "text": "1:1"
+    },
+    {
+     "key": "C",
+     "text": "5:3"
+    },
+    {
+     "key": "D",
+     "text": "2:3"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F9",
+     "chapter": "Admission of Partner",
+     "text": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in favour of the new partner. But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner. However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio. In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner. Hence, there is a need to ascertain the new profit sharing ratio among all the partners. This depends upon how does the new partner acquires his share from the old partners for which there are many possibilities. Let us understand it with the help of the following illustrations."
+    },
+    {
+     "ref": "F10",
+     "chapter": "Admission of Partner",
+     "text": "2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio. The sacrifice by a partner is equal to : Old Share of Profit – New Share of Profit Reprint 2026-27\r\nPAGE 6\r\nAdmission of a Partner 53 As stated earlier, the new partner is required to compensate the old partner’s for their loss of share in the super profits of the firm for which he brings in an additional amount as premium for goodwill. This amount is shared by the existing partners in the ratio in which they forgo their shares in favour of the new partner which is called sacrificing ratio. The ratio is normally clearly given as agreed among the partners which could be the old ratio, equal sacrifice, or a specified ratio. The difficulty arises where the ratio in which the new partner acquires his share from the old partners is not specified. Instead, the new profit sharing ratio is given. In such a situation, the sacrificing ratio is to be worked out by deducting each partner’s new share from his old share. Look at the illustrations 6 to 8 and see how sacrificing ratio is calculated in such a situation."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b7",
+   "chapter": "Debentures",
+   "body": "A company issues Rs 100 debentures at Rs 110 each. In which account is the Rs 10 per debenture credited, and where does it appear in the balance sheet?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Debentures A/c; shown under Non-current liabilities as long-term borrowings"
+    },
+    {
+     "key": "B",
+     "text": "Securities Premium Reserve A/c; shown under Reserves and Surpluses"
+    },
+    {
+     "key": "C",
+     "text": "Statement of Profit and Loss; shown as other income"
+    },
+    {
+     "key": "D",
+     "text": "Share Capital A/c; shown under Share Capital in equity"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F19",
+     "chapter": "Debentures",
+     "text": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b8",
+   "chapter": "Share Capital",
+   "body": "A shareholder of a company pays Rs 5,000 towards a call that the directors have not yet made. How should the company treat this amount?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Credit it to Share Capital A/c immediately and treat it as part of owners' equity"
+    },
+    {
+     "key": "B",
+     "text": "Credit it to Calls in Arrears A/c and show it as an asset of the company"
+    },
+    {
+     "key": "C",
+     "text": "Credit it to Calls in Advance A/c and treat it as a liability until the call falls due"
+    },
+    {
+     "key": "D",
+     "text": "Credit it to Securities Premium Reserve A/c as a capital reserve of the company"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Share Capital",
+     "text": "1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)"
+    },
+    {
+     "ref": "F6",
+     "chapter": "Share Capital",
+     "text": "1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due date. When any shareholder fails to pay the amount due on allotment or on any of the calls, such amount is known as ‘Calls in Arrears’/‘Unpaid Calls’. Calls in Arrears represent the debit balance of all the calls account. Such amount shall appear as ‘Note to Accounts (Refer Chapter 3). However, where a company maintains ‘Calls in Arrears’ Account, it needs to pass the following additional journal entry: Calls in Arrears A/c Dr. To Share First Call Account A/c To Share Second and Final Call Account A/c (Calls in arrears brought into account) The Articles of Association of a company may empower the directors to charge interest at a stipulated rate on calls in arrears. If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof. On receipt of the call amount together with interest, the amount of interest shall be credited to interest account while call money shall be credited to the respective call account or to calls in arrears account. When the shareholder makes the payment of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b9",
+   "chapter": "Share Capital",
+   "body": "A shareholder failed to pay a call of Rs 4,000 on the due date and paid it after 6 months. The Articles of Association are silent on interest, so Table F applies, and the company charges interest at the maximum rate Table F permits on calls in arrears. How much interest is payable by the shareholder?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 240"
+    },
+    {
+     "key": "B",
+     "text": "Rs 200"
+    },
+    {
+     "key": "C",
+     "text": "Rs 400"
+    },
+    {
+     "key": "D",
+     "text": "Rs 480"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F6",
+     "chapter": "Share Capital",
+     "text": "1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due date. When any shareholder fails to pay the amount due on allotment or on any of the calls, such amount is known as ‘Calls in Arrears’/‘Unpaid Calls’. Calls in Arrears represent the debit balance of all the calls account. Such amount shall appear as ‘Note to Accounts (Refer Chapter 3). However, where a company maintains ‘Calls in Arrears’ Account, it needs to pass the following additional journal entry: Calls in Arrears A/c Dr. To Share First Call Account A/c To Share Second and Final Call Account A/c (Calls in arrears brought into account) The Articles of Association of a company may empower the directors to charge interest at a stipulated rate on calls in arrears. If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof. On receipt of the call amount together with interest, the amount of interest shall be credited to interest account while call money shall be credited to the respective call account or to calls in arrears account. When the shareholder makes the payment of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr."
+    },
+    {
+     "ref": "F3",
+     "chapter": "Share Capital",
+     "text": "1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)"
+    }
+   ]
+  }
+ ]
+}

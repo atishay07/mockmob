@@ -1,0 +1,271 @@
+{
+  "at": "2026-10-06T19:13:18.567Z",
+  "verifier": "luna-gemini-cuET-v5.5",
+  "complete": 5,
+  "pending": 13,
+  "expected": 18,
+  "false_accepts": 0,
+  "cost_usd": 0,
+  "observations": [
+    {
+      "original_id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "content_hash": "836070680a3d09429bddc726bcd2cedce817ec861e133cf06de675eec22e1cb3",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Intended meaning of ingratiating is correct. Raw HTML is exposed in the stem and the supplied definitions cover sycophantic/flatter, not the changed target ingratiating."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "content_hash": "1f7aca4672f837feb0d225fbc42d3597d3f6c2206bbf69328ebdf81529fe4e73",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Sycophantic means flattering in context, but the underlined target is not marked in the extracted stem. Specify the target or restore faithful presentation before use."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "content_hash": "bba46fd077b57f64075c66fbf9245418be4c2af248b7aaa212b0c3c45c70fbb4",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Genial fits the description. The antonym-in-context label does not describe this choosing-a-word task. Definitions of the three distractors are not directly supported by the supplied excerpts."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The stem omits the condition that premium was previously credited but remains unpaid. Securities Premium is not debited when premium was received. The explanation correctly states the condition, but the unconditional matching stem does not.",
+        "OCR flattens the List-I/List-II headings into an interleaved run-on sentence."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The question tests definitions of share-capital categories, not preparation or presentation of company financial statements. Financial Statements of Company is the wrong primary chapter.",
+        "The registered NCERT page 55 concerns buy-backs and page 66 does not define reserve capital or subscribed-but-not-fully-paid capital. The historical paper is not enough to entail the fuller adapted definition of uncalled reserve capital.",
+        "The Markdown table is rendered as literal pipes and separator characters by the existing plain-text question renderer."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Option 4 contains a stray st that is absent from the printed option. The rendered source shows the next question refers to 1st July: the extracted superscript leaked into q20.",
+        "Attached NCERT locators explain accounting and interest treatment but do not explicitly state the acceptance-authority rule. The mirror question gives historical wording, not an independent explanatory rule."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The item principally tests capital/current account maintenance and includes additional capital. Partnership Fundamentals is a more exact primary chapter than Profit & Loss Appropriation Account."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "matching_options_not_distinct_bijections"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The primary task is maintenance of capital/current accounts, including additional and permanent withdrawal of capital. It should map to Partnership Fundamentals; Profit & Loss Appropriation Account covers only some listed items."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "600 is correct only if the final call is the sole unpaid capital instalment. Fully called-up means demanded, not received; the stem does not explicitly state all other capital instalments were paid.",
+        "For example, if a further Rs 4 capital instalment had also been unpaid, capital received would be Rs 3 per share and 1,400 shares would also fit Rs 4,200. The current explanation silently assumes Rs 7 received."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The situations test share-capital classifications and transactions; Financial Statements of Company is the wrong primary chapter.",
+        "Existing NCERT page 55 is unrelated to reserve-capital definition and page 66 does not define it.",
+        "Markdown table syntax is unsupported by the question renderer.",
+        "C-IV should explicitly say the premium excess, since only the excess over nominal value is credited to Securities Premium Reserve, not the entire share proceeds."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Definitions of share-capital items are misclassified under Financial Statements of Company.",
+        "Reserve capital is not merely any amount called at winding up; it is specifically a reserved portion of uncalled capital callable only then. The explanation repeats the abbreviated definition.",
+        "Existing leac201 page 55 does not support reserve capital; page 66 supports the other three definitions."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The numerical split and debit/credit direction are academically correct. However, none of the currently attached textbook locators directly prints the residual-profit transfer journal entry. A fixed-account definition and summary of final accounts do not by themselves establish debit Appropriation / credit partners."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Intended B matches: A is planned saving and C realised saving.",
+        "Statement D uses the undefined hybrid term 'Ex Ante Post Saving'. Its explanation rejects this non-term rather than a meaningful economic assertion. Preserve the historical transcription as provenance, but repair before using it as clean current practice.",
+        "A's phrase 'actually planned to save' is awkward; statements and option lists should be split across lines in the rendered item."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "C is the intended exact identity, but D is ALSO true: zero is less than one. There is no uniquely defensible correct option under literal mathematical reading.",
+        "The explanation establishes C without refuting D, so matching the official intended key does not repair the overlap.",
+        "G,T,M,X are not defined in the stem; familiar exam shorthand is weaker than explicit self-contained notation."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "A is the intended answer, but the stem says receipts create liability AND decrease assets. That is not the textbook's disjunctive definition.",
+        "Borrowing creates a liability; disinvestment reduces financial assets. Either criterion suffices. The explanation silently changes the stem to 'either ... or'.",
+        "The stem also calls receipts 'elements' rather than identifying government receipts."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "audit_verdict": "incomplete",
+      "audit_reasons": [
+        "A is arithmetically unique under the supplied simplified additive relationship: 9-4=5%. The stem's approximation is explicit, so the exact multiplicative Fisher relation is not a competing answer.",
+        "Attached Money and Banking pdf-page-2 covers purchasing power and money demand; pdf-page-10 covers bond present value. Neither excerpt entails the stated nominal/real interest relation.",
+        "The current 2026 Money and Banking syllabus lists functions/supply of money, creation/multiplier, central-bank functions and money-supply policy tools. No exact current-syllabus topic entitlement was supplied for this formula.",
+        "A 2024 PYQ is evidence of historical examination content, not sufficient evidence of the 2026 boundary or 2027 entitlement. Live text searches in NCERT Money and Banking, National Income Accounting, Determination of Income and Employment and Open Economy Macroeconomics did not locate 'real interest'; this is not proof of universal absence, so verdict is incomplete rather than categorical off-syllabus.",
+        "The explanation is correct conditional on the question's given equation, but that does not fill the source/syllabus gap."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "B is the source-supported intended answer.",
+        "The item says 'According to the chapter' but supplies neither a chapter title, cited text nor passage. It is source-dependent phrasing in a standalone exam question.",
+        "The explanation repeats the same unidentified 'chapter' reference. It should identify the historical textbook framing or give a standalone explanation.",
+        "No claim about the present continuation of Five-Year Plans should be introduced."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unseen_reference"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "C is the unique intended textbook-role answer; the supplied simple NCERT circular-flow source supports it.",
+        "The explanation says a two-sector model assumes households spend their entire income and do not save. That does not follow from being two-sector alone: two-sector income-determination models can include household saving and firm investment.",
+        "The stem omits 'simple economy without saving' while the explanatory source uses that narrower model. Do not turn a restricted source illustration into a general definition of a two-sector economy.",
+        "Repair the explanation and model assumptions before approval; do not claim a discovered official-key mismatch."
+      ],
+      "state": "waiting",
+      "reasons": [
+        "calibration_cache_miss"
+      ],
+      "failure_details": []
+    }
+  ]
+}

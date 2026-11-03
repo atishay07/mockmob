@@ -1,0 +1,30 @@
+{
+  "schema": "owner-127-independent-root-v1",
+  "subject": "business_studies",
+  "batch": 3,
+  "at": "2026-10-08T14:27:57.926Z",
+  "blind_packet_sha256": "88e8e65761446d82792a80ab4c8d6e4024b0eee17037db9dc0048772798f4d5f",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "reviewer": "root",
+  "cases": [
+    {
+      "id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+      "independent_key": "A",
+      "defensible_options": [
+        "A"
+      ],
+      "unique_answer": true,
+      "derivation": "20 March 2027 lies inside the inclusive prohibition. No profit or shareholder-vote exception exists, and 31 March is included. Withhold throughout the period is the only compliant choice.",
+      "support": [
+        {
+          "source_key": "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012",
+          "quote": "does not violate the terms of the loan agreement"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    }
+  ]
+}

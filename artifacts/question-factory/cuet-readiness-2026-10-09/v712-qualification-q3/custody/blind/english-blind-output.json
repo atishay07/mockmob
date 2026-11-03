@@ -1,0 +1,256 @@
+{
+ "items": [
+  {
+   "local_id": "eng-b1",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "She took the other track home, not his path (F7)."
+    },
+    "B": {
+     "status": "false",
+     "why": "No search along the fence for him; he had moved away (F7)."
+    },
+    "C": {
+     "status": "true",
+     "why": "F7: at the far fence she saw a narrow track toward a new gate and took that route home."
+    },
+    "D": {
+     "status": "false",
+     "why": "Grass covering the edges happened by itself; she planted nothing (F7)."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair literal-comprehension item.",
+   "quality_note": "Clear stem; distractors plausible.",
+   "source_explanation": "F7 says she saw another narrow track toward a new gate and took that route home, so C. A contradicts the new route home; B and D are not in the passage and D misreads the grass growing over the edges."
+  },
+  {
+   "local_id": "eng-b2",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "F4: shelves held the same books; they only looked empty in dimmer light."
+    },
+    "B": {
+     "status": "false",
+     "why": "F4 says the room's contents did not change."
+    },
+    "C": {
+     "status": "false",
+     "why": "He moved and later raised the same lamp; no replacement (F4)."
+    },
+    "D": {
+     "status": "false",
+     "why": "They only looked almost empty (F4)."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair inference item for Class XII.",
+   "quality_note": "Good, clear distractors.",
+   "source_explanation": "F4 says the shelves held the same books and only looked empty outside the light circle; the statement implies appearance changed, not contents (A). B, C and D contradict or add facts absent from F4."
+  },
+  {
+   "local_id": "eng-b3",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Repetition in many sentences is not using few words (F17)."
+    },
+    "B": {
+     "status": "false",
+     "why": "Unneeded history is not necessary information (F17)."
+    },
+    "C": {
+     "status": "false",
+     "why": "Gives no useful information, so not necessary and important info (F17)."
+    },
+    "D": {
+     "status": "true",
+     "why": "Matches F17: only necessary information, few words."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair vocabulary item.",
+   "quality_note": "Definition-matching; clear.",
+   "source_explanation": "F17 defines concise as only necessary, important information in few words, matching D. A, B and C are wordy, irrelevant or empty."
+  },
+  {
+   "local_id": "eng-b4",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F3: captains changed the result without replaying the match."
+    },
+    "B": {
+     "status": "true",
+     "why": "F3: correcting would turn victory into a tie; captains agreed and changed the result."
+    },
+    "C": {
+     "status": "false",
+     "why": "Result became a tie, not an opponent win (F3)."
+    },
+    "D": {
+     "status": "false",
+     "why": "Captains agreed on the correction (F3)."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair literal item.",
+   "quality_note": "Clear.",
+   "source_explanation": "F3 states the correction would turn the victory into a tie and the captains agreed and changed the result, so B. A and D contradict F3; C is not supported since a tie is not a loss."
+  },
+  {
+   "local_id": "eng-b5",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "F5: she sketched one clear bird among the remaining shapes after looking again."
+    },
+    "B": {
+     "status": "true",
+     "why": "F5: she returned the next morning to see the wall in the light it was designed for; also after the boy's remark."
+    },
+    "C": {
+     "status": "false",
+     "why": "F5: she did not erase the sky."
+    },
+    "D": {
+     "status": "false",
+     "why": "F5: she did not declare the boy correct."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Stem asks what she did 'after' the boy's remark; both the sketching and the return next morning follow it, so two options are established.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair literal item but flawed key design.",
+   "quality_note": "Two correct options (A and B); stem does not restrict to the immediate action.",
+   "source_explanation": "F5 supports both A (sketched one clear bird) and B (returned the next morning). C and D are contradicted by 'did not erase the sky or declare the boy correct'. No single answer."
+  },
+  {
+   "local_id": "eng-b6",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "No city named in F10."
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "No city named in F10."
+    },
+    "C": {
+     "status": "undecidable",
+     "why": "No city named in F10."
+    },
+    "D": {
+     "status": "undecidable",
+     "why": "No city named in F10."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "The uncle's city is never given in the passage; an outside fact would be required.",
+   "numeric_check": null,
+   "syllabus_fit": "Not answerable from the passage.",
+   "quality_note": "Asks for a detail absent from the passage; options are arbitrary.",
+   "source_explanation": "F10 says only that the grandmother left to stay with his uncle; no city is mentioned, so none of the options can be established."
+  },
+  {
+   "local_id": "eng-b7",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F2: faster speech made words hard to follow."
+    },
+    "B": {
+     "status": "false",
+     "why": "F2: her teacher asked the question; the organiser only shortened time."
+    },
+    "C": {
+     "status": "true",
+     "why": "F2: teacher asked which idea she most wanted remembered; she then removed the anecdote and examples keeping the central argument."
+    },
+    "D": {
+     "status": "false",
+     "why": "F2: she retained the central argument."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair inference item.",
+   "quality_note": "Stem slightly awkward ('Why was Amina able to explain') but answerable.",
+   "source_explanation": "F2 shows she chose cuts by identifying the idea to preserve, retaining the central argument, and so could explain the removal (C). A, B and D contradict F2."
+  },
+  {
+   "local_id": "eng-b8",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F9: she wanted it to win but asked for a check so it would not be attached from memory; her reply says entries judged as submitted."
+    },
+    "B": {
+     "status": "true",
+     "why": "F9: she said she helped entries be judged as they were submitted."
+    },
+    "C": {
+     "status": "false",
+     "why": "F9: not stated that the coordinator asked her to announce early."
+    },
+    "D": {
+     "status": "false",
+     "why": "F9: she noticed this before the judges arrived."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair literal/inference item.",
+   "quality_note": "Clear.",
+   "source_explanation": "F9 has Leela state she helped the entries be judged as submitted and she would do the same for anyone (B). A is contrary to that fairness motive; C is unstated; D contradicts 'before the judges arrived'."
+  },
+  {
+   "local_id": "eng-b9",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "F9-like F8: he realised asking the right person could be useful assistance."
+    },
+    "B": {
+     "status": "false",
+     "why": "F8: his initial feeling, which he revised."
+    },
+    "C": {
+     "status": "false",
+     "why": "F8: the pupil thanked both."
+    },
+    "D": {
+     "status": "false",
+     "why": "F8: he knew the costumes were needed soon."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair theme/inference item.",
+   "quality_note": "Clear; distractors plausible.",
+   "source_explanation": "F8 states Rohan realised that asking the right person could be useful assistance, which A restates. B is his initial view, C contradicts 'thanked both', D contradicts 'needed soon'."
+  }
+ ]
+}

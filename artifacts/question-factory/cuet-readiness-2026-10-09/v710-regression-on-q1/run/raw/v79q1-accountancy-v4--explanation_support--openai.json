@@ -1,0 +1,263 @@
+{
+ "stage": "explanation_support",
+ "provider": "openai",
+ "ms": 18213,
+ "request_bytes": 18459,
+ "response": {
+  "id": "resp_08a2e2e0a05b348b016ac8edf9fe1487d1a75812f6490503f8",
+  "object": "response",
+  "created_at": 1791553018,
+  "status": "completed",
+  "access_programs": null,
+  "background": false,
+  "billing": {
+   "payer": "developer"
+  },
+  "completed_at": 1791553029,
+  "error": null,
+  "frequency_penalty": 0,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 8000,
+  "max_tool_calls": null,
+  "model": "gpt-6-luna",
+  "moderation": null,
+  "output": [
+   {
+    "id": "rs_08a2e2e0a05b348b016ac8edfbbc8487d18849f8e55820563d",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyO4Fq3oJWbEyWJdBBuRB5I0qOdYQSPgtugeAidPh7AD5R6Zz4Dss5_6pLT6o7MmEykith3DXKXSmFLU611tM6HqhpRpAhKmlS9IBXqF-f-Czrv-wZ5FUHlGXgwDSy45ahcpBWuX7Ai-uAuV3kf8zE-01K5gD_aNbbFXtSoCq4eaOjiimom-DUV5CKDuk1n5fOkRRz7n9iVqnkB3Y0zb7DhE-K50yHRDde_LJM6hTha9NwVoETNvFt7xhS7C09QPRK8hNdFk5cY140obc9I5e2Za3KWldYaeooqzwG3SCOKrYn6N3HbF_8vb23nBdI2ye0sEC5mHRtmJo_dudx5BLXIB3G_aNEoAhatRwTmiA7lOKyJDAjVmQ5atEjIhPDvrUe0fGVbZtKGMGeGJSmvolNiL3uBd-JmCkNpOLV_b5Z2lRqMGBnusqGtjNGps-LO8PXYJ03rjc4no5LE9mVHzenjEb7UTuOIA9CQduPTBn9PFwjsnUIK1FaHq7VpkA5h4IxIsKahIVjG35C42mHvyFP9MLoBP55aqSSTSszAdlQetMQcBoJHfc8uehbIt0GMywyFRSNedDMwhNAAXfV-ixyDcTVBJiQSG7nL7LTlYXdCH0jKrRAKn-Zr9aEGbNifSoHfsWiBL7SpwqjoEVAzJeV-2eafqRLTfRorarRa7a38rtNvfOc_NFVv6mfoQadHIimho_wcV2rfIoX7KTj8SFTZSD15KRCOqqUeb_jYa8j024ogcPdLsBLjDD5gXkPUtKJqP8zlhQYusAxfkDJ4TYcwckLGSyRWh1AHp-XgXvzttEjuEcYwbCXrhllg7qoHhsn7vYaboewvyM-za5AfEm-mVKVpMro5kI4t8JACJUxc6ots1oRlxbubDnXQzKJ4rBvDcEmxQeGYUtUGnzuy1JG6v-wRoEdMixzELnHSOEBIubBEvkqAZDF0W4gvbfo88mUTty3Z3I56BcXEuawGIU7IpHatnZjPk02G5zAbQ6HbNI6BlBB7rVXaWpuOPJHaVChZC_dKrNFPVVs-Aq20FyqfPJv9EyuDNYHl4FyJa1jEOqCPyhljs2zejqczTkOhLje10jHbAwzT0B6m_uL3MlTpGKtFibELZTRV0kNlG7u6ch5pp0yCERGdJ-KGlvkXXQPeokfzyoFTr5Lz9_IQ4RwUjxzAon9qA_NZiRdY7dSyunSBjkyadkyZvgPwnhLX8LSV93YVIAWnrpp8vM9gOc9pgnr9n8QttEFSYXlaQgkalyGlqyqmuWetA8MIMByKr74MyuTyPUvzWM7bsdGbNxOUZpAObfUTLkNvuSywI9SiJYtn9fRnNwpyMiwYH5vdYnhCthi2SXX_HkhZrIOuMvDGlRB-LaFyyh68S-d4cabVxa8OuoWRNB12h9jwKk1Z_K1xc2smyJkSEOzDRMe6inma1z6z1o8MDvf157MbJNMmv1zg8QTQx8V8EUqwicbky81uPfSR0qq0EYOEUozWTsJWPJ50U4vDA4ME2hs9-6KwhEiRTN3xdt4LS89IqYtVSWSEgUD8ut0JIWS57wpeBG3YwObuVKrzL6xTeF5EI6ma_bdiVhX87wQ-WgFFsCTp78BOVCnMgqARHQ-EyOxoDTIeZBLp6LfQFQvPWK8Y9_lp1KGNd88gRLnlhxZbPrW5wT3ucC2CeSxmJ6pBJoxvm44wo2FAeiixF2EtzktAJKNjUArXuJ7he4ew3XV-FBjxWNcnteYhMASJ5uv-ZIEus-9QVtEPreTgY0qmvb0PlDkNiSbe2kSA3liaBoH1DJcAtl5kMQ46Xum9DsKjOxlh0k79ufJx24kFhKie8AJ0-gyzdcDORFoCHIVQrk4Yh_129OF4-pAogeIOlFPExAHyv8XGQz7KA3vLJoc9E3LarmsRjNpg0KCvItc_MapIH3dKhxyMghPonOBUDgNFSbFHyI0HT4QV34II0l8jAbKnzbe1xq1rdqjXGUZREf0TqMa79o8YkOdkQaA7wwpt0Ww88XpYPvOK4ApGYHatIGFnSLqRFoJ1YbKVKbbY3DPS4RCdObuOhHEjRDyp_Xy1djVya0T5mWbIYCX7-wyPP1tCmrKOmvxz_1VPQ-rzYmU9N-zeUnq5oVALlEY7WwNKt0kVd6jyIPxI3OTOpXhPrpXILiqzS0HWBmfSYqLErmqs4gyPftn69nkm_or8FNCIuVmMA-RZVg2mqv2cOQxkZIHplZmBX-CmnnBZvG6Et6h7DUYIvgFey2dn7UXO4MnqxXRG-70mk2dBu1wKrW2za17YrKovftuP2anjVl9_2IFhMBD0m2TnxfHNLOo48DhtCbildCLzkiAj6JRWX7ZuY8uu7hMudqRQQxHC648Bl9KSv2smnfWuvS_V6yn2b3oj4jXQitflfw0AwbEaRpClRShvNwMLUUfd_RL8Ylk7lLJQJUSVHgRGUEntimoU187VgaKz3J__VP_kU6EHQNN800yG6BI3ubLtSHEXJvNgHJZIJxxnlDersGmUsO6pjsGdkPAKRHpn6g-qSgPMFbsU_0WeDW7YXTVon-O1R6z4V035XmlbQwKftvnv6BM6bb6MhWkb_cBZ0Pkwh9tg6opoiXYe-ehjTQWFOCR98Z0aaMvsJJPlva7SU7zPikeaEx8qdY-w0r12nOc38TcV9FspelGFBrxMs_Yw70jcWoXivtVQyrp3VNIFvHIAfBrTwyuRcCTvJlDmWlvm4zty05Su1tasF6zVjns30avGG7JOtTTBOXREEYwJdi6m7TqN37rUHYf1wqH4QUZlkpL4BdEyyBUlt9yKVCTKlbKNJczt4T_6In4cJlWs2x0zCedJC981bzaDEdJawKC83oz85kyGZD3a6n8ztr0Z7L3skzGJC-n2PCs_rN2xGMmZ_9t-H-Gqkfkcyy33WIGtbZBKki5k1ZcNPGONa9QpBI-9_XcEOwKyVd4HroMWpA51Nm-A6W1svsV-e4BEizHox9229LYgE7xRcX-8Q9CQvA9OI6MAdaqg7qj5cp6RNeE39sv5Yn6_z0vkxnoVac-V8Bl7xgRns3EBBUM11FVP3rVl5cC-kp8KzT5TwDDxnHN07yUvVxKpYEtSHHc942oXhxA6T986_MFFn_0qJMVPpxYRTbHQA7P9iO-lLQ0LR5at0kgAEHTzDyFPSqeGoibLqPlw3qU_VvbXKOPyYcEi5eivs81rwFkmoij_PCwUCj6nmkdNnhbXzQsNZOAkyYpdHYJUkBUj1rGc2f7xwmLRJMuaTs_b_7EZDlKkKjG5ahhV2x8C9UkmE-l-rg02FTgQNP7etwbdxdPQWyXe3K9R3G8c6iNhwL61qSMgCPVaOhJhRKDio8YO_Xa6PDH6wK0RrRBFm_fhb3YHhKUkw6vdT6kaxTKpnDvKuKULuhIJ7IHijvoDXmUihr1zQ4EkKgI1E5MUKdzcUel1HBTA9GkYc6jPhd0B6Zubk0NXzgl5WRxARLBYm6XcWqJbTz7iFZ9FE5b-4biheDbkgrM3iGES54e4dNwWgr04IPGmCveJph2C9lqjONtKdDSQAMFHeu7N6Zh04bnrYq_ZKTA9U2bYGiFdJrWyqohgEqul26JIshdlSrlMtVyhKhzMFZHC7y6I2j6ER2P2XQC58DHiiHdNS6YrT0i4UJ2IWMUWn3Vk_jENMSAwlyeUAMKaFxOuoVXks4xZvv7-EcuKX21MaI17E7S84Ap8gorxPiR6g1w00-sFPBdLvapVQyaCcPhMy0FREItxJTvEXR-9cq2TYKgopHdLDLWOYy_NlCWhHZMWEZWq4t5DCAFQNbwN4e6m6hKuRTWWqgbtKocJMJz9hslvD4qeqYGIWkGB7SsqVq2mY8BLsWIvHMZUgUWDCPw2hgahB4B_Pzdyxc9CBK_sCxvLi8qLr_a-2vn-8onDBHIWjl4br2iK--zeTnm-JoEH72CO-sIaJ8zDOVgtChPXJ1VLGm6urKCc9uNmnXV4B_0B6R30eeuklDg04med02RYZABw==",
+    "summary": []
+   },
+   {
+    "id": "msg_08a2e2e0a05b348b016ac8ee007f0487d1863a62eed55caf17",
+    "type": "message",
+    "status": "completed",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-accountancy-v4\",\n  \"content_hash\": \"3265c4f308603d74741872d0c80524d6573cc784170f6d5b52a5cb0d933765ea\",\n  \"claims\": [\n    {\n      \"claim\": \"The excerpt values goodwill by multiplying past average profits by the agreed number of years.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"The average profit is (Rs 30,000 + Rs 36,000 + Rs 42,000) / 3 = Rs 36,000.\",\n      \"basis\": \"arithmetic\"\n    },\n    {\n      \"claim\": \"Goodwill is Rs 36,000 × 4 = Rs 1,44,000.\",\n      \"basis\": \"arithmetic\"\n    },\n    {\n      \"claim\": \"Rs 36,000 omits the multiplier.\",\n      \"basis\": \"arithmetic\"\n    },\n    {\n      \"claim\": \"Rs 1,08,000 is the total of the three years’ profits.\",\n      \"basis\": \"arithmetic\"\n    },\n    {\n      \"claim\": \"Rs 4,32,000 multiplies that total by 4 instead of multiplying the average by 4.\",\n      \"basis\": \"arithmetic\"\n    }\n  ],\n  \"passed\": true,\n  \"reasons\": [\n    \"The excerpt supplies the average-profits formula; the stem gives the three profits and four years’ purchase. The calculations support A and reject B, C, and D.\"\n  ],\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"resolution_audit\": {\n    \"key\": \"A\",\n    \"key_fully_supported\": true,\n    \"key_reason\": \"The average is Rs 36,000; the excerpt’s method and the stem’s four years’ purchase give goodwill of Rs 1,44,000.\",\n    \"unexcluded_rival_conditions\": [],\n    \"distractors\": [\n      {\n        \"option\": \"B\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"Rs 36,000 is the average; multiplying it by four gives Rs 1,44,000.\"\n      },\n      {\n        \"option\": \"C\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"Rs 1,08,000 is the sum of the profits; the required four-year multiple of the average is Rs 1,44,000.\"\n      },\n      {\n        \"option\": \"D\",\n        \"decisively_wrong\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"Rs 4,32,000 is four times the sum; goodwill uses four times the average, Rs 1,44,000.\"\n      }\n    ]\n  }\n}"
+     }
+    ],
+    "phase": "final_answer",
+    "role": "assistant"
+   }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+   "context": "all_turns",
+   "effort": "high",
+   "mode": "standard",
+   "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "default",
+  "store": false,
+  "temperature": 1,
+  "text": {
+   "format": {
+    "type": "json_schema",
+    "description": null,
+    "name": "factory_result",
+    "schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "candidate_id",
+      "content_hash",
+      "claims",
+      "passed",
+      "reasons",
+      "evidence_ids",
+      "resolution_audit"
+     ],
+     "properties": {
+      "candidate_id": {
+       "type": "string",
+       "enum": [
+        "v710-v710-regression-on-q1-run-v79q1-accountancy-v4"
+       ]
+      },
+      "content_hash": {
+       "type": "string",
+       "enum": [
+        "3265c4f308603d74741872d0c80524d6573cc784170f6d5b52a5cb0d933765ea"
+       ]
+      },
+      "claims": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "claim",
+         "basis"
+        ],
+        "properties": {
+         "claim": {
+          "type": "string"
+         },
+         "basis": {
+          "type": "string",
+          "enum": [
+           "excerpt",
+           "stem",
+           "arithmetic",
+           "fundamental",
+           "unsupported",
+           "incorrect"
+          ]
+         }
+        }
+       }
+      },
+      "passed": {
+       "type": "boolean"
+      },
+      "reasons": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "evidence_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "enum": [
+         "E1.1",
+         "E1.2"
+        ]
+       }
+      },
+      "resolution_audit": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "key",
+        "key_fully_supported",
+        "key_reason",
+        "unexcluded_rival_conditions",
+        "distractors"
+       ],
+       "properties": {
+        "key": {
+         "type": "string",
+         "enum": [
+          "A",
+          "B",
+          "C",
+          "D"
+         ]
+        },
+        "key_fully_supported": {
+         "type": "boolean"
+        },
+        "key_reason": {
+         "type": "string"
+        },
+        "unexcluded_rival_conditions": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "distractors": {
+         "type": "array",
+         "minItems": 3,
+         "maxItems": 3,
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+           "option",
+           "decisively_wrong",
+           "basis",
+           "reason"
+          ],
+          "properties": {
+           "option": {
+            "type": "string",
+            "enum": [
+             "A",
+             "B",
+             "C",
+             "D"
+            ]
+           },
+           "decisively_wrong": {
+            "type": "boolean"
+           },
+           "basis": {
+            "type": "string",
+            "enum": [
+             "direct_contradiction",
+             "arithmetic",
+             "passage_unsupported",
+             "category_only",
+             "source_silence",
+             "partial_truth",
+             "unsupported",
+             "incorrect"
+            ]
+           },
+           "reason": {
+            "type": "string"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "strict": true
+   },
+   "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+   "image_gen": {
+    "input_tokens": 0,
+    "input_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "output_tokens": 0,
+    "output_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "total_tokens": 0
+   },
+   "web_search": {
+    "num_requests": 0
+   }
+  },
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+   "input_tokens": 4011,
+   "input_tokens_details": {
+    "cache_write_tokens": 4008,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1125,
+   "output_tokens_details": {
+    "reasoning_tokens": 491
+   },
+   "total_tokens": 5136
+  },
+  "user": null,
+  "metadata": {}
+ }
+}

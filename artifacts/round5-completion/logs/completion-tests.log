@@ -1,0 +1,16 @@
+✔ Tonight metadata follows the shared 10/20/30 plan and the IST day (3.5334ms)
+✔ Tonight is recorded only from a scored matching-day attempt; review is separate (0.3818ms)
+✔ milestones exclude device scoring, blocked content and invalidated delayed checks (0.2908ms)
+✔ mistake replay uses missed and skipped chapters, excludes all past IDs and families (0.3826ms)
+✔ offline restore keeps the original session and deadline, with bounded pending upload (0.2701ms)
+✔ sign out removes only that account’s session drafts (0.2899ms)
+✔ cancellation uses cycle-end in the installed SDK and never treats rejection text as success (0.9367ms)
+✔ service worker intercepts only public assets and navigation, never account APIs or POSTs (1.5822ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 119.8475

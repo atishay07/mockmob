@@ -1,0 +1,49 @@
+{
+  "fixture_id": "v75f-825e60a00f",
+  "tests": [
+    {
+      "name": "full B lumped as one clause with category-only false rationale",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "name": "missing both candidate and content identity",
+      "ok": true,
+      "reason": null
+    },
+    {
+      "name": "forged supporting quote rejected",
+      "ok": false,
+      "reason": "resolution_support_spans_mismatch"
+    },
+    {
+      "name": "unresolved B rejected",
+      "ok": false,
+      "reason": "resolution_unresolved_alternative:B"
+    }
+  ],
+  "pipeline": {
+    "v76_instruction_count": 1,
+    "v77_instruction_count": 1,
+    "key_canary_absent": true,
+    "explanation_canary_absent": true,
+    "required_matrix": true
+  },
+  "provider_calls": 0,
+  "cache_reads": [
+    "v77:e40c8cde0178d3fb7d96d3d69f5ada215e32388e5987d262359701eb89721ad3:v76:1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec:v74:e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661:evaluation:ca1b2d551ef54774a4fa2374b1c5fd2fc10b70414b4a077ea02d4f8b80504d92",
+    "v77:e40c8cde0178d3fb7d96d3d69f5ada215e32388e5987d262359701eb89721ad3:v76:1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec:v74:e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661:evaluation:314f3386aadc64fb883962c378fcecdf171642485b1755d184d1b9f9e3e8d6b7"
+  ],
+  "request_keys": [
+    {
+      "p": "openai",
+      "key": "7468989b9aceaae71d96901a02e557e8a88a899c2508a7e410e29c6475493005"
+    },
+    {
+      "p": "gemini",
+      "key": "7bed8ec2225f6334b502bae52b927734d63954f2e7068728c52ec6fa1337ba24"
+    }
+  ],
+  "cache_all_v77_scoped": true,
+  "request_keys_provider_distinct": true
+}

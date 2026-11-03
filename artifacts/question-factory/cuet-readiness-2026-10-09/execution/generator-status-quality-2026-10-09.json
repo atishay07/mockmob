@@ -1,0 +1,112 @@
+{
+  "at": "2026-10-09T06:30:03.951Z",
+  "scope": "Status only; measured V76 benchmark controls, no new native calls or publication",
+  "lifetime": {
+    "reservations": 13925,
+    "settled_micro": 35127518,
+    "held_micro": 507892,
+    "unresolved": 37
+  },
+  "v77_native_requests": 0,
+  "current_generator": "V77 unqualified; V76 qualification failed",
+  "valid_controls": 20,
+  "eligible_valid_controls": 17,
+  "independently_solved_keys": {
+    "openai": {
+      "correct": 20,
+      "total": 20
+    },
+    "gemini": {
+      "correct": 20,
+      "total": 20
+    }
+  },
+  "accepted_valid_controls_fit_score": {
+    "n": 17,
+    "min": 8,
+    "max": 9,
+    "mean": 8.529411764705882
+  },
+  "accepted_valid_controls_fit_levels": {
+    "syllabus_objective": {
+      "n": 17,
+      "min": 2,
+      "max": 3,
+      "mean": 2.764705882352941
+    },
+    "format_authenticity": {
+      "n": 17,
+      "min": 2,
+      "max": 3,
+      "mean": 2.0588235294117645
+    },
+    "level_calibration": {
+      "n": 17,
+      "min": 2,
+      "max": 3,
+      "mean": 2.9411764705882355
+    },
+    "time_suitability": {
+      "n": 17,
+      "min": 2,
+      "max": 3,
+      "mean": 2.9411764705882355
+    },
+    "discrimination_value": {
+      "n": 17,
+      "min": 1,
+      "max": 3,
+      "mean": 1.9411764705882353
+    }
+  },
+  "heuristic_seconds": {
+    "n": 17,
+    "min": 37,
+    "max": 98,
+    "mean": 55.470588235294116
+  },
+  "comparator_ids_reported": {
+    "observations": 40,
+    "with_ids": 2,
+    "without_ids": 38
+  },
+  "false_accepts": [
+    {
+      "id": "v75f-825e60a00f",
+      "fit_score": 9,
+      "label_preserved": true
+    }
+  ],
+  "caveats": [
+    "Selected valid controls are not a random original-generator pilot; survivor averages do not establish generator quality.",
+    "Model fit ratings and key agreement do not prove unique-answer exclusion or academic truth.",
+    "Missing exemplar_ids_compared limits demonstrated authenticated CUET style/level calibration.",
+    "Current V77 has no candidate-level native measurement."
+  ],
+  "ten_thousand_cost": {
+    "qualified_publishable_forecast_available": false,
+    "historical_old_validator_machine_eligible_scenario_usd": 191.635,
+    "validation_only_max_reserved_per_candidate_usd": 0.169375,
+    "validation_only_10000_candidates_max_usd": 1693.75,
+    "validation_only_10000_survivors_at_assumed_70pct_max_usd": 2419.6428571428573,
+    "excludes": [
+      "new-generation authoring",
+      "source research",
+      "targeted repair and revalidation",
+      "publication/infrastructure"
+    ],
+    "not_an_expected_spend_forecast": true
+  },
+  "blocker_audit": {
+    "condition": "Further paid qualification needs pending human scope answer; Qualify once and failed V76 preregistration stop further paid studies.",
+    "consecutive_goal_turns": [
+      "V77 local core correction/freeze",
+      "V77 runner correction/freeze",
+      "current authoritative-state revalidation/status turn"
+    ],
+    "safe_local_prequalification_work_completed": true,
+    "no_live_worker_confirmed_by_cim": true,
+    "study_directory_exists": false,
+    "production_approval_still_required": true
+  }
+}

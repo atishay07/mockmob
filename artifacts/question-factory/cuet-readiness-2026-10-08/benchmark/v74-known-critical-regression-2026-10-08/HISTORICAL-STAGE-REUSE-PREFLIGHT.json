@@ -1,0 +1,93 @@
+{
+  "at": "2026-10-08T15:36:37.355Z",
+  "complete": true,
+  "historical_denominator": 10,
+  "rows": [
+    {
+      "id": "cbse24-ac-q04",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "state": "eligible",
+      "reasons": [],
+      "failed_stage": null,
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "academic_checks_reused": true
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "academic_checks_reused": true
+    }
+  ],
+  "paid_calls": 0,
+  "ledger_writes": 0
+}

@@ -1,0 +1,221 @@
+[
+ {
+  "id": "v712q3-business_studies-v1",
+  "subject": "business_studies",
+  "chapter": "Organising",
+  "body": "Using the definitions by Chester Barnard and Keith Davis, which statement about an informal organisation is correct?",
+  "passage": "",
+  "options": [
+   {
+    "key": "A",
+    "text": "It is established by the formal organisation to define authority relationships among activities"
+   },
+   {
+    "key": "B",
+    "text": "It exists only when its relationships contribute to joint results"
+   },
+   {
+    "key": "C",
+    "text": "It is created through a conscious purpose set by management"
+   },
+   {
+    "key": "D",
+    "text": "It arises spontaneously as people associate with one another, without being established or required by the formal organisation"
+   }
+  ],
+  "proposed_key": "D",
+  "explanation": "Keith Davis describes informal organisation as a network of personal and social relations not established or required by the formal organisation but arising spontaneously as people associate. Barnard says it is without any conscious purpose and that it only 'may' contribute to joint results, so options B and C are contradicted. Defining activities and establishing authority relationships is Haimman's definition of organising, not of informal organisation, which rules out A.",
+  "excerpts": [
+   "Organising is the process of identifying and grouping the work to\nbe performed, defining and delegating responsibility and authority,\nand establishing relationships for the purpose of enabling people to\nwork most effectively together in accomplishing objectives.\nLouis Allen\nOrganising is the process of defining and grouping the activities of the\nenterprise and establishing authority relationships among them.\nTheo Haimman",
+   "An informal organisation is an aggregate of interpersonal relationships without any\nconscious purpose but which may contribute to joint results.\nChester Barnand\nInformal organisation is a network of personal and social relations not established or required\nby the formal organisation but arising spontaneously as people associate with one another.\nKeith Davis"
+  ],
+  "validator_reasons": [
+   "The source says informal organisation may contribute to joint results, but does not establish that contribution is nonessential; it therefore does not decisively contradict option B.",
+   "The definition supports D and contradicts A and C, but the explanation overstates the evidence when rejecting B.",
+   "unsupported claim: Barnard says informal organisation only may contribute to joint results, implying contribution is not necessary.",
+   "unsupported claim: Option B is contradicted by Barnard's definition.",
+   "v712_audit_not_decisively_wrong:B:source_silence"
+  ]
+ },
+ {
+  "id": "v712q3-economics-v1",
+  "subject": "economics",
+  "chapter": "Theory of Firms under Perfect Competition",
+  "body": "A wheat farmer in a perfectly competitive market is a price-taking firm and sells every unit at the market price of Rs 40 per quintal. If she sells one more quintal, her marginal revenue from that extra quintal is:",
+  "passage": "",
+  "options": [
+   {
+    "key": "A",
+    "text": "Less than Rs 40, because she must lower the price to sell the extra quintal"
+   },
+   {
+    "key": "B",
+    "text": "Rs 0, because the extra quintal is sold at the same price as the earlier ones"
+   },
+   {
+    "key": "C",
+    "text": "Rs 40, because the extra unit is sold at the market price"
+   },
+   {
+    "key": "D",
+    "text": "Rs 40 multiplied by her total output, because all units are sold at that price"
+   }
+  ],
+  "proposed_key": "C",
+  "explanation": "For a price-taking firm, the extra unit is sold at the market price, so marginal revenue is precisely the market price, i.e. MR = AR = p = Rs 40. The firm does not need to lower its price, so MR is not below Rs 40. The extra quintal adds Rs 40 to revenue, so MR is not zero or Rs 40 times total output.",
+  "excerpts": [
+   "= p\nThus, for the perfectly competitive firm, MR=AR=p\nIn other words, for a price-taking firm, marginal revenue equals the market\nprice.\nSetting the algebra aside, the intuition for this result is quite simple. When a\nfirm increases its output by one unit, this extra unit is sold at the market price.\nHence, the firm’s increase in total revenue from the one-unit output expansion –\nthat is, MR – is precisely the market price."
+  ],
+  "validator_reasons": [
+   "E1.1 states that marginal revenue equals price for a price-taking firm; one additional quintal sold at Rs40 raises total revenue by Rs40.",
+   "But total output is unstated. If output after the sale is one quintal, option D's Rs40 multiplied by output also equals Rs40, so uniqueness is not assured.",
+   "Defect: missing_decisive_assumption: Total output is not stated. At one quintal after the sale, option D's expression equals the marginal revenue, leaving a second defensible answer.",
+   "Defect: missing_decisive_assumption: option D is correct if If total output after the sale is one quintal, Rs40 multiplied by output equals Rs40, the revenue increment from zero to one; the stem gives no output total.",
+   "Condition missing: Total output after the extra sale is unspecified; if it is one quintal, option D's Rs40 multiplied by total output equals Rs40.",
+   "v712_unresolved_alternative:D"
+  ]
+ },
+ {
+  "id": "v712q3-business_studies-v4",
+  "subject": "business_studies",
+  "chapter": "Staffing",
+  "body": "Ravi's employer pays a fixed salary of Rs 10,000 per month plus Rs 4 for every unit he produces. In a month he produces 1,800 units. What is his total direct pay for the month, and how is the plan classified in the textbook's terms?",
+  "passage": "",
+  "options": [
+   {
+    "key": "A",
+    "text": "Rs 17,200; a combination of time based pay plus incentive for higher performance"
+   },
+   {
+    "key": "B",
+    "text": "Rs 7,200; a performance based plan only"
+   },
+   {
+    "key": "C",
+    "text": "Rs 10,000; a time based plan only"
+   },
+   {
+    "key": "D",
+    "text": "Rs 17,200; an indirect payment like employer paid insurance"
+   }
+  ],
+  "proposed_key": "A",
+  "explanation": "The incentive is 1,800 x 4 = Rs 7,200, so the total is 10,000 + 7,200 = Rs 17,200. The fixed monthly salary is time based and the per-unit amount is performance based, so the plan combines time based pay with incentives. Options B and C count only one component, and option D is contradicted because salaries and incentives are direct financial payments.",
+  "excerpts": [
+   "mean more pay, responsibility\nand job satisfaction.\n(viii) Compensation\nAll organisations need to\nestablish wage and salary plans\nfor their employees. There are\nvarious ways to prepare different\npay plans depending on the worth\nof the job. Basically the price of\nthe job needs to be determined.\nCompensation, therefore, refers\nto all forms of pay or rewards\ngoing to employees. It may be\nin the form of direct financial\npayments like wages, salaries,\nincentives, commissions and\nbonuses and indirect payments\nlike employer paid insurance\nand vacations.\nDirect financial payments\nare of two types : time based or\nperformance based. A time based\nplan means salary and wages are\npaid either daily, weekly or monthly\nor annually. Performance based\nplans means salary/wages are paid\naccording to piecework. For example,\na worker may be paid according to\nthe number of units produced by\nhim/her. There are many methods\nto calculate the compensation under\nvarious incentive plans to reward\nperformance. Certain pay plans can\nbe created which are a combination\nof time based pay plus incentives\nfor higher performance. Various\nplans may be formulated for paying"
+  ],
+  "validator_reasons": [
+   "Variable pay is Rs 4 × 1,800 = Rs 7,200; adding the fixed Rs 10,000 gives total direct pay of Rs 17,200.",
+   "E1.2 identifies unit-based piecework as performance-based and allows a combination of time-based pay and incentives; E1.1 classifies salaries and incentives as direct payments.",
+   "The supplied Staffing syllabus scope does not include compensation or wage and salary plans.",
+   "Defect: syllabus_mismatch: The supplied current Staffing syllabus covers staffing, recruitment, selection, and training; it does not include compensation or time-based and performance-based pay plans.",
+   "cuet_fit_syllabus_objective_below_2"
+  ]
+ },
+ {
+  "id": "v712q3-economics-v4",
+  "subject": "economics",
+  "chapter": "Balance of Payments",
+  "body": "Government spending on domestic goods rises in an open economy where a proportion of the induced increase in consumption is spent on imported goods. Compared with a closed economy in which all induced consumption is spent on domestic goods, the autonomous expenditure multiplier in this open economy is:",
+  "passage": "",
+  "options": [
+   {
+    "key": "A",
+    "text": "Larger, because imported goods add to domestic income at each round"
+   },
+   {
+    "key": "B",
+    "text": "Unchanged, because only the change in autonomous expenditure matters"
+   },
+   {
+    "key": "C",
+    "text": "Smaller, because the induced effect on demand for domestic goods is smaller"
+   },
+   {
+    "key": "D",
+    "text": "Smaller or larger depending on the size of the government spending"
+   }
+  ],
+  "proposed_key": "C",
+  "explanation": "With a positive mpc, part of the induced consumption becomes demand for foreign, not domestic, goods. So the induced effect on domestic income is smaller, and imports per unit of income are an additional leakage at each round that reduces the value of the multiplier. It is therefore not larger or unchanged, and nothing in the stem or excerpt links the size of spending to the direction of the change.",
+  "excerpts": [
+   "up of the economy can be explained with reference to our previous discussion of\nthe multiplier process (Chapter 4). A change in autonomous expenditures, for\ninstance a change in government spending, will have a direct effect on income and\nan induced effect on consumption with a further effect on income. With an mpc\ngreater than zero, a proportion of the induced effect on consumption will be a demand\nfor foreign, not domestic goods. Therefore, the induced effect on demand for domestic\ngoods, and hence on domestic income, will be smaller. The increase in imports per\nunit of income constitutes an additional leakage from the circular flow of domestic\nincome at each round of the multiplier process and reduces the value of the\nautonomous expenditure multiplier."
+  ],
+  "validator_reasons": [
+   "C is supported: the excerpt says imports reduce induced demand for domestic goods and therefore reduce the autonomous expenditure multiplier.",
+   "The item tests an open-economy import-leakage application; the supplied current syllabus lists the investment multiplier but not this relationship under its open-economy unit.",
+   "Defect: syllabus_mismatch: The current syllabus lists the investment multiplier and its mechanism, but its open-economy unit lists balance-of-payments and foreign-exchange topics, not the effect of imports on the autonomous expenditure multiplier.",
+   "cuet_fit_syllabus_objective_below_2"
+  ]
+ },
+ {
+  "id": "v712q3-english-v2",
+  "subject": "english",
+  "chapter": "Narrative Passage",
+  "body": "Why was Amina able to explain why she had removed the anecdote from her speech?",
+  "passage": "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence.",
+  "options": [
+   {
+    "key": "A",
+    "text": "She had found that speaking faster made the words easy to follow"
+   },
+   {
+    "key": "B",
+    "text": "The organiser had told her which parts of the speech to remove"
+   },
+   {
+    "key": "C",
+    "text": "She had decided what to cut by asking which idea she most wanted the audience to remember"
+   },
+   {
+    "key": "D",
+    "text": "She had decided to cut the central argument to save time"
+   }
+  ],
+  "proposed_key": "C",
+  "explanation": "Her teacher asked which idea she most wanted the audience to remember, and Amina kept the central argument and one supporting example, removing an anecdote and two examples. Speaking faster made the words hard to follow, not easy. The organiser only shortened each speaker’s time, and she retained the central argument rather than cutting it.",
+  "excerpts": [
+   "Amina practised a speech until she could recite every sentence. On the morning of the competition, the organiser shortened each speaker's time. She tried to speak faster, but the words became hard to follow. Her teacher asked which idea she most wanted the audience to remember. Amina removed an anecdote and two examples, retaining the central argument and one supporting example. She finished within the new limit. Afterwards, she missed the anecdote she had enjoyed writing, yet she could explain why it had been removed. The shorter speech preserved her purpose even though it did not preserve every sentence."
+  ],
+  "validator_reasons": [
+   "The key is supported by the teacher’s audience-priority question and Amina’s choice to retain the central argument.",
+   "The explanation’s word “only” asserts that the organiser did nothing else; the passage establishes that the organiser shortened speaking time but does not establish that exclusive claim.",
+   "unsupported claim: The organiser did nothing beyond shortening each speaker's time."
+  ]
+ },
+ {
+  "id": "v712q3-english-v4",
+  "subject": "english",
+  "chapter": "Vocabulary",
+  "body": "Which of the following replies would be best described as “concise”?",
+  "passage": "",
+  "options": [
+   {
+    "key": "A",
+    "text": "A long reply that repeats the same point in many sentences"
+   },
+   {
+    "key": "B",
+    "text": "A reply that gives a detailed history that nobody asked for"
+   },
+   {
+    "key": "C",
+    "text": "A reply that gives no useful information at all"
+   },
+   {
+    "key": "D",
+    "text": "A short reply that gives only the needed facts in few words"
+   }
+  ],
+  "proposed_key": "D",
+  "explanation": "Concise means giving only the information that is necessary and important, using few words. The short reply with only the needed facts fits this meaning. The repeating reply does not use few words, the detailed history goes beyond necessary information, and the reply with no useful information gives none of the necessary information.",
+  "excerpts": [
+   "giving only the information that is necessary and important, using few words"
+  ],
+  "validator_reasons": [
+   "The explanation treats an unrequested history as necessarily unnecessary; the stem does not establish that, so its rejection of B is unsupported.",
+   "unsupported claim: The detailed history goes beyond necessary information.",
+   "v712_audit_not_decisively_wrong:B:unsupported"
+  ]
+ }
+]

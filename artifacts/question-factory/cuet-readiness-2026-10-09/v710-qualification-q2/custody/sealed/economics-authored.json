@@ -1,0 +1,180 @@
+{
+ "subject": "economics",
+ "items": [
+  {
+   "local_id": "economics-v1", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Money & Banking",
+    "body": "A central bank sells securities through an agreement that specifies the date and price at which it will repurchase them, instead of making an outright sale. The rate at which money is withdrawn in this manner is called the:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Repo rate"},
+     {"key": "B", "text": "Reverse repo rate"},
+     {"key": "C", "text": "Bank rate"},
+     {"key": "D", "text": "Outright sale rate"}
+    ],
+    "correct_answer": "B",
+    "explanation": "The excerpt states that selling securities through an agreement specifying the date and price of repurchase is a reverse repurchase agreement, and the rate at which money is withdrawn this way is the reverse repo rate. The repo rate is the rate at which money is lent when the central bank buys a security with a resale agreement, which is the opposite direction. The bank rate is the rate at which the RBI gives loans to commercial banks, not a rate at which money is withdrawn. The stem says the arrangement is instead of an outright sale, so an outright sale rate does not describe it.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Money and Banking", "objective": "Distinguish repo and reverse repo operations as instruments of the central bank.", "target_term": "reverse repo rate"},
+    "fact_refs": ["F3", "F2"]
+   }
+  },
+  {
+   "local_id": "economics-v2", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Balance of Payments",
+    "body": "A country's exports of goods are Rs 120 crore and its imports of goods are Rs 150 crore. Taking net exports (NX) as exports minus imports, the country has:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "A trade surplus of Rs 30 crore"},
+     {"key": "B", "text": "A trade surplus of Rs 270 crore"},
+     {"key": "C", "text": "A trade deficit of Rs 30 crore"},
+     {"key": "D", "text": "A trade deficit of Rs 270 crore"}
+    ],
+    "correct_answer": "C",
+    "explanation": "NX = exports - imports = 120 - 150 = -30, so NX is negative with imports exceeding exports. The excerpt states that a negative NX implies a trade deficit, so the deficit is Rs 30 crore. A surplus would need exports greater than imports, which the stem contradicts. Rs 270 crore comes from adding 120 and 150 instead of subtracting.",
+    "difficulty": "easy", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Balance of Payments", "objective": "Compute net exports and interpret a trade surplus or deficit.", "target_term": "trade deficit"},
+    "fact_refs": ["F7"]
+   }
+  },
+  {
+   "local_id": "economics-v3", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Market Equilibrium & Simple Applications",
+    "body": "In a perfectly competitive market for wheat, market demand is qD = 200 - p and market supply is qS = 120 + p (quantities in kg, price p in rupees per kg, with p at least 10). If the price is fixed at Rs 60 per kg, the market shows:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Excess supply of 40 kg"},
+     {"key": "B", "text": "Excess demand of 40 kg"},
+     {"key": "C", "text": "Excess supply of 60 kg"},
+     {"key": "D", "text": "Equilibrium, with the market clearing at Rs 60"}
+    ],
+    "correct_answer": "A",
+    "explanation": "Setting qD = qS gives 200 - p = 120 + p, so the equilibrium price is Rs 40 per kg. Rs 60 is greater than the equilibrium price, and at a price greater than p* there is excess supply, so excess demand and equilibrium at Rs 60 are ruled out. At Rs 60, qD = 140 and qS = 180, so excess supply is 180 - 140 = 40 kg, not 60 kg.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Market Equilibrium", "objective": "Find equilibrium price from linear demand and supply and identify excess supply at a higher price.", "target_term": "excess supply"},
+    "fact_refs": ["F21", "F20", "F19"]
+   }
+  },
+  {
+   "local_id": "economics-v4", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market faces a market price of Rs 25 per unit. Its marginal cost rises with output: the marginal cost is Rs 15 at 10 units, Rs 25 at 20 units, Rs 35 at 30 units and Rs 50 at 40 units. Which output level maximises the firm's profit?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "40 units"},
+     {"key": "B", "text": "30 units"},
+     {"key": "C", "text": "10 units"},
+     {"key": "D", "text": "20 units"}
+    ],
+    "correct_answer": "D",
+    "explanation": "For a perfectly competitive firm MR = P = Rs 25, and profit is maximum where MR = MC, which is where P = MC. This happens at 20 units, where MC is Rs 25. At 10 units MC (Rs 15) is below MR, and as long as MR is greater than MC profits are increasing, so 10 units is not the maximum. At 30 and 40 units MC (Rs 35 and Rs 50) exceeds MR, and when MR is less than MC profits fall.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Theory of the Firm under Perfect Competition", "objective": "Apply the P = MC rule to find the profit-maximising output of a competitive firm.", "target_term": "profit maximisation"},
+    "fact_refs": ["F17"]
+   }
+  },
+  {
+   "local_id": "economics-v5", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Government Budget & the Economy",
+    "body": "In a year, a government receives Rs 800 crore as loans from agencies to which they must be returned, Rs 300 crore from the sale of its shares in Public Sector Undertakings, and Rs 600 crore from other receipts that neither create a liability nor reduce its financial assets. Its total capital receipts for the year are:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 1,100 crore"},
+     {"key": "B", "text": "Rs 800 crore"},
+     {"key": "C", "text": "Rs 1,700 crore"},
+     {"key": "D", "text": "Rs 300 crore"}
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt says loans create a liability, sale of shares in PSUs (PSU disinvestment) reduces the financial assets of the government, and all receipts that create liability or reduce financial assets are capital receipts. So the loans (Rs 800 crore) and the share sale (Rs 300 crore) together give Rs 1,100 crore. The Rs 600 crore is stated to neither create a liability nor reduce financial assets, so it is excluded, which rules out Rs 1,700 crore. Rs 800 crore leaves out the share sale and Rs 300 crore leaves out the loans, though each meets the stated test.",
+    "difficulty": "medium", "question_type": "case_application", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Government Budget and the Economy", "objective": "Classify government receipts as capital receipts using the liability and financial-asset test.", "target_term": "capital receipts"},
+    "fact_refs": ["F6"]
+   }
+  },
+  {
+   "local_id": "economics-d1", "expected_valid": false, "defect_category": "wrong_key",
+   "defect_evidence": "The stem prints an initial increment of Rs 100 crore in autonomous expenditure and a total increment of Rs 400 crore in equilibrium output. The excerpt defines the multiplier as total increment in output divided by the initial increment in autonomous expenditure = 400/100 = 4 (option A). The recorded key is B (0.25), which is the inverted ratio 100/400, and the explanation wrongly justifies it. The key contradicts the excerpt definition, so the item is unpublishable.",
+   "candidate": {
+    "subject": "economics", "chapter": "Income Determination",
+    "body": "In an economy, autonomous expenditure rises by Rs 100 crore and the equilibrium value of final goods output rises in total by Rs 400 crore. The investment multiplier of this economy is:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "4"},
+     {"key": "B", "text": "0.25"},
+     {"key": "C", "text": "5"},
+     {"key": "D", "text": "300"}
+    ],
+    "correct_answer": "B",
+    "explanation": "The investment multiplier compares the initial increment in autonomous expenditure with the total increment in equilibrium output. Dividing 100 by 400 gives 0.25, so the multiplier is 0.25. A value of 4, 5 or 300 does not follow from this ratio.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Income Determination", "objective": "Compute the investment multiplier from changes in autonomous expenditure and output.", "target_term": "investment multiplier"},
+    "fact_refs": ["F12"]
+   }
+  },
+  {
+   "local_id": "economics-d2", "expected_valid": false, "defect_category": "second_defensible_option",
+   "defect_evidence": "The excerpt states that the central bank issues the currency of the country (option C, the recorded key) and also that it acts as a banker to the government (option D). Both are stated functions, so two options are established by the excerpt and the item has no single defensible answer.",
+   "candidate": {
+    "subject": "economics", "chapter": "Money & Banking",
+    "body": "Which of the following is a function of the central bank of a country?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Setting the rates of the Goods and Services Tax"},
+     {"key": "B", "text": "Recording the errors and omissions of the balance of payments"},
+     {"key": "C", "text": "Issuing the currency of the country"},
+     {"key": "D", "text": "Acting as a banker to the government"}
+    ],
+    "correct_answer": "C",
+    "explanation": "The excerpt lists issuing the currency of the country among the functions of the central bank. The other options are not functions listed for the central bank in the excerpt.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Money and Banking", "objective": "Identify the functions of the central bank.", "target_term": "central bank"},
+    "fact_refs": ["F1"]
+   }
+  },
+  {
+   "local_id": "economics-d3", "expected_valid": false, "defect_category": "missing_decisive_assumption",
+   "defect_evidence": "The stem gives only a Rs 200 crore rise in autonomous investment and never states the multiplier, the marginal propensity to consume or any ratio. The increase in equilibrium output equals 200 times the multiplier, so it is Rs 400 crore, Rs 500 crore, Rs 600 crore or Rs 1,000 crore depending on an unstated MPC (multiplier 2, 2.5, 3 or 5). The recorded key D silently assumes a multiplier of 5.",
+   "candidate": {
+    "subject": "economics", "chapter": "Income Determination",
+    "body": "In an economy without a government, autonomous investment increases by Rs 200 crore. Using the definition of the investment multiplier, by how much does equilibrium output increase?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 400 crore"},
+     {"key": "B", "text": "Rs 500 crore"},
+     {"key": "C", "text": "Rs 600 crore"},
+     {"key": "D", "text": "Rs 1,000 crore"}
+    ],
+    "correct_answer": "D",
+    "explanation": "The investment multiplier is the ratio of the total increment in equilibrium output to the initial increment in autonomous expenditure. With a multiplier of 5, the Rs 200 crore rise in investment raises equilibrium output by 5 x 200 = Rs 1,000 crore.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Income Determination", "objective": "Use the investment multiplier to find the change in equilibrium output.", "target_term": "investment multiplier"},
+    "fact_refs": ["F12", "F11"]
+   }
+  },
+  {
+   "local_id": "economics-d4", "expected_valid": false, "defect_category": "numerical_fault",
+   "defect_evidence": "Equating 300 - 2p = 60 + 4p gives 240 = 6p, so p* = Rs 40 and q* = 300 - 80 = 220 kg (option C). The recorded explanation divides 240 by 4 alone (dropping the 2p term from the demand side), giving Rs 60 and 180 kg, which is the recorded key A. At Rs 60, qS = 60 + 240 = 300, which is not equal to qD = 180, so the recorded key does not even clear the market.",
+   "candidate": {
+    "subject": "economics", "chapter": "Market Equilibrium & Simple Applications",
+    "body": "In a perfectly competitive market, demand is qD = 300 - 2p and supply is qS = 60 + 4p (quantities in kg, price p in rupees per kg). The equilibrium price and quantity are:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 60 per kg and 180 kg"},
+     {"key": "B", "text": "Rs 30 per kg and 240 kg"},
+     {"key": "C", "text": "Rs 40 per kg and 220 kg"},
+     {"key": "D", "text": "Rs 50 per kg and 200 kg"}
+    ],
+    "correct_answer": "A",
+    "explanation": "At equilibrium qD = qS, so 300 - 2p = 60 + 4p. Moving the constants gives 300 - 60 = 240, and dividing by the supply slope of 4 gives p = 60. Substituting into demand gives q = 300 - 2(60) = 180 kg.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Market Equilibrium", "objective": "Solve for equilibrium price and quantity from linear demand and supply equations.", "target_term": "equilibrium price"},
+    "fact_refs": ["F19", "F21"]
+   }
+  }
+ ]
+}

@@ -1,0 +1,128 @@
+[
+  {
+    "width": 390,
+    "mode": "guide",
+    "run": 1,
+    "lcp": [
+      {
+        "time": 1896,
+        "render": 1896,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2292,
+        "render": 2292,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 2268.7000000029802,
+        "duration": 106
+      },
+      {
+        "start": 2847.2999999970198,
+        "duration": 136
+      },
+      {
+        "start": 3227.0999999940395,
+        "duration": 52
+      }
+    ],
+    "frames": {
+      "count": 348,
+      "p50": 12.100000000000364,
+      "p95": 30.200000000000728,
+      "over33": 7
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3002/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3002/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2015.5
+    }
+  },
+  {
+    "width": 390,
+    "mode": "guide",
+    "run": 2,
+    "lcp": [
+      {
+        "time": 2264,
+        "render": 2264,
+        "load": 0,
+        "size": 12960,
+        "tag": "SPAN",
+        "text": "Start practising."
+      },
+      {
+        "time": 2640,
+        "render": 2640,
+        "load": 0,
+        "size": 32219,
+        "tag": "P",
+        "text": "A mock tonight. A clearer chapter to work on tomorrow. Timed CUET practice in English, Accountancy, "
+      }
+    ],
+    "cls": 0,
+    "long": [
+      {
+        "start": 3018.4000000059605,
+        "duration": 162
+      },
+      {
+        "start": 3305,
+        "duration": 58
+      },
+      {
+        "start": 3541.1000000089407,
+        "duration": 67
+      }
+    ],
+    "frames": {
+      "count": 309,
+      "p50": 12.199999999998909,
+      "p95": 36.29999999999927,
+      "over33": 17
+    },
+    "sampling": false,
+    "images": [
+      {
+        "url": "http://localhost:3002/_next/image?url=%2Fbrand%2Fmascot%2Fgreeting.webp&w=128&q=75",
+        "bytes": 6060,
+        "encoded": 5760
+      },
+      {
+        "url": "http://localhost:3002/_next/image?url=%2Fbrand%2Fmascot%2Fthinking.webp&w=128&q=75",
+        "bytes": 6830,
+        "encoded": 6530
+      }
+    ],
+    "guide": "on",
+    "fonts": "loaded",
+    "idle": {
+      "callbacks": 0,
+      "ms": 2018.1000000089407
+    }
+  }
+]

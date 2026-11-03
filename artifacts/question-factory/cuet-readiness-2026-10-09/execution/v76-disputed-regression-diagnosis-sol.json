@@ -1,0 +1,248 @@
+{
+  "fixture_id": "v75f-825e60a00f",
+  "scope": "One unchanged disputed regression case; local post-result diagnosis only",
+  "observed_state": "eligible",
+  "frozen_expected_valid": false,
+  "frozen_oracle": "multiple_correct_B_D",
+  "truth_status": "Official/direct D supported. Whole B under functional structure unresolved by these receipts; partial final-clause overlap does not prove full conjunction. Frozen label retained, not endorsed as established truth.",
+  "both_blind_solved_keys": {
+    "openai": "D",
+    "gemini": "D"
+  },
+  "all_option_challenges": {
+    "openai": [
+      {
+        "option": "A",
+        "strongest_reading": "A cost increase is a recognised disadvantage when divisional structures duplicate activities; the supplied excerpt does not identify it as a functional-structure disadvantage.",
+        "correct_under_reading": false,
+        "reading_status": "strained",
+        "convention_evidence_ids": []
+      },
+      {
+        "option": "B",
+        "strongest_reading": "Managers gaining power and ignoring organisational interests is attributed to divisional structure in the excerpt, not to the functional structure identified here.",
+        "correct_under_reading": false,
+        "reading_status": "strained",
+        "convention_evidence_ids": []
+      },
+      {
+        "option": "C",
+        "strongest_reading": "The excerpt confirms this as a functional-structure feature, but it is an advantage, whereas the question asks for a disadvantage.",
+        "correct_under_reading": false,
+        "reading_status": "contradicts_stem",
+        "convention_evidence_ids": []
+      }
+    ],
+    "gemini": [
+      {
+        "option": "A",
+        "strongest_reading": "Duplication of departmental activities could increase costs in some firms.",
+        "correct_under_reading": false,
+        "reading_status": "contradicts_stem",
+        "convention_evidence_ids": []
+      },
+      {
+        "option": "B",
+        "strongest_reading": "Divisional managers rather than functional managers gain autonomous power and assert independence.",
+        "correct_under_reading": false,
+        "reading_status": "contradicts_stem",
+        "convention_evidence_ids": []
+      },
+      {
+        "option": "C",
+        "strongest_reading": "Ensuring different functions get due attention is an advantage of functional structure, not a disadvantage.",
+        "correct_under_reading": false,
+        "reading_status": "contradicts_stem",
+        "convention_evidence_ids": []
+      }
+    ]
+  },
+  "explanation_check": {
+    "passed": true,
+    "claims": [
+      {
+        "claim": "Dividing work into production, purchase, marketing, accounts and personnel departments forms a functional structure.",
+        "basis": "excerpt"
+      },
+      {
+        "claim": "Functional heads do not get training for top management positions.",
+        "basis": "excerpt"
+      },
+      {
+        "claim": "They do not get that training because they cannot gather experience in diverse areas.",
+        "basis": "excerpt"
+      },
+      {
+        "claim": "Ensuring that different functions get due attention is an advantage of this structure.",
+        "basis": "excerpt"
+      }
+    ],
+    "reasons": [],
+    "evidence_ids": [
+      "E1.1",
+      "E2.1",
+      "E3.1"
+    ]
+  },
+  "source_excerpts": {
+    "v75f-s-8d877e6df3cc": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together.",
+    "v75f-s-d70b6385c98d": "(f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus",
+    "v75f-s-c66a1d325241": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+    "v75f-s-6e21e3af87ba": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager",
+    "v75f-s-5d7f6593d351": "may gain power and in a bid to assert his independence may ignore organisational interests."
+  },
+  "source_custody": {
+    "source_item_id": "v74-cbse22-bs-q03",
+    "subject": "business_studies",
+    "first_source_key": "held",
+    "independent_second_key": "D",
+    "official_comparison_key": "D",
+    "official_agrees": null,
+    "qualification_role": "natural_defect_multiple_defensible",
+    "custody_status": "held_ambiguous_or_disagreeing",
+    "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+    "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+    "source_spans": [
+      {
+        "source_id": "cbse-sqp-2022-23-businessstudies",
+        "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+        "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+        "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+        "physical_pdf_page": 1,
+        "quote_start": 1213,
+        "quote_end": 1703,
+        "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions."
+      }
+    ],
+    "adaptation_note": null,
+    "targeted_source_edits_used": 0,
+    "natural_defect": true
+  },
+  "accepted_predicates": {
+    "blind_solution_passed": true,
+    "independent_evaluation_passed": true,
+    "alternatives_passed": true,
+    "explanation_support_passed": true,
+    "mandatory_criteria": [
+      {
+        "id": "syllabus_entitlement",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "source_support",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "independently_solved_key",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "one_correct_answer",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "option_non_overlap",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "decisive_assumptions",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "numerical_accuracy",
+        "kind": "mandatory",
+        "passed": false,
+        "applicable": false
+      },
+      {
+        "id": "boundary_cases",
+        "kind": "mandatory",
+        "passed": false,
+        "applicable": false
+      },
+      {
+        "id": "explanation_correctness",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "explanation_support",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "passage_answerability",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": false
+      },
+      {
+        "id": "completeness",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "cuet_format",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "novelty",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "presentation",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      },
+      {
+        "id": "source_provenance_integrity",
+        "kind": "mandatory",
+        "passed": true,
+        "applicable": true
+      }
+    ]
+  },
+  "unmet_semantics": [
+    "Neither B challenge explicitly adjudicates all three printed conjuncts under the actual functional-structure stem.",
+    "Both rejection rationales rely on category attribution; neither cites a false decisive clause or explicit exclusion of the full B assertion under functional structure.",
+    "Functional-empires/departmental-interest excerpt was selected and quoted but its strongest cross-category overlap was not reconciled in B challenge.",
+    "False correct_under_reading collapses not-proved, contradicted and unresolved into one accepting representation; strained/contradicts_stem labels are not independently proven."
+  ],
+  "local_next_version_remedy": {
+    "versioned_additive_only": true,
+    "proposal": "Structured per-option clause adjudication and tri-state supported/contradicted/unresolved verdict, with exact selected source/stem spans and explicit inference premises. A nonchosen option requires a demonstrated decisive false clause or whole-option contradiction; category attribution and source silence alone cannot certify false. Unresolved plausible alternatives quarantine without being called true.",
+    "local_tests": [
+      "Current saved B challenges fail missing full-option/clause/refutation proof.",
+      "All-clauses-supported conjunction is defensible.",
+      "One proven-false conjunct defeats conjunction without denying its true companion.",
+      "Unsupported conjunct yields unresolved, never automatic true or automatic contradiction.",
+      "Explicit stem condition defeats alternative with a cited contradiction.",
+      "Legitimate cross-category overlap is inspected without assuming labels exclusive."
+    ],
+    "no_new_benchmark_purchase": true,
+    "calibration_status": "Existing exposed rows can provide local/regression development evidence only; no release or fresh success claim from this repair."
+  },
+  "provider_calls": 0,
+  "source_and_frozen_code_edits": 0,
+  "results_or_labels_changed": false
+}

@@ -1,0 +1,3418 @@
+{
+  "at": "2026-10-03T21:27:43.014Z",
+  "scope": "Chrome emulation; no physical-device or live authenticated proof",
+  "pages": [
+    {
+      "url": "https://www.mockmob.in/",
+      "width": 390,
+      "theme": "dark",
+      "initial": {
+        "y": 0,
+        "theme": "dark",
+        "step": "Replay the session",
+        "revealed": 0,
+        "progress": "paused",
+        "lab": {
+          "top": 2310,
+          "bottom": 3346,
+          "height": 1036,
+          "visiblePx": 0
+        },
+        "rail": {
+          "top": 2310,
+          "bottom": 2686,
+          "height": 376,
+          "visiblePx": 0
+        },
+        "stage": {
+          "top": 2714,
+          "bottom": 3346,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 93,
+          "bottom": 213,
+          "height": 120,
+          "visiblePx": 120.0060043334961
+        },
+        "perch": "hero",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "errors": [],
+      "shots": [
+        {
+          "name": "lab",
+          "state": {
+            "y": 2590,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "running",
+            "lab": {
+              "top": -304,
+              "bottom": 732,
+              "height": 1036,
+              "visiblePx": 659.859375
+            },
+            "rail": {
+              "top": -304,
+              "bottom": 72,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": 100,
+              "bottom": 732,
+              "height": 632,
+              "visiblePx": 631.96875
+            },
+            "guide": {
+              "top": 992,
+              "bottom": 1108,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "compass",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 392,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "exam",
+          "state": {
+            "y": 8994,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -6708,
+              "bottom": -5672,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -6708,
+              "bottom": -6332,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -6304,
+              "bottom": -5672,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 1299,
+              "bottom": 1415,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "demo",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 392,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "compass",
+          "state": {
+            "y": 3732,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -1446,
+              "bottom": -410,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -1446,
+              "bottom": -1070,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -1042,
+              "bottom": -410,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": -151,
+              "bottom": -35,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "compass",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 392,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "pricing",
+          "state": {
+            "y": 18891,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -16605,
+              "bottom": -15569,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -16605,
+              "bottom": -16229,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -16201,
+              "bottom": -15569,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 157,
+              "bottom": 257,
+              "height": 100,
+              "visiblePx": 100.00799560546875
+            },
+            "perch": "pricing",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 392,
+            "skipped": 101,
+            "fails": []
+          }
+        }
+      ],
+      "labAtArrival": {
+        "y": 2136,
+        "theme": "dark",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 150,
+          "bottom": 1186,
+          "height": 1036,
+          "visiblePx": 603.796875
+        },
+        "rail": {
+          "top": 150,
+          "bottom": 526,
+          "height": 376,
+          "visiblePx": 375.6875
+        },
+        "stage": {
+          "top": 554,
+          "bottom": 1186,
+          "height": 632,
+          "visiblePx": 200.109375
+        },
+        "guide": {
+          "top": -49,
+          "bottom": 67,
+          "height": 116,
+          "visiblePx": 0
+        },
+        "perch": "lab",
+        "guideVisible": "false",
+        "overflow": 0
+      }
+    },
+    {
+      "url": "https://www.mockmob.in/",
+      "width": 390,
+      "theme": "light",
+      "initial": {
+        "y": 0,
+        "theme": "light",
+        "step": "Replay the session",
+        "revealed": 0,
+        "progress": "paused",
+        "lab": {
+          "top": 2310,
+          "bottom": 3346,
+          "height": 1036,
+          "visiblePx": 0
+        },
+        "rail": {
+          "top": 2310,
+          "bottom": 2686,
+          "height": 376,
+          "visiblePx": 0
+        },
+        "stage": {
+          "top": 2714,
+          "bottom": 3346,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 93,
+          "bottom": 213,
+          "height": 120,
+          "visiblePx": 120.0060043334961
+        },
+        "perch": "hero",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "errors": [],
+      "shots": [
+        {
+          "name": "lab",
+          "state": {
+            "y": 2590,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "running",
+            "lab": {
+              "top": -304,
+              "bottom": 732,
+              "height": 1036,
+              "visiblePx": 659.859375
+            },
+            "rail": {
+              "top": -304,
+              "bottom": 72,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": 100,
+              "bottom": 732,
+              "height": 632,
+              "visiblePx": 631.96875
+            },
+            "guide": {
+              "top": 992,
+              "bottom": 1108,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "compass",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 392,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "exam",
+          "state": {
+            "y": 8994,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -6708,
+              "bottom": -5672,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -6708,
+              "bottom": -6332,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -6304,
+              "bottom": -5672,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 1299,
+              "bottom": 1415,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "demo",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 392,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "compass",
+          "state": {
+            "y": 3732,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -1446,
+              "bottom": -410,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -1446,
+              "bottom": -1070,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -1042,
+              "bottom": -410,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": -151,
+              "bottom": -35,
+              "height": 116,
+              "visiblePx": 0
+            },
+            "perch": "compass",
+            "guideVisible": "false",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 392,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pricing",
+          "state": {
+            "y": 18891,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -16605,
+              "bottom": -15569,
+              "height": 1036,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -16605,
+              "bottom": -16229,
+              "height": 376,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -16201,
+              "bottom": -15569,
+              "height": 632,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 157,
+              "bottom": 257,
+              "height": 100,
+              "visiblePx": 100.00799560546875
+            },
+            "perch": "pricing",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 392,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        }
+      ],
+      "labAtArrival": {
+        "y": 2136,
+        "theme": "light",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 150,
+          "bottom": 1186,
+          "height": 1036,
+          "visiblePx": 603.796875
+        },
+        "rail": {
+          "top": 150,
+          "bottom": 526,
+          "height": 376,
+          "visiblePx": 375.6875
+        },
+        "stage": {
+          "top": 554,
+          "bottom": 1186,
+          "height": 632,
+          "visiblePx": 200.109375
+        },
+        "guide": {
+          "top": -49,
+          "bottom": 67,
+          "height": 116,
+          "visiblePx": 0
+        },
+        "perch": "lab",
+        "guideVisible": "false",
+        "overflow": 0
+      }
+    },
+    {
+      "url": "https://www.mockmob.in/",
+      "width": 1280,
+      "theme": "dark",
+      "initial": {
+        "y": 0,
+        "theme": "dark",
+        "step": "Replay the session",
+        "revealed": 0,
+        "progress": "paused",
+        "lab": {
+          "top": 2127,
+          "bottom": 2655,
+          "height": 528,
+          "visiblePx": 0
+        },
+        "rail": {
+          "top": 2127,
+          "bottom": 2479,
+          "height": 352,
+          "visiblePx": 0
+        },
+        "stage": {
+          "top": 2127,
+          "bottom": 2655,
+          "height": 528,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 173,
+          "bottom": 353,
+          "height": 180,
+          "visiblePx": 180.00001525878906
+        },
+        "perch": "hero",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "errors": [],
+      "shots": [
+        {
+          "name": "lab",
+          "state": {
+            "y": 2003,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "running",
+            "lab": {
+              "top": 100,
+              "bottom": 628,
+              "height": 528,
+              "visiblePx": 528.140625
+            },
+            "rail": {
+              "top": 100,
+              "bottom": 452,
+              "height": 352,
+              "visiblePx": 352.125
+            },
+            "stage": {
+              "top": 100,
+              "bottom": 628,
+              "height": 528,
+              "visiblePx": 528.140625
+            },
+            "guide": {
+              "top": 100,
+              "bottom": 280,
+              "height": 180,
+              "visiblePx": 180.00001525878906
+            },
+            "perch": "lab",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 399,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "exam",
+          "state": {
+            "y": 6115,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -4012,
+              "bottom": -3484,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -4012,
+              "bottom": -3660,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -4012,
+              "bottom": -3484,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 554,
+              "bottom": 734,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "demo",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 399,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "compass",
+          "state": {
+            "y": 3148,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -1045,
+              "bottom": -517,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -1045,
+              "bottom": -693,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -1045,
+              "bottom": -517,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 100,
+              "bottom": 280,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "compass",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 399,
+            "skipped": 101,
+            "fails": []
+          }
+        },
+        {
+          "name": "pricing",
+          "state": {
+            "y": 12844,
+            "theme": "dark",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -10741,
+              "bottom": -10213,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -10741,
+              "bottom": -10389,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -10741,
+              "bottom": -10213,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 202,
+              "bottom": 382,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "pricing",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "dark",
+            "checked": 399,
+            "skipped": 101,
+            "fails": []
+          }
+        }
+      ],
+      "labAtArrival": {
+        "y": 1953,
+        "theme": "dark",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 150,
+          "bottom": 678,
+          "height": 528,
+          "visiblePx": 528.140625
+        },
+        "rail": {
+          "top": 150,
+          "bottom": 502,
+          "height": 352,
+          "visiblePx": 352.125
+        },
+        "stage": {
+          "top": 150,
+          "bottom": 678,
+          "height": 528,
+          "visiblePx": 528.140625
+        },
+        "guide": {
+          "top": 100,
+          "bottom": 280,
+          "height": 180,
+          "visiblePx": 180.00001525878906
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    },
+    {
+      "url": "https://www.mockmob.in/",
+      "width": 1280,
+      "theme": "light",
+      "initial": {
+        "y": 0,
+        "theme": "light",
+        "step": "Replay the session",
+        "revealed": 0,
+        "progress": "paused",
+        "lab": {
+          "top": 2127,
+          "bottom": 2655,
+          "height": 528,
+          "visiblePx": 0
+        },
+        "rail": {
+          "top": 2127,
+          "bottom": 2479,
+          "height": 352,
+          "visiblePx": 0
+        },
+        "stage": {
+          "top": 2127,
+          "bottom": 2655,
+          "height": 528,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 173,
+          "bottom": 353,
+          "height": 180,
+          "visiblePx": 180.00001525878906
+        },
+        "perch": "hero",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "errors": [],
+      "shots": [
+        {
+          "name": "lab",
+          "state": {
+            "y": 2003,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "running",
+            "lab": {
+              "top": 100,
+              "bottom": 628,
+              "height": 528,
+              "visiblePx": 528.140625
+            },
+            "rail": {
+              "top": 100,
+              "bottom": 452,
+              "height": 352,
+              "visiblePx": 352.125
+            },
+            "stage": {
+              "top": 100,
+              "bottom": 628,
+              "height": 528,
+              "visiblePx": 528.140625
+            },
+            "guide": {
+              "top": 100,
+              "bottom": 280,
+              "height": 180,
+              "visiblePx": 180.00001525878906
+            },
+            "perch": "lab",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 399,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "exam",
+          "state": {
+            "y": 6115,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -4012,
+              "bottom": -3484,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -4012,
+              "bottom": -3660,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -4012,
+              "bottom": -3484,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 554,
+              "bottom": 734,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "demo",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 399,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "compass",
+          "state": {
+            "y": 3148,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -1045,
+              "bottom": -517,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -1045,
+              "bottom": -693,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -1045,
+              "bottom": -517,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 100,
+              "bottom": 280,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "compass",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 399,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        },
+        {
+          "name": "pricing",
+          "state": {
+            "y": 12844,
+            "theme": "light",
+            "step": "Find where marks leaked",
+            "revealed": 10,
+            "progress": "paused",
+            "lab": {
+              "top": -10741,
+              "bottom": -10213,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "rail": {
+              "top": -10741,
+              "bottom": -10389,
+              "height": 352,
+              "visiblePx": 0
+            },
+            "stage": {
+              "top": -10741,
+              "bottom": -10213,
+              "height": 528,
+              "visiblePx": 0
+            },
+            "guide": {
+              "top": 202,
+              "bottom": 382,
+              "height": 180,
+              "visiblePx": 180
+            },
+            "perch": "pricing",
+            "guideVisible": "true",
+            "overflow": 0
+          },
+          "contrast": {
+            "theme": "light",
+            "checked": 399,
+            "skipped": 101,
+            "fails": [
+              {
+                "text": ".",
+                "ratio": 2.14,
+                "color": "rgb(157, 180, 0)",
+                "cls": "dot"
+              }
+            ]
+          }
+        }
+      ],
+      "labAtArrival": {
+        "y": 1953,
+        "theme": "light",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 150,
+          "bottom": 678,
+          "height": 528,
+          "visiblePx": 528.140625
+        },
+        "rail": {
+          "top": 150,
+          "bottom": 502,
+          "height": 352,
+          "visiblePx": 352.125
+        },
+        "stage": {
+          "top": 150,
+          "bottom": 678,
+          "height": 528,
+          "visiblePx": 528.140625
+        },
+        "guide": {
+          "top": 100,
+          "bottom": 280,
+          "height": 180,
+          "visiblePx": 180.00001525878906
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 63,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 63,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 262,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 262,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 262,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 188,
+        "skipped": 0,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 63,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 63,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 262,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 262,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 262,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 95,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 320,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 188,
+        "skipped": 0,
+        "fails": [
+          {
+            "text": "B",
+            "ratio": 2.75,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          },
+          {
+            "text": "C",
+            "ratio": 2.82,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          }
+        ]
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 62,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 98,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 98,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 332,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 332,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 332,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 188,
+        "skipped": 0,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 98,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 98,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 332,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 332,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 332,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 390,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 188,
+        "skipped": 0,
+        "fails": [
+          {
+            "text": "B",
+            "ratio": 2.75,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          },
+          {
+            "text": "C",
+            "ratio": 2.82,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          }
+        ]
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 76,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "dark",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Edit subjects",
+          "width": 75,
+          "height": 44,
+          "hit": false
+        },
+        {
+          "text": "Today",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "dark",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 372,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 372,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 372,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "DEqual ratio",
+          "width": 372,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "dark",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "dark",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "dark",
+        "checked": 188,
+        "skipped": 0,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=dashboard&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "light",
+      "view": "dashboard",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 98,
+        "skipped": 9,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Edit subjects",
+          "width": 75,
+          "height": 44,
+          "hit": false
+        },
+        {
+          "text": "Today",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=test&plan=pro&subject=accountancy&mode=quick&count=5&generationKey=mobile-audit",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "light",
+      "view": "test",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 19,
+        "skipped": 11,
+        "fails": []
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Dark mode",
+          "width": 64,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Exit test",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Mark",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Clear",
+          "width": 118,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Upvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Downvote",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "ANew ratio",
+          "width": 372,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "BOld ratio",
+          "width": 372,
+          "height": 58,
+          "hit": true
+        },
+        {
+          "text": "CSacrificing ratio",
+          "width": 372,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "DEqual ratio",
+          "width": 372,
+          "height": 58,
+          "hit": false
+        },
+        {
+          "text": "Prev",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Palette",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Next",
+          "width": 131,
+          "height": 44,
+          "hit": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "url": "http://localhost:3010/preview/arena?view=result&plan=pro",
+      "fixture": true,
+      "ready": true,
+      "width": 430,
+      "theme": "light",
+      "view": "result",
+      "state": {
+        "y": 0,
+        "theme": "light",
+        "revealed": 0,
+        "progress": "running",
+        "lab": null,
+        "rail": null,
+        "stage": null,
+        "guide": null,
+        "overflow": 0
+      },
+      "contrast": {
+        "theme": "light",
+        "checked": 188,
+        "skipped": 0,
+        "fails": [
+          {
+            "text": "B",
+            "ratio": 2.75,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          },
+          {
+            "text": "C",
+            "ratio": 2.82,
+            "color": "rgb(16, 20, 14)",
+            "cls": "rp-options__letter"
+          }
+        ]
+      },
+      "controls": [
+        {
+          "text": "dashboardtestpreposcompassradarsavedtodayreviewprogressrecov",
+          "width": 140,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "MockMob.",
+          "width": 136,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Practice credits: unlimited with Pro",
+          "width": 105,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Open navigation menu",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 1: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 2: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 3: wrong, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 4: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 5: correct",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 6: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 7: correct, answer changed",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 8: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 9: blank",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Question 10: wrong",
+          "width": 44,
+          "height": 44,
+          "hit": true
+        },
+        {
+          "text": "Today",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Practice",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Explore",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "Review",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        },
+        {
+          "text": "More",
+          "width": 84,
+          "height": 54,
+          "hit": true
+        }
+      ],
+      "errors": []
+    }
+  ],
+  "timing": [
+    {
+      "width": 390,
+      "theme": "dark",
+      "scenario": "Lab navigation edge visible, stage below viewport; 6.8 seconds reading",
+      "before": {
+        "y": 1596,
+        "theme": "dark",
+        "step": "Replay the session",
+        "revealed": 1,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1750,
+          "height": 1036,
+          "visiblePx": 39.796875
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1090,
+          "height": 376,
+          "visiblePx": 39.796875
+        },
+        "stage": {
+          "top": 1118,
+          "bottom": 1750,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 492,
+          "bottom": 608,
+          "height": 116,
+          "visiblePx": 115.99197387695312
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "after": {
+        "y": 1596,
+        "theme": "dark",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1750,
+          "height": 1036,
+          "visiblePx": 39.796875
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1090,
+          "height": 376,
+          "visiblePx": 39.796875
+        },
+        "stage": {
+          "top": 1118,
+          "bottom": 1750,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 492,
+          "bottom": 607,
+          "height": 116,
+          "visiblePx": 115.99200439453125
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "scenario": "Lab navigation edge visible, stage below viewport; 6.8 seconds reading",
+      "before": {
+        "y": 1596,
+        "theme": "light",
+        "step": "Replay the session",
+        "revealed": 1,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1750,
+          "height": 1036,
+          "visiblePx": 39.796875
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1090,
+          "height": 376,
+          "visiblePx": 39.796875
+        },
+        "stage": {
+          "top": 1118,
+          "bottom": 1750,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 492,
+          "bottom": 608,
+          "height": 116,
+          "visiblePx": 115.99200439453125
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "after": {
+        "y": 1596,
+        "theme": "light",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1750,
+          "height": 1036,
+          "visiblePx": 39.796875
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1090,
+          "height": 376,
+          "visiblePx": 39.796875
+        },
+        "stage": {
+          "top": 1118,
+          "bottom": 1750,
+          "height": 632,
+          "visiblePx": 0
+        },
+        "guide": {
+          "top": 491,
+          "bottom": 607,
+          "height": 116,
+          "visiblePx": 115.99200439453125
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "scenario": "Lab navigation edge visible, stage below viewport; 6.8 seconds reading",
+      "before": {
+        "y": 1413,
+        "theme": "dark",
+        "step": "Replay the session",
+        "revealed": 1,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1066,
+          "height": 352,
+          "visiblePx": 40.140625
+        },
+        "stage": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "guide": {
+          "top": 419,
+          "bottom": 599,
+          "height": 180,
+          "visiblePx": 180
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "after": {
+        "y": 1413,
+        "theme": "dark",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1066,
+          "height": 352,
+          "visiblePx": 40.140625
+        },
+        "stage": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "guide": {
+          "top": 419,
+          "bottom": 599,
+          "height": 180,
+          "visiblePx": 180.00003051757812
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "scenario": "Lab navigation edge visible, stage below viewport; 6.8 seconds reading",
+      "before": {
+        "y": 1413,
+        "theme": "light",
+        "step": "Replay the session",
+        "revealed": 1,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1066,
+          "height": 352,
+          "visiblePx": 40.140625
+        },
+        "stage": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "guide": {
+          "top": 419,
+          "bottom": 599,
+          "height": 180,
+          "visiblePx": 180
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      },
+      "after": {
+        "y": 1413,
+        "theme": "light",
+        "step": "Find where marks leaked",
+        "revealed": 10,
+        "progress": "running",
+        "lab": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "rail": {
+          "top": 714,
+          "bottom": 1066,
+          "height": 352,
+          "visiblePx": 40.140625
+        },
+        "stage": {
+          "top": 714,
+          "bottom": 1242,
+          "height": 528,
+          "visiblePx": 40.140625
+        },
+        "guide": {
+          "top": 419,
+          "bottom": 599,
+          "height": 180,
+          "visiblePx": 180.00003051757812
+        },
+        "perch": "lab",
+        "guideVisible": "true",
+        "overflow": 0
+      }
+    }
+  ],
+  "reduced": {
+    "y": 2590,
+    "theme": "light",
+    "step": "Replay the session",
+    "revealed": 10,
+    "progress": "paused",
+    "lab": {
+      "top": -304,
+      "bottom": 732,
+      "height": 1036,
+      "visiblePx": 659.859375
+    },
+    "rail": {
+      "top": -304,
+      "bottom": 72,
+      "height": 376,
+      "visiblePx": 0
+    },
+    "stage": {
+      "top": 100,
+      "bottom": 732,
+      "height": 632,
+      "visiblePx": 631.96875
+    },
+    "guide": null,
+    "overflow": 0
+  }
+}

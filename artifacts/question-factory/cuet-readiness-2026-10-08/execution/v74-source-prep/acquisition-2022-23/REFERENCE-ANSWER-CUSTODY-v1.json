@@ -1,0 +1,144 @@
+{
+  "schema": "v74-reference-answer-custody-v1",
+  "at": "2026-10-08T19:03:45.712Z",
+  "question_packet_sha256": "65a1679f4a85b4c3ecba64dbe034c0cb91b4f9b5852bbdbcbbe3d4d3a55b5905",
+  "first_solve_sha256": "e4eceaf79c259450f5cfaff47b39d7c945e998d5842e5003cd203902dc94edba",
+  "second_solve_sha256": "04a9fd02322bb9353dbd0034f40df55250b614f35da88fea99da413c91993ba7",
+  "second_reviewer": "Claude Sonnet subagent; read only questions-blinded-v1.json; no first answers, marking scheme, prior model judgments or web",
+  "official_marking_scheme_opened": false,
+  "raw_denominator": 16,
+  "agreed": 14,
+  "held": 2,
+  "items": [
+    {
+      "item_id": "v74-cbse22-acc-q27",
+      "subject": "accountancy",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-acc-q28",
+      "subject": "accountancy",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-acc-q29",
+      "subject": "accountancy",
+      "first": "D",
+      "second": "D",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-acc-q30",
+      "subject": "accountancy",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q01",
+      "subject": "business_studies",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q02",
+      "subject": "business_studies",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q03",
+      "subject": "business_studies",
+      "first": "held",
+      "second": "D",
+      "status": "held_ambiguous_or_disagreeing",
+      "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost."
+    },
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "subject": "business_studies",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q01",
+      "subject": "economics",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q03",
+      "subject": "economics",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q04",
+      "subject": "economics",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q05",
+      "subject": "economics",
+      "first": "D",
+      "second": "D",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-i",
+      "subject": "english",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-iv",
+      "subject": "english",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-v",
+      "subject": "english",
+      "first": "held",
+      "second": "abstain",
+      "status": "held_ambiguous_or_disagreeing",
+      "hold_basis": "multiple_exceptions_preserved_no_silent_replacement | second: Two defensible options (A and C) are both contradicted by paragraph 3, so the EXCEPT item has no unique key.; Whether A or C was intended is not determinable from the stimulus alone."
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-ix",
+      "subject": "english",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null
+    }
+  ],
+  "next": "Official CBSE 2022-23 marking-scheme comparison for agreed items only after explicit owner approval to download the four MS PDFs; held items stay in the denominator as ambiguous and are never forced to a key.",
+  "limitation": "CBSE sample-paper derived (source_keyed_non_cuet); two model-assisted derivations agreeing is not proof of correctness."
+}

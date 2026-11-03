@@ -1,0 +1,69 @@
+{
+  "at": "2026-10-07T03:32:36.513Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "passed": true,
+  "checks": [
+    {
+      "name": "signed-in admin actual publication count",
+      "count": 50
+    },
+    {
+      "name": "student retrieval english",
+      "count": 10,
+      "passage_children": 2,
+      "rejected_received": 0
+    },
+    {
+      "name": "student practice quote english",
+      "state": "available",
+      "reason": "ok"
+    },
+    {
+      "name": "student retrieval accountancy",
+      "count": 19,
+      "passage_children": 0,
+      "rejected_received": 0
+    },
+    {
+      "name": "student practice quote accountancy",
+      "state": "available",
+      "reason": "ok"
+    },
+    {
+      "name": "student retrieval business_studies",
+      "count": 12,
+      "passage_children": 0,
+      "rejected_received": 0
+    },
+    {
+      "name": "student practice quote business_studies",
+      "state": "available",
+      "reason": "ok"
+    },
+    {
+      "name": "student retrieval economics",
+      "count": 9,
+      "passage_children": 0,
+      "rejected_received": 0
+    },
+    {
+      "name": "student practice quote economics",
+      "state": "unavailable",
+      "reason": "inventory_insufficient"
+    },
+    {
+      "name": "dispute immediately excludes real approved row from student feed",
+      "question_id": "969087a9352795113be2bda8def8d501",
+      "academic_error_alleged": false
+    },
+    {
+      "name": "unchanged verified row restored; test dispute receipt retained",
+      "question_id": "969087a9352795113be2bda8def8d501"
+    }
+  ],
+  "newly_published": 50,
+  "unique_retrieved": 50,
+  "rejected_stored_as_questions": 0,
+  "paid_provider_calls": 0,
+  "production_writes": 0
+}

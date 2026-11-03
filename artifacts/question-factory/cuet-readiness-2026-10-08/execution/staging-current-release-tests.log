@@ -1,0 +1,29 @@
+✔ partial comparison and unreleased calibration never inherit stale cost forecasts (4.2426ms)
+✔ snapshot keeps the full $50 cap, unresolved holds, and historical pilot while exposing current baseline (0.8765ms)
+✔ staging update patch contains only snapshot and timestamp, preserving all controls by omission (0.289ms)
+✔ refuses the wrong project, a changed cap, and a 99-item baseline (2.6568ms)
+✔ CLI requires the explicit exact staging identity before reading credentials or connecting (1.0587ms)
+✔ campaign state summary counts durable eligibility and quarantine, keeping generated as pending (0.5524ms)
+✔ live paid work does not alter the metadata-only patch or remove held cost projections (0.8131ms)
+✔ legacy released v6 manifest cannot unlock current CUET publication (7.0613ms)
+✔ exact current dual-blind binding passes the current release predicate (8.4147ms)
+✔ stale validation hash, prompt, source version, or effort/provider policy fail closed (77.6582ms)
+✔ actual release builder counts both false-accept lists and roundtrips to frozen/runtime predicates (8.1768ms)
+✔ release builder fails closed if either false-accept list is missing (0.4894ms)
+✔ release producer marks benchmark completed only after the assessment passed (3.0684ms)
+✔ frozen completed export selects exactly 127 items and closes all affected passage groups (794.1444ms)
+✔ preflight rejects content drift and passage-group drift before any write (1472.6107ms)
+✔ allows unrelated staging rows, reports them unchanged, and only updates the 127 scoped IDs (794.9211ms)
+✔ refuses an extra staging child in an affected passage group and a missing exported ID (392.8769ms)
+✔ one atomic bulk update precedes deterministic receipts and staging job quarantine (423.1703ms)
+✔ resume after a receipt interruption skips the completed bulk update and prior receipts (806.926ms)
+✔ refuses a partially withheld passage-closed snapshot (406.2627ms)
+✔ refuses resume when the pinned export or plan hash changes (370.759ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6542.2526

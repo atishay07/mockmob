@@ -1,0 +1,148 @@
+{
+  "schema": "v74-raw16-source-span-integrity-v1",
+  "recorded_at_utc": "2026-10-08T13:45:53.817299Z",
+  "hash_method": "SHA-256 of UTF-8 extracted-text lines joined by LF, inclusive line ranges; raw text not copied into this manifest",
+  "selected_item_count": 16,
+  "held_construction_count": 1,
+  "selected_items": [
+    {
+      "case_id": "v74-cbse22-acc-q27",
+      "source_text_file": "Accountancy-SQP.txt",
+      "question_id": "Q27",
+      "line_start_1based": 390,
+      "line_end_1based": 403,
+      "raw_extraction_sha256": "6c57d588a3263f96c6f795e692dfae626ad5e8850735c38282e13dc742aeb13e"
+    },
+    {
+      "case_id": "v74-cbse22-acc-q28",
+      "source_text_file": "Accountancy-SQP.txt",
+      "question_id": "Q28",
+      "line_start_1based": 404,
+      "line_end_1based": 407,
+      "raw_extraction_sha256": "dd961a2567efd90a111f3c2b91088f4f69b9004786da03c7951aea568ecacd33"
+    },
+    {
+      "case_id": "v74-cbse22-acc-q29",
+      "source_text_file": "Accountancy-SQP.txt",
+      "question_id": "Q29",
+      "line_start_1based": 408,
+      "line_end_1based": 433,
+      "raw_extraction_sha256": "2e52811e1ab1cc86ff0b6c051eaa3f0a2d97c495533827af85cf228236d311c1"
+    },
+    {
+      "case_id": "v74-cbse22-acc-q30",
+      "source_text_file": "Accountancy-SQP.txt",
+      "question_id": "Q30",
+      "line_start_1based": 434,
+      "line_end_1based": 443,
+      "raw_extraction_sha256": "2112768196f515546515ad0dd8b2cce35f176007b1b617f1aaaf87b87faeea24"
+    },
+    {
+      "case_id": "v74-cbse22-bs-q01",
+      "source_text_file": "BusinessStudies-SQP.txt",
+      "question_id": "Q1",
+      "line_start_1based": 14,
+      "line_end_1based": 22,
+      "raw_extraction_sha256": "6c894ef2f3719f078006a595c6b18f6671ba179794c12032f1b6c29e7117fb3e"
+    },
+    {
+      "case_id": "v74-cbse22-bs-q02",
+      "source_text_file": "BusinessStudies-SQP.txt",
+      "question_id": "Q2",
+      "line_start_1based": 23,
+      "line_end_1based": 28,
+      "raw_extraction_sha256": "372381e7e69f60bf86ea888e9fd465cab42074a8f444e3c57d4d90b9f6770666"
+    },
+    {
+      "case_id": "v74-cbse22-bs-q03",
+      "source_text_file": "BusinessStudies-SQP.txt",
+      "question_id": "Q3",
+      "line_start_1based": 29,
+      "line_end_1based": 34,
+      "raw_extraction_sha256": "877031e3373843a9e1fa441f1b75a0de560cf5d769bd82fb50236d8a95c113c9"
+    },
+    {
+      "case_id": "v74-cbse22-bs-q04",
+      "source_text_file": "BusinessStudies-SQP.txt",
+      "question_id": "Q4",
+      "line_start_1based": 35,
+      "line_end_1based": 42,
+      "raw_extraction_sha256": "25d1a754b6ea67d8d3e5af5ce049f65c67ff3b74671c7d71a41dbb1fd1a9a72a"
+    },
+    {
+      "case_id": "v74-cbse22-econ-q01",
+      "source_text_file": "Economics-SQP.txt",
+      "question_id": "Q1",
+      "line_start_1based": 16,
+      "line_end_1based": 25,
+      "raw_extraction_sha256": "473446b5865584d089b990d13d212b40ee5d6d502ee1ff245252d29b7c2a8823"
+    },
+    {
+      "case_id": "v74-cbse22-econ-q03",
+      "source_text_file": "Economics-SQP.txt",
+      "question_id": "Q3",
+      "line_start_1based": 40,
+      "line_end_1based": 49,
+      "raw_extraction_sha256": "d546dc9d2cff852fb1998eee5168af677df963ad939632f6b882ab127a3bea4e"
+    },
+    {
+      "case_id": "v74-cbse22-econ-q04",
+      "source_text_file": "Economics-SQP.txt",
+      "question_id": "Q4",
+      "line_start_1based": 50,
+      "line_end_1based": 66,
+      "raw_extraction_sha256": "e47b6a18e5800e3d147ce0f21a6c96bf97d2b1eb60d4e88da66e89f1c9addd7f"
+    },
+    {
+      "case_id": "v74-cbse22-econ-q05",
+      "source_text_file": "Economics-SQP.txt",
+      "question_id": "Q5",
+      "line_start_1based": 67,
+      "line_end_1based": 77,
+      "raw_extraction_sha256": "2869c11ccf17c23f8729f81a05d39f489942127545491cffbf02d8fbdbe82ad1"
+    },
+    {
+      "case_id": "v74-cbse22-en-q1-i",
+      "source_text_file": "EnglishCore-SQP.txt",
+      "question_id": "Q1(i)",
+      "line_start_1based": 51,
+      "line_end_1based": 56,
+      "raw_extraction_sha256": "8101b58813eaa86815175d6853b4e78a98ace608ac4efd348fcb3839201a9909"
+    },
+    {
+      "case_id": "v74-cbse22-en-q1-iv",
+      "source_text_file": "EnglishCore-SQP.txt",
+      "question_id": "Q1(iv)",
+      "line_start_1based": 61,
+      "line_end_1based": 66,
+      "raw_extraction_sha256": "401c1254e16f7130edc73878b8d90172b3f5f438d711b74a74a5c8ec654013cb"
+    },
+    {
+      "case_id": "v74-cbse22-en-q1-v",
+      "source_text_file": "EnglishCore-SQP.txt",
+      "question_id": "Q1(v)",
+      "line_start_1based": 67,
+      "line_end_1based": 71,
+      "raw_extraction_sha256": "44c9c8ad0f2755320b180976b9a0da77b963308932d0ab3315a0bd221d67bf28"
+    },
+    {
+      "case_id": "v74-cbse22-en-q1-ix",
+      "source_text_file": "EnglishCore-SQP.txt",
+      "question_id": "Q1(ix)",
+      "line_start_1based": 82,
+      "line_end_1based": 86,
+      "raw_extraction_sha256": "1a3d3957737a20b919181dd97777a2f583b4ff11212f3f34092f08973727a990"
+    }
+  ],
+  "held_construction_records": [
+    {
+      "case_id": "v74-cbse22-econ-q02-held",
+      "source_text_file": "Economics-SQP.txt",
+      "question_id": "Q2",
+      "line_start_1based": 26,
+      "line_end_1based": 39,
+      "raw_extraction_sha256": "2c3e610f65633c6994445a0e1019a1a250b46b5769b31e27f950c6e5f074e383",
+      "status": "held_due_to_pre-acquisition_key-snippet-exposure"
+    }
+  ]
+}

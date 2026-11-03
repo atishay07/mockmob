@@ -1,0 +1,332 @@
+{
+  "schema": "cohort-010-offline-recovery-audit-v1",
+  "as_of": "2026-10-08T07:54:20.854Z",
+  "read_only": true,
+  "provider_calls": 0,
+  "leases_acquired": false,
+  "source": {
+    "directory": "artifacts/question-factory/cost-native-cohort-010",
+    "campaign_sha256": "15414c96852e72bee298f2d0085ca95feba3a160ebd2e398c581d8ffcebeac62",
+    "benchmark_registration_contract_hash": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+    "current_legacy_contract_hash": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+    "legacy_contract_matches_current": true,
+    "request_cutoff_count": 5836,
+    "old_machine_eligible_export_sha256": "3f1e38f5f989d573a7cc8832f0b10a13599d0b9af3f09c09949decacdb5cf784",
+    "old_machine_eligible_count": 76,
+    "saved_batch_report_as_of": "2026-10-07T20:07:11.492Z",
+    "saved_batch_report_sha256": "2449c59ec675f94f47e9449b17ae88af040d3fc2c8195c6267bd0028cf263252"
+  },
+  "local_jobs": {
+    "denominator": 100,
+    "state_counts": {
+      "eligible": 76,
+      "quarantined": 15,
+      "waiting_authoring": 9
+    },
+    "pending_count": 9,
+    "pending_candidates": [
+      {
+        "candidate_id": "1cca5e2888f366ce9fc773668b8d6570",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "9309793ab93c518accd6b41d674700480e7f5723cba8cf2806bc9527e8504bf7",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "19fa0c9e74d76d9d0977f1786973aed1",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "212ff0fac36d6723bcad8e4ff7e8e6dfe34455cbace0bc436e6d65487c10d528",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "0b00f3879fb1571e8321e3c225ed2691",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "787234dd6d9e18494df122435abf57aad540ff5129e0a1266f1b601c0d3f89ac",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "eb61c3e41b93642355ca898af68c18ae",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "50b605c5ec60ee29849d7613a7c07bd155fa6ee909adfe1b0d41fc7e762a0f13",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "d1a72724634b8252bc27746877423d75",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "6af07de07da480a23c3acc9aef9bbbccbd96d22844837a88427d5a3de149be5b",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "55135835f6f1ee881f28e92430319ca9",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "71783be95cf633660908b970eeb9bcf4397ed3b5f7099b98fcbb55df83c904bc",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "b72d533b26df4a321b9c74d6736443b2",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "8e8b73e956fee0ec6beb92ba0238c692824c88c498c396d58fbe55a789bd2fbc",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "0a16d82c4a67d12d48b8941cba10d1a6",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "8a3f0545d4b2b063e620a714ce6ac0e61bdfbbab8c62d2c03fb4f885389448c0",
+        "saved_result_state": null,
+        "repair_count": 0
+      },
+      {
+        "candidate_id": "f37c23d208dea14c39a49ca1f948a5a9",
+        "local_state": "waiting_authoring",
+        "has_saved_candidate": false,
+        "pending_key": "ff9aacc2e13ff7c9a55e14037686373026ea829689b1e1798f3fb9e69550e5bc",
+        "saved_result_state": null,
+        "repair_count": 0
+      }
+    ],
+    "no_candidate_count": 9
+  },
+  "provider_requests": {
+    "scoped_count": 414,
+    "campaign_authoring_attempt_count": 109,
+    "campaign_authoring_disposition_counts": {
+      "provider_response_saved": 106,
+      "terminal_preinference_or_typed_rejection": 3
+    },
+    "current_pending": {
+      "count": 9,
+      "disposition_counts": {
+        "provider_response_saved": 6,
+        "preinference_credit_refusal": 3
+      },
+      "by_provider_id": {
+        "batch_6ac6311aa79481909d9e257151b0078c": 9
+      },
+      "every_pending_key_has_exact_saved_request": true,
+      "requests": [
+        {
+          "candidate_id": "1cca5e2888f366ce9fc773668b8d6570",
+          "pending_key": "9309793ab93c518accd6b41d674700480e7f5723cba8cf2806bc9527e8504bf7",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "d64e788e-92da-4696-a01e-bb5a7be7f754",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 724,
+          "saved_body_sha256": "5752aeadf5425d0a99658eaacf455f8e01c8f8e2145dca76900429c1dc0d0e42"
+        },
+        {
+          "candidate_id": "19fa0c9e74d76d9d0977f1786973aed1",
+          "pending_key": "212ff0fac36d6723bcad8e4ff7e8e6dfe34455cbace0bc436e6d65487c10d528",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "cf6fbac0-f103-403f-9a52-e8da792209d8",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 2009,
+          "saved_body_sha256": "a8fcc6b0fb9103842514c42c776b6adcdd60104090c5531888b7e897c389859c"
+        },
+        {
+          "candidate_id": "0b00f3879fb1571e8321e3c225ed2691",
+          "pending_key": "787234dd6d9e18494df122435abf57aad540ff5129e0a1266f1b601c0d3f89ac",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "71ee22c6-2c1f-4036-93a2-7e53524d772f",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 1002,
+          "saved_body_sha256": "1dc87dcf4fa697f67bc23e1bd9120a8ccf81d5857c7c0d4ea2f4823f56bc90a7"
+        },
+        {
+          "candidate_id": "eb61c3e41b93642355ca898af68c18ae",
+          "pending_key": "50b605c5ec60ee29849d7613a7c07bd155fa6ee909adfe1b0d41fc7e762a0f13",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "rejected",
+          "request_state": "settled",
+          "reservation_id": "39a37319-6b8f-48a8-9bb0-932f03a91806",
+          "disposition": "preinference_credit_refusal",
+          "http_status": 429,
+          "receipt_error_code": "credit_balance_exhausted",
+          "committed_micro": 0,
+          "saved_body_sha256": "870a7b739fec17b3680e04f947b8c1f626f029331ffb6eae62370571aed37ad8"
+        },
+        {
+          "candidate_id": "d1a72724634b8252bc27746877423d75",
+          "pending_key": "6af07de07da480a23c3acc9aef9bbbccbd96d22844837a88427d5a3de149be5b",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "ff391352-67dd-448f-9816-4e4ad154220d",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 1582,
+          "saved_body_sha256": "b58d70643c2cfd7162f97161e4f29881401ce92919a7bf708a0730346d9f1fa1"
+        },
+        {
+          "candidate_id": "55135835f6f1ee881f28e92430319ca9",
+          "pending_key": "71783be95cf633660908b970eeb9bcf4397ed3b5f7099b98fcbb55df83c904bc",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "79602143-a1a1-4a1e-935a-382eb6d04151",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 2484,
+          "saved_body_sha256": "9b3652ebcb5c682b9643c77a88cf7d1a9314926e8f631ba56a28bee4e383560e"
+        },
+        {
+          "candidate_id": "b72d533b26df4a321b9c74d6736443b2",
+          "pending_key": "8e8b73e956fee0ec6beb92ba0238c692824c88c498c396d58fbe55a789bd2fbc",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "rejected",
+          "request_state": "settled",
+          "reservation_id": "69b71a99-5443-4c80-b510-24f1935646fc",
+          "disposition": "preinference_credit_refusal",
+          "http_status": 429,
+          "receipt_error_code": "credit_balance_exhausted",
+          "committed_micro": 0,
+          "saved_body_sha256": "74798198b050dd92501d06ddc148a5d91b8e4ae2b321015d283c01999f962187"
+        },
+        {
+          "candidate_id": "0a16d82c4a67d12d48b8941cba10d1a6",
+          "pending_key": "8a3f0545d4b2b063e620a714ce6ac0e61bdfbbab8c62d2c03fb4f885389448c0",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "complete",
+          "request_state": "settled",
+          "reservation_id": "d85556cc-9290-4637-adc8-9fbcd5bbb6be",
+          "disposition": "provider_response_saved",
+          "http_status": null,
+          "receipt_error_code": null,
+          "committed_micro": 2058,
+          "saved_body_sha256": "866d54d5f816b17f37bd1dd195fa9b6dbd3756091bfa5439befd1d575b7b0102"
+        },
+        {
+          "candidate_id": "f37c23d208dea14c39a49ca1f948a5a9",
+          "pending_key": "ff9aacc2e13ff7c9a55e14037686373026ea829689b1e1798f3fb9e69550e5bc",
+          "local_state": "waiting_authoring",
+          "saved_request_found": true,
+          "request_key_matches": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "provider_id": "batch_6ac6311aa79481909d9e257151b0078c",
+          "provider_state": "rejected",
+          "request_state": "settled",
+          "reservation_id": "2c150529-2c17-4dc5-8ea3-fc86d888cbe3",
+          "disposition": "preinference_credit_refusal",
+          "http_status": 429,
+          "receipt_error_code": "credit_balance_exhausted",
+          "committed_micro": 0,
+          "saved_body_sha256": "63edbb4626367c863c6902a3e9982fcb8ed228dc032c0a4beb3d089b2b230621"
+        }
+      ]
+    }
+  },
+  "recovery_dry_run": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-08/recovery/cohort-010-cache-only-recovery-dry-run.json",
+    "sha256": "717f75d0ccab3d7fc18a9aa331c0b6d3d72a48889ce99ff6c148374227e82135",
+    "created_at": "2026-10-08T07:50:19.468Z",
+    "provider_calls": 0,
+    "counts": {
+      "planned": 9,
+      "replay_saved_response": 5,
+      "quarantine_saved_response_candidate": 1,
+      "quarantine_typed_refusal": 3,
+      "retain_pending": 0,
+      "already_recovered": 0
+    },
+    "frozen_campaign_matches": true,
+    "v62_contract_matches": true
+  },
+  "ledger_cost": {
+    "basis": "Native SQLite request rows after the campaign cutoff, joined by exact saved candidate/request metadata; nonsettled rows grossed at max(reserved,actual). Read-only snapshot.",
+    "request_count": 414,
+    "settled_micro": 630140,
+    "held_micro": 79152,
+    "gross_committed_micro": 709292,
+    "unresolved_count": 4,
+    "settled_usd": 0.63014,
+    "held_usd": 0.079152,
+    "gross_committed_usd": 0.709292
+  },
+  "recovery": {
+    "status": "partial_saved_response_recovery_only; remaining_requests_blocked",
+    "cache_only_dry_run_command": "node --use-system-ca scripts/pipeline/tools/recoverCohort010Authoring.mjs",
+    "guarded_apply_command_after_all_leases_are_released": "node --use-system-ca scripts/pipeline/tools/recoverCohort010Authoring.mjs --apply",
+    "apply_guard": "Apply checks factory_worker and factory_campaign_controller before creating a backup, repeats those checks inside BEGIN IMMEDIATE, then checks every job row hash and writes all selected job changes in one transaction. It does not claim either lease, call a provider, publish, or alter the campaign, request rows, benchmark, registry, or old export.",
+    "recovery_tool_evidence": "The dry-run journal retains exact candidates and hashes from saved request bodies: only cache/receipt replay is allowed. The 3 typed credit refusals are quarantined with explicit pre-inference reasons. Any incomplete/malformed saved response remains pending with its terminal reason; deterministic candidate lint failures preserve the decoded candidate and quarantine reason. No regeneration key is created.",
+    "reason_no_worker_command": "The legacy generate action is release-gated and processes all outstanding jobs; the worker additionally claims a staging lease, reconciles unrelated batches, syncs staging state, and can publish when staging control permits. Use the guarded local recovery tool instead.",
+    "replay_guarantee": "Saved complete responses can only replay when provider, model, stable key, exact saved body digest, native request ID, and local pending key match. Submitted/unknown accepted requests are never resent. The 3 429 credit_balance_exhausted rows are pre-inference refusals, not missing inference results.",
+    "required_before_completion": [
+      "Wait for A/B and comparison-controller leases to finish and release.",
+      "Inspect the cache-only dry-run journal and refresh it if the saved ledger rows changed.",
+      "Use the guarded local apply command only after the lease checks pass; it materializes five candidates, quarantines one deterministic presentation failure, and quarantines three typed pre-inference credit refusals.",
+      "Reconcile local job state and verify frozen campaign, v6.2 contract, and 76-row export hashes after apply."
+    ],
+    "caveats": [
+      "If the eventual worker command is used, it claims both local and staging worker ownership, reconciles global provider batches, and writes staging snapshots; it is not an offline/local-only command.",
+      "The 76-item export is the existing v6.2 machine-eligible snapshot. It has not been reassessed under CUET-fit/v7, is not a release claim, and its historical verifier contract must remain unchanged."
+    ]
+  }
+}

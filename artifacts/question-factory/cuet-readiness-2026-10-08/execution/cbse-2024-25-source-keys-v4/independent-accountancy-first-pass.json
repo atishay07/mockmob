@@ -1,0 +1,158 @@
+{
+  "schema": "independent-accountancy-blind-first-pass-v1",
+  "at": "2026-10-08T12:00:00Z",
+  "reviewer_model": "GPT-6",
+  "effort": "high",
+  "input_file": "independent-second-review-packet.json",
+  "input_sha256_full_bytes": "E1CD69636842D1F86F8D35A2FED08FA66E51D0DA9C67CCBDB3D1CA0F89C2BDFE",
+  "official_keys_seen": false,
+  "first_solver_decisions_seen": false,
+  "validator_results_seen": false,
+  "scope": "Eight accountancy items only; answer-blind independent calculations and strongest reasonable option readings.",
+  "items": [
+    {
+      "item_id": "cbse24-ac-q01",
+      "independently_solved_key": "B",
+      "key_confidence": "medium-high",
+      "calculations_checks": "Equal loss share before guarantee = ₹1,80,000 / 3 = ₹60,000 debit to each partner. Anthony's result at that allocation is -₹60,000; reaching the stipulated minimum +₹60,000 requires a ₹1,20,000 deficiency. Amar bears half = ₹60,000 in addition to his own ₹60,000 loss share, total debit ₹1,20,000.",
+      "option_assessments": [
+        {"key":"A","assessment":"₹60,000 is Amar's ordinary one-third loss share only; it omits his half of the guarantee deficiency."},
+        {"key":"B","assessment":"Correct: ₹60,000 ordinary loss debit plus ₹60,000 guarantee-deficiency debit."},
+        {"key":"C","assessment":"₹90,000 could arise from splitting the total loss in some other ratio, but conflicts with equal sharing and the separately borne guarantee deficiency."},
+        {"key":"D","assessment":"₹80,000 has no derivation from the equal loss allocation or equal guarantee-deficiency sharing."}
+      ],
+      "decisive_assumptions": ["The express ₹60,000 minimum is guaranteed for the full year even though the firm's result is a loss; the stem says 'at least' and gives no loss-year exception."],
+      "source_gaps": ["The cited NCERT excerpt states the guaranteed minimum applies when the partner's calculated share is below it, but does not illustrate a loss-year case. The stem's explicit guarantee wording supplies the case-specific promise."],
+      "independent_explanation": "Treat Anthony's loss share as negative ₹60,000 under the equal ratio. The guarantee raises his result to positive ₹60,000, so the deficiency is ₹1,20,000. Amar bears half of that deficiency, in addition to his ordinary ₹60,000 loss share.",
+      "CUET_fit_ready": true,
+      "uncertain": false,
+      "CUET_fit_reasons": ["Core partnership guarantee/loss-allocation application; four-option single-answer format; arithmetic is complete and the contract and sharing ratio are stated."]
+    },
+    {
+      "item_id": "cbse24-ac-q02",
+      "independently_solved_key": "D",
+      "key_confidence": "high",
+      "calculations_checks": "Under the fluctuating-capital method, one capital account records adjustments; current accounts are used with fixed capitals for non-capital transactions. Assertion is false; reason is true.",
+      "option_assessments": [
+        {"key":"A","assessment":"Incorrect because the assertion is false, although the reason is true."},
+        {"key":"B","assessment":"Incorrect because the assertion is false."},
+        {"key":"C","assessment":"Incorrect because the assertion is false and the reason is true, not false."},
+        {"key":"D","assessment":"Correct: assertion false, reason true."}
+      ],
+      "decisive_assumptions": [],
+      "source_gaps": [],
+      "independent_explanation": "The supplied NCERT excerpts distinguish the methods directly: fluctuating capital keeps a single capital account, while a separate current account is used with fixed capitals for routine adjustments. Thus only the reason is true.",
+      "CUET_fit_ready": true,
+      "uncertain": false,
+      "CUET_fit_reasons": ["Directly tests a standard partnership-accounting distinction; assertion-reason is a valid four-option MCQ and the supplied source supports both statements."]
+    },
+    {
+      "item_id": "cbse24-ac-q03",
+      "independently_solved_key": null,
+      "key_confidence": "low",
+      "calculations_checks": "Forfeiture debits Share Capital for the called-up amount, reducing called-up capital. The forfeited shares are also removed from the amount actually subscribed, reducing subscribed capital. Called-up capital is a component of subscribed capital; the stem asks generally which capital is reduced.",
+      "option_assessments": [
+        {"key":"A","assessment":"Authorised capital is the ceiling permitted for issue; forfeiture does not change that ceiling."},
+        {"key":"B","assessment":"Issued capital is the amount offered for subscription; forfeiting a shareholder's shares does not change the amount originally issued by this company."},
+        {"key":"C","assessment":"Subscribed capital is reduced because the forfeited subscription is cancelled and those shares cease to be held as subscribed shares."},
+        {"key":"D","assessment":"Called-up capital is reduced because the share-capital debit on forfeiture is the called-up amount on the forfeited shares."}
+      ],
+      "decisive_assumptions": ["Whether 'reduction of capital' refers to the subscription base after cancelled shares or the called-up amount reversed in the forfeiture entry."],
+      "source_gaps": ["The supplied excerpt supports debiting share capital by the amount called up, but the wording does not distinguish this accounting-entry effect from the reduction in subscribed share capital. Both C and D describe a real reduction at different nested capital levels."],
+      "independent_explanation": "Both subscribed and called-up capital fall on forfeiture: the shares are cancelled from the subscribed amount, and the forfeiture entry reverses the called-up share-capital amount. No qualifier in the stem selects one meaning, so I abstain rather than choose between C and D.",
+      "CUET_fit_ready": false,
+      "uncertain": true,
+      "CUET_fit_reasons": ["Multiple defensible options (C and D) under ordinary capital terminology; the stem needs a qualifier such as 'as per the forfeiture journal entry' or a specific capital measure."]
+    },
+    {
+      "item_id": "cbse24-ac-q04",
+      "independently_solved_key": "A",
+      "key_confidence": "high",
+      "calculations_checks": "Write off ₹15,000 by debiting Bad Debts and crediting Debtors. Then adjust the same ₹15,000 against the existing ₹20,000 provision by debiting Provision for Doubtful Debts and crediting Bad Debts. Remaining provision = ₹5,000.",
+      "option_assessments": [
+        {"key":"A","assessment":"Correct: the write-off is first recorded, then the existing provision absorbs the bad-debt loss."},
+        {"key":"B","assessment":"Incorrect: it increases the provision through Revaluation instead of using the existing provision against the specified bad debt."},
+        {"key":"C","assessment":"Incorrect: it debits Revaluation directly and omits the Bad Debts/Provision clearing entries."},
+        {"key":"D","assessment":"Incorrect: it credits Revaluation in the bad-debt entry and omits the Debtors credit and the provision adjustment."}
+      ],
+      "decisive_assumptions": [],
+      "source_gaps": [],
+      "independent_explanation": "The stem says an existing provision is available and the ₹15,000 debt has turned bad. Record the debtor write-off, then clear that bad-debt amount against the provision, leaving ₹5,000 in provision.",
+      "CUET_fit_ready": true,
+      "uncertain": false,
+      "CUET_fit_reasons": ["Standard admission/revaluation accounting procedure; the existing provision and write-off amount are explicit and the cited source gives the same two-entry treatment."]
+    },
+    {
+      "item_id": "cbse24-ac-q05",
+      "independently_solved_key": null,
+      "key_confidence": "low",
+      "calculations_checks": "Net assets = ₹10,00,000 - ₹3,00,000 = ₹7,00,000. With goodwill ₹50,000, capitalised average profit = ₹7,50,000. If ₹75,000 is the profit to capitalize, normal return = ₹75,000 / ₹7,50,000 = 10% (A). If ₹75,000 is after appropriating ₹15,000 to reserve, profit before appropriation = ₹90,000 and rate = ₹90,000 / ₹7,50,000 = 12% (C).",
+      "option_assessments": [
+        {"key":"A","assessment":"Defensible if ₹75,000 is already the average profit relevant to capitalization; gives 10%."},
+        {"key":"B","assessment":"Would imply capitalised average profit ₹15,00,000 using ₹75,000, inconsistent with net assets plus stated goodwill (₹7,50,000)."},
+        {"key":"C","assessment":"Defensible if 'after retaining ₹15,000 in reserve' means the reported ₹75,000 is after a profit appropriation; adding it back gives ₹90,000 and 12%."},
+        {"key":"D","assessment":"Would imply capitalised average profit ₹9,37,500 using ₹75,000, inconsistent with net assets plus stated goodwill."}
+      ],
+      "decisive_assumptions": ["Whether the stated ₹75,000 is the profit figure to capitalize or profit remaining after a ₹15,000 appropriation to reserve."],
+      "source_gaps": ["The supplied formula excerpt supports capitalised profit = average profit × 100 / normal rate and net assets = assets less outside liabilities, but it does not say whether the stated reserve-retained amount should be added back. The case wording permits 10% and 12% readings; a source-backed adjustment rule or clearer profit label is needed."],
+      "independent_explanation": "The denominator is ₹7,50,000 from net assets plus goodwill. The numerator changes with how 'profit after retaining' is interpreted: ₹75,000 yields 10%, while restoring the ₹15,000 reserve appropriation yields ₹90,000 and 12%. The stem and supplied source excerpt do not settle that decisive treatment, so I abstain.",
+      "CUET_fit_ready": false,
+      "uncertain": true,
+      "CUET_fit_reasons": ["Decisive profit-adjustment assumption is unresolved and changes the key between A and C; the supplied teaching excerpt does not establish reserve treatment."]
+    },
+    {
+      "item_id": "cbse24-ac-q06",
+      "independently_solved_key": "B",
+      "key_confidence": "high",
+      "calculations_checks": "Applications 900; allotment ratio 3:2 gives 600 allotted shares. Face value per share = ₹3 application + ₹5 allotment + ₹2 unmade call = ₹10. Since the first/final call was not made, called-up capital X = 600 × ₹8 = ₹4,800. Application received = 900 × ₹3 = ₹2,700; excess application money adjusted to allotment = 300 × ₹3 = ₹900. Allotment due = 600 × ₹5 = ₹3,000; unpaid allotment Z = ₹2,100. Amount received on the 600 forfeited shares and credited to Share Forfeiture Y = 600 × ₹3 = ₹1,800. Check: ₹4,800 = ₹1,800 + ₹2,100 + ₹900? No: excess application ₹900 is already included in the allotment unpaid calculation; called-up capital split is ₹1,800 application received + ₹900 excess app applied to allotment + ₹2,100 unpaid allotment = ₹4,800. For the forfeiture entry the paid amount on allotted shares is ₹1,800 plus ₹900 applied to allotment, so Share Forfeiture is ₹2,700 and unpaid allotment is ₹2,100; hence ₹4,800 = ₹2,700 + ₹2,100.",
+      "option_assessments": [
+        {"key":"A","assessment":"Incorrect: ₹6,000 counts uncalled first/final call as called-up capital; the call of ₹2 was not made."},
+        {"key":"B","assessment":"Correct: X ₹4,800; Y ₹2,700 (₹1,800 application on allotted shares plus ₹900 excess application applied to allotment); Z ₹2,100 unpaid allotment."},
+        {"key":"C","assessment":"Incorrect: Y ₹1,800 ignores the ₹900 excess application money retained and adjusted to allotment; this also misstates the balancing unpaid amount."},
+        {"key":"D","assessment":"Incorrect: X ₹6,000 includes the unmade call; the remaining figures follow from that incorrect called-up amount."}
+      ],
+      "decisive_assumptions": ["Excess application money is applied to allotment as stated by the standard oversubscription convention and supported by the supplied NCERT excerpt."],
+      "source_gaps": [],
+      "independent_explanation": "The 3:2 ratio converts 900 applications into 600 allotted shares. Only ₹8 per share is called, so capital debited is ₹4,800. The company has received ₹2,700 application money in total; ₹900 excess is adjusted against allotment, leaving ₹2,100 unpaid. The amount received and retained on these forfeited shares totals ₹2,700, so the balancing forfeiture entry is ₹4,800 = ₹2,700 + ₹2,100.",
+      "CUET_fit_ready": true,
+      "uncertain": false,
+      "CUET_fit_reasons": ["Syllabus share-capital procedure; two-step oversubscription/forfeiture calculation with all money stages stated and supported by the supplied source excerpts."]
+    },
+    {
+      "item_id": "cbse24-ac-q07",
+      "independently_solved_key": null,
+      "key_confidence": "low",
+      "calculations_checks": "Default is stated on 31 March 2024. The primary security is sold on 1 April 2024 for ₹70,00,000 against an ₹80,00,000 principal, leaving ₹10,00,000 for collateral recovery. The debentures are sold in the market on 1 May 2024. The supplied source supports invoking collateral after primary-security proceeds fall short, but does not specify whether debenture interest starts on default, when the shortfall is established/invocation occurs, or market sale/transfer.",
+      "option_assessments": [
+        {"key":"A","assessment":"1 April 2019 would apply only if the collateral instruments accrued ordinary debenture interest from original issue despite being held only as security; the supplied source says the collateral issue itself creates no liability under its first method."},
+        {"key":"B","assessment":"31 March 2024 is plausible if default immediately makes the debenture interest obligation effective; the excerpt does not specify that timing."},
+        {"key":"C","assessment":"1 April 2024 is plausible if interest begins when primary-security proceeds establish the shortfall and the bank invokes collateral; the excerpt does not state this interest rule."},
+        {"key":"D","assessment":"1 May 2024 is plausible if interest begins only when debentures are actually sold/transferred in the market; the excerpt does not state this rule either."}
+      ],
+      "decisive_assumptions": ["The interest-start date for collateral debentures: default, collateral invocation after realizing primary security, or actual market sale/transfer."],
+      "source_gaps": ["The cited NCERT section says collateral can be invoked if primary security is insufficient and describes the no-entry method, but gives no rule for when interest on collateral debentures begins. The dates in the stem make the competing events distinct; a general debenture-interest rule does not resolve this case-specific trigger."],
+      "independent_explanation": "The shortfall is ₹10,00,000, but the source supports only the lender's right to invoke collateral after the primary security falls short. It does not identify whether interest becomes payable on default, invocation/realization, or sale to a market holder. Those dates map to different options, so I abstain.",
+      "CUET_fit_ready": false,
+      "uncertain": true,
+      "CUET_fit_reasons": ["A decisive interest-accrual trigger is missing from the supplied source evidence and plausible timing conventions change the answer among B, C and D."]
+    },
+    {
+      "item_id": "cbse24-ac-q08",
+      "independently_solved_key": "A",
+      "key_confidence": "medium-high",
+      "calculations_checks": "The asset's book value is ₹50,000, but Rama takes it in full settlement of her ₹60,000 partner loan. The stated settlement consideration is therefore ₹60,000. Since the asset has already been transferred to Realisation, the settlement credits Realisation by the value at which the asset is taken over: ₹60,000. The ₹10,000 excess over book value is a realization gain.",
+      "option_assessments": [
+        {"key":"A","assessment":"Correct if the explicit full settlement means the machinery is accepted at ₹60,000; Realisation is credited with the takeover/settlement value."},
+        {"key":"B","assessment":"₹10,000 is the difference between loan and book value, not the amount credited to Realisation; the balancing gain is reflected through the account's net result."},
+        {"key":"C","assessment":"₹50,000 would be correct only if the machinery were taken over at book value and the remaining ₹10,000 of loan remained unsettled or was separately adjusted; that contradicts 'full settlement'."},
+        {"key":"D","assessment":"Incorrect because transferring the asset to settle the partner loan requires a Realisation credit for the agreed takeover value."}
+      ],
+      "decisive_assumptions": ["The stated 'full settlement' fixes the machinery's takeover value at ₹60,000; no additional cash or separate loan adjustment is described."],
+      "source_gaps": [],
+      "independent_explanation": "When an asset already in Realisation is taken over by a partner, Realisation is credited with the agreed takeover value. Full settlement of the ₹60,000 loan makes ₹60,000 the settlement value; relative to the ₹50,000 book value, that produces a ₹10,000 realization gain. The effect asked for is the ₹60,000 credit.",
+      "CUET_fit_ready": true,
+      "uncertain": false,
+      "CUET_fit_reasons": ["Standard dissolution/asset-takeover entry with the loan and full-settlement consideration explicit; four-option format and one-step application are appropriate."]
+    }
+  ]
+}

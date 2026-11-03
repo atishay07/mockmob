@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-06T22:27:04.133Z",
+  "guard": "Every generated evidence quotation must occur in its actual supplied source excerpt; one valid quotation cannot conceal fabricated ones.",
+  "contract_hash": "f4c16c2163839697d4d9abd1696c6c5ea2a69e391f924da6a594ca3954502e54",
+  "model_prompts_changed": false,
+  "paid_evaluations_added": 0,
+  "frozen_validation_contract_unchanged": true,
+  "registered_batch_denominator": 100,
+  "provider_generation_content_inspected_before_guard": false
+}

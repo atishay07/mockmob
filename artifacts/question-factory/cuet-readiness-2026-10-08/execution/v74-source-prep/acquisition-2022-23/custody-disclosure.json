@@ -1,0 +1,39 @@
+{
+  "schema": "v74-source-custody-disclosure-v1",
+  "binding_frozen_at_utc": "2026-10-08T13:36:37.333Z",
+  "content_access_started_after_freeze": true,
+  "custodian": "Codex acquisition sub-agent /root/v73_runtime_integration",
+  "role": "question acquisition and key custody only; not an independent answer solver",
+  "independent_answer_reviews_started": false,
+  "events": [
+    {
+      "sequence": 1,
+      "time": "after 13:36:37.333Z and before 13:37:52Z; exact web request time not retained; performed by this custodian",
+      "source": "web search result snippets for the official CBSE 2022-23 index/source family",
+      "exposure": "Accountancy SQP Q1 stem/options; Accountancy marking-scheme rows Q1-16; one Economics marking-scheme answer row, subsequently identified against the SQP as Q2.",
+      "handling": "Do not use exposed answer content. Exclude Accountancy Q1-16 and Economics Q2 from the review packet. No local marking-scheme or key file was fetched."
+    },
+    {
+      "sequence": 2,
+      "time": "after the search result and before 13:37:52Z; performed by this custodian",
+      "source": "official CBSE SQP index metadata and Accountancy SQP PDF preview",
+      "exposure": "Index link metadata only for the four SQP files; the PDF preview displayed Accountancy SQP question content through Q1-12.",
+      "handling": "Accountancy Q1-16 remain excluded; no answer derivation was started."
+    },
+    {
+      "sequence": 3,
+      "time": "2026-10-08T13:37:52Z through 13:38:35Z; performed by this custodian",
+      "source": "direct official SQP PDF URLs listed in acquisition-receipt.json",
+      "exposure": "Four question-only PDFs downloaded and extracted locally. No MS/answer-key URL was requested.",
+      "handling": "Preserve all four downloaded PDFs and extracted text as source custody; independent answer reviews have not begun."
+    }
+  ],
+  "affected_ids": {
+    "accountancy": {"exclude": ["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7", "Q8", "Q9", "Q10", "Q11", "Q12", "Q13", "Q14", "Q15", "Q16"]},
+    "economics": {"exclude": ["Q2"]},
+    "business_studies": {"exclude": []},
+    "english_core": {"exclude": []}
+  },
+  "unresolved_leakage": "Search-result output contained answer text from the Economics marking-scheme document. Q2 is identified from the corresponding question-paper wording and excluded. Do not use that marking scheme for any candidate unless the root explicitly reassesses the custody boundary.",
+  "no_key_values_in_packet": true
+}

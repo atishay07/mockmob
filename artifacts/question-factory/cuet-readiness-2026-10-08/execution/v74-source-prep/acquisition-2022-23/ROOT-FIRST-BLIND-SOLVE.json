@@ -1,0 +1,146 @@
+{
+  "schema": "v74-source-construction-first-blind-solve-v1",
+  "reviewer": "root developer reviewer",
+  "question_packet_sha256": "65a1679f4a85b4c3ecba64dbe034c0cb91b4f9b5852bbdbcbbe3d4d3a55b5905",
+  "official_marking_scheme_seen": false,
+  "other_reviewer_answers_seen": false,
+  "prior_model_judgments_seen": false,
+  "raw_denominator": 16,
+  "factory_paid_calls": 0,
+  "purpose": "First source-based derivations only. This record is not a final oracle, current release approval, a claim of academic accuracy, or permission to publish.",
+  "items": [
+    {
+      "item_id": "v74-cbse22-acc-q27",
+      "solved_key": "C",
+      "derivation": "The selected NCERT Financial Statements section expressly calls basic assumptions/pre-requisites postulates and gives going concern, money measurement and realisation as examples.",
+      "alternative_check": "The Companies Act is a statutory reporting framework; accounting standards prescribe accounting treatment; the generic basis of accounting is not the named category of pre-requisites in this passage. The explanation must not add uncited details about individual standards or sections of the Act.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-acc-q28",
+      "solved_key": "B",
+      "derivation": "Annual interest = 10000000 × 0.10 = 1000000. Profit before tax = 1200000 / (1 − 0.40) = 2000000. Profit before interest and tax = 2000000 + 1000000 = 3000000. Interest coverage = 3000000 / 1000000 = 3 times.",
+      "alternative_check": "1.2 divides profit after tax by interest. 2 divides profit before tax by interest without adding back interest. 5 is inconsistent with the supplied balances and tax rate.",
+      "boundary_check": "The tax denominator is 0.60, interest is nonzero, and the debt is explicitly outstanding for the full year. No annual-period or additional-interest assumption is silently supplied.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-acc-q29",
+      "solved_key": "D",
+      "derivation": "This is compensation for the loss of a fixed capital asset, not trading revenue or funding from lenders/owners. Under indirect preparation, the included non-operating receipt is removed from the operating-profit calculation and the cash recovery is shown as an investing inflow. NCERT requires separately classified extraordinary cash flows according to their operating/investing/financing nature and removal of investing income from operating profit.",
+      "alternative_check": "A and B place both adjustments in operating cash flows and do not separately show the capital-asset recovery as investing cash. C incorrectly calls cash received an investing outflow and adds rather than removes the included receipt from the operating adjustment.",
+      "source_caution": "The selected textbook paragraphs give extraordinary-item classification, investing-asset receipt and indirect-adjustment rules. They do not expressly name insurance compensation for stolen machinery. The second reviewer must assess whether this derivation is entailed; add a permitted explicit source before evaluation if it is not, without pretending the existing excerpt explicitly states the insurance case.",
+      "unique_answer": true,
+      "construction_hold": "independent_source_entailment_confirmation_required"
+    },
+    {
+      "item_id": "v74-cbse22-acc-q30",
+      "solved_key": "B",
+      "derivation": "Opening carrying amount 300000 + purchases 30000 − depreciation 40000 − closing carrying amount 200000 = carrying amount disposed 90000. Sale proceeds = carrying amount disposed 90000 + profit on sale 12000 = 102000.",
+      "alternative_check": "90000 is the carrying amount rather than proceeds. 100000 and 112000 do not satisfy the complete equipment reconciliation and the stated gain.",
+      "boundary_check": "Both disposed carrying amount and proceeds are positive; balances are explicitly carrying amounts and the stated movements are complete. No second depreciation deduction is made.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q01",
+      "solved_key": "B",
+      "derivation": "In the selected organising sequence, identification/division is followed by grouping similar activities into departments, then assignment of duties and establishment of reporting relationships. The completed step is expressly given.",
+      "alternative_check": "A repeats the completed step. C and D are later steps, after departmentalisation.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q02",
+      "solved_key": "A",
+      "derivation": "The case explicitly highlights difficulty predicting future developments when changes are frequent, matching NCERT's uncertainty definition.",
+      "alternative_check": "Complexity concerns understanding many interacting forces; interrelatedness concerns their influence on one another; relativity concerns differences across places. Frequent change also illustrates dynamic nature, but that is not an offered alternative and the stem specifies prediction difficulty as the most direct feature.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-bs-q03",
+      "solved_key": null,
+      "tentative_textbook_category_key": "D",
+      "derivation": "The listed production/purchase/marketing/accounts/personnel departments identify a functional structure. NCERT expressly says functional heads lack diverse experience and training for top positions, supporting D. However the same functional-structure excerpt describes functional empires and pursuit of departmental interests at the expense of organisational interests. B is broadly worded rather than restricted to divisional managers, so an honest reading can overlap that functional disadvantage. A's unqualified 'may' is also broader than the specific divisional duplication-cost rule.",
+      "alternative_check": "C is expressly an advantage. D is the conventional textbook answer. B cannot confidently be ruled out under the project's alternative-answer challenge merely because nearly identical wording is used in the divisional section.",
+      "unique_answer": false,
+      "construction_hold": "broad_alternative_overlap_requires_second_independent_review_before_truth_label"
+    },
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "solved_key": "A",
+      "derivation": "The adapted text explicitly supplies increasing participation of women in the workforce, an NCERT social-environment element, and accounting software, a technological method of business operation. The picture was visually checked before textual adaptation.",
+      "alternative_check": "No government attitude/political condition, economic variable, or legislation is supplied. B, C and D each substitute at least one unsupported dimension.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q01",
+      "solved_key": "C",
+      "derivation": "With a fixed positive MPC, consumption rises linearly with income. Autonomous investment is independent of income. Adding that constant investment shifts consumption vertically without changing its slope, so aggregate demand and consumption are parallel. Both statements are true in the explicitly named model.",
+      "alternative_check": "A and B each deny one entailed statement; D denies both.",
+      "boundary_check": "The adapted stem excludes MPC=0, under which consumption is horizontal rather than upward sloping, and excludes income-dependent investment. These are inputs/conventions explicitly stated, not facts inferred from the desired answer.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q03",
+      "solved_key": "A",
+      "derivation": "The selected commercial-bank paragraph says they accept deposits from the public and lend part of those funds. The central-bank paragraph instead identifies the RBI's monetary/banker functions.",
+      "alternative_check": "The public deposit-for-lending description names commercial banks, rather than insurance premiums, government taxation/borrowing, or RBI reserve/central-bank functions. Do not claim RBI never accepts any deposit or government never borrows: neither stronger claim follows.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q04",
+      "solved_key": "C",
+      "derivation": "Under the explicitly named NCERT two-account classification, exported banking/financial services are current-account services receipts, hence credits. Inward FDI is an international asset transaction and capital inflow, hence a capital-account credit. Both statements are true under that convention.",
+      "alternative_check": "A or B incorrectly denies one statement; D denies both. The textbook itself notes another three-account convention, so the explanation must keep the two-account qualification and not make a universal current reporting claim.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-econ-q05",
+      "solved_key": "D",
+      "derivation": "Capital is measured at a point in time, so it is a stock. Net investment measures additions to capital over a period, so it is a flow. Both proposed statements reverse those categories and are false.",
+      "alternative_check": "A, B and C each affirm at least one reversed classification.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-i",
+      "solved_key": "B",
+      "derivation": "Paragraph1 contrasts the fishers no longer using the net with its continued trapping function. That continued operation after abandonment explains the ghost description.",
+      "alternative_check": "A describes a consequence rather than this contrast. C asserts an absence of ownership, whereas abandonment does not prove that and paragraph5 envisages traceable owners. D's claim about all animals is broader than the passage.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-iv",
+      "solved_key": "B",
+      "derivation": "The cached publisher definitions give negligible as small and unimportant and monumental as very big/great. Paragraph2 uses monumental for a threat affecting hundreds of animals. That is the opposing sense.",
+      "alternative_check": "Unimpressive concerns lack of admiration; exposing concerns putting at risk; threat names unwanted possibility. None conveys the opposite magnitude/importance here, and unimpressive is not used in paragraph2.",
+      "unique_answer": true,
+      "construction_hold": null
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-v",
+      "solved_key": null,
+      "derivation": "An EXCEPT question needs exactly one statement the writer would not agree with. A conflicts with centuries-long persistence and breakdown without disappearance. C conflicts with the stated harmful ingestion of plastic, which is not nutrition. At least A and C are exceptions, so the item has multiple defensible answers. D's movement restriction is described in paragraph2 rather than paragraph3, adding a scope problem.",
+      "alternative_check": "B is supported by paragraph3. The presence of that supported alternative does not remove the two clear exceptions A/C.",
+      "unique_answer": false,
+      "construction_hold": "multiple_exceptions_preserved_no_silent_replacement"
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-ix",
+      "solved_key": "A",
+      "derivation": "Paragraph5 offers concrete actions—traceable ownership, deposits, locating equipment and sustainable practices—to solve the problem. Practical fits implementable solutions.",
+      "alternative_check": "Presentable concerns acceptable appearance; popular requires evidence of broad liking, which the paragraph does not give; prejudiced concerns unreasonable dislike/bias, not these preventive measures.",
+      "unique_answer": true,
+      "construction_hold": null
+    }
+  ]
+}

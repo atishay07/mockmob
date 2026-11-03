@@ -1,0 +1,40 @@
+Accounting for Share Capital 39
+Share First Call A/c Dr. 2,00,000
+To Equity Share Capital A/c 2,00,000
+(Money due on 10,000 shares
+@ Rs. 20 per share on Ist Call)
+Bank A/c Dr. 1,94,000
+To Equity Share First Call A/c 1,94,000
+(First call money received except for 300 shares)
+Share Second and Final Call A/c Dr. 3,00,000
+To Equity Share Capital A/c 3,00,000
+(Money due on 10,000 shares @ Rs. 30 per
+share on Second and Final Call)
+Bank A/c Dr. 2,91,000
+ To Equity Share Second and Final Call A/c 2,91,000
+(Second and Final Call money received except
+for 300 shares)
+Share Capital A/c Dr. 30,000
+ To Equity Share First Call A/c 6,000
+ To Equity Share Second and Final Call A/c 9,000
+To Share Forfeiture A/c 15,000
+(300 shares forfeited)
+Forfeiture of Shares issued at a Premium: If shares were initially issued at a
+premium and the premium amount has been fully realised, but some of the
+shares are forfeited due to non-payment of call money, the accounting treatment
+for forfeiture shall be on the same pattern as in the case of shares issued at par.
+The important point to be noted in this context is that the securities premium
+account is not to be debited at the time of forfeiture if the premium has been
+received in respect of the forefeited shares and the amount of forfeiture shall be
+excluding premium amount.
+In case, however, if the premium amount has not been received, either wholly
+or partially, in respect of the shares forfeited, the Securities Premium Reserve
+Account will also be debited with the amount of premium not received along
+with the Share Capital Account at the time forfeiture. This will usually be the
+case when even the amount due on allotment has not been received. Thus, the
+journal entry to record the forfeiture of shares issued at a premium on which
+premium has not been fully received, will be :
+Share Capital A/c Dr.
+Securities Premium Reserve A/c Dr.
+To Share Forfeiture A/c
+Reprint 2026-27

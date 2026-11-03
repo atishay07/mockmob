@@ -1,0 +1,26 @@
+{
+  "created_at": "2026-10-09T22:28:37.630Z",
+  "workspace": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "state": "draft_unqualified",
+  "new_paid_calls": 0,
+  "settled_micro": 38806144,
+  "held_micro": 821324,
+  "unresolved": 65,
+  "active_provider_rows": {
+    "requests": [],
+    "batches": []
+  },
+  "files": {
+    "scripts/pipeline/lib/contractV716.mjs": "7ac91cadf7f2afdeb2df72865bd43a5b7fa53182069b850c2d69983652eac399",
+    "scripts/pipeline/lib/scorecardPolicyV716.mjs": "9c67e51d991199d4ad1bdbbce3ffc56847595b83ed26da701cad97257d2b2592",
+    "scripts/pipeline/lib/scorecardPromptV716.mjs": "1120a62ea1d58c5afe00167b3186e82c9f4b5e95238c98bf2e26b1438e53d773",
+    "scripts/pipeline/lib/scorecardReviewV716.mjs": "50c0a99e16777841d8267ef732d57928d58fa33bd08ecc732de44e238f828261",
+    "scripts/pipeline/lib/verifyV716.mjs": "49e8f4e6dfa370332f0cd2aa93863e40e132bdb00689499c46ad76efde0914e2",
+    "scripts/pipeline/lib/generationPromptV716.mjs": "bb5af6fd9cbe1e2dfdd77520b8c4980baded90ac0e1df25e7fc48aae94c1a355",
+    "scripts/pipeline/lib/practiceSelectionV716.mjs": "b679de62f62b67a76dec1c160c338b84e20daa37c98a801b343a8eec18f21242",
+    "scripts/pipeline/lib/campaignSessionV716.mjs": "c705ef7f9aad57d73cab7622efcccc3e181cff99a649f08158b0cab53c4403d6",
+    "scripts/pipeline/lib/publicationBridgeV716.mjs": "c281d38891f16917a5cf1931430932df4ac24e455e747a8438b3ab513663b915"
+  },
+  "goal": "Not complete; owner requested end current implementation pass and transfer continuation to Claude."
+}

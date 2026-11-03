@@ -1,0 +1,33 @@
+{
+  "version": 1,
+  "scope": "Self-study teaching and recall. This registry does not release formal recovery assessment families.",
+  "sources": {
+    "wordnet-3.0": {
+      "url": "https://wordnet.princeton.edu/",
+      "version": "WordNet 3.0",
+      "permission": "WordNet license; full notice retained in excerpts and student source attribution",
+      "locator": "Selected adjective synsets in wordnet-excerpts.json",
+      "verifiedOn": "2026-10-04"
+    },
+    "ncert-admission": {
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to factual formulas only; MockMob teaching prose and calculations are original",
+      "locator": "Section 2.4, PDF pages 5-6; section 2.3, PDF page 3",
+      "retrieval": "Official PDF source viewer; direct local download unavailable",
+      "verifiedOn": "2026-10-04",
+      "formulaExcerpt": "Old Share of Profit – New Share of Profit",
+      "checkedRule": "When a new ratio is specified, subtract each partner's new share from the old share. The old ratio applies when sacrifice occurs in that ratio."
+    },
+    "ncert-retirement": {
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "version": "Reprint 2026-27",
+      "permission": "Reference to factual formulas only; MockMob teaching prose and calculations are original",
+      "locator": "Section 3.3, PDF page 3",
+      "retrieval": "Official PDF downloaded and extracted with pypdf",
+      "sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
+      "verifiedOn": "2026-10-04",
+      "formulaExcerpt": "new profit share minus old profit share"
+    }
+  }
+}

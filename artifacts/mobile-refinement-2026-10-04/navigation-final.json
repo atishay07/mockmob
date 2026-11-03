@@ -1,0 +1,32 @@
+[
+  {
+    "width": 320,
+    "height": 844,
+    "zoom": 1,
+    "top": 62,
+    "bottom": 766,
+    "dock": 779,
+    "buttonBottom": 766,
+    "hit": true
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "zoom": 2,
+    "top": 62,
+    "bottom": 766,
+    "dock": 779,
+    "buttonBottom": 766,
+    "hit": true
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "zoom": 1,
+    "top": 62,
+    "bottom": 312,
+    "dock": 325,
+    "buttonBottom": 285,
+    "hit": true
+  }
+]

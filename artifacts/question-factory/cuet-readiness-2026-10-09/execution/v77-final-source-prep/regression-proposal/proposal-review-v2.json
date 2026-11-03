@@ -1,0 +1,419 @@
+{
+  "schema": "v77-local-option-resolution-proposal-final-diagnosis-v2",
+  "reviewed_at": "2026-10-09T08:38:29Z",
+  "scope": "local regression proposal only; read-only diagnosis from stable final export; no qualification, runtime, contract, registration, or result changes",
+  "stable_final_export": {
+    "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-export-2026-10-09\\all-cases.json",
+    "sha256": "bef35e60b203d58c72048921709b07da7fbddb96210184a65142a165167257f6"
+  },
+  "study_state_from_export": {
+    "denominator": 41,
+    "terminal": 5,
+    "pending": 36,
+    "settled_usd": 0.084744,
+    "held_usd": 0
+  },
+  "sixth_case_note": "Per parent drain status, v77f-c6d21440345d remained incomplete after paid reasoning and retry was blocked. It is not classified as an academic rejection or transport rejection; it remains pending in the fixed denominator.",
+  "reviewed_terminal_controls": [
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "frozen_input_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "validation": {
+        "state": "quarantined",
+        "failed_stage": "source_support",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "The supplied source says an investment normally qualifies only with a short maturity of three months or less from acquisition. A's two-month maturity satisfies that test; four months and five years do not.",
+          "A also states that the deposit is readily convertible and subject to insignificant value risk. The question asks which investment can qualify under the maturity test, not for a maturity exactly at the three-month boundary.",
+          "resolution_arithmetic_premises_required:A"
+        ]
+      },
+      "native": {
+        "openai": {
+          "status": "judged",
+          "key": "A",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_arithmetic_premises_required:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "A short-term deposit acquired today and maturing in two months",
+              "status": "support",
+              "basis": "arithmetic",
+              "decisive_context": "The option gives a two-month maturity from acquisition; the source's stated test is three months or less.",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "A short-term deposit acquired today and maturing in two months",
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            },
+            {
+              "clause": ", readily convertible with insignificant value risk",
+              "status": "support",
+              "basis": "excerpt",
+              "decisive_context": "The option states ready convertibility and insignificant value risk, matching the relevant characteristics in the cash-equivalent definition.",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                ", readily convertible with insignificant value risk",
+                "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value."
+              ]
+            }
+          ]
+        },
+        "gemini": {
+          "status": "judged",
+          "key": "A",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+              "status": "support",
+              "basis": "excerpt",
+              "decisive_context": "Qualification as a cash equivalent under the maturity test and risk/convertibility criteria.",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        }
+      },
+      "independent_diagnosis": "The native outputs both choose A and both native source_support flags are true. OpenAI A clause 1 uses the exact option text as the two-month arithmetic input plus an exact excerpt for the three-month rule; the original resolver cannot bind options as arithmetic inputs. Gemini uses the exact excerpt premise, but its decisive_context is a generalized label rather than repeating that premise. Source absence about B redemption date cannot alone contradict B, so a semantic audit must leave that challenger unresolved unless additional support exists."
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "frozen_input_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "validation": {
+        "state": "quarantined",
+        "failed_stage": "source_support",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "NCERT classifies cash receipts from sale of goods as operating (E2.1); for a garment maker, garment sales are a principal revenue-generating activity (E1.1). On the ordinary reading that an old cutting machine is equipment being disposed of, its sale proceeds are investing (E3.1). Thus B is correct.",
+          "The two receipts are individually classified; no numerical calculation is required. The financing description concerns long-term funds or capital, not the stated customer payment for garments (E4.1).",
+          "resolution_excerpt_premise_invalid:A"
+        ]
+      },
+      "native": {
+        "openai": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Both are operating cash inflows",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "The customer payment fits operating activities, but the ordinary reading of proceeds from selling an old cutting machine is disposal of equipment; proceeds from fixed-asset disposal are investing.",
+              "evidence_ids": [
+                "E2.1",
+                "E3.1"
+              ],
+              "premises": [
+                "payment from customers for delivered garments",
+                "selling an old cutting machine",
+                "cash receipts from sale of goods",
+                "Cash receipt from disposal of fixed assets."
+              ]
+            }
+          ]
+        },
+        "gemini": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Both are operating cash inflows",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "Classification of proceeds from selling an old cutting machine",
+              "evidence_ids": [
+                "E3.1"
+              ],
+              "premises": [
+                "Cash Inflows from Investing Activities include cash receipt from disposal of fixed assets including intangibles."
+              ]
+            }
+          ]
+        }
+      },
+      "independent_diagnosis": "Both choose B and both native source_support flags are true. OpenAI A clause cites exact stem facts (“payment from customers for delivered garments”; “selling an old cutting machine”) and source examples; Gemini cites the exact fixed-asset disposal rule. In both, decisive_context does not echo the exact source premise, which triggers the frozen first-clause check. Separately, “old cutting machine” is not an explicit stem assertion that the item is a fixed asset; retain that as a semantic ambiguity for independent audit instead of letting structural citation repair resolve it."
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "frozen_input_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "validation": {
+        "state": "quarantined",
+        "failed_stage": "source_support",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "The stated primary objective is to provide information about cash inflows and outflows during a period under operating, investing and financing activities, matching B (E1.1).",
+          "A, C and D offer a different purpose; the source identifies the cash-flow information objective, not profit alone, replacement of other statements, or only a year-end cash balance.",
+          "resolution_excerpt_premise_invalid:A"
+        ]
+      },
+      "native": {
+        "openai": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "To show only the profit earned in the period",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "The source identifies cash inflows and outflows, not profit alone, as the primary objective.",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities."
+              ]
+            }
+          ]
+        },
+        "gemini": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "To show only the profit earned in the period",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "Objective of cash flow activity presentation vs Statement of Profit and Loss",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities."
+              ]
+            }
+          ]
+        }
+      },
+      "independent_diagnosis": "Both choose B and both native source_support flags are true. Each A-clause premise is the exact cited objective sentence; both decisive_context fields paraphrase it, producing the same context-echo failure. This is a valid counterexample to requiring literal premise repetition in context, while still requiring independent assessment of all four whole options and uniqueness."
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "frozen_input_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "validation": {
+        "state": "quarantined",
+        "failed_stage": "source_support",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "The stem states that cash is paid to acquire a van for use over several years. The source explicitly lists cash payments to acquire fixed assets under cash outflows from investing activities (E5.1; also E1.1), so B is the supported classification.",
+          "Using the van in delivery operations does not change the classification of its acquisition; financing concerns long-term funds or capital (E3.1), and the source explicitly includes fixed-asset purchases as investing outflows (E5.1). The fixed-asset payment is not excluded.",
+          "This is an original-practice item. The authenticated CUET 2024 accountancy exemplar q25 was used only as a format/demand comparator, not as a source for the accounting rule.",
+          "resolution_excerpt_premise_invalid:A"
+        ]
+      },
+      "native": {
+        "openai": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Operating",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "The stem describes a cash payment to acquire a van for use over several years; E5.1 classifies cash payments to acquire fixed assets as investing outflows.",
+              "evidence_ids": [
+                "E5.1"
+              ],
+              "premises": [
+                "A company pays cash to acquire a delivery van for use over several years.",
+                "Cash Outflows from investing activities",
+                "Cash payments to acquire fixed assets including intangibles and capitalised research and development."
+              ]
+            }
+          ]
+        },
+        "gemini": {
+          "status": "judged",
+          "key": "B",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Operating",
+              "status": "contradiction",
+              "basis": "excerpt",
+              "decisive_context": "Classification of cash payment to acquire a fixed asset (delivery van).",
+              "evidence_ids": [
+                "E2.1",
+                "E5.1"
+              ],
+              "premises": [
+                "Cash payments to acquire fixed assets are cash outflows from investing activities.",
+                "Operating activities are principal revenue generating activities and are not investing or financing activities."
+              ]
+            }
+          ]
+        }
+      },
+      "independent_diagnosis": "Both choose B and both native source_support flags are true. OpenAI decomposes its reasoning into exact stem details plus the source heading/quoted fixed-asset payment rule. Gemini instead says “Cash payments to acquire fixed assets are cash outflows from investing activities.” This is not present as that sentence in the cited source; it is an inferred paraphrase from heading plus example and must remain unbound under the proposal. A real selected excerpt and a semantically plausible paraphrase do not establish an exact premise."
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "frozen_input_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "validation": {
+        "state": "quarantined",
+        "failed_stage": "source_support",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failure_details": [
+          "The described sequence—identifying workforce requirements before recruitment and selection—matches the supplied description of staffing.",
+          "The syllabus includes management functions and the staffing process. No calculation or additional case-specific assumption is needed.",
+          "resolution_excerpt_premise_invalid:A"
+        ]
+      },
+      "native": {
+        "openai": {
+          "status": "judged",
+          "key": "A",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Staffing",
+              "status": "support",
+              "basis": "excerpt",
+              "decisive_context": "The stem describes identifying workforce needs before recruiting and selecting people.",
+              "evidence_ids": [
+                "E3.1"
+              ],
+              "premises": [
+                "This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection"
+              ]
+            }
+          ]
+        },
+        "gemini": {
+          "status": "judged",
+          "key": "A",
+          "source_support": true,
+          "option_resolution": {
+            "required": true,
+            "passed": false,
+            "reason": "resolution_excerpt_premise_invalid:A"
+          },
+          "A_clauses": [
+            {
+              "clause": "Staffing",
+              "status": "support",
+              "basis": "excerpt",
+              "decisive_context": "Staffing involves identifying requirement of work force, followed by recruitment and selection.",
+              "evidence_ids": [
+                "E3.1"
+              ],
+              "premises": [
+                "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement..."
+              ]
+            }
+          ]
+        }
+      },
+      "independent_diagnosis": "Both choose A and both native source_support flags are true. OpenAI/Luna quotes the premise words in order, with only source PDF line-break whitespace removed; whitespace-only canonicalization binds it to the exact excerpt/locator. Gemini inserts an ellipsis and omits source words, so it remains rejected. This isolates a safe whitespace case from a paraphrase/omission case."
+    }
+  ],
+  "shared_gate_diagnosis": "All five validation records are quarantined at stage source_support and each contains a resolution_* failure reason; however, each of the ten native outputs reports source_support=true. Therefore the stage label describes where the deterministic source-support validation wrapper quarantined the item, not an academic finding that source support is false. No output is called a model error solely from this mismatch.",
+  "actionable_regression_proposal": {
+    "keep": [
+      "exact cited source premise binding",
+      "exact stem premise binding",
+      "exact printed option binding only as hypothetical arithmetic input",
+      "exact source identity/locator/span binding",
+      "whole-option clause coverage",
+      "independent audit of all four complete options and all printed claims",
+      "unique supported key",
+      "direct contradiction requirement; source silence remains unresolved"
+    ],
+    "change": [
+      "remove literal decisive_context echo as an independent failure condition when the premise is still exactly bound and a separate independent semantic audit validates the full option matrix",
+      "allow whitespace-collapse-only source matching to accommodate PDF line-wrap whitespace while preserving every non-whitespace character, order, punctuation, number, and negation"
+    ],
+    "fail_closed_examples": [
+      "073bdc31e03c Gemini: wording not present in source remains unbound",
+      "3546cbf8ea19 Gemini: ellipsis/omitted words remain unbound",
+      "synthetic tests: altered numeric limit, negation, forged span, incomplete option text, unresolved rival, or audit hash mismatch all fail"
+    ]
+  },
+  "test_results": {
+    "passed": 6,
+    "failed": 0,
+    "command": "node --test artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposal.test.mjs"
+  },
+  "limits": [
+    "No proposal code is imported by the V77 runtime or publication path.",
+    "The proposal tests structural behavior only; it does not certify academic truth or change the frozen study result.",
+    "The bounded case findings cover five terminal valid controls; pending cases remain in the denominator and are not counted as rejects."
+  ]
+}

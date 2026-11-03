@@ -1,0 +1,25 @@
+{
+  "frozen_at": "2026-10-08T21:05:33.496Z",
+  "scope": "Input reservation only; exact academic contract and complete request bodies unchanged",
+  "academic_contract_freeze_sha256": "67495e13688cc4f31f3814a390dbf5c045a2a5cb7ef3c4aea545adf4f6e286ea",
+  "original_runner_sha256": "d4819ae23fa47a53244e5532371db62cf290c232b23ef9a02312c1031e69e59a",
+  "runner_path": "scripts/pipeline/tools/runFreshCuetReadinessV76BoundedInput.mjs",
+  "runner_sha256": "8ede9299a9714a16c24f76fa4874199fe335f6a0cd426c68a541cabacd2193d9",
+  "input_reservation_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v76-transport-input-reservation.json",
+  "input_reservation_sha256": "dc3c93b5e8e96b5cc280b094340e0edb0f50f7937fe194e5aea532a473805dbb",
+  "registered_sets": [
+    {
+      "role": "fresh",
+      "payload_hash": "ae1db0736ab19b0aacd25f6febfd4ed5dc2203585d2fb0f3e51f98bbd1e04d9f",
+      "source_overlay_sha256": "80199d51456b6a1aaba9fc6855785f7d2a30113282a7d70fab70bd7c6058344a",
+      "custody_sha256": "5ddfef03769963da18c6401e27fe3b4c830b29743cb113fabf53a0ed550db7f0"
+    },
+    {
+      "role": "regression",
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "source_overlay_sha256": "f2311256462600159e2796f37ce249e65c4cb0a045db99de504513645247f75c",
+      "custody_sha256": "77465d0bff14d3f9f4baa88b9eb95399bd9c88bfeeb8702d8193112dfaae6de9"
+    }
+  ],
+  "paid_calls": 0
+}

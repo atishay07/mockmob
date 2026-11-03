@@ -1,0 +1,180 @@
+{
+ "subject": "business_studies",
+ "items": [
+  {
+   "local_id": "business_studies-v1", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies", "chapter": "Nature & Significance of Management",
+    "body": "Which statement about the economic objectives of a business, as described in the NCERT text on management, is correct?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Survival requires the organisation to earn enough revenues to cover its costs."},
+     {"key": "B", "text": "Growth means a business should avoid adding to its prospects in the long run."},
+     {"key": "C", "text": "Once an organisation survives, making a profit is no longer necessary."},
+     {"key": "D", "text": "Survival, profit and growth are the three social objectives of a business."}
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt states that, in order to survive, an organisation must earn enough revenues to cover costs. It says a business needs to add to its prospects in the long run, so B is contradicted. It says mere survival is not enough and management has to ensure a profit, so C is contradicted. It names survival, profit and growth as the economic objectives of a business, so D is contradicted.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Nature and Significance of Management", "objective": "Explain the economic objectives of management: survival, profit and growth.", "target_term": "economic objectives"},
+    "fact_refs": ["F3"]
+   }
+  },
+  {
+   "local_id": "business_studies-v2", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies", "chapter": "Nature & Significance of Management",
+    "body": "Consider the two statements.\nStatement 1: Because an organisation interacts with social, economic and political factors in its external environment, it must change itself and its goals according to the needs of the environment.\nStatement 2: The effect of management cannot be noticed in an organisation, since management is an intangible force.\nWhich option is correct?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Only Statement 2 is correct."},
+     {"key": "B", "text": "Only Statement 1 is correct."},
+     {"key": "C", "text": "Both Statements 1 and 2 are correct."},
+     {"key": "D", "text": "Neither Statement 1 nor Statement 2 is correct."}
+    ],
+    "correct_answer": "B",
+    "explanation": "Statement 1 matches the excerpt on management as a dynamic function: the organisation interacts with social, economic and political factors and must change itself and its goals according to the needs of the environment. Statement 2 is contradicted by the excerpt on intangibility, which says the effect of management is noticeable where targets are met according to plans, employees are happy and satisfied, and there is orderliness. So only Statement 1 is correct.",
+    "difficulty": "easy", "question_type": "statement_selection", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Nature and Significance of Management", "objective": "Describe the characteristics of management, including that it is a dynamic function and an intangible force.", "target_term": "dynamic function"},
+    "fact_refs": ["F1", "F2"]
+   }
+  },
+  {
+   "local_id": "business_studies-v3", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies", "chapter": "Directing",
+    "body": "In a company, the accounting staff initially resisted a new accounting system introduced by a manager. The manager explained the purpose, provided training and motivated the staff with additional rewards, after which the staff accepted the change and cooperated. Which conclusion is supported by the NCERT excerpt on directing?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "People generally welcome changes in the organisation, so the staff's resistance was unusual."},
+     {"key": "B", "text": "Directing techniques should bring out the energies of only a few selected employees."},
+     {"key": "C", "text": "Effective directing through motivation, communication and leadership helps reduce resistance to change and develop cooperation."},
+     {"key": "D", "text": "Training and additional rewards should be avoided because they increase resistance to change."}
+    ],
+    "correct_answer": "C",
+    "explanation": "The excerpt says effective directing through motivation, communication and leadership helps to reduce resistance to change and develop the required cooperation, and uses this same example. It says people generally tend to resist changes, so A is contradicted. The principle of maximum individual contribution says directing must help every individual contribute to his maximum potential, so B is contradicted. In the example, explaining the purpose, training and additional rewards lead employees to accept the change, so D is contradicted.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Directing", "objective": "Explain the importance of directing in reducing resistance to change.", "target_term": "importance of directing"},
+    "fact_refs": ["F5"]
+   }
+  },
+  {
+   "local_id": "business_studies-v4", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies", "chapter": "Staffing",
+    "body": "Veda Retail, an existing enterprise, has created new jobs by opening two outlets, and some of its existing employees have left the organisation. Which statement about its staffing is supported by the NCERT excerpts?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Staffing was a one-time activity that ended when the enterprise began operating."},
+     {"key": "B", "text": "Staffing covers only permanent employees and excludes daily wagers, consultants and contract employees."},
+     {"key": "C", "text": "Succession planning for managers works against the continuous survival and growth of the enterprise."},
+     {"key": "D", "text": "Staffing is a continuous process because new jobs may be created and some existing employees may leave."}
+    ],
+    "correct_answer": "D",
+    "explanation": "The excerpt states that in an existing enterprise staffing is a continuous process because new jobs may be created and some of the existing employees may leave, which matches Veda Retail. A is contradicted by this. B is contradicted because staffing may involve any combination of employees including daily wagers, consultants and contract employees. C is contradicted because succession planning for managers is listed as ensuring the continuous survival and growth of the enterprise.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Staffing", "objective": "Explain why staffing is a continuous process and state its importance.", "target_term": "continuous process"},
+    "fact_refs": ["F15", "F16"]
+   }
+  },
+  {
+   "local_id": "business_studies-v5", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "business_studies", "chapter": "Consumer Protection",
+    "body": "Meera paid the full price for a mobile phone ordered through a shopping website for her personal use and gave it to her mother, who uses it with Meera's approval. Dev ordered 20 phones from the same website to resell them in his shop. All the phones were defective. Which statement is correct under the Consumer Protection Act 2019 as described in the NCERT excerpts?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Meera and her mother are within the scope of the Act, while Dev, who bought for resale, is outside it."},
+     {"key": "B", "text": "Meera, her mother and Dev are all consumers, because the Act applies to both offline and online transactions."},
+     {"key": "C", "text": "Meera is covered, but her mother is not, because she did not buy the phone herself."},
+     {"key": "D", "text": "None of the three is covered, because the Act applies only to offline transactions."}
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt says the Act applies to both offline and online transactions and includes any user of the goods if the use is made with the approval of the buyer, so Meera and her mother are covered. A person who obtains goods for resale or commercial purpose is not treated as a consumer and is outside the scope of the Act, which applies to Dev. B fails because of the resale exclusion, C because users with the buyer's approval are included, and D because online transactions are covered.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Consumer Protection", "objective": "Identify who is treated as a consumer under the Consumer Protection Act 2019.", "target_term": "consumer"},
+    "fact_refs": ["F12", "F13"]
+   }
+  },
+  {
+   "local_id": "business_studies-d1", "expected_valid": false, "defect_category": "wrong_key",
+   "defect_evidence": "Recorded key is B (Growth). The excerpt F3 says 'The basic objectives of any business is survival. Management must strive to ensure the survival of the organisation.' so the correct option is C (Survival). The explanation rationalises the wrong key, making the item unpublishable.",
+   "candidate": {
+    "subject": "business_studies", "chapter": "Nature & Significance of Management",
+    "body": "Which economic objective does the NCERT text call the basic objective of any business, one that management must strive to ensure?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Profit"},
+     {"key": "B", "text": "Growth"},
+     {"key": "C", "text": "Survival"},
+     {"key": "D", "text": "Personnel development"}
+    ],
+    "correct_answer": "B",
+    "explanation": "The excerpt says a business needs to add to its prospects in the long run and that management must exploit fully the growth potential of the organisation, so growth is the basic objective. Profit and survival are secondary, and personnel development is a different kind of objective.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Nature and Significance of Management", "objective": "Explain the economic objectives of management: survival, profit and growth.", "target_term": "survival"},
+    "fact_refs": ["F3"]
+   }
+  },
+  {
+   "local_id": "business_studies-d2", "expected_valid": false, "defect_category": "second_defensible_option",
+   "defect_evidence": "Keyed A (Motivation), but B (Communication) is equally established by F5: the manager 'explains the purpose' (communication) and 'motivates with additional rewards' (motivation), and F5 says effective directing through motivation, communication and leadership reduces resistance. The case fits both options equally.",
+   "candidate": {
+    "subject": "business_studies", "chapter": "Directing",
+    "body": "A warehouse manager introduced new inventory software. Some workers resisted it. The manager explained to them why the software was needed and offered a bonus to those who adopted it, after which the workers cooperated. According to the NCERT excerpt, which element of directing helped reduce the resistance in this case?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Motivation"},
+     {"key": "B", "text": "Communication"},
+     {"key": "C", "text": "Supervision"},
+     {"key": "D", "text": "Succession planning"}
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt says effective directing through motivation, communication and leadership helps to reduce resistance and develop cooperation in introducing changes. The bonus offered to workers who adopted the software is a reward, which is motivation. Supervision is described as overseeing what subordinates do and giving instructions, which the case does not describe.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Directing", "objective": "Explain how motivation, communication and leadership reduce resistance to change.", "target_term": "motivation"},
+    "fact_refs": ["F5", "F6"]
+   }
+  },
+  {
+   "local_id": "business_studies-d3", "expected_valid": false, "defect_category": "unsupported_explanation",
+   "defect_evidence": "Key C (Spurious goods) is correct per F13 ('Spurious goods: Goods that are falsely claimed to be genuine'), but the explanation's last sentence claims selling spurious goods is punishable by imprisonment of up to seven years under the Act. No excerpt states any penalty or term of imprisonment, so the explanation adds an unsupported factual claim.",
+   "candidate": {
+    "subject": "business_studies", "chapter": "Consumer Protection",
+    "body": "A shopkeeper sells a cheap imitation watch, falsely claiming that it is a genuine branded watch. In the terminology of the Consumer Protection Act 2019 as given in the NCERT excerpt, such goods are called:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Sub-standard goods"},
+     {"key": "B", "text": "Complaint"},
+     {"key": "C", "text": "Spurious goods"},
+     {"key": "D", "text": "Complainant"}
+    ],
+    "correct_answer": "C",
+    "explanation": "Spurious goods are goods that are falsely claimed to be genuine, which is what the shopkeeper does. Sub-standard goods are products that do not meet the prescribed quality standards. A complaint is a written allegation and a complainant is the person who makes it. Under the Act, selling spurious goods is punishable with imprisonment of up to seven years.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Consumer Protection", "objective": "Define the terms spurious goods, complaint and complainant used in the Consumer Protection Act 2019.", "target_term": "spurious goods"},
+    "fact_refs": ["F9", "F13"]
+   }
+  },
+  {
+   "local_id": "business_studies-d4", "expected_valid": false, "defect_category": "missing_decisive_assumption",
+   "defect_evidence": "F6 gives two meanings of supervision: an element of directing performed by every manager, and a function performed by a supervisor in the organisational hierarchy. The stem never says whether Anita is any manager or a supervisor in the hierarchy, so choosing between A and B depends on an unstated assumption.",
+   "candidate": {
+    "subject": "business_studies", "chapter": "Directing",
+    "body": "Anita oversees what her team members are doing and gives them instructions so that resources are used optimally and the work targets are achieved. Which description of supervision, as given in the NCERT excerpt, applies to Anita's role?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Supervision as an element of directing, performed by every manager for his or her subordinates"},
+     {"key": "B", "text": "Supervision as a function performed by a supervisor in the organisational hierarchy"},
+     {"key": "C", "text": "Supervision as a step in obtaining a satisfactory work force"},
+     {"key": "D", "text": "Supervision as the process of setting economic objectives of the business"}
+    ],
+    "correct_answer": "A",
+    "explanation": "The excerpt says that, as an element of directing, every manager supervises his or her subordinates by guiding their efforts, overseeing what is being done and giving instructions to ensure optimum utilisation of resources and achievement of work targets. Anita does exactly this, so the first description applies. Options C and D describe staffing and objectives, which the excerpt does not define as supervision.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Directing", "objective": "Explain the two senses of supervision as an element of directing and as a function of a supervisor.", "target_term": "supervision"},
+    "fact_refs": ["F6"]
+   }
+  }
+ ]
+}

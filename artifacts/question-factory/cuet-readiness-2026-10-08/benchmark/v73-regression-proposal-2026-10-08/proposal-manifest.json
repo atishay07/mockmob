@@ -1,0 +1,137 @@
+{
+  "schema": "v73-regression-proposal-manifest-v1",
+  "status": "proposal_only_not_registered_not_executed",
+  "built_at": "2026-10-08T11:24:40.029Z",
+  "frozen_id": "cuet-readiness-v73-regression-proposal-2026-10-08",
+  "verifier_version": "cuet-fit-validator-v7.3",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "payload_hash": "c38c6c16f907fea3d1b3ddd071cbc268fc48a7aeb2028857b1b35a0923b999b0",
+  "counts": {
+    "original_benchmark_total": 24,
+    "original_benchmark_valid": 12,
+    "original_critical_defects": 12,
+    "audit_records_total": 18,
+    "audit_correctness_defects_scored": 16,
+    "contract_disagreements_preserved_unscored": 2,
+    "scored_regression_denominator": 40
+  },
+  "included_critical_fixture_ids": [
+    "bebfe544b6fe63d5157c1b664a24e26b",
+    "7a5f073887a3e796caf1c9894d87b93c",
+    "fc183ef92a32b67ad76ca6db93bd2f0e",
+    "952af5aad952fb5c7c6b5cfe6053d8ba",
+    "40f2acfd1073ec96cb785e40d31f622e",
+    "d52e9d65462a4a6aff4677a8b3b89ffc",
+    "05670f7b5e5612b355ced57104205008",
+    "d2b937d1978cf5a0317614f8711a5c1b",
+    "74d72187537436c77b5400b8123aa337",
+    "b1e3d9de67c17a349fdb1f100534c504",
+    "724bfd33ef0cde82e2d25ce718e8ea86",
+    "058b7b256e5fc3335cd9c5633a7693e6",
+    "720ab503-fa80-4e36-8838-de942a3487f7",
+    "afe7332b-0e12-467f-990a-74053d984bde",
+    "0f45611a-97a5-4954-84ff-ac48135d7b78",
+    "2c7f1331-d354-4808-8ebe-23aa248448cb",
+    "2782c53c-4cd4-4031-b0df-466f478627b9",
+    "1b161744-da1e-440e-8bd3-a6df28773a5a",
+    "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+    "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+    "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+    "f354a935-306d-40af-a914-6159be1bbcd9",
+    "d5db67c1-dbcd-4fac-954f-67169bc49631",
+    "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+    "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+    "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+    "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+    "217a1fc6-a646-4a32-9e80-b0f405cca714"
+  ],
+  "original_critical_source_ids": [
+    "bebfe544b6fe63d5157c1b664a24e26b",
+    "7a5f073887a3e796caf1c9894d87b93c",
+    "fc183ef92a32b67ad76ca6db93bd2f0e",
+    "952af5aad952fb5c7c6b5cfe6053d8ba",
+    "40f2acfd1073ec96cb785e40d31f622e",
+    "d52e9d65462a4a6aff4677a8b3b89ffc",
+    "05670f7b5e5612b355ced57104205008",
+    "d2b937d1978cf5a0317614f8711a5c1b",
+    "74d72187537436c77b5400b8123aa337",
+    "b1e3d9de67c17a349fdb1f100534c504",
+    "724bfd33ef0cde82e2d25ce718e8ea86",
+    "058b7b256e5fc3335cd9c5633a7693e6"
+  ],
+  "included_audited_correctness_source_ids": [
+    "720ab503-fa80-4e36-8838-de942a3487f7",
+    "afe7332b-0e12-467f-990a-74053d984bde",
+    "0f45611a-97a5-4954-84ff-ac48135d7b78",
+    "2c7f1331-d354-4808-8ebe-23aa248448cb",
+    "2782c53c-4cd4-4031-b0df-466f478627b9",
+    "1b161744-da1e-440e-8bd3-a6df28773a5a",
+    "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+    "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+    "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+    "f354a935-306d-40af-a914-6159be1bbcd9",
+    "d5db67c1-dbcd-4fac-954f-67169bc49631",
+    "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+    "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+    "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+    "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+    "217a1fc6-a646-4a32-9e80-b0f405cca714"
+  ],
+  "excluded_contract_disagreement_source_ids": [
+    "e539e791-5e64-48ad-be13-53df6e25a079",
+    "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016"
+  ],
+  "source_inputs": [
+    "artifacts/question-factory/execution-2026-10-07/benchmark.json",
+    "artifacts/question-factory/quality-uplift/AUDIT-48.json",
+    "artifacts/question-factory/quality-uplift/baseline100.json",
+    "data/source_registry.json",
+    "artifacts/question-factory/cuet-readiness-2026-10-08/execution/cbse-independent-key-candidates/source-support-v3/post-freeze-official-key-comparison-v3.json"
+  ],
+  "source_hashes": {
+    "artifacts/question-factory/execution-2026-10-07/benchmark.json": "547b5bb1528d0a10360b33485c40dee3cef2f35e117db6d680d215f428442e0c",
+    "artifacts/question-factory/quality-uplift/AUDIT-48.json": "56d1f15220a7e360e29be742c734bcca96feb05baf61a4f14636ab26096bffe2",
+    "artifacts/question-factory/quality-uplift/baseline100.json": "753c752b3f1c1989d8153386fbec59752fee16c21c56c5875a5541244b05d9cc",
+    "data/source_registry.json": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "artifacts/question-factory/cuet-readiness-2026-10-08/execution/cbse-independent-key-candidates/source-support-v3/post-freeze-official-key-comparison-v3.json": "91103914fd64abb4e4719dbf5a4f4aba82c080a745c096d2a66e7ed9f9478ad9"
+  },
+  "metadata_changes": [
+    "All original benchmark and audit fixture IDs and candidate.id values are preserved unchanged.",
+    "For the sixteen audit candidate copies only, provenance.source_pack_version is refreshed from the matching current registry anchor, matching the established buildRegressionFixtures behavior; question text, options, answers, labels, source refs, and audit reasons are unchanged.",
+    "The two chapter-only disagreements are retained verbatim in audit-history.json and are not included in the scored fixtures.",
+    "All 51 source-key-positive CBSE cases are retained in a supplementary evidence manifest; their candidate questions are not rebound or scored under V73."
+  ],
+  "source_evidence_gaps": [
+    "No missing or stale source references were found among the 40 scored core fixtures; every source ref matched an active, reuse-permitted source and exact support hash in the current base registry.",
+    "The 51 supplementary CBSE positives have independent source/key custody but are not included in the scored fixture payload because V73-compatible source-pack, family, syllabus and fit bindings were not assembled for those CBSE-derived candidates. Their evidence records and official/blind keys are preserved as supplementary evidence.",
+    "Thirteen of the 64 CBSE candidates were withheld in the source/key comparison and remain excluded with their original reasons."
+  ],
+  "blocked_actions": [
+    "No paid API requests.",
+    "No runner prepare/preflight/execute/report action.",
+    "No source registry, ledger, calibration manifest, publication bank, or production writes."
+  ]
+}

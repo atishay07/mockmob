@@ -1,0 +1,34 @@
+✔ top15 answer guard subjects match the popularity rollout list (2.0044ms)
+✔ answer integrity rejects wrong keys and explanation contradictions (1.8062ms)
+✔ cleanup report scans only top15 subjects and classifies unsafe rows (11.6877ms)
+✔ safe hide patches never mutate answer keys (0.1193ms)
+✔ generator answer guard blocks top15 bad rows and ignores phased-out subjects (0.3136ms)
+✔ apply mode requires a dry-run report path (0.3886ms)
+✔ two warnings, the third strike ends the session (1.8841ms)
+✔ stored strikes are sanitised (0.1947ms)
+✔ key review covers fresh disputes and already-held questions only (0.214ms)
+✔ evidence rows never call a model check proof; agreement is only against the key (1.2183ms)
+✔ fresh non-NTA mocks rank newest rows before older high-score rows (2.638ms)
+✔ usage pushes already-attempted rows behind unseen rows (1.0899ms)
+✔ picker preserves difficulty targets while keeping newest rows within each level (0.5773ms)
+✔ selection usage metadata records latest-window and revisit counts (3.0318ms)
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (1.3491ms)
+✔ paid-through date prefers Razorpay invoice billing end (2.8844ms)
+✔ paid-through date falls back to a bounded paid period (0.2438ms)
+✔ effective premium survives cancellation inside paid-through window (0.2152ms)
+✔ paid evidence requires a captured payment record (0.2053ms)
+✔ discounted creator payments can validate below nominal amount (0.3927ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (1.0376ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.2053ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.4465ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.3205ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1503ms)
+✔ legacy monthly plan is not live for new checkout (0.1214ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 249.9547

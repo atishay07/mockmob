@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-07T12:57:09.705Z",
+  "revision": "e9e1ffbb1502c981fb1bb6cf7d81749913e40fcc",
+  "deployment": "GtE62PkvSvzw9oMRccWCrMjVzL1a",
+  "status": "Ready",
+  "environment": "Production",
+  "domain": "www.mockmob.in",
+  "duration_seconds": 55,
+  "screenshot": "artifacts/question-factory/execution-2026-10-07/production/release-e9e1ffb.jpg",
+  "production_factory_student_retrieval_verified": false
+}

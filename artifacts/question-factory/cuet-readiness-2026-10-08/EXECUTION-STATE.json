@@ -1,0 +1,20 @@
+{
+  "user_authorized": true,
+  "goal": "GOAL-CUET-READINESS-2026-10-08.md",
+  "previous_app_goal": "superseded by user; current app goal now active",
+  "content_cap_usd": 50,
+  "measurement_publication": false,
+  "baseline_contract": "e1d7a7324dbab7be937f74ceaa046449d5f9f573a236aaa3b9ba5d0c62745a81",
+  "phase_caps_usd": {
+    "comparison_a": 4,
+    "comparison_b": 4,
+    "fresh_benchmark": 4,
+    "reassessment": 9,
+    "improvement_campaigns": 5,
+    "official_comparison": 6
+  },
+  "total_phase_allocation_usd": 32,
+  "created_at": "2026-10-07T20:07:35.343Z",
+  "active_app_goal": true,
+  "phase_allocation_note": "Independent upper caps, not authorization to spend their sum; global USD50 budget always limits all concurrent calls. Update allocation from receipts before any new dispatch."
+}

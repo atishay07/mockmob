@@ -1,0 +1,13 @@
+{
+  "contract": "cuet-fit-v7",
+  "topology": "dual_blind",
+  "arm": "baseline",
+  "measurement_only": true,
+  "publication_policy": "never",
+  "cap_usd": 4,
+  "verifier_version": "cuet-fit-validator-v7.1",
+  "prompt_hash": "19c9d0bbaf226ed278bb13c7d217f2a82d02f5de4fdf2b052255af0819849e9c",
+  "contract_hash": "e1d7a7324dbab7be937f74ceaa046449d5f9f573a236aaa3b9ba5d0c62745a81",
+  "registry_version": 58,
+  "release": null
+}

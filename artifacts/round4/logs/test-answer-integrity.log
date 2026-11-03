@@ -1,0 +1,18 @@
+
+> mockmob@0.1.0 test:answer-integrity
+> node --test data/tests/answer_integrity.test.mjs
+
+✔ top15 answer guard subjects match the popularity rollout list (1.3901ms)
+✔ answer integrity rejects wrong keys and explanation contradictions (1.8357ms)
+✔ cleanup report scans only top15 subjects and classifies unsafe rows (10.5396ms)
+✔ safe hide patches never mutate answer keys (0.1439ms)
+✔ generator answer guard blocks top15 bad rows and ignores phased-out subjects (0.4365ms)
+✔ apply mode requires a dry-run report path (0.3357ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 173.9713

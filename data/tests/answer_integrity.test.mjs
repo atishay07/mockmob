@@ -33,6 +33,46 @@ function validQuestion(overrides = {}) {
     ...overrides,
   };
 }
+test('signed scalar distractors stay distinct while mathematically equal scalar options are rejected', () => {
+  const q=validQuestion({subject:'economics',body:'What is the multiplier?',options:['3.75','0.27','1.50','-3.75'],correct_answer:'A',explanation:'The output change divided by the expenditure change is 3.75.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  for(const equivalent of ['+3.75','3.750','03.75'])assert.equal(verifyAnswerIntegrity({...q,options:['3.75',equivalent,'1.50','-3.75']}).accepted,false,equivalent);
+  assert.equal(verifyAnswerIntegrity({...q,options:['3.75','0.27','1.50','−3.75']}).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['.5','-.5','1','2']}).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['.5','0.50','1','2']}).accepted,false);
+});
+test('signed rupee scalars preserve Indian grouping and equivalent currency placements', () => {
+  const q=validQuestion({subject:'economics',body:'What adjustment is required? Treat increases as positive and decreases as negative.',options:['₹0','₹60,000','₹30,000','-₹30,000'],correct_answer:'C',explanation:'Increase the reported amount by ₹30,000.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['₹0','₹60,000','₹30,000','₹-30,000']}).accepted,true);
+  for(const pair of [['₹3,00,000','₹300000'],['₹1,000','₹1000'],['-₹30,000','₹-30000']])assert.equal(verifyAnswerIntegrity({...q,options:[...pair,'₹0','₹60,000']}).accepted,false,JSON.stringify(pair));
+});
+test('ordinary truth-related vocabulary definitions are not answer-verdict assertions', () => {
+  const q=validQuestion({body:'Which phrase is the antonym of plausible?',options:['Reasonable, but unlikely to be true','Unreasonable, but not independently verified','Reasonable and likely to be true','Unreasonable and unlikely to be true'],correct_answer:'D',explanation:'The antonym means unreasonable and unlikely to be true.'});
+  assert.equal(verifyAnswerIntegrity(q).accepted,true);
+  assert.equal(verifyAnswerIntegrity({...q,options:['This is correct','That is true','This is valid','An unrelated phrase']}).accepted,false);
+});
+
+test('ordinary more-than-one lexical definitions are not combined-answer claims', () => {
+  const check = verifyAnswerIntegrity(validQuestion({
+    body: 'Which phrase expresses the opposite of impartial in this debate context?',
+    options: ['Supporting one debate team rather than the other',
+      'Being capable of being understood in more than one way',
+      'Being no longer used because something new has been invented',
+      'Showing no interest in either debate team'],
+    correct_answer: 'A', explanation: 'Impartial means not supporting one side more than another.',
+  }));
+  assert.equal(check.accepted, true);
+});
+
+test('combined-answer more-than-one options remain withheld', () => {
+  for (const text of ['More than one', 'More than one of the above',
+    'More than one statement is true', 'More than one option', 'More than one is correct']) {
+    const check = verifyAnswerIntegrity(validQuestion({options:['Careless','Precise',text,'Ordinary']}));
+    assert.equal(check.accepted, false, text);
+    assert.ok(check.reasons.includes('answer_guard_multiple_correct_risk'), text);
+  }
+});
 
 test('top15 answer guard subjects match the popularity rollout list', () => {
   assert.deepEqual(TOP_15_ANSWER_GUARD_SUBJECTS, [

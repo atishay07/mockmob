@@ -1,0 +1,189 @@
+{
+  "at": "2026-10-08T21:02:19.520Z",
+  "source_family": "CBSE 2021-22 Term I Class XII sample papers",
+  "independent_derivations_before_key_acquisition": true,
+  "acquisition_manifest_sha256": "dcc881527c24d3e72e3690591860956d4ff235c8d45e7138f3f64de6d1df2e60",
+  "comparisons": [
+    {
+      "id": "v76f-e0932269d0",
+      "source_question_number": 2,
+      "original_official_letter": "B",
+      "official_answer_meaning": "₹4",
+      "adapted_derived_letter": "B",
+      "agrees": true,
+      "official_source": {
+        "subject": "Accountancy",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-MS.pdf",
+        "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "source_question_number": 3,
+      "original_official_letter": "C",
+      "official_answer_meaning": "48 shares",
+      "adapted_derived_letter": "C",
+      "agrees": true,
+      "official_source": {
+        "subject": "Accountancy",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-MS.pdf",
+        "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "source_question_number": 9,
+      "original_official_letter": "D",
+      "official_answer_meaning": "₹2,000 deficiency borne by E",
+      "adapted_derived_letter": "D",
+      "agrees": true,
+      "official_source": {
+        "subject": "Accountancy",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-MS.pdf",
+        "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "source_question_number": 24,
+      "original_official_letter": "A",
+      "official_answer_meaning": "₹10,000",
+      "adapted_derived_letter": "A",
+      "agrees": true,
+      "official_source": {
+        "subject": "Accountancy",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-MS.pdf",
+        "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-10a1826742",
+      "source_question_number": 5,
+      "original_official_letter": "A",
+      "official_answer_meaning": "Discipline",
+      "adapted_derived_letter": "C",
+      "agrees": true,
+      "official_source": {
+        "subject": "BusinessStudies",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-MS.pdf",
+        "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "source_question_number": 12,
+      "original_official_letter": "A",
+      "official_answer_meaning": "Planning precedes other managerial functions",
+      "adapted_derived_letter": "D",
+      "agrees": true,
+      "official_source": {
+        "subject": "BusinessStudies",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-MS.pdf",
+        "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "source_question_number": 13,
+      "original_official_letter": "A",
+      "official_answer_meaning": "Physical distribution",
+      "adapted_derived_letter": "B",
+      "agrees": true,
+      "official_source": {
+        "subject": "BusinessStudies",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-MS.pdf",
+        "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "source_question_number": 18,
+      "original_official_letter": "B",
+      "official_answer_meaning": "Legal dimension",
+      "adapted_derived_letter": "A",
+      "agrees": true,
+      "official_source": {
+        "subject": "BusinessStudies",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-MS.pdf",
+        "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "source_question_number": 6,
+      "original_official_letter": "A",
+      "official_answer_meaning": "Cash Reserve Ratio",
+      "adapted_derived_letter": "D",
+      "agrees": true,
+      "official_source": {
+        "subject": "Economics",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-MS.pdf",
+        "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "source_question_number": 7,
+      "original_official_letter": "C",
+      "official_answer_meaning": "Managed floating exchange rate",
+      "adapted_derived_letter": "B",
+      "agrees": true,
+      "official_source": {
+        "subject": "Economics",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-MS.pdf",
+        "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "source_question_number": 8,
+      "original_official_letter": "C",
+      "official_answer_meaning": "Statement I true; Statement II false",
+      "adapted_derived_letter": "A",
+      "agrees": true,
+      "official_source": {
+        "subject": "Economics",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-MS.pdf",
+        "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "source_question_number": 12,
+      "original_official_letter": "C",
+      "official_answer_meaning": "Distribution of workforce among occupations",
+      "adapted_derived_letter": "C",
+      "agrees": true,
+      "official_source": {
+        "subject": "Economics",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-MS.pdf",
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-MS.pdf",
+        "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0"
+      },
+      "scope": "CBSE source concept/key corroboration after frozen independent derivations; candidate is original practice, not an authenticated CUET PYQ"
+    }
+  ],
+  "english": "Four new questions over a locally abridged passage; own frozen passage-grounded independent keys, no matching official item required."
+}

@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-08T21:02:19.521Z",
+  "previous_manifest_sha256": "f718d566bfbf9f5b8fe9231f5a92108159806986b480a0ed14385f392ad60291",
+  "note": "Crop extraction files were extended before custody. The original manifest is preserved; these are their final construction hashes.",
+  "files": [
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/ncert/lebs202.pages.json",
+      "sha256": "00811d203126f68af2bd5f5d6514261df02e0e6a79d37f4e0f593fab276e2f9c"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/ncert/lebs103.pages.json",
+      "sha256": "08f0b5923d65025292bc0aae239f5ebbaf784609fc02bfe941c904a40513c7d9"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/EnglishCore-SQP.pages.json",
+      "sha256": "17c18bb831a7ef66477d7042a67e69cca9bee7b90fd41e1378e6a6e783b579c2"
+    }
+  ]
+}

@@ -1,0 +1,1722 @@
+{
+  "schema": "v77-final-private-draft-v1",
+  "case_construction_started_at": "2026-10-09T06:42:30.000Z",
+  "contract_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-contract-freeze.json",
+  "contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "transport_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-transport-freeze.json",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "transport_freeze_contract_sha256": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "contract_freeze_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "scope": "Original practice only; 16 valid controls and 12 controlled defects; labels and proposed answer custody private; no study registration or evaluation.",
+  "cases": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-ad344a8b5f2d",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "Which investment can qualify as a cash equivalent under the stated maturity test?",
+        "options": [
+          "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+          "Equity shares held for resale with no stated redemption date",
+          "A five-year government bond acquired today",
+          "A deposit maturing four months after acquisition"
+        ],
+        "correct_answer": "A",
+        "explanation": "The instrument is short-term, readily convertible, and matures within three months of acquisition. The other choices either exceed the maturity limit or lack the stated low-risk, short-maturity features.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 3",
+            "support_hash": "82073c2edfbcb60845a662367b02ce9bf2116e89083bd171e138990766bd6bc9"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A01",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The instrument is short-term, readily convertible, and matures within three months of acquisition. The other choices either exceed the maturity limit or lack the stated low-risk, short-maturity features.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 3",
+            "support_hash": "82073c2edfbcb60845a662367b02ce9bf2116e89083bd171e138990766bd6bc9"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-2105354e5de1",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A garment maker reports two cash receipts: payment from customers for delivered garments and proceeds from selling an old cutting machine. Which classification is correct?",
+        "options": [
+          "Both are operating cash inflows",
+          "Customer payment is operating; machine-sale proceeds are investing",
+          "Customer payment is investing; machine-sale proceeds are operating",
+          "Both are financing cash inflows"
+        ],
+        "correct_answer": "B",
+        "explanation": "The textbook identifies customer receipts for goods as operating and sale proceeds from a fixed asset as investing.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A02",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "The textbook identifies customer receipts for goods as operating and sale proceeds from a fixed asset as investing.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-662880a2c5fb",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "What is the primary purpose of presenting operating, investing and financing cash flows separately?",
+        "options": [
+          "To show only the profit earned in the period",
+          "To provide information about cash inflows and outflows under the three activity heads",
+          "To replace the income statement and balance sheet",
+          "To report only cash held at year end"
+        ],
+        "correct_answer": "B",
+        "explanation": "The statement reports period cash flows classified under operating, investing and financing activities.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "b9fcc75f38310308960f9936444447b518d897c006cfcc21cf493ef438f5c8a5"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A03",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "The statement reports period cash flows classified under operating, investing and financing activities.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "b9fcc75f38310308960f9936444447b518d897c006cfcc21cf493ef438f5c8a5"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-073bdc31e03c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A company pays cash to acquire a delivery van for use over several years. Which activity is this cash outflow?",
+        "options": [
+          "Operating",
+          "Investing",
+          "Financing",
+          "It is excluded because the van is a fixed asset"
+        ],
+        "correct_answer": "B",
+        "explanation": "Cash paid to acquire a fixed asset is an investing cash outflow.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 5",
+            "support_hash": "c1e070413cfedfae82e70320aef476c92dc2809dd88cc21c02bcc1adc669402d"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A04",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Cash paid to acquire a fixed asset is an investing cash outflow.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 5",
+            "support_hash": "c1e070413cfedfae82e70320aef476c92dc2809dd88cc21c02bcc1adc669402d"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-3546cbf8ea19",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "A new firm has approved its structure and now identifies workforce needs before recruiting and selecting people. Which management function is it carrying out?",
+        "options": [
+          "Staffing",
+          "Controlling",
+          "Marketing",
+          "Financial planning"
+        ],
+        "correct_answer": "A",
+        "explanation": "Staffing includes identifying workforce requirements and filling the organisation’s positions.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-staffing",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ],
+        "learning_objective": "Staffing",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs106",
+          "adaptation_family": "v77final-B01",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Staffing includes identifying workforce requirements and filling the organisation’s positions.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-lebs106",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-c6d21440345d",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "An employee already doing the job receives instruction to update job skills and prepare for greater responsibility. Which staffing activity is described?",
+        "options": [
+          "Training and development",
+          "Recruitment",
+          "Placement",
+          "Compensation"
+        ],
+        "correct_answer": "A",
+        "explanation": "The source explicitly describes training as upgrading knowledge and skills and preparing employees for higher responsibility.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-staffing",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 6",
+            "support_hash": "0acc219e02d7b70b113483fc24c64fc94650de3a8f58615a3e9eb5c4b434aaf6"
+          }
+        ],
+        "learning_objective": "Staffing",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs106",
+          "adaptation_family": "v77final-B02",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source explicitly describes training as upgrading knowledge and skills and preparing employees for higher responsibility.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 6",
+            "support_hash": "0acc219e02d7b70b113483fc24c64fc94650de3a8f58615a3e9eb5c4b434aaf6"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-lebs106",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-a20de9004938",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A buyer seeks relief after a product falls short of the seller’s stated expectations. Which consumer right most directly addresses obtaining that relief?",
+        "options": [
+          "Right to seek redressal",
+          "Right to be heard",
+          "Right to choose",
+          "Right to consumer education"
+        ],
+        "correct_answer": "A",
+        "explanation": "The right to seek redressal provides relief when a product or service falls short of expectations.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-consumer-protection",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "4db30c5657069e85ceaf620cde400694e2a094ddbbfb19d2423fdf815f19da71"
+          }
+        ],
+        "learning_objective": "Consumer Protection",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs203",
+          "adaptation_family": "v77final-B03",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The right to seek redressal provides relief when a product or service falls short of expectations.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "4db30c5657069e85ceaf620cde400694e2a094ddbbfb19d2423fdf815f19da71"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-lebs203",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-9a31e9a4c29b",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A customer files a complaint and asks the company to consider it. Which consumer right is directly engaged by the opportunity to present the complaint?",
+        "options": [
+          "Right to be heard",
+          "Right to seek information",
+          "Right to safety",
+          "Right to choose"
+        ],
+        "correct_answer": "A",
+        "explanation": "The source describes the right to file a complaint and be heard when dissatisfied.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-consumer-protection",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "156ba57bc4ccf32344e538c5ab23140606ba60722045d5a4dc9eeaabcfc3e93f"
+          }
+        ],
+        "learning_objective": "Consumer Protection",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs203",
+          "adaptation_family": "v77final-B04",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source describes the right to file a complaint and be heard when dissatisfied.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "156ba57bc4ccf32344e538c5ab23140606ba60722045d5a4dc9eeaabcfc3e93f"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-lebs203",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-ea8f75b17d74",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A student’s total utility rises from 28 units after four units of a good to 30 after five. What is the marginal utility of the fifth unit?",
+        "options": [
+          "2 units",
+          "5 units",
+          "28 units",
+          "58 units"
+        ],
+        "correct_answer": "A",
+        "explanation": "Marginal utility is the change in total utility from one additional unit: 30 minus 28 equals 2.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "numerical_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E01",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Marginal utility is the change in total utility from one additional unit: 30 minus 28 equals 2.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-b123137834cc",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A consumer ranks three bundles from most preferred to least preferred but does not assign them numerical utility values. Which approach is being used?",
+        "options": [
+          "Ordinal utility analysis",
+          "Cardinal utility analysis",
+          "Cash-flow analysis",
+          "Cost-plus pricing"
+        ],
+        "correct_answer": "A",
+        "explanation": "Ordinal analysis ranks bundles; the consumer need not express utility as numerical units.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "52ce17045cfc23c2b6dacde983f566f211d09f484f99cdd7bc197bda07223d10"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E02",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Ordinal analysis ranks bundles; the consumer need not express utility as numerical units.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "52ce17045cfc23c2b6dacde983f566f211d09f484f99cdd7bc197bda07223d10"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-466fab2284fd",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "Two bundles lie on the same indifference curve. What does the source-supported interpretation say about the consumer’s evaluation of them?",
+        "options": [
+          "They are considered indifferent",
+          "The bundle farther right must be preferred",
+          "They have equal prices",
+          "They contain identical quantities of both goods"
+        ],
+        "correct_answer": "A",
+        "explanation": "Every point on one indifference curve represents a bundle considered indifferent by the consumer.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 6",
+            "support_hash": "5f3fb928a6887d36f2bf7192c35570df665f67150a91c2ab9b070df541c44d0d"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E03",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Every point on one indifference curve represents a bundle considered indifferent by the consumer.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 6",
+            "support_hash": "5f3fb928a6887d36f2bf7192c35570df665f67150a91c2ab9b070df541c44d0d"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-2d806114710e",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A room heater gives the same person different utility in Chennai in summer and Ladakh in winter. Which explanation is supported?",
+        "options": [
+          "Utility can change with place and time",
+          "Utility is always identical for the same person",
+          "Utility depends only on the product’s price",
+          "The heater has become a different commodity"
+        ],
+        "correct_answer": "A",
+        "explanation": "The source states that utility from a commodity can change with place and time.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "87d7da966e7db0af4b9fa3fceeaa2355d78af6aa0434a75e12d99ecb45f3d294"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E04",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source states that utility from a commodity can change with place and time.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "87d7da966e7db0af4b9fa3fceeaa2355d78af6aa0434a75e12d99ecb45f3d294"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-4c09b80e91ce",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the library passage, what does “ledger” most nearly mean?",
+        "options": [
+          "A written record book",
+          "A box used to store maps",
+          "A window covering",
+          "A donor’s receipt"
+        ],
+        "correct_answer": "A",
+        "explanation": "Mira enters each move in the ledger; the passage uses it as a written record.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_vocabulary",
+        "passage_text": null,
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "library",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N01",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Mira enters each move in the ledger; the passage uses it as a written record.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "library",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-a99cc144f9e5",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Why does Mira record a box move even though no map has yet been damaged?",
+        "options": [
+          "The records help track preventive steps before damage occurs",
+          "The donor requires a list of damaged maps",
+          "The map boxes cannot be moved without written permission",
+          "The paper strips are used to write the ledger"
+        ],
+        "correct_answer": "A",
+        "explanation": "She records each preventive move, and the passage says no map has yet been damaged.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_inference",
+        "passage_text": null,
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "library",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N02",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "She records each preventive move, and the passage says no map has yet been damaged.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "library",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-1ed13162f85d",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Why does Dev cross out the noon ferry crossing?",
+        "options": [
+          "The operator cancelled it when the current became too strong",
+          "The timetable was familiar to the visitors",
+          "Dev preferred to travel in the morning",
+          "The board had been washed away again"
+        ],
+        "correct_answer": "A",
+        "explanation": "The passage directly states that the operator cancelled the crossing because the current grew too strong.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_detail",
+        "passage_text": null,
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "ferry",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N03",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The passage directly states that the operator cancelled the crossing because the current grew too strong.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "ferry",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-dfcca21b749e",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "What does Leela’s list help her do?",
+        "options": [
+          "Make small delays visible while there is still time to adjust",
+          "Guarantee that every buyer arrives early",
+          "Avoid telling buyers about collection times",
+          "Prevent all harvest batches from being uneven"
+        ],
+        "correct_answer": "A",
+        "explanation": "The final sentence states that the system makes small delays visible while there is time to adjust.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_main_idea",
+        "passage_text": null,
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "orchard",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N04",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The final sentence states that the system makes small delays visible while there is time to adjust.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "orchard",
+            "support_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-84e9ba57542c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A company receives cash from customers for goods sold and cash from disposal of an old machine. Which classification is correct?",
+        "options": [
+          "Customer receipt is operating; machine proceeds are investing",
+          "Customer receipt is investing; machine proceeds are operating",
+          "Both are investing",
+          "Both are financing"
+        ],
+        "correct_answer": "B",
+        "explanation": "The proposed key reverses the textbook’s explicit customer-receipt and fixed-asset-sale classifications.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A05",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: wrong_key. The proposed key reverses the textbook’s explicit customer-receipt and fixed-asset-sale classifications.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-59b58a25bbb3",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "An investment is described as “short term, readily convertible and low risk.” Does it qualify as a cash equivalent?",
+        "options": [
+          "Yes",
+          "No",
+          "Only if it is an equity share",
+          "Only if it is held for more than one year"
+        ],
+        "correct_answer": "A",
+        "explanation": "The question omits the investment’s maturity from acquisition; the decisive three-month test cannot be applied.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 3",
+            "support_hash": "82073c2edfbcb60845a662367b02ce9bf2116e89083bd171e138990766bd6bc9"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A06",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: missing_decisive_assumption. The question omits the investment’s maturity from acquisition; the decisive three-month test cannot be applied.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 3",
+            "support_hash": "82073c2edfbcb60845a662367b02ce9bf2116e89083bd171e138990766bd6bc9"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-e77493e30567",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers. What is the net cash from these two operating transactions?",
+        "options": [
+          "₹7,500",
+          "₹8,500",
+          "₹16,500",
+          "₹6,500"
+        ],
+        "correct_answer": "A",
+        "explanation": "The explanation claims 12,000 − 4,500 = 8,500; the arithmetic is incorrect.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "numerical_single_best",
+        "passage_text": null,
+        "family_id": "v77final-accountancy-cash-flow-statement",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ],
+        "learning_objective": "Cash Flow Statement",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leac206",
+          "adaptation_family": "v77final-A07",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: numerical_fault. The explanation claims 12,000 − 4,500 = 8,500; the arithmetic is incorrect.",
+        "source_refs": [
+          {
+            "id": "v77src-leac206",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "173408faee0ed12941168137cfb376d984a8e40a2c7b56c716bc5d7fc0eff481"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "source_item_id": "v77src-leac206",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-1db3dc389725",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "An organisation identifies workforce requirements, recruits, selects and places a candidate. Which function is this?",
+        "options": [
+          "Staffing",
+          "Controlling",
+          "Marketing",
+          "Financing"
+        ],
+        "correct_answer": "C",
+        "explanation": "The proposed key says marketing even though the listed sequence is described as staffing.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-staffing",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ],
+        "learning_objective": "Staffing",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs106",
+          "adaptation_family": "v77final-B05",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: wrong_key. The proposed key says marketing even though the listed sequence is described as staffing.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77src-lebs106",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-e9ef75026c19",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A dissatisfied buyer wants to file a complaint and be heard, and also wants relief after a defective product caused loss. Which right applies?",
+        "options": [
+          "Right to be heard",
+          "Right to seek redressal",
+          "Right to choose",
+          "Right to information"
+        ],
+        "correct_answer": "A",
+        "explanation": "Both the right to be heard and the right to seek redressal are supported by the scenario; the single-answer stem asks for one without distinguishing the requested relief.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "application_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-consumer-protection",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "156ba57bc4ccf32344e538c5ab23140606ba60722045d5a4dc9eeaabcfc3e93f"
+          }
+        ],
+        "learning_objective": "Consumer Protection",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs203",
+          "adaptation_family": "v77final-B06",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: ambiguous_multiple_correct. Both the right to be heard and the right to seek redressal are supported by the scenario; the single-answer stem asks for one without distinguishing the requested relief.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs203",
+            "version": 1,
+            "locator": "NCERT physical page 8",
+            "support_hash": "156ba57bc4ccf32344e538c5ab23140606ba60722045d5a4dc9eeaabcfc3e93f"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "ambiguous_multiple_correct",
+      "source_item_id": "v77src-lebs203",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-3e505228c987",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "A question asks learners to estimate the causal effect of algorithmic candidate scoring on long-run organisational citizenship behaviour. Which named advanced method is being tested?",
+        "options": [
+          "Causal forest estimation",
+          "Workforce requirement analysis",
+          "Recruitment",
+          "Selection"
+        ],
+        "correct_answer": "A",
+        "explanation": "The target method is outside the official CUET Business Studies syllabus and is not part of the NCERT staffing learning objective.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-business_studies-staffing",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ],
+        "learning_objective": "Staffing",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-lebs106",
+          "adaptation_family": "v77final-B07",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: outside_syllabus. The target method is outside the official CUET Business Studies syllabus and is not part of the NCERT staffing learning objective.",
+        "source_refs": [
+          {
+            "id": "v77src-lebs106",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "10f6db32957e688308b283fbddd327a8beda9e73c52a2f4398b37d18e4e7ee94"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "outside_syllabus",
+      "source_item_id": "v77src-lebs106",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-63d002be451c",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "Total utility is 28 after four units and 30 after five. What is marginal utility of the fifth unit?",
+        "options": [
+          "2",
+          "5",
+          "−2",
+          "30"
+        ],
+        "correct_answer": "C",
+        "explanation": "The proposed key gives −2, but the change is 30 − 28 = 2.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "numerical_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E05",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: wrong_key. The proposed key gives −2, but the change is 30 − 28 = 2.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-98a231fa15fa",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "As consumption of a good rises, its marginal utility changes. Which claim must follow?",
+        "options": [
+          "It declines",
+          "It may decline only if the consumer’s income also falls",
+          "It rises at every additional unit",
+          "It stays constant"
+        ],
+        "correct_answer": "B",
+        "explanation": "The law states diminishing marginal utility while holding consumption of other commodities constant; the stem leaves that decisive condition unspecified, so more than one listed pattern may occur without it.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E06",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: missing_decisive_assumption. The law states diminishing marginal utility while holding consumption of other commodities constant; the stem leaves that decisive condition unspecified, so more than one listed pattern may occur without it.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 2",
+            "support_hash": "49737fef9d659aa82b932ea2611dfbae191ea7b8ea5758897b163ac6a795cbb6"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-fcf957a734d5",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A consumer ranks bundles without assigning numerical utility values. Which approach is this?",
+        "options": [
+          "Cardinal utility",
+          "Ordinal utility",
+          "Cost accounting",
+          "Market supply"
+        ],
+        "correct_answer": "A",
+        "explanation": "The proposed key names cardinal utility, whereas ranking without numerical measurement is ordinal utility analysis.",
+        "route": "source_grounded_conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_single_best",
+        "passage_text": null,
+        "family_id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "52ce17045cfc23c2b6dacde983f566f211d09f484f99cdd7bc197bda07223d10"
+          }
+        ],
+        "learning_objective": "Introduction & Theory of Consumer Behaviour",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-leec202",
+          "adaptation_family": "v77final-E07",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: wrong_key. The proposed key names cardinal utility, whereas ranking without numerical measurement is ordinal utility analysis.",
+        "source_refs": [
+          {
+            "id": "v77src-leec202",
+            "version": 1,
+            "locator": "NCERT physical page 4",
+            "support_hash": "52ce17045cfc23c2b6dacde983f566f211d09f484f99cdd7bc197bda07223d10"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77src-leec202",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-c519f01371f2",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the workshop passage, what did Arun ask the apprentice to compare before deciding what to do?",
+        "options": [
+          "The second-hand movement and the escapement sound",
+          "The clock’s colour and the tray depth",
+          "The room’s temperature and the tool length",
+          "The apprentice’s notes and the village timetable"
+        ],
+        "correct_answer": "B",
+        "explanation": "The passage explicitly says he asked her to compare the second hand’s movement with the sound of the escapement.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_detail",
+        "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "workshop",
+            "support_hash": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N05",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: wrong_key. The passage explicitly says he asked her to compare the second hand’s movement with the sound of the escapement.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "workshop",
+            "support_hash": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-2ca94e8b4e72",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the ferry passage, the word “fresh” in “fresh date” means:",
+        "options": [
+          "Recently written",
+          "Cool to the touch",
+          "Unfamiliar to the visitor",
+          "Damaged by rain"
+        ],
+        "correct_answer": "A",
+        "explanation": "The passage says Dev wrote the date at the top that morning. The explanation also claims “fresh” means the board was newly painted, which the passage never says.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_vocabulary",
+        "passage_text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "ferry",
+            "support_hash": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N06",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: unsupported_explanation. The passage says Dev wrote the date at the top that morning. The explanation also claims “fresh” means the board was newly painted, which the passage never says.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "ferry",
+            "support_hash": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-56f266269b74",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Select the clause that uses the English subjunctive mood after a mandative verb.",
+        "options": [
+          "The committee recommended that the clock be repaired",
+          "The clock was repaired yesterday",
+          "The apprentice repaired the clock carefully",
+          "The clock may need repair"
+        ],
+        "correct_answer": "A",
+        "explanation": "This item tests formal grammar terminology rather than the registered Reading Comprehension: Narrative Passage objective.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "grammar_rule",
+        "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+        "family_id": "v77final-english-narrative-passage",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "workshop",
+            "support_hash": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ],
+        "learning_objective": "Narrative Passage",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77src-english-narratives",
+          "adaptation_family": "v77final-N07",
+          "adaptation_type": "original-source-grounded-practice",
+          "syllabus_version": "CUET-2026",
+          "pattern_version": "authenticated-CUET-2024-format-reference",
+          "source_pack_id": "v77-final-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: outside_syllabus. This item tests formal grammar terminology rather than the registered Reading Comprehension: Narrative Passage objective.",
+        "source_refs": [
+          {
+            "id": "v77src-english-narratives",
+            "version": 1,
+            "locator": "workshop",
+            "support_hash": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "outside_syllabus",
+      "source_item_id": "v77src-english-narratives",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-07T14:23:40.647Z",
+  "snapshot": "2026-10-07T14:22:38.207Z",
+  "scope": "Conditional craft-filter scenarios from every completed fixed candidate. Ratings are not proof of accuracy or a uniformly premium bank. All gross costs retained; no new model calls.",
+  "scenarios": [
+    {
+      "name": "overall_at_least_8",
+      "completed_candidate_denominator": 800,
+      "selected_usable": 342,
+      "gross_usd": 4.860017,
+      "gross_cost_per_selected": 0.014210576023391814,
+      "conditional_lifetime_10000": 150.34634923391815
+    },
+    {
+      "name": "overall_at_least_8_and_all_craft_subscores_at_least_7",
+      "completed_candidate_denominator": 800,
+      "selected_usable": 160,
+      "gross_usd": 4.860017,
+      "gross_cost_per_selected": 0.03037510625,
+      "conditional_lifetime_10000": 311.9916515
+    }
+  ]
+}

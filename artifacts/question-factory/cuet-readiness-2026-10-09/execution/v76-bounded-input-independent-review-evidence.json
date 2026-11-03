@@ -1,0 +1,25 @@
+{
+  "freeze_hashes_match": true,
+  "set_checks": [
+    {
+      "role": "fresh",
+      "denominator": 28,
+      "payload_hash": "ae1db0736ab19b0aacd25f6febfd4ed5dc2203585d2fb0f3e51f98bbd1e04d9f",
+      "fixtures_labels_oracles_and_contract_unchanged": true
+    },
+    {
+      "role": "regression",
+      "denominator": 13,
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "fixtures_labels_oracles_and_contract_unchanged": true
+    }
+  ],
+  "captures": 82,
+  "maximum_bytes": 33897,
+  "over_bound": [],
+  "answer_canary_absent": true,
+  "native_reserve_matches_maximum_request_micro": true,
+  "v76_native_requests": 0,
+  "provider_calls": 0,
+  "local_mock_reservations_only": true
+}

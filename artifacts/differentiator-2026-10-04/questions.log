@@ -1,0 +1,17 @@
+✔ raw page boundary advances even when every row is quarantined (1.2857ms)
+✔ feed bounds reject non-numeric and oversized windows (0.1617ms)
+✔ vote-driven reordering cannot duplicate a question already on screen (0.1689ms)
+✔ chapter selectors accept grouped and flat API contracts (0.2186ms)
+✔ feedback abstains on missing key and distinguishes revealing from an answer (0.2152ms)
+✔ fresh non-NTA mocks rank newest rows before older high-score rows (1.6995ms)
+✔ usage pushes already-attempted rows behind unseen rows (0.6046ms)
+✔ picker preserves difficulty targets while keeping newest rows within each level (0.3465ms)
+✔ selection usage metadata records latest-window and revisit counts (1.9349ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 170.3428

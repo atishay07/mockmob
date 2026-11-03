@@ -1,0 +1,378 @@
+{
+  "version": "cuet-llm-v2",
+  "verifier_version": "luna-gemini-cuET-v2.5",
+  "source_registry_version": 5,
+  "at": "2026-10-05T22:41:10.289Z",
+  "independent": true,
+  "state": "paused",
+  "reason": "calibration_batches_pending",
+  "pending": [
+    {
+      "id": "calibration-cuet2024-english-bookA-q1",
+      "provider": "luna",
+      "batch_id": "e62c88570ed6294f7f5e52d7209e1500c35c8f7f9813fd05cd1efbf9b16fb58e"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q1",
+      "provider": "gemini",
+      "batch_id": "1f2577bc3cd98c9e29407fdc188e6cf88a9e892319acf375f882ccb4f470847d"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q2",
+      "provider": "luna",
+      "batch_id": "32a6d0a9c11b6cd95997744a205decbcd3cac6ee21aac366d55dd545da5b2577"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q2",
+      "provider": "gemini",
+      "batch_id": "8dfc61911b2ce8abf207aa34baad89ed7dd1cd88ef16f2e83aecc5b54a2eff30"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q10",
+      "provider": "luna",
+      "batch_id": "06baf34d47aea15f10bd1830793b8b4f8869a4f50cfc0592e8925eb919439695"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q10",
+      "provider": "gemini",
+      "batch_id": "bd60b84b134ba310e2c5b13c406b2e5190ffae2f50384952dd68ecc3787ef181"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q1",
+      "provider": "luna",
+      "batch_id": "5ae303db2aab9423ac514d022b205e56f6c5ccef63f68472fcc036b8dc32ba1a"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q1",
+      "provider": "gemini",
+      "batch_id": "8782d474430201ea0717e5c530c45d5d4e77738d6acf1ac7456601c84d583383"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q9",
+      "provider": "luna",
+      "batch_id": "d1ba35647408b0e560d2d68746f53fb82782ea8f6ab7c0cd0898b67bb5638c7c"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q9",
+      "provider": "gemini",
+      "batch_id": "3e1e5f5c7a0902b0bd94faa0c6d4d43924e5382e4035a8530d887993d22eb2a4"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q2",
+      "provider": "luna",
+      "batch_id": "20366194a8297bbd79b14d4f2ecfc7b2524efd3c1c48ad2c7ed36c0f24338178"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q2",
+      "provider": "gemini",
+      "batch_id": "7980f7ec700acd93259c54331baa368b98542fe385caefd743324e5b2359cf03"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q46",
+      "provider": "luna",
+      "batch_id": "667d0a63c895f98c2dc4b83b7524f5e2b7fe2dca3341f99de6e7861326a41759"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q46",
+      "provider": "gemini",
+      "batch_id": "cdb57677b7ac35f8549a8739e9e8c94b82ec60ccc02d92e2961504af53af276a"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q4",
+      "provider": "luna",
+      "batch_id": "e608e0f52ea5ede02420bda791dec032e973d95e405fa1408c64ae7c815a1097"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q4",
+      "provider": "gemini",
+      "batch_id": "f4d59755a7c3c47ee7c4831b582dc9aaf7a36087b49d4f09785180b765b1d831"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q11",
+      "provider": "luna",
+      "batch_id": "98bdc457e25ccbd59f846294b0c597da91bdc331e5775e403a83a3f49dc5168a"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q11",
+      "provider": "gemini",
+      "batch_id": "4804555465455e76a064de276a09f53870eb9e3807506c5210638c0ca9b4a794"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q45",
+      "provider": "luna",
+      "batch_id": "9a8f2ef26e0258ed794e0d20e6de9edc5e3ebce2841155c1710c81e325aa90b2"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q45",
+      "provider": "gemini",
+      "batch_id": "a74c2f5d52368c55fac822657aeb34509c3c3c0c277d7824ec60a432a07e5eb0"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q15",
+      "provider": "luna",
+      "batch_id": "21e9cabf3dd6413f6f28b1ba2225e84bd38162fe756a6e0f6c182b08b5d2b7da"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q15",
+      "provider": "gemini",
+      "batch_id": "f3f50906112abc5577242999b4cb54d5fc097415e2d181165da2cc05f284e857"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q41",
+      "provider": "luna",
+      "batch_id": "b4070bf349903e16a13a18465eb1ac022b3f7fb25d2b8e72be4553f7615963f0"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q41",
+      "provider": "gemini",
+      "batch_id": "18cb06487d961e3e3f2acd1612b8530e3a2758a8a5e878eeb92bece5fe818bac"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q42",
+      "provider": "luna",
+      "batch_id": "8bfc13710f59bc88ac7e14c796f6d4eb47024e33f4624de33a3cb9579794fc04"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q42",
+      "provider": "gemini",
+      "batch_id": "93b8a123912a81a64586f4038c49f5a699e2a68c8bd348a913253bbb2cca7b0a"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q43",
+      "provider": "luna",
+      "batch_id": "105078232c60d99ed11b82b84e7795e92631f2f1d101f7234da95ee12ca3d6a9"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q43",
+      "provider": "gemini",
+      "batch_id": "d99efdf3fdb9cfb17c084df16f1cb5719d406097e8a386c5774292e2d0397f4b"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q44",
+      "provider": "luna",
+      "batch_id": "3c68cd38ce91b4cfd5d413635e2e1c87793ad2254c7e49e16a7b110e459ccb54"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q44",
+      "provider": "gemini",
+      "batch_id": "a81ed13b947921125c4f93e1d49c90401d27065a398a447b1d787fffa992189f"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q45",
+      "provider": "luna",
+      "batch_id": "bc292b738c8be5a7e11651c6e9a748805527cb56b586e739eb0544fc54cf9905"
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q45",
+      "provider": "gemini",
+      "batch_id": "68688071b9ac7ab4d10bd0b0fcf8652501a9c5931ad8bced348534410639683f"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q25",
+      "provider": "luna",
+      "batch_id": "776a78f86e2c3a5b78d95cd03866858711cbef8a739e8ba46f56136eb5c99f7d"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q25",
+      "provider": "gemini",
+      "batch_id": "bedc707e1c81d686a069304259e211110e8d867fd7b5f9d99a73f428f71d665c"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q46",
+      "provider": "luna",
+      "batch_id": "7a736070189d0bd4639aee55406c57d6a59127b68feec02802b270eb4dbe1752"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q46",
+      "provider": "gemini",
+      "batch_id": "539b9519f843db04a38f403770ec524289c9eb940bd51b10d3d5a63591d60cf6"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q47",
+      "provider": "luna",
+      "batch_id": "7c6636bbccbc4eae1e8e2fa2454881d78ee77b440ed1c8f4017ee2912572828f"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q47",
+      "provider": "gemini",
+      "batch_id": "3a9e2d281554948b7fddfcef93bc33aeb514c0275013da7182378bb3de4e60d4"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q48",
+      "provider": "luna",
+      "batch_id": "d6d9d327b507dd2e3a823532001146d99f32ef91ea3a2d293ab4fca5cea17c10"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q48",
+      "provider": "gemini",
+      "batch_id": "cb4b961ede60d172cfc6ee809cf41f1be2a636c9612e782f2ae48ae9db234c16"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q49",
+      "provider": "luna",
+      "batch_id": "57631764b9a84ec34b05823d7083ec4feff29eac0eb0969f11a93faeb7009506"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q49",
+      "provider": "gemini",
+      "batch_id": "fe969ca4d2c9601b090a26dd8d197bd65db50b18ddfdff4037c18cb9710361c5"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q50",
+      "provider": "luna",
+      "batch_id": "cf53dc876a3ffd8c9074b3ef9018f1b41302cdacd2a89c4d449896c78c62a988"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q50",
+      "provider": "gemini",
+      "batch_id": "9df13881cf5a6aa18c77d942438d2eaff80d01968c1d851bf9703a1efd8a1056"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q6",
+      "provider": "luna",
+      "batch_id": "65b6b847c43ccfde082f040ed7263eaae690dff9c546feacaa3f14ea73cb1712"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q6",
+      "provider": "gemini",
+      "batch_id": "6061f887931e0ac729abdc9ee356236114a218d0675c708275cabb6b26fef315"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q33",
+      "provider": "luna",
+      "batch_id": "18c3a8c7f9f130306682d527bb3cc4a483b379ef9112138686c416829266693a"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q33",
+      "provider": "gemini",
+      "batch_id": "9f083b0d77266d4d7e384746d90462d847c6a6e317c9463bba4095885f5e720f"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q34",
+      "provider": "luna",
+      "batch_id": "2234ef6133f8bcdff6502cc7e86a3cdfbc2b7bcff7ed82b2f68c6f9ec708ee01"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q34",
+      "provider": "gemini",
+      "batch_id": "e6823a585210af3731f7b704e09dbfaf15dbff32f578015803338989fe43cc36"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q35",
+      "provider": "luna",
+      "batch_id": "c579755af18d110daa6b3f785ef245189ddf57119a761da0da5992aeada2ab44"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q35",
+      "provider": "gemini",
+      "batch_id": "53bb1bd17f6cff0a627a3437570f68e42b8a7d1bd8d46620fc5762b3e4348a53"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q36",
+      "provider": "luna",
+      "batch_id": "0617d2618a7729fcbf78b4895fc0e694bce09b5e8bb337b7bd1e24c60dee5172"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q36",
+      "provider": "gemini",
+      "batch_id": "6d58957f98f1979c6fd11f0811a3326f93e73f74f2bde22b89f59c0a83f9c06b"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q37",
+      "provider": "luna",
+      "batch_id": "b1e5273569c56b8441e08369e4c54e8a590de62b2a60a37ee5deefcff00b6af2"
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q37",
+      "provider": "gemini",
+      "batch_id": "2e888fc50c9511b5c8151e781303b7d19c5b3fc7acb267921d95513c21496e68"
+    },
+    {
+      "id": "fault-wrong_key-conceptual",
+      "batch_id": "10f466c8a66770937101bbfe593cfcc03faf368ff9b7fafabf5987b2da8e7f03"
+    },
+    {
+      "id": "fault-wrong_key-numerical",
+      "batch_id": "2ed06af8b926113cb18c6700ca27eca114214d51daeea89c0d81054034456261"
+    },
+    {
+      "id": "fault-wrong_key-passage",
+      "batch_id": "c06145821c9eaceec3ed4e6ca3df7c3070fea293cda35e2584dedecc282aea80"
+    },
+    {
+      "id": "fault-multiple_correct",
+      "batch_id": "5a9a330805c5fbf672bbb01e27566759741cd55c84d3c3bf47c41f8b48aaac85"
+    },
+    {
+      "id": "fault-missing_assumptions",
+      "batch_id": "a802e9a0c429391e4546417bb764f2a6615a8f9f1672911318316677975e3640"
+    },
+    {
+      "id": "fault-out_of_syllabus",
+      "batch_id": "0b3ff412e2a0aa8ffd1f7a25448b7436ebd47c63e0270b230162a11799b92c03"
+    },
+    {
+      "id": "fault-unsupported_explanation",
+      "batch_id": "afea7b2b2e7c2e92c9b2052ef7b73e9df4081215be02f3aff1d4ad80206f919d"
+    },
+    {
+      "id": "fault-solver_boundary",
+      "batch_id": "55b886567265fc7849d921e6f37ae2f130c9c3868017288926b3485e99d7d165"
+    }
+  ],
+  "routes": {},
+  "observations": [
+    {
+      "id": "fault-false_citation",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "source_support_missing"
+      ]
+    },
+    {
+      "id": "fault-orphan_passage",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "orphan_passage"
+      ]
+    },
+    {
+      "id": "fault-cosmetic_duplicate",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "adaptation_not_distinct"
+      ]
+    },
+    {
+      "id": "fault-option_collision",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "option_collision"
+      ]
+    }
+  ]
+}

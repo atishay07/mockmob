@@ -1,0 +1,112 @@
+{
+  "subject": "accountancy",
+  "method": "Solved from accountancy-blind.json before opening accountancy-keys.json; keys are one-based.",
+  "created_utc": "2026-10-06T09:03:20.7109099Z",
+  "solutions": [
+    {
+      "id": "fab8e8b9-af16-4d92-8b96-0363050eea8b",
+      "content_hash": "745048814e3a5d124179c76c43fb50011048d64cc8db793a5f758289c4cfcd8f",
+      "solved_key": 2,
+      "solved_option": "number of shares applied for is more than the number of shares issued.",
+      "rationale": "Oversubscription means applications exceed shares offered; option 2 is intended. Prefer offered for subscription to issued."
+    },
+    {
+      "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "solved_key": 2,
+      "solved_option": "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+      "rationale": "On forfeiture: Share Capital debit called-up capital, Share Forfeiture credit paid capital, Calls in Arrears credit unpaid calls; Securities Premium debit only the premium previously credited but unpaid. Option 2, conditional on unpaid premium."
+    },
+    {
+      "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "solved_key": 3,
+      "solved_option": "Articles of Association",
+      "rationale": "The Articles of Association authorise acceptance of calls in advance; option 3. Stray st in option 4 is an OCR defect."
+    },
+    {
+      "id": "ffbf2eaa-257a-4930-bf2d-6bd6d54aad1c",
+      "content_hash": "127f068ee7eee72b939fdf2e95943402b285aba9596b3cb18c91b19d20f443df",
+      "solved_key": 1,
+      "solved_option": "(A), (B), (C)",
+      "rationale": "Backward trace from Balance Sheet reverses Trading -> P&L -> P&L Appropriation; A,B,C, option 1."
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "solved_key": 2,
+      "solved_option": "(A)–(III), (B)–(I), (C)–(IV), (D)–(II)",
+      "rationale": "A-III, B-I, C-IV, D-II; option 2. Definitions belong to share capital."
+    },
+    {
+      "id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "solved_key": 2,
+      "solved_option": "(I)–(B), (II)–(A), (III)–(B), (IV)–(A)",
+      "rationale": "Profit and salary go to Current Account; additional capital and agreed permanent capital withdrawal to Capital Account: I-B, II-A, III-B, IV-A, option 2."
+    },
+    {
+      "id": "b05f3b4d-275f-4c20-903f-80b9eefc4d33",
+      "content_hash": "0e09f1b85f330d9951e32050991a52d958d44ccdad3586cfd3b78c31b079e962",
+      "solved_key": 1,
+      "solved_option": "45,000 shares",
+      "rationale": "Shares offered = 54,000 - 9,000 = 45,000, option 1."
+    },
+    {
+      "id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "solved_key": 1,
+      "solved_option": "(A) - (II), (B) - (III), (C) - (I), (D) - (II)",
+      "rationale": "Interest and profit credit current; drawings debit current; additional capital credits capital: A-II B-III C-I D-II, option 1."
+    },
+    {
+      "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "solved_key": 2,
+      "solved_option": "600 shares",
+      "rationale": "Intended paid capital per share = 10 - 3 = 7, premium excluded; 4,200/7 = 600, option 2. Stem should explicitly say all other capital instalments were paid; otherwise received share capital is not fully specified."
+    },
+    {
+      "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "solved_key": 4,
+      "solved_option": "(A)–(II), (B)–(IV), (C)–(I), (D)–(III)",
+      "rationale": "A-II B-IV C-I D-III, option 4. Reserve capital is uncalled capital reserved for winding up. Share Capital mapping."
+    },
+    {
+      "id": "5ec3ec4d-fe39-4608-a3a0-4c02f53707e3",
+      "content_hash": "3ca6b676c3f53e3ba748a3654e6961234f84a16ab7979950e82d2755bed995eb",
+      "solved_key": 1,
+      "solved_option": "(A) Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Partners’ Capital/Current Accounts → Balance Sheet",
+      "rationale": "Profit flows Trading -> P&L -> P&L Appropriation -> Capital/Current -> Balance Sheet, option 1. Options are unnecessarily repeated in stem."
+    },
+    {
+      "id": "6ff08f7a-b79b-4290-83a6-007f7b4df498",
+      "content_hash": "ea2f72066da04da54a9b3d04d26a34f248f78c42405247346da0b71ca8d0edac",
+      "solved_key": 2,
+      "solved_option": "Bank A/c Dr. — To Calls in Advance A/c",
+      "rationale": "Receipt increases Bank and creates Calls in Advance liability: Bank Dr, Calls in Advance Cr, option 2."
+    },
+    {
+      "id": "3d547d56-6873-4057-85d8-8a627eed611d",
+      "content_hash": "d21b26fbc1fbb1f4e3eb2747ff813517384de421ffc5035f25e7a865754ee96e",
+      "solved_key": 3,
+      "solved_option": "As fully subscribed, because applications equal the number of shares offered.",
+      "rationale": "Equal applications and offered shares means fully subscribed, option 3."
+    },
+    {
+      "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "solved_key": 1,
+      "solved_option": "Debit Profit and Loss Appropriation Account ₹1,20,000; credit each partner’s Current Account ₹60,000.",
+      "rationale": "Residual profit allocation debits Appropriation 120,000 and credits two current accounts 60,000 each, option 1."
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "solved_key": 2,
+      "solved_option": "(A)–(III), (B)–(I), (C)–(IV), (D)–(II)",
+      "rationale": "A-III B-I C-IV D-II, option 2. IV must mean the excess over nominal value credited to premium, not all proceeds."
+    }
+  ]
+}

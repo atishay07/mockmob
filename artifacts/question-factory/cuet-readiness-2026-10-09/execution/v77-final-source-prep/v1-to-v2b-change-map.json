@@ -1,0 +1,538 @@
+[
+  {
+    "case_id": "v77f-ad344a8b5f2d",
+    "v1_sha256": "3f5b75626e34ea91f39f65e98e5452a3063237eb0b61208c9ddc1cc44c1fb761",
+    "v2_sha256": "e67968e67ecf628fbce48a413cc992c8b95fe566576349879e09e34fc882e79e",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2105354e5de1",
+    "v1_sha256": "49c35a671e46f80f5160bcf17121a32ce890f18060731cb6fd925ff38c94e2c7",
+    "v2_sha256": "0611e246d8fd077e14fa71d328ac840c017183900d7a851f844c914615eac354",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-662880a2c5fb",
+    "v1_sha256": "419a118ab42dfbf6ac4bf5dcc6659620ea1fb94b9ec00fd94dbd4018ab9c0839",
+    "v2_sha256": "4f209af19c7c5c4ee4777cc17d4d4ea000b3240a30188aa42e89a8e3e2199dbe",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-073bdc31e03c",
+    "v1_sha256": "8fcaf1bde675d4969213033d73c4c487f6ac015b347497ccdc2dea6fdd2d9d3c",
+    "v2_sha256": "8b4d44d3ad38fbe7aba6127fad119c7140e5adf648e596d369f821ece8cdb1b8",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-3546cbf8ea19",
+    "v1_sha256": "d12e9e78f98bdb481eb730a4acc5216e93824bb7b037d4486500f31a0a410d27",
+    "v2_sha256": "28d8640c45bcda4c9c488efff4ccb0a0f383f0228215e872eecdf3d2c09d9bce",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-c6d21440345d",
+    "v1_sha256": "5e86c69ecb1da5fd046391191bf555b6992fa44eb10f22bd043090d23de6b78c",
+    "v2_sha256": "aa22791e36a6a2ce8fc5ab7006d2d6bab2a2e6f2019784d153d78ea9bb8536bf",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-a20de9004938",
+    "v1_sha256": "4df821f15b5843719789ba610c1514936c5e8d2f80169e38010369ae94c4d2c3",
+    "v2_sha256": "45f37d15472748a7311ec02e232a530670c8df9ea259d7656aff341a50e01537",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-9a31e9a4c29b",
+    "v1_sha256": "4cd8c5d6635acf26f9486c6e3b2e8c9249c5f82240a32991be61ce45342f5f5c",
+    "v2_sha256": "8c3fa8c82d2afd74b0026036cbac63cb8685b33b9df40f71a74ad7d376aaffae",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-ea8f75b17d74",
+    "v1_sha256": "8f9f3f71f315dd19126f81f02de2562ad9e44e81c4446dcf5488d121f922c9f1",
+    "v2_sha256": "4431c32ec86b3aa6442d137f41cb11836629813fb22c6faaec244a615703f4f3",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-b123137834cc",
+    "v1_sha256": "c53dae03e42350ee42a43371bad6839fbb1f18858bf54f3e475c42af9527cd1f",
+    "v2_sha256": "6cc8381cb02d9802dee660af9d4fe7c992d023efe9c9c0b8dd0b9facfa282b8a",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-466fab2284fd",
+    "v1_sha256": "0fbad806170485021a42bcd60e5ac837cb8916b566c9ba857ad741e188cb8d41",
+    "v2_sha256": "926921991e4e8fb0e3b60581b180cf89efe9f3458a37b6c28a83f57c21ef95b5",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2d806114710e",
+    "v1_sha256": "f9a3ee363e177dbe267b0088d19945628dab9f3d3e9713e35b9e8a0ff5ad27db",
+    "v2_sha256": "626e4193c37f64bcf2978e559882081a3b8a04015d7fcba7acb9e7c67d50ba10",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-4c09b80e91ce",
+    "v1_sha256": "7ea103008d2a12c0d8b42b9780b20674a92ca492f5848149ff9f29c272697cf4",
+    "v2_sha256": "7b217ac2b765260fd1a07876b9c860b370ee9eaee5acbd6486d1f412e697e321",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family",
+      "passage_text restored from original authored stimulus"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-a99cc144f9e5",
+    "v1_sha256": "cf7b2dc15b2219f08fd3c4e273b8695dc6f5414da6cd05b7e990e6781e07dc5f",
+    "v2_sha256": "fcf3d3848f24bea757e3a31cdb0965412f9c42801603e06a06b7a8bd4248e9ae",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family",
+      "passage_text restored from original authored stimulus"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-1ed13162f85d",
+    "v1_sha256": "ad8231f98d927caad39923ea62b0a9ac4154c75461529833344c1cd879ec04a1",
+    "v2_sha256": "00d838bedb3ca4f77d6fb7c952d5db1ca2e2d18f9858c63a587a15216640235f",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family",
+      "passage_text restored from original authored stimulus"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-dfcca21b749e",
+    "v1_sha256": "31120a3da53e554ba4baff211062e5f50fd46ba2802bbe8f9e5c01bb7b3f0e7c",
+    "v2_sha256": "3691981b861b28c4b2b24732f593e610a852c3dacca1a241da64b1462a9fc762",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family",
+      "passage_text restored from original authored stimulus"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-84e9ba57542c",
+    "v1_sha256": "d1e81a335c5d744cfdab0b6dec7b56050d01cd25ab0e9ebe8b75e4864547a4e6",
+    "v2_sha256": "2f3600fc6ec864c06219c91f519cb58511207efdadc5525bc548f110df0ad228",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-59b58a25bbb3",
+    "v1_sha256": "be04fc2f151f144c1b3192f2ccd5a055f62b79cc2b38cc75ed3276213b1c77b0",
+    "v2_sha256": "4067c69318e43f5ce5fe6fa096bad27d2259deb8eaf1edb7727c6a4170a47233",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-e77493e30567",
+    "v1_sha256": "8a27b74c314b5a6afc9b47b1dd0d14e2fc67148f6686662462b0ec5ac3161d56",
+    "v2_sha256": "433e429fa166e10a0f7071ddc28729ca47e7af1ef662ccff1358e2fe1185b344",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-1db3dc389725",
+    "v1_sha256": "581f986ab9a74986b31f77704096898b1c017f7b24c532f4e5809c3216cce537",
+    "v2_sha256": "fa0464f7f2624e72adc58be5cc430fe16d9467a419218f06258b3ea3d0ce22ed",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-e9ef75026c19",
+    "v1_sha256": "43e21f16c0ebc99acd3d8e0553d43bd0e91ef1cb5969d042a98bdb8bfeb29ac4",
+    "v2_sha256": "ad1e5ee785b6889f698175a2f0388653c0fa47c8e3241ae0e7d17c4126bd4908",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-3e505228c987",
+    "v1_sha256": "aabc854a00e88b144f0e466ba6b3d2e7a1b2e3e553a575e11939e84a36138c20",
+    "v2_sha256": "2ba454f1ce7eb1c70bea09a485d55db212388411b9b09eb3a879a54d7eb57cb4",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-63d002be451c",
+    "v1_sha256": "b8e0f9c1da6ce438ddf714018510390ebd0d48c620993ee60f53347d2b9e5554",
+    "v2_sha256": "c4f21e7de31ea116c9b0ec0f8ab98f33107cfd2c65aea8df92e13681b6899ffc",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-98a231fa15fa",
+    "v1_sha256": "b61eab8061ef84fa86bf2523bd190029496be729c464f04792a8ef6a4eefd657",
+    "v2_sha256": "0eae15a6a8bae62edd66ba341da0b0d090fa7fe5ae3dbd397444386d6e0215a9",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-fcf957a734d5",
+    "v1_sha256": "838db0e0603a3a35e543d7a3b5bd49e933909841595c8a3bef256c2d20f13678",
+    "v2_sha256": "e3211cad9aecebd26e72a5e5f17393084791fd60fa647bdb57e0e6631d5db747",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-c519f01371f2",
+    "v1_sha256": "06570104e2eb96bd2ce88fafca14d131775158c29efa36a9199159c53a1803fd",
+    "v2_sha256": "04b4738ffcd3f8c4794c0266abc5cb251d46eced98141d10ff8291fa94a9610f",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-2ca94e8b4e72",
+    "v1_sha256": "6bbc705876d784eb769fa2e33e22b6f26c714bcf70d1313cd85c86c694db7126",
+    "v2_sha256": "97afb0ddd893b80c9bdf52131bfe7eb82804d398c485bb303a07cbf794f44992",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  },
+  {
+    "case_id": "v77f-56f266269b74",
+    "v1_sha256": "dc50c089c839542ef660cb6c9d6c7986501619c71c6199f6b6b7770b0e83c518",
+    "v2_sha256": "bd6729c37e1d0c2e5890ee0666bdb1e8d871c70706d2b19e8af228e343f59010",
+    "changes": [
+      "source_refs replaced with exact contiguous source spans and JSON support hashes",
+      "candidate route and question_type normalized to factory schema",
+      "learning_objective normalized to structured object",
+      "options represented as keyed objects in original order",
+      "provenance bound to active source pack and family",
+      "family_id bound to disclosed lineage family"
+    ],
+    "semantic_preservation": {
+      "stem_unchanged": true,
+      "option_text_and_order_unchanged": true,
+      "proposed_answer_unchanged": true,
+      "label_and_defect_category_unchanged": true
+    }
+  }
+]

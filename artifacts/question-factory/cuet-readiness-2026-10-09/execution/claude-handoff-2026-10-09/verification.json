@@ -1,0 +1,478 @@
+{
+  "created_at": "2026-10-09T09:55:55.629Z",
+  "scope": "Documentation links and immutable-file integrity; not academic qualification or a new test run.",
+  "checked_links": 24,
+  "links": [
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "HANDOFF-2026-10-09.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "CONTINUATION-2026-10-09.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "CLAUDE-START-PROMPT-2026-10-09.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/claude-handoff-2026-10-09/current-ledger.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/claude-handoff-2026-10-09/current-process-state.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/claude-handoff-2026-10-09/dirty-checkout-at-handoff.txt"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v75-root-adjudication.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/V76-QUALIFICATION-RESULT.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/V77-CURRENT-QUALITY-REPORT.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/V78-LOCAL-INTEGRATION-RESULT.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v76-valid-failure-diagnosis-sol.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "v78-local-contract-freeze.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v76-publication-route-review.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "../cuet-readiness-cost-source-c-100-2026-10-08/batch-report.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "../cuet-readiness-2026-10-08/execution/QUALITY-ONLY-ASSESSMENT-2026-10-08.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/root-checkpoint-v78-local-integration.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/root-checkpoint-v77-final-local-result.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v78-local-integration-review.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v76-qualification-export/all-cases.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v77-final-export-2026-10-09/all-cases.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v77-current-quality-and-cost.json"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v76-disputed-regression-diagnosis-sol.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v76-pilot-budget-novelty.md"
+    },
+    {
+      "document": "CLAUDE-HANDOFF-2026-10-09.md",
+      "target": "execution/v77-pilot-conservative-envelope.md"
+    }
+  ],
+  "checked_frozen_bindings": 69,
+  "bindings": [
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/contractV78.mjs",
+      "sha256": "809ccfb78e901921512ee4272bd5ff2fea73ac8acaaa952f527dd18581023a50"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/premiseBindingV78.mjs",
+      "sha256": "88735861cf248c6d399a679e0b059a89c2d0a39a3aea9c29004d80d9e051f696"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionV78.mjs",
+      "sha256": "d69e30dd37a24e04fb5816e132e80d0638b0374d365aec9eff23a8a292ce7e2a"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionAuditV78.mjs",
+      "sha256": "617b2ca6cc41f14a1f9112c2bb5472f71f76cf0085ec07d38dcaa0f247b23280"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV78.mjs",
+      "sha256": "adb097bd6615e39fa800655c649d64b3fb24b404249ba4dad87d73a60c0bf680"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/verifyV78.mjs",
+      "sha256": "f86124f859812868bbf790ac82557b8b46bed7828626e9a50ee6c4c1d708c4d6"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/tests/optionResolutionV78.test.mjs",
+      "sha256": "627938a42b815caec2c2c12c9d2f226c5e6167fc978c1a99f0c730ec24388112"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/tests/optionResolutionV78.exportedRegression.test.mjs",
+      "sha256": "e8013ea15257825463ed4673109d702f2efa9014abbdc74ad2820271b2cf094f"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/tests/v78Integration.test.mjs",
+      "sha256": "ffb783fa04611537c0754141e941cbba9b8c36eb426d9a90f96008b14e716a54"
+    },
+    {
+      "freeze": "v78-local-contract-freeze.json",
+      "path": "scripts/pipeline/tests/v78MissingBindingsIndependent.test.mjs",
+      "sha256": "7d8b275f088d074d54d77b3d5f8ea312a3bf824d90b2d0684d54d513490d116d"
+    },
+    {
+      "freeze": "v77-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/contractV77.mjs",
+      "sha256": "27f3edca3db993df3e9e03ba6c554bb9a18220924071431fb3082339b9876703"
+    },
+    {
+      "freeze": "v77-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    },
+    {
+      "freeze": "v77-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionAuditV77.mjs",
+      "sha256": "b2d64aabc3d35024d56ccf89960fe2cd0468c14aac5ad2ee81d75e27d9ee3018"
+    },
+    {
+      "freeze": "v77-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV77.mjs",
+      "sha256": "71553c94e6ad3e9559dff84021ce173cb48759b0e86e5d9b27d830511559ada8"
+    },
+    {
+      "freeze": "v77-local-contract-freeze.json",
+      "path": "scripts/pipeline/lib/verifyV77.mjs",
+      "sha256": "e49b8ce67dcceca140d15784d026988623f346c8347ce51f91b7ff6f4acecea9"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/canonical_json.mjs",
+      "sha256": "a61d5d147c8c19cf1564001855562f83631e8ff58420cc7eed055a806bdc5a7c"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/canonical_syllabus.js",
+      "sha256": "1bd2f166b63716b190e06c13f2a62fc333fe464e798b26a89c0706149f09d31f"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/content_evidence.js",
+      "sha256": "3843cad5a34567b8a0746aad6c0b451e203e1c73b5cb816d428ecdec8d1323af"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/cuet_fit_evidence.mjs",
+      "sha256": "7f203bed864975b4ed1f4b74c3805ebb361b36073fd54f164a1b8906bd61bd36"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/cuet_fit_rubric.mjs",
+      "sha256": "a06581a7dc39ddb756b55881a361a573364e31364bf486dee98c9c79ea5732ad"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/evidence_registry.js",
+      "sha256": "2cfc25fa370f2cd8848478d6a59b580346c1bf8648fdc391141b5956abbcb1b5"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/factory_runtime_evidence.mjs",
+      "sha256": "b14936405094ca7508c7ea2794a8c8e43f5551e00e0c8de52ba1bb84b0f36237"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/question_factory_criteria.mjs",
+      "sha256": "ff0e8e50fda354d283227a3241e2e47890704f774622ace9bacafd3a3110858e"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/question_factory_policy.mjs",
+      "sha256": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/question_factory_scope.json",
+      "sha256": "08a150cd9f4048d553ee8dedc5787d26369712d1bb57408ccd0cf61296338098"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/question_presentation.mjs",
+      "sha256": "b357af315aae1bea1189515d3dc82d33e581e597b5e3ac1a44bd48bd8913b5c0"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/v73_runtime_contract.mjs",
+      "sha256": "484409c7123649f527f7c21ccbdd085bca77c2ecb84137e6089939fc9787b093"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/v73_runtime_evidence.mjs",
+      "sha256": "91f0bb886066ee7bd724c05ea750278cedb03f3cf259ecbc05650158bde06e21"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "data/v74_runtime_contract.mjs",
+      "sha256": "769d0b764e0bee9e61d84d6ef3b61d0b51ac39d8ea020d17d07adf854a65c9da"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/atomicArtifact.mjs",
+      "sha256": "b1fd0508f098738595bc55837c9ae59e771a6d8c4186ff02ff0750b7694ac1c2"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/batchInspection.mjs",
+      "sha256": "f7ed805af9baab1ce6683cfeaab0a48440a9f035f225186b6faa205aa2dc2210"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/budgetLedger.mjs",
+      "sha256": "4942d10e062b70bdf18320c1bef9559d56273a1c9152fb122744f18960597f41"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/campaignExecutionV7.mjs",
+      "sha256": "489f302f60cc2e40a2c19c90f50aa3d2c1b8f15b53ea2aa9fc388129abf84f16"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/contractV7.mjs",
+      "sha256": "46eccb7c0ada3679c44eb7fac0fa1e9de7fe2f60b98d90e3f566f678bbf67ed0"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/contractV73.mjs",
+      "sha256": "6c632c342f4d2cf011c7ee1ba478303d48104c73358527922df3106c38c83db4"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/contractV74.mjs",
+      "sha256": "c99486eae474dff1ad68718b5a46b8579c74faa80357c8691ede8620c270c05b"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/contractV76.mjs",
+      "sha256": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/contractV77.mjs",
+      "sha256": "27f3edca3db993df3e9e03ba6c554bb9a18220924071431fb3082339b9876703"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/cuetExemplarPolicyVNext.mjs",
+      "sha256": "725a667be53c4043080f77d41643f35b8ae1fc479b0c33b2f8f773f538024221"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/cuetFit.mjs",
+      "sha256": "90c154e14cff46ac40aa3f37173a7883c7560350a0c225377b1797ed08e5aa92"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/cuetFitBenchmark.mjs",
+      "sha256": "1700fba3750f5941db1e1ab32c485f165c81c4cd3bafbcc94d6ffcba9cac51be"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/currentCuetCalibrationGateVNext.mjs",
+      "sha256": "7c5d962c4753a58d5c44c978ff866a3f9a20a19ad00fe1550baca4077c52d478"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/evidencePipeline.mjs",
+      "sha256": "0557f6f10aa32f3f7dd276d1cf32c5c82a1d3796c37da631a568cac66842a741"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryCore.mjs",
+      "sha256": "f73222b3aff0d231642e71c77c88a6c6bf4a799161f403ec48c05763a39ba773"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidence.mjs",
+      "sha256": "f7293f8aba90c7bffc5a806dd98cbdb7e43819807680a5868f134e4e5f6fd3b7"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV7.mjs",
+      "sha256": "875636e32df77ca62470d69fbe016df4c8484b9b3d66ad314d26168ba277ee98"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV73.mjs",
+      "sha256": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV74.mjs",
+      "sha256": "7e1ba75a7c5f6460ec722cab3403b2c21cd057e3b0616dfa60374b4d69c78f91"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV76.mjs",
+      "sha256": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryEvidenceV77.mjs",
+      "sha256": "71553c94e6ad3e9559dff84021ce173cb48759b0e86e5d9b27d830511559ada8"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/factoryTransport.mjs",
+      "sha256": "40df58fccc18ad9ddfb7e589bba6aab1a899cff1f8cdf68514a31a7a91fc1be8"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs",
+      "sha256": "c003c070dbc3363147914432e06fe4d99d55c9667152c60cde97043911577317"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/freshCuetReadinessV77Guards.mjs",
+      "sha256": "680efee43e366a29fb82be7d421ebeb71bcab49103f96c3c6827d3717f6c2cf5"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionAuditV77.mjs",
+      "sha256": "b2d64aabc3d35024d56ccf89960fe2cd0468c14aac5ad2ee81d75e27d9ee3018"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/preparationValueV76.mjs",
+      "sha256": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/releaseEvidenceV7.mjs",
+      "sha256": "315288c1cc9c7b2a51a89200730fa9e94b0d35542cd63615d41abc0fbb0fcf10"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/releaseEvidenceV76.mjs",
+      "sha256": "7e84580947ccf9fdf1c9b64ff7bc9b32ba15594f523f0dceaa227e5ffe0fd130"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/releaseEvidenceV77.mjs",
+      "sha256": "f58afb6b4e56e8b523ccff64cf353e361db753ee7297b997c99baf0050cbb7e2"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/savedRequestBody.mjs",
+      "sha256": "fcf41aecc948b0680be524d3bc582c7b1992f4f72c4838f405039926fcfddf5c"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/scopedAccounting.mjs",
+      "sha256": "c8f25c99a307c4aacc98a9a82762d0bbbf8851133364d4065f5d2b72996564fb"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/lib/verifyV77.mjs",
+      "sha256": "e49b8ce67dcceca140d15784d026988623f346c8347ce51f91b7ff6f4acecea9"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/tools/cuetFitBenchmarkItems.mjs",
+      "sha256": "b5c7cef18e8296058b00065c064326d1beb049dc556cd0c254cfc2d1efc3f8b4"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/tools/cuetFitBenchmarkItemsV2.mjs",
+      "sha256": "1ad92ce4054a484d3289164528011aeac51a18fcc1f95d72389599a07e476560"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/tools/cuetFitBenchmarkItemsV3.mjs",
+      "sha256": "6b607d3c5309a66b23c2cb8ebca9e52666bbeb69d5af099a5fe9a9e999e46d43"
+    },
+    {
+      "freeze": "v77-local-transport-freeze.json",
+      "path": "scripts/pipeline/tools/runFreshCuetReadinessV77.mjs",
+      "sha256": "85662477d7fdc48bc27c211f92f4458d657dcf8cb339511bf31910449acbf221"
+    },
+    {
+      "freeze": "execution/v77-final-source-prep/receipt-recovery-freeze.json",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.mjs",
+      "sha256": "da02400476bdf62c348b0408d15922916d54f1dbeaba628fe3ce18ae251901f6"
+    },
+    {
+      "freeze": "execution/v77-final-source-prep/receipt-recovery-freeze.json",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.test.mjs",
+      "sha256": "6a9b689460e5f5868f1720ef449400cb0c169b82fe1c7348f3c5111d114dc724"
+    },
+    {
+      "freeze": "execution/v77-final-source-prep/receipt-recovery-freeze.json",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/bind-authorization.mjs",
+      "sha256": "094625bf183f24a4f44a38cf8670da82d079e2322d598cf73f99b6a1ca3d30ab"
+    }
+  ],
+  "native_export_unchanged": true,
+  "independent_document_review": "GPT-6 Luna medium: no factual/authorization correction against reviewed evidence; spacing improved.",
+  "qualification": "V7.8 local, frozen and unqualified; final V7.7 mathematically cannot pass.",
+  "ledger_snapshot_at": "2026-10-09T09:46:11.067Z",
+  "lifetime": {
+    "settled_usd": 35.212262,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.279846,
+    "unresolved": 37
+  },
+  "v77_scope": {
+    "provider_requests": 14,
+    "complete": 14,
+    "settled_usd": 0.084744,
+    "held_usd": 0,
+    "pending": []
+  },
+  "provider_calls": 0,
+  "ledger_writes": 0,
+  "files": {
+    "CLAUDE-HANDOFF-2026-10-09.md": "40e99256d389ea7abd7265b2b998399beee2731499783ca7a1b2b5eaa6d6c521",
+    "CLAUDE-START-PROMPT-2026-10-09.md": "11b6035436e3fd50f1370811af29962019d23611d19fec1c99b5f0d7078975b8",
+    "execution/claude-handoff-2026-10-09/current-ledger.json": "c6f8a91ba1dcdb84698fdd5e11b6cd0651d809bb6ec96919dbbb266464e6ec3b",
+    "execution/claude-handoff-2026-10-09/current-process-state.json": "5e7a559ff06d1b57742b880ea5e68bbdd666d9f87b4e03f916eb6b3946c643dd",
+    "execution/claude-handoff-2026-10-09/dirty-checkout-at-handoff.txt": "9ba1ad693aa1ca238d0f52e2e841cb24dcaaf291ef8f29ce82aab798726c97d5",
+    "execution/claude-handoff-2026-10-09/verifyHandoff.mjs": "e02512bbed45ae6024ab529877e6704bdc2b458b45e1df79e8848377353e9fc2"
+  }
+}

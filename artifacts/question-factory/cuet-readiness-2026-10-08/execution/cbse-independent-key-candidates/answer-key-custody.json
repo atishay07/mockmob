@@ -1,0 +1,48 @@
+{
+  "schema": "cbse-official-marking-scheme-key-custody-v1",
+  "handling": "Keep with custodian; do not expose to the independent blind reviewer before their initial answers are frozen.",
+  "source_type": "CBSE official Class XII 2026-27 sample-paper marking schemes",
+  "independent_rederivation": "pending blind reviewer; these mappings record what the official MS says and are not a claim that the key is correct",
+  "keys": [
+    {"item_id":"cbse26-ac-q03","official_option":"B","official_answer_text":"Both (A) and (R) are true but (R) is not correct explanation of (A).","marking_scheme_page":1,"marking_scheme_question":"3"},
+    {"item_id":"cbse26-ac-q04","official_option":"D","official_answer_text":"₹17,000","marking_scheme_page":1,"marking_scheme_question":"4"},
+    {"item_id":"cbse26-ac-q08","official_option":"D","official_answer_text":"No effect on revaluation A/c","marking_scheme_page":1,"marking_scheme_question":"8"},
+    {"item_id":"cbse26-ac-q10","official_option":"B","official_answer_text":"₹15,00,000","marking_scheme_page":1,"marking_scheme_question":"10"},
+    {"item_id":"cbse26-ac-q12","official_option":"A","official_answer_text":"Goodwill ₹50,000","marking_scheme_page":1,"marking_scheme_question":"12"},
+    {"item_id":"cbse26-ac-q14","official_option":"A","official_answer_text":"₹55,000","marking_scheme_page":1,"marking_scheme_question":"14"},
+    {"item_id":"cbse26-ac-q15","official_option":"B","official_answer_text":"₹44,000","marking_scheme_page":1,"marking_scheme_question":"15"},
+    {"item_id":"cbse26-ac-q16","official_option":"C","official_answer_text":"D and E","marking_scheme_page":1,"marking_scheme_question":"16"},
+
+    {"item_id":"cbse26-bs-q01","official_option":"C","official_answer_text":"Analysing the business environment and its implications for the survival of the firm.","marking_scheme_page":1,"marking_scheme_question":"1"},
+    {"item_id":"cbse26-bs-q02","official_option":"B","official_answer_text":"Differential Piece Wage System","marking_scheme_page":1,"marking_scheme_question":"2"},
+    {"item_id":"cbse26-bs-q03","official_option":"C","official_answer_text":"Divisional Structure","marking_scheme_page":1,"marking_scheme_question":"3"},
+    {"item_id":"cbse26-bs-q05","official_option":"B","official_answer_text":"It helps the firm to identify threats and early warning signals.","marking_scheme_page":1,"marking_scheme_question":"5"},
+    {"item_id":"cbse26-bs-q06","official_option":"A","official_answer_text":"Controlling completes one cycle of management process and improves planning in the next cycle.","marking_scheme_page":1,"marking_scheme_question":"6"},
+    {"item_id":"cbse26-bs-q08","official_option":"D","official_answer_text":"A person who buys any goods or avails services for a consideration, which has been paid or promised, or partly paid and partly promised, or under any scheme of deferred payment.","marking_scheme_page":1,"marking_scheme_question":"8"},
+    {"item_id":"cbse26-bs-q11","official_option":"A","official_answer_text":"Central Consumer Protection Authority","marking_scheme_page":2,"marking_scheme_question":"11"},
+    {"item_id":"cbse26-bs-q15","official_option":"D","official_answer_text":"Financial planning","marking_scheme_page":2,"marking_scheme_question":"15"},
+
+    {"item_id":"cbse26-eco-q01","official_option":"B","official_answer_text":"(ii) and (iv)","marking_scheme_page":1,"marking_scheme_question":"1"},
+    {"item_id":"cbse26-eco-q02","official_option":"C","official_answer_text":"Both Statements 1 and 2 are true.","marking_scheme_page":1,"marking_scheme_question":"2"},
+    {"item_id":"cbse26-eco-q03","official_option":"D","official_answer_text":"(iii), (ii), (i)","marking_scheme_page":1,"marking_scheme_question":"3"},
+    {"item_id":"cbse26-eco-q04","official_option":"A","official_answer_text":"₹10,000 crore","marking_scheme_page":1,"marking_scheme_question":"4"},
+    {"item_id":"cbse26-eco-q05","official_option":"A","official_answer_text":"Allocation Function","marking_scheme_page":1,"marking_scheme_question":"5"},
+    {"item_id":"cbse26-eco-q08","official_option":"B","official_answer_text":"credit, current","marking_scheme_page":1,"marking_scheme_question":"8"},
+    {"item_id":"cbse26-eco-q09","official_option":"C","official_answer_text":"Medium of exchange and standard of deferred payments","marking_scheme_page":1,"marking_scheme_question":"9"},
+    {"item_id":"cbse26-eco-q19","official_option":"D","official_answer_text":"(p)-iii, (q)-i, (r)-ii","marking_scheme_page":3,"marking_scheme_question":"19"},
+
+    {"item_id":"cbse26-eng-q1-iv","official_option":"B","official_answer_text":"It serves as a visual guide for observers to locate the shower.","marking_scheme_page":1,"marking_scheme_question":"1-IV","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q1-viii","official_option":"B","official_answer_text":"explanatory and informative, aimed at scientific understanding","marking_scheme_page":2,"marking_scheme_question":"1-VIII","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q1-x","official_option":"D","official_answer_text":"scientific explanation and practical observation of Geminids","marking_scheme_page":2,"marking_scheme_question":"1-X","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q2-i","official_option":"B","official_answer_text":"To understand changes in payment behaviour among different user groups","marking_scheme_page":2,"marking_scheme_question":"2-I","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q2-iii","official_option":"A","official_answer_text":"Both the number of transactions and the total value of transactions increase steadily over the four years.","marking_scheme_page":2,"marking_scheme_question":"2-III","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q2-iv","official_option":"B","official_answer_text":"Widespread adoption across formal and informal settings","marking_scheme_page":2,"marking_scheme_question":"2-IV","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q2-vi","official_option":"C","official_answer_text":"The policy framework governing digital payment systems","marking_scheme_page":3,"marking_scheme_question":"2-VI","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."},
+    {"item_id":"cbse26-eng-q2-vii","official_option":"A","official_answer_text":"inclusive","marking_scheme_page":3,"marking_scheme_question":"2-VII","key_scope":"Official answer to original full passage; adapted stimulus requires blind rederivation."}
+  ],
+  "excluded_official_key_issue": {
+    "source_question": "English Core 2026-27 SQP Q2-II",
+    "reason": "Official marking scheme states value growth exceeds volume growth. From the paper's listed 2021 and 2024 values, count growth is (16.58/4.21)-1 ≈ 294%, while transaction-value growth is (23.49/7.71)-1 ≈ 205%; the keyed comparison reverses the arithmetic.",
+    "treatment": "Excluded from candidate items; retained as a source-key anomaly for the blind reviewer to independently check."
+  }
+}

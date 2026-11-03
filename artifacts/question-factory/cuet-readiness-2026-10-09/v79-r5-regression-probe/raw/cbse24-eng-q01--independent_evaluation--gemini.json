@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13818,
+ "request_bytes": 30781,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r5-regression-2026-10-09-cbse24-eng-q01\",\n  \"content_hash\": \"5977a0ff5d3a3478d4d02f5fc8598099b39eb763a27866958287d9d6a7afe902\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\"],\n  \"reasons\": [\n    \"Paragraph 1 explicitly states: 'Notifications repeatedly interrupt conversations and draw fingers towards screens.' This directly supports option A.\",\n    \"Options B, C, and D directly contradict or are unmentioned in paragraph 1.\"\n  ],\n  \"syllabus_chapter\": \"Literary Passage\",\n  \"syllabus_topic\": \"Direct reading comprehension\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Paragraph 1 states that notifications repeatedly interrupt conversations and draw fingers towards screens.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Notifications assist people in paying closer attention to others in the room.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Notifications make individuals feel that time is passing at a slower pace.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Notifications stop people from looking at their smartphone screens.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests reading comprehension of a passage, a core CUET English objective.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option single-correct reading comprehension question format.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct factual recall/comprehension calibrated to standard Class 12 CUET level.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent opposite meanings or unsupported claims easily eliminated by prepared students.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Notifications repeatedly interrupt conversations and draw fingers towards screens.\",\n      \"reason\": \"Paragraph 1 states that notifications repeatedly interrupt conversations and draw fingers towards screens.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Help them listen more closely to others\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Notifications repeatedly interrupt conversations and draw fingers towards screens.\",\n      \"reason\": \"Notifications interrupt conversations rather than helping people listen more closely.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Make their time pass more slowly\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E2.1\",\n      \"premise_quote\": \"Moments drift away like autumn leaves in the wind.\",\n      \"reason\": \"The passage states moments drift away, never that notifications make time pass more slowly.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Prevent them from looking at screens\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Notifications repeatedly interrupt conversations and draw fingers towards screens.\",\n      \"reason\": \"Notifications draw fingers towards screens rather than preventing people from looking at them.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5183,
+   "candidatesTokenCount": 1292,
+   "totalTokenCount": 6791,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5183
+    }
+   ],
+   "thoughtsTokenCount": 316,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "YuPIaoGkCoXbjuMPh8iLuAQ"
+ }
+}

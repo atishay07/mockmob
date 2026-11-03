@@ -1,0 +1,38 @@
+{
+  "schema": "official-cuet-study-accounting-correction-proof-v1",
+  "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+  "refreshed_at": "2026-10-07T21:59:40.453Z",
+  "input_hashes": {
+    "original_report_sha256": "0b71e20031840f58ad0c6a79b2d2cc4f685f7f322d24cde6d37e9555e80b809a",
+    "current_report_before_refresh_sha256": "18e3d7bdb78b23d26fe1e9ed24fc0504aad8be336ea47d3677111813ba130f41",
+    "run_sha256": "8d57f8ad3cb1eaa3989596fb15341f32e111cecaba3fe7967ab8730a9e5254a2",
+    "progress_sha256": "68dbd4f6eee0a41639b3285a5c585a62a23f32e8abd27e9d0c5b04f2bdc8cc70",
+    "freeze_file_sha256": "6abc987a4ca8dc4a353bd168b6da62d641a0413f10d6a6f729b10574bc7d1f0a",
+    "scoped_reservation_ids_sha256": "cb28a171bf4a0bf13966acc6c54a5d1379ea291638ff60561c6b9f17dd1b9884",
+    "scoped_accounting_rows_sha256": "b10711ad440cd5e512a48a9a4f0cc20ddd5ebc6e07fe30fdfe88c1cfaf3654fc"
+  },
+  "output": {
+    "canonical_report_path": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/official-readiness-study-v1/report.json",
+    "canonical_report_sha256": "d135b39e5590a4a8ebdd635b6c789a37b8bba154810155c0a97018dd4805b425",
+    "backup_directory": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/official-readiness-study-v1/original-before-accounting-refresh",
+    "accounting_refresh_proof_path": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/official-readiness-study-v1/accounting-correction-proof.json"
+  },
+  "discrepancy": {
+    "prior_report_study_committed_usd": 0,
+    "corrected_gross_committed_usd": 0.841341,
+    "reason": "The prior report summarized a stale run.json field; this refresh attributes only native ledger rows to the frozen study ID."
+  },
+  "scope": {
+    "expected": 138,
+    "judged": 97,
+    "errors": 41,
+    "missing": 0,
+    "ledger_requests": 117,
+    "retries": 0,
+    "provider_calls": 0,
+    "lease_acquired": false,
+    "ledger_settled_usd": 0.841341,
+    "ledger_held_usd": 0,
+    "ledger_gross_committed_usd": 0.841341
+  }
+}

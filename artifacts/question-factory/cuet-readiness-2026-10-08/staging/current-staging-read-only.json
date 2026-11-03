@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-07T21:02:35.636Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "base": "http://localhost:3101",
+  "read_only": true,
+  "identities": {
+    "reused_existing_admin": true,
+    "reused_existing_student": true,
+    "emails_sent": 0
+  },
+  "authorization_checks": {
+    "anonymous_admin_status": 401,
+    "student_admin_status": 404,
+    "signed_admin_status": 200,
+    "admin_available": true
+  },
+  "counts": {
+    "staging_publications_total": 666,
+    "admin_reported_total": 666,
+    "admin_reported_usable_factory": 662,
+    "legacy_campaign_published_expected": 662,
+    "legacy_campaign_published_found_in_publication_table": 662,
+    "legacy_campaign_published_retrieved_in_student_feed": 662,
+    "legacy_campaign_missing_from_feed": 0,
+    "legacy_campaign_rejected_ids": 253,
+    "rejected_ids_available_in_feed": 0,
+    "rejected_ids_still_live_or_eligible_in_database": 0,
+    "additional_staging_publications_outside_legacy_published_set": 4,
+    "new_v7_publications_by_job_or_id_marker": 0,
+    "v7_candidate_ids_checked": 100,
+    "published_rows_with_v7_job_or_id_markers": 0,
+    "student_feed_available_by_subject": {
+      "english": 173,
+      "accountancy": 141,
+      "business_studies": 183,
+      "economics": 165
+    }
+  },
+  "student_ai_monthly_cap_usd": 25,
+  "factory_control": {
+    "paused": false,
+    "phase": "1000",
+    "publication_enabled": true
+  },
+  "local_registry": {
+    "version": 58,
+    "sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991"
+  },
+  "migration": {
+    "local_latest_file": "20261005185759_question_factory.sql",
+    "monthly_cap_file": "20261004120000_runtime_ai_monthly_cap.sql",
+    "applied_remote_version": null,
+    "note": "PostgREST does not expose the Supabase migration ledger; existence of factory tables and monthly cap proves the required features, not the exact latest migration version."
+  },
+  "validation": {
+    "missing_published_ids": 0,
+    "rejected_ids_in_feed": 0,
+    "rejected_ids_still_live_or_eligible": 0,
+    "passed": true
+  },
+  "paid_provider_calls": 0,
+  "production_writes": 0
+}

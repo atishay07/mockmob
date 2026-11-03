@@ -1,0 +1,34 @@
+{
+  "schema": "v77-local-option-resolution-structural-proposal-v2-freeze",
+  "created_at": "2026-10-09T08:44:14Z",
+  "qualification_status": "local regression proposal only; no runtime or release integration",
+  "files": {
+    "implementation": {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV2.mjs",
+      "sha256": "7cc840850cd6823cda70d657497692a552f637eaecaad1035e613c53ca0519a6"
+    },
+    "tests": {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV2.test.mjs",
+      "sha256": "493db0601b9d922c8c390b0c9c57f1283cac422f8962b2ada51341c618fb3ed1"
+    },
+    "original_runtime_resolver": {
+      "path": "scripts\\pipeline\\lib\\optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    }
+  },
+  "evidence_bindings": {
+    "stable_all_cases_export_sha256": "bef35e60b203d58c72048921709b07da7fbddb96210184a65142a165167257f6",
+    "blind_packet_v3c_sha256": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b",
+    "core_contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+    "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+    "prior_v2_diagnostic_review_sha256": "d8efbdd3ccf6b763b2a34291bfffd74036c9eb134678dc45bc8d7f2591f62368"
+  },
+  "local_tests": {
+    "command": "node --test artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposalV2.test.mjs",
+    "passed": 10,
+    "failed": 0,
+    "no_paid_calls": true,
+    "no_network_calls": true
+  },
+  "freeze_meaning": "Hash manifest for review reproducibility only. It is not a V77 runtime freeze, qualification artifact, registration, or publication approval."
+}

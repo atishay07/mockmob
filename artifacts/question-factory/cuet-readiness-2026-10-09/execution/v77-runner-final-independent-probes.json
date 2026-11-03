@@ -1,0 +1,70 @@
+{
+  "prior_paths": 13,
+  "earlier_v73_reuse": "prior_inspected_case_reused_as_fresh",
+  "settled_contested_failure": {
+    "state": "paused",
+    "false_accepts": [
+      "hidden_defect"
+    ],
+    "problems": [
+      "fresh_contested_defect_cannot_qualify:hidden_defect",
+      "fresh_defect_false_accepts_1"
+    ]
+  },
+  "held_receipts": {
+    "state": "pending",
+    "metrics": {
+      "fresh_complete": true,
+      "regression_complete": true,
+      "execution_finished": true,
+      "receipt_complete": false,
+      "held_micro": 1
+    },
+    "academic_assessment": null
+  },
+  "dispatch_probes": [
+    {
+      "mode": "flex-refused",
+      "calls": 1,
+      "last": {
+        "tier": "flex",
+        "noFlex": true
+      },
+      "nativeKey": true,
+      "dispatchState": "rejected_before_inference",
+      "acceptedStatus": "flex_unavailable",
+      "state": {
+        "pendingMaximum": 0,
+        "stopping": true
+      }
+    },
+    {
+      "mode": "timeout-accepted",
+      "calls": 1,
+      "last": {
+        "tier": "flex",
+        "noFlex": true
+      },
+      "nativeKey": true,
+      "dispatchState": "accepted",
+      "acceptedStatus": "accepted_or_uncertain",
+      "state": {
+        "pendingMaximum": 0,
+        "stopping": true
+      }
+    },
+    {
+      "mode": "complete-cache",
+      "calls": 1,
+      "last": {
+        "tier": "flex",
+        "noFlex": true
+      },
+      "state": {
+        "pendingMaximum": 0,
+        "stopping": false
+      }
+    }
+  ],
+  "provider_calls": 0
+}

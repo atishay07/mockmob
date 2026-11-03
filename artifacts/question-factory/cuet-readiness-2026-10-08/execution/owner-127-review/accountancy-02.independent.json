@@ -1,0 +1,254 @@
+{
+  "schema": "owner-one-off-independent-solution-v1",
+  "subject": "accountancy",
+  "batch": "accountancy-02",
+  "input_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/owner-127-review/accountancy-02.blind.json",
+  "input_sha256": "4692006c499284f6b3107e52bb972c791f30deed3dddc9cbbcdb9be892e0face",
+  "input_offset": 10,
+  "input_denominator": 36,
+  "independent_solutions_saved_at": "2026-10-08T14:12:07.589Z",
+  "comparison_opened": false,
+  "notice": "Solved blind from stems/options/supplied excerpts before this batch comparison.",
+  "items": [
+    {
+      "id": "b9ba1bafc94d058b0749f29b2a6ec259",
+      "content_hash": "8a9f2e6b4710a639091b3a64aea1e8062b73b2c3271f4a750c310ac2fdbf8c03",
+      "defensible_option": "B",
+      "answer_check": "₹1,66,000",
+      "derivation_or_rule": "Realisation result: noncash book value ₹5,00,000 sold for ₹4,20,000 (loss ₹80,000); liability ₹1,20,000 settled for ₹1,15,000 (gain ₹5,000); expenses ₹10,000. Net loss ₹85,000 allocated 3:2, B bears ₹34,000, leaving capital ₹1,66,000. Cash reconciliation: ₹80,000+₹4,20,000−₹1,15,000−₹10,000=₹3,75,000; A gets ₹2,09,000 and B ₹1,66,000.",
+      "source": {
+        "key": "ncert-leac104:1:pdf-page-11",
+        "locator": null,
+        "excerpt_quote": "Realisation profit or loss transfers to partners’ capital in their profit-sharing ratio.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "A includes loss-share error; C is unadjusted capital; D is a near miss. All transactions and no-other-items constraints are explicit.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "f5dcf4c0d1ccf4c1f1db3e308289742c",
+      "content_hash": "08866972bc63a8d0bd83ac2aad339214ceea04867496ae60a108199cdae19f38",
+      "defensible_option": "A",
+      "answer_check": "A→I ₹0; B→IV ₹1,500; C→III ₹1,000; D→II ₹600",
+      "derivation_or_rule": "Debit Securities Premium only for premium unpaid at forfeiture: A none (₹0); B ₹5×300=₹1,500; C ₹4×250=₹1,000; D ₹3×200=₹600. Mapping option A.",
+      "source": {
+        "key": "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3",
+        "locator": null,
+        "excerpt_quote": "Securities Premium Reserve is debited with premium not received.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "The four cases cover received/unpaid premium; only option A maps all amounts.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "7b4662c4e2166c62f863a6ae1da78ba6",
+      "content_hash": "8197547afaad708a8e031d5d44d38c0c2791aa23f61bfd3d98b8f5e63302544d",
+      "defensible_option": "B",
+      "answer_check": "A-B-C-D",
+      "derivation_or_rule": "Identify fixed method, state separate Capital and Current Accounts, allocate only capital movements to Capital and profit/drawings/interest to Current, then conclude the Capital Account changes only for capital movements.",
+      "source": {
+        "key": "ncert-leac101:1:quality-v4-5f1d4244dc0b",
+        "locator": null,
+        "excerpt_quote": "“All items like share of profit or loss...drawings...are recorded in a separate account, called Partner’s Current Account.”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "The reasoning sequence is uniquely A→B→C→D.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "24bc774e92f50c1d451abdcdaac8d7b4",
+      "content_hash": "e61d7e28e6003aee86d4f00f0f76a6be1953ba10cd283c6de9f1d9e77eb492a7",
+      "defensible_option": "A",
+      "answer_check": "Year 1 3.6×; Year 2 3.0×",
+      "derivation_or_rule": "Inventory turnover = cost of revenue / average inventory. Y1 cost=14.4−3.6=10.8 lakh; average inventory=(2.4+3.6)/2=3 lakh; ratio=3.6. Y2 cost=16.8−4.8=12 lakh; average=(3.6+4.4)/2=4 lakh; ratio=3.0.",
+      "source": {
+        "key": "ncert-leac205:1:pdf-page-20",
+        "locator": null,
+        "excerpt_quote": "Inventory turnover is cost of revenue from operations divided by average inventory.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Rounding to one decimal is specified. All numeric bases are supplied; option A only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "bba704f2476d1a93fd7bffb1d59cb20b",
+      "content_hash": "19dd7cbcec0ca05ba48b719303307cf162189b661db7b89d6e445013a39dad68",
+      "defensible_option": "A",
+      "answer_check": "A loses 3/20 and is credited; B gains 2/20 and is debited; C gains 1/20 and is debited; D unchanged",
+      "derivation_or_rule": "Old total 20 and new total 20. Shares: A 8/20→5/20 (−3/20); B 5/20→7/20 (+2/20); C 4/20→5/20 (+1/20); D 3/20→3/20. Crediting sacrificing partner and debiting gaining partners gives option A.",
+      "source": {
+        "key": "ncert-leac102:1:span-88acd5a861b0",
+        "locator": null,
+        "excerpt_quote": "A ratio change creates gaining and sacrificing partners; the sacrificed share is compensated by gains.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Matching is bijective and all four classifications are distinct; option A only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "6cb91dc50c0e981ac4c14fcd7b9c15f0",
+      "content_hash": "141712601163b56fb9e995f606cd27cb92a70ceae606816ce0e5e8c22e7c3d6c",
+      "defensible_option": "C",
+      "answer_check": "I>II>III>IV>V>VI",
+      "derivation_or_rule": "Authorised=12,000×₹10=₹1,20,000; issued=10,000×₹10=₹1,00,000; subscribed=9,000×₹10=₹90,000; called-up=9,000×₹6=₹54,000; paid-up=₹48,600; uncalled on subscribed shares=9,000×₹4=₹36,000. Descending is I,II,III,IV,V,VI.",
+      "source": {
+        "key": "ncert-leac201:1:pdf-page-4",
+        "locator": null,
+        "excerpt_quote": "Authorised capital is amount company is authorised to issue; not all need be issued.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Ordered amounts are strictly descending, option C.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "20cc88e8ab11b76d9e44bd28a36ac435",
+      "content_hash": "d4c6a56cb4ea33df27dec2b4ba703ea8ec3c2146af2841c0c1cc9d8bc5523496",
+      "defensible_option": "A",
+      "answer_check": "Debit A, credit B",
+      "derivation_or_rule": "Old shares A=3/5, B=2/5; new A=2/5, B=3/5. A sacrifices and is credited; B gains and is debited. Thus option A.",
+      "source": {
+        "key": "ncert-leac102:1:span-88acd5a861b0",
+        "locator": null,
+        "excerpt_quote": "Change in ratio yields gains for some and losses for others; sacrificing partner credited and gaining partner debited for goodwill.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Direction-only question has one answer, consistent with explicit scope.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "f939099a958200657b70fa887861020a",
+      "content_hash": "be635c103d11bb87a12312db1405f3262937a6f670418e94f774bdd362788095",
+      "defensible_option": "A",
+      "answer_check": "P ₹84,000; Q ₹56,000; R ₹1,00,000",
+      "derivation_or_rule": "R’s initial share is 3/8×₹2,40,000=₹90,000, leaving ₹10,000 guarantee deficiency. P bears ₹6,000 and Q ₹4,000 in 3:2. Initial shares P ₹90,000, Q ₹60,000; final P ₹84,000, Q ₹56,000, R ₹1,00,000.",
+      "source": {
+        "key": "ncert-leac101:1:quality-v4-45047abeb583",
+        "locator": null,
+        "excerpt_quote": "Minimum guarantee is paid when partner’s ratio share is below the guarantee.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Stem specifies guarantee, deficiency bearers, ratio, and no other adjustments. Option A only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "b5df7177ed911c47b68418405ff1dedb",
+      "content_hash": "8ef9a39e58ed72d07e1ba50e9574b9e0fe977876c7901c80542bfe19702ee3eb",
+      "defensible_option": "A",
+      "answer_check": "Add → average → multiply three years → state goodwill; ₹1,80,000",
+      "derivation_or_rule": "Total profits ₹2,40,000; average ₹60,000; three years purchase gives ₹1,80,000. Method and arithmetic imply A-B-C-D.",
+      "source": {
+        "key": "ncert-leac102:1:span-ae361e8a3770",
+        "locator": null,
+        "excerpt_quote": "Average Profits Method values goodwill at agreed years’ purchase of average profits.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Steps have one coherent order, option A.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "4a2f6c3dc560031ae7ab4591ad7c868e",
+      "content_hash": "7e4dcddb5ed8772f891dcdc1b4d00c65567aad41e8a6ba3ac0d0bac64b6e8825",
+      "defensible_option": "D",
+      "answer_check": "₹72,500",
+      "derivation_or_rule": "A: ₹2,40,000×12/12×10%=₹24,000 plus ₹60,000×9/12×10%=₹4,500. B: ₹3,00,000×12/12×10%=₹30,000 less ₹1,20,000×6/12×10%=₹6,000. C: ₹1,80,000×12/12×10%=₹18,000 plus ₹60,000×4/12×10%=₹2,000. Total ₹72,500.",
+      "source": {
+        "key": "ncert-leac101:1:quality-v4-4f456816afcf",
+        "locator": null,
+        "excerpt_quote": "Interest on capital is at agreed rate for time capital remained in business, allowing additions/withdrawals.",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Month-count convention is explicitly given; each contribution interval is determinate. Option D only.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "uniqueness": true,
+        "missing_assumption": false,
+        "syllabus_fit": "provided NCERT Accountancy support",
+        "craft": "valid CUET practice; no penalty for accessible recall"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    }
+  ]
+}

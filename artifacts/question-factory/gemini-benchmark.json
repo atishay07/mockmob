@@ -1,0 +1,1739 @@
+{
+  "at": "2026-10-06T05:41:56.335Z",
+  "scope": "independent_evaluator_comparison_only",
+  "verifier_version": "luna-gemini-cuET-v2.6",
+  "promotes_publication": false,
+  "models": {
+    "gemini-3.8-flash": {
+      "http_status": 200,
+      "accessible": true,
+      "batch_supported": true,
+      "effort": "medium",
+      "observations": [
+        {
+          "id": "calibration-cuet2024-english-bookA-q4",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "An 'altercation' means a noisy argument or confrontation, which contextually leads to a group fight.",
+            "Words such as 'match', 'contest', and 'race' refer to games or organized competitions and do not fit the context of escalating into a fight as directly and appropriately as 'altercation'."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q11",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "'Accede to' means to agree or yield to a demand or request, making it the only grammatically and contextually appropriate phrase to complete the sentence."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q45",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence requires the third conditional structure referring to an unreal past event: 'If' + past perfect ('had known') followed by 'would' + 'have' + past participle ('have visited').",
+            "Therefore, option B ('had known, have visited') is the only grammatically correct and defensible completion."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q15",
+          "subject": "accountancy",
+          "category": "valid_difficult",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Amount received per forfeited share = ₹ 50 - ₹ 10 = ₹ 40.",
+            "Discount allowed on reissue = ₹ 50 - ₹ 45 = ₹ 5 per share.",
+            "Net gain transferred to Capital Reserve per share = ₹ 40 - ₹ 5 = ₹ 35.",
+            "Total amount transferred to Capital Reserve = 400 shares × ₹ 35 = ₹ 14,000, corresponding to Option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q41",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio is calculated as Revenue from Operations divided by Trade Receivables (Trade Debtors + Bills Receivable).",
+            "8,75,000 / (59,000 + 48,000) = 8,75,000 / 1,07,000 ≈ 8.18 times, exactly corresponding to Option A."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q42",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio = Revenue from Operations / Trade Receivables = 8,75,000 / (59,000 + 48,000) = 8,75,000 / 1,07,000 ≈ 8.18 times.",
+            "Average Collection Period = 365 / 8.18 ≈ 44.6 ≈ 45 days (or 1,07,000 / 8,75,000 × 365 ≈ 44.63 ≈ 45 days), matching option C."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q43",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Payables Turnover Ratio = Net Credit Purchases / Average Trade Payables. With only total purchases given, Purchases (₹4,20,000) is taken as net credit purchases. Trade Payables = Creditors + Bills Payable = ₹90,000 + ₹52,000 = ₹1,42,000. Dividing ₹4,20,000 by ₹1,42,000 yields approximately 2.96 times, uniquely matching Option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q44",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Payables = Creditors (₹90,000) + Bills Payable (₹52,000) = ₹1,42,000.",
+            "Trade Payable Turnover Ratio = Purchases (₹4,20,000) / Trade Payables (₹1,42,000) ≈ 2.96 times.",
+            "Average Payment Period = 365 / 2.96 ≈ 123 days, matching Option A."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q45",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio and Trade Payables Turnover Ratio measure the efficiency of asset utilisation and are classified under Activity (or Turnover) Ratios as per NCERT.",
+            "Option C is uniquely correct and directly supported by the textbook."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q25",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The steps in the organising process are strictly defined in NCERT Business Studies Chapter 5 as: 1. Identification and division of work (C), 2. Departmentalisation (B), 3. Assignment of duties (D), and 4. Establishing reporting relationships (A).",
+            "This corresponds precisely to sequence (C), (B), (D), (A), which is Option D."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q46",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage specifically highlights elements and features of Planning, directly paraphrasing and quoting NCERT statements related to planning's importance (such as providing directions, anticipating changes, and choosing from alternative courses of action).",
+            "Therefore, the management function highlighted in the case is Planning (Option D)."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q47",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Under the 'Importance of Planning' section of NCERT Business Studies Chapter 4, the statement 'If goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals' directly explains the importance that 'Planning provides directions'.",
+            "Therefore, Option D is the uniquely correct and defensible answer."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q48",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement directly quotes the NCERT textbook explanation under the importance of planning titled 'Planning reduces the risks of uncertainty'.",
+            "Therefore, Option B is the uniquely correct and defensible answer."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q49",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "According to the NCERT textbook under the importance of planning, the statement that planning 'serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals. It helps in avoiding confusion and misunderstanding' specifically describes the significance: 'Planning reduces overlapping and wasteful activities'.",
+            "Therefore, option D is the unambiguously correct answer."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q50",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "According to NCERT Business Studies Chapter 4 (Planning), under the importance/significance of planning, the statement 'Planning helps the manager to look into the future and make a choice from amongst various alternative courses of action' explicitly explains that planning facilitates decision making.",
+            "Therefore, option D ('Facilitates decision making') is the single defensible answer."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q6",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Accepting deposits from the public and granting loans to individuals is a primary function of commercial banks, not the central bank.",
+            "Issuing currency, acting as a banker to the government, and controlling the money supply via various rates are well-established functions of the Central Bank."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q33",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that before British rule, India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc., matching option C exactly."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q34",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that the economic policies pursued by the colonial government were concerned more with the protection and promotion of the economic interests of their home country (Britain) than with developing the Indian economy.",
+            "Therefore, Option D is directly stated and supported by the passage, while Options A, B, and C are incorrect."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q35",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly enumerates the notable estimators of India's national and per capita income as Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao, and R.C. Desai.",
+            "This precisely matches option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q36",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question directly tests explicit factual information given in the passage and NCERT Chapter 1.",
+            "The passage explicitly states that aggregate real output growth was less than two per cent coupled with a meagre half per cent growth in per capita output per year, uniquely identifying Option D."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q37",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that India's handicraft products enjoyed a worldwide market based on the fine quality of material used and high standards of craftsmanship, directly supporting option C.",
+            "Options A, B, and D directly contradict or are unmentioned in the passage."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-conceptual",
+          "subject": "english",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence requires a third conditional structure referring to an unreal past situation: 'If' + past perfect ('had known') followed by 'would have' + past participle ('have visited'). Therefore, Option B is the unambiguous correct answer.",
+            "The item is identical verbatim to the anchor past-year question cuet2024-english-bookA-q45 with no modification or recalculation, failing meaningful distinctness."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-numerical",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The candidate is completely verbatim identical to the anchor question cuet2024-accountancy-bookA-q15 with no numerical or textual variation, so meaningfully_distinct is false.",
+            "The calculation is straightforward: Amount received on forfeited shares = 400 × ₹(50 - 10) = ₹16,000. Discount allowed on reissue = 400 × ₹(50 - 45) = ₹2,000. Amount transferred to Capital Reserve = ₹16,000 - ₹2,000 = ₹14,000, giving Option B uniquely."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-passage",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables = Trade Debtors (₹59,000) + Bills Receivable (₹48,000) = ₹1,07,000.",
+            "Trade Receivables Turnover Ratio = ₹8,75,000 / ₹1,07,000 ≈ 8.18 times, which is Option A.",
+            "The item is an exact duplicate of anchor exam question cuet2024-accountancy-bookA-q41 without modification, so meaningfully_distinct is false."
+          ]
+        },
+        {
+          "id": "fault-multiple_correct",
+          "subject": "english",
+          "category": "multiple_correct",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Options A and B present essentially duplicate options ('had known, have visited.' vs 'had known, have visited'), creating ambiguity and violating the requirement of having a single distinct, defensible answer.",
+            "The item is not meaningfully distinct from the anchor question cuet2024-english-bookA-q45, from which it was copied with a flawed option replacement."
+          ]
+        },
+        {
+          "id": "fault-missing_assumptions",
+          "subject": "accountancy",
+          "category": "missing_assumptions",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question stem omits all essential numerical data (number of shares forfeited, face value, amount received on forfeiture, and reissue price), making it impossible to calculate the amount transferred to the capital reserve.",
+            "Without the required financial details, none of the specific monetary options (A, B, C, D) can be defended."
+          ]
+        },
+        {
+          "id": "fault-out_of_syllabus",
+          "subject": "english",
+          "category": "out_of_syllabus",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question is entirely out of syllabus for English Language (CUET 101), as it asks about particle physics / quantum chromodynamics.",
+            "The supplied references contain only conditional grammar rules and do not support the subject matter or answer of this question."
+          ]
+        },
+        {
+          "id": "fault-false_citation",
+          "error": "authenticated_reference_excerpt_required",
+          "valid": false
+        },
+        {
+          "id": "fault-unsupported_explanation",
+          "subject": "english",
+          "category": "unsupported_explanation",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The third conditional requires past perfect in the conditional clause ('had known') and 'would have' + past participle in the main clause ('have visited').",
+            "The candidate is verbatim identical to anchor question cuet2024-english-bookA-q45 and is therefore not meaningfully distinct."
+          ]
+        },
+        {
+          "id": "fault-orphan_passage",
+          "subject": "accountancy",
+          "category": "orphan_passage",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The required passage containing financial data (Revenue from Operations, Debtors, Bills Receivable, etc.) is missing, making the question unanswerable.",
+            "Without the underlying numerical values, no single defensible answer can be calculated."
+          ]
+        },
+        {
+          "id": "fault-cosmetic_duplicate",
+          "subject": "english",
+          "category": "cosmetic_duplicate",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "C",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The candidate question has a clear, single defensible answer (C) based on the third conditional rule (past perfect followed by would have + past participle).",
+            "However, this item is a direct copy of its anchor question (cuet2024-english-bookA-q45) with only reshuffled options, failing the requirement for pyq_adapted items to be meaningfully distinct."
+          ]
+        },
+        {
+          "id": "fault-option_collision",
+          "subject": "english",
+          "category": "option_collision",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Option collision: Option A and Option B are verbatim identical ('had known, have visited'), both representing the correct completion for a third conditional sentence.",
+            "Because there are two identical correct options, there is no single defensible answer key."
+          ]
+        },
+        {
+          "id": "fault-solver_boundary",
+          "subject": "accountancy",
+          "category": "solver_boundary",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The shares have a face value of ₹ 50, with ₹ 40 received prior to forfeiture. Reissuing them at ₹ 5 per share as fully paid-up entails a discount of ₹ 45 per share, which exceeds the maximum legally allowable discount of ₹ 40 per share.",
+            "Even if calculated mathematically without regard to legal bounds, the Forfeited Shares Account would face a deficit of ₹ 5 per share (₹ 2,000 total loss), resulting in no positive transfer to Capital Reserve. None of the listed options (₹ 15,000, ₹ 14,000, ₹ 16,000, ₹ 13,000) are correct."
+          ]
+        }
+      ],
+      "pending": [],
+      "blind_answer_accuracy": 1,
+      "by_subject": {
+        "english": {
+          "sample_size": 3,
+          "answer_accuracy": 1
+        },
+        "accountancy": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "business_studies": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "economics": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        }
+      },
+      "defect_observations": 11,
+      "defect_accepts": [],
+      "valid_sample_size": 21,
+      "complete": true,
+      "valid_acceptance": 21,
+      "academic_defect_accepts": [],
+      "benchmark_gate_passed": true,
+      "measured_role_requests": 32,
+      "measured_role_cost_usd": 0.085462,
+      "cost_per_evaluated_candidate_usd": 0.0026706875
+    },
+    "gemini-3.1-flash-lite": {
+      "http_status": 200,
+      "accessible": true,
+      "batch_supported": true,
+      "effort": "high",
+      "observations": [
+        {
+          "id": "calibration-cuet2024-english-bookA-q4",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence describes a situation where an initial, smaller conflict escalates into a larger 'group fight'.",
+            "The term 'altercation' is defined as a noisy argument or disagreement, which is the only option that fits the context of a interpersonal conflict escalating.",
+            "Options 'match', 'contest', and 'race' are terms related to organized sports or competitive events and do not semantically fit the context of a conflict turning into a fight between children."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q11",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "'Accede to' is the correct idiomatic phrase used to express agreeing to or yielding to a request or demand, which fits the context of the President responding to public pressure.",
+            "The remaining options ('ignore', 'initiate', 'condone') are semantically or idiomatically incorrect in the context of accepting public demands for resignation."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q45",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence refers to a past situation ('I didn’t know Rahul was in the hospital'), requiring the use of the third conditional structure.",
+            "The third conditional is used to describe a hypothetical situation in the past, following the structure: 'If + past perfect, would have + past participle'.",
+            "Option B is the only choice that fits this grammatical rule, using 'had known' (past perfect) and 'have visited' (as part of the 'would have visited' structure).",
+            "Options A, C, and D violate grammatical rules regarding conditional tenses for past hypothetical situations."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q15",
+          "subject": "accountancy",
+          "category": "valid_difficult",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The amount credited to the 'Share Forfeiture Account' upon forfeiture is the amount already paid by the shareholder. For 400 shares of ₹ 50 each, with a call of ₹ 10 unpaid, the amount paid per share is ₹ 40. Thus, total credited = 400 × ₹ 40 = ₹ 16,000.",
+            "Upon reissue of the shares as fully paid-up at ₹ 45, the discount per share is ₹ 50 - ₹ 45 = ₹ 5. Total discount (debited to Share Forfeiture Account) = 400 × ₹ 5 = ₹ 2,000.",
+            "The amount transferred to Capital Reserve is the remaining balance in the Share Forfeiture Account: ₹ 16,000 - ₹ 2,000 = ₹ 14,000.",
+            "This calculation aligns with standard accounting principles for the reissue of forfeited shares as described in the provided NCERT reference."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q41",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The Trade Receivables Turnover Ratio is calculated as Net Credit Revenue from Operations divided by Average Trade Receivables.",
+            "Using the provided data: Revenue from Operations is ₹8,75,000. Trade Receivables are calculated as Trade Debtors (₹59,000) + Bills Receivable (₹48,000) = ₹1,07,000.",
+            "As per the NCERT source material, when opening balances are not provided, closing balances are used as the average.",
+            "Calculation: 8,75,000 / 1,07,000 = 8.17757..., which rounds to 8.18 times.",
+            "This calculation aligns exactly with the provided source solution for Illustration 17."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q42",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The Average Collection Period is calculated using the formula: 365 days / Trade Receivables Turnover Ratio.",
+            "First, calculate the Trade Receivables Turnover Ratio: Revenue from Operations (8,75,000) / (Trade Debtors 59,000 + Bills Receivable 48,000) = 8,75,000 / 1,07,000 ≈ 8.18 times.",
+            "Second, calculate the Average Collection Period: 365 / 8.18 ≈ 44.62 days, which rounds to 45 days.",
+            "The calculation matches Illustration 17 in the source document, confirming the answer is 45 days."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q43",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The formula for Trade Payables Turnover Ratio is (Net) Credit Purchases divided by Average Trade Payables.",
+            "Given the data: Purchases = ₹4,20,000, Creditors = ₹90,000, and Bills Payable = ₹52,000.",
+            "Average Trade Payables = Creditors + Bills Payable = ₹90,000 + ₹52,000 = ₹1,42,000.",
+            "Calculation: 4,20,000 / 1,42,000 ≈ 2.9577, which rounds to 2.96.",
+            "The calculation aligns with the provided NCERT source illustration and matches option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q44",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The Average Payment Period is calculated as 365 / Trade Payables Turnover Ratio.",
+            "The Trade Payables Turnover Ratio is calculated by dividing Purchases (Rs. 4,20,000) by the sum of Creditors (Rs. 90,000) and Bills Payable (Rs. 52,000), which equals 1,42,000.",
+            "4,20,000 / 1,42,000 ≈ 2.9577, which the source approximates to 2.96 times.",
+            "The calculation 365 / 2.96 equals 123.37 days, which rounds to 123 days, matching option A."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q45",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "According to the NCERT textbook on Accounting Ratios, 'Trade receivable Turnover' and 'Trade payable Turnover' are explicitly classified as Activity Ratios (also known as Turnover Ratios).",
+            "The question is a direct conceptual query regarding the classification of financial ratios, which is covered under Unit V of the Accountancy syllabus."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q25",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The NCERT textbook defines the steps of the organising process in the specific sequence: Identification and division of work (C), Departmentalisation (B), Assignment of Duties (D), and Establishing reporting relationships (A).",
+            "This matches the sequence (C), (B), (D), (A) provided in option D.",
+            "The question relies on standard conceptual knowledge of management functions which is directly supported by the provided source text."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q46",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly describes activities inherent to the Planning function: 'plans to increase its business operations', 'plans to invest', 'Policy formation', and crucially, the final sentence which defines planning as the ability of a manager to 'look into the future and make a choice from amongst various alternative courses of action'.",
+            "These descriptions map directly to the curriculum definitions for the Planning function of management."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q47",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement directly corresponds to the importance of planning as defined in the standard business studies curriculum (NCERT).",
+            "The NCERT source explicitly categorizes this specific behavior under the heading 'Planning provides directions', which matches option (D)."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q48",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The source text explicitly links the provided statement to the importance of planning in reducing the risks of uncertainty.",
+            "Option (B) directly corresponds to the heading and description under which the quoted statement appears in the standard NCERT curriculum.",
+            "The statement describes the anticipation of future changes, which is the definition provided for 'Planning reduces the risks of uncertainty' in the syllabus content."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q49",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The NCERT textbook explicitly lists 'Planning serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals' and 'It helps in avoiding confusion and misunderstanding' as the explanation for the significance: 'Planning reduces overlapping and wasteful activities'."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q50",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement 'Manager can look into the future and make a choice from amongst various alternative courses of action' is explicitly linked to the importance of planning titled 'Planning facilitates decision making' in the NCERT Business Studies textbook.",
+            "Option D directly matches the heading and content associated with this activity in the source material."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q6",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The source text identifies key functions of the Central Bank (issuing currency, controlling money supply, acting as banker to the government) which correspond to options A, B, and D.",
+            "The source text explicitly attributes the function of accepting deposits and lending to the public to 'Commercial Banks', establishing that this is not a function of the Central Bank.",
+            "Option C, describing deposit acceptance and lending to the public, is therefore correctly identified as not a function of the Central Bank."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q33",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question asks to identify the industries India was well known for before British rule.",
+            "The passage explicitly states: 'India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc.'",
+            "Option C, 'Cotton and Silk textiles, metal and precious stones, etc', is a direct match to the information provided in the passage."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q34",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question directly maps to the provided source text which explicitly states that colonial economic policies prioritized the economic interests of their home country (Britain) over the development of the Indian economy.",
+            "Option A is incorrect as the colonial government discouraged Indian industries.",
+            "Option B is incorrect as there was no policy to promote/protect Indian small-scale industries.",
+            "Option C is incorrect because the text specifies the interest was in the 'home country' rather than Indian industry; it contrasts the two rather than equating them."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q35",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly lists the notable estimators of India's National Income and Per Capita Income as 'Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai'.",
+            "Option B matches this list exactly.",
+            "Option A includes Bernier, who is mentioned in the text as a traveller in Box 1.2, not as an estimator.",
+            "Option C includes Jagdish Bhagwati, who is not mentioned in the passage as an estimator.",
+            "Option D is an incomplete list compared to the definitive list provided in the passage."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q36",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that 'most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.'",
+            "Option D matches this information exactly, whereas Options A, B, and C contain incorrect figures regarding the growth rates."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q37",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states: 'These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India.'",
+            "Option C is a direct paraphrase of this specific sentence from the text.",
+            "Option A is incorrect because the passage describes the products as having 'fine quality', contradicting the claim of 'inferior quality'.",
+            "Option B is incorrect because the passage states colonial policies focused on their 'home country' rather than developing the Indian economy.",
+            "Option D is incorrect because the passage describes India being transformed into a 'supplier of raw materials', not an importer of raw materials."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-conceptual",
+          "subject": "english",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence expresses a hypothetical situation in the past (third conditional), which requires the structure 'If + Past Perfect, ... would have + Past Participle'.",
+            "The context 'I didn’t know Rahul was in the hospital' confirms the past timeframe.",
+            "Option B ('had known, have visited') perfectly matches the grammatical requirement for the third conditional: 'If I had known, I would have visited him'.",
+            "Option A uses second conditional structure (simple past + would + infinitive), which is incorrect for past hypothetical situations. Options C and D are grammatically incorrect."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-numerical",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Calculation: 400 shares were forfeited for non-payment of ₹10 per share on a face value of ₹50. The amount forfeited per share is ₹40 (₹50 - ₹10). Total amount in Share Forfeiture account = 400 × ₹40 = ₹16,000.",
+            "Reissue: The shares were reissued at ₹45 as fully paid-up. The discount on reissue is ₹5 per share (₹50 - ₹45). Total discount = 400 × ₹5 = ₹2,000.",
+            "Transfer to Capital Reserve: The amount transferred is the remaining balance in the Share Forfeiture account after debiting the discount on reissue. ₹16,000 - ₹2,000 = ₹14,000.",
+            "Option B (₹ 14,000) matches the calculation."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-passage",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The Trade Receivables Turnover Ratio is calculated as Net Credit Revenue from Operations divided by Average Trade Receivables.",
+            "Using the data provided: Revenue from Operations = ₹8,75,000; Trade Debtors = ₹59,000; Bills Receivable = ₹48,000.",
+            "Calculation: 8,75,000 / (59,000 + 48,000) = 8,75,000 / 107,000 = 8.1775..., which rounds to 8.18.",
+            "The source text explicitly confirms this calculation and the result of '8.18 times', noting that when only year-end figures are available, they are used as is."
+          ]
+        },
+        {
+          "id": "fault-multiple_correct",
+          "subject": "english",
+          "category": "multiple_correct",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "A",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question tests the Third Conditional structure: 'If I [had known], I would [have visited]'.",
+            "Option A ('had known, have visited.') and Option B ('had known, have visited') are grammatically and semantically identical, differing only by a trailing period in Option A, which does not affect the grammatical validity of the phrase.",
+            "Since two options provide the identical correct answer, there is no single defensible option.",
+            "This invalidates the question structure based on standard MCQ design, hence 'single_defensible_answer' is false and 'meaningfully_distinct' is false."
+          ]
+        },
+        {
+          "id": "fault-missing_assumptions",
+          "error": "provider_output_incomplete",
+          "valid": false
+        },
+        {
+          "id": "fault-out_of_syllabus",
+          "subject": "english",
+          "category": "out_of_syllabus",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question is a Physics topic regarding quantum chromodynamics, which falls entirely outside the provided English syllabus (Reading Comprehension and Verbal Ability).",
+            "The provided syllabus excludes domain-specific scientific knowledge testing.",
+            "As the question does not measure English language proficiency, it cannot be solved within the context of the English exam paper."
+          ]
+        },
+        {
+          "id": "fault-false_citation",
+          "error": "authenticated_reference_excerpt_required",
+          "valid": false
+        },
+        {
+          "id": "fault-unsupported_explanation",
+          "subject": "english",
+          "category": "unsupported_explanation",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence describes a hypothetical situation in the past ('I didn’t know Rahul was in the hospital'), which requires the third conditional structure.",
+            "The third conditional pattern follows the grammatical rule: 'If + past perfect, would have + past participle'.",
+            "Option B, 'had known, have visited', correctly applies this rule, creating the sentence: 'If I had known, I would have visited him.'",
+            "The reference material confirms this grammatical structure directly."
+          ]
+        },
+        {
+          "id": "fault-orphan_passage",
+          "subject": "accountancy",
+          "category": "orphan_passage",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The Trade Receivables Turnover Ratio is calculated as Revenue from Operations divided by Average Trade Receivables.",
+            "Since only year-end figures are available for Trade Debtors (59,000) and Bills Receivable (48,000), they are summed to arrive at the Trade Receivables figure (1,07,000).",
+            "Calculation: 8,75,000 / 1,07,000 = 8.1775..., which rounds to 8.18 times, matching option A.",
+            "The calculation methodology is explicitly supported by Illustration 17 in the NCERT source."
+          ]
+        },
+        {
+          "id": "fault-cosmetic_duplicate",
+          "subject": "english",
+          "category": "cosmetic_duplicate",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "C",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence describes a past hypothetical situation (third conditional), where the speaker was unaware of a fact in the past and therefore did not take a specific action.",
+            "The grammatical structure for the third conditional is 'If + past perfect, ... would have + past participle'.",
+            "Option C ('had known, have visited') fits this structure perfectly: 'If I had known, I would have visited him'.",
+            "This question is identical to the PYQ referenced (cuet2024-english-bookA-q45), thus it is not meaningfully distinct."
+          ]
+        },
+        {
+          "id": "fault-option_collision",
+          "subject": "english",
+          "category": "option_collision",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question requires the third conditional structure: 'If + past perfect' (had known) followed by 'would have + past participle' (would have visited).",
+            "Option A ('had known, have visited') and Option B ('had known, have visited') are identical in the provided text.",
+            "Since both A and B are grammatically correct and identical, the question lacks a single unique defensible answer."
+          ]
+        },
+        {
+          "id": "fault-solver_boundary",
+          "error": "provider_output_incomplete",
+          "valid": false
+        }
+      ],
+      "pending": [],
+      "blind_answer_accuracy": 1,
+      "by_subject": {
+        "english": {
+          "sample_size": 3,
+          "answer_accuracy": 1
+        },
+        "accountancy": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "business_studies": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "economics": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        }
+      },
+      "defect_observations": 11,
+      "defect_accepts": [
+        "fault-orphan_passage"
+      ],
+      "valid_sample_size": 21,
+      "complete": true,
+      "valid_acceptance": 19,
+      "academic_defect_accepts": [],
+      "benchmark_gate_passed": false,
+      "measured_role_requests": 32,
+      "measured_role_cost_usd": 0.049103999999999995,
+      "cost_per_evaluated_candidate_usd": 0.0015344999999999998
+    },
+    "gemini-3.5-flash-lite": {
+      "http_status": 200,
+      "accessible": true,
+      "batch_supported": true,
+      "effort": "medium",
+      "observations": [
+        {
+          "id": "calibration-cuet2024-english-bookA-q4",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "An 'altercation' refers to a noisy argument or disagreement, which logically fits the context of escalating into a group fight between two children.",
+            "Options (B), (C), and (D) (match, contest, race) do not make sense in the context of an event escalating into a physical group fight."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q11",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The phrase 'accede to' is standard collocation meaning to agree or yield to a demand or request, such as demands for resignation.",
+            "Options A, B, and D do not grammatically or contextually fit the prepositional structure and meaning of yielding to public demands."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-english-bookA-q45",
+          "subject": "english",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence represents a third conditional structure referring to an unreal past situation ('I didn’t know Rahul was in the hospital').",
+            "The standard grammatical structure for a past unreal conditional is 'If + past perfect' in the subordinate clause and 'would have + past participle' in the main clause.",
+            "Option B ('had known, have visited') perfectly matches this requirement."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q15",
+          "subject": "accountancy",
+          "category": "valid_difficult",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The amount paid on 400 shares prior to forfeiture is ₹ 40 per share (₹ 50 face value minus ₹ 10 final call unpaid), resulting in a total share forfeiture balance of ₹ 16,000.",
+            "Upon reissue at ₹ 45 per share as fully paid-up, a discount of ₹ 5 per share (₹ 50 - ₹ 45) is allowed, totaling ₹ 2,000.",
+            "The net gain transferred to the Capital Reserve is ₹ 16,000 - ₹ 2,000 = ₹ 14,000, which corresponds to option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q41",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio is calculated as Net Credit Revenue from Operations divided by Trade Receivables (Trade Debtors + Bills Receivable).",
+            "Revenue from Operations = ₹8,75,000; Trade Debtors = ₹59,000; Bills Receivable = ₹48,000.",
+            "Since opening balances are not available, the year-end total of debtors and bills receivable (₹59,000 + ₹48,000 = ₹1,07,000) is used as Trade Receivables.",
+            "Ratio = 8,75,000 / 1,07,000 = 8.18 times, matching Option A."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q42",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio is calculated as Net Credit Revenue from Operations divided by Average Trade Receivables (Trade Debtors + Bills Receivable = 59,000 + 48,000 = 1,07,000), yielding 8,75,000 / 1,07,000 = 8.18 times.",
+            "Average Collection Period is calculated as 365 days (or 12 months) divided by the Trade Receivables Turnover Ratio (365 / 8.18), which equals approximately 45 days.",
+            "Option C ('45 days') matches this calculated result exactly."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q43",
+          "subject": "accountancy",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Payables Turnover Ratio is calculated by dividing Purchases by Average Trade Payables (Creditors + Bills Payable).",
+            "Substituting the given values: Purchases = 4,20,000 and Trade Payables = 90,000 + 52,000 = 1,42,000.",
+            "Ratio = 4,20,000 / 1,42,000 = 2.96 times, which corresponds to option B."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q44",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Average Trade Payables = Creditors + Bills Payable = 90,000 + 52,000 = 1,42,000.",
+            "Trade Payable Turnover Ratio = Purchases / Average Trade Payables = 4,20,000 / 1,42,000 = 2.96 times.",
+            "Average Payment Period = 365 / Trade Payable Turnover Ratio = 365 / 2.96 = 123 days.",
+            "Option A directly matches 123 days."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-accountancy-bookA-q45",
+          "subject": "accountancy",
+          "category": "valid_easy",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio and Trade Payables Turnover Ratio are classified under Activity Ratios (also known as Turnover Ratios) according to standard accounting principles and textbook definitions."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q25",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "According to the NCERT textbook, the steps in the process of organising are: (a) Identification and division of work, (b) Departmentalisation, (c) Assignment of duties, and (d) Establishing reporting relationships.",
+            "Matching these steps to the given options (C), (B), (D), (A) yields option (D) as the correct sequence."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q46",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The case study highlights key activities and concepts related to planning, such as setting goals, policy formation, making choices from alternative courses of action, looking into the future, and anticipating changes.",
+            "Therefore, the function of management being highlighted is Planning (Option D)."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q47",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement directly corresponds to the significance/importance of planning known as 'Provides direction' as per the NCERT Business Studies textbook.",
+            "Option D explicitly matches this concept."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q48",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement precisely corresponds to the importance/significance of planning known as 'Planning reduces the risks of uncertainty' as explicitly stated in the NCERT Business Studies textbook."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q49",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement 'Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals. It helps in avoiding confusion and misunderstanding.' directly corresponds to the importance/significance of planning known as 'Reduces overlapping and wasteful activities' in standard business studies textbooks (NCERT).",
+            "Option D is the exact match for this significance."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-business_studies-bookA-q50",
+          "subject": "business_studies",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The statement directly corresponds to the significance of planning known as 'Facilitates decision making' as defined in standard NCERT textbook Class 12 Business Studies.",
+            "Option D correctly matches this significance among the given choices."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q6",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Option C states 'It accepts deposits and give loans to people', which is a function of commercial banks rather than the central bank according to NCERT textbook economics.",
+            "Options A, B, and D correctly state actual functions of the central bank (controlling money supply, acting as a banker to the government, and issuing currency)."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q33",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that India was well known for handicraft industries in cotton and silk textiles, metal and precious stone works, etc., which directly matches Option C."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q34",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that the economic policies pursued by the colonial government were concerned with the protection and promotion of the economic interests of their home country, which directly validates option D.",
+            "Options A, B, and C incorrectly claim promotion or protection of Indian or local industries, which contradicts historical evidence and the provided text."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q35",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly lists the notable estimators of India's national and per capita income as Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao, and R.C. Desai.",
+            "Option B is the only option that contains all five correct names matching the textbook passage."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q36",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "D",
+          "solved_key": "D",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that the country's growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+            "Option D directly matches this exact textual statement."
+          ]
+        },
+        {
+          "id": "calibration-cuet2024-economics-bookA-q37",
+          "subject": "economics",
+          "category": "valid_medium",
+          "valid": true,
+          "official_answer": "C",
+          "solved_key": "C",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The passage explicitly states that Indian handicraft products 'enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship', which directly supports option C.",
+            "Options A, B, and D contradict the explicit information provided in the passage."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-conceptual",
+          "subject": "english",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence is a third conditional describing an unfulfilled past condition and its hypothetical result.",
+            "The conditional clause requires the past perfect tense ('had known'), and the main clause requires 'would have' followed by a past participle ('have visited').",
+            "Option B is the only choice that correctly follows this grammatical rule."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-numerical",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Face value / Called-up value of each share = ₹ 50.",
+            "Non-payment of final call = ₹ 10 per share, meaning the amount already paid (and credited to Share Forfeiture) is ₹ 50 - ₹ 10 = ₹ 40 per share. For 400 shares, total forfeited amount = 400 × ₹ 40 = ₹ 16,000.",
+            "Shares are reissued at ₹ 45 per share as fully paid-up (face value ₹ 50), resulting in a discount of ₹ 50 - ₹ 45 = ₹ 5 per share. Total discount on reissue = 400 × ₹ 5 = ₹ 2,000.",
+            "Amount transferred to Capital Reserve = Total forfeited amount - Discount on reissue = ₹ 16,000 - ₹ 2,000 = ₹ 14,000.",
+            "Option B corresponds to ₹ 14,000."
+          ]
+        },
+        {
+          "id": "fault-wrong_key-passage",
+          "subject": "accountancy",
+          "category": "wrong_key",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio is calculated as Revenue from Operations divided by Total Trade Receivables (Trade Debtors + Bills Receivable) since opening balances are unavailable, giving 8,75,000 / (59,000 + 48,000) = 8.18 times."
+          ]
+        },
+        {
+          "id": "fault-multiple_correct",
+          "subject": "english",
+          "category": "multiple_correct",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Options A and B both contain the exact same correct word pair ('had known, have visited'), resulting in duplicate correct choices.",
+            "Because there are multiple identical correct options, a single defensible unique answer cannot be determined, necessitating abstention."
+          ]
+        },
+        {
+          "id": "fault-missing_assumptions",
+          "subject": "accountancy",
+          "category": "missing_assumptions",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Total shares forfeited = 400 shares of ₹ 50 each.",
+            "Amount paid per share = ₹ 50 - ₹ 10 (final call unpaid) = ₹ 40 per share.",
+            "Total amount credited to Share Forfeiture Account for 400 shares = 400 * ₹ 40 = ₹ 16,000.",
+            "Shares reissued at ₹ 45 per share as fully paid-up (face value ₹ 50), resulting in a discount of ₹ 5 per share (₹ 50 - ₹ 45).",
+            "Total discount on reissue = 400 * ₹ 5 = ₹ 2,000, which is debited to Share Forfeiture Account.",
+            "Amount transferred to Capital Reserve = Forfeited amount on reissued shares - Discount on reissue = ₹ 16,000 - ₹ 2,000 = ₹ 14,000."
+          ]
+        },
+        {
+          "id": "fault-out_of_syllabus",
+          "subject": "english",
+          "category": "out_of_syllabus",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The question is a physics question concerning quantum chromodynamics and elementary particles, which falls completely outside the CUET English (English - 101) syllabus. Therefore, the question is invalid for this subject and must be abstained from."
+          ]
+        },
+        {
+          "id": "fault-false_citation",
+          "error": "authenticated_reference_excerpt_required",
+          "valid": false
+        },
+        {
+          "id": "fault-unsupported_explanation",
+          "subject": "english",
+          "category": "unsupported_explanation",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence describes an unreal past conditional situation ('I didn’t know Rahul was in the hospital').",
+            "The correct third conditional structure requires 'If + past perfect' in the condition clause and 'would have + past participle' in the main clause, making option B ('had known, have visited') the only grammatically correct pair."
+          ]
+        },
+        {
+          "id": "fault-orphan_passage",
+          "subject": "accountancy",
+          "category": "orphan_passage",
+          "valid": false,
+          "official_answer": "A",
+          "solved_key": "A",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Trade Receivables Turnover Ratio is calculated as Net Revenue from Operations divided by Total Trade Receivables (Trade Debtors + Bills Receivable) since opening balances are not provided.",
+            "Dividing Rs. 8,75,000 by (Rs. 59,000 + Rs. 48,000 = Rs. 1,07,000) gives 8.1775..., which rounds to 8.18 times.",
+            "Option A correctly matches this calculation."
+          ]
+        },
+        {
+          "id": "fault-cosmetic_duplicate",
+          "subject": "english",
+          "category": "cosmetic_duplicate",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "C",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "The sentence expresses a counterfactual conditional in the past (third conditional), which requires the structure 'If + past perfect' in the condition clause and 'would have + past participle' in the main clause.",
+            "Option C ('had known, have visited') correctly fits this grammatical structure ('If I had known, I would have visited him').",
+            "All other options violate the rules of conditional clauses in English grammar."
+          ]
+        },
+        {
+          "id": "fault-option_collision",
+          "subject": "english",
+          "category": "option_collision",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "abstain",
+          "answer_correct": false,
+          "evaluator_accepts": false,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Options A and B are identical ('had known, have visited'), resulting in a duplicate option collision that prevents a single uniquely distinguishable correct choice. Therefore, the item is invalid and must be abstained."
+          ]
+        },
+        {
+          "id": "fault-solver_boundary",
+          "subject": "accountancy",
+          "category": "solver_boundary",
+          "valid": false,
+          "official_answer": "B",
+          "solved_key": "B",
+          "answer_correct": true,
+          "evaluator_accepts": true,
+          "explanation_audit_measured": false,
+          "reasons": [
+            "Total shares forfeited = 400 shares of ₹ 50 each.",
+            "Amount received/forfeited per share = ₹ 50 - ₹ 10 (final call unpaid) = ₹ 40. Total amount credited to Share Forfeiture Account = 400 × ₹ 40 = ₹ 16,000.",
+            "With a reissue discount of ₹ 5 per share (reissue price ₹ 45), total discount on reissue = 400 × ₹ 5 = ₹ 2,000.",
+            "Amount transferred to Capital Reserve = Forfeited amount - Discount on reissue = ₹ 16,000 - ₹ 2,000 = ₹ 14,000.",
+            "Option B (₹ 14,000) is the correct and single defensible answer."
+          ]
+        }
+      ],
+      "pending": [],
+      "blind_answer_accuracy": 1,
+      "by_subject": {
+        "english": {
+          "sample_size": 3,
+          "answer_accuracy": 1
+        },
+        "accountancy": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "business_studies": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        },
+        "economics": {
+          "sample_size": 6,
+          "answer_accuracy": 1
+        }
+      },
+      "defect_observations": 11,
+      "defect_accepts": [
+        "fault-missing_assumptions",
+        "fault-orphan_passage",
+        "fault-solver_boundary"
+      ],
+      "valid_sample_size": 21,
+      "complete": true,
+      "valid_acceptance": 21,
+      "academic_defect_accepts": [
+        "fault-missing_assumptions",
+        "fault-solver_boundary"
+      ],
+      "benchmark_gate_passed": false,
+      "measured_role_requests": 32,
+      "measured_role_cost_usd": 0.050195,
+      "cost_per_evaluated_candidate_usd": 0.00156859375
+    }
+  },
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 415387,
+    "requests": 207,
+    "unresolved": 0
+  },
+  "costs": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 0,
+        "open_requests": 1,
+        "settled_usd": 0,
+        "held_usd": 0.001357,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 6,
+        "open_requests": 66,
+        "settled_usd": 0.003508,
+        "held_usd": 0.1306139999999999,
+        "input_tokens": 12541,
+        "output_tokens": 11512,
+        "reasoning_tokens": 8959,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 67,
+        "open_requests": 0,
+        "settled_usd": 0.17981200000000008,
+        "held_usd": 0,
+        "input_tokens": 178544,
+        "output_tokens": 60173,
+        "reasoning_tokens": 34588,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.049103999999999995,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 50794,
+        "reasoning_tokens": 37688,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.050195,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 29591,
+        "reasoning_tokens": 17042,
+        "usage_missing_requests": 0
+      }
+    ]
+  },
+  "limitations": [
+    "No model switch or publication release follows this comparison.",
+    "An independent blind evaluator cannot audit a withheld author explanation; the Luna explanation stage still applies.",
+    "API token cost is gross; promotional credit application requires billing evidence.",
+    "Only 21 valid items from four 2024 papers; all correct here does not establish universal accuracy.",
+    "Orphan passages and corrupted source hashes are rejected separately by local gates; evaluator findings are not full pipeline admission."
+  ],
+  "decision": {
+    "default_model": "gemini-3.8-flash",
+    "promote_cheaper_model": false,
+    "reason": "Cheaper models did not match the complete evidence and defect checks on this held-out set.",
+    "full_pipeline_release": false
+  }
+}

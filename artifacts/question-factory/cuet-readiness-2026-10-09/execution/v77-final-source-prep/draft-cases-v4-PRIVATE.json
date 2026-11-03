@@ -1,0 +1,3005 @@
+{
+  "schema": "v77-final-candidate-construction-v4",
+  "created_at": "2026-10-09T07:35:29.297Z",
+  "parent_draft": "draft-cases-v3b-PRIVATE.json",
+  "parent_draft_sha256": "77b2380a6f72e358677d4a1c3940cdac9f178f8b9860ea56e66a88715bded369",
+  "source_overlay": "source-overlay-v3b.json",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "case_construction_started_at": "2026-10-09T06:42:30.000Z",
+  "v3b_correction_started_at": "2026-10-09T07:06:29.188Z",
+  "scope": "Additive evidence and neutral-metadata correction. V2b retained unchanged. Stems, options/order, proposed answers, labels, and expected_valid are preserved.",
+  "cases": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-ad344a8b5f2d",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "Which investment can qualify as a cash equivalent under the stated maturity test?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk"
+          },
+          {
+            "key": "B",
+            "text": "Equity shares held for resale with no stated redemption date"
+          },
+          {
+            "key": "C",
+            "text": "A five-year government bond acquired today"
+          },
+          {
+            "key": "D",
+            "text": "A deposit maturing four months after acquisition"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The instrument is short-term, readily convertible, and matures within three months of acquisition. The other choices either exceed the maturity limit or lack the stated low-risk, short-maturity features.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-cash-equivalent-eligibility",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p3-ac_cash",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Evaluate investment facts against cash-flow classification criteria.",
+          "target_term": "cash-flow classification criteria"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p3-ac_cash",
+          "adaptation_family": "v77-final-v2-family-cash-equivalent-eligibility",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The instrument is short-term, readily convertible, and matures within three months of acquisition. The other choices either exceed the maturity limit or lack the stated low-risk, short-maturity features.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p3-ac_cash",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leac206-p3-ac_cash",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "3f5b75626e34ea91f39f65e98e5452a3063237eb0b61208c9ddc1cc44c1fb761",
+      "case_v2_sha256": "e67968e67ecf628fbce48a413cc992c8b95fe566576349879e09e34fc882e79e",
+      "case_v2b_sha256": "e67968e67ecf628fbce48a413cc992c8b95fe566576349879e09e34fc882e79e",
+      "case_v3b_sha256": "4e6882e61e1560ea97f78bb36a9d0e74ee2d3eaf443d42307884756ab66664d3",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-2105354e5de1",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A garment maker reports two cash receipts: payment from customers for delivered garments and proceeds from selling an old cutting machine. Which classification is correct?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Both are operating cash inflows"
+          },
+          {
+            "key": "B",
+            "text": "Customer payment is operating; machine-sale proceeds are investing"
+          },
+          {
+            "key": "C",
+            "text": "Customer payment is investing; machine-sale proceeds are operating"
+          },
+          {
+            "key": "D",
+            "text": "Both are financing cash inflows"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The textbook identifies customer receipts for goods as operating and sale proceeds from a fixed asset as investing.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "application_based",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-customer-receipts-machine-sale",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Classify receipts using the business activity described.",
+          "target_term": "cash-flow activity categories"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p4-ac_operating",
+          "adaptation_family": "v77-final-v2-family-customer-receipts-machine-sale",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "The textbook identifies customer receipts for goods as operating and sale proceeds from a fixed asset as investing.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leac206-p4-ac_operating",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "49c35a671e46f80f5160bcf17121a32ce890f18060731cb6fd925ff38c94e2c7",
+      "case_v2_sha256": "0611e246d8fd077e14fa71d328ac840c017183900d7a851f844c914615eac354",
+      "case_v2b_sha256": "0611e246d8fd077e14fa71d328ac840c017183900d7a851f844c914615eac354",
+      "case_v3b_sha256": "2566494968512223d3836fcda9fa09ba054f09796ead944918b5a0819cf1f5e3",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-662880a2c5fb",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "What is the primary purpose of presenting operating, investing and financing cash flows separately?",
+        "options": [
+          {
+            "key": "A",
+            "text": "To show only the profit earned in the period"
+          },
+          {
+            "key": "B",
+            "text": "To provide information about cash inflows and outflows under the three activity heads"
+          },
+          {
+            "key": "C",
+            "text": "To replace the income statement and balance sheet"
+          },
+          {
+            "key": "D",
+            "text": "To report only cash held at year end"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The statement reports period cash flows classified under operating, investing and financing activities.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-662880a2c5fb",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p2-ac_purpose",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Interpret the purpose of activity groupings in a financial statement.",
+          "target_term": "statement objectives"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p2-ac_purpose",
+          "adaptation_family": "v77-final-v2-family-v77f-662880a2c5fb",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "The statement reports period cash flows classified under operating, investing and financing activities.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p2-ac_purpose",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leac206-p2-ac_purpose",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "419a118ab42dfbf6ac4bf5dcc6659620ea1fb94b9ec00fd94dbd4018ab9c0839",
+      "case_v2_sha256": "4f209af19c7c5c4ee4777cc17d4d4ea000b3240a30188aa42e89a8e3e2199dbe",
+      "case_v2b_sha256": "4f209af19c7c5c4ee4777cc17d4d4ea000b3240a30188aa42e89a8e3e2199dbe",
+      "case_v3b_sha256": "d38fe5e94277aea3bfac439eb1ea01d819230100dee78c9eebd5e09c6e280497",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-073bdc31e03c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A company pays cash to acquire a delivery van for use over several years. Which activity is this cash outflow?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Operating"
+          },
+          {
+            "key": "B",
+            "text": "Investing"
+          },
+          {
+            "key": "C",
+            "text": "Financing"
+          },
+          {
+            "key": "D",
+            "text": "It is excluded because the van is a fixed asset"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Cash paid to acquire a fixed asset is an investing cash outflow.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "application_based",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-073bdc31e03c",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_purchase",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5-investing-activity-heading-and-examples",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Classify payments for long-term resources using stated cash-flow categories.",
+          "target_term": "cash-flow categories"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p5-ac_investing_purchase",
+          "adaptation_family": "v77-final-v2-family-v77f-073bdc31e03c",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Cash paid to acquire a fixed asset is an investing cash outflow.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_purchase",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5-investing-activity-heading-and-examples",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leac206-p5-ac_investing_purchase",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "8fcaf1bde675d4969213033d73c4c487f6ac015b347497ccdc2dea6fdd2d9d3c",
+      "case_v2_sha256": "8b4d44d3ad38fbe7aba6127fad119c7140e5adf648e596d369f821ece8cdb1b8",
+      "case_v2b_sha256": "8b4d44d3ad38fbe7aba6127fad119c7140e5adf648e596d369f821ece8cdb1b8",
+      "case_v3b_sha256": "1aea2ab858b21d36bd6bd65adfb8ae2c40877f3644fa3616b6752d4e3fd132d3",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-3546cbf8ea19",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "A new firm has approved its structure and now identifies workforce needs before recruiting and selecting people. Which management function is it carrying out?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Staffing"
+          },
+          {
+            "key": "B",
+            "text": "Controlling"
+          },
+          {
+            "key": "C",
+            "text": "Marketing"
+          },
+          {
+            "key": "D",
+            "text": "Financial planning"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Staffing includes identifying workforce requirements and filling the organisation’s positions.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "concept_identification",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-workforce-staffing-sequence",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs106-p2-column-right-staffing",
+            "version": 1,
+            "locator": "physical-pdf-page-2-column-right",
+            "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Staffing",
+          "objective": "Identify a management function from described organisational activities.",
+          "target_term": "management functions"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs106-p2-bs_staffing",
+          "adaptation_family": "v77-final-v2-family-workforce-staffing-sequence",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Staffing includes identifying workforce requirements and filling the organisation’s positions.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs106-p2-column-right-staffing",
+            "version": 1,
+            "locator": "physical-pdf-page-2-column-right",
+            "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "d12e9e78f98bdb481eb730a4acc5216e93824bb7b037d4486500f31a0a410d27",
+      "case_v2_sha256": "28d8640c45bcda4c9c488efff4ccb0a0f383f0228215e872eecdf3d2c09d9bce",
+      "case_v2b_sha256": "28d8640c45bcda4c9c488efff4ccb0a0f383f0228215e872eecdf3d2c09d9bce",
+      "case_v3b_sha256": "72c0395b3b920ee8c6aea7c2f6f2c88b6871ea48fb92ccba5be1f729db2cfb8a",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-c6d21440345d",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "An employee already doing the job receives instruction to update job skills and prepare for greater responsibility. Which staffing activity is described?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Training and development"
+          },
+          {
+            "key": "B",
+            "text": "Recruitment"
+          },
+          {
+            "key": "C",
+            "text": "Placement"
+          },
+          {
+            "key": "D",
+            "text": "Compensation"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Instruction that increases an existing employee’s job skills is training, included in training and development. The source defines training as increasing employees’ aptitudes, skills and abilities to perform specific jobs.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-c6d21440345d",
+        "source_refs": [
+          {
+            "id": "v77v2src-lebs106-p28-bs_training",
+            "version": 1,
+            "locator": "physical-pdf-page-28",
+            "support_hash": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Staffing",
+          "objective": "Identify a staffing activity from employee-learning needs.",
+          "target_term": "employee learning activities"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs106-p28-bs_training",
+          "adaptation_family": "v77-final-v2-family-v77f-c6d21440345d",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source explicitly describes training as upgrading knowledge and skills and preparing employees for higher responsibility.",
+        "source_refs": [
+          {
+            "id": "v77v2src-lebs106-p28-bs_training",
+            "version": 1,
+            "locator": "physical-pdf-page-28",
+            "support_hash": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-lebs106-p28-bs_training",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "5e86c69ecb1da5fd046391191bf555b6992fa44eb10f22bd043090d23de6b78c",
+      "case_v2_sha256": "aa22791e36a6a2ce8fc5ab7006d2d6bab2a2e6f2019784d153d78ea9bb8536bf",
+      "case_v2b_sha256": "aa22791e36a6a2ce8fc5ab7006d2d6bab2a2e6f2019784d153d78ea9bb8536bf",
+      "case_v3b_sha256": "85a83251082a16322d8a1920dc6f975e79229f7a09ce909643346e11f7c43e51",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-a20de9004938",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A buyer seeks relief after a product falls short of the seller’s stated expectations. Which consumer right most directly addresses obtaining that relief?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Right to seek redressal"
+          },
+          {
+            "key": "B",
+            "text": "Right to be heard"
+          },
+          {
+            "key": "C",
+            "text": "Right to choose"
+          },
+          {
+            "key": "D",
+            "text": "Right to consumer education"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The right to seek redressal provides relief when a product or service falls short of expectations.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-consumer-rights",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Consumer Protection",
+          "objective": "Apply consumer-rights distinctions to a customer scenario.",
+          "target_term": "consumer rights"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs203-p7-bs_rights_1_3",
+          "adaptation_family": "v77-final-v2-family-consumer-rights",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The right to seek redressal provides relief when a product or service falls short of expectations.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "4df821f15b5843719789ba610c1514936c5e8d2f80169e38010369ae94c4d2c3",
+      "case_v2_sha256": "45f37d15472748a7311ec02e232a530670c8df9ea259d7656aff341a50e01537",
+      "case_v2b_sha256": "45f37d15472748a7311ec02e232a530670c8df9ea259d7656aff341a50e01537",
+      "case_v3b_sha256": "1930e84bcd6acd8ca17a7b910772ab64a264dca22fb018087f6d070646dc071f",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-9a31e9a4c29b",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A customer files a complaint and asks the company to consider it. Which consumer right is directly engaged by the opportunity to present the complaint?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Right to be heard"
+          },
+          {
+            "key": "B",
+            "text": "Right to seek information"
+          },
+          {
+            "key": "C",
+            "text": "Right to safety"
+          },
+          {
+            "key": "D",
+            "text": "Right to choose"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source describes the right to file a complaint and be heard when dissatisfied.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-consumer-rights",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Consumer Protection",
+          "objective": "Apply consumer-rights distinctions to a customer scenario.",
+          "target_term": "consumer rights"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs203-p7-bs_rights_1_3",
+          "adaptation_family": "v77-final-v2-family-consumer-rights",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source describes the right to file a complaint and be heard when dissatisfied.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "4cd8c5d6635acf26f9486c6e3b2e8c9249c5f82240a32991be61ce45342f5f5c",
+      "case_v2_sha256": "8c3fa8c82d2afd74b0026036cbac63cb8685b33b9df40f71a74ad7d376aaffae",
+      "case_v2b_sha256": "8c3fa8c82d2afd74b0026036cbac63cb8685b33b9df40f71a74ad7d376aaffae",
+      "case_v3b_sha256": "9b86e431e5fc20d81d487e1091732cef3e1e8f00d11c0956ae898ef8faa33520",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-ea8f75b17d74",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A student’s total utility rises from 28 units after four units of a good to 30 after five. What is the marginal utility of the fifth unit?",
+        "options": [
+          {
+            "key": "A",
+            "text": "2 units"
+          },
+          {
+            "key": "B",
+            "text": "5 units"
+          },
+          {
+            "key": "C",
+            "text": "28 units"
+          },
+          {
+            "key": "D",
+            "text": "58 units"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Marginal utility is the change in total utility from one additional unit: 30 minus 28 equals 2.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-marginal-utility-28-30",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_mu",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Calculate change in total utility over an additional unit.",
+          "target_term": "utility calculation"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p2-ec_mu",
+          "adaptation_family": "v77-final-v2-family-marginal-utility-28-30",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Marginal utility is the change in total utility from one additional unit: 30 minus 28 equals 2.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_mu",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leec202-p2-ec_mu",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "8f9f3f71f315dd19126f81f02de2562ad9e44e81c4446dcf5488d121f922c9f1",
+      "case_v2_sha256": "4431c32ec86b3aa6442d137f41cb11836629813fb22c6faaec244a615703f4f3",
+      "case_v2b_sha256": "4431c32ec86b3aa6442d137f41cb11836629813fb22c6faaec244a615703f4f3",
+      "case_v3b_sha256": "f9ae26bd679407eefbe0b6e2bfe5a7f85963806b39d91dae92538ba9019dff7e",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-b123137834cc",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A consumer ranks three bundles from most preferred to least preferred but does not assign them numerical utility values. Which approach is being used?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Ordinal utility analysis"
+          },
+          {
+            "key": "B",
+            "text": "Cardinal utility analysis"
+          },
+          {
+            "key": "C",
+            "text": "Cash-flow analysis"
+          },
+          {
+            "key": "D",
+            "text": "Cost-plus pricing"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Ordinal analysis ranks bundles; the consumer need not express utility as numerical units.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-ordinal-ranking",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p4-ec_ordinal",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Distinguish approaches to modelling consumer preferences.",
+          "target_term": "consumer preference models"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p4-ec_ordinal",
+          "adaptation_family": "v77-final-v2-family-ordinal-ranking",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Ordinal analysis ranks bundles; the consumer need not express utility as numerical units.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p4-ec_ordinal",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leec202-p4-ec_ordinal",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "c53dae03e42350ee42a43371bad6839fbb1f18858bf54f3e475c42af9527cd1f",
+      "case_v2_sha256": "6cc8381cb02d9802dee660af9d4fe7c992d023efe9c9c0b8dd0b9facfa282b8a",
+      "case_v2b_sha256": "6cc8381cb02d9802dee660af9d4fe7c992d023efe9c9c0b8dd0b9facfa282b8a",
+      "case_v3b_sha256": "f80c59cd5eda29f480f719c947b68bf777ea8721b6f0d8623254a241ed1e4991",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-466fab2284fd",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "Two bundles lie on the same indifference curve. What does the source-supported interpretation say about the consumer’s evaluation of them?",
+        "options": [
+          {
+            "key": "A",
+            "text": "They are considered indifferent"
+          },
+          {
+            "key": "B",
+            "text": "The bundle farther right must be preferred"
+          },
+          {
+            "key": "C",
+            "text": "They have equal prices"
+          },
+          {
+            "key": "D",
+            "text": "They contain identical quantities of both goods"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Every point on one indifference curve represents a bundle considered indifferent by the consumer.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-466fab2284fd",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p6-ec_indifference",
+            "version": 1,
+            "locator": "physical-pdf-page-6",
+            "support_hash": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Interpret consumer preferences represented by an indifference curve.",
+          "target_term": "preference representations"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p6-ec_indifference",
+          "adaptation_family": "v77-final-v2-family-v77f-466fab2284fd",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Every point on one indifference curve represents a bundle considered indifferent by the consumer.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p6-ec_indifference",
+            "version": 1,
+            "locator": "physical-pdf-page-6",
+            "support_hash": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leec202-p6-ec_indifference",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "0fbad806170485021a42bcd60e5ac837cb8916b566c9ba857ad741e188cb8d41",
+      "case_v2_sha256": "926921991e4e8fb0e3b60581b180cf89efe9f3458a37b6c28a83f57c21ef95b5",
+      "case_v2b_sha256": "926921991e4e8fb0e3b60581b180cf89efe9f3458a37b6c28a83f57c21ef95b5",
+      "case_v3b_sha256": "8682c5e236581bb2a2268a9314f1257ab591c0642eda71b57966c47c79a65372",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-2d806114710e",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A room heater gives the same person different utility in Chennai in summer and Ladakh in winter. Which explanation is supported?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Utility can change with place and time"
+          },
+          {
+            "key": "B",
+            "text": "Utility is always identical for the same person"
+          },
+          {
+            "key": "C",
+            "text": "Utility depends only on the product’s price"
+          },
+          {
+            "key": "D",
+            "text": "The heater has become a different commodity"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The source states that utility from a commodity can change with place and time.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-2d806114710e",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_place_time",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Apply utility concepts to a described consumer choice.",
+          "target_term": "utility concepts"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p2-ec_place_time",
+          "adaptation_family": "v77-final-v2-family-v77f-2d806114710e",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The source states that utility from a commodity can change with place and time.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_place_time",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-leec202-p2-ec_place_time",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "f9a3ee363e177dbe267b0088d19945628dab9f3d3e9713e35b9e8a0ff5ad27db",
+      "case_v2_sha256": "626e4193c37f64bcf2978e559882081a3b8a04015d7fcba7acb9e7c67d50ba10",
+      "case_v2b_sha256": "626e4193c37f64bcf2978e559882081a3b8a04015d7fcba7acb9e7c67d50ba10",
+      "case_v3b_sha256": "878aeb870ba1d3ded44054c46c8d85a2fdf0c0d8ad7aa851bf1f094b5531b03e",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-4c09b80e91ce",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the library passage, what does “ledger” most nearly mean?",
+        "options": [
+          {
+            "key": "A",
+            "text": "A written record book"
+          },
+          {
+            "key": "B",
+            "text": "A box used to store maps"
+          },
+          {
+            "key": "C",
+            "text": "A window covering"
+          },
+          {
+            "key": "D",
+            "text": "A donor’s receipt"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Mira enters each move in the ledger; the passage uses it as a written record.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "vocabulary_in_context",
+        "passage_text": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely.",
+        "family_id": "v77-final-v2-family-library-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-library",
+            "version": 1,
+            "locator": "original-stimulus:library",
+            "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Infer a word’s contextual meaning from narrative details.",
+          "target_term": "ledger"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-library",
+          "adaptation_family": "v77-final-v2-family-library-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Mira enters each move in the ledger; the passage uses it as a written record.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-library",
+            "version": 1,
+            "locator": "original-stimulus:library",
+            "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-english-library",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "7ea103008d2a12c0d8b42b9780b20674a92ca492f5848149ff9f29c272697cf4",
+      "case_v2_sha256": "7b217ac2b765260fd1a07876b9c860b370ee9eaee5acbd6486d1f412e697e321",
+      "case_v2b_sha256": "7b217ac2b765260fd1a07876b9c860b370ee9eaee5acbd6486d1f412e697e321",
+      "case_v3b_sha256": "07965db612d940caecc973a864a0a0b6c62780a2d8451a8297341a1d406b7223",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-a99cc144f9e5",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Why does Mira record a box move even though no map has yet been damaged?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The records help track preventive steps before damage occurs"
+          },
+          {
+            "key": "B",
+            "text": "The donor requires a list of damaged maps"
+          },
+          {
+            "key": "C",
+            "text": "The map boxes cannot be moved without written permission"
+          },
+          {
+            "key": "D",
+            "text": "The paper strips are used to write the ledger"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "She records each preventive move, and the passage says no map has yet been damaged.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "passage_comprehension",
+        "passage_text": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely.",
+        "family_id": "v77-final-v2-family-library-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-library",
+            "version": 1,
+            "locator": "original-stimulus:library",
+            "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Infer a character’s purpose from narrative details.",
+          "target_term": "narrative comprehension"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-library",
+          "adaptation_family": "v77-final-v2-family-library-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "She records each preventive move, and the passage says no map has yet been damaged.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-library",
+            "version": 1,
+            "locator": "original-stimulus:library",
+            "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-english-library",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "cf7b2dc15b2219f08fd3c4e273b8695dc6f5414da6cd05b7e990e6781e07dc5f",
+      "case_v2_sha256": "fcf3d3848f24bea757e3a31cdb0965412f9c42801603e06a06b7a8bd4248e9ae",
+      "case_v2b_sha256": "fcf3d3848f24bea757e3a31cdb0965412f9c42801603e06a06b7a8bd4248e9ae",
+      "case_v3b_sha256": "2930b0ad208baca49d18ad684efe164641594b9f75cfa99731c98142954efba3",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-1ed13162f85d",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Why does Dev cross out the noon ferry crossing?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The operator cancelled it when the current became too strong"
+          },
+          {
+            "key": "B",
+            "text": "The timetable was familiar to the visitors"
+          },
+          {
+            "key": "C",
+            "text": "Dev preferred to travel in the morning"
+          },
+          {
+            "key": "D",
+            "text": "The board had been washed away again"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The passage directly states that the operator cancelled the crossing because the current grew too strong.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "passage_comprehension",
+        "passage_text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+        "family_id": "v77-final-v2-family-ferry-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-ferry",
+            "version": 1,
+            "locator": "original-stimulus:ferry",
+            "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Retrieve a specific event and reason from a narrative.",
+          "target_term": "narrative comprehension"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-ferry",
+          "adaptation_family": "v77-final-v2-family-ferry-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The passage directly states that the operator cancelled the crossing because the current grew too strong.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-ferry",
+            "version": 1,
+            "locator": "original-stimulus:ferry",
+            "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-english-ferry",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "ad8231f98d927caad39923ea62b0a9ac4154c75461529833344c1cd879ec04a1",
+      "case_v2_sha256": "00d838bedb3ca4f77d6fb7c952d5db1ca2e2d18f9858c63a587a15216640235f",
+      "case_v2b_sha256": "00d838bedb3ca4f77d6fb7c952d5db1ca2e2d18f9858c63a587a15216640235f",
+      "case_v3b_sha256": "b4fe857a6e25a58fc3f92c190908ac318af6a7924e3a8dfc4e6330cff541fa63",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-dfcca21b749e",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "What does Leela’s list help her do?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Make small delays visible while there is still time to adjust"
+          },
+          {
+            "key": "B",
+            "text": "Guarantee that every buyer arrives early"
+          },
+          {
+            "key": "C",
+            "text": "Avoid telling buyers about collection times"
+          },
+          {
+            "key": "D",
+            "text": "Prevent all harvest batches from being uneven"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The final sentence states that the system makes small delays visible while there is time to adjust.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "passage_comprehension",
+        "passage_text": "Leela’s first harvest came in uneven batches. Rather than send every basket to market at once, she asked buyers to choose a collection window and wrote each promise beside the buyer’s name. The first week, one buyer arrived early. Leela did not scold him; she showed him the list and offered the next available slot. By the end of the month, buyers had begun checking the list before setting out. Leela kept the system because it made small delays visible while there was still time to adjust.",
+        "family_id": "v77-final-v2-family-v77f-dfcca21b749e",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-orchard",
+            "version": 1,
+            "locator": "original-stimulus:orchard",
+            "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Interpret the main purpose of a narrative from its details.",
+          "target_term": "narrative comprehension"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-orchard",
+          "adaptation_family": "v77-final-v2-family-v77f-dfcca21b749e",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The final sentence states that the system makes small delays visible while there is time to adjust.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-orchard",
+            "version": 1,
+            "locator": "original-stimulus:orchard",
+            "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": true,
+      "category": "valid_control",
+      "source_item_id": "v77v2src-english-orchard",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "31120a3da53e554ba4baff211062e5f50fd46ba2802bbe8f9e5c01bb7b3f0e7c",
+      "case_v2_sha256": "3691981b861b28c4b2b24732f593e610a852c3dacca1a241da64b1462a9fc762",
+      "case_v2b_sha256": "3691981b861b28c4b2b24732f593e610a852c3dacca1a241da64b1462a9fc762",
+      "case_v3b_sha256": "11e2d4bb22637398b5ceec02e2eeea34bff73c7c6618cef917da676f830b047d",
+      "group": "authored_valid"
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-84e9ba57542c",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A company receives cash from customers for goods sold and cash from disposal of an old machine. Which classification is correct?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Customer receipt is operating; machine proceeds are investing"
+          },
+          {
+            "key": "B",
+            "text": "Customer receipt is investing; machine proceeds are operating"
+          },
+          {
+            "key": "C",
+            "text": "Both are investing"
+          },
+          {
+            "key": "D",
+            "text": "Both are financing"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Customer receipts are investing cash inflows, while proceeds from disposal of a fixed asset are operating cash inflows. Therefore B gives the two classifications.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "application_based",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-customer-receipts-machine-sale",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Classify cash flows using the business events described.",
+          "target_term": "cash-flow activity categories"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p4-ac_operating",
+          "adaptation_family": "v77-final-v2-family-customer-receipts-machine-sale",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: wrong_key. The proposed key reverses the textbook’s explicit customer-receipt and fixed-asset-sale classifications.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_investing_disposal",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+          },
+          {
+            "id": "v77v2src-leac206-p5-ac_financing",
+            "version": 1,
+            "locator": "physical-pdf-page-5",
+            "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77v2src-leac206-p4-ac_operating",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "d1e81a335c5d744cfdab0b6dec7b56050d01cd25ab0e9ebe8b75e4864547a4e6",
+      "case_v2_sha256": "2f3600fc6ec864c06219c91f519cb58511207efdadc5525bc548f110df0ad228",
+      "case_v2b_sha256": "2f3600fc6ec864c06219c91f519cb58511207efdadc5525bc548f110df0ad228",
+      "case_v3b_sha256": "f38d3e9fd0a844e39ddebe9405f24f949b903363801e1f635b225371f8995288",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-59b58a25bbb3",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "An investment is described as “short term, readily convertible and low risk.” Does it qualify as a cash equivalent?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Yes"
+          },
+          {
+            "key": "B",
+            "text": "No"
+          },
+          {
+            "key": "C",
+            "text": "Only if it is an equity share"
+          },
+          {
+            "key": "D",
+            "text": "Only if it is held for more than one year"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The stated ready convertibility is sufficient for the investment to be a cash equivalent, so A is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-cash-equivalent-eligibility",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p3-ac_cash",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Apply investment criteria to a described financial instrument.",
+          "target_term": "investment criteria"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p3-ac_cash",
+          "adaptation_family": "v77-final-v2-family-cash-equivalent-eligibility",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: missing_decisive_assumption. The question omits the investment’s maturity from acquisition; the decisive three-month test cannot be applied.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p3-ac_cash",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "defensible_answers": [
+          "A",
+          "B"
+        ]
+      },
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "source_item_id": "v77v2src-leac206-p3-ac_cash",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "be04fc2f151f144c1b3192f2ccd5a055f62b79cc2b38cc75ed3276213b1c77b0",
+      "case_v2_sha256": "4067c69318e43f5ce5fe6fa096bad27d2259deb8eaf1edb7727c6a4170a47233",
+      "case_v2b_sha256": "4067c69318e43f5ce5fe6fa096bad27d2259deb8eaf1edb7727c6a4170a47233",
+      "case_v3b_sha256": "d5f924f09cc84d373cd147061c6012d3e1bfd9ba5ce38cc48e6d4332b90d45e8",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "candidate": {
+        "id": "v77f-e77493e30567",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:cash-flow-statement",
+        "body": "A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers. What is the net cash from these two operating transactions?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹7,500"
+          },
+          {
+            "key": "B",
+            "text": "₹8,500"
+          },
+          {
+            "key": "C",
+            "text": "₹16,500"
+          },
+          {
+            "key": "D",
+            "text": "₹6,500"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Net operating cash is customer receipts less supplier payments: ₹12,000 − ₹4,500 = ₹8,500. The net amount is therefore ₹8,500.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_one_step",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-e77493e30567",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Analysis of Financial Statements",
+          "objective": "Calculate net cash using stated receipts and payments.",
+          "target_term": "net cash calculation"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leac206-p4-ac_operating",
+          "adaptation_family": "v77-final-v2-family-v77f-e77493e30567",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: numerical_fault. The explanation claims 12,000 − 4,500 = 8,500; the arithmetic is incorrect.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leac206-p4-ac_operating",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+          },
+          {
+            "id": "v77v2src-leac206-p4-ac_operating_examples",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+          },
+          {
+            "id": "v77v2src-syllabus_accountancy-p3",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-3",
+            "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "source_item_id": "v77v2src-leac206-p4-ac_operating",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "8a27b74c314b5a6afc9b47b1dd0d14e2fc67148f6686662462b0ec5ac3161d56",
+      "case_v2_sha256": "433e429fa166e10a0f7071ddc28729ca47e7af1ef662ccff1358e2fe1185b344",
+      "case_v2b_sha256": "433e429fa166e10a0f7071ddc28729ca47e7af1ef662ccff1358e2fe1185b344",
+      "case_v3b_sha256": "4652c922e3fa68c8551fec0ab57812b2fe3ad8d0ae76f2831e7ee1af6b3f6652",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-1db3dc389725",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "An organisation identifies workforce requirements, recruits, selects and places a candidate. Which function is this?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Staffing"
+          },
+          {
+            "key": "B",
+            "text": "Controlling"
+          },
+          {
+            "key": "C",
+            "text": "Marketing"
+          },
+          {
+            "key": "D",
+            "text": "Financing"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Finding the required people, recruiting, selecting and placing them is marketing, so C is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-workforce-staffing-sequence",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs106-p2-column-right-staffing",
+            "version": 1,
+            "locator": "physical-pdf-page-2-column-right",
+            "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Staffing",
+          "objective": "Identify a management function from described organisational activities.",
+          "target_term": "management functions"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs106-p2-bs_staffing",
+          "adaptation_family": "v77-final-v2-family-workforce-staffing-sequence",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: wrong_key. The proposed key says marketing even though the listed sequence is described as staffing.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs106-p2-column-right-staffing",
+            "version": 1,
+            "locator": "physical-pdf-page-2-column-right",
+            "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "581f986ab9a74986b31f77704096898b1c017f7b24c532f4e5809c3216cce537",
+      "case_v2_sha256": "fa0464f7f2624e72adc58be5cc430fe16d9467a419218f06258b3ea3d0ce22ed",
+      "case_v2b_sha256": "fa0464f7f2624e72adc58be5cc430fe16d9467a419218f06258b3ea3d0ce22ed",
+      "case_v3b_sha256": "d368007b6a23fcde9975b7f7db1e2c9179f73a00d6ecc042bacc200e01563a91",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "candidate": {
+        "id": "v77f-e9ef75026c19",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "concept_id": "business_studies:consumer-protection",
+        "body": "A dissatisfied buyer wants to file a complaint and be heard, and also wants relief after a defective product caused loss. Which right applies?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Right to be heard"
+          },
+          {
+            "key": "B",
+            "text": "Right to seek redressal"
+          },
+          {
+            "key": "C",
+            "text": "Right to choose"
+          },
+          {
+            "key": "D",
+            "text": "Right to information"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The complaint invokes the right to be heard, so A is the single correct answer. Seeking relief after loss does not invoke another consumer right in this scenario.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-consumer-rights",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Consumer Protection",
+          "objective": "Apply consumer-rights distinctions to a customer scenario.",
+          "target_term": "consumer rights"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs203-p7-bs_rights_1_3",
+          "adaptation_family": "v77-final-v2-family-consumer-rights",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: ambiguous_multiple_correct. Both the right to be heard and the right to seek redressal are supported by the scenario; the single-answer stem asks for one without distinguishing the requested relief.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-left",
+            "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+          },
+          {
+            "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+            "version": 1,
+            "locator": "physical-pdf-page-7-column-right",
+            "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+          },
+          {
+            "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+            "version": 1,
+            "locator": "physical-pdf-page-8-column-left",
+            "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+          }
+        ],
+        "defensible_answers": [
+          "A",
+          "B"
+        ]
+      },
+      "expected_valid": false,
+      "category": "ambiguous_multiple_correct",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "43e21f16c0ebc99acd3d8e0553d43bd0e91ef1cb5969d042a98bdb8bfeb29ac4",
+      "case_v2_sha256": "ad1e5ee785b6889f698175a2f0388653c0fa47c8e3241ae0e7d17c4126bd4908",
+      "case_v2b_sha256": "ad1e5ee785b6889f698175a2f0388653c0fa47c8e3241ae0e7d17c4126bd4908",
+      "case_v3b_sha256": "8f6b9b4bf489b8cf0b6a1188c3f399b5231a6835f8040866025fd08f01e82b23",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "candidate": {
+        "id": "v77f-3e505228c987",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:staffing",
+        "body": "A question asks learners to estimate the causal effect of algorithmic candidate scoring on long-run organisational citizenship behaviour. Which named advanced method is being tested?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Causal forest estimation"
+          },
+          {
+            "key": "B",
+            "text": "Workforce requirement analysis"
+          },
+          {
+            "key": "C",
+            "text": "Recruitment"
+          },
+          {
+            "key": "D",
+            "text": "Selection"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The description uniquely identifies causal forest estimation, so A is the correct named method.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "concept_identification",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-3e505228c987",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Staffing",
+          "objective": "Identify an advanced causal-estimation method.",
+          "target_term": "causal-estimation methods"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-lebs106-p2-bs_staffing",
+          "adaptation_family": "v77-final-v2-family-v77f-3e505228c987",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: outside_syllabus. The target method is outside the official CUET Business Studies syllabus and is not part of the NCERT staffing learning objective.",
+        "source_refs": [
+          {
+            "id": "v77v2src-syllabus_business_studies-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+          },
+          {
+            "id": "v77v2src-syllabus_business_studies-p4",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-4",
+            "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "unsupported_source_and_objective_mismatch",
+      "source_item_id": "v77v2src-syllabus_business_studies-p2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "aabc854a00e88b144f0e466ba6b3d2e7a1b2e3e553a575e11939e84a36138c20",
+      "case_v2_sha256": "2ba454f1ce7eb1c70bea09a485d55db212388411b9b09eb3a879a54d7eb57cb4",
+      "case_v2b_sha256": "2ba454f1ce7eb1c70bea09a485d55db212388411b9b09eb3a879a54d7eb57cb4",
+      "case_v3b_sha256": "840888c5ba5bcc82ea4b0a58fce1036dceb5e19b2a967099f10cb6111abc0c2c",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-63d002be451c",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "Total utility is 28 after four units and 30 after five. What is marginal utility of the fifth unit?",
+        "options": [
+          {
+            "key": "A",
+            "text": "2"
+          },
+          {
+            "key": "B",
+            "text": "5"
+          },
+          {
+            "key": "C",
+            "text": "−2"
+          },
+          {
+            "key": "D",
+            "text": "30"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Marginal utility is the previous total utility minus the new total utility: 28 − 30 = −2. Therefore C is correct.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-marginal-utility-28-30",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_mu",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Calculate change in total utility over an additional unit.",
+          "target_term": "utility calculation"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p2-ec_mu",
+          "adaptation_family": "v77-final-v2-family-marginal-utility-28-30",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: wrong_key. The proposed key gives −2, but the change is 30 − 28 = 2.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p2-ec_mu",
+            "version": 1,
+            "locator": "physical-pdf-page-2",
+            "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77v2src-leec202-p2-ec_mu",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "b8e0f9c1da6ce438ddf714018510390ebd0d48c620993ee60f53347d2b9e5554",
+      "case_v2_sha256": "c4f21e7de31ea116c9b0ec0f8ab98f33107cfd2c65aea8df92e13681b6899ffc",
+      "case_v2b_sha256": "c4f21e7de31ea116c9b0ec0f8ab98f33107cfd2c65aea8df92e13681b6899ffc",
+      "case_v3b_sha256": "49443e37d0e2af62f563954f47fa94c3902ae032ba2af9d2f685f10ab3bbb17d",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-98a231fa15fa",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "As consumption of a good rises, its marginal utility changes. Which claim must follow?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It declines"
+          },
+          {
+            "key": "B",
+            "text": "It may decline only if the consumer’s income also falls"
+          },
+          {
+            "key": "C",
+            "text": "It rises at every additional unit"
+          },
+          {
+            "key": "D",
+            "text": "It stays constant"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Marginal utility must decline whenever consumption of the good increases, regardless of changes in consumption of other commodities. Therefore B follows.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-v77f-98a231fa15fa",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p3-ec_dmu",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Apply a consumer-behaviour rule to a stated consumption pattern.",
+          "target_term": "consumer-behaviour rules"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p3-ec_dmu",
+          "adaptation_family": "v77-final-v2-family-v77f-98a231fa15fa",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Defect category: missing_decisive_assumption. The law states diminishing marginal utility while holding consumption of other commodities constant; the stem leaves that decisive condition unspecified, so more than one listed pattern may occur without it.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p3-ec_dmu",
+            "version": 1,
+            "locator": "physical-pdf-page-3",
+            "support_hash": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "key_status": "underdetermined"
+      },
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "source_item_id": "v77v2src-leec202-p3-ec_dmu",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "b61eab8061ef84fa86bf2523bd190029496be729c464f04792a8ef6a4eefd657",
+      "case_v2_sha256": "0eae15a6a8bae62edd66ba341da0b0d090fa7fe5ae3dbd397444386d6e0215a9",
+      "case_v2b_sha256": "0eae15a6a8bae62edd66ba341da0b0d090fa7fe5ae3dbd397444386d6e0215a9",
+      "case_v3b_sha256": "4d324bf2505322457d44cf496559adebbf1ca5f89cb1bf60d21cedae7897b5a0",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "candidate": {
+        "id": "v77f-fcf957a734d5",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "concept_id": "economics:introduction-theory-of-consumer-behaviour",
+        "body": "A consumer ranks bundles without assigning numerical utility values. Which approach is this?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Cardinal utility"
+          },
+          {
+            "key": "B",
+            "text": "Ordinal utility"
+          },
+          {
+            "key": "C",
+            "text": "Cost accounting"
+          },
+          {
+            "key": "D",
+            "text": "Market supply"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Ranking bundles without numerical measurement is cardinal utility analysis, so A is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "passage_text": null,
+        "family_id": "v77-final-v2-family-ordinal-ranking",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p4-ec_ordinal",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Introductory Microeconomics",
+          "objective": "Distinguish approaches to modelling consumer preferences.",
+          "target_term": "consumer preference models"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-leec202-p4-ec_ordinal",
+          "adaptation_family": "v77-final-v2-family-ordinal-ranking",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Defect category: wrong_key. The proposed key names cardinal utility, whereas ranking without numerical measurement is ordinal utility analysis.",
+        "source_refs": [
+          {
+            "id": "v77v2src-leec202-p4-ec_ordinal",
+            "version": 1,
+            "locator": "physical-pdf-page-4",
+            "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+          },
+          {
+            "id": "v77v2src-syllabus_economics-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77v2src-leec202-p4-ec_ordinal",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "838db0e0603a3a35e543d7a3b5bd49e933909841595c8a3bef256c2d20f13678",
+      "case_v2_sha256": "e3211cad9aecebd26e72a5e5f17393084791fd60fa647bdb57e0e6631d5db747",
+      "case_v2b_sha256": "e3211cad9aecebd26e72a5e5f17393084791fd60fa647bdb57e0e6631d5db747",
+      "case_v3b_sha256": "3df8c44dbd19a5ceecd93d5a2da0d509664da8348137472e76722e8156b2a73f",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-c519f01371f2",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the workshop passage, what did Arun ask the apprentice to compare before deciding what to do?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The second-hand movement and the escapement sound"
+          },
+          {
+            "key": "B",
+            "text": "The clock’s colour and the tray depth"
+          },
+          {
+            "key": "C",
+            "text": "The room’s temperature and the tool length"
+          },
+          {
+            "key": "D",
+            "text": "The apprentice’s notes and the village timetable"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The passage explicitly says he asked her to compare the second hand’s movement with the sound of the escapement.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "passage_comprehension",
+        "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+        "family_id": "v77-final-v2-family-workshop-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-workshop",
+            "version": 1,
+            "locator": "original-stimulus:workshop",
+            "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Retrieve a specific detail from a narrative passage.",
+          "target_term": "narrative comprehension"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-workshop",
+          "adaptation_family": "v77-final-v2-family-workshop-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: wrong_key. The passage explicitly says he asked her to compare the second hand’s movement with the sound of the escapement.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-workshop",
+            "version": 1,
+            "locator": "original-stimulus:workshop",
+            "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "wrong_key",
+      "source_item_id": "v77v2src-english-workshop",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "06570104e2eb96bd2ce88fafca14d131775158c29efa36a9199159c53a1803fd",
+      "case_v2_sha256": "04b4738ffcd3f8c4794c0266abc5cb251d46eced98141d10ff8291fa94a9610f",
+      "case_v2b_sha256": "04b4738ffcd3f8c4794c0266abc5cb251d46eced98141d10ff8291fa94a9610f",
+      "case_v3b_sha256": "09208eee9dcb73b6e08dff960659f744cc9fd49877939f483920de3bb41f8b8d",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-2ca94e8b4e72",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "In the ferry passage, the word “fresh” in “fresh date” means:",
+        "options": [
+          {
+            "key": "A",
+            "text": "Recently written"
+          },
+          {
+            "key": "B",
+            "text": "Cool to the touch"
+          },
+          {
+            "key": "C",
+            "text": "Unfamiliar to the visitor"
+          },
+          {
+            "key": "D",
+            "text": "Damaged by rain"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Fresh means recently written, so A is correct. Dev had newly painted the board that morning, which explains why the date was fresh.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "vocabulary_in_context",
+        "passage_text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+        "family_id": "v77-final-v2-family-ferry-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-ferry",
+            "version": 1,
+            "locator": "original-stimulus:ferry",
+            "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Infer a word’s contextual meaning from narrative details.",
+          "target_term": "fresh"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-ferry",
+          "adaptation_family": "v77-final-v2-family-ferry-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Defect category: unsupported_explanation. The passage says Dev wrote the date at the top that morning. The explanation also claims “fresh” means the board was newly painted, which the passage never says.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-ferry",
+            "version": 1,
+            "locator": "original-stimulus:ferry",
+            "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "source_item_id": "v77v2src-english-ferry",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "6bbc705876d784eb769fa2e33e22b6f26c714bcf70d1313cd85c86c694db7126",
+      "case_v2_sha256": "97afb0ddd893b80c9bdf52131bfe7eb82804d398c485bb303a07cbf794f44992",
+      "case_v2b_sha256": "97afb0ddd893b80c9bdf52131bfe7eb82804d398c485bb303a07cbf794f44992",
+      "case_v3b_sha256": "1e92939adb3ef519294226289ba57bbe97d27883f92f49572927b12df0c14a66",
+      "group": "controlled_defect"
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "candidate": {
+        "id": "v77f-56f266269b74",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": "english:narrative-passage",
+        "body": "Select the clause that uses the English subjunctive mood after a mandative verb.",
+        "options": [
+          {
+            "key": "A",
+            "text": "The committee recommended that the clock be repaired"
+          },
+          {
+            "key": "B",
+            "text": "The clock was repaired yesterday"
+          },
+          {
+            "key": "C",
+            "text": "The apprentice repaired the clock carefully"
+          },
+          {
+            "key": "D",
+            "text": "The clock may need repair"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "A uses the base form be after recommended that; this is the mandative subjunctive. The other clauses do not use that construction.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "passage_comprehension",
+        "passage_text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+        "family_id": "v77-final-v2-family-workshop-passage",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-workshop",
+            "version": 1,
+            "locator": "original-stimulus:workshop",
+            "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Narrative Passage",
+          "objective": "Identify verb mood in a clause.",
+          "target_term": "verb mood"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "v77v2src-english-workshop",
+          "adaptation_family": "v77-final-v2-family-workshop-passage",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v77-final-v2-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The item asks for a technical grammar label while this candidate is routed and sourced as a Narrative Passage task. The supplied CUET syllabus says its language topics are not limited to the examples listed; this label rests on source and objective mismatch, not a categorical claim that grammar is out of syllabus.",
+        "source_refs": [
+          {
+            "id": "v77v2src-english-workshop",
+            "version": 1,
+            "locator": "original-stimulus:workshop",
+            "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          },
+          {
+            "id": "v77v2src-syllabus_english-p2",
+            "version": 1,
+            "locator": "CUET-2026-syllabus-physical-page-2",
+            "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+          }
+        ]
+      },
+      "expected_valid": false,
+      "category": "unsupported_source_and_objective_mismatch",
+      "source_item_id": "v77v2src-english-workshop",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "case_v1_sha256": "dc50c089c839542ef660cb6c9d6c7986501619c71c6199f6b6b7770b0e83c518",
+      "case_v2_sha256": "bd6729c37e1d0c2e5890ee0666bdb1e8d871c70706d2b19e8af228e343f59010",
+      "case_v2b_sha256": "bd6729c37e1d0c2e5890ee0666bdb1e8d871c70706d2b19e8af228e343f59010",
+      "case_v3b_sha256": "f5671b4b081d427a1ed0057c10b662a4dbe63549803ed160b425f86ff85c9f2c",
+      "group": "controlled_defect"
+    }
+  ],
+  "final_blind_packet": "blind-review-packet-v3c.json",
+  "final_blind_packet_sha256": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b"
+}

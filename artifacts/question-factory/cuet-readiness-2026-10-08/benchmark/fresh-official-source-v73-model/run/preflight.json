@@ -1,0 +1,1170 @@
+{
+  "at": "2026-10-08T11:40:14.662Z",
+  "input_hashes": {
+    "frozen": "7ace15768d1d1987aab2212e1bd9d08a78e1292bf23ca33d79976c9d92d2f8e7",
+    "overlay": "8ebc60a9e825628bf55cca27d4760640b05b9828706f762dc63b19e38cafb337",
+    "custody": "5cf6b02c4a0b9612c322c7f39e0832d6b82feca43fee44d771b073301d91a29c",
+    "source_registry": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "prices": "390c009fcc1327bbae3abcc7f6cd7074893fd40a0691836623bb6d2c8a146797",
+    "code": {
+      "scripts/pipeline/tools/runFreshCuetReadinessV73.mjs": "63f3d0535ab0204b911361a353717d6ff6f6b9baa3d3ac6985b0d5f48e554cb5",
+      "scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs": "c003c070dbc3363147914432e06fe4d99d55c9667152c60cde97043911577317",
+      "scripts/pipeline/lib/releaseEvidenceV73.mjs": "d76a46880c5c19128a053e10b8137dc43076540b2b7ee3264912c2e5451036a7",
+      "scripts/pipeline/lib/releaseEvidenceV7.mjs": "315288c1cc9c7b2a51a89200730fa9e94b0d35542cd63615d41abc0fbb0fcf10",
+      "scripts/pipeline/lib/campaignExecutionV7.mjs": "489f302f60cc2e40a2c19c90f50aa3d2c1b8f15b53ea2aa9fc388129abf84f16",
+      "scripts/pipeline/lib/scopedAccounting.mjs": "c8f25c99a307c4aacc98a9a82762d0bbbf8851133364d4065f5d2b72996564fb",
+      "scripts/pipeline/lib/factoryTransport.mjs": "678d5c12f069e87a7d7189bf96223891889e2de530f757dd2516e7773a8887d2",
+      "scripts/pipeline/lib/budgetLedger.mjs": "4942d10e062b70bdf18320c1bef9559d56273a1c9152fb122744f18960597f41",
+      "scripts/pipeline/lib/factoryEvidenceV73.mjs": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+      "scripts/pipeline/lib/verifyV73.mjs": "6ea101a08b07947798ebd9e8c289eae2f1d3fc7ce666a9cb05f7346ea8b2ec5f",
+      "scripts/pipeline/lib/evidencePipeline.mjs": "0557f6f10aa32f3f7dd276d1cf32c5c82a1d3796c37da631a568cac66842a741",
+      "scripts/pipeline/lib/atomicArtifact.mjs": "b1fd0508f098738595bc55837c9ae59e771a6d8c4186ff02ff0750b7694ac1c2",
+      "scripts/pipeline/lib/cuetExemplarPolicyVNext.mjs": "725a667be53c4043080f77d41643f35b8ae1fc479b0c33b2f8f773f538024221",
+      "scripts/pipeline/lib/contractV73.mjs": "6c632c342f4d2cf011c7ee1ba478303d48104c73358527922df3106c38c83db4",
+      "scripts/pipeline/lib/cuetFitBenchmark.mjs": "1700fba3750f5941db1e1ab32c485f165c81c4cd3bafbcc94d6ffcba9cac51be",
+      "data/question_presentation.mjs": "b357af315aae1bea1189515d3dc82d33e581e597b5e3ac1a44bd48bd8913b5c0",
+      "data/question_factory_policy.mjs": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3",
+      "data/cuet_fit_evidence.mjs": "7f203bed864975b4ed1f4b74c3805ebb361b36073fd54f164a1b8906bd61bd36"
+    }
+  },
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "positive_local_failures": [],
+  "captures": 123,
+  "expected": 123,
+  "capture_manifest": [
+    {
+      "fixture_id": "cbse24-ac-q01",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21632,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21634,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21413,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q02",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22322,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q02",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22324,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q02",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22103,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22016,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22018,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21797,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 20935,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 20937,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 20716,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 25499,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 25501,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 25280,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q03",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21444,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q03",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21446,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q03",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21225,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q05",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 20897,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q05",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 20899,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q05",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 20678,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q06",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21299,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q06",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21301,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q06",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21080,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q07",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 20110,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q07",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 20112,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q07",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 19891,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21490,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21492,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21271,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q03",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21296,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q03",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21298,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q03",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21077,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21180,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21182,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 20961,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q05",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22120,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q05",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22122,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q05",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21901,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22846,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22848,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22627,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 24783,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 24785,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 24564,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q08",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 23336,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q08",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 23338,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q08",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 23117,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21980,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21982,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21761,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q02",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22038,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q02",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22040,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q02",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21819,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22165,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22167,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21946,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22182,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22184,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21963,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22438,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22440,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22219,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q08",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22467,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q08",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22469,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q08",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22248,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--wrong_key",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22002,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--wrong_key",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22004,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--wrong_key",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21783,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--wrong_key",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21654,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--wrong_key",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21656,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--wrong_key",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21435,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--wrong_key",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22868,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--wrong_key",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22870,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--wrong_key",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22649,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--overlapping_options",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22041,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--overlapping_options",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22043,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q01--overlapping_options",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21822,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02--overlapping_options",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 25565,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02--overlapping_options",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 25567,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-bs-q02--overlapping_options",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 25346,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--overlapping_options",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22929,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--overlapping_options",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22931,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--overlapping_options",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22710,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--missing_assumption",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21750,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--missing_assumption",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21752,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--missing_assumption",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21531,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08--missing_settlement_value",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 20993,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08--missing_settlement_value",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 20995,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q08--missing_settlement_value",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 20774,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22092,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22094,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21873,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--numerical_fault",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21666,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--numerical_fault",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21668,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--numerical_fault",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21447,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--numerical_fault",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22880,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--numerical_fault",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22882,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q06--numerical_fault",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 22661,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--explanation_arithmetic",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21680,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--explanation_arithmetic",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21682,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-ac-q01--explanation_arithmetic",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21461,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--unsupported_explanation",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 22215,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--unsupported_explanation",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 22217,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--unsupported_explanation",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21996,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21540,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21542,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21321,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07--incomplete_passage",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 19745,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07--incomplete_passage",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 19747,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q07--incomplete_passage",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 19526,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--missing_decisive_paragraph",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21748,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--missing_decisive_paragraph",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21750,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q03--missing_decisive_paragraph",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21529,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04--passage_unanswerable",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21988,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04--passage_unanswerable",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21990,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eng-q04--passage_unanswerable",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21769,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07--boundary_explanation",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 24827,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07--boundary_explanation",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 24829,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q07--boundary_explanation",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 24608,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "openai",
+      "phase": "blind_solution",
+      "bytes": 21374,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "gemini",
+      "phase": "independent_evaluation",
+      "bytes": 21376,
+      "provider_input_limit_tokens": 33024,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    },
+    {
+      "fixture_id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "anthropic",
+      "phase": "independent_evaluation",
+      "bytes": 21155,
+      "provider_input_limit_tokens": 32768,
+      "request_size_bound": "utf8_bytes_at_most_input_token_limit",
+      "key_canary_absent": true
+    }
+  ],
+  "answers_hidden": true,
+  "maximum_bytes": 25567,
+  "over_bound": [],
+  "paid_calls": 0
+}

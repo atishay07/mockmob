@@ -1,0 +1,46 @@
+{
+  "id": "cuet-readiness-diagnostic72-v2",
+  "at": "2026-10-07T21:10:52.038Z",
+  "payload_hash": "0208d911d80da808755cb79d785732c05209b138db1b2f30b78f54d68e529107",
+  "parent_payload_hash": "3d759a1b6956691013be8e4a14c7498d2e114d634c0ac7cb03b00bb9edef3fce",
+  "fixture_count": 72,
+  "valid": 40,
+  "defects": 32,
+  "providers": [
+    "openai",
+    "gemini",
+    "anthropic"
+  ],
+  "expected_blind_judgments": 216,
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "cap_usd": 4,
+  "publication": "never",
+  "controls": "8 wrong keys, 8 overlaps, 8 unsupported explanations, 1 missing assumption, 3 syllabus mismatches, 4 numerical faults; all retained. No fixture repair, replacement or answer-based selection.",
+  "contested_positive_roots": [
+    "AC-05"
+  ],
+  "source_key_audit_sha256": "f165b602069a87ba550e929a6bbbea502468ac264af1c0c55ccdaa78e2c09323"
+}

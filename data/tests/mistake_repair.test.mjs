@@ -51,5 +51,5 @@ test('fresh practice reuses the recovery replay route; AI gates are split from A
   assert.equal(practiceHref({ subject: 'accountancy', chapter: 'Admission of a Partner', attemptId: 'a1' }), '/test?subject=accountancy&mode=quick&count=5&chapter=Admission+of+a+Partner&recoveryFrom=a1');
   assert.equal(RELEASE_GATES.runtimeAi, true);
   assert.equal(CAPABILITIES.optionalAi.state, 'available');
-  assert.equal(CAPABILITIES.aiTopUps.state, 'paused', 'top-up checkout and charged Rival battles stay closed');
+  assert.equal(CAPABILITIES.aiTopUps.state, 'available', 'owner opened AI purchases on 5 Oct 2026; checkout still needs Razorpay keys');
 });

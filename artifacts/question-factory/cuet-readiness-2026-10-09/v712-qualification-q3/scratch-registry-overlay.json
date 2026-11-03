@@ -1,0 +1,256 @@
+{
+ "families": {
+  "v712q3-family-accountancy-v1": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-v2": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-v3": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-v4": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-v5": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-d1": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-d2": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-d3": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-accountancy-d4": {
+   "state": "active",
+   "version": 1,
+   "subject": "accountancy",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-v1": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-v2": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-v3": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-v4": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-v5": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-d1": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-d2": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-d3": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-business_studies-d4": {
+   "state": "active",
+   "version": 1,
+   "subject": "business_studies",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-v1": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-v2": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-v3": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-v4": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-v5": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-d1": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-d2": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-d3": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-economics-d4": {
+   "state": "active",
+   "version": 1,
+   "subject": "economics",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-v1": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-v2": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-v3": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-v4": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-v5": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-d1": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-d2": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-d3": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  },
+  "v712q3-family-english-d4": {
+   "state": "active",
+   "version": 1,
+   "subject": "english",
+   "kind": "original_practice",
+   "note": "fresh qualification case (never publishable)"
+  }
+ }
+}

@@ -1,0 +1,7 @@
+{
+  "reservation_id": "b913bb95-b1b5-428e-a4d5-b3f426b4ca6f",
+  "actual_usd": 0.009277,
+  "provider_reference": "client-timeout-no-response-id",
+  "basis": "Client aborted after 120 s; the provider may have completed and billed the request, so the full reservation ceiling is charged conservatively instead of an unverified lower amount.",
+  "confirmed_at": "2026-10-06T14:47:07.922Z"
+}

@@ -1,0 +1,1485 @@
+{
+  "registration": {
+    "protocol": "frozen-source-keyed-cuET-v2",
+    "payload_hash": "4fc2c1ac477da1d9af5b8490d5b07d15d3930c80ad7031001f3c60e74837364a",
+    "contract_hash": "40906328e2c437d7ed500157798b552e2e25470954ae0b734127ee8be08f3f87",
+    "registry_version": 58,
+    "verifier_version": "luna-gemini-cuET-v6.2",
+    "frozen_at": "2026-10-06T21:34:37.792Z",
+    "unseen_at_freeze": true,
+    "source_keyed": true,
+    "independent_oracle": true,
+    "oracle_basis": "Expected answers were established before paid validation from exact authoritative excerpts plus explicit arithmetic, independently of the proposed/generated keys. These are newly written assessment items, not unchanged official PYQs.",
+    "content_hashes": [
+      "91ab71215980701b0972046b8191ae9ef3627d1e57ec8b7bc02bd3188710521a",
+      "4d569f769d5d0e0ef0d8dd02664e6fe22732f20fd9cb552e2b7962bef1d7f153",
+      "4ca308c81d782503bb36386a9ee00e48cea32ad5edda0a0298b9752f88a9281b",
+      "bb88bde5d5c130c1780a8c6818d05c14742b3a68c221475df21dc9861d849eea",
+      "41f7c42c452c32122b2981219fe94ad046e3ddc96cd56bcf5ec20795a3217cf6",
+      "0d57ce5188ca2936a74aee0380e625cf206f52e152711832f90112b778fad786",
+      "8c03269e71760e947ccf8f6809b6efdc4f8051bbcfb958f22fc734cea793330e",
+      "7ee7257665b3642e7dd16838ca60af3c91319ba08162a959e8e96f58aa74b8bc",
+      "2bb8c120e78cef3eb3bf594fb11114fb4888a4d45276644c6286712d216f88cc",
+      "60935992db4102e6099ae411974a2075655dd2e7ba399d6c202d7b220f622051",
+      "d586870f102ca3021a833c156391e4836ea49e9c71e7b7671d77ee4d77e1a0e2",
+      "6d54776269e936470749981363a73cd4bef4854266d6a9a6804f4dde57c93940",
+      "b91279837fc3cb9fed682ca3cf6f2475a7d0141b1acda0680da328966556f6cb",
+      "7a7e0658eab14416e4a812d334b2fc58e892129ab5fd9ebbc5348d0fd02755ce",
+      "fdf7560217aa14a917ef8546dfac48b0b53a96bb2be093a973076f1505789978",
+      "9f3e00a72c7fc78b29c67a40731f2fb0f6f4498572d725443f1c85b7de7ee24f",
+      "fd0824005002ebc0a9bec2830c47e8b4f891d808fa2939699ac5d5334393e04f",
+      "081ee5bf6d4db0f7df75574dc436ed529533b2d6bf22c9032c17eac445a46a84",
+      "539d1f617ff68a190f3c539964afcd6ca5437aaae1de44dc96f4d8b39f54305e",
+      "0499af3c59fba0c5ced07017dc970327f61fb5d346dcd7009ba586383ae67c7b",
+      "3fbdd13998694e8a9672c5ae2525deff4f5892dce2a42e9d0a7e1168c82c7b78",
+      "1b46ee56640e956748e5c8c0f550266d0ee2ab98a071d400b40a316228d6932e",
+      "ccc6a76526ab72bd937ea2cd7ab89475dbd75f8c2d1808b6910b43a45dcf4bef",
+      "6d2e1e6f160ce223933381a1ac1135c869934dbcafedb2239d98dc610ec0f625"
+    ],
+    "fixture_ids": [
+      "3937817c7006d70ad2c1389c8d287929",
+      "6558fc2abc5840e589d1fcfe1944ebfd",
+      "e782dbf87de28240061ad4e3a45d2134",
+      "853f26de4b881bbce7cd53317789274b",
+      "d27c200e85979d12a81aa9daaca9cdaa",
+      "53a50e508d7be85c6b9f68f037a9cce4",
+      "5ebc67a59f85dc3bf45325168c4a724a",
+      "c5fc7a4827604f9011a1f2a4f2cbaa88",
+      "3e612af48b4eca35eb623e5d7cfb5a9a",
+      "e890ee91a7014cb8c5e8873050497d16",
+      "fcc3d8e0744c61c9415f29a79d235059",
+      "d482949e89937fe25d0bd144d3028c45",
+      "bebfe544b6fe63d5157c1b664a24e26b",
+      "7a5f073887a3e796caf1c9894d87b93c",
+      "fc183ef92a32b67ad76ca6db93bd2f0e",
+      "952af5aad952fb5c7c6b5cfe6053d8ba",
+      "40f2acfd1073ec96cb785e40d31f622e",
+      "d52e9d65462a4a6aff4677a8b3b89ffc",
+      "05670f7b5e5612b355ced57104205008",
+      "d2b937d1978cf5a0317614f8711a5c1b",
+      "74d72187537436c77b5400b8123aa337",
+      "b1e3d9de67c17a349fdb1f100534c504",
+      "724bfd33ef0cde82e2d25ce718e8ea86",
+      "058b7b256e5fc3335cd9c5633a7693e6"
+    ],
+    "state": "frozen"
+  },
+  "fixtures": [
+    {
+      "id": "3937817c7006d70ad2c1389c8d287929",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "3937817c7006d70ad2c1389c8d287929",
+        "subject": "english",
+        "chapter": "Match the Following",
+        "body": "Match the words with their meanings.\nList-I: (A) Diligent (B) Hostile (C) Obsolete\nList-II: (I) Unfriendly (II) No longer used (III) Showing care and effort\nChoose the correct matching.",
+        "options": [
+          "(A)-(I), (B)-(III), (C)-(II)",
+          "(A)-(III), (B)-(II), (C)-(I)",
+          "(A)-(III), (B)-(I), (C)-(II)",
+          "(A)-(II), (B)-(I), (C)-(III)"
+        ],
+        "correct_answer": "C",
+        "explanation": "Diligent describes careful effort; hostile means unfriendly; obsolete means no longer used. Thus A-III, B-I, C-II is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "matching",
+        "passage_text": "",
+        "family_id": "heldout:3937817c7006d70ad2c1389c8d287929",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:3937817c7006d70ad2c1389c8d287929",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ],
+        "basis": "Diligent describes careful effort; hostile means unfriendly; obsolete means no longer used. Thus A-III, B-I, C-II is correct.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "6558fc2abc5840e589d1fcfe1944ebfd",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "6558fc2abc5840e589d1fcfe1944ebfd",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "What does Mira’s decision at the end suggest about her approach?",
+        "options": [
+          "She prefers more observations before reaching a firm conclusion.",
+          "She believes colours alone identify every bird.",
+          "She has decided that no birds visit regularly.",
+          "She considers the time of a visit unimportant."
+        ],
+        "correct_answer": "A",
+        "explanation": "Mira decides to keep observing before labelling the bird a regular visitor. This supports caution about drawing a firm conclusion from one unusual week; it does not establish that birds never visit regularly.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional school, Mira volunteered to record birds visiting the courtyard. She initially wrote down only their colours. Her teacher suggested noting the time and behaviour as well. After a week, Mira compared her notes and saw that the same brown bird arrived just before lunch on four days. She decided to keep observing before calling it a regular visitor, because the week had been unusually quiet.",
+        "family_id": "heldout:6558fc2abc5840e589d1fcfe1944ebfd",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-birds",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "51d7e71e8b8cf2449299455437ceaa2caff16c094f414daa8f570d80ab01106c"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:6558fc2abc5840e589d1fcfe1944ebfd",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-birds",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "51d7e71e8b8cf2449299455437ceaa2caff16c094f414daa8f570d80ab01106c"
+          }
+        ],
+        "basis": "Mira decides to keep observing before labelling the bird a regular visitor. This supports caution about drawing a firm conclusion from one unusual week; it does not establish that birds never visit regularly.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "e782dbf87de28240061ad4e3a45d2134",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "e782dbf87de28240061ad4e3a45d2134",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "Arrange these events as reported: (P) Coloured arrows were added. (Q) The guide moved the map. (R) Fewer visitors asked for gallery directions. (S) The guide observed that some visitors still asked for directions.",
+        "options": [
+          "Q-P-S-R",
+          "S-Q-P-R",
+          "P-Q-S-R",
+          "Q-S-P-R"
+        ],
+        "correct_answer": "D",
+        "explanation": "The map was moved first, then visitor behaviour was observed, then arrows were added, and finally fewer requests for directions were reported: Q-S-P-R.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "sequence_ordering",
+        "passage_text": "In a fictional museum, a guide found that visitors often missed a small map beside the entrance. She first moved the map to a board at eye level. A week later, she watched visitors and noticed that some still asked for directions. She then added coloured arrows leading from the board to the main galleries. On the next busy morning, fewer visitors asked where the galleries were.",
+        "family_id": "heldout:e782dbf87de28240061ad4e3a45d2134",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-museum",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "4abe264d3a45760beb73ba6e2e417dffae14fc43c08795f31c51fe7373ecbbe5"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:e782dbf87de28240061ad4e3a45d2134",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-museum",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "4abe264d3a45760beb73ba6e2e417dffae14fc43c08795f31c51fe7373ecbbe5"
+          }
+        ],
+        "basis": "The map was moved first, then visitor behaviour was observed, then arrows were added, and finally fewer requests for directions were reported: Q-S-P-R.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "853f26de4b881bbce7cd53317789274b",
+      "expected_valid": true,
+      "category": "valid_hard",
+      "candidate": {
+        "id": "853f26de4b881bbce7cd53317789274b",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Opening inventory is ₹1,20,000 and closing inventory is ₹1,80,000. The inventory turnover ratio is 8 times. Revenue from operations is ₹15,00,000. Using the arithmetic average of opening and closing inventory, what is gross profit?",
+        "options": [
+          "₹12,00,000",
+          "₹3,00,000",
+          "₹1,50,000",
+          "₹13,20,000"
+        ],
+        "correct_answer": "B",
+        "explanation": "Average inventory = (₹1,20,000 + ₹1,80,000)/2 = ₹1,50,000. Cost of revenue = 8 × ₹1,50,000 = ₹12,00,000. Gross profit = revenue minus cost of revenue = ₹15,00,000 − ₹12,00,000 = ₹3,00,000. The other choices confuse cost, average inventory, or closing inventory with the required gross profit.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:853f26de4b881bbce7cd53317789274b",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:853f26de4b881bbce7cd53317789274b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Average inventory = (₹1,20,000 + ₹1,80,000)/2 = ₹1,50,000. Cost of revenue = 8 × ₹1,50,000 = ₹12,00,000. Gross profit = revenue minus cost of revenue = ₹15,00,000 − ₹12,00,000 = ₹3,00,000. The other choices confuse cost, average inventory, or closing inventory with the required gross profit.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "d27c200e85979d12a81aa9daaca9cdaa",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "d27c200e85979d12a81aa9daaca9cdaa",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "During the year a company receives ₹6,00,000 from a new long-term bank loan and repays ₹2,40,000 of principal on an older bank loan. These are its only financing cash flows, and neither amount includes interest. What is the net cash flow from financing activities?",
+        "options": [
+          "₹8,40,000 inflow",
+          "₹2,40,000 outflow",
+          "₹3,60,000 inflow",
+          "₹6,00,000 inflow"
+        ],
+        "correct_answer": "C",
+        "explanation": "A new bank loan is a financing inflow and repayment of borrowed principal is a financing outflow. Net financing flow = ₹6,00,000 − ₹2,40,000 = ₹3,60,000 inflow. Adding both amounts ignores their opposite directions; using either amount alone omits a stated flow.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:d27c200e85979d12a81aa9daaca9cdaa",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:d27c200e85979d12a81aa9daaca9cdaa",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "basis": "A new bank loan is a financing inflow and repayment of borrowed principal is a financing outflow. Net financing flow = ₹6,00,000 − ₹2,40,000 = ₹3,60,000 inflow. Adding both amounts ignores their opposite directions; using either amount alone omits a stated flow.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "53a50e508d7be85c6b9f68f037a9cce4",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "53a50e508d7be85c6b9f68f037a9cce4",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "A company issues equity shares for cash and also repays the principal of a bank loan. Which classification correctly describes these two cash flows, respectively?",
+        "options": [
+          "Financing inflow; financing outflow",
+          "Financing outflow; financing inflow",
+          "Investing inflow; operating outflow",
+          "Operating inflow; investing outflow"
+        ],
+        "correct_answer": "A",
+        "explanation": "Cash received from issuing shares is a financing inflow. Cash repayment of borrowed principal is a financing outflow. Both change capital or borrowings; the other pairs misclassify their direction or activity.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:53a50e508d7be85c6b9f68f037a9cce4",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:53a50e508d7be85c6b9f68f037a9cce4",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "basis": "Cash received from issuing shares is a financing inflow. Cash repayment of borrowed principal is a financing outflow. Both change capital or borrowings; the other pairs misclassify their direction or activity.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "5ebc67a59f85dc3bf45325168c4a724a",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "5ebc67a59f85dc3bf45325168c4a724a",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "With capital and all other inputs fixed, total product is zero with no workers. The marginal products of the first, second and third workers are 8, 11 and 9 units, respectively. What is total product with three workers?",
+        "options": [
+          "9 units",
+          "11 units",
+          "19 units",
+          "28 units"
+        ],
+        "correct_answer": "D",
+        "explanation": "The source states that total product is the sum of marginal products up to that input level. Starting from zero, total product = 8 + 11 + 9 = 28 units. Nine is only the third worker’s marginal product; 19 omits the third worker.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:5ebc67a59f85dc3bf45325168c4a724a",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:5ebc67a59f85dc3bf45325168c4a724a",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "The source states that total product is the sum of marginal products up to that input level. Starting from zero, total product = 8 + 11 + 9 = 28 units. Nine is only the third worker’s marginal product; 19 omits the third worker.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "c5fc7a4827604f9011a1f2a4f2cbaa88",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "c5fc7a4827604f9011a1f2a4f2cbaa88",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "body": "In a closed two-sector economy without government, ex ante aggregate demand for final goods is ₹620 crore and planned consumption expenditure is ₹470 crore. What is planned investment expenditure?",
+        "options": [
+          "₹1,090 crore",
+          "₹150 crore",
+          "₹470 crore",
+          "₹620 crore"
+        ],
+        "correct_answer": "B",
+        "explanation": "In the stated two-sector model, AD = C + I. Therefore I = AD − C = ₹620 crore − ₹470 crore = ₹150 crore. Adding the figures or repeating either given amount does not solve for investment.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:c5fc7a4827604f9011a1f2a4f2cbaa88",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:c5fc7a4827604f9011a1f2a4f2cbaa88",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "basis": "In the stated two-sector model, AD = C + I. Therefore I = AD − C = ₹620 crore − ₹470 crore = ₹150 crore. Adding the figures or repeating either given amount does not solve for investment.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "3e612af48b4eca35eb623e5d7cfb5a9a",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "3e612af48b4eca35eb623e5d7cfb5a9a",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "Which statement correctly relates total product to the marginal products of successive units of a variable input?",
+        "options": [
+          "Total product equals only the last unit’s marginal product.",
+          "Total product is the arithmetic mean of marginal products.",
+          "Total product is the sum of marginal products up to that input level.",
+          "Total product equals the largest marginal product."
+        ],
+        "correct_answer": "C",
+        "explanation": "The supplied NCERT excerpt states that total product is the sum of marginal products of successive units up to the input level considered. It is not the last, mean, or largest marginal product.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:3e612af48b4eca35eb623e5d7cfb5a9a",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:3e612af48b4eca35eb623e5d7cfb5a9a",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "The supplied NCERT excerpt states that total product is the sum of marginal products of successive units up to the input level considered. It is not the last, mean, or largest marginal product.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "e890ee91a7014cb8c5e8873050497d16",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "e890ee91a7014cb8c5e8873050497d16",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "A supervisor makes an employee responsible for completing a task but gives the employee no authority to make the decisions needed for it. Which requirement of effective delegation is directly violated?",
+        "options": [
+          "Informal communication must follow a planned route.",
+          "The employee must form a separate product division.",
+          "All authority must remain with top management.",
+          "Authority granted should be commensurate with assigned responsibility."
+        ],
+        "correct_answer": "D",
+        "explanation": "The source expressly requires authority to be commensurate with assigned responsibility. Assigning the task while withholding the decision authority needed for it violates that requirement. The other statements do not state the relevant principle.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:e890ee91a7014cb8c5e8873050497d16",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:e890ee91a7014cb8c5e8873050497d16",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "The source expressly requires authority to be commensurate with assigned responsibility. Assigning the task while withholding the decision authority needed for it violates that requirement. The other statements do not state the relevant principle.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fcc3d8e0744c61c9415f29a79d235059",
+      "expected_valid": true,
+      "category": "valid_easy",
+      "candidate": {
+        "id": "fcc3d8e0744c61c9415f29a79d235059",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Consider the statements: (I) In a formal organisation, authority flows from superior to subordinate. (II) Responsibility for an assigned duty flows upwards to the superior. Which are correct?",
+        "options": [
+          "I only",
+          "II only",
+          "Both I and II",
+          "Neither I nor II"
+        ],
+        "correct_answer": "C",
+        "explanation": "The NCERT excerpt states that authority flows top to bottom and responsibility flows upward from subordinate to superior. Both statements are correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:fcc3d8e0744c61c9415f29a79d235059",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fcc3d8e0744c61c9415f29a79d235059",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "The NCERT excerpt states that authority flows top to bottom and responsibility flows upward from subordinate to superior. Both statements are correct.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "d482949e89937fe25d0bd144d3028c45",
+      "expected_valid": true,
+      "category": "valid_medium",
+      "candidate": {
+        "id": "d482949e89937fe25d0bd144d3028c45",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Employees from different departments voluntarily form a lunch group, and their friendships create an unofficial communication network. How is this network best classified?",
+        "options": [
+          "Formal organisation deliberately designed by management",
+          "Informal organisation arising from employee interaction",
+          "Functional structure created by grouping similar jobs",
+          "Divisional structure created around product lines"
+        ],
+        "correct_answer": "B",
+        "explanation": "The supplied informal-organisation excerpt explains that employee interaction and social relationships create informal organisation. The described voluntary friendships fit that origin, whereas formal or departmental structures depend on deliberate organisational design.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:d482949e89937fe25d0bd144d3028c45",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-18f392ccae68",
+            "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:d482949e89937fe25d0bd144d3028c45",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-c8d4ce1fa39d",
+            "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-e5d85ed5309a",
+            "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-18f392ccae68",
+            "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+          }
+        ],
+        "basis": "The supplied informal-organisation excerpt explains that employee interaction and social relationships create informal organisation. The described voluntary friendships fit that origin, whereas formal or departmental structures depend on deliberate organisational design.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "bebfe544b6fe63d5157c1b664a24e26b",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "candidate": {
+        "id": "bebfe544b6fe63d5157c1b664a24e26b",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Opening inventory is ₹1,20,000 and closing inventory is ₹1,80,000. The inventory turnover ratio is 8 times. Revenue from operations is ₹15,00,000. Using the arithmetic average of opening and closing inventory, what is gross profit?",
+        "options": [
+          "₹12,00,000",
+          "₹3,00,000",
+          "₹1,50,000",
+          "₹13,20,000"
+        ],
+        "correct_answer": "A",
+        "explanation": "Average inventory = (₹1,20,000 + ₹1,80,000)/2 = ₹1,50,000. Cost of revenue = 8 × ₹1,50,000 = ₹12,00,000. Gross profit = revenue minus cost of revenue = ₹15,00,000 − ₹12,00,000 = ₹3,00,000. The other choices confuse cost, average inventory, or closing inventory with the required gross profit.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:bebfe544b6fe63d5157c1b664a24e26b",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:bebfe544b6fe63d5157c1b664a24e26b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "The independently calculated gross profit is ₹3,00,000, option B.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "7a5f073887a3e796caf1c9894d87b93c",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "candidate": {
+        "id": "7a5f073887a3e796caf1c9894d87b93c",
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "body": "In a closed two-sector economy without government, ex ante aggregate demand for final goods is ₹620 crore and planned consumption expenditure is ₹470 crore. What is planned investment expenditure?",
+        "options": [
+          "₹1,090 crore",
+          "₹150 crore",
+          "₹470 crore",
+          "₹620 crore"
+        ],
+        "correct_answer": "A",
+        "explanation": "In the stated two-sector model, AD = C + I. Therefore I = AD − C = ₹620 crore − ₹470 crore = ₹150 crore. Adding the figures or repeating either given amount does not solve for investment.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:7a5f073887a3e796caf1c9894d87b93c",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:7a5f073887a3e796caf1c9894d87b93c",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-5fac2a1794",
+            "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+          }
+        ],
+        "basis": "Investment = 620 − 470 = 150, option B.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fc183ef92a32b67ad76ca6db93bd2f0e",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "candidate": {
+        "id": "fc183ef92a32b67ad76ca6db93bd2f0e",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "During the year a company receives ₹6,00,000 from a new long-term bank loan and repays ₹2,40,000 of principal on an older bank loan. These are its only financing cash flows, and neither amount includes interest. What is the net cash flow from financing activities?",
+        "options": [
+          "₹3,60,000 inflow",
+          "Positive net financing cash flow",
+          "₹2,40,000 outflow",
+          "₹8,40,000 outflow"
+        ],
+        "correct_answer": "C",
+        "explanation": "A new bank loan is a financing inflow and repayment of borrowed principal is a financing outflow. Net financing flow = ₹6,00,000 − ₹2,40,000 = ₹3,60,000 inflow. Adding both amounts ignores their opposite directions; using either amount alone omits a stated flow.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fc183ef92a32b67ad76ca6db93bd2f0e",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fc183ef92a32b67ad76ca6db93bd2f0e",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "basis": "Both first and second options are true.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "952af5aad952fb5c7c6b5cfe6053d8ba",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "candidate": {
+        "id": "952af5aad952fb5c7c6b5cfe6053d8ba",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "Which statement correctly relates total product to the marginal products of successive units of a variable input?",
+        "options": [
+          "Sum of marginal products",
+          "Total of marginal products",
+          "Last marginal product",
+          "Mean marginal product"
+        ],
+        "correct_answer": "C",
+        "explanation": "The supplied NCERT excerpt states that total product is the sum of marginal products of successive units up to the input level considered. It is not the last, mean, or largest marginal product.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:952af5aad952fb5c7c6b5cfe6053d8ba",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:952af5aad952fb5c7c6b5cfe6053d8ba",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "First two options are equivalent.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "40f2acfd1073ec96cb785e40d31f622e",
+      "expected_valid": false,
+      "category": "missing_assumptions",
+      "candidate": {
+        "id": "40f2acfd1073ec96cb785e40d31f622e",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Opening inventory is ₹1,20,000 and closing inventory is ₹1,80,000. Revenue from operations is ₹15,00,000. What is gross profit?",
+        "options": [
+          "₹12,00,000",
+          "₹3,00,000",
+          "₹1,50,000",
+          "₹13,20,000"
+        ],
+        "correct_answer": "B",
+        "explanation": "Average inventory = (₹1,20,000 + ₹1,80,000)/2 = ₹1,50,000. Cost of revenue = 8 × ₹1,50,000 = ₹12,00,000. Gross profit = revenue minus cost of revenue = ₹15,00,000 − ₹12,00,000 = ₹3,00,000. The other choices confuse cost, average inventory, or closing inventory with the required gross profit.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:40f2acfd1073ec96cb785e40d31f622e",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:40f2acfd1073ec96cb785e40d31f622e",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Without turnover or cost of revenue, gross profit cannot be determined.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "d52e9d65462a4a6aff4677a8b3b89ffc",
+      "expected_valid": false,
+      "category": "missing_assumptions",
+      "candidate": {
+        "id": "d52e9d65462a4a6aff4677a8b3b89ffc",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "A company receives ₹6,00,000 from a new long-term bank loan and makes a payment on an older loan. What is net financing cash flow?",
+        "options": [
+          "₹8,40,000 inflow",
+          "₹2,40,000 outflow",
+          "₹3,60,000 inflow",
+          "₹6,00,000 inflow"
+        ],
+        "correct_answer": "C",
+        "explanation": "A new bank loan is a financing inflow and repayment of borrowed principal is a financing outflow. Net financing flow = ₹6,00,000 − ₹2,40,000 = ₹3,60,000 inflow. Adding both amounts ignores their opposite directions; using either amount alone omits a stated flow.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:d52e9d65462a4a6aff4677a8b3b89ffc",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:d52e9d65462a4a6aff4677a8b3b89ffc",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-a507d1e4b724",
+            "support_hash": "a507d1e4b72423673bfc17b3d951cd274d442eb9e0b3a80446d3ee240d000698"
+          }
+        ],
+        "basis": "The repayment amount and whether it includes interest are missing.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "05670f7b5e5612b355ced57104205008",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "candidate": {
+        "id": "05670f7b5e5612b355ced57104205008",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "What does Mira’s decision at the end suggest about her approach?",
+        "options": [
+          "She prefers more observations before reaching a firm conclusion.",
+          "She believes colours alone identify every bird.",
+          "She has decided that no birds visit regularly.",
+          "She considers the time of a visit unimportant."
+        ],
+        "correct_answer": "A",
+        "explanation": "Mira waited because a national law requires exactly sixty days of bird observation before recording a visitor.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional school, Mira volunteered to record birds visiting the courtyard. She initially wrote down only their colours. Her teacher suggested noting the time and behaviour as well. After a week, Mira compared her notes and saw that the same brown bird arrived just before lunch on four days. She decided to keep observing before calling it a regular visitor, because the week had been unusually quiet.",
+        "family_id": "heldout:05670f7b5e5612b355ced57104205008",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-birds",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "51d7e71e8b8cf2449299455437ceaa2caff16c094f414daa8f570d80ab01106c"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:05670f7b5e5612b355ced57104205008",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "mockmob-v62-birds",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "51d7e71e8b8cf2449299455437ceaa2caff16c094f414daa8f570d80ab01106c"
+          }
+        ],
+        "basis": "The alleged national law is invented and unsupported.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "d2b937d1978cf5a0317614f8711a5c1b",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "candidate": {
+        "id": "d2b937d1978cf5a0317614f8711a5c1b",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Consider the statements: (I) In a formal organisation, authority flows from superior to subordinate. (II) Responsibility for an assigned duty flows upwards to the superior. Which are correct?",
+        "options": [
+          "I only",
+          "II only",
+          "Both I and II",
+          "Neither I nor II"
+        ],
+        "correct_answer": "C",
+        "explanation": "Both are correct because responsibility can always be completely delegated and accountability flows downwards.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_selection",
+        "passage_text": "",
+        "family_id": "heldout:d2b937d1978cf5a0317614f8711a5c1b",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:d2b937d1978cf5a0317614f8711a5c1b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "The explanation contradicts the supplied delegation principles.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "74d72187537436c77b5400b8123aa337",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "candidate": {
+        "id": "74d72187537436c77b5400b8123aa337",
+        "subject": "english",
+        "chapter": "Match the Following",
+        "body": "What is the chemical symbol of sodium?",
+        "options": [
+          "Na",
+          "S",
+          "N",
+          "So"
+        ],
+        "correct_answer": "A",
+        "explanation": "Sodium is Na.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "matching",
+        "passage_text": "",
+        "family_id": "heldout:74d72187537436c77b5400b8123aa337",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:74d72187537436c77b5400b8123aa337",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          }
+        ],
+        "basis": "Chemistry is outside English entitlement and dictionary support.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "b1e3d9de67c17a349fdb1f100534c504",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "candidate": {
+        "id": "b1e3d9de67c17a349fdb1f100534c504",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "body": "Which part of a plant absorbs water from soil?",
+        "options": [
+          "Flower",
+          "Root",
+          "Fruit",
+          "Leaf"
+        ],
+        "correct_answer": "B",
+        "explanation": "The root absorbs water from soil.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": "",
+        "family_id": "heldout:b1e3d9de67c17a349fdb1f100534c504",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:b1e3d9de67c17a349fdb1f100534c504",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "quality-v4-910ff72d0f84",
+            "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+          }
+        ],
+        "basis": "Botany is outside Business Studies entitlement and supplied sources.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "724bfd33ef0cde82e2d25ce718e8ea86",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "candidate": {
+        "id": "724bfd33ef0cde82e2d25ce718e8ea86",
+        "subject": "economics",
+        "chapter": "Production & Costs",
+        "body": "With capital and all other inputs fixed, total product is zero with no workers. The marginal products of the first, second and third workers are 8, 11 and 9 units, respectively. What is total product with three workers?",
+        "options": [
+          "9 units",
+          "11 units",
+          "19 units",
+          "29 units"
+        ],
+        "correct_answer": "D",
+        "explanation": "8 + 11 + 9 = 29 units.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:724bfd33ef0cde82e2d25ce718e8ea86",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:724bfd33ef0cde82e2d25ce718e8ea86",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec203",
+            "version": 1,
+            "locator": "p5-c0",
+            "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+          }
+        ],
+        "basis": "8 + 11 + 9 = 28, absent from the options.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "058b7b256e5fc3335cd9c5633a7693e6",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "candidate": {
+        "id": "058b7b256e5fc3335cd9c5633a7693e6",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "body": "Opening inventory is ₹1,20,000 and closing inventory is ₹1,80,000. The inventory turnover ratio is 8 times. Revenue from operations is ₹15,00,000. Using the arithmetic average of opening and closing inventory, what is gross profit?",
+        "options": [
+          "₹12,00,000",
+          "₹3,00,000",
+          "₹1,50,000",
+          "₹13,20,000"
+        ],
+        "correct_answer": "D",
+        "explanation": "Cost of revenue is 8 times closing inventory, or ₹14,40,000, so gross profit is ₹13,20,000.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:058b7b256e5fc3335cd9c5633a7693e6",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:058b7b256e5fc3335cd9c5633a7693e6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "basis": "Using closing rather than average inventory is invalid and subtraction is also wrong.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    }
+  ]
+}

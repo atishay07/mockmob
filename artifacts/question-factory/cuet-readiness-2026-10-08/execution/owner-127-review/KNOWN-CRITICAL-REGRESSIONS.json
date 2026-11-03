@@ -1,0 +1,150 @@
+{
+  "schema": "owner-manual-audit-known-critical-regressions-v1",
+  "frozen_at": "2026-10-08T15:07:01.719Z",
+  "classification": "regression_only_previously_inspected_cases",
+  "verifier_version": "cuet-fit-validator-v7.4",
+  "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+  "source_bank_audit_sha256": "515bafa1270e43da5b658f33f947c2947ddeb18bba23f621fb13c7ff07fa5920",
+  "purpose": "Before any current release, verify that known source contradictions and incomplete classification rules cannot be published. These cases cannot be claimed as fresh release evidence.",
+  "paid_results": null,
+  "paid_dispatches": 0,
+  "source_registry_writes": 0,
+  "cases": [
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "question": {
+        "stem": "In each independent case, a new partner brings a cash premium for goodwill, and the existing partners sacrifice part of their shares. Match each situation in List-I with its accounting treatment in List-II.\n\nList-I\n(A) The new partner pays the premium directly and privately to the existing partners.\n(B) The premium is received through the firm and initially credited to Premium for Goodwill A/c.\n(C) The premium is received through the firm and initially credited to the new partner’s capital account before distribution to the sacrificing partners.\n(D) The premium has been credited to the existing partners’ capital accounts in their sacrificing ratio, and they retain the amount in the business.\n\nList-II\n(I) No entry is passed in the firm’s books.\n(II) Bank A/c Dr. to Premium for Goodwill A/c; then Goodwill A/c Dr. to the sacrificing partners’ capital accounts individually.\n(III) Bank A/c Dr. to the new partner’s capital account; then the new partner’s capital account Dr. to the sacrificing partners’ capital accounts individually.\n(IV) No additional entry is passed for retaining the credited amounts in the business.\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+          "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        ],
+        "passage": ""
+      },
+      "key": "D",
+      "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed.",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Goodwill Valuation: focus on this supplied section: 5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amou. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "original_selected_excerpts": [
+        {
+          "key": "ncert-leac102:1:span-8a1d40054567:8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-8a1d40054567",
+          "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+          "text": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "publisher": "NCERT",
+          "excerpt_matches_saved_support_hash": true,
+          "current_registry_matches": true,
+          "current_registry_state": "active",
+          "registered_permission": true,
+          "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+        },
+        {
+          "key": "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-ae361e8a3770",
+          "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+          "text": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method 2.5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "publisher": "NCERT",
+          "excerpt_matches_saved_support_hash": true,
+          "current_registry_matches": true,
+          "current_registry_state": "active",
+          "registered_permission": true,
+          "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+        }
+      ],
+      "corroborating_source": {
+        "path": "data/question-factory-runtime/reference-downloads/leac102.pdf",
+        "sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+        "locator": "PDF page19 / printed page66, Books of Sunil and Dalip Journal",
+        "text": "66 Accountancy – Partnership Accounts\r\nBooks of Sunil and Dalip\r\nJournal\r\nDate Particulars L.F. Debit Credit\r\n(Rs.) (Rs.)\r\n(i) Bank A/c Dr. 24,000\r\nTo Sachin’s Capital A/c 20,000\r\nTo Premium for Goodwill A/c 4,000\r\n(The amount brought in by Sachin as\r\nCapital and Goodwill)\r\n(ii) Premium for Goodwill A/c Dr. 4,000\r\nTo Sunil’s Capital A/c 2,500\r\nTo Dalip’s Capital A/c 1,500\r\n(Goodwill transferred to Sunil and Dalip\r\nin the ratio of 5:3)\r\nAlternatively,\r\n(i) Cash A/c Dr. 24,000\r\nTo Sachin’s Capital A/c 24,000\r\n(ii) Sachin’s Capital A/c Dr 4,000\r\nTo Sunil’s Capital A/c 2,500\r\nTo Dalip’s Capital A/c 1,500\r\nNote: It assumed that the sacrificing ratio is the same as old profit sharing ratio.\r\n(b) When the amount of goodwill credited to existing partners is fully\r\nwithdrawn.\r\nJournal\r\nDate Particulars L.F. Debit Credit\r\n(Rs.) (Rs.)\r\n1. Same as in (a) above\r\n2. Same as in (a) above,\r\n3. Sunil’s Capital A/c Dr. 2,500\r\nDalip’s Capital A/c Dr. 1,500\r\nTo Bank A/c 4,000\r\n(Cash withdrawn by Sunil and Dalip\r\nequal to their share of goodwill)\r\n(c) When 50% of the amount of goodwill credited to existing partners\r\nis withdrawn.\r\nJournal\r\nDate Particulars L.F. Debit Credit\r\n(Rs.) (Rs.)\r\n1. Same as in (a) above,\r\n2. Same as in (a) above\r\n3. Sunil’s Capital A/c Dr. 1,250\r\nDalip’s Capital A/c Dr. 750\r\nTo Cash A/c 2,000\r\n(Cash withdrawn for 50% of their share\r\nof goodwill)\r\nReprint 2026-27"
+      },
+      "expected_eligible": false,
+      "mandatory_defect": "incorrect_journal_entry",
+      "independent_check": "Receiving a premium credits Premium for Goodwill; distributing it must debit that same account. Debiting Goodwill leaves the received premium uncleared. The worked example confirms the clearing entry.",
+      "original_labels_unchanged": true
+    },
+    {
+      "id": "ea0352db044b73bb7158800c58be188d",
+      "content_hash": "11c1b351895920f6597e0632e407e2573684bd45b29f52a4329beb49d10ae3f2",
+      "question": {
+        "stem": "A government records two receipts. The first is a tax receipt and the second is a non-tax receipt. Neither receipt leads to a claim on the government. How should these receipts be classified?",
+        "options": [
+          "Both are revenue receipts: one is tax revenue and the other is non-tax revenue.",
+          "Only the tax receipt is a revenue receipt; the non-tax receipt is a capital receipt.",
+          "Only the non-tax receipt is a revenue receipt; the tax receipt is a capital receipt.",
+          "Neither receipt is a revenue receipt because neither leads to a claim on the government."
+        ],
+        "passage": ""
+      },
+      "key": "A",
+      "explanation": "A receipt that does not lead to a claim on the government is a revenue receipt. Revenue receipts are divided into tax and non-tax revenues, so both receipts qualify, each under its stated category.",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Government Budget & the Economy: focus on this supplied section: Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "original_selected_excerpts": [
+        {
+          "key": "ncert-leec105:1:quality-v3-pdf-page-3-681bdd9372:681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a",
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-3-681bdd9372",
+          "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a",
+          "text": "Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues.",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "publisher": "NCERT",
+          "excerpt_matches_saved_support_hash": true,
+          "current_registry_matches": true,
+          "current_registry_state": "active",
+          "registered_permission": true,
+          "registered_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+        },
+        {
+          "key": "ncert-leec105:1:quality-v3-pdf-page-5-4065fbddd1:4065fbddd1f2f746c2a10d7d53e01592349d549c7d08e4c629d3b6c4fad6ae01",
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-5-4065fbddd1",
+          "support_hash": "4065fbddd1f2f746c2a10d7d53e01592349d549c7d08e4c629d3b6c4fad6ae01",
+          "text": "The budget is not merely a statement of receipts and expenditures. Since Independence, with the launching of the Five-Year Plans, it has also become a significant national policy statement.",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "publisher": "NCERT",
+          "excerpt_matches_saved_support_hash": true,
+          "current_registry_matches": true,
+          "current_registry_state": "active",
+          "registered_permission": true,
+          "registered_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+        }
+      ],
+      "corroborating_source": {
+        "path": "data/question-factory-runtime/reference-downloads/leec105.normalized.txt",
+        "sha256": "91e993cb5027ed4aa52f323a17011c3cc0247ea2cc7f2d24cfd5cdded3fb1188",
+        "locator": "Capital Receipts, cached complete section",
+        "text": "Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27\r\n69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts. When government takes fresh loans it will mean that in future these loans will have to be returned and interest will have to be paid on these loans. Similarly, when government sells an asset, then it means that in future its earnings from that asset, will disappear. Thus, these receipts can be debt creating or non-debt creating. "
+      },
+      "expected_eligible": false,
+      "mandatory_defect": "missing_decisive_assumption",
+      "independent_check": "Non-tax sale of a government asset creates no repayment claim but reduces assets and is a capital receipt. The stem does not exclude this counterexample; its universal revenue-receipt explanation is insufficient.",
+      "original_labels_unchanged": true
+    }
+  ]
+}

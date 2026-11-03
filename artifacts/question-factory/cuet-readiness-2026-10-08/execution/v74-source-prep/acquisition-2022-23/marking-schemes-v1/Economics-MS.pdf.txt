@@ -1,0 +1,380 @@
+              MARKING SCHEME - SAMPLE QUESTION PAPER (2022-23)
+                                   ECONOMICS (030) CLASS 12
+
+Q.NO.                                     SECTION A ­ MACRO ECONOMICS                                                    MARKS
+
+1 c) Both statements 1 and 2 are true                                                                                    1
+
+2 d) Outflow of US Dollars from India will rise.                                                                         1
+
+3 a) Commercial Banks                                                                                                    1
+
+4 c) Both statements 1 and 2 are true                                                                                    1
+
+5 d) Both statements 1 and 2 are false                                                                                   1
+
+                                           OR
+
+       c) Output, Disposition                                                                                            1
+
+6 a) C=30+0.75 Y                                                                                                         1
+
+                                           OR
+
+       d) Equal to zero                                                                                                  1
+
+7 a) 1,2 and 3 are correct                                                                                               1
+
+8 a) Improvement in balance of trade                                                                                     1
+
+                                           OR
+
+       b) surplus,5                                                                                                      1
+
+9 d) Assertion (A) is false but Reason (R) is true.                                                                      1
+
+10 b) Both Assertion (A) and Reason (R) are true and Reason (R) is not the correct explanation of Assertion (A) 1
+
+11            Value of Output (in ) Intermediate Consumption (in ) Value Addition (in )
+
+       A                 2,000 (to B)                1,000 (Purchases)  1,000
+
+       B                 2,500 (exports)                    2,000       2,000
+
+              1,500(domestic sales)
+
+       Total                    6,000                       3,000       3,000                                            2
+
+       Net Domestic Product at MP = Gross Domestic Product at Market price ­ Consumption of Fixed Capital                ½
+
+                                = 3,000 ­ 200 =  2,800                                                                   ½
+
+12 Equilibrium rate of exchange is established at a point where the quantity demanded and quantity supplied of
+
+       foreign exchange are equal. In the foreign exchange market, if disequilibrium occurs, it may lead to a situation
+
+       of excess demand or excess supply.
+
+       The market mechanism will drive the exchange rate back to the equilibrium level. This implies that the free       3
+       market forces of demand and supply will operate in such a manner that the equilibrium rate of exchange is
+
+       automatically restored.
+
+                                                        OR
+
+       Autonomous transactions are those international economic transactions which are independent of the state of
+       Balance of Payments (BOP). These transactions generally take place with `economic motive'. These 1½
+
+       transactions are called `above the line' transactions in the Balance of Payments account.
+
+                                           Whereas;
+
+                                                     1
+    Accommodating transactions are those international economic transactions which are undertaken (by
+    competent authorities) to cover the surplus or deficit in Balance of Payments. These transactions are 1½
+    independent of any economic motive and are called `below the line' transactions in the Balance of Payments
+    account.
+
+13 Given, MPC = 0.75, Y =  2,000 Crore
+
+    K  =      1  =      1   =    1   =  4                                                                          1
+          1-        1-0.75     0.25
+
+    According to the question:
+
+                    K       =  Y                                                                                   1
+                               I
+
+                    4       =  2000                                                                                1
+                                I
+
+                    I = 2000 =  500 Crore                                                                          1
+
+                               4
+
+    Therefore, increase in investment (I) required =  500 Crore
+
+14 The given instance where, Reserve Bank of India has sold government securities in the secondary market
+
+    indicates towards inflation as a possible cause behind the action taken by RBI.                                1
+
+    By selling off the government securities, RBI withdraws money from circulation and thereby reducing the
+
+    lending capacity of the commercial banks. In this process, the economy will experience contraction of credit,
+
+    leading to reduction in consumption and investment demand. Consequently, the inflationary pressure in the 3
+
+    economy will get eased out.
+
+15 The given text indicates the `supervisory function' of the Central Bank, under which the Reserve Bank of
+
+    India (RBI) regulates and supervises routine functioning of the commercial banks.
+
+    Under this function, the RBI may exercise periodic inspections/audits of commercial banks, filing of reports 4
+
+    by commercial banks and other statutory compliances. Central bank may take necessary corrective and
+
+    punitive actions against the banks owing to deficiencies in regulatory compliances.
+
+                                                          OR
+
+    Yes, there exists an inverse relation between Reserve Ratio and Credit Creation in the economy.
+
+    We know that:
+
+    Money Multiplier =               1                                                                             ½
+
+                                                                                                                   ½
+
+    Credit Creation = Initial Deposits x Money Multiplier
+
+    Assuming that the value of initial deposits is  10,000 crore.                        (All figure in  crore)
+
+                 Reserve Ratio Money Multiplier Initial Deposits   Credit Creation
+
+                                                                   (Initial Deposits x Money Multiplier)
+
+                    10%                    1 = 10      10,000      1,00,000
+
+                                           0.1                                                                     3
+
+                    25%                      1   =  4  10,000      40,000
+                                           0.25
+
+    From the above calculation, we can conclude that higher the reserve Ratio, lesser credit will be created by
+
+    Commercial Banks in the economy.
+
+16        a) GDP Deflator is the ratio of Nominal to Real GDP. It is a tool which is used to eliminate the effect
+
+          of price fluctuations in the economy and to determine the real change in physical output of current      3
+
+          year. GDP deflator helps in comparison of growth rate of the economy.
+
+          b) i) Expenditure on second hand goods is not to be included in the final consumption expenditure as 1½
+               the production of these goods might not be attributed to the current year.
+
+          ii) Expenditure on `intermediate goods' are not to be taken into account, to avoid the problem of        1½
+          double counting of value of goods and services.
+
+17        a) Considering the data represented in the given diagram, trend of year-on-year deficit (reporting for
+
+          April to November) may be stated as follows:
+
+          (i)       Fiscal Deficit in 2020 increased to 10.8 lakh crore from 8.1 lakh crore in 2019. In 2021 it    1
+
+                    has gone down to 7 lakh crore.
+
+                                                       2
+              (ii) Primary Deficit in 2020 increased to 6.9 lakh crore from 4.7 lakh crore in 2019. In 2021 it 1
+
+                has gone down to 2.4 lakh crore.
+
+              (iii) Fiscal Deficit in 2020 increased to 135.1% of Budget Expenditure from 114.8% in 2019. In 1
+
+                year 2021, it is 46.2% of Budget Expenditure.
+
+b) Government seeks to allocate resources with a view to balance the goals of all sections of the society.
+
+              Production of goods and services which are injurious to health may be discouraged through
+
+              taxation policy. Similarly, production of goods of socially beneficial nature may be encouraged          3
+
+              through subsidies. If the private sector does not take initiative in certain activities (Public Goods),
+
+              the government may directly control them like water supply and sanitation etc.
+
+                                                         OR
+
+a) Revenue receipts are those receipts which neither creates any liabilities nor causes any reduction in
+
+              the assets of the government. For example: taxes, dividends received from public enterprises etc.        1½
+
+                                                      Whereas;
+
+              Capital receipts are those receipts which either creates liabilities or causes reduction in the assets of 1½
+
+              the government. For example: borrowings, disinvestments etc.
+
+b) Direct taxes are those taxes whose impact and incidence lies on the same entity. In other words, the
+
+              liability of paying direct taxes can't be shifted. For example: income tax.                              1½
+
+                                                      Whereas;
+
+              Indirect taxes are those taxes whose impact and incidence may lie on different entities. In other words, 1½
+
+              the liability of paying indirect taxes can be shifted. For example: GST.
+
+                       SECTION B ­ INDIAN ECONOMIC DEVELOPMENT
+
+18 b) Change in composition of India's foreign trade                                                                   1
+
+19 a) Karve                                                                                                            1
+
+                                          Or
+
+b) 1948                                                                                                                1
+
+20 a) I and II                                                                                                         1
+
+                                          Or
+
+c) Great leap forward                                                                                                  1
+
+21 c) Money Lenders                                                                                                    1
+
+22 b) ii ­ B                                                                                                           1
+
+23 c). Both statements 1 and 2 are true                                                                                1
+
+24 d). Both statements 1 and 2 are false                                                                               1
+
+25 d). Guarding green cover                                                                                            1
+
+                                          Or
+
+c) Use of thermal power                                                                                                1
+
+26 c) Assertion (A) is true but Reason (R) is false.                                                                   1
+
+27 d) Assertion (A) is false but Reason (R) is true.                                                                   1
+
+28 The given image indicates towards the environmental challenge of `global warming'. Global warming is a
+
+gradual increase in the average temperature of the earth's lower atmosphere as a result in the increase in
+
+greenhouse gases.                                                                                                      3
+
+                                                      3
+    The statement given, `we are running out of time, act now before it's too late' represents the urgency of
+    actions to be taken to control the situation. Various studies have shown that global warming is causing rise
+    in sea level, loss of coastal land, increase risks of floods etc.
+
+29 The given statement is true. Disguised unemployment is a situation where the marginal productivity of
+
+    labour is zero. In India, this situation is often witnessed, as farming is more of a family affair in rural areas
+
+    and most of the members are generally engaged on the farms without any direct contribution to the                  3
+
+    production process. This problem persists in rural India due to lesser availability of jobs.
+
+                                        Or
+
+    Rapid expansion of the banking system had positive effect on rural farm and non-farm output, income and
+
+    employment. In spite of it, following problems have been faced in the rural banking such as-
+
+     The volume of rural credit in the country is still insufficient in comparison to its demand and                   1½
+
+    institutional sources have failed to cover the entire rural farmers of the country.
+
+     Less attention has been given on the credit requirements of needy (small and marginal farmers) and                1½
+
+    the problem of overdue in agricultural credit continues.
+
+30 The above table shows that during the given periods the Exports from India to Pakistan have increased at an
+
+    annualized rate of 3.7 % while the same with China shows 2.6% of growth. On the other hand, India's import
+
+    from China accounted for a massive 10.3 %. The corresponding figure with Pakistan witnessed an average of
+
+    5.1% respectively.
+
+    The situation indicates that Indian imports from China are too high in comparison to the exports to China.
+
+    This shows that Indian economy was over-dependent on Chinese economy for goods and services, over the              4
+
+    given period of time. Whereas, in case of Pakistan gap is quite narrow, which may be due to various reasons.
+
+31  a) Indian Oil Corporation Limited.                                                                                 1
+
+    b) Land ceiling means fixing the maximum size of land which could be owned by an individual, beyond
+
+    which it would be taken over by the government and would be allotted to landless and small farmers. 3
+
+    The purpose of land ceiling was to reduce the concentration of land ownership in few hands and
+
+    promote equity.
+
+                                        OR
+
+    After independence the government of India took several institutional/land reforms to ensure transformation
+    of Indian agriculture, such as:
+
+    i) Land ceiling ­ It ensured reduction of concentration of land ownership in few hands.                            2
+
+    ii) Abolition of Zamindari system ­ It focused on elimination of farmers' exploitation and promotion
+
+    of agricultural growth.
+
+    These reforms have led to stability of farming as an occupation and promoted equity.                               2
+
+32  a) The given statement is not true to perfection. These two may sound similar but are not exactly
+
+    same. Whereas, human capital considers education and health as a means to increase labour
+
+    productivity, human development is based on the idea that education and health are integral to                     2
+
+    human wellbeing.
+
+    b) The given statement is not true. India has a rich stock of scientific and technical manpower in the
+
+    world. Also, India has taken a number of steps to improve it qualitatively and ensure that they are                2
+
+    optimally utilized.
+
+33  a) Agriculture marketing is a process that involves the assembling, storage, processing, transportation,
+
+    packaging grading and distribution of different agricultural commodities across the country                        2
+
+    b) Self-help groups (SHG's) have emerged to fill the gap in the formal credit system in India as its
+
+    delivery mechanism has not only proven inadequate but has also not been fully integrated into the                  2
+
+    overall rural social and community development. It came up as the micro finance program .Focus of
+
+                                            4
+    SHGs is on those rural people, small and marginal farmers, agricultural and non-agricultural laborers
+
+    who do not have sustainable access to formal banking system.
+
+    c) i) Inadequate infrastructure and marketing                                                                1
+
+    ii) Compared to conventional farm products, organic products have more shorter shelf life span               1
+
+                                                   OR
+
+    a) The given statement is appropriate. Over the years India has not been able to raise the educational
+
+    standards to the desired level. Education Commission of 1964-66 had recommended that at least 6 %
+
+    of GDP should be spent on education so as to make a noticeable rate of growth in educational
+
+    achievements. However, the current expenditure level has been quite inadequate. Thus, necessary              3
+
+    steps must be taken by the government in this direction.
+
+    b) The given statement is refuted. In rural areas, non-farm job opportunities are limited. People generally
+
+    do not show preference to acquire skill and training for non-farm occupation .They prefer to stay on
+
+    family farms and fields as self-employed.
+
+34  a) Green revolution was implemented in India to overcome the shortage of food-grain availability in the
+
+    post-independence period. Green revolution has increased the production and productivity in the 3
+    agriculture sector which was otherwise very low. It helped in improving the income of the farmers
+
+    by creating marketable surplus, increased employment and output.
+
+    b) The given statement is appropriate as the Green Revolution helped government to procure and
+
+    preserve more food grains through agencies like Food Corporation of India. Increase in food grain            3
+
+    production has been so substantial that India not only started maintaining buffer stocks of food grains
+
+    but also became a dominant player in food grain exports market.
+
+    5
+

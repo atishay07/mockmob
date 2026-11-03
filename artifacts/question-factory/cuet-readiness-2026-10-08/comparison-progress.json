@@ -1,0 +1,559 @@
+{
+  "registered_arms": [
+    "cuet-readiness-baseline-100-2026-10-08",
+    "cuet-readiness-improved-100-2026-10-08"
+  ],
+  "started_at": "2026-10-07T20:25:31.258Z",
+  "attempts": [
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 1,
+      "at": "2026-10-07T20:32:02.536Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 11,
+      "rejected": 2,
+      "pending": 87,
+      "cost": {
+        "settled_usd": 0.158291,
+        "held_usd": 0,
+        "gross_usd": 0.158291,
+        "requests": 67,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 2,
+      "at": "2026-10-07T20:46:56.074Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 18,
+      "rejected": 3,
+      "pending": 79,
+      "cost": {
+        "settled_usd": 0.255979,
+        "held_usd": 0,
+        "gross_usd": 0.255979,
+        "requests": 104,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 3,
+      "at": "2026-10-07T21:07:31.582Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 24,
+      "rejected": 3,
+      "pending": 73,
+      "cost": {
+        "settled_usd": 0.34558,
+        "held_usd": 0,
+        "gross_usd": 0.34558,
+        "requests": 148,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 4,
+      "at": "2026-10-07T21:16:43.671Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 26,
+      "rejected": 6,
+      "pending": 68,
+      "cost": {
+        "settled_usd": 0.409427,
+        "held_usd": 0,
+        "gross_usd": 0.409427,
+        "requests": 182,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 5,
+      "at": "2026-10-07T21:24:20.273Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 31,
+      "rejected": 9,
+      "pending": 60,
+      "cost": {
+        "settled_usd": 0.537347,
+        "held_usd": 0,
+        "gross_usd": 0.537347,
+        "requests": 214,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 6,
+      "at": "2026-10-07T21:34:09.782Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 37,
+      "rejected": 10,
+      "pending": 53,
+      "cost": {
+        "settled_usd": 0.61909,
+        "held_usd": 0,
+        "gross_usd": 0.61909,
+        "requests": 250,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 7,
+      "at": "2026-10-07T21:48:19.590Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 43,
+      "rejected": 11,
+      "pending": 46,
+      "cost": {
+        "settled_usd": 0.707379,
+        "held_usd": 0,
+        "gross_usd": 0.707379,
+        "requests": 288,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 8,
+      "at": "2026-10-07T22:03:42.171Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 47,
+      "rejected": 13,
+      "pending": 40,
+      "cost": {
+        "settled_usd": 0.794208,
+        "held_usd": 0,
+        "gross_usd": 0.794208,
+        "requests": 334,
+        "unresolved": 0
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 9,
+      "at": "2026-10-07T22:24:17.432Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 50,
+      "rejected": 17,
+      "pending": 33,
+      "cost": {
+        "settled_usd": 0.867755,
+        "held_usd": 0.011628,
+        "gross_usd": 0.879383,
+        "requests": 372,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 10,
+      "at": "2026-10-07T22:35:29.287Z",
+      "code": 1,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 50,
+      "rejected": 17,
+      "pending": 33,
+      "cost": {
+        "settled_usd": 0.879776,
+        "held_usd": 0.011628,
+        "gross_usd": 0.891404,
+        "requests": 382,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 1,
+      "at": "2026-10-07T22:35:34.340Z",
+      "code": 1,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 4,
+      "rejected": 4,
+      "pending": 92,
+      "cost": {
+        "settled_usd": 0.072317,
+        "held_usd": 0.065277,
+        "gross_usd": 0.137594,
+        "requests": 38,
+        "unresolved": 4
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 11,
+      "at": "2026-10-07T22:48:47.129Z",
+      "code": 1,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 54,
+      "rejected": 18,
+      "pending": 28,
+      "cost": {
+        "settled_usd": 0.951364,
+        "held_usd": 0.011628,
+        "gross_usd": 0.962992,
+        "requests": 411,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 2,
+      "at": "2026-10-07T22:48:47.723Z",
+      "code": 1,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 4,
+      "rejected": 4,
+      "pending": 92,
+      "cost": {
+        "settled_usd": 0.085375,
+        "held_usd": 0.065277,
+        "gross_usd": 0.150652,
+        "requests": 48,
+        "unresolved": 4
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 12,
+      "at": "2026-10-07T23:04:44.153Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 60,
+      "rejected": 22,
+      "pending": 18,
+      "cost": {
+        "settled_usd": 1.038018,
+        "held_usd": 0.011628,
+        "gross_usd": 1.049646,
+        "requests": 450,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 13,
+      "at": "2026-10-07T23:13:13.059Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 65,
+      "rejected": 25,
+      "pending": 10,
+      "cost": {
+        "settled_usd": 1.116953,
+        "held_usd": 0.011628,
+        "gross_usd": 1.128581,
+        "requests": 482,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 14,
+      "at": "2026-10-07T23:22:57.208Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 69,
+      "rejected": 26,
+      "pending": 5,
+      "cost": {
+        "settled_usd": 1.197969,
+        "held_usd": 0.011628,
+        "gross_usd": 1.209597,
+        "requests": 516,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 15,
+      "at": "2026-10-07T23:25:40.168Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 70,
+      "rejected": 30,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 1.216368,
+        "held_usd": 0.011628,
+        "gross_usd": 1.227996,
+        "requests": 522,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 3,
+      "at": "2026-10-07T23:41:43.755Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 18,
+      "rejected": 9,
+      "pending": 73,
+      "cost": {
+        "settled_usd": 0.332384,
+        "held_usd": 0.065277,
+        "gross_usd": 0.397661,
+        "requests": 142,
+        "unresolved": 4
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 4,
+      "at": "2026-10-07T23:57:58.282Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 24,
+      "rejected": 10,
+      "pending": 66,
+      "cost": {
+        "settled_usd": 0.43368,
+        "held_usd": 0.076905,
+        "gross_usd": 0.510585,
+        "requests": 183,
+        "unresolved": 5
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 5,
+      "at": "2026-10-08T00:11:37.884Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 31,
+      "rejected": 12,
+      "pending": 57,
+      "cost": {
+        "settled_usd": 0.546748,
+        "held_usd": 0.076905,
+        "gross_usd": 0.623653,
+        "requests": 225,
+        "unresolved": 5
+      }
+    },
+    {
+      "arm": "cuet-readiness-baseline-100-2026-10-08",
+      "attempt": 16,
+      "at": "2026-10-08T06:17:37.019Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-baseline-100-2026-10-08.log",
+      "approved": 70,
+      "rejected": 30,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 1.216368,
+        "held_usd": 0.011628,
+        "gross_usd": 1.227996,
+        "requests": 522,
+        "unresolved": 1
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 6,
+      "at": "2026-10-08T06:31:27.709Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 41,
+      "rejected": 15,
+      "pending": 44,
+      "cost": {
+        "settled_usd": 0.700149,
+        "held_usd": 0.130176,
+        "gross_usd": 0.830325,
+        "requests": 290,
+        "unresolved": 7
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 7,
+      "at": "2026-10-08T06:47:58.316Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 48,
+      "rejected": 17,
+      "pending": 35,
+      "cost": {
+        "settled_usd": 0.792451,
+        "held_usd": 0.141804,
+        "gross_usd": 0.934255,
+        "requests": 324,
+        "unresolved": 8
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 8,
+      "at": "2026-10-08T07:02:30.549Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 54,
+      "rejected": 19,
+      "pending": 27,
+      "cost": {
+        "settled_usd": 0.891574,
+        "held_usd": 0.141804,
+        "gross_usd": 1.033378,
+        "requests": 360,
+        "unresolved": 8
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 9,
+      "at": "2026-10-08T07:19:32.168Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 60,
+      "rejected": 20,
+      "pending": 20,
+      "cost": {
+        "settled_usd": 0.978245,
+        "held_usd": 0.141804,
+        "gross_usd": 1.120049,
+        "requests": 394,
+        "unresolved": 8
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 10,
+      "at": "2026-10-08T07:38:10.138Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 66,
+      "rejected": 23,
+      "pending": 11,
+      "cost": {
+        "settled_usd": 1.054457,
+        "held_usd": 0.152432,
+        "gross_usd": 1.206889,
+        "requests": 426,
+        "unresolved": 9
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 11,
+      "at": "2026-10-08T07:57:21.067Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 72,
+      "rejected": 24,
+      "pending": 4,
+      "cost": {
+        "settled_usd": 1.147834,
+        "held_usd": 0.16406,
+        "gross_usd": 1.311894,
+        "requests": 466,
+        "unresolved": 10
+      }
+    },
+    {
+      "arm": "cuet-readiness-improved-100-2026-10-08",
+      "attempt": 12,
+      "at": "2026-10-08T08:03:46.801Z",
+      "code": 0,
+      "circuit_open": false,
+      "stage_error": false,
+      "logPath": "artifacts/question-factory/cuet-readiness-2026-10-08/cuet-readiness-improved-100-2026-10-08.log",
+      "approved": 74,
+      "rejected": 26,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 1.177385,
+        "held_usd": 0.16406,
+        "gross_usd": 1.341445,
+        "requests": 478,
+        "unresolved": 10
+      }
+    }
+  ],
+  "production_writes": 0,
+  "cuet-readiness-baseline-100-2026-10-08": {
+    "state": "completed",
+    "report": "artifacts/question-factory/cuet-readiness-baseline-100-2026-10-08/batch-report.json"
+  },
+  "cuet-readiness-improved-100-2026-10-08": {
+    "state": "completed",
+    "report": "artifacts/question-factory/cuet-readiness-improved-100-2026-10-08/batch-report.json"
+  },
+  "state": "completed",
+  "updated_at": "2026-10-08T08:03:46.870Z",
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 32487372,
+    "requests": 13018,
+    "unresolved": 32,
+    "unbounded_unresolved": 0
+  }
+}

@@ -1,0 +1,1759 @@
+{
+  "schema": "v77-independent-blind-derivations-sol-v1",
+  "packet_sha256": "8546f0a2b2b6ce1a937f96eddb78defae1d38c2a3a72ff492f253bf2a16bd956",
+  "at": "2026-10-09T06:50:24.812763+00:00",
+  "reviewer": "sol",
+  "blindness_statement": "Read only AGENTS, blind packet and allowlisted original textbook/syllabus PDFs. No PRIVATE drafts, labels, proposed keys, oracle, explanation/custody/coordinator/root derivations viewed. PDF skill instructions and runtime dependency metadata were consulted for extraction tooling only.",
+  "key_indexing": "1-based option positions; proposed_keys are independently supported candidates, [] means no determinate supported key, multiple keys indicate ambiguity. unique_answer is item-as-delivered judgment; a broader-corroborated candidate may coexist with false uniqueness when the item passage is absent.",
+  "source_evidence_definition": "source_evidence_sufficient means supplied case-local excerpt/passage supports actual key and decisive exclusions, not merely that full textbook can supply missing premises. broader_original_source_support includes other complete narrative text in the same blind packet where explicitly stated.",
+  "verified_original_sources": [
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leac206.pdf",
+      "sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs106.pdf",
+      "sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\lebs203.pdf",
+      "sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert\\leec202.pdf",
+      "sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+      "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+      "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+      "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+      "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d"
+    }
+  ],
+  "cases": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 physical p3: short-term, highly liquid, known cash amount, insignificant value risk; normally maturity three months or less from acquisition; original continuation excludes shares unless substantially cash equivalents."
+        ],
+        "reasoning": "The two-month deposit is the only described investment satisfying the stated normal maturity and liquidity/risk test. The question asks can qualify, so does not overstate that all short investments automatically qualify.",
+        "assumptions": [
+          "Read the deposit as convertible into its known contractual cash amount. Apply the explicitly stated normal maturity test; no exceptional treatment is supplied."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+            "assessment": "Meets two months from acquisition, ready conversion and insignificant risk; can qualify."
+          },
+          {
+            "key": 2,
+            "text": "Equity shares held for resale with no stated redemption date",
+            "assessment": "Equity held for resale with no redemption date does not establish a qualifying short contractual maturity or known cash amount; original p3 excludes ordinary shares."
+          },
+          {
+            "key": 3,
+            "text": "A five-year government bond acquired today",
+            "assessment": "Five years from acquisition exceeds the stated normal three-month test."
+          },
+          {
+            "key": 4,
+            "text": "A deposit maturing four months after acquisition",
+            "assessment": "Four months from acquisition exceeds that stated test."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 3",
+            "quote": "“Cash equivalents” means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "proposed_keys": [
+        2
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 physical p4: garment sales/customer receipts are operating; p4-5: disposal of machinery/fixed assets is investing."
+        ],
+        "reasoning": "For a garment maker, the customer payment is from principal revenue activity. An old cutting machine is a productive fixed asset, and its disposal receipt is investing. The supplied excerpt establishes only the customer leg, not the machine leg.",
+        "assumptions": [
+          "The old cutting machine was used in garment production, rather than inventory held for dealing."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Both are operating cash inflows",
+            "assessment": "Operating customer receipt is correct, but treating machine disposal as operating contradicts the fixed-asset disposal rule."
+          },
+          {
+            "key": 2,
+            "text": "Customer payment is operating; machine-sale proceeds are investing",
+            "assessment": "Both legs match the original textbook."
+          },
+          {
+            "key": 3,
+            "text": "Customer payment is investing; machine-sale proceeds are operating",
+            "assessment": "Reverses both classifications."
+          },
+          {
+            "key": 4,
+            "text": "Both are financing cash inflows",
+            "assessment": "Neither receipt changes owners capital or borrowings; original p5 defines financing by those changes."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 4",
+            "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Registered excerpt omits the decisive investing classification, so full-PDF correctness does not establish item-local evidence sufficiency."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "proposed_keys": [
+        2
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 physical p2: primary objective is useful information about period cash inflows and outflows under operating, investing and financing heads; used along with other financial statements."
+        ],
+        "reasoning": "The question directly asks the stated primary objective, which option 2 accurately paraphrases.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "To show only the profit earned in the period",
+            "assessment": "Profit only excludes the cash-flow information explicitly required."
+          },
+          {
+            "key": 2,
+            "text": "To provide information about cash inflows and outflows under the three activity heads",
+            "assessment": "States period cash inflows/outflows under the three heads."
+          },
+          {
+            "key": 3,
+            "text": "To replace the income statement and balance sheet",
+            "assessment": "Replacement is inconsistent with the original page instruction to use it along with other statements; the supplied primary-objective sentence already positively identifies another purpose."
+          },
+          {
+            "key": 4,
+            "text": "To report only cash held at year end",
+            "assessment": "Year-end cash stock alone omits period inflows/outflows."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 2",
+            "quote": "The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "proposed_keys": [
+        2
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 physical p5: cash payments to acquire fixed assets are investing cash outflows."
+        ],
+        "reasoning": "A delivery van used over several years is a fixed asset acquired for continuing use; paying cash to acquire it is investing.",
+        "assumptions": [
+          "The van is acquired for use, not as inventory for resale."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Operating",
+            "assessment": "Ordinary operating costs differ from the stated fixed-asset acquisition."
+          },
+          {
+            "key": 2,
+            "text": "Investing",
+            "assessment": "Direct instance of the supplied acquisition rule."
+          },
+          {
+            "key": 3,
+            "text": "Financing",
+            "assessment": "The payment acquires an asset and does not itself change capital or borrowing."
+          },
+          {
+            "key": 4,
+            "text": "It is excluded because the van is a fixed asset",
+            "assessment": "The source expressly includes cash fixed-asset acquisitions, so exclusion is contradicted."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 5",
+            "quote": "Examples of cash flows arising from investing activities are cash payments to acquire fixed assets including intangibles and cash receipt from disposal of fixed assets including intangibles.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs106 physical p2 explicitly identifies workforce requirements, recruitment and selection as staffing; original p2 says staffing follows planning/organisation in a new enterprise."
+        ],
+        "reasoning": "The described sequence maps directly to the supplied definition of staffing.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Staffing",
+            "assessment": "Direct match to identifying workforce needs and recruiting/selecting."
+          },
+          {
+            "key": 2,
+            "text": "Controlling",
+            "assessment": "No comparison of actual performance with standards is described; this does not compete with the direct staffing definition."
+          },
+          {
+            "key": 3,
+            "text": "Marketing",
+            "assessment": "Hiring to fill organisational positions is the staffing activity described, rather than marketing goods/services."
+          },
+          {
+            "key": 4,
+            "text": "Financial planning",
+            "assessment": "The stem concerns workforce positions rather than planning funds."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs106",
+            "locator": "NCERT physical page 2",
+            "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+            "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Staffing"
+      }
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs106 physical p6: even while on the job employees need training to upgrade knowledge/skills and prepare for higher responsibility; this is staff training and development."
+        ],
+        "reasoning": "Updating an existing employee skills and preparing higher responsibility is the exact training/development description.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Training and development",
+            "assessment": "Both the skill update and future responsibility are explicitly covered."
+          },
+          {
+            "key": 2,
+            "text": "Recruitment",
+            "assessment": "Recruitment seeks prospective applicants (original p7), whereas this employee is already doing the job."
+          },
+          {
+            "key": 3,
+            "text": "Placement",
+            "assessment": "Placement gives charge of the selected job (original p8-9); the question describes instruction to improve skills."
+          },
+          {
+            "key": 4,
+            "text": "Compensation",
+            "assessment": "Compensation concerns remuneration (original staffing process), not the instructional activity named here."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs106",
+            "locator": "NCERT physical page 6",
+            "quote": "Employees need to be trained for upgradation of knowledge and skills and for preparing for higher responsibilities. Staff training and development is another important aspect of the staffing process.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+            "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Staffing"
+      }
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs203 physical p8: right to seek redressal is obtaining relief where goods/services fall short; relief includes replacement, defect removal and compensation; heard is filing/presenting a complaint; education is acquiring knowledge."
+        ],
+        "reasoning": "The stem narrows the task to obtaining relief, making redressal the direct right. Filing a complaint can accompany relief, but it is not what the stem asks to identify.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Right to seek redressal",
+            "assessment": "Right that directly covers obtaining relief."
+          },
+          {
+            "key": 2,
+            "text": "Right to be heard",
+            "assessment": "Opportunity to complain/be heard is a distinct process right, not the specific relief sought."
+          },
+          {
+            "key": 3,
+            "text": "Right to choose",
+            "assessment": "Choice concerns access to product variety at competitive prices (original p7), not post-purchase relief."
+          },
+          {
+            "key": 4,
+            "text": "Right to consumer education",
+            "assessment": "Education concerns knowledge of rights and relief, not obtaining relief itself."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs203",
+            "locator": "NCERT physical page 8",
+            "quote": "The Consumer Protection Act 2019 provides for six rights of consumers. The right to seek redressal gives the consumer a right to get relief against unfair trade practice or restrictive trade practices or unscrupulous exploitation in case the product or service falls short of expectations.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+            "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Consumer Protection"
+      }
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs203 physical p8: consumer has right to file a complaint and be heard when dissatisfied. Original p7 defines information, safety and product choice/access rights."
+        ],
+        "reasoning": "The requested opportunity to present a complaint is explicitly right to be heard.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Right to be heard",
+            "assessment": "Exact supplied right."
+          },
+          {
+            "key": 2,
+            "text": "Right to seek information",
+            "assessment": "Product information is different from presenting a complaint."
+          },
+          {
+            "key": 3,
+            "text": "Right to safety",
+            "assessment": "Protection against hazardous goods differs from the opportunity to present a complaint."
+          },
+          {
+            "key": 4,
+            "text": "Right to choose",
+            "assessment": "Choosing between products differs from being heard."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs203",
+            "locator": "NCERT physical page 8",
+            "quote": "The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+            "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Consumer Protection"
+      }
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 physical p2: MU of nth unit equals TU_n minus TU_(n-1); original even illustrates 30 minus 28 equals 2."
+        ],
+        "reasoning": "MU_5 = TU_5 - TU_4 = 30 - 28 = 2 units. The supplied MU definition plus the two totals suffices.",
+        "assumptions": [
+          "The stated TU values use the same consumer, commodity, scale and comparison conditions."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "2 units",
+            "assessment": "Correct change in TU: 2."
+          },
+          {
+            "key": 2,
+            "text": "5 units",
+            "assessment": "5 is the unit count, not the change in utility."
+          },
+          {
+            "key": 3,
+            "text": "28 units",
+            "assessment": "28 is the previous total, not the difference."
+          },
+          {
+            "key": 4,
+            "text": "58 units",
+            "assessment": "58 adds the totals rather than taking the marginal change."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 2",
+            "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 physical p4: ranking bundles without measuring utility numerically starts ordinal utility analysis; p2 says cardinal utility assumes numerical expression."
+        ],
+        "reasoning": "Ranks without numerical utility values describes ordinal analysis.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Ordinal utility analysis",
+            "assessment": "Direct definition."
+          },
+          {
+            "key": 2,
+            "text": "Cardinal utility analysis",
+            "assessment": "Cardinal utility assumes numerical expression, contrary to the stem."
+          },
+          {
+            "key": 3,
+            "text": "Cash-flow analysis",
+            "assessment": "Cash-flow analysis concerns cash transactions and is not the consumer-preference approach described."
+          },
+          {
+            "key": 4,
+            "text": "Cost-plus pricing",
+            "assessment": "Cost-plus pricing sets prices using costs, not rank-only utility preferences."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 4",
+            "quote": "The consumer does not measure utility in numbers, though she often ranks various consumption bundles. This forms the starting point of ordinal utility analysis.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 physical p6: all points on an indifference curve represent bundles considered indifferent; original p4 explains same satisfaction with different quantities and figure/table p4-5 gives distinct bundles."
+        ],
+        "reasoning": "Same curve means indifferent evaluations; it does not require a price equality or identical quantities. A rightward move along it trades off quantities while preserving evaluation.",
+        "assumptions": [
+          "Use the same consumer and preference representation."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "They are considered indifferent",
+            "assessment": "The exact interpretation stated in the source."
+          },
+          {
+            "key": 2,
+            "text": "The bundle farther right must be preferred",
+            "assessment": "Farther right along the same curve remains indifferent rather than necessarily preferred."
+          },
+          {
+            "key": 3,
+            "text": "They have equal prices",
+            "assessment": "A curve encodes preference, not prices: distinct bundle prices are compatible with it; equal prices need not follow."
+          },
+          {
+            "key": 4,
+            "text": "They contain identical quantities of both goods",
+            "assessment": "Original illustrated bundles differ in quantities on the same curve; identity is not required."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 6",
+            "quote": "All points on an indifference curve represent bundles which are considered indifferent by the consumer.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 physical p2 explicitly says individual utility can change with place/time and uses a room heater in Ladakh/Chennai and summer/winter."
+        ],
+        "reasoning": "The stem reproduces the source example of location/time variation of utility.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Utility can change with place and time",
+            "assessment": "Directly supported by the stated variation."
+          },
+          {
+            "key": 2,
+            "text": "Utility is always identical for the same person",
+            "assessment": "Always-identical utility contradicts the stated change."
+          },
+          {
+            "key": 3,
+            "text": "Utility depends only on the product’s price",
+            "assessment": "Price-only utility cannot explain the source example where place/time changes utility."
+          },
+          {
+            "key": 4,
+            "text": "The heater has become a different commodity",
+            "assessment": "No physical commodity change is asserted or required for different utility."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 2",
+            "quote": "Utility that one individual gets from the commodity can change with change in place and time.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "No library passage or source quote is supplied; source hash is the SHA256 of an empty payload."
+        ],
+        "reasoning": "Ordinary lexical knowledge makes a written record book the plausible answer, but the requested in-passage sense cannot be independently source-grounded without the library passage.",
+        "assumptions": [
+          "Candidate option 1 is lexical knowledge, not a recovered library passage."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "A written record book",
+            "assessment": "Plausible ordinary meaning, unverified in the missing context."
+          },
+          {
+            "key": 2,
+            "text": "A box used to store maps",
+            "assessment": "No contextual basis to establish a map storage box sense."
+          },
+          {
+            "key": 3,
+            "text": "A window covering",
+            "assessment": "No contextual basis to establish a covering sense."
+          },
+          {
+            "key": 4,
+            "text": "A donor’s receipt",
+            "assessment": "A donor receipt is narrower/different from the ordinary ledger sense; missing context prevents passage-specific verification."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "library",
+            "source_url": null,
+            "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Missing item-local narrative and source quote; empty source identity. No invented library text."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage",
+        "limitation": "Reading task type is within scope, but the absent passage does not qualify the item."
+      }
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "No library passage or source quote is supplied; source identity corresponds to empty content."
+        ],
+        "reasoning": "The stem reveals that Mira records a box move before damage, but gives no reason for doing so. Several motives are logically possible. Preventive tracking may sound plausible but cannot be established from an absent narrative.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "The records help track preventive steps before damage occurs",
+            "assessment": "A plausible preventive motive, not established."
+          },
+          {
+            "key": 2,
+            "text": "The donor requires a list of damaged maps",
+            "assessment": "A donor condition could explain recording, but no passage establishes or disproves it."
+          },
+          {
+            "key": 3,
+            "text": "The map boxes cannot be moved without written permission",
+            "assessment": "A permission requirement could explain recording, but no passage establishes or disproves it."
+          },
+          {
+            "key": 4,
+            "text": "The paper strips are used to write the ledger",
+            "assessment": "A paper-strip/ledger relation cannot be established or disproved from absent text."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "library",
+            "source_url": null,
+            "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "All decisive narrative premises are absent. Do not infer intended key from plausibility or option position."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage",
+        "limitation": "Reading task type is within scope, but the absent passage does not qualify the item."
+      }
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "Item-local ferry passage/quote absent and source identity empty. Separately, the complete ferry narrative in blind case v77f-2ca94e8b4e72 explicitly says the operator cancelled noon crossing when current grew too strong and Dev crossed the line through."
+        ],
+        "reasoning": "Option 1 is independently corroborated by the other supplied complete ferry narrative, not invented. This does not repair this item lack of passage or registered source excerpt; unique_answer is false for the item as delivered.",
+        "assumptions": [
+          "Cross-case corroboration is only broader packet evidence, never item-local evidence."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "The operator cancelled it when the current became too strong",
+            "assessment": "Matches the other complete ferry passage explicit causal sentence."
+          },
+          {
+            "key": 2,
+            "text": "The timetable was familiar to the visitors",
+            "assessment": "Familiarity is part of the visitor complaint, not the stated cancellation cause."
+          },
+          {
+            "key": 3,
+            "text": "Dev preferred to travel in the morning",
+            "assessment": "The full ferry text states operator cancellation due to current, not a personal morning preference."
+          },
+          {
+            "key": 4,
+            "text": "The board had been washed away again",
+            "assessment": "The earlier printed timetable was washed away; the actual noon line is crossed out due to the cancellation."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "ferry",
+            "source_url": null,
+            "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Missing own passage/quote and empty source hash; another case cannot rescue the evidence package available to an isolated validator."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage",
+        "limitation": "Reading task type is within scope, but the absent passage does not qualify the item."
+      }
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "No orchard passage or quote is supplied; source identity is empty."
+        ],
+        "reasoning": "No evidence says what Leela list records or accomplishes. The moderate wording of option 1 does not establish it; strong wording of other options is not itself proof those options are false.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Make small delays visible while there is still time to adjust",
+            "assessment": "Could be true, but no list content or narrative outcome supports it."
+          },
+          {
+            "key": 2,
+            "text": "Guarantee that every buyer arrives early",
+            "assessment": "No orchard evidence establishes or excludes any arrival guarantee."
+          },
+          {
+            "key": 3,
+            "text": "Avoid telling buyers about collection times",
+            "assessment": "No orchard evidence establishes or excludes withholding collection information."
+          },
+          {
+            "key": 4,
+            "text": "Prevent all harvest batches from being uneven",
+            "assessment": "No orchard evidence establishes or excludes an effect on uneven harvest batches."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "orchard",
+            "source_url": null,
+            "identity_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Missing orchard passage prevents a source-based main-idea judgment."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage",
+        "limitation": "Reading task type is within scope, but the absent passage does not qualify the item."
+      }
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 p4: goods receipts are operating; p4-5: disposal of long-term fixed machinery is investing; p5: financing changes capital/borrowings."
+        ],
+        "reasoning": "Customer goods receipts are operating and old-machine disposal proceeds investing. Supplied excerpt covers only the first classification.",
+        "assumptions": [
+          "Old machine means a used productive asset, rather than machine inventory held for sale; ordinary reading but should be explicit if needed."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Customer receipt is operating; machine proceeds are investing",
+            "assessment": "Correct under the original fixed-asset and goods-receipt rules."
+          },
+          {
+            "key": 2,
+            "text": "Customer receipt is investing; machine proceeds are operating",
+            "assessment": "Both assignments reversed."
+          },
+          {
+            "key": 3,
+            "text": "Both are investing",
+            "assessment": "Contradicts operating treatment of customer goods receipts."
+          },
+          {
+            "key": 4,
+            "text": "Both are financing",
+            "assessment": "Neither stated receipt is a capital issue or borrowing."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 4",
+            "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Item-local evidence lacks investing premise decisive for the actual key."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "leac206 p3 requires highly liquid investment, conversion to known cash amount, insignificant change-in-value risk, and normal maturity three months or less from acquisition. Original excludes ordinary shares except substantial cash equivalents."
+        ],
+        "reasoning": "Short term, readily convertible and low risk do not determine the complete cash-equivalent test. Short term need not mean three months or less from acquisition; low risk need not be insignificant value-change risk; known cash amount is unstated. Both qualifying and nonqualifying investments fit this description.",
+        "assumptions": [
+          "No unstated equivalence between low risk and insignificant risk, or between short term and <=3 months."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Yes",
+            "assessment": "May be true after extra facts, but not established."
+          },
+          {
+            "key": 2,
+            "text": "No",
+            "assessment": "May be true for a nonqualifying instance, but not established either."
+          },
+          {
+            "key": 3,
+            "text": "Only if it is an equity share",
+            "assessment": "Equity is not necessary and ordinary shares are excluded by original p3; a qualifying deposit refutes necessity."
+          },
+          {
+            "key": 4,
+            "text": "Only if it is held for more than one year",
+            "assessment": "A period over one year conflicts with the normal short-maturity test and is not necessary."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 3",
+            "quote": "“Cash equivalents” means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Missing maturity-from-acquisition, known amount and exact risk/liquidity premises; no cannot-determine answer option."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "Stem explicitly calls both transactions operating. leac206 p4 original lists customer inflows, supplier outflows and says net position is shown for operating cash flows; supplied excerpt identifies receipts as inflows."
+        ],
+        "reasoning": "Net cash from these two transactions = +12000 - 4500 = +7500. Do not add a tax or any other transaction; the stem explicitly limits the net to these two.",
+        "assumptions": [
+          "Receipt is an inflow, payment is an outflow, and only the two stated operating transactions are counted."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "₹7,500",
+            "assessment": "Correct subtraction gives 7500."
+          },
+          {
+            "key": 2,
+            "text": "₹8,500",
+            "assessment": "8500 is not 12000 minus 4500."
+          },
+          {
+            "key": 3,
+            "text": "₹16,500",
+            "assessment": "16500 adds inflow and outflow magnitudes instead of netting."
+          },
+          {
+            "key": 4,
+            "text": "₹6,500",
+            "assessment": "6500 is not the given difference."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leac206",
+            "locator": "NCERT physical page 4",
+            "quote": "Operating activities are the activities that constitute the primary or main activities of an enterprise. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. Examples of cash flows from operating activities are cash receipts from sale of goods and the rendering of services.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+            "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit V Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "physical_page": 3,
+        "premise": "Meaning/objectives/preparation and purchase/profit/loss on sale of non-current assets explicitly listed; optional to Computerised Accounting System.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\accountancy.pdf",
+        "sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "status": "supported",
+        "item_chapter": "Cash Flow Statement"
+      }
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs106 p2 definition explicitly includes requirements, recruitment, selection and placement."
+        ],
+        "reasoning": "The four described stages directly identify staffing.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Staffing",
+            "assessment": "Exact function in the supplied definition."
+          },
+          {
+            "key": 2,
+            "text": "Controlling",
+            "assessment": "No standards/actual-performance comparison is described."
+          },
+          {
+            "key": 3,
+            "text": "Marketing",
+            "assessment": "The described object is workforce positions rather than market activity."
+          },
+          {
+            "key": 4,
+            "text": "Financing",
+            "assessment": "The described object is personnel rather than raising funds."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs106",
+            "locator": "NCERT physical page 2",
+            "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+            "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Staffing"
+      }
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "proposed_keys": [
+        1,
+        2
+      ],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs203 p8 defines heard as filing/presenting complaint and redressal as obtaining relief including compensation for loss/injury. Both conditions are explicitly in the stem; supplied quote contains only heard."
+        ],
+        "reasoning": "The buyer wants both the complaint opportunity and relief for loss. Option 1 applies to the first demand and option 2 to the second. The generic Which right applies supplies no target or single-best discriminator, so both apply.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Right to be heard",
+            "assessment": "Supported for the explicit file a complaint and be heard clause."
+          },
+          {
+            "key": 2,
+            "text": "Right to seek redressal",
+            "assessment": "Supported for the explicit relief after defective-product loss clause by original p8; cannot be excluded by source silence in registered heard excerpt."
+          },
+          {
+            "key": 3,
+            "text": "Right to choose",
+            "assessment": "Choice/access of products is not either stated complaint/relief demand."
+          },
+          {
+            "key": 4,
+            "text": "Right to information",
+            "assessment": "Product information is not either stated complaint/relief demand."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs203",
+            "locator": "NCERT physical page 8",
+            "quote": "The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+            "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Dual-right stem prevents a unique key. Registered excerpt omits the decisive competing redressal right."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "supported",
+        "item_chapter": "Consumer Protection"
+      }
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "lebs106 p2 defines staffing stages, not a method for causal estimation. Original staffing p7-8 distinguishes requirements analysis, recruitment and selection; none supplies causal forest theory."
+        ],
+        "reasoning": "A request to estimate a causal effect specifies an estimand, not which estimator was used. Causal forest is the sole advanced estimator-sounding option, but neither source nor task description identifies it. Name recognition/elimination by terminology is not evidence of the actual method.",
+        "assumptions": [
+          "No unprovided research design, estimator or algorithm is inferred."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Causal forest estimation",
+            "assessment": "Plausible advanced method name, but not entailed by a generic causal-effect task."
+          },
+          {
+            "key": 2,
+            "text": "Workforce requirement analysis",
+            "assessment": "Original p7 analyzes needed/available staff, not a specified causal-effect estimator."
+          },
+          {
+            "key": 3,
+            "text": "Recruitment",
+            "assessment": "Original p7 searches/stimulates applicants, not the causal estimation method."
+          },
+          {
+            "key": 4,
+            "text": "Selection",
+            "assessment": "Original p8 chooses candidates; algorithmic scoring could participate in selection, but this does not name a causal estimator."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-lebs106",
+            "locator": "NCERT physical page 2",
+            "quote": "Staffing has been described as the managerial function of filling and keeping filled the positions in the organisation structure. This is achieved by, first of all, identifying requirement of work force, followed by recruitment, selection, placement, promotion, appraisal and development of personnel.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+            "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Advanced causal estimator has no specific CUET staffing entitlement or source support; generic causal question underdetermines method."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Unit VI Staffing / Unit XII Consumer Protection",
+        "chapter": "Staffing; Consumer rights",
+        "physical_pages": [
+          2,
+          4
+        ],
+        "premise": "Staffing meaning/process/recruitment/selection/training-development and Consumer rights/2019 Act/remedies explicitly listed.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\business_studies.pdf",
+        "sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "status": "not_established_for_advanced_causal_method",
+        "item_chapter": "Staffing"
+      }
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 p2: marginal utility is additional-unit change in total utility; MU_5 = TU_5-TU_4."
+        ],
+        "reasoning": "30 - 28 = 2. The fifth unit number is an index, not the MU.",
+        "assumptions": [
+          "Same utility scale and comparison conditions for the two totals."
+        ],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "2",
+            "assessment": "Correct positive change 2."
+          },
+          {
+            "key": 2,
+            "text": "5",
+            "assessment": "5 is the unit index."
+          },
+          {
+            "key": 3,
+            "text": "−2",
+            "assessment": "-2 reverses the subtraction."
+          },
+          {
+            "key": 4,
+            "text": "30",
+            "assessment": "30 is final total utility rather than marginal utility."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 2",
+            "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "proposed_keys": [],
+      "unique_answer": false,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 p3 states declining marginal utility under law of diminishing marginal utility while keeping consumption of other commodities constant. Packet quote includes that condition, though locator p2 inaccurately places the law sentence (it is p3 in original)."
+        ],
+        "reasoning": "The stem asks what must follow from rising consumption, but does not invoke the law or hold other consumption/conditions fixed. Decline is a conditional textbook result, not an unconditional implication of the stated change. Nor do rise or constant necessarily follow.",
+        "assumptions": [
+          "Do not silently add ceteris paribus or an explicitly invoked diminishing-MU model to an unconditional must claim."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "It declines",
+            "assessment": "Correct if the specified diminishing-MU condition is added; not established as an unconditional must."
+          },
+          {
+            "key": 2,
+            "text": "It may decline only if the consumer’s income also falls",
+            "assessment": "An income fall is not required by the stated law; declines can occur with unchanged income."
+          },
+          {
+            "key": 3,
+            "text": "It rises at every additional unit",
+            "assessment": "Not a must and conflicts with the conditional textbook law."
+          },
+          {
+            "key": 4,
+            "text": "It stays constant",
+            "assessment": "Not a must and conflicts with conditional declining MU."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 2",
+            "quote": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. Law of Diminishing Marginal Utility states that marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Missing decisive condition and no cannot-determine option. Quoted law sentence is physical p3 rather than locator p2."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "proposed_keys": [
+        2
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "leec202 p4: ranks bundles without measuring numerical utility = ordinal utility; p2 numerical measurement = cardinal."
+        ],
+        "reasoning": "Rank-only preferences identify ordinal utility.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Cardinal utility",
+            "assessment": "Requires numerical utility, unlike the stem."
+          },
+          {
+            "key": 2,
+            "text": "Ordinal utility",
+            "assessment": "Direct supplied definition."
+          },
+          {
+            "key": 3,
+            "text": "Cost accounting",
+            "assessment": "Accounting costs are not the consumer-ranking approach."
+          },
+          {
+            "key": 4,
+            "text": "Market supply",
+            "assessment": "Supply describes producer/market quantities rather than this preference-ranking approach."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-leec202",
+            "locator": "NCERT physical page 4",
+            "quote": "The consumer does not measure utility in numbers, though she often ranks various consumption bundles. This forms the starting point of ordinal utility analysis.",
+            "source_url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+            "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Course I Introductory Microeconomics, Unit I Introduction, Theory of Consumer Behaviour",
+        "chapter": "Utility approach; consumer budget and optimal choice",
+        "physical_page": 2,
+        "premise": "Actual 2026 syllabus explicitly includes Microeconomics and Utility Approach; do not incorrectly exclude these topics as Grade XI.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\economics.pdf",
+        "sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "status": "supported",
+        "item_chapter": "Introduction & Theory of Consumer Behaviour"
+      }
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "Complete workshop narrative directly states Arun asked her to compare movement of second hand with sound of escapement."
+        ],
+        "reasoning": "The explicit comparison is exactly the two elements in option 1.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "The second-hand movement and the escapement sound",
+            "assessment": "Exact stated comparison."
+          },
+          {
+            "key": 2,
+            "text": "The clock’s colour and the tray depth",
+            "assessment": "Colour/tray depth are not the two elements in the explicit comparison; tray exists only as screw storage."
+          },
+          {
+            "key": 3,
+            "text": "The room’s temperature and the tool length",
+            "assessment": "Temperature/tool length differ from the explicit stated comparison."
+          },
+          {
+            "key": 4,
+            "text": "The apprentice’s notes and the village timetable",
+            "assessment": "Notes/timetable differ from the explicit stated comparison."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "workshop",
+            "quote": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+            "source_url": null,
+            "identity_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage"
+      }
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": true,
+      "derivation": {
+        "decisive_source_premises": [
+          "Complete ferry narrative: schedule is copied each morning in chalk; fresh date is written at the top to support an accurate change."
+        ],
+        "reasoning": "The temporal update context makes fresh date a recently written/current date. Coolness, unfamiliarity and rain damage do not express the temporal freshness of this written update.",
+        "assumptions": [],
+        "case_local_excerpt_sufficient": true,
+        "broader_original_source_support": true,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "Recently written",
+            "assessment": "Contextual temporal meaning."
+          },
+          {
+            "key": 2,
+            "text": "Cool to the touch",
+            "assessment": "Temperature is incompatible with the written-date/update sense in context."
+          },
+          {
+            "key": 3,
+            "text": "Unfamiliar to the visitor",
+            "assessment": "Visitor unfamiliarity is not what the date temporal freshness refers to."
+          },
+          {
+            "key": 4,
+            "text": "Damaged by rain",
+            "assessment": "The old printed timetable was washed away; the fresh written date signifies current information, not damage."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "ferry",
+            "quote": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+            "source_url": null,
+            "identity_sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e"
+          }
+        ]
+      },
+      "academic_gaps": [],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "supported",
+        "item_chapter": "Narrative Passage"
+      }
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "proposed_keys": [
+        1
+      ],
+      "unique_answer": true,
+      "source_evidence_sufficient": false,
+      "derivation": {
+        "decisive_source_premises": [
+          "Workshop passage supplies clock-repair narrative only; it contains no mandative-subjunctive rule and no committee-recommended clause. English official p2 allows narrative reading and verbal ability, with not-limited-to wording, but does not specifically identify this advanced grammar distinction."
+        ],
+        "reasoning": "By independent grammatical knowledge, recommended is mandative and that the clock be repaired uses base-form be as mandative subjunctive. This is a grammar-rule task using a clock setting, not a reading inference supported by the attached narrative.",
+        "assumptions": [
+          "Answer uses general grammatical knowledge; no grammar source was supplied or independently verified."
+        ],
+        "case_local_excerpt_sufficient": false,
+        "broader_original_source_support": false,
+        "all_options": [
+          {
+            "key": 1,
+            "text": "The committee recommended that the clock be repaired",
+            "assessment": "Recommended plus that-clause base be is the mandative subjunctive."
+          },
+          {
+            "key": 2,
+            "text": "The clock was repaired yesterday",
+            "assessment": "Was repaired is an indicative past passive."
+          },
+          {
+            "key": 3,
+            "text": "The apprentice repaired the clock carefully",
+            "assessment": "Repaired is indicative past active."
+          },
+          {
+            "key": 4,
+            "text": "The clock may need repair",
+            "assessment": "May need expresses modal possibility, with no mandative that-clause."
+          }
+        ],
+        "supplied_sources": [
+          {
+            "id": "v77src-english-narratives",
+            "locator": "workshop",
+            "quote": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+            "source_url": null,
+            "identity_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+          }
+        ]
+      },
+      "academic_gaps": [
+        "Actual key/rule not supported by attached source. Specific advanced-grammar entitlement unestablished; official English scope is non-exhaustive, so do not claim a categorical grammar exclusion from silence."
+      ],
+      "syllabus_entitlement": {
+        "unit": "Reading Comprehension / Verbal Ability",
+        "chapter": "Narrative; choosing correct word",
+        "physical_page": 2,
+        "premise": "Narrative passages maximum 300 words explicitly included; listed topics are not limited to these. Specific mandative-subjunctive rule not expressly established.",
+        "source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\syllabus\\english.pdf",
+        "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "status": "specific_advanced_rule_not_established",
+        "item_chapter": "Narrative Passage"
+      }
+    }
+  ]
+}

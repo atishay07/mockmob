@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-06T20:18:02.557Z",
+  "retained": {
+    "reservation_id": "5817ba11-47c7-474c-a770-cf6b3c5e8ed9",
+    "maximum_micro": 11096,
+    "state": "unresolved",
+    "receipt_resolved": false
+  },
+  "proof": {
+    "model": "gpt-6-luna",
+    "input_bound": 32768,
+    "output_bound": 14000,
+    "input_rate": 0.125,
+    "output_rate": 0.5,
+    "tool_calls": 0,
+    "tool_rate": 0,
+    "pricing_source": "https://developers.openai.com/api/docs/pricing",
+    "contract_hash": "2c8ecf8b386868b72512a4c15c7df992107b1202f0f7e23ee48d02302557c56a",
+    "provider_request_id": "req_b4d44cd7e2164c18bda70d533c3683d5",
+    "basis": "Historical bounded Responses reservation at the verified 6 October rates. All text input, cache writes and reasoning-inclusive output are conservatively charged at the maximum. No zero-cost assumption or invoice reconciliation."
+  },
+  "provider_receipt": {
+    "error": "provider_http_503",
+    "http_status": 503,
+    "provider": "openai",
+    "provider_request_id": "req_b4d44cd7e2164c18bda70d533c3683d5",
+    "code": "",
+    "type": "server_error",
+    "param": "",
+    "message": "Sorry, something went wrong."
+  },
+  "usage_access": {
+    "http_status": 403,
+    "accessible": false,
+    "limitation": "Organization usage is aggregated, not a receipt for a request ID. No usage was inferred from another request."
+  },
+  "external_dependency": "Provider usage/billing confirmation for the saved request ID; an ordinary project key cannot establish an individual failed-request invoice.",
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 6184904,
+    "requests": 2833,
+    "unresolved": 1
+  }
+}

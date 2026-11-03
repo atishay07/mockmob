@@ -1,0 +1,289 @@
+{
+ "subject": "accountancy",
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "chapter": "Share Capital",
+   "body": "A company offered 5,00,000 shares to the public for subscription. In which of the following situations is the issue a case of over subscription?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Applications are received for 6,00,000 shares"
+    },
+    {
+     "key": "B",
+     "text": "Applications are received for 5,50,000 shares"
+    },
+    {
+     "key": "C",
+     "text": "Applications are received for exactly 5,00,000 shares"
+    },
+    {
+     "key": "D",
+     "text": "Applications are received for 4,50,000 shares"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Share Capital",
+     "text": "1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’."
+    },
+    {
+     "ref": "F4",
+     "chapter": "Share Capital",
+     "text": "1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27\n31Accounting for Share Capital shown under the title ‘Equity and Liabilities’ of the company’s balance sheet under the head ‘Reserves and Surpluses’."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b2",
+   "chapter": "Debentures",
+   "body": "A company issues debentures that are payable in a lump sum on the expiry of 10 years and that carry a charge on a specific machine held for use in operations. How are these debentures correctly described?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Secured with a floating charge; redeemable"
+    },
+    {
+     "key": "B",
+     "text": "Unsecured; irredeemable"
+    },
+    {
+     "key": "C",
+     "text": "Secured with a fixed charge; redeemable"
+    },
+    {
+     "key": "D",
+     "text": "Secured with a fixed charge; irredeemable"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F12",
+     "chapter": "Debentures",
+     "text": "2.3 Types of Debentures A company may issue different kinds of debentures which can be classified as under: 2.3.1 From the Point of view of Security (a) Secured Debentures: Secured debentures refer to those debentures where a charge is created on the assets of the company for the purpose of payment in case of default. The charge may be fixed or floating. A fixed charge is created on a specific asset whereas a floating charge is Reprint 2026-27\r\nPAGE 3\r\nIssue and Redemption of Debentures 77 on the general assets of the company. The fixed charge is created against those assets which are held by a company for use in operations not meant for sale whereas floating charge involves all assets excluding those assigned to the secured creditors. (b) Unsecured Debentures: Unsecured debentures do not have a specific charge on the assets of the company. However, a floating charge may be created on these debentures by default. Normally, these kinds of debentures are not issued. 2.3.2 From the Point of view of Tenure (a) Redeemable Debentures: Redeemable debentures are those which are payable on the expiry of the specific period either in lump sum or in Instalments during the life time of the company. Debentures can be redeemed either at par or at premium. (b) Irredeemable Debentures: Irredeemable debentures are also known as Perpetual Debentures because the company does not give any undertaking for the repayment of money borrowed by issuing such debentures. These debentures are repayable on the winding-up of a company or on the expiry of a long period."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b3",
+   "chapter": "Partnership Fundamentals",
+   "body": "A partner withdrew Rs. 24,000 at the beginning of each quarter during the year. Interest on drawings is charged at 10% per annum. Following the NCERT method for fixed amounts withdrawn quarterly, what is the interest on drawings?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 1,500"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 6,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 7,200"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 9,600"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F9",
+     "chapter": "Partnership Fundamentals",
+     "text": "21Accounting for Partnership : Basic Concepts Interest on Drawings = = Rs. 5,200. (b) When the amount is withdrawn at the end of each month Average Period = No. of months of 1 drawings + No. of months of last drawings 2 = 11+ 0 2 = 15 2 months Interest on Drawings = = Rs. 4,400. (c) When money is withdrawn in the middle of the month When money is withdrawn in the middle of the month, nothing is added or deduced from the total period. Average Period = No. of months of 1 drawings + No. of month of last drawings 11.5+0.5= 2 2 = 6 months Interest on Drawings = = Rs. 4,800. When Fixed Amount is withdrawn Quarterly When fixed amount of money is withdrawn quarterly by partners, in such a situation, for the purpose of calculation of interest, the total period of time is ascertained depending on whether the money was withdrawn at the beginning or at the end of each quarter. If the amount is withdrawn at the beginning of each quarter, the interest is calculated on the total money withdrawn during the year, for a period of seven and half months i.e., 12+ 3 2 and if withdrawn at the end of each quarter it will be calculated for a period of 4½ months, i.e., 9 +0 2 . Suppose Satish and Tilak are partners in a firm, sharing profits and losses equally. During financial year 2016–2017, Satish withdrew Rs. 30,000 quarterly. If interest is to be charged on drawings @ 8% per annum, the calculation of average period and interest on drawings will be as follows: Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b4",
+   "chapter": "Admission of Partner",
+   "body": "X and Y are partners. Z is admitted as a new partner and pays Rs. 30,000 as premium for goodwill directly (privately) to X and Y. Which of the following is the treatment in the books of the firm?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "No entry is passed in the books of the firm"
+    },
+    {
+     "key": "B",
+     "text": "Bank A/c Dr. To Premium for Goodwill A/c, for Rs. 30,000"
+    },
+    {
+     "key": "C",
+     "text": "Bank A/c Dr. To Z's Capital A/c, for Rs. 30,000"
+    },
+    {
+     "key": "D",
+     "text": "Goodwill A/c Dr. To X's and Y's Capital A/cs, for Rs. 30,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F6",
+     "chapter": "Admission of Partner",
+     "text": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b5",
+   "chapter": "Partnership Fundamentals",
+   "body": "Satish and Tilak are partners sharing profits equally. During the year, Satish withdrew Rs. 30,000 at the end of each quarter, that is Rs. 1,20,000 in all. Interest on drawings is charged at 8% per annum. Following the NCERT method for fixed amounts withdrawn quarterly, what is the interest on Satish's drawings?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 900"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 4,800"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 6,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 3,600"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F9",
+     "chapter": "Partnership Fundamentals",
+     "text": "21Accounting for Partnership : Basic Concepts Interest on Drawings = = Rs. 5,200. (b) When the amount is withdrawn at the end of each month Average Period = No. of months of 1 drawings + No. of months of last drawings 2 = 11+ 0 2 = 15 2 months Interest on Drawings = = Rs. 4,400. (c) When money is withdrawn in the middle of the month When money is withdrawn in the middle of the month, nothing is added or deduced from the total period. Average Period = No. of months of 1 drawings + No. of month of last drawings 11.5+0.5= 2 2 = 6 months Interest on Drawings = = Rs. 4,800. When Fixed Amount is withdrawn Quarterly When fixed amount of money is withdrawn quarterly by partners, in such a situation, for the purpose of calculation of interest, the total period of time is ascertained depending on whether the money was withdrawn at the beginning or at the end of each quarter. If the amount is withdrawn at the beginning of each quarter, the interest is calculated on the total money withdrawn during the year, for a period of seven and half months i.e., 12+ 3 2 and if withdrawn at the end of each quarter it will be calculated for a period of 4½ months, i.e., 9 +0 2 . Suppose Satish and Tilak are partners in a firm, sharing profits and losses equally. During financial year 2016–2017, Satish withdrew Rs. 30,000 quarterly. If interest is to be charged on drawings @ 8% per annum, the calculation of average period and interest on drawings will be as follows: Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b6",
+   "chapter": "Admission of Partner",
+   "body": "The past average profits of a firm work out at Rs. 45,000 and such profits are expected to continue for another four years. Under the Average Profits Method, what is the value of goodwill?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 1,35,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 1,80,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 4,500"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 49,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F7",
+     "chapter": "Admission of Partner",
+     "text": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method 2.5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b7",
+   "chapter": "Dissolution of Partnership Firm",
+   "body": "P and Q share profits in the ratio 2 : 1. On dissolution of the firm, the balance sheet shows a General Reserve of Rs. 30,000. How is it transferred to the partners' capital accounts?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "P's Capital Rs. 10,000 and Q's Capital Rs. 20,000"
+    },
+    {
+     "key": "B",
+     "text": "P's Capital Rs. 20,000 and Q's Capital Rs. 10,000"
+    },
+    {
+     "key": "C",
+     "text": "P's Capital Rs. 15,000 and Q's Capital Rs. 15,000"
+    },
+    {
+     "key": "D",
+     "text": "Credit Realisation A/c with Rs. 30,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F13",
+     "chapter": "Dissolution of Partnership Firm",
+     "text": "166 Accountancy – Partnership Accounts 11. For settlement of any unrecorded liability Realisation A/c Dr. To Bank A/c 12. For transfer of profit and loss on realisation (Cr. Balance) (a) In case of profit on realisation Realisation A/c Dr. To Partners’ Capital A/c (individually) A/c (b) In case of loss on realisation Partners’ Capital A/c (individually) Dr. (Dr. Balance) To Realisation A/c 13. For settlement of loan by a fir m to a partner: Bank A/c Dr. To loan to partners A/c 14. For transfer of accumulated pr ofits in the for m of general r eserve to partners’ capital accounts in their profit sharing ratio: General Reserve A/c Dr. To Partners’ Capital A/c (individually) 15. For transfer of fictitious assets, if any, to partners’ capital accounts in their profit sharing ratio: Partners’ Capital A/c (individually) Dr. To Fictitious Asset A/c 16. For payment of loans due to partners Partner’s Loan A/c Dr. To Bank A/c 17. For settlement of partners’ accounts If the partner’s capital account shows a debit balance after posting of rebount entries firms. He brings in the necessary cash for which the entry will be: Bank A/c Dr. To Partner’s Capital A/c The balance is paid to partners whose capital accounts show a credit balance and the following entry is recorded. Partners’ Capitals A/cs (individually) Dr. To Bank A/c It may be noted that the aggregate amount finally payable to the partners must equal to the amount available in bank and cash accounts. Thus, all accounts of a firm are closed in case of dissolution. Reprint 2026-27"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b8",
+   "chapter": "Share Capital",
+   "body": "A company invited applications for 2,00,000 equity shares from the public and received applications for only 1,80,000 shares. Assume the company has received the minimum subscription. For how many shares will the allotment be confirmed, following the treatment of under subscription in the NCERT text?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "2,00,000 shares, the number for which applications were invited"
+    },
+    {
+     "key": "B",
+     "text": "20,000 shares, the number of shares left unsubscribed"
+    },
+    {
+     "key": "C",
+     "text": "1,80,000 shares, the number of shares actually applied for"
+    },
+    {
+     "key": "D",
+     "text": "1,90,000 shares, the number used in the textbook example"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F4",
+     "chapter": "Share Capital",
+     "text": "1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27\n31Accounting for Share Capital shown under the title ‘Equity and Liabilities’ of the company’s balance sheet under the head ‘Reserves and Surpluses’."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b9",
+   "chapter": "Share Capital",
+   "body": "A company issues 10,000 equity shares of nominal value Rs. 50 each at Rs. 56 per share. The amount of premium is credited to a separate account called the Securities Premium Account. What amount is credited to the Securities Premium Account on the issue of these shares?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 5,00,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 60,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 5,60,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 6,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F4",
+     "chapter": "Share Capital",
+     "text": "1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27\n31Accounting for Share Capital shown under the title ‘Equity and Liabilities’ of the company’s balance sheet under the head ‘Reserves and Surpluses’."
+    }
+   ]
+  }
+ ]
+}

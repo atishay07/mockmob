@@ -1,0 +1,344 @@
+{
+ "subject": "business_studies",
+ "blind_freeze": "fd6b82c52d636df07d8c6b72e177d7d4c0b60fceedc74667c7be2010c4fa2f15",
+ "items": [
+  {
+   "local_id": "bus-b1",
+   "body": "A company runs an employee suggestion system that rewards suggestions bringing substantial cost reduction, and its manager uses 'we' instead of 'I' in all conversations with workers. Which Fayol principle is reflected in the manager's practice?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Initiative"
+    },
+    {
+     "key": "B",
+     "text": "Esprit de corps"
+    },
+    {
+     "key": "C",
+     "text": "Unity of direction"
+    },
+    {
+     "key": "D",
+     "text": "Centralisation"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Principles of Management",
+     "text": "(xiii)Initative: Workers should be\nencouraged to develop and carry\nout their plans for improvements\naccording to Fayol. Initiative\nmeans taking the first step with\nself-motivation. It is thinking\nout and executing the plan. It is\none of the traits of an intelligent\nperson. Initiative should be\nencouraged. But it does not mean\ngoing against the established\npractices of the company for\nthe sake of being different. A\ngood company should have an\nemployee suggestion system\nwhereby initiative/suggestions\nwhich result in substantial\ncost/time reduction should be\nrewarded.\n(xiv) Esprit De Corps: Management\nshould promote a team spirit\nof unity and harmony among\nemployees, according to Fayol.\nManagement should promote\nteamwork especially in large\norganisations because otherwise\nobjectives would be difficult to\nrealise. It will also result in a\nloss of coordination. A manager\nshould replace ‘I’ with ‘We’ in all\nhis conversations with workers\nto foster team spirit. This will\ngive rise to a spirit of mutual\ntrust and belongingness among\nteam members. It will also\nminimise the need for using\npenalties."
+    }
+   ],
+   "proposed_key": "B",
+   "proposed_explanation": "Replacing 'I' with 'We' fosters team spirit, mutual trust and belongingness among team members, which is esprit de corps. Unity of direction and centralisation are not described in the case.",
+   "frozen_blind": {
+    "solved_key": null,
+    "single_defensible_answer": false,
+    "source_explanation": "F3 ties the employee suggestion system rewarding cost reduction to Initiative and replacing 'I' with 'We' to Esprit de corps. The stem contains both, so A and B are each partly correct and there is no single answer. C and D are unsupported by F3."
+   }
+  },
+  {
+   "local_id": "bus-b2",
+   "body": "Anil Ltd raises a larger share of its capital through debt instead of equity, and its cost of equity remains unaffected. Which statement is correct as per the textbook discussion of debt?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "The overall cost of capital is likely to rise, because debt is costlier than equity"
+    },
+    {
+     "key": "B",
+     "text": "The overall cost of capital is likely to fall, but fixed financial charges and financial risk increase"
+    },
+    {
+     "key": "C",
+     "text": "Financial risk falls, because payment of interest and return of principal is not obligatory"
+    },
+    {
+     "key": "D",
+     "text": "Financial risk remains unchanged, because equity is considered riskless for the business"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F15",
+     "chapter": "Financial Management",
+     "text": "is likely to lower the over-all cost of\ncapital of the firm provided that the\ncost of equity remains unaffected.\nImpact of a change in the debt-equity\nratio upon the earning per share is\ndealt with in detail later in this chapter.\nDebt is cheaper but is more risky\nfor a business because the payment of\ninterest and the return of principal is\nobligatory for the business. Any default\nin meeting these commitments may\nforce the business to go into liquidation.\nThere is no such compulsion in case of\nequity, which is therefore, considered\nriskless for the business. Higher use\nof debt increases the fixed financial\ncharges of a business. As a result,\nincreased use of debt increases the\nfinancial risk of a company.\nFinancial risk is the chance that\na firm would fail to meet its payment\nobligations.\nCapital structure of a company,\nthus, affects both the profitability and\nthe financial risk. A capital structure\nwill be said to be optimal when the\nproportion of debt and equity is\nsuch that it results in an increase\nin the value of the equity share. In\nother words, all decisions relating to\ncapital structure should emphasise on\nincreasing the shareholders’ wealth.\nThe proportion of debt in the overall\ncapital is also called financial leverage."
+    }
+   ],
+   "proposed_key": "B",
+   "proposed_explanation": "The excerpt says higher debt is likely to lower the overall cost of capital if the cost of equity is unaffected, since debt is cheaper. It also says higher use of debt increases fixed financial charges and therefore financial risk. Option C is contradicted because payment of interest and return of principal is obligatory, and option D because increased use of debt increases financial risk.",
+   "frozen_blind": {
+    "solved_key": "B",
+    "single_defensible_answer": true,
+    "source_explanation": "F15 states more debt is likely to lower overall cost of capital provided cost of equity is unaffected, but it raises fixed financial charges and financial risk. A reverses the cost claim. C contradicts the obligatory interest and principal payment. D contradicts that debt increases financial risk."
+   }
+  },
+  {
+   "local_id": "bus-b3",
+   "body": "A party is not satisfied with the order of the District Commission. Within how many days from the date of order may it appeal to the State Commission on the grounds of facts or law?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Forty five days"
+    },
+    {
+     "key": "B",
+     "text": "Thirty days"
+    },
+    {
+     "key": "C",
+     "text": "Sixty days"
+    },
+    {
+     "key": "D",
+     "text": "Fifteen days"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F20",
+     "chapter": "Consumer Protection",
+     "text": "that there exists elements of\ns e t t l e m e n t w h i c h m a y b e\nacceptable to the parties, it may\ndirect them to give their consent\nfor settlement of dispute through\nmediation within five days. In case\nthe parties agree for settlement\nby mediation and give written\nconsent, the district commission\nrefers the matter for mediation\nand the provisions relating to\nmediation shall apply. However, in\nthe event of failure of settlement\nby mediation proceeds with the\ncomplaint. If the complaint alleges\ndefect in goods which cannot\nbe determined without proper\nanalysis or test of goods, the\ncommission obtains the sample\nof goods, seal it and refer to the\nappropriate authority for analysis.\nIn case of services, the dispute\nis settled based on the basis of\nevidence brought to its notice\nby the complainant and can ask\nfor any required information\ndocument or records from the\nservice provider for settlement.\nIf any of the parties are\nnot satisfied by the order of\nDistrict Commission can appeal\nagainst such order to the State\nCommission on the grounds of\nfacts or law within a period of forty\nfive days from the date of order.\n2. S t a t e C o m m i s s i o n : I t i s\nestablished by the respective\nstate government and ordinarily\nfunction at the state capital. State\nCommission has a jurisdiction to\nentertain complaints where value\nof goods and services paid as"
+    }
+   ],
+   "proposed_key": "A",
+   "proposed_explanation": "The excerpt states that a dissatisfied party can appeal to the State Commission within a period of forty five days from the date of the order. The State Commission hears only appeals and never original complaints.",
+   "frozen_blind": {
+    "solved_key": "A",
+    "single_defensible_answer": true,
+    "source_explanation": "F20 states a party dissatisfied with the District Commission's order can appeal to the State Commission on facts or law within forty five days. The other periods are not what F20 states."
+   }
+  },
+  {
+   "local_id": "bus-b4",
+   "body": "A firm sends its employees to a three-week programme that builds their skills and knowledge. Which term best describes the programme?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Education"
+    },
+    {
+     "key": "B",
+     "text": "Development"
+    },
+    {
+     "key": "C",
+     "text": "Selection"
+    },
+    {
+     "key": "D",
+     "text": "Training"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F12",
+     "chapter": "Staffing",
+     "text": "are distinct terms although they\noverlap to some extent.\nTraining is any process by which\nthe aptitudes, skills and abilities\nof employees to perform specific\njobs are increased. It is a process of\nlearning new skills and application\nof knowledge. It attempts to\nimprove their performance on the\ncurrent job or prepare them for any\nintended job.\nEducation is the process of increa­\nsing the knowledge and understanding\nof employees. It is the understanding\nand interpretation of knowledge. It\ndoes not provide definite answers, but\nrather develops a logical and rational\nmind that can determine relationships\namong pertinent variables and\nthereby understand a phenomenon.\nEducation imparts qualities of mind\nand character and understanding of\nthe basic principles and develop the\ncapacities of analysis, synthesis and\nobjectivity. Education is broader in\nscope than training. Training is tied\nto the goals of organisations more\nthan to the goals of the individual.\nDevelopment refers to the\nlearning opportunities designed\nto help employees grow. It covers\nnot only those activities which\nimprove job performance but also\nthose which bring about growth of\nthe personality, help individuals\nin the progress towards maturity\nand actualisation of their potential"
+    }
+   ],
+   "proposed_key": "D",
+   "proposed_explanation": "Training increases the aptitudes, skills and abilities of employees, and it is a process of learning new skills and application of knowledge. The programme builds skills and knowledge, so it is training.",
+   "frozen_blind": {
+    "solved_key": null,
+    "single_defensible_answer": false,
+    "source_explanation": "F12 defines training as improving skills for specific jobs, education as knowledge and understanding, and development as growth opportunities, and says they overlap. The stem gives no job-specific or growth cue, so Training and Development are both arguable. Selection is unrelated."
+   }
+  },
+  {
+   "local_id": "bus-b5",
+   "body": "Smita plans her Diwali collection in June, then continuously monitors whether production proceeds according to plan and briefs the marketing department in time. Which feature of coordination does this illustrate?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Coordination is a continuous process"
+    },
+    {
+     "key": "B",
+     "text": "Coordination is an all pervasive function"
+    },
+    {
+     "key": "C",
+     "text": "Coordination is a one-time function performed at the planning stage"
+    },
+    {
+     "key": "D",
+     "text": "Coordination is required only at the top level of management"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F1",
+     "chapter": "Nature & Significance of Management",
+     "text": "the goals of the organisation.\nAt Namchi Designer Candles,\nthe production and sales\ndepartment have to coordinate\ntheir work, so that production\ntakes place according to the\ndemand in the market.\n(iii) Coordination is a continuous\nprocess: Coordination is not\na one-time function but a\ncontinuous process. It begins at\nthe planning stage and continues\ntill controlling. Smita plans her\ndewali collection in the month\nof June itself. She has to then\nensure that there is adequate\nworkforce and continuously\nmonitor whether production is\nproceeding according to plans.\nHer marketing department also\nhas to be briefed in time to\nprepare their promotional and\nadvertising campaigns.\n(iv) Coordination is an all pervasive\nfunction: Coordination is required\nat all levels of management due\nto the interdependent nature of\nactivities of various departments.\nIt integrates the efforts of different\ndepartments and different levels.\nThe purchase, production and\nsales departmental efforts have\nto be coordinated by Smita for\nachieving organisational objectives\nharmoniously. The purchase\ndepartment is responsible for\nprocuring fabric. This then\nbecomes the basis of the activities\nof the production department"
+    }
+   ],
+   "proposed_key": "B",
+   "proposed_explanation": "Smita has to align efforts of several departments, which shows that coordination is required at all levels because of the interdependence of activities. This makes it an all pervasive function.",
+   "frozen_blind": {
+    "solved_key": "A",
+    "single_defensible_answer": true,
+    "source_explanation": "F1 (iii) uses the same Smita example for coordination as a continuous process, beginning at planning and continuing through monitoring. B concerns levels and departments (F1 iv), not shown here. C and D contradict F1."
+   }
+  },
+  {
+   "local_id": "bus-b6",
+   "body": "A regional sales head fixes a permissible limit for monthly expense variance. Only deviations that cross this limit are brought to her attention, and routine problems are left to subordinates. Which consequence of this approach is established by the textbook?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Managers must personally examine every deviation, so more managerial time is consumed"
+    },
+    {
+     "key": "B",
+     "text": "Delegation of authority becomes harder, because subordinates handle routine problems"
+    },
+    {
+     "key": "C",
+     "text": "Managerial time is saved and attention is focused on important areas"
+    },
+    {
+     "key": "D",
+     "text": "Employee morale falls, because routine problems are left to subordinates"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F14",
+     "chapter": "Controlling",
+     "text": "When a manager sets critical points and focuses attention on significant deviations which\ncross the permissible limit, the following advantages accrue:\n1. It saves the time and efforts of managers as they deal with only significant deviations.\n2. It focuses managerial attention on important areas. Thus, there is better utilisation of\nmanagerial talent.\n3. The routine problems are left to the subordinates. Management by exception, thus,\nfacilitates delegation of authority and increases morale of the employees.\n4. It identifies critical problems which need timely action to keep the organisation in right\ntrack."
+    }
+   ],
+   "proposed_key": "C",
+   "proposed_explanation": "Dealing only with significant deviations saves the time and efforts of managers and focuses managerial attention on important areas, so there is better utilisation of managerial talent. The excerpt says leaving routine problems to subordinates facilitates delegation of authority and increases morale, which contradicts options B and D. Option A is contradicted since managers deal with only significant deviations.",
+   "frozen_blind": {
+    "solved_key": "C",
+    "single_defensible_answer": true,
+    "source_explanation": "F14 lists saved time and effort and focus on important areas as advantages of dealing only with deviations beyond the permissible limit. A, B and D reverse F14's statements that time is saved, delegation is facilitated and morale rises."
+   }
+  },
+  {
+   "local_id": "bus-b7",
+   "body": "A firm obtains (i) finance from financiers, (ii) pays taxes to the government, (iii) draws power and water, and (iv) pays a return on financial investment to its investors. Using the textbook's classification of inputs and outputs, which two are outputs supplied by the enterprise to its environment?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "(i) and (iii)"
+    },
+    {
+     "key": "B",
+     "text": "(i) and (ii)"
+    },
+    {
+     "key": "C",
+     "text": "(ii) and (iii)"
+    },
+    {
+     "key": "D",
+     "text": "(ii) and (iv)"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F6",
+     "chapter": "Business Environment",
+     "text": "measures as improving the\nquality of the product, reducing\ncost of the production, engaging\nin aggr essive advertising, and\nso on.\n(iii) It helps in tapping useful\nresources: Environment is a\nsource of various resources\nfor running a business.\nTo engage in any type of\nactivity, a business enterprise\nassembles various resources\ncalled inputs like finance,\nmachines, raw materials,\npower and water, labour, etc.,\nfrom its environment including\nfinanciers, government and\nsuppliers. They decide to provide\nthese resources with their own\nexpectations to get something in\nreturn from the enterprise. The\nbusiness enterprise supplies the\nenvironment with its outputs\nsuch as goods and services for\ncustomers, payment of taxes to\ngovernment, return on financial\ninvestment to investors and\nso on. Because the enterprise\ndepends on the environment as\na source of inputs or resources\nand as an outlet for outputs,\nit only makes sense that the\nenterprise designs policies that\nallow it to get the resources\nthat it needs so that it can\nconvert those resources into\noutputs that the environment\ndesires. This can be done better\nby understanding what the\nenvironment has to offer."
+    }
+   ],
+   "proposed_key": "D",
+   "proposed_explanation": "The enterprise assembles inputs like finance, machines, raw materials, power and water, labour from its environment. It supplies outputs such as goods and services, payment of taxes to government, and return on financial investment to investors. So (ii) and (iv) are outputs, while (i) and (iii) are inputs, and each of options A, B and C includes at least one of these inputs.",
+   "frozen_blind": {
+    "solved_key": "D",
+    "single_defensible_answer": true,
+    "source_explanation": "F6 lists finance, power and water as inputs, and goods and services, taxes to government and return on investment to investors as outputs. Hence (ii) and (iv) are outputs; A, B and C each include an input."
+   }
+  },
+  {
+   "local_id": "bus-b8",
+   "body": "Using the definitions by Chester Barnard and Keith Davis, which statement about an informal organisation is correct?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "It is established by the formal organisation to define authority relationships among activities"
+    },
+    {
+     "key": "B",
+     "text": "It exists only when its relationships contribute to joint results"
+    },
+    {
+     "key": "C",
+     "text": "It is created through a conscious purpose set by management"
+    },
+    {
+     "key": "D",
+     "text": "It arises spontaneously as people associate with one another, without being established or required by the formal organisation"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F9",
+     "chapter": "Organising",
+     "text": "Organising is the process of identifying and grouping the work to\nbe performed, defining and delegating responsibility and authority,\nand establishing relationships for the purpose of enabling people to\nwork most effectively together in accomplishing objectives.\nLouis Allen\nOrganising is the process of defining and grouping the activities of the\nenterprise and establishing authority relationships among them.\nTheo Haimman"
+    },
+    {
+     "ref": "F10",
+     "chapter": "Organising",
+     "text": "An informal organisation is an aggregate of interpersonal relationships without any\nconscious purpose but which may contribute to joint results.\nChester Barnand\nInformal organisation is a network of personal and social relations not established or required\nby the formal organisation but arising spontaneously as people associate with one another.\nKeith Davis"
+    }
+   ],
+   "proposed_key": "D",
+   "proposed_explanation": "Keith Davis describes informal organisation as a network of personal and social relations not established or required by the formal organisation but arising spontaneously as people associate. Barnard says it is without any conscious purpose and that it only 'may' contribute to joint results, so options B and C are contradicted. Defining activities and establishing authority relationships is Haimman's definition of organising, not of informal organisation, which rules out A.",
+   "frozen_blind": {
+    "solved_key": "D",
+    "single_defensible_answer": true,
+    "source_explanation": "F10: Davis describes spontaneous personal and social relations not established or required by the formal organisation; Barnard says without conscious purpose. A and C contradict this, and B turns Barnard's 'may contribute' into 'only when'."
+   }
+  },
+  {
+   "local_id": "bus-b9",
+   "body": "Ravi's employer pays a fixed salary of Rs 10,000 per month plus Rs 4 for every unit he produces. In a month he produces 1,800 units. What is his total direct pay for the month, and how is the plan classified in the textbook's terms?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 17,200; a combination of time based pay plus incentive for higher performance"
+    },
+    {
+     "key": "B",
+     "text": "Rs 7,200; a performance based plan only"
+    },
+    {
+     "key": "C",
+     "text": "Rs 10,000; a time based plan only"
+    },
+    {
+     "key": "D",
+     "text": "Rs 17,200; an indirect payment like employer paid insurance"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F11",
+     "chapter": "Staffing",
+     "text": "mean more pay, responsibility\nand job satisfaction.\n(viii) Compensation\nAll organisations need to\nestablish wage and salary plans\nfor their employees. There are\nvarious ways to prepare different\npay plans depending on the worth\nof the job. Basically the price of\nthe job needs to be determined.\nCompensation, therefore, refers\nto all forms of pay or rewards\ngoing to employees. It may be\nin the form of direct financial\npayments like wages, salaries,\nincentives, commissions and\nbonuses and indirect payments\nlike employer paid insurance\nand vacations.\nDirect financial payments\nare of two types : time based or\nperformance based. A time based\nplan means salary and wages are\npaid either daily, weekly or monthly\nor annually. Performance based\nplans means salary/wages are paid\naccording to piecework. For example,\na worker may be paid according to\nthe number of units produced by\nhim/her. There are many methods\nto calculate the compensation under\nvarious incentive plans to reward\nperformance. Certain pay plans can\nbe created which are a combination\nof time based pay plus incentives\nfor higher performance. Various\nplans may be formulated for paying"
+    }
+   ],
+   "proposed_key": "A",
+   "proposed_explanation": "The incentive is 1,800 x 4 = Rs 7,200, so the total is 10,000 + 7,200 = Rs 17,200. The fixed monthly salary is time based and the per-unit amount is performance based, so the plan combines time based pay with incentives. Options B and C count only one component, and option D is contradicted because salaries and incentives are direct financial payments.",
+   "frozen_blind": {
+    "solved_key": "A",
+    "single_defensible_answer": true,
+    "source_explanation": "Total pay is 10,000 + 7,200 = Rs 17,200. F11 describes a combination of time based pay plus incentives for higher performance as a direct payment plan. B and C ignore part of the pay, and D misclassifies direct pay as indirect."
+   }
+  }
+ ]
+}

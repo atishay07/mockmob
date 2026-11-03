@@ -1,0 +1,369 @@
+{
+  "id": "cuet-readiness-improved-100-2026-10-08",
+  "profile": {
+    "contract": "cuet-fit-v7",
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d"
+  },
+  "denominator": 100,
+  "complete": true,
+  "approved_unique": 74,
+  "rejected": 26,
+  "pending": 0,
+  "newly_published": 0,
+  "measurement_only": true,
+  "publication_policy": "never",
+  "cost": {
+    "settled_usd": 1.177385,
+    "held_usd": 0.16406,
+    "gross_usd": 1.341445,
+    "requests": 478,
+    "unresolved": 10
+  },
+  "publication_accounting": {
+    "ready": false,
+    "settled": false,
+    "bounded_terminal_failure_holds": [],
+    "blocked_requests": [
+      "edd67c85-c7db-4753-8e13-ecd818667f22",
+      "3db11a4d-dcdb-4eb5-af22-c5d977238408",
+      "072a0ed1-a031-4c88-8c0e-8d557c06be82",
+      "30f173b5-5026-4e6c-8772-17f018f0a0ad",
+      "1eb66559-4d58-454d-8b1b-5a4fd6c4f991",
+      "fed280b0-17a0-48c7-9af5-350476c7da7d",
+      "e16dbb42-ed3a-4027-8462-0ee8ff7299ce",
+      "ac1365e6-0ead-4721-95b9-11f306b40c5d",
+      "a0015639-7b5e-47f8-9974-277eddc63ce8",
+      "c96783ec-f52f-4835-bc17-9b4544878a69"
+    ],
+    "basis": "Only terminal failed requests for quarantined items can retain proven maximum holds while unaffected approved items publish. Every hold stays committed and unsettled."
+  },
+  "provider_processing_complete": false,
+  "cost_per_approved_usd": null,
+  "conditional_10000_forecast_usd": null,
+  "conditional_lifetime_to_10000_usd": null,
+  "forecast_basis": "Gross batch cost includes rejected candidates, repair, every validator and reasoning usage. Conditional on unchanged mix and yield; not a promise and not authority to exceed USD 50.",
+  "budget_scenarios": [
+    {
+      "cap_usd": 50,
+      "authorized": true,
+      "additional_approved_affordable": null
+    },
+    {
+      "cap_usd": 60,
+      "authorized": false,
+      "additional_approved_affordable": null
+    },
+    {
+      "cap_usd": 70,
+      "authorized": false,
+      "additional_approved_affordable": null
+    }
+  ],
+  "rejection_by_stage": {
+    "provider_request_unresolved_do_not_resubmit": 9,
+    "source_support": 7,
+    "passage_group_sibling_rejected": 2,
+    "orphan_passage": 1,
+    "repair_abstained": 2,
+    "option_label_prefix": 2,
+    "syllabus_mapping": 2,
+    "fetch failed": 1
+  },
+  "cuet_fit_score_distribution": {
+    "7": 3,
+    "8": 18,
+    "9": 41,
+    "10": 12
+  },
+  "label_normalized": 0,
+  "repaired": 34,
+  "lifetime": {
+    "limit_micro": 50000000,
+    "committed_micro": 32487372,
+    "requests": 13018,
+    "unresolved": 32,
+    "unbounded_unresolved": 0
+  },
+  "costs_by_stage": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0.000016,
+        "held_usd": 0,
+        "input_tokens": 109,
+        "output_tokens": 40,
+        "reasoning_tokens": 25,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 4634,
+        "open_requests": 16,
+        "settled_usd": 7.987645999999999,
+        "held_usd": 0.163324,
+        "input_tokens": 18208411,
+        "output_tokens": 15396166,
+        "reasoning_tokens": 12523554,
+        "usage_missing_requests": 249
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2891,
+        "open_requests": 6,
+        "settled_usd": 19.216699999999975,
+        "held_usd": 0.162438,
+        "input_tokens": 10751930,
+        "output_tokens": 3771160,
+        "reasoning_tokens": 1579443,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.049103999999999995,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 50794,
+        "reasoning_tokens": 37688,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.050195,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 29591,
+        "reasoning_tokens": 17042,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "explanation_support",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 2781,
+        "open_requests": 4,
+        "settled_usd": 1.6308380000000025,
+        "held_usd": 0.026384,
+        "input_tokens": 7189994,
+        "output_tokens": 2096725,
+        "reasoning_tokens": 1554121,
+        "usage_missing_requests": 102
+      },
+      {
+        "stage": "authoring",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1648,
+        "open_requests": 1,
+        "settled_usd": 1.6873090000000008,
+        "held_usd": 0.010628,
+        "input_tokens": 4601273,
+        "output_tokens": 5129981,
+        "reasoning_tokens": 4436176,
+        "usage_missing_requests": 69
+      },
+      {
+        "stage": "repair",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 560,
+        "open_requests": 0,
+        "settled_usd": 0.5011939999999998,
+        "held_usd": 0,
+        "input_tokens": 1418198,
+        "output_tokens": 796052,
+        "reasoning_tokens": 662169,
+        "usage_missing_requests": 2
+      },
+      {
+        "stage": "unclassified",
+        "provider": null,
+        "model": "gpt-6-luna",
+        "settled_requests": 7,
+        "open_requests": 0,
+        "settled_usd": 0.022412,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 7
+      },
+      {
+        "stage": "blueprint",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 51,
+        "open_requests": 0,
+        "settled_usd": 0.12060100000000001,
+        "held_usd": 0,
+        "input_tokens": 114630,
+        "output_tokens": 218229,
+        "reasoning_tokens": 190375,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "unclassified",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 0,
+        "open_requests": 1,
+        "settled_usd": 0,
+        "held_usd": 0.011096,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "explanation_support",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 55,
+        "open_requests": 0,
+        "settled_usd": 0.23071999999999998,
+        "held_usd": 0,
+        "input_tokens": 118991,
+        "output_tokens": 37721,
+        "reasoning_tokens": 21702,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "credit_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000013,
+        "held_usd": 0,
+        "input_tokens": 59,
+        "output_tokens": 13,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "flex_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0.000013,
+        "held_usd": 0,
+        "input_tokens": 57,
+        "output_tokens": 13,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "anthropic",
+        "model": "claude-haiku-5-5",
+        "settled_requests": 223,
+        "open_requests": 0,
+        "settled_usd": 0.5637610000000002,
+        "held_usd": 0,
+        "input_tokens": 2232912,
+        "output_tokens": 680735,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_key_audit",
+        "provider": "anthropic",
+        "model": "claude-haiku-5-5",
+        "settled_requests": 61,
+        "open_requests": 4,
+        "settled_usd": 0.024905999999999998,
+        "held_usd": 0.026384,
+        "input_tokens": 117688,
+        "output_tokens": 26219,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_key_audit_fallback",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 4,
+        "open_requests": 0,
+        "settled_usd": 0.0008929999999999999,
+        "held_usd": 0,
+        "input_tokens": 4369,
+        "output_tokens": 739,
+        "reasoning_tokens": 215,
+        "usage_missing_requests": 0
+      }
+    ]
+  },
+  "answer_positions": {
+    "D": 14,
+    "B": 16,
+    "C": 18,
+    "A": 26
+  },
+  "formats": {
+    "sequence_ordering": 9,
+    "conceptual_mcq": 21,
+    "matching": 10,
+    "case_application": 9,
+    "statement_selection": 8,
+    "synonym": 4,
+    "word_meaning": 1,
+    "correct_word_usage": 3,
+    "antonym": 2,
+    "reading_comprehension": 2,
+    "numerical_calculation": 3,
+    "case-based MCQ": 1,
+    "case_based_mcq": 1
+  },
+  "difficulty": {
+    "medium": 51,
+    "easy": 21,
+    "hard": 2
+  },
+  "invoice_status": "Provider response usage receipts; no provider invoice obtained. Held usage is not settled.",
+  "at": "2026-10-08T08:03:46.552Z"
+}

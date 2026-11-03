@@ -1,0 +1,180 @@
+{
+ "subject": "economics",
+ "items": [
+  {
+   "local_id": "economics-v1", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Balance of Payments",
+    "body": "Under a fixed exchange rate system, the government changes the official exchange rate from Rs 75 per dollar to Rs 80 per dollar, so that one dollar now costs more rupees. According to the NCERT definitions, this government action is called:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Revaluation of the rupee"},
+     {"key": "B", "text": "Devaluation of the rupee"},
+     {"key": "C", "text": "Appreciation of the rupee"},
+     {"key": "D", "text": "Floating of the exchange rate"}
+    ],
+    "correct_answer": "B",
+    "explanation": "In a fixed exchange rate system, a government action that increases the exchange rate (making the domestic currency cheaper) is Devaluation; here the rate rises from Rs 75 to Rs 80 per dollar. Revaluation is when the government decreases the exchange rate, which is the opposite of this change. Appreciation is defined for a flexible regime when the price of the rupee in dollars increases, but here the rupee has become cheaper and the change is a government action. A floating rate is determined by market forces of demand and supply, not by a government decision.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Open Economy Macroeconomics", "objective": "Distinguish devaluation and revaluation in a fixed exchange rate system from appreciation in a flexible regime.", "target_term": "devaluation"},
+    "fact_refs": ["F7", "F8", "F9"]
+   }
+  },
+  {
+   "local_id": "economics-v2", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Money & Banking",
+    "body": "A bank is required to keep 20 per cent of its deposits as reserves. If the bank holds reserves of Rs 300 crore, what is the maximum amount of deposits that these reserves can support?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 60 crore"},
+     {"key": "B", "text": "Rs 240 crore"},
+     {"key": "C", "text": "Rs 1,500 crore"},
+     {"key": "D", "text": "Rs 375 crore"}
+    ],
+    "correct_answer": "C",
+    "explanation": "Reserves are 20 per cent of deposits, so deposits supported = 300 / 0.20 = Rs 1,500 crore, the same logic as reserves of Rs 100 supporting deposits of Rs 500. Rs 60 crore multiplies reserves by 0.20, which would be 20 per cent of the reserves rather than the deposits. Rs 240 crore takes 80 per cent of the reserves, and Rs 375 crore divides by 0.80; both wrongly treat 80 per cent, not 20 per cent, as the reserve share.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Money and Banking", "objective": "Compute the deposits that a given amount of reserves can support from the reserve requirement.", "target_term": "reserve ratio"},
+    "fact_refs": ["F2"]
+   }
+  },
+  {
+   "local_id": "economics-v3", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Money & Banking",
+    "body": "The RBI sells government bonds worth Rs 500 crore in the open market to private individuals and institutions. According to the NCERT discussion of open market operations, what is the effect of this sale?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Reserves in the economy increase, so the money supply rises"},
+     {"key": "B", "text": "Reserves in the economy fall, but the money supply is not affected"},
+     {"key": "C", "text": "Neither reserves nor the money supply change, since only the ownership of bonds changes"},
+     {"key": "D", "text": "Reserves in the economy fall, so the money supply is reduced"}
+    ],
+    "correct_answer": "D",
+    "explanation": "Selling of a bond by the RBI to private individuals or institutions leads to a reduction in the quantity of reserves and hence the money supply. It is the purchase of a bond by the RBI, paid for by cheque, that increases reserves and money supply, so the first option reverses the direction. The reduction in reserves is stated to lead to a fall in the money supply, which contradicts the second option, and the same statement contradicts the claim that nothing changes.",
+    "difficulty": "medium", "question_type": "case_application", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Money and Banking", "objective": "Apply open market operations to predict their effect on reserves and money supply.", "target_term": "open market operations"},
+    "fact_refs": ["F3"]
+   }
+  },
+  {
+   "local_id": "economics-v4", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Government Budget & the Economy",
+    "body": "The government receives money in the following ways. Which one is a revenue receipt?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Corporation tax collected from firms, which the government never has to return"},
+     {"key": "B", "text": "A loan raised by issuing bonds that the government must repay on maturity"},
+     {"key": "C", "text": "Money borrowed from a foreign government, to be repaid with interest"},
+     {"key": "D", "text": "Funds raised through securities that are redeemable after a fixed period"}
+    ],
+    "correct_answer": "A",
+    "explanation": "Revenue receipts are those that do not lead to a claim on the government, which is why they are termed non-redeemable, and they are divided into tax and non-tax revenues. Corporation tax is a tax revenue that the government never returns, so it creates no claim. The bond issue, the foreign loan and the redeemable securities are each stated to be repayable or redeemable, so they create a claim on the government and are not revenue receipts.",
+    "difficulty": "easy", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Government Budget and the Economy", "objective": "Classify government receipts as revenue receipts using the criterion of no claim on the government.", "target_term": "revenue receipts"},
+    "fact_refs": ["F4"]
+   }
+  },
+  {
+   "local_id": "economics-v5", "expected_valid": true, "defect_category": null, "defect_evidence": null,
+   "candidate": {
+    "subject": "economics", "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market can sell any quantity at a market price of Rs 23 per unit. Its marginal cost (MC) of producing the 1st to 6th unit is Rs 5, Rs 8, Rs 12, Rs 17, Rs 23 and Rs 30 respectively, and MC rises with output. Which output level maximises its profit?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "2 units"},
+     {"key": "B", "text": "3 units"},
+     {"key": "C", "text": "4 units"},
+     {"key": "D", "text": "5 units"}
+    ],
+    "correct_answer": "D",
+    "explanation": "For a perfectly competitive firm MR = P = Rs 23, and profit is maximum where MR = MC. MC equals Rs 23 at the 5th unit. At 2, 3 and 4 units MR (Rs 23) exceeds MC (Rs 8, Rs 12, Rs 17), so profits are still increasing and the firm should expand. Beyond 5 units the 6th unit has MC of Rs 30, above MR, so profits would fall.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Producer Behaviour and Supply", "objective": "Determine the profit-maximising output of a perfectly competitive firm using P = MC.", "target_term": "profit maximisation"},
+    "fact_refs": ["F18"]
+   }
+  },
+  {
+   "local_id": "economics-d1", "expected_valid": false, "defect_category": "wrong_key",
+   "defect_evidence": "The recorded key is C (Devaluation), but the stem says the exchange rate is flexible (market-determined) and the price of the rupee in dollars rises from 0.0125 to 0.0133. Per F8 that is Appreciation (option A); per F9 devaluation is a government action in a fixed system. The explanation misstates the definitions to justify the wrong key.",
+   "candidate": {
+    "subject": "economics", "chapter": "Balance of Payments",
+    "body": "In a flexible exchange rate regime, the price of one rupee in the foreign exchange market rises from 0.0125 dollar to 0.0133 dollar because of changes in demand and supply. This change is called:",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Appreciation of the rupee"},
+     {"key": "B", "text": "Revaluation of the rupee"},
+     {"key": "C", "text": "Devaluation of the rupee"},
+     {"key": "D", "text": "Fixing of the exchange rate"}
+    ],
+    "correct_answer": "C",
+    "explanation": "The exchange rate has changed from its earlier level, and an increase in the exchange rate that makes the rupee cheaper is called Devaluation. Revaluation is the opposite change, appreciation applies only when the rate is held constant, and fixing the rate is a government policy rather than a change.",
+    "difficulty": "medium", "question_type": "conceptual_mcq", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Open Economy Macroeconomics", "objective": "Identify appreciation of the domestic currency in a flexible exchange rate regime.", "target_term": "appreciation"},
+    "fact_refs": ["F7", "F8", "F9"]
+   }
+  },
+  {
+   "local_id": "economics-d2", "expected_valid": false, "defect_category": "second_defensible_option",
+   "defect_evidence": "Options A and C are both established by F11: consumption of Rs 80 crore at zero income and the income-independent level of consumption (autonomous consumption) are the same fact stated two ways. Only A is recorded as correct, so a student choosing C is marked wrong although defensible; the item has two correct options.",
+   "candidate": {
+    "subject": "economics", "chapter": "Income Determination",
+    "body": "A simple consumption function is C = 80 + 0.6Y, where C and Y are in Rs crore. Which of the following statements is correct?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Even when income is zero, consumption is Rs 80 crore"},
+     {"key": "B", "text": "When income is zero, consumption is also zero"},
+     {"key": "C", "text": "Rs 80 crore is the level of consumption that is independent of income"},
+     {"key": "D", "text": "The term 0.6Y is the autonomous consumption, since it changes at a constant rate"}
+    ],
+    "correct_answer": "A",
+    "explanation": "Even if income is zero some consumption still takes place, and with Y = 0 the function gives C = Rs 80 crore. Option B contradicts this. The term 0.6Y varies with income, so it is not the income-independent autonomous consumption, which makes option D wrong.",
+    "difficulty": "medium", "question_type": "statement_selection", "route": "conceptual",
+    "learning_objective": {"syllabus_unit": "Determination of Income and Employment", "objective": "Interpret autonomous consumption in a simple linear consumption function.", "target_term": "autonomous consumption"},
+    "fact_refs": ["F11"]
+   }
+  },
+  {
+   "local_id": "economics-d3", "expected_valid": false, "defect_category": "missing_decisive_assumption",
+   "defect_evidence": "The key Rs 160 crore uses the multiplier 1/(1 - 0.75) = 4, which holds only in an economy without a government (F12 states AD = C + I for that case) and with investment autonomous. The stem never states there is no government sector or taxes; with a proportional income tax or other leakage the multiplier and hence the answer would differ, so the decisive assumption is unstated.",
+   "candidate": {
+    "subject": "economics", "chapter": "Income Determination",
+    "body": "In an economy the marginal propensity to consume is 0.75. If autonomous investment rises by Rs 40 crore, by how much does equilibrium income rise?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 30 crore"},
+     {"key": "B", "text": "Rs 160 crore"},
+     {"key": "C", "text": "Rs 40 crore"},
+     {"key": "D", "text": "Rs 53 crore"}
+    ],
+    "correct_answer": "B",
+    "explanation": "The multiplier is 1/(1 - MPC) = 1/0.25 = 4. The rise in income equals the multiplier times the rise in investment, 4 x 40 = Rs 160 crore. Rs 30 crore multiplies by the MPC only, Rs 40 crore ignores the multiplier, and Rs 53 crore divides by 0.75.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Determination of Income and Employment", "objective": "Compute the change in equilibrium income from a change in autonomous investment.", "target_term": "investment multiplier"},
+    "fact_refs": ["F12"]
+   }
+  },
+  {
+   "local_id": "economics-d4", "expected_valid": false, "defect_category": "numerical_fault",
+   "defect_evidence": "Marginal revenue = (48 - 36)/(4 - 3) = Rs 12, but the explanation computes 48 - 36 = 14 and records Rs 14 as the key. The arithmetic subtraction is wrong, and the correct value Rs 12 (which also equals the price) appears in none of the options, so the recorded key and explanation are numerically false.",
+   "candidate": {
+    "subject": "economics", "chapter": "Theory of Firms under Perfect Competition",
+    "body": "A firm in a perfectly competitive market has total revenue of Rs 36 from selling 3 boxes and Rs 48 from selling 4 boxes. What is the marginal revenue from the 4th box?",
+    "passage_text": "",
+    "options": [
+     {"key": "A", "text": "Rs 9"},
+     {"key": "B", "text": "Rs 36"},
+     {"key": "C", "text": "Rs 48"},
+     {"key": "D", "text": "Rs 14"}
+    ],
+    "correct_answer": "D",
+    "explanation": "Marginal revenue is the change in total revenue per unit increase in output. MR = (48 - 36)/(4 - 3) = 14/1 = Rs 14. Rs 9 divides by the wrong quantity, while Rs 36 and Rs 48 are total revenues rather than the change.",
+    "difficulty": "medium", "question_type": "numerical_calculation", "route": "numerical",
+    "learning_objective": {"syllabus_unit": "Producer Behaviour and Supply", "objective": "Calculate marginal revenue from total revenue at two output levels.", "target_term": "marginal revenue"},
+    "fact_refs": ["F17"]
+   }
+  }
+ ]
+}

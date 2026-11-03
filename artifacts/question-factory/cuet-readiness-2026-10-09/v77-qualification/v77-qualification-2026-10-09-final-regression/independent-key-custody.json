@@ -1,0 +1,120 @@
+{
+  "at": "2026-10-08T21:02:19.547Z",
+  "complete": true,
+  "positive_ids": [
+    "cbse24-ac-q04",
+    "cbse24-bs-q02",
+    "cbse24-eco-q02",
+    "cbse24-eng-q01"
+  ],
+  "problems": [],
+  "lineage": {
+    "previous_frozen_sha256": "ba9243dfab219ab9d796afaf3f53767d5a9ea1c5ccb249b9825000a5a32bf39a",
+    "previous_overlay_sha256": "27054387ace4d61f1f874a051af97bf0f3f5529399dca9378a9527e3696173f5",
+    "previous_custody_sha256": "e04c7acf06eefb247da993074e63f39d353d47aaf91cef7cda69eb98b850a751",
+    "contract_freeze_sha256": "1d8ecdce48047263df7de33e106e1dc6859ac78441eb6099a620b0cdca4ed7ea",
+    "plan_sha256": "48cb54e3ed7245c1e4d751d3ea354561741815057bbcea8f8cbfd01d5c8ddfc6",
+    "original_bank_unchanged": true,
+    "global_source_registry_unchanged": true,
+    "previous_v75_custody_sha256": "03e80a68f6705650251ffd26e567ef2ca2ff70b95ed825185a322fb365267648",
+    "disputed_invalid_fixture_unchanged": true
+  },
+  "source_key_records": [
+    {
+      "id": "cbse24-ac-q04",
+      "subject": "accountancy",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+        "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+        "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+        "physical_pdf_page": 1,
+        "quote_start": 269,
+        "quote_end": 358,
+        "quote": "4. A - Bad Debts A/c Dr. To Debtors A/c Prov. for Doubtful Debts A/c Dr. To Bad Debts A/c"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "first_source_key": "D",
+      "independent_second_key": "D",
+      "official_comparison_key": "D",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+        "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+        "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+        "physical_pdf_page": 1,
+        "quote_start": 109,
+        "quote_end": 135,
+        "quote": "2. D. Assignment of duties"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "subject": "economics",
+      "first_source_key": "C",
+      "independent_second_key": "C",
+      "official_comparison_key": "C",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+        "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+        "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+        "physical_pdf_page": 1,
+        "quote_start": 149,
+        "quote_end": 179,
+        "quote": "2. C. Redistribution of income"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "subject": "english",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+        "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+        "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+        "physical_pdf_page": 1,
+        "quote_start": 783,
+        "quote_end": 837,
+        "quote": "I They lead to instant interruptions in conversations."
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+    }
+  ],
+  "new_independent_keys_established": false,
+  "known_failures": [
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "category": "incorrect_journal_entry",
+      "independent_check": "Receiving a premium credits Premium for Goodwill; distributing it must debit that same account. Debiting Goodwill leaves the received premium uncleared. The worked example confirms the clearing entry."
+    },
+    {
+      "id": "ea0352db044b73bb7158800c58be188d",
+      "category": "missing_decisive_assumption",
+      "independent_check": "Non-tax sale of a government asset creates no repayment claim but reduces assets and is a capital receipt. The stem does not exclude this counterexample; its universal revenue-receipt explanation is insufficient."
+    }
+  ],
+  "fresh_evidence": false,
+  "rebound_from": "v74-known-critical-regression-2026-10-08",
+  "note": "Four established positive keys reused for regression only. The disputed v75 false-accept remains expected-invalid and in the zero-false-accept denominator, with no manufactured unique key."
+}

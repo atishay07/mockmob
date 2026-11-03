@@ -1,0 +1,12 @@
+{"width":390,"mode":"guide","run":1,"lcp":2272,"cls":0,"frames":{"count":406,"p50":12,"p95":24.30000000000109,"over33":7},"idle":{"callbacks":0,"ms":2021}}
+{"width":390,"mode":"guide","run":2,"lcp":3636,"cls":0,"frames":{"count":382,"p50":12.100000000000364,"p95":30.299999999999272,"over33":6},"idle":{"callbacks":0,"ms":2012}}
+{"width":390,"mode":"static","run":1,"lcp":2420,"cls":0,"frames":{"count":433,"p50":6.200000000000728,"p95":24.200000000000728,"over33":2},"idle":{"callbacks":0,"ms":2016.0999999940395}}
+{"width":390,"mode":"static","run":2,"lcp":2300,"cls":0,"frames":{"count":405,"p50":12.099999999998545,"p95":24.299999999999272,"over33":1},"idle":{"callbacks":0,"ms":2010.1000000089407}}
+{"width":390,"mode":"no-hero-entry","run":1,"lcp":2784,"cls":0,"frames":{"count":352,"p50":12.100000000000364,"p95":24.30000000000109,"over33":1},"idle":{"callbacks":0,"ms":2007.8999999910593}}
+{"width":390,"mode":"no-hero-entry","run":2,"lcp":2380,"cls":0,"frames":{"count":366,"p50":12.100000000000364,"p95":24.30000000000109,"over33":4},"idle":{"callbacks":0,"ms":2010.2000000029802}}
+{"width":1280,"mode":"guide","run":1,"lcp":2348,"cls":0,"frames":{"count":329,"p50":12.100000000000364,"p95":30.299999999999272,"over33":5},"idle":{"callbacks":0,"ms":2006.9000000059605}}
+{"width":1280,"mode":"guide","run":2,"lcp":2264,"cls":0,"frames":{"count":338,"p50":12.100000000000364,"p95":30.299999999999272,"over33":5},"idle":{"callbacks":0,"ms":2009.7999999970198}}
+{"width":1280,"mode":"static","run":1,"lcp":2332,"cls":0,"frames":{"count":389,"p50":12.100000000000364,"p95":24.399999999999636,"over33":5},"idle":{"callbacks":0,"ms":2013.5999999940395}}
+{"width":1280,"mode":"static","run":2,"lcp":2324,"cls":0,"frames":{"count":332,"p50":12.100000000000364,"p95":30.30000000000109,"over33":13},"idle":{"callbacks":0,"ms":2012.1000000089407}}
+{"width":1280,"mode":"no-hero-entry","run":1,"lcp":2508,"cls":0.0008747574562250181,"frames":{"count":299,"p50":12.199999999998909,"p95":36.29999999999927,"over33":17},"idle":{"callbacks":136,"ms":2023.0999999940395}}
+{"width":1280,"mode":"no-hero-entry","run":2,"lcp":2524,"cls":0.0008747574562250181,"frames":{"count":339,"p50":12.100000000000364,"p95":30.200000000000728,"over33":7},"idle":{"callbacks":0,"ms":2008.199999988079}}

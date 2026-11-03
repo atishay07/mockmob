@@ -1,0 +1,350 @@
+{
+  "schema": "cuet-v717-single-case-local-academic-diagnosis-v1",
+  "created_at_utc": "2026-10-10T06:02:33.572065+00:00",
+  "case_id": "q717-24a5b6b47bfb7b7caa018bf3",
+  "reviewer": "fresh_blind_custody",
+  "bounded_scope": "Only this candidate, decisive registry source, its packet syllabus and frozen state blind/audit reports. No broader audit or provider request.",
+  "inputs": {
+    "cases": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\cases.json",
+      "sha256": "f4aac376d54746c07d95e4ff484307125c798384fe31cc5b9959358e0382dc4b"
+    },
+    "registry": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\source-registry.json",
+      "sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    "state": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\state.json",
+      "sha256": "b8766deb551584a50195d2120d418037249e97255a41cb57f21201653f4a0c2a"
+    },
+    "packet": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\blind\\packet-custody-r1.json",
+      "sha256": "52fdb60ea16ff764e647c6e4987824e30b00274d917ad330f67f8dc466897dbe"
+    }
+  },
+  "original_outcome": "review_incomplete",
+  "original_reasons": [
+    "audit_claim_status_contradiction"
+  ],
+  "diagnosis": {
+    "candidate_academically_sound": true,
+    "unique_answer": "D",
+    "proposed_key_sound": true,
+    "actual_authored_explanation_sound": true,
+    "syllabus_entitlement_supported": true,
+    "source_integrity_verified": true,
+    "actual_authored_explanation_false_claims": 0,
+    "negative_audit_claims_outside_authored_explanation": 4,
+    "classification": "audit_scope_mixing_and_report_status_contradiction",
+    "proximate_recorded_cause": "audit_claim_status_contradiction",
+    "cause_evidence": "Audit reports overall explanation and options supported but includes incorrect/unsupported claims owned by wrong options and Gemini blind reasoning in its global claims list. Those statuses do not establish false/unsupported authored explanation. Recorded review_incomplete is an audit/report consistency failure, not an established academic rejection.",
+    "routing_evidence_limit": "Observed stored outcome/reason and report inconsistency; runtime routing code not independently re-audited.",
+    "frozen_outcome_preserved": true,
+    "validator_qualification_or_release_claim": false
+  },
+  "candidate_snapshot": {
+    "id": "q717-24a5b6b47bfb7b7caa018bf3",
+    "subject": "business_studies",
+    "chapter": "Financial Management",
+    "concept_id": "business_studies:financial-management:case_based_mcq",
+    "body": "A firm has a stronger cash-flow position and is comparing debt financing with equity financing. Which inference is supported by the stated financing factor?",
+    "options": [
+      {
+        "key": "A",
+        "text": "The firm should declare a dividend before assessing finance."
+      },
+      {
+        "key": "B",
+        "text": "Equity must always be chosen because it has no repayment date."
+      },
+      {
+        "key": "C",
+        "text": "Strong cash flow rules out borrowing."
+      },
+      {
+        "key": "D",
+        "text": "Debt financing may be more viable than equity financing."
+      }
+    ],
+    "correct_answer": "D",
+    "explanation": "The source states that a stronger cash-flow position may make debt financing more viable than funding through equity. It does not make debt compulsory.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "case_based_mcq",
+    "passage_text": null,
+    "family_id": "fam717-1145f58c89bf8956f30a",
+    "source_refs": [
+      {
+        "id": "ncertcol-lebs201-v1",
+        "version": 1,
+        "locator": "p8-c0-g1-s0",
+        "support_hash": "74af232451e2c37ca2fb539f56650adb5db2c00a0609339641859ef35ad8f40d"
+      }
+    ],
+    "learning_objective": {
+      "syllabus_unit": "Unit IX: Business Finance",
+      "objective": "Apply the relevant financial management or financial planning principle to the printed question.",
+      "target_term": ""
+    },
+    "provenance": {
+      "kind": "original_practice",
+      "anchor_id": "ncertcol-lebs201-v1",
+      "adaptation_family": "fam717-1145f58c89bf8956f30a",
+      "adaptation_type": "source-grounded-original-practice",
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "pattern_version": "cuet-2024-authenticated-bookA-v1",
+      "source_pack_id": "cuet2024-business_studies-bookA",
+      "source_pack_version": 11
+    }
+  },
+  "actual_explanation_claim_review": [
+    {
+      "exact_quote": "The source states that a stronger cash-flow position may make debt financing more viable than funding through equity",
+      "locator": "candidate.explanation",
+      "exact_substring_verified": true,
+      "assessment": "Supported faithful source paraphrase.",
+      "source_id": "ncertcol-lebs201-v1",
+      "source_locator": "p8-c0-g1-s0"
+    },
+    {
+      "exact_quote": "It does not make debt compulsory.",
+      "locator": "candidate.explanation",
+      "exact_substring_verified": true,
+      "assessment": "Supported modal inference: possibility is not compulsion.",
+      "source_id": "ncertcol-lebs201-v1",
+      "source_locator": "p8-c0-g1-s0"
+    }
+  ],
+  "decisive_source": {
+    "source_id": "ncertcol-lebs201-v1",
+    "version": 1,
+    "locator": "p8-c0-g1-s0",
+    "exact_full_text": "(d) Cash Flow Position of the Company:\nA stronger cash flow position may\nmake debt financing more viable\nthan funding through equity.\n(e) Fixed Operating Costs: If a business\nhas high fixed operating costs (e.g.,\nbuilding rent, Insurance premium,\nSalaries, etc.), It must reduce fixed\nfinancing costs. Hence, lower debt\nfinancing is better. Similarly, if\nfixed operating cost is less, more\nof debt financing may be preferred.",
+    "exact_decisive_quote": "A stronger cash flow position may\nmake debt financing more viable\nthan funding through equity.",
+    "exact_substring_verified": true,
+    "quote_offset": 39,
+    "full_text_support_hash_verified": "74af232451e2c37ca2fb539f56650adb5db2c00a0609339641859ef35ad8f40d",
+    "source_location": {
+      "page": 8,
+      "column": 0,
+      "bbox": [
+        66,
+        116.5,
+        261.5,
+        268.6
+      ],
+      "lines": 12,
+      "two_column_page": true
+    }
+  },
+  "syllabus": {
+    "source_id": "cuet2026-business_studies-syllabus",
+    "locator": "full-syllabus",
+    "exact_quote": "Financial decisions: investing, financing and dividend-Meaning and factors affecting.",
+    "exact_substring_verified": true,
+    "assessment": "Explicit financing decisions and factors entitlement; capital structure factors also printed."
+  },
+  "option_review": {
+    "A": "Dividend-first step unsupported by stated factor; not a rival answer.",
+    "B": "Always-equity necessity unsupported; partial truth of repayment-date clause cannot validate full conclusion.",
+    "C": "Borrowing prohibition conflicts with debt-may-be-more-viable inference.",
+    "D": "Faithful qualified source inference; unique answer."
+  },
+  "blind_reports_summary": [
+    {
+      "provider": "openai",
+      "model": "gpt-6-luna",
+      "request_key": "53bf56ce26c30862898653d3cbda73bcbb14516a8683efa6ae15e859b267ccb9",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "academic": {
+        "syllabus_entitlement": "supported",
+        "source_support": "supported",
+        "decisive_assumptions": "supported",
+        "numerical_accuracy": "not_applicable",
+        "boundary_cases": "not_applicable",
+        "passage_answerability": "not_applicable",
+        "completeness": "supported",
+        "format_valid": "supported",
+        "presentation_readable": "supported"
+      },
+      "derivation": "The supplied NCERT excerpt says a stronger cash-flow position may make debt financing more viable than equity. That supports D as a possibility, not a mandatory choice. The excerpt does not support declaring a dividend first, always choosing equity, or ruling out borrowing."
+    },
+    {
+      "provider": "gemini",
+      "model": "gemini-3.8-flash",
+      "request_key": "69b82b07a88e73feed4742f8ae2d8ab274ed711dd99cbfa9567fcfd0fa0870a6",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "academic": {
+        "syllabus_entitlement": "supported",
+        "source_support": "supported",
+        "decisive_assumptions": "supported",
+        "numerical_accuracy": "not_applicable",
+        "boundary_cases": "not_applicable",
+        "passage_answerability": "not_applicable",
+        "completeness": "supported",
+        "format_valid": "supported",
+        "presentation_readable": "supported"
+      },
+      "derivation": "Under financing decisions (and capital structure determinants), a stronger cash flow position provides the liquidity needed to service interest and principal repayments, making debt financing more viable than equity financing."
+    }
+  ],
+  "frozen_audit_summary": {
+    "request_key": "216082adc5b43db681aee05a8da0e1e0c52cb5b916c196f8d5386fc028132605",
+    "explanation_status": "supported",
+    "options_status": "supported",
+    "answer_set": [
+      "D"
+    ],
+    "issues": [
+      {
+        "category": "craft_suggestion",
+        "detail": "D closely echoes the source, while A–C are broad or readily excluded; closer, plausible distractors could improve discrimination."
+      }
+    ]
+  },
+  "audit_claim_origin_mapping": [
+    {
+      "index": 1,
+      "exact_audit_claim": "A stronger cash-flow position may make debt financing more viable than equity financing.",
+      "frozen_status": "supported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[0]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "authored_explanation",
+      "origin_locator": "candidate.explanation",
+      "exact_origin_quote": "The source states that a stronger cash-flow position may make debt financing more viable than funding through equity. It does not make debt compulsory.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Supported stated possibility; matches the decisive source rule without an extra condition.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 2,
+      "exact_audit_claim": "The source does not make debt financing compulsory.",
+      "frozen_status": "supported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[1]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "authored_explanation",
+      "origin_locator": "candidate.explanation",
+      "exact_origin_quote": "The source states that a stronger cash-flow position may make debt financing more viable than funding through equity. It does not make debt compulsory.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Supported modal deduction: may does not entail compulsory; authored statement preserves the qualification.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 3,
+      "exact_audit_claim": "The stated factor gives no basis for declaring a dividend before assessing finance.",
+      "frozen_status": "supported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[2]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "option_rejection_reason",
+      "origin_locator": "blind_frozen.reports[openai].options[A].reason",
+      "exact_origin_quote": "The stated cash-flow factor concerns debt's relative viability; it gives no basis for declaring a dividend first.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Valid rejection of optionA; dividend-first ordering does not follow from the stated financing factor. Not an authored explanation error.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 4,
+      "exact_audit_claim": "The stated factor does not support always choosing equity.",
+      "frozen_status": "supported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[3]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "option_rejection_reason",
+      "origin_locator": "blind_frozen.reports[openai].options[B].reason",
+      "exact_origin_quote": "The excerpt supports neither an always-choose-equity rule nor that conclusion from the stated factor.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Valid rejection of always-equity necessity; no such rule follows. Not an authored explanation error.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 5,
+      "exact_audit_claim": "Strong cash flow rules out borrowing.",
+      "frozen_status": "incorrect",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[4]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "wrong_option",
+      "origin_locator": "candidate.options[C].text",
+      "exact_origin_quote": "Strong cash flow rules out borrowing.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "exact_substring",
+      "claim_exact_in_origin": true,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Incorrect is appropriate for the wrong distractorC, which conflicts with the permitted debt viability. This distractor assertion is not owned by the authored explanation.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 6,
+      "exact_audit_claim": "Equity has no repayment date.",
+      "frozen_status": "unsupported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[5]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "clause_of_wrong_option",
+      "origin_locator": "candidate.options[B].text",
+      "exact_origin_quote": "Equity must always be chosen because it has no repayment date.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase_of_clause",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "The excerpt does not state equity repayment dates. The audit paraphrases a clause inside the wrong always-equity option. This is not an authored explanation claim. A partially true clause cannot validate the full always-equity conclusion.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 7,
+      "exact_audit_claim": "Strong cash flow provides the liquidity needed to service interest and principal repayments.",
+      "frozen_status": "unsupported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[6]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "model_blind_derivation",
+      "origin_locator": "blind_frozen.reports[gemini].derivation",
+      "exact_origin_quote": "Under financing decisions (and capital structure determinants), a stronger cash flow position provides the liquidity needed to service interest and principal repayments, making debt financing more viable than equity financing.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Interest/principal/liquidity rationale occurs in Gemini reasoning, not authored explanation. It is plausible but those premises are not stated in this narrow excerpt. Even if unsupported under strict source audit, ownership belongs to evaluator reasoning.",
+      "candidate_authored_explanation_defect": false
+    },
+    {
+      "index": 8,
+      "exact_audit_claim": "Debt is often preferred when cash flow is sufficient.",
+      "frozen_status": "unsupported",
+      "audit_locator": "state.cases.q717-24a5b6b47bfb7b7caa018bf3.checks.audit.claims[7]",
+      "claim_exact_in_frozen_audit": true,
+      "origin_scope": "model_option_rejection_reason",
+      "origin_locator": "blind_frozen.reports[gemini].options[B].reason",
+      "exact_origin_quote": "Extreme claim that contradicts financial theory; debt is often preferred when cash flow is sufficient.",
+      "origin_quote_exact_verified": true,
+      "claim_to_origin_relation": "faithful_paraphrase",
+      "claim_exact_in_origin": false,
+      "claim_exact_in_authored_explanation": false,
+      "assessment": "Debt often preferred when cash flow sufficient overgeneralizes source may-be-more-viable into frequency/preference. Strict excerpt support is not established, but this is Gemini reasoning, not authored explanation.",
+      "candidate_authored_explanation_defect": false
+    }
+  ],
+  "craft_observation": "Weak/easy distractors are optional craft suggestions, not academic correctness or entitlement failures under this task.",
+  "preservation": {
+    "original_inputs_unchanged": true,
+    "no_frozen_case_label_outcome_edits": true,
+    "no_native_calls": true,
+    "no_ledger_changes": true,
+    "no_runtime_changes": true,
+    "create_only_diagnosis": true
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "at": "2026-10-08T15:35:01.071Z",
+  "frozen_sha256": "ba9243dfab219ab9d796afaf3f53767d5a9ea1c5ccb249b9825000a5a32bf39a",
+  "records": [
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "openai",
+      "reused": true,
+      "provider_model": "gpt-6-luna"
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "gemini",
+      "reused": true,
+      "provider_model": "gemini-3.8-flash"
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "openai",
+      "reused": false
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "gemini",
+      "reused": false
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "openai",
+      "reused": false
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "gemini",
+      "reused": false
+    }
+  ],
+  "historical_calls_reusable": 20,
+  "historical_calls_expected": 20,
+  "new_critical_cache_misses": 4,
+  "paid_calls": 0
+}

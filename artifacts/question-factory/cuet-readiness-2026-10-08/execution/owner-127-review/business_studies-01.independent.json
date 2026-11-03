@@ -1,0 +1,203 @@
+{
+  "schema": "owner-127-independent-root-v1",
+  "subject": "business_studies",
+  "batch": 1,
+  "at": "2026-10-08T14:25:38.528Z",
+  "blind_packet_sha256": "7c5ef1bdee23d3c498bfb5ed68b45c22f22d9773bc9c0f7802a89541835e78bd",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "reviewer": "root",
+  "cases": [
+    {
+      "id": "21acf04b6b876ec71add04ae24ec8cd5",
+      "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "Explicit manufacture-package-brand-price-promote-availability order=3,6,5,1,4,2.",
+      "support": [
+        {
+          "source_key": "ncert-lebs202:1:pdf-page-28:de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8",
+          "quote": "Once goods are manufactured"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "a16e39232c7d786caacf29f78cc35ffb",
+      "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+      "independent_key": "A",
+      "defensible_options": [
+        "A"
+      ],
+      "unique_answer": true,
+      "derivation": "Transportation III;channels IV;warehousing II;inventory I. Each is a distinct source definition.",
+      "support": [
+        {
+          "source_key": "ncert-lebs202:1:pdf-page-13:30c12a5dde3c492dac02024ae3744bdc2738623cdac62ff083c90568b9239fce",
+          "quote": "managing inventory (levels of stock of goods)"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "f29bdfa666f5575a28dfe749ec329a45",
+      "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+      "independent_key": "C",
+      "defensible_options": [
+        "B",
+        "C"
+      ],
+      "unique_answer": false,
+      "derivation": "C is mostspecific filing forindividual andinitiatingpublicinterest. B is broadlydefensible: filing is providinglegalassistance. Stemdoesnotrequirethe mostspecificrole, soholdoverlap.",
+      "support": [
+        {
+          "source_key": "ncert-lebs203:1:p13-c1724:c29402549e3a3b4af03cf9baa5f6f642625f78385bee95d2f8ba838aae8f3bd5",
+          "quote": "Providing legal assistance"
+        }
+      ],
+      "issues": [
+        "option_category_overlap"
+      ],
+      "estimated_difficulty": "medium"
+    },
+    {
+      "id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+      "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+      "independent_key": "A",
+      "defensible_options": [
+        "A"
+      ],
+      "unique_answer": true,
+      "derivation": "Modifyanunrealisticstandardwhenconditionschange, notaftereverychange. Otherchoicesnegateflexibility,conditionorbenchmarkrole.",
+      "support": [
+        {
+          "source_key": "ncert-lebs108:1:pdf-page-6:5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5",
+          "quote": "should be flexible enough"
+        }
+      ],
+      "issues": [
+        "assigned_format_mismatch_direct_vs_statement_selection"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "b8a35951561b0ad8929b3334534212a9",
+      "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "Shortfalls10and200;compareeachtoitsstandard,andletdeviationextentinformaction;nodecisivecasefactisabsent.",
+      "support": [
+        {
+          "source_key": "ncert-lebs104:1:pdf-page-5:f3e1c9be5fa7764b1a2da4bea549d0df19408f39eb5bc1d625081ef277c18c56",
+          "quote": "nature of corrective action required depends upon the extent of deviations"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "e30a79f8c520a84adbad10ab1e75ec9d",
+      "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+      "independent_key": "A",
+      "defensible_options": [
+        "A"
+      ],
+      "unique_answer": true,
+      "derivation": "Increasedresponsibilitydefinespromotion; titlealonefails.Bfalse,A,C,Dtrue.",
+      "support": [
+        {
+          "source_key": "ncert-lebs106:1:p9-c1831:ca467d77295267c65ca87e73cc886b80746bae70fcaaa51459504339236a5b6c",
+          "quote": "positions of increased"
+        }
+      ],
+      "issues": [
+        "source_column_interleaving"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "90ec25792703058c191b0275f1912a44",
+      "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+      "independent_key": "A",
+      "defensible_options": [
+        "A"
+      ],
+      "unique_answer": true,
+      "derivation": "ExactNCERTdisciplineillustration ofhonouringlabouragreement. Payfairness,singleboss,singleplan areabsent.",
+      "support": [
+        {
+          "source_key": "ncert-lebs102:1:pdf-page-27:85ca3fb2b98f114d27cb55ca66d526cf3d557fc446636a8ee6e4e8554d1ecb10",
+          "quote": "workers and management both honour their commitments"
+        }
+      ],
+      "issues": [
+        "assigned_format_mismatch_direct_vs_sequence"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "3a4fb951521a500585e594e37c05655c",
+      "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "180/10=18minutes/delivery;A,Ctrue.Bcomparesaggregatewithrate,Dchangesunits.",
+      "support": [
+        {
+          "source_key": "ncert-lebs108:1:pdf-page-6:5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5",
+          "quote": "same units in which standards are set"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "medium"
+    },
+    {
+      "id": "16c797c8408fc9ba8756b60ad446fca1",
+      "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "District IV; State I; National III; provision II; explicitlygivenandregistered.",
+      "support": [
+        {
+          "source_key": "ncert-lebs203:1:p12-c1842:a50cf29c816805b5c6deecd6d4ae5d63e354a2a1cd014bf3c9a9660222c15fb9",
+          "quote": "Chapter V of the Consumer Protection Act of 2019"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "296e6c135c976583eb0f54b193502fef",
+      "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+      "independent_key": "D",
+      "defensible_options": [
+        "D"
+      ],
+      "unique_answer": true,
+      "derivation": "PlanII,expectationIV,outcomeI,completecausallinkIII. UniquebutgenericmatchinglabelsarelimitedCUETrevisionvalue,notacademicfailure.",
+      "support": [
+        {
+          "source_key": "ncert-lebs107:1:normative-34f28c2e46790f5a:34f28c2e46790f5aa4f4dce07badc168aa5246e5ee2ef543f341b8044188708b",
+          "quote": "efforts will bring them suitable rewards"
+        }
+      ],
+      "issues": [
+        "limited_learning_objective_specificity"
+      ],
+      "estimated_difficulty": "easy"
+    }
+  ]
+}

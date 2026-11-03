@@ -1,0 +1,19 @@
+{
+  "verifier_version": "cuet-fit-validator-v7.6",
+  "validation_contract_hash": "1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec",
+  "parent_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+  "prompt_hash": "9e84c690509fbf97a8228d9ea1f904f1a5e64d36435aeba859a0edc30c00c672",
+  "author_policy_hash": "11b190d2bb925ff2fe64f1bf1ad7c32c911bbd277c825428beb67f7b08e94fed",
+  "file_sha256": {
+    "scripts/pipeline/lib/contractV76.mjs": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97",
+    "scripts/pipeline/lib/preparationValueV76.mjs": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4",
+    "scripts/pipeline/lib/originalAuthorPolicyV76.mjs": "27ea271b6a47dbd6a2f2672c423acca27777026581d9ca1205f86b1a9c5a30eb",
+    "scripts/pipeline/lib/factoryEvidenceV76.mjs": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+    "scripts/pipeline/lib/verifyV76.mjs": "66ad1cd5b6da9b71dc9305779379214a101daf39655d55bafb5d1c1132e38af9",
+    "scripts/pipeline/lib/releaseEvidenceV76.mjs": "7e84580947ccf9fdf1c9b64ff7bc9b32ba15594f523f0dceaa227e5ffe0fd130",
+    "scripts/pipeline/lib/factoryProfileV76.mjs": "b5e06863a95aea3180eeea628c1e27519df2a4f0aa58c1dd21fb48b175bcb4e8",
+    "scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs": "0141d237275dfc4ccfdfd85d9ef494764a0201b7d10ad4c6b7a67cf02417b932",
+    "scripts/pipeline/tools/runFreshCuetReadinessV76.mjs": "d4819ae23fa47a53244e5532371db62cf290c232b23ef9a02312c1031e69e59a"
+  },
+  "frozen_at": "2026-10-08T20:15:38.538Z"
+}

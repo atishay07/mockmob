@@ -1,0 +1,58 @@
+{
+  "benchmark_id": "fresh-full-v5-2026-10-08",
+  "fixtures": 96,
+  "valid_roots": 64,
+  "controlled_defects": 32,
+  "per_subject": {
+    "accountancy": {
+      "roots": 16,
+      "defects": 8
+    },
+    "business_studies": {
+      "roots": 16,
+      "defects": 8
+    },
+    "economics": {
+      "roots": 16,
+      "defects": 8
+    },
+    "english": {
+      "roots": 16,
+      "defects": 8
+    }
+  },
+  "format_counts": {
+    "direct_recall": 12,
+    "numerical_mcq": 8,
+    "matching": 12,
+    "statement_mcq": 11,
+    "case_application": 2,
+    "counting_mcq": 2,
+    "ordering_mcq": 1,
+    "passage_direct": 1,
+    "passage_statement": 2,
+    "passage_inference": 3,
+    "passage_detail": 5,
+    "passage_order": 2,
+    "passage_vocabulary_in_context": 2,
+    "passage_numerical": 1
+  },
+  "topic_counts": {
+    "accountancy:Partnership Fundamentals": 4,
+    "accountancy:Change in Profit Sharing Ratio": 4,
+    "accountancy:Share Capital": 4,
+    "accountancy:Accounting Ratios": 4,
+    "business_studies:Planning": 4,
+    "business_studies:Organising": 4,
+    "business_studies:Directing": 4,
+    "business_studies:Marketing Management": 4,
+    "economics:Money & Banking": 4,
+    "economics:Income Determination": 4,
+    "economics:Government Budget & the Economy": 4,
+    "economics:Balance of Payments": 4,
+    "english:Factual Passage": 8,
+    "english:Narrative Passage": 4,
+    "english:Literary Passage": 4
+  },
+  "problems": []
+}

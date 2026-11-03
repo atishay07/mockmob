@@ -13,6 +13,9 @@ import { VoteControls } from '@/components/questions/VoteControls';
 import { getMode, isValidModeId, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { resumableDraft, SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import './nta-classic.css';
+import { useExamIntegrity, IntegrityPill, IntegrityOverlay } from '@/components/arena/ExamIntegrityGuard';
+
+import { formatQuestionText } from '@/../data/question_presentation.mjs';
 
 const OPTION_LETTERS = ['A', 'B', 'C', 'D', 'E'];
 const subscribeConnection = callback => {
@@ -399,7 +402,7 @@ function TestRunner() {
         answers: answersRef.current,
         events: eventsRef.current.filter(e => e.at <= endsAt - startedRef.current),
       });
-      try { window.localStorage.removeItem(key); } catch {}
+      try { window.localStorage.removeItem(key); window.localStorage.removeItem(`${key}:integrity`); } catch {}
       try { window.sessionStorage.setItem('mm:postTest', '1'); } catch {}
       try { await refreshSession({ silent: true }); } catch {}
       router.push(`/result/${data.id}`);
@@ -418,6 +421,9 @@ function TestRunner() {
       }
     }
   }, [user, key, router, refreshSession, selectionMeta, endsAt]);
+
+  // NTA mode only: leaving the tab is a strike; the third submits the session.
+  const integrity = useExamIntegrity({ enabled: isNtaMode && !loading && !!endsAt, storageKey: `${key}:integrity`, onTerminate: submitTest });
 
   const timeLeft = endsAt ? Math.max(0, Math.floor((endsAt - now) / 1000)) : 0;
   useEffect(()=>{const reconnect=()=>{if(pendingSubmission && Date.now() <= endsAt+SUBMISSION_GRACE_MS)submitTest();};window.addEventListener('online',reconnect);return()=>window.removeEventListener('online',reconnect);},[pendingSubmission,endsAt,submitTest]);
@@ -601,8 +607,9 @@ function TestRunner() {
         </div>
       </div>
 
+      {question.sourceKind && <p className="text-xs text-[var(--text-muted)] mb-2">{{authentic_pyq:'Authenticated CUET PYQ',pyq_adapted:'Adapted from a CUET PYQ',original_practice:'Original practice question'}[question.sourceKind]}</p>}
       <h2 id={`question-title-${question.id}`} className="nta-question-text">
-        {question.question}
+        {formatQuestionText(question.question)}
       </h2>
 
       <div className="nta-options" role="group" aria-label={`Options for question ${questionIndex + 1}`}>
@@ -651,6 +658,7 @@ function TestRunner() {
   return (
     <div className="nta-runner" data-interface={classicInterface ? 'nta' : 'mockmob'}>
       <div role="status" className="runner-sync-state">{pendingSubmission ? 'Waiting for server confirmation. Answers are held on this device until the submission window ends.' : !online ? 'You are offline. Answers stay on this device and the timer continues. Reconnect before submitting.' : selectionMeta?.sessionTicket ? 'Answers are saved on this device. Stay online when submitting. Existing practice-bank content is still being audited.' : syncStatus === 'pending' ? 'Waiting for connection. Answers stay on this device; synchronize before the timer ends.' : 'Practice saves to your account while online.'}</div>
+      {isNtaMode ? <IntegrityOverlay alert={integrity.alert} onResume={integrity.dismiss} submitting={submitting} /> : null}
       {error && <div role="alert" className="runner-submit-error">{error}<button type="button" onClick={submitTest}>Retry submission</button></div>}
       {showVoteCoach && (
         <div className="fixed inset-0 z-[90] flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
@@ -710,6 +718,7 @@ function TestRunner() {
           <ProgressBar value={progress} />
         </div>
 
+        {isNtaMode ? <IntegrityPill strikes={integrity.strikes} /> : null}
         <div className={`nta-timer ${lowTime ? 'is-low' : ''}`} role="timer" aria-label={`Time remaining: ${mins} minutes ${secs} seconds`}>
           <Icon name="clock" />
           <span>{mins}:{secs.toString().padStart(2, '0')}</span>
@@ -1111,6 +1120,7 @@ function TestRunner() {
         .nta-question-text {
           margin: 0 0 18px;
           max-width: 74ch;
+          white-space: pre-line;
           color: var(--a-ink, #f8faf0);
           font-family: var(--font-display);
           font-size: 21px;

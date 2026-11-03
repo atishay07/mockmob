@@ -1,0 +1,1369 @@
+{
+  "schema": "question-factory-scratch-registry-overlay-v1",
+  "status": "draft_unapproved_local_only",
+  "base_registry_version": 58,
+  "base_registry_sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+  "sources": [
+    {
+      "id": "cuet2026-accountancy-syllabus",
+      "kind": "syllabus",
+      "title": "accountancy CUET UG 2026 syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+      "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4",
+      "extraction_file": "source-foundation/accountancy-syllabus-2026.txt",
+      "version": 1,
+      "reuse_permitted": false,
+      "permission_basis": "Owner-attested local use; source record contains no independently verified redistribution license. Local support only.",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "cuet2026-business_studies-syllabus",
+      "kind": "syllabus",
+      "title": "business_studies CUET UG 2026 syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+      "extraction_file": "source-foundation/business_studies-syllabus-2026.txt",
+      "version": 1,
+      "reuse_permitted": false,
+      "permission_basis": "Owner-attested local use; source record contains no independently verified redistribution license. Local support only.",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "cuet2026-economics-syllabus",
+      "kind": "syllabus",
+      "title": "economics CUET UG 2026 syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+      "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865",
+      "extraction_file": "source-foundation/economics-syllabus-2026.txt",
+      "version": 1,
+      "reuse_permitted": false,
+      "permission_basis": "Owner-attested local use; source record contains no independently verified redistribution license. Local support only.",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "cuet2026-english-syllabus",
+      "kind": "syllabus",
+      "title": "english_core CUET UG 2026 syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+      "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5",
+      "extraction_file": "source-foundation/english-syllabus-2026.txt",
+      "version": 1,
+      "reuse_permitted": false,
+      "permission_basis": "Owner-attested local use; source record contains no independently verified redistribution license. Local support only.",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac201",
+      "kind": "reference",
+      "title": "ncert-leac201",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "extraction_sha256": "c274bae83113afadab19a2cce5b5cbdf8ba5b8a2212f8f9a32f6e0cd30424684",
+      "extraction_file": "ncert-leac201-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac102",
+      "kind": "reference",
+      "title": "Reconstitution of a Partnership Firm – Admission of a Partner",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+      "extraction_sha256": "1aa5db49dbd99aa0b75328bfbb1a2388e1c9a3a353a97fb77c49b8907725a309",
+      "extraction_file": "reference-downloads/leac102.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs101",
+      "kind": "reference",
+      "title": "ncert-lebs101",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+      "identity_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+      "extraction_sha256": "87288cdc809109f94f3e75701a558c43e32f6fb1be1ddb72cd06c7d5a40d4b9a",
+      "extraction_file": "ncert-lebs101-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs102",
+      "kind": "reference",
+      "title": "ncert-lebs102",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+      "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+      "extraction_sha256": "a7c7b3f0757eb2350e70786749438c898089b56bdc0934e45ec84eebe814402c",
+      "extraction_file": "ncert-lebs102-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs103",
+      "kind": "reference",
+      "title": "ncert-lebs103",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "8c4a0fcc53f114fc74c68d73c840fbe74ffd6fdf5ec12c08e823c044c94db2e4",
+      "extraction_file": "ncert-lebs103-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT local educational validation excerpts",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs108",
+      "kind": "reference",
+      "title": "ncert-lebs108",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs108.pdf",
+      "identity_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+      "extraction_sha256": "9c64879c703cad0afa3b8673b9ddaa5618338f0ae528c341821105e73e1f2bae",
+      "extraction_file": "ncert-lebs108-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT educational validation context; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs203",
+      "kind": "reference",
+      "title": "NCERT lebs203: Consumer Protection",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_sha256": "8a41bf76c58e8a065c35054bcaf28731f59c0a6ca6cb7ef03117dc9cdb493bc8",
+      "extraction_file": "reference-downloads/lebs203.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs201",
+      "kind": "reference",
+      "title": "ncert-lebs201",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+      "extraction_sha256": "82dc4be3df17d966f862463f8dbff3f9023af8ef800097a7756d9dcfa06f0fc7",
+      "extraction_file": "ncert-lebs201-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leec105",
+      "kind": "reference",
+      "title": "ncert-leec105",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "extraction_sha256": "f7af12176ab33ee1682ae497399fb180356ad125fa5e92bcafacdccc756b314c",
+      "extraction_file": "ncert-leec105-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leec103",
+      "kind": "reference",
+      "title": "ncert-leec103",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_sha256": "262a1ae8b87d6f93681eba08acbabf1c638eb150f90c9154cdbe8060f2a52ec2",
+      "extraction_file": "ncert-leec103-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leec106",
+      "kind": "reference",
+      "title": "ncert-leec106",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "be6ea6419fbdc418f2668b1c269067b06759998b64d536e6cc8a9319c1507075",
+      "extraction_file": "ncert-leec106-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-keec106",
+      "kind": "reference",
+      "title": "NCERT keec106: Employment",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0",
+      "extraction_sha256": "6d7d2cbe702cddc4d66886d8c90be3ee6fb218a6c7ca47e6a4f3875c28cfbb4c",
+      "extraction_file": "reference-downloads/keec106.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac101",
+      "kind": "reference",
+      "title": "ncert-leac101",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "a5a0e0d5e8be22268fbe794095f532e14ddd4daad7e891997129b01d01b763f5",
+      "extraction_file": "ncert-leac101-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT text for local educational validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac103",
+      "kind": "reference",
+      "title": "Reconstitution of a Partnership Firm – Retirement/Death of a Partner",
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
+      "extraction_sha256": "d85eabb74ff6be2ec6f17da3676e1658303196cddc1d47256b576add503ede94",
+      "extraction_file": "reference-downloads/leac103.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac104",
+      "kind": "reference",
+      "title": "ncert-leac104",
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+      "extraction_sha256": "a02b482abb5abf55f5053cfdeeffe24c9407bada3cb48d0acc27233d6e4e24f9",
+      "extraction_file": "ncert-leac104-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leac202",
+      "kind": "reference",
+      "title": "Issue and Redemption of Debentures",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+      "extraction_sha256": "7363cb543ec40d2531964dc504ede302be631e254b7ab6693e8ac69380759b88",
+      "extraction_file": "reference-downloads/leac202.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs107",
+      "kind": "reference",
+      "title": "NCERT Business Studies I, Chapter 7: Directing, reprint 2026–27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs107.pdf",
+      "identity_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+      "extraction_sha256": "f9d3be12bb4672a8b5bb5b08a5e2ff09b6dcebd6d78e2737c873d52f98fc7696",
+      "extraction_file": "data/question-factory-runtime/reference-downloads/lebs107.column-normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs106",
+      "kind": "reference",
+      "title": "NCERT lebs106: Staffing",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_sha256": "a77b8c20793bda1e8405563e83308b66b2dff90b3c88913afd2fba8df0b703f6",
+      "extraction_file": "reference-downloads/lebs106.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs202",
+      "kind": "reference",
+      "title": "ncert-lebs202",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "extraction_file": "ncert-lebs202-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-lebs104",
+      "kind": "reference",
+      "title": "ncert-lebs104",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+      "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+      "extraction_sha256": "d8aac73f890cf9b99ba7ad9dc85c4e29610884e9a13c06273eb365e6c883e1d8",
+      "extraction_file": "ncert-lebs104-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leec104",
+      "kind": "reference",
+      "title": "ncert-leec104",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "d101de94013d6c3acb3492bfddd619a62fb5e700b36cc0438602e16019921b1f",
+      "extraction_file": "ncert-leec104-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-leec102",
+      "kind": "reference",
+      "title": "ncert-leec102",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+      "extraction_sha256": "9de23076ff9a3065949fb2e66dfa30679f59cb69b51c57a933398af06239318c",
+      "extraction_file": "ncert-leec102-commissioning-extraction.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-keec103",
+      "kind": "reference",
+      "title": "NCERT keec103: Economic Reforms Since 1991",
+      "url": "https://ncert.nic.in/textbook/pdf/keec103.pdf",
+      "identity_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae",
+      "extraction_sha256": "11b951381f0c4bbc783216f608e4b0c57dd4618e400cff0eb1e0dd414e4320af",
+      "extraction_file": "reference-downloads/keec103.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-keec101",
+      "kind": "reference",
+      "title": "ncert-keec101",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+      "extraction_sha256": "a3e94ca974630ffa46752fb52144dcefc021f29800c8bc9c117bd563dd25b681",
+      "extraction_file": "business-economics-auth-work/official-ncert/keec101.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "ncert-keec104",
+      "kind": "reference",
+      "title": "NCERT keec104: Human Capital Formation",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca",
+      "extraction_sha256": "a48bbff71af7665f26654c3d02183ce75830df8a81f1f006de6746120ba191b4",
+      "extraction_file": "reference-downloads/keec104.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed official NCERT excerpts for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    },
+    {
+      "id": "cbse-2026-27-accountancy-sqp",
+      "kind": "official_sample_question_paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+      "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+      "local_path": "papers/accountancy-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-accountancy-ms",
+      "kind": "official_sample_paper_marking_scheme",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+      "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+      "local_path": "marking-schemes/accountancy-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-business-studies-sqp",
+      "kind": "official_sample_question_paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+      "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+      "local_path": "papers/business-studies-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-business-studies-ms",
+      "kind": "official_sample_paper_marking_scheme",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+      "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+      "local_path": "marking-schemes/business-studies-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-economics-sqp",
+      "kind": "official_sample_question_paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+      "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+      "local_path": "papers/economics-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-economics-ms",
+      "kind": "official_sample_paper_marking_scheme",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+      "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+      "local_path": "marking-schemes/economics-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-english-core-sqp",
+      "kind": "official_sample_question_paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+      "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+      "local_path": "papers/english-core-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2026-27-english-core-ms",
+      "kind": "official_sample_paper_marking_scheme",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+      "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+      "local_path": "marking-schemes/english-core-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-accountancy-sqp",
+      "kind": "paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Accountancy-SQP.pdf",
+      "sha256": "9f776a0262d251fe985c52ab11c606ad9fade7974813a3009050e2da1601f9fe",
+      "local_path": "papers\\accountancy-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-accountancy-marking-scheme",
+      "kind": "official_key",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Accountancy-MS.pdf",
+      "sha256": "fae1ef1c7ca93f202c51ccfbd41e5a750db2cc51dacb3a2e8d2eba933751523d",
+      "local_path": "marking-schemes\\accountancy-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-business-studies-sqp",
+      "kind": "paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-SQP.pdf",
+      "sha256": "02b3c47a92aca7d949308d2fc40f1158f1bf7c9e860ba342b971e072508f9e36",
+      "local_path": "papers\\business-studies-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-business-studies-marking-scheme",
+      "kind": "official_key",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-MS.pdf",
+      "sha256": "2e7e184395c5560c6da61cf4d2bc142c56493d267ebc2e484db13247354c2e31",
+      "local_path": "marking-schemes\\business-studies-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-economics-sqp",
+      "kind": "paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Economics-SQP.pdf",
+      "sha256": "c7f92f63e17d1fcef8c3e6efb52e354d6576cb5d35e0c857d62c41a88fa68048",
+      "local_path": "papers\\economics-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-economics-marking-scheme",
+      "kind": "official_key",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Economics-MS.pdf",
+      "sha256": "7c9288af74f347cf23767cee0f0e46a2380a291258e0ed0cd2d73335e2cb4714",
+      "local_path": "marking-schemes\\economics-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-english-core-sqp",
+      "kind": "paper",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-SQP.pdf",
+      "sha256": "5073910a394c2d54d04a5dc61d6f07e927d4f13f8e8cea1e19528d1c5f7c10eb",
+      "local_path": "papers\\english-core-sqp.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "cbse-2025-26-english-core-marking-scheme",
+      "kind": "official_key",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-MS.pdf",
+      "sha256": "436f67450804ef96339e2c6d2346914b9f361a309e8d2e9485eb975ef9e52158",
+      "local_path": "marking-schemes\\english-core-ms.pdf",
+      "rights_note": "Private benchmark audit only; no redistribution license verified. CBSE source, not CUET PYQ.",
+      "status": "benchmark_origin_only"
+    },
+    {
+      "id": "ncert-lebs105",
+      "kind": "reference",
+      "title": "ncert-lebs105",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "b6cb26af75035a26ba25a27c343a93ace12173d80521dbe56b1e4735b948cee4",
+      "extraction_file": "business-economics-auth-work/official-ncert/lebs105.normalized.txt",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission_basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "status": "scratch_overlay_draft",
+      "local_support_use_only": true,
+      "no_redistribution_claim": true
+    }
+  ],
+  "evidence_span_ids": [
+    "passage-cbse26-eng-q2-iii",
+    "syllabus-cbse26-eco-q03",
+    "syllabus-cbse26-ac-q10",
+    "additional-cbse26-bs-q06-2",
+    "additional-cbse25-26-bs-q7-2",
+    "syllabus-cbse26-bs-q02",
+    "focus-cbse26-bs-q03",
+    "focus-cbse25-26-bs-q10",
+    "syllabus-cbse25-26-eco-q20",
+    "syllabus-cbse26-bs-q05",
+    "additional-cbse26-ac-q08-2",
+    "passage-cbse25-26-eng-q2-VI",
+    "focused-cbse25-26-eco-q7",
+    "focus-cbse26-ac-q14",
+    "verified-cbse26-eco-q09-3",
+    "verified-cbse26-eco-q01-3",
+    "additional-cbse26-eco-q09-2",
+    "syllabus-cbse26-eco-q09",
+    "focus-cbse26-bs-q15",
+    "additional-cbse26-ac-q15-2",
+    "syllabus-cbse26-eco-q02",
+    "verified-cbse26-eco-q08-3",
+    "focus-cbse25-26-acc-q8",
+    "ncert-cbse26-bs-q11-2",
+    "focus-cbse25-26-bs-q3",
+    "syllabus-cbse25-26-bs-q15",
+    "syllabus-cbse26-ac-q08",
+    "syllabus-cbse25-26-bs-q1",
+    "syllabus-cbse26-bs-q03",
+    "syllabus-cbse26-eco-q01",
+    "focus-cbse26-bs-q02",
+    "focus-cbse25-26-bs-q15",
+    "syllabus-cbse26-ac-q16",
+    "passage-cbse26-eng-q1-x",
+    "passage-cbse25-26-eng-q2-I",
+    "passage-cbse26-eng-q2-iv",
+    "focus-cbse25-26-eco-q18",
+    "additional-cbse25-26-eco-q5-VI-vi-2",
+    "syllabus-cbse26-bs-q08",
+    "syllabus-cbse25-26-eng-q2-VIII",
+    "focus-cbse25-26-eco-q6",
+    "syllabus-cbse26-eng-q2-vi",
+    "focus-cbse26-eco-q04",
+    "focus-cbse25-26-acc-q14",
+    "additional-cbse26-ac-q04-2",
+    "focus-cbse25-26-eco-q1-VI-vi",
+    "syllabus-cbse25-26-acc-q9",
+    "focus-cbse25-26-bs-q7",
+    "syllabus-cbse26-bs-q15",
+    "passage-cbse26-eng-q1-iv",
+    "syllabus-cbse25-26-acc-q8",
+    "focus-cbse25-26-bs-q2",
+    "focus-cbse26-ac-q12",
+    "syllabus-cbse26-ac-q14",
+    "additional-cbse25-26-bs-q2-2",
+    "syllabus-cbse26-eco-q08",
+    "focus-cbse25-26-acc-q2",
+    "syllabus-cbse25-26-eco-q1-VI-vi",
+    "syllabus-cbse25-26-eng-q1-X",
+    "syllabus-cbse25-26-eng-q2-VI",
+    "focus-cbse25-26-acc-q3",
+    "ncert-cbse26-bs-q11-1",
+    "syllabus-cbse26-eco-q19",
+    "focus-cbse25-26-bs-q1",
+    "syllabus-cbse25-26-bs-q7",
+    "syllabus-cbse25-26-eco-q7",
+    "passage-cbse26-eng-q2-i",
+    "syllabus-cbse25-26-bs-q3",
+    "passage-cbse26-eng-q2-vi",
+    "syllabus-cbse25-26-bs-q2",
+    "focus-cbse26-ac-q10",
+    "focus-cbse26-bs-q05",
+    "syllabus-cbse26-bs-q11",
+    "syllabus-cbse25-26-acc-q3",
+    "focus-cbse26-bs-q06",
+    "syllabus-cbse25-26-eco-q18",
+    "additional-cbse26-eco-q08-2",
+    "syllabus-cbse25-26-eco-q6",
+    "additional-cbse25-26-acc-q8-2",
+    "passage-cbse25-26-eng-q1-III",
+    "focus-cbse25-26-eco-q19",
+    "focus-cbse25-26-eco-q20",
+    "syllabus-cbse26-bs-q06",
+    "passage-cbse25-26-eng-q1-VI",
+    "syllabus-cbse26-eco-q04",
+    "additional-cbse26-eco-q01-2",
+    "passage-cbse25-26-eng-q1-IV",
+    "focus-cbse26-ac-q16",
+    "focus-cbse25-26-bs-q14",
+    "verified-cbse25-26-bs-q2-3",
+    "syllabus-cbse25-26-eng-q1-III",
+    "focus-cbse26-eco-q09",
+    "focus-cbse26-ac-q15",
+    "syllabus-cbse25-26-acc-q14",
+    "verified-cbse26-bs-q02-2",
+    "syllabus-cbse26-ac-q15",
+    "syllabus-cbse26-eng-q2-iv",
+    "syllabus-cbse25-26-eco-q2",
+    "syllabus-cbse25-26-eng-q2-I",
+    "focus-cbse26-ac-q08",
+    "syllabus-cbse25-26-bs-q5",
+    "syllabus-cbse26-eng-q1-x",
+    "syllabus-cbse25-26-bs-q14",
+    "syllabus-cbse26-ac-q04",
+    "verified-cbse26-bs-q05-2",
+    "syllabus-cbse26-eco-q05",
+    "focus-cbse26-eco-q05",
+    "focus-cbse26-eco-q02",
+    "focus-cbse25-26-acc-q16",
+    "focus-cbse25-26-acc-q9",
+    "syllabus-cbse25-26-eco-q19",
+    "syllabus-cbse25-26-acc-q2",
+    "focus-cbse26-bs-q01",
+    "focus-cbse25-26-acc-q1-OR-or",
+    "focus-cbse26-eco-q19",
+    "syllabus-cbse26-ac-q12",
+    "verified-cbse26-ac-q03-2",
+    "syllabus-cbse25-26-eng-q2-II",
+    "focused-cbse25-26-bs-q5",
+    "verified-cbse26-bs-q06-3",
+    "syllabus-cbse25-26-eco-q5-VI-vi",
+    "passage-cbse26-eng-q2-vii",
+    "syllabus-cbse26-eng-q1-viii",
+    "syllabus-cbse26-eng-q1-iv",
+    "focus-cbse26-eco-q03",
+    "verified-cbse26-ac-q04-3",
+    "syllabus-cbse26-bs-q01",
+    "passage-cbse26-eng-q1-viii",
+    "passage-cbse25-26-eng-q2-VIII",
+    "syllabus-cbse26-eng-q2-iii",
+    "verified-cbse26-ac-q08-3",
+    "focus-cbse26-ac-q04",
+    "focus-cbse25-26-eco-q5-VI-vi",
+    "focus-cbse25-26-acc-q6",
+    "verified-cbse25-26-acc-q1-OR-or-2",
+    "verified-cbse25-26-eco-q19-3",
+    "syllabus-cbse25-26-acc-q16",
+    "syllabus-cbse25-26-bs-q10",
+    "focus-cbse25-26-eco-q2",
+    "passage-cbse25-26-eng-q1-X",
+    "focus-cbse26-eco-q08",
+    "passage-cbse25-26-eng-q2-II",
+    "verified-cbse25-26-bs-q7-3",
+    "syllabus-cbse26-ac-q03",
+    "focus-cbse26-eco-q01",
+    "syllabus-cbse25-26-eng-q1-VI",
+    "verified-cbse26-eco-q19-2",
+    "additional-cbse25-26-eco-q19-2",
+    "syllabus-cbse25-26-acc-q1-OR-or",
+    "syllabus-cbse25-26-acc-q6",
+    "syllabus-cbse26-eng-q2-i",
+    "verified-cbse26-ac-q15-3",
+    "syllabus-cbse25-26-eng-q1-IV",
+    "focus-cbse26-ac-q03",
+    "syllabus-cbse26-eng-q2-vii"
+  ],
+  "case_support_bindings": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "support_span_ids": [
+        "focus-cbse26-ac-q03",
+        "verified-cbse26-ac-q03-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q03",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "support_span_ids": [
+        "focus-cbse26-ac-q04",
+        "additional-cbse26-ac-q04-2",
+        "verified-cbse26-ac-q04-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q04",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "support_span_ids": [
+        "focus-cbse26-ac-q08",
+        "additional-cbse26-ac-q08-2",
+        "verified-cbse26-ac-q08-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q08",
+      "source_support_status": "partial_general_revaluation_support_specific_investment_fluctuation_reserve_treatment_unverified",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "support_span_ids": [
+        "focus-cbse26-ac-q10"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q10",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "support_span_ids": [
+        "focus-cbse26-ac-q12"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q12",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "support_span_ids": [
+        "focus-cbse26-ac-q14"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q14",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "support_span_ids": [
+        "focus-cbse26-ac-q15",
+        "additional-cbse26-ac-q15-2",
+        "verified-cbse26-ac-q15-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q15",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "support_span_ids": [
+        "focus-cbse26-ac-q16"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-ac-q16",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "support_span_ids": [
+        "focus-cbse26-bs-q01"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q01",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "support_span_ids": [
+        "focus-cbse26-bs-q02",
+        "verified-cbse26-bs-q02-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q02",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "support_span_ids": [
+        "focus-cbse26-bs-q03"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q03",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "support_span_ids": [
+        "focus-cbse26-bs-q05",
+        "verified-cbse26-bs-q05-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q05",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "support_span_ids": [
+        "focus-cbse26-bs-q06",
+        "additional-cbse26-bs-q06-2",
+        "verified-cbse26-bs-q06-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q06",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "support_span_ids": [],
+      "syllabus_span_id": "syllabus-cbse26-bs-q08",
+      "source_support_status": "unresolved_statutory_definition_source_needed",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "support_span_ids": [
+        "ncert-cbse26-bs-q11-1",
+        "ncert-cbse26-bs-q11-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q11",
+      "source_support_status": "unsupported_current_guideline_gap_ccpa_dark_patterns_source_needed",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "support_span_ids": [
+        "focus-cbse26-bs-q15"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-bs-q15",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "support_span_ids": [
+        "focus-cbse26-eco-q01",
+        "additional-cbse26-eco-q01-2",
+        "verified-cbse26-eco-q01-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q01",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "support_span_ids": [
+        "focus-cbse26-eco-q02"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q02",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "support_span_ids": [
+        "focus-cbse26-eco-q03"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q03",
+      "source_support_status": "partial_exchange_rate_effect_support_full_sequence_explanation_needs_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "support_span_ids": [
+        "focus-cbse26-eco-q04"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q04",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "support_span_ids": [
+        "focus-cbse26-eco-q05"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q05",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "support_span_ids": [
+        "focus-cbse26-eco-q08",
+        "additional-cbse26-eco-q08-2",
+        "verified-cbse26-eco-q08-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q08",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "support_span_ids": [
+        "focus-cbse26-eco-q09",
+        "additional-cbse26-eco-q09-2",
+        "verified-cbse26-eco-q09-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q09",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "support_span_ids": [
+        "focus-cbse26-eco-q19",
+        "verified-cbse26-eco-q19-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eco-q19",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "support_span_ids": [
+        "passage-cbse26-eng-q1-iv"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q1-iv",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "support_span_ids": [
+        "passage-cbse26-eng-q1-viii"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q1-viii",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "support_span_ids": [
+        "passage-cbse26-eng-q1-x"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q1-x",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "support_span_ids": [
+        "passage-cbse26-eng-q2-i"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q2-i",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "support_span_ids": [
+        "passage-cbse26-eng-q2-iii"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q2-iii",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "support_span_ids": [
+        "passage-cbse26-eng-q2-iv"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q2-iv",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "support_span_ids": [
+        "passage-cbse26-eng-q2-vi"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q2-vi",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "support_span_ids": [
+        "passage-cbse26-eng-q2-vii"
+      ],
+      "syllabus_span_id": "syllabus-cbse26-eng-q2-vii",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q1-OR-or",
+        "verified-cbse25-26-acc-q1-OR-or-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q1-OR-or",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q2"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q2",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q3"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q3",
+      "source_support_status": "construction_or_answerability_repair_pending_blind_recheck",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q6",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q6"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q6",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q8",
+        "additional-cbse25-26-acc-q8-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q8",
+      "source_support_status": "key_or_wording_dispute_preserved_not_positive",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q9"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q9",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q14"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q14",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "support_span_ids": [
+        "focus-cbse25-26-acc-q16"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-acc-q16",
+      "source_support_status": "unresolved_workmen_compensation_reserve_claim_treatment_source_needed",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q1"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q1",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q2",
+        "additional-cbse25-26-bs-q2-2",
+        "verified-cbse25-26-bs-q2-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q2",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q3",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q3"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q3",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "support_span_ids": [
+        "focused-cbse25-26-bs-q5"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q5",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q7",
+        "additional-cbse25-26-bs-q7-2",
+        "verified-cbse25-26-bs-q7-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q7",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q10"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q10",
+      "source_support_status": "construction_or_answerability_repair_pending_blind_recheck",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q14"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q14",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "support_span_ids": [
+        "focus-cbse25-26-bs-q15"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-bs-q15",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q1-VI-vi"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q1-VI-vi",
+      "source_support_status": "unresolved_break_even_condition_or_saving_zero_excerpt_needed",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q2"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q2",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q5-VI-vi",
+        "additional-cbse25-26-eco-q5-VI-vi-2"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q5-VI-vi",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q6"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q6",
+      "source_support_status": "key_or_wording_dispute_preserved_not_positive",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "support_span_ids": [
+        "focused-cbse25-26-eco-q7"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q7",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q18"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q18",
+      "source_support_status": "unresolved_mutual_fund_classification_source_needed",
+      "syllabus_status": "in_unit_inferred"
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q19",
+        "additional-cbse25-26-eco-q19-2",
+        "verified-cbse25-26-eco-q19-3"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q19",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "support_span_ids": [
+        "focus-cbse25-26-eco-q20"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eco-q20",
+      "source_support_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q1-III"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q1-III",
+      "source_support_status": "construction_or_answerability_repair_pending_blind_recheck",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q1-IV"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q1-IV",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q1-VI"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q1-VI",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q1-X"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q1-X",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q2-I"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q2-I",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-II",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q2-II"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q2-II",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q2-VI"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q2-VI",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VIII",
+      "support_span_ids": [
+        "passage-cbse25-26-eng-q2-VIII"
+      ],
+      "syllabus_span_id": "syllabus-cbse25-26-eng-q2-VIII",
+      "source_support_status": "passage_bound_only_pending_independent_key_check",
+      "syllabus_status": "explicit"
+    }
+  ],
+  "notes": [
+    "Scratch overlay only; global source registry unchanged.",
+    "CBSE candidates are not authentic CUET PYQs.",
+    "No release or publication authority.",
+    "Base registry hash is the shared working-tree snapshot; Git status shows the file differs from HEAD. This subtask made no registry writes."
+  ]
+}

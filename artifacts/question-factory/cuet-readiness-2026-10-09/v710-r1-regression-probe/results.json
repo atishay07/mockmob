@@ -1,0 +1,772 @@
+{
+  "kind": "v710_native_regression_probe_not_qualification",
+  "verifier": "cuet-fit-validator-v7.10-compact-resolution",
+  "contract": "0b272af0f9dd5620a14e1c3a9a7ab71b075fe228ce42f7c1f6b51f49f9b046a0",
+  "prefix": "v710-r1-regression-2026-10-09-",
+  "created_at": "2026-10-09T13:33:51.391Z",
+  "cases": {
+    "v77f-e9ef75026c19": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "ambiguous_multiple_correct",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The buyer explicitly wants to file a complaint and be heard, matching Right to be heard (E5.1).",
+        "The buyer also wants relief for loss from a defective product, matching Right to seek redressal (E5.1, E5.2).",
+        "Thus A and B are both defensible; the singular question does not specify which of these two rights to select.",
+        "No numerical calculation or passage-based inference is required.",
+        "Defect: multiple_correct_options: Both A and B fit explicit facts: the buyer wants to file a complaint and be heard, and also wants relief for loss from a defective product.",
+        "Defect: multiple_correct_options: option A is also correct as written (The buyer expressly wants to file a complaint and be heard, which is the stated scope of the right to be heard.)",
+        "v710_multiple_supported_options:AB",
+        "v710_multiple_supported_options:AB"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "B",
+          "reasons": [
+            "The buyer explicitly wants to file a complaint and be heard, matching Right to be heard (E5.1).",
+            "The buyer also wants relief for loss from a defective product, matching Right to seek redressal (E5.1, E5.2).",
+            "Thus A and B are both defensible; the singular question does not specify which of these two rights to select.",
+            "No numerical calculation or passage-based inference is required.",
+            "Defect: multiple_correct_options: Both A and B fit explicit facts: the buyer wants to file a complaint and be heard, and also wants relief for loss from a defective product.",
+            "Defect: multiple_correct_options: option A is also correct as written (The buyer expressly wants to file a complaint and be heard, which is the stated scope of the right to be heard.)",
+            "v710_multiple_supported_options:AB",
+            "v710_multiple_supported_options:AB"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00227,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T13:37:50.834Z"
+    },
+    "v77f-59b58a25bbb3": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The excerpt requires known-amount convertibility, insignificant value-change risk, high liquidity, and normally a short maturity of about three months or less.",
+        "The stem gives no precise maturity or known-amount status, and “low risk” does not establish insignificant risk; different realizations can yield yes or no.",
+        "No calculation or passage is involved. The excerpt supports the definition, but the supplied facts do not establish a unique yes-or-no answer.",
+        "Defect: missing_decisive_assumption: The stem does not establish known-amount convertibility, insignificant risk, high liquidity, or the precise short maturity needed to determine qualification.",
+        "Condition missing: The investment is highly liquid.",
+        "Condition missing: It is readily convertible into known amounts of cash.",
+        "Condition implied_decisive: Its risk of changes in value is insignificant, rather than merely low.",
+        "Condition missing: It has the short maturity specified by the source, normally three months or less from acquisition.",
+        "v710_solved_key_not_supported",
+        "v710_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The excerpt requires known-amount convertibility, insignificant value-change risk, high liquidity, and normally a short maturity of about three months or less.",
+            "The stem gives no precise maturity or known-amount status, and “low risk” does not establish insignificant risk; different realizations can yield yes or no.",
+            "No calculation or passage is involved. The excerpt supports the definition, but the supplied facts do not establish a unique yes-or-no answer.",
+            "Defect: missing_decisive_assumption: The stem does not establish known-amount convertibility, insignificant risk, high liquidity, or the precise short maturity needed to determine qualification.",
+            "Condition missing: The investment is highly liquid.",
+            "Condition missing: It is readily convertible into known amounts of cash.",
+            "Condition implied_decisive: Its risk of changes in value is insignificant, rather than merely low.",
+            "Condition missing: It has the short maturity specified by the source, normally three months or less from acquisition.",
+            "v710_solved_key_not_supported",
+            "v710_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002772,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T13:39:08.806Z"
+    },
+    "v77f-98a231fa15fa": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 states that marginal utility declines as consumption rises while other commodities are held constant. The stem omits that answer-changing condition, so A is not established.",
+        "The stem says marginal utility changes, which contradicts D, but it does not establish the direction of change. No option is supported as a necessary consequence.",
+        "Defect: missing_decisive_assumption: The supplied diminishing-marginal-utility principle applies while consumption of other commodities is held constant; the stem omits this answer-changing condition.",
+        "Condition missing: Consumption of other commodities remains constant, as required by the supplied diminishing-marginal-utility principle.",
+        "v710_solved_key_not_supported",
+        "v710_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 states that marginal utility declines as consumption rises while other commodities are held constant. The stem omits that answer-changing condition, so A is not established.",
+            "The stem says marginal utility changes, which contradicts D, but it does not establish the direction of change. No option is supported as a necessary consequence.",
+            "Defect: missing_decisive_assumption: The supplied diminishing-marginal-utility principle applies while consumption of other commodities is held constant; the stem omits this answer-changing condition.",
+            "Condition missing: Consumption of other commodities remains constant, as required by the supplied diminishing-marginal-utility principle.",
+            "v710_solved_key_not_supported",
+            "v710_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002643,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T13:39:09.900Z"
+    },
+    "cbse24-bs-q02--overlapping_options": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "overlapping_options",
+      "oracle_key": "multiple_correct_B_D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 defines assignment of duties as allocating work to employees in accordance with job requirements and their skills; the stem describes that action.",
+        "B paraphrases the same assignment-of-duties step as D, so both options are defensible.",
+        "The initial division into named task areas makes A a poor fit; the changed action is allocation by skills.",
+        "Defect: multiple_correct_options: B describes allocating defined duties to staff according to skills, which is substantively the same assignment-of-duties step named in D.",
+        "Defect: multiple_correct_options: option B is also correct as written (The next-season action is allocating tasks to staff according to their skills, exactly as the stem states.)",
+        "v710_multiple_supported_options:BD",
+        "v710_multiple_supported_options:BD"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "E1.1 defines assignment of duties as allocating work to employees in accordance with job requirements and their skills; the stem describes that action.",
+            "B paraphrases the same assignment-of-duties step as D, so both options are defensible.",
+            "The initial division into named task areas makes A a poor fit; the changed action is allocation by skills.",
+            "Defect: multiple_correct_options: B describes allocating defined duties to staff according to skills, which is substantively the same assignment-of-duties step named in D.",
+            "Defect: multiple_correct_options: option B is also correct as written (The next-season action is allocating tasks to staff according to their skills, exactly as the stem states.)",
+            "v710_multiple_supported_options:BD",
+            "v710_multiple_supported_options:BD"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.005685,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T13:39:27.191Z"
+    },
+    "known-bank-ea0352db044b73bb7158800c58be188d": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": "indeterminate",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 defines revenue receipts by absence of a claim and identifies tax and non-tax revenues.",
+        "E3.1–E3.2 also classify receipts reducing financial assets as capital receipts, even without a claim.",
+        "The stem does not say whether the non-tax receipt reduces financial assets; an asset sale could make B correct, while ordinary non-tax revenue supports A.",
+        "The source supports the classification principles, but the missing transaction detail prevents a unique answer.",
+        "Defect: missing_decisive_assumption: The stem omits whether the non-tax receipt reduces financial assets; an asset sale and ordinary non-tax revenue can produce different classifications.",
+        "Condition missing: Whether the non-tax receipt reduces government financial assets.",
+        "v710_solved_key_not_supported",
+        "v710_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 defines revenue receipts by absence of a claim and identifies tax and non-tax revenues.",
+            "E3.1–E3.2 also classify receipts reducing financial assets as capital receipts, even without a claim.",
+            "The stem does not say whether the non-tax receipt reduces financial assets; an asset sale could make B correct, while ordinary non-tax revenue supports A.",
+            "The source supports the classification principles, but the missing transaction detail prevents a unique answer.",
+            "Defect: missing_decisive_assumption: The stem omits whether the non-tax receipt reduces financial assets; an asset sale and ordinary non-tax revenue can produce different classifications.",
+            "Condition missing: Whether the non-tax receipt reduces government financial assets.",
+            "v710_solved_key_not_supported",
+            "v710_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.001973,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T13:42:23.531Z"
+    },
+    "v77f-2ca94e8b4e72": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "english",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "The passage supports the contextual meaning in A, but does not say Dev painted the board or that the date was written that morning; it says he copied the schedule in chalk each morning.",
+        "unsupported claim: Dev had newly painted the board that morning.",
+        "unsupported claim: The board being newly painted explains why the date was fresh.",
+        "v710_audit_not_decisively_wrong:C:partial_truth",
+        "v710_audit_not_decisively_wrong:C:partial_truth"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_integrity": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "passage_answerability": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The passage calls it a date written at the top and says Dev copies the new schedule each morning, supporting “recently written.”",
+            "The narrative passage supplies enough context to infer the word’s meaning; the syllabus includes narrative reading-comprehension passages."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "A",
+          "reasons": [
+            "In the passage, Dev copies the operator's schedule in chalk 'each morning'. Pointing to the 'fresh date written at the top' indicates that the date was newly or recently inscribed that morning to signify today's updated schedule.",
+            "Option A directly captures this contextual meaning ('Recently written'), whereas physical coolness, unfamiliarity, or rain damage do not describe the date."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "The passage supports the contextual meaning in A, but does not say Dev painted the board or that the date was written that morning; it says he copied the schedule in chalk each morning.",
+            "unsupported claim: Dev had newly painted the board that morning.",
+            "unsupported claim: The board being newly painted explains why the date was fresh.",
+            "v710_audit_not_decisively_wrong:C:partial_truth",
+            "v710_audit_not_decisively_wrong:C:partial_truth"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.017239,
+        "held": 0,
+        "requests": 4
+      },
+      "at": "2026-10-09T13:45:50.472Z"
+    },
+    "cbse24-eco-q02--unsupported_explanation": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "oracle_key": "C",
+      "state": "quarantined",
+      "reasons": [
+        "option_resolution_freeze_failed:independent_evaluation"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The policy targets a benefit to low-income households. The excerpt identifies transfers that change income distribution as the redistribution function.",
+            "No calculation or additional case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The policy targets a benefit to low-income households. The excerpt identifies transfers that change income distribution as the redistribution function.",
+            "No calculation or additional case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The policy targets a benefit to low-income households. The excerpt identifies transfers that change income distribution as the redistribution function.",
+            "No calculation or additional case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The policy targets a benefit to low-income households. The excerpt identifies transfers that change income distribution as the redistribution function.",
+            "No calculation or additional case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "C",
+          "reasons": [
+            "The policy targets a benefit to low-income households. The excerpt identifies transfers that change income distribution as the redistribution function.",
+            "No calculation or additional case-specific assumption is needed."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.058472,
+        "held": 0,
+        "requests": 3
+      },
+      "at": "2026-10-09T13:46:02.242Z"
+    },
+    "v75f-825e60a00f": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "oracle_key": "multiple_correct_B_D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failed_stage": "explanation_support",
+      "failure_details": [
+        "All claims in the proposed explanation are supported by the supplied excerpts. The excerpts do not decisively rule out A or B for a functional structure, but the explanation does not assert that they are impossible.",
+        "v710_audit_not_decisively_wrong:A:category_only",
+        "v710_audit_not_decisively_wrong:A:category_only"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure. Its functional heads do not get training for top management positions, making D the disadvantage.",
+            "The cost increase and manager-independence alternatives are associated with divisional structure; due attention is a functional benefit."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure. Its functional heads do not get training for top management positions, making D the disadvantage.",
+            "The cost increase and manager-independence alternatives are associated with divisional structure; due attention is a functional benefit."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure. Its functional heads do not get training for top management positions, making D the disadvantage.",
+            "The cost increase and manager-independence alternatives are associated with divisional structure; due attention is a functional benefit."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure. Its functional heads do not get training for top management positions, making D the disadvantage.",
+            "The cost increase and manager-independence alternatives are associated with divisional structure; due attention is a functional benefit."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "alternatives": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "D",
+          "reasons": [
+            "The listed departments identify a functional structure. Its functional heads do not get training for top management positions, making D the disadvantage.",
+            "The cost increase and manager-independence alternatives are associated with divisional structure; due attention is a functional benefit."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "independent_evaluation": {
+          "passed": true,
+          "provider": "gemini",
+          "solved_key": "D",
+          "reasons": [
+            "Dividing work into production, purchase, marketing, accounts and personnel forms a functional structure (E1.1).",
+            "A disadvantage of a functional structure is that functional heads do not get training for top management positions (E3.1).",
+            "Options A and B represent disadvantages of a divisional structure, while Option C is an advantage of a functional structure."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "explanation_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": null,
+          "reasons": [
+            "All claims in the proposed explanation are supported by the supplied excerpts. The excerpts do not decisively rule out A or B for a functional structure, but the explanation does not assert that they are impossible.",
+            "v710_audit_not_decisively_wrong:A:category_only",
+            "v710_audit_not_decisively_wrong:A:category_only"
+          ],
+          "option_resolution": null,
+          "option_resolution_audit": {
+            "passed": false,
+            "reasons": []
+          }
+        }
+      },
+      "cost_usd": {
+        "settled": 0.028937,
+        "held": 0,
+        "requests": 8
+      },
+      "at": "2026-10-09T13:47:57.200Z"
+    }
+  },
+  "accounting": {
+    "settled_usd": 0.119991,
+    "held_usd": 0,
+    "requests": 21,
+    "receipt_complete": true,
+    "at": "2026-10-09T13:48:08.015Z"
+  }
+}

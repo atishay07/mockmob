@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "eng-b1",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "She first switched off power and had the cable replaced; carried it only after repair."
+    },
+    "B": {
+     "status": "false",
+     "why": "The technician replaced the cable, not Nila."
+    },
+    "C": {
+     "status": "true",
+     "why": "Stated directly."
+    },
+    "D": {
+     "status": "false",
+     "why": "She said the delivery was delayed."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Direct detail recall; easy but clean."
+  },
+  {
+   "local_id": "eng-b2",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Grandfather's remark approves her waiting so the case would not be spoiled, missing sunset."
+    },
+    "B": {
+     "status": "false",
+     "why": "Contradicts the remark and her choice; condition matters."
+    },
+    "C": {
+     "status": "false",
+     "why": "Repairer had finished electrical work; nothing suggests leaving it unfinished."
+    },
+    "D": {
+     "status": "false",
+     "why": "She telephoned and explained; grandfather approved."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Good inference item."
+  },
+  {
+   "local_id": "eng-b3",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "A train is moving past."
+    },
+    "B": {
+     "status": "false",
+     "why": "Passage only says travellers checked watches after looking up; no comparison of trust."
+    },
+    "C": {
+     "status": "false",
+     "why": "Passage says it was beyond his reach."
+    },
+    "D": {
+     "status": "true",
+     "why": "Last sentence states it."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Option D copies the passage almost verbatim; fine but answer is easy to spot."
+  },
+  {
+   "local_id": "eng-b4",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Not required; librarian did not grade notes."
+    },
+    "B": {
+     "status": "true",
+     "why": "Stated: returned at least one book and wrote a short note."
+    },
+    "C": {
+     "status": "false",
+     "why": "At least one book, not both; discussion only proposed."
+    },
+    "D": {
+     "status": "false",
+     "why": "Notes were not graded and not on every book."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Direct recall; clear."
+  },
+  {
+   "local_id": "eng-b5",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Directly the reason he put it back after opening it."
+    },
+    "B": {
+     "status": "true",
+     "why": "He states he wanted something to read that evening, a further stated motive for choosing the stories book."
+    },
+    "C": {
+     "status": "false",
+     "why": "He chose it for the cover; no change stated."
+    },
+    "D": {
+     "status": "false",
+     "why": "Sister said nothing about price."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Stem 'why put back' admits two stated reasons (blank tables; wanted something to read); best answer A but B is also supported.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "A is the best-fit (immediate cause) but B is defensible; ambiguous key. Best answer A."
+  },
+  {
+   "local_id": "eng-b6",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "Afternoon time not given."
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Passage gives no start time; 12 noon is not stated."
+    },
+    "C": {
+     "status": "undecidable",
+     "why": "Not stated."
+    },
+    "D": {
+     "status": "undecidable",
+     "why": "Not stated."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "The passage never gives the clock time of the afternoon demonstration; any option needs outside assumption.",
+   "numeric_check": null,
+   "syllabus_fit": "Not answerable from passage; unfair as reading item.",
+   "quality_note": "Unanswerable: no time given for repeated demonstration."
+  },
+  {
+   "local_id": "eng-b7",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Passage says most borrowed cups were returned."
+    },
+    "B": {
+     "status": "false",
+     "why": "Use fell in both weeks."
+    },
+    "C": {
+     "status": "true",
+     "why": "Attendance was lower in the second week because one class was away; hence the per-student comparison."
+    },
+    "D": {
+     "status": "false",
+     "why": "Cups were lent against a refundable deposit."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Good reasoning item."
+  },
+  {
+   "local_id": "eng-b8",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Opposite: versions were on different days; same-day was only proposed."
+    },
+    "B": {
+     "status": "false",
+     "why": "Volunteers recorded it."
+    },
+    "C": {
+     "status": "true",
+     "why": "Stated: different days with different galleries open."
+    },
+    "D": {
+     "status": "false",
+     "why": "They asked less often."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Clear; keyed option nearly verbatim."
+  },
+  {
+   "local_id": "eng-b9",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Opposite of scarce."
+    },
+    "B": {
+     "status": "true",
+     "why": "Single table, access shared via reservations."
+    },
+    "C": {
+     "status": "false",
+     "why": "Table not restricted to long meetings; those got a separate room."
+    },
+    "D": {
+     "status": "false",
+     "why": "Unreserved time open to any visitor."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair Class XII reading-comprehension item.",
+   "quality_note": "Vocabulary-in-context; clear."
+  }
+ ]
+}

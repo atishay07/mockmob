@@ -1,0 +1,240 @@
+{
+  "at": "2026-10-09T06:47:15.486Z",
+  "scope": "Blind quote extraction audit only; no proposed answers/labels inspected. Normalizes Unicode quotation marks and whitespace; does not assert academic entailment.",
+  "rows": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 3",
+      "quote_present": true,
+      "exact_normalized_substring": true,
+      "physical_pages": [
+        3
+      ]
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 4",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": true,
+      "physical_pages": [
+        2
+      ]
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 5",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "source": "v77src-lebs106",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "source": "v77src-lebs106",
+      "locator": "NCERT physical page 6",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "source": "v77src-lebs203",
+      "locator": "NCERT physical page 8",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "source": "v77src-lebs203",
+      "locator": "NCERT physical page 8",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 4",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 6",
+      "quote_present": true,
+      "exact_normalized_substring": true,
+      "physical_pages": [
+        6
+      ]
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": true,
+      "physical_pages": [
+        2
+      ]
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "source": "v77src-english-narratives",
+      "locator": "library",
+      "scope": "original-stimulus",
+      "quote_present": false,
+      "passage_present": false
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "source": "v77src-english-narratives",
+      "locator": "library",
+      "scope": "original-stimulus",
+      "quote_present": false,
+      "passage_present": false
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "source": "v77src-english-narratives",
+      "locator": "ferry",
+      "scope": "original-stimulus",
+      "quote_present": false,
+      "passage_present": false
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "source": "v77src-english-narratives",
+      "locator": "orchard",
+      "scope": "original-stimulus",
+      "quote_present": false,
+      "passage_present": false
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 4",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 3",
+      "quote_present": true,
+      "exact_normalized_substring": true,
+      "physical_pages": [
+        3
+      ]
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "source": "v77src-leac206",
+      "locator": "NCERT physical page 4",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "source": "v77src-lebs106",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "source": "v77src-lebs203",
+      "locator": "NCERT physical page 8",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "source": "v77src-lebs106",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 2",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "source": "v77src-leec202",
+      "locator": "NCERT physical page 4",
+      "quote_present": true,
+      "exact_normalized_substring": false,
+      "physical_pages": []
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "source": "v77src-english-narratives",
+      "locator": "workshop",
+      "scope": "original-stimulus",
+      "quote_present": true,
+      "passage_present": true
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "source": "v77src-english-narratives",
+      "locator": "ferry",
+      "scope": "original-stimulus",
+      "quote_present": true,
+      "passage_present": true
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "source": "v77src-english-narratives",
+      "locator": "workshop",
+      "scope": "original-stimulus",
+      "quote_present": true,
+      "passage_present": true
+    }
+  ]
+}

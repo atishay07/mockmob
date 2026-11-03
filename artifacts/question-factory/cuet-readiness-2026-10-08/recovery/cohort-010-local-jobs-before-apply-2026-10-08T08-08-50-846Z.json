@@ -1,0 +1,1168 @@
+{
+  "created_at": "2026-10-08T08:08:50.846Z",
+  "campaign_sha256": "15414c96852e72bee298f2d0085ca95feba3a160ebd2e398c581d8ffcebeac62",
+  "jobs": [
+    {
+      "id": "1cca5e2888f366ce9fc773668b8d6570",
+      "old": {
+        "id": "1cca5e2888f366ce9fc773668b8d6570",
+        "number": 23,
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "topic": "Correct Word Usage: test \"vigilant\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "kind": "original_practice",
+        "format": "correct_word_usage",
+        "difficulty": "medium",
+        "branch": null,
+        "family_id": "original:1cca5e2888f366ce9fc773668b8d6570",
+        "source_pack_id": "original-english-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 22,
+        "requested_answer_position": "C",
+        "coverage_before": {
+          "usable": 16,
+          "format": 16,
+          "difficulty": 16
+        },
+        "avoidance": [
+          "Choose the sentence in which “candid” is used correctly.",
+          "Choose the sentence in which \"prudent\" is used correctly.",
+          "Choose the sentence in which \"frugal\" is used correctly.",
+          "A library replaces its card catalogue with a newly developed, searchable digital catalogue and stops using the card catalogue. The old card catalogue is therefore ____.\n\nWhich word best completes the sentence?",
+          "Choose the sentence in which \"versatile\" is used in the supplied sense of a person able to do many different things.",
+          "Choose the sentence in which “coherent” is used correctly.",
+          "Choose the sentence in which “sporadic” is used correctly.",
+          "Choose the sentence in which “conscientious” is used correctly.",
+          "Choose the word that best completes the sentence. Although the panel had explained both proposals, Meera showed no interest in either one and did not care which was selected; she was ____ about the choice.",
+          "Choose the sentence in which \"conspicuous\" is used to mean easy to see or notice and likely to attract attention.",
+          "In each sentence, the clause after “because” gives the reason for describing the person as resilient. Choose the sentence in which “resilient” is used correctly.",
+          "Choose the sentence in which \"meticulous\" is used correctly. In each option, the clause after \"because\" gives the sole stated reason for describing the clerk as meticulous.",
+          "Assume that a report’s key findings are the only information necessary and important. Choose the sentence in which “concise” is used correctly to mean giving only necessary and important information, using few words.",
+          "Choose the sentence in which “benevolent” is used correctly. In options A-C, the reason following “solely because” is the complete reason for applying the word.",
+          "Choose the sentence in which “assertive” is used correctly.",
+          "Choose the sentence in which \"gregarious\" is used correctly."
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "f103325c4eb91376daf9",
+          "usable": 16
+        },
+        "official_syllabus_topic": "Choosing the correct word",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "16d488fe3d7159d9458912b22234a59bd9aeaa144f7fa2fc84d5c5682fe04b04",
+          "refs": [
+            {
+              "id": "oxford-quality-vigilant",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+            },
+            {
+              "id": "oxford-quality-tedious",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+            },
+            {
+              "id": "oxford-quality-optimistic",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "ebdb74c34f036bbc994262381a18d7b5d649c39faa98a5e76b2056a693eacda9"
+            },
+            {
+              "id": "oxford-quality-arduous",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "oxford-quality-vigilant",
+              "locator": "definition",
+              "text": "very careful to notice any signs of danger or trouble",
+              "url": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant",
+              "publisher": "www.oxfordlearnersdictionaries.com",
+              "title": "vigilant adjective — Oxford Advanced Learner’s Dictionary",
+              "kind": "reference"
+            },
+            {
+              "id": "oxford-quality-tedious",
+              "locator": "definition",
+              "text": "lasting or taking too long and not interesting",
+              "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+              "publisher": "www.oxfordlearnersdictionaries.com",
+              "title": null,
+              "kind": "reference"
+            },
+            {
+              "id": "oxford-quality-optimistic",
+              "locator": "definition",
+              "text": "expecting good things to happen or something to be successful; showing this feeling",
+              "url": "https://www.oxfordlearnersdictionaries.com/definition/english/optimistic",
+              "publisher": "www.oxfordlearnersdictionaries.com",
+              "title": "optimistic adjective — Oxford Advanced Learner’s Dictionary",
+              "kind": "reference"
+            },
+            {
+              "id": "oxford-quality-arduous",
+              "locator": "definition",
+              "text": "involving a lot of effort and energy, especially over a period of time",
+              "url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+              "publisher": "www.oxfordlearnersdictionaries.com",
+              "title": null,
+              "kind": "reference"
+            }
+          ],
+          "topic": "Correct Word Usage: test \"vigilant\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "oxford-quality-vigilant",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+          },
+          {
+            "id": "oxford-quality-tedious",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+          },
+          {
+            "id": "oxford-quality-optimistic",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ebdb74c34f036bbc994262381a18d7b5d649c39faa98a5e76b2056a693eacda9"
+          },
+          {
+            "id": "oxford-quality-arduous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "oxford-quality-vigilant",
+            "locator": "definition",
+            "text": "very careful to notice any signs of danger or trouble",
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant",
+            "publisher": "www.oxfordlearnersdictionaries.com",
+            "title": "vigilant adjective — Oxford Advanced Learner’s Dictionary",
+            "kind": "reference"
+          },
+          {
+            "id": "oxford-quality-tedious",
+            "locator": "definition",
+            "text": "lasting or taking too long and not interesting",
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+            "publisher": "www.oxfordlearnersdictionaries.com",
+            "title": null,
+            "kind": "reference"
+          },
+          {
+            "id": "oxford-quality-optimistic",
+            "locator": "definition",
+            "text": "expecting good things to happen or something to be successful; showing this feeling",
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/optimistic",
+            "publisher": "www.oxfordlearnersdictionaries.com",
+            "title": "optimistic adjective — Oxford Advanced Learner’s Dictionary",
+            "kind": "reference"
+          },
+          {
+            "id": "oxford-quality-arduous",
+            "locator": "definition",
+            "text": "involving a lot of effort and energy, especially over a period of time",
+            "url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+            "publisher": "www.oxfordlearnersdictionaries.com",
+            "title": null,
+            "kind": "reference"
+          }
+        ],
+        "pending": "9309793ab93c518accd6b41d674700480e7f5723cba8cf2806bc9527e8504bf7"
+      }
+    },
+    {
+      "id": "19fa0c9e74d76d9d0977f1786973aed1",
+      "old": {
+        "id": "19fa0c9e74d76d9d0977f1786973aed1",
+        "number": 31,
+        "subject": "accountancy",
+        "chapter": "Goodwill Valuation",
+        "topic": "Goodwill Valuation: focus on this supplied section: 5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amou. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "case_application",
+        "difficulty": "hard",
+        "branch": "common",
+        "family_id": "original:19fa0c9e74d76d9d0977f1786973aed1",
+        "source_pack_id": "original-accountancy-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 5,
+        "requested_answer_position": "B",
+        "coverage_before": {
+          "usable": 3,
+          "format": 0,
+          "difficulty": 0
+        },
+        "avoidance": [
+          "A firm's profits for its three past years were ₹36,000, ₹48,000 and ₹60,000. Take their arithmetic average as the past average profit. The agreed number of years' purchase is 4, and no adjustment to these figures is required. Arrange the actions for calculating goodwill under the Average Profits Method.\n(A) Add the three annual profits.\n(B) Divide their total by 3 to find the past average profit.\n(C) Multiply the past average profit by 4 years' purchase.\n(D) Record ₹1,92,000 as the goodwill.\nChoose the correct sequence:",
+          "Consider the following statements about goodwill under the Average Profits Method:\n(A) Goodwill is calculated by multiplying average past profits by the agreed number of years’ purchase.\n(B) Goodwill is calculated by dividing average past profits by the agreed number of years’ purchase.\n(C) The method is based on the assumption that a new business will not be able to earn profits during its first few years of operations.\n(D) This method always gives the same goodwill value as every other method.\nWhich of the statements given above are correct?",
+          "A firm reports profits of ₹48,000, ₹56,000, ₹64,000 and ₹72,000 in four successive past years. The partners have agreed to value goodwill by the Average Profits Method at three years’ purchase. Treat average profit as the arithmetic mean of the four stated annual profits, with no other adjustment. Arrange the steps in the correct order to determine goodwill.\n(A) Add the four annual profits.\n(B) Divide their total by four to obtain average past profit.\n(C) Multiply the average past profit by three.\n(D) State the resulting amount as goodwill.\nChoose the correct answer from the options given below:"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "04db8677eafb297a8a65",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "8d10977d98e7e601d0dc45c2d106dc871433597ca12fde5183a7679d13a0175b",
+          "refs": [
+            {
+              "id": "ncert-leac102",
+              "version": 1,
+              "locator": "span-8a1d40054567",
+              "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36"
+            },
+            {
+              "id": "ncert-leac102",
+              "version": 1,
+              "locator": "span-d26e7974c48b",
+              "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-leac102",
+              "locator": "span-8a1d40054567",
+              "text": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+              "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+              "publisher": "NCERT",
+              "title": "Reconstitution of a Partnership Firm – Admission of a Partner",
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-leac102",
+              "locator": "span-d26e7974c48b",
+              "text": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+              "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+              "publisher": "NCERT",
+              "title": "Reconstitution of a Partnership Firm – Admission of a Partner",
+              "kind": "reference"
+            }
+          ],
+          "topic": "Goodwill Valuation: focus on this supplied section: 5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amou. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-8a1d40054567",
+            "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36"
+          },
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-d26e7974c48b",
+            "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-leac102",
+            "locator": "span-8a1d40054567",
+            "text": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+            "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+            "publisher": "NCERT",
+            "title": "Reconstitution of a Partnership Firm – Admission of a Partner",
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-leac102",
+            "locator": "span-d26e7974c48b",
+            "text": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+            "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+            "publisher": "NCERT",
+            "title": "Reconstitution of a Partnership Firm – Admission of a Partner",
+            "kind": "reference"
+          }
+        ],
+        "pending": "212ff0fac36d6723bcad8e4ff7e8e6dfe34455cbace0bc436e6d65487c10d528"
+      }
+    },
+    {
+      "id": "0b00f3879fb1571e8321e3c225ed2691",
+      "old": {
+        "id": "0b00f3879fb1571e8321e3c225ed2691",
+        "number": 45,
+        "subject": "accountancy",
+        "chapter": "Financial Statements of Company",
+        "topic": "Financial Statements of Company: focus on this supplied section: 24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than . Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "numerical_calculation",
+        "difficulty": "medium",
+        "branch": "financial_analysis",
+        "family_id": "original:0b00f3879fb1571e8321e3c225ed2691",
+        "source_pack_id": "original-accountancy-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 19,
+        "requested_answer_position": "B",
+        "coverage_before": {
+          "usable": 0,
+          "format": 0,
+          "difficulty": 0
+        },
+        "avoidance": [],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "548a41ea32cca1eb2683",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "3ea8ee28beca5257695296ace11132a1fd86c605429a519bf88d6f6dfe979100",
+          "refs": [
+            {
+              "id": "ncert-leac201",
+              "version": 1,
+              "locator": "pdf-page-24",
+              "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+            },
+            {
+              "id": "ncert-leac201",
+              "version": 1,
+              "locator": "pdf-page-30",
+              "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-leac201",
+              "locator": "pdf-page-24",
+              "text": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’. In such a condition, three alternatives are available to the directors to deal with the situation: (1) they can accept some applications in full and totally reject the others; (2) they can make a pro-rata allotment to all; and (3) they can adopt a combination of the above two alternatives which happens to be the most common course adopted in practice. The problem of over subscription is resolved with the allotment of shares. Therefore, from the accounting point of view, it is better to place the situation of over subscription within the total frame of application and allotment, i.e. receipt of application amount, amount due on allotment and its receipt from the shareholders, and the same has been observed in the pattern of entries. First Alternative : When the directors decide to fully accept some applications and totally reject the others, the application money received on rejected applications is fully refunded. For example, a company invited applications for 20,000 shares and received the applications for 25,000 shares. The directors rejected the applications for 5,000 shares which are in excess of the required number and refunded their application money in full. In this case, the journal entries on application and allotment will be as follows : The journal entries on application and allotment according to this alternative are as follows: 1 Bank A/c Dr. To Share Application A/c (Money received on application for 25,000 shares @ Rs. _ per share) 2 Share Application A/c Dr. To Share Capital A/c To Bank A/c (Transfer of application for money 20,000 for shares allotted and money refunded on applications for 5,000 shares rejected) 3 Share Allotment A/c Dr. To Share Capital A/c (Amount due on the allotment of 20,000 shares @ Rs. _ per share) 4 Bank A/c Dr. To Share Allotment A/c (Allotment money received) Reprint 2026-27",
+              "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-leac201",
+              "locator": "pdf-page-30",
+              "text": "30 Accountancy : Company Accounts and Analysis of Financial Statements June 01 Bank A/c Dr. 4,00,000 Calls in Advance A/c Dr. 1,00,000 To Equity Share Second and Final Call A/c 5,00,000 (Calls-in-advance adjusted against final call and the balance money on call received) Note: The balance of excess application money as a result of pro-rata distribution in journal entry 3 above is large enough to meet the demands on allotted shares in respect of the allotment and the two call money, as well as to leave an amount to be refunded along with that on the rejected applications. Working Notes: Rs. Rs. Excess Application Money 15,00,000 Less Transfers : Share Allotment — 20,000 shares @ Rs. 7.50 1,50,000 Share Calls — 20,000 shares @ Rs. 12.50 2,50,000 4,00,0001 Amount to be refunded (including that on 11,00,000 the rejected applications) 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27",
+              "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            }
+          ],
+          "topic": "Financial Statements of Company: focus on this supplied section: 24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than . Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-24",
+            "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-30",
+            "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-24",
+            "text": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’. In such a condition, three alternatives are available to the directors to deal with the situation: (1) they can accept some applications in full and totally reject the others; (2) they can make a pro-rata allotment to all; and (3) they can adopt a combination of the above two alternatives which happens to be the most common course adopted in practice. The problem of over subscription is resolved with the allotment of shares. Therefore, from the accounting point of view, it is better to place the situation of over subscription within the total frame of application and allotment, i.e. receipt of application amount, amount due on allotment and its receipt from the shareholders, and the same has been observed in the pattern of entries. First Alternative : When the directors decide to fully accept some applications and totally reject the others, the application money received on rejected applications is fully refunded. For example, a company invited applications for 20,000 shares and received the applications for 25,000 shares. The directors rejected the applications for 5,000 shares which are in excess of the required number and refunded their application money in full. In this case, the journal entries on application and allotment will be as follows : The journal entries on application and allotment according to this alternative are as follows: 1 Bank A/c Dr. To Share Application A/c (Money received on application for 25,000 shares @ Rs. _ per share) 2 Share Application A/c Dr. To Share Capital A/c To Bank A/c (Transfer of application for money 20,000 for shares allotted and money refunded on applications for 5,000 shares rejected) 3 Share Allotment A/c Dr. To Share Capital A/c (Amount due on the allotment of 20,000 shares @ Rs. _ per share) 4 Bank A/c Dr. To Share Allotment A/c (Allotment money received) Reprint 2026-27",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-30",
+            "text": "30 Accountancy : Company Accounts and Analysis of Financial Statements June 01 Bank A/c Dr. 4,00,000 Calls in Advance A/c Dr. 1,00,000 To Equity Share Second and Final Call A/c 5,00,000 (Calls-in-advance adjusted against final call and the balance money on call received) Note: The balance of excess application money as a result of pro-rata distribution in journal entry 3 above is large enough to meet the demands on allotted shares in respect of the allotment and the two call money, as well as to leave an amount to be refunded along with that on the rejected applications. Working Notes: Rs. Rs. Excess Application Money 15,00,000 Less Transfers : Share Allotment — 20,000 shares @ Rs. 7.50 1,50,000 Share Calls — 20,000 shares @ Rs. 12.50 2,50,000 4,00,0001 Amount to be refunded (including that on 11,00,000 the rejected applications) 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27",
+            "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          }
+        ],
+        "pending": "787234dd6d9e18494df122435abf57aad540ff5129e0a1266f1b601c0d3f89ac"
+      }
+    },
+    {
+      "id": "eb61c3e41b93642355ca898af68c18ae",
+      "old": {
+        "id": "eb61c3e41b93642355ca898af68c18ae",
+        "number": 56,
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "topic": "Marketing Management: focus on this supplied section: MARkETING 271 products in order to create time utility in them. The basic purpose of warehousing activities is to arrange placement of goods and provide facilities to store them. T. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "conceptual_mcq",
+        "difficulty": "hard",
+        "branch": null,
+        "family_id": "original:eb61c3e41b93642355ca898af68c18ae",
+        "source_pack_id": "original-business_studies-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 5,
+        "requested_answer_position": "A",
+        "coverage_before": {
+          "usable": 5,
+          "format": 0,
+          "difficulty": 2
+        },
+        "avoidance": [
+          "A marketing description states that goods are manufactured, packaged, branded, priced and promoted before being made available to customers. Arrange the following activities in that order:\n(1) Price the product\n(2) Make the product available to customers\n(3) Manufacture the product\n(4) Promote the product\n(5) Brand the product\n(6) Package the product",
+          "A firm has manufactured a product. It completes packaging, branding, pricing and promotion before dispatching the product. In this workflow, physical movement from the place of production to the place of distribution is completed before the product is recorded as available to customers. Treat each description below as a separate stage and arrange the stages from first to last.\n(A) The product is available to customers at the right place, in the right quantity and at the right time.\n(B) The product is manufactured.\n(C) The product is packaged, branded, priced and promoted.\n(D) The product is physically handled and moved from production to distribution.\nChoose the correct sequence from the options below:",
+          "Match List-I with List-II.\n\nList-I\n(A) A firm has a larger number of warehouses serving customers at different locations.\n(B) An agricultural product requires long-term storage.\n(C) A product, such as machinery, is bulky and difficult to ship.\n(D) A product, such as bakery goods, is perishable.\n\nList-II\n(I) A larger warehouse count is generally associated with less time to serve customers at different locations and greater warehousing cost.\n(II) Warehouses are located near production sites to help minimise charges on transporting the goods.\n(III) Warehouses are placed at different locations near the market in view of bulk and shipping difficulty.\n(IV) Warehouses are placed at different locations near the market for a perishable product.\n\nChoose the correct answer from the options given below:",
+          "Using the standard four-P sequence of the marketing mix, arrange the following elements:\n(A) Place\n(B) Promotion\n(C) Product\n(D) Price\nChoose the correct sequence.",
+          "Match List-I with List-II. Each entry in List-II is to be used once.\n\nList-I\n(A) Transportation\n(B) Decision regarding channels of distribution\n(C) Storage or warehousing\n(D) Inventory management\n\nList-II\n(I) Managing the levels of stock of goods\n(II) Storing goods to maintain a smooth flow in the market when production or procurement and sale or use are separated by a time gap\n(III) Physically moving goods from one place to another\n(IV) Deciding which marketing intermediaries, such as wholesalers or retailers, are to be used\n\nChoose the correct answer from the options given below:"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "1f5657caf607c6ba3d51",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Marketing – meaning, functions, role and philosophies.",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "7a5bae4fc54883e3b0496222263bc3a2510f6a9bffe319d18fb7c706e4a4fde4",
+          "refs": [
+            {
+              "id": "ncert-lebs202",
+              "version": 1,
+              "locator": "pdf-page-30",
+              "support_hash": "1fe302b6c1b6c59de93e0c1a67bb28ae4dbfa6ffdfa3ec4dd2c2eb448b6b804d"
+            },
+            {
+              "id": "ncert-lebs202",
+              "version": 1,
+              "locator": "pdf-page-28",
+              "support_hash": "de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-lebs202",
+              "locator": "pdf-page-30",
+              "text": "MARkETING 271 products in order to create time utility in them. The basic purpose of warehousing activities is to arrange placement of goods and provide facilities to store them. The need for warehousing arises because there may be difference between the time a product is produced and the time it is required for consumption. Generally the efficiency of a firm in serving its customers will depend on where these warehouses are located and where are these to be delivered. Generally larger the number of warehouses a firm has, lesser would be the time taken in serving customers at different locations but greater would be the cost of warehousing and vice-versa. Thus the firm has to strike a balance between the cost of warehousing and the level of customer service. For products requiring long- term storage (such as agricultural products) the warehouses are located near production sites. This helps in minimising the charges on transportation of the goods. On the other hand, the products which are bulky and hard to ship (machinery, automobiles) as well as perishable products (bakery, meat, vegetables) are kept at different locations near the market. 4. Inventory Control: Linked to warehousing decisions are the inventory decisions which hold key to success for many manufacturers, especially those where the per unit cost is high. A very important decision in respect of inventory is deciding about the level of inventory. Higher the level of inventory, higher will be the level of service to customers but the cost of carrying the inventory will also be high because lot of capital would be tied up in the stock. Thus, a balance is to be maintained in respect of the cost and customer satisfaction. Promotion A company may produce a good quality product, price it appropriately and make it available at the selling points, which are convenient to customers. But in spite of all this, the product may not sell well in the market. There is a need for developing proper communication with the market. In the absence of communication, the customers would not be able to know about the product and how it can satisfy their needs and wants or may not be convinced about its utility and benefits. Promotion refers to the use of communication with the twin objective of informing potential customers about a product and persuading them to buy it. In other words, promotion is an important element of marketing mix by which marketers makes use of various tools of communication to encourage exchange of goods and services in the market. Promotion m ix Promotion mix refers to combination of promotional tools used by an organisation to achieve its communication objectives. Various tools of communication are used Ch_10.indd 271 1/23/2024 05:45:41 PM Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-lebs202",
+              "locator": "pdf-page-28",
+              "text": "MARkETING 269 as distribution system, quality of salesmen employed, quality and amount of advertising, sales promotion efforts, the type of packaging, product differentiation, credit facility and customer services provided. For example, if a company provides free home delivery, it has some of flexibility in fixing prices. Similarly, uniqueness of any of the elements mentioned above gives the company a competitive freedom in fixing prices of its products. Physical Distribution The fourth important element of marketing mix is the physical distribution of products and services. Through this component of marketing mix, the goods and services are made available at right place, at right time to right people without change. Once goods are manufactured, packaged, branded, priced, and promoted, these must be made available to customers at the ri ght place, in right quantity and at the right time. For example, a person convinced about the quality, etc. of a product, say, a detergent bar, wants to purchase the same. He/She goes to a retail outlet and asks for the product. If that product is not available in that shop, he/she may purchase some of the alternative brand available. This way a sure sale is lost because goods were not available at the place where the customer wanted to purchase. Thus, it is an important responsibility of the marketers to make the product physically available at a place where the customers would like them to buy. The physical handling and movement of goods from place of production to the place of distribution is referred to as physical distribution, which is a very important element of marketing mix. Ch_10.indd 269 1/23/2024 05:45:41 PM Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            }
+          ],
+          "topic": "Marketing Management: focus on this supplied section: MARkETING 271 products in order to create time utility in them. The basic purpose of warehousing activities is to arrange placement of goods and provide facilities to store them. T. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-lebs202",
+            "version": 1,
+            "locator": "pdf-page-30",
+            "support_hash": "1fe302b6c1b6c59de93e0c1a67bb28ae4dbfa6ffdfa3ec4dd2c2eb448b6b804d"
+          },
+          {
+            "id": "ncert-lebs202",
+            "version": 1,
+            "locator": "pdf-page-28",
+            "support_hash": "de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-lebs202",
+            "locator": "pdf-page-30",
+            "text": "MARkETING 271 products in order to create time utility in them. The basic purpose of warehousing activities is to arrange placement of goods and provide facilities to store them. The need for warehousing arises because there may be difference between the time a product is produced and the time it is required for consumption. Generally the efficiency of a firm in serving its customers will depend on where these warehouses are located and where are these to be delivered. Generally larger the number of warehouses a firm has, lesser would be the time taken in serving customers at different locations but greater would be the cost of warehousing and vice-versa. Thus the firm has to strike a balance between the cost of warehousing and the level of customer service. For products requiring long- term storage (such as agricultural products) the warehouses are located near production sites. This helps in minimising the charges on transportation of the goods. On the other hand, the products which are bulky and hard to ship (machinery, automobiles) as well as perishable products (bakery, meat, vegetables) are kept at different locations near the market. 4. Inventory Control: Linked to warehousing decisions are the inventory decisions which hold key to success for many manufacturers, especially those where the per unit cost is high. A very important decision in respect of inventory is deciding about the level of inventory. Higher the level of inventory, higher will be the level of service to customers but the cost of carrying the inventory will also be high because lot of capital would be tied up in the stock. Thus, a balance is to be maintained in respect of the cost and customer satisfaction. Promotion A company may produce a good quality product, price it appropriately and make it available at the selling points, which are convenient to customers. But in spite of all this, the product may not sell well in the market. There is a need for developing proper communication with the market. In the absence of communication, the customers would not be able to know about the product and how it can satisfy their needs and wants or may not be convinced about its utility and benefits. Promotion refers to the use of communication with the twin objective of informing potential customers about a product and persuading them to buy it. In other words, promotion is an important element of marketing mix by which marketers makes use of various tools of communication to encourage exchange of goods and services in the market. Promotion m ix Promotion mix refers to combination of promotional tools used by an organisation to achieve its communication objectives. Various tools of communication are used Ch_10.indd 271 1/23/2024 05:45:41 PM Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-lebs202",
+            "locator": "pdf-page-28",
+            "text": "MARkETING 269 as distribution system, quality of salesmen employed, quality and amount of advertising, sales promotion efforts, the type of packaging, product differentiation, credit facility and customer services provided. For example, if a company provides free home delivery, it has some of flexibility in fixing prices. Similarly, uniqueness of any of the elements mentioned above gives the company a competitive freedom in fixing prices of its products. Physical Distribution The fourth important element of marketing mix is the physical distribution of products and services. Through this component of marketing mix, the goods and services are made available at right place, at right time to right people without change. Once goods are manufactured, packaged, branded, priced, and promoted, these must be made available to customers at the ri ght place, in right quantity and at the right time. For example, a person convinced about the quality, etc. of a product, say, a detergent bar, wants to purchase the same. He/She goes to a retail outlet and asks for the product. If that product is not available in that shop, he/she may purchase some of the alternative brand available. This way a sure sale is lost because goods were not available at the place where the customer wanted to purchase. Thus, it is an important responsibility of the marketers to make the product physically available at a place where the customers would like them to buy. The physical handling and movement of goods from place of production to the place of distribution is referred to as physical distribution, which is a very important element of marketing mix. Ch_10.indd 269 1/23/2024 05:45:41 PM Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          }
+        ],
+        "pending": "50b605c5ec60ee29849d7613a7c07bd155fa6ee909adfe1b0d41fc7e762a0f13"
+      }
+    },
+    {
+      "id": "d1a72724634b8252bc27746877423d75",
+      "old": {
+        "id": "d1a72724634b8252bc27746877423d75",
+        "number": 80,
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "topic": "Balance of Payments: focus on this supplied section: 86 86868686Introductory Macroeconomics economic agents will accept a national currency only if they are convinced that the amount of goods they can buy with a certain amount of tha. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "sequence_ordering",
+        "difficulty": "medium",
+        "branch": null,
+        "family_id": "original:d1a72724634b8252bc27746877423d75",
+        "source_pack_id": "original-economics-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 4,
+        "requested_answer_position": "C",
+        "coverage_before": {
+          "usable": 3,
+          "format": 0,
+          "difficulty": 1
+        },
+        "avoidance": [
+          "A central bank allows its exchange rate to move and does not hold it at an announced fixed rate. Whenever it considers appropriate, the bank buys or sells foreign currencies to moderate exchange-rate movements. Assume these are the only relevant policy features. Which description correctly identifies the exchange-rate system and the status of official reserve transactions?",
+          "A country's reserve bank sells foreign exchange as an official reserve transaction solely to bridge a gap in its balance of payments. How should this transaction be classified?",
+          "Match List-I with List-II. Use the stated motivations and relations to classify each entry.\nList-I\n(A) An international sale is made to earn profit and is independent of any BoP gap.\n(B) An international transaction is determined by the gap left by autonomous transactions.\n(C) Autonomous receipts exceed autonomous payments.\n(D) Autonomous receipts are less than autonomous payments.\nList-II\n(I) BoP deficit\n(II) Autonomous transaction (“above the line”)\n(III) Accommodating transaction (“below the line”)\n(IV) BoP surplus\nChoose the correct answer from the options given below:"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "8cce81ec90262af760c5",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Balance of payments account - meaning and components;",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "66b64569de02372b102390c29d08be52fc1eecb712045feb0fe2680088166317",
+          "refs": [
+            {
+              "id": "ncert-leec106",
+              "version": 1,
+              "locator": "pdf-page-2",
+              "support_hash": "01453e59e55f2f332ffd99e20e49990db7357fc39c77557e79a81858ea38406d"
+            },
+            {
+              "id": "ncert-leec106",
+              "version": 1,
+              "locator": "quality-v4-d09cfca4e846",
+              "support_hash": "d09cfca4e846a204d77806776058b98151b18430ed6d2806659a57aaee591417"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-leec106",
+              "locator": "pdf-page-2",
+              "text": "86 86868686Introductory Macroeconomics economic agents will accept a national currency only if they are convinced that the amount of goods they can buy with a certain amount of that currency will not change frequently. In other words, the currency will maintain a stable purchasing power. Without this confidence, a currency will not be used as an international medium of exchange and unit of account since there is no international authority with the power to force the use of a particular currency in international transactions. In the past, governments have tried to gain confidence of potential users by announcing that the national currency will be freely convertible at a fixed price into another asset. Also, the issuing authority will have no control over the value of that asset into which the currency can be converted. This other asset most often has been gold, or other national currencies. There are two aspects of this commitment that has affected its credibility — the ability to convert freely in unlimited amounts and the price at which this conversion takes place. The international monetary system has been set up to handle these issues and ensure stability in international transactions. With the increase in the volume of transactions, gold ceased to be the asset into which national currencies could be converted (See Box 6.2). Although some national currencies have international acceptability, what is important in transactions between two countries is the currency in which the trade occurs. For instance, if an Indian wants to buy a good made in America, she would need dollars to complete the transaction. If the price of the good is ten dollars, she would need to know how much it would cost her in Indian rupees. That is, she will need to know the price of dollar in terms of rupees. The price of one currency in terms of another currency is known as the foreign exchange rate or simply the exchange rate . We will discuss this in detail in section 6.2. 6.1 THE BALANCE OF PAYMENTS The balance of payments (BoP) record the transactions in goods, services and assets between residents of a country with the rest of the world for a specified time period typically a year. There are two main accounts in the BoP — the current account and the capital account1. 6.1.1 Current Account Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods. Trade in services includes factor income and non-factor income transactions. Transfer payments are the receipts which the residents of a country get for ‘free’, without having to provide any goods or services in return. They consist of gifts, remittances and grants. They could be given by the government or by private citizens living abroad. 1 There is a new classification in which the balance of payments have been divided into three accounts — the current account, the financial account and the capital account. This is as per the new accounting standards specified by the International Monetary Fund (IMF) in the sixth edition of the Balance of Payments and International Investment Position Manual (BPM6). India has also made the change but the Reserve Bank of India continues to publish data accounting to the old classification. Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-leec106",
+              "locator": "quality-v4-d09cfca4e846",
+              "text": "Errors and Omissions It is difficult to record all international transactions accurately. Thus, we have a third element of BoP (apart from the current and capital accounts) called errors and omissions which reflects this.",
+              "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            }
+          ],
+          "topic": "Balance of Payments: focus on this supplied section: 86 86868686Introductory Macroeconomics economic agents will accept a national currency only if they are convinced that the amount of goods they can buy with a certain amount of tha. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-leec106",
+            "version": 1,
+            "locator": "pdf-page-2",
+            "support_hash": "01453e59e55f2f332ffd99e20e49990db7357fc39c77557e79a81858ea38406d"
+          },
+          {
+            "id": "ncert-leec106",
+            "version": 1,
+            "locator": "quality-v4-d09cfca4e846",
+            "support_hash": "d09cfca4e846a204d77806776058b98151b18430ed6d2806659a57aaee591417"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-leec106",
+            "locator": "pdf-page-2",
+            "text": "86 86868686Introductory Macroeconomics economic agents will accept a national currency only if they are convinced that the amount of goods they can buy with a certain amount of that currency will not change frequently. In other words, the currency will maintain a stable purchasing power. Without this confidence, a currency will not be used as an international medium of exchange and unit of account since there is no international authority with the power to force the use of a particular currency in international transactions. In the past, governments have tried to gain confidence of potential users by announcing that the national currency will be freely convertible at a fixed price into another asset. Also, the issuing authority will have no control over the value of that asset into which the currency can be converted. This other asset most often has been gold, or other national currencies. There are two aspects of this commitment that has affected its credibility — the ability to convert freely in unlimited amounts and the price at which this conversion takes place. The international monetary system has been set up to handle these issues and ensure stability in international transactions. With the increase in the volume of transactions, gold ceased to be the asset into which national currencies could be converted (See Box 6.2). Although some national currencies have international acceptability, what is important in transactions between two countries is the currency in which the trade occurs. For instance, if an Indian wants to buy a good made in America, she would need dollars to complete the transaction. If the price of the good is ten dollars, she would need to know how much it would cost her in Indian rupees. That is, she will need to know the price of dollar in terms of rupees. The price of one currency in terms of another currency is known as the foreign exchange rate or simply the exchange rate . We will discuss this in detail in section 6.2. 6.1 THE BALANCE OF PAYMENTS The balance of payments (BoP) record the transactions in goods, services and assets between residents of a country with the rest of the world for a specified time period typically a year. There are two main accounts in the BoP — the current account and the capital account1. 6.1.1 Current Account Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods. Trade in services includes factor income and non-factor income transactions. Transfer payments are the receipts which the residents of a country get for ‘free’, without having to provide any goods or services in return. They consist of gifts, remittances and grants. They could be given by the government or by private citizens living abroad. 1 There is a new classification in which the balance of payments have been divided into three accounts — the current account, the financial account and the capital account. This is as per the new accounting standards specified by the International Monetary Fund (IMF) in the sixth edition of the Balance of Payments and International Investment Position Manual (BPM6). India has also made the change but the Reserve Bank of India continues to publish data accounting to the old classification. Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-leec106",
+            "locator": "quality-v4-d09cfca4e846",
+            "text": "Errors and Omissions It is difficult to record all international transactions accurately. Thus, we have a third element of BoP (apart from the current and capital accounts) called errors and omissions which reflects this.",
+            "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          }
+        ],
+        "pending": "6af07de07da480a23c3acc9aef9bbbccbd96d22844837a88427d5a3de149be5b"
+      }
+    },
+    {
+      "id": "55135835f6f1ee881f28e92430319ca9",
+      "old": {
+        "id": "55135835f6f1ee881f28e92430319ca9",
+        "number": 82,
+        "subject": "economics",
+        "chapter": "Market Equilibrium & Simple Applications",
+        "topic": "Market Equilibrium & Simple Applications: focus on this supplied section: 84 scimonoceorciM yrotcudortnI 5.2 APPLICATIONS In this section, we try to understand how the supply-demand analysis can be applied. In particular, we look at two examples of gover. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "conceptual_mcq",
+        "difficulty": "easy",
+        "branch": null,
+        "family_id": "original:55135835f6f1ee881f28e92430319ca9",
+        "source_pack_id": "original-economics-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 6,
+        "requested_answer_position": "A",
+        "coverage_before": {
+          "usable": 5,
+          "format": 0,
+          "difficulty": 1
+        },
+        "avoidance": [
+          "A government sets a price ceiling below the equilibrium price for a commodity and rations the available quantity through ration shops. Which outcome is identified for consumers in this situation?",
+          "A market has the following aggregate quantities demanded and supplied at different prices:\nAt ₹10 per unit: quantity demanded = 90 units; quantity supplied = 30 units\nAt ₹20 per unit: quantity demanded = 70 units; quantity supplied = 50 units\nAt ₹30 per unit: quantity demanded = 50 units; quantity supplied = 50 units\nAt ₹40 per unit: quantity demanded = 30 units; quantity supplied = 70 units\nUsing the condition that market equilibrium occurs when quantity demanded equals quantity supplied, calculate the equilibrium price and equilibrium quantity.",
+          "Two independent markets, X and Y, are initially in equilibrium. In Market X, the equilibrium price is ₹50 per unit. A price ceiling of ₹40 is imposed; at this price, quantity demanded is 90 units and quantity supplied is 55 units. In Market Y, the equilibrium price is ₹30 per unit. A price floor of ₹36 is imposed; at this price, quantity demanded is 40 units and quantity supplied is 72 units. For each market, calculate the excess-demand gap as quantity demanded minus quantity supplied, or the excess-supply gap as quantity supplied minus quantity demanded, as applicable.\nWhich option correctly identifies the resulting gaps?",
+          "A market has a fixed number of firms. Price is measured in rupees per unit and quantity in units. Initially, market demand is Qd = 120 − 2P and market supply is Qs = 40 + 2P. Demand then shifts to Qd = 160 − 2P, while supply remains unchanged. Calculate the changes in the equilibrium price and equilibrium quantity, respectively.",
+          "A market has quantity demanded of 100 units and quantity supplied of 60 units at a price of ₹20 per unit. For each ₹5 increase in price from ₹20, quantity demanded falls by 10 units and quantity supplied rises by 10 units. These changes continue over the price range needed to reach equilibrium, with no other changes. What are the equilibrium price and quantity?"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "661ec87f2cd4e2608bd9",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Applications:=- Price ceiling and Price flooring. Course II Introductory Macroeconomics",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "ade2a5dbb3a307a7ba79e45eec1538eee8f66462c4af3fe25180fa337797e37d",
+          "refs": [
+            {
+              "id": "ncert-leec205",
+              "version": 1,
+              "locator": "p14-c0",
+              "support_hash": "e2fb92a5b21c6ce0d0cf9c8751f3b1142c803a06e19356675db6cff6bee4624b"
+            },
+            {
+              "id": "ncert-leec205",
+              "version": 1,
+              "locator": "p1-c0",
+              "support_hash": "8498bbf157ae533647b78ad79228e50a2acae8cbe9d603fdf3a9e41015565534"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-leec205",
+              "locator": "p14-c0",
+              "text": "84 scimonoceorciM yrotcudortnI 5.2 APPLICATIONS In this section, we try to understand how the supply-demand analysis can be applied. In particular, we look at two examples of government intervention in the form of price control. Often, it becomes necessary for the government to regulate the prices of certain goods and services when their prices are either too high or too low in comparison to the desired levels. We will analyse these issues within the framework of perfect competition to look at what impact these regulations have on the market for these goods. 5.2.1 Price Ceiling It is not very uncommon to come across instances where government fixes a maximum allowable price for certain goods. The government-imposed upper limit on the price of a good or service is called price ceiling. Price ceiling is generally imposed on necessary items like wheat, rice, kerosene, sugar and it is fixed below the market-determined price since at the market-determined Price Catcher price some section of the population will not be able to afford these goods. Let us examine the effects of price ceiling on market equilibrium through the example of market for wheat. Figure 5.7 shows the market supply curve SS and the market demand curve DD for wheat. The equilibrium price and quantity of wheat are p* and q* respectively. When the government imposes price ceiling at p which is lower than the c equilibrium price level, there will be an excess demand for wheat in the market at that price. The consumers demand q kilograms c of wheat whereas the firms Effect of Price Ceiling in Wheat Market. The supply q' kilograms. equilibrium price and quantity are p* and q* c Hence, though the intention of respectively. Imposition of price ceiling at p c gives rise to excess demand in the wheat market. the government was to help the consumers, it could end up creating shortage of wheat. How is the quantity of wheat (q') then distributed among the consumers? One way of doing this is to c distribute it to everyone, through a system of rationing.",
+              "url": "https://ncert.nic.in/textbook/pdf/leec205.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT leec205: Market Equilibrium & Simple Applications",
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-leec205",
+              "locator": "p1-c0",
+              "text": "Chapter 5 ecirP MMMMMaaaaarrrrrkkkkkeeeeettttt EEEEEqqqqquuuuuiiiiillllliiiiibbbbbrrrrriiiiiuuuuummmmm SS p f p* This chapter will be built on the foundation laid down in Chapters p 1 DD 2 and 4 where we studied the consumer and firm behaviour when they are price takers. In Chapter 2, we have seen that an O q' q' q* q q 1 1 2 1 individual’s demand curve for a commodity tells us what quantity Quantity a consumer is willing to buy at different prices when he takes price as given. The market demand curve in turn tells us how much of the commodity all the consumers taken together are willing to purchase at different prices when everyone takes price as given. In Chapter 4, we have seen that an individual firm’s supply curve tells us the quantity of the commodity that a profit-maximising firm would wish to sell at different prices when it takes price as given and the market supply curve tells us how much of the commodity all the firms taken together would wish to supply at different prices when each firm takes price as given. In this chapter, we combine both consumers’ and firms’ behaviour to study market equilibrium through demand-supply analysis and determine at what price equilibrium will be attained. We also examine the effects of demand and supply shifts on equilibrium. At the end of the chapter, we will look at some of the applications of demand-supply analysis. 5.1 EQUILIBRIUM, EXCESS DEMAND, EXCESS SUPPLY A perfectly competitive market consists of buyers and sellers who are driven by their self-interested objectives. Recall from Chapters 2 and 4 that objectives of the consumers are to maximise their respective preference and that of the firms are to maximise their respective profits. Both the consumers’ and firms’ objectives are compatible in the equilibrium. An equilibrium is defined as a situation where the plans of all consumers and firms in the market match and the market clears.",
+              "url": "https://ncert.nic.in/textbook/pdf/leec205.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT leec205: Market Equilibrium & Simple Applications",
+              "kind": "reference"
+            }
+          ],
+          "topic": "Market Equilibrium & Simple Applications: focus on this supplied section: 84 scimonoceorciM yrotcudortnI 5.2 APPLICATIONS In this section, we try to understand how the supply-demand analysis can be applied. In particular, we look at two examples of gover. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-leec205",
+            "version": 1,
+            "locator": "p14-c0",
+            "support_hash": "e2fb92a5b21c6ce0d0cf9c8751f3b1142c803a06e19356675db6cff6bee4624b"
+          },
+          {
+            "id": "ncert-leec205",
+            "version": 1,
+            "locator": "p1-c0",
+            "support_hash": "8498bbf157ae533647b78ad79228e50a2acae8cbe9d603fdf3a9e41015565534"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-leec205",
+            "locator": "p14-c0",
+            "text": "84 scimonoceorciM yrotcudortnI 5.2 APPLICATIONS In this section, we try to understand how the supply-demand analysis can be applied. In particular, we look at two examples of government intervention in the form of price control. Often, it becomes necessary for the government to regulate the prices of certain goods and services when their prices are either too high or too low in comparison to the desired levels. We will analyse these issues within the framework of perfect competition to look at what impact these regulations have on the market for these goods. 5.2.1 Price Ceiling It is not very uncommon to come across instances where government fixes a maximum allowable price for certain goods. The government-imposed upper limit on the price of a good or service is called price ceiling. Price ceiling is generally imposed on necessary items like wheat, rice, kerosene, sugar and it is fixed below the market-determined price since at the market-determined Price Catcher price some section of the population will not be able to afford these goods. Let us examine the effects of price ceiling on market equilibrium through the example of market for wheat. Figure 5.7 shows the market supply curve SS and the market demand curve DD for wheat. The equilibrium price and quantity of wheat are p* and q* respectively. When the government imposes price ceiling at p which is lower than the c equilibrium price level, there will be an excess demand for wheat in the market at that price. The consumers demand q kilograms c of wheat whereas the firms Effect of Price Ceiling in Wheat Market. The supply q' kilograms. equilibrium price and quantity are p* and q* c Hence, though the intention of respectively. Imposition of price ceiling at p c gives rise to excess demand in the wheat market. the government was to help the consumers, it could end up creating shortage of wheat. How is the quantity of wheat (q') then distributed among the consumers? One way of doing this is to c distribute it to everyone, through a system of rationing.",
+            "url": "https://ncert.nic.in/textbook/pdf/leec205.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT leec205: Market Equilibrium & Simple Applications",
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-leec205",
+            "locator": "p1-c0",
+            "text": "Chapter 5 ecirP MMMMMaaaaarrrrrkkkkkeeeeettttt EEEEEqqqqquuuuuiiiiillllliiiiibbbbbrrrrriiiiiuuuuummmmm SS p f p* This chapter will be built on the foundation laid down in Chapters p 1 DD 2 and 4 where we studied the consumer and firm behaviour when they are price takers. In Chapter 2, we have seen that an O q' q' q* q q 1 1 2 1 individual’s demand curve for a commodity tells us what quantity Quantity a consumer is willing to buy at different prices when he takes price as given. The market demand curve in turn tells us how much of the commodity all the consumers taken together are willing to purchase at different prices when everyone takes price as given. In Chapter 4, we have seen that an individual firm’s supply curve tells us the quantity of the commodity that a profit-maximising firm would wish to sell at different prices when it takes price as given and the market supply curve tells us how much of the commodity all the firms taken together would wish to supply at different prices when each firm takes price as given. In this chapter, we combine both consumers’ and firms’ behaviour to study market equilibrium through demand-supply analysis and determine at what price equilibrium will be attained. We also examine the effects of demand and supply shifts on equilibrium. At the end of the chapter, we will look at some of the applications of demand-supply analysis. 5.1 EQUILIBRIUM, EXCESS DEMAND, EXCESS SUPPLY A perfectly competitive market consists of buyers and sellers who are driven by their self-interested objectives. Recall from Chapters 2 and 4 that objectives of the consumers are to maximise their respective preference and that of the firms are to maximise their respective profits. Both the consumers’ and firms’ objectives are compatible in the equilibrium. An equilibrium is defined as a situation where the plans of all consumers and firms in the market match and the market clears.",
+            "url": "https://ncert.nic.in/textbook/pdf/leec205.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT leec205: Market Equilibrium & Simple Applications",
+            "kind": "reference"
+          }
+        ],
+        "pending": "71783be95cf633660908b970eeb9bcf4397ed3b5f7099b98fcbb55df83c904bc"
+      }
+    },
+    {
+      "id": "b72d533b26df4a321b9c74d6736443b2",
+      "old": {
+        "id": "b72d533b26df4a321b9c74d6736443b2",
+        "number": 84,
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: some of the select service sector. During this period, indicators of human development. Pakistan has shown deceleration in all Look at Table 8.5. three sectors. TABLE 8.5 SSSSSoooo. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "matching",
+        "difficulty": "medium",
+        "branch": null,
+        "family_id": "original:b72d533b26df4a321b9c74d6736443b2",
+        "source_pack_id": "original-economics-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 8,
+        "requested_answer_position": "A",
+        "coverage_before": {
+          "usable": 6,
+          "format": 0,
+          "difficulty": 0
+        },
+        "avoidance": [
+          "Annual GDP growth rates (%) are given below:\nIndia: 1980–90, 5.7; 2015–17, 7.3; 2024, 6.5\nChina: 1980–90, 10.3; 2015–17, 6.8; 2024, 5.0\nPakistan: 1980–90, 6.3; 2015–17, 5.3; 2024, 3.1\nTreat differences between growth rates as percentage-point differences.\nConsider the following statements:\n(A) India’s annual growth rate was 0.8 percentage points higher in 2024 than in 1980–90.\n(B) China’s annual growth rate fell by 5.3 percentage points from 1980–90 to 2024.\n(C) In 2024, Pakistan’s annual growth rate exceeded India’s by 3.4 percentage points.\n(D) In 2024, India’s annual growth rate exceeded Pakistan’s by 3.4 percentage points.\nChoose the correct answer:",
+          "A Chinese policy initiative began in 1958 and aimed to industrialise the country on a massive scale. It encouraged people to set up industries in their backyards and used rural communes for collective cultivation. Which initiative is described?",
+          "A report notes that Country P’s economic growth is relatively strong compared with other developing countries. It also records little progress in Country P’s human development indicators. The author claims that the first finding is enough to demonstrate considerable progress in human development. Which evaluation is best supported?",
+          "A development agency compares two countries using an index that includes only GDP per capita, literacy, life expectancy and mortality rates. The countries receive equal index values. The index contains no measure of constitutional protection of citizens’ rights, independence of the judiciary or the rule of law. Which conclusion about the comparison is best supported?",
+          "A study team is comparing India, Pakistan and China. It identifies major economic activities common to the region and a shared environment. Which conclusion best explains why the team should understand the neighbouring economies?",
+          "In a globalised world, a developing country competes in world markets alongside neighbouring developing countries. Its policy team is selecting which neighbours to include in a study of development strategies. Which consideration most directly supports including them in the study?"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "a4601121381026371e36",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Issues: economic growth, population, sectoral development and other Human Development Indicators.",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "58629618869fdbed778b9129fcf817a867502bb282058bbcd776af47f7addf28",
+          "refs": [
+            {
+              "id": "ncert-keec108",
+              "version": 1,
+              "locator": "p11-c1145",
+              "support_hash": "73fa3ddb1609787367a93e2126100da7943d202040465a4d2a5e674cdd0542a9"
+            },
+            {
+              "id": "ncert-keec108",
+              "version": 1,
+              "locator": "p9-c0",
+              "support_hash": "ddccf7fe5cb88751f73c5f5a2c0d2b3bfce79f1b9ab9e2a00217821bdbfd0f67"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-keec108",
+              "locator": "p11-c1145",
+              "text": "some of the select service sector. During this period, indicators of human development. Pakistan has shown deceleration in all Look at Table 8.5. three sectors. TABLE 8.5 SSSSSooooommmmmeeeee SSSSSeeeeellllleeeeecccccttttteeeeeddddd IIIIInnnnndddddiiiiicccccaaaaatttttooooorrrrrsssss ooooofffff HHHHHuuuuummmmmaaaaannnnn DDDDDeeeeevvvvveeeeelllllooooopppppmmmmmeeeeennnnnttttt,,,,, 22222000001111177777-----22222000002222233333 Item India China Pakistan Human Development Index (Value) 0.685 0.797 0.544 Rank (based on HDI) 130 78 168 Life Expectancy at Birth (years) 72.0 78.0 67.6 Mean years of Schooling (aged 15 and above) in % 6.9 8.0 4.3 Gross National Income per capita (PPP US $) 9,047 22,029 5,501 People living Below Poverty Line (%) (National) 21.9* 0.0** 21.9** Infant Mortality Rate (per 1000 live births) 25.5 4.8 51 Maternal Mortality Rate (per 1 lakh births) 103 23 154 People using at least basic Sanitation (% of population) 78 96 71 People using at least basic drinking Water Source 93 98 91 (% of population) Prevalence of undernourishment (% of population) 17 3 19 NNNNNooooottttteeeee::::: for the year (*) 2019-21; (**) 2023. SSSSSooooouuuuurrrrrccccceeeeesssss::::: Human Development Report 2025; World Development Indicators Metadata 2024. 142 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT keec108: Development Experiences of India",
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-keec108",
+              "locator": "p9-c0",
+              "text": "Pakistan have more (Not to scale) proportion of urban population than India. In China, due to topographic and climatic conditions, the area suitable for cultivation is relatively small — only about 10 per cent of its total land area. The total cultivable area in China accounts for 40 per cent of the cultivable area in India. Until the 1980s, more than 80 per cent of the people in China were dependent on farming as their sole source of livelihood. Since then, the government encouraged people to leave their fields and pursue other Fig. 8.3 Industry in India, China and Pakistan activities such as handicrafts, commerce and transport. In 2021, Pakistan and China’s growth rates, with 23 per cent of its workforce whereas, India met with moderate engaged in agriculture, its contribution increase in growth rates. Some scholars to the GVA in China is 8 per cent (see hold the reform processes introduced Table 8.3). in Pakistan and political instability over In both India and Pakistan, the a long period as reasons behind the contribution of agriculture to GVA were declining growth rate in Pakistan. We 18 and 24 per cent, respectively, but will study in a later section which sector the proportion of workforce that works contributed to different growth rates in this sector is more in India. In in these countries. Pakistan, about 36 per cent of people First, look at how people engaged work in agriculture, whereas, in India, in different sectors contribute to the it is 43 per cent. Twenty four per cent Gross Domestic Product now called as of Pakistan workforce is engaged in Gross Value Added. It was pointed out industry but it produces 21 per cent in the previous section that China and of GVA. In India, industry workforce 140 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT keec108: Development Experiences of India",
+              "kind": "reference"
+            }
+          ],
+          "topic": "Development Experiences of India: focus on this supplied section: some of the select service sector. During this period, indicators of human development. Pakistan has shown deceleration in all Look at Table 8.5. three sectors. TABLE 8.5 SSSSSoooo. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-keec108",
+            "version": 1,
+            "locator": "p11-c1145",
+            "support_hash": "73fa3ddb1609787367a93e2126100da7943d202040465a4d2a5e674cdd0542a9"
+          },
+          {
+            "id": "ncert-keec108",
+            "version": 1,
+            "locator": "p9-c0",
+            "support_hash": "ddccf7fe5cb88751f73c5f5a2c0d2b3bfce79f1b9ab9e2a00217821bdbfd0f67"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-keec108",
+            "locator": "p11-c1145",
+            "text": "some of the select service sector. During this period, indicators of human development. Pakistan has shown deceleration in all Look at Table 8.5. three sectors. TABLE 8.5 SSSSSooooommmmmeeeee SSSSSeeeeellllleeeeecccccttttteeeeeddddd IIIIInnnnndddddiiiiicccccaaaaatttttooooorrrrrsssss ooooofffff HHHHHuuuuummmmmaaaaannnnn DDDDDeeeeevvvvveeeeelllllooooopppppmmmmmeeeeennnnnttttt,,,,, 22222000001111177777-----22222000002222233333 Item India China Pakistan Human Development Index (Value) 0.685 0.797 0.544 Rank (based on HDI) 130 78 168 Life Expectancy at Birth (years) 72.0 78.0 67.6 Mean years of Schooling (aged 15 and above) in % 6.9 8.0 4.3 Gross National Income per capita (PPP US $) 9,047 22,029 5,501 People living Below Poverty Line (%) (National) 21.9* 0.0** 21.9** Infant Mortality Rate (per 1000 live births) 25.5 4.8 51 Maternal Mortality Rate (per 1 lakh births) 103 23 154 People using at least basic Sanitation (% of population) 78 96 71 People using at least basic drinking Water Source 93 98 91 (% of population) Prevalence of undernourishment (% of population) 17 3 19 NNNNNooooottttteeeee::::: for the year (*) 2019-21; (**) 2023. SSSSSooooouuuuurrrrrccccceeeeesssss::::: Human Development Report 2025; World Development Indicators Metadata 2024. 142 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT keec108: Development Experiences of India",
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-keec108",
+            "locator": "p9-c0",
+            "text": "Pakistan have more (Not to scale) proportion of urban population than India. In China, due to topographic and climatic conditions, the area suitable for cultivation is relatively small — only about 10 per cent of its total land area. The total cultivable area in China accounts for 40 per cent of the cultivable area in India. Until the 1980s, more than 80 per cent of the people in China were dependent on farming as their sole source of livelihood. Since then, the government encouraged people to leave their fields and pursue other Fig. 8.3 Industry in India, China and Pakistan activities such as handicrafts, commerce and transport. In 2021, Pakistan and China’s growth rates, with 23 per cent of its workforce whereas, India met with moderate engaged in agriculture, its contribution increase in growth rates. Some scholars to the GVA in China is 8 per cent (see hold the reform processes introduced Table 8.3). in Pakistan and political instability over In both India and Pakistan, the a long period as reasons behind the contribution of agriculture to GVA were declining growth rate in Pakistan. We 18 and 24 per cent, respectively, but will study in a later section which sector the proportion of workforce that works contributed to different growth rates in this sector is more in India. In in these countries. Pakistan, about 36 per cent of people First, look at how people engaged work in agriculture, whereas, in India, in different sectors contribute to the it is 43 per cent. Twenty four per cent Gross Domestic Product now called as of Pakistan workforce is engaged in Gross Value Added. It was pointed out industry but it produces 21 per cent in the previous section that China and of GVA. In India, industry workforce 140 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT keec108: Development Experiences of India",
+            "kind": "reference"
+          }
+        ],
+        "pending": "8e8b73e956fee0ec6beb92ba0238c692824c88c498c396d58fbe55a789bd2fbc"
+      }
+    },
+    {
+      "id": "0a16d82c4a67d12d48b8941cba10d1a6",
+      "old": {
+        "id": "0a16d82c4a67d12d48b8941cba10d1a6",
+        "number": 85,
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: a maximum of rupees five lakh; at imported goods; they make imported present the maximum investment goods more expensive and discourage allowed is rupees one crore. their use. Quot. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "statement_selection",
+        "difficulty": "easy",
+        "branch": null,
+        "family_id": "original:0a16d82c4a67d12d48b8941cba10d1a6",
+        "source_pack_id": "original-economics-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 9,
+        "requested_answer_position": "D",
+        "coverage_before": {
+          "usable": 6,
+          "format": 0,
+          "difficulty": 0
+        },
+        "avoidance": [
+          "Match List-I with List-II.\n\nList-I\n(A) A measure is defined as a change in the ownership of landholdings.\n(B) After intermediaries are abolished, tenants come into direct contact with the government and are freed from exploitation by zamindars.\n(C) Ownership gives tillers an incentive to invest in improvements, and sufficient capital is available.\n(D) The stated assessment is that the equity goal was not fully achieved through abolition of intermediaries.\n\nList-II\n(I) Contribution to growth in agriculture\n(II) An equity limitation of the reform\n(III) Meaning of land reforms\n(IV) Release from exploitation by zamindars\n\nChoose the correct answer from the options given below:",
+          "A policy team has two objectives for imported products. For product X, it wants to set a maximum quantity that may be imported. For product Y, it wants imported goods to become more expensive so their use is discouraged. Domestic firms producing both products face competition from foreign firms. Which recommendation correctly matches the instruments to these objectives and states their common implication?",
+          "A review of India reports that the population share working in agriculture was 67.5% in 1950 and 64.9% in 1990. Industry’s share of GDP was 13% in 1950–51 and 24.6% in 1990–91, and the industrial sector’s annual growth rate during the period was 6%. The review also reports that industry and services did not absorb the people working in agriculture. A commentator concludes that the rise in industry’s GDP share demonstrates a comparable transfer of workers from agriculture to industry. Which assessment follows from the stated facts?",
+          "A policy panel receives this assessment: a substantial amount of fertiliser subsidy benefits the fertiliser industry, and among farmers the subsidy largely benefits prosperous regions. Farming remains risky, most farmers are very poor, and they cannot afford the required inputs without subsidies. Which conclusion best represents the equity-based argument for continuing agricultural subsidies?",
+          "Arrange the following statements in the order of the reasoning, from the perceived problem to the stated outcome.\n(A) Farmers may view a new technology as risky.\n(B) Subsidies were needed to encourage farmers to test the new HYV technology.\n(C) Indian agricultural productivity had increased sufficiently.\n(D) India was thereby able to be self-sufficient in food grains by the late 1960s.\nChoose the correct sequence:",
+          "A planning team is arranging a framework with five-year plans and a twenty-year long-term plan. Arrange the following elements in a coherent sequence, beginning with the shorter-horizon objectives, moving to the longer horizon, identifying the long-term plan, and then stating the relationship between the plans.\n\nI. Specify objectives to be attained within a five-year plan.\nII. Specify what is to be achieved over a twenty-year period.\nIII. Identify the twenty-year long-term plan as the perspective plan.\nIV. Treat the five-year plans as the basis for the perspective plan.\n\nChoose the correct sequence:"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "17b851a88ecb6799d304",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Main features, problems and policies of agriculture (institutional aspects and new agricultural strategy), industry (IPR 1956; SSI – role & importance) and foreign trade.",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "47338af1c684ee1a108517b9bced42303aadb837b74370983d415cc378dcebbe",
+          "refs": [
+            {
+              "id": "ncert-keec102",
+              "version": 1,
+              "locator": "p15-c0",
+              "support_hash": "fd30704ab8b53183d25dcfccc9c49468c1b273af3a008aa5ded7d862ac6a6e92"
+            },
+            {
+              "id": "ncert-keec102",
+              "version": 1,
+              "locator": "p13-c0",
+              "support_hash": "ddc8e087ae054225da3b9c55f33811ac36988ab1dd7757170cfaa3664c92cdf0"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-keec102",
+              "locator": "p15-c0",
+              "text": "a maximum of rupees five lakh; at imported goods; they make imported present the maximum investment goods more expensive and discourage allowed is rupees one crore. their use. Quotas specify the quantity It is believed that small-scale of goods which can be imported. The industries are more ‘labour intensive’ effect of tariffs and quotas is that they i.e., they use more labour than the restrict imports and, therefore, protect large-scale industries and, therefore, the domestic firms from foreign generate more employment. But these competition. industries cannot compete with the big The policy of protection was based industrial firms; it is obvious that on the notion that industries of development of small-scale industry developing countries were not in a requires them to be shielded from the position to compete against the large firms. For this purpose, the goods produced by more developed production of a number of products economies. It was assumed that if the was reserved for the small-scale domestic industries were protected they would learn to compete in the industry; the criterion of reservation course of time. Our planners also being the ability of these units to feared the possibility of foreign manufacture the goods. They were also exchange being spent on import of given concessions such as lower excise luxury goods if no restrictions were duty and bank loans at lower interest placed on imports. Nor was any rates. serious thought given to promote 2.5 TRADE POLICY: IMPORT SUBSTITUTION exports until the mid-1980s. The industrial policy that India Effect of Policies on Industrial adopted was closely related to the Development: The achievements of trade policy. In the first seven plans, India’s industrial sector during the trade was characterised by what is first seven plans are impressive commonly called an inward looking indeed. The proportion of GDP trade strategy. Technically, this contributed by the industrial strategy is called import substi- sector increased in the period from tution.",
+              "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT keec102: Indian Economic Development 1950–1990",
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-keec102",
+              "locator": "p13-c0",
+              "text": "Work These Out Ø A group of students may visit an agricultural farm, prepare a case study on the method of farming used, that is, types of seeds, fertilisers, machines, means of irrigation, cost involved, marketable surplus and income earned. It will be beneficial if the changes in cultivation methods could be collected from an elderly member of the farming family (a) Discuss the findings in your class. (b) The different groups can then prepare a chart showing variations in cost of production, productivity, use of seeds, fertilisers, means of irrigation, time taken, marketable surplus and income of the family. Ø Collect newspaper cuttings related to the World Bank, International Monetary Fund, World Trade Organisation (and meets of G7, G8, G10 countries). Discuss the views shared by the developed and developing countries on farm subsidies. Ø Prepare pie charts on the occupational structure of the Indian economy available in the following table. Discuss the possible reasons for the change in the shape of pies. Sector 1950–51 1990–91 Agriculture 72.1 66.8 Industry 10.7 12.7 Services 17.2 20.5 Ø Study the arguments for and against agricultural subsidies. What is your view on this issue? Ø Some economists argue that farmers in other countries, particularly developed countries, are provided with high amount of subsidies and are encouraged to export their produce to other countries. Do you think our farmers will be able to compete with farmers from developed countries? Discuss. — largely confined to cotton textiles Public and Private Sectors in Indian and jute. There were two well- Industrial Development: The big managed iron and steel firms — one question facing the policy makers was in Jamshedpur and the other in — what should be the role of the Kolkata — but, obviously, we needed government and the private sector in to expand the industrial base with a industrial development? At the time of variety of industries if the economy independence, Indian industrialists did was to grow. not have the capital to undertake 28 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+              "publisher": "NCERT",
+              "title": "NCERT keec102: Indian Economic Development 1950–1990",
+              "kind": "reference"
+            }
+          ],
+          "topic": "Indian Economic Development 1950–1990: focus on this supplied section: a maximum of rupees five lakh; at imported goods; they make imported present the maximum investment goods more expensive and discourage allowed is rupees one crore. their use. Quot. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-keec102",
+            "version": 1,
+            "locator": "p15-c0",
+            "support_hash": "fd30704ab8b53183d25dcfccc9c49468c1b273af3a008aa5ded7d862ac6a6e92"
+          },
+          {
+            "id": "ncert-keec102",
+            "version": 1,
+            "locator": "p13-c0",
+            "support_hash": "ddc8e087ae054225da3b9c55f33811ac36988ab1dd7757170cfaa3664c92cdf0"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-keec102",
+            "locator": "p15-c0",
+            "text": "a maximum of rupees five lakh; at imported goods; they make imported present the maximum investment goods more expensive and discourage allowed is rupees one crore. their use. Quotas specify the quantity It is believed that small-scale of goods which can be imported. The industries are more ‘labour intensive’ effect of tariffs and quotas is that they i.e., they use more labour than the restrict imports and, therefore, protect large-scale industries and, therefore, the domestic firms from foreign generate more employment. But these competition. industries cannot compete with the big The policy of protection was based industrial firms; it is obvious that on the notion that industries of development of small-scale industry developing countries were not in a requires them to be shielded from the position to compete against the large firms. For this purpose, the goods produced by more developed production of a number of products economies. It was assumed that if the was reserved for the small-scale domestic industries were protected they would learn to compete in the industry; the criterion of reservation course of time. Our planners also being the ability of these units to feared the possibility of foreign manufacture the goods. They were also exchange being spent on import of given concessions such as lower excise luxury goods if no restrictions were duty and bank loans at lower interest placed on imports. Nor was any rates. serious thought given to promote 2.5 TRADE POLICY: IMPORT SUBSTITUTION exports until the mid-1980s. The industrial policy that India Effect of Policies on Industrial adopted was closely related to the Development: The achievements of trade policy. In the first seven plans, India’s industrial sector during the trade was characterised by what is first seven plans are impressive commonly called an inward looking indeed. The proportion of GDP trade strategy. Technically, this contributed by the industrial strategy is called import substi- sector increased in the period from tution.",
+            "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT keec102: Indian Economic Development 1950–1990",
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-keec102",
+            "locator": "p13-c0",
+            "text": "Work These Out Ø A group of students may visit an agricultural farm, prepare a case study on the method of farming used, that is, types of seeds, fertilisers, machines, means of irrigation, cost involved, marketable surplus and income earned. It will be beneficial if the changes in cultivation methods could be collected from an elderly member of the farming family (a) Discuss the findings in your class. (b) The different groups can then prepare a chart showing variations in cost of production, productivity, use of seeds, fertilisers, means of irrigation, time taken, marketable surplus and income of the family. Ø Collect newspaper cuttings related to the World Bank, International Monetary Fund, World Trade Organisation (and meets of G7, G8, G10 countries). Discuss the views shared by the developed and developing countries on farm subsidies. Ø Prepare pie charts on the occupational structure of the Indian economy available in the following table. Discuss the possible reasons for the change in the shape of pies. Sector 1950–51 1990–91 Agriculture 72.1 66.8 Industry 10.7 12.7 Services 17.2 20.5 Ø Study the arguments for and against agricultural subsidies. What is your view on this issue? Ø Some economists argue that farmers in other countries, particularly developed countries, are provided with high amount of subsidies and are encouraged to export their produce to other countries. Do you think our farmers will be able to compete with farmers from developed countries? Discuss. — largely confined to cotton textiles Public and Private Sectors in Indian and jute. There were two well- Industrial Development: The big managed iron and steel firms — one question facing the policy makers was in Jamshedpur and the other in — what should be the role of the Kolkata — but, obviously, we needed government and the private sector in to expand the industrial base with a industrial development? At the time of variety of industries if the economy independence, Indian industrialists did was to grow. not have the capital to undertake 28 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+            "publisher": "NCERT",
+            "title": "NCERT keec102: Indian Economic Development 1950–1990",
+            "kind": "reference"
+          }
+        ],
+        "pending": "8a3f0545d4b2b063e620a714ce6ac0e61bdfbbab8c62d2c03fb4f885389448c0"
+      }
+    },
+    {
+      "id": "f37c23d208dea14c39a49ca1f948a5a9",
+      "old": {
+        "id": "f37c23d208dea14c39a49ca1f948a5a9",
+        "number": 93,
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Government Budget & the Economy: focus on this supplied section: 68 68686868Introductory Macroeconomics Stabilisation Function of Government Budget The government may need to correct fluctuations in income and employment. The overall level of em. Test a distinct implication, application or calculation supported by it.",
+        "kind": "original_practice",
+        "format": "case_application",
+        "difficulty": "hard",
+        "branch": null,
+        "family_id": "original:f37c23d208dea14c39a49ca1f948a5a9",
+        "source_pack_id": "original-economics-reference-v1",
+        "source_pack_version": 1,
+        "variant_index": 17,
+        "requested_answer_position": "B",
+        "coverage_before": {
+          "usable": 6,
+          "format": 1,
+          "difficulty": 1
+        },
+        "avoidance": [
+          "During a financial year, a government receives ₹1,25,000, ₹85,000 and ₹60,000 as tax revenues, and ₹45,000 and ₹35,000 as non-tax revenues. Each receipt does not lead to a claim on the government, and these are all the government’s revenue receipts for the year. What is the total amount of revenue receipts?",
+          "A government receives a fresh loan that it must repay and receives proceeds from selling shares it owns in a Public Sector Undertaking (PSU). Consider the following statements:\n(A) The loan proceeds are capital receipts because they create a liability.\n(B) The share-sale proceeds are capital receipts because they reduce the government’s financial assets.\n(C) The loan proceeds are capital receipts because they reduce the government’s financial assets.\n(D) The share-sale proceeds are capital receipts because they create a liability to repay the purchaser.\nChoose the correct statements.",
+          "For one financial year, a government has a fiscal deficit of ₹8,40,000. Its interest payments are ₹1,20,000, and its interest receipts on net domestic lending are ₹20,000. Assume these are the only interest payments and receipts relevant to the calculation. What is the government’s primary deficit?",
+          "During a budget period, a government records only these receipts: revenue receipts of ₹2,40,000, fresh loans of ₹1,20,000, and ₹35,000 from selling shares in a public sector undertaking. What is the total amount of capital receipts for the period?",
+          "In a period of high employment, aggregate demand is ₹9,60,000 crore and available output is ₹8,40,000 crore. A restrictive measure has already reduced aggregate demand by ₹30,000 crore. Assume that the measure reduces demand rupee for rupee, available output remains unchanged, and the government’s target is to reduce aggregate demand to available output. What additional reduction in aggregate demand is required?",
+          "A government reviews two periods. In Period I, aggregate demand is insufficient for full utilisation of labour and other resources, and employment has not recovered automatically because wages and prices do not fall below a certain level. In Period II, aggregate demand exceeds available output while employment is high, and inflation arises. Which pair of responses best represents the government’s stabilisation function in these periods?"
+        ],
+        "state": "waiting_authoring",
+        "repair_count": 0,
+        "topic_coverage_before": {
+          "id": "1804855e6a89cff30c66",
+          "usable": 0
+        },
+        "official_syllabus_topic": "Classification of receipts - revenue receipts and capital receipts;",
+        "author_contract": "original-exact-quote-selection-v3",
+        "research": {
+          "key": "5836cfb0390b571998c1d383a344d7a3f439bc878a067ee7fbca8207f0f0d306",
+          "refs": [
+            {
+              "id": "ncert-leec105",
+              "version": 1,
+              "locator": "pdf-page-3",
+              "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+            },
+            {
+              "id": "ncert-leec105",
+              "version": 1,
+              "locator": "quality-v3-pdf-page-4-6f3d2425a7",
+              "support_hash": "6f3d2425a79d3642ab8e26d463071146405c4f1d7052d414db763f29f6b509ae"
+            }
+          ],
+          "excerpts": [
+            {
+              "id": "ncert-leec105",
+              "locator": "pdf-page-3",
+              "text": "68 68686868Introductory Macroeconomics Stabilisation Function of Government Budget The government may need to correct fluctuations in income and employment. The overall level of employment and prices in the economy depends upon the level of aggregate demand which depends on the spending decisions of millions of private economic agents apart from the government. These decisions, in turn, depend on many factors such as income and credit availability. In any period, the level of demand may not be sufficient for full utilisation of labour and other resources of the economy. Since wages and prices do not fall below a level, employment cannot be brought back to the earlier level automatically. The government needs to intervene to raise the aggregate demand. On the other hand, there may be times when demand exceeds available output under conditions of high employment and thus may give rise to inflation. In such situations, restrictive conditions may be needed to reduce demand. The intervention of the government whether to expand demand or reduce it constitutes the stabilisation function. 5.1.2 Classification of Receipts Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues. Tax revenues, an important component of revenue receipts, have for long been divided into direct taxes (personal income tax) and firms (corporation tax), and indirect taxes like excise taxes (duties levied on goods produced within the country), customs duties (taxes imposed on goods imported into and exported out of India) and service tax1. Other direct taxes like wealth tax, gift tax and estate duty (now abolished) have never brought in large amount of revenue and thus have been referred to as ‘paper taxes’. The redistribution objective is sought to be achieved through progressive income taxation, in which higher the income, higher is the tax rate. Firms are taxed on a proportional basis, where the tax rate is a particular proportion of profits. With respect to excise taxes, necessities of life are exempted or taxed at low rates, comforts and semi-luxuries are moderately taxed, and luxuries, tobacco and petroleum products are taxed heavily. Non-tax revenue of the central government mainly consists of interest receipts on account of loans by the central government, dividends and profits on investments made by the government, fees and other receipts for services rendered by the government. Cash grants-in-aid from foreign countries and international organisations are also included. The estimates of revenue receipts take into account the effects of tax proposals made in the Finance Bill2. Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27",
+              "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            },
+            {
+              "id": "ncert-leec105",
+              "locator": "quality-v3-pdf-page-4-6f3d2425a7",
+              "text": "All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+              "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+              "publisher": "NCERT",
+              "title": null,
+              "kind": "reference"
+            }
+          ],
+          "topic": "Government Budget & the Economy: focus on this supplied section: 68 68686868Introductory Macroeconomics Stabilisation Function of Government Budget The government may need to correct fluctuations in income and employment. The overall level of em. Test a distinct implication, application or calculation supported by it.",
+          "state": "retrieved_pending_entailment",
+          "cost_usd": 0,
+          "selection_contract": "Least-used exact registered sections and unused lexical targets; independent source/key/explanation gates remain mandatory."
+        },
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-3",
+            "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+          },
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "quality-v3-pdf-page-4-6f3d2425a7",
+            "support_hash": "6f3d2425a79d3642ab8e26d463071146405c4f1d7052d414db763f29f6b509ae"
+          }
+        ],
+        "item_cost": {
+          "settled_usd": 0,
+          "held_usd": 0,
+          "gross_usd": 0,
+          "requests": 0,
+          "unresolved": 0
+        },
+        "supporting_excerpts": [
+          {
+            "id": "ncert-leec105",
+            "locator": "pdf-page-3",
+            "text": "68 68686868Introductory Macroeconomics Stabilisation Function of Government Budget The government may need to correct fluctuations in income and employment. The overall level of employment and prices in the economy depends upon the level of aggregate demand which depends on the spending decisions of millions of private economic agents apart from the government. These decisions, in turn, depend on many factors such as income and credit availability. In any period, the level of demand may not be sufficient for full utilisation of labour and other resources of the economy. Since wages and prices do not fall below a level, employment cannot be brought back to the earlier level automatically. The government needs to intervene to raise the aggregate demand. On the other hand, there may be times when demand exceeds available output under conditions of high employment and thus may give rise to inflation. In such situations, restrictive conditions may be needed to reduce demand. The intervention of the government whether to expand demand or reduce it constitutes the stabilisation function. 5.1.2 Classification of Receipts Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues. Tax revenues, an important component of revenue receipts, have for long been divided into direct taxes (personal income tax) and firms (corporation tax), and indirect taxes like excise taxes (duties levied on goods produced within the country), customs duties (taxes imposed on goods imported into and exported out of India) and service tax1. Other direct taxes like wealth tax, gift tax and estate duty (now abolished) have never brought in large amount of revenue and thus have been referred to as ‘paper taxes’. The redistribution objective is sought to be achieved through progressive income taxation, in which higher the income, higher is the tax rate. Firms are taxed on a proportional basis, where the tax rate is a particular proportion of profits. With respect to excise taxes, necessities of life are exempted or taxed at low rates, comforts and semi-luxuries are moderately taxed, and luxuries, tobacco and petroleum products are taxed heavily. Non-tax revenue of the central government mainly consists of interest receipts on account of loans by the central government, dividends and profits on investments made by the government, fees and other receipts for services rendered by the government. Cash grants-in-aid from foreign countries and international organisations are also included. The estimates of revenue receipts take into account the effects of tax proposals made in the Finance Bill2. Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27",
+            "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          },
+          {
+            "id": "ncert-leec105",
+            "locator": "quality-v3-pdf-page-4-6f3d2425a7",
+            "text": "All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+            "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+            "publisher": "NCERT",
+            "title": null,
+            "kind": "reference"
+          }
+        ],
+        "pending": "ff9aacc2e13ff7c9a55e14037686373026ea829689b1e1798f3fb9e69550e5bc"
+      }
+    }
+  ]
+}

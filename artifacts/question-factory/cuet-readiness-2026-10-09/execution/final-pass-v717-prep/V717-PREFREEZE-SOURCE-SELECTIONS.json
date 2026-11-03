@@ -1,0 +1,293 @@
+{
+  "schema": "cuet-v717-prefreeze-source-selection-v1",
+  "status": "source-selection-only; no fresh question text, options, keys, explanations, or per-case valid/defect labels authored",
+  "created_at": "2026-10-10T05:08:46Z",
+  "owner": "/root/fresh_construction_r3",
+  "target_study": "cuet-v717-one-bounded-qualification",
+  "freeze_status": "Awaiting root V717 freeze. This plan is outside all frozen files and must be checked against the eventual freeze/source snapshot before authoring.",
+  "source_registry": {
+    "sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/qualification-fresh32b/registry.json",
+    "source_check": "Selected sources are active in the V716 registry and verified extraction/source-custody metadata is present."
+  },
+  "prior_review": {
+    "limitation": "Bounded source-reference and objective overlap screen, not a claim of perfect semantic deduplication. Each eventual case still needs independent semantic novelty review against frozen history.",
+    "sets_checked": 19,
+    "selected_pairs_previously_referenced": false,
+    "scope": "qualification/diagnostic case-set snapshots only",
+    "unique_source_id_locator_pairs": 300
+  },
+  "target_shape": {
+    "per_subject": {
+      "valid_candidates": 5,
+      "controlled_defect_candidates": 3
+    },
+    "note": "Reserve balanced answer-key positions before writing options. Do not change keys to improve eligibility or yield.",
+    "subjects": [
+      "accountancy",
+      "business_studies",
+      "economics",
+      "english"
+    ],
+    "total_candidates": 32,
+    "key_balance_upfront": {
+      "D": 2,
+      "B": 2,
+      "C": 2,
+      "A": 2
+    }
+  },
+  "after_freeze": [
+    "Reconfirm no locator or task objective is inside the V717 freeze closure and source versions remain active.",
+    "Author the 32 full candidate records only after the root freeze signal.",
+    "Keep author answer keys, explanations, group labels, and defect evidence sealed.",
+    "Build the independent blind packet from candidate text/options and source refs only; omit proposed key, explanation, expected-valid/group labels, and defect diagnosis.",
+    "Have a separate solver freeze source-only answers and caveats before any reveal or author comparison.",
+    "Do not prepare qualification, register, dispatch, or pay from this source-selection task."
+  ],
+  "subjects": [
+    {
+      "subject": "accountancy",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "source_pack_version": 13,
+      "source_id": "ncertcol-leac204-v1",
+      "source_version": 1,
+      "chapter": "Analysis of Financial Statements; Comparative & Common Size Statements",
+      "candidates": [
+        {
+          "locator": "p5-c0-g1-s0",
+          "objective": "Apply trend percentages using the same item in the base year.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p6-c0-g1-s0",
+          "objective": "Compute absolute and relative change between two reporting periods.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p8-c0-g3-s0",
+          "objective": "Interpret a comparative statement with a selected figure change.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p9-c0-g1-s0",
+          "objective": "Read direction and scale of balance-sheet changes across periods.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p12-c0-g2-s0",
+          "objective": "Apply component-percentage basis in a common-size statement.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p6-c0-g1-s0",
+          "defect_design": "controlled_numeric_key_error",
+          "objective": "Arithmetic/key mismatch in a comparative-change calculation.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p12-c0-g2-s0",
+          "defect_design": "controlled_missing_decisive_assumption",
+          "objective": "Two source-consistent comparisons left possible by an omitted base or denominator.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p5-c0-g1-s0",
+          "defect_design": "controlled_explanation_contradiction",
+          "objective": "Explanation contradicts the source definition of a base-year trend percentage.",
+          "role": "controlled_defect_source"
+        }
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "source_pack_id": "cuet2024-business_studies-bookA",
+      "source_pack_version": 11,
+      "source_id": "ncertcol-lebs201-v1",
+      "source_version": 1,
+      "chapter": "Financial Management",
+      "candidates": [
+        {
+          "locator": "p5-c0-g1-s0",
+          "objective": "Identify the long-run investment decision from a business case.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p6-c0-g1-s0",
+          "objective": "Compare investment proposals using stated return and risk.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p8-c0-g1-s0",
+          "objective": "Apply stated financing determinants to a company situation.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p9-c0-g1-s0",
+          "objective": "Apply the stated dividend stability and growth-opportunity considerations.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p11-c0-g1-s0",
+          "objective": "Distinguish short-term and long-term financial planning needs.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p6-c0-g1-s0",
+          "defect_design": "controlled_key_mismatch",
+          "objective": "Key contradicts a uniquely supported risk/return comparison.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p9-c0-g1-s0",
+          "defect_design": "controlled_missing_decisive_assumption",
+          "objective": "Two dividend policies remain defensible because the stem omits the stated stability/growth condition.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p10-c0-g1-s0",
+          "defect_design": "controlled_explanation_contradiction",
+          "objective": "Explanation makes a claim contradicted by the loan-agreement restriction excerpt.",
+          "role": "controlled_defect_source"
+        }
+      ]
+    },
+    {
+      "subject": "economics",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "source_pack_version": 12,
+      "source_id": "ncertcol-leec203-v1",
+      "source_version": 1,
+      "chapter": "Production & Costs",
+      "candidates": [
+        {
+          "locator": "p4-c0-g2-s0",
+          "objective": "Calculate total product from a printed input/output schedule.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p5-c0-g2-s0",
+          "objective": "Distinguish average product from marginal product in a production schedule.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p6-c0-g2-s20",
+          "objective": "Interpret the stated pattern of marginal product under variable proportions.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p9-c0-g0-s0",
+          "objective": "Calculate total cost from fixed and variable cost inputs.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p10-c0-g3-s0",
+          "objective": "Compute marginal cost from adjacent output rows in a cost schedule.",
+          "role": "valid_candidate_source"
+        },
+        {
+          "locator": "p10-c0-g3-s0",
+          "defect_design": "controlled_numeric_key_error",
+          "objective": "Keyed marginal-cost result conflicts with the adjacent-row calculation.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p8-c0-g2-s0",
+          "defect_design": "controlled_missing_decisive_assumption",
+          "objective": "Choice between equally productive input bundles is asked without factor-price information needed to identify lower cost.",
+          "role": "controlled_defect_source"
+        },
+        {
+          "locator": "p6-c0-g2-s20",
+          "defect_design": "controlled_explanation_contradiction",
+          "objective": "Explanation asserts a marginal-product pattern that conflicts with the source rule.",
+          "role": "controlled_defect_source"
+        }
+      ]
+    },
+    {
+      "subject": "english",
+      "source_pack_id": "multiple active packs",
+      "source_pack_versions": [
+        {
+          "version": 12,
+          "id": "cuet2024-english-bookA"
+        },
+        {
+          "version": 1,
+          "id": "original-english-reference-v1"
+        }
+      ],
+      "chapter": "Vocabulary",
+      "candidates": [
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Apply a verified lexical sense in a new context.",
+          "source_id": "oxford-quality-benevolent",
+          "source_pack_id": "cuet2024-english-bookA",
+          "role": "valid_candidate_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Apply a verified lexical sense in a new context.",
+          "source_id": "oxford-quality-prudent",
+          "source_pack_id": "cuet2024-english-bookA",
+          "role": "valid_candidate_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Apply a verified lexical sense in a new context.",
+          "source_id": "oxford-quality-conspicuous",
+          "source_pack_id": "cuet2024-english-bookA",
+          "role": "valid_candidate_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Apply a verified lexical sense in a new context.",
+          "source_id": "oxford-quality-inevitable",
+          "source_pack_id": "cuet2024-english-bookA",
+          "role": "valid_candidate_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Apply a verified lexical sense in a new context.",
+          "source_id": "oxford-quality-authentic",
+          "source_pack_id": "cuet2024-english-bookA",
+          "role": "valid_candidate_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Context supports two distinct source-backed lexical choices.",
+          "source_id": "oxford-quality-ambiguous",
+          "source_pack_id": "original-english-reference-v1",
+          "defect_design": "controlled_multiple_defensible_answers",
+          "role": "controlled_defect_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Key conflicts with the only definition that fits the context.",
+          "source_id": "oxford-quality-resilient",
+          "source_pack_id": "original-english-reference-v1",
+          "defect_design": "controlled_key_mismatch",
+          "role": "controlled_defect_source"
+        },
+        {
+          "source_version": 1,
+          "locator": "definition",
+          "objective": "Explanation adds a claim absent from or contradicted by the registered definition.",
+          "source_id": "oxford-quality-assertive",
+          "source_pack_id": "original-english-reference-v1",
+          "defect_design": "controlled_explanation_claim",
+          "role": "controlled_defect_source"
+        }
+      ]
+    }
+  ]
+}

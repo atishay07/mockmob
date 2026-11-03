@@ -1,0 +1,1485 @@
+{
+  "schema": "cuet-v717-blind-packet-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "created_at": "2026-10-10T05:23:09.007Z",
+  "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+  "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+  "instructions": "Solve each item independently from the printed question, passage, registered excerpts and syllabus excerpts only. For an answerable item, identify the best option and reasoning. If the printed information does not support one unique answer, state that. For English passage items, use only the included passage.",
+  "items": [
+    {
+      "opaque_id": "q717-2d3457102e1deac5f2f1f7b5",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "A company selected 2021 as the base year for trend analysis. Revenue was ₹80 lakh in 2021 and ₹100 lakh in 2023. What is the 2023 trend percentage?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "125%"
+        },
+        {
+          "key": "B",
+          "text": "80%"
+        },
+        {
+          "key": "C",
+          "text": "20%"
+        },
+        {
+          "key": "D",
+          "text": "180%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p5-c0-g1-s0",
+          "text": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively."
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_V1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-788316349ae649f0a9203eac",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "A comparative balance sheet shows reserves and surplus of ₹4 lakh in the earlier year and ₹3 lakh in the later year. What is the percentage change, using the earlier year as the base?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "20% decrease"
+        },
+        {
+          "key": "B",
+          "text": "25% decrease"
+        },
+        {
+          "key": "C",
+          "text": "33⅓% decrease"
+        },
+        {
+          "key": "D",
+          "text": "25% increase"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5."
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p9-c0-g1-s0",
+          "text": "Illustration 3\nThe following are the Balance Sheets of J. Ltd. as at March 31, 2016 and\n2017. Prepare a Comparative balance sheet.\nParticulars Note March 31, March 31,\nNo. 2017 2016\n(Rs.) (Rs.)\nI. Equity and Liabilities\n1. Shareholders’ Funds\na) Share capital 20,00,000 15,00,000\nb) Reserve and surplus 3,00,000 4,00,000\n2. Non-current Liabilities\nLong-term borrowings 9,00,000 6,00,000\n3. Current liabilities\nTrade payables 3,00,000 2,00,000\nTotal 35,00,000 27,00,000\nII. Assets\n1. Non-current assets\na) Fixed assets\n- Tangible assets 20,00,000 15,00,000\n- Intangible assets 9,00,000 6,00,000\n2. Current assets\n- Inventories 3,00,000 4,00,000\n- Cash and cash equivalents 3,00,000 2,00,000"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_V2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-4b8c94e15c91fec0939499ea",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "A company reports total assets of ₹40 lakh, including inventory of ₹8 lakh. In a common-size balance sheet, what percentage of total assets is inventory?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "12.5%"
+        },
+        {
+          "key": "B",
+          "text": "15%"
+        },
+        {
+          "key": "C",
+          "text": "20%"
+        },
+        {
+          "key": "D",
+          "text": "25%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p12-c0-g2-s0",
+          "text": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_V3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-d961cf3760b64db3afac6efc",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "Which statement is NOT correct?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "A comparative statement presents figures for two periods."
+        },
+        {
+          "key": "B",
+          "text": "Comparative statements can show absolute and relative changes."
+        },
+        {
+          "key": "C",
+          "text": "Common-size statements express items as percentages of a relevant aggregate."
+        },
+        {
+          "key": "D",
+          "text": "A comparative statement of profit and loss necessarily expresses each expense as a percentage of revenue."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5."
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p12-c0-g2-s0",
+          "text": "4.6 Common Size Statement\nCommon Size Statement, also known as component percentage statement, is a\nfinancial tool for studying the key changes and trends in the financial position\nand operational result of a company. Here, each item in the statement is stated\nas a percentage of the aggregate, or revenue from operations of which that\nitem is a part. For example, a common size balance sheet shows the percentage\nof each asset to the total assets, and that of each liability to the total liabilities.\nSimilarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations. If\nsuch a statement is prepared for successive periods, it shows the changes of\nthe respective percentages over a period of time.\nCommon size analysis is of immense use for comparing enterprises which\ndiffer substantially in size as it provides an insight into the structure of financial\nstatements. Inter-firm comparison or comparison of the company’s position\nwith the related industry as a whole is possible with the help of common size\nstatement analysis.\nThe following procedure may be adopted for preparing the common size\nstatements.\n1. List out absolute figures in rupees at two points of time, say year 1,\nand year 2 (Column 2 & 4 of Exhibit 4.2).\n2. Choose a common base (as 100). For example, revenue from operations\nmay be taken as base (100) in case of statement of profit and loss and\ntotal assets or total liabilities (100) in case of balance sheet.\n3. For all items of Col. 2 and 3 work out the percentage of that total.\nColumn 4 and 5 shows these percentages in Exhibit 4.2.\nCommon Size Statement\nParticulars Year Year Percentage Percentage\none two of year 1 of year 2\n1 2 3 4 5"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_V4",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-cc59a1372724c8ad2f9fa370",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "A comparative statement reports profit after tax of ₹3.6 lakh in the earlier year and ₹5.4 lakh in the later year. What is the percentage increase over the earlier year?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "50%"
+        },
+        {
+          "key": "B",
+          "text": "25%"
+        },
+        {
+          "key": "C",
+          "text": "40%"
+        },
+        {
+          "key": "D",
+          "text": "60%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5."
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p8-c0-g3-s0",
+          "text": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_V5",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-836e7021a8dc9f69e20dabe8",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "Revenue from operations rose from ₹16 lakh to ₹20 lakh. What was the percentage increase over the earlier year?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "20%"
+        },
+        {
+          "key": "B",
+          "text": "25%"
+        },
+        {
+          "key": "C",
+          "text": "₹4 lakh"
+        },
+        {
+          "key": "D",
+          "text": "125%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5."
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p8-c0-g3-s0",
+          "text": "Particulars 2015-16 2016-17 Absolute Percentage\nIncrease (+) or Increase (+)\nDecrease (–) or Decrease (–)\n(Rs.) (Rs.) (Rs.) %\nI. Revenue from operations 16,00,000 20,00,000 4,00,000 25\nII. Less: Expenses\na) Employee benefit expenses 8,00,000 10,00,000 2,00,000 25\nb) Other expenses 2,00,000 1,00,000 (1,00,000) (50)\nProfit before tax 6,00,000 9,00,000 3,00,000 50\nIII. Less tax @ 40% 2,40,000 3,60,000 1,20,000 50\nProfit after tax 3,60,000 5,40,000 1,80,000 50"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_D1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-8d9e851f6500c83a3abde130",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "The 2023 revenue of a company is ₹100 lakh. What is its 2023 trend percentage if 2021 is the base year?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "80%"
+        },
+        {
+          "key": "B",
+          "text": "125%"
+        },
+        {
+          "key": "C",
+          "text": "100%"
+        },
+        {
+          "key": "D",
+          "text": "20%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p5-c0-g1-s0",
+          "text": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively."
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_D2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-82d5c3f33d5ec00d4085a341",
+      "subject": "accountancy",
+      "chapter": "Analysis of Financial Statements",
+      "syllabus_unit": "Unit V: Analysis of Financial Statements",
+      "question": "Revenue was ₹80 lakh in the 2021 base year, ₹90 lakh in 2022 and ₹100 lakh in 2023. What is the 2023 trend percentage?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "80%"
+        },
+        {
+          "key": "B",
+          "text": "111.11%"
+        },
+        {
+          "key": "C",
+          "text": "125%"
+        },
+        {
+          "key": "D",
+          "text": "20%"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "p5-c0-g1-s0",
+          "text": "3. Trend Analysis: It is a technique of studying the operational results and\nfinancial position over a series of years. Using the previous years’ data of a\nbusiness enterprise, trend analysis can be done to observe the percentage\nchanges over time in the selected data. The trend percentage is the\npercentage relationship, in which each item of different years bear to the\nsame item in the base year. Trend analysis is important because, with its\nlong run view, it may point to basic changes in the nature of the business.\nBy looking at a trend in a particular ratio, one may find whether the ratio\nis falling, rising or remaining relatively constant. From this observation, a\nproblem is detected or the sign of good or poor management is detected.\n4. Ratio Analysis: It describes the significant relationship which exists\nbetween various items of a balance sheet and a statement of profit and\nloss of a firm. As a technique of financial analysis, accounting ratios measure\nthe comparative significance of the individual items of the income and\nposition statements. It is possible to assess the profitability, solvency and\nefficiency of an enterprise through the technique of ratio analysis.\n5. Cash Flow Analysis: It refers to the analysis of actual movement of cash\ninto and out of an organisation. The flow of cash into the business is called\nas cash inflow or positive cash flow and the flow of cash out of the firm is\ncalled as cash outflow or a negative cash flow. The difference between the\ninflow and outflow of cash is the net cash flow. Cash flow statement is\nprepared to project the manner in which the cash has been received and\nhas been utilised during an accounting year as it shows the sources of\ncash receipts and also the purposes for which payments are made. Thus,\nit summarises the causes for the changes in cash position of a business\nenterprise between dates of two balance sheets.\nIn this chapter, we shall have a brief idea about the first three techniques,\nviz., comparative statements, common size statements and trend analysis. The\nratio analysis and cash flow analysis is covered in detail in Chapters 5 and 6\nrespectively."
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-A_D3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-823c642827fa0755990d20a6",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "A company is deciding whether to replace an old production line with a costly new machine. The outlay is large, the choice affects earning capacity for many years and reversing it later would be expensive. Which financial decision is central?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Working-capital collection"
+        },
+        {
+          "key": "B",
+          "text": "Capital budgeting"
+        },
+        {
+          "key": "C",
+          "text": "Dividend declaration"
+        },
+        {
+          "key": "D",
+          "text": "Short-term cash budgeting"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p5-c0-g1-s0",
+          "text": "term basis. For example, making\ninvestment in a new machine to\nreplace an existing one or acquiring\na new fixed asset or opening a new\nbranch, etc. These decisions are very\ncrucial for any business since they\naffect its earning capacity in the long\nrun. The size of assets, profitability\nand competitiveness are all affected by\ncapital budgeting decisions. Moreover,\nthese decisions normally involve\nhuge amounts of investment and are\nirreversible except at a huge cost.\nTherefore, once made, it is often almost\nimpossible for a business to wriggle out\nof such decisions. Therefore, they need\nto be taken with utmost care. These"
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_V1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-deae7562fbbcc6865560a309",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "Two investment proposals have the same assessed risk. Proposal P is expected to return 9% and proposal Q 13%. Under normal circumstances, which proposal should be selected on the stated comparison?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither can be compared without dividend data"
+        },
+        {
+          "key": "B",
+          "text": "Proposal P"
+        },
+        {
+          "key": "C",
+          "text": "Proposal Q"
+        },
+        {
+          "key": "D",
+          "text": "Both must be selected because risk is equal"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "expected returns from each\nproposal and the assessment of\nthe risk involved. Suppose, there\nare two projects, A and B (with the\nsame risk involved), with a rate\nof return of 10 per cent and 12\nper cent, respectively, then under\nnormal circumstance, project B\nshould be selected.\n(c) The investment criteria involved:\nThe decision to invest in a particular\nproject involves a number of\ncalculations regarding the amount\nof investment, interest rate, cash\nflows and rate of return. There are\ndifferent techniques to evaluate\ninvestment proposals which\nare known as capital budgeting\ntechniques. These techniques are\napplied to each proposal before\nselecting a particular project."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_V2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-24a5b6b47bfb7b7caa018bf3",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "A firm has a stronger cash-flow position and is comparing debt financing with equity financing. Which inference is supported by the stated financing factor?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "The firm should declare a dividend before assessing finance."
+        },
+        {
+          "key": "B",
+          "text": "Equity must always be chosen because it has no repayment date."
+        },
+        {
+          "key": "C",
+          "text": "Strong cash flow rules out borrowing."
+        },
+        {
+          "key": "D",
+          "text": "Debt financing may be more viable than equity financing."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p8-c0-g1-s0",
+          "text": "(d) Cash Flow Position of the Company:\nA stronger cash flow position may\nmake debt financing more viable\nthan funding through equity.\n(e) Fixed Operating Costs: If a business\nhas high fixed operating costs (e.g.,\nbuilding rent, Insurance premium,\nSalaries, etc.), It must reduce fixed\nfinancing costs. Hence, lower debt\nfinancing is better. Similarly, if\nfixed operating cost is less, more\nof debt financing may be preferred."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_V3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-41d4531e8657244ffdc2276d",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "Which statement about financial planning is NOT supported?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Long-term planning focuses on detailed action for a period of one year or less."
+        },
+        {
+          "key": "B",
+          "text": "It considers growth, investments and the requirement for funds."
+        },
+        {
+          "key": "C",
+          "text": "It includes short-term and long-term planning."
+        },
+        {
+          "key": "D",
+          "text": "A plan for one year or less is termed a budget."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p11-c0-g1-s0",
+          "text": "is called financial planning. Financial\nplanning takes into consideration the\ngrowth, performance, investments\nand requirement of funds for a given\nperiod. Financial planning includes\nboth short-term as well as long-term\nplanning. Long-term planning relates\nto long term growth and investment.\nIt focuses on capital expenditure\nprogrammes. Short-term planning\ncovers short-term financial plan called\nbudget.\nTypically, financial planning is\ndone for three to five years. For longer\nperiods it becomes more difficult and\nless useful. Plans made for periods of\none year or less are termed as budgets.\nBudgets are example of financial\nplanning exercise in greater details.\nThey include detailed plan of action\nfor a period of one year or less.\nFinancial planning usually begins\nwith the preparation of a sales forecast.\nLet us suppose a company is making\na financial plan for the next five years.\nIt will start with an estimate of the\nsales which are likely to happen in\nthe next five years. Based on these,\nthe financial statements are prepared\nkeeping in mind the requirement\nof funds for investment in the fixed\ncapital and working capital. Then the\nexpected profits during the period are\nestimated so that an idea can be made\nof how much of the fund requirements\ncan be met internally i.e., through\nretained earnings (after dividend\npayouts). This results in an estimation\nof the requirement for external funds."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_V4",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-81165e9f76d2fe017fbae7a6",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "A company has good growth opportunities and expects to finance new investment from its earnings. Which dividend-policy tendency is supported by this condition?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Treat cash availability as irrelevant to dividend payment."
+        },
+        {
+          "key": "B",
+          "text": "Retain more earnings, with a relatively smaller dividend."
+        },
+        {
+          "key": "C",
+          "text": "Pay a larger dividend because growth opportunities guarantee cash."
+        },
+        {
+          "key": "D",
+          "text": "Keep the dividend unchanged regardless of investment needs."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p9-c0-g1-s0",
+          "text": "their earning potential has gone\nup and not just the earnings of\nthe current year. In other words,\ndividend per share is not altered if\nthe change in earnings is small or\nseen to be temporary in nature.\n(d) Growth Opportunities: Companies\nhaving good growth opportunities\nretain more money out of their\nearnings so as to finance the\nrequired investment. The dividend\nin growth companies is, therefore,\nsmaller, than that in the non–\ngrowth companies.\n(e) Cash Flow Position: The payment\nof dividend involves an outflow of\ncash. A company may be earning\nprofit but may be short on cash.\nAvailability of enough cash in\nthe company is necessary for\ndeclaration of dividend.\n(f) Shareholders’ Preference: While\ndeclaring dividends, managements\nmust keep in mind the preferences\nof the shareholders in this regard. If\nthe shareholders in general desire\nthat at least a certain amount is\npaid as dividend, the companies\nare likely to declare the same. There\nare always some shareholders who\ndepend upon a regular income\nfrom their investments.\n(g) Taxation Policy: The choice between\nthe payment of dividend and\nretaining the earnings is, to some\nextent, affected by the difference in\nthe tax treatment of dividends and\ncapital gains. If tax on dividend is\nhigher, it is better to pay less by"
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_V5",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-9955b8830fbf37578383f2fa",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "Two projects have the same assessed risk. Project A is expected to return 10% and Project B 12%. Which should normally be selected on the stated comparison?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Neither; return is irrelevant when risk is equal"
+        },
+        {
+          "key": "B",
+          "text": "Project A"
+        },
+        {
+          "key": "C",
+          "text": "Project B"
+        },
+        {
+          "key": "D",
+          "text": "Both are equally preferable because risk is equal"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p6-c0-g1-s0",
+          "text": "expected returns from each\nproposal and the assessment of\nthe risk involved. Suppose, there\nare two projects, A and B (with the\nsame risk involved), with a rate\nof return of 10 per cent and 12\nper cent, respectively, then under\nnormal circumstance, project B\nshould be selected.\n(c) The investment criteria involved:\nThe decision to invest in a particular\nproject involves a number of\ncalculations regarding the amount\nof investment, interest rate, cash\nflows and rate of return. There are\ndifferent techniques to evaluate\ninvestment proposals which\nare known as capital budgeting\ntechniques. These techniques are\napplied to each proposal before\nselecting a particular project."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_D1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-96f23a45cd5ddc58d0235eda",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "Which single factor can make debt financing more viable?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "A weak cash-flow position"
+        },
+        {
+          "key": "B",
+          "text": "A stronger cash-flow position"
+        },
+        {
+          "key": "C",
+          "text": "Lower fixed operating costs"
+        },
+        {
+          "key": "D",
+          "text": "High fixed operating costs"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p8-c0-g1-s0",
+          "text": "(d) Cash Flow Position of the Company:\nA stronger cash flow position may\nmake debt financing more viable\nthan funding through equity.\n(e) Fixed Operating Costs: If a business\nhas high fixed operating costs (e.g.,\nbuilding rent, Insurance premium,\nSalaries, etc.), It must reduce fixed\nfinancing costs. Hence, lower debt\nfinancing is better. Similarly, if\nfixed operating cost is less, more\nof debt financing may be preferred."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_D2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-23393bb7b488f77a58ed3c66",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "syllabus_unit": "Unit IX: Business Finance",
+      "question": "A company’s loan agreement places a condition on dividend payments. What should management do before declaring a dividend?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Treat the restriction as applying only to equity issues."
+        },
+        {
+          "key": "B",
+          "text": "Ignore the agreement because dividends are independent of borrowing."
+        },
+        {
+          "key": "C",
+          "text": "Declare the dividend first and review the agreement later."
+        },
+        {
+          "key": "D",
+          "text": "Ensure the proposed dividend does not violate the loan-agreement terms."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "p10-c0-g1-s0",
+          "text": "certain restrictions on the payment\nof dividends in future. The\ncompanies are required to ensure\nthat the dividend does not violate\nthe terms of the loan agreement in\nthis regard."
+        },
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-B_D3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-3b013aed1a7f3b84786475c4",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "With all other inputs held constant, a firm’s total output is 10 units with 1 worker, 22 with 2 workers, 37 with 3 workers and 48 with 4 workers. What is the marginal product of the fourth worker?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "10 units"
+        },
+        {
+          "key": "B",
+          "text": "15 units"
+        },
+        {
+          "key": "C",
+          "text": "11 units"
+        },
+        {
+          "key": "D",
+          "text": "48 units"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p4-c0-g3-s16",
+          "text": "Marginal product of an input is defined as the change in output per unit of\nchange in the input when all other inputs are held constant. When capital is held\nconstant, the marginal product of labour is"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_V1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-e938379d50e33c8cb672d8bd",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "The marginal products of the first three units of labour are 8, 12 and 10 units. What is the average product at the third unit of labour?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "8 units"
+        },
+        {
+          "key": "B",
+          "text": "9 units"
+        },
+        {
+          "key": "C",
+          "text": "12 units"
+        },
+        {
+          "key": "D",
+          "text": "10 units"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p5-c0-g2-s0",
+          "text": "Average product of an input at any level of employment is the average of all\nmarginal products up to that level. Average and marginal products are often\nreferred to as average and marginal returns, respectively, to the variable input."
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_V2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-9dc7d2d4f57b273001bb739d",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "Which pattern is consistent with the source’s description of marginal product under the law of variable proportions?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "Marginal product initially rises and, after a level of employment, starts falling."
+        },
+        {
+          "key": "B",
+          "text": "Marginal product falls at every successive unit from the outset."
+        },
+        {
+          "key": "C",
+          "text": "Marginal product remains constant at every level of employment."
+        },
+        {
+          "key": "D",
+          "text": "Marginal product continues to rise at every higher level of employment."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p6-c0-g2-s20",
+          "text": "output.\nAccording to the law of\nvariable proportions, the\nmarginal product of an input\ninitially rises and then after a\ncertain level of employment, it\nstarts falling. The MP curve"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_V3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-a9f00c22500f1b5041b68798",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "A firm’s total cost is ₹44 when output is 3 units and ₹49 when output is 4 units. What is the marginal cost of increasing output from 3 to 4 units?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "₹4"
+        },
+        {
+          "key": "B",
+          "text": "₹5"
+        },
+        {
+          "key": "C",
+          "text": "₹6"
+        },
+        {
+          "key": "D",
+          "text": "₹8"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p10-c0-g3-s0",
+          "text": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_V4",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-3e2045907713fe98e12fda8c",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "At an output of 5 units, a firm has total fixed cost ₹20 and total variable cost ₹33. What is its short-run average cost?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "₹9.83"
+        },
+        {
+          "key": "B",
+          "text": "₹10"
+        },
+        {
+          "key": "C",
+          "text": "₹10.60"
+        },
+        {
+          "key": "D",
+          "text": "₹12.25"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p9-c0-g0-s0",
+          "text": "produces, this cost remains fixed for the firm. To produce any required\nlevel of output, the firm, in the short run, can adjust only variable inputs.\nAccordingly, the cost that a firm incurs to employ these variable inputs is\ncalled the total variable cost (TVC). Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)\nIn order to increase the production of output, the firm must employ more of\nthe variable inputs. As a result, total variable cost and total cost will increase.\nTherefore, as output increases, total variable cost and total cost increase.\nIn Table 3.3, we have an example of cost function of a typical firm. The first\ncolumn shows different levels of output. For all levels of output, the total fixed\ncost is Rs 20. Total variable cost increases as output increases. With output\nzero, TVC is zero. For 1 unit of output, TVC is Rs 10; for 2 units of output, TVC\nis Rs 18 and so on. In the fourth column, we obtain the total cost (TC) as the\nsum of the corresponding values in second column (TFC) and third column\n(TVC). At zero level of output, TC is just the fixed cost, and hence, equal to Rs\n20. For 1 unit of output, total cost is Rs 30; for 2 units of output, the TC is Rs 38\nand so on.\nThe short run average cost (SAC) incurred by the firm is defined as the\ntotal cost per unit of output. We calculate it as"
+        },
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p10-c0-g3-s0",
+          "text": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_V5",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-9daaff173b9cf47627e030ec",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "According to the registered short-run cost schedule, what is marginal cost when output rises from 3 units to 4 units?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "₹6"
+        },
+        {
+          "key": "B",
+          "text": "₹5"
+        },
+        {
+          "key": "C",
+          "text": "₹8"
+        },
+        {
+          "key": "D",
+          "text": "₹10"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p10-c0-g3-s0",
+          "text": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_D1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-2fad25ee3a7dbbdbd91d636d",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "A firm can produce 50 units using any one of these input bundles: (L=6, K=3), (L=4, K=4) or (L=3, K=6). Which bundle is the least-cost choice?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "(L=6, K=3)"
+        },
+        {
+          "key": "B",
+          "text": "(L=4, K=4)"
+        },
+        {
+          "key": "C",
+          "text": "(L=3, K=6)"
+        },
+        {
+          "key": "D",
+          "text": "All three necessarily have the same cost"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p8-c0-g2-s0",
+          "text": "In order to produce output, the firm needs to employ inputs. But a given level\nof output, typically, can be produced in many ways. There can be more than\none input combinations with which a firm can produce a desired level of output.\nIn Table 3.1, we can see that 50 units of output can be produced by three\ndifferent input combinations (L = 6, K = 3), (L = 4, K = 4) and (L = 3, K = 6). The\nquestion is which input combination will the firm choose? With the input prices\ngiven, it will choose that combination of inputs which is least expensive. So,\nfor every level of output, the firm chooses the least cost input combination.\nThus the cost function describes the least cost of producing each level of output\ngiven prices of factors of production and technology."
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_D2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-24af92c3f430d2de35025763",
+      "subject": "economics",
+      "chapter": "Production & Costs",
+      "syllabus_unit": "Course I, Unit II: Production and Costs",
+      "question": "At output 9, total variable cost is ₹75 and the registered schedule reports marginal cost of ₹15. What is marginal cost at that output?",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "₹8.33"
+        },
+        {
+          "key": "B",
+          "text": "₹10.55"
+        },
+        {
+          "key": "C",
+          "text": "₹13"
+        },
+        {
+          "key": "D",
+          "text": "₹15"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "p10-c0-g3-s0",
+          "text": "0 20 0 20 – – – –\n1 20 10 30 20 10 30 10\n2 20 18 38 10 9 19 8\n3 20 24 44 6.67 8 14.67 6\n4 20 29 49 5 7.25 12.25 5\n5 20 33 53 4 6.6 10.6 4\n6 20 39 59 3.33 6.5 9.83 6\n7 20 47 67 2.86 6.7 9.57 8\n8 20 60 80 2.5 7.5 10 13\n9 20 75 95 2.22 8.33 10.55 15\n10 20 95 115 2 9.5 11.5 20"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-economics-bookA",
+          "locator": "full-syllabus",
+          "text": "Unit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR.",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-E_D3",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-4f74bc0977085544510a0c54",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "syllabus_unit": "Verbal Ability: Choosing the correct word",
+      "question": "Before accepting a supplier’s offer, Leena compared the warranty, delivery record and total cost, checking the risks before deciding. Her approach was:",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "benevolent"
+        },
+        {
+          "key": "B",
+          "text": "conspicuous"
+        },
+        {
+          "key": "C",
+          "text": "inevitable"
+        },
+        {
+          "key": "D",
+          "text": "prudent"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-prudent",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "definition",
+          "text": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks"
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-L_V1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-a9ee331ee3870ef6bd58be41",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "syllabus_unit": "Verbal Ability: Choosing the correct word",
+      "question": "The bright orange evacuation sign was easy to see from the far end of the crowded corridor. The sign was:",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "conspicuous"
+        },
+        {
+          "key": "B",
+          "text": "authentic"
+        },
+        {
+          "key": "C",
+          "text": "inevitable"
+        },
+        {
+          "key": "D",
+          "text": "prudent"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-conspicuous",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "definition",
+          "text": "easy to see or notice; likely to attract attention"
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-L_V2",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-1e1c41b571d2ecd7230552fb",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "syllabus_unit": "Reading Comprehension: Factual Passage",
+      "question": "Why did the librarian propose discussing some of the students’ notes before deciding whether to continue the programme?",
+      "passage": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+      "options": [
+        {
+          "key": "A",
+          "text": "To grade every note and rank the students."
+        },
+        {
+          "key": "B",
+          "text": "To supplement return counts with evidence about students’ experience."
+        },
+        {
+          "key": "C",
+          "text": "To determine exactly how carefully each book had been read from the return totals."
+        },
+        {
+          "key": "D",
+          "text": "To require students to borrow more than two books at a time."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "source_version": 1,
+          "source_pack_id": "original-english-reference-v1",
+          "locator": "stimulus",
+          "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-english-factual-passage",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-c9935a08a1dadd15bc03c6fe",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "syllabus_unit": "Reading Comprehension: Factual Passage",
+      "question": "Which statement is NOT supported by the passage?",
+      "passage": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+      "options": [
+        {
+          "key": "A",
+          "text": "The trial lasted four weeks."
+        },
+        {
+          "key": "B",
+          "text": "Students could borrow two books at a time."
+        },
+        {
+          "key": "C",
+          "text": "The librarian graded the students’ notes."
+        },
+        {
+          "key": "D",
+          "text": "Returns increased during the second and third weeks before decreasing slightly in the fourth."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "source_version": 1,
+          "source_pack_id": "original-english-reference-v1",
+          "locator": "stimulus",
+          "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-english-factual-passage",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-c3520ac2c10a06a48b19552b",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "syllabus_unit": "Reading Comprehension: Factual Passage",
+      "question": "Before deciding whether to continue the programme, what did the librarian propose?",
+      "passage": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+      "options": [
+        {
+          "key": "A",
+          "text": "To stop recording returns."
+        },
+        {
+          "key": "B",
+          "text": "To grade every note."
+        },
+        {
+          "key": "C",
+          "text": "To increase the borrowing limit immediately."
+        },
+        {
+          "key": "D",
+          "text": "To discuss a few notes with students."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "source_version": 1,
+          "source_pack_id": "original-english-reference-v1",
+          "locator": "stimulus",
+          "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-english-factual-passage",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-cbbef17389750dffae8dc207",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "syllabus_unit": "Verbal Ability: Choosing the correct word",
+      "question": "A group of neighbours regularly donated food and spent time helping families after a flood. Their actions were:",
+      "passage": null,
+      "options": [
+        {
+          "key": "A",
+          "text": "benevolent"
+        },
+        {
+          "key": "B",
+          "text": "inevitable"
+        },
+        {
+          "key": "C",
+          "text": "conspicuous"
+        },
+        {
+          "key": "D",
+          "text": "prudent"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "oxford-quality-benevolent",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "definition",
+          "text": "kind, helpful and generous"
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-L_D1",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-35134360a9497d7ed3cf3105",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "syllabus_unit": "Reading Comprehension: Factual Passage",
+      "question": "How many books in total were returned during the four-week trial?",
+      "passage": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+      "options": [
+        {
+          "key": "A",
+          "text": "48"
+        },
+        {
+          "key": "B",
+          "text": "52"
+        },
+        {
+          "key": "C",
+          "text": "56"
+        },
+        {
+          "key": "D",
+          "text": "60"
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "source_version": 1,
+          "source_pack_id": "original-english-reference-v1",
+          "locator": "stimulus",
+          "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-english-factual-passage",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    },
+    {
+      "opaque_id": "q717-3662a54735c8a56d98672412",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "syllabus_unit": "Reading Comprehension: Factual Passage",
+      "question": "What did the librarian say the borrowing records showed?",
+      "passage": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+      "options": [
+        {
+          "key": "A",
+          "text": "How carefully each book had been read."
+        },
+        {
+          "key": "B",
+          "text": "When books were returned."
+        },
+        {
+          "key": "C",
+          "text": "Which students had written the best notes."
+        },
+        {
+          "key": "D",
+          "text": "How many notes received high grades."
+        }
+      ],
+      "excerpts": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "source_version": 1,
+          "source_pack_id": "original-english-reference-v1",
+          "locator": "stimulus",
+          "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        },
+        {
+          "source_id": "cuet2026-english-syllabus",
+          "source_version": 1,
+          "source_pack_id": "cuet2024-english-bookA",
+          "locator": "full-syllabus",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n ",
+          "kind": "official_syllabus"
+        }
+      ],
+      "family_id": "v717-fresh32-english-factual-passage",
+      "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7"
+    }
+  ]
+}

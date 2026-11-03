@@ -1,0 +1,43 @@
+{
+  "scope": "frozen comparison A already-failed candidates only",
+  "heldout_or_benchmark_reads": false,
+  "provider_calls": 0,
+  "code_or_ledger_changes": false,
+  "failed_candidate_count": 6,
+  "request_rows": 25,
+  "observed_spend_usd": 0.038502,
+  "stage_totals": {
+    "authoring": { "requests": 9, "observed_usd": 0.013077 },
+    "evaluation_transport_blind_solution": { "requests": 11, "observed_usd": 0.021732 },
+    "repair": { "requests": 5, "observed_usd": 0.003693 }
+  },
+  "usage_totals": { "input_tokens": 85656, "output_tokens": 104402 },
+  "source_payload": { "excerpt_text_bytes": 15598, "reference_count": 13 },
+  "recommendations": [
+    {
+      "kind": "strict_statement_selection_display_normalizer",
+      "evidence_candidates": ["be766fde7b94898b8a08176e26b8e698", "6a36cd09ebd9dd30606310b808c0bc18"],
+      "condition": "Only normalize when all options match an exact statement-set grammar and before/after parsed letter sets are identical.",
+      "invariant": "Preserve option order, key, stem, explanation, assumptions, source refs, and evidence; do not relax CUET gates.",
+      "status": "recommend test-first; no implementation or savings forecast"
+    },
+    {
+      "kind": "prevent_orphan_passage_route_in_standalone_repair",
+      "evidence_candidates": ["0ebfd4f94f7e63de4b2a4bbf82f2a700"],
+      "condition": "If no passage text is available, do not let standalone repair switch to passage route; locally reject/quarantine before another evaluation.",
+      "invariant": "Never synthesize passage content.",
+      "status": "recommend contract review and tests; no implementation or savings forecast"
+    }
+  ],
+  "non_deterministic_or_academic_failures_to_quarantine": [
+    "23aad86aa8b8d827643ad917fe717cba",
+    "6a83819c35e721b7bd45b902158dcefc",
+    "efe588a9ccafba0c25aef183f47bc628"
+  ],
+  "limitations": [
+    "Observed failure-set costs only; not a yield, savings, or future-cost forecast.",
+    "Evaluation receipt stage blind_solution is transport-level and does not distinguish logical evaluation checks.",
+    "Receipts lack stop reasons, so 6500-output records are a retry diagnostic lead only.",
+    "Source excerpt size is descriptive and does not justify evidence trimming."
+  ]
+}

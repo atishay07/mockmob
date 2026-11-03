@@ -1,0 +1,121 @@
+[
+  {
+    "width": 320,
+    "localReaction": "contained actor and restored fallback passed",
+    "box": {
+      "x": 231,
+      "y": 125.33056640625,
+      "width": 52,
+      "height": 62
+    }
+  },
+  {
+    "width": 320,
+    "geometry": [
+      {
+        "cls": "ml",
+        "height": 845
+      },
+      {
+        "cls": "ml__stage",
+        "height": 613
+      },
+      {
+        "cls": "ml__panels",
+        "height": 429
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "backgroundTabHidden": false,
+    "backgroundAcceptance": "headless kept document visible; hardware check remains"
+  },
+  {
+    "width": 390,
+    "localReaction": "contained actor and restored fallback passed",
+    "box": {
+      "x": 301,
+      "y": 133.53564453125,
+      "width": 52,
+      "height": 62
+    }
+  },
+  {
+    "width": 390,
+    "geometry": [
+      {
+        "cls": "ml",
+        "height": 804
+      },
+      {
+        "cls": "ml__stage",
+        "height": 572
+      },
+      {
+        "cls": "ml__panels",
+        "height": 405
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "backgroundTabHidden": false,
+    "backgroundAcceptance": "headless kept document visible; hardware check remains"
+  },
+  {
+    "textZoom": "200%",
+    "panels": [
+      {
+        "label": "Replay the session",
+        "width": 348,
+        "scrollWidth": 348,
+        "height": 1392,
+        "scrollHeight": 1392
+      },
+      {
+        "label": "Find where marks leaked",
+        "width": 348,
+        "scrollWidth": 348,
+        "height": 1392,
+        "scrollHeight": 1392
+      },
+      {
+        "label": "Get one next move",
+        "width": 348,
+        "scrollWidth": 348,
+        "height": 1392,
+        "scrollHeight": 1392
+      },
+      {
+        "label": "Check it on fresh questions",
+        "width": 348,
+        "scrollWidth": 348,
+        "height": 1392,
+        "scrollHeight": 1392
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "geometry": [
+      {
+        "cls": "ml",
+        "height": 510
+      },
+      {
+        "cls": "ml__stage",
+        "height": 510
+      },
+      {
+        "cls": "ml__panels",
+        "height": 408
+      }
+    ]
+  },
+  {
+    "width": 1440,
+    "backgroundTabHidden": false,
+    "backgroundAcceptance": "headless kept document visible; hardware check remains"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "schema": "cuet-v713-fresh-source-kit-manifest-v1",
+  "study_id": "cuet-readiness-v713-fresh-pass",
+  "status": "pre-freeze source kit only",
+  "files": [
+    "source-fact-kits.json",
+    "official-syllabus-slices.json",
+    "blinded-review-schema.json",
+    "AUTHOR-BRIEF.md"
+  ],
+  "restrictions": [
+    "No candidate, option, answer, explanation, or defect has been authored.",
+    "No existing registry, source PDF, freeze, or result artifact was modified.",
+    "Do not begin authoring until the parent signals the exact V7.13 freeze.",
+    "No provider, staging, paid, or publication operation is authorized by this kit."
+  ]
+}

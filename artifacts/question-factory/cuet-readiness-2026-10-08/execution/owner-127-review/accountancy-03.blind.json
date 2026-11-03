@@ -1,0 +1,514 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "accountancy",
+  "offset": 20,
+  "total": 36,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-2bf9ffb186bb",
+      "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+      "text": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-b92b17a10903",
+      "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+      "text": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of debentures by repayment made to the debenture holders. Debentures can be redeemed either at par or at a premium. Depending upon the terms and conditions of issue and redemption of debentures, the following six situations are commonly found in practice. (i) Issued at par and redeemable at par (ii) Issued at discount and redeemable at par (iii) Issued at a premium and redeemable at par (iv) Issued at par and redeemable at a premium (v) Issued at a discount and redeemable at a premium (vi) Issued at a premium and redeemable at a premium In all the above six cases, the following journal entries will be passed: Reprint 2026-27\r\nPAGE 24\r\n98 Accountancy : Company Accounts and Analysis of Financial Statements 1. Issue at par and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c (Allotment of debentures) 2. Issue at a discount and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. Discount on Issue of Debentures A/c Dr. To Debentures A/c (Allotment of debentures at a discount) 3. Issue at premium and redemption at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c To Securities Premium Reserve A/c (Allotment of debentures at a premium) 4. Issue at par and redeemable at premium (a) Bank A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-d26e7974c48b",
+      "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0",
+      "text": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-88acd5a861b0",
+      "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+      "text": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and liabilities, transfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio and adjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio. All this is done in the same way as in case of admission of a partner.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-2c978c97c40a",
+      "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+      "text": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27\r\nPAGE 31\r\n78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-a50bfa9f5679",
+      "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+      "text": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill). 2.5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac101:1:pdf-page-36:4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-36",
+      "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0",
+      "text": "36 Accountancy – Partnership Accounts 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner may be guaranteed a minimum amount by way of his share in profits. If, in any year, the shar e of pr ofits as calculated accor ding to his pr ofit sharing ratio is less than the guaranteed amount, the deficiency is made good by the guaranteeing partners’ in the agreed ratio which usually is the profit sharing ratio. If, however , such guarantee has been given by any of them, he or they alone shall bear the amount of deficiency. 7. Treatment of past adjustments: If, after the final accounts have been prepared, some omission or commissions are noticed say in respect of the interest on capital, interest on drawings, partner’s salary, commission, etc. necessary adjustments can be made in the partner’s capital accounts through the Profit and Loss Adjustment Account, to rectify the same. 8. Preparation of final accounts of a partnership firm: There is not much difference in the final accounts of a sole proprietary concern and that of a partnership firm except that in case of a partnership firm an additional account called Profit and Loss Appropriation Account is prepared to show distribution of profit and loss among the partners. Questions for Practice Short Answer Questions 1. Define Partnership Deed. 2. Why is it considered desirable to make the partnership agreement in writing? 3. List the items which may be debited or credited in capital accounts of the partners when: (i) Capitals are f ixed. (ii) Capital are fluctuating. 4. Why is Profit and Loss Appropriation Account prepared? 5. Give two circumstances under which the fixed capitals of partners may change. 6. If a fixed amount is withdrawn on the first day of every quarter , for what period the interest on total amount withdrawn will be calculated? 7. In the absence of Partnership deed, specify the rules relating to the following : (i) Sharing of profits and losses. (ii) Interest on partner’s capital. (iii) Interest on Partner’s drawings. (iv) Interest on Partner’s loan (v) Salary to a partner . Long Answer Questions 1. What is meant by partnership? Explain its chief characteristics? Explain. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:quality-v4-2981d89b7e0e:2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-2981d89b7e0e",
+      "support_hash": "2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e",
+      "text": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts The main points of differences between the fixed and fluctuating capital methods can be summed up as follows: Basis of Distinction Fixed Capital Fluctuating Capital (i) Number of Under this method, two Each partner has one account, accounts separate accounts are i.e. capital account, under this maintained for each partner method viz., ‘capital account’ and ‘current account’. (ii) Items related Drawings, salary,interest All adjustments for drawings, to deed on capital,etc. are posted salary interest on capital, etc., (transfered) in the current are posted (transfered) in the accounts and not in the capital accounts, capital accounts. (iii) Fixed balance The capital account balance The balance of the capital remain unchanged unless account fluctuates from year there is addition to or to year withdrawal of capital. (iv) Credit balance The capital accounts The capital account always show a credit balance. may sometimes show a debit balance. Reprint 2026-27\n8 Accountancy – Partnership Accounts 1.5 Distribution of Profit among Partners The profits and losses of the firm are distributed among the partners in an agreed ratio. However, if the partnership deed is silent, the firm’s profits and losses are to be shared equally by all the partners. You know that in the case of sole partnership the profit or loss, as ascertained by the profit and loss account is transferred to the capital account of the proprietor. In case of partnership, however, certain adjustments such as interest on drawings, interest on capital, salary to partners, and commission to partners are required to be made.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-72d2f4711e2e",
+      "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+      "text": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in favour of the new partner. But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner. However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio. In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner. Hence, there is a need to ascertain the new profit sharing ratio among all the partners. This depends upon how does the new partner acquires his share from the old partners for which there are many possibilities. Let us understand it with the help of the following illustrations.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-3c34b723c489",
+      "support_hash": "3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320",
+      "text": "2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accumulated profits not yet transferred to capital accounts of the partners. These are usually in the form of general reserve, reserve and/or Profit and Loss Account. The new partner is not entitled to have any share in such accumulated profits. These are distributed among the partners by transferring it to their capital current accounts in old profit sharing ratio. Similarly, if there are some accumulated losses in the form of a debit balance of profit and loss account and/or deferred revenue expenditure appearing in the balance sheet of the firm.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-ae361e8a3770",
+      "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+      "text": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method 2.5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48": {
+      "id": "ncert-leac103",
+      "version": 1,
+      "locator": "span-2aedd1bf7e9f",
+      "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+      "text": "3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased Partner required; and • prepare the deceased The sum due to the retiring partner (in case of partner’s executor’s retirement) and to the legal representatives/ account in the case of death of a partner and the executors (in case of death) includes: balance sheet of a (i) credit balance of his capital account; reconstituted firm. (ii) credit balance of his current account (if any); (iii) his share of goodwill; (iv) his share of accumulated profits (reserves); (v) his share in the gain of revaluation of assets and liabilities; Reprint 2026-27\r\nPAGE 2\r\n108 Accountancy – Partnership Accounts (vi) his share of profits up to the date of retirement/death; (vii) interest on his capital, if involved, up to the date of retirement/death; and (viii) salary/commission, if any, due to him up to the date of retirement/death. The following deductions, if any, may have to be made from his share: (i) debit balance of his current account (if any); (ii) his share of goodwill to be written off, if necessary; (iii) his share of accumulated losses; (iv) his share of loss on revaluation of assets and liabilities; (v) his share of loss up to the date of retirement/death; (vi) his drawings up to the date of retirement/death; (vii) interest on drawings, if involved, up to the date of retirement/death. Thus, similar to admission, the various accounting aspects involved on retirement or death of a partner are as follows: 1. Ascertainment of new profit sharing ratio and gaining ratio; 2. Treatment of goodwill; 3. Revaluation of assets and liabilities; 4. Adjustment in respect of unrecorded assets and liabilities; 5. Distribution of accumulated profits and losses; 6.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6"
+    },
+    "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e": {
+      "id": "ncert-leac103",
+      "version": 1,
+      "locator": "span-ce862e7dfa8c",
+      "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e",
+      "text": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred to his executors and settled in the same manner as that of the retired partner. However, there is one major difference that, while the retirement normally takes place at the end of an accounting period, the death of a partner may occur any time. Hence, in case of a partner, his claim shall also include his share of profit or loss, interest on capital, interest on drawings (if any) from the date of the last Balance Sheet to the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27\r\nPAGE 35\r\nRetirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year ending on March 31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan decided to share profits equally. Champak’s share of profit for the period from April 1 to June 30, 2017, shall be calculated as follows: Total profit for the year ending on 31st March, 2017 = Rs.1,00,000 Champak’s share of profit : Proceeding Year’s Profit × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6"
+    },
+    "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069": {
+      "id": "ncert-leac204",
+      "version": 1,
+      "locator": "pdf-page-12",
+      "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+      "text": "182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current assets a) Inventories 5 4 b) Cash and cash equivalents 2 1 Total 24 15 4.6 Common Size Statement Common Size Statement, also known as component percentage statement, is a financial tool for studying the key changes and trends in the financial position and operational result of a company. Here, each item in the statement is stated as a percentage of the aggregate, or revenue from operations of which that item is a part. For example, a common size balance sheet shows the percentage of each asset to the total assets, and that of each liability to the total liabilities. Similarly, in the common size statement of profit and loss, the items of expenditure are shown as a percentage of the revenue from operations. If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time. Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements. Inter-firm comparison or comparison of the company’s position with the related industry as a whole is possible with the help of common size statement analysis. The following procedure may be adopted for preparing the common size statements. 1. List out absolute figures in rupees at two points of time, say year 1, and year 2 (Column 2 & 4 of Exhibit 4.2). 2. Choose a common base (as 100). For example, revenue from operations may be taken as base (100) in case of statement of profit and loss and total assets or total liabilities (100) in case of balance sheet. 3. For all items of Col. 2 and 3 work out the percentage of that total. Column 4 and 5 shows these percentages in Exhibit 4.2. Common Size Statement Particulars Year Y ear Percentage Percentage one two of year 1 of year 2 1 2 3 4 5 Exhibit 4.2 Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a36bf14dbbda53efcd71abed814133e9d9a600ffb9f1b6005542c90a0e42d829"
+    },
+    "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081": {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-50f51c90ebe7",
+      "support_hash": "50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+      "text": "6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflows or payments) which is the subject matter of a cash flow statement. As per AS-3, these activities are to be classified into three categories: (1)operating, (2) investing, and (3) financing activities so as to show separately the cash flows generated (or used) by (in) these activities. This helps the users of cash flow statement to assess the impact of these activities on the financial position of an enterprise and also on its cash and cash equivalents. Reprint 2026-27\r\nPAGE 4\r\n244 Accountancy : Company Accounts and Analysis of Financial Statements 6.5.1 Cash from Operating Activities Operating activities are the activities that constitute the primary or main activities of an enterprise. For example, for a company manufacturing garments, operating activities are procurement of raw material, incurrence of manufacturing expenses, sale of garments, etc. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. The amount of cash from operations’ indicates the internal solvency level of the company, and is regarded as the key indicator of the extent to which the operations of the enterprise have generated sufficient cash flows to maintain the operating capability of the enterprise, paying dividends, making of new investments and repaying of loans without recourse to external source of financing. Cash flows from operating activities are primarily derived from the main activities of the enterprise.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    },
+    "ncert-leac206:1:span-074c499a4fc2:074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0": {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-074c499a4fc2",
+      "support_hash": "074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0",
+      "text": "6.6 Ascertaining Cash Flow from Operating Activities Operating activities are the main source of revenue and expenditure in an enterprise. Therefore, the ascertainment of cash flows from operating activities need special attention. Reprint 2026-27\r\nPAGE 9\r\nCash Flow Statement 249 As per AS-3, an enterprise should report cash flows from operating activities either by using :  Direct method whereby major classes of gross cash receipts and gross cash payments are disclosed; or  Indirect method whereby net profit or loss is duly adjusted for the effects of (1) transactions of a non-cash nature, (2) any deferrals or accruals of past/future operating cash receipts, and (3) items of income or expenses associated with investing or financing cash flows. It is important to mention here that under indirect method, the starting point is net profit/loss before taxation and extra ordinary items as per Statement of Profit and Loss of the enterprise. Then this amount is for non-cash items, etc., adjusted for ascertaining cash flows from operating activities. Accordingly, cash flow from operating activities can be determined using either the Direct method or the Indirect method.The direct method provides information which is useful in estimating future cash flows. But such information is not available under the indirect method. However, in practice, indirect method is mostly used by the companies for arriving at the net cash flow from operating activities. The Chapter deals with preparing cash flow statement using indirect method. Proposed Dividend As per AS-4, Contingencies and Events Occurring after the Balance Sheet Date, Proposed dividend is shown in the Notes to Accounts.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    }
+  },
+  "cases": [
+    {
+      "id": "5114300ab4bc8333ce6507832947954c",
+      "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "topic": "Debentures: focus on this supplied section: 2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company issues one debenture with a nominal value of ₹2,400 for an issue price of ₹2,520. Which statement correctly describes the issue?",
+        "options": [
+          "It is issued at a premium of ₹120.",
+          "It is issued at a discount of ₹120.",
+          "It is issued at a premium of ₹2,520.",
+          "It is issued at par."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+        "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+      ]
+    },
+    {
+      "id": "9c305b5aa044a48c55786a3aef03d903",
+      "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Goodwill Valuation",
+        "topic": "Goodwill Valuation: focus on this supplied section: 5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumpt. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm's profits for its three past years were ₹36,000, ₹48,000 and ₹60,000. Take their arithmetic average as the past average profit. The agreed number of years' purchase is 4, and no adjustment to these figures is required. Arrange the actions for calculating goodwill under the Average Profits Method.\n(A) Add the three annual profits.\n(B) Divide their total by 3 to find the past average profit.\n(C) Multiply the past average profit by 4 years' purchase.\n(D) Record ₹1,92,000 as the goodwill.\nChoose the correct sequence:",
+        "options": [
+          "(B)-(A)-(C)-(D)",
+          "(A)-(C)-(B)-(D)",
+          "(A)-(B)-(C)-(D)",
+          "(A)-(B)-(D)-(C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0",
+        "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+      ]
+    },
+    {
+      "id": "495c4536f5869a65e46ae8a6d92010c8",
+      "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Admission of Partner: focus on this supplied section: 2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "At the admission of a new partner, P and Q are the only old partners and share profits in the ratio 3:2. During revaluation, the following changes are identified: an increase in an asset’s book value of ₹20,000; a decrease in another asset’s book value of ₹8,000; a decrease in liabilities of ₹2,000; an increase in other liabilities of ₹5,000; an unrecorded asset of ₹12,000; and an unrecorded liability of ₹4,000. These are the only revaluation items, and no other adjustment affects the Revaluation Account. What balance should the Revaluation Account show, and how should it be transferred to P and Q’s capital accounts?",
+        "options": [
+          "Credit balance of ₹21,000; credit P’s Capital Account by ₹12,600 and Q’s by ₹8,400",
+          "Credit balance of ₹17,000; credit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+          "Debit balance of ₹17,000; debit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+          "Credit balance of ₹13,000; credit P’s Capital Account by ₹6,500 and Q’s by ₹6,500"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+        "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+      ]
+    },
+    {
+      "id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+      "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Profit & Loss Appropriation Account",
+        "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 36 Accountancy – Partnership Accounts 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner may be guaranteed a minimum amount by way of his share in profi. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A and B are the only partners and share the entire profit of ₹50,000 in the ratio 3:2. Before any guarantee adjustment, their shares are calculated in that ratio. B is guaranteed a minimum profit share of ₹22,000 by A alone. What amount of the deficiency, if any, is borne by A?",
+        "options": [
+          "B bears ₹2,000.",
+          "A and B bear ₹2,000 equally.",
+          "A and B bear ₹2,000 in the ratio 3:2.",
+          "A alone bears ₹2,000."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:pdf-page-36:4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0",
+        "ncert-leac101:1:quality-v4-2981d89b7e0e:2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e"
+      ]
+    },
+    {
+      "id": "9a3a683cde6b70963343775b8264da5a",
+      "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Admission of Partner: focus on this supplied section: 2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partner. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Before D is admitted, A, B and C share profits in the ratio 7:5:4. The partners and D agree that D will receive 3/10 of the firm’s total profits. This share is acquired by taking 1/10 of the total profits from A, 1/12 from B, and the balance of D’s share from C. What is the new profit-sharing ratio A:B:C:D?",
+        "options": [
+          "81:55:40:72",
+          "81:55:32:72",
+          "49:35:28:48",
+          "105:55:32:72"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+        "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320"
+      ]
+    },
+    {
+      "id": "20e278c61e343db83349eded6916c255",
+      "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Goodwill Valuation",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the val. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Match each case in List-I with the inference in List-II.\nList-I\n(A) A firm obtains goodwill values of ₹2,40,000 and ₹2,70,000 using two different valuation methods.\n(B) The existing partners and the incoming partner are considering how to settle which valuation method will be used.\n(C) The item being valued is goodwill, an intangible asset.\n(D) The firm is considering Average Profits, Super Profits and Capitalisation as valuation methods.\nList-II\n(I) The method of valuation may be specifically decided between the existing and incoming partners.\n(II) Goodwill calculated by one method may differ from that calculated by another method.\n(III) Accurate calculation of goodwill is difficult.\n(IV) More than one method is available for valuing goodwill.\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+          "(A)-(II), (B)-(III), (C)-(I), (D)-(IV)",
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+        "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+      ]
+    },
+    {
+      "id": "ca5dcf7b46049d36029298f5117cbdac",
+      "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Retirement & Death of Partner",
+        "topic": "Retirement & Death of Partner: focus on this supplied section: 3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased Partner required; and • prepare the deceased The sum due to the retiring partner (in case of partne. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A deceased partner’s share of profit for an intervening period is to be estimated using the preceding year’s profit. The preceding year’s profit is ₹2,40,000, the intervening period is three months of a 12-month year, and the deceased partner’s share is 1/4. Arrange the following steps in the order needed to estimate the deceased partner’s share.\n(A) Apply the deceased partner’s 1/4 share to the firm’s estimated profit for the three-month period.\n(B) Divide the annual profit base established in (D) by 12 to obtain the monthly estimate.\n(C) Multiply the monthly estimate from (B) by 3 to estimate the firm’s profit for the intervening period.\n(D) Take the preceding year’s profit, ₹2,40,000, as the annual profit base.",
+        "options": [
+          "(D), (C), (B), (A)",
+          "(D), (B), (A), (C)",
+          "(B), (D), (C), (A)",
+          "(D), (B), (C), (A)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+        "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+      ]
+    },
+    {
+      "id": "ff811eea3631a75486bfd7a8b58442be",
+      "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Comparative & Common Size Statements",
+        "topic": "Analysis of Financial Statements: focus on this supplied section: 182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current as. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Two companies have the following balance-sheet figures. All amounts are in rupees.\nCompany P: Year 1—total assets ₹8,00,000, inventories ₹1,60,000, cash and cash equivalents ₹80,000; Year 2—total assets ₹10,00,000, inventories ₹2,00,000, cash and cash equivalents ₹1,00,000.\nCompany Q: Year 1—total assets ₹20,00,000, inventories ₹4,00,000, cash and cash equivalents ₹3,00,000; Year 2—total assets ₹25,00,000, inventories ₹5,00,000, cash and cash equivalents ₹2,50,000.\nFor each company and year, calculate each listed asset item as a percentage of that year's total assets. Which conclusion is correct?",
+        "options": [
+          "The comparison uses Year 1 total assets as the base for both years, so each company's inventory share rises from 20% to 25%.",
+          "Inventory shares remain 20% for both companies in both years; P's cash share remains 10%, while Q's falls from 15% to 10%.",
+          "Inventory shares remain 20% for both companies in both years; P's cash share remains 10%, while Q's rises from 10% to 15%.",
+          "Revenue from operations is the common base for these balance-sheet items, so the asset figures cannot establish their common-size percentages."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+      ]
+    },
+    {
+      "id": "8ad2e554e891c8095bb7e5cabd4426b9",
+      "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accumulated profits not yet transferred to capital accounts of the partners. These are usually in the fo. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "On admission of a new partner, a firm has an accumulated profit of ₹1,20,000 in its General Reserve that has not been transferred to any partner’s account. The old partners, P and Q, shared profits in the ratio 3:2. Arrange the following steps for distributing this accumulated profit.\n(A) Identify ₹1,20,000 as the accumulated profit to be distributed.\n(B) Restrict the distribution to P and Q and use their old profit-sharing ratio of 3:2.\n(C) Calculate P’s share as ₹72,000 and Q’s share as ₹48,000.\n(D) Transfer the respective shares to P’s and Q’s capital/current accounts.\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(C)-(B)-(D)",
+          "(C)-(A)-(B)-(D)",
+          "(A)-(B)-(D)-(C)",
+          "(A)-(B)-(C)-(D)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-3c34b723c489:3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320",
+        "ncert-leac102:1:span-d26e7974c48b:d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+      ]
+    },
+    {
+      "id": "bb3b190778c93cefa0f07ea760f763ee",
+      "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "topic": "Cash Flow Statement: focus on this supplied section: 6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflo. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Four garment-manufacturing companies report the following figures for one accounting period. “Operating cash” means net cash generated from operating activities. All amounts are in ₹ lakh.\nAarav Garments: operating cash ₹18 lakh; cash required to maintain operating capability ₹5 lakh; dividends ₹3 lakh; new investments ₹6 lakh; loan repayments ₹4 lakh.\nBela Garments: operating cash ₹18 lakh; cash required to maintain operating capability ₹5 lakh; dividends ₹4 lakh; new investments ₹6 lakh; loan repayments ₹4 lakh.\nCharu Garments: operating cash ₹20 lakh; cash required to maintain operating capability ₹6 lakh; dividends ₹4 lakh; new investments ₹7 lakh; loan repayments ₹4 lakh.\nDev Garments: operating cash ₹17 lakh; cash required to maintain operating capability ₹4 lakh; dividends ₹3 lakh; new investments ₹6 lakh; loan repayments ₹5 lakh.\nAssume each listed requirement must be met during the period, opening cash is nil, and no cash from investing activities, financing activities or any other source is available for these requirements. There are no other relevant cash requirements or sources.\nWhich company can meet all four listed requirements from operating cash alone?",
+        "options": [
+          "Aarav Garments",
+          "Bela Garments",
+          "Charu Garments",
+          "Dev Garments"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+        "ncert-leac206:1:span-074c499a4fc2:074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0"
+      ]
+    }
+  ]
+}

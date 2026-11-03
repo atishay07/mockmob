@@ -1,0 +1,38 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=profile&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=profile&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: profile, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 (selected) profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 text Identity
+	30 container Quick study navigation
+		31 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		32 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		33 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		34 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		35 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=profile&plan=pro

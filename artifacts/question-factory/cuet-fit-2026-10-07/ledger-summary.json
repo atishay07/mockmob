@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-09T17:39:31.794Z",
+  "limit_usd": 50,
+  "lifetime": {
+    "requests": 14788,
+    "settled_usd": 38.541027,
+    "held_usd": 0.622892,
+    "committed_usd": 39.163919,
+    "unresolved": 46
+  },
+  "by_purpose_lifetime": {
+    "historical_reconciliation": {
+      "requests": 1,
+      "settled_usd": 0,
+      "held_usd": 0
+    },
+    "provider_probe": {
+      "requests": 6,
+      "settled_usd": 0.000839,
+      "held_usd": 0
+    },
+    "calibration": {
+      "requests": 5615,
+      "settled_usd": 20.266,
+      "held_usd": 0.272214
+    },
+    "candidate": {
+      "requests": 6721,
+      "settled_usd": 11.505336,
+      "held_usd": 0.25484
+    },
+    "unattributed": {
+      "requests": 2,
+      "settled_usd": 0.003858,
+      "held_usd": 0.011096
+    },
+    "reassessment": {
+      "requests": 2443,
+      "settled_usd": 6.764994,
+      "held_usd": 0.084742
+    }
+  },
+  "invoices": "No provider invoice has been obtained. Usage receipts and holds are not invoices; an uncertain call is never assumed free."
+}

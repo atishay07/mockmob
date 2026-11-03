@@ -1,0 +1,25 @@
+{
+  "results": [
+    {
+      "label": "desktop",
+      "columns_restored": true,
+      "options": 4,
+      "selection_preserved": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "label": "mobile",
+      "columns_restored": true,
+      "options": 4,
+      "selection_preserved": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "label": "factory-preview",
+      "latest_cohort": 49,
+      "publication_gated": true
+    }
+  ],
+  "errors": [],
+  "scope": "Local development preview with the exact frozen matching question substituted into the preview session. No real session, publication or production change."
+}

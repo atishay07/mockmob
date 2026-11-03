@@ -1,0 +1,18 @@
+{
+  "schema": "cuet-v713-execution-correction-r2",
+  "created_at": "2026-10-09T19:02:25.558Z",
+  "academic_contract_changed": false,
+  "academic_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "academic_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "basis": "Observed provider-capacity refusals were incorrectly terminal quarantines. Pause without changing any question, academic gate, prompt, effort, price, cap or provider request identity. Archive full zero-cost refusal attempt before native logical-key retry. Unknown and accepted requests are never reposted.",
+  "prior_studies_and_outcomes_preserved": true,
+  "publication": "never",
+  "files": {
+    "scripts/pipeline/lib/providerAvailabilityV713R2.mjs": "2bb4352ea3b4a80bb51e8ea83f9aaf2588377781cd318463a90a6ab9c9e1cc4f",
+    "scripts/pipeline/lib/cuetPilotRunV713R2.mjs": "159517193f49b30414aa4b9972e29a6cbd63065b2f995d90626663144068bebc",
+    "scripts/pipeline/tools/runFinalGeneratorV713R2.mjs": "9d9d8c9c8a2f048094381456f30b7cbae6dfe2f306e48187a5662328c80901fc",
+    "scripts/pipeline/tools/runQualificationV713R2.mjs": "5520e5912fef48ce1c13a698b33afc95d6616fefb2116e827d354eeec5c142d6",
+    "scripts/pipeline/tools/captureQualificationV713PreflightR3.mjs": "dfa1f35ab1a41e9bde117d8afc545b9f9a02d5a89254bc895277da2205a5fab7",
+    "scripts/pipeline/tools/prepareExecutionCorrectionV713R2.mjs": "46f06b6e51fddf2e6af8f0b669843545cde1a8ad7d6db360e4644d678638d417"
+  }
+}

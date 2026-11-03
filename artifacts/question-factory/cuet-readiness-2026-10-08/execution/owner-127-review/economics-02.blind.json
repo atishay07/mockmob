@@ -1,0 +1,556 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "economics",
+  "offset": 10,
+  "total": 53,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-keec107:1:p6-c0:9883d7d5b364d294b17db065ad82834237d2224e24a04d47364aa782d4aaefb4": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p6-c0",
+      "support_hash": "9883d7d5b364d294b17db065ad82834237d2224e24a04d47364aa782d4aaefb4",
+      "text": "and misuse. Hence the environmental issues of waste generation and pollution have become critical today. 7.3 STATE OF INDIA’S ENVIRONMENT India has abundant natural resources in terms of rich quality of soil, hundreds of rivers and tributaries, Fig. 7.3 Deforestation leads to land degradation, biodiversity loss and lush green forests, air pollution plenty of mineral deposits beneath the land surface, vast pressure on its finite natural stretch of the Indian Ocean, ranges of resources, besides creating impacts on mountains, etc. The black soil of the human health and well-being. The Deccan Plateau is particularly suitable threat to India’s environment poses a for cultivation of cotton, leading to dichotomy—threat of poverty-induced concentration of textile industries in this environmental degradation and, at the region. The Indo-Gangetic plains — same time, threat of pollution from spread from the Arabian Sea to the Bay affluence and a rapidly growing of Bengal — are one of the most fertile, industrial sector. Air pollution, intensively cultivated and densely water contamination, soil erosion, populated regions in the world. India’s deforestation and wildlife extinction forests, though unevenly distributed, are some of the most pressing provide green cover for a majority of its environmental concerns of India. The population and natural cover for its priority issues identified are (i) land wildlife. Large deposits of iron-ore, coal degradation (ii) biodiversity loss (iii) air and natural gas are found in the pollution with special reference to country. India accounts for nearly vehicular pollution in urban cities (iv) 8 per cent of the world’s total iron-ore management of fresh water and (v) solid reserves. Bauxite, copper, chromate, waste management. Land in India diamonds, gold, lead, lignite, suffers from varying degrees and types manganese, zinc, uranium, etc. are also of degradation stemming mainly from available in different parts of the unstable use and inappropriate country.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    },
+    "ncert-keec107:1:p8-c1800:1a4dc0464f20b8d81408eabd109a4177c821ba7a0572c7e6e918f92289cc5eb0": {
+      "id": "ncert-keec107",
+      "version": 1,
+      "locator": "p8-c1800",
+      "support_hash": "1a4dc0464f20b8d81408eabd109a4177c821ba7a0572c7e6e918f92289cc5eb0",
+      "text": "nitrogen, 1.8 million tonnes of India supports approximately 17 phosphorus and 26.3 million tonnes per cent of the world’s human and 20 of potassium every year. According to per cent of livestock population on a the Government of India, the quantity mere 2.5 per cent of the world’s of nutrients lost due to erosion each geographical area. The high density year ranges from 5.8 to 8.4 million of population and livestock and tonnes. 122 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c4effa657d18f2a8a9c337776fca7d71a721d3bebabe16e1b19ae3bd7dcc2c67"
+    },
+    "ncert-keec104:1:p9-c0:f7304ee06f35291816ac731e179883d41444e9fb849d4d422eed1bee24e57e48": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p9-c0",
+      "support_hash": "f7304ee06f35291816ac731e179883d41444e9fb849d4d422eed1bee24e57e48",
+      "text": "TABLE 4.1 Select Indicators of Development in Education and Health Sectors Particulars 1951 1981 1991 2001 2018-22 Real Per Capita Income (in Rs) 7,651 12,174 15,748 23,095 94,054 Crude Death 25.1 12.5 9.8 8.1 6.0 Rate (Per 1,000 Population) Infant Mortality Rate 146 110 80 63 28 Life Expectancy Male 37.2 54.1 59.7 63.9 68.6 at Birth (in Years) Female 36.2 54.7 60.9 66.9 71.4 Literacy Rate (%) 16.67 43.57 52.21 65.20 78 Source: Economic Survey for various years, Ministry of Finance; National Statistical Office, Ministry of Statistics and Programme Implementation, Government of India. Table 4.1 that these sectors have grown workforce, particularly involving simultaneously. Growth in each sector mathematics, computer science, and probably has reinforced the growth of data science, in conjunction with every other sector. multidisciplinary abilities across the The National Education Policy sciences and social sciences, and 2020 states that the world is humanities, will be increasingly in undergoing rapid changes in the greater demand. With climate change, knowledge landscape. With various increasing pollution, and depleting dramatic scientific and technological natural resources, there will be a advances, such as the rise of big data, sizeable shift in how we meet the world’s machine learning, and artificial energy, water, food, and sanitation intelligence, many unskilled jobs needs, again resulting in the need for worldwide may be taken over by new skilled labour, particularly in machines, while the need for a skilled biology, chemistry, physics, agriculture, climate science, and social science. The growing emergence of epidemics and pandemics will also call for collaborative research in infectious disease management and development of vaccines and the resultant social issues heightens the need for multidisciplinary learning. There will be a growing demand for humanities and art, as India moves towards becoming a Fig. 4.4 Job on hand: transforming India into a developed country as well as knowledge economy HUMAN CAPITAL FORMATION IN INDIA 65 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-keec104:1:p15-c1893:c8525f861a58d8ea7f0826fdae4f685dbb9eb2e8f46e4824aff984d1d6a6a64d": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p15-c1893",
+      "support_hash": "c8525f861a58d8ea7f0826fdae4f685dbb9eb2e8f46e4824aff984d1d6a6a64d",
+      "text": "inancial outlays for development of education and health sectors. The spread of education and health services across different sectors of society should be Fig. 4.7 Higher Education: few takers ensured so as to simultaneously attain Higher Education — a Few Takers: economic growth and equity. India has The Indian education pyramid is a rich stock of scientific and technical steep, indicating lesser and lesser manpower in the world. The need of number of people reaching the higher the hour is to better it qualitatively and education level. Moreover, the level of provide such conditions so that they unemployment among educated youth are utilised in India. HUMAN CAPITAL FORMATION IN INDIA 71 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-leec104:1:pdf-page-2:ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019": {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019",
+      "text": "54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be different from what she ends up doing. Suppose the producer plans to add Rs 100 worth goods to her stock by the end of the year. Her planned investment is, therefore, Rs 100 in that year. However, due to an unforeseen upsurge of demand for her goods in the market the volume of her sales exceeds what she had planned to sell and, to meet this extra demand, she has to sell goods worth Rs 30 from her stock. Therefore, at the end of the year , her inventory goes up by Rs (100 – 30) = Rs 70 only. Her planned investment is Rs 100 whereas her actual, or ex post, investment is Rs 70 only. We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures. In simple words, ex-ante depicts what has been planned, and ex-post depicts what has actually happened. In order to understand the determination of income, we need to know the planned values of different components of aggregate demand. Let us look at these components now. 4.1.1. Consumption The most important determinant of consumption demand is household income. A consumption function describes the relation between consumption and income. The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption. We can describe this function as: C C cY= + (4.1) The above equation is called the consumption function. Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income. When income rises by Re 1. induced consumption rises by MPC i.e. c or the marginal propensity to consume. It may be explained as a rate of change of consumption as income changes. CMPC c Y ∆= =∆ Now, let us look at the value that MPC can take. When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values). This means that as income increases either Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c"
+    },
+    "ncert-leec104:1:quality-v3-pdf-page-4-5fac2a1794:5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70": {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-4-5fac2a1794",
+      "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70",
+      "text": "In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c"
+    },
+    "ncert-keec102:1:p12-c1777:6a6ef6219a0018e4d04deb688819d3f7420ff743721c1e153d8d9bddb39c05ca": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p12-c1777",
+      "support_hash": "6a6ef6219a0018e4d04deb688819d3f7420ff743721c1e153d8d9bddb39c05ca",
+      "text": "by important failure of our policies agriculture as well as the proportion of followed during 1950-1990. population working in the sector declines considerably. In India, 2.4 INDUSTRY AND TRADE between 1950 and 1990, the Economists have found that poor proportion of GDP contributed by nations can progress only if they have agriculture declined significantly but a good industrial sector. Industry not the population depending on it provides employment which is more (67.5 per cent in 1950 to 64.9 per cent stable than the employment in by 1990). Why was such a large agriculture; it promotes modernisation proportion of the population engaged and overall prosperity. It is for this in agriculture although agricultural reason that the five year plans placed output could have grown with much a lot of emphasis on industrial less people working in the sector? The development. You might have answer is that the industrial sector and studied in the previous chapter that, the service sector did not absorb the at the time of independence, the people working in the agricultural variety of industries was very narrow INDIAN ECONOMY 1950-1990 27 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    },
+    "ncert-keec102:1:p15-c1870:cd7d7f6e412aaeca2a6151993acc0ac54b9fdcc786f4ada020146c14748e7a29": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p15-c1870",
+      "support_hash": "cd7d7f6e412aaeca2a6151993acc0ac54b9fdcc786f4ada020146c14748e7a29",
+      "text": " proportion of GDP trade strategy. Technically, this contributed by the industrial strategy is called import substi- sector increased in the period from tution. This policy aimed at replacing 13 per cent in 1950-51 to 24.6 per cent or substituting imports with domestic in 1990-91. The rise in the production. For example, instead of industry’s share of GDP is an importing vehicles made in a foreign important indicator of development. country, industries would be The six per cent annual growth rate encouraged to produce them in India of the industrial sector during the itself. In this policy the government period is commendable. No longer protected the domestic industries was Indian industry restricted largely from foreign competition. Protection to cotton textiles and jute; in fact, the from imports took two forms: tariffs industrial sector became well and quotas. Tariffs are a tax on diversified by 1990, largely due to 30 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    },
+    "ncert-keec106:1:p18-c1911:6ec991a54cb33d22e25abd29ac1d9099351a97cac2a7f2de6116822148c093e3": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p18-c1911",
+      "support_hash": "6ec991a54cb33d22e25abd29ac1d9099351a97cac2a7f2de6116822148c093e3",
+      "text": "ONCLUSION domestic product, but without There has been a change in the simultaneous increase in employment structure of workforce in India. Newly opportunities. This has forced the emerging jobs are found mostly in the government to take up initiatives in service sector. The expansion of the generating employment opportunities service sector and the advent of high particularly in the rural areas. EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 109 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec106:1:p21-c0:4b72f2ec3c7df66d64c430102cbe0d9e2cc5186db31be3c0606da40d48a18752": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p21-c0",
+      "support_hash": "4b72f2ec3c7df66d64c430102cbe0d9e2cc5186db31be3c0606da40d48a18752",
+      "text": "13. Why are regular salaried employees more in urban areas than in rural areas? 14. Why are less women found in regular salaried employment? 15. Analyse the recent trends in sectoral distribution of workforce in India. 16. Compared to the 1970s, there has hardly been any change in the distribution of workforce across various industries. Comment. 17. Do you think that during 1950-2010 employment generated in the country is commensurate with the growth of GDP in India? How? 18. Is it necessary to generate employment in the formal sector rather than in the informal sector? Why? 19. Victor is able to get work only for two hours in a day. Rest of the day, he is looking for work. Is he unemployed? Why? What kind of jobs could persons like Victor be doing? 20. You are residing in a village. If you are asked to advice the village panchayat, what kinds of activities would you suggest for the improvement of your village which would also generate employment. 21. Who is a casual wage labourer? 22. How will you know whether a worker is working in the informal sector? SUGGESTED ADDITIONAL ACTIVITIES 1. Select a region, say a street or colony, and divide it into 3-4 sub-regions. Conduct a survey by which you can collect the details of activity each person living there is engaged in. Derive the worker-population ratio for all the regions. Interpret the results for differences in worker-population ratio for the different sub-regions. 2. Suppose 3-4 groups of students are given different regions of a state. One region is mainly engaged in cultivation of paddy. In another region, coconut is the main plantation. The third region is a coastal region where fishing is the main activity. The fourth region has a river nearby with a lot of livestock rearing activities. Ask all the four groups to develop a report on what kind of employment could be generated in the four regions. 3. Visit the local library and ask for Employment News, a weekly published by the Government of India. Go through each issue for the last two months. There will be seven issues.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec101:1:pdf-page-4:0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5": {
+      "id": "ncert-keec101",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5",
+      "text": "4 INDIAN ECONOMIC DEVELOPMENT 1.1 I NTRODUCTION The primary objective of this book, Indian Economic Development , is to familiarise you with the basic features of the Indian economy, and its development, as it is today, in the aftermath of Independence. However, it is equally important to know something about the country’s economic past even as you learn about its present state and future prospects. So, let us first look at the state of India’s economy prior to the country’s independence and form an idea of the various considerations that shaped India’ s post-independence development strategy. The structure of India’s present- day economy is not just of current making; it has its roots steeped in history, particularly in the period when India was under British rule which lasted for almost two centuries before India finally won its independence on 15 August 1947. The sole purpose of the British colonial rule in India was to reduce the country to being a raw material supplier for Great Britain’s own rapidly expanding modern industrial base. An understanding of the exploitative nature of this relationship is essential for any assessment of the kind and level of development which the Indian economy has been able to attain over the last seven and half decades. 1.2 1.2 LOW LEVEL OF ECONOMIC DEVELOPMENT UNDER THE COLONIAL RULE India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India (See Box 1.1). “India is the pivot of our Empire... If the Empire loses any other part of its Dominion we can survive, but if we lose India, the sun of our Empire will have set.” Victor Alexander Vruce, the Viceroy of British India in 1894 Box 1.1: Textile Industry in Bengal Muslin is a type of cotton textile which had its origin in Bengal, particularly, places in and around Dhaka (spelled during the pre-independence period as Dacca), now the capital city of Bangladesh. ‘Daccai Muslin’ had gained worldwide fame as an exquisite type of cotton textile. The finest variety of muslin was called malmal. Sometimes, foreign travellers also used to refer to it as malmal shahi or malmal khas implying that it was wor n by, or fit for , the royalty. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1"
+    },
+    "ncert-keec101:1:quality-v3-pdf-page-5-a5e92497b0:a5e92497b0c4a083ddfd82d1faf897fb497600dc298066f228c5d5e4c7d35345": {
+      "id": "ncert-keec101",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-5-a5e92497b0",
+      "support_hash": "a5e92497b0c4a083ddfd82d1faf897fb497600dc298066f228c5d5e4c7d35345",
+      "text": "The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into supplier of raw materials and consumer of finished industrial products from Britain.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1"
+    },
+    "ncert-leec201:1:p6-c1875:1b68ad70c0b7a18a0791af904cb3626d3f02731521724c607f9ef9ba76b468cc": {
+      "id": "ncert-leec201",
+      "version": 1,
+      "locator": "p6-c1875",
+      "support_hash": "1b68ad70c0b7a18a0791af904cb3626d3f02731521724c607f9ef9ba76b468cc",
+      "text": "goods and services and try to figure out how prices and quantities of goods and services are determined through the interaction of individuals in these markets. In macroeconomics, on the other hand, we try to get an understanding of the economy as a whole by focusing our attention on aggregate measures such as total output, employment and aggregate price level. Here, we are interested in finding out how the levels of these aggregate measures are determined and how the levels of these aggregate measures change over time. Some of the important questions that are studied in macroeconomics are as follows: What is the level of total output in the economy? How is the total output determined? How does the total output grow over time? Are the resources of the economy (eg labour) fully employed? What are the reasons behind the unemployment of resources? Why do prices rise? Thus, instead of studying the different markets as is done in microeconomics, in macroeconomics, we try to study the behaviour of aggregate or macro measures of the performance of the economy. 1.6 PLAN OF THE BOOK This book is meant to introduce you to the basic ideas in microeconomics. In this book, we will focus on the behaviour of the individual consumers and producers of a single commodity and try to analyse how the price and the quantity is determined in the market for a single commodity. In Chapter 2, we Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a65235ff3a2101470a0b22f0d188bacb346175f72758f740cf23097ca5f9d820"
+    },
+    "ncert-leec201:1:p7-c0:44d37b335ee9b738296011552db12fe9575fbaea8fb6a88d0608df81f366061b": {
+      "id": "ncert-leec201",
+      "version": 1,
+      "locator": "p7-c0",
+      "support_hash": "44d37b335ee9b738296011552db12fe9575fbaea8fb6a88d0608df81f366061b",
+      "text": "7 ssssstttttpppppeeeeecccccnnnnnoooooCCCCC yyyyyeeeeeKKKKK Introduction Consumption Production Exchange Scarcity Production possibilities Opportunity cost Market Market economy Centrally planned economy Mixed economy Positive analysis Normative analysis Microeconomics Macroeconomics ? 1. Discuss the central problems of an economy. 2. What do you mean by the production possibilities of an economy? 3. What is a production possibility frontier? 4. Discuss the subject matter of economics. 5. Distinguish between a centrally planned economy and a market economy. 6. What do you understand by positive economic analysis? ? 7. What do you understand by normative economic analysis? 8. Distinguish between microeconomics and macroeconomics. ssssseeeeesssssiiiiicccccrrrrreeeeexxxxxEEEEE shall study the consumer’s behaviour. Chapter 3 deals with basic ideas of production and cost. In Chapter 4, we study the producer’s behaviour. In Chapter 5, we shall study how price and quantity is determined in a perfectly competitive market for a commodity. Chapter 6 studies some other forms of market. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a65235ff3a2101470a0b22f0d188bacb346175f72758f740cf23097ca5f9d820"
+    },
+    "ncert-leec105-focused-v1:1:definition:9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5": {
+      "id": "ncert-leec105-focused-v1",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5",
+      "text": "Primary Deficit : We must note that the borrowing requirement of the government includes interest obligations on accumulated debt. The goal of measuring primary deficit is to focus on present fiscal imbalances. To obtain an estimate of borrowing on account of current expenditures exceeding revenues, we need to calculate what has been called the primary deficit. It is simply the fiscal deficit minus the interest payments Gross primary deficit = Gross fiscal deficit – Net interest liabilities Net interest liabilities consist of interest payments minus interest receipts by the government on net domestic lending. ",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+    },
+    "ncert-keec104:1:p15-c0:73884e4e19fb1a35af681d9ffddcdf12d58f72d02a9938234ded537b6f367119": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p15-c0",
+      "support_hash": "73884e4e19fb1a35af681d9ffddcdf12d58f72d02a9938234ded537b6f367119",
+      "text": "Constitution that the government is the highest. As per NSSO data, in the should provide free and compulsory year 2011-12, the rate of education for all children up to the age unemployment among youth males of 14 years within 10 years from the who studied graduation and above in commencement of the Constitution. rural areas was 19 per cent. Their urban Had we achieved this, we would have counterparts had relatively less level of cent per cent literacy by now. unemployment at 16 per cent. The most severely affected ones were young rural Gender Equity — Better than Before: female graduates as nearly 30 per cent of them are unemployed. In contrast The differences in literacy rates between to this, only about 3-6 per cent of males and females are narrowing primary level educated youth in rural signifying a positive development in and urban areas were unemployed. gender equity; still the need to promote The situation has improved moderately education for women in India is as indicated by the Periodic Labour imminent for various reasons such as Force Survey 2023-24. Nevertheless, improving economic independence and the government should increase social status of women and also allocation for higher education and also because women education makes a improve the standard of higher favourable impact on fertility rate and education institutions, so that students health care of women and children. are imparted employable skills in such Therefore, we cannot be complacent institutions. When compared to less about the upward movement in the educated, a large proportion of literacy rates and we have miles to go in educated persons are unemployed. achieving cent per cent adult literacy. Why? 4.8 CONCLUSION The economic and social benefits of human capital formation and human development are well known. The union and state governments in India have been earmarking substantial financial outlays for development of education and health sectors. The spread of education and health services across different sectors of society should be Fig.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-keec104:1:p4-c1815:788f515951f6f6b1f483e915e94dc0d4edfb1901dafafac50f07c063f4c81344": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p4-c1815",
+      "support_hash": "788f515951f6f6b1f483e915e94dc0d4edfb1901dafafac50f07c063f4c81344",
+      "text": "ital? the development of a nation as much (ii) Is there any relation between as it is important for the development human capital and economic of an individual. growth of a country? Who can work better—a sick (iii) Is the formation of human person or a person with sound health? capital linked to people’s all-round A sick labourer without access to development or, as it is now called, medical facilities is compelled to human development? abstain from work and there is loss of (iv) What role can the government productivity. Hence, expenditure on play in human capital formation health is an important source of in India? human capital formation. 60 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-keec102:1:p4-c0:9de9411a61fe27409eafae880132535cb0cf7aa3586652e9eb06e9b0a1f574fb": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p4-c0",
+      "support_hash": "9de9411a61fe27409eafae880132535cb0cf7aa3586652e9eb06e9b0a1f574fb",
+      "text": "Box 2.2: What is a Plan? A plan spells out how the resources of a nation should be put to use. It should have some general goals as well as specific objectives which are to be achieved within a specified period of time; in India plans were of five years duration and were called five year plans (we borrowed this from the former Soviet Union, the pioneer in national planning). Our plan documents upto the year 2017 not only specify the objectives to be attained in the five years of a plan but also what is to be achieved over a period of twenty years. This long-term plan is called ‘perspective plan’. The five year plans were supposed to provide the basis for the perspective plan. It will be unrealistic to expect all the goals of a plan to be given equal importance in all the plans. In fact the goals may actually be in conflict. For example, the goal of introducing modern technology may be in conflict with the goal of increasing employment if the technology reduces the need for labour. The planners have to balance the goals, a very difficult job indeed. We find different goals being emphasised in different plans in India. India’s five year plans did not spell out how much of each and every good and service is to be produced. This is neither possible nor necessary (the former Soviet Union tried to do this and failed). It is enough if the plan is specific about the sectors where it plays a commanding role, for instance, power generation and irrigation, while leaving the rest to the market. economy with the private sector being of the goals is to be given primary encouraged to be part of the plan effort. importance. Nevertheless, the planners The ‘Industrial Policy Resolution’ of have to ensure that, as far as possible, 1948 and the Directive Principles of the policies of the plans do not the Indian Constitution reflected contradict these four goals. Let us now this outlook. In 1950, the Planning learn about the goals of planning in Commission was set up with the some detail. Prime Minister as its Chairperson. The era of five year plans had begun.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    },
+    "ncert-keec102:1:p7-c1941:6da8ee74496c17611c55d8ffdb9935912ef07624fe5f37b53ee5859e5bceaea3": {
+      "id": "ncert-keec102",
+      "version": 1,
+      "locator": "p7-c1941",
+      "support_hash": "6da8ee74496c17611c55d8ffdb9935912ef07624fe5f37b53ee5859e5bceaea3",
+      "text": " Variety’ (HYV) seeds prosperity reach the poor sections as which ushered in a revolution in well instead of being enjoyed only by Indian agriculture. the rich. So, in addition to growth, modernisation and self-reliance, Land Reforms: At the time of equity is also important. Every Indian independence, the land tenure system should be able to meet his or her basic was characterised by intermediaries 22 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "edf529c55a1c504c021d9f2d61ee614cc963f789ba5bf8d6ccf6e3649b724b46"
+    }
+  },
+  "cases": [
+    {
+      "id": "749c7d54f592dbfc93ca164595ca5cff",
+      "content_hash": "3f5d29f0330b9294a08ddbde221d7b765c3886078306671ae5468ff44cf9289d",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: and misuse. Hence the environmental issues of waste generation and pollution have become critical today. 7.3 STATE OF INDIA’S ENVIRONMENT India has abundant natural resources in te. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Match List-I with List-II.\n\nList-I\n(A) Varying degrees and types of land degradation stem mainly from unstable and inappropriate use.\n(B) In urban cities, vehicular pollution is given special reference within a major environmental concern.\n(C) Management of fresh water is identified as a priority issue.\n(D) Management of solid waste is identified as a priority issue.\n\nList-II\n(I) Air pollution\n(II) Solid waste management\n(III) Management of fresh water\n(IV) Land degradation\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(IV), (B)-(I), (C)-(III), (D)-(II)",
+          "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)",
+          "(A)-(IV), (B)-(I), (C)-(II), (D)-(III)",
+          "(A)-(III), (B)-(I), (C)-(IV), (D)-(II)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec107:1:p6-c0:9883d7d5b364d294b17db065ad82834237d2224e24a04d47364aa782d4aaefb4",
+        "ncert-keec107:1:p8-c1800:1a4dc0464f20b8d81408eabd109a4177c821ba7a0572c7e6e918f92289cc5eb0"
+      ]
+    },
+    {
+      "id": "20d17d6168c3fbf2eb5c0ee350eaf85e",
+      "content_hash": "b9e8500c308c065807977f16f2b84a67c6ad6398ad7834b81d9427a1b7703770",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: TABLE 4.1 Select Indicators of Development in Education and Health Sectors Particulars 1951 1981 1991 2001 2018-22 Real Per Capita Income (in Rs) 7,651 12,174 15,748 23,095 94,054 . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "The listed real per capita income values are ₹7,651 in 1951, ₹12,174 in 1981, ₹15,748 in 1991, ₹23,095 in 2001 and ₹94,054 in 2018–22. For each interval, calculate the increase by subtracting the earlier listed value from the later one; do not annualise the 2001–2018–22 difference.\n\n(A) The increase from 1991 to 2001 was ₹7,347.\n(B) The increase from 1981 to 1991 was ₹4,523.\n(C) The increase from 2001 to 2018–22 was ₹70,959.\n(D) The increase from 1951 to 1981 was ₹3,574.\n\nWhich of the above statements are correct?",
+        "options": [
+          "(A) and (B) only",
+          "(A) and (D) only",
+          "(B) and (C) only",
+          "(A) and (C) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec104:1:p9-c0:f7304ee06f35291816ac731e179883d41444e9fb849d4d422eed1bee24e57e48",
+        "ncert-keec104:1:p15-c1893:c8525f861a58d8ea7f0826fdae4f685dbb9eb2e8f46e4824aff984d1d6a6a64d"
+      ]
+    },
+    {
+      "id": "0de322e27637f76ac593c99028e4cafa",
+      "content_hash": "d61dbc80f5e4d9528d8f11d35071c5aba4bb6ee96817e9b5aef3c45ee9f9a1fb",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "topic": "Income Determination: focus on this supplied section: 54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A producer plans to add ₹1,20,000 to inventory by the end of the year. To meet extra demand, she later sells goods worth ₹35,000 from that inventory. Assume no other changes to inventory occur. Arrange the following events and steps in the order that leads from the producer’s plan to identifying actual investment.\n(A) The producer plans an addition of ₹1,20,000 to inventory.\n(B) The producer sells ₹35,000 worth of goods from inventory to meet extra demand.\n(C) The net increase in inventory is calculated as ₹1,20,000 − ₹35,000 = ₹85,000.\n(D) The amount of ₹85,000 is identified as actual (ex post) investment.\nChoose the correct sequence:\nA. (A)-(C)-(B)-(D)\nB. (B)-(A)-(C)-(D)\nC. (A)-(B)-(C)-(D)\nD. (A)-(B)-(D)-(C)",
+        "options": [
+          "(A)-(C)-(B)-(D)",
+          "(B)-(A)-(C)-(D)",
+          "(A)-(B)-(C)-(D)",
+          "(A)-(B)-(D)-(C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec104:1:pdf-page-2:ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019",
+        "ncert-leec104:1:quality-v3-pdf-page-4-5fac2a1794:5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+      ]
+    },
+    {
+      "id": "8b7a12e7cce479ddec3b443b1a09f92a",
+      "content_hash": "9cc9a92c21d971c9dc38a7f93365b212fb137c8c341fadefea445f7835115a74",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: by important failure of our policies agriculture as well as the proportion of followed during 1950-1990. population working in the sector declines considerably. In India, 2.4 INDUS. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A review of India reports that the population share working in agriculture was 67.5% in 1950 and 64.9% in 1990. Industry’s share of GDP was 13% in 1950–51 and 24.6% in 1990–91, and the industrial sector’s annual growth rate during the period was 6%. The review also reports that industry and services did not absorb the people working in agriculture. A commentator concludes that the rise in industry’s GDP share demonstrates a comparable transfer of workers from agriculture to industry. Which assessment follows from the stated facts?",
+        "options": [
+          "The conclusion follows because the 11.6-percentage-point rise in industry’s GDP share measures an equivalent movement of workers out of agriculture.",
+          "The conclusion does not follow: industry’s GDP share rose by 11.6 percentage points, while agriculture’s population share fell by 2.6 percentage points, and industry and services did not absorb the agricultural workforce.",
+          "The conclusion follows because a 6% annual industrial growth rate establishes that industry absorbed the workers corresponding to agriculture’s 2.6-percentage-point decline.",
+          "The conclusion does not follow because agriculture’s population share increased by 2.6 percentage points, offsetting the increase in industry’s GDP share."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec102:1:p12-c1777:6a6ef6219a0018e4d04deb688819d3f7420ff743721c1e153d8d9bddb39c05ca",
+        "ncert-keec102:1:p15-c1870:cd7d7f6e412aaeca2a6151993acc0ac54b9fdcc786f4ada020146c14748e7a29"
+      ]
+    },
+    {
+      "id": "559f599c8fa9caddcb113a5b81282e96",
+      "content_hash": "33aefe3ad835a8ada74f8a4c5ab2ad6937c2fdac86d1b95d919e985feff925d7",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: ONCLUSION domestic product, but without There has been a change in the simultaneous increase in employment structure of workforce in India. Newly opportunities. This has forced the. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the statements in the logical order of the concluding argument, with the government response at the end.\n(A) The structure of the workforce in India has changed.\n(B) Newly emerging jobs are found mostly in the service sector.\n(C) Growth in domestic product is not accompanied by a simultaneous increase in employment opportunities.\n(D) The government takes initiatives to generate employment opportunities, particularly in rural areas.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(A), (C), (B), (D)",
+          "(A), (B), (C), (D)",
+          "(B), (A), (C), (D)",
+          "(A), (B), (D), (C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec106:1:p18-c1911:6ec991a54cb33d22e25abd29ac1d9099351a97cac2a7f2de6116822148c093e3",
+        "ncert-keec106:1:p21-c0:4b72f2ec3c7df66d64c430102cbe0d9e2cc5186db31be3c0606da40d48a18752"
+      ]
+    },
+    {
+      "id": "765c28539460d21e44556e18f6ea5dc3",
+      "content_hash": "6ef4a8486a381562aef48fc51b37e2a591a64b75179b5628123463cdfe6c1362",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 4 INDIAN ECONOMIC DEVELOPMENT 1.1 I NTRODUCTION The primary objective of this book, Indian Economic Development , is to familiarise you with the basic features of the Indian econom. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A catalogue entry describes a textile as cotton muslin from Bengal and records a foreign traveller’s label, “malmal khas”. No surviving record identifies who wore this particular textile. What does the label imply?",
+        "options": [
+          "It indicates that the textile is silk rather than cotton.",
+          "It indicates that the muslin is an ordinary variety rather than the finest variety.",
+          "It indicates that a particular royal person actually wore this textile.",
+          "It indicates that the textile was worn by, or fit for, royalty."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec101:1:pdf-page-4:0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5",
+        "ncert-keec101:1:quality-v3-pdf-page-5-a5e92497b0:a5e92497b0c4a083ddfd82d1faf897fb497600dc298066f228c5d5e4c7d35345"
+      ]
+    },
+    {
+      "id": "8c1cc9b05e28b915f65be085a1f701f1",
+      "content_hash": "aa8de55bed85c6cc0b57831ccff00f47af8d058b0cf4de32bb7e6593cb4bbf1f",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "topic": "Introduction & Theory of Consumer Behaviour: focus on this supplied section: goods and services and try to figure out how prices and quantities of goods and services are determined through the interaction of individuals in these markets. In macroeconomics, . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A research team wants to investigate the economy as a whole, rather than the behaviour of an individual consumer or producer or the price and quantity in a single-commodity market. Which research question best fits this aim?",
+        "options": [
+          "How are price and quantity determined in the market for one commodity?",
+          "How does an individual consumer behave in relation to one commodity?",
+          "How does total output in the economy grow over time?",
+          "How does an individual producer behave in producing one commodity?"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec201:1:p6-c1875:1b68ad70c0b7a18a0791af904cb3626d3f02731521724c607f9ef9ba76b468cc",
+        "ncert-leec201:1:p7-c0:44d37b335ee9b738296011552db12fe9575fbaea8fb6a88d0608df81f366061b"
+      ]
+    },
+    {
+      "id": "8ae5b51a291e1e4af741fed6b275739c",
+      "content_hash": "55908e5468c89193398307a0e654a997762bbde896f93696874cab8fa9d7f7e8",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Government Budget & the Economy: focus on this supplied section: Primary Deficit : We must note that the borrowing requirement of the government includes interest obligations on accumulated debt. The goal of measuring primary deficit is to focus. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "For one financial year, a government has a fiscal deficit of ₹8,40,000. Its interest payments are ₹1,20,000, and its interest receipts on net domestic lending are ₹20,000. Assume these are the only interest payments and receipts relevant to the calculation. What is the government’s primary deficit?",
+        "options": [
+          "₹7,20,000",
+          "₹9,40,000",
+          "₹7,40,000",
+          "₹8,20,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec105-focused-v1:1:definition:9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+      ]
+    },
+    {
+      "id": "e28748f678ef9c8fff1c553cb667a2a2",
+      "content_hash": "59bd6f0e3297015e84d9cebc6fc5ac6cf752fb74d8b2f37043ee1de739e0900e",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: Constitution that the government is the highest. As per NSSO data, in the should provide free and compulsory year 2011-12, the rate of education for all children up to the age unem. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Use the following unemployment data for the same youth snapshot (2011–12): male youth with graduation and above had rates of 19 per cent in rural areas and 16 per cent in urban areas; young rural female graduates had a rate of nearly 30 per cent; male youth with primary-level education in rural and urban areas had a rate of about 3–6 per cent. Treat “nearly” and “about” as approximate; the 3–6 per cent rate is the reported range for rural and urban areas together. Match List-I with List-II.\nList-I\n(A) Difference between unemployment rates for rural and urban male youth with graduation and above\n(B) Difference between rates for rural female and rural male graduates\n(C) Group with the highest reported unemployment rate among those listed\n(D) Male youth with primary-level education in rural and urban areas compared with male youth with graduation and above\nList-II\n(I) Rural male graduates: 3 percentage points higher than urban male graduates\n(II) Rural female graduates: nearly 11 percentage points higher than rural male graduates\n(III) Young rural female graduates, at nearly 30 per cent\n(IV) Primary-level male youth: about 3–6 per cent, below the male-graduate rates of 16 and 19 per cent\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec104:1:p15-c0:73884e4e19fb1a35af681d9ffddcdf12d58f72d02a9938234ded537b6f367119",
+        "ncert-keec104:1:p4-c1815:788f515951f6f6b1f483e915e94dc0d4edfb1901dafafac50f07c063f4c81344"
+      ]
+    },
+    {
+      "id": "dfe119a36518933ac33780d01f3d313a",
+      "content_hash": "28e1d8e0f4d8d3f29311c697e3eafbe5ecfe5296cf21811568347180bb3dcd8a",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: Box 2.2: What is a Plan? A plan spells out how the resources of a nation should be put to use. It should have some general goals as well as specific objectives which are to be achi. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A planning team is arranging a framework with five-year plans and a twenty-year long-term plan. Arrange the following elements in a coherent sequence, beginning with the shorter-horizon objectives, moving to the longer horizon, identifying the long-term plan, and then stating the relationship between the plans.\n\nI. Specify objectives to be attained within a five-year plan.\nII. Specify what is to be achieved over a twenty-year period.\nIII. Identify the twenty-year long-term plan as the perspective plan.\nIV. Treat the five-year plans as the basis for the perspective plan.\n\nChoose the correct sequence:",
+        "options": [
+          "I → III → II → IV",
+          "II → I → III → IV",
+          "I → II → IV → III",
+          "I → II → III → IV"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec102:1:p4-c0:9de9411a61fe27409eafae880132535cb0cf7aa3586652e9eb06e9b0a1f574fb",
+        "ncert-keec102:1:p7-c1941:6da8ee74496c17611c55d8ffdb9935912ef07624fe5f37b53ee5859e5bceaea3"
+      ]
+    }
+  ]
+}

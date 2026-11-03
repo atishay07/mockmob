@@ -1,0 +1,871 @@
+{
+ "tag": "v7.0",
+ "benchmark": {
+  "id": "cuet-fit-benchmark-v1-2026-10-07",
+  "payload_hash": "6956d97afa2f17c0ed6eb1f76e8353bc318c47777f30188a681b05184f6d3312"
+ },
+ "verifier_version": "cuet-fit-validator-v7.0",
+ "generated_at": "2026-10-07T16:23:58.073Z",
+ "topologies": {
+  "dual_blind": {
+   "authored_valid": {
+    "n": 22,
+    "approved": 18,
+    "survival_pct": 81.82,
+    "rejected_by": {
+     "syllabus_mapping": 2,
+     "source_support": 1,
+     "explanation_support": 1
+    },
+    "rejected_ids": [
+     {
+      "id": "v7b-bs-planning-primary",
+      "stage": "syllabus_mapping",
+      "reasons": [
+       "failed:syllabus_mapping"
+      ],
+      "details": [
+       "The stem states that planning comes before organising, staffing, directing and controlling. E1.3 identifies this primacy: planning lays the basis for the other functions and precedes them, so B is correct.",
+       "A reverses the stated sequence, C conflicts with planning being pervasive across levels and departments, and D conflicts with the other functions remaining interrelated and important.",
+       "cuet_fit_zero_criterion:discrimination_value"
+      ]
+     },
+     {
+      "id": "v7b-bs-consumer-rights",
+      "stage": "syllabus_mapping",
+      "reasons": [
+       "failed:syllabus_mapping"
+      ],
+      "details": [
+       "The excerpt lists six rights: safety, being informed, choice, being heard, seeking redressal, and consumer education. A, B, and D are on that list; a right to free replacement of every product is not.",
+       "cuet_fit_zero_criterion:discrimination_value"
+      ]
+     },
+     {
+      "id": "v7b-eng-usage-sporadic",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "B matches the supplied definition of “sporadic”: the power cuts happen occasionally and at irregular intervals.",
+       "C is also reasonably defensible: a speech can be intermittent or occur irregularly while still explaining every point in detail. The sentence does not say it was continuous, so B is not uniquely correct.",
+       "Defect: multiple_correct_options: C may describe a speech delivered intermittently or occurring irregularly; explaining every point in detail does not establish that it was continuous. Thus C may also use “sporadic” correctly.",
+       "Condition missing: Whether the speech in C may be delivered intermittently or occur irregularly; the sentence gives no timing information, and detailed coverage does not rule out irregular delivery."
+      ]
+     },
+     {
+      "id": "v7b-eng-antonym-conspicuous",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "E1.1 supports the definition of “conspicuous,” but the supplied evidence does not establish the stated synonym comparisons for “obvious” and “prominent.”",
+       "unsupported claim: “Obvious” is close in meaning to “conspicuous.”",
+       "unsupported claim: “Prominent” is close in meaning to “conspicuous.”"
+      ]
+     }
+    ]
+   },
+   "authentic_pyq": {
+    "n": 21,
+    "approved": 9,
+    "survival_pct": 42.86,
+    "rejected_by": {
+     "source_support": 9,
+     "blind_key_contradiction": 1,
+     "explanation_support": 2
+    },
+    "rejected_ids": [
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q12",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The standard preparation sequence points to D → A → C → B, which is option B: calculate profit before tax and extraordinary items, then determine operating, investing, and financing cash flows.",
+       "The excerpts identify the three activity categories and describe preparation generally, but they do not state the full sequence or the working-note step. Because the decisive procedural principle is not established by the supplied excerpts, I abstain.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the complete sequence being tested, including the placement of the working-note calculation.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q3",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The conceptual match is (A)-(III), (B)-(IV), (C)-(I), and (D)-(II), which corresponds to option D.",
+       "The supplied excerpts support reserve capital being called at winding up and calls in advance being a liability, but do not establish the complete matching—particularly subscribed but not fully paid under share capital and sinking fund under reserves and surplus. Abstain because the decisive principles are not fully supported by the supplied excerpts.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish all the classifications needed to verify the matching, including subscribed but not fully paid under share capital and sinking fund under reserves and surplus.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q22",
+      "stage": null,
+      "reasons": [
+       "blind_key_contradiction"
+      ],
+      "details": []
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q20",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The expected answer is C, Articles of Association: under the relevant accounting rule, calls in advance may be accepted when authorised by the Articles.",
+       "The supplied excerpt defines calls in advance but does not state who must authorise them. Since the decisive rule is not established by the supplied evidence, I abstain.",
+       "Option D has a stray trailing “st”; it does not prevent identifying the options, but appears to be an extraction or typing fragment.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the decisive authorisation rule for calls in advance."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q5",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The conventional preparation order is Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Balance Sheet, so option A is correct.",
+       "E1.1 and E6.3 support aspects of profit ascertainment and appropriation, but do not establish the complete sequence. The supplied Unit I topics include the Profit and Loss Appropriation Account, not preparation of this final-accounts sequence.",
+       "Defect: syllabus_mismatch: The supplied syllabus topics do not include preparation of partnership final accounts or their sequence; they mention the Profit and Loss Appropriation Account as a separate topic.",
+       "cuet_fit_low_syllabus_relevance"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q6",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The expected classification is A, money supply in the economy; the other listed examples are social or political/legal rather than economic.",
+       "The supplied excerpt identifies life expectancy and population shifts as social-environment factors (E1.3), but none of the supplied excerpts establishes that money supply is an economic-environment factor. Under the source-only requirement, abstain.",
+       "Defect: unsupported_fact_or_explanation: No supplied source excerpt establishes the decisive classification of money supply as an economic-environment factor.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q25",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "In the standard two-sector circular-flow model, C is the unique intended answer: firms produce goods and services; households supply factor services to firms; households save while firms invest; and government is outside the model.",
+       "The supplied excerpt E1.1 establishes that firms distribute factor payments and receive consumption expenditure as sales revenue, but it does not state the decisive proposition that firms produce goods and services. Abstain under the source-support requirement.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpt does not state the decisive claim in option C that firms produce goods and services.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q3",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The ordinary economics answer is D: (A), (D) and (E) are true, while (B) and (C) are false.",
+       "The supplied excerpts support (D) and (E), and E3.1 says that a fall in the bank rate can increase money supply, making (C) false. They do not establish the CRR claim in (A) or the open-market-operations classification in (B). Because the supplied evidence does not establish all decisive propositions, abstain as instructed.",
+       "This is an authenticated-PYQ item, so meaningfully_distinct is true under the specified rule.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the CRR claim in (A) or the open-market-operations classification in (B), although these are decisive to evaluating the answer choices."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q11",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The intended matching is (A)-(II), (B)-(III), (C)-(I), (D)-(IV), which corresponds to option B: the excerpts support fixed exchange rates, managed floating as dirty floating, and errors and omissions as the third BOP element.",
+       "The decisive relationship between the Bretton Woods Conference and the setting up of the IMF and World Bank is not established by the supplied excerpts or current syllabus. Abstain under the source-support requirement.",
+       "Defect: unsupported_fact_or_explanation: The decisive Bretton Woods Conference–IMF and World Bank relationship is not supported by the supplied academic excerpts.",
+       "Defect: syllabus_mismatch: The supplied current syllabus covers BOP components and exchange-rate regimes, but does not include the tested Bretton Woods Conference–IMF and World Bank relationship."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q36",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The explanation correctly identifies a social objective, but its unqualified employment claim broadens the excerpt: it specifies employment opportunities for underprivileged sections, while the stem does not say the people employed are from those sections.",
+       "unsupported claim: Social objectives include providing employment opportunities, without qualification."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q46",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The intended target, “sycophantic,” means excessively and insincerely praising someone; “flattering” is the closest option.",
+       "The supplied rendering does not visibly identify the word referred to as underlined.",
+       "Defect: unreadable_presentation: The stem refers to an underlined word, but the supplied presentation does not visibly mark which word is underlined.",
+       "Condition missing: The intended underlined target is “sycophantic.”"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q48",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The supplied Oxford excerpt gives the definition of redoubtable but does not state that formidable is a synonym; the claim that the excerpt supports option 3 therefore lacks source support.",
+       "unsupported claim: Oxford explicitly gives “formidable” as a synonym.",
+       "unsupported claim: That supports option 3."
+      ]
+     }
+    ]
+   },
+   "controlled_defects": {
+    "n": 76,
+    "false_accepts": 0,
+    "false_accept_pct": 0,
+    "upper_95_pct": 3.87,
+    "by_category": {
+     "numerical_fault": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "multiple_correct": {
+      "n": 12,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 22.09
+     },
+     "wrong_key": {
+      "n": 22,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 12.73
+     },
+     "missing_assumption": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "unsupported_explanation": {
+      "n": 20,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 13.91
+     },
+     "out_of_syllabus": {
+      "n": 8,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 31.23
+     }
+    },
+    "accepted_ids": []
+   },
+   "poor_cuet_fit": {
+    "n": 4,
+    "approved": 0,
+    "approved_ids": [],
+    "rejected_by": {
+     "source_support": 3,
+     "syllabus_mapping": 1
+    }
+   },
+   "valid_survival_pct": 62.79
+  },
+  "single_luna": {
+   "authored_valid": {
+    "n": 22,
+    "approved": 19,
+    "survival_pct": 86.36,
+    "rejected_by": {
+     "syllabus_mapping": 2,
+     "source_support": 1
+    },
+    "rejected_ids": [
+     {
+      "id": "v7b-bs-planning-primary",
+      "stage": "syllabus_mapping",
+      "reasons": [
+       "failed:syllabus_mapping"
+      ],
+      "details": [
+       "The stem states that planning comes before organising, staffing, directing and controlling. E1.3 identifies this primacy: planning lays the basis for the other functions and precedes them, so B is correct.",
+       "A reverses the stated sequence, C conflicts with planning being pervasive across levels and departments, and D conflicts with the other functions remaining interrelated and important.",
+       "cuet_fit_zero_criterion:discrimination_value"
+      ]
+     },
+     {
+      "id": "v7b-bs-consumer-rights",
+      "stage": "syllabus_mapping",
+      "reasons": [
+       "failed:syllabus_mapping"
+      ],
+      "details": [
+       "The excerpt lists six rights: safety, being informed, choice, being heard, seeking redressal, and consumer education. A, B, and D are on that list; a right to free replacement of every product is not.",
+       "cuet_fit_zero_criterion:discrimination_value"
+      ]
+     },
+     {
+      "id": "v7b-eng-usage-sporadic",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "B matches the supplied definition of “sporadic”: the power cuts happen occasionally and at irregular intervals.",
+       "C is also reasonably defensible: a speech can be intermittent or occur irregularly while still explaining every point in detail. The sentence does not say it was continuous, so B is not uniquely correct.",
+       "Defect: multiple_correct_options: C may describe a speech delivered intermittently or occurring irregularly; explaining every point in detail does not establish that it was continuous. Thus C may also use “sporadic” correctly.",
+       "Condition missing: Whether the speech in C may be delivered intermittently or occur irregularly; the sentence gives no timing information, and detailed coverage does not rule out irregular delivery."
+      ]
+     }
+    ]
+   },
+   "authentic_pyq": {
+    "n": 21,
+    "approved": 9,
+    "survival_pct": 42.86,
+    "rejected_by": {
+     "source_support": 9,
+     "blind_key_contradiction": 1,
+     "explanation_support": 2
+    },
+    "rejected_ids": [
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q12",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The standard preparation sequence points to D → A → C → B, which is option B: calculate profit before tax and extraordinary items, then determine operating, investing, and financing cash flows.",
+       "The excerpts identify the three activity categories and describe preparation generally, but they do not state the full sequence or the working-note step. Because the decisive procedural principle is not established by the supplied excerpts, I abstain.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the complete sequence being tested, including the placement of the working-note calculation.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q3",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The conceptual match is (A)-(III), (B)-(IV), (C)-(I), and (D)-(II), which corresponds to option D.",
+       "The supplied excerpts support reserve capital being called at winding up and calls in advance being a liability, but do not establish the complete matching—particularly subscribed but not fully paid under share capital and sinking fund under reserves and surplus. Abstain because the decisive principles are not fully supported by the supplied excerpts.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish all the classifications needed to verify the matching, including subscribed but not fully paid under share capital and sinking fund under reserves and surplus.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q22",
+      "stage": null,
+      "reasons": [
+       "blind_key_contradiction"
+      ],
+      "details": []
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q20",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The expected answer is C, Articles of Association: under the relevant accounting rule, calls in advance may be accepted when authorised by the Articles.",
+       "The supplied excerpt defines calls in advance but does not state who must authorise them. Since the decisive rule is not established by the supplied evidence, I abstain.",
+       "Option D has a stray trailing “st”; it does not prevent identifying the options, but appears to be an extraction or typing fragment.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the decisive authorisation rule for calls in advance."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q5",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The conventional preparation order is Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Balance Sheet, so option A is correct.",
+       "E1.1 and E6.3 support aspects of profit ascertainment and appropriation, but do not establish the complete sequence. The supplied Unit I topics include the Profit and Loss Appropriation Account, not preparation of this final-accounts sequence.",
+       "Defect: syllabus_mismatch: The supplied syllabus topics do not include preparation of partnership final accounts or their sequence; they mention the Profit and Loss Appropriation Account as a separate topic.",
+       "cuet_fit_low_syllabus_relevance"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q6",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The expected classification is A, money supply in the economy; the other listed examples are social or political/legal rather than economic.",
+       "The supplied excerpt identifies life expectancy and population shifts as social-environment factors (E1.3), but none of the supplied excerpts establishes that money supply is an economic-environment factor. Under the source-only requirement, abstain.",
+       "Defect: unsupported_fact_or_explanation: No supplied source excerpt establishes the decisive classification of money supply as an economic-environment factor.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q25",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "In the standard two-sector circular-flow model, C is the unique intended answer: firms produce goods and services; households supply factor services to firms; households save while firms invest; and government is outside the model.",
+       "The supplied excerpt E1.1 establishes that firms distribute factor payments and receive consumption expenditure as sales revenue, but it does not state the decisive proposition that firms produce goods and services. Abstain under the source-support requirement.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpt does not state the decisive claim in option C that firms produce goods and services.",
+       "Decisive principle is not stated in the supplied excerpts"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q3",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The ordinary economics answer is D: (A), (D) and (E) are true, while (B) and (C) are false.",
+       "The supplied excerpts support (D) and (E), and E3.1 says that a fall in the bank rate can increase money supply, making (C) false. They do not establish the CRR claim in (A) or the open-market-operations classification in (B). Because the supplied evidence does not establish all decisive propositions, abstain as instructed.",
+       "This is an authenticated-PYQ item, so meaningfully_distinct is true under the specified rule.",
+       "Defect: unsupported_fact_or_explanation: The supplied excerpts do not establish the CRR claim in (A) or the open-market-operations classification in (B), although these are decisive to evaluating the answer choices."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q11",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The intended matching is (A)-(II), (B)-(III), (C)-(I), (D)-(IV), which corresponds to option B: the excerpts support fixed exchange rates, managed floating as dirty floating, and errors and omissions as the third BOP element.",
+       "The decisive relationship between the Bretton Woods Conference and the setting up of the IMF and World Bank is not established by the supplied excerpts or current syllabus. Abstain under the source-support requirement.",
+       "Defect: unsupported_fact_or_explanation: The decisive Bretton Woods Conference–IMF and World Bank relationship is not supported by the supplied academic excerpts.",
+       "Defect: syllabus_mismatch: The supplied current syllabus covers BOP components and exchange-rate regimes, but does not include the tested Bretton Woods Conference–IMF and World Bank relationship."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q46",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The intended target, “sycophantic,” means excessively and insincerely praising someone; “flattering” is the closest option.",
+       "The supplied rendering does not visibly identify the word referred to as underlined.",
+       "Defect: unreadable_presentation: The stem refers to an underlined word, but the supplied presentation does not visibly mark which word is underlined.",
+       "Condition missing: The intended underlined target is “sycophantic.”"
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q36",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The environmental-methods point supports the social-objective classification, but the employment rationale is broader than the excerpt, which specifies employment opportunities for underprivileged sections; the stem does not say the employees are from those sections.",
+       "unsupported claim: The employment provision itself supports classifying the activity as a social objective.",
+       "unsupported claim: Social objectives include providing employment opportunities, without specifying that they are for underprivileged sections."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q48",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The supplied dictionary excerpt supports the paraphrased definition but does not show that Oxford explicitly lists “formidable” as a synonym. The official key confirms option 3 for this original question, but does not substantiate that dictionary attribution.",
+       "unsupported claim: Oxford explicitly gives “formidable” as a synonym."
+      ]
+     }
+    ]
+   },
+   "controlled_defects": {
+    "n": 76,
+    "false_accepts": 0,
+    "false_accept_pct": 0,
+    "upper_95_pct": 3.87,
+    "by_category": {
+     "numerical_fault": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "multiple_correct": {
+      "n": 12,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 22.09
+     },
+     "wrong_key": {
+      "n": 22,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 12.73
+     },
+     "missing_assumption": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "unsupported_explanation": {
+      "n": 20,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 13.91
+     },
+     "out_of_syllabus": {
+      "n": 8,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 31.23
+     }
+    },
+    "accepted_ids": []
+   },
+   "poor_cuet_fit": {
+    "n": 4,
+    "approved": 0,
+    "approved_ids": [],
+    "rejected_by": {
+     "source_support": 3,
+     "syllabus_mapping": 1
+    }
+   },
+   "valid_survival_pct": 65.12
+  },
+  "single_gemini": {
+   "authored_valid": {
+    "n": 22,
+    "approved": 22,
+    "survival_pct": 100,
+    "rejected_by": {},
+    "rejected_ids": []
+   },
+   "authentic_pyq": {
+    "n": 21,
+    "approved": 12,
+    "survival_pct": 57.14,
+    "rejected_by": {
+     "source_support": 1,
+     "explanation_support": 7,
+     "syllabus_mapping": 1
+    },
+    "rejected_ids": [
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q20",
+      "stage": "source_support",
+      "reasons": [
+       "failed:source_support"
+      ],
+      "details": [
+       "The question asks what authorizes a company to accept calls in advance.",
+       "Under Section 50 of the Companies Act, 2013 and standard company law, a company can accept calls in advance only if authorized by its Articles of Association.",
+       "However, none of the provided textbook excerpts (E1.1, E1.2, E2.1, E2.2, E2.3) state the rule that calls in advance must be authorized by the Articles of Association.",
+       "Per instructions ('Use only the source excerpts... Abstain if unsupported'), the item lacks required source support and must be abstained."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q3",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The excerpt establishes that calls in advance are a liability, but does not establish that they are classified as current liabilities. The explanation uses that unsubstantiated classification to claim (D) matches (II).",
+       "unsupported claim: Therefore, (D) matches (II)."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-accountancy-bookA-q5",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The official key supports the selected sequence for this original question, and the appropriation entry supports the account’s role in sharing profit with partners. But the explanation’s Trading Account and transfer-to-Profit-and-Loss claims are not established by the supplied excerpts; the cited Profit and Loss excerpt concerns a sole proprietorship and does not establish that partnership workflow.",
+       "unsupported claim: The Trading Account determines the gross result.",
+       "unsupported claim: That gross result is taken to the Profit and Loss Account.",
+       "unsupported claim: The Profit and Loss Account ascertains the net profit or loss."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q36",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The social-objective answer is supported by the environmentally friendly-method aspect. However, the explanation also uses employment as support without the source’s qualification that the employment opportunities are for underprivileged sections; the stem does not establish that qualification.",
+       "unsupported claim: The employment provided by this plant supports classifying this activity as a social objective, without any qualification about who receives the employment.",
+       "unsupported claim: Social objectives include providing employment opportunities without specifying that they are for underprivileged sections."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q6",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The key supports A as the answer to the original question, but the supplied excerpts do not establish the explanation’s claim that money supply is an economic condition or explain its classification as part of the economic environment.",
+       "unsupported claim: Money supply in the economy is an economic condition."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-business_studies-bookA-q26",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "The formal-organisation features and the keyed answer are supported, but the explanation does not establish that independent communication channels without a specified direction are incompatible with defined job relationships and reporting lines.",
+       "unsupported claim: That communication feature does not fit formal organisation’s defined relationships and reporting lines."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q46",
+      "stage": "syllabus_mapping",
+      "reasons": [
+       "failed:syllabus_mapping"
+      ],
+      "details": [
+       "The word 'sycophantic' means praising powerful people excessively and insincerely to gain favour, which directly corresponds to 'flattering'.",
+       "Evidence E1.1 defines 'sycophantic' as praising people insincerely, and E2.1 defines 'flatter' as saying nice things insincerely to please someone."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-economics-bookA-q25",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "E1.1 states the consumption-expenditure and sales-revenue equality under a no-leakage condition. The stem specifies a two-sector economy but does not state that condition.",
+       "The cited revenue relationship does not establish that firms produce goods and services; the key confirms option C for the original question, not this reasoning.",
+       "unsupported claim: In the two-sector circular flow described, firms receive aggregate consumption expenditure as sales revenue.",
+       "unsupported claim: This supports the statement that firms produce goods and services."
+      ]
+     },
+     {
+      "id": "v7b-pyq-cuet2024-english-bookA-q48",
+      "stage": "explanation_support",
+      "reasons": [
+       "failed:explanation_support"
+      ],
+      "details": [
+       "E1.1 supports the definition paraphrase, but does not state that Oxford explicitly lists “formidable” as a synonym. The official key confirms option 3 for the original question, but does not establish that Oxford supplied that synonym or support the explanation’s reasoning.",
+       "unsupported claim: Oxford explicitly gives “formidable” as a synonym.",
+       "unsupported claim: That supports option 3."
+      ]
+     }
+    ]
+   },
+   "controlled_defects": {
+    "n": 76,
+    "false_accepts": 0,
+    "false_accept_pct": 0,
+    "upper_95_pct": 3.87,
+    "by_category": {
+     "numerical_fault": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "multiple_correct": {
+      "n": 12,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 22.09
+     },
+     "wrong_key": {
+      "n": 22,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 12.73
+     },
+     "missing_assumption": {
+      "n": 7,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 34.82
+     },
+     "unsupported_explanation": {
+      "n": 20,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 13.91
+     },
+     "out_of_syllabus": {
+      "n": 8,
+      "accepted": 0,
+      "ids": [],
+      "upper_95_pct": 31.23
+     }
+    },
+    "accepted_ids": []
+   },
+   "poor_cuet_fit": {
+    "n": 4,
+    "approved": 0,
+    "approved_ids": [],
+    "rejected_by": {
+     "source_support": 2,
+     "syllabus_mapping": 1,
+     "explanation_support": 1
+    }
+   },
+   "valid_survival_pct": 79.07
+  }
+ },
+ "standalone_validators": {
+  "openai": {
+   "evaluated": 123,
+   "errors": 0,
+   "key_agreement_with_oracle_on_valid": "35/43",
+   "pyq_key_agreement": "13/21",
+   "wrong_key_defects_contradicted": "22/22"
+  },
+  "gemini": {
+   "evaluated": 122,
+   "errors": 1,
+   "key_agreement_with_oracle_on_valid": "42/43",
+   "pyq_key_agreement": "20/21",
+   "wrong_key_defects_contradicted": "22/22"
+  }
+ },
+ "rubric": {
+  "authentic_pyq": {
+   "n": 21,
+   "pass": 21,
+   "mean_levels": {
+    "openai": {
+     "syllabus_objective": 2.86,
+     "format_authenticity": 2.95,
+     "level_calibration": 3,
+     "discrimination_value": 2.43,
+     "time_suitability": 3
+    },
+    "gemini": {
+     "syllabus_objective": 3,
+     "format_authenticity": 3,
+     "level_calibration": 3,
+     "discrimination_value": 3,
+     "time_suitability": 3
+    }
+   },
+   "mean_seconds": {
+    "openai": 25,
+    "gemini": 30
+   }
+  },
+  "authored_valid": {
+   "n": 22,
+   "pass": 22,
+   "mean_levels": {
+    "openai": {
+     "syllabus_objective": 2.95,
+     "format_authenticity": 2.64,
+     "level_calibration": 2.91,
+     "discrimination_value": 1.95,
+     "time_suitability": 3
+    },
+    "gemini": {
+     "syllabus_objective": 3,
+     "format_authenticity": 2.95,
+     "level_calibration": 3,
+     "discrimination_value": 2.91,
+     "time_suitability": 3
+    }
+   },
+   "mean_seconds": {
+    "openai": 23,
+    "gemini": 30
+   }
+  },
+  "poor_cuet_fit": {
+   "n": 4,
+   "pass": 2,
+   "mean_levels": {
+    "openai": {
+     "syllabus_objective": 2.5,
+     "format_authenticity": 2.25,
+     "level_calibration": 1.75,
+     "discrimination_value": 1.25,
+     "time_suitability": 3
+    },
+    "gemini": {
+     "syllabus_objective": 2.25,
+     "format_authenticity": 2,
+     "level_calibration": 1,
+     "discrimination_value": 1,
+     "time_suitability": 3
+    }
+   },
+   "mean_seconds": {
+    "openai": 26,
+    "gemini": 33
+   }
+  }
+ },
+ "cost_by_provider_stage": {
+  "openai/authoring": {
+   "calls": 18,
+   "realtime_usd": 0.008874,
+   "batch_equivalent_usd": 0.004433
+  },
+  "openai/blind_solution": {
+   "calls": 89,
+   "realtime_usd": 0.185202,
+   "batch_equivalent_usd": 0.092581
+  },
+  "gemini/independent_evaluation": {
+   "calls": 92,
+   "realtime_usd": 0.849186,
+   "batch_equivalent_usd": 0.424576
+  },
+  "openai/explanation_support": {
+   "calls": 97,
+   "realtime_usd": 0.076218,
+   "batch_equivalent_usd": 0.038084
+  }
+ },
+ "validation_cost": {
+  "dual_blind": {
+   "validation_cost_realtime_usd": 1.068181,
+   "per_candidate_realtime_usd": 0.008684,
+   "validation_cost_batch_equivalent_usd": 0.534054,
+   "per_candidate_batch_equivalent_usd": 0.004342,
+   "candidates": 123
+  },
+  "single_luna": {
+   "validation_cost_realtime_usd": 0.218562,
+   "per_candidate_realtime_usd": 0.001777,
+   "validation_cost_batch_equivalent_usd": 0.109261,
+   "per_candidate_batch_equivalent_usd": 0.000888,
+   "candidates": 123
+  },
+  "single_gemini": {
+   "validation_cost_realtime_usd": 0.899314,
+   "per_candidate_realtime_usd": 0.007311,
+   "validation_cost_batch_equivalent_usd": 0.44964,
+   "per_candidate_batch_equivalent_usd": 0.003656,
+   "candidates": 123
+  }
+ }
+}

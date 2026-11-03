@@ -1,0 +1,19 @@
+# V77 final study: construction review before registration
+
+No native qualification requests, study registration, release or pilot occurred at this checkpoint. These are construction findings, not rejected qualification outcomes.
+
+The first blind packet SHA256 is `8546f0a2b2b6ce1a937f96eddb78defae1d38c2a3a72ff492f253bf2a16bd956`. Root derivations were frozen with SHA256 `af1360a2d6ce5bc9a11a10cad069f5c860cfcb6d67085f99284fac4d47c3c84e`; independent Sol derivations were frozen with SHA256 `bb068fea2a5e9277a462c91c6054b0a6d465907994f5cda55bbbd7c44ff12903`. Both preceded root inspection of draft proposed answers and labels. Sol has not inspected those proposed answers or labels.
+
+Four designated English valid controls have absent passages and empty source identities. Their designated validity is not established by the delivered v1 packet. Preserve v1 and restore complete original stimuli in a documented construction revision, then derive again before registration. The mixed customer-receipt/machine-disposal questions also omit the investing rule from their item-local excerpts. Several textbook passages labelled quotes are paraphrases or composites rather than exact contiguous extracted text. `blind-excerpt-audit-v1.json` records every checked reference; its Unicode/whitespace substring audit checks extraction identity, not academic entailment.
+
+Most privately proposed single-answer meanings agree with independent derivation. Explicit ambiguity and missing-input cases cannot acquire a manufactured unique oracle key. Wrong-key, arithmetic-explanation and unsupported-explanation controls should retain independently established true answers where one exists. Wrong proposed keys and invalid explanations are distinct defects.
+
+The advanced English subjunctive item is not proven outside every CUET English entitlement by a reading-comprehension heading: the official syllabus says the tested topics are not limited to its list. Its supplied narrative passage does not source its specialist grammar rule, and its assigned narrative-comprehension objective is not what it tests. Preserve expected-invalid status only with this demonstrated source/objective basis; do not institute a blanket grammar ban. Record any pre-registration category correction explicitly.
+
+The independent historical freshness review covers all13 required frozen sets (346 fixture rows), finding no historical semantic or number-only reuse. It flags four closely related new root/defect pairs plus consumer-rights overlap. Controlled mutations are intentionally correlated and must be reported as such; 28 cases do not mean28 independent roots. Final corrected passage/source/option payloads still need an independent freshness review before registration.
+
+The v1 routes and format names do not match the existing factory conventions. Align metadata in a preserved v2 construction revision, use proper source/family/pack contracts and learning-objective objects, check positive schema/presentation/provenance locally, and attach only existing authenticated comparators selected by the actual subject/format policy. Paper identity references alone are not comparator question text. Easy questions may be useful; no keyword bans or gate reductions are justified.
+
+The frozen runner additionally calls undefined `completedCache` in its recover path. Its original bytes remain untouched. A separately bound receipt-only recovery tool is being tested; do not claim the original registered CLI recovery path works. Neither recovery nor a failed release permits resubmission of an accepted/unknown request or release of an uncertain hold.
+
+Next: preserve and independently inspect corrected v2 blind payloads, exact source spans, label/explanation custody and freshness; freeze all41 inputs with the prospective $4 stop protocol and bind the additive recovery helper; offline preflight before one authorized execution. All existing lifetime holds remain intact.

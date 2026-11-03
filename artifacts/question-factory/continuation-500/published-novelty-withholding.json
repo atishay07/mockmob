@@ -1,0 +1,109 @@
+{
+  "at": "2026-10-07T09:45:15.352Z",
+  "reason": "duplicate_passage_fact_atomic_group",
+  "academic_wrong_key_alleged": false,
+  "paid_provider_calls": 0,
+  "records": [
+    {
+      "environment": "staging",
+      "id": "f6014d82652aa9d90c149cb515fd98fb",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "93f7fe0fbeeed98c62fc47f5da0fdf2605bffeb263790e29507e801685a3535b",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:19.375Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:20.173Z"
+    },
+    {
+      "environment": "staging",
+      "id": "d7fec04a9cccc34986926c92bbebf61d",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "3dc6af4c9cc658838ee63190f2add8047312be89052ed5a967deb0a040c2d21b",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:20.174Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:20.876Z"
+    },
+    {
+      "environment": "staging",
+      "id": "f1698e180d606e19672b97a2fb05d811",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "3d40ac8f11d5a36f268fb4e64b7cd498c73701233f7fc1f956a78bcd0002cce3",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:20.877Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:21.531Z"
+    },
+    {
+      "environment": "production",
+      "id": "f6014d82652aa9d90c149cb515fd98fb",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "93f7fe0fbeeed98c62fc47f5da0fdf2605bffeb263790e29507e801685a3535b",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:33.062Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:33.771Z"
+    },
+    {
+      "environment": "production",
+      "id": "d7fec04a9cccc34986926c92bbebf61d",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "3dc6af4c9cc658838ee63190f2add8047312be89052ed5a967deb0a040c2d21b",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:33.773Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:34.218Z"
+    },
+    {
+      "environment": "production",
+      "id": "f1698e180d606e19672b97a2fb05d811",
+      "cohort": "cost-native-cohort-007",
+      "group_id": "original-passage-d60c3db784308a4460d8",
+      "content_hash": "3d40ac8f11d5a36f268fb4e64b7cd498c73701233f7fc1f956a78bcd0002cce3",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T09:45:34.219Z",
+      "completed": true,
+      "finished_at": "2026-10-07T09:45:34.926Z"
+    },
+    {
+      "environment": "staging",
+      "id": "abb793b3de99185acb169170f420b335",
+      "reason": "unsupported_conjunctive_antonym_explanation",
+      "cohort": "cost-native-cohort-007",
+      "group_id": null,
+      "content_hash": "f23bba218edd3219b6807e9f94d5061f397bbe9e6cbff65b14f1f87fb9f201c9",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T10:02:17.152Z",
+      "completed": true,
+      "finished_at": "2026-10-07T10:02:18.089Z"
+    },
+    {
+      "environment": "production",
+      "id": "abb793b3de99185acb169170f420b335",
+      "reason": "unsupported_conjunctive_antonym_explanation",
+      "cohort": "cost-native-cohort-007",
+      "group_id": null,
+      "content_hash": "f23bba218edd3219b6807e9f94d5061f397bbe9e6cbff65b14f1f87fb9f201c9",
+      "prior_status": "live",
+      "prior_verification_state": "verified",
+      "started_at": "2026-10-07T10:02:26.388Z",
+      "completed": true,
+      "finished_at": "2026-10-07T10:02:27.065Z"
+    }
+  ],
+  "completed": true,
+  "finished_at": "2026-10-07T10:02:27.073Z",
+  "latest_started_at": "2026-10-07T10:02:11.499Z"
+}

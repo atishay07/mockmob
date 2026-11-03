@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "eng-b1",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "She saw another narrow track toward a new gate and took that route home",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Grandfather had planted the grass along the path",
+     "label": "unsupported",
+     "why": "Passage says grass covered the edges; no planting"
+    },
+    {
+     "claim": "New gate opened onto the village market",
+     "label": "unsupported",
+     "why": "No market mentioned"
+    },
+    {
+     "claim": "She visited the market next morning",
+     "label": "unsupported",
+     "why": "Not in passage"
+    },
+    {
+     "claim": "Other options describe actions not reported",
+     "label": "entailed",
+     "why": "A contradicts taking new route home"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eng-b2",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Shelves looked almost empty only because outside the circle of light, same books",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Moving lamp changed where light fell, not contents",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Nothing says books removed or lamp replaced",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Arjun moved lamp closer and later raised the shade",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eng-b3",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Concise means only necessary and important information in few words",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Short reply with only needed facts fits",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Repeating, history and no-info replies fail the definition",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eng-b4",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Correction would turn victory into a tie",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Captains changed the result",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "No replay",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Captains checked deliveries and agreed, so not refused",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Result was a tie, not opposing win",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eng-b5",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Painter looked again, did not erase sky or declare boy correct, sketched one clear bird",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Erasing the sky and declaring the boy correct ruled out",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eng-b6",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Grandmother left to stay with his uncle",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Uncle lived in Pune",
+     "label": "unsupported",
+     "why": "No city named in passage; no option establishable"
+    },
+    {
+     "claim": "Other cities not connected with uncle",
+     "label": "unsupported",
+     "why": "Nothing distinguishes cities"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eng-b7",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Teacher asked which idea she most wanted audience to remember",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "She kept central argument and one example, removed anecdote and two examples",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Speaking faster made words hard to follow",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Organiser only shortened time",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "She retained central argument",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "eng-b8",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Noticed entry number missing and asked for registration check rather than attaching from memory",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "She wanted the poster to win",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "The check was meant to secure friend's victory",
+     "label": "unsupported",
+     "why": "Contradicted by Leela's stated motive: entries judged as submitted, same check for anyone; correct key is B"
+    },
+    {
+     "claim": "Judges had not yet arrived",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "eng-b9",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Rohan realised asking the right person could be useful assistance",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Notebook found after he asked another volunteer",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Leaving meaning refusing was initial feeling",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Pupil thanked both",
+     "label": "stated",
+     "why": ""
+    },
+    {
+     "claim": "Costumes needed soon",
+     "label": "stated",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  }
+ ]
+}

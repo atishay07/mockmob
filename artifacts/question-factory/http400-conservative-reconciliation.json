@@ -1,0 +1,7 @@
+{
+  "id": "26d28dba-793a-4692-924d-41f150edfea3",
+  "error": "provider_http_400",
+  "accounting_basis": "Conservative full-reservation debit: original HTTP error body was not retained. This is an upper bound, not provider-reported usage; no zero-cost assumption.",
+  "conservative_debit_micro": 3858,
+  "reconciled_at": "2026-10-06T07:44:16.992Z"
+}

@@ -1,0 +1,9 @@
+Browser tab: 1, Title: "Login to MockMob", URL: "http://localhost:3010/login".
+1 AXWebArea Login to MockMob, URL: localhost:3010/login
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 heading Securing your session, Value: 1
+			5 text Securing your session
+		6 text Checking existing session...
+
+The focused UI element is 1 AXWebArea Login to MockMob, URL: localhost:3010/login

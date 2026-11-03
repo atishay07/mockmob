@@ -1,0 +1,255 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-05",
+  "batch_offset": 40,
+  "batch_total": 53,
+  "case_count": 10,
+  "blind_packet_sha256": "6d263010a187a817f3de2b9da1432890e860b50163d69c51581515dfc5dc7536",
+  "created_at_utc": "2026-10-08T14:14:42+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independent solution using blind packet items and registered source excerpts; scenario-stipulated calculations distinguished from historical claims not established in excerpt.",
+  "cases": [
+    {
+      "id": "86d76029e629b9f6ef1430035cc5765f",
+      "content_hash": "0457cfae2bd5b1b848245a4950eb9006c3e55c870306480120193f8f8906b97c",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: continuously increasing outflow of the population growth as being the emigrants to the Middle-east. This highest in Pakistan, followed by India helped the country in stimulating an. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "The stated order is Pakistan highest (II), India second-highest (III), China third (IV); the Chinese one-child norm is stated as a major reason for low population growth (I). This gives A-II,B-III,C-IV,D-I.",
+      "source_evidence": {
+        "id": "ncert-keec108",
+        "locator": "p7-c0",
+        "support_hash": "465c9da30a1023f5214b3189d64c3f5ccbe648383539ca9ee6cbb11237c1c6ef",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "population growth as being the highest in Pakistan, followed by India and China. ... one-child norm introduced in China in the late 1970s as the major reason for low population growth.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "75ec5aa6e1c81eda20121fb91aa2db43",
+      "content_hash": "0cbfb9877e32a88f531fa844442b0e97ed1012bb8caef8dcadf4d91d7b4ba653",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: and misuse. Hence the environmental issues of waste generation and pollution have become critical today. 7.3 STATE OF INDIA’S ENVIRONMENT India has abundant natural resources in te. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "The source explicitly presents environmental functions/role first, state of India’s environment second, and sustainable-development steps/strategies third: B-C-A.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p2-c1870",
+        "support_hash": "365f21c3ae26479bc347b4c8dbaf98bc23d77041218450eaa3a6c1f3a825ca0c",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The first part deals with the functions and role of environment. The second section discusses the state of India’s environment and the third section deals with steps and strategies to achieve sustainable development.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "be39abb660525f86fd664b8df9629b11",
+      "content_hash": "55f4be6e76e731422951962ba2c53d6d273d0ee435c478b2f37be249c464a3fa",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "topic": "Balance of Payments: focus on this supplied section: In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Rev. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Using ₹80 as base: 80→88 is +10% (devaluation/cheaper), 80→72 is −10% (revaluation/costlier), 80→84 is +5% (devaluation/cheaper), and 80→76 is −5% (revaluation/costlier). A-I,B-II,C-III,D-IV, option A.",
+      "source_evidence": {
+        "id": "ncert-leec106",
+        "locator": "quality-v3-pdf-page-10-2c8bfe854e",
+        "support_hash": "2c8bfe854e92acf5972635c5bbc22bca29869683453fd99b712346a675ce896a",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. ... when the Government decreases the exchange rate (thereby, making domestic currency costlier) ... Revaluation.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "ea1434b63fed9b916708438120026842",
+      "content_hash": "f3ea8067f98c18251d14485354a23f89a634815088e00ca7b5fbb5933e9ad6d1",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: g in the for more than one employer such as private sector get a lower salary as construction workers and headload compared to another person doing the workers. You may note that t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "Non-farm count = mining 12 + construction 18 + trade 16 + services 10 = 56. Total 80, so 56/80×100=70%. The stem expressly classifies sectors.",
+      "source_evidence": {
+        "id": "ncert-keec106",
+        "locator": "p8-c0",
+        "support_hash": "85979a6cd1997f5ce5dfd49ff349ea92097eccf25e15a47e757d09e26ec64bd5",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "labour flows from agriculture and other related activities to industry and services.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "ea0352db044b73bb7158800c58be188d",
+      "content_hash": "11c1b351895920f6597e0632e407e2573684bd45b29f52a4329beb49d10ae3f2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Government Budget & the Economy: focus on this supplied section: Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Both tax and non-tax receipts that do not create a claim on government are revenue receipts, classified respectively as tax revenue and non-tax revenue.",
+      "source_evidence": {
+        "id": "ncert-leec105",
+        "locator": "quality-v3-pdf-page-3-681bdd9372",
+        "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Revenue receipts are those receipts that do not lead to a claim on the government. They are ... divided into tax and non-tax revenues.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "af5aa1c337402262a710eace8dc504ab",
+      "content_hash": "6e791c9acd910352ee7079ea3c22a4a838239502e816425d6c2d5b5c51dadff9",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: (iii) Water contamination (iv) Affluent consumption standards (v) Illiteracy (vi) Industrialisation (vii) Urbanisation (viii) Reduction of forest coverage (ix) Poaching, and (x) Gl. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "35 crore equals 3,500 lakh. Increase = 3,500 lakh−3 lakh=3,497 lakh=34 crore 97 lakh.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p9-c1863",
+        "support_hash": "08074b9d3e4e53ab5cfe150d18e635f47599afcc194b980909f6379d275eb34f",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "In India, air pollution is widespread in urban areas where vehicles are the major contributors.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "17b22c6e7575cec573a9cb15b2749f8c",
+      "content_hash": "ef997707ea192929a3c13295f235a26011417da897249bbe674a6888b81679e2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "topic": "National Income & Related Aggregates: focus on this supplied section: 15 1515 1515National Income Accounting entire income of the economy, therefore, comes back to the producers in the form of sales revenue. There is no leakage from the system – ther. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "With no leakages and all household income spent on final domestic output, aggregate factor payments must equal final-output sales ₹5,60,000. The recorded ₹5,30,000 requires +₹30,000. P+Q spending also totals ₹5,60,000.",
+      "source_evidence": {
+        "id": "ncert-leec102",
+        "locator": "pdf-page-7",
+        "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "there is no difference between the amount that the firms had distributed in the form of factor payments ... and the aggregate consumption expenditure that they receive as sales revenue.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "c9557cd208cfc88032d6349e0e5ced8c",
+      "content_hash": "9d464d5aa055f8f675f751bd4a32058dfd36f35f7ce52403783612a1ba5b258d",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Economic Reforms Since 1991: focus on this supplied section: Some scholars question the 2021–22. During the reform period, usefulness of India being a member of the growth of agriculture has declined. the WTO as a major volume of While the i. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "The hypothetical arrangement explicitly has developing countries admit developed-country goods while developed countries exclude developing-country goods; option B states that one-way asymmetry. The answer follows from the stipulated hypothetical.",
+      "source_evidence": {
+        "id": "ncert-keec103",
+        "locator": "p13-c0",
+        "support_hash": "4084e36edb3f091c0be5fbc43d6eab2f783343a31bede8ac9e6c9ff128c7b470",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Some scholars question the usefulness of India being a member of the WTO as a major volume of international trade occurs among the developed nations.",
+        "evidence_status": "scenario_is_stipulated_but_context_excerpts_do_not_establish_the_fact"
+      }
+    },
+    {
+      "id": "feb840a6e49b6592386adcc5fd2bf8a2",
+      "content_hash": "6fac1d3644120c8333b0f4c01aeb6dba865165db4fb636003c0050b6eda0c744",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 4 INDIAN ECONOMIC DEVELOPMENT 1.1 I NTRODUCTION The primary objective of this book, Indian Economic Development , is to familiarise you with the basic features of the Indian econom. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "A→III (loss of another dominion survivable), B→IV (loss of India ends the Empire), C→II (“pivot” means central), D→I (speaker office/year). Only option B matches. The quoted wording/attribution is supplied in the stem.",
+      "source_evidence": {
+        "id": "ncert-keec101",
+        "locator": "pdf-page-4",
+        "support_hash": "0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "it is equally important to know something about the country’s economic past",
+        "evidence_status": "scenario_is_stipulated_but_context_excerpts_do_not_establish_the_fact"
+      }
+    },
+    {
+      "id": "1d169b91bb1212eaace41647147933e2",
+      "content_hash": "058604935091cc938ebb4374152edcf53ed1fc36d425ea0898aec2e5a44148cb",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Rural Development",
+        "topic": "Rural Development: focus on this supplied section: important productive sectors for diversification. FFFFFiiiiissssshhhhheeeeerrrrriiiiieeeeesssss::::: The fishing community regards the water body as ‘mother’ or ‘provider’. The wat. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "A, B and D are supported: water body includes lakes/streams, “mother/provider” reports the community’s view, and rivers/natural ponds are named. C is false because the list is not restricted to seas/oceans.",
+      "source_evidence": {
+        "id": "ncert-keec105",
+        "locator": "p10-c0",
+        "support_hash": "1816a2f752c6ae610b3cc6244bbb8b4696b214e2c54d9883e7ff75479451fe6a",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "sea, oceans, rivers, lakes, natural aquatic ponds, streams etc. are ... an integral and life-giving source for the fishing community.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    }
+  ]
+}

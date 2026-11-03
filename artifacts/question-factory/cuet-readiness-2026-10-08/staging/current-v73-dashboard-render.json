@@ -1,0 +1,50 @@
+{
+  "at": "2026-10-08T12:42:09.477Z",
+  "base": "http://localhost:3101",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "checks": [
+    {
+      "label": "desktop",
+      "width": 1440,
+      "height": 1000,
+      "authenticated_heading": true,
+      "refresh_status": 200,
+      "coverage_expanded": true,
+      "no_horizontal_overflow": true,
+      "current_validation": {
+        "verifier_version": "cuet-fit-validator-v7.3",
+        "topology": "dual_blind",
+        "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+        "ready": false,
+        "readiness_reason": "v73_current_release_required",
+        "legacy_ready": true
+      },
+      "observed_usable_factory": 535,
+      "rendered_validation_text": "Current generation validation: publication withheld until current benchmark evidence passes. cuet-fit-validator-v7.3. Legacy release status cannot approve new-version questions."
+    },
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844,
+      "authenticated_heading": true,
+      "refresh_status": 200,
+      "coverage_expanded": true,
+      "no_horizontal_overflow": true,
+      "current_validation": {
+        "verifier_version": "cuet-fit-validator-v7.3",
+        "topology": "dual_blind",
+        "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+        "ready": false,
+        "readiness_reason": "v73_current_release_required",
+        "legacy_ready": true
+      },
+      "observed_usable_factory": 535,
+      "rendered_validation_text": "Current generation validation: publication withheld until current benchmark evidence passes. cuet-fit-validator-v7.3. Legacy release status cannot approve new-version questions."
+    }
+  ],
+  "page_errors": [],
+  "paid_provider_calls": 0,
+  "publication_writes": 0,
+  "production_writes": 0,
+  "emails_sent": 0
+}

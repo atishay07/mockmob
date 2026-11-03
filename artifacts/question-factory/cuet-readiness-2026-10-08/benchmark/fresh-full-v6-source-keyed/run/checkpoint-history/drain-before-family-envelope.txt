@@ -1,0 +1,1 @@
+Drain active requests before repairing the fixture family metadata harness. Preserve every native receipt.

@@ -1,0 +1,10 @@
+{
+  "at": "2026-10-08T15:47:31.787Z",
+  "settled_usd": 33.848181,
+  "held_usd": 0.528808,
+  "committed_usd": 34.376989,
+  "remaining_usd": 15.623011,
+  "unresolved": 36,
+  "invoice_verified": false,
+  "accounting_mutations": 0
+}

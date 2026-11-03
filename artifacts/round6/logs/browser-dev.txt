@@ -1,0 +1,18 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Error: strict mode violation: getByText('68 PrepOS credits', { exact: true }) resolved to 2 elements:
+    1) <span class="sr-only">68 PrepOS credits</span> aka getByLabel('PrepOS credits: 68, paused').getByText('PrepOS credits')
+    2) <span class="pp-ask__balance">68 PrepOS credits</span> aka getByRole('region').getByText('68 PrepOS credits')
+
+Call log:
+  - waiting for getByText('68 PrepOS credits', { exact: true }) to be visible
+
+    at C:\Users\atish\Desktop\mockmob copy\mockmob copy\scripts\design-audit\round6-verify.mjs:35:98 {
+  log: [
+    "  - waiting for getByText('68 PrepOS credits', { exact: true }) to be visible"
+  ]
+}
+
+Node.js v24.15.0

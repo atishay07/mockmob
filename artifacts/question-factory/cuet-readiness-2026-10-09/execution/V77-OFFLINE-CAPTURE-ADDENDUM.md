@@ -1,0 +1,7 @@
+# V77 offline capture correction before evaluation
+
+The original frozen sizing harness returned its mock evaluation cache during the blind request capture phase. A read-only reproduction captured zero of the required 56 fresh blind requests, while all28 synthetic audit requests were captured. This is an offline harness fault, not a provider outcome or academic result.
+
+The separately frozen additive runner `runFreshCuetReadinessV77Integrated.mjs` disables the mock cache during blind sizing and enables it only for synthetic explanation-audit sizing. It verifies its own executable hash and supplemental freeze hash against the concrete authorization before preparation, preflight or execution. The original runner, core/transport freezes, native request construction, academic checks, pricing, caps and accepted-request protections remain unchanged. Do not invoke either original or additive runner's known-broken recover action; use the separately frozen receipt-only tool.
+
+The same41 frozen cases and the existing explicit human authorization govern the sole paid qualification attempt. No case, key, label, explanation, denominator or threshold changes. This pre-evaluation additive integration correction authorizes no additional benchmark, provider comparison, paid call or publication. Require complete corrected captures and independent diff review before dispatch. Bind both supplemental hashes and this addendum in the concrete authorization; preserve prior unsuccessful preflights and registrations.

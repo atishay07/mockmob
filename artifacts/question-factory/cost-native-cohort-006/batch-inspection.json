@@ -1,0 +1,103 @@
+{
+  "contract": "evidence-content-idea-inspection-v1",
+  "content_hash": "a1565f0f0ff9a908cd26a5d5e4fcee4b7dff3b7c78aa17e6a1c0868bf7549f58",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 88,
+  "answer_positions": {
+    "C": 20,
+    "B": 19,
+    "D": 21,
+    "A": 28
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "C": 1,
+      "D": 3,
+      "A": 1
+    },
+    "synonym": {
+      "B": 2,
+      "A": 1,
+      "C": 1
+    },
+    "sequence_ordering": {
+      "D": 3,
+      "C": 4,
+      "B": 2,
+      "A": 5
+    },
+    "matching": {
+      "B": 7,
+      "A": 5,
+      "C": 2,
+      "D": 2
+    },
+    "correct_word_usage": {
+      "D": 1,
+      "C": 1,
+      "A": 1
+    },
+    "antonym": {
+      "A": 1,
+      "C": 1
+    },
+    "vocabulary_in_context": {
+      "D": 1
+    },
+    "conceptual_mcq": {
+      "C": 3,
+      "A": 4,
+      "D": 2,
+      "B": 3
+    },
+    "statement_selection": {
+      "C": 4,
+      "B": 2,
+      "A": 1,
+      "D": 3
+    },
+    "case_application": {
+      "A": 5,
+      "D": 3,
+      "B": 3,
+      "C": 2
+    },
+    "direct_mcq": {
+      "D": 1,
+      "A": 1
+    },
+    "numerical_calculation": {
+      "A": 3,
+      "D": 2,
+      "C": 1
+    }
+  },
+  "formats": {
+    "reading_comprehension": 5,
+    "synonym": 4,
+    "sequence_ordering": 14,
+    "matching": 16,
+    "correct_word_usage": 3,
+    "antonym": 2,
+    "vocabulary_in_context": 1,
+    "conceptual_mcq": 12,
+    "statement_selection": 10,
+    "case_application": 13,
+    "direct_mcq": 2,
+    "numerical_calculation": 6
+  },
+  "difficulty": {
+    "easy": 33,
+    "medium": 43,
+    "hard": 12
+  },
+  "longest_same_answer_run": 4,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 253,
+  "inventory_ids_hash": "3facda24934f1414383bfacfeb5383be571eaebf0e5651e24d6d7ee3404bc9e5",
+  "at": "2026-10-07T07:31:34.882Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

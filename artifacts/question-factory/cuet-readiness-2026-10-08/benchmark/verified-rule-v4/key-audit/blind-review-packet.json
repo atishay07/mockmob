@@ -1,0 +1,1608 @@
+{
+  "schema": "cuet-v4-key-blind-review-v1",
+  "freeze_payload_sha256": "e08c13c8e0ad13b3ed61639f0b881c1b197fe3e5bff95f37208c155deac26de0",
+  "source_case_count": 40,
+  "note": "Allowlisted question, source excerpt, and syllabus fields only; answer labels, oracle keys, proposed keys, explanations, derivations, and defect certificates are excluded.",
+  "cases": [
+    {
+      "case_id": "business_studies-BS-02-valid",
+      "root_family": "BS-02",
+      "subject": "business_studies",
+      "partition": "development",
+      "stem": "What does the source identify as the prime concern of staffing?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Increasing the firm’s selling price."
+        },
+        {
+          "label": "B",
+          "text": "Timely fulfilment of manpower requirements."
+        },
+        {
+          "label": "C",
+          "text": "Preparing the balance sheet."
+        },
+        {
+          "label": "D",
+          "text": "Reducing every job to a temporary contract."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p26-c0",
+        "excerpt": "164 Business Studies The staffing function has assumed greater importance these days because of rapid advancement of technology, increasing size of organisation and complicated behaviour of human beings. The ability of an organisation to achieve its goal depends upon the quality of its human resources. Staffing as part of Human Resource Management: Staffing is a function which all managers need to perform. It is a separate and specialised function and there are many aspects of human relations to be considered. It is the responsibility of all managers to directly deal and select people to work for the organisation. When the manager performs the staffing function his role is slightly limited. In small organisations, managers may perform all duties related to employees salaries, welfare and working conditions. But as organisations grow and number of persons employed increases, a separate department called the human resource department is formed which has specialists in the field to manage people. Human Resource Management includes many specialised activities and duties which the human resource personnel must perform. Evolution of HRM: Human resource management has replaced the traditional concept of labour welfare and personnel management. HRM in its present form has evolved from a number of significant inter­related developments, which date back to the era of industrial revolution. Emergence of trade union movement led to the need of a person who could act as an effective link between the owners and workers. You may have observed that all these aspects are concerned with the human element in the industry as distinct from the mechanical side of the enterprise. Thus, staffing is an inherent part of human resource management as it is the practice of finding, evaluating and establishing a working relationship with people, for a purpose. Staffing Process: The prime concern of the staffing function in the management process is the timely fulfillment of the manpower requirements within an organisation.",
+        "excerpt_sha256": "4f64f25e4b5407ab655b424a47d741cfb9f141a30f6e2d8dbac602c6935d96f4"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Meaning, need and importance of staffing.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-02-valid",
+      "root_family": "AC-02",
+      "subject": "accountancy",
+      "partition": "development",
+      "stem": "Which item is commonly included in a written partnership deed?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "A guarantee that profits will never fall."
+        },
+        {
+          "label": "B",
+          "text": "The ratio in which partners share profits and losses."
+        },
+        {
+          "label": "C",
+          "text": "A rule that capital contributions must be identical."
+        },
+        {
+          "label": "D",
+          "text": "A prohibition on changing any clause."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-168ad6e0001c",
+        "excerpt": "1.2 Partnership Deed Partnership comes into existence as a result of agreement among the partners. The agreement can be either oral or written. The Partnership Act does not require that the agreement must be in writing. But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’. It generally contains the details about all the aspects affecting the relationship between the partners including the objective of business, contribution of capital by each partner, ratio in which the profits and the losses will be shared by the partners and entitlement of partners to interest on capital, interest on loan, etc. The clauses of partnership deed can be altered with the consent of all the partners. The deed should be properly drafted and prepared as per the provisions of the ‘Stamp Act’ and preferably registered with the Registrar of Firms.",
+        "excerpt_sha256": "4328858ed9c0bbcfea4969e22e03cad4a9e1cca38edc74aed893adbe641f94a7"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Nature of Partnership Firm: Partnership deed (meaning, importance).",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "economics-EC-03-valid",
+      "root_family": "EC-03",
+      "subject": "economics",
+      "partition": "development",
+      "stem": "A person owns and runs a small cement shop. Which employment status does the source use for the shop owner?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Regular salaried employee."
+        },
+        {
+          "label": "B",
+          "text": "Casual wage labourer."
+        },
+        {
+          "label": "C",
+          "text": "Self-employed."
+        },
+        {
+          "label": "D",
+          "text": "Unemployed by definition."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+        "locator": "p6-c1582",
+        "excerpt": "dd. Urban Workers Rural Workers Thus the cement shop 12% 22% owner is self- employed. About 58 40% per cent workforce in 65% India belongs to this 13% category. The 48% construction workers are known as cccccaaaaasssssuuuuuaaaaalllll Self-employed Self-employed wwwwwaaaaagggggeeeee lllllaaaaabbbbbooooouuuuurrrrreeeeerrrrrsssss; they Regular Salaried Employees Regular Salaried Employees account for about 20 Casual Wage Labourers Casual Wage Labourers EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 97 Reprint 2026-27",
+        "excerpt_sha256": "919c6e1275d6e3bf136d45ff5fdaaf1211fad2ee3855661911e94549e1dc51c2"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-06-valid",
+      "root_family": "AC-06",
+      "subject": "accountancy",
+      "partition": "release",
+      "stem": "Which statement about partner remuneration is supported by the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Every working partner is automatically entitled to salary."
+        },
+        {
+          "label": "B",
+          "text": "A partner is not entitled to salary unless the deed provides for it."
+        },
+        {
+          "label": "C",
+          "text": "Salary is always deducted from drawings."
+        },
+        {
+          "label": "D",
+          "text": "A partner may set their own remuneration."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-63927dc5d1aa",
+        "excerpt": "1.2.1 Provisions of Partnership Act Relevant for Accounting The important provisions affecting partnership accounts are as follows: (a) Profit Sharing Ratio: If the partnership deed is silent about the profit sharing ratio, the profits and losses of the firm are to be shared equally by partners, irrespective of their capital contribution in the firm. (b) Interest on Capital: No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right. However, interest can be allowed when it is expressly agreed to by the partners. Thus, no interest on capital is payable if the partnership deed is silent on the issue. (c) Interest on Drawings: No interest is to be charged on the drawings made by the partners, if there is no mention in the Deed. (d) Interest on Loan: If any partner has advanced loan to the firm for the purpose of business, he/she shall be entitled to get an interest on the loan amount at the rate of 6 per cent per annum. (e) Remuneration for Fir m’s Work: No partner is entitled to get salary or other remuneration for taking part in the conduct of the business of the firm unless there is a provision for the same in the Partnership Deed. Apart from the above, the Indian Partnership Act specifies that subject to contract between the partners: (i) If a partner derives any profit for him/her self from any transaction of the firm or from the use of the property or business connection of the firm or the firm name, he/she shall account for the profit and pay it to the firm. (ii) If a partner carries on any business of the same nature as and competing with that of the firm, he/she shall account for and pay to the firm, all profit made by him/her in that business. Test your Understanding – I 1.",
+        "excerpt_sha256": "38e94c21981357d18035b5a906445582f270aa8b945b6dfe4bd346696902f900"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-09-valid",
+      "root_family": "BS-09",
+      "subject": "business_studies",
+      "partition": "release",
+      "stem": "What does the source say training increases?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Employees’ aptitudes, skills and abilities to perform specific jobs."
+        },
+        {
+          "label": "B",
+          "text": "Only employees’ knowledge of organisational rules."
+        },
+        {
+          "label": "C",
+          "text": "Only the number of employees in an organisation."
+        },
+        {
+          "label": "D",
+          "text": "Employees’ salary without affecting job performance."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p28-c0",
+        "excerpt": "166 Business Studies to readapt the products and services produced, the manner in which products and services are produced and offered, the types of jobs required and the types of skills necessary to complete these jobs. Training is any process by which the aptitudes, skills and abilities of employees to perform specific jobs are increased. Education is the process of increasing the knowledge and understanding of employees. It is the understanding and interpretation of knowledge. Development refers to the learning opportunities designed to help employees grow. Training Methods There are various methods of training. These are broadly categorised into two groups: On­the­Job and Off­the­Job methods. On the Job Methods (i) Apprenticeship Programs (ii) Coaching (iii) Internship Training (iv) Job Rotation Off the Job Methods (i) Class Room Lectures/Conferences (ii) Films (iii) Case Study (iv) Computer Modelling (v) Vestibule Training (vi) Programmed Instruction. Exercises Very Short Answer Type 1. What is meant by staffing? 2. State the two important sources of recruitment. 3. The workers of a factory are unable to work on new machines and always demand for help of supervisor. The Supervisor is overburdened with their frequent calls. Suggest the remedy. ( Hint: training) 4. The quality of production is not as per standards. On investigation it was observed that most of the workers were not fully aware of the proper operation of the machinery. What could be the way to improve the quality of production to meet the standards? (training). 5. The workers of a factory remain idle because of lack of knowledge of hi­tech machines. Frequent visit of engineer is made which causes high overhead charges. How can this problem be removed. (vestibule training) Reprint 2026-27 Ch_06.indd 166 08-08-2022 10:06:14",
+        "excerpt_sha256": "e1ee66ef45b8fd42f7474dd645c7604eb5df9a6eadd10f91d260bbce1f0b2444"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Training and Development – meaning, need, methods – on the job and off the job methods of training.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-01-valid",
+      "root_family": "AC-01",
+      "subject": "accountancy",
+      "partition": "development",
+      "stem": "Which statement about a partnership agreement is supported by the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "The agreement may be oral or written."
+        },
+        {
+          "label": "B",
+          "text": "It must always be registered before the firm exists."
+        },
+        {
+          "label": "C",
+          "text": "It can be altered by one partner acting alone."
+        },
+        {
+          "label": "D",
+          "text": "It cannot address profit sharing."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-168ad6e0001c",
+        "excerpt": "1.2 Partnership Deed Partnership comes into existence as a result of agreement among the partners. The agreement can be either oral or written. The Partnership Act does not require that the agreement must be in writing. But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’. It generally contains the details about all the aspects affecting the relationship between the partners including the objective of business, contribution of capital by each partner, ratio in which the profits and the losses will be shared by the partners and entitlement of partners to interest on capital, interest on loan, etc. The clauses of partnership deed can be altered with the consent of all the partners. The deed should be properly drafted and prepared as per the provisions of the ‘Stamp Act’ and preferably registered with the Registrar of Firms.",
+        "excerpt_sha256": "4328858ed9c0bbcfea4969e22e03cad4a9e1cca38edc74aed893adbe641f94a7"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Nature of Partnership Firm: Partnership deed (meaning, importance).",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "english-EN-06-valid",
+      "root_family": "EN-06",
+      "subject": "english",
+      "partition": "release",
+      "stem": "What evidence led Rafi to revise his guess?",
+      "passage": "Rafi wanted to identify a bird he had heard before sunrise. He first guessed from the sound alone, then recorded the call on his phone. At the nature centre, a volunteer compared the rhythm with two field recordings. The volunteer did not name the bird immediately; she asked Rafi to listen for a repeated three-note ending. When he heard it, he revised his guess.",
+      "options": [
+        {
+          "label": "A",
+          "text": "The bird’s colour in a photograph."
+        },
+        {
+          "label": "B",
+          "text": "The repeated three-note ending in the call."
+        },
+        {
+          "label": "C",
+          "text": "The time the centre opened."
+        },
+        {
+          "label": "D",
+          "text": "A label written on Rafi’s phone."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-06",
+        "excerpt": "Rafi wanted to identify a bird he had heard before sunrise. He first guessed from the sound alone, then recorded the call on his phone. At the nature centre, a volunteer compared the rhythm with two field recordings. The volunteer did not name the bird immediately; she asked Rafi to listen for a repeated three-note ending. When he heard it, he revised his guess.",
+        "excerpt_sha256": "91deb32463c4ba9afd1e9472ff850ff627d03e41efff744011dd3f83c5b0621d"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "economics-EC-01-valid",
+      "root_family": "EC-01",
+      "subject": "economics",
+      "partition": "development",
+      "stem": "What does the source say about people who are self-employed?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "They are also engaged in an economic activity."
+        },
+        {
+          "label": "B",
+          "text": "They are excluded from economic activity."
+        },
+        {
+          "label": "C",
+          "text": "They are counted only if they work for an employer."
+        },
+        {
+          "label": "D",
+          "text": "They are not included among workers."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+        "locator": "p3-c1792",
+        "excerpt": "re reasons for not going to engaged in economic activities, in work. List all of them and whatever capacity — high or low, are discuss in the classroom workers. Even if some of them whether they should go for temporarily abstain from work due to work and why, and also ways by which they could illness, injury or other physical be sent for work. Some disability, bad weather, festivals, social social scientists argue that or religious functions, they are also housewives working at workers. Workers also include all those home without getting paid who help the main workers in these for that work must also be activities. We generally think of only regarded as contributing to those who are paid by an employer for the gross national product their work as workers. This is not so. and therefore, as engaged Those who are self-employed are also in an economic activity. Would you agree? workers. 94 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "53c1fbd42e442befafde5cf5757e6bff5758a2632efdfd6b88dc5d07783ea8b9"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-08-valid",
+      "root_family": "BS-08",
+      "subject": "business_studies",
+      "partition": "release",
+      "stem": "Match the method to its category: Job Rotation; Case Study.",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Off-the-job; On-the-job."
+        },
+        {
+          "label": "B",
+          "text": "On-the-job; On-the-job."
+        },
+        {
+          "label": "C",
+          "text": "Off-the-job; Off-the-job."
+        },
+        {
+          "label": "D",
+          "text": "On-the-job; Off-the-job."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p28-c0",
+        "excerpt": "166 Business Studies to readapt the products and services produced, the manner in which products and services are produced and offered, the types of jobs required and the types of skills necessary to complete these jobs. Training is any process by which the aptitudes, skills and abilities of employees to perform specific jobs are increased. Education is the process of increasing the knowledge and understanding of employees. It is the understanding and interpretation of knowledge. Development refers to the learning opportunities designed to help employees grow. Training Methods There are various methods of training. These are broadly categorised into two groups: On­the­Job and Off­the­Job methods. On the Job Methods (i) Apprenticeship Programs (ii) Coaching (iii) Internship Training (iv) Job Rotation Off the Job Methods (i) Class Room Lectures/Conferences (ii) Films (iii) Case Study (iv) Computer Modelling (v) Vestibule Training (vi) Programmed Instruction. Exercises Very Short Answer Type 1. What is meant by staffing? 2. State the two important sources of recruitment. 3. The workers of a factory are unable to work on new machines and always demand for help of supervisor. The Supervisor is overburdened with their frequent calls. Suggest the remedy. ( Hint: training) 4. The quality of production is not as per standards. On investigation it was observed that most of the workers were not fully aware of the proper operation of the machinery. What could be the way to improve the quality of production to meet the standards? (training). 5. The workers of a factory remain idle because of lack of knowledge of hi­tech machines. Frequent visit of engineer is made which causes high overhead charges. How can this problem be removed. (vestibule training) Reprint 2026-27 Ch_06.indd 166 08-08-2022 10:06:14",
+        "excerpt_sha256": "e1ee66ef45b8fd42f7474dd645c7604eb5df9a6eadd10f91d260bbce1f0b2444"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Training and Development – meaning, need, methods – on the job and off the job methods of training.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-01-valid",
+      "root_family": "BS-01",
+      "subject": "business_studies",
+      "partition": "development",
+      "stem": "Which description of staffing is supported by the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "It is the practice of finding, evaluating, and establishing a working relationship with people."
+        },
+        {
+          "label": "B",
+          "text": "Preparing an organisation’s financial statements."
+        },
+        {
+          "label": "C",
+          "text": "Dismissing surplus employees only."
+        },
+        {
+          "label": "D",
+          "text": "Appraising performance only after an employee leaves."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p26-c0",
+        "excerpt": "164 Business Studies The staffing function has assumed greater importance these days because of rapid advancement of technology, increasing size of organisation and complicated behaviour of human beings. The ability of an organisation to achieve its goal depends upon the quality of its human resources. Staffing as part of Human Resource Management: Staffing is a function which all managers need to perform. It is a separate and specialised function and there are many aspects of human relations to be considered. It is the responsibility of all managers to directly deal and select people to work for the organisation. When the manager performs the staffing function his role is slightly limited. In small organisations, managers may perform all duties related to employees salaries, welfare and working conditions. But as organisations grow and number of persons employed increases, a separate department called the human resource department is formed which has specialists in the field to manage people. Human Resource Management includes many specialised activities and duties which the human resource personnel must perform. Evolution of HRM: Human resource management has replaced the traditional concept of labour welfare and personnel management. HRM in its present form has evolved from a number of significant inter­related developments, which date back to the era of industrial revolution. Emergence of trade union movement led to the need of a person who could act as an effective link between the owners and workers. You may have observed that all these aspects are concerned with the human element in the industry as distinct from the mechanical side of the enterprise. Thus, staffing is an inherent part of human resource management as it is the practice of finding, evaluating and establishing a working relationship with people, for a purpose. Staffing Process: The prime concern of the staffing function in the management process is the timely fulfillment of the manpower requirements within an organisation.",
+        "excerpt_sha256": "4f64f25e4b5407ab655b424a47d741cfb9f141a30f6e2d8dbac602c6935d96f4"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Meaning, need and importance of staffing.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-10-valid",
+      "root_family": "BS-10",
+      "subject": "business_studies",
+      "partition": "release",
+      "stem": "What does development refer to in the cited passage?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "A process limited to selecting candidates from a recruitment pool."
+        },
+        {
+          "label": "B",
+          "text": "Learning opportunities designed to help employees grow."
+        },
+        {
+          "label": "C",
+          "text": "A method for increasing only the output of machines."
+        },
+        {
+          "label": "D",
+          "text": "A rule that prevents employees from changing jobs."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p28-c0",
+        "excerpt": "166 Business Studies to readapt the products and services produced, the manner in which products and services are produced and offered, the types of jobs required and the types of skills necessary to complete these jobs. Training is any process by which the aptitudes, skills and abilities of employees to perform specific jobs are increased. Education is the process of increasing the knowledge and understanding of employees. It is the understanding and interpretation of knowledge. Development refers to the learning opportunities designed to help employees grow. Training Methods There are various methods of training. These are broadly categorised into two groups: On­the­Job and Off­the­Job methods. On the Job Methods (i) Apprenticeship Programs (ii) Coaching (iii) Internship Training (iv) Job Rotation Off the Job Methods (i) Class Room Lectures/Conferences (ii) Films (iii) Case Study (iv) Computer Modelling (v) Vestibule Training (vi) Programmed Instruction. Exercises Very Short Answer Type 1. What is meant by staffing? 2. State the two important sources of recruitment. 3. The workers of a factory are unable to work on new machines and always demand for help of supervisor. The Supervisor is overburdened with their frequent calls. Suggest the remedy. ( Hint: training) 4. The quality of production is not as per standards. On investigation it was observed that most of the workers were not fully aware of the proper operation of the machinery. What could be the way to improve the quality of production to meet the standards? (training). 5. The workers of a factory remain idle because of lack of knowledge of hi­tech machines. Frequent visit of engineer is made which causes high overhead charges. How can this problem be removed. (vestibule training) Reprint 2026-27 Ch_06.indd 166 08-08-2022 10:06:14",
+        "excerpt_sha256": "e1ee66ef45b8fd42f7474dd645c7604eb5df9a6eadd10f91d260bbce1f0b2444"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Training and Development – meaning, need, methods – on the job and off the job methods of training.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "english-EN-02-valid",
+      "root_family": "EN-02",
+      "subject": "english",
+      "partition": "development",
+      "stem": "What practical change helped Mira pace her announcement?",
+      "passage": "When Mira joined the school radio club, she spoke so quickly that the opening announcement ended before the music cue was ready. Her partner, Dev, suggested placing a pencil mark after each sentence in the script. Mira tried it the next day. The pauses felt awkward at first, but listeners could understand the announcements more easily. By the end of the month, she was making the pauses without looking at the marks.",
+      "options": [
+        {
+          "label": "A",
+          "text": "She removed all music from the broadcast."
+        },
+        {
+          "label": "B",
+          "text": "She marked pauses between sentences in the script."
+        },
+        {
+          "label": "C",
+          "text": "She asked Dev to read every announcement."
+        },
+        {
+          "label": "D",
+          "text": "She shortened the school day."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-02",
+        "excerpt": "When Mira joined the school radio club, she spoke so quickly that the opening announcement ended before the music cue was ready. Her partner, Dev, suggested placing a pencil mark after each sentence in the script. Mira tried it the next day. The pauses felt awkward at first, but listeners could understand the announcements more easily. By the end of the month, she was making the pauses without looking at the marks.",
+        "excerpt_sha256": "e29bd35fc7a150084d2598f741e37a8ea26d178da86655f78486a5c3797c5048"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-10-valid",
+      "root_family": "AC-10",
+      "subject": "accountancy",
+      "partition": "release",
+      "stem": "What kind of issue does the source identify as a past adjustment?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "A routine estimate made before the accounting period."
+        },
+        {
+          "label": "B",
+          "text": "An omission or error found after accounts are prepared and profits distributed."
+        },
+        {
+          "label": "C",
+          "text": "A change to the firm’s name before its formation."
+        },
+        {
+          "label": "D",
+          "text": "A forecast of future sales."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-4386d49f5b11",
+        "excerpt": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions or the preparation of summary statements are found after the final accounts have been prepared and the profits distributed among the partners. The omission may be in respect of interest on capitals, interest on drawings, interest on partners’ loan, partner’s salary, partner’s commission or outstanding expenses. There may also be some changes in the provisions of partnership deed or system of accounting having impact with retrospective effect. All these acts of omission and commission need adjustments for correction of their impact. Instead of altering old accounts, necessary adjustments can be made either; (a) through ‘Profit and Loss Adjustment Account’, or (b) directly in the capital accounts of the concerned partners. This is explained with the help of following example. Rameez and Zaheer are equal partners. Their capitals as on April 01, 2015 were Rs. 50,000 and Rs. 1,00,000 respectively. After the accounts for the financial year ending March 31, 2016 have been prepared, it is discovered that interest at the rate of 6 per cent per annum, as provided in the partnership deed has not been credited to the partners’ capital accounts before distribution of profit. In this case, the interest on capital not credited to the partners’ capital accounts works out to be Rs. 3000 (6/100 × Rs. 50,000) for Rameez and Rs. 6,000 (6/100 × Rs. 1,00,000) for Zaheer. Had the interest on capital been duly provided, the firm’s profit would have reduced by Rs. 9,000. By this omission, the whole amount of profit as per Profit and Loss Account (without adjustment of Rs.",
+        "excerpt_sha256": "2f521a0e2cfc88c00e6652dcc90425849a783426f1f7c6318b0c67e0417f279a"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "english-EN-03-valid",
+      "root_family": "EN-03",
+      "subject": "english",
+      "partition": "development",
+      "stem": "Why was returning seeds optional?",
+      "passage": "A neighbourhood library began lending seed packets alongside books. Each packet carried the plant name, sowing season, and a note asking borrowers to return a few seeds if their harvest allowed. The librarian kept a simple record of which packets were borrowed. The library did not require a seed return, because weather, soil, and household space varied from one borrower to another.",
+      "options": [
+        {
+          "label": "A",
+          "text": "The library had no record of its packets."
+        },
+        {
+          "label": "B",
+          "text": "Borrowers were forbidden to grow the seeds."
+        },
+        {
+          "label": "C",
+          "text": "Harvest conditions varied among borrowers."
+        },
+        {
+          "label": "D",
+          "text": "The packets contained no plant names."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-03",
+        "excerpt": "A neighbourhood library began lending seed packets alongside books. Each packet carried the plant name, sowing season, and a note asking borrowers to return a few seeds if their harvest allowed. The librarian kept a simple record of which packets were borrowed. The library did not require a seed return, because weather, soil, and household space varied from one borrower to another.",
+        "excerpt_sha256": "f912e1905b4aa4b6b81ab64e3be2f6362a5770210a82d39088f3e06cef3921c3"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "english-EN-08-valid",
+      "root_family": "EN-08",
+      "subject": "english",
+      "partition": "release",
+      "stem": "What did Nila do before entering the room?",
+      "passage": "The bus was late, so Nila reached the examination hall with only a few minutes to spare. She did not rush into the room. At the entrance, she checked the seat number printed on her admit card against the list posted on the wall. The numbers matched. She then put her phone away and followed the invigilator’s directions.",
+      "options": [
+        {
+          "label": "A",
+          "text": "She called the bus driver."
+        },
+        {
+          "label": "B",
+          "text": "She changed the number on her admit card."
+        },
+        {
+          "label": "C",
+          "text": "She began writing before the invigilator arrived."
+        },
+        {
+          "label": "D",
+          "text": "She checked her seat number against the posted list."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-08",
+        "excerpt": "The bus was late, so Nila reached the examination hall with only a few minutes to spare. She did not rush into the room. At the entrance, she checked the seat number printed on her admit card against the list posted on the wall. The numbers matched. She then put her phone away and followed the invigilator’s directions.",
+        "excerpt_sha256": "e7a575b9a1561a3bfbcb8eaf9f1b358a204648bddd05223c1b306e20b9d78ebc"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "english-EN-10-valid",
+      "root_family": "EN-10",
+      "subject": "english",
+      "partition": "release",
+      "stem": "Why does the label keep both dates?",
+      "passage": "A museum label for a repaired brass compass includes two dates: the year the compass was made and the year it was restored. The conservator kept both dates because restoration changes the object’s condition but does not change when it was originally made. A small diagram beside the label shows which parts were replaced.",
+      "options": [
+        {
+          "label": "A",
+          "text": "The object was made twice."
+        },
+        {
+          "label": "B",
+          "text": "They distinguish original manufacture from later restoration."
+        },
+        {
+          "label": "C",
+          "text": "The restoration date replaces the original date."
+        },
+        {
+          "label": "D",
+          "text": "The diagram records the compass direction each day."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-10",
+        "excerpt": "A museum label for a repaired brass compass includes two dates: the year the compass was made and the year it was restored. The conservator kept both dates because restoration changes the object’s condition but does not change when it was originally made. A small diagram beside the label shows which parts were replaced.",
+        "excerpt_sha256": "9ebc434f32c6f1cf1fc9c223c536551dc1316b962a5f14cdc49c8bd59524bb19"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-05-valid",
+      "root_family": "AC-05",
+      "subject": "accountancy",
+      "partition": "development",
+      "stem": "Under the cited rule, when is interest charged on partners’ drawings?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "When the deed mentions it."
+        },
+        {
+          "label": "B",
+          "text": "Whenever a partner withdraws cash, even if the deed is silent."
+        },
+        {
+          "label": "C",
+          "text": "Only when the firm earns a loss."
+        },
+        {
+          "label": "D",
+          "text": "Only after the partnership is dissolved."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-63927dc5d1aa",
+        "excerpt": "1.2.1 Provisions of Partnership Act Relevant for Accounting The important provisions affecting partnership accounts are as follows: (a) Profit Sharing Ratio: If the partnership deed is silent about the profit sharing ratio, the profits and losses of the firm are to be shared equally by partners, irrespective of their capital contribution in the firm. (b) Interest on Capital: No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right. However, interest can be allowed when it is expressly agreed to by the partners. Thus, no interest on capital is payable if the partnership deed is silent on the issue. (c) Interest on Drawings: No interest is to be charged on the drawings made by the partners, if there is no mention in the Deed. (d) Interest on Loan: If any partner has advanced loan to the firm for the purpose of business, he/she shall be entitled to get an interest on the loan amount at the rate of 6 per cent per annum. (e) Remuneration for Fir m’s Work: No partner is entitled to get salary or other remuneration for taking part in the conduct of the business of the firm unless there is a provision for the same in the Partnership Deed. Apart from the above, the Indian Partnership Act specifies that subject to contract between the partners: (i) If a partner derives any profit for him/her self from any transaction of the firm or from the use of the property or business connection of the firm or the firm name, he/she shall account for the profit and pay it to the firm. (ii) If a partner carries on any business of the same nature as and competing with that of the firm, he/she shall account for and pay to the firm, all profit made by him/her in that business. Test your Understanding – I 1.",
+        "excerpt_sha256": "38e94c21981357d18035b5a906445582f270aa8b945b6dfe4bd346696902f900"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-08-valid",
+      "root_family": "AC-08",
+      "subject": "accountancy",
+      "partition": "release",
+      "stem": "What is the stated purpose of the Profit and Loss Appropriation Account?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "It records only cash sales."
+        },
+        {
+          "label": "B",
+          "text": "It replaces the firm’s balance sheet."
+        },
+        {
+          "label": "C",
+          "text": "It records only partners’ personal assets."
+        },
+        {
+          "label": "D",
+          "text": "It shows how firm profits are appropriated or distributed among partners."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-58bcdd89a054",
+        "excerpt": "1.5.1 Profit and Loss Appropriation Account Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm. It shows how the profits are appropriated or distributed among the partners. All adjustments in respect of partner’s salary, partner’s commission, interest on capital, interest on drawings, etc. are made through this account. It starts with the net profit/net loss as per Profit and Loss Account. The journal entries for preparation of Profit and Loss Appropriation Account and making various adjustments through it are given as follows: Journal Entries 1. Transfer of the balance of Profit and Loss Account to Profit and Loss Appropriation Account: (a) If Profit and Loss Account shows a credit balance (net profit): Profit and Loss A/c Dr. To Profit and Loss Appropriation A/c (b) If Profit and Loss Account shows a debit balance (net loss) Profit and Loss Appropriation A/c Dr. To Profit and Loss A/c 2. Interest on Capital: (a) For Allowing interest on capital: Interest on Capital A/c Dr. To Partner’s Capital/Current A/cs (individually) (b) For transferring interest on capital to Profit and Loss Appropriation Account: Profit and Loss Appropriation A/c Dr. To Interest on Capital A/c 3. Interest on Drawings: (a) For charging interest on drawings to partners’ capital accounts: Partners Capital/Current A/c’s (individually) Dr. To Interest on Drawings A/c (b) For transferring interest on drawings to Profit and Loss Appropriation Account: Interest on Drawings A/c Dr. To Profit and Loss Appropriation A/c Reprint 2026-27\n9Accounting for Partnership : Basic Concepts 4. Partner’s Salary: (a) For Allowing partner’s salary to partner’s capital account: Salary to Partner A/c Dr.",
+        "excerpt_sha256": "372c70f247ed9ebcff726d442757c3a8487bafdc610cde423d1495e046cbafca"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "english-EN-07-valid",
+      "root_family": "EN-07",
+      "subject": "english",
+      "partition": "release",
+      "stem": "What does the paper chart track?",
+      "passage": "The school greenhouse uses a paper chart to track watering. Each class records the date, the bed watered, and whether the soil felt dry before watering. The chart is not intended to measure plant growth; students use a separate ruler for that. After several weeks, the chart helped the classes notice that beds near the glass dried faster on sunny days.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Plant height in centimetres."
+        },
+        {
+          "label": "B",
+          "text": "The number of sunny days each month."
+        },
+        {
+          "label": "C",
+          "text": "Watering dates, beds, and soil dryness before watering."
+        },
+        {
+          "label": "D",
+          "text": "The temperature inside every classroom."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-07",
+        "excerpt": "The school greenhouse uses a paper chart to track watering. Each class records the date, the bed watered, and whether the soil felt dry before watering. The chart is not intended to measure plant growth; students use a separate ruler for that. After several weeks, the chart helped the classes notice that beds near the glass dried faster on sunny days.",
+        "excerpt_sha256": "0b8fca46350eebf5a181596b5eaae0b0c33ca2b8757988a24bfad05314c10f95"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "english-EN-05-valid",
+      "root_family": "EN-05",
+      "subject": "english",
+      "partition": "development",
+      "stem": "What was the main access measure during repairs?",
+      "passage": "A town repaired a footpath using small sections rather than closing the whole route. Workers blocked one section at a time and placed a temporary ramp beside it. A notice at each end showed which section was closed that day. The project took longer than a full closure might have, but people using wheelchairs could still pass the worksite with assistance.",
+      "options": [
+        {
+          "label": "A",
+          "text": "A temporary ramp was placed beside each closed section."
+        },
+        {
+          "label": "B",
+          "text": "The entire route was permanently closed."
+        },
+        {
+          "label": "C",
+          "text": "Workers removed every notice."
+        },
+        {
+          "label": "D",
+          "text": "Repairs were done only at night."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-05",
+        "excerpt": "A town repaired a footpath using small sections rather than closing the whole route. Workers blocked one section at a time and placed a temporary ramp beside it. A notice at each end showed which section was closed that day. The project took longer than a full closure might have, but people using wheelchairs could still pass the worksite with assistance.",
+        "excerpt_sha256": "a974275032d2cbfdc6e4a700358379661323adf848128277bd013602b476c162"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "economics-EC-04-valid",
+      "root_family": "EC-04",
+      "subject": "economics",
+      "partition": "development",
+      "stem": "Why may agricultural workers migrate temporarily to urban areas during part of the year?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Agriculture offers work in every village during every month."
+        },
+        {
+          "label": "B",
+          "text": "Urban areas prohibit all temporary work."
+        },
+        {
+          "label": "C",
+          "text": "The worker-population ratio is always zero in rural areas."
+        },
+        {
+          "label": "D",
+          "text": "Agricultural work is seasonal, leaving periods without village farm work."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+        "locator": "p16-c1771",
+        "excerpt": "p a job and stay there for some time, in half a day. but come back to their home villages There are three sources of data on as soon as the rainy season begins. unemployment : Reports of Census of Why do they do so? This is because India, National Statistical Office’s work in agriculture is seasonal; there Reports of Employment and are no employment opportunities in the Unemployment Situation, Annual village for all months in the year. When Reports of Periodic Labour Force there is no work to do on farms, people Survey, and Directorate General of go to urban areas and look for jobs. EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 107 Reprint 2026-27",
+        "excerpt_sha256": "c247a92630b8d8a7946aee07b9febe3eb2a0f841cc1668676df5d554f6c32afa"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-04-valid",
+      "root_family": "AC-04",
+      "subject": "accountancy",
+      "partition": "development",
+      "stem": "When the deed is silent about interest on capital, which conclusion follows from the cited rule?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Interest is automatically payable at 6% per annum."
+        },
+        {
+          "label": "B",
+          "text": "Interest is calculated from each partner’s drawings."
+        },
+        {
+          "label": "C",
+          "text": "The highest-capital partner sets the rate unilaterally."
+        },
+        {
+          "label": "D",
+          "text": "Interest on capital is not payable as a matter of right."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-63927dc5d1aa",
+        "excerpt": "1.2.1 Provisions of Partnership Act Relevant for Accounting The important provisions affecting partnership accounts are as follows: (a) Profit Sharing Ratio: If the partnership deed is silent about the profit sharing ratio, the profits and losses of the firm are to be shared equally by partners, irrespective of their capital contribution in the firm. (b) Interest on Capital: No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right. However, interest can be allowed when it is expressly agreed to by the partners. Thus, no interest on capital is payable if the partnership deed is silent on the issue. (c) Interest on Drawings: No interest is to be charged on the drawings made by the partners, if there is no mention in the Deed. (d) Interest on Loan: If any partner has advanced loan to the firm for the purpose of business, he/she shall be entitled to get an interest on the loan amount at the rate of 6 per cent per annum. (e) Remuneration for Fir m’s Work: No partner is entitled to get salary or other remuneration for taking part in the conduct of the business of the firm unless there is a provision for the same in the Partnership Deed. Apart from the above, the Indian Partnership Act specifies that subject to contract between the partners: (i) If a partner derives any profit for him/her self from any transaction of the firm or from the use of the property or business connection of the firm or the firm name, he/she shall account for the profit and pay it to the firm. (ii) If a partner carries on any business of the same nature as and competing with that of the firm, he/she shall account for and pay to the firm, all profit made by him/her in that business. Test your Understanding – I 1.",
+        "excerpt_sha256": "38e94c21981357d18035b5a906445582f270aa8b945b6dfe4bd346696902f900"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "economics-EC-07-valid",
+      "root_family": "EC-07",
+      "subject": "economics",
+      "partition": "release",
+      "stem": "Which comparison between physical and human capital is stated in the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Both are always inseparable from their owners."
+        },
+        {
+          "label": "B",
+          "text": "Human capital is completely mobile across countries."
+        },
+        {
+          "label": "C",
+          "text": "Physical capital is separable from its owner; human capital is inseparable."
+        },
+        {
+          "label": "D",
+          "text": "Physical capital creates only social benefits."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec104",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+        "locator": "p6-c1905",
+        "excerpt": "al capital is separable from its owner, whereas, human capital is inseparable from its owner. The two forms of capital differ in terms of mobility across space. Physical capital is completely mobile between countries except for some artificial trade restrictions. Human capital is not perfectly mobile between countries as movement is restricted by nationality and culture. Therefore, physical capital formation can be built even through imports, whereas human capital formation is to be done through conscious policy formulations in consonance with the nature of the society and economy and expenditure by the state and the individuals. Both forms of capital depreciate with time but the nature of depreciation differs between the two. Continuous use of machine leads to depreciation and change of technology makes a machine obsolete. In the case of human capital, depreciation takes place with ageing but can be reduced, to a large extent, through continuous investment in education, health, etc. This investment also facilitates the human capital to cope with change in technology which is not the case with physical capital. Nature of benefits flowing from human capital are different from that of physical capital. Human capital benefits not only the owner but also the society in general. This is called external benefit. An educated person can effectively take part in a democratic process and contribute to the socio-economic progress of a nation. A healthy person, by maintaining personal hygiene and sanitation, stops the spread of contagious diseases and epidemics. Human capital creates both private and social benefits, whereas physical capital creates only private benefit. That is, benefits from a capital good flow to those who pay the price for the product and services produced by it. 62 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "034ac12b5d2911f2fe071af6d78f2be8c4d025d439107a5ec9a4d4d8a856d84c"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Human Capital Formation: How people become resource; Role of human capital in economic development; Growth of Education Sector in India",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "english-EN-01-valid",
+      "root_family": "EN-01",
+      "subject": "english",
+      "partition": "development",
+      "stem": "What pattern did the volunteers notice in the highest readings?",
+      "passage": "At a small coastal station, volunteers record the tide at six-hour intervals. They place a marked pole in the water and note the height where the surface meets it. After three months, the team noticed that the highest readings clustered around the full and new moons. The log did not show that the moon alone caused every change; wind and local weather also affected the water.",
+      "options": [
+        {
+          "label": "A",
+          "text": "They clustered around full and new moons."
+        },
+        {
+          "label": "B",
+          "text": "They occurred only during storms."
+        },
+        {
+          "label": "C",
+          "text": "They appeared at exactly the same height every day."
+        },
+        {
+          "label": "D",
+          "text": "They stopped when the weather changed."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-01",
+        "excerpt": "At a small coastal station, volunteers record the tide at six-hour intervals. They place a marked pole in the water and note the height where the surface meets it. After three months, the team noticed that the highest readings clustered around the full and new moons. The log did not show that the moon alone caused every change; wind and local weather also affected the water.",
+        "excerpt_sha256": "fb8689b68324cab3a9fa2123d888c7c08fc1dd55e36f81c178846b66450927d4"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "english-EN-04-valid",
+      "root_family": "EN-04",
+      "subject": "english",
+      "partition": "development",
+      "stem": "How did the group settle the disagreement?",
+      "passage": "During the first rehearsal, the theatre group could not agree on where to place a wooden bench. Ishan wanted it near the door; Leela thought the light from the window made the other corner better. They set the bench in both places and watched the scene from the back row. From there, the window corner left the actors’ faces visible. The group chose that position, though Ishan still preferred the door.",
+      "options": [
+        {
+          "label": "A",
+          "text": "They followed Ishan’s preference without testing."
+        },
+        {
+          "label": "B",
+          "text": "They chose the darkest corner."
+        },
+        {
+          "label": "C",
+          "text": "They asked the audience to move the window."
+        },
+        {
+          "label": "D",
+          "text": "They tested both positions from the audience’s viewpoint."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-04",
+        "excerpt": "During the first rehearsal, the theatre group could not agree on where to place a wooden bench. Ishan wanted it near the door; Leela thought the light from the window made the other corner better. They set the bench in both places and watched the scene from the back row. From there, the window corner left the actors’ faces visible. The group chose that position, though Ishan still preferred the door.",
+        "excerpt_sha256": "9c40dc192572dc63e855dca377a8e9c15f1586a6f9df6af109ade156d3822513"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-04-valid",
+      "root_family": "BS-04",
+      "subject": "business_studies",
+      "partition": "development",
+      "stem": "Which option best states the source definition of recruitment?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Choosing one candidate from the pool developed during recruitment."
+        },
+        {
+          "label": "B",
+          "text": "Introducing a selected employee to organisational rules."
+        },
+        {
+          "label": "C",
+          "text": "Increasing employees’ ability to perform specific jobs."
+        },
+        {
+          "label": "D",
+          "text": "Searching for prospective employees and stimulating them to apply for jobs."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p27-c0",
+        "excerpt": "Staffing 165 Recruitment: Recruitment may be defined as the process of searching for prospective employees and stimulating them to apply for jobs in the organisation. Selection: Selection is the process of choosing from among the pool of the prospective job candidates developed at the stage of recruitment. Placement and Orientation: Orientation is introducing the selected employee to other employees and familiarising him with the rules and policies of the organisation. Placement refers to the employee occupying the position or post for which the person has been selected. Training and Development: What people seek is not simply a job but a career. Every one must have the opportunity to rise to the top. The best way to provide such an opportunity is to facilitate employee learning. Recruitment Recruitment refers to the process of finding possible candidates for a job or function. Sources of Recruitment: The requisite positions may be filled up from within the organisation or from outside. Thus, there are two sources of recruitment – Internal and External. Internal Sources: Recruitment from within the enterprise. There are two important sources of internal recruitment, namely, transfers and promotions. External Sources: An enterprise has to tap external sources for various positions because all the vacancies cannot be filled through internal recruitment. The commonly used external sources of recruitment are Direct Recruitment, Casual Callers, Advertisements, Employment Exchange, Placement Agencies and Management Consultants, Campus Recruitment, Recommendations of Employees, Labour Contractors, Advertising on Television and Web Publishing.",
+        "excerpt_sha256": "2decbad0605019ef540394be4650f0557a280595dd47830f90e6f2b3b9552f85"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Recruitment – meaning, process and sources, Merits and demerits of internal and external sources of recruitment.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-07-valid",
+      "root_family": "BS-07",
+      "subject": "business_studies",
+      "partition": "release",
+      "stem": "Which pair does the source identify as the two important sources of internal recruitment?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Advertisements and campus recruitment."
+        },
+        {
+          "label": "B",
+          "text": "Employment exchanges and placement agencies."
+        },
+        {
+          "label": "C",
+          "text": "Transfers and promotions."
+        },
+        {
+          "label": "D",
+          "text": "Casual callers and labour contractors."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p27-c0",
+        "excerpt": "Staffing 165 Recruitment: Recruitment may be defined as the process of searching for prospective employees and stimulating them to apply for jobs in the organisation. Selection: Selection is the process of choosing from among the pool of the prospective job candidates developed at the stage of recruitment. Placement and Orientation: Orientation is introducing the selected employee to other employees and familiarising him with the rules and policies of the organisation. Placement refers to the employee occupying the position or post for which the person has been selected. Training and Development: What people seek is not simply a job but a career. Every one must have the opportunity to rise to the top. The best way to provide such an opportunity is to facilitate employee learning. Recruitment Recruitment refers to the process of finding possible candidates for a job or function. Sources of Recruitment: The requisite positions may be filled up from within the organisation or from outside. Thus, there are two sources of recruitment – Internal and External. Internal Sources: Recruitment from within the enterprise. There are two important sources of internal recruitment, namely, transfers and promotions. External Sources: An enterprise has to tap external sources for various positions because all the vacancies cannot be filled through internal recruitment. The commonly used external sources of recruitment are Direct Recruitment, Casual Callers, Advertisements, Employment Exchange, Placement Agencies and Management Consultants, Campus Recruitment, Recommendations of Employees, Labour Contractors, Advertising on Television and Web Publishing.",
+        "excerpt_sha256": "2decbad0605019ef540394be4650f0557a280595dd47830f90e6f2b3b9552f85"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Selection – meaning and process.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-05-valid",
+      "root_family": "BS-05",
+      "subject": "business_studies",
+      "partition": "development",
+      "stem": "Selection is the process of choosing from which group, according to the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "The pool of prospective job candidates developed at the recruitment stage."
+        },
+        {
+          "label": "B",
+          "text": "All employees who have already completed training."
+        },
+        {
+          "label": "C",
+          "text": "Only candidates who have accepted a job offer."
+        },
+        {
+          "label": "D",
+          "text": "People outside the organisation who have not applied."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p27-c0",
+        "excerpt": "Staffing 165 Recruitment: Recruitment may be defined as the process of searching for prospective employees and stimulating them to apply for jobs in the organisation. Selection: Selection is the process of choosing from among the pool of the prospective job candidates developed at the stage of recruitment. Placement and Orientation: Orientation is introducing the selected employee to other employees and familiarising him with the rules and policies of the organisation. Placement refers to the employee occupying the position or post for which the person has been selected. Training and Development: What people seek is not simply a job but a career. Every one must have the opportunity to rise to the top. The best way to provide such an opportunity is to facilitate employee learning. Recruitment Recruitment refers to the process of finding possible candidates for a job or function. Sources of Recruitment: The requisite positions may be filled up from within the organisation or from outside. Thus, there are two sources of recruitment – Internal and External. Internal Sources: Recruitment from within the enterprise. There are two important sources of internal recruitment, namely, transfers and promotions. External Sources: An enterprise has to tap external sources for various positions because all the vacancies cannot be filled through internal recruitment. The commonly used external sources of recruitment are Direct Recruitment, Casual Callers, Advertisements, Employment Exchange, Placement Agencies and Management Consultants, Campus Recruitment, Recommendations of Employees, Labour Contractors, Advertising on Television and Web Publishing.",
+        "excerpt_sha256": "2decbad0605019ef540394be4650f0557a280595dd47830f90e6f2b3b9552f85"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Selection – meaning and process.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "economics-EC-10-valid",
+      "root_family": "EC-10",
+      "subject": "economics",
+      "partition": "release",
+      "stem": "Which idea is central to the cited account of sustainable development?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Maximise present output regardless of future costs."
+        },
+        {
+          "label": "B",
+          "text": "Meet present needs while minimising environmental damage and preserving future generations’ ability to meet their needs."
+        },
+        {
+          "label": "C",
+          "text": "Stop all economic activity immediately."
+        },
+        {
+          "label": "D",
+          "text": "Use resources only when they have no current value."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec107",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+        "locator": "p14-c1876",
+        "excerpt": "r were polluted with the environment. In the initial stages pesticides. Even milk, meat and fishes of development, the demand for were found to be contaminated. environmental resources was less than To meet this challenge, efforts are that of supply. Now the world is on to bring in better methods of pest faced with increased demand for control. One such step is the use of environmental resources but their pesticides based on plant products. supply is limited due to overuse and Neem trees are proving to be quite misuse. Sustainable development aims useful. Several types of pest controlling at promoting the kind of development chemicals have been isolated from neem that minimises environmental problems and these are being used. Mixed and meets the needs of the present cropping and growing different crops generation without compromising the in consecutive years on the same land ability of the future generation to meet have also helped farmers. their own needs. 128 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "22aa3efe22340155488eb3bb7cbf156f809aecd5ea46513b78a617df9c4737fa"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Environment and Sustainable Development: Definition and Functions, State of India’s environment, Strategies for sustainable development.",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-03-valid",
+      "root_family": "BS-03",
+      "subject": "business_studies",
+      "partition": "development",
+      "stem": "According to the source, which statement about staffing is correct?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "It is performed only by a separate human resource department."
+        },
+        {
+          "label": "B",
+          "text": "It is performed only by external recruitment agencies."
+        },
+        {
+          "label": "C",
+          "text": "It is a function which all managers need to perform."
+        },
+        {
+          "label": "D",
+          "text": "It begins only after an employee is hired."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p26-c0",
+        "excerpt": "164 Business Studies The staffing function has assumed greater importance these days because of rapid advancement of technology, increasing size of organisation and complicated behaviour of human beings. The ability of an organisation to achieve its goal depends upon the quality of its human resources. Staffing as part of Human Resource Management: Staffing is a function which all managers need to perform. It is a separate and specialised function and there are many aspects of human relations to be considered. It is the responsibility of all managers to directly deal and select people to work for the organisation. When the manager performs the staffing function his role is slightly limited. In small organisations, managers may perform all duties related to employees salaries, welfare and working conditions. But as organisations grow and number of persons employed increases, a separate department called the human resource department is formed which has specialists in the field to manage people. Human Resource Management includes many specialised activities and duties which the human resource personnel must perform. Evolution of HRM: Human resource management has replaced the traditional concept of labour welfare and personnel management. HRM in its present form has evolved from a number of significant inter­related developments, which date back to the era of industrial revolution. Emergence of trade union movement led to the need of a person who could act as an effective link between the owners and workers. You may have observed that all these aspects are concerned with the human element in the industry as distinct from the mechanical side of the enterprise. Thus, staffing is an inherent part of human resource management as it is the practice of finding, evaluating and establishing a working relationship with people, for a purpose. Staffing Process: The prime concern of the staffing function in the management process is the timely fulfillment of the manpower requirements within an organisation.",
+        "excerpt_sha256": "4f64f25e4b5407ab655b424a47d741cfb9f141a30f6e2d8dbac602c6935d96f4"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Meaning, need and importance of staffing.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "economics-EC-05-valid",
+      "root_family": "EC-05",
+      "subject": "economics",
+      "partition": "development",
+      "stem": "Which benefit does the text associate with workers in the formal sector?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "They enjoy social security benefits."
+        },
+        {
+          "label": "B",
+          "text": "They necessarily earn less than informal-sector workers."
+        },
+        {
+          "label": "C",
+          "text": "They have no employment protections."
+        },
+        {
+          "label": "D",
+          "text": "They are all self-employed."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+        "locator": "p13-c0",
+        "excerpt": "Fig. 6.4 Road side vending: an increasing variety of informal sector employment Those who are working in the formal per cent (59/535×100)! Thus, the rest sector enjoy social security benefits. 89 per cent are in the informal sector. They earn more than those in the In 2011–2012, the year for which gender informal sector. Developmental wise data on formal-informal sector planning envisaged that as the economy employment is available about 20 per cent grows, more and more workers would of formal sector and 30 per cent of become formal sector workers and the informal sector workers were women. proportion of workers engaged in the informal sector would dwindle. But what has Chart 6.4: Workers in Formal and Informal happened in India? Look at Sector, 2011–2020 (in millions) the following chart which 500 476 443 gives the distribution of 450 workforce in formal and 400 informal sectors. 350 In 2019–2020 there were 300 about 535 million workers in 250 India. There were about 59 200 million workers in the formal 150 sector (Chart 6.4). Can you 100 59 estimate the percentage of 50 30 people employed in the 0 2011–12 2019–20 formal sectors in the country? About only 11 Formal Informal 104 INDIAN ECONOMIC DEVELOPMENT srekrow fo .oN Reprint 2026-27",
+        "excerpt_sha256": "38cc27af8f794db9bd9561e1629414b37c68187db359ec31d46c221049a382b2"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "economics-EC-09-valid",
+      "root_family": "EC-09",
+      "subject": "economics",
+      "partition": "release",
+      "stem": "Which resource is described as non-renewable in the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Fossil fuel."
+        },
+        {
+          "label": "B",
+          "text": "Trees in forests."
+        },
+        {
+          "label": "C",
+          "text": "Fish in the ocean."
+        },
+        {
+          "label": "D",
+          "text": "A resource that renews naturally without extraction."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec107",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec107.pdf",
+        "locator": "p2-c1870",
+        "excerpt": " of renewable sections. The first part deals with the resources are the trees in the forests and functions and role of environment. The the fishes in the ocean. Non-renewable second section discusses the state of resources, on the other hand, are those India’s environment and the third which get exhausted with extraction section deals with steps and strategies and use, for example, fossil fuel (ii) it to achieve sustainable development. assimilates waste (iii) it sustains life by providing genetic and bio diversity and 7.2 ENVIRONMENT — DEFINITION AND (iv) it also provides aesthetic services FUNCTIONS like scenery etc. Environment is defined as the total The environment is able to perform planetary inheritance and the totality these functions without any interruption of all resources. It includes all the biotic as long as the demand on these 116 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "da4662f5371b19f2b32bb7bf4e53efa015bbbce0fd2fb3a8f80c13f3939ccf54"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Environment and Sustainable Development: Definition and Functions, State of India’s environment, Strategies for sustainable development.",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "economics-EC-08-valid",
+      "root_family": "EC-08",
+      "subject": "economics",
+      "partition": "release",
+      "stem": "Which two changes make up diversification, according to the source?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "A change in currency and a shift from rural to foreign markets."
+        },
+        {
+          "label": "B",
+          "text": "A change in school subjects and a shift of capital to cash."
+        },
+        {
+          "label": "C",
+          "text": "A reduction in crops with no change in employment."
+        },
+        {
+          "label": "D",
+          "text": "A change in cropping pattern and a shift of workers to allied or non-agricultural activities."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec105",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec105.pdf",
+        "locator": "p8-c1668",
+        "excerpt": " reforms, the in rural areas. rest of the farmers oppose and these Acts were later repealed. Collect the details of these laws, debate and discuss in the class. 5.5 DIVERSIFICATION INTO PRODUCTIVE ACTIVITIES Diversification includes two aspects - one relates to change in cropping pattern and the other relates to a shift of workforce from agriculture to other allied activities (livestock, poultry, fisheries etc.) and non-agriculture sector. The need for diversification Fig. 5.2 Jaggery making is an allied activity arises from the fact that there is of the farming sector 82 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "49083020144fdd1fa3a7ea85c338f14c5ebfdd2af513d86d2ac72e1164aaa4d0"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Rural development: Key issues - credit and marketing - role of cooperatives; agricultural market system, Agriculture diversification; alternative farming - organic farming",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "english-EN-09-valid",
+      "root_family": "EN-09",
+      "subject": "english",
+      "partition": "release",
+      "stem": "Why was Arun waiting beneath the tower lamp?",
+      "passage": "At dusk the market folded its bright awnings, one colour at a time. A vendor rinsed the last clay cups while the lane held the day’s warmth. Above the rooftops, the first lamp in the station tower blinked awake. Arun waited beneath it, not because the train was late, but because he had promised his sister he would walk home with her.",
+      "options": [
+        {
+          "label": "A",
+          "text": "He had promised to walk home with his sister."
+        },
+        {
+          "label": "B",
+          "text": "He was waiting for a market stall to reopen."
+        },
+        {
+          "label": "C",
+          "text": "He had missed the last train."
+        },
+        {
+          "label": "D",
+          "text": "He was watching the vendor close the market."
+        }
+      ],
+      "source": {
+        "id": "benchmark-authored-english-passages-v1",
+        "type": "benchmark-authored stimulus",
+        "url": null,
+        "locator": "passage-09",
+        "excerpt": "At dusk the market folded its bright awnings, one colour at a time. A vendor rinsed the last clay cups while the lane held the day’s warmth. Above the rooftops, the first lamp in the station tower blinked awake. Arun waited beneath it, not because the train was late, but because he had promised his sister he would walk home with her.",
+        "excerpt_sha256": "0c6dad38cb07a0e7ff4908a5a679824bb4f8019be50b97be54ed837de05d3158"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "exact_entitlement": "There will be three types of passages (maximum 300 words): a. Factual b. Narrative c. Literary",
+        "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5"
+      }
+    },
+    {
+      "case_id": "business_studies-BS-06-valid",
+      "root_family": "BS-06",
+      "subject": "business_studies",
+      "partition": "release",
+      "stem": "Which activity does the source identify as orientation?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Searching for prospective employees and encouraging them to apply."
+        },
+        {
+          "label": "B",
+          "text": "Introducing the selected employee to colleagues and familiarising the employee with organisational rules and policies."
+        },
+        {
+          "label": "C",
+          "text": "Choosing from the pool of prospective candidates."
+        },
+        {
+          "label": "D",
+          "text": "Moving an employee to a different post."
+        }
+      ],
+      "source": {
+        "id": "ncert-lebs106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+        "locator": "p27-c0",
+        "excerpt": "Staffing 165 Recruitment: Recruitment may be defined as the process of searching for prospective employees and stimulating them to apply for jobs in the organisation. Selection: Selection is the process of choosing from among the pool of the prospective job candidates developed at the stage of recruitment. Placement and Orientation: Orientation is introducing the selected employee to other employees and familiarising him with the rules and policies of the organisation. Placement refers to the employee occupying the position or post for which the person has been selected. Training and Development: What people seek is not simply a job but a career. Every one must have the opportunity to rise to the top. The best way to provide such an opportunity is to facilitate employee learning. Recruitment Recruitment refers to the process of finding possible candidates for a job or function. Sources of Recruitment: The requisite positions may be filled up from within the organisation or from outside. Thus, there are two sources of recruitment – Internal and External. Internal Sources: Recruitment from within the enterprise. There are two important sources of internal recruitment, namely, transfers and promotions. External Sources: An enterprise has to tap external sources for various positions because all the vacancies cannot be filled through internal recruitment. The commonly used external sources of recruitment are Direct Recruitment, Casual Callers, Advertisements, Employment Exchange, Placement Agencies and Management Consultants, Campus Recruitment, Recommendations of Employees, Labour Contractors, Advertising on Television and Web Publishing.",
+        "excerpt_sha256": "2decbad0605019ef540394be4650f0557a280595dd47830f90e6f2b3b9552f85"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "exact_entitlement": "Selection – meaning and process.",
+        "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-09-valid",
+      "root_family": "AC-09",
+      "subject": "accountancy",
+      "partition": "release",
+      "stem": "A partner’s ratio-based profit share is below a guaranteed minimum. What does the cited rule require?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "The shortfall is borne by the partner or partners who gave the guarantee."
+        },
+        {
+          "label": "B",
+          "text": "The shortfall is automatically shared by every partner equally."
+        },
+        {
+          "label": "C",
+          "text": "The guarantee is ignored whenever the firm has profit."
+        },
+        {
+          "label": "D",
+          "text": "The shortfall is charged to a customer."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-45047abeb583",
+        "excerpt": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. For example, Madhulika and Rakshita, who are partners in a firm decide to admit Kanishka into their firm, giving her the guarantee of a minimum of Rs.25,000 as her share in firm’s profits. The firm earned a profit of Rs.1,20,000 during the year and the agreed profit sharing ratio between the partners is decided as 2:3:1. As per this ratio, Madhulika’s share in profit comes to Rs.40,000 (2/6 of Rs. 1,20,000); Rakshita, Rs. 60,000 (3/6 of Rs. 1,20,000) and Kanishka Rs. 20,000 (1/6 of Rs. 1,20,000). The share of Kanishka works out to be Rs.5,000 short of the guaranteed amount. This shall be borne by the guaranteeing partners Madhulika and Rakshita in Reprint 2026-27\n27Accounting for Partnership : Basic Concepts their profit sharing ratio, which in this case is 2:3, Madhulika’s share in the deficiency comes to Rs.2,000 (2/5 of Rs. 5,000), and that of Rakshita Rs.3,000. The total profit of the firm will be distributed among the partners as follows Madhulika will get Rs.38,000 (her share 40,000 minus share in deficiency Rs.2,000); Rakshita Rs.57,000 (60,000–3,000) and Kanishka Rs. 25,000 (Rs. 20,000 + Rs. 2,000 + Rs. 3,000). If only one partner gives the guarantee, say in the above case, only Rakshita gives the guarantee, the whole amount of deficiency (Rs.5,000) will be borne by her only.",
+        "excerpt_sha256": "4e83d106e876299ee7312d8e0352a346363a2ac711597ab2a7910c318ce380cc"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "economics-EC-06-valid",
+      "root_family": "EC-06",
+      "subject": "economics",
+      "partition": "release",
+      "stem": "Why does the source identify health expenditure as a source of human capital formation?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Health expenditure makes physical capital immobile."
+        },
+        {
+          "label": "B",
+          "text": "Sound health supports work and productivity."
+        },
+        {
+          "label": "C",
+          "text": "It guarantees equal incomes for all workers."
+        },
+        {
+          "label": "D",
+          "text": "It replaces education in every case."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec104",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+        "locator": "p4-c1815",
+        "excerpt": "ital? the development of a nation as much (ii) Is there any relation between as it is important for the development human capital and economic of an individual. growth of a country? Who can work better—a sick (iii) Is the formation of human person or a person with sound health? capital linked to people’s all-round A sick labourer without access to development or, as it is now called, medical facilities is compelled to human development? abstain from work and there is loss of (iv) What role can the government productivity. Hence, expenditure on play in human capital formation health is an important source of in India? human capital formation. 60 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+        "excerpt_sha256": "d9979923ddac692b89adc680430f5983cf105dc94452f3e653e04dbdad3e5820"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Human Capital Formation: How people become resource; Role of human capital in economic development; Growth of Education Sector in India",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-03-valid",
+      "root_family": "AC-03",
+      "subject": "accountancy",
+      "partition": "development",
+      "stem": "If a partnership deed is silent about the profit-sharing ratio, what does the cited rule prescribe?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "They share in proportion to their capital contributions."
+        },
+        {
+          "label": "B",
+          "text": "The senior partner receives all profits."
+        },
+        {
+          "label": "C",
+          "text": "Partners share profits and losses equally."
+        },
+        {
+          "label": "D",
+          "text": "The firm must retain all profits."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-63927dc5d1aa",
+        "excerpt": "1.2.1 Provisions of Partnership Act Relevant for Accounting The important provisions affecting partnership accounts are as follows: (a) Profit Sharing Ratio: If the partnership deed is silent about the profit sharing ratio, the profits and losses of the firm are to be shared equally by partners, irrespective of their capital contribution in the firm. (b) Interest on Capital: No partner is entitled to claim any interest on the amount of capital contributed by him in the firm as a matter of right. However, interest can be allowed when it is expressly agreed to by the partners. Thus, no interest on capital is payable if the partnership deed is silent on the issue. (c) Interest on Drawings: No interest is to be charged on the drawings made by the partners, if there is no mention in the Deed. (d) Interest on Loan: If any partner has advanced loan to the firm for the purpose of business, he/she shall be entitled to get an interest on the loan amount at the rate of 6 per cent per annum. (e) Remuneration for Fir m’s Work: No partner is entitled to get salary or other remuneration for taking part in the conduct of the business of the firm unless there is a provision for the same in the Partnership Deed. Apart from the above, the Indian Partnership Act specifies that subject to contract between the partners: (i) If a partner derives any profit for him/her self from any transaction of the firm or from the use of the property or business connection of the firm or the firm name, he/she shall account for the profit and pay it to the firm. (ii) If a partner carries on any business of the same nature as and competing with that of the firm, he/she shall account for and pay to the firm, all profit made by him/her in that business. Test your Understanding – I 1.",
+        "excerpt_sha256": "38e94c21981357d18035b5a906445582f270aa8b945b6dfe4bd346696902f900"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "accountancy-AC-07-valid",
+      "root_family": "AC-07",
+      "subject": "accountancy",
+      "partition": "release",
+      "stem": "Match each capital method with the number of partner accounts described in the source.",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "Fixed capital: one account; fluctuating capital: two accounts."
+        },
+        {
+          "label": "B",
+          "text": "Both methods use two capital accounts and no current account."
+        },
+        {
+          "label": "C",
+          "text": "Fixed capital: two accounts; fluctuating capital: one account."
+        },
+        {
+          "label": "D",
+          "text": "Both methods use one account, with no difference in balance behaviour."
+        }
+      ],
+      "source": {
+        "id": "ncert-leac101",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+        "locator": "quality-v4-2981d89b7e0e",
+        "excerpt": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts The main points of differences between the fixed and fluctuating capital methods can be summed up as follows: Basis of Distinction Fixed Capital Fluctuating Capital (i) Number of Under this method, two Each partner has one account, accounts separate accounts are i.e. capital account, under this maintained for each partner method viz., ‘capital account’ and ‘current account’. (ii) Items related Drawings, salary,interest All adjustments for drawings, to deed on capital,etc. are posted salary interest on capital, etc., (transfered) in the current are posted (transfered) in the accounts and not in the capital accounts, capital accounts. (iii) Fixed balance The capital account balance The balance of the capital remain unchanged unless account fluctuates from year there is addition to or to year withdrawal of capital. (iv) Credit balance The capital accounts The capital account always show a credit balance. may sometimes show a debit balance. Reprint 2026-27\n8 Accountancy – Partnership Accounts 1.5 Distribution of Profit among Partners The profits and losses of the firm are distributed among the partners in an agreed ratio. However, if the partnership deed is silent, the firm’s profits and losses are to be shared equally by all the partners. You know that in the case of sole partnership the profit or loss, as ascertained by the profit and loss account is transferred to the capital account of the proprietor. In case of partnership, however, certain adjustments such as interest on drawings, interest on capital, salary to partners, and commission to partners are required to be made.",
+        "excerpt_sha256": "929f7ad05f2e9c4021a3b0853d115f390d5be383c8626ec60765228bdc59717a"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "exact_entitlement": "Fixed v/s Fluctuating capital, Division of profit among partners, Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments.",
+        "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4"
+      }
+    },
+    {
+      "case_id": "economics-EC-02-valid",
+      "root_family": "EC-02",
+      "subject": "economics",
+      "partition": "development",
+      "stem": "What does a higher worker-population ratio indicate in the cited explanation?",
+      "passage": null,
+      "options": [
+        {
+          "label": "A",
+          "text": "A larger share of people is outside economic activity."
+        },
+        {
+          "label": "B",
+          "text": "A greater engagement of people in economic activity."
+        },
+        {
+          "label": "C",
+          "text": "A higher price level."
+        },
+        {
+          "label": "D",
+          "text": "A larger population, regardless of work."
+        }
+      ],
+      "source": {
+        "id": "ncert-keec106",
+        "type": "reference",
+        "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+        "locator": "p4-c1872",
+        "excerpt": "at is qualifications and skills. In rural areas, actively contributing to the production people cannot stay at home as their of goods and services of a country. If economic condition may not allow them the ratio is higher, it means that the to do so. engagement of people is greater; if the ratio for a country is medium, or low, TABLE 6.1 it means that a very high proportion Worker-Population Ratio in India, of its population is not involved 2023–24 directly in economic activities. You might have already studied, Sex Worker-Population Ratio in lower classes, the meaning of the Total Rural Urban term ‘population’. Population is Men 56.4 56.3 56.4 defined as the total number of people Women 30.7 34.8 20.7 who reside in a particular locality at Total 43.7 45.6 38.9 a particular point of time. If you want EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 95 Reprint 2026-27",
+        "excerpt_sha256": "1d7ced2a5fcd549d68b5d8316bc58ce534c1f44587a392cea1eed608205ce059"
+      },
+      "syllabus": {
+        "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "exact_entitlement": "Employment: Growth and changes in work force participation rate in formal and informal sectors; problems and policies",
+        "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865"
+      }
+    }
+  ]
+}

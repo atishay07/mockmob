@@ -1,0 +1,137 @@
+{
+  "historical_report_date": "2026-05-01T20:36:48.291Z",
+  "request_receipts_available": false,
+  "cost_reconstruction": "unknown",
+  "findings": [
+    {
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "english",
+      "chapter": "Para Jumbles",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "gat",
+      "chapter": "Logical & Analytical Reasoning",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "gat",
+      "chapter": "Quantitative Reasoning",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "business_studies",
+      "chapter": "Principles of Management",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "mathematics",
+      "chapter": "Probability",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "physics",
+      "chapter": "Electromagnetic Induction",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    },
+    {
+      "subject": "biology",
+      "chapter": "Molecular Basis of Inheritance",
+      "generated_count": 0,
+      "validator_sent": 0,
+      "diagnosis": {
+        "primary_reason": "INSUFFICIENT_TELEMETRY",
+        "secondary_reasons": [
+          "No candidate or validation request evidence is available."
+        ],
+        "recommended_fix": "Reconstruct actual request/usage records; do not infer weak generation or validator rejection from absent telemetry."
+      }
+    }
+  ]
+}

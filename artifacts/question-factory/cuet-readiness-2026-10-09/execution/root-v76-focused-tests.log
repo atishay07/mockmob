@@ -1,0 +1,45 @@
+✔ v76 pins v74 and binds each academic additive file without inheriting the v75 policy (83.8624ms)
+✔ a changed parent hash fails closed (11.2084ms)
+✔ every provider receives the contextual instructions and key-free objective only (41.8239ms)
+✔ explanation instructions adapt all providers without mutating caller bodies or other stages (0.2766ms)
+✔ v74, v75 and v76 have independent cache and provider-request identities; changed objective misses cache (129.7453ms)
+✔ mandatory academic predicates remain fail-closed in inherited structured judgments (407.0175ms)
+✔ verification preserves every required stage and immediately quarantines failures and key contradictions (129.9628ms)
+✔ missing objective quarantines before any model adapter; authenticated originals retain parent duties (8.5758ms)
+✔ frozen A/B worker stays byte-bound and measurement registrations remain non-publishable (16.4226ms)
+✔ v76 rejects the frozen measurement profile before any staging dependency can be used (8.8378ms)
+✔ v76 refuses measurement, incomplete, unsettled, or unqualified campaigns before inventory access (2.9357ms)
+✔ v76 withholds current-inventory duplicates and never invokes publication (6.9991ms)
+✔ v76 inspects immediately before one campaign publication callback (3.4972ms)
+✔ v76 profile binds current release, source registry and exact current academic contract (164.536ms)
+✔ unknown fields, old versions and changed bindings fail closed without profile fallback (189.7928ms)
+✔ v76 qualification binds two independent validators and shared immutable budget scope (2.7127ms)
+✔ one qualification owner blocks duplicate fresh/regression runners and preserves drained owner history (7.8376ms)
+✔ v76 author retains complete sources, identity, v74 explanation contract and abstention schema (3.6097ms)
+✔ invalid identity/source requests fail before transport and non-authoring passes through (0.8896ms)
+✔ genuine missing objective blocks authorship; cues alone do not; explicit abstention keeps typed provenance (4.3693ms)
+✔ missing or blank objective/unit is a genuine deterministic blocker (3.7047ms)
+✔ lexical target must genuinely occur, avoiding v75 arbitrary common-prefix matches (1.0709ms)
+✔ concept-name overlap is legitimate; copying a full keyed factual proposition reveals the key (0.3667ms)
+✔ all absolute distractors and hard labels remain contextual diagnostics without automatic rejection (0.1461ms)
+✔ linking phrases and printed-order keys cannot become blocking through label aggregation (0.4287ms)
+✔ overlap is diagnostic; a passage can legitimately supply the tested information (0.2798ms)
+✔ cue-only findings cannot turn a correctness failure into a pass or independently fail fit (0.3392ms)
+✔ only fully bound, preregistered, complete full-release evidence passes (17.7551ms)
+✔ stale prompt or contract binding cannot be stamped with the current contract (31.6525ms)
+✔ duplicate and missing topology rows fail exact fixture coverage (15.3199ms)
+✔ provider errors cannot be counted as quarantined defect rejections (14.492ms)
+✔ official scoped or previously read study cannot qualify as fresh release evidence (14.2724ms)
+✔ missing subject coverage and changed frozen labels fail closed (25.8643ms)
+✔ every expected invalid counts even when contested or given a different group (27.345ms)
+✔ a preserved disputed regression label still blocks an accepted invalid (14.0109ms)
+✔ missing expected-invalid coverage and untyped validity cannot qualify (24.5136ms)
+✔ a defect-free fixture packet cannot establish zero false accepts (12.1945ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1058.0024

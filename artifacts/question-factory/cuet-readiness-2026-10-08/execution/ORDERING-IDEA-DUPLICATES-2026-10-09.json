@@ -1,0 +1,299 @@
+{
+ "contract": "evidence-content-idea-inspection-v4",
+ "generated_at": "2026-10-08T18:49:41.202Z",
+ "per_campaign": {
+  "A": {
+   "eligible": 66,
+   "ordering_items": 9,
+   "repeated_ordering_pairs": []
+  },
+  "B": {
+   "eligible": 70,
+   "ordering_items": 9,
+   "repeated_ordering_pairs": []
+  },
+  "C": {
+   "eligible": 84,
+   "ordering_items": 11,
+   "repeated_ordering_pairs": [
+    {
+     "a": "C:0fc6254f35c4cdd497364d8c821b42fc",
+     "b": "C:415691cf8a686bf4bb629eef885cb0d3"
+    }
+   ]
+  }
+ },
+ "bank_ordering_items": 76,
+ "bank_ordering_by_state": {
+  "eligible": 53,
+  "quarantined": 23
+ },
+ "combined": {
+  "ordering_items": 296,
+  "repeated_ordering_pairs": 40,
+  "groups": 10,
+  "items_in_groups": 34,
+  "surplus_items": 24,
+  "group_details": [
+   [
+    {
+     "id": "bank:27e508fe302e60fbef8368cc49a64d38",
+     "subject": "business_studies",
+     "chapter": "Organising",
+     "state": "eligible",
+     "first_step": "Employees perform similar tasks within a department and are able to improve performance."
+    },
+    {
+     "id": "C:21becfa473f5c0f8b609fe3769c2becc",
+     "subject": "business_studies",
+     "chapter": "Organising",
+     "state": "eligible",
+     "first_step": "A functional structure groups similar or related jobs together."
+    }
+   ],
+   [
+    {
+     "id": "bank:a65d834b667f318d9ce07a34d6cf8daa",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After smoothing its edges, Noor painted the wooden bookmark and left it to dry."
+    },
+    {
+     "id": "bank:f547e34627af9ffec31cffd2d0d62be9",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After smoothing them, she painted the bookmark and left it to dry."
+    },
+    {
+     "id": "C:0fc6254f35c4cdd497364d8c821b42fc",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After smoothing the edges, Noor painted the bookmark and left it to dry."
+    },
+    {
+     "id": "C:415691cf8a686bf4bb629eef885cb0d3",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "She then smoothed the edges of the shape just cut."
+    }
+   ],
+   [
+    {
+     "id": "bank:b7b7e9358ed2fc2a03d80893a060d198",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "quarantined",
+     "first_step": "Volunteers then placed the chairs according to that completed list."
+    },
+    {
+     "id": "bank:9bd2d77281ddf33604855c9a579c0c71",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "quarantined",
+     "first_step": "Volunteers then placed the chairs according to that completed list."
+    }
+   ],
+   [
+    {
+     "id": "bank:6e65669238f8a31b656dbe0e711a7e70",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "quarantined",
+     "first_step": "After confirming the match, Ravi opened the parcel and counted the notebooks inside."
+    },
+    {
+     "id": "bank:21ffdb2198b350582fa6e53d8a820211",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "quarantined",
+     "first_step": "Only after this match was confirmed did he open it and count the notebooks inside."
+    },
+    {
+     "id": "bank:850ff821eb18ed00ba2aff76d05c04fa",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Before opening the parcel, Ravi checked its address against the class's order receipt."
+    },
+    {
+     "id": "C:044040f06a4e27456813256be4c30ea5",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After confirming the address matched the class's order receipt, Ravi opened the parcel and"
+    }
+   ],
+   [
+    {
+     "id": "bank:74d976848985c48f5b5697a9203b959b",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Each member then practised the assigned part individually."
+    },
+    {
+     "id": "bank:792a2de8e6e896455610f3d9100ccd79",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Each participant practised the assigned speaking part individually."
+    }
+   ],
+   [
+    {
+     "id": "bank:843dbff98d887fa97d091dd73de2b1c0",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "She then attached the cut sheet to the board and let the adhesive dry."
+    },
+    {
+     "id": "bank:373d250d21b4c8d7cff3367cd69d7b25",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Tara then attached the cut sheet to the board and let the adhesive dry."
+    },
+    {
+     "id": "bank:c159d74b4d72ea24a97a9398294284fc",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Only after the paper covering was attached and the adhesive had dried did Tara place the p"
+    },
+    {
+     "id": "B:ddab90db5024516da56e03d051fa7877",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Tara placed the photographs on the board after the adhesive had dried."
+    },
+    {
+     "id": "C:e0369e7bfffb802fc10648fea4fb4d13",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Tara attached the cut sheet to the board and let the adhesive dry."
+    }
+   ],
+   [
+    {
+     "id": "bank:9d134d424cc6abd3b6e68b7b66773b24",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After editing it, he compared the copy with the untouched original."
+    },
+    {
+     "id": "bank:09513d692e04a2ab548d0c5f21434fc4",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After editing the copy, Aman compared it with the untouched original."
+    },
+    {
+     "id": "bank:23be84e9a8a798f5249456b77ea00570",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "He first made a copy of the original recording."
+    },
+    {
+     "id": "bank:a65094cc32d7797098bdfa33fc8ab015",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Only after comparing the edited copy with the untouched original did Aman save the edited "
+    },
+    {
+     "id": "B:f4f99d40efab96eb8b306f8f6212a9f3",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Finally, Aman saved the edited version under a different name."
+    }
+   ],
+   [
+    {
+     "id": "bank:f7119751c3481939c8fbb406810d5ff1",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After those votes had been counted, the teacher wrote the selected title on the story's co"
+    },
+    {
+     "id": "bank:3840664fceb9afc9c36309542c0ab16f",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Only then did the class vote on the listed titles."
+    }
+   ],
+   [
+    {
+     "id": "bank:a601205cfe584a89b63c47661c258937",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Each member then practised the assigned part individually."
+    },
+    {
+     "id": "bank:39e09ce54267c6d56a9b954d8bf3ed1c",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Each member then practised the assigned part individually."
+    },
+    {
+     "id": "A:044d2ebc96f774e3dbe9396b5704b51f",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "The shared reading was followed by assignment of the speaking parts."
+    }
+   ],
+   [
+    {
+     "id": "bank:8b93316006439c791a59e7a5a664f278",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "Only after writing the recorded name on a new label did Jaya replace the unreadable label."
+    },
+    {
+     "id": "bank:0247258de456a670df19039e3a2c4dfa",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "quarantined",
+     "first_step": "Having found the recorded name, Jaya wrote it on a new label."
+    },
+    {
+     "id": "B:ae909dbf1d2b2d5659476cfbb7d53e29",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "With the plant’s recorded name available, Jaya wrote it on a new label."
+    },
+    {
+     "id": "bank:acfe4927de77c0cc2c95d1a664d206b0",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "The account concludes with a note that this sequence establishes the order of Jaya's actio"
+    },
+    {
+     "id": "A:a5107c0a786cd966a99668eeba3aaaf4",
+     "subject": "english",
+     "chapter": "Para Jumbles",
+     "state": "eligible",
+     "first_step": "After locating the name in the record, Jaya wrote it on a fresh label."
+    }
+   ]
+  ]
+ },
+ "limitation": "Deterministic diagnostic only. The rule was written from the confirmed C bookmark pair, so C detection is not independent evidence; flagged groups need reading before any reclassification. Frozen outcomes, bank state and publication are unchanged."
+}

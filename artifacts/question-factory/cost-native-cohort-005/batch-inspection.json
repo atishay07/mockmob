@@ -1,0 +1,94 @@
+{
+  "contract": "evidence-content-idea-inspection-v1",
+  "content_hash": "9667fb9266ada356549b10361e5ac3b1827590350f9d06b30cd212a61adfe77c",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 71,
+  "answer_positions": {
+    "C": 17,
+    "A": 19,
+    "D": 15,
+    "B": 20
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "C": 1,
+      "A": 1,
+      "D": 1,
+      "B": 2
+    },
+    "synonym": {
+      "A": 2,
+      "D": 1,
+      "C": 1
+    },
+    "sequence_ordering": {
+      "C": 2,
+      "B": 4,
+      "A": 1,
+      "D": 2
+    },
+    "matching": {
+      "C": 4,
+      "B": 3,
+      "A": 3,
+      "D": 3
+    },
+    "correct_word_usage": {
+      "A": 1,
+      "B": 1,
+      "D": 2
+    },
+    "antonym": {
+      "C": 1,
+      "D": 1
+    },
+    "case_application": {
+      "B": 3,
+      "C": 3,
+      "D": 3,
+      "A": 1
+    },
+    "conceptual_mcq": {
+      "A": 4,
+      "C": 3,
+      "B": 4
+    },
+    "numerical_calculation": {
+      "A": 2,
+      "B": 1,
+      "C": 1
+    },
+    "statement_selection": {
+      "A": 4,
+      "C": 1,
+      "B": 2,
+      "D": 2
+    }
+  },
+  "formats": {
+    "reading_comprehension": 5,
+    "synonym": 4,
+    "sequence_ordering": 9,
+    "matching": 13,
+    "correct_word_usage": 4,
+    "antonym": 2,
+    "case_application": 10,
+    "conceptual_mcq": 11,
+    "numerical_calculation": 4,
+    "statement_selection": 9
+  },
+  "difficulty": {
+    "easy": 25,
+    "medium": 37,
+    "hard": 9
+  },
+  "longest_same_answer_run": 3,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 103,
+  "inventory_ids_hash": "c8896cb79359640f8827718af23e2368cfe99d3b0cfd35be8cade9982dc65ce5",
+  "at": "2026-10-07T06:51:29.295Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

@@ -1,0 +1,12 @@
+{"width":1280,"y":1682,"peaks":[],"station":"lab","visible":"true","step":"01Replay the session","moveTop":535.859375,"bar":"paused"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+page.waitForFunction: Timeout 30000ms exceeded.
+    at C:\Users\atish\Desktop\mockmob copy\mockmob copy\scripts\design-audit\round5-completion.mjs:29:19 {
+  log: [],
+  name: 'TimeoutError'
+}
+
+Node.js v24.15.0

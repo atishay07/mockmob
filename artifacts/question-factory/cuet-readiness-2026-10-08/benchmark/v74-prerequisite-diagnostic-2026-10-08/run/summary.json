@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-08T13:32:47.091Z",
+  "id": "v74-prerequisite-diagnostic-2026-10-08",
+  "denominator": 10,
+  "valid_roots": 4,
+  "controlled_defects": 6,
+  "terminal_topology": 10,
+  "eligible_valid": 3,
+  "controlled_false_accepts": [],
+  "by_subject": {
+    "accountancy": {
+      "expected": 1,
+      "terminal": 1,
+      "eligible": 1
+    },
+    "business_studies": {
+      "expected": 1,
+      "terminal": 1,
+      "eligible": 1
+    },
+    "economics": {
+      "expected": 1,
+      "terminal": 1,
+      "eligible": 0
+    },
+    "english": {
+      "expected": 1,
+      "terminal": 1,
+      "eligible": 1
+    }
+  },
+  "provider_outcomes": {
+    "openai": {
+      "denominator": 10,
+      "counts": {
+        "judged": 10,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 4,
+      "positive_judged": 4,
+      "positive_comparison_complete": true
+    },
+    "gemini": {
+      "denominator": 10,
+      "counts": {
+        "judged": 10,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 4,
+      "positive_judged": 4,
+      "positive_comparison_complete": true
+    }
+  },
+  "provider_errors": 0,
+  "provider_stage_errors": [],
+  "stage_errors": [],
+  "execution_finished": true,
+  "release_evidence_complete": true,
+  "haiku": {
+    "role": "Not evaluated on regression cases; Luna and Gemini retain every publication-validation stage.",
+    "comparison_applicable": false,
+    "valid_denominator": 0,
+    "observed": 0,
+    "comparison_complete": null,
+    "source_supported_unique_key_matches": 0,
+    "cuet_fit_passes": 0
+  },
+  "settled_usd": 0.210774,
+  "held_usd": 0,
+  "gross_usd": 0.210774,
+  "receipt_complete": true,
+  "publication_writes": 0,
+  "release": false,
+  "provenance_notice": "Fresh benchmark cases are original or adapted practice derived from their cited sources; source papers are not authenticated CUET PYQs.",
+  "limitation": "Official source keys and blinded checks are measured evidence; correlated papers/paired controls and model agreement do not establish perfect accuracy."
+}

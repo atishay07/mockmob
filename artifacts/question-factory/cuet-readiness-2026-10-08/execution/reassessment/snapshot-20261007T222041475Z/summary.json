@@ -1,0 +1,44 @@
+{
+  "schema": "cuet-bank-reassessment-export-v1",
+  "captured_at": "2026-10-07T22:20:41.472Z",
+  "run": {
+    "status": "incomplete",
+    "complete": false,
+    "denominator": 662,
+    "terminal": 235,
+    "eligible": 198,
+    "quarantined": 37,
+    "pending": 427,
+    "latest_result_rows": 237,
+    "unique_result_ids": 237,
+    "provider_errors": 2,
+    "mismatched_or_stale": 2,
+    "trailing_partial_jsonl_line_ignored": false,
+    "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "verifier": "cuet-fit-validator-v7.2",
+    "topology": "dual_blind",
+    "publication": "never",
+    "status_note": "Interim export: missing, provider-error, or mismatched rows remain pending; no complete-yield claim is made."
+  },
+  "scoped_cost": {
+    "settled_micro": 2307174,
+    "held_micro": 78402,
+    "committed_micro": 2385576,
+    "request_count": 761,
+    "receipt_complete": false,
+    "cost_reconciled": true,
+    "unattributed_request_count": 0
+  },
+  "withholding_plan": {
+    "mode": "dry_run_only",
+    "atomic_passage_groups": true,
+    "decisions": 643,
+    "would_withhold_items": 464
+  },
+  "output_directory": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/reassessment/snapshot-20261007T222041475Z",
+  "side_effects": {
+    "database_writes": 0,
+    "publication_writes": 0,
+    "provider_calls": 0
+  }
+}

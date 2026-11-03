@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-07T21:34:30.789Z",
+  "environment": "separate staging",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "fixture_type": "software-only, non-academic, disposable",
+  "control_changed": false,
+  "provider_calls": 0,
+  "production_writes": 0,
+  "checks": [
+    {
+      "name": "single publish replay is idempotent",
+      "repeated_result_same_id": true,
+      "rows_after_replay": 1
+    },
+    {
+      "name": "individual child rejected and failed group rolled back parent plus children"
+    },
+    {
+      "name": "complete passage group publishes atomically and group replay is idempotent",
+      "children": 2,
+      "passage_preserved": true
+    },
+    {
+      "name": "student feed excludes software-only publication rows without a measured evidence release",
+      "fixture_rows_excluded": 3
+    },
+    {
+      "name": "signed-in student feed returns an isolated legacy compatibility fixture before dispute",
+      "fixture_rows": 1
+    },
+    {
+      "name": "dispute RPC immediately removes the exact disputed fixture from student feed",
+      "fixture_hidden": true
+    }
+  ],
+  "passed": true,
+  "cleanup": {
+    "attempted_exact_ids_only": true,
+    "errors": [],
+    "fixture_questions_remaining": 0,
+    "fixture_jobs_remaining": 0,
+    "fixture_publications_remaining": 0,
+    "fixture_disputes_remaining": 0,
+    "fixture_groups_remaining": 0,
+    "complete": true
+  }
+}

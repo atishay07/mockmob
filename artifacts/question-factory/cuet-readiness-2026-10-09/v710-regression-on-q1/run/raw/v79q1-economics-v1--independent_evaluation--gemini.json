@@ -1,0 +1,48 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 16824,
+ "request_bytes": 32097,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-economics-v1\",\n  \"content_hash\": \"be1e4a86dc4750511e2fbc184ded1074f0ccaf67e6e80945ea15b0e5e4d06cc2\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\", \"E3.1\"],\n  \"reasons\": [\n    \"Under a fixed exchange rate regime, an official government increase in the exchange rate (making domestic currency cheaper) is termed devaluation.\",\n    \"The official rate changes from Rs 75/$ to Rs 80/$, which increases the price of foreign currency and makes the domestic currency cheaper by government action.\"\n  ],\n  \"syllabus_chapter\": \"Balance of Payments\",\n  \"syllabus_topic\": \"Foreign exchange rate - fixed and flexible exchange rates\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The exchange rate regime is fixed and the exchange rate increases by government action from Rs 75 to Rs 80 per dollar.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"An increase in the exchange rate by government action in a fixed regime is defined as devaluation.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E3.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The government deliberately adjusts the currency value upwards rather than downwards.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The currency's value changes through market mechanisms in a flexible exchange rate regime.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The government abandons the peg and allows market forces to freely determine the rate.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests core terminology of fixed exchange rate adjustments from NCERT Chapter 6.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Direct conceptual MCQ standard in CUET Economics.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard recall and comprehension demands of Class 12 Macroeconomics.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distinguishes devaluation (fixed) from depreciation/appreciation (flexible) and revaluation.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Revaluation of the rupee\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.\",\n      \"reason\": \"Revaluation occurs when government decreases the exchange rate, making rupee costlier.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation.\",\n      \"reason\": \"Increasing the official exchange rate under a fixed regime is devaluation.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Appreciation of the rupee\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E2.1\",\n      \"premise_quote\": \"Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars).\",\n      \"reason\": \"Appreciation applies to flexible exchange rate regimes, not fixed ones.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Floating of the exchange rate\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate .\",\n      \"reason\": \"A floating rate is determined by market forces, not set by government.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0,
+    "citationMetadata": {
+     "citationSources": [
+      {
+       "startIndex": 4430,
+       "endIndex": 4668,
+       "uri": "https://youtube.com/v/l0sonEpxE00",
+       "license": ""
+      }
+     ]
+    }
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5457,
+   "candidatesTokenCount": 1489,
+   "totalTokenCount": 7362,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5457
+    }
+   ],
+   "thoughtsTokenCount": 416,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "zO_IatP_CbGljuMPy9Op6Ac"
+ }
+}

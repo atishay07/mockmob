@@ -1,0 +1,82 @@
+[
+  {
+    "name": "leac201",
+    "path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+    "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+    "pages": 74,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leac201.pages.json",
+    "extraction_sha256": "90d37fa4196b713a78a43b25aea453e14ce3a53363ef754b1105e9d46f4939f6"
+  },
+  {
+    "name": "leac101",
+    "path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+    "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+    "pages": 47,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leac101.pages.json",
+    "extraction_sha256": "d0c91273569d61df2b3f2d097c678a45473639c6afe60214e6b781f3b4cd82b4"
+  },
+  {
+    "name": "lebs102",
+    "path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs102.pdf",
+    "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+    "pages": 39,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs102.pages.json",
+    "extraction_sha256": "b8103ab2dddb1d120c1a35bad4684800866d700a399cf401718d7ead03f01793"
+  },
+  {
+    "name": "lebs104",
+    "path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs104.pdf",
+    "pdf_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+    "pages": 18,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs104.pages.json",
+    "extraction_sha256": "66422ae1820afe0e366c5f570a8fb38ca29639e9d1d21e061afd85e70454a1d9"
+  },
+  {
+    "name": "lebs202",
+    "path": "data\\question-factory-runtime\\reference-downloads\\lebs202.pdf",
+    "pdf_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+    "pages": 47,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs202.pages.json",
+    "extraction_sha256": "9fc4a872b46a70076c1a7b607595405107143f8d4a6d579513dd266fdc7208fd"
+  },
+  {
+    "name": "lebs103",
+    "path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+    "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+    "pages": 22,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\lebs103.pages.json",
+    "extraction_sha256": "96917b14cb702a150f67fd9722932d2dcbe98fe7c2bf83e1662f28b39af00ba2"
+  },
+  {
+    "name": "leec103",
+    "path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec103.pdf",
+    "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+    "pages": 17,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec103.pages.json",
+    "extraction_sha256": "5db084d7ab29e01ad4590921728f4db8a79f6755d95f0a39d28001518835cacf"
+  },
+  {
+    "name": "leec105",
+    "path": "data\\question-factory-runtime\\reference-downloads\\leec105.pdf",
+    "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+    "pages": 19,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec105.pages.json",
+    "extraction_sha256": "899829ace57cfb934a267f29b51ba3f70639a9f8e850d2cef05fb7866004f4b6"
+  },
+  {
+    "name": "leec106",
+    "path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+    "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+    "pages": 15,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\leec106.pages.json",
+    "extraction_sha256": "dd79d5865b22a3aa7c9969f70f7dbaf6633101b6f54e8cae0fcd63590fd106bd"
+  },
+  {
+    "name": "keec101",
+    "path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\keec101.pdf",
+    "pdf_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+    "pages": 15,
+    "extraction_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v76-source-prep\\ncert\\keec101.pages.json",
+    "extraction_sha256": "19d28bc035e23cfda9fc677140b4d702803ddbf32d9471c1488ae17bebecf47f"
+  }
+]

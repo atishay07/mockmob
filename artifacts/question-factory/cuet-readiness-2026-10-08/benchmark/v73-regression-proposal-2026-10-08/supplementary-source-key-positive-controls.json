@@ -1,0 +1,1613 @@
+{
+  "schema": "v73-supplementary-source-key-positive-regression-controls-v1",
+  "evidence_role": "regression",
+  "previously_read": true,
+  "tuned_on": false,
+  "source_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/cbse-independent-key-candidates/source-support-v3/post-freeze-official-key-comparison-v3.json",
+  "source_sha256": "91103914fd64abb4e4719dbf5a4f4aba82c080a745c096d2a66e7ed9f9478ad9",
+  "independent_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/cbse-independent-key-candidates/source-support-v3/freeze-before-official-key-comparison-v3.json",
+  "independent_freeze_sha256": "c6950201a2774d2636452edda70eebd88cfc7a00cd3ab937e1af68468257e5e8",
+  "denominator": 64,
+  "positive_count": 51,
+  "positive_by_subject": {
+    "english_core": 11,
+    "business_studies": 14,
+    "accountancy": 12,
+    "economics": 14
+  },
+  "cases": [
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "56dca44c3048fb40a34ab46438ef0107ec54d22893d0ea910885288cb88d8ed3",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "It serves as a visual guide for observers to locate the shower.",
+        "locator": "Marking scheme PDF page 1, question 1-IV",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "bed84ef80fce2b866fdd50cdeaafa9d7f71d9d50024313d21b6f83cd841f6107",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "explanatory and informative, aimed at scientific understanding",
+        "locator": "Marking scheme PDF page 2, question 1-VIII",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "37a33ca24227dd7ac72a9b0cbe3795217a8aaa19aeb90db26fa8f20a7fe14990",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "D",
+        "text": "scientific explanation and practical observation of Geminids",
+        "locator": "Marking scheme PDF page 2, question 1-X",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "1ea737ab70d001d32486fef3d7ad6527cafb0b92bc5129f5d95e1e4bac415229",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "To understand changes in payment behaviour among different user groups",
+        "locator": "Marking scheme PDF page 2, question 2-I",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "90b03f10fec156c0a5bb4ff08f80916721a64423bb53fc6e984070caeac3f3d2",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "Widespread adoption across formal and informal settings",
+        "locator": "Marking scheme PDF page 2, question 2-IV",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "subject": "english_core",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "f454685af5726dab73b7d9d750e26c62021ca7d6a6a77f31de370f5c3c4b2fb0",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "C",
+        "text": "The policy framework governing digital payment systems",
+        "locator": "Marking scheme PDF page 3, question 2-VI",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "145d0b5f0fb7c6cdc90dd0bfb28271c3ce1ecea54003d3c88baabefc0dd33f95",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "D",
+        "text": "Pip’s knowledge of the surrounding area",
+        "locator": "Marking scheme p. 1, Q1 III",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-english-core-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-v2-changed.json",
+        "file_sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "e4f12a781f74dbbef5a49230b79950d8f5b2d52163c0753418fbb21d758823e8",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "threat",
+        "locator": "Marking scheme p. 1, Q1 IV",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-english-core-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-v2-changed.json",
+        "file_sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "f9b5d9c7d0c3e9432a476c356b0c5e02799d702734efbec11dbe46304ca68b59",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "A",
+        "text": "Pip’s encounter with a frightening man who demands information",
+        "locator": "Marking scheme p. 1, Q1 X",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-english-core-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-v2-changed.json",
+        "file_sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "c1b46f97c975cce35eb55eddbe9dbc758b6e894966a82389d3f40809f2464ea6",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "B",
+        "text": "To explore career aspirations and the factors influencing them",
+        "locator": "Marking scheme p. 2, Q2 I",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-english-core-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "subject": "english_core",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "c676e26ea090c70955dfe1fcca1055125e72cb9a107984940564ef0e888ef6f5",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/english-independent-claim-audit-v3.json",
+      "audit_sha256": "e65ad5f059b83d5978fc0fbd9bb7cfe26d621c7cc73417ebb41a135e1e5ba9f9",
+      "official": {
+        "key": "D",
+        "text": "Difficulty finding experienced professionals to guide career paths",
+        "locator": "Marking scheme p. 2, Q2 VI",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-english-core-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "5e6251b19733b79e4777ccafdb3351b5744676d6b2d0013e2527afa19a73e265",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "C",
+        "text": "Analysing the business environment and its implications for the survival of the firm.",
+        "locator": "Marking scheme PDF page 1, question 1",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "fb60564b194aa5d3fcbac0984c2a8695359f0c916ab3447e8f14b4647c885155",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "B",
+        "text": "Differential Piece Wage System",
+        "locator": "Marking scheme PDF page 1, question 2",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "84edb9c87366c52c77a5c69e78516d42e74f71ab66b6a901f2466a97266debc5",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "C",
+        "text": "Divisional Structure",
+        "locator": "Marking scheme PDF page 1, question 3",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "fba0af93775b4f6fd0c9735a342d705df1e28aee817731c654cc6b768ef8f48d",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "B",
+        "text": "It helps the firm to identify threats and early warning signals.",
+        "locator": "Marking scheme PDF page 1, question 5",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "6ae6fc214277f4bfb96d00475751eb52ca36198e5ab9cf4ec952c58e3311242b",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "A",
+        "text": "Controlling completes one cycle of management process and improves planning in the next cycle.",
+        "locator": "Marking scheme PDF page 1, question 6",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "c89a5b87d9de1d2663c9c0526b8fe48f246f7a83050038ac6ee5e64aab7f02d4",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "D",
+        "text": "A person who buys any goods or avails services for a consideration, which has been paid or promised, or partly paid and partly promised, or under any scheme of deferred payment.",
+        "locator": "Marking scheme PDF page 1, question 8",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "bb969525b5078ab07b61111d9561457c542fcdc09cce07696f7b1e4cf8475c6c",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "A",
+        "text": "Central Consumer Protection Authority",
+        "locator": "Marking scheme PDF page 2, question 11",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "subject": "business_studies",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "310cf300f36296f06b308a6d887c91e44677dd2daf5ea4bff26285ffd8cde0c5",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "D",
+        "text": "Financial planning",
+        "locator": "Marking scheme PDF page 2, question 15",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "c8ea1da1cccaf5797cb3091f8a91c12e2c9ef6230382f455e0337a949bc772f5",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "B",
+        "text": "Management is a continuous process",
+        "locator": "Marking scheme p. 1, Q1",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "414c74f914e4863ca486bae01f04fd4743fbe7d0f323a3005a0af979a7ddcff4",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "D",
+        "text": "Formed by practice and experimentation",
+        "locator": "Marking scheme p. 1, Q2",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "723a1deadf286f21625a0801bf5eaa2cbac295a44c67b77f123409ba06aafb99",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "C",
+        "text": "Time-based pay plus incentives",
+        "locator": "Marking scheme p. 1, Q5",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "0698515717d4e464ae31d2b7887585a26c3f494143e88bb55ea4c991cd3ec7e3",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "C",
+        "text": "Product",
+        "locator": "Marking scheme p. 1, Q7",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "cdd411a159c40078ef66fe543498dd5a8ef84fef2dd684d357b16af95a831d20",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "B",
+        "text": "Planning does not work in a dynamic environment.",
+        "locator": "Marking scheme p. 2, Q14",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-v2-changed.json",
+        "file_sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "subject": "business_studies",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "c65b32a84cd9cf9f137dbc0a066f6eeef26f8ef1763acda2ba04b7bc12dec5e0",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/business-independent-claim-audit-v3.json",
+      "audit_sha256": "1d28dcc0bf121598cfbc22067c7f3ee00fc7113de714e87aa06c681d58f8df83",
+      "official": {
+        "key": "C",
+        "text": "Training and development",
+        "locator": "Marking scheme p. 2, Q15",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-business-studies-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q03",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "f2aee7dc62fcdf7aca18cefd9d257bcfc31753aeff07b485674621a725a779e5",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "B",
+        "text": "Both (A) and (R) are true but (R) is not correct explanation of (A).",
+        "locator": "Marking scheme PDF page 1, question 3",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "b07dbdced4a27169d926a5d32596faae62ea57e4fb80d6ecc22903771ef49483",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "D",
+        "text": "₹17,000",
+        "locator": "Marking scheme PDF page 1, question 4",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "b960da11c8eed8ea279711cc3936bbe25c8e2f9ac82427310cb3e737aedc0951",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "B",
+        "text": "₹15,00,000",
+        "locator": "Marking scheme PDF page 1, question 10",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "29fe7778bf35d94b8fadf7ac8bf0f66b644796ad1b4dfcb5c8c3df7487c849f5",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "A",
+        "text": "Goodwill ₹50,000",
+        "locator": "Marking scheme PDF page 1, question 12",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "dffcc5c4246cca363816a3ec547e2da34498ba3b3091b977a064159be585c5eb",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "A",
+        "text": "₹55,000",
+        "locator": "Marking scheme PDF page 1, question 14",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "739d7ca09ef14563a2fb8d98333a3b2abbda25fded63165b62fbb538d4249782",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "B",
+        "text": "₹44,000",
+        "locator": "Marking scheme PDF page 1, question 15",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "38d3559f4ee3da366d2a64ebf30bbed18fa8e5e59966c6c4236bc96b54aa1d91",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "C",
+        "text": "D and E",
+        "locator": "Marking scheme PDF page 1, question 16",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "9d23ce698459a1ef52ec8c5f2a81ba2abf6153dced294bbab20c7f24d66bd337",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "A",
+        "text": "Both A and R are correct, and R is the correct explanation of A.",
+        "locator": "Marking scheme p. 1, Q1 OR",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-accountancy-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "1df7754e9362a24a2c456722ab578fcfc2322839fceda0daedc15a41dc5b1359",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "D",
+        "text": "A ₹35,000 and B ₹35,000",
+        "locator": "Marking scheme p. 1, Q2",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-accountancy-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "94e1d4481d930ea0a094aa3355d4e16cf462809508e0a04d14b2e494238cad70",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "C",
+        "text": "₹8,000",
+        "locator": "Marking scheme p. 1, Q3",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-accountancy-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-v2-changed.json",
+        "file_sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "f7dfcb1429d53267a1d73cf6cbd16e23b2705df3e8081fd518b5ddfcfbd20477",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "B",
+        "text": "₹35,000",
+        "locator": "Marking scheme p. 1, Q9",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-accountancy-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "3cbc4331ef8f663117c0c78bc45cb1ebbc8e47b011e87aa890f234f5ddeade06",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/accountancy-independent-claim-audit-v3.json",
+      "audit_sha256": "a126eb9043fe7aea0a4e938f5ddf2373479a547bca52cd5dddaa2abb95fda7bf",
+      "official": {
+        "key": "C",
+        "text": "₹6,00,000; Non-Current Liabilities",
+        "locator": "Marking scheme p. 1, Q14",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-accountancy-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "9ec6f33b8caa439972e56cf6867a70fea768f954c9ed5b473a9aea79c3ec42fe",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "B",
+        "text": "(ii) and (iv)",
+        "locator": "Marking scheme PDF page 1, question 1",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "3af879849cb8c5a3bf0d7c2234850f32b6f74e8d1dae18ff3bad7344cf8ef91a",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "C",
+        "text": "Both Statements 1 and 2 are true.",
+        "locator": "Marking scheme PDF page 1, question 2",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "fde1ea2980bca1ebbe3f1688ecfe19cf4888bac76fb27a82cacb2d0e61ff9c15",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "A",
+        "text": "₹10,000 crore",
+        "locator": "Marking scheme PDF page 1, question 4",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "c0b938cf7338b58e7a75b72b94658ad80ce103e89455cea316112678fd05c8ec",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "A",
+        "text": "Allocation Function",
+        "locator": "Marking scheme PDF page 1, question 5",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "cbse-blind-key-review-v2.json",
+        "file_sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "e7c14612c4e80c96dff4ba241b5720a51d3c4d9ed30511fae3bfd09a817e44a9",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "B",
+        "text": "credit, current",
+        "locator": "Marking scheme PDF page 1, question 8",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "bff5cdd14eff0893a4c059a5497a70e9e688ad8fda40108fb0f4cfb464ff15c9",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "C",
+        "text": "Medium of exchange and standard of deferred payments",
+        "locator": "Marking scheme PDF page 1, question 9",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "question_view_sha256": "dc48e347c75268f7446b9a615e763f4773fb09cab9ca6b13ff5d8c420d7ad2e0",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "D",
+        "text": "(p)-iii, (q)-i, (r)-ii",
+        "locator": "Marking scheme PDF page 3, question 19",
+        "sidecar_path": "answer-key-custody.json",
+        "source_id": null
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "cbse-blind-key-review-v1.json",
+        "file_sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "90a0111d2e34ca0eea3de1955d40ee977394d3c168e1984b389755dff502bfea",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "D",
+        "text": "Average Propensity to Consume = 1",
+        "locator": "Marking scheme p. 1, Q1 (visually impaired alternative)",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "5d2bd63949c7af6d5661b1b8b9ba3fe262748785f7aa23df30776d2bf187a6cf",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "C",
+        "text": "169.92",
+        "locator": "Marking scheme p. 1, Q2",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "8c0dfd461168cf006c324e5152b7ad58ba7b08c81116c4a9e7417690244e16be",
+      "independently_derived_key": "A",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "A",
+        "text": "Factor",
+        "locator": "Marking scheme p. 1, Q5 (visually impaired alternative)",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "A",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "802f21f71fa41265f83cb8cf0d71893ee77f4f8189d3531f7257e877c3a838bb",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "C",
+        "text": "Both Statements 1 and 2 are true.",
+        "locator": "Marking scheme p. 1, Q7",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "ad2a7f226506a6b592c8355ac4c8e3423e0d0c3253c497c35057fc73a65b48e5",
+      "independently_derived_key": "B",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "B",
+        "text": "Financial",
+        "locator": "Marking scheme p. 3, Q18",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "B",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "8dc42ce8d7f37f1a3a21623883c8870b009701e7f9072fb310b80cf130df93e5",
+      "independently_derived_key": "C",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "C",
+        "text": "Britain",
+        "locator": "Marking scheme p. 3, Q19",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "C",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "question_view_sha256": "199098ffba479344820f1249ccf02d595ab0ce562ad3f107e7685d309bb70683",
+      "independently_derived_key": "D",
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "audit_path": "source-support-v3/economics-independent-claim-audit-v3.json",
+      "audit_sha256": "2d6403ec31425c5f17e7dac5516926aa95e307e9c83698e5143a665ca1ed5376",
+      "official": {
+        "key": "D",
+        "text": "(i), (ii) and (iii)",
+        "locator": "Marking scheme p. 3, Q20",
+        "sidecar_path": "2025-26-additional/official-key-custody-2025-26-v1.sealed.json",
+        "source_id": "cbse-2025-26-economics-marking-scheme"
+      },
+      "separate_blind_review": {
+        "key": "D",
+        "file": "2025-26-additional/cbse-blind-key-review-2025-26-additional-v1.json",
+        "file_sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+        "blinding_attested": true
+      },
+      "official_key_agrees": true,
+      "separate_blind_review_agrees": true,
+      "decision": "source_key_positive_candidate",
+      "CUET_fit": "not_evaluated",
+      "publication": false
+    }
+  ],
+  "not_in_v73_fixture_payload_reason": "The source-key custody rows are preserved as supplementary regression evidence. Their CBSE-derived content has not been rebound to V73-compatible source packs and candidate provenance, and CUET fit is explicitly not evaluated; they are not scored or represented as V73-valid fixtures.",
+  "withheld": [
+    {
+      "id": "cbse26-eng-q2-iii",
+      "source_reasons": [
+        "misdirected_paragraph_reference"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse26-eng-q2-vii",
+      "source_reasons": [
+        "four_options_required"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-eng-q1-VI",
+      "source_reasons": [
+        "four_options_required"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-eng-q2-II",
+      "source_reasons": [
+        "four_options_required"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-eng-q2-VIII",
+      "source_reasons": [
+        "multiple_defensible_exclusions",
+        "four_options_required"
+      ],
+      "key_agreement": false,
+      "blind_agreement": false
+    },
+    {
+      "id": "cbse25-26-bs-q3",
+      "source_reasons": [
+        "overlapping_true_options_A_D"
+      ],
+      "key_agreement": false,
+      "blind_agreement": false
+    },
+    {
+      "id": "cbse25-26-bs-q10",
+      "source_reasons": [
+        "no_option_matches_registered_communication_process"
+      ],
+      "key_agreement": false,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse26-ac-q08",
+      "source_reasons": [
+        "specific_investment_fluctuation_reserve_treatment_unsupported"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-acc-q6",
+      "source_reasons": [
+        "abnormal_loss_normalisation_and_average_basis_unestablished"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-acc-q8",
+      "source_reasons": [
+        "unresolved_source_key_or_fraction_wording_dispute"
+      ],
+      "key_agreement": false,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-acc-q16",
+      "source_reasons": [
+        "specific_workmen_compensation_reserve_claim_treatment_unsupported"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse26-eco-q03",
+      "source_reasons": [
+        "national_income_effect_requires_unestablished_model_conditions"
+      ],
+      "key_agreement": true,
+      "blind_agreement": true
+    },
+    {
+      "id": "cbse25-26-eco-q6",
+      "source_reasons": [
+        "known_official_key_discrepancy_requires_post_blind_custody_resolution"
+      ],
+      "key_agreement": false,
+      "blind_agreement": true
+    }
+  ],
+  "limitations": [
+    "Official-key agreement is not truth: exact source/calculation checks and separately frozen blind answers are also required.",
+    "Every one of the original 64 construction candidates remains reported; excluded or uncertain cases are not silently converted to valid positives.",
+    "No validator result, benchmark accuracy, CUET-fit approval, release or publication is established here.",
+    "This corpus has been read by source-construction reviewers; paid validators have not yet evaluated it and no prompt is tuned on its results."
+  ]
+}

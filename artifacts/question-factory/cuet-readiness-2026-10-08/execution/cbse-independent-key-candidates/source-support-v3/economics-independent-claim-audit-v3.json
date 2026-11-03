@@ -1,0 +1,1399 @@
+{
+  "at": "2026-10-08T09:36:00.895Z",
+  "role": "Independent source/calculation construction; no candidate marking schemes are read by this tool. The separate earlier-year break-even worked reference is expressly identified.",
+  "denominator": 16,
+  "option_claims": 64,
+  "construction_passes": 14,
+  "withheld": [
+    {
+      "id": "cbse26-eco-q03",
+      "reasons": [
+        "national_income_effect_requires_unestablished_model_conditions"
+      ]
+    },
+    {
+      "id": "cbse25-26-eco-q6",
+      "reasons": [
+        "known_official_key_discrepancy_requires_post_blind_custody_resolution"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-eco-q01",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "9ec6f33b8caa439972e56cf6867a70fea768f954c9ed5b473a9aea79c3ec42fe",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "New highways and installation of equipment create physical assets. Salaries and interest service normal operations or existing debt. Thus only ii and iv are capital expenditure; no claim about the schemes beyond the activities explicitly described in the stem is needed.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec105.logical-pages-v5.json",
+          "cache_sha256": "874b824e0160a502ef708a028eacf4856c9091719cc440c31272cffbfecc555d",
+          "physical_pdf_page": 4,
+          "quote_start": 642,
+          "quote_end": 1076,
+          "quote": "Revenue Expenditure is expenditure incurred for purposes other than the creation of physical or financial assets of the central government. It relates to those expenses incurred for the normal functioning of the government departments and various services, interest payments on debt incurred by the government, and grants given to state governments and other parties (even though some of the grants may be meant for creation of assets",
+          "page_text_sha256": "f407c34200ee4e4454e1c0382780ce5a2fc7746b958d7c1749adbfa3256750a5",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec105.pdf",
+          "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec105.logical-pages-v5.json",
+          "cache_sha256": "874b824e0160a502ef708a028eacf4856c9091719cc440c31272cffbfecc555d",
+          "physical_pdf_page": 5,
+          "quote_start": 1069,
+          "quote_end": 1428,
+          "quote": "There are expenditures of the government which result in creation of physical or financial assets or reduction in financial liabilities. This includes expenditure on the acquisition of land, building, machinery, equipment, investment in shares, and loans and advances by the central government to state and union territory governments, PSUs and other parties.",
+          "page_text_sha256": "084c8313379ff175ba132baf00ecc3745cd7b88aeb36a14e8b9cbaaae99330bc",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec105.pdf",
+          "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "(i) and (ii)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Includes revenue salary expenditure and omits equipment installation.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "(ii) and (iv)",
+          "judgment": "supported_answer",
+          "reason": "Both listed activities create physical assets.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Interest is revenue expenditure; equipment installation is omitted.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "(i) and (iv)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Salary is revenue expenditure; new highways are omitted.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "3af879849cb8c5a3bf0d7c2234850f32b6f74e8d1dae18ff3bad7344cf8ef91a",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "The explicitly named NCERT definition is M1 = CU + DD, with CU public currency and DD net commercial-bank demand deposits. Demand deposits are payable on demand. Both statements are true under that specified definition.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec103.logical-pages-v5.json",
+          "cache_sha256": "cdaa503ea4c9f0b2c3a7aa526cea7b837983e9df1f0372de935e2c0dff1525b7",
+          "physical_pdf_page": 13,
+          "quote_start": 924,
+          "quote_end": 1568,
+          "quote": "They are defined as follows M1 = CU + DD M2 = M1 + Savings deposits with Post Office savings banks M3 = M1 + Net time deposits of commercial banks M4 = M3 + Total deposits with Post Office savings organisations (excluding National Savings Certificates) where, CU is currency (notes plus coins) held by the public and DD is net demand deposits held by commercial banks. The word ‘net’ implies that only deposits of the public held by the banks are to be included in money supply. The interbank deposits, which a commercial bank holds in other commercial banks, are not to be regarded as part of money supply. M1 and M2 are known as narrow money.",
+          "page_text_sha256": "86944a9436df1404a40d628d15ef75ccaf998356afe7939247ad1027cb2aaa53",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec103.pdf",
+          "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec103.logical-pages-v5.json",
+          "cache_sha256": "cdaa503ea4c9f0b2c3a7aa526cea7b837983e9df1f0372de935e2c0dff1525b7",
+          "physical_pdf_page": 12,
+          "quote_start": 2170,
+          "quote_end": 2277,
+          "quote": "Such deposits are called demand deposits as they are payable by the bank on demand from the account-holder.",
+          "page_text_sha256": "a671a384075b0e27a130721ca4a9b93b393aadacea17f549cf9ef3558984a996",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec103.pdf",
+          "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The second statement is expressly supported, so it is not false.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The specified NCERT first statement is true.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true.",
+          "judgment": "supported_answer",
+          "reason": "Both definitions are supported by the quoted passages.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Neither statement is false under the stated NCERT definition.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "acb0f6d0c2ad7edafc7a3e332ac544c0dde75c4ee207a2ad57f3466c844177b3",
+      "independently_derived_key": "D",
+      "unique_key_supported": false,
+      "derivation": "The foreign-exchange paragraph supports dearer imports followed by reduced import and foreign-currency demand. It does not itself establish the final national-income increase. The effective-demand result has its own output/price/supply assumptions, which this ordering stem does not specify. D is only a provisional intended sequence.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+          "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+          "physical_pdf_page": 7,
+          "quote_start": 1745,
+          "quote_end": 1973,
+          "quote": "A rise in price of foreign exchange will increase the cost (in terms of rupees) of purchasing a foreign good. This reduces demand for imports and hence demand for foreign exchange also decreases, other things remaining constant.",
+          "page_text_sha256": "442fe8cb176845b76433328a64f2eb3498f07a1e96cd99aa7d2197d908d3d60d",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+          "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 13,
+          "quote_start": 449,
+          "quote_end": 842,
+          "quote": "For simplicity we assume a constant final goods price and constant rate of interest over short run to determine the level of aggregate demand for final goods in the economy. We also assume that the aggregate supply is perfectly elastic at this price. Under such circumstances, aggregate output is determined solely by the level of aggregate demand. This is known as effective demand principle.",
+          "page_text_sha256": "a12ce09046bcb2f5a8086a74b45e761574aaecebec72e68f2f4b7aec89bd5f76",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "(i), (ii), (iii)",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "Starts with an income effect whose decisive model conditions are missing.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "(ii), (i), (iii)",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "Puts currency demand before the direct import-price effect and still assumes the income effect.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "(iii), (i), (ii)",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "Places the unsupported income effect between the supported import-price and currency-demand effects.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "(iii), (ii), (i)",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "Orders the supported first two effects, but its final income effect remains unsupported for this stem.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "national_income_effect_requires_unestablished_model_conditions"
+      ],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "fde1ea2980bca1ebbe3f1688ecfe19cf4888bac76fb27a82cacb2d0e61ff9c15",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Fiscal deficit = expenditure − receipts excluding borrowing. Therefore tax revenue = 18000 − 5000 − 3000 = 10000 crore.",
+      "calculations": {
+        "tax_revenue": 10000,
+        "check_deficit": 5000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec105.logical-pages-v5.json",
+          "cache_sha256": "874b824e0160a502ef708a028eacf4856c9091719cc440c31272cffbfecc555d",
+          "physical_pdf_page": 7,
+          "quote_start": 324,
+          "quote_end": 540,
+          "quote": "Fiscal deficit is the difference between the government’s total expenditure and its total receipts excluding borrowing Gross fiscal deficit = Total expenditure – (Revenue receipts + Non-debt creating capital receipts",
+          "page_text_sha256": "5bed6747a6f903d797b3380d6524c169ec07272cece912f7a54a516086a9e745",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec105.pdf",
+          "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "10,000",
+          "judgment": "supported_answer",
+          "reason": "10000 gives the stated deficit of 5000.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "12,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "12000 gives a deficit of 3000.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "13,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "13000 gives a deficit of 2000.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "15,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "15000 gives a deficit of zero.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "c0b938cf7338b58e7a75b72b94658ad80ce103e89455cea316112678fd05c8ec",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The allocation-function section explicitly gives roads as public goods supplied by government when the market mechanism cannot provide them. The stem states that premise, so no broader claim that every road is always non-excludable is needed.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec105.logical-pages-v5.json",
+          "cache_sha256": "874b824e0160a502ef708a028eacf4856c9091719cc440c31272cffbfecc555d",
+          "physical_pdf_page": 2,
+          "quote_start": 247,
+          "quote_end": 524,
+          "quote": "Government provides certain goods and services which cannot be provided by the market mechanism i.e. by exchange between individual consumers and producers. Examples of such goods are national defence, roads, government administration etc. which are referred to as public goods",
+          "page_text_sha256": "68f01a0e44c39248627e391e756a9ae59c7f4b56d94b7ddca4f4f2d25da2ff12",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec105.pdf",
+          "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Allocation Function",
+          "judgment": "supported_answer",
+          "reason": "Government provision of the stated public good is allocation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Distribution Function",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Distribution concerns redistribution, not the provision objective stated here.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Stabilisation Function",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "No stabilisation of aggregate demand, employment or prices is described.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Disposition Function",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Disposition is not this textbook budget function.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "e7c14612c4e80c96dff4ba241b5720a51d3c4d9ed30511fae3bfd09a817e44a9",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "A gallery selling a painting to a foreign buyer exports a good and receives foreign exchange. NCERT records goods exports as credits within the current account; the age of the painting does not turn this merchant sale into a purchase of a foreign financial asset.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+          "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+          "physical_pdf_page": 2,
+          "quote_start": 2308,
+          "quote_end": 2503,
+          "quote": "Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods.",
+          "page_text_sha256": "cab52c6613297994fdcef31b1ae81287cb60e5509e5297b67d3fc96e86f22908",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+          "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+          "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+          "physical_pdf_page": 3,
+          "quote_start": 1014,
+          "quote_end": 1124,
+          "quote": "Export of goods is entered as a credit item in BOT, whereas import of goods is entered as a debit item in BOT.",
+          "page_text_sha256": "42112fbe23d1642970aade273f0072cbc9d8b403983fc3e1f19b9f540f3d5f17",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+          "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "debit, current",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Debit is the import/outgoing side, inconsistent with this export.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "credit, current",
+          "judgment": "supported_answer",
+          "reason": "The sale is a goods export: current-account credit.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "debit, capital",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both its debit sign and capital-account classification fail the given goods sale.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "credit, capital",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Capital-account asset/investment transactions do not replace the current-account treatment of the gallery’s exported merchandise.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "bff5cdd14eff0893a4c059a5497a70e9e688ad8fda40108fb0f4cfb464ff15c9",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Buying goods with currency directly uses the medium of exchange. A loan repaid in monetary instalments over future dates uses the standard of deferred payment. Merely denominating a price or retaining purchasing power does not describe the two actions asked.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "nios-money-and-its-role",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pages.json",
+          "cache_sha256": "6dbb0417d3adc7e534e0f1ea5686902f7bac981a8ca3cc183e3d81dae90de85b",
+          "physical_pdf_page": 4,
+          "quote_start": 520,
+          "quote_end": 672,
+          "quote": "The primary function of money is that it acts as a medium of exchange. This means that people can buy or sell goods and services with the help of money.",
+          "page_text_sha256": "ae2072f2af2db48189e71bf885d91d54b11c8e80549a74cec7b42cb8eda2b1f6",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pdf",
+          "pdf_sha256": "1dcaef2eab68657eec9f2acf00cf2f6f1310b19fd1ad3d08ce55ccf6fa981499",
+          "official_url": "https://digital.nios.ac.in/content/214en/Chapter-14.pdf",
+          "permission_basis": "Brief attributed official NIOS teaching excerpts for local educational verification; no unrestricted redistribution claim",
+          "notice": "Exact excerpt integrity is separate from the source/option reasoning below."
+        },
+        {
+          "source_id": "nios-money-and-its-role",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pages.json",
+          "cache_sha256": "6dbb0417d3adc7e534e0f1ea5686902f7bac981a8ca3cc183e3d81dae90de85b",
+          "physical_pdf_page": 4,
+          "quote_start": 935,
+          "quote_end": 1234,
+          "quote": "Another fundamental function of money is that it serves as unit of account or common measure of value. The value of a good is determined by multiplying its price with quantity sold in the market. Since the price is expressed in monetary units, the value of a good is also expressed in monetary term.",
+          "page_text_sha256": "ae2072f2af2db48189e71bf885d91d54b11c8e80549a74cec7b42cb8eda2b1f6",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pdf",
+          "pdf_sha256": "1dcaef2eab68657eec9f2acf00cf2f6f1310b19fd1ad3d08ce55ccf6fa981499",
+          "official_url": "https://digital.nios.ac.in/content/214en/Chapter-14.pdf",
+          "permission_basis": "Brief attributed official NIOS teaching excerpts for local educational verification; no unrestricted redistribution claim",
+          "notice": "Exact excerpt integrity is separate from the source/option reasoning below."
+        },
+        {
+          "source_id": "nios-money-and-its-role",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pages.json",
+          "cache_sha256": "6dbb0417d3adc7e534e0f1ea5686902f7bac981a8ca3cc183e3d81dae90de85b",
+          "physical_pdf_page": 4,
+          "quote_start": 1402,
+          "quote_end": 1608,
+          "quote": "Money also acts as store of value. How? As medium of exchange you can pay money to buy goods. This means if you have money, you have the power to purchase a good or a service. So money has purchasing power.",
+          "page_text_sha256": "ae2072f2af2db48189e71bf885d91d54b11c8e80549a74cec7b42cb8eda2b1f6",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pdf",
+          "pdf_sha256": "1dcaef2eab68657eec9f2acf00cf2f6f1310b19fd1ad3d08ce55ccf6fa981499",
+          "official_url": "https://digital.nios.ac.in/content/214en/Chapter-14.pdf",
+          "permission_basis": "Brief attributed official NIOS teaching excerpts for local educational verification; no unrestricted redistribution claim",
+          "notice": "Exact excerpt integrity is separate from the source/option reasoning below."
+        },
+        {
+          "source_id": "nios-money-and-its-role",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pages.json",
+          "cache_sha256": "6dbb0417d3adc7e534e0f1ea5686902f7bac981a8ca3cc183e3d81dae90de85b",
+          "physical_pdf_page": 5,
+          "quote_start": 909,
+          "quote_end": 1302,
+          "quote": "there are many people who want to borrow money today to satisfy their present needs with the condition that they will settle the payment along with interest at some future date as agreed with the lender. This payment in future is acceptable in money only. We can also say that the borrower has deferred the payment under certain condition. So money has acted as a standard of deferred payment.",
+          "page_text_sha256": "dbb458bf03ff3051198033b289e9eb95c0e36534c2444caa688ddc7f1f83908a",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\nios-money-and-its-role.pdf",
+          "pdf_sha256": "1dcaef2eab68657eec9f2acf00cf2f6f1310b19fd1ad3d08ce55ccf6fa981499",
+          "official_url": "https://digital.nios.ac.in/content/214en/Chapter-14.pdf",
+          "permission_basis": "Brief attributed official NIOS teaching excerpts for local educational verification; no unrestricted redistribution claim",
+          "notice": "Exact excerpt integrity is separate from the source/option reasoning below."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Store of value and medium of exchange",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Contains the buying function but substitutes storage for the future loan repayment.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Measure of value and standard of deferred payments",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Contains the repayment function but substitutes measurement for actual exchange.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Medium of exchange and standard of deferred payments",
+          "judgment": "supported_answer",
+          "reason": "Both directly highlighted actions are named.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Measure of value and store of value",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Neither option names the two directly highlighted actions.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "subject": "economics",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "dc48e347c75268f7446b9a615e763f4773fb09cab9ca6b13ff5d8c420d7ad2e0",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The studio owner operates their own enterprise; the engineer in the stated company example is a regular employee; the construction-worker example is NCERT’s casual labour category. Hence p–iii, q–i, r–ii.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-keec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec106.logical-pages-v5.json",
+          "cache_sha256": "70ea021e3043464eb2ed5aa0a90105c56af73fb4b24fd83c91e064b8b8c19f92",
+          "physical_pdf_page": 6,
+          "quote_start": 450,
+          "quote_end": 1270,
+          "quote": "Workers who own and operate an enterprise to earn their livelihood are known as self-employedself-employedself-employedself-employedself-employed . Thus the cement shop owner is self- employed. About 58 per cent workforce in India belongs to this category. The construction workers are known as casualcasualcasual casualcasual wage labourerswage labourerswage labourerswage labourerswage labourers; they account for about 20 per cent of India’s workforce. Such labourers are casually engaged in others’ farms and, in return, get a remuneration for the work done. Workers like the civil engineer working in the construction company account for 22 per cent of India’s workforce. When a worker is engaged by someone or an enterprise and paid his or her wages on a regular basis, they are known as regular salaried employees",
+          "page_text_sha256": "8e3cbde35278461ddd669b29d1a01af1fa43005222aac66c053667c3d2d43f5a",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\keec106.pdf",
+          "pdf_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "(p)-ii, (q)-i, (r)-iii",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Construction work is not the self-owned studio and the photographer is not the casual worker.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "(p)-iii, (q)-ii, (r)-i",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Swaps the regular engineer and casual construction categories.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "(p)-i, (q)-iii, (r)-ii",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Swaps the own-business photographer and employed engineer.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "(p)-iii, (q)-i, (r)-ii",
+          "judgment": "supported_answer",
+          "reason": "Matches all three source-defined employment examples.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "90a0111d2e34ca0eea3de1955d40ee977394d3c168e1984b389755dff502bfea",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The separate earlier-year worked definition states break-even income Y=C. NCERT defines APC=C/Y. For a positive break-even income, APC=1. This equality does not set either curve’s slope.",
+      "calculations": {
+        "APC_at_positive_break_even": "C/Y = Y/Y = 1"
+      },
+      "decisive_support": [
+        {
+          "source_id": "cbse-economics-2024-25-worked-reference",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\cbse-economics-2024-25-worked-reference.pages.json",
+          "cache_sha256": "048a0affba19cdfead99e1322b13385670490ee77a4f4f9eb870cecc62ae91d0",
+          "physical_pdf_page": 3,
+          "quote_start": 219,
+          "quote_end": 259,
+          "quote": "At break-even level for economy A; Y = C",
+          "page_text_sha256": "a6b2191fd4b30fac65d8d8b314f0be6b8bfea90f104cab4cd56bf89770b2d5d2",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\cbse-economics-2024-25-worked-reference.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "permission_basis": "Brief attributed worked-definition excerpt for local educational verification; separate earlier-year reference, not an answer key for these candidate questions",
+          "notice": "Exact excerpt integrity is separate from the source/option reasoning below."
+        },
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 3,
+          "quote_start": 1788,
+          "quote_end": 1867,
+          "quote": "it is the consumption per unit of income i.e., C Y . Average propensity to save",
+          "page_text_sha256": "3f97d5481c88da01f5f344d100bf0f885de9e9185aa1b1db2fdc97d1df6cc42c",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Slope of Consumption Curve = 0",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "An equality of levels does not imply zero consumption slope.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Average Propensity to Consume = 0",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "APC is one, not zero, when positive income equals consumption.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Slope of Saving Curve = 1",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Break-even does not impose a unit saving slope.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Average Propensity to Consume = 1",
+          "judgment": "supported_answer",
+          "reason": "Consumption equals income, so its average propensity is one.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "5d2bd63949c7af6d5661b1b8b9ba3fe262748785f7aa23df30776d2bf187a6cf",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "NCERT permits the nominal/real ratio and its percentage form. In the percentage form represented by these options: 295.36/173.82 × 100 = 169.9229…, rounded to 169.92. The unscaled ratio is 1.699229…, which is not one of the choices.",
+      "calculations": {
+        "ratio": 1.6992290875618457,
+        "percentage": 169.92290875618457,
+        "rounded_percentage": 169.92
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec102.logical-pages-v5.json",
+          "cache_sha256": "904630e2c298bd2d6db3814ccde7c3e4af24d125b0da7a03e775ad070640053a",
+          "physical_pdf_page": 21,
+          "quote_start": 2135,
+          "quote_end": 2539,
+          "quote": "The ratio of nominal to real GDP is a well known index of prices. This is called GDP Deflator. Thus if GDP stands for nominal GDP and gdp stands for real GDP then, GDP deflator = GDP gdp . Sometimes the deflator is also denoted in percentage terms. In such a case deflator = GDP gdp × 100 per cent. In the previous example, the GDP deflator is 1,650 1,100 = 1.50 (in percentage terms this is 150 per cent",
+          "page_text_sha256": "5f4f757132648718ac266efd27e1f373f7844a2036eb20b72d675ea3b1e57874",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec102.pdf",
+          "pdf_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "295.36",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "This is nominal GDP itself, not its ratio to real GDP.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "58.85",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "This is approximately the reverse ratio in percent, not nominal divided by real.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "169.92",
+          "judgment": "supported_answer",
+          "reason": "169.92 is the correctly rounded percentage-form deflator.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "173.82",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "This is real GDP itself, not the deflator.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": "The stem does not state the percentage unit. The selected source explicitly permits that convention, and the options use that form; the independent CUET-fit pass must assess the presentation without inventing an NCERT-only base-100 rule.",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "8c0dfd461168cf006c324e5152b7ad58ba7b08c81116c4a9e7417690244e16be",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Households supply production factors and firms pay for them. That reciprocal flow is the factor market. Goods flow in the opposite real direction with household spending as the money counterpart.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec102.logical-pages-v5.json",
+          "cache_sha256": "904630e2c298bd2d6db3814ccde7c3e4af24d125b0da7a03e775ad070640053a",
+          "physical_pdf_page": 6,
+          "quote_start": 1030,
+          "quote_end": 1268,
+          "quote": "the firms’ demand for factors of production to run the production process creates payments to the public. In turn, the public’s demand for goods and services creates payments to the firms and enables the sale of the products they produce.",
+          "page_text_sha256": "f0eeefaf0f1c3e02d8632ac51b31ffb5dd462284601e73c352c40fa100c285fb",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec102.pdf",
+          "pdf_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Factor",
+          "judgment": "supported_answer",
+          "reason": "The stated flows exchange factor services for factor payments.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Goods",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The goods market instead supplies firms’ output to households.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Stock",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Trading shares does not describe labour/land/capital services flowing to production.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Financial",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The question describes factor services, not financial-asset exchange.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "f77caf87d656c8760198e0c793069fdd5563b1ba24b20d4c8cb7b1796f31677c",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "A demand deficiency compares planned demand against demand sufficient for full-employment output. Planned is ex ante; ex post describes the realised values. The source-derived choice is A. A previously recorded official-key discrepancy remains unresolved until direct post-freeze custody comparison; it is not a clean positive now.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 2,
+          "quote_start": 768,
+          "quote_end": 992,
+          "quote": "We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures. In simple words, ex-ante depicts what has been planned, and ex-post depicts what has actually happened.",
+          "page_text_sha256": "d2dfddb469f0c7000feeb8972be6a00adc32d522e8a037567161e986ce5511aa",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 12,
+          "quote_start": 1523,
+          "quote_end": 1810,
+          "quote": "The equilibrium level of output may be more or less than the full employment level of output. If it is less than the full employment of output, it is due to the fact that demand is not enough to employ all factors of production. This situation is called the situation of deficient demand",
+          "page_text_sha256": "50e6e2a6bb53c33417c2464a4e4ee72a52b32c60c1a807f46f8d3fcae220c631",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Ex-ante aggregate demand",
+          "judgment": "supported_answer",
+          "reason": "Ex ante identifies the planned demand that can be deficient relative to full-employment demand.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Ex-post aggregate demand",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Ex post denotes realised rather than planned demand.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Ex-ante aggregate supply",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Supply is not the demand measure whose shortfall is asked.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Ex-post aggregate supply",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Realised supply is not the demand measure whose shortfall is asked.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "known_official_key_discrepancy_requires_post_blind_custody_resolution"
+      ],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "802f21f71fa41265f83cb8cf0d71893ee77f4f8189d3531f7257e877c3a838bb",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "NCERT expressly distinguishes further producer transformation from transformation during ultimate consumption, using tea leaves and home cooking. Both statements are true.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leec102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec102.logical-pages-v5.json",
+          "cache_sha256": "904630e2c298bd2d6db3814ccde7c3e4af24d125b0da7a03e775ad070640053a",
+          "physical_pdf_page": 2,
+          "quote_start": 1482,
+          "quote_end": 1992,
+          "quote": "It will not undergo any further transformation at the hands of any producer. It may, however, undergo transformation by the action of the ultimate purchaser. In fact many such final goods are transformed during their consumption. Thus the tea leaves purchased by the consumer are not consumed in that form – they are used to make drinkable tea, which is consumed. Similarly most of the items that enter our kitchen are transformed through the process of cooking. But cooking at home is not an economic activity",
+          "page_text_sha256": "d65cc7f5042a23c5efd9c20acc59441ab1dcdf35cea5554dc59557ff883c2528",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec102.pdf",
+          "pdf_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The source explicitly permits transformation during consumption.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The source explicitly says no further producer transformation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true.",
+          "judgment": "supported_answer",
+          "reason": "Both statements reproduce the supported distinction.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both statements are supported, so neither is false.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "ad2a7f226506a6b592c8355ac4c8e3423e0d0c3253c497c35057fc73a65b48e5",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "NCERT’s financial-reform section includes investment institutions and specifically describes mutual funds being allowed to invest in Indian financial markets. Industrial licensing, taxes and goods-trade reforms are different sections.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-keec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec103.logical-pages-v5.json",
+          "cache_sha256": "125bd69facbe0abc898e6bfacd45cffb95c8b845d1d4f5c1d12e15082452fdc7",
+          "physical_pdf_page": 6,
+          "quote_start": 1922,
+          "quote_end": 2097,
+          "quote": "Financial Sector Reforms: Financial sector includes financial institutions , such as commercial banks, investment banks, stock exchange operations and foreign exchange market.",
+          "page_text_sha256": "7bc2781115b0ccd2cb9bc3f8393eba5f59bd55da031ecbb128407fb304265abd",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\keec103.pdf",
+          "pdf_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-keec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec103.logical-pages-v5.json",
+          "cache_sha256": "125bd69facbe0abc898e6bfacd45cffb95c8b845d1d4f5c1d12e15082452fdc7",
+          "physical_pdf_page": 7,
+          "quote_start": 577,
+          "quote_end": 728,
+          "quote": "Foreign Institutional Investors (FII), such as merchant bankers, mutual funds and pension funds, are now allowed to invest in Indian financial markets.",
+          "page_text_sha256": "33ae9337bfa959c6b51629f4fcfc80d3b5c633ab6eb79aff852ce725491630ab",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\keec103.pdf",
+          "pdf_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Industrial",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Industrial regulation/licensing is not the named investment-fund measure.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Financial",
+          "judgment": "supported_answer",
+          "reason": "The mutual-fund measure appears within the financial-sector reform discussion.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Tax",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A mutual-fund investment measure is not a taxation-policy change.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Foreign Trade",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "This is financial investment, not merchandise import/export liberalisation.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "8dc42ce8d7f37f1a3a21623883c8870b009701e7f9072fb310b80cf130df93e5",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "The paragraph assigns monopoly control to Britain and names China, Ceylon and Persia as permitted other trading countries.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-keec101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec101.logical-pages-v5.json",
+          "cache_sha256": "791bbf9389559ee7cfcfb133842ace8713e3e400fd2a8f36235dcb40a8a07411",
+          "physical_pdf_page": 8,
+          "quote_start": 1124,
+          "quote_end": 1376,
+          "quote": "Britain maintained a monopoly control over India’s exports and imports. As a result, more than half of India’s foreign trade was restricted to Britain while the rest was allowed with a few other countries like China, Ceylon (Sri Lanka) and Persia (Iran",
+          "page_text_sha256": "5b6aa3a0f77b2604c783b19965c39190f3343f45dcc9a36a4004ae70dbb969f1",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\keec101.pdf",
+          "pdf_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keec101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "China",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "China is named as an allowed other country.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Ceylon (Sri Lanka)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Ceylon is named as an allowed other country.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Britain",
+          "judgment": "supported_answer",
+          "reason": "Britain is explicitly identified as the monopoly controller.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Persia (Iran)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Persia is named as an allowed other country.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "subject": "economics",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "199098ffba479344820f1249ccf02d595ab0ce562ad3f107e7685d309bb70683",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The same teaching paragraph states that human capital is intangible, inseparable from its owner and not perfectly mobile between countries. All three properties hold.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-keec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec104.logical-pages-v5.json",
+          "cache_sha256": "5eac18d097df6b647acef72418b8e33c0fabbb1fdcbe224bcd744525fe047ef4",
+          "physical_pdf_page": 6,
+          "quote_start": 1633,
+          "quote_end": 2309,
+          "quote": "Human capital is intangible; it is endogenously built in the body and mind of its owner. Human capital is not sold in the market; only the services of the human capital are sold and, hence, there arises the necessity of the owner of the human capital to be present in the place of production. The physical capital is separable from its owner, whereas, human capital is inseparable from its owner. The two forms of capital differ in terms of mobility across space. Physical capital is completely mobile between countries except for some artificial trade restrictions. Human capital is not perfectly mobile between countries as movement is restricted by nationality and culture.",
+          "page_text_sha256": "b1c56c675ef55bad38b23ab02b78d9cf409c3fb0e12f35ccc7eff58819214a55",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\keec104.pdf",
+          "pdf_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca",
+          "official_url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "(i) only",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Intangibility is true but does not exclude the other two true properties.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "(i) and (ii)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Omits the expressly supported inseparability property.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Omits the expressly supported intangibility property.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "(i), (ii) and (iii)",
+          "judgment": "supported_answer",
+          "reason": "Includes all three expressly supported characteristics.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    }
+  ],
+  "limitations": [
+    "A provisional sequence or an unresolved official-key discrepancy is withheld.",
+    "The percentage-form deflator convention is disclosed for the separate CUET-fit review.",
+    "No paid judge, publication, content repair or ledger mutation occurs."
+  ]
+}

@@ -1,0 +1,17 @@
+✔ Compass ladder numbers are DU’s published figures, not estimates (7.8778ms)
+✔ Instagram entries are well-formed, unique and link to the official embed (0.6189ms)
+✔ the Wall of love shows only consented, complete voices, and nothing by default (0.2751ms)
+✔ free accounts do not get Pro pace and changed-answer detail through Ask (4.3371ms)
+✔ demo resumes at visible elapsed time after a long hidden period (2.3784ms)
+✔ repeated resume is idempotent and unmount cancels pending changes (0.2494ms)
+✔ held and unexplained questions never count as explanations or repeat in the automatic queue (1.9817ms)
+✔ an unknown response stays eligible for retry and is never presented as repaired (0.2379ms)
+✔ uncertain server failures keep the request identity; only a confirmed release permits a fresh retry (0.3735ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 206.3578

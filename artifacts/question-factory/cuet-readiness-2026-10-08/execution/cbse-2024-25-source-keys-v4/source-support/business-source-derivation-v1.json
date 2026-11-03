@@ -1,0 +1,535 @@
+{
+  "schema": "fresh-source-derivation-v4",
+  "at": "2026-10-08T10:46:28.923Z",
+  "subject": "business_studies",
+  "raw_denominator": 8,
+  "option_claims": 32,
+  "provisional_positive": 7,
+  "withheld": 1,
+  "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "official_marking_scheme_read": false,
+  "paid_validator_results_seen": false,
+  "construction_author_also_prepared_question_view": true,
+  "independent_second_review_required": true,
+  "CUET_fit": "not_evaluated",
+  "release": false,
+  "publication": false,
+  "items": [
+    {
+      "item_id": "cbse24-bs-q01",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "a1d4cb76441dca8f4974a4298589464cc04bc6f0708558d60c12ab9fae169f32",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The highlighted case feature is experimentation followed by observation of its effect. The science section expressly identifies experimentation and observation as the basis of management principles. The question asks what this case highlights, not whether management can generally also be an art.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+          "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+          "physical_pdf_page": 15,
+          "quote_start": 301,
+          "quote_end": 479,
+          "quote": "Principles based on experimen- tation: Scientific principles are first developed through observation and then tested through repeated experimentation under controlled conditions.",
+          "page_text_sha256": "d42211379a416fa5b25647df6c0569075b96254217659d11d5d933ff8092d39b",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs101.pdf",
+          "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+          "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+          "physical_pdf_page": 15,
+          "quote_start": 1288,
+          "quote_end": 1438,
+          "quote": "The principles of management have evolved over a period of time based on repeated experimentation and observation in different types of organisations.",
+          "page_text_sha256": "d42211379a416fa5b25647df6c0569075b96254217659d11d5d933ff8092d39b",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs101.pdf",
+          "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Management as a science",
+          "assessment": "Matches the explicitly highlighted experimental method."
+        },
+        {
+          "option": "B",
+          "text": "Management as a profession",
+          "assessment": "No qualification, restricted entry or professional association is described."
+        },
+        {
+          "option": "C",
+          "text": "Management as an art",
+          "assessment": "The case does not highlight personal creative style as its distinguishing feature."
+        },
+        {
+          "option": "D",
+          "text": "Both a science and an art",
+          "assessment": "The textbook says science and art can coexist, but the case expressly highlights experimentation rather than both feature sets."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "990f32dccfe9040fc60bce8c6dd6970d315afabc0e0258fe974cf68160554d92",
+      "source_derived_provisional_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The earlier tasks were identified, but allocation to staff did not follow their skills. The change explicitly matches tasks to competencies, which is assignment of duties.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 4,
+          "quote_start": 259,
+          "quote_end": 800,
+          "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+          "page_text_sha256": "1584e6d578766dfda76195dd01557094312dea030e8869ef2e68182dff01add6",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Identification and division of work",
+          "assessment": "Task categories were already identified in the earlier season."
+        },
+        {
+          "option": "B",
+          "text": "Establishing reporting relationships",
+          "assessment": "The described correction is allocation by skills, not a reporting-line change."
+        },
+        {
+          "option": "C",
+          "text": "Departmentalisation",
+          "assessment": "No creation or regrouping of departments is described."
+        },
+        {
+          "option": "D",
+          "text": "Assignment of duties",
+          "assessment": "The source expressly matches allocation of jobs to employee skills and competencies."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q03",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "7165f6327ca3b9b9ca09f457bb8ef1228d68e59536bbeff4963eb0c4bd594957",
+      "source_derived_provisional_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Both statements are textbook definitions. The definition of a funding mix does not explain the planning function of forecasting fund availability and timing.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs201.logical-pages-v5.json",
+          "cache_sha256": "00d66585865d21651efcbf8c8702c48328f12be1623dfd67faddc954e63fa081",
+          "physical_pdf_page": 11,
+          "quote_start": 1705,
+          "quote_end": 1869,
+          "quote": "It aims at enabling the company to tackle the uncertainty in respect of the availability and timing of the funds and helps in smooth functioning of an organisation.",
+          "page_text_sha256": "09354d0ac63776bce7169aa95fd231d9c017fb48efb6eac4400351d2c8e9ce12",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs201.pdf",
+          "pdf_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs201.logical-pages-v5.json",
+          "cache_sha256": "00d66585865d21651efcbf8c8702c48328f12be1623dfd67faddc954e63fa081",
+          "physical_pdf_page": 13,
+          "quote_start": 535,
+          "quote_end": 672,
+          "quote": "Capital structure refers to the mix between owners and borrowed funds. These shall be referred as equity and debt in the subsequent text.",
+          "page_text_sha256": "714992f454ff578eaabc04378e815bb4173e0408c9c35e954799213571c4bc47",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs201.pdf",
+          "pdf_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "A is false, but R is true.",
+          "assessment": "The financial-planning assertion is explicitly true."
+        },
+        {
+          "option": "B",
+          "text": "Both A and R are false.",
+          "assessment": "Both source-defined statements are true."
+        },
+        {
+          "option": "C",
+          "text": "Both A and R are true, but R does not correctly explain A.",
+          "assessment": "Both are true, but the mix definition does not explain uncertainty management."
+        },
+        {
+          "option": "D",
+          "text": "Both A and R are true, and R correctly explains A.",
+          "assessment": "A definition of capital composition supplies no causal explanation of fund timing."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q04",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "74ec5c85193a5295cc9d5a7bb475f07589e7f8db2d3b87fdd24fc94dfa0fd0f2",
+      "source_derived_provisional_key": null,
+      "unique_key_supported": false,
+      "derivation": "SEBI distinguishes fresh-capital subscription in the primary market from trading already-issued securities in the secondary market. This supports the false first statement. The cached current NCERT lebs202 is Marketing, not the older Financial Markets chapter; it must not be cited for the second statement. The precise medium/long-term capital-market definition still needs a decisive permitted excerpt before assigning a complete oracle.",
+      "decisive_support": [
+        {
+          "source_id": "sebi-secondary-market",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\sebi-secondary-market.pages.json",
+          "cache_sha256": "1121dea1dd469697fadff998cc4b5292378dc7c34cbf46bd374ab502dad1d7e1",
+          "html_view": 1,
+          "quote_start": 2410,
+          "quote_end": 2650,
+          "quote": "In the primary market, securities are offered to public for subscription for the purpose of raising capital or fund. Secondary market is an equity trading avenue in which already existing/pre- issued securities are traded amongst investors.",
+          "page_text_sha256": "9ffe90109b6d186c11bd37b6b20bbd4c855893f34eacc3fe6d59bc90e04b2ecc",
+          "document_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\sebi-secondary-market.html",
+          "document_sha256": "b34212cab6bb9c92d30066a0c967d64ccfbd69c560195c6147db9e42ed5783fa",
+          "official_url": "https://www.sebi.gov.in/sebi_data/docfiles/20615_t.html",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Both statements are true.",
+          "assessment": "The direct capital-formation claim conflicts with the primary/secondary distinction."
+        },
+        {
+          "option": "B",
+          "text": "Both statements are false.",
+          "assessment": "The second statement is provisionally familiar, but has not been supported by a cached decisive definition."
+        },
+        {
+          "option": "C",
+          "text": "Statement I is true, but Statement II is false.",
+          "assessment": "The first statement is false under the source distinction."
+        },
+        {
+          "option": "D",
+          "text": "Statement II is true, but Statement I is false.",
+          "assessment": "Intended provisional combination, withheld until the second statement has decisive support."
+        }
+      ],
+      "issues": [
+        "capital_market_maturity_definition_not_yet_cached"
+      ],
+      "note": null,
+      "source_key_construction_state": "withheld",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q05",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "610903c79484c8bbe46ebe993a6245d9b4474fb93014b9d9165470d361ff6855",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The external-recruitment merits explicitly list competition between existing staff and outsiders. Its limitations describe dissatisfaction and reduced promotion chances for existing employees, rather than increased security or satisfaction.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+          "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+          "physical_pdf_page": 16,
+          "quote_start": 757,
+          "quote_end": 923,
+          "quote": "Competitive Spirit: If a company taps external sources, the extisting staff will have to compete with the outsiders. They will work harder to show better performance.",
+          "page_text_sha256": "c9616b7b6463ff3a67235f9d95dd89eb5aa1887421c517506effb4f54fea0e3b",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs106.pdf",
+          "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+          "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+          "physical_pdf_page": 16,
+          "quote_start": 959,
+          "quote_end": 1147,
+          "quote": "Dissatisfaction among existing staff: Exter nal recruitment may lead to dissatisfaction and frustration among existing employees. They may feel that their chances of promotion are reduced.",
+          "page_text_sha256": "c9616b7b6463ff3a67235f9d95dd89eb5aa1887421c517506effb4f54fea0e3b",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs106.pdf",
+          "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Competitive spirit among existing staff",
+          "assessment": "Explicitly named external-recruitment merit."
+        },
+        {
+          "option": "B",
+          "text": "Reduction in employee turnover",
+          "assessment": "Reduction in turnover is not the external-recruitment merit supported by this excerpt."
+        },
+        {
+          "option": "C",
+          "text": "Increased employee satisfaction",
+          "assessment": "Existing-staff dissatisfaction is a stated limitation, not increased satisfaction."
+        },
+        {
+          "option": "D",
+          "text": "A sense of security among existing employees",
+          "assessment": "Reduced promotion prospects do not establish increased security among existing employees."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q06",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "3e9f525e1818f6ea3f3fa83939a8c6343d556a0676b4392ed60d4916fb4b81c9",
+      "source_derived_provisional_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The source gives automobile purchases on borrowed money as its low-interest economic-environment example. The technological definition spans columns on physical page 8: its heading identifies scientific improvements and its continuation describes innovations, business methods and computers. Software is the technical cue. The paired components are economic and technological.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 6,
+          "quote_start": 1984,
+          "quote_end": 2291,
+          "quote": "Short and long term interest rates significantly affect the demand for product and services. For example, in case of construction companies and automobile manufacturers, low longer ­term rates are beneficial because they result in increased spending by consumers for buying homes and cars on borrowed money.",
+          "page_text_sha256": "81be40cb2c1b55d39925fac9d86f754a12a794b1c1a662e4107707eecef806cb",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 8,
+          "quote_start": 2299,
+          "quote_end": 2408,
+          "quote": "Technological Environment: Technological environment includes forces relating to scie ntific improvements and",
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 8,
+          "quote_start": 20,
+          "quote_end": 291,
+          "quote": "innovations which provide new ways o f prod ucing goods and services and new methods and techni ques of operating a business. For exa mple, recent technological, a dva nces in computers and electro nics have modified the ways in which companies advertise their pr oducts.",
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Political and economic",
+          "assessment": "No political event or policy dimension is specified."
+        },
+        {
+          "option": "B",
+          "text": "Economic and social",
+          "assessment": "Software is technological, not a social-trend cue."
+        },
+        {
+          "option": "C",
+          "text": "Technological and legal",
+          "assessment": "No law or compliance change is specified, and finance is economic."
+        },
+        {
+          "option": "D",
+          "text": "Economic and technological",
+          "assessment": "Matches the interest-rate and software cues."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q07",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "3c268369469e46745f05cba3c128e6a13f4afafe9d86d5b5480c4066e6b2a531",
+      "source_derived_provisional_key": "C",
+      "unique_key_supported": true,
+      "derivation": "The textbook directly associates standard quality marks with the consumer responsibility to buy standardised goods. The practice adaptation does not assert that every historical example mark remains legally current.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs203",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs203.logical-pages-v5.json",
+          "cache_sha256": "fe60d791a915260fee53376fca0734f6eb46697f85e7565bd28f74efd15110fb",
+          "physical_pdf_page": 8,
+          "quote_start": 1887,
+          "quote_end": 2047,
+          "quote": "Buy only standardised goods as they provide quality assurance. Thus, look for ISI mark on electrical goods, FPO mark on food products, Hallmark on jewelry, etc.",
+          "page_text_sha256": "cc6a8d8fc78b275eaa406eaebcd0c5a2a4cc86f28ac1a99508faa1deb0c9e2ce",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs203.pdf",
+          "pdf_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Assert yourself to obtain a fair deal",
+          "assessment": "Assertion for a fair deal is a separate responsibility."
+        },
+        {
+          "option": "B",
+          "text": "Obtain a proper receipt",
+          "assessment": "Obtaining a receipt is separate from checking a quality mark."
+        },
+        {
+          "option": "C",
+          "text": "Buy only standardised products",
+          "assessment": "Directly names the source responsibility associated with quality assurance."
+        },
+        {
+          "option": "D",
+          "text": "Be honest in your dealings",
+          "assessment": "Honest dealings do not describe identifying product quality marks."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-bs-q08",
+      "subject": "business_studies",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "e456ca3da816294fda75b4596094e3beeaf21af1da7a7256a1f09d010d7f4145",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Corrective action after deviations is explicitly directed toward preventing recurrence. The assertion says can, not that controlling guarantees prevention of every first deviation. On that limited reading both are true and the reason explains the preventive capability.",
+      "decisive_support": [
+        {
+          "source_id": "ncert-lebs108",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs108.logical-pages-v5.json",
+          "cache_sha256": "a431cd1846019daea888cd686292043f454312c81f07a711ed7c8ac4e5341542",
+          "physical_pdf_page": 9,
+          "quote_start": 486,
+          "quote_end": 684,
+          "quote": "when the deviations go beyond the acceptable range, especially in the important areas, it demands immediate managerial attention so that deviations do not occur again and standards are accomplished.",
+          "page_text_sha256": "b429565254676ff0354eecb49d7bf84ff694b0623bf1c171b2619600e3231b8e",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\lebs108.pdf",
+          "pdf_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Both A and R are true, and R correctly explains A.",
+          "assessment": "Fits the limited can claim and the source purpose of preventing recurrence."
+        },
+        {
+          "option": "B",
+          "text": "Both A and R are true, but R does not correctly explain A.",
+          "assessment": "The reason directly explains that limited preventive capability."
+        },
+        {
+          "option": "C",
+          "text": "A is true, but R is false.",
+          "assessment": "The source supports the corrective-action reason."
+        },
+        {
+          "option": "D",
+          "text": "A is false, but R is true.",
+          "assessment": "Would require treating can prevent as a claim of universal prevention, which is not the current wording."
+        }
+      ],
+      "issues": [],
+      "note": "The modal can is decisive. If the official key conflicts with this source-based reading, preserve the derivation and quarantine the contested construction; do not silently change the key.",
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    }
+  ]
+}

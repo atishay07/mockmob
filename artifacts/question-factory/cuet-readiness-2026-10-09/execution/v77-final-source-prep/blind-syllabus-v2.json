@@ -1,0 +1,311 @@
+{
+  "schema": "v77-blind-syllabus-v2",
+  "created_at": "2026-10-09T06:59:00.353Z",
+  "subjects": {
+    "accountancy": {
+      "exam_spec": {
+        "state": "verified",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+        "included_topics": [
+          "PAGE 1\r\n \r\n \r\nFor the Year 2026 \r\n \r\n  \r\nAccountancy / Book \r\nKeeping – 301                     \r\nSyllabus for CUET \r\n(UG)\r\n \r\n \r\n\r\nPAGE 2\r\n \r\n1 | P a g e   \r\nUnit I:  Accounting for Partnership  \r\n• Nature of Partnership Firm:  Partnership deed (meaning, importance).  \r\n• Accounts of Partnership:  Fixed v/s Fluctuating capital, Division of profit among partners, \r\nProfit and Loss Appropriation account, guarantee of profit to a partner, past adjustments. \r\n \r\nUnit II:  Reconstitution of a Partnership firm \r\n• Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining \r\nratio.  \r\n• Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of \r\nreserves and accumulated profits.  \r\n• Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit \r\nand Capitalisation methods.  \r\n• Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, \r\nAccounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , \r\nReserves adjustment/distribution of (accumulated profits) and adjustment of capitals.  \r\n• Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of \r\ngoodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated \r\nprofits (Reserves) , Preparation of deceased partner’s  capital account and his executor’s \r\naccount, Preparation of Loan Account. \r\n \r\nUnit III:  Dissolution of Partnership Firm  \r\n• Meaning, Settlement of accounts: Preparation of Realisation Account and related Accounts \r\n(excluding piecemeal distribution, sale to a company and insolvency of a Partner). \r\n  \r\nUnit IV:  Company Accounts: Accounting for Share and Debenture Capital \r\n• Features and type of companies. \r\n• Share Capital: Meaning, Nature and Types \r\n• Accounting for Share Capital: Issue and Allotment of Equity and Preference Shares; Over \r\nsubscription and Under subscription; Issue at par  and premium; Calls in advance, Calls in \r\narrears, Issue of shares for consideration other than cash.  \r\n• Accounting treatment of Forfeiture of Shares and Re-issue of forfeited shares.  \r\n• Presentation of shares capital and Debentures in company’s balance sheet. \r\n• Issue of Debenture – At par, premium and discount; Issue of debentures for consideration \r\nother than cash.  Issue of debentures with terms of redemption, Debenture as collateral \r\nsecurity- concept, Interest on debentures, writing off discount/Loss on issues of debenture. \r\n \r\n \r\n \r\n \r\n \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating accounting information, preparing reports using pivot Table, common errors in \r\nspreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  \r\n• Graphs and Charts in electronic spreadsheet for Business Data. \r\n "
+        ],
+        "excluded_topics": [
+          "Not-for-profit organisation accounting",
+          "Piecemeal distribution",
+          "Sale to a company",
+          "Insolvency of a partner"
+        ],
+        "pattern_rules": [
+          "Use the authenticated paper examples for wording, format and depth.",
+          "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+          "Historical paper timing and attempt rules do not establish 2027 examination rules."
+        ],
+        "source_refs": [
+          {
+            "id": "cuet2026-accountancy-syllabus",
+            "locator": "full-syllabus"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "locator": "q1"
+          }
+        ]
+      },
+      "syllabus_excerpt": [
+        {
+          "physical_pdf_page": 3,
+          "text": "PAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating accounting information, preparing reports using pivot Table, common errors in \r\nspreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  \r\n• Graphs and Charts in electronic spreadsheet for Business Data.",
+          "matched_term": "Cash Flow Statement"
+        }
+      ],
+      "syllabus_source": {
+        "id": "cuet2026-accountancy-syllabus",
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "pdf_identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_file": "source-foundation/accountancy-syllabus-2026.txt",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4",
+        "copied_pdf": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/syllabus-v2/accountancy.pdf"
+      },
+      "format_reference": {
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+        "identity_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "aglasem_edutech_private_limited",
+        "identity": {
+          "subject_code": "301",
+          "language": "Assamese",
+          "paper_languages": [
+            "English",
+            "Assamese"
+          ],
+          "booklet": "A",
+          "key_date_token": "17.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://www.ndl.gov.in/cd_document/cuet_ug/cuetug/acc_qp_2024",
+          "quote": "Accountancy Question Paper for CUET (UG) 2024 (17th May 2024)",
+          "identity_sha256": "b4bf56593372c67ea8611ec5e84c6a0e42be35fb016b564b69c8bc89fecb03d8"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "business_studies": {
+      "exam_spec": {
+        "state": "verified",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+        "included_topics": [
+          "PAGE 1\r\n \r\n \r\nFor the year 2026 \r\n \r\n  \r\nBusiness Studies-\r\n305 Syllabus for \r\nCUET (UG)\r\n \r\n\r\nPAGE 2\r\n \r\n \r\n \r\nUnit I:  Nature and Significance of Management \r\n• Management – concept, objectives, importance. \r\n• Nature of management; Management as Science, Art, Profession. \r\n• Levels of management – top, middle supervisory (First level). \r\n• Management functions – planning, organising, staffing, directing and controlling. \r\n• Coordination – nature and importance. \r\n \r\nUnit II:  Principles of Management \r\n• Principles of Management – meaning, nature and significance. \r\n• Fayol’s principles of management. \r\n• Taylor’s Scientific Management – Principles and Techniques. \r\n \r\nUnit III:  Business Environment \r\n• Business Environment – meaning and importance. \r\n• Dimensions of Business Environment – Economic, Social, Technological, Political and Legal. \r\n \r\nUnit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme. \r\n \r\nUnit V: Organising \r\n• Meaning and importance. \r\n• Steps in the process of organising. \r\n• Structure of organization – functional and divisional. \r\n• Formal and informal organisation. \r\n• Delegation: meaning, elements and importance. \r\n• Decentralization: meaning and importance. \r\n• Difference between delegation and decentralisation. \r\n \r\nUnit VI:  Staffing \r\n• Meaning, need and importance of staffing. \r\n• Staffing as a part of Human Resources Management. \r\n• Steps in staffing process. \r\n• Recruitment – meaning, process and sources, Merits and demerits of internal and external \r\nsources of recruitment. \r\n• Selection – meaning and process. \r\n• Training and Development – meaning, need, methods – on the job and off the job methods of \r\ntraining. \r\n \r\n \r\n\r\nPAGE 3\r\n \r\n \r\n \r\nUnit VII:  Directing \r\n• Meaning, importance and principles. \r\n• Elements of Direction: \r\n– Supervision – meaning and importance \r\n– Motivation – meaning and importance, Maslow’s hierarchy of needs; Financial and \r\nnon- financial incentives. \r\n– Leadership – meaning, importance, style- authoritative, democratic and laissez-faire. \r\n– Communication – meaning and importance, formal and informal communication; \r\nbarriers to effective communication, how to over come the barriers? \r\n \r\nUnit VIII:  Controlling \r\n• Meaning and importance. \r\n• Relationship between planning and controlling. \r\n• Steps in the process of control. \r\n \r\nUnit IX:  Business Finance \r\n• Business finance – meaning, role, objectives of financial management. \r\n• Financial decisions: investing, financing and dividend-Meaning and factors affecting. \r\n• Financial planning – meaning and importance. \r\n• Capital Structure – meaning and factors. \r\n• Fixed and Working Capital – meaning and factors affecting their requirements. \r\n \r\nUnit X:  Financial Markets \r\n• Concept of Financial Market  \r\n• Money Market: Concept, instruments. \r\n• Capital market and its types (primary and secondary market) \r\n• Stock Exchange-Functions, trading procedure. \r\n• Depository services and demat account. \r\n• Securities and Exchange Board of India (SEBI) – Objectives, Functions. \r\n \r\nUnit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4\r\n \r\n \r\n \r\nUnit XII:  Consumer Protection \r\n• Meaning and concept. \r\n• Meaning, Importance of consumer protection. \r\n• The Consumer protection Act,2019. [http://egazette.nic.in/WriteReadData/2019/210422.pdf] \r\n• Consumer rights. \r\n• Consumer responsibilities. \r\n• Who can file a complaint? \r\n• Ways and means of consumer protection – Consumer awareness and legal redressal with \r\nspecial reference to Consumer protection Act 2019, Remedies available. \r\n• Role of consumer organizations and NGOs. \r\n \r\n "
+        ],
+        "excluded_topics": [
+          "Entrepreneurship Development (absent from 2026 syllabus)"
+        ],
+        "pattern_rules": [
+          "Use the authenticated paper examples for wording, format and depth.",
+          "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+          "Historical paper timing and attempt rules do not establish 2027 examination rules."
+        ],
+        "source_refs": [
+          {
+            "id": "cuet2026-business_studies-syllabus",
+            "locator": "full-syllabus"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "locator": "q1"
+          }
+        ]
+      },
+      "syllabus_excerpt": [
+        {
+          "physical_pdf_page": 2,
+          "text": "PAGE 2\r\n \r\n \r\n \r\nUnit I:  Nature and Significance of Management \r\n• Management – concept, objectives, importance. \r\n• Nature of management; Management as Science, Art, Profession. \r\n• Levels of management – top, middle supervisory (First level). \r\n• Management functions – planning, organising, staffing, directing and controlling. \r\n• Coordination – nature and importance. \r\n \r\nUnit II:  Principles of Management \r\n• Principles of Management – meaning, nature and significance. \r\n• Fayol’s principles of management. \r\n• Taylor’s Scientific Management – Principles and Techniques. \r\n \r\nUnit III:  Business Environment \r\n• Business Environment – meaning and importance. \r\n• Dimensions of Business Environment – Economic, Social, Technological, Political and Legal. \r\n \r\nUnit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme. \r\n \r\nUnit V: Organising \r\n• Meaning and importance. \r\n• Steps in the process of organising. \r\n• Structure of organization – functional and divisional. \r\n• Formal and informal organisation. \r\n• Delegation: meaning, elements and importance. \r\n• Decentralization: meaning and importance. \r\n• Difference between delegation and decentralisation. \r\n \r\nUnit VI:  Staffing \r\n• Meaning, need and importance of staffing. \r\n• Staffing as a part of Human Resources Management. \r\n• Steps in staffing process. \r\n• Recruitment – meaning, process and sources, Merits and demerits of internal and external \r\nsources of recruitment. \r\n• Selection – meaning and process. \r\n• Training and Development – meaning, need, methods – on the job and off the job methods of \r\ntraining.",
+          "matched_term": "Unit VI: Staffing"
+        },
+        {
+          "physical_pdf_page": 4,
+          "text": "PAGE 4\r\n \r\n \r\n \r\nUnit XII:  Consumer Protection \r\n• Meaning and concept. \r\n• Meaning, Importance of consumer protection. \r\n• The Consumer protection Act,2019. [http://egazette.nic.in/WriteReadData/2019/210422.pdf] \r\n• Consumer rights. \r\n• Consumer responsibilities. \r\n• Who can file a complaint? \r\n• Ways and means of consumer protection – Consumer awareness and legal redressal with \r\nspecial reference to Consumer protection Act 2019, Remedies available. \r\n• Role of consumer organizations and NGOs.",
+          "matched_term": "Unit XII: Consumer Protection"
+        }
+      ],
+      "syllabus_source": {
+        "id": "cuet2026-business_studies-syllabus",
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "pdf_identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_file": "source-foundation/business_studies-syllabus-2026.txt",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+        "copied_pdf": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/syllabus-v2/business_studies.pdf"
+      },
+      "format_reference": {
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+        "identity_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "305",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "17.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/bus_qp_2024",
+          "quote": "Business Studies Question Paper for CUET (UG) 2024 (17th May 2024) Question Paper",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "economics": {
+      "exam_spec": {
+        "state": "verified",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+        "included_topics": [
+          "PAGE 1\r\n \r\n \r\nFor the Year 2026 \r\n \r\n  \r\nEconomics/Business \r\nEconomics – 309 \r\nSyllabus for     \r\nCUET(UG)\r\n \r\n \r\n\r\nPAGE 2\r\n \r\n1 | P a g e   \r\nCourse I Introductory Microeconomics \r\nUnit I: Introduction, Theory of Consumer Behaviour \r\n What is microeconomics? \r\n Central problems of an economy \r\n Consumer’s Equilibrium: meaning and attainment of equilibrium through \r\nUtility Approach: One and two commodity cases, Consumers Budget and \r\nOptimal choice of the consumer. \r\n Demand: market demand, determinants of demand, demand schedule, \r\ndemand curve, movement along and shifts in the demand curve, price \r\nelasticity of demand, measurement of price elasticity of demand – \r\npercentage, total expenditure, factor determining price elasticity of demand \r\nfor a good. \r\nUnit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR. \r\n \r\nUnit III: The Theory of the firms under perfect competition \r\n Features of perfect competition  \r\n Profit maximization. \r\n Price determination under perfect competition – equilibrium price, effects of \r\nshifts in demand and supply. \r\n Supply: market supply, determinants of supply, supply schedule, supply \r\ncurve movement along and shifts in supply curve, price elasticity of supply, \r\nmeasurement of price elasticity of supply. \r\n \r\nUnit IV: Market Equilibrium and Simple Applications  \r\n Market equilibrium, excess demand, excess supply, \r\n Applications:=- Price ceiling and Price flooring. \r\n \r\n \r\nCourse II Introductory Macroeconomics \r\n \r\nUnit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare \r\n \r\nUnit II: Money and Banking \r\n Meaning and functions, supply of money - Money Creation and Money \r\nMultiplier. \r\n Central bank and its functions (example of the Reserve Bank of India) \r\n Policy tools to control money supply. \r\n \r\nUnit III: Determination of Income and Employment \r\n Aggregate demand and its components.  \r\n Determination of Income in two sector model. \r\n Problems of excess demand and deficient demand; measures to correct \r\nthem - changes in government spending, taxes and money supply \r\n Multiplier mechanism. \r\n \r\nUnit IV: Government Budget and the Economy \r\n Government budget - meaning, objectives and components \r\n Classification of receipts - revenue receipts and capital receipts; \r\n Classification of expenditure – revenue expenditure and capital \r\nexpenditure. \r\n Balanced, Surplus and Deficit Budget – measures of government deficit. \r\n \r\nUnit V: Open Economy Macroeconomics \r\n Balance of payments account - meaning and components; \r\n  Balance of payments – Surplus and Deficit  \r\n Foreign exchange rate - meaning of fixed and flexible rates and managed \r\nfloating. Merits and demerits of exchange rate regimes. \r\n Determination of exchange rate.  \r\n Managed Floating \r\n \r\n Course III: Indian Economic Development \r\nUnit I: Development Policies and Experience (1947-90)  \r\n\r\nPAGE 4\r\n \r\n3 | P a g e   \r\n A brief introduction of the state of Indian economy on the eve of \r\nindependence. \r\n Indian economic system and common goals of Five Year Plans \r\n Main features, problems and policies of agriculture (institutional aspects \r\nand new agricultural strategy), industry (IPR 1956; SSI – role & \r\nimportance) and foreign trade. \r\n \r\nUnit II Economic Reforms since 1991: Macroeconomics: Meaning. \r\n Economic Reforms since 1991: \r\n Features and appraisals of liberalisation, globalisation and privatisation \r\n(LPG policy);  \r\n \r\nUnit III: Current challenges facing the Indian Economy \r\n \r\n Human Capital Formation: How people become resource; Role of human \r\ncapital in economic development; Growth of Education Sector in India  \r\n Rural development: Key issues - credit and marketing - role of \r\ncooperatives; agricultural market system, Agriculture diversification; \r\nalternative farming - organic farming  \r\n Employment: Growth and changes in work force participation rate in \r\nformal and informal sectors; problems and policies  \r\n Environment and Sustainable Development: Definition and Functions, \r\nState of India’s environment, Strategies for sustainable development. \r\n \r\nUnit IV: Development Experiences of India: A comparison with \r\nneighbours. \r\n A comparison with neighbours. \r\n Issues: economic growth, population, sectoral development and other \r\nHuman Development Indicators. \r\n Development Strategies. \r\n \r\n "
+        ],
+        "excluded_topics": [],
+        "pattern_rules": [
+          "Use the authenticated paper examples for wording, format and depth.",
+          "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+          "Historical paper timing and attempt rules do not establish 2027 examination rules."
+        ],
+        "source_refs": [
+          {
+            "id": "cuet2026-economics-syllabus",
+            "locator": "full-syllabus"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "locator": "q1"
+          }
+        ]
+      },
+      "syllabus_excerpt": [
+        {
+          "physical_pdf_page": 2,
+          "text": "PAGE 2\r\n \r\n1 | P a g e   \r\nCourse I Introductory Microeconomics \r\nUnit I: Introduction, Theory of Consumer Behaviour \r\n What is microeconomics? \r\n Central problems of an economy \r\n Consumer’s Equilibrium: meaning and attainment of equilibrium through \r\nUtility Approach: One and two commodity cases, Consumers Budget and \r\nOptimal choice of the consumer. \r\n Demand: market demand, determinants of demand, demand schedule, \r\ndemand curve, movement along and shifts in the demand curve, price \r\nelasticity of demand, measurement of price elasticity of demand – \r\npercentage, total expenditure, factor determining price elasticity of demand \r\nfor a good. \r\nUnit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR. \r\n \r\nUnit III: The Theory of the firms under perfect competition \r\n Features of perfect competition  \r\n Profit maximization. \r\n Price determination under perfect competition – equilibrium price, effects of \r\nshifts in demand and supply. \r\n Supply: market supply, determinants of supply, supply schedule, supply \r\ncurve movement along and shifts in supply curve, price elasticity of supply, \r\nmeasurement of price elasticity of supply. \r\n \r\nUnit IV: Market Equilibrium and Simple Applications  \r\n Market equilibrium, excess demand, excess supply, \r\n Applications:=- Price ceiling and Price flooring. \r\n \r\n \r\nCourse II Introductory Macroeconomics \r\n \r\nUnit I: Introduction and National Income Accounting",
+          "matched_term": "Unit I: Introduction, Theory of Consumer Behaviour"
+        }
+      ],
+      "syllabus_source": {
+        "id": "cuet2026-economics-syllabus",
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "pdf_identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_file": "source-foundation/economics-syllabus-2026.txt",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865",
+        "copied_pdf": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/syllabus-v2/economics.pdf"
+      },
+      "format_reference": {
+        "source_id": "cuet2024-economics-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+        "identity_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "309",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "16.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eco_qp_2024",
+          "quote": "Economics/Business Economics Question Paper for CUET (UG) 2024 (16th May 2024)",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-economics-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "english": {
+      "exam_spec": {
+        "state": "verified",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+        "included_topics": [
+          "PAGE 1\r\n \r\n \r\n \r\n \r\n \r\nFOR THE YEAR 2026 \r\nCUET (UG) \r\nSYLLABUS FOR \r\nENGLISH - 101 \r\n \r\n\r\nPAGE 2\r\n \r\n \r\n \r\n \r\nQuestions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101 \r\n \r\n \r\n "
+        ],
+        "excluded_topics": [],
+        "pattern_rules": [
+          "Use the authenticated paper examples for wording, format and depth.",
+          "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+          "Historical paper timing and attempt rules do not establish 2027 examination rules."
+        ],
+        "source_refs": [
+          {
+            "id": "cuet2026-english-syllabus",
+            "locator": "full-syllabus"
+          },
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "locator": "q1"
+          }
+        ]
+      },
+      "syllabus_excerpt": [
+        {
+          "physical_pdf_page": 2,
+          "text": "PAGE 2\r\n \r\n \r\n \r\n \r\nQuestions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101",
+          "matched_term": "There will be three types of passages"
+        },
+        {
+          "physical_pdf_page": 2,
+          "text": "PAGE 2\r\n \r\n \r\n \r\n \r\nQuestions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101",
+          "matched_term": "b. Narrative"
+        }
+      ],
+      "syllabus_source": {
+        "id": "cuet2026-english-syllabus",
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "pdf_identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_file": "source-foundation/english-syllabus-2026.txt",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5",
+        "copied_pdf": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/syllabus-v2/english.pdf"
+      },
+      "format_reference": {
+        "source_id": "cuet2024-english-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://infinitylearn.com/surge/wp-content/uploads/securepdfs/2025/05/CUET-English-Question-Paper-2024.pdf",
+        "identity_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "InfinityLearn / Rankguru Technology Solutions Private Limited",
+        "identity": {
+          "subject_code": "101",
+          "language": "English",
+          "booklet": "A",
+          "key_date_token": "15.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eng_qp_15may2024",
+          "quote": "English Language Question Paper for CUET (UG) 2024 (15th May 2024)",
+          "identity_sha256": "d63edc05a2f4c688461bf399cea0b4a7273924b500ca7741e3dc578829406159"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-english-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    }
+  }
+}

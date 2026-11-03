@@ -1,0 +1,20 @@
+v77f-98a231fa15fa DEFECT -> quarantined blind_key_contradiction
+v77f-59b58a25bbb3 DEFECT -> quarantined failed:source_support
+known-bank-ea0352db044b73bb7158800c58be188d DEFECT -> quarantined failed:source_support
+{
+ "kind": "v79_native_regression_probe_not_qualification",
+ "terminal": 3,
+ "of": 41,
+ "valid_eligible": "0/0",
+ "defects_accepted": "0/3",
+ "errors": [],
+ "valid_failures": [],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.011261,
+  "held_usd": 0,
+  "requests": 4,
+  "receipt_complete": true,
+  "at": "2026-10-09T12:45:09.467Z"
+ }
+}

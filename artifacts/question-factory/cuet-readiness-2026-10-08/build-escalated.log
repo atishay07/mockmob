@@ -1,0 +1,12 @@
+▲ Next.js 16.2.4 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ⨯ turbopackFileSystemCacheForDev
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Initiated Worker with invalid NODE_OPTIONS env variable: --use-system-ca is not allowed in NODE_OPTIONS
+    at ignore-listed frames {
+  code: 'ERR_WORKER_INVALID_EXEC_ARGV'
+}

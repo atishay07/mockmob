@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-06T07:16:49.448Z",
+  "fixes": [
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q40",
+      "before": [
+        "(E), (C), (D), (A), (B)",
+        "(E), (A), (D), (B), (C)",
+        "(E), (A), (B), (C), (D)",
+        "(A), (B), (C), (D), (E) Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000"
+      ],
+      "after": [
+        "(E), (C), (D), (A), (B)",
+        "(E), (A), (D), (B), (C)",
+        "(E), (A), (B), (C), (D)",
+        "(A), (B), (C), (D), (E)"
+      ],
+      "basis": "Removed following stimulus from the final option; retained exact option prefixes present in both paper copies."
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q45",
+      "before": [
+        "Liquidity Ratio",
+        "Solvency Ratio",
+        "Activity Ratio",
+        "Profitability Ratio Read the following carefully and answer the next five questions : G, K and B were partners running a partnership for last 10 years, sharing profit and loss in the ratio of 5 : 3 : 2. Post Covid, their firm was affected badly and started incurring losses. On 31st March, 2023 they all decided to dissolve the firm due to continuous losses. Their capital balances were ₹ 4,00,000, ₹ 3,00,000 and ₹ 2,00,000 respectively. Firm had liabilities ₹ 80,000, Cash balance ₹ 40,000, other Sundry Assets ₹ 8,50,000 and P&L A/c constituted the rest. Assets realised at 80% and liabilities were paid in full. There was unrecorded liability of ₹ 50,000 which was settled at ₹ 40,000. Realisation expenses amounted to ₹ 30,000, being paid by G on behalf of the firm."
+      ],
+      "after": [
+        "Liquidity Ratio",
+        "Solvency Ratio",
+        "Activity Ratio",
+        "Profitability Ratio"
+      ],
+      "basis": "Removed following stimulus from the final option; retained exact option prefixes present in both paper copies."
+    },
+    {
+      "anchor_id": "cuet2024-economics-bookA-q32",
+      "before": [
+        "Biocomposting",
+        "Biopest Control",
+        "Traditional Knowledge and Practice",
+        "Uses of Chemical Fertilizers Read the following passage and answer the next five questions. India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year."
+      ],
+      "after": [
+        "Biocomposting",
+        "Biopest Control",
+        "Traditional Knowledge and Practice",
+        "Uses of Chemical Fertilizers"
+      ],
+      "basis": "Removed following stimulus from the final option; retained exact option prefixes present in both paper copies."
+    }
+  ]
+}

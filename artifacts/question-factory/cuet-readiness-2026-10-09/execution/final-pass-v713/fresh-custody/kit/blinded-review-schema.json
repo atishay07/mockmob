@@ -1,0 +1,216 @@
+{
+  "schema": "cuet-v713-review-schema-v1",
+  "study_id": "cuet-readiness-v713-fresh-pass",
+  "status": "schema only; no reviewer packets or judgments exist",
+  "blind_packet": {
+    "allowed_fields": [
+      "opaque_id",
+      "subject",
+      "chapter",
+      "body",
+      "options",
+      "passage_text",
+      "source_refs",
+      "excerpts",
+      "syllabus"
+    ],
+    "forbidden_fields": [
+      "id",
+      "expected_valid",
+      "group",
+      "correct_answer",
+      "explanation",
+      "defect_category",
+      "defect_evidence",
+      "family_id",
+      "provenance"
+    ],
+    "source_ref_fields": [
+      "id",
+      "version",
+      "locator",
+      "support_hash"
+    ],
+    "require_each_excerpt_to_bind_to_registry": true,
+    "require_exact_official_syllabus_slice": true
+  },
+  "blind_solution": {
+    "items": [
+      {
+        "opaque_id": "b-<16 lowercase hex>",
+        "solved_key": "A|B|C|D",
+        "option_judgments": [
+          {
+            "option": "A|B|C|D",
+            "status": "supported|contradicted|unresolved",
+            "basis": "stem|source_excerpt|passage_scope|case_scope|none",
+            "false_part": "exact contiguous option text or empty",
+            "premise_quote": "one exact contiguous supplied span or empty",
+            "evidence_id": "exact supplied evidence id or empty",
+            "reason": "concise and decisive"
+          }
+        ],
+        "mandatory_gates_passed": "boolean",
+        "one_defensible_answer": "boolean",
+        "decisive_basis": "concise; cite exact supplied premises"
+      }
+    ]
+  },
+  "explanation_audit": {
+    "items": [
+      {
+        "fixture_id": "author-side id, released only after blind freeze",
+        "mandatory_gates_passed": "boolean",
+        "explanation_supported": "boolean",
+        "defect_confirmed": "boolean",
+        "contested": "boolean",
+        "decisive_basis": "concise source- and syllabus-bound finding"
+      }
+    ]
+  },
+  "independent_roles": {
+    "author_id": "distinct from blind solution and explanation auditors",
+    "blind_reviewer_id": "distinct from author",
+    "explanation_auditor_id": "distinct from author; blind freeze must precede reveal",
+    "novelty_reviewer_id": "independent novelty review"
+  },
+  "sequencing": [
+    "freeze contract and decision rule",
+    "author and seal complete item objects plus expected group/key",
+    "create opaque map and exact key-free reviewer packets",
+    "independent solver returns all four option resolutions before key reveal",
+    "hash-freeze blind packet and blind output",
+    "reveal author-side identifiers and keys only after blind freeze",
+    "independent explanation and defect audit",
+    "independent semantic novelty report against hash-custodied history",
+    "assemble exactly 36 cases with no exclusions or replacement"
+  ],
+  "custody_artifacts": {
+    "manifest_schema": "cuet-v713-custody-v2",
+    "artifacts": [
+      "authored",
+      "sealed_blind_map",
+      "blind_packet",
+      "blind_output",
+      "blind_freeze",
+      "reveal",
+      "explanation_audit",
+      "novelty_report"
+    ],
+    "identity_fields_each": {
+      "schema": "cuet-v713-<artifact-name>-v1",
+      "study_id": "same as fresh input id",
+      "freeze_sha256": "exact frozen contract digest"
+    },
+    "sealed_blind_map": {
+      "schema": "cuet-v713-sealed_blind_map-v1",
+      "hashes": [
+        "author_sha256",
+        "packet_sha256"
+      ],
+      "rows_exactly": [
+        {
+          "fixture_id": "author-side item id",
+          "opaque_id": "b-<16 lowercase hex>",
+          "content_hash": "candidate content hash",
+          "correct_answer": "A|B|C|D",
+          "expected_valid": "boolean"
+        }
+      ],
+      "notes": [
+        "Rows must cover the fixed 36 fixture ids exactly once.",
+        "Opaque ids must be unique.",
+        "This map contains answer data and is never included in the blind packet."
+      ]
+    },
+    "blind_output": {
+      "schema": "cuet-v713-blind_output-v1",
+      "packet_sha256": "exact blind_packet artifact digest",
+      "reviewer_id": "distinct from author_id",
+      "created_at": "ISO-8601",
+      "items": [
+        {
+          "opaque_id": "same opaque id as packet/map",
+          "solved_key": "independently derived A|B|C|D",
+          "option_judgments": "all four complete option-resolution judgments",
+          "mandatory_gates_passed": "boolean",
+          "one_defensible_answer": "boolean",
+          "decisive_basis": "exact premise based"
+        }
+      ]
+    },
+    "blind_freeze": {
+      "schema": "cuet-v713-blind_freeze-v1",
+      "packet_sha256": "exact blind_packet artifact digest",
+      "output_sha256": "exact blind_output artifact digest",
+      "created_at": "ISO-8601"
+    },
+    "reveal": {
+      "schema": "cuet-v713-reveal-v1",
+      "author_sha256": "exact authored artifact digest",
+      "blind_freeze_sha256": "exact blind_freeze artifact digest",
+      "map_sha256": "exact sealed_blind_map artifact digest",
+      "rows_exactly": "Byte-semantically identical in ordering and values to sealed_blind_map.rows: {fixture_id,opaque_id,content_hash,correct_answer,expected_valid}",
+      "enforced_check": "hashJSON(reveal.rows) === hashJSON(sealed_blind_map.rows)"
+    },
+    "explanation_audit": {
+      "schema": "cuet-v713-explanation_audit-v1",
+      "author_sha256": "exact authored artifact digest",
+      "blind_freeze_sha256": "exact blind_freeze artifact digest",
+      "reviewer_id": "independent from author",
+      "created_at": "ISO-8601",
+      "items": "exactly 36 item audits keyed by author-side fixture_id; only after reveal"
+    },
+    "novelty_report": {
+      "schema": "cuet-v713-novelty_report-v1",
+      "author_sha256": "exact authored artifact digest",
+      "reviewer_id": "independent novelty reviewer",
+      "created_at": "ISO-8601",
+      "compared_history": "nonempty list of {path,sha256}, hashes verified by helper",
+      "items": "exactly 36 item records keyed by fixture_id; each has content_hash, unique:true, reason"
+    },
+    "role_separation": "Author differs from blind and explanation reviewers; novelty has an independent reviewer identity. A blind reviewer receives only exact key-free candidate content/evidence."
+  },
+  "sealed_answer_disclosure": {
+    "sealed_before_review": {
+      "fields": [
+        "fixture_id",
+        "opaque_id",
+        "content_hash",
+        "correct_answer",
+        "expected_valid"
+      ],
+      "locations": [
+        "sealed_blind_map.rows"
+      ]
+    },
+    "reviewer_packet_excludes": [
+      "fixture_id",
+      "correct_answer",
+      "expected_valid",
+      "group",
+      "explanation",
+      "defect_category",
+      "defect_evidence"
+    ],
+    "blind_freeze_must_precede_reveal": true,
+    "independent_review_answer_custody": "Blind solution derives its own key and all four option judgments from the candidate and supplied evidence; it receives no author key, label, explanation, defect annotation, or candidate ID."
+  },
+  "semantic_novelty": {
+    "compare_against": "All hash-custodied prior benchmark, qualification, regression, pilot, candidate-bank, and previously exposed generation history relevant to these subjects; do not limit comparison to the most recent q1/q2/q3/pilot source-reference lists.",
+    "history_binding": "Every history file used is listed in novelty_report.compared_history with exact SHA-256; novelty reviewer confirms each hash before review.",
+    "per_fixture_analysis": [
+      "semantic learning objective and underlying fact/rule",
+      "reasoning path and decisive assumptions",
+      "case/passage theme and inferential target",
+      "numeric or categorical structure and distractor misconception",
+      "surface wording/source identity separately"
+    ],
+    "decision": "A changed value, entity, source citation, wording, or option order does not make the same idea novel. Compare meaning and solution path; mark unique:false and hold for a different objective if an equivalent prior idea exists. Explain the nearest historical neighbor for each fixture."
+  },
+  "difficulty_guard": {
+    "medium": "Use medium only for ordinary CUET demand in its usual question format: the student must apply an entitled concept, interpret a short passage, distinguish plausible syllabus concepts, or link a modest number of reasoning steps. Do not label a definition lookup, obvious lexical-root match, one-step warm-up, or value-changed copy as medium.",
+    "english": "Do not fill the English quota with trivial standalone lexical-root/definition lookups. Select meaningful reading-comprehension or verbal-ability tasks with ordinary CUET-level inference, context, phrase ordering, matching, or word choice; keep all language evidence explicit and the passage answerable. Easy is allowed only when honestly labeled and useful as a warm-up; medium must meet actual CUET cognitive demand.",
+    "hard": "Optional only when independently established as materially above usual CUET demand while within syllabus and time."
+  }
+}

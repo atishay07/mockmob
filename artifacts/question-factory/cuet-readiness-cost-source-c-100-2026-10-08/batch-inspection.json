@@ -1,0 +1,108 @@
+{
+  "contract": "evidence-content-idea-inspection-v3",
+  "content_hash": "2d24aec4489b4b5e65f46fdbbde7e3cb013652a478213b00b46ec769f4685b25",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 84,
+  "answer_positions": {
+    "A": 25,
+    "D": 21,
+    "B": 21,
+    "C": 17
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "A": 3
+    },
+    "conceptual_mcq": {
+      "D": 6,
+      "C": 8,
+      "A": 5,
+      "B": 2
+    },
+    "sequence_ordering": {
+      "B": 2,
+      "A": 3,
+      "C": 3,
+      "D": 3
+    },
+    "case_application": {
+      "B": 5,
+      "D": 3,
+      "A": 2,
+      "C": 1
+    },
+    "matching": {
+      "A": 3,
+      "C": 2,
+      "B": 2,
+      "D": 1
+    },
+    "statement_selection": {
+      "B": 3,
+      "C": 1,
+      "A": 3,
+      "D": 1
+    },
+    "correct_word_usage": {
+      "B": 2,
+      "A": 2
+    },
+    "synonym": {
+      "B": 1,
+      "D": 1,
+      "C": 1
+    },
+    "antonym": {
+      "B": 1,
+      "D": 1
+    },
+    "direct_mcq": {
+      "A": 2
+    },
+    "numerical_calculation": {
+      "B": 2,
+      "A": 2,
+      "C": 1,
+      "D": 5
+    },
+    "word meaning in context": {
+      "B": 1
+    }
+  },
+  "formats": {
+    "reading_comprehension": 3,
+    "conceptual_mcq": 21,
+    "sequence_ordering": 11,
+    "case_application": 11,
+    "matching": 8,
+    "statement_selection": 8,
+    "correct_word_usage": 4,
+    "synonym": 3,
+    "antonym": 2,
+    "direct_mcq": 2,
+    "numerical_calculation": 10,
+    "word meaning in context": 1
+  },
+  "difficulty": {
+    "easy": 33,
+    "medium": 48,
+    "hard": 3
+  },
+  "longest_same_answer_run": 3,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 535,
+  "inventory_ids_hash": "fbaed2c1668bff9aa27a0e8c31dbf71343f6557f3c420895b20db85661a92ace",
+  "applied_decisions": [
+    {
+      "id": "87f042d144668382b5ab6a2f68520d49",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "26c5d2ac584f37f60da67fae4da93944",
+      "target": "transient"
+    }
+  ],
+  "at": "2026-10-08T17:19:25.914Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

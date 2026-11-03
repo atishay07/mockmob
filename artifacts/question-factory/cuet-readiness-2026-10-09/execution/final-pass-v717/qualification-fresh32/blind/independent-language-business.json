@@ -1,0 +1,529 @@
+{
+  "schema": "cuet-v717-independent-blind-solver-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "packet_sha256": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530",
+  "reviewer_id": "/root/difficulty_selection_final",
+  "created_at": "2026-10-10T05:26:56.504703+00:00",
+  "scope": {
+    "subjects": [
+      "business_studies",
+      "english"
+    ],
+    "case_count": 16,
+    "blind_only": true
+  },
+  "responses": [
+    {
+      "opaque_id": "q717-823c642827fa0755990d20a6",
+      "subject": "business_studies",
+      "answer_set": [
+        "B"
+      ],
+      "solved_key": "B",
+      "derivation": "Identify a long-term investment decision from its defining features.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "For example, making investment in a new machine to replace an existing one or acquiring a new fixed asset or opening a new branch, etc. These decisions are very crucial for any business since they affect its earning capacity in the long run."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Identify a long-term investment decision from its defining features.",
+        "concepts_conditions": [
+          "capital budgeting",
+          "large irreversible fixed-asset investment"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-deae7562fbbcc6865560a309",
+      "subject": "business_studies",
+      "answer_set": [
+        "C"
+      ],
+      "solved_key": "C",
+      "derivation": "Compare two stated returns while holding assessed risk equal.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Suppose, there are two projects, A and B (with the same risk involved), with a rate of return of 10 per cent and 12 per cent, respectively, then under normal circumstance, project B should be selected."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Compare two stated returns while holding assessed risk equal.",
+        "concepts_conditions": [
+          "investment selection",
+          "same risk",
+          "relative expected return"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-24a5b6b47bfb7b7caa018bf3",
+      "subject": "business_studies",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "derivation": "Apply one stated financing factor to a debt-versus-equity choice.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "A stronger cash flow position may make debt financing more viable than funding through equity."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Apply one stated financing factor to a debt-versus-equity choice.",
+        "concepts_conditions": [
+          "cash-flow position",
+          "debt financing",
+          "equity financing"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-41d4531e8657244ffdc2276d",
+      "subject": "business_studies",
+      "answer_set": [
+        "A"
+      ],
+      "solved_key": "A",
+      "derivation": "Evaluate a NOT-supported statement by contrasting long-term planning with budgets.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Long-term planning relates to long term growth and investment. It focuses on capital expenditure programmes. Short-term planning covers short-term financial plan called budget."
+        },
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Plans made for periods of one year or less are termed as budgets. Budgets are example of financial planning exercise in greater details. They include detailed plan of action for a period of one year or less."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "medium",
+        "operation": "Evaluate a NOT-supported statement by contrasting long-term planning with budgets.",
+        "concepts_conditions": [
+          "financial planning",
+          "long-term growth and investment",
+          "short-term budget horizon"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "A standard CUET-level inference contrasting related facts or evidence.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-81165e9f76d2fe017fbae7a6",
+      "subject": "business_studies",
+      "answer_set": [
+        "B"
+      ],
+      "solved_key": "B",
+      "derivation": "Apply the growth-opportunity factor to earnings retention and dividends.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Companies having good growth opportunities retain more money out of their earnings so as to finance the required investment. The dividend in growth companies is, therefore, smaller, than that in the non-growth companies."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Apply the growth-opportunity factor to earnings retention and dividends.",
+        "concepts_conditions": [
+          "growth opportunities",
+          "retained earnings",
+          "dividend size"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-9955b8830fbf37578383f2fa",
+      "subject": "business_studies",
+      "answer_set": [
+        "C"
+      ],
+      "solved_key": "C",
+      "derivation": "Select the higher-return project when assessed risk is the same.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Suppose, there are two projects, A and B (with the same risk involved), with a rate of return of 10 per cent and 12 per cent, respectively, then under normal circumstance, project B should be selected."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Select the higher-return project when assessed risk is the same.",
+        "concepts_conditions": [
+          "investment selection",
+          "equal risk",
+          "relative return"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-96f23a45cd5ddc58d0235eda",
+      "subject": "business_studies",
+      "answer_set": [
+        "B",
+        "C"
+      ],
+      "solved_key": "uncertain",
+      "derivation": "Choose a factor that can make debt financing more viable; two listed factors independently satisfy the supplied rule.. Two supplied rules support distinct options, so uniqueness is not established.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "A stronger cash flow position may make debt financing more viable than funding through equity."
+        },
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "Similarly, if fixed operating cost is less, more of debt financing may be preferred."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [
+        {
+          "option": "B",
+          "reason": "The excerpt says stronger cash flow may make debt financing more viable."
+        },
+        {
+          "option": "C",
+          "reason": "The excerpt says lower fixed operating costs may make more debt financing preferable."
+        }
+      ],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Choose a factor that can make debt financing more viable; two listed factors independently satisfy the supplied rule.",
+        "concepts_conditions": [
+          "cash-flow position",
+          "fixed operating costs",
+          "debt financing"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-23393bb7b488f77a58ed3c66",
+      "subject": "business_studies",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "derivation": "Check a proposed dividend against the stated loan-agreement restriction.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "ncertcol-lebs201-v1",
+          "quote": "The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Check a proposed dividend against the stated loan-agreement restriction.",
+        "concepts_conditions": [
+          "dividend decision",
+          "loan agreement terms",
+          "compliance"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-4f74bc0977085544510a0c54",
+      "subject": "english",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "derivation": "Infer the word that describes careful judgment after checking risks.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "oxford-quality-prudent",
+          "quote": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks"
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Infer the word that describes careful judgment after checking risks.",
+        "concepts_conditions": [
+          "contextual vocabulary",
+          "careful judgment",
+          "risk avoidance"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-a9ee331ee3870ef6bd58be41",
+      "subject": "english",
+      "answer_set": [
+        "A"
+      ],
+      "solved_key": "A",
+      "derivation": "Choose the word meaning easy to see or notice in the described context.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "oxford-quality-conspicuous",
+          "quote": "easy to see or notice; likely to attract attention"
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Choose the word meaning easy to see or notice in the described context.",
+        "concepts_conditions": [
+          "contextual vocabulary",
+          "visibility"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-1e1c41b571d2ecd7230552fb",
+      "subject": "english",
+      "answer_set": [
+        "B"
+      ],
+      "solved_key": "B",
+      "derivation": "Infer why qualitative notes complement the numerical return records before a decision.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "quote": "The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "medium",
+        "operation": "Infer why qualitative notes complement the numerical return records before a decision.",
+        "concepts_conditions": [
+          "factual reading comprehension",
+          "numerical records",
+          "students’ experience"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "A standard CUET-level inference contrasting related facts or evidence.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-c9935a08a1dadd15bc03c6fe",
+      "subject": "english",
+      "answer_set": [
+        "C"
+      ],
+      "solved_key": "C",
+      "derivation": "Identify the statement contradicted by the passage in a NOT-supported question.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "quote": "The librarian recorded the number of books returned, but did not grade the notes."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Identify the statement contradicted by the passage in a NOT-supported question.",
+        "concepts_conditions": [
+          "factual reading comprehension",
+          "negative-stem polarity",
+          "note grading"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-c3520ac2c10a06a48b19552b",
+      "subject": "english",
+      "answer_set": [
+        "D"
+      ],
+      "solved_key": "D",
+      "derivation": "Retrieve the librarian’s explicitly stated proposal.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "quote": "She proposed discussing a few notes with students before deciding whether to continue the programme."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Retrieve the librarian’s explicitly stated proposal.",
+        "concepts_conditions": [
+          "factual reading comprehension",
+          "locating an explicit action"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-cbbef17389750dffae8dc207",
+      "subject": "english",
+      "answer_set": [
+        "A"
+      ],
+      "solved_key": "A",
+      "derivation": "Choose the word meaning kind, helpful, and generous from the context.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "oxford-quality-benevolent",
+          "quote": "kind, helpful and generous"
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Choose the word meaning kind, helpful, and generous from the context.",
+        "concepts_conditions": [
+          "contextual vocabulary",
+          "meaning in context"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    },
+    {
+      "opaque_id": "q717-35134360a9497d7ed3cf3105",
+      "subject": "english",
+      "answer_set": [],
+      "solved_key": "uncertain",
+      "derivation": "The requested operation is a direct total-count lookup, but the passage gives no weekly or aggregate counts; the easy intended operation is not answerable as written.. No supplied evidence determines any listed numeric total.",
+      "decisive_evidence": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "quote": "The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth."
+        }
+      ],
+      "missing_decisive_inputs": [
+        {
+          "input": "Weekly return counts or the recorded four-week total."
+        }
+      ],
+      "plausible_rivals": [
+        {
+          "option": "A",
+          "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+        },
+        {
+          "option": "B",
+          "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+        },
+        {
+          "option": "C",
+          "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+        },
+        {
+          "option": "D",
+          "reason": "The passage provides no numeric return totals with which to confirm or exclude this value."
+        }
+      ],
+      "difficulty": {
+        "level": "easy",
+        "operation": "The requested operation is a direct total-count lookup, but the passage gives no weekly or aggregate counts; the easy intended operation is not answerable as written.",
+        "concepts_conditions": [
+          "factual reading comprehension",
+          "quantitative retrieval",
+          "missing count data"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": "Question is unanswerable as written; easy denotes the intended direct operation only."
+      }
+    },
+    {
+      "opaque_id": "q717-3662a54735c8a56d98672412",
+      "subject": "english",
+      "answer_set": [
+        "B"
+      ],
+      "solved_key": "B",
+      "derivation": "Retrieve what the librarian said the borrowing records measured, preserving the explicit contrast with reading care.. The decisive supplied excerpt directly entails the selected option.",
+      "decisive_evidence": [
+        {
+          "source_id": "mockmob-original-stimulus-factual-passage",
+          "quote": "The librarian said the records showed when books were returned, rather than how carefully they had been read."
+        }
+      ],
+      "missing_decisive_inputs": [],
+      "plausible_rivals": [],
+      "difficulty": {
+        "level": "easy",
+        "operation": "Retrieve what the librarian said the borrowing records measured, preserving the explicit contrast with reading care.",
+        "concepts_conditions": [
+          "factual reading comprehension",
+          "explicit contrast"
+        ],
+        "comparison_basis": "heuristic",
+        "exemplar_ids": [],
+        "reason": "Direct retrieval/recognition or a plainly stated single rule; a basic warm-up.",
+        "validity_caveat": null
+      }
+    }
+  ]
+}

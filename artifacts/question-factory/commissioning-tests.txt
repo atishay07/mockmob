@@ -1,0 +1,38 @@
+
+> mockmob@0.1.0 test:factory
+> node --test scripts/pipeline/tests/questionFactory.test.mjs
+
+✔ preflight makes only credential-isolated GETs and classifies invalid keys without exposing them (22.3154ms)
+✔ raw Gemini operation response settles nested inline output without resubmission and rejects unidentified records (128.5473ms)
+✔ cost report separates settled reasoning-inclusive usage, pending holds and preparation (58.0831ms)
+✔ new ledger uses the owner ceiling but paid calls require historical reconciliation (47.6013ms)
+✔ Responses reserves tools and all reasoning usage; missing usage blocks the next call (62.7502ms)
+✔ OpenAI accepted batch survives restart and settles once without another submission (76.4436ms)
+✔ Gemini native transport counts thinking tokens and batches only one independent evaluation (66.1567ms)
+✔ unknown batch acceptance is held unresolved and is never resubmitted (55.5646ms)
+✔ process leases prevent two workers using the same ledger (69.754ms)
+✔ a pending repair resumes the same input after restart without acquiring another attempt (56.9638ms)
+✔ LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits (73.6288ms)
+✔ screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt (1.0462ms)
+✔ subscription environment strips API credentials and provider overrides (0.2286ms)
+✔ verified evidence precedence survives usage ranking and family caps (0.4875ms)
+✔ source registration refuses missing paper/key authentication and permission (1.8568ms)
+✔ migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening (1791.9459ms)
+✔ subscription guard refuses API login, purchased or unknown credits and exhausted included limits (0.5836ms)
+✔ terminal batch record mismatch blocks spending and cannot trigger a duplicate submission (65.6064ms)
+✔ uncertain accepted batch can be attached only after provider identity matches the saved file (66.9053ms)
+✔ budget exhaustion stops before dispatch and retired models cannot route through the factory (49.3407ms)
+✔ new factory queues originals first, balances backed chapters and never splits passage groups (20.2869ms)
+✔ passage publication requires every authenticated child and identical passage content (0.3619ms)
+✔ calibration measures blind answers independently of survival and fails closed on empty or claimed releases (0.6847ms)
+✔ dispute versions normalize public snapshots and change with passage, key and explanation edits (0.2616ms)
+✔ verified questions fill a difficulty shortage before screened legacy questions (0.4075ms)
+✔ authenticated source pack maps official option IDs to the final-key row and retires superseded evidence (14.3878ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2911.547

@@ -1,0 +1,484 @@
+{
+  "at": "2026-10-05T21:06:40.302Z",
+  "http_status": 200,
+  "read_only": true,
+  "tables": {
+    "questions": {
+      "required": [
+        "id",
+        "subject",
+        "chapter",
+        "status",
+        "created_at",
+        "tags",
+        "updated_at",
+        "ai_tier",
+        "verification_state",
+        "quality_band",
+        "quality_score",
+        "momentum_score",
+        "exposure_budget",
+        "exposure_used",
+        "exploration_lane",
+        "exploration_state",
+        "is_deleted",
+        "upvotes",
+        "downvotes",
+        "score"
+      ],
+      "properties": {
+        "id": {
+          "default": "(gen_random_uuid())",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "text",
+          "type": "string"
+        },
+        "subject": {
+          "format": "text",
+          "type": "string"
+        },
+        "chapter": {
+          "format": "text",
+          "type": "string"
+        },
+        "question": {
+          "format": "text",
+          "type": "string"
+        },
+        "options": {
+          "format": "jsonb"
+        },
+        "correct_index": {
+          "format": "integer",
+          "type": "integer"
+        },
+        "explanation": {
+          "format": "text",
+          "type": "string"
+        },
+        "difficulty": {
+          "format": "text",
+          "type": "string"
+        },
+        "source": {
+          "format": "text",
+          "type": "string"
+        },
+        "status": {
+          "default": "pending",
+          "format": "text",
+          "type": "string"
+        },
+        "uploaded_by": {
+          "format": "text",
+          "type": "string"
+        },
+        "created_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "body": {
+          "format": "text",
+          "type": "string"
+        },
+        "correct_answer": {
+          "format": "text",
+          "type": "string"
+        },
+        "author_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "tags": {
+          "format": "text[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "updated_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "ai_tier": {
+          "default": "PENDING",
+          "format": "text",
+          "type": "string"
+        },
+        "ai_score": {
+          "format": "numeric",
+          "type": "number"
+        },
+        "recommended_difficulty": {
+          "format": "text",
+          "type": "string"
+        },
+        "verification_state": {
+          "default": "unverified",
+          "format": "text",
+          "type": "string"
+        },
+        "quality_band": {
+          "default": "unrated",
+          "format": "text",
+          "type": "string"
+        },
+        "quality_score": {
+          "default": 0,
+          "format": "numeric",
+          "type": "number"
+        },
+        "momentum_score": {
+          "default": 0,
+          "format": "numeric",
+          "type": "number"
+        },
+        "exposure_budget": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "exposure_used": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "exploration_lane": {
+          "default": "none",
+          "format": "text",
+          "type": "string"
+        },
+        "exploration_state": {
+          "default": "pending",
+          "format": "text",
+          "type": "string"
+        },
+        "duplicate_group_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "content_hash": {
+          "format": "text",
+          "type": "string"
+        },
+        "live_at": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "settled_at": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "is_deleted": {
+          "default": false,
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "upvotes": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "downvotes": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "score": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "is_ncert_relevant": {
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "is_cuet_syllabus": {
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "validation_confidence": {
+          "format": "numeric",
+          "type": "number"
+        },
+        "topic": {
+          "format": "text",
+          "type": "string"
+        },
+        "validated_at": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "concept": {
+          "format": "text",
+          "type": "string"
+        },
+        "concept_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "pyq_anchor_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "anchor_tier": {
+          "format": "integer",
+          "type": "integer"
+        },
+        "difficulty_weight": {
+          "format": "integer",
+          "type": "integer"
+        },
+        "question_type": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_group_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_type": {
+          "format": "text",
+          "type": "string"
+        },
+        "order_index": {
+          "format": "integer",
+          "type": "integer"
+        },
+        "evidence": {
+          "format": "jsonb"
+        },
+        "family_id": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_text": {
+          "format": "text",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "passage_groups": {
+      "required": [
+        "id",
+        "subject",
+        "chapter",
+        "passage_text",
+        "status",
+        "discoverable",
+        "mode_visibility",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "default": "('pg_'::text || replace((gen_random_uuid())::text, '-'::text, ''::text))",
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "text",
+          "type": "string"
+        },
+        "subject": {
+          "format": "text",
+          "type": "string"
+        },
+        "chapter": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_type": {
+          "format": "text",
+          "type": "string"
+        },
+        "title": {
+          "format": "text",
+          "type": "string"
+        },
+        "passage_text": {
+          "format": "text",
+          "type": "string"
+        },
+        "source": {
+          "format": "text",
+          "type": "string"
+        },
+        "difficulty": {
+          "format": "text",
+          "type": "string"
+        },
+        "status": {
+          "default": "live",
+          "format": "text",
+          "type": "string"
+        },
+        "discoverable": {
+          "default": true,
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "mode_visibility": {
+          "format": "text[]",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "created_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "users": {
+      "required": [
+        "id",
+        "name",
+        "subjects",
+        "role",
+        "created_at",
+        "subscription_status",
+        "is_moderator",
+        "updated_at",
+        "public_level",
+        "reputation_total",
+        "contribution_points_90d",
+        "hidden_trust_score",
+        "trust_tier",
+        "flags_count",
+        "credit_balance",
+        "is_premium"
+      ],
+      "properties": {
+        "id": {
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "text",
+          "type": "string"
+        },
+        "name": {
+          "format": "text",
+          "type": "string"
+        },
+        "email": {
+          "format": "text",
+          "type": "string"
+        },
+        "image": {
+          "format": "text",
+          "type": "string"
+        },
+        "subjects": {
+          "format": "jsonb"
+        },
+        "role": {
+          "default": "student",
+          "format": "text",
+          "type": "string"
+        },
+        "created_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "subscription_status": {
+          "default": "free",
+          "format": "text",
+          "type": "string"
+        },
+        "is_moderator": {
+          "default": false,
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "updated_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "last_active_at": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "public_level": {
+          "default": 1,
+          "format": "integer",
+          "type": "integer"
+        },
+        "reputation_total": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "contribution_points_90d": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "hidden_trust_score": {
+          "default": 50,
+          "format": "smallint",
+          "type": "integer"
+        },
+        "trust_tier": {
+          "default": "T2",
+          "format": "text",
+          "type": "string"
+        },
+        "flags_count": {
+          "default": 0,
+          "format": "integer",
+          "type": "integer"
+        },
+        "credit_balance": {
+          "default": 100,
+          "format": "integer",
+          "type": "integer"
+        },
+        "is_premium": {
+          "default": false,
+          "format": "boolean",
+          "type": "boolean"
+        },
+        "premium_until": {
+          "format": "timestamp with time zone",
+          "type": "string"
+        },
+        "razorpay_subscription_id": {
+          "format": "text",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "recovery_family_holds": {
+      "required": [
+        "family_id",
+        "reason",
+        "created_at"
+      ],
+      "properties": {
+        "family_id": {
+          "description": "Note:\nThis is a Primary Key.<pk/>",
+          "format": "text",
+          "type": "string"
+        },
+        "reason": {
+          "format": "text",
+          "type": "string"
+        },
+        "created_at": {
+          "default": "now()",
+          "format": "timestamp with time zone",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "schema": "v77-pilot-conservative-envelope-v1",
+  "prepared_at": "2026-10-09",
+  "status": "conditional preparation only; not registered, not dispatched, V77 not qualified",
+  "source_basis": {
+    "pilot_reference": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-pilot-budget-novelty.md",
+    "pilot_reference_state": "proposed V75 40-candidate measurement pilot; exact V77 pilot preregistration is absent; current V75 wiring is incompatible with V77",
+    "v77_freeze": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-contract-freeze.json",
+    "v77_transport": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-local-transport-freeze.json",
+    "pricing_file": "data/pipeline-prices.json",
+    "pricing_sha256": "390c009fcc1327bbae3abcc7f6cd7074893fd40a0691836623bb6d2c8a146797"
+  },
+  "qualification_state": {
+    "qualified": false,
+    "native_v77_requests_in_last_readonly_snapshot": 0,
+    "study_denominator": 41,
+    "registered_pass_rule": "0/12 fresh controlled-defect false accepts; 0/9 regression-invalid false accepts; at least 85% pooled survival among 20 valid controls and at least 70% per subject",
+    "shared_qualification_stop_usd": 4,
+    "lifetime_ceiling_usd": 50,
+    "qualification_full_conservative_bound_usd": 6.944375,
+    "qualification_cap_is_stop_not_completion_promise": true
+  },
+  "pilot_design_reference": {
+    "fixed_denominator": 40,
+    "subjects": {"english": 10, "accountancy": 10, "business_studies": 10, "economics": 10},
+    "persistent_wave_size": 10,
+    "retain_all_candidates_in_denominator": true,
+    "at_most_one_targeted_repair_then_full_revalidation": true,
+    "publication": false,
+    "pilot_stop_usd": 3,
+    "pilot_stop_cap_shared_with_qualification": false
+  },
+  "frozen_v77_validation_envelope": {
+    "request_body_max_utf8_bytes": 50000,
+    "body_guard_scope": "complete serialized body including full input and expanded JSON schema; explanation audit must include both actual frozen blind matrices",
+    "openai_service_tier": "Flex explicitly requested; no fallback; reserve standard rates and apply Flex only when actual receipt reports Flex",
+    "native_batch": false,
+    "retry_policy": "At most one retry per stage only for incomplete output or invalid provider JSON with durable request identity; resend full input, double output allowance, reserve as a distinct request; never resend accepted or unknown outcomes",
+    "output_caps_tokens": {"luna_blind_solution": 7500, "gemini_independent_evaluation": 4500, "luna_explanation_audit": 5000},
+    "efforts": {"luna_blind": "medium only for English synonym, antonym, correct_word_usage, matching; otherwise high", "gemini_independent_evaluation": "medium", "luna_explanation_audit": "high"},
+    "schema_size_reference_bytes": {"blind_or_gemini_schema_max_observed_in_offline_specimens": 6141, "explanation_schema_max_observed_in_offline_specimens": 2861},
+    "schema_size_caveat": "Offline specimen figures are observed sizes, not additional allowance. Actual serialized body must pass 50000-byte check immediately before dispatch.",
+    "generation_contract": "V77 freezes validation only; the V75 pilot plan's author cap 6500 and repair cap 9000 are provisional planning inputs, not frozen V77 generation settings. Bind a new compatible V77 pilot author/export/repair profile before any registration."
+  },
+  "pricing": {
+    "expires_at": "2026-10-12T21:37:55.116Z",
+    "valid_at_snapshot_2026_10_09": true,
+    "luna_standard_usd_per_million": {"input_or_cache_write_max": 0.125, "output_including_reasoning": 0.5},
+    "gemini_3_8_flash_standard_usd_per_million": {"input": 0.75, "output_including_reasoning": 3.75},
+    "reservation_method": "50,000 full input bytes priced at the higher applicable standard input/cache-write rate, plus max output tokens at standard output rate; every retry separately reserves the full input and doubled output. No discount is assumed.",
+    "actual_settlement": "Use provider receipts and billed token partitions, including reasoning output and any retry. Flex savings count only when the receipt reports Flex; receipt/hold is not an invoice."
+  },
+  "per_candidate_conservative_usd": {
+    "luna_author_high_6500_cap_initial_plus_one_doubled_retry": 0.02225,
+    "luna_blind_7500_cap_initial_plus_one_doubled_retry": 0.02375,
+    "gemini_independent_4500_cap_initial_plus_one_doubled_retry": 0.125625,
+    "luna_explanation_audit_5000_cap_initial_plus_one_doubled_retry": 0.02,
+    "validation_cycle_luna_gemini_existing_luna_audit": 0.169375,
+    "luna_targeted_repair_high_9000_cap_initial_plus_one_doubled_retry": 0.026,
+    "full_candidate_author_plus_validation_plus_repair_plus_full_revalidation": 0.387,
+    "maximum_provider_requests_per_fully_retried_candidate": 16,
+    "note": "Includes the complete-input/doubled-output retry bound at each relevant stage. Actual billable usage can be lower. Repair is followed by every full validation check; no validator is removed."
+  },
+  "cohort_conservative_usd": {
+    "40_candidates_all_authored_and_fully_validated_once_including_retry_allowances": 7.665,
+    "40_candidates_all_receive_one_repair_and_full_revalidation_including_retry_allowances": 15.48,
+    "three_dollar_pilot_stop_cap": 3,
+    "one_ten_candidate_wave_full_repair_inclusive_bound": 3.87,
+    "cap_funds_full_fixed_denominator": false,
+    "cap_interpretation": "The USD3 campaign cap is a hard shared stop. The full-denominator theoretical envelope exceeds it by USD12.48; even one ten-candidate wave's repair-inclusive bound exceeds it by USD0.87. Preserve all 40 identities and report untouched/pending candidates when the stop is reached."
+  },
+  "english_matching_pool": {
+    "historical_checked_terms": 39,
+    "historically_used_terms": 38,
+    "unused_term": "oxford-quality-tranquil",
+    "two_existing_matching_briefs_overlap": ["ambiguous", "sporadic", "elated"],
+    "finding": "Current allocation evidence does not support two novel four-target matching briefs; changing family IDs or distractors would not make them novel.",
+    "corrected_proposal_before_dispatch": {
+      "english_allocation_10": {"reading_comprehension": 2, "sequence_ordering_para_jumbles": 2, "correct_word_usage": 2, "synonym": 2, "antonym": 2, "matching": 0},
+      "source_allocation": "Keep every consumed lexical reference/target permanently consumed; do not reset or relabel the 38 used terms. Allocate these ten briefs only from checked, active, reuse-permitted source spans with exact source/locator hashes and distinct learning objectives. Exclude matching bundles that overlap historical targets. If matching is later required, obtain and verify new authorized lexical material and freeze genuinely new target relations before registration; no substitute word is presumed available.",
+      "preserve_subject_count": 10
+    }
+  },
+  "dispatch_gates": [
+    "Final V77 qualification complete and passes its frozen rule with receipts.",
+    "Create a new V77-compatible pilot authoring, export, repair, and accounting profile; V77 validator-only freeze does not supply generation profile.",
+    "Reconcile live ledger/provider/lifetime state and retain all existing holds and uncertain requests.",
+    "Recheck price expiry before any reservation; if expired, stop and refresh registered pricing evidence before dispatch.",
+    "Pre-register exact 40 identities, source allocations, profile hashes, per-stage efforts/output caps, full body byte preflight, durable retry/receipt rules, USD3 hard stop, and all-candidate reporting."
+  ]
+}

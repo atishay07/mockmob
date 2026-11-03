@@ -1,0 +1,127 @@
+Browser tab: 1, Title: "CUET Practice Features, Analytics & Admission Compass | MockMob", URL: "http://localhost:3010/features".
+1 AXWebArea CUET Practice Features, Analytics & Admission Compass | MockMob, URL: localhost:3010/features
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 heading Every feature should make your next step clearer., Value: 1
+				8 text Every feature should make your  next step clearer.
+			9 text MockMob is not a notes app. It is a CUET practice engine with PrepOS on top: find the right questions, save the painful ones, ask for the next move, and come back sharper.
+		10 container
+			11 text 1
+			12 heading Practise, Value: 2
+				13 text Practise
+			14 text Timed mocks, focused drills, and question review
+		15 container
+			16 text 2
+			17 heading Review, Value: 2
+				18 text Review
+			19 text Saved questions and practice history by chapter
+		20 container
+			21 text 3
+			22 heading Plan, Value: 2
+				23 text Plan
+			24 text A next step grounded in available study history
+		25 container
+			26 image
+			27 heading CUET question practice, Value: 3
+				28 text CUET question practice
+			29 text Explore available CUET-style practice, review explanations, and save questions that deserve another look.
+		30 container
+			31 image
+			32 heading Practice Radar, Value: 3
+				33 text Practice Radar
+			34 text Review attempts by subject and chapter, with deeper practice signals available where your history supports them.
+		35 container
+			36 image
+			37 heading Live Leaderboards, Value: 3
+				38 text Live Leaderboards
+			39 text Turn practice into pressure. Climb ranks as you solve, submit, and compete in focused mock sprints.
+		40 container
+			41 image
+			42 heading Saved Question Bank, Value: 3
+				43 text Saved Question Bank
+			44 text Bookmark tough questions from Explore and build your personal revision stack for repeat practice.
+		45 container
+			46 image
+			47 heading Exam Tracks, Value: 3
+				48 text Exam Tracks
+			49 text CUET-first pathways with subject, unit, chapter, and difficulty controls shaped around actual student workflows.
+		50 container
+			51 image
+			52 heading PrepOS study plan, Value: 3
+				53 text PrepOS study plan
+			54 text See a shared next step based on available practice history. Core planning does not depend on a paid model reply.
+		55 container
+			56 image
+			57 heading Admission Compass, Value: 3
+				58 text Admission Compass
+			59 text Check programme eligibility and compare sourced DU historical cutoffs by year, round, and category. Free for everyone.
+		60 container
+			61 image
+			62 heading Pro practice access, Value: 3
+				63 text Pro practice access
+			64 text Unlock available practice modes, the difficulty selector, and deeper Radar details. Access follows the current offer and inventory.
+		65 container
+			66 heading The feature that ties the rest together., Value: 2
+				67 text The feature that ties the rest together.
+			68 text Radar finds the weakness. Saved questions hold the evidence. Compass shows the DU path. PrepOS turns all of it into a simple instruction: what to solve next, why it matters, and when to re-benchmark. Set daily mission Replay weakest trap Replan after mock
+		69 container
+			70 container
+				71 text DU historical reference
+			72 text ILLUSTRATIVE TARGET · NOT A PREDICTION ELIGIBILITY
+			73 text 5/5 subjects fit
+			74 text NEXT MOVE
+			75 text Attack Economics
+			76 text Eligibility
+			77 text Programme-specific subjects
+			78 text Official bulletin
+			79 text Cutoffs
+			80 text Category and round
+			81 text Published history
+			82 text 2027
+			83 text Rules pending publication
+			84 text Provisional
+			85 heading Keep your practice and admission planning grounded., Value: 2
+				86 text Keep your practice and admission planning grounded.
+			87 text Use available mocks and Radar to understand your practice. The free DU calculator checks programme eligibility and historical cutoffs separately.
+			88 text PROGRAMME ELIGIBILITY OFFICIAL HISTORY CATEGORY AND ROUND 2027 PROVISIONAL
+		89 container
+			90 heading Ready to test these features?, Value: 2
+				91 text Ready to test these features?
+			92 text Create a free account and start building your question history today.
+			93 link Description: Join the Mob, Value: localhost:3010/signup
+		94 link Description: MockMob ., Value: localhost:3010/
+		95 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		96 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		97 heading PRACTICE, Value: 3
+			98 text PRACTICE
+		99 content list
+			100 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			101 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			102 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			103 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			104 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			105 link Description: Features, Value: localhost:3010/features
+			106 link Description: Pricing, Value: localhost:3010/pricing
+		107 heading SUBJECTS, Value: 3
+			108 text SUBJECTS
+		109 content list
+			110 link Description: English, Value: localhost:3010/cuet/english
+			111 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			112 link Description: Economics, Value: localhost:3010/cuet/economics
+			113 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			114 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		115 heading COMPANY, Value: 3
+			116 text COMPANY
+		117 content list
+			118 link Description: About, Value: localhost:3010/about
+			119 link Description: Contact, Value: localhost:3010/contact
+			120 link Description: Privacy, Value: localhost:3010/privacy
+			121 link Description: Terms, Value: localhost:3010/terms
+			122 link Description: Refunds, Value: localhost:3010/refunds
+		123 container
+			124 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+
+The focused UI element is 1 AXWebArea CUET Practice Features, Analytics & Admission Compass | MockMob, URL: localhost:3010/features

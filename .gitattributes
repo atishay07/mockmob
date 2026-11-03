@@ -1,0 +1,13 @@
+# Preserve the exact bytes of the frozen verification contract across Windows
+# and other checkouts. Git newline conversion must not invalidate cached proofs.
+scripts/pipeline/lib/factoryCore.mjs -text
+scripts/pipeline/lib/factoryEvidence.mjs -text
+scripts/pipeline/lib/evidencePipeline.mjs -text
+scripts/pipeline/lib/focusedCoverage.mjs -text
+scripts/pipeline/lib/focusedSources.mjs -text
+scripts/pipeline/lib/compactBenchmark.mjs -text
+data/content_evidence.js -text
+data/question_factory_policy.mjs -text
+data/question_factory_criteria.mjs -text
+data/question_presentation.mjs -text
+data/canonical_json.mjs -text

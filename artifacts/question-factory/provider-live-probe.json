@@ -1,0 +1,97 @@
+{
+  "at": "2026-10-05T22:48:51.146Z",
+  "scope": "guarded_native_batch_transport_probe",
+  "prompt_version": "v1",
+  "academic_evidence": false,
+  "inventory_count": 0,
+  "providers": {
+    "openai": {
+      "state": "waiting",
+      "reason": "provider_batch_pending",
+      "key": "8fff5271f881c5e80cdd2e92f731e31ae12d902302b01d608ce594a416c2a9dd"
+    },
+    "gemini": {
+      "state": "complete",
+      "schema_valid": false,
+      "correct": false,
+      "returned_answer": "43",
+      "key": "be688da0f5cec617c662a724089d9214bba6a6b87102f5ea5dad6aa5378dccb9"
+    }
+  },
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 168367,
+    "requests": 68,
+    "unresolved": 0
+  },
+  "costs": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 0,
+        "open_requests": 1,
+        "settled_usd": 0,
+        "held_usd": 0.001357,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 35,
+        "settled_usd": 0.000528,
+        "held_usd": 0.06926500000000002,
+        "input_tokens": 3012,
+        "output_tokens": 1506,
+        "reasoning_tokens": 837,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 26,
+        "open_requests": 2,
+        "settled_usd": 0.07123800000000001,
+        "held_usd": 0.025182,
+        "input_tokens": 68491,
+        "output_tokens": 24288,
+        "reasoning_tokens": 14369,
+        "usage_missing_requests": 0
+      }
+    ]
+  }
+}

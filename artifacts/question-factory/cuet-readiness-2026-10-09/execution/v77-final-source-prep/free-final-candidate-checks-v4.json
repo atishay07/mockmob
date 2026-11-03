@@ -1,0 +1,340 @@
+{
+  "at": "2026-10-09T07:38:30.957Z",
+  "source_refs_verified": 85,
+  "valid_count": 16,
+  "failures": [],
+  "rows": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [
+          {
+            "code": "absolute_distractors",
+            "blocking": false,
+            "basis": "2 of 3 distractors use absolutes the correct choice avoids"
+          }
+        ],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [
+          {
+            "code": "absolute_distractors",
+            "blocking": false,
+            "basis": "2 of 3 distractors use absolutes the correct choice avoids"
+          }
+        ],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "expected_valid": true,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [
+          {
+            "code": "absolute_distractors",
+            "blocking": false,
+            "basis": "2 of 3 distractors use absolutes the correct choice avoids"
+          }
+        ],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [
+          {
+            "code": "absolute_distractors",
+            "blocking": false,
+            "basis": "2 of 3 distractors use absolutes the correct choice avoids"
+          }
+        ],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "expected_valid": false,
+      "structure": [],
+      "presentation": [],
+      "provenance": [],
+      "preparation": {
+        "findings": [],
+        "blocking": false
+      }
+    }
+  ]
+}

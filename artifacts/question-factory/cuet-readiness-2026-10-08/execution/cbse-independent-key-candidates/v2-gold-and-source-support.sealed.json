@@ -1,0 +1,1263 @@
+{
+  "schema": "cbse-v2-sealed-answer-and-source-support-v1",
+  "sealed_from_blind_solver": true,
+  "question_view_file": "questions-blinded-v2.json",
+  "question_view_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+  "denominator": 32,
+  "input_bindings": {
+    "questions-blinded.json": {
+      "sha256": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "path": "questions-blinded.json"
+    },
+    "cbse-blind-key-review-v1.json": {
+      "sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+      "path": "cbse-blind-key-review-v1.json"
+    },
+    "answer-key-custody.json": {
+      "sha256": "f88511edf5114a76f8f283de709c2d3f0451276982743ae4c574f6a758e103e0",
+      "path": "answer-key-custody.json"
+    },
+    "cbse-blind-key-comparison-v1.json": {
+      "sha256": "29544fbf115aca5d3d63950e5b40cf2d26994f8e80be1c300e2ce0eb838d0e93",
+      "path": "cbse-blind-key-comparison-v1.json"
+    }
+  },
+  "official_and_course_support": [
+    {
+      "source_id": "cbse-2026-27-business-studies-sqp",
+      "title": "CBSE Class XII Business Studies SQP 2026–27",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+      "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+      "locator": "PDF p.4, Q8",
+      "use": "Original question/options."
+    },
+    {
+      "source_id": "cbse-2026-27-business-studies-ms",
+      "title": "CBSE Class XII Business Studies Marking Scheme 2026–27",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+      "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+      "locator": "PDF p.1, Q8",
+      "use": "Original answer mapping; not complete statutory definition."
+    },
+    {
+      "source_id": "indiacode-cpa-2019",
+      "title": "India Code, Consumer Protection Act, 2019",
+      "url": "https://www.indiacode.nic.in/bitstream/123456789/16939/1/a2019-35.pdf",
+      "sha256": null,
+      "hash_status": "Official text verified via web retrieval; local download refused by origin, so no local file hash is claimed.",
+      "locator": "Section 2(7), PDF p.5",
+      "excerpt": "Includes users/beneficiaries only when use is approved; excludes resale or commercial-purpose acquisition/use, subject to the statutory livelihood explanation.",
+      "use": "Statutory scope for the repaired option."
+    },
+    {
+      "source_id": "ncert-macro-ch3-2026-27",
+      "title": "NCERT Introductory Macroeconomics Chapter 3, 2026–27 reprint",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "local_path": "v2-sources\\ncert-introductory-macroeconomics-ch3-2026-27.pdf",
+      "sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "bytes": 1623051,
+      "pdf_pages": 17,
+      "locator": "PDF p.13, “Legal Definitions: Narrow and Broad Money”",
+      "excerpt": "“M1 = CU + DD”; CU is currency held by the public; DD is net demand deposits held by commercial banks.",
+      "use": "Pins revised M1 statement to current curriculum convention."
+    },
+    {
+      "source_id": "ncert-macro-ch5-2026-27",
+      "title": "NCERT Introductory Macroeconomics Chapter 5, 2026–27 reprint",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec105.pdf",
+      "local_path": "v2-sources\\ncert-introductory-macroeconomics-ch5-2026-27.pdf",
+      "sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "bytes": 2191693,
+      "pdf_pages": 19,
+      "locator": "PDF p.2, section 5.1.1, “Allocation Function of Government Budget”",
+      "excerpt": "Government provides goods and services markets cannot provide through exchange; examples include roads.",
+      "use": "Directly supports the repaired roads/public-good example and its allocation-function classification; no actual Union Budget rationale is inferred."
+    }
+  ],
+  "v2_provisional_gold": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The assertion is true: securities premium is a capital reserve and is not credited to profit and loss. The reason is also true: when premium due on forfeited shares was not received, the premium account is debited. That forfeiture treatment does not explain why received premium is excluded from profit and loss.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "D",
+      "explanation": "Pro-rata allotment is 50,000/60,000 = 5/6. An applicant for 6,000 shares receives 5,000, so allotment due is 5,000 x ₹4 = ₹20,000. Application money paid is 6,000 x ₹3 = ₹18,000; ₹3,000 excess application money on the 1,000-share shortfall is adjusted, leaving ₹17,000 cash due on allotment.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "D",
+      "explanation": "Forty percent of ₹3,00,000 is ₹1,20,000; M takes that portion for ₹1,10,000, a ₹10,000 decrease. The remaining ₹1,80,000 is revalued to ₹1,50,000, a ₹30,000 decrease. The total ₹40,000 decrease is exactly covered by the ₹40,000 Investment Fluctuation Reserve, so the reserve offsets the investment losses and the net effect on Revaluation Account is nil.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "B",
+      "explanation": "If ₹12,00,000 is 80% of the machinery's value because it is undervalued by 20%, the corrected value is ₹12,00,000/0.8 = ₹15,00,000.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "A",
+      "explanation": "Consideration is 12,000 shares x ₹125 (₹100 face value plus 25% premium) + ₹1,00,000 bank draft = ₹16,00,000. Net assets taken over are ₹18,00,000 - ₹2,50,000 = ₹15,50,000. Consideration exceeds net assets by ₹50,000, giving goodwill.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "A",
+      "explanation": "The creditors' book balances transferred to Realisation total ₹40,000 + ₹15,000 = ₹55,000. They are settled for ₹30,000 + ₹15,000 = ₹45,000; the ₹10,000 difference is a gain on settlement, but does not change the liability amount transferred to close the creditors account.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The ₹50 called per share includes ₹6 securities premium, so called-up share capital is ₹44 per share. For 1,000 shares, subscribed but not fully paid-up share capital shown is ₹44,000; premium is excluded from share capital.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "subject": "accountancy",
+      "provisional_v2_gold_option": "C",
+      "explanation": "Goodwill is a non-cash asset transferred to Realisation; Employees Provident Fund is an outside liability transferred there; and provision for doubtful debts is transferred with the related asset adjustment. General reserve is distributed to partners' capital accounts, while debit bank balance is a cash/bank item and remains outside Realisation. Thus D and E are not transferred.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "C",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "C",
+      "explanation": "A quality control supervisor is a lower-level manager concerned with output quality, safety implementation, and reducing material wastage. Analysing the broad business environment and survival implications is a top-level management responsibility.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "C",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The Differential Piece Wage System links compensation to worker efficiency by paying different piece rates according to whether the standard is met.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "C",
+      "explanation": "A divisional structure gives divisional managers autonomy and broad responsibility across functions, which supports managerial development through varied experience.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "C",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The case describes failure to notice and respond to changing preferences and increasing competition, both external threats. Understanding the environment provides threat identification and early warning signals.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "A",
+      "explanation": "Controlling closes the current management cycle and supplies feedback that improves planning in the next cycle. Initiating action is associated with directing; control also looks ahead and can use qualitative standards.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "D",
+      "explanation": "The revised option includes consideration, approved users of goods or beneficiaries of services, the resale/commercial-purpose exclusions, and the limited goods livelihood exception, matching Consumer Protection Act 2019 section 2(7).",
+      "gold_basis": "India_Code_Act_2019_section_2_7",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "A",
+      "explanation": "The Central Consumer Protection Authority (CCPA) is the authority established under the Consumer Protection Act, 2019 to protect consumer rights and address unfair trade practices, including through investigation and necessary action.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "subject": "business_studies",
+      "provisional_v2_gold_option": "D",
+      "explanation": "The company assesses future funding needs, their timing, and how to arrange the funds before acting. This is financial planning.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "subject": "economics",
+      "provisional_v2_gold_option": "B",
+      "explanation": "Construction of highways creates a physical asset and installing the Kavach system creates/acquires capital infrastructure, so (ii) and (iv) are capital expenditure. Salaries and interest payments are revenue expenditure.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "subject": "economics",
+      "provisional_v2_gold_option": "C",
+      "explanation": "Current Class XII NCERT defines M1 = CU + DD, with CU as currency held by the public and DD as net demand deposits with commercial banks. Statement 1 now specifies that convention; Statement 2 correctly states demand deposits are withdrawable on demand. Both are true.",
+      "gold_basis": "NCERT_Introductory_Macroeconomics_2026_27_ch3",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": false,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "subject": "economics",
+      "provisional_v2_gold_option": "D",
+      "explanation": "A rise in the foreign-currency price makes imports costlier (iii). Lower import demand reduces demand for foreign currency (ii); the resulting improvement in net exports can raise national income (i). The sequence is (iii), (ii), (i).",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "subject": "economics",
+      "provisional_v2_gold_option": "A",
+      "explanation": "Fiscal deficit = expenditure - (revenue receipts + non-debt capital receipts). Thus ₹5,000 = ₹18,000 - (tax revenue + ₹3,000), so tax revenue = ₹10,000 crore.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "subject": "economics",
+      "provisional_v2_gold_option": "A",
+      "explanation": "The stem identifies roads as a public good provided through government budget spending. NCERT lists roads among goods the government provides where market exchange does not ensure provision to all users; this is the allocation function.",
+      "gold_basis": "NCERT_Introductory_Macroeconomics_2026_27_ch5_plus_repaired_hypothetical",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "subject": "economics",
+      "provisional_v2_gold_option": "B",
+      "explanation": "An export of a good is a credit in the current account of the Balance of Payments because it earns foreign exchange and is a goods transaction.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "subject": "economics",
+      "provisional_v2_gold_option": "C",
+      "explanation": "Currency removes barter's exchange difficulty as a medium of exchange. Repayment of a loan in fixed instalments over time uses money as a standard of deferred payments.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "C",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "subject": "economics",
+      "provisional_v2_gold_option": "D",
+      "explanation": "A photographer running a studio is self-employed (p-iii); an ONGC engineer is a regular salaried employee (q-i); and a construction worker is the casual-wage example (r-ii). This is option D.",
+      "gold_basis": "carried_forward_frozen_blind_reasoning_plus_original_official_key_not_reindependently_audited_here",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The adapted passage says the meteors appear to radiate from Gemini and calls this apparent origin the radiant; it says the radiant helps identify the shower. It is a visual guide, not the physical origin or a speed measure.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The adapted passage gives factual explanations about the Geminids, observation conditions, historical activity, and meteor appearance. Its tone is informative and explanatory.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "D",
+      "explanation": "The adapted passage explains the Geminids’ origin and characteristics and gives practical viewing information. This is the only option that covers both parts of the passage.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "D",
+      "original_cbse_key_option": "D",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "B",
+      "explanation": "The adapted opening says the study tracked changes in everyday payment habits through UPI data for four Octobers. The revised option states that purpose without adding a comparison among user groups.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "A",
+      "explanation": "Paragraphs 2 and 3 list transaction counts and transaction values that rise at each successive October observation. Both series increase steadily.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "B",
+      "explanation": "Paragraph 4 explicitly lists shops, homes, workplaces, and small roadside vendors. Those examples span formal and informal settings.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "B",
+      "original_cbse_key_option": "B",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "C",
+      "explanation": "The adapted passage discusses transaction growth, confidence, small businesses, cash use, and financial participation. It does not discuss a governing policy framework.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "C",
+      "original_cbse_key_option": "C",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "subject": "english_core",
+      "provisional_v2_gold_option": "A",
+      "explanation": "Paragraph 4 says UPI is used even by small roadside vendors; this supports the passage’s characterization of adoption as inclusive.",
+      "gold_basis": "rederived_from_v2_adapted_stimulus_only",
+      "v1_blind_option": "A",
+      "original_cbse_key_option": "A",
+      "v1_blind_vs_original_key_agreement": true,
+      "v2_independent_blind_review_required": true,
+      "construction_denominator_included": true,
+      "benchmark_positive_eligible": false,
+      "positive_block_reason": "No CUET-fit or release approval. Changed rows await a fresh blind solve; all English adapted-passage rows require independent re-solve. The four source paper families are correlated."
+    }
+  ],
+  "english_adapted_passage_explanations_only": {
+    "cbse26-eng-q1-iv": {
+      "option": "B",
+      "explanation": "The adapted passage says the meteors appear to radiate from Gemini and calls this apparent origin the radiant; it says the radiant helps identify the shower. It is a visual guide, not the physical origin or a speed measure.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q1-viii": {
+      "option": "B",
+      "explanation": "The adapted passage gives factual explanations about the Geminids, observation conditions, historical activity, and meteor appearance. Its tone is informative and explanatory.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q1-x": {
+      "option": "D",
+      "explanation": "The adapted passage explains the Geminids’ origin and characteristics and gives practical viewing information. This is the only option that covers both parts of the passage.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q2-i": {
+      "option": "B",
+      "explanation": "The adapted opening says the study tracked changes in everyday payment habits through UPI data for four Octobers. The revised option states that purpose without adding a comparison among user groups.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q2-iii": {
+      "option": "A",
+      "explanation": "Paragraphs 2 and 3 list transaction counts and transaction values that rise at each successive October observation. Both series increase steadily.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q2-iv": {
+      "option": "B",
+      "explanation": "Paragraph 4 explicitly lists shops, homes, workplaces, and small roadside vendors. Those examples span formal and informal settings.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q2-vi": {
+      "option": "C",
+      "explanation": "The adapted passage discusses transaction growth, confidence, small businesses, cash use, and financial participation. It does not discuss a governing policy framework.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    },
+    "cbse26-eng-q2-vii": {
+      "option": "A",
+      "explanation": "Paragraph 4 says UPI is used even by small roadside vendors; this supports the passage’s characterization of adoption as inclusive.",
+      "basis": "only the adapted text included in questions-blinded-v2.json"
+    }
+  },
+  "construction_changes": [
+    {
+      "item_id": "cbse26-bs-q08",
+      "field": "options",
+      "before": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer."
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing."
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose."
+        },
+        {
+          "label": "D",
+          "text": "A person who buys any goods or avails services for a consideration, which has been paid or promised, or partly paid and partly promised, or under any scheme of deferred payment."
+        }
+      ],
+      "after": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer."
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing."
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose."
+        },
+        {
+          "label": "D",
+          "text": "A person who buys goods or avails services for consideration, including an approved user of goods or beneficiary of services; resale or commercial-purpose use is excluded, except goods used exclusively to earn a livelihood through self-employment."
+        }
+      ],
+      "rationale": "Complete the consideration condition with statutory approval/beneficiary and commercial-purpose qualifications.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "field": "question",
+      "before": "Read the statements carefully. Statement 1: M1 measure of money supply constitutes currency and demand deposits held by the public. Statement 2: Demand deposits are those deposits with commercial banks that can be withdrawn on demand by depositors. Choose the correct option.",
+      "after": "Read the statements carefully. Statement 1: Under the Class XII NCERT narrow-money definition, M1 is currency held by the public plus net demand deposits held with commercial banks. Statement 2: Demand deposits are those deposits with commercial banks that can be withdrawn on demand by depositors. Choose the correct option.",
+      "rationale": "Pin the intended M1 convention to the current course definition so the answer is not dependent on a broader statistical series.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "field": "question",
+      "before": "The Government of India in its Union Budget 2026-27 has decided to exempt fish caught by Indian fishing vessels operating in the Exclusive Economic Zone (EEZ) and on the High Seas from duty. Identify the objective behind the initiative taken by the Government of India as stated above. (Choose the correct option)",
+      "after": "In a hypothetical application of government-budget functions, a duty concession is granted to direct more resources toward the fishing sector and support its activity. Which objective/function of the government budget does this illustrate? (Choose the correct option)",
+      "rationale": "State the allocation rationale as a hypothetical in the item itself; do not represent it as an official rationale absent from the source.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "field": "question",
+      "before": "Which of the following statements best captures the functional role of the ‘radiant’ as described in the passage? (paragraph 3)",
+      "after": "Which of the following statements best captures the functional role of the “radiant” as described in the passage?",
+      "rationale": "Remove the paragraph locator because the adaptation moved the decisive sentence to a different numbered paragraph.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "field": "options",
+      "before": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in payment behaviour among different user groups"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices"
+        }
+      ],
+      "after": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in everyday payment habits across India"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices"
+        }
+      ],
+      "rationale": "Remove the unsupported “different user groups” modifier and match the purpose stated by the adapted opening.",
+      "targeted_edit_count_for_item": 1
+    }
+  ],
+  "limitations": [
+    "No item is promoted to a benchmark positive; all 32 remain in the denominator.",
+    "Four CBSE paper families are correlated; these are CBSE SQP-derived candidates, never CUET PYQs.",
+    "The India Code source text is official and browser-verified, but the site blocked local download; SHA-256 is therefore unavailable.",
+    "Explanations were prepared for custody, not produced by a validator; the separate blind-review pass is required."
+  ],
+  "official_cbse_mapping_by_item": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 2, Q3",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q3",
+        "official_option": "B",
+        "official_answer_text": "Both (A) and (R) are true but (R) is not correct explanation of (A)."
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 2, Q4",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q4",
+        "official_option": "D",
+        "official_answer_text": "₹17,000"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 3, Q8",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q8",
+        "official_option": "D",
+        "official_answer_text": "No effect on revaluation A/c"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 3, Q10",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q10",
+        "official_option": "B",
+        "official_answer_text": "₹15,00,000"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 3, Q12",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q12",
+        "official_option": "A",
+        "official_answer_text": "Goodwill ₹50,000"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 4, Q14",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q14",
+        "official_option": "A",
+        "official_answer_text": "₹55,000"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 4, Q15",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q15",
+        "official_option": "B",
+        "official_answer_text": "₹44,000"
+      }
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "question_source": {
+        "source_id": "cbse-2026-27-accountancy-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-SQP.pdf",
+        "sha256": "35298fb86c3a53abc95fa5e5eeef9c91468449dcd288959a2a38491ddd16bb17",
+        "locator": "PDF page(s) 4, Q16",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-accountancy-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Accountancy-MS.pdf",
+        "sha256": "a56accd3c4f783e567201bc4a97dc6bc2be3dfdc7f17bb63cfdd8cbc62fe307b",
+        "locator": "PDF page 1, Q16",
+        "official_option": "C",
+        "official_answer_text": "D and E"
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 1, Q1",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q1",
+        "official_option": "C",
+        "official_answer_text": "Analysing the business environment and its implications for the survival of the firm."
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 2, Q2",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q2",
+        "official_option": "B",
+        "official_answer_text": "Differential Piece Wage System"
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 2, Q3",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q3",
+        "official_option": "C",
+        "official_answer_text": "Divisional Structure"
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 3, Q5",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q5",
+        "official_option": "B",
+        "official_answer_text": "It helps the firm to identify threats and early warning signals."
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 3, Q6",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q6",
+        "official_option": "A",
+        "official_answer_text": "Controlling completes one cycle of management process and improves planning in the next cycle."
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 4, Q8",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 1, Q8",
+        "official_option": "D",
+        "official_answer_text": "A person who buys any goods or avails services for a consideration, which has been paid or promised, or partly paid and partly promised, or under any scheme of deferred payment."
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 6, Q11",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 2, Q11",
+        "official_option": "A",
+        "official_answer_text": "Central Consumer Protection Authority"
+      }
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "question_source": {
+        "source_id": "cbse-2026-27-business-studies-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-SQP.pdf",
+        "sha256": "e19a97587367a237ce670b3a345f3e8372cc0671f4535285aa0765fb33a95207",
+        "locator": "PDF page(s) 8, Q15",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-business-studies-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/BusinessStudies-MS.pdf",
+        "sha256": "a1cee32858459261b62bc0c394d63fbf7c4192819a5d35a0fe76cde7d63dde40",
+        "locator": "PDF page 2, Q15",
+        "official_option": "D",
+        "official_answer_text": "Financial planning"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 1, Q1",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q1",
+        "official_option": "B",
+        "official_answer_text": "(ii) and (iv)"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 1, Q2",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q2",
+        "official_option": "C",
+        "official_answer_text": "Both Statements 1 and 2 are true."
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 1, Q3",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q3",
+        "official_option": "D",
+        "official_answer_text": "(iii), (ii), (i)"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 1, Q4",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q4",
+        "official_option": "A",
+        "official_answer_text": "₹10,000 crore"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 2, Q5",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q5",
+        "official_option": "A",
+        "official_answer_text": "Allocation Function"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 3, Q8",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q8",
+        "official_option": "B",
+        "official_answer_text": "credit, current"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 3, Q9",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 1, Q9",
+        "official_option": "C",
+        "official_answer_text": "Medium of exchange and standard of deferred payments"
+      }
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "question_source": {
+        "source_id": "cbse-2026-27-economics-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-SQP.pdf",
+        "sha256": "a533c1eb7257a435fcef869cc11966ba072528c046e1c17c4c1fd9649065f3ee",
+        "locator": "PDF page(s) 5, Q19",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-economics-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/Economics-MS.pdf",
+        "sha256": "589e3a5605e0092a093062366732ada36c77f3f88dc7898ca08a0bb1bf6fdda5",
+        "locator": "PDF page 3, Q19",
+        "official_option": "D",
+        "official_answer_text": "(p)-iii, (q)-i, (r)-ii"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [2], Q1-IV",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 1, Q1-IV",
+        "official_option": "B",
+        "official_answer_text": "It serves as a visual guide for observers to locate the shower."
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [2, 3], Q1-VIII",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 2, Q1-VIII",
+        "official_option": "B",
+        "official_answer_text": "explanatory and informative, aimed at scientific understanding"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [2, 3], Q1-X",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 2, Q1-X",
+        "official_option": "D",
+        "official_answer_text": "scientific explanation and practical observation of Geminids"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [4], Q2-I",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 2, Q2-I",
+        "official_option": "B",
+        "official_answer_text": "To understand changes in payment behaviour among different user groups"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [4], Q2-III",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 2, Q2-III",
+        "official_option": "A",
+        "official_answer_text": "Both the number of transactions and the total value of transactions increase steadily over the four years."
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [4], Q2-IV",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 2, Q2-IV",
+        "official_option": "B",
+        "official_answer_text": "Widespread adoption across formal and informal settings"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [4], Q2-VI",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 3, Q2-VI",
+        "official_option": "C",
+        "official_answer_text": "The policy framework governing digital payment systems"
+      }
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "question_source": {
+        "source_id": "cbse-2026-27-english-core-sqp",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-SQP.pdf",
+        "sha256": "41f618fd95d77e4a17a5d0f5781dc9e80bf029c41cc903c434f55554e1040440",
+        "locator": "PDF page(s) [4, 5], Q2-VII",
+        "excerpt_status": "Question text is in the answer-blind v2 file; excerpt intentionally omitted here."
+      },
+      "key_source": {
+        "source_id": "cbse-2026-27-english-core-ms",
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2026_27/EnglishCore-MS.pdf",
+        "sha256": "306e8e4b5b9101e973d2e5dbf391634e103a1509caebc0600a9b40ece1d2c1b3",
+        "locator": "PDF page 3, Q2-VII",
+        "official_option": "A",
+        "official_answer_text": "inclusive"
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-07T21:55:02.601Z",
+  "owner_pid": 37712,
+  "ended": true,
+  "accepted_calls_drained": true,
+  "removed_cap_micro": 6000000,
+  "global_limit_micro": 50000000,
+  "owner_requests_retained": 117,
+  "history_changes": 0,
+  "other_caps_unchanged": true
+}

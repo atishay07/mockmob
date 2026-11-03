@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-06T08:03:22.159Z",
+  "before": {
+    "requests": 815,
+    "settled_micro": 1419007,
+    "unresolved": 0
+  },
+  "after": {
+    "requests": 815,
+    "settled_micro": 1419007,
+    "unresolved": 0
+  },
+  "new_requests": 0,
+  "additional_cost_usd": 0,
+  "passed": true
+}

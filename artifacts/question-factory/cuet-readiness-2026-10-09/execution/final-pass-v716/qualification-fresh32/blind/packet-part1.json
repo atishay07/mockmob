@@ -1,0 +1,661 @@
+{
+ "schema": "cuet-v716-blind-packet-v1",
+ "study_id": "cuet-v716-qualification-fresh32",
+ "created_at": "2026-10-09T23:41:00.144Z",
+ "instructions": "Solve each item independently from the printed question, passage and excerpts only.",
+ "part": 1,
+ "items": [
+  {
+   "opaque_id": "q716-421ad73ddf433acb",
+   "subject": "economics",
+   "chapter": "Government Budget & the Economy",
+   "question": "Fiscal deficit is the difference between the government's total expenditure and its total receipts excluding which item?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Borrowing"
+    },
+    {
+     "key": "B",
+     "text": "Tax revenue"
+    },
+    {
+     "key": "C",
+     "text": "Recovery of loans"
+    },
+    {
+     "key": "D",
+     "text": "Proceeds from disinvestment"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p7-c0-g0-s0",
+     "text": "eventually, to cut expenditure. Since a major part of revenue expenditure is\ncommitted expenditure, it cannot be reduced. Often the government reduces\nproductive capital expenditure or welfare expenditure. This would mean lower\ngrowth and adverse welfare implications.\nFiscal Deficit: Fiscal deficit is the difference between the government’s total\nexpenditure and its total receipts excluding borrowing"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p7-c0-g4-s0",
+     "text": "Net borrowing at home includes that directly borrowed from the public\nthrough debt instruments (for example, the various small savings\nschemes) and indirectly from commercial banks through Statutory\nLiquidity Ratio (SLR). The gross fiscal deficit is a key variable in judging\nthe financial health of the public sector and the stability of the economy.\nFrom the way gross fiscal deficit is measured as given above, it can be\nseen that revenue deficit is a part of fiscal deficit (Fiscal Deficit =\nRevenue Deficit + Capital Expenditure - non-debt creating capital\nreceipts). A large share of revenue deficit in fiscal deficit indicated that"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p7-c0-g2-s0",
+     "text": "Non-debt creating capital receipts are those receipts which are not borrowings\nand, therefore, do not give rise to debt. Examples are recovery of loans and the\nproceeds from the sale of PSUs. From Table 5.1 we can see that non-debt creating\ncapital receipts equals 9.4 per cent of GDP, obtained by subtracting, borrowing\nand other liabilities from total capital receipts [1+4(a)+4(b)]. The fiscal deficit,\ntherefore turn out to be 5.6 per cent of GDP. The fiscal deficit will have to be\nfinanced through borrowing. Thus, it indicates the total borrowing requirements\nof the government from all sources. From the financing side"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-6a96d3c67101cbde",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "question": "Which of the following actions by the Reserve Bank of India would increase the money supply in the economy?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Buying government bonds in the open market"
+    },
+    {
+     "key": "B",
+     "text": "Reducing the cash reserve ratio that banks must maintain"
+    },
+    {
+     "key": "C",
+     "text": "Selling government bonds in the open market"
+    },
+    {
+     "key": "D",
+     "text": "Raising the cash reserve ratio that banks must maintain"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p7-c0-g4-s23",
+     "text": "is entrusted to the Central bank on behalf of the Government. When RBI buys a\nGovernment bond in the open market, it pays for it by giving a cheque. This\ncheque increases the total amount of reserves in the economy and thus increases\nthe money supply. Selling of a bond by RBI (to private individuals or institutions)\nleads to reduction in quantity of reserves and hence the money supply.\nThere are two types of open market operations: outright and repo. Outright\nopen market operations are permanent in nature: when the central bank buys\nthese securities (thus injecting money into the system), it is without any promise\nto sell them later. Similarly, when the central bank sells these securities (thus\nwithdrawing money from the system), it is without any promise to buy them"
+    },
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p5-c0-g7-s26",
+     "text": "Apart from the CRR, banks are also required to keep some reserves\nin liquid form in the short term. This ratio is called Statutory Liquidity\nRatio or SLR.\nIn our fictional example, suppose CRR = 20 per cent, then with deposits of Rs\n100, our bank will need to keep Rs 20 (20 per cent of 100) as cash reserves. Only\nthe remaining amount of deposits, i.e., Rs 80 (100 – 20 = 80) can be used to give\nloans. The statutory requirement of the reserve ratio acts as a limit to the amount\nof credit that banks can create.\nWe can understand this by going back to our fictional example of an economy\nwith one bank. Let us assume that our bank starts with a deposit of Rs 100\nmade by Leela. The reserve ratio is 20 per cent. Thus our bank has Rs 80 (100 – 20)"
+    },
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p7-c0-g4-s0",
+     "text": "Reserve Bank is the only institution which can issue currency. When commercial\nbanks need more funds in order to be able to create more credit, they may go to\nmarket for such funds or go to the Central Bank. Central bank provides them\nfunds through various instruments. This role of RBI, that of being ready to lend\nto banks at all times is another important function of the central bank, and due\nto this central bank is said to be the lender of last resort.\nThe RBI controls the money supply in the economy in various ways. The\ntools used by the Central bank to control money supply can be quantitative\nor qualitative. Quantitative tools, control the extent of money supply by\nchanging the CRR, or bank rate or open market operations. Qualitative tools\ninclude persuasion by the Central bank in order to make commercial banks\ndiscourage or encourage lending which is done through moral suasion, margin\nrequirement, etc."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-04aea33c4d2a846d",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "question": "Currency notes and coins are legal tender. Why are demand deposits not legal tender?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Cheques drawn on demand deposits can be refused as a mode of payment."
+    },
+    {
+     "key": "B",
+     "text": "Demand deposits are issued only by the Reserve Bank of India."
+    },
+    {
+     "key": "C",
+     "text": "Demand deposits have intrinsic value like a gold coin."
+    },
+    {
+     "key": "D",
+     "text": "Demand deposits cannot be held in current accounts."
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p13-c0-g0-s0",
+     "text": "giving the person purchasing power equal to the value printed on the note.\nThe same is also true of coins. Currency notes and coins are therefore\ncalled fiat money. They do not have intrinsic value like a gold or silver\ncoin. They are also called legal tenders as they cannot be refused by any\ncitizen of the country for settlement of any kind of transaction. Cheques\ndrawn on savings or current accounts, however, can be refused by anyone\nas a mode of payment. Hence, demand deposits are not legal tenders."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-fd722cfbd8c04b99",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "During the dry season the village received only a few showers, and they came at irregular intervals rather than in any fixed pattern. The rainfall that season was ______.",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "sporadic"
+    },
+    {
+     "key": "B",
+     "text": "perilous"
+    },
+    {
+     "key": "C",
+     "text": "gregarious"
+    },
+    {
+     "key": "D",
+     "text": "concise"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-sporadic",
+     "locator": "definition",
+     "text": "happening only occasionally or at intervals that are not regular"
+    },
+    {
+     "source_id": "oxford-quality-perilous",
+     "locator": "definition",
+     "text": "very dangerous"
+    },
+    {
+     "source_id": "oxford-quality-gregarious",
+     "locator": "definition",
+     "text": "liking to be with other people"
+    },
+    {
+     "source_id": "oxford-quality-concise",
+     "locator": "definition",
+     "text": "giving only the information that is necessary and important, using few words"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-7320e59d81b3e6e7",
+   "subject": "business_studies",
+   "chapter": "Directing",
+   "question": "Which of the following is NOT one of the four elements of directing?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Staffing"
+    },
+    {
+     "key": "B",
+     "text": "Supervision"
+    },
+    {
+     "key": "C",
+     "text": "Motivation"
+    },
+    {
+     "key": "D",
+     "text": "Communication"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs107-v1",
+     "locator": "p5-c1-g1-s0",
+     "text": "the profits to the managers for their\ncontribution to inhance profits of the\ncompany, and (iv) A manager inspires\nhis/her employees by playing a lead\nrole in performing a work.\nAll these examples and many\nother activities related to directing\nmay broadly be grouped into four\ncategories which are the elements of\ndirecting. These are:\n(i) Supervision\n(ii) Motivation\n(iii) Leadership\n(iv) Communication\nTo know more about directing, these\nelements are discussed in detail."
+    },
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p2-c0-g2-s2",
+     "text": "After planning and selection of the\norganisation structure, the next step\nin the management process is to fill\nthe various posts provided in the\norganisation. This is termed as the\nmanagement of staffing function. In\nthe simplest terms, staffing is ‘putting\npeople to jobs’. It begins with workforce\nplanning and includes different other\nfunction like recruitment, selection,\ntraining, development, promotion,\ncompensation and performance\nappraisal of work force. In other\nwords, staffing is that part of the\nprocess of management which is\nconcerned with obtaining, utilising\nand maintaining a satisfactory and\nsatisfied work force. Today, staffing\nmay involve any combination of\nemployees including daily wagers,\nconsultants and contract employees.\nStaffing recognises the importance"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-6319d65f98b136b7",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "question": "P and Q are partners sharing profits in the ratio 3 : 2. They admit R as a new partner, and the new profit sharing ratio of P, Q and R is 2 : 2 : 1. What is the sacrificing ratio of P and Q?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "1 : 0 (only P sacrifices)"
+    },
+    {
+     "key": "B",
+     "text": "3 : 2"
+    },
+    {
+     "key": "C",
+     "text": "1 : 1"
+    },
+    {
+     "key": "D",
+     "text": "2 : 3"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac102-v1",
+     "locator": "p5-c0-g5-s0",
+     "text": "2.4 Sacrificing Ratio\nThe ratio in which the old partners agree to sacrifice their share of profit in\nfavour of the incoming partner is called sacrificing ratio. The sacrifice by a partner\nis equal to :"
+    },
+    {
+     "source_id": "ncertcol-leac102-v1",
+     "locator": "p6-c0-g1-s0",
+     "text": "As stated earlier, the new partner is required to compensate the old partner’s\nfor their loss of share in the super profits of the firm for which he brings in an\nadditional amount as premium for goodwill. This amount is shared by the\nexisting partners in the ratio in which they forgo their shares in favour of the\nnew partner which is called sacrificing ratio.\nThe ratio is normally clearly given as agreed among the partners which could\nbe the old ratio, equal sacrifice, or a specified ratio. The difficulty arises where\nthe ratio in which the new partner acquires his share from the old partners is\nnot specified. Instead, the new profit sharing ratio is given. In such a situation,\nthe sacrificing ratio is to be worked out by deducting each partner’s new share\nfrom his old share. Look at the illustrations 6 to 8 and see how sacrificing ratio\nis calculated in such a situation."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-7286a44eed219103",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "The following information is taken from a company's balance sheet: Inventories ₹60,000; Trade receivables ₹40,000; Prepaid expenses ₹5,000; Cash and cash equivalents ₹15,000; Trade payables ₹70,000; Short-term borrowings (bank overdraft) ₹10,000. What is the company's current ratio?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "1.5 : 1"
+    },
+    {
+     "key": "B",
+     "text": "1.71 : 1"
+    },
+    {
+     "key": "C",
+     "text": "1.44 : 1"
+    },
+    {
+     "key": "D",
+     "text": "0.69 : 1"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g3-s2",
+     "text": "Current Liabilities\nCurrent assets include current investments, inventories, trade receivables\n(debtors and bills receivables), cash and cash equivalents, short-term loans and\nadvances and other current assets such as prepaid expenses, advance tax and\naccrued income, etc.\nCurrent liabilities include short-term borrowings, trade payables (creditors\nand bills payables), other current liabilities and short-term provisions."
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p10-c0-g1-s0",
+     "text": "Verification :\nCurrent Ratio = Current assets : Current liabilities\n= Rs. 56,000 : Rs. 16,000\n= 3.5 : 1\nQuick Ratio = Quick assets : Current liabilities\n= Rs. 32,000 : Rs. 16,000\n= 2 : 1"
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g4-s0",
+     "text": "Illustration 1\nCalulate Current Ratio from the following information:\nParticulars (Rs.)\nInventories 50,000\nTrade receivables 50,000\nAdvance tax 4,000\nCash and cash equivalents 30,000\nTrade payables 1,00,000\nShort-term borrowings (bank overdraft) 4,000"
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p8-c0-g4-s2",
+     "text": "Current Liabilities\nThe quick assets are defined as those assets which are quickly convertible\ninto cash. While calculating quick assets we exclude the inventories at the end\nand other current assets such as prepaid expenses, advance tax, etc., from the\ncurrent assets. Because of exclusion of non-liquid current assets it is considered\nbetter than current ratio as a measure of liquidity position of the business. It is\ncalculated to serve as a supplementary check on liquidity position of the business\nand is therefore, also known as ‘Acid-Test Ratio’."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-13dcf725d8969532",
+   "subject": "business_studies",
+   "chapter": "Marketing Management",
+   "question": "Before selling a single unit, a television manufacturer plans the models it will produce, fixes their prices and selects the outlets where they will be sold. What does this show about the relationship between marketing and selling?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Marketing is a wider set of activities of which selling is only one part."
+    },
+    {
+     "key": "B",
+     "text": "Marketing and selling are the same activity."
+    },
+    {
+     "key": "C",
+     "text": "Marketing begins only after the sale has been made."
+    },
+    {
+     "key": "D",
+     "text": "Selling includes planning the product, its price and its distribution."
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs202-v1",
+     "locator": "p7-c0-g3-s0",
+     "text": "Many people confuse ‘selling’ for ‘marketing’. They consider these two terms as one\nand the same. Marketing refers to a large set of activities of which selling is just one\npart. For example, a marketer of televisions, before making the sale, does a lot of\nother activities such as planning the type and model of televisions to be produced,\nthe price at which it would be sold and selecting the distribution outlets at which the\nsame would be available, etc. In short, marketing involves whole range of activities\nrelating to planning, pricing, promoting and distributing the products that satisfy\ncustomer’s needs."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-d1401024236aa304",
+   "subject": "economics",
+   "chapter": "Government Budget & the Economy",
+   "question": "Which of the following is a capital receipt of the government?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Proceeds from the sale of its shares in public sector undertakings"
+    },
+    {
+     "key": "B",
+     "text": "Income tax collected from individuals"
+    },
+    {
+     "key": "C",
+     "text": "Goods and services tax collected"
+    },
+    {
+     "key": "D",
+     "text": "Dividends received from public sector undertakings"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p3-c0-g1-s22",
+     "text": "Capital Receipts: The government also receives money by way of loans or\nfrom the sale of its assets. Loans will have to be returned to the agencies from\nwhich they have been borrowed. Thus they create liability. Sale of government\nassets, like sale of shares in Public Sector Undertakings (PSUs) which is referred"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p4-c0-g5-s0",
+     "text": "to as PSU disinvestment, reduce the total amount of financial assets of the\ngovernment. All those receipts of the government which create liability or reduce\nfinancial assets are termed as capital receipts. When government takes fresh\nloans it will mean that in future these loans will have to be returned and interest\nwill have to be paid on these loans. Similarly, when government sells an asset,\nthen it means that in future its earnings from that asset, will disappear. Thus,\nthese receipts can be debt creating or non-debt creating."
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p7-c0-g2-s0",
+     "text": "Non-debt creating capital receipts are those receipts which are not borrowings\nand, therefore, do not give rise to debt. Examples are recovery of loans and the\nproceeds from the sale of PSUs. From Table 5.1 we can see that non-debt creating\ncapital receipts equals 9.4 per cent of GDP, obtained by subtracting, borrowing\nand other liabilities from total capital receipts [1+4(a)+4(b)]. The fiscal deficit,\ntherefore turn out to be 5.6 per cent of GDP. The fiscal deficit will have to be\nfinanced through borrowing. Thus, it indicates the total borrowing requirements\nof the government from all sources. From the financing side"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-0da84afefc27dcfd",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "question": "In a company, the marketing manager tells a salesperson that she may offer a customer a 10% discount, while at the same time the finance manager instructs her not to allow any discount. Which principle of management is violated in this situation?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Unity of command"
+    },
+    {
+     "key": "B",
+     "text": "Discipline"
+    },
+    {
+     "key": "C",
+     "text": "Subordination of individual interest to general interest"
+    },
+    {
+     "key": "D",
+     "text": "Unity of direction"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p27-c1-g1-s0",
+     "text": "orders from two superiors at the\nsame time the principle of unity\nof command is violated. The\nprinciple of unity of command\nstates that each participant in\na formal organisation should\nreceive orders from and be\nresponsible to only one superior.\nFayol gave a lot of importance to\nthis principle. He felt that if this\nprinciple is violated “authority\nis undermined, discipline is\nin jeopardy, order disturbed\nand stability threatened”. The\nprinciple resembles military\norganisation. Dual subordination\nshould be avoided. This is to\nprevent confusion regarding\ntasks to be done. Suppose a\nsales person is asked to clinch\na deal with a buyer and is\nallowed to give 10% discount\nby the marketing manager. But\nfinance department tells her/\nhim not to offer more than 5%\ndiscount. Now there is no unity\nof command. This can be avoided\nif there is coordination between\nvarious departments.\n(v) Unity of Direction: All the\nunits of an organisation should\nbe moving towards the same\nobjectives through coordinated\nand focussed efforts. Each group\nof activities having the same\nobjective must have one head\nand one plan. This ensures"
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p27-c0-g1-s0",
+     "text": "` 50 crores. Now the company gives\npower to the manager to offer a credit\nperiod of only 40 days. This shows\nthat there is an imbalance in authority\nand responsibility. In this case the\nmanager use authority of offering\ncredit period of 60 days in the interest\nof the company. Discuss in your Class\nas to ‘why’ and ‘why not’\n(iii) Discipline: Discipline is the\nobedience to organisational rules\nand employment agreement which\nare necessary for the working of\nthe organisation. According to\nFayol, discipline requires good\nsuperiors at all levels, clear and\nfair agreements and judicious\napplication of penalties.\nSuppose management and\nlabour union have entered into\nan agreement whereby workers\nhave agreed to put in extra hours\nwithout any additional payment\nto revive the company out of\nloss. In return the management\nhas promised to increase wages\nof the workers when this mission\nis accomplished. Here discipline\nwhen applied would mean that\nthe workers and management\nboth honour their commitments\nwithout any prejudice towards\none another.\n(iv) Unity of Command: According\nto Fayol there should be one and\nonly one boss for every individual\nemployee. If an employee gets"
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p28-c0-g1-s0",
+     "text": "unity of action and coordination.\nFor example, if a company is\nmanufacturing motorcycles as\nwell as cars then it should have\ntwo separate divisions for both\nof them. Each division should\nhave its own incharge, plans\nand execution resources. On no\naccount should the working of\ntwo divisions overlap. Now let\nus differentiate between the two\nprinciples of unity of command\nand unity of direction.\n(vi) Subordination of Individual\nInterest to General Interest:\nThe interests of an organisation\nshould take priority over the\ninterests of any one individual\nemployee according to Fayol.\nEvery worker has some\nindividual interest for working in\na company. The company has got\nits own objectives. For example,\nthe company would want to"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-a661a3aec1570fe8",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "The power cuts in the area were brief, each lasting only a few minutes, and they came at irregular intervals that no one could predict. The power cuts were ______.",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "sporadic"
+    },
+    {
+     "key": "B",
+     "text": "transient"
+    },
+    {
+     "key": "C",
+     "text": "candid"
+    },
+    {
+     "key": "D",
+     "text": "versatile"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-sporadic",
+     "locator": "definition",
+     "text": "happening only occasionally or at intervals that are not regular"
+    },
+    {
+     "source_id": "oxford-quality-transient",
+     "locator": "definition",
+     "text": "continuing for only a short time"
+    },
+    {
+     "source_id": "oxford-quality-candid",
+     "locator": "definition",
+     "text": "saying what you think openly and honestly; not hiding your thoughts"
+    },
+    {
+     "source_id": "oxford-quality-versatile",
+     "locator": "definition",
+     "text": "(of a person) able to do many different things"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-cbe7dd6425cb3ace",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "question": "In an economy with a single bank, the bank must keep 20 per cent of its deposits as cash reserves. It starts with a fresh cash deposit of ₹100, and every loan it gives comes back to it as a deposit. What is the maximum total amount of deposits the bank can have?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "₹500"
+    },
+    {
+     "key": "B",
+     "text": "₹180"
+    },
+    {
+     "key": "C",
+     "text": "₹120"
+    },
+    {
+     "key": "D",
+     "text": "₹2,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p5-c0-g7-s26",
+     "text": "Apart from the CRR, banks are also required to keep some reserves\nin liquid form in the short term. This ratio is called Statutory Liquidity\nRatio or SLR.\nIn our fictional example, suppose CRR = 20 per cent, then with deposits of Rs\n100, our bank will need to keep Rs 20 (20 per cent of 100) as cash reserves. Only\nthe remaining amount of deposits, i.e., Rs 80 (100 – 20 = 80) can be used to give\nloans. The statutory requirement of the reserve ratio acts as a limit to the amount\nof credit that banks can create.\nWe can understand this by going back to our fictional example of an economy\nwith one bank. Let us assume that our bank starts with a deposit of Rs 100\nmade by Leela. The reserve ratio is 20 per cent. Thus our bank has Rs 80 (100 – 20)"
+    },
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p6-c0-g0-s0",
+     "text": "to lend and the bank lends out Rs 80 to Jaspal Kaur, which shows up in the\nbank’s deposits in the next round as liabilities, making a total of Rs 180 as\ndeposits. Now our bank is required to keep 20 per cent of 180 i.e. Rs 36 as cash\nreserves. Recall that our bank had started with Rs 100 as cash. Since it is\nrequired to keep only Rs 36 as reserves, it can lend Rs 64 again (100 – 36 = 64).\nThe bank lends out Rs 64 to Junaid. This in turn shows up in the bank as\ndeposits. The process keeps repeating itself till all the required reserves become\nRs 100. The required reserves will be Rs 100 only when the total deposits become\nRs 500. This is because for deposits of Rs 500, cash reserves would have to be\nRs 100 (20 per cent of 500 = 100). The process is illustrated in Table 3.2."
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-93226fa3de41466e",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "question": "Which technique of scientific management seeks to determine the amount and frequency of rest intervals in completing a task?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Fatigue study"
+    },
+    {
+     "key": "B",
+     "text": "Time study"
+    },
+    {
+     "key": "C",
+     "text": "Motion study"
+    },
+    {
+     "key": "D",
+     "text": "Method study"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p21-c1-g1-s0",
+     "text": "rest intervals will help one to regain\nstamina and work again with the same\ncapacity. This will result in increased\nproductivity. Fatigue study seeks to\ndetermine the amount and frequency\nof rest intervals in completing a task.\nFor example, normally in a plant,\nwork takes place in three shifts of\neight hours each. Even in a single\nshift a worker has to be given some\nrest interval to take her/his lunch\netc. If the work involves heavy manual\nlabour then small pauses have to be\nfrequently given to the worker so that\nshe/he can recharge her/his energy\nlevel for optimum contribution.\nThere can be many causes for\nfatigue like long working hours,\ndoing unsuitable work, having\nuncordial relations with the boss or\nbad working conditions etc. Such\nhindrances in good performance\nshould be removed."
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p34-c0-g2-s1",
+     "text": "Functional Foremanship Standardisation of Work\nTime Study Motion Study Fatigue Study Method Study\nDifferential Piece Wage System Mental Revolution\nUnity of Command Unity of Direction\nScalar Chain Gang Plank Espirit De Corps"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-34123195144154b0",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "question": "A firm advertised a vacancy and received 300 applications. It then conducted tests and interviews to choose the most suitable candidates from among these applicants. Which step of the staffing process is the firm performing at this stage?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Selection"
+    },
+    {
+     "key": "B",
+     "text": "Recruitment"
+    },
+    {
+     "key": "C",
+     "text": "Training"
+    },
+    {
+     "key": "D",
+     "text": "Compensation"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p8-c0-g1-s0",
+     "text": "job candidates. Both internal and\nexternal sources of recruitment\nmay be explored. Internal sources\nmay be used to a limited extent.\nFor fresh talent and wider choice\nexternal sources are used.\n(iii) Selection: Selection is the pro­\ncess of choosing from among\nthe pool of the prospective job\ncandidates developed at the stage\nof recruitment. Even in case of\nhighly specialised jobs where\nthe choice space is very narrow,\nthe rigour of the selection process\nserves two important purposes:\n(i) it ensures that the organisation\ngets the best among the available,\nand (ii) it enhances the self­esteem\nand prestige of those selected and\nconveys to them the seriousness\nwith which the things are done in the\norganisation. The rigour involves\na host of tests and interviews,\ndescribed later. Those who are\nable to successfully negotiate the"
+    },
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p2-c0-g2-s2",
+     "text": "After planning and selection of the\norganisation structure, the next step\nin the management process is to fill\nthe various posts provided in the\norganisation. This is termed as the\nmanagement of staffing function. In\nthe simplest terms, staffing is ‘putting\npeople to jobs’. It begins with workforce\nplanning and includes different other\nfunction like recruitment, selection,\ntraining, development, promotion,\ncompensation and performance\nappraisal of work force. In other\nwords, staffing is that part of the\nprocess of management which is\nconcerned with obtaining, utilising\nand maintaining a satisfactory and\nsatisfied work force. Today, staffing\nmay involve any combination of\nemployees including daily wagers,\nconsultants and contract employees.\nStaffing recognises the importance"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-39142710b9ecfa5a",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "Even after losing the first two matches, the captain kept telling her team that they would win the tournament. She was ______ about their chances.",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "optimistic"
+    },
+    {
+     "key": "B",
+     "text": "sceptical"
+    },
+    {
+     "key": "C",
+     "text": "tedious"
+    },
+    {
+     "key": "D",
+     "text": "discreet"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-optimistic",
+     "locator": "definition",
+     "text": "expecting good things to happen or something to be successful; showing this feeling"
+    },
+    {
+     "source_id": "oxford-quality-sceptical",
+     "locator": "definition",
+     "text": "having doubts that a claim or statement is true or that something will happen"
+    },
+    {
+     "source_id": "oxford-quality-tedious",
+     "locator": "definition",
+     "text": "lasting or taking too long and not interesting"
+    },
+    {
+     "source_id": "oxford-quality-discreet",
+     "locator": "definition",
+     "text": "careful in what you say or do, in order to keep something secret"
+    }
+   ]
+  },
+  {
+   "opaque_id": "q716-991cb7c6dbb6efd6",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "The referee did not favour either team and judged every foul by the same standard. The referee was ______.",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "impartial"
+    },
+    {
+     "key": "B",
+     "text": "arrogant"
+    },
+    {
+     "key": "C",
+     "text": "feeble"
+    },
+    {
+     "key": "D",
+     "text": "elated"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-impartial",
+     "locator": "definition",
+     "text": "not supporting one person or group more than another"
+    },
+    {
+     "source_id": "oxford-quality-arrogant",
+     "locator": "definition",
+     "text": "behaving in a proud, unpleasant way, showing little thought for other people"
+    },
+    {
+     "source_id": "oxford-quality-feeble",
+     "locator": "definition",
+     "text": "very weak"
+    },
+    {
+     "source_id": "oxford-quality-elated",
+     "locator": "definition",
+     "text": "very happy and excited because of something good that has happened or will happen"
+    }
+   ]
+  }
+ ]
+}

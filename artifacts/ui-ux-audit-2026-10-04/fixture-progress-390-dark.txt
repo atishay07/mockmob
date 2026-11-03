@@ -1,0 +1,11 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=progress&plan=pro".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+~1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=progress&plan=pro
+~		4 pop up button (collapsed, settable) View, Value: progress, Secondary Actions: Expand
+~				13 review
+~				14 (selected) progress
+~			30 text Progress
+~		31 heading Let fresh practice be your evidence., Value: 1
+~			32 text Let fresh practice be your evidence.
+~		33 text Your saved sessions, your recovery checks and your exam playbook. Repeats, assisted work and ordinary scores cannot certify a recovery episode.
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=progress&plan=pro

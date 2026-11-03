@@ -1,0 +1,23 @@
+
+> mockmob@0.1.0 test:study
+> node --test data/tests/study_engine.test.mjs data/tests/study_database.test.mjs
+
+✔ study transactions preserve owners, immutable retries, scheduling, exposure and daily limits (1991.844ms)
+✔ IST introduction boundary and five-card cap do not punish missed days (2.8651ms)
+✔ corrected cards start a fresh version instead of silently preserving old scheduling claims (0.1509ms)
+✔ guided backlog is shared across subjects and excludes withdrawn or superseded card versions (0.5635ms)
+✔ ratings cannot reveal an answer or certify repair (0.974ms)
+✔ objectively checked answers schedule exactly once and assisted correct answers are Hard (0.3312ms)
+✔ invalid keys, stale revisions and wrong steps are recoverable failures (0.2696ms)
+✔ FSRS persists default parameters, retention target and JSON round trips (1.8872ms)
+✔ Free preferences stay free while saved weekly plans require existing Pro entitlement (0.5083ms)
+✔ Today keeps active work and formal checks ahead of recall and allocates a realistic practice block (0.6901ms)
+✔ canonical content digests survive jsonb key ordering and public pilot never contains formal check keys (2.2979ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2184.3355

@@ -1,0 +1,10 @@
+{
+  "version": "v76-transport-input-reservation-v1",
+  "at": "2026-10-08T21:05:33.473Z",
+  "price_base_sha256": "390c009fcc1327bbae3abcc7f6cd7074893fd40a0691836623bb6d2c8a146797",
+  "max_input_tokens": 35000,
+  "rates_changed": false,
+  "output_limits_changed": false,
+  "academic_prompts_changed": false,
+  "reason": "The unchanged disputed regression fixture is 33,897 bytes, above the prior 33,024 text-only input reservation. Raise the conservative INPUT reserve for this single 41-case qualification only; keep full byte/input guard, same registered provider rates, shared $4 stop cap, and global $50 lifetime guard. This is a reservation bound, not a claim about provider maximum context."
+}

@@ -1,0 +1,170 @@
+{
+  "at": "2026-10-06T15:36:31.658Z",
+  "campaign": "quality-v5",
+  "window_start": "2026-10-06T11:30:00Z",
+  "spend": {
+    "lifetime_ceiling_usd": 50,
+    "lifetime_gross_usd": 5.731324,
+    "held_usd": 0,
+    "remaining_usd": 44.268676,
+    "campaign_window_usd": 2.569532,
+    "cohort_usd": 1.127442,
+    "campaign_by_stage": [
+      {
+        "key": "calibration:blind_solution:gpt-6-luna",
+        "requests": 310,
+        "usd": 0.674113
+      },
+      {
+        "key": "calibration:independent_evaluation:gemini-3.8-flash",
+        "requests": 105,
+        "usd": 0.603669
+      },
+      {
+        "key": "candidate:blind_solution:gpt-6-luna",
+        "requests": 243,
+        "usd": 0.405612
+      },
+      {
+        "key": "candidate:independent_evaluation:gemini-3.8-flash",
+        "requests": 68,
+        "usd": 0.340199
+      },
+      {
+        "key": "calibration:explanation_support:gpt-6-luna",
+        "requests": 144,
+        "usd": 0.143379
+      },
+      {
+        "key": "candidate:authoring:gpt-6-luna",
+        "requests": 100,
+        "usd": 0.127268
+      },
+      {
+        "key": "candidate:blueprint:gpt-6-luna",
+        "requests": 51,
+        "usd": 0.120601
+      },
+      {
+        "key": "candidate:explanation_support:gpt-6-luna",
+        "requests": 123,
+        "usd": 0.078286
+      },
+      {
+        "key": "candidate:repair:gpt-6-luna",
+        "requests": 54,
+        "usd": 0.055476
+      },
+      {
+        "key": "candidate:unknown:gpt-6-luna",
+        "requests": 2,
+        "usd": 0.018554
+      },
+      {
+        "key": "calibration:repair:gpt-6-luna",
+        "requests": 4,
+        "usd": 0.002375
+      }
+    ],
+    "google_credit_deductions": "Unverified; all figures are gross provider token cost at recorded rates."
+  },
+  "cohort": {
+    "denominator": 100,
+    "generated": 96,
+    "eligible": 58,
+    "quarantined": 42,
+    "published": 0,
+    "eligible_rate": 0.58,
+    "distinct_eligible_fingerprints": 58,
+    "distinct_eligible_stems": 58,
+    "by_subject": {
+      "english": {
+        "total": 25,
+        "eligible": 7
+      },
+      "accountancy": {
+        "total": 25,
+        "eligible": 13
+      },
+      "business_studies": {
+        "total": 25,
+        "eligible": 17
+      },
+      "economics": {
+        "total": 25,
+        "eligible": 21
+      }
+    },
+    "by_kind": {
+      "total": {
+        "pyq_adapted": 84,
+        "authentic_pyq": 16
+      },
+      "eligible": {
+        "pyq_adapted": 52,
+        "authentic_pyq": 6
+      }
+    },
+    "eligible_chapters": {
+      "english:Vocabulary": 7,
+      "accountancy:Admission of Partner": 3,
+      "accountancy:Cash Flow Statement": 3,
+      "accountancy:Share Capital": 4,
+      "accountancy:Partnership Fundamentals": 1,
+      "accountancy:Debentures": 1,
+      "accountancy:Retirement & Death of Partner": 1,
+      "business_studies:Organising": 8,
+      "business_studies:Nature & Significance of Management": 6,
+      "business_studies:Business Environment": 1,
+      "business_studies:Marketing Management": 2,
+      "economics:Money & Banking": 4,
+      "economics:Government Budget & the Economy": 3,
+      "economics:Balance of Payments": 4,
+      "economics:Income Determination": 6,
+      "economics:National Income & Related Aggregates": 4
+    },
+    "eligible_formats": {
+      "synonym": 6,
+      "antonym": 1,
+      "statement_based": 1,
+      "numerical_one_step": 1,
+      "case_application": 11,
+      "conceptual_mcq": 14,
+      "numerical_calculation": 10,
+      "statement_selection": 7,
+      "matching": 4,
+      "concept_identification": 1,
+      "assertion_reason": 2
+    },
+    "eligible_difficulty": {
+      "medium": 29,
+      "easy": 29
+    },
+    "eligible_anchor_families": 36,
+    "repaired_and_eligible": 16,
+    "rejection_reasons": {
+      "failed:source_support": 15,
+      "author_evidence_quote_not_in_sources": 4,
+      "duplicate_existing_inventory": 3,
+      "failed:explanation_support": 1,
+      "repair_abstained": 13,
+      "failed:independent_evaluation": 1,
+      "failed:syllabus_mapping": 4,
+      "orphan_passage": 1
+    },
+    "passage_groups": []
+  },
+  "forecast": {
+    "basis": "Measured real-time cohort cost per eligible question, including blueprints, authoring, every verification sample, repairs, retries and rejected candidates. Excludes calibration and preparation already spent.",
+    "cost_per_eligible_usd": 0.019439,
+    "published_so_far": 0,
+    "total_lifetime_to_10000_usd": 200.12,
+    "achievable_eligible_with_remaining_budget": 2277,
+    "batch_estimate": {
+      "label": "ESTIMATE ONLY: batch execution has not been demonstrated in this campaign; assumes the published 50% batch discount on every request",
+      "total_lifetime_to_10000_usd": 102.92,
+      "achievable_eligible_with_remaining_budget": 4554
+    }
+  },
+  "production_changes": 0
+}

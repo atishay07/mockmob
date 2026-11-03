@@ -1,0 +1,644 @@
+{
+  "verifier": "luna-gemini-cuET-v5.4",
+  "measurement_only": true,
+  "unseen_benchmark": false,
+  "production_changes": 0,
+  "start_committed_micro": 5731324,
+  "items": [
+    {
+      "n": 1,
+      "id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+      "content_hash": "28a0768633f53ec8ed6122ce1ed6e14b9258659c49627b687eeabcd9f6a89cfe",
+      "expected": "eligible",
+      "candidate": {
+        "id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "Choose the correct SYNONYM for \"benevolent\" from the options given below.",
+        "options": [
+          "generous",
+          "influential",
+          "articulate",
+          "hostile"
+        ],
+        "correct_answer": "A",
+        "explanation": "The supplied definition describes benevolent as “kind, helpful and generous”. Therefore, generous matches the stated sense.",
+        "difficulty": "medium",
+        "route": "conceptual",
+        "family_id": "pyq:cuet2024-english-bookA-q48",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-english-bookA-q48",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q48",
+          "adaptation_type": "pyq_adapted_variant",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 11
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q48",
+            "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+          },
+          {
+            "id": "oxford-quality-benevolent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a"
+          }
+        ],
+        "question_type": "synonym",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "waiting",
+      "pending_keys": [
+        "e862884fdfcfa77893b269c8e0695383028d07667646cf49e37be6b49e2e23c9",
+        "ecacdc50f2afcba331d00a0ffc57c07b40741127268cdefc4e3e1062a360a87b"
+      ]
+    },
+    {
+      "n": 38,
+      "id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+      "content_hash": "0142b4d46af17a4c32f51efd8f37a5a81ae983af91c0a9d6b5f6db89e0087a54",
+      "expected": "eligible",
+      "candidate": {
+        "id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?",
+        "options": [
+          "X: ₹24,000; Y: ₹16,000",
+          "X: ₹12,000; Y: ₹8,000",
+          "X: ₹27,000; Y: ₹18,000",
+          "X: ₹20,000; Y: ₹20,000"
+        ],
+        "correct_answer": "A",
+        "explanation": "An increase in an asset and a decrease in a liability are gains; a decrease in an asset and an increase in a liability are losses. The net revaluation gain is ₹40,000 + ₹10,000 − ₹5,000 − ₹5,000 = ₹40,000. Sharing this gain in the old ratio of 3:2 gives X ₹24,000 and Y ₹16,000.",
+        "difficulty": "medium",
+        "route": "numerical",
+        "family_id": "pyq:cuet2024-accountancy-bookA-q8",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-accountancy-bookA-q8",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q8",
+          "adaptation_type": "numerical_application_variant",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q8",
+            "support_hash": "01100ebeb958272feb542120084b698d821980862685b546c1f90a9402f69c5c"
+          },
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-2c978c97c40a",
+            "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+          }
+        ],
+        "question_type": "numerical_calculation",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "waiting",
+      "pending_keys": [
+        "776a86ec6ec69f1707a700c3f9285e1eadf4c37cfb6c1feafcbcbe6f39b1d0e1",
+        "b5605305e6c0cbccbc0e2f4f109dd1fd7be862b3a3ec67b80cdfc40258a88b8b"
+      ]
+    },
+    {
+      "n": 4,
+      "id": "1545e337-de4b-483d-a062-2a051c2e8bce",
+      "content_hash": "a85113a34efa70dda741914d31be2fbb1351c1262ce3c769bedf062059cab286",
+      "expected": "quarantined",
+      "candidate": {
+        "id": "1545e337-de4b-483d-a062-2a051c2e8bce",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "During a spoken interview, a candidate gives a candid answer. Choose the correct SYNONYM for \"candid\" in this context from the options given below.",
+        "options": [
+          "Expressing one's thoughts openly and honestly",
+          "Expressing one's thoughts indirectly and dishonestly",
+          "Keeping one's thoughts hidden while answering",
+          "Withholding one's answer and stating no view"
+        ],
+        "correct_answer": "A",
+        "explanation": "“Candid” means saying what one thinks openly and honestly, without hiding one's thoughts. Option A expresses that meaning; the other options describe withholding or concealing one's thoughts, or expressing them dishonestly.",
+        "difficulty": "easy",
+        "route": "conceptual",
+        "family_id": "pyq:cuet2024-english-bookA-q48",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-english-bookA-q48",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q48",
+          "adaptation_type": "contextual_synonym_variant",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 11
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q48",
+            "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+          },
+          {
+            "id": "oxford-quality-candid",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+          }
+        ],
+        "question_type": "synonym",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "quarantined",
+      "reasons": [
+        "vocabulary_options_not_words"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 45,
+      "id": "ac07a2c4-84ad-4e0d-ae94-3a35007ed2a0",
+      "content_hash": "12468921aecc70739ba30e73cfb66ce59a5385e6e69265eee448bbfdace5a65d",
+      "expected": "quarantined",
+      "candidate": {
+        "id": "ac07a2c4-84ad-4e0d-ae94-3a35007ed2a0",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "body": "A company forfeited 100 shares of ₹10 each, issued at par and fully called up. At the time of initial issue, ₹4 per share had been received and ₹6 per share remained unpaid. All 100 shares are now being reissued as fully paid. No other forfeited shares or amounts are included. What is the maximum aggregate discount permitted on reissue?",
+        "options": [
+          "(A) ₹400",
+          "(B) ₹1,000",
+          "(C) ₹600",
+          "(D) ₹0"
+        ],
+        "correct_answer": "A",
+        "explanation": "The discount allowed on reissue cannot exceed the amount received on the forfeited shares at their initial issue. The maximum aggregate discount is therefore 100 × ₹4 = ₹400.",
+        "difficulty": "medium",
+        "route": "numerical",
+        "family_id": "pyq:cuet2024-accountancy-bookA-q17",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-accountancy-bookA-q17",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q17",
+          "adaptation_type": "Source-derived numerical application; distinct from the matching format of the anchor.",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q17",
+            "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "quality-v4-2cec3d6b3d07",
+            "support_hash": "2cec3d6b3d078a45c159f00147ef54fe6f98ea0e9eb0fdf35ed54e20063fd1d5"
+          }
+        ],
+        "question_type": "numerical_calculation",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "quarantined",
+      "reasons": [
+        "option_label_prefix"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 57,
+      "id": "aa00c24f-10d0-417b-a160-9a4d2354651c",
+      "content_hash": "04df1a4373ba391dcab328c164027f461b79196a7b897b75fda500ee7cb2d209",
+      "expected": "quarantined",
+      "candidate": {
+        "id": "aa00c24f-10d0-417b-a160-9a4d2354651c",
+        "subject": "business_studies",
+        "chapter": "Business Environment",
+        "body": "Which of the following statements identify characteristics explicitly listed under the social environment?\n(A) Birth and death rates\n(B) Prevailing political system\n(C) Consumption habits\n(D) Degree of politicisation of business and economic issues\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A) and (B) only",
+          "(A) and (C) only",
+          "(B) and (D) only",
+          "(A) and (D) only"
+        ],
+        "correct_answer": "B",
+        "explanation": "Birth and death rates and consumption habits are listed as elements of the social environment. The prevailing political system and degree of politicisation are listed as elements of the political environment, so only (A) and (C) meet the question's condition.",
+        "difficulty": "easy",
+        "route": "conceptual",
+        "family_id": "pyq:cuet2024-business_studies-bookA-q7",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-business_studies-bookA-q7",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q7",
+          "adaptation_type": "classification through statement selection",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 10
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q7",
+            "support_hash": "ec159009e556e860b4e8a84c69a9e9142216142b2363e7af703fa54078f6ca24"
+          },
+          {
+            "id": "ncert-lebs103",
+            "version": 1,
+            "locator": "pdf-page-12",
+            "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+          },
+          {
+            "id": "ncert-lebs103",
+            "version": 1,
+            "locator": "pdf-page-9",
+            "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+          }
+        ],
+        "question_type": "statement_selection",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "quarantined",
+      "reasons": [
+        "unseen_reference"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 74,
+      "id": "752f989e-f8d7-4ac5-beb1-41bda7020cb7",
+      "content_hash": "d2c2880b7812dcbaa197608d10ce6646f0560c63d454aee1e47b5daea59a64e1",
+      "expected": "quarantined",
+      "candidate": {
+        "id": "752f989e-f8d7-4ac5-beb1-41bda7020cb7",
+        "subject": "business_studies",
+        "chapter": "Nature & Significance of Management",
+        "body": "Given below are two statements: one is labelled as Assertion (A) and the other is labelled as Reason (R).\nAssertion (A): Management cannot be seen, but its presence can be felt in the way the organisation functions.\nReason (R): The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.\nChoose the correct answer from the options given below:",
+        "options": [
+          "Both A and R are true, and R is the correct explanation of A.",
+          "Both A and R are true, but R is not the correct explanation of A.",
+          "A is true, but R is false.",
+          "A is false, but R is true."
+        ],
+        "correct_answer": "A",
+        "explanation": "Management itself cannot be seen, but its presence is felt in the way the organisation functions. The listed organisational effects are examples of how that presence is felt, so R explains A. Therefore, option (A) is correct.",
+        "difficulty": "medium",
+        "route": "conceptual",
+        "family_id": "pyq:cuet2024-business_studies-bookA-q37",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-business_studies-bookA-q37",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q37",
+          "adaptation_type": "pyq_adapted_variant",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 10
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q37",
+            "support_hash": "8b74903bd51eaf4b6022851ced43a0d478647bacc89095776dda2651b1cde075"
+          },
+          {
+            "id": "ncert-lebs101",
+            "version": 1,
+            "locator": "quality-v4-ed90283b33f1",
+            "support_hash": "ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d"
+          }
+        ],
+        "question_type": "assertion_reason",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "waiting",
+      "pending_keys": [
+        "a541dd2134c409797924fe2c34f07066f20dc950ea033e051e9c677ddc01eecb"
+      ]
+    },
+    {
+      "n": "38-wrong-key",
+      "id": "final-pass-wrong-key-38",
+      "content_hash": "599d5eb5384e6427fd6b3a61a5d703f0c583a88640b703870fccbc7c7fd484ce",
+      "expected": "quarantined",
+      "candidate": {
+        "id": "final-pass-wrong-key-38",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?",
+        "options": [
+          "X: ₹24,000; Y: ₹16,000",
+          "X: ₹12,000; Y: ₹8,000",
+          "X: ₹27,000; Y: ₹18,000",
+          "X: ₹20,000; Y: ₹20,000"
+        ],
+        "correct_answer": "B",
+        "explanation": "An increase in an asset and a decrease in a liability are gains; a decrease in an asset and an increase in a liability are losses. The net revaluation gain is ₹40,000 + ₹10,000 − ₹5,000 − ₹5,000 = ₹40,000. Sharing this gain in the old ratio of 3:2 gives X ₹24,000 and Y ₹16,000.",
+        "difficulty": "medium",
+        "route": "numerical",
+        "family_id": "pyq:cuet2024-accountancy-bookA-q8",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-accountancy-bookA-q8",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q8",
+          "adaptation_type": "numerical_application_variant",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q8",
+            "support_hash": "01100ebeb958272feb542120084b698d821980862685b546c1f90a9402f69c5c"
+          },
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-2c978c97c40a",
+            "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+          }
+        ],
+        "question_type": "numerical_calculation",
+        "concept_id": null,
+        "passage_text": "",
+        "generator_version": "luna-gemini-cuET-v5.3"
+      },
+      "state": "waiting",
+      "pending_keys": [
+        "e5803771438ed9a73be781c4449d357b18abf62a26786de57a1639f7f467be54"
+      ]
+    }
+  ],
+  "at": "2026-10-06T20:05:53.592Z",
+  "pending": 4,
+  "complete": false,
+  "expected_results_met": false,
+  "batches": [
+    {
+      "key": "e862884fdfcfa77893b269c8e0695383028d07667646cf49e37be6b49e2e23c9",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377d60708190933c66a4c0c0899e",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 2172,
+          "input_tokens_details": {
+            "cache_write_tokens": 2169,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1507,
+          "output_tokens_details": {
+            "reasoning_tokens": 1017
+          },
+          "total_tokens": 3679
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+        "idempotency_key": "e862884fdfcfa77893b269c8e0695383028d07667646cf49e37be6b49e2e23c9",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25
+        },
+        "provider_request_id": "resp_0e72e41250ce2760016ac5387dd28887d2a54f9aa26702b9de"
+      }
+    },
+    {
+      "key": "776a86ec6ec69f1707a700c3f9285e1eadf4c37cfb6c1feafcbcbe6f39b1d0e1",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377ec0f88190945e5ee86d1484e6",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": {
+          "source_url": "https://developers.openai.com/api/docs/pricing",
+          "verified_at": "2026-10-06T18:14:24.955Z"
+        },
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 3239,
+          "input_tokens_details": {
+            "cache_write_tokens": 3236,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2045,
+          "output_tokens_details": {
+            "reasoning_tokens": 1550
+          },
+          "total_tokens": 5284
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+        "idempotency_key": "776a86ec6ec69f1707a700c3f9285e1eadf4c37cfb6c1feafcbcbe6f39b1d0e1",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cache_write_per_million": 0.0625,
+          "cached_input_per_million": 0.005
+        },
+        "provider_request_id": "resp_07409c1f1e986889016ac53a4aec5087d2b56702c5d2fffbc2"
+      }
+    },
+    {
+      "key": "a541dd2134c409797924fe2c34f07066f20dc950ea033e051e9c677ddc01eecb",
+      "provider": "openai",
+      "provider_id": "batch_6ac5378065b4819099d2d6aecd961855",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": {
+          "source_url": "https://developers.openai.com/api/docs/pricing",
+          "verified_at": "2026-10-06T18:14:24.955Z"
+        },
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 2609,
+          "input_tokens_details": {
+            "cache_write_tokens": 2606,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2017,
+          "output_tokens_details": {
+            "reasoning_tokens": 1511
+          },
+          "total_tokens": 4626
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "752f989e-f8d7-4ac5-beb1-41bda7020cb7",
+        "idempotency_key": "a541dd2134c409797924fe2c34f07066f20dc950ea033e051e9c677ddc01eecb",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cache_write_per_million": 0.0625,
+          "cached_input_per_million": 0.005
+        },
+        "provider_request_id": "resp_0a0c0391f1293ba2016ac541dddfc087d2ab5f3c5b266b8db6"
+      }
+    },
+    {
+      "key": "e5803771438ed9a73be781c4449d357b18abf62a26786de57a1639f7f467be54",
+      "provider": "openai",
+      "provider_id": "batch_6ac53781cb74819086509430299c7331",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": {
+          "source_url": "https://developers.openai.com/api/docs/pricing",
+          "verified_at": "2026-10-06T18:14:24.955Z"
+        },
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 3195,
+          "input_tokens_details": {
+            "cache_write_tokens": 3192,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1790,
+          "output_tokens_details": {
+            "reasoning_tokens": 1210
+          },
+          "total_tokens": 4985
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "final-pass-wrong-key-38",
+        "idempotency_key": "e5803771438ed9a73be781c4449d357b18abf62a26786de57a1639f7f467be54",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cache_write_per_million": 0.0625,
+          "cached_input_per_million": 0.005
+        },
+        "provider_request_id": "resp_032d1a6a8d4b8b56016ac553442b1087d19bd7e93296b51fe2"
+      }
+    },
+    {
+      "key": "ecacdc50f2afcba331d00a0ffc57c07b40741127268cdefc4e3e1062a360a87b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53a0cb10c8190ac0fe15e521a5bde",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 2172,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 2169
+          },
+          "output_tokens": 1257,
+          "output_tokens_details": {
+            "reasoning_tokens": 934
+          },
+          "total_tokens": 3429
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+        "idempotency_key": "ecacdc50f2afcba331d00a0ffc57c07b40741127268cdefc4e3e1062a360a87b",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25
+        },
+        "provider_request_id": "resp_0475ae3d8d713d78016ac53ff3c92887d190383d691c8fead4"
+      }
+    },
+    {
+      "key": "b5605305e6c0cbccbc0e2f4f109dd1fd7be862b3a3ec67b80cdfc40258a88b8b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53e58f5608190ac52ee7d9dde5231",
+      "state": "complete",
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "batch",
+        "usage": {
+          "input_tokens": 3239,
+          "input_tokens_details": {
+            "cache_write_tokens": 3236,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2089,
+          "output_tokens_details": {
+            "reasoning_tokens": 1626
+          },
+          "total_tokens": 5328
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "candidate",
+        "candidate_id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+        "idempotency_key": "b5605305e6c0cbccbc0e2f4f109dd1fd7be862b3a3ec67b80cdfc40258a88b8b",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "provider_request_id": "resp_0d07bb101ed895fd016ac553b4ad2087d198d1023b27d3e505"
+      }
+    }
+  ],
+  "committed_increment_usd": 0.45358,
+  "lifetime_committed_usd": 6.184904,
+  "new_authoring": 0,
+  "published": 0,
+  "reconcile_only": true,
+  "current_verifier": "luna-gemini-cuET-v5.6",
+  "current_verifier_revalidation_required": true
+}

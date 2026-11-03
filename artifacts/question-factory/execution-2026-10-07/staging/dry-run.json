@@ -1,0 +1,196 @@
+{
+  "at": "2026-10-06T20:38:22.306Z",
+  "target": "onwkqxmjqjrhfbjjdydu",
+  "bootstrap_sha256": "492c1b5cd5c4044e8cc847fcc441ac17116979f8dd81064a2a9b3be7ec057b01",
+  "results": [
+    {
+      "file": "0001_init.sql",
+      "passed": true
+    },
+    {
+      "file": "0002_rls.sql",
+      "passed": true
+    },
+    {
+      "file": "0003_chapters.sql",
+      "passed": true
+    },
+    {
+      "file": "0004_cuet_seed.sql",
+      "passed": true
+    },
+    {
+      "file": "0010_phase1_compat.sql",
+      "passed": true
+    },
+    {
+      "file": "0011_credits_system.sql",
+      "passed": true
+    },
+    {
+      "file": "0012_units.sql",
+      "passed": true
+    },
+    {
+      "file": "0013_dedup_chapters.sql",
+      "passed": true
+    },
+    {
+      "file": "0014_units_business_studies.sql",
+      "passed": true
+    },
+    {
+      "file": "0015_units_economics.sql",
+      "passed": true
+    },
+    {
+      "file": "0016_units_english.sql",
+      "passed": true
+    },
+    {
+      "file": "0017_units_mathematics.sql",
+      "passed": true
+    },
+    {
+      "file": "0018_units_physics.sql",
+      "passed": true
+    },
+    {
+      "file": "0019_units_chemistry.sql",
+      "passed": true
+    },
+    {
+      "file": "0020_units_biology.sql",
+      "passed": true
+    },
+    {
+      "file": "0021_units_political_science.sql",
+      "passed": true
+    },
+    {
+      "file": "0022_units_psychology.sql",
+      "passed": true
+    },
+    {
+      "file": "0023_units_general_test.sql",
+      "passed": true
+    },
+    {
+      "file": "0024_autonomous_gen.sql",
+      "passed": true
+    },
+    {
+      "file": "0025_phase1_votes_credits.sql",
+      "passed": true
+    },
+    {
+      "file": "0026_cuet_2026_canonical_syllabus.sql",
+      "passed": true
+    },
+    {
+      "file": "0027_enforce_credit_integrity.sql",
+      "passed": true
+    },
+    {
+      "file": "0028_learning_progress_bookmarks.sql",
+      "passed": true
+    },
+    {
+      "file": "0029_fix_apply_question_vote_ambiguity.sql",
+      "passed": true
+    },
+    {
+      "file": "0030_razorpay_payments.sql",
+      "passed": true
+    },
+    {
+      "file": "0031_question_validation.sql",
+      "passed": true
+    },
+    {
+      "file": "0032_creator_referral_phase_a.sql",
+      "passed": true
+    },
+    {
+      "file": "0033_creators_payouts_phase_b.sql",
+      "passed": true
+    },
+    {
+      "file": "0034_fix_role_system.sql",
+      "passed": true
+    },
+    {
+      "file": "0035_cuet_traceability.sql",
+      "passed": true
+    },
+    {
+      "file": "0036_mode_aware_credits.sql",
+      "passed": true
+    },
+    {
+      "file": "0037_nta_passage_groups.sql",
+      "passed": true
+    },
+    {
+      "file": "0038_ai_credit_purchase_grant_rpc.sql",
+      "passed": true
+    },
+    {
+      "file": "20260502220148_paid_premium_entitlements.sql",
+      "passed": true
+    },
+    {
+      "file": "20260503040628_mock_selection_usage_metadata.sql",
+      "passed": true
+    },
+    {
+      "file": "20260503220558_robust_referral_attribution.sql",
+      "passed": true
+    },
+    {
+      "file": "20261001105920_score_recovery_foundations.sql",
+      "passed": true
+    },
+    {
+      "file": "20261002120000_connected_learning.sql",
+      "passed": true
+    },
+    {
+      "file": "20261002121000_runtime_ai_guard.sql",
+      "passed": true
+    },
+    {
+      "file": "20261002122000_rival_atomic_submission.sql",
+      "passed": true
+    },
+    {
+      "file": "20261002123000_answer_correction_history.sql",
+      "passed": true
+    },
+    {
+      "file": "20261002130000_prepos_credit_reservations.sql",
+      "passed": true
+    },
+    {
+      "file": "20261004120000_runtime_ai_monthly_cap.sql",
+      "passed": true
+    },
+    {
+      "file": "20261004154217_connected_study_suite.sql",
+      "passed": true
+    },
+    {
+      "file": "20261004172214_study_review_backlog.sql",
+      "passed": true
+    },
+    {
+      "file": "20261005090000_runtime_ai_price_gpt6_luna.sql",
+      "passed": true
+    },
+    {
+      "file": "20261005185759_question_factory.sql",
+      "passed": true
+    }
+  ],
+  "production_writes": 0
+}

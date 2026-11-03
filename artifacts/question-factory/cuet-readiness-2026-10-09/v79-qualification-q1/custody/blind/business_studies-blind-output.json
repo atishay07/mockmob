@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "bus-b1",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "Stem echoes F4 (different reasons for joining, coordination in a common direction) but A is not uniquely forced"
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Stem also states a single goal of increasing sales (F1: retail store goal); goal-orientation is also established"
+    },
+    "C": {
+     "status": "false",
+     "why": "No mention of applicability across all organisations"
+    },
+    "D": {
+     "status": "false",
+     "why": "No mention of ongoing functions"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Whether the examinee should prioritise the group/coordination cue or the goal cue; both features are visibly present.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair: Ch.1 features of management.",
+   "quality_note": "Stem blends cues from two features (F1 and F4), so A and B are both defensible; ambiguous."
+  },
+  {
+   "local_id": "bus-b2",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Continuous process is not what the multi-country, multi-organisation, culture-differs scenario shows"
+    },
+    "B": {
+     "status": "false",
+     "why": "Scenario is not about team work"
+    },
+    "C": {
+     "status": "false",
+     "why": "Scenario is not about uniting efforts to goals"
+    },
+    "D": {
+     "status": "true",
+     "why": ""
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: all-pervasive nature of management.",
+   "quality_note": "Clear, near-verbatim F2; distractors are other features with true reasons that don't fit the scenario."
+  },
+  {
+   "local_id": "bus-b3",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Problem is cost, not external factors"
+    },
+    "B": {
+     "status": "false",
+     "why": "No employee resistance described"
+    },
+    "C": {
+     "status": "true",
+     "why": ""
+    },
+    "D": {
+     "status": "false",
+     "why": "No difficulty setting standards described"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: limitations of controlling.",
+   "quality_note": "Clear; stem closely mirrors source wording but distractors are plausible limitations."
+  },
+  {
+   "local_id": "bus-b4",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "An accounts department is part of the formal structure, but stem gives no cue that coordination follows prescribed rules/scalar chain"
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Passing information among themselves could be informal interaction, but no social-relationship cue is given"
+    },
+    "C": {
+     "status": "undecidable",
+     "why": "Matrix is a structure type, not excerpted; stem has no cue for it"
+    },
+    "D": {
+     "status": "undecidable",
+     "why": "Divisional is a structure type, not excerpted; stem has no cue for it"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Whether coordination and information flow follow official rules/channels (formal) or arise from social interaction (informal).",
+   "numeric_check": null,
+   "syllabus_fit": "Fair topic (formal vs informal) but stem not diagnostic.",
+   "quality_note": "Stem lacks distinguishing cues; formal and informal both fit; matrix/divisional are mixed categories."
+  },
+  {
+   "local_id": "bus-b5",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "F5: degree and flow of authority determines reporting, not headcount"
+    },
+    "B": {
+     "status": "true",
+     "why": ""
+    },
+    "C": {
+     "status": "false",
+     "why": "F5 does not make salary the determinant"
+    },
+    "D": {
+     "status": "false",
+     "why": "Span of control not stated as the determinant in F5"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: importance of delegation.",
+   "quality_note": "Direct recall from F5; stem partly gives the premise; distractors plausible-ish."
+  },
+  {
+   "local_id": "bus-b6",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": ""
+    },
+    "B": {
+     "status": "false",
+     "why": "Ravi has no managerial position; formal authority arises by position"
+    },
+    "C": {
+     "status": "false",
+     "why": "Ravi is not a manager and the group chose him"
+    },
+    "D": {
+     "status": "false",
+     "why": "Informal authority is not created by management rules; that is formal"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: formal vs informal organisation.",
+   "quality_note": "Well built; options mirror comparison table so distractors are plausible."
+  },
+  {
+   "local_id": "bus-b7",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": ""
+    },
+    "B": {
+     "status": "false",
+     "why": "Company does not raise capital in a resale between investors"
+    },
+    "C": {
+     "status": "false",
+     "why": "Buying from another investor is secondary, not primary, per F14"
+    },
+    "D": {
+     "status": "false",
+     "why": "Capital raising by issue is primary market function"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: primary vs secondary market.",
+   "quality_note": "Clear; stem already says issuer is not a party, which gives the answer away somewhat."
+  },
+  {
+   "local_id": "bus-b8",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Spastics Society goal is education for children with special needs"
+    },
+    "B": {
+     "status": "true",
+     "why": ""
+    },
+    "C": {
+     "status": "false",
+     "why": "Goal mismatch with retail store"
+    },
+    "D": {
+     "status": "false",
+     "why": "Source says different organisations have different goals"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair but low-level recall.",
+   "quality_note": "Clear, trivial recall from F1."
+  },
+  {
+   "local_id": "bus-b9",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Scenario concerns role clarity and duplication, not fixing responsibility"
+    },
+    "B": {
+     "status": "false",
+     "why": "Scenario does not concern predictability or stability"
+    },
+    "C": {
+     "status": "true",
+     "why": ""
+    },
+    "D": {
+     "status": "false",
+     "why": "Scenario does not concern unity of command"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair: advantages of formal organisation.",
+   "quality_note": "Clear, cue matches F6(b); distractors are other true advantages that don't fit."
+  }
+ ]
+}

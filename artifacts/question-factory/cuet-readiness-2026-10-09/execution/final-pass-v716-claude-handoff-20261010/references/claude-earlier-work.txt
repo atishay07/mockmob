@@ -1,0 +1,94 @@
+I've identified two issues: a real gap where illustration-items (like Business Studies' "which feature does this best illustrate") can't refute true-but-not-illustrated distractors, versus some defensible strict explanation judgments I'll leave alone. I'll fix the gap in V7.10 by adding a scoped `case_scope` refutation and `not_exhibited_by_case` audit basis for illustration items only, keep the rival-condition check intact, then rerun the regression focusing on 825e and second-answer defects.
+
+Now the matching blind and audit instructions for illustration items (V7.10 is still unfrozen; the q2 cases stay sealed).
+
+All 29 tests pass, and the V7.10 contract hash is now f2ed9855. I'll now re-run the native regression suite covering the 34 q1 cases plus the eight hardest V7.7 defects (including 825e, ea03, and the tricky BS cases case_scope might let slip through).
+
+While that runs (~1 hour), I'm preparing V7.10 pilot tooling as additive copies of the V7.9 pilot files. They stay untouched until a version actually qualifies.
+
+V7.10 pilot tooling is ready (15/15 offline tests). Creating the V7.10 freeze tool the same way.
+
+While that runs, checking the repo's required suites still pass with the additive code (`AGENTS.md` asks for `test:recovery` plus the question/payment suites).
+
+Factory 825/825 (up from 742 with the new V7.9/V7.10 and pilot tests) and recovery 40/40. Running the payment/question/student-budget checks the handoff used.
+
+Payment/entitlement/wallet/billing/question-selection/answer-integrity checks: 66/66 pass. Waiting for the V7.10 `case_scope` regression.
+
+BS-v2 and BS-v4 are now eligible, and the second-answer defects remain quarantined as expected—still waiting on the remaining results, particularly 825e and ea03.
+
+Safety holds firm with 0/15 q1 defects and 0/8 hard V7.7 defects accepted. Business Studies improved but economics dropped, keeping pooled survival at 10/19, so I'll inspect the economics and English failures next.
+
+Remaining issues are mostly paraphrase overreach in q1 controls' explanations, which I'll leave flagged since the literal, source-only gate is intentional. Two validator-side issues remain: BS-v1 wrongly applied the passage_unsupported label to a non-passage item, and BS-v3 has an excerpt quote that failed to bind—I'm checking why.
+
+Confirmed BS-v3's binder correctly flagged Luna's quote for adding "among employees" not in the source. Before freezing V7.10, I'll make one last schema change: restricting non-passage items so the request schema excludes passage-only enum values, preventing models from choosing labels the deterministic rule would reject.
+
+45/45 pass (V7.10 integration, passage/case scope, pilot). **Freezing V7.10 now**, before unsealing q2.
+
+V7.10 is frozen, and q2 custody looks solid: all 20 valid controls and every planted defect were independently confirmed. Now I'll adjudicate academic validity by verifying the three explanation defects and reading each valid control's explanation for genuine errors, without touching the frozen validator.
+
+Confirmed all three explanation defects fabricate facts, while the 20 valid controls hold up with sound, literal reasoning—so q2 totals 36 cases (20 valid, 16 defective), meeting the bar of zero accepted defects and ≥17/20 pooled valid with ≥4/5 per subject. Assembling and sending the final results now.
+
+q2 is ready: 36 cases, no stem collisions, all positive controls passing. With $11.63 left in the ledger, I'll dispatch q2 now under its $1.20 cap.
+
+While q2 runs, recording the V7.10 freeze and q2 registration in STATUS, then dry-running the V7.10 pilot preparation (no allocator, no spend) so registration can follow immediately if q2 passes.
+
+The pilot dry run plans 40 jobs across 4 waves, with no paid calls or writes, staying under the 33 KB preflight bound. Expected cost is ~$1.2–1.6 against the $3 stop cap (worst case $14.43), so completion isn't guaranteed—waiting on q2 before proceeding.
+
+q2 is going much better so far: 7 of 8 terminal valid controls eligible (accountancy 4/4, Business Studies 3/4), and every terminal defect quarantined. Waiting for economics, English and the rest.
+
+q2 has also hit its failure threshold, with 6 valid controls (BS-v4, BS-v5, economics-v2, English-v1, English-v3, accountancy-v5) ineligible due to `provider_output_incomplete`, capping pooled survival at 70% and Business Studies at 3/5. I'll let it finish running, then diagnose every failure.
+
+Q2 officially fails but shows real progress: zero false accepts across both fresh studies, and valid rate up to 70% from 53%, with the six valid losses mostly traceable to mechanical issues (quote binding, mismatched false_part, truncation, over-strict judgments). I'll now check whether the three binding failures involve fabricated quotes or near-exact copies to determine if they're correct rejections or representation errors.
+
+Most issues trace to flawed source data, not model mistakes: BS-v4/v5 stem from garbled two-column PDF extractions that make faithful verification impossible, and English-v1 is just a case-sensitivity mismatch. I'll now check Accountancy-v5 to see if truncation was caused by hitting an output budget limit.
+
+Accountancy-v5's Luna blind solve burned all 15,000 tokens on reasoning (a cap/transport runaway), ruling it ineligible; across the 6 valid q2 losses I found source custody issues, a case-sensitivity slip, a truncation runaway, an over-strict judgment, and an overreach error, while safety stayed perfect at 0/16 defects accepted. Next I'll check how much of the registry has interleaved source text, since that same custody problem also feeds the generator.
+
+The heuristic flags ~19% of facts, which is too crude to trust, so I'll have four Haiku reviewers properly classify each fact as clean or garbled while I work on the V7.11 code changes in parallel.
+
+Status: q2 failed at 70% valid survival with zero false accepts. I'm now classifying source excerpts for PDF garbling (4 Haiku reviewers) and building V7.11 for the mechanical causes.
+
+I'm building V7.11 as an additive copy of the frozen V7.10 with two mechanical changes: case-insensitive quote/false-part anchoring (letters, digits, negation, and order must still match), and raising the Luna blind output cap from 10,000 to 16,000 tokens to handle reasoning runaways.
+
+The one failure is the pilot plan's cost caps still saying 10,000 for Luna evaluation. Updating the V7.11 pilot plan and its test to 16,000 so the conservative cost bound stays truthful.
+
+V7.11 passes 46/46. I'll re-bind every blind resolution with both V7.10 and V7.11 offline to confirm exactly what changes and verify no quarantine depended on letter case.
+
+Exactly one binding change: English-v1 (valid) now binds, and **no defect's outcome changed**. V7.11 is done, so I'm freezing it now, before any q3 case exists.
+
+The freeze's note still has leftover template wording referencing earlier cases, but the hashes are correct. Since freeze files can't be overwritten, I'll add an addendum clarifying that q3 was authored after this freeze.
+
+Hygiene classification is still running. Recording q2 and V7.11 in STATUS meanwhile.
+
+Of 641 registry facts, I found 323 clean, 300 interleaved, and 18 garbled — nearly half the source pool is two-column text that can't be quoted faithfully. I'll now spot-check the Haiku labels before relying on them.
+
+The labels check out—clean samples read naturally while interleaved ones are genuinely spliced/reversed, though Business Studies is weakest with only 40 of 119 facts clean. Now building the q3 kit using only clean facts, excluding anything already used in q1 or q2.
+
+Your usage limit was reached, so I've stopped here. The generator is **not qualified yet**: both fresh qualification runs failed the unchanged 85% rule. No pilot, staging or production step was run, and nothing is running now.
+
+**Where it stands**
+- **Defect catching:** 0 of 31 deliberately flawed fresh questions got through across both runs (wrong keys, two correct answers, invented explanation facts, maths errors, unanswerable passage items). The contested 825e case is still rejected.
+- **Good-question pass rate:** 53% in the first run and 70% in the second, against the 85% required. Accountancy and Economics reached 80%; Business Studies and English were 60%.
+- **Spend:** $38.13 settled + $0.62 held, so about $11.25 is left of the $50. This session spent about $2.9.
+- **Cost per question:** about $0.015 per candidate for checking plus $0.001 for writing, at realtime prices. That's roughly $150–200 per 10,000 usable questions at current pass rates, which misses the $100 target. Using Gemini's half-price batch mode (already supported, not yet used) brings it near $100–120. This is an estimate, not a measured pilot result.
+
+**What I changed**
+- **Replaced V7.8.** It ran out of output budget mid-check and cost about $0.02 per question. The new versions, V7.9 to V7.11, keep every check but ask for a much shorter answer per option. Each version is frozen with its fingerprint. Earlier versions and studies are untouched.
+- **Fixed a network bug** (`scripts/pipeline/lib/longFetch.mjs`). Node's fetch cut off any reply taking over 300 seconds, and OpenAI's cheaper flex tier often takes longer. That lost 7 of 41 cases and left $0.09 held; the fix removed those losses.
+- **Fixed problems found on real runs:**
+  - In reading questions, an option the passage never says is now treated as wrong.
+  - In "which feature does this case show" questions, an option the case doesn't show is now treated as wrong.
+  - A new check catches a hidden assumption about a rival category (the bank item ea03 had slipped through).
+  - Quote matching now copes with PDF word splits, hyphen breaks and capitalisation, but still never lets one number match inside another.
+- **Added a writing rule** (`originalAuthorPolicyV79.mjs`): every wrong option must change one stated fact, and explanations must stick to the source.
+- **Tests:** all pass (factory 825, recovery 40, payment/question 66, plus the new V7.11 and pilot tests).
+- **Records:** everything above is written to `docs/brain/STATUS.md`.
+
+**What blocks qualification now**
+- **Bad source text:** 300 of 641 registered textbook excerpts are two-column PDF text spliced together, and 18 more are garbled. Only 40 of 119 Business Studies excerpts are clean. Questions built on spliced text can't be checked, and the generator draws from the same pool.
+- **Strict explanation checking:** most other rejected good questions failed because their explanations paraphrased loosely ("moved" for "offered", "never returns" for "never has to return"). I left that check strict.
+
+**Next steps, in order**
+1. Register clean, de-interleaved NCERT excerpts, especially for Business Studies and Accountancy, and stop the pilot drawing on spliced ones.
+2. Write and run the third fresh test (q3) against the frozen V7.11. Its source set is already built but no questions are written yet, and Accountancy and Business Studies only have 6–7 clean facts.
+3. Only if q3 passes: register and run the 40-question pilot, then the staging checks. The V7.11 pilot tools exist and a dry run planned all 40 jobs. Production would still need your explicit approval.

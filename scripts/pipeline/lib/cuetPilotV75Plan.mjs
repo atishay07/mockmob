@@ -1,0 +1,287 @@
+// Preparation planning for the single preregistered v7.5 measurement pilot (40 candidates, 10 per subject).
+// Pure planning: no provider call, no ledger write, no network. Coverage comes from an offline inventory
+// (reassessed bank plus eligible candidates of campaigns A/B/C) or, optionally, from the caller's staging snapshot.
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {hashJSON} from '../../../data/question_factory_policy.mjs';
+import {contentHash} from '../../../data/content_evidence.js';
+import {detailedCoverage} from './topicCoverage.mjs';
+import {focusedBriefsV7,CUET_FORMAT_PLAN,CUET_DIFFICULTY_PLAN} from './focusedBriefsV7.mjs';
+import {diversifyBrief,isIdeaGap} from './briefDiversity.mjs';
+import {orderingFormat} from './ideaAllocation.mjs';
+import {retrieveFocusedSources} from './focusedSources.mjs';
+import {QUOTE_AUTHOR_CONTRACT} from './constrainedAuthoring.mjs';
+import {AUTHOR_ADDENDUM_V7_ID} from './authorIntegrityV7.mjs';
+import {maximumRequestMicro} from './campaignExecutionV7.mjs';
+import {FACTORY_VERIFIER_VERSION_V75,validationContractV75} from './contractV75.mjs';
+import {assertCandidateCBankDisposed,reassessedStagingInventory,refreshCoverageWithCurrentReassessment,priorCampaignPlanningContext,planningReferenceContext} from './candidateCRegistration.mjs';
+
+export const PILOT_CONTRACT='cuet-pilot-v75-measurement-v1';
+export const PILOT_ID='cuet-pilot-v75-40-2026-10-09';
+export const PILOT_DIRECTORY='artifacts/question-factory/'+PILOT_ID;
+export const PILOT_SUBJECTS=Object.freeze(['english','accountancy','business_studies','economics']);
+export const PILOT_PER_SUBJECT=10;
+export const PILOT_DENOMINATOR=40;
+export const PILOT_WAVE_SIZE=10;
+export const PILOT_CAP_USD_MAX=3;
+export const WEAK_WAVE_YIELD=0.4;
+export const WEAK_WAVES_TO_STOP=2;
+export const SYSTEMIC_ERRORS_TO_STOP=3;
+export const STOCK_REASSESSMENT_DIRECTORY='artifacts/question-factory/cuet-readiness-2026-10-08/reassessment';
+export const PRIOR_CAMPAIGN_DIRECTORIES=Object.freeze([
+  'artifacts/question-factory/cuet-readiness-baseline-100-2026-10-08',
+  'artifacts/question-factory/cuet-readiness-improved-100-2026-10-08',
+  'artifacts/question-factory/cuet-readiness-cost-source-c-100-2026-10-08']);
+export const STIMULI_OVERLAY_PATH='data/question-factory-runtime/original-stimuli-overlay-2026-10-09.json';
+export const V75_FREEZE_PATH='artifacts/question-factory/cuet-readiness-2026-10-09/v75-contract-freeze.json';
+
+export const sha256File=(path,read=readFileSync)=>createHash('sha256').update(read(path)).digest('hex');
+const readJSON=(path,read=readFileSync)=>JSON.parse(read(path,'utf8'));
+
+// base registry + the reviewed stimuli overlay (sources, pack_additions). The base file is never modified.
+export function mergeRegistryOverlay(base,overlay){
+  const merged={...base,sources:{...base.sources,...(overlay?.sources||{})},packs:structuredClone(base.packs)};
+  for(const [packId,ids] of Object.entries(overlay?.pack_additions||{})){
+    const pack=merged.packs[packId];if(!pack||!Array.isArray(pack.document_ids))throw Error('overlay_pack_missing:'+packId);
+    for(const id of ids){if(!merged.sources[id])throw Error('overlay_pack_source_missing:'+id);if(!pack.document_ids.includes(id))pack.document_ids.push(id);}
+  }
+  for(const id of Object.keys(overlay?.sources||{}))if(base.sources[id])throw Error('overlay_base_collision:'+id);
+  return merged;
+}
+
+// ---------------------------------------------------------------- offline inventory
+
+// Latest record per id wins (the file is append-only).
+export function latestRecords(text){
+  const latest=new Map();
+  for(const line of text.split('\n')){if(!line.trim())continue;const row=JSON.parse(line);latest.set(row.id,row);}
+  return latest;
+}
+// A reassessed record carries its full question when eligible; otherwise only the visible fields remain.
+export function bankRowFromRecord(record){
+  if(record.result?.question)return {...record.result.question};
+  return {id:record.id,subject:record.subject,chapter:record.chapter,body:record.body,options:record.options,correct_answer:record.key,
+    explanation:record.explanation,source_refs:record.source_refs||[]};
+}
+export function loadOfflineInventory({reassessmentDirectory=STOCK_REASSESSMENT_DIRECTORY,campaignDirectories=PRIOR_CAMPAIGN_DIRECTORIES,read=readFileSync}={}){
+  const profile=readJSON(reassessmentDirectory+'/profile.json',read),text=read(reassessmentDirectory+'/results.jsonl','utf8');
+  if(text&&!text.endsWith('\n'))throw Error('reassessment_writer_must_finish_before_offline_inventory');
+  const latest=latestRecords(text),results=[...latest.values()];
+  assertCandidateCBankDisposed(profile,results);
+  const bankRows=results.map(bankRowFromRecord);
+  const bank=reassessedStagingInventory(bankRows,results,profile);
+  const campaigns=campaignDirectories.map(dir=>({dir,campaign:readJSON(dir+'/campaign.json',read),items:readJSON(dir+'/all-candidates.json',read)}));
+  const eligibleCandidates=[],ids=new Set(bank.inventory.map(q=>q.id));
+  for(const {dir,items} of campaigns)for(const row of items){
+    if(!['eligible','published'].includes(row.state)||!row.candidate?.evidence?.record)continue;
+    if(ids.has(row.candidate.id))throw Error('offline_inventory_duplicate_id:'+row.candidate.id);
+    ids.add(row.candidate.id);eligibleCandidates.push(row.candidate);
+  }
+  return {profile,results,bankRows,bank,campaigns,eligibleCandidates,
+    inventory:[...bank.inventory,...eligibleCandidates],
+    hashes:{reassessment_profile_sha256:sha256File(reassessmentDirectory+'/profile.json',read),reassessment_results_sha256:createHash('sha256').update(text).digest('hex'),
+      campaigns:Object.fromEntries(campaignDirectories.map(dir=>[dir,sha256File(dir+'/all-candidates.json',read)]))},
+    basis:'Offline inventory: '+bank.inventory.length+' reassessed bank questions with exact terminal eligible reassessment (complete passage units) plus '+eligibleCandidates.length+
+      ' eligible measurement candidates of campaigns A/B/C. No network, staging or production access; recovery family holds and the staging withholding journal are not reapplied offline.'};
+}
+
+// Optional staging path: the caller reads staged rows (read-only) and held families; the same exact-reassessment filter is applied.
+export function withStagingRows(inventory,staged,heldFamilyIds=[]){
+  const bank=reassessedStagingInventory(staged,inventory.results,inventory.profile);
+  return {...inventory,bankRows:staged,bank,inventory:[...bank.inventory,...inventory.eligibleCandidates],heldFamilies:heldFamilyIds,
+    basis:'Actual staging inventory ('+staged.length+' rows) with exact current terminal reassessment (complete passage units), plus '+inventory.eligibleCandidates.length+' eligible measurement candidates of campaigns A/B/C.'};
+}
+// Coverage over the offline inventory. Topic attribution uses the latest exact evidence, never legacy tags.
+export function offlineCoverage(inventory,registry){
+  const eligible=()=>({eligible:true});
+  const raw=detailedCoverage(inventory.inventory,registry,{eligible,heldFamilies:inventory.heldFamilies||[]});
+  const synthetic=inventory.eligibleCandidates.map(candidate=>({id:candidate.id,verifier:inventory.profile.verifier,contract:inventory.profile.contract,
+    content_hash:contentHash(candidate),state:'eligible',result:{question:candidate}}));
+  const profile={...inventory.profile,content_hashes:[...inventory.profile.content_hashes,...synthetic.map(row=>[row.id,row.content_hash])]};
+  const coverage=refreshCoverageWithCurrentReassessment(raw,[...inventory.results,...synthetic],profile);
+  coverage.qualification_basis=inventory.basis;coverage.offline_inventory=!inventory.heldFamilies;
+  coverage.staging_raw_count=null;coverage.current_reassessment_excluded=inventory.bank.excluded;
+  return coverage;
+}
+export function planningContextFor(inventory,localRegistry){
+  const priorAttempts=priorCampaignPlanningContext(inventory.campaigns.map(({campaign,items})=>({campaign,items})));
+  return {priorAttempts,context:planningReferenceContext([...inventory.bankRows,...priorAttempts],localRegistry)};
+}
+
+// ---------------------------------------------------------------- briefs
+
+// Saturated pools (every dictionary word is already used about twenty times in the bank) would otherwise return the same four words for two
+// briefs of this pilot, because one extra use does not change the ranking. A planned brief therefore counts as heavy usage for later briefs.
+export const PLANNED_SOURCE_WEIGHT=100;
+const topicOf=(coverage,job)=>coverage.cells.find(c=>c.subject===job.subject&&c.chapter===job.chapter)?.topics||[];
+function prepareBrief(job,{coverage,selection,local,planningContext,priorAttempts,prepared,topicsPlanned,allocations,diversify,ledger,sourceContextContract}){
+  const topics=topicOf(coverage,job);
+  const ranked=[...topics].sort((a,b)=>(a.usable+(topicsPlanned.get(a.id)||0))-(b.usable+(topicsPlanned.get(b.id)||0))||(a.formats[job.format]||0)-(b.formats[job.format]||0)||a.id.localeCompare(b.id));
+  const next={...job};
+  if(ranked.length){next.topic=ranked[0].text;next.topic_coverage_before={id:ranked[0].id,usable:ranked[0].usable};}
+  next.source_pack_id='original-'+job.subject+'-reference-v1';
+  if(!local.packs[next.source_pack_id])throw Error('original_reference_pack_missing:'+next.source_pack_id);
+  next.source_pack_version=local.packs[next.source_pack_id].version;next.official_syllabus_topic=next.topic;
+  next.author_contract=QUOTE_AUTHOR_CONTRACT;next.author_addendum=AUTHOR_ADDENDUM_V7_ID;
+  const priorIdeas=priorAttempts.filter(q=>q.subject===job.subject&&q.chapter===job.chapter).map(q=>q.body||q.topic).filter(Boolean);
+  next.avoidance=[...new Set([...priorIdeas,...(job.avoidance||[])])].slice(0,12);
+  const research=diversify(next,selection,planningContext,{planned:prepared.flatMap(planned=>Array(PLANNED_SOURCE_WEIGHT).fill(planned)),allocations})||retrieveFocusedSources(selection,next,ledger);
+  if(isIdeaGap(research))return {gap:{gap:research.gap,basis:research.basis,considered_sources:research.considered_sources}};
+  if(!research?.refs?.length)return {gap:{gap:'source_missing',basis:'No permitted registered section supports this brief.'}};
+  next.research=research;next.source_refs=research.refs;
+  if(research.topic)next.topic=research.topic;
+  if(next.topic_coverage_before)topicsPlanned.set(next.topic_coverage_before.id,(topicsPlanned.get(next.topic_coverage_before.id)||0)+1);
+  next.source_context_contract=sourceContextContract;
+  next.retrieval_support_status='Pending independent entailment; exact teaching context and ranking do not prove the key.';
+  local.families[next.family_id]={state:'active',version:1,source_pack_id:next.source_pack_id,kind:'original_practice'};
+  return {job:next};
+}
+
+function adjustedCoverage(coverage,jobs){
+  const adjusted=structuredClone(coverage);
+  for(const job of jobs){
+    const cell=adjusted.cells.find(c=>c.subject===job.subject&&c.chapter===job.chapter);if(!cell)continue;
+    cell.usable++;cell.formats[job.format]=(cell.formats[job.format]||0)+1;cell.difficulties[job.difficulty]=(cell.difficulties[job.difficulty]||0)+1;
+  }
+  return adjusted;
+}
+
+// Idea gaps are explicit. A gapped brief is replaced here, at preparation time and never afterwards, by the next
+// coverage-gap brief for the same subject whose (chapter, format) route is not itself gapped.
+export function planPilotBriefs({coverage,views,planningContext,priorAttempts,campaignId=PILOT_ID,branch='financial_analysis',perSubject=PILOT_PER_SUBJECT,
+  allocations,diversify=diversifyBrief,ledger=null,formatPlan=CUET_FORMAT_PLAN,difficultyPlan=CUET_DIFFICULTY_PLAN,poolSize=25}){
+  const selection=views.selection_registry,local=views.registry;
+  const initial=focusedBriefsV7(coverage,selection,{campaignId,perSubject,branch,formatPlan,difficultyPlan});
+  const prepared=[],gaps=[],topicsPlanned=new Map(),context={coverage,selection,local,planningContext,priorAttempts,prepared,topicsPlanned,allocations,diversify,ledger,sourceContextContract:views.contract};
+  const slots=[];
+  for(const job of initial){
+    const outcome=prepareBrief(job,context);
+    if(outcome.job){prepared.push(outcome.job);slots.push({subject:job.subject,job:outcome.job});}
+    else{const gap={brief_id:job.id,subject:job.subject,chapter:job.chapter,format:job.format,difficulty:job.difficulty,...outcome.gap,replaced_by:null,skipped_same_route:[]};gaps.push(gap);slots.push({subject:job.subject,gap});}
+  }
+  if(gaps.length){
+    const pool=focusedBriefsV7(adjustedCoverage(coverage,prepared),selection,{campaignId:campaignId+':gap-replacement',perSubject:poolSize,branch,formatPlan,difficultyPlan});
+    const used=new Set();
+    for(const slot of slots.filter(s=>s.gap)){
+      const gap=slot.gap,badRoutes=new Set(gaps.filter(g=>g.subject===slot.subject).map(g=>g.chapter+'|'+g.format));
+      for(const candidate of pool.filter(j=>j.subject===slot.subject&&!used.has(j.id))){
+        used.add(candidate.id);
+        if(badRoutes.has(candidate.chapter+'|'+candidate.format)){gap.skipped_same_route.push({id:candidate.id,chapter:candidate.chapter,format:candidate.format});continue;}
+        const outcome=prepareBrief(candidate,context);
+        if(outcome.job){outcome.job.replaces_gap=gap.brief_id;prepared.push(outcome.job);slot.job=outcome.job;gap.replaced_by={id:outcome.job.id,chapter:outcome.job.chapter,format:outcome.job.format,difficulty:outcome.job.difficulty};break;}
+        badRoutes.add(candidate.chapter+'|'+candidate.format);
+        gaps.push({brief_id:candidate.id,subject:candidate.subject,chapter:candidate.chapter,format:candidate.format,difficulty:candidate.difficulty,...outcome.gap,replacement_candidate_for:gap.brief_id,replaced_by:null,skipped_same_route:[]});
+      }
+      if(!slot.job)throw Error('gap_replacement_pool_exhausted:'+slot.subject);
+    }
+  }
+  const bySubject=Object.fromEntries(PILOT_SUBJECTS.map(subject=>[subject,slots.filter(s=>s.subject===subject).map(s=>s.job)]));
+  for(const subject of PILOT_SUBJECTS)if(bySubject[subject].length!==perSubject)throw Error('pilot_subject_denominator_mismatch:'+subject);
+  assignEnglishPassages({bySubject,local,planningContext,campaignId});
+  assignAnswerPositions(bySubject);
+  const ordered=interleave(bySubject,perSubject);
+  return {jobs:ordered,gaps,registry:local,initial_count:initial.length};
+}
+
+// Complete passage groups of at most 300 words. Siblings of one reading chapter share one printed passage;
+// stimuli least used by the bank, earlier attempts and this plan are chosen first.
+export function assignEnglishPassages({bySubject,local,planningContext,campaignId}){
+  const english=bySubject.english,assigned=new Map();
+  for(const chapter of ['Factual Passage','Narrative Passage','Literary Passage']){
+    const siblings=english.filter(j=>j.chapter===chapter);if(!siblings.length)continue;
+    const stimuli=Object.values(local.sources).filter(s=>s.state==='active'&&s.id.startsWith('mockmob-original-stimulus-')&&s.chapters?.includes(chapter)&&s.facts?.stimulus?.text);
+    const used=s=>planningContext.filter(q=>q.passage_text===s.facts.stimulus.text).length+(assigned.get(s.id)||0);
+    stimuli.sort((a,b)=>used(a)-used(b)||hashJSON({campaignId,id:a.id}).localeCompare(hashJSON({campaignId,id:b.id})));
+    const document=stimuli[0];
+    if(!document||document.facts.stimulus.text.trim().split(/\s+/).length>300)throw Error('complete_within_limit_original_stimulus_required');
+    assigned.set(document.id,(assigned.get(document.id)||0)+1);
+    const group='original-passage-'+hashJSON({campaignId,chapter}).slice(0,20),ref={id:document.id,version:document.version,locator:'stimulus',support_hash:document.supports.stimulus};
+    siblings.forEach((j,i)=>{
+      j.passage_text=document.facts.stimulus.text;j.source_refs=[ref];
+      j.topic=chapter+': test a distinct detail, supported inference or textual relationship in this printed fictional passage.';
+      j.research={refs:[ref],excerpts:[{...ref,text:j.passage_text}],state:'retrieved_pending_entailment',cost_usd:0};
+      if(siblings.length>1){j.passage_group_id=group;j.order_index=i;}
+    });
+    if(siblings.length>1)local.passage_groups[group]={state:'active',kind:'original_practice',passage_text:document.facts.stimulus.text,source_pack_id:'original-english-reference-v1',id:group,candidate_ids:siblings.map(j=>j.id),version:1};
+  }
+  // Group siblings first so that a group always lands inside one wave of ten.
+  english.sort((a,b)=>Number(!a.passage_group_id)-Number(!b.passage_group_id)||String(a.passage_group_id||'').localeCompare(String(b.passage_group_id||''))||(a.order_index??0)-(b.order_index??0));
+}
+
+// Requested answer positions rotate per subject so the 40 requests are exactly balanced (10 each) and siblings of a group differ.
+export function assignAnswerPositions(bySubject){
+  const offsets={english:0,accountancy:2,business_studies:1,economics:3};
+  for(const subject of PILOT_SUBJECTS){
+    const jobs=bySubject[subject],ranked=[...jobs].sort((a,b)=>hashJSON({position_seed:a.passage_group_id||a.id}).localeCompare(hashJSON({position_seed:b.passage_group_id||b.id}))||(a.order_index??0)-(b.order_index??0));
+    ranked.forEach((job,i)=>{job.requested_answer_position='ABCD'[(i+offsets[subject])%4];});
+  }
+}
+export function interleave(bySubject,perSubject){
+  const ordered=[];
+  for(let i=0;i<perSubject;i++)for(const subject of PILOT_SUBJECTS)ordered.push(bySubject[subject][i]);
+  ordered.forEach((job,i)=>{job.number=i+1;job.state='queued';job.repair_count=0;});
+  return ordered;
+}
+
+// ---------------------------------------------------------------- summary and cost
+
+export function planSummary(jobs){
+  const table={};
+  for(const subject of PILOT_SUBJECTS){
+    const rows=jobs.filter(j=>j.subject===subject),count=key=>rows.reduce((n,j)=>({...n,[j[key]]:(n[j[key]]||0)+1}),{});
+    table[subject]={briefs:rows.length,formats:count('format'),difficulties:count('difficulty'),chapters:count('chapter'),requested_answer_positions:count('requested_answer_position'),
+      ordering_briefs:rows.filter(j=>orderingFormat(j.format)).length,passage_briefs:rows.filter(j=>j.passage_text).length};
+  }
+  return {denominator:jobs.length,by_subject:table,
+    requested_answer_positions:jobs.reduce((n,j)=>({...n,[j.requested_answer_position]:(n[j.requested_answer_position]||0)+1}),{}),
+    wave_subjects:Array.from({length:Math.ceil(jobs.length/PILOT_WAVE_SIZE)},(_,w)=>jobs.slice(w*PILOT_WAVE_SIZE,(w+1)*PILOT_WAVE_SIZE).reduce((n,j)=>({...n,[j.subject]:(n[j.subject]||0)+1}),{}))};
+}
+
+// Output caps per stage, read from the frozen request builders (see the guard test that pins them).
+// The continuation retry in completeJSON doubles the cap once per request.
+export const STAGE_OUTPUT_CAPS=Object.freeze({author:6500,repair:9000,luna_evaluation:7500,gemini_evaluation:4500,explanation_audit:5000});
+const lunaBody=cap=>({max_output_tokens:cap}),geminiBody=cap=>({generationConfig:{maxOutputTokens:cap}});
+export function conservativeMaximum(prices,{caps=STAGE_OUTPUT_CAPS,candidates=PILOT_DENOMINATOR}={}){
+  const luna=cap=>maximumRequestMicro('openai',lunaBody(cap),prices),gemini=cap=>maximumRequestMicro('gemini',geminiBody(cap),prices);
+  const withRetry=(price,cap)=>({first_micro:price(cap),continuation_retry_micro:price(cap*2)});
+  const stages={author:{provider:'openai',...withRetry(luna,caps.author)},blind_solution:{provider:'openai',...withRetry(luna,caps.luna_evaluation)},
+    independent_evaluation:{provider:'gemini',...withRetry(gemini,caps.gemini_evaluation)},explanation_support:{provider:'openai',...withRetry(luna,caps.explanation_audit)},
+    repair:{provider:'openai',...withRetry(luna,caps.repair)}};
+  const total=s=>s.first_micro+s.continuation_retry_micro;
+  const validation=total(stages.blind_solution)+total(stages.independent_evaluation)+total(stages.explanation_support);
+  const perCandidate=total(stages.author)+validation+total(stages.repair)+validation;
+  return {basis:'Every request reserved at the full input bound (max_input_tokens) and the stage output cap at standard realtime rates (Flex is billed lower and settles lower), each request with its single bounded continuation retry; one author call, one validation, one repair, one revalidation per candidate.',
+    stages,maximum_requests_per_candidate:{author:2,first_validation:6,repair:2,revalidation:6,total:16},validation_maximum_micro:validation,
+    per_candidate_maximum_micro:perCandidate,per_candidate_maximum_usd:perCandidate/1e6,denominator:candidates,
+    pilot_maximum_micro:perCandidate*candidates,pilot_maximum_usd:perCandidate*candidates/1e6};
+}
+
+// ---------------------------------------------------------------- frozen contract and code binding
+
+// The v7.5 contract is frozen: preparation and execution both refuse to proceed unless every frozen file still matches the freeze record.
+export function assertV75FreezeIntact({read=readFileSync,freezePath=V75_FREEZE_PATH}={}){
+  const freeze=JSON.parse(read(freezePath,'utf8'));
+  const mismatched=Object.entries(freeze.file_sha256||{}).filter(([path,expected])=>createHash('sha256').update(read(path)).digest('hex')!==expected).map(([path])=>path);
+  if(!Object.keys(freeze.file_sha256||{}).length||mismatched.length)throw Error('v75_frozen_files_changed:'+(mismatched.join(',')||'freeze_record_empty'));
+  if(validationContractV75()!==freeze.validation_contract_hash)throw Error('v75_validation_contract_hash_changed');
+  if(freeze.verifier_version!==FACTORY_VERIFIER_VERSION_V75)throw Error('v75_verifier_version_changed');
+  return {verifier_version:freeze.verifier_version,validation_contract_hash:freeze.validation_contract_hash,parent_contract_hash:freeze.parent_contract_hash,
+    prompt_hash:freeze.prompt_hash,author_policy_hash:freeze.author_policy_hash,frozen_at:freeze.frozen_at,file_sha256:freeze.file_sha256,freeze_record_sha256:sha256File(freezePath,read)};
+}
+// Dependencies the pilot's behaviour rests on: execution refuses if any of them changed after registration.
+export const PILOT_DEPENDENCY_FILES=Object.freeze([
+  'scripts/pipeline/lib/factoryTransport.mjs','scripts/pipeline/lib/budgetLedger.mjs','scripts/pipeline/lib/campaignExecutionV7.mjs','scripts/pipeline/lib/scopedAccounting.mjs',
+  'scripts/pipeline/lib/savedRequestBody.mjs','scripts/pipeline/lib/atomicArtifact.mjs','scripts/pipeline/lib/batchInspection.mjs','scripts/pipeline/lib/briefDiversity.mjs',
+  'scripts/pipeline/lib/ideaAllocation.mjs','scripts/pipeline/lib/focusedBriefsV7.mjs','scripts/pipeline/lib/candidateFormatVNext.mjs','scripts/pipeline/lib/authorIntegrityV7.mjs',
+  'scripts/pipeline/lib/constrainedAuthoring.mjs','scripts/pipeline/lib/factoryCore.mjs','scripts/pipeline/lib/factoryEvidence.mjs','scripts/pipeline/lib/factoryEvidenceV7.mjs',
+  'scripts/pipeline/lib/factoryEvidenceV73.mjs','scripts/pipeline/lib/factoryEvidenceV74.mjs','scripts/pipeline/lib/originalAuthorPolicyV74.mjs','scripts/pipeline/lib/factoryStore.mjs',
+  'scripts/pipeline/lib/factoryFailure.mjs','scripts/pipeline/lib/measurementInspectionVNext.mjs','scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs','scripts/pipeline/lib/candidateCRegistration.mjs',
+  'scripts/pipeline/lib/sourceContextIntegrityVNext.mjs','scripts/pipeline/lib/topicCoverage.mjs','scripts/pipeline/lib/focusedCoverage.mjs','scripts/pipeline/lib/factoryNetworkLaunchPreflight.mjs',
+  'artifacts/question-factory/cuet-readiness-2026-10-08/c-draft/scripts/pipeline/lib/authorFormatC.mjs','data/cuet_fit_evidence.mjs','data/question_factory_policy.mjs',
+  'data/source_registry.json',STIMULI_OVERLAY_PATH,'artifacts/question-factory/cuet-readiness-2026-10-08/c-source-overlay/leac203.private-source.json']);
+// The pilot's own tooling is bound too, but a deliberate fix after registration is allowed with --allow-tooling-change and is then recorded in the run state.
+export const PILOT_TOOLING_FILES=Object.freeze([
+  'scripts/pipeline/tools/prepareCuetPilotV75.mjs','scripts/pipeline/tools/runCuetPilotV75.mjs','scripts/pipeline/lib/cuetPilotV75Plan.mjs','scripts/pipeline/lib/cuetPilotV75Run.mjs',
+  'scripts/pipeline/lib/cuetPilotV75Deps.mjs','scripts/pipeline/lib/cuetPilotV75Export.mjs']);
+export const fileHashes=(paths,read=readFileSync)=>Object.fromEntries(paths.map(path=>[path,createHash('sha256').update(read(path)).digest('hex')]));
+export const pricingBinding=prices=>({gpt_6_luna:prices.models?.['gpt-6-luna'],gemini_3_8_flash:prices.models?.['gemini-3.8-flash']});

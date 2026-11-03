@@ -1,0 +1,621 @@
+{
+ "schema": "cuet-v716-explanation-audit-packet-v1",
+ "study_id": "cuet-v716-qualification-fresh32",
+ "part": 2,
+ "items": [
+  {
+   "opaque_id": "q716-9b213151e481b4c6",
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "question": "How many volunteers had failed to update the noticeboard before the committee added the confirmation step?",
+   "passage": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Two"
+    },
+    {
+     "key": "B",
+     "text": "One"
+    },
+    {
+     "key": "C",
+     "text": "Three"
+    },
+    {
+     "key": "D",
+     "text": "Four"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+     "locator": "stimulus",
+     "text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "The passage refers to two missed sessions in which the board had not been changed, so two volunteers had failed to update it."
+  },
+  {
+   "opaque_id": "q716-41a5ba31b7007fe4",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "According to the significance of the current ratio, a very high current ratio is associated with which of the following?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Heavy investment in current assets"
+    },
+    {
+     "key": "B",
+     "text": "Under-utilisation or improper utilisation of resources"
+    },
+    {
+     "key": "C",
+     "text": "Risk of being unable to pay short-term debt on time"
+    },
+    {
+     "key": "D",
+     "text": "Current liabilities exceeding current assets"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p8-c0-g1-s0",
+     "text": "Significance: It provides a measure of degree to which current assets cover current\nliabilities. The excess of current assets over current liabilities provides a measure\nof safety margin available against uncertainty in realisation of current assets\nand flow of funds. The ratio should be reasonable. It should neither be very high\nor very low. Both the situations have their inherent disadvantages. A very high\ncurrent ratio implies heavy investment in current assets which is not a good\nsign as it reflects under utilisation or improper utilisation of resources. A low\nratio endangers the business and puts it at risk of facing a situation where it\nwill not be able to pay its short-term debt on time. If this problem persists, it\nmay affect firm’s credit worthiness adversely. Normally, it is safe to have this\nratio within the range of 2:1."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "A very high current ratio implies heavy investment in current assets. A risk of not paying short-term debt on time and current liabilities exceeding current assets are features of a low current ratio."
+  },
+  {
+   "opaque_id": "q716-9b309de910fc3845",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "question": "A company fills a senior vacancy by appointing a person from outside the organisation. Which limitation of external sources of recruitment is most likely to arise among its existing employees?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Dissatisfaction, because they feel their chances of promotion are reduced"
+    },
+    {
+     "key": "B",
+     "text": "A narrower choice of candidates than internal sources offer"
+    },
+    {
+     "key": "C",
+     "text": "A lack of fresh talent entering the organisation"
+    },
+    {
+     "key": "D",
+     "text": "Higher morale among staff because of new competition"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p16-c0-g2-s0",
+     "text": "Limitations of External Sources\n1. Dissatisfaction among existing staff:\nExternal recruitment may lead\nto dissatisfaction and frustration\namong existing employees. They\nmay feel that their chances of\npromotion are reduced."
+    },
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p8-c0-g1-s0",
+     "text": "job candidates. Both internal and\nexternal sources of recruitment\nmay be explored. Internal sources\nmay be used to a limited extent.\nFor fresh talent and wider choice\nexternal sources are used.\n(iii) Selection: Selection is the pro­\ncess of choosing from among\nthe pool of the prospective job\ncandidates developed at the stage\nof recruitment. Even in case of\nhighly specialised jobs where\nthe choice space is very narrow,\nthe rigour of the selection process\nserves two important purposes:\n(i) it ensures that the organisation\ngets the best among the available,\nand (ii) it enhances the self­esteem\nand prestige of those selected and\nconveys to them the seriousness\nwith which the things are done in the\norganisation. The rigour involves\na host of tests and interviews,\ndescribed later. Those who are\nable to successfully negotiate the"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "External recruitment may lead to dissatisfaction and frustration among existing employees, who may feel that their chances of promotion are reduced. External sources are used precisely for fresh talent and a wider choice of candidates, so options B and C describe the opposite, and higher morale is not a limitation."
+  },
+  {
+   "opaque_id": "q716-96ff7667bd852397",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "question": "Under scientific management, what does simplification aim at?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Eliminating superfluous varieties, sizes and dimensions of products"
+    },
+    {
+     "key": "B",
+     "text": "Devising new varieties in place of the existing ones"
+    },
+    {
+     "key": "C",
+     "text": "Determining the rest intervals needed by workers"
+    },
+    {
+     "key": "D",
+     "text": "Studying the movements involved in performing a job"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p20-c0-g1-s0",
+     "text": "(i) To reduce a given line or\nproduct to fixed types, sizes and\ncharacteristics.\n(ii) To establish interchange ability\nof manufactured parts and\nproducts.\n(iii) To establish standards of exce­\nllence and quality in materials.\n(iv) To establish standards of perfor­\nmance of men and machines.\nSimplification aims at eliminating\nsuperfluous varieties, sizes and dim­\nensions while standardisation implies\ndevising new varieties instead of the\nexisting ones. Simplification aims at\neliminating unnecessary diversity of\nproducts. It results in savings of cost of\nlabour, machines and tools. It implies\nreduced inventories, fuller utilisation of\nequipment and increasing turnover.\nMost large companies like Nokia,\nToyota and Microsoft, etc. have\nsuccessfully implemented standardi­\nsation and simplification. This is\nevident from their large share in their\nrespective markets."
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p21-c1-g1-s0",
+     "text": "rest intervals will help one to regain\nstamina and work again with the same\ncapacity. This will result in increased\nproductivity. Fatigue study seeks to\ndetermine the amount and frequency\nof rest intervals in completing a task.\nFor example, normally in a plant,\nwork takes place in three shifts of\neight hours each. Even in a single\nshift a worker has to be given some\nrest interval to take her/his lunch\netc. If the work involves heavy manual\nlabour then small pauses have to be\nfrequently given to the worker so that\nshe/he can recharge her/his energy\nlevel for optimum contribution.\nThere can be many causes for\nfatigue like long working hours,\ndoing unsuitable work, having\nuncordial relations with the boss or\nbad working conditions etc. Such\nhindrances in good performance\nshould be removed."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Simplification means devising new varieties of a product to replace the existing ones; in doing so it removes the old superfluous sizes and dimensions, so option A is correct. Determining rest intervals is fatigue study."
+  },
+  {
+   "opaque_id": "q716-d999a73813a57736",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": "Debentures that can be converted into equity shares at the option of the company or the debenture holders are called:",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Convertible debentures"
+    },
+    {
+     "key": "B",
+     "text": "Non-convertible debentures"
+    },
+    {
+     "key": "C",
+     "text": "Irredeemable debentures"
+    },
+    {
+     "key": "D",
+     "text": "Unsecured debentures"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g3-s0",
+     "text": "2.3.3 From the Point of view of Convertibility\n(a) Convertible Debentures: Debentures which are convertible into equity\nshares or in any other security either at the option of the company or\nthe debentureholders are called convertible debentures. These\ndebentures are either fully convertible or partly convertible.\n(b) Non-Convertible Debentures: The debentures which cannot be\nconverted into shares or in any other securities are called non-\nconvertible debentures. Most debentures issued by companies fall in\nthis category."
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g2-s0",
+     "text": "2.3.2 From the Point of view of Tenure\n(a) Redeemable Debentures: Redeemable debentures are those which\nare payable on the expiry of the specific period either in lump sum\nor in Instalments during the life time of the company. Debentures\ncan be redeemed either at par or at premium.\n(b) Irredeemable Debentures: Irredeemable debentures are also known\nas Perpetual Debentures because the company does not give any\nundertaking for the repayment of money borrowed by issuing such\ndebentures. These debentures are repayable on the winding-up of a\ncompany or on the expiry of a long period."
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Non-convertible debentures are those that can be converted into equity shares at the option of the company or the debenture holders, so option B is correct."
+  },
+  {
+   "opaque_id": "q716-3d499f79180e651d",
+   "subject": "economics",
+   "chapter": "Balance of Payments",
+   "question": "When an Indian resident buys a car company in the United Kingdom, how is this transaction entered in India's capital account?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "As a debit item"
+    },
+    {
+     "key": "B",
+     "text": "As a credit item"
+    },
+    {
+     "key": "C",
+     "text": "As an item in the balance of trade"
+    },
+    {
+     "key": "D",
+     "text": "It is not recorded in the balance of payments"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec106-v1",
+     "locator": "p4-c0-g1-s0",
+     "text": "6.1.2 Capital Account\nCapital Account records all international transactions of assets. An asset is any\none of the forms in which wealth can be held, for example: money, stocks, bonds,\nGovernment debt, etc. Purchase of assets is a debit item on the capital account.\nIf an Indian buys a UK Car Company, it enters capital account transactions as\na debit item (as foreign exchange is flowing out of India). On the other hand, sale\nof assets like sale of share of an Indian company to a Chinese customer is a\ncredit item on the capital account. Fig. 6.2 classifies the items which are a part\nof capital account transactions. These items are Foreign Direct Investments (FDIs),\nForeign Institutional Investments (FIIs), external borrowings and assistance."
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Buying a foreign company brings ownership of an asset into India, so it is entered as a credit item on the capital account; option B is correct."
+  },
+  {
+   "opaque_id": "q716-2ee1130ff212ce34",
+   "subject": "economics",
+   "chapter": "Government Budget & the Economy",
+   "question": "When the government incurs a revenue deficit, what does it imply?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "The government is dissaving and using the savings of other sectors to finance part of its consumption expenditure."
+    },
+    {
+     "key": "B",
+     "text": "The government's revenue receipts exceed its revenue expenditure."
+    },
+    {
+     "key": "C",
+     "text": "The government needs to borrow only to finance its investment."
+    },
+    {
+     "key": "D",
+     "text": "The government's stock of debt is falling."
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p6-c0-g1-s0",
+     "text": "5.2.1 Measures of Government Deficit\nWhen a government spends more than it collects by way of revenue, it\nincurs a budget deficit6. There are various measures that capture\ngovernment deficit and they have their own implications for the economy.\nRevenue Deficit: The revenue deficit refers to the excess of government’s\nrevenue expenditure over revenue receipts\nRevenue deficit = Revenue expenditure – Revenue receipts"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p6-c0-g3-s0",
+     "text": "Item 3 in Table 5.1 shows that revenue deficit in (2024–25) (P.A.) is\n2.6 per cent of GDP. The revenue deficit includes only such transactions\nthat affect the current income and expenditure of the government. When\nthe government incurs a revenue deficit, it implies that the government\nis dissaving and is using up the savings of the other sectors of the\neconomy to finance a part of its consumption expenditure. This situation\nmeans that the government will have to borrow not only to finance its\ninvestment but also its consumption requirements. This will lead to a\nbuild up of stock of debt and interest liabilities and force the government,"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "A revenue deficit is the excess of revenue expenditure over revenue receipts. It implies that the government is dissaving and using up the savings of other sectors to finance part of its consumption expenditure, so it must borrow not only for investment but also for consumption, which builds up its stock of debt."
+  },
+  {
+   "opaque_id": "q716-c1ebec0b53c5617b",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "A company's current assets are ₹1,20,000. Its only current liabilities are trade payables of ₹60,000 and a bank overdraft. What is its current ratio?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "2 : 1"
+    },
+    {
+     "key": "B",
+     "text": "1.5 : 1"
+    },
+    {
+     "key": "C",
+     "text": "1 : 1"
+    },
+    {
+     "key": "D",
+     "text": "3 : 1"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p10-c0-g1-s0",
+     "text": "Verification :\nCurrent Ratio = Current assets : Current liabilities\n= Rs. 56,000 : Rs. 16,000\n= 3.5 : 1\nQuick Ratio = Quick assets : Current liabilities\n= Rs. 32,000 : Rs. 16,000\n= 2 : 1"
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g3-s2",
+     "text": "Current Liabilities\nCurrent assets include current investments, inventories, trade receivables\n(debtors and bills receivables), cash and cash equivalents, short-term loans and\nadvances and other current assets such as prepaid expenses, advance tax and\naccrued income, etc.\nCurrent liabilities include short-term borrowings, trade payables (creditors\nand bills payables), other current liabilities and short-term provisions."
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g4-s0",
+     "text": "Illustration 1\nCalulate Current Ratio from the following information:\nParticulars (Rs.)\nInventories 50,000\nTrade receivables 50,000\nAdvance tax 4,000\nCash and cash equivalents 30,000\nTrade payables 1,00,000\nShort-term borrowings (bank overdraft) 4,000"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Current ratio = Current assets : Current liabilities = ₹1,20,000 : ₹60,000 = 2 : 1."
+  },
+  {
+   "opaque_id": "q716-4346b32ee9ec6815",
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "question": "Why did the school move one bus departure from 4:00 to 4:15?",
+   "passage": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey.",
+   "options": [
+    {
+     "key": "A",
+     "text": "So that pupils in a late laboratory session could reach that departure"
+    },
+    {
+     "key": "B",
+     "text": "So that every pupil would wait for a shorter time"
+    },
+    {
+     "key": "C",
+     "text": "Because the later departure made the journey faster"
+    },
+    {
+     "key": "D",
+     "text": "Because the earlier route had been cancelled"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+     "locator": "stimulus",
+     "text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "The passage says the departure was shifted to 4:15, 'allowing pupils in a late laboratory session to reach it'. The notice neither promised shorter waits for everyone nor described the later departure as faster, and the school retained an earlier departure on another route, so B, C and D are not supported."
+  },
+  {
+   "opaque_id": "q716-b53cea3e0401ccc1",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "While calculating the quick (acid-test) ratio, which of the following current assets is excluded from quick assets?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Prepaid expenses"
+    },
+    {
+     "key": "B",
+     "text": "Trade receivables"
+    },
+    {
+     "key": "C",
+     "text": "Cash and cash equivalents"
+    },
+    {
+     "key": "D",
+     "text": "Bills receivable"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p8-c0-g4-s2",
+     "text": "Current Liabilities\nThe quick assets are defined as those assets which are quickly convertible\ninto cash. While calculating quick assets we exclude the inventories at the end\nand other current assets such as prepaid expenses, advance tax, etc., from the\ncurrent assets. Because of exclusion of non-liquid current assets it is considered\nbetter than current ratio as a measure of liquidity position of the business. It is\ncalculated to serve as a supplementary check on liquidity position of the business\nand is therefore, also known as ‘Acid-Test Ratio’."
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g3-s2",
+     "text": "Current Liabilities\nCurrent assets include current investments, inventories, trade receivables\n(debtors and bills receivables), cash and cash equivalents, short-term loans and\nadvances and other current assets such as prepaid expenses, advance tax and\naccrued income, etc.\nCurrent liabilities include short-term borrowings, trade payables (creditors\nand bills payables), other current liabilities and short-term provisions."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Quick assets are those quickly convertible into cash; inventories and other current assets such as prepaid expenses and advance tax are excluded from them. Trade receivables (which include bills receivable) and cash and cash equivalents remain part of quick assets."
+  },
+  {
+   "opaque_id": "q716-f9ea653682a3e8d8",
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "question": "According to the passage, which pupils waited longer after the timetable was revised?",
+   "passage": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Pupils whose classes ended earlier"
+    },
+    {
+     "key": "B",
+     "text": "Pupils in the late laboratory session"
+    },
+    {
+     "key": "C",
+     "text": "Pupils who used the route with the earlier departure"
+    },
+    {
+     "key": "D",
+     "text": "Pupils who reported the long waits"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+     "locator": "stimulus",
+     "text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "The passage states: 'Pupils whose classes ended earlier consequently waited longer.' The late laboratory pupils were the ones the change helped, and the passage does not say that pupils on the other route or those who reported the waits waited longer."
+  },
+  {
+   "opaque_id": "q716-0edecc628592c4c3",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": "To secure its debentures, a company creates a charge on all its assets other than those already assigned to secured creditors, instead of on any one specific asset. What kind of charge has the company created?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "A floating charge"
+    },
+    {
+     "key": "B",
+     "text": "A fixed charge"
+    },
+    {
+     "key": "C",
+     "text": "No charge, because the debentures are unsecured"
+    },
+    {
+     "key": "D",
+     "text": "A charge only on its inventories"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p2-c0-g4-s0",
+     "text": "2.3.1 From the Point of view of Security\n(a) Secured Debentures: Secured debentures refer to those debentures\nwhere a charge is created on the assets of the company for the purpose\nof payment in case of default. The charge may be fixed or floating. A\nfixed charge is created on a specific asset whereas a floating charge is"
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g1-s0",
+     "text": "on the general assets of the company. The fixed charge is created\nagainst those assets which are held by a company for use in operations\nnot meant for sale whereas floating charge involves all assets excluding\nthose assigned to the secured creditors.\n(b) Unsecured Debentures: Unsecured debentures do not have a specific\ncharge on the assets of the company. However, a floating charge may\nbe created on these debentures by default. Normally, these kinds of\ndebentures are not issued."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "A fixed charge is created on a specific asset held for use in operations, whereas a floating charge covers all the assets excluding those assigned to the secured creditors. A charge on the company's general assets is therefore a floating charge. The debentures are not unsecured, because a charge has been created, and the charge is not limited to inventories."
+  },
+  {
+   "opaque_id": "q716-0f8ded1235a6ce7d",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "Choose the word most nearly OPPOSITE in meaning to INDIFFERENT as used in the sentence: 'Rahul was indifferent to the new science club and never asked a single question about it.'",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "inquisitive"
+    },
+    {
+     "key": "B",
+     "text": "transient"
+    },
+    {
+     "key": "C",
+     "text": "frugal"
+    },
+    {
+     "key": "D",
+     "text": "plausible"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-indifferent",
+     "locator": "definition",
+     "text": "having or showing no interest in somebody/something"
+    },
+    {
+     "source_id": "oxford-quality-inquisitive",
+     "locator": "definition",
+     "text": "very interested in learning about many different things"
+    },
+    {
+     "source_id": "oxford-quality-transient",
+     "locator": "definition",
+     "text": "continuing for only a short time"
+    },
+    {
+     "source_id": "oxford-quality-frugal",
+     "locator": "definition",
+     "text": "using only as much money or food as is necessary"
+    },
+    {
+     "source_id": "oxford-quality-plausible",
+     "locator": "definition",
+     "text": "(of an excuse or explanation) reasonable and likely to be true"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Indifferent means having or showing no interest in something. Inquisitive means very interested in learning about many different things, so it is the opposite. Transient (lasting a short time), frugal (using only what is necessary) and plausible (reasonable and likely to be true) are unrelated to interest."
+  },
+  {
+   "opaque_id": "q716-3078e5276ec18262",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": "A company issues debentures without giving any undertaking to repay the money borrowed during its lifetime; they are repayable only on the winding up of the company or after a very long period. Such debentures are called:",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Irredeemable debentures"
+    },
+    {
+     "key": "B",
+     "text": "Redeemable debentures"
+    },
+    {
+     "key": "C",
+     "text": "Convertible debentures"
+    },
+    {
+     "key": "D",
+     "text": "Secured debentures"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g2-s0",
+     "text": "2.3.2 From the Point of view of Tenure\n(a) Redeemable Debentures: Redeemable debentures are those which\nare payable on the expiry of the specific period either in lump sum\nor in Instalments during the life time of the company. Debentures\ncan be redeemed either at par or at premium.\n(b) Irredeemable Debentures: Irredeemable debentures are also known\nas Perpetual Debentures because the company does not give any\nundertaking for the repayment of money borrowed by issuing such\ndebentures. These debentures are repayable on the winding-up of a\ncompany or on the expiry of a long period."
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g3-s0",
+     "text": "2.3.3 From the Point of view of Convertibility\n(a) Convertible Debentures: Debentures which are convertible into equity\nshares or in any other security either at the option of the company or\nthe debentureholders are called convertible debentures. These\ndebentures are either fully convertible or partly convertible.\n(b) Non-Convertible Debentures: The debentures which cannot be\nconverted into shares or in any other securities are called non-\nconvertible debentures. Most debentures issued by companies fall in\nthis category."
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p2-c0-g4-s0",
+     "text": "2.3.1 From the Point of view of Security\n(a) Secured Debentures: Secured debentures refer to those debentures\nwhere a charge is created on the assets of the company for the purpose\nof payment in case of default. The charge may be fixed or floating. A\nfixed charge is created on a specific asset whereas a floating charge is"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Irredeemable (perpetual) debentures carry no undertaking for repayment of the money borrowed and are repayable on winding up or after a long period. Redeemable debentures are payable on the expiry of a specific period, convertible debentures can be converted into shares or other securities, and secured debentures are those on which a charge is created on the company's assets."
+  },
+  {
+   "opaque_id": "q716-5a14df53180354c9",
+   "subject": "economics",
+   "chapter": "Balance of Payments",
+   "question": "During a year, the value of a country's imports of goods is greater than the value of its exports of goods. Its balance of trade is said to be in:",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Deficit"
+    },
+    {
+     "key": "B",
+     "text": "Surplus"
+    },
+    {
+     "key": "C",
+     "text": "Balance"
+    },
+    {
+     "key": "D",
+     "text": "Surplus on the current account"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec106-v1",
+     "locator": "p3-c0-g2-s16",
+     "text": "Balance on Current Account has two components:\n• ·Balance of Trade or Trade Balance\n• ·Balance on Invisibles\nBalance of Trade (BOT) is the difference between the value of exports\nand value of imports of goods of a country in a given period of time.\nExport of goods is entered as a credit item in BOT, whereas import of\ngoods is entered as a debit item in BOT. It is also known as Trade\nBalance.\nBOT is said to be in balance when exports of goods are equal to the\nimports of goods. Surplus BOT or Trade surplus will arise if country\nexports more goods than what it imports. Whereas, Deficit BOT or Trade\ndeficit will arise if a country imports more goods than what it exports.\nNet Invisibles is the difference between the value of exports and value"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "The balance of trade is the difference between the value of exports and imports of goods. It is in balance when they are equal, in surplus when exports of goods exceed imports, and in deficit when imports of goods exceed exports. The current account also includes invisibles, so a trade deficit does not tell us that the current account is in surplus."
+  },
+  {
+   "opaque_id": "q716-2c87a162ebc301e0",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "question": "Which of the following is included in the staffing function of management?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Recruitment"
+    },
+    {
+     "key": "B",
+     "text": "Training"
+    },
+    {
+     "key": "C",
+     "text": "Performance appraisal"
+    },
+    {
+     "key": "D",
+     "text": "Setting the organisation's objectives"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p2-c0-g2-s2",
+     "text": "After planning and selection of the\norganisation structure, the next step\nin the management process is to fill\nthe various posts provided in the\norganisation. This is termed as the\nmanagement of staffing function. In\nthe simplest terms, staffing is ‘putting\npeople to jobs’. It begins with workforce\nplanning and includes different other\nfunction like recruitment, selection,\ntraining, development, promotion,\ncompensation and performance\nappraisal of work force. In other\nwords, staffing is that part of the\nprocess of management which is\nconcerned with obtaining, utilising\nand maintaining a satisfactory and\nsatisfied work force. Today, staffing\nmay involve any combination of\nemployees including daily wagers,\nconsultants and contract employees.\nStaffing recognises the importance"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Staffing begins with workforce planning and includes recruitment, so option A is correct."
+  }
+ ]
+}

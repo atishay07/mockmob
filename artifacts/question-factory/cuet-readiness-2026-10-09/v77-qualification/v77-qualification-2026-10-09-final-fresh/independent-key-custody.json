@@ -1,0 +1,1191 @@
+{
+  "at": "2026-10-09T07:42:08.031Z",
+  "complete": true,
+  "problems": [],
+  "case_ids": [
+    "v77f-ad344a8b5f2d",
+    "v77f-2105354e5de1",
+    "v77f-662880a2c5fb",
+    "v77f-073bdc31e03c",
+    "v77f-3546cbf8ea19",
+    "v77f-c6d21440345d",
+    "v77f-a20de9004938",
+    "v77f-9a31e9a4c29b",
+    "v77f-ea8f75b17d74",
+    "v77f-b123137834cc",
+    "v77f-466fab2284fd",
+    "v77f-2d806114710e",
+    "v77f-4c09b80e91ce",
+    "v77f-a99cc144f9e5",
+    "v77f-1ed13162f85d",
+    "v77f-dfcca21b749e",
+    "v77f-84e9ba57542c",
+    "v77f-59b58a25bbb3",
+    "v77f-e77493e30567",
+    "v77f-1db3dc389725",
+    "v77f-e9ef75026c19",
+    "v77f-3e505228c987",
+    "v77f-63d002be451c",
+    "v77f-98a231fa15fa",
+    "v77f-fcf957a734d5",
+    "v77f-c519f01371f2",
+    "v77f-2ca94e8b4e72",
+    "v77f-56f266269b74"
+  ],
+  "positive_ids": [
+    "v77f-ad344a8b5f2d",
+    "v77f-2105354e5de1",
+    "v77f-662880a2c5fb",
+    "v77f-073bdc31e03c",
+    "v77f-3546cbf8ea19",
+    "v77f-c6d21440345d",
+    "v77f-a20de9004938",
+    "v77f-9a31e9a4c29b",
+    "v77f-ea8f75b17d74",
+    "v77f-b123137834cc",
+    "v77f-466fab2284fd",
+    "v77f-2d806114710e",
+    "v77f-4c09b80e91ce",
+    "v77f-a99cc144f9e5",
+    "v77f-1ed13162f85d",
+    "v77f-dfcca21b749e"
+  ],
+  "invalid_ids": [
+    "v77f-84e9ba57542c",
+    "v77f-59b58a25bbb3",
+    "v77f-e77493e30567",
+    "v77f-1db3dc389725",
+    "v77f-e9ef75026c19",
+    "v77f-3e505228c987",
+    "v77f-63d002be451c",
+    "v77f-98a231fa15fa",
+    "v77f-fcf957a734d5",
+    "v77f-c519f01371f2",
+    "v77f-2ca94e8b4e72",
+    "v77f-56f266269b74"
+  ],
+  "source_key_records": [
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Cash-equivalent definition and maturity test support A; explanation matches.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "d0b75656e5a146344477f01832a045e9a448d2840863d7c0f34800f1433bcfbb",
+      "final_v5_candidate_explanation_audit": "Cash-equivalent rule and maturity limit support the short-term, readily convertible, low-risk deposit; explanation matches.",
+      "final_source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Both receipt classifications are directly source-supported.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "aa391f764cfb6f5399750e8edfdc68a068ffa4575ce7fbb3f36d55b645ab86f6",
+      "final_v5_candidate_explanation_audit": "Source classifies customer receipts as operating and fixed-asset disposal proceeds as investing; explanation matches.",
+      "final_source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p2-ac_purpose",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Answer and explanation paraphrase the cited primary objective.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "be70b1fce926a35bef929a80f827c3fac9ccdeb0428141ec7892c1c0aa180605",
+      "final_v5_candidate_explanation_audit": "Source supports reporting period cash flows under operating, investing and financing activities; explanation is accurate.",
+      "final_source_ids": [
+        "v77v2src-leac206-p2-ac_purpose",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p5-ac_investing_purchase",
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3",
+        "v77v2src-leac206-p5-ac_investing_disposal"
+      ],
+      "independent_basis_and_explanation_audit": "Fixed-asset purchase is explicitly an investing cash outflow.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "b5568d3c95f3bbbb2a8151df2b93f3a5d165f6f70f509748e65aae431182e44e",
+      "final_v5_candidate_explanation_audit": "Source classifies cash paid to acquire a fixed asset as investing; explanation is accurate.",
+      "final_source_ids": [
+        "v77v2src-leac206-p5-ac_investing_purchase",
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3",
+        "v77v2src-leac206-p5-ac_investing_disposal"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "independent_basis_and_explanation_audit": "Workforce identification/recruitment/selection/placement defines staffing.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "798e5eb6c3fabe4c8ed2cd35f0e611187225564fb9e7a62b695214665a7c6397",
+      "final_v5_candidate_explanation_audit": "Staffing source supports the described sequence of identifying workforce requirements and filling positions; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-c6d21440345d",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-lebs106-p28-bs_training",
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "independent_basis_and_explanation_audit": "Key A is supported by the skill-update clue and training/staffing coverage. The draft explanation overstates the visible training excerpt: it does not explicitly say “preparing employees for higher responsibility.” Tighten that explanation or add an exact source before asserting every positive explanation is fully source-backed.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "fa9b115c099c22dbd197cef1c6ca60f16320822c3dffab5930794b22c5f91c3a",
+      "final_v5_candidate_explanation_audit": "Revised explanation stays within the quoted training definition (increasing aptitudes, skills and abilities for specific jobs) and training-and-development syllabus unit; prior unsupported higher-responsibility claim is removed.",
+      "final_source_ids": [
+        "v77v2src-lebs106-p28-bs_training",
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "Relief for product shortfall is redressal; the stem specifically asks which right obtains relief.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "271b655a001e44eae915c651306b4e03d54f823a220157f8c62d32616e921baa",
+      "final_v5_candidate_explanation_audit": "Consumer-rights source supports redressal as relief for a product or service falling short; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "The cited page-8 text defines the right to be heard as opportunity to file a complaint and be heard.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "0b54caf80cf6b2e6cd9071b54b6666fd536f17367d0d823828369060348ec52e",
+      "final_v5_candidate_explanation_audit": "Consumer-rights source supports the right to complain and be heard when dissatisfied; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-ea8f75b17d74",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Marginal utility equals 30−28=2; the source gives this exact numeric illustration.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "ad4d9f03de1f3e32901bbae3e026e447471bf9c277c6e0446c5cba197a8059bc",
+      "final_v5_candidate_explanation_audit": "Utility source supports marginal utility as change in total utility; 30 minus 28 is 2 and option A is supported.",
+      "final_source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-b123137834cc",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Ranking bundles without numerical measurement is ordinal utility.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "cc429a370bbfaeafd1335e1c3e81f69b3a6d55f99014abd7f0a99fb02175690f",
+      "final_v5_candidate_explanation_audit": "Ordinal utility source supports ranking bundles without numerical utility units; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-466fab2284fd",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p6-ec_indifference",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The source explicitly says bundles on one indifference curve are considered indifferent.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "822db62ddc5d96296f35df11e852006699b808dfe88ce647e66f99c049679d0a",
+      "final_v5_candidate_explanation_audit": "Indifference-curve source supports that bundles on one curve are treated as indifferent; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-leec202-p6-ec_indifference",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-2d806114710e",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_place_time",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The source gives the same heater example varying by place and time.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "bf09b72c730c65307e9c4d2d07dddbc3a50e8d5a39ea8b606ecfff69ee7f0374",
+      "final_v5_candidate_explanation_audit": "Economics source states utility can vary by place and time; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-leec202-p2-ec_place_time",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-4c09b80e91ce",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The library passage uses a ledger as a written record of the move.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "dfafa2205d7dc45a87bc44f00bff9082e0aa5480eaedaea8f2b9e28eb0530687",
+      "final_v5_candidate_explanation_audit": "Library passage directly supports the ledger as a written record of each move; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-a99cc144f9e5",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage records preventive steps before damage and says these reduce risk.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "d4d9d17ec86ddb5f02031fa6493c9548a20f9d8542c12f8dc50980d8795e56c1",
+      "final_v5_candidate_explanation_audit": "Library passage supports preventive recording and that no map has yet been damaged; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-1ed13162f85d",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage directly links strong current to cancellation and crossing out the line.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "e75e09afdd98cf9c77892bd299c13ef7b825bbc008ed7938369ad0074576e016",
+      "final_v5_candidate_explanation_audit": "Ferry passage directly gives the cancellation reason as strong current; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-dfcca21b749e",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-orchard",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage states the list makes small delays visible with time to adjust.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control",
+      "final_candidate_explanation_sha256": "4a5d30975803faac4ac01b9b18a4bdcf949238bd1dc56f07c715e3dc76523c99",
+      "final_v5_candidate_explanation_audit": "Orchard passage directly supports the final sentence about making small delays visible in time to adjust; explanation is supported.",
+      "final_source_ids": [
+        "v77v2src-english-orchard",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Actual key is A; proposed B reverses customer-operating and disposal-investing classifications.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key",
+      "final_candidate_explanation_sha256": "e2ceee4844e2a62e24838692fed0ba5deee654fecf121a13dfbf3e26ecda2bca",
+      "final_v5_candidate_explanation_audit": "Candidate explanation states wrong-key reasoning directly: it reverses customer receipts and fixed-asset disposal classifications, making B appear correct when A is source-supported.",
+      "final_source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-59b58a25bbb3",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "No determinate answer: the decisive maturity-from-acquisition and full risk/liquidity conditions are absent.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "missing_decisive_assumption",
+      "final_candidate_explanation_sha256": "fff1687c446ee1d4f402946bae0d3ef816ce9bc4b14db83e969fc56c3a2fb27d",
+      "final_v5_candidate_explanation_audit": "Candidate explanation asserts ready convertibility alone suffices; source cash-equivalent test also requires short maturity and low risk, which the stem does not establish.",
+      "final_source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-e77493e30567",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Key A=7,500 is correct, but the candidate explanation says 12,000−4,500=8,500; numerical explanation defect.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "numerical_fault",
+      "final_candidate_explanation_sha256": "279342ba9f0765e48e3ff0fc2dcc367ca52bc8476002362ef0d73b63654153cc",
+      "final_v5_candidate_explanation_audit": "Candidate explanation contains false arithmetic: 12,000 minus 4,500 equals 8,500; correct difference is 7,500.",
+      "final_source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-1db3dc389725",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "C",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "independent_basis_and_explanation_audit": "Actual key is A=Staffing; proposed C=Marketing is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key",
+      "final_candidate_explanation_sha256": "1e08d3e8ffc2a7b94cdeed0e622d578fb949868636e59dddc916a1af51bd8df2",
+      "final_v5_candidate_explanation_audit": "Candidate explanation mislabels identifying, recruiting, selecting and placing required personnel as marketing; source supports staffing.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A",
+        "B"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [
+        1,
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A",
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "Both complaint/hearing (A) and relief after loss (B) apply; final source excerpt contains both definitions, so evidence supports the ambiguity. Sol’s “missing redressal quote” gap is stale.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "ambiguous_multiple_correct",
+      "final_candidate_explanation_sha256": "bc58bb0d47a20c85d4b55c58b50c2365c88d89c7b0797a1c982393c59d2a446f",
+      "final_v5_candidate_explanation_audit": "Candidate explanation asserts only the right to be heard applies and denies redressal; page-8 source supports both rights for this undifferentiated scenario, making the single-answer item ambiguous.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-3e505228c987",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "independent_basis_and_explanation_audit": "The stem does not determine an estimator and supplied source does not establish causal forest; invalid due underdetermined source/objective mismatch. Draft outside_syllabus taxonomy and categorical claim are too broad.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "outside_syllabus",
+      "final_candidate_explanation_sha256": "cef10f8be64eba30cce761e26be35f98836eb5792b55068c94a5d6b1f19b0b9d",
+      "final_v5_candidate_explanation_audit": "Candidate explanation claims the facts uniquely identify causal forest estimation, but supplied material does not determine that method. Invalidity is underdetermination and source/objective mismatch, not categorical syllabus exclusion.",
+      "final_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-63d002be451c",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "C",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Actual fifth-unit MU=30−28=2 (A); proposed C=−2 is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key",
+      "final_candidate_explanation_sha256": "d4ea7d5db4f4897ab1c99bd5cd621de93a487083857a52bf61b1a4342412c1f5",
+      "final_v5_candidate_explanation_audit": "Candidate explanation reverses marginal-utility subtraction and asserts 28 minus 30 equals negative two; source-supported change is 30 minus 28 equals 2, option A.",
+      "final_source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-98a231fa15fa",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-leec202-p3-ec_dmu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The “must decline” conclusion requires holding other commodities/conditions constant; no such condition is stated.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "missing_decisive_assumption",
+      "final_candidate_explanation_sha256": "94bc4f2814e2486ee8299e78fdfef92b7d1d5cfbbc99377049e54a853d12a25d",
+      "final_v5_candidate_explanation_audit": "Candidate explanation says diminishing marginal utility holds regardless of other commodities; source states the law with other commodity consumption held constant, omitted by the stem.",
+      "final_source_ids": [
+        "v77v2src-leec202-p3-ec_dmu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-fcf957a734d5",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Ranking without numerical utility means ordinal (B); proposed A=cardinal is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key",
+      "final_candidate_explanation_sha256": "cd8d453e94021304d6e8238af30dc16a9fece918dd46d0a2dc518941c079204a",
+      "final_v5_candidate_explanation_audit": "Candidate explanation calls ranking without numerical measurement cardinal utility; source supports ordinal utility, so proposed A is wrong.",
+      "final_source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-c519f01371f2",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage explicitly names the second-hand movement and escapement sound (A); proposed B is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key",
+      "final_candidate_explanation_sha256": "5f2c6f3f5c86b16a037122825fc4fe817b167c3b4bc2270fe30903338467da02",
+      "final_v5_candidate_explanation_audit": "Qualification: explanation itself accurately gives passage-supported comparison (option A), while proposed key B selects another option. Decisive defect is explanation/key mismatch and wrong key, not false factual reasoning within the explanation. If intended to demonstrate false candidate rationale, this case does not yet do so.",
+      "final_source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-2ca94e8b4e72",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Fresh date means recently written/current (A); explanation’s extra newly-painted claim is absent from passage.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "unsupported_explanation",
+      "final_candidate_explanation_sha256": "ab8099112194bbfedad6e0476b9d5cbf605aa06c3d4278d7b52d196bf8e034f2",
+      "final_v5_candidate_explanation_audit": "Candidate explanation adds that Dev newly painted the board that morning; passage only says he wrote the fresh date. Concrete unsupported claim.",
+      "final_source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "A is the likely grammar key, but the narrative source does not support the rule. Label defect is source/route/objective mismatch; the syllabus topic list is non-exhaustive, so do not state a blanket out-of-syllabus claim.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "unsupported_source_and_objective_mismatch",
+      "final_candidate_explanation_sha256": "9a63b988a54eb04ec473a9146aa962fe7b91d7d95609fec5167b3e79e0cbdcf0",
+      "final_v5_candidate_explanation_audit": "Candidate explanation gives a grammar rule unsupported by supplied narrative passage, while route/type and objective describe passage comprehension. Defect is source/objective mismatch; no categorical out-of-syllabus claim.",
+      "final_source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "v5_syllabus_profile": "cuet-2026-provisional-for-2027"
+    }
+  ],
+  "final_conclusions": {
+    "positive_explanations": "All 16 positive explanations are source-supported, including corrected training explanation v77f-c6d21440345d.",
+    "invalid_candidates": "All 12 expected-invalid cases have a decisive defect consistent with the label. Eleven explanations state direct false or unsupported reasoning; v77f-c519f01371f2 is invalid because its proposed key conflicts with its source-true explanation.",
+    "taxonomy": "Causal-method and English grammar cases are supported as underdetermined/source-objective mismatches; no categorical out-of-syllabus claim is relied on.",
+    "v5_metadata": "Verified v5 changes only the syllabus profile field in all 28 candidates versus v4; questions, keys, explanations, source refs and labels are unchanged. Existing current 2026 source is preserved with 2027 revalidation profile."
+  },
+  "bindings": {
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/draft-cases-v5-PRIVATE.json": "4cc5b410c858e9023976d69d7795ad889bbd66963bd726ee269de9251abdfdda",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/blind-review-packet-v3c.json": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/root-derivations-v3c-PRIVATE.json": "934c09a377ba4d20aabf092a075043a1a6a6b4c3600aff42fb5bcfaf9215d48e",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/independent-derivations-sol-v3b.json": "2bab0953398f53d610129a17e5a903793076834a9b0f26c9801c6bd7daadc008",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/explanation-and-label-custody-luna-v4.json": "28cb6eb0d2a9eda38bdede618f56ba7826d6fdcdd1a240ec47bd5ac30595ae7d",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/case-freshness-final-v4.json": "b530494b94505eacf03a8d1d9f29c79964726b4d86b5749455b38c5142ff209b",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-overlay-v4.json": "5fc02070c0c9b6c3974330bb6531cc15654516ea2ba95e9a8fe492911f9208fa",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/candidate-explanation-construction-v4.json": "51b8f391117f42e6fad4d1bb3d204dbbdd86408ab8f4857544e3027ec577ab17",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/current-syllabus-metadata-v5.json": "83e82b0914c5024ec4dc4a0cb8213df044f293d661412f36e941b2371da74e21",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-registry-integration-v4.json": "452ba52bab9fad486c79750532bf061e61c98bf8a227a6ef33bb000f4f2434ac",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/free-final-candidate-checks-v4.json": "62600cb6afd16e17b3fe960a36d0f6338ee456f4015f7c63c09c5a59812f3bed",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/receipt-recovery-freeze.json": "61e86d6f8236d28979cbc7489bca47cf1a82b41c2ea6158fd4272065c732f258",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/RECOVERY-PREREGISTRATION-ADDENDUM.md": "913a150f6891c534f70b53304a7139d531d44b5acd09930e29f0e29ffdbbbbe3"
+  },
+  "independent_derivations_before_proposed_keys": true,
+  "disclosures": {
+    "sol_error_after_saved_complete_derivations": "Sol reached account usage limit after saving all 28 complete derivations and matching SHA. No missing derivation is counted as complete.",
+    "sol_stale_gap": "The dual-right source contains hearing and redressal; separate final custody corrects the stale Sol missing-quote note without editing original derivations.",
+    "stale_inherited_audit_conclusion": "The independent v4 artifact retains an inherited v3c conclusion string; its final conclusions/counts/per-case final explanation audits explicitly verify the corrected training explanation.",
+    "wrong_key_control": "c519f01371f2 has source-true explanation A but proposed key B. Its decisive defect is wrong key/key-explanation mismatch; no requirement that every invalid explanation itself be false.",
+    "custodian_exposure": "Root v1 independent derivations preceded proposed v1 keys and Sol derivations; later construction inspected labels. Root final v3c derivations were frozen before private v3b explanation/key review. Sol and independent Luna source-only answers preceded their proposed-key comparison. Native qualification validators have never seen these cases.",
+    "correlation": {
+      "independent_fresh_roots_count_not_asserted_28": true,
+      "relationships": [
+        {
+          "case_ids": [
+            "v77f-2105354e5de1",
+            "v77f-84e9ba57542c"
+          ],
+          "relationship": "Disclosed same customer-receipt and fixed-asset-disposal classification root/control relationship; correlated semantic mutation, not an independent root."
+        },
+        {
+          "case_ids": [
+            "v77f-3546cbf8ea19",
+            "v77f-1db3dc389725"
+          ],
+          "relationship": "Disclosed same staffing-sequence root/control relationship; correlated variants, not independent roots."
+        },
+        {
+          "case_ids": [
+            "v77f-ea8f75b17d74",
+            "v77f-63d002be451c"
+          ],
+          "relationship": "Disclosed same 28-after-four / 30-after-five marginal-utility computation root/control relationship; correlated variants, not independent roots."
+        },
+        {
+          "case_ids": [
+            "v77f-b123137834cc",
+            "v77f-fcf957a734d5"
+          ],
+          "relationship": "Disclosed same ordinal-utility ranking root/control relationship; correlated variants, not independent roots."
+        },
+        {
+          "case_ids": [
+            "v77f-ad344a8b5f2d",
+            "v77f-59b58a25bbb3"
+          ],
+          "relationship": "Same cash-equivalent eligibility construct; the latter deliberately withholds the maturity period. Correlated cases, not historical reuse."
+        },
+        {
+          "case_ids": [
+            "v77f-a20de9004938",
+            "v77f-9a31e9a4c29b",
+            "v77f-e9ef75026c19"
+          ],
+          "relationship": "Shared consumer-rights evidence cluster; the third intentionally combines hearing and redressal in a defect candidate."
+        },
+        {
+          "case_ids": [
+            "v77f-4c09b80e91ce",
+            "v77f-a99cc144f9e5"
+          ],
+          "relationship": "Distinct questions share the new library passage."
+        },
+        {
+          "case_ids": [
+            "v77f-1ed13162f85d",
+            "v77f-2ca94e8b4e72"
+          ],
+          "relationship": "Distinct questions share the new ferry passage."
+        },
+        {
+          "case_ids": [
+            "v77f-c519f01371f2",
+            "v77f-56f266269b74"
+          ],
+          "relationship": "Distinct questions share the workshop passage."
+        }
+      ],
+      "note": "The paired root/control variants and shared-passage groups are correlated by design. They do not indicate reuse from the 13 historical freezes. Independent source roots should be counted separately from controlled mutations; this review does not characterize all 28 fixtures as independent roots."
+    }
+  }
+}

@@ -1,0 +1,362 @@
+[
+ {
+  "ref": "F1",
+  "source_id": "ncertcol-leac101-v1",
+  "version": 1,
+  "locator": "p8-c0-g2-s0",
+  "chapter": "Partnership Fundamentals",
+  "support_hash": "7dda7e77731d1a35ee936e0d96172ecb8617fa7c8374049487b83435b1a0c24a",
+  "page": 8,
+  "text": "1.5.1 Profit and Loss Appropriation Account\nProfit and Loss Appropriation Account is merely an extension of the Profit and\nLoss Account of the firm. It shows how the profits are appropriated or distributed\namong the partners. All adjustments in respect of partner’s salary, partner’s\ncommission, interest on capital, interest on drawings, etc. are made through\nthis account. It starts with the net profit/net loss as per Profit and Loss Account.\nThe journal entries for preparation of Profit and Loss Appropriation Account\nand making various adjustments through it are given as follows:\nJournal Entries\n1. Transfer of the balance of Profit and Loss Account to Profit and Loss Appropriation\nAccount:\n(a) If Profit and Loss Account shows a credit balance (net profit):\nProfit and Loss A/c Dr.\nTo Profit and Loss Appropriation A/c\n(b) If Profit and Loss Account shows a debit balance (net loss)\nProfit and Loss Appropriation A/c Dr.\nTo Profit and Loss A/c\n2. Interest on Capital:\n(a) For Allowing interest on capital:\nInterest on Capital A/c Dr.\nTo Partner’s Capital/Current A/cs (individually)\n(b) For transferring interest on capital to Profit and Loss Appropriation Account:\nProfit and Loss Appropriation A/c Dr.\nTo Interest on Capital A/c\n3. Interest on Drawings:\n(a) For charging interest on drawings to partners’ capital accounts:\nPartners Capital/Current A/c’s (individually) Dr.\nTo Interest on Drawings A/c\n(b) For transferring interest on drawings to Profit and Loss Appropriation Account:\nInterest on Drawings A/c Dr.\nTo Profit and Loss Appropriation A/c"
+ },
+ {
+  "ref": "F2",
+  "source_id": "ncertcol-leac101-v1",
+  "version": 1,
+  "locator": "p1-c1-g1-s0",
+  "chapter": "Partnership Fundamentals",
+  "support_hash": "f203fb7f05f175c80665ce3080eec27ae6b9eec4cc8b5fdf339c0643fbb6c0ff",
+  "page": 1,
+  "text": "You have learnt about the preparation of financial\nstatements for a sole proprietary concern. As the\nbusiness expands, one needs more capital and\nlarger number of people to manage the business and\nshare its risks. In such a situation, people usually\nadopt the partnership form of organisation.\nAccounting for partnership firms has it’s own\npeculiarities, as the partnership firm comes into\nexistence when two or more persons come together\nto establish business and share its profits. On many\nissues affecting distribution of profits, there may not\nbe any specific agreement between the partners. In\nsuch a situation the provisions of the Indian\nPartnership Act 1932 apply. Similarly, calculation\nof interest on capital, interest on drawings and\nmaintenance of partners capital accounts have their\nown peculiarities. Not only that a variety of\nadjustments are required on the death of a partner\nor when a new partner is admitted and so on. These\npeculiar situations need specific treatment in\naccounting that need to be clarified.\nThe present chapter discusses some basic\naspects of partnership such as distribution of profit,\nmaintenance of capital accounts, etc. The treatment\nof situations like admission of partner, retirement,\ndeath and dissolution have been taken up in the\nsubsequent chapters."
+ },
+ {
+  "ref": "F3",
+  "source_id": "ncertcol-leac101-v1",
+  "version": 1,
+  "locator": "p26-c0-g3-s0",
+  "chapter": "Profit & Loss Appropriation Account",
+  "support_hash": "126b9af5f8a194801e834adf3ea1e03303f4dcd508d83b1231176d09cbd398d0",
+  "page": 26,
+  "text": "1.6 Guarantee of Profit to a Partner\nSometimes a partner is admitted into the firm with a guarantee of certain\nminimum amount by way of his share of profits of the firm. Such assurance\nmay be given by all the old partners in a certain ratio or by any of the old\npartners, individually to the new partner. The minimum guaranteed amount\nshall be paid to such new partner when his share of profit as per the profit\nsharing ratio is less than the guarnteed amount. For example, Madhulika and\nRakshita, who are partners in a firm decide to admit Kanishka into their firm,\ngiving her the guarantee of a minimum of Rs.25,000 as her share in firm’s profits.\nThe firm earned a profit of Rs.1,20,000 during the year and the agreed profit\nsharing ratio between the partners is decided as 2:3:1. As per this ratio,\nMadhulika’s share in profit comes to Rs.40,000 (2/6 of Rs. 1,20,000); Rakshita,\nRs. 60,000 (3/6 of Rs. 1,20,000) and Kanishka Rs. 20,000 (1/6 of Rs. 1,20,000).\nThe share of Kanishka works out to be Rs.5,000 short of the guaranteed amount.\nThis shall be borne by the guaranteeing partners Madhulika and Rakshita in"
+ },
+ {
+  "ref": "F4",
+  "source_id": "ncertcol-leac101-v1",
+  "version": 1,
+  "locator": "p31-c0-g2-s17",
+  "chapter": "Profit & Loss Appropriation Account",
+  "support_hash": "50a8628ab7d60bf3833b8cb85a969630c737f4f9757b2d3a2f8394b637d19ff3",
+  "page": 31,
+  "text": "Dinesh’s share in profit = Rs. 36,000,\nRakesh’s share in profit = Rs. 12,000.\nDeficiency of Rakesh (Rs. 13,000) will be shared by Mahesh and Dinesh in the ratio of 3:2.\nMahesh will bear 3 5 of 13,000, i.e. Rs. 7,800 and Rakesh, 2 5 of Rs. 13,000, i.e. Rs. 5,200.\nThus, the profits of the firm will be shared as follows.\nMahesh will get Rs. 72,000 – Rs. 7,800 = Rs. 64,200.\nDinesh will get Rs. 36,000 – Rs. 5,200 = Rs. 30,800\nRakesh will get Rs. 12,000 + Rs. 7,800 + Rs. 5,200 = Rs. 25,000."
+ },
+ {
+  "ref": "F5",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p36-c0-g3-s0",
+  "chapter": "Admission of Partner",
+  "support_hash": "57601ee0a1fdb1b9d62af12353d79dc484226d372ceb98d59095808bd8667592",
+  "page": 36,
+  "text": "Illustration 25\nA and B are partners sharing profits in the ratio of 2:1. C is admitted into the\nfirm for 1/4 share of profits. C brings in Rs. 20,000 in respect of his capital. The\ncapitals of old partners A and B, after all adjustments relating to goodwill,\nrevaluation of assets and liabilities, etc., are Rs. 45,000 and Rs. 15,000\nrespectively. It is agreed that partners’ capitals should be according to the new\nprofit sharing ratio."
+ },
+ {
+  "ref": "F6",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p18-c0-g2-s0",
+  "chapter": "Admission of Partner",
+  "support_hash": "872d6f3d38b83222ec552449d3e594dc8fc282d07c8e8abee537b6e8d5b9ba76",
+  "page": 18,
+  "text": "Illustration 16\nSunil and Dalip are partners in a firm sharing profits and losses in the ratio of\n5:3. Sachin is admitted in the firm for 1/5th share of profits. He brings in\nRs. 20,000 as capital and Rs. 4,000 as his share of goodwill by cheque. Give the\nnecessary journal entries,\n(a) When partners decided to retain goodwill in business.\n(b) When the amount of goodwill is fully withdrawn.\n(c) When 50% of the amount of goodwill is withdrawn."
+ },
+ {
+  "ref": "F7",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p41-c0-g1-s0",
+  "chapter": "Change in Profit Sharing Ratio",
+  "support_hash": "ca8ec814440e78b8287c8937b684f2be542e8c523b68744701f3fff969d661c8",
+  "page": 41,
+  "text": "Building A/c Dr. 5,000\nTo Revaluation A/c 5,000\n(Increase in the value of building)\nRevaluation A/c Dr. 2,520\nTo A’s Capital A/c 1,680\nTo B’s Capital A/c 840\n(Profit on revaluation distributed\nbetween A and B)\nGeneral Reserve A/c Dr. 6,000\nTo A’s Capital A/c 4,000\nTo B’s Capital A/c 2,000\n(Undistributed profit transferred\nto A and B)\nA’s Capital A/c Dr. 3,680\nTo A’s Current A/c 3,680\n(The excess of capital transferred to\npartner’s current account)\nB’s Capital A/c Dr. 8.840\nTo B’s Current A/c 8,840\n(The excess of B’s capital transferred to\npartner’s current account)\nRevaluation Account\nDr. Cr.\nParticulars Amount Particulars Amount\n(Rs.) (Rs.)\nMachinery 2,000 Building 5,000\nProvision for bad debts 480\nTransfer of profit on\nrevaluation to:\nA’s Capital 1,680\nB’s Capital 840 2,520\n5,000 5,000"
+ },
+ {
+  "ref": "F8",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p17-c0-g2-s4",
+  "chapter": "Change in Profit Sharing Ratio",
+  "support_hash": "eeb843581c676ca304028da8b59cde6a492a0653011073dddc07e4162143163f",
+  "page": 17,
+  "text": "Super Profit=Average Profit – Normal profit = Rs. 12,000 – Rs. 8,000\n= Rs. 4,000\n \nGoodwill=Super Profit 3 = Rs. 4,000 3 = Rs. 12,000\n\n3. Normal Profit= Rs. 2,00,000 10/100 = Rs. 20,000\nSuper Profit = Average Profit – Normal Profit = Rs. 30,000 – Rs. 20,000\n= Rs. 10,000\n\nGoodwill=Super Profit 100/Normal Rate of Return\n\n= 10,000 100/10 = Rs. 1,00,000."
+ },
+ {
+  "ref": "F9",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p9-c0-g2-s0",
+  "chapter": "Goodwill Valuation",
+  "support_hash": "3e42e7ce8cdedc6eab16814cd0419c7e9d3e2f99fe803846d24fa211ef3314b4",
+  "page": 9,
+  "text": "2.5.2 Factors Affecting the Value of Goodwill\nThe main factors affecting the value of goodwill are as follows:\n1. Nature of business: A firm that produces high value added products or\nhaving a stable demand is able to earn more profits and therefore has\nmore goodwill.\n2. Location: If the business is centrally located or is at a place having heavy\ncustomer traffic, the goodwill tends to be high.\n3. Efficiency of management: A well-managed concern usually enjoys the\nadvantage of high productivity and cost efficiency. This leads to higher\nprofits and so the value of goodwill will also be high.\n4. Market situation: The monopoly condition or limited competition enables\nthe concern to earn high profits which leads to higher value of goodwill.\n5. Special advantages: The firm that enjoys special advantages like import\nlicences, low rate and assured supply of electricity, long-term contracts\nfor supply of materials, well-known collaborators, patents, trademarks,\netc. enjoy higher value of goodwill."
+ },
+ {
+  "ref": "F10",
+  "source_id": "ncertcol-leac102-v1",
+  "version": 1,
+  "locator": "p38-c0-g2-s0",
+  "chapter": "Goodwill Valuation",
+  "support_hash": "141e86e0f5019636f6c4290c0118e988e9ff2d2ddfc20eaaa38f242d9fd749d4",
+  "page": 38,
+  "text": "Sometimes, the total capital of the firm may clearly be specified and it is\nagreed that the capital of each partner should be proportionate to his share in\nprofits. In such a situation each partner’s capital (including the new partner’s\ncapital to be brought by him) is calculated on the basis of his share in profits.\nBy bringing in additional amount or withdrawal of excess amount, the final\ncapital of each partner can be brought up to the required level.\nIt may be noted that subject to agreement among the partners, surplus or\ndeficiency in each old partners’ capital accounts can also be taken care of simply\nby transfer to their respective current accounts. (See Illustration 26)"
+ },
+ {
+  "ref": "F11",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p37-c0-g1-s3",
+  "chapter": "Retirement & Death of Partner",
+  "support_hash": "b4989a14e023d1a385a9695da9bbcddf8fbf5a204d1e310fdcbed3671b28a766",
+  "page": 37,
+  "text": "four years which were :\nYear 2013-14 – Rs.13,000, Year 2014-15 – Rs. 12,000,\nYear 2015-16 – Rs.20,000, Year 2016-17 – Rs.15,000\n(b) Patents be valued at Rs.8,000; Machinery at Rs.28,000; and Building at Rs.25,000.\n(c) Profit for the year 2017-18 be taken as having accrued at the same rate as that of\nthe previous year.\n(d) Interest on capital be provided at 10% p.a.\n(e) Half of the amount due to Anil be paid immediately.\nPrepare Anil’s Capital Account and Anil’s Executor’s Account as on October 1, 2017."
+ },
+ {
+  "ref": "F12",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p35-c0-g1-s0",
+  "chapter": "Retirement & Death of Partner",
+  "support_hash": "ec00bb6626adb3cdfaacb92849ed08a9f3461e28590ac0255c366864afb8e23e",
+  "page": 35,
+  "text": "considered cumbersome to close the books and prepare final account, for the\nperiod, the deceased partner’s share of profit may be calculated on the basis of\nlast year’s profit (or average of past few years) or on the basis of sales.\nFor example, Bakul, Champak and Darshan were partners in a firm sharing\nprofits in the ratio of 5:4:1. The profit of the firm for the year ending on March\n31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan\ndecided to share profits equally. Champak’s share of profit for the period from\nApril 1 to June 30, 2017, shall be calculated as follows:\nTotal profit for the year ending on 31st March, 2017 = Rs.1,00,000\nChampak’s share of profit :\nProceeding Year’s Profit × Proportionate Period × Share of Deceased Partner"
+ },
+ {
+  "ref": "F13",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p25-c0-g1-s0",
+  "chapter": "Goodwill Valuation",
+  "support_hash": "4914bc61ce3ee3039fde9eddc244b97f2a223f7c0e5c812038ab25602d562c2d",
+  "page": 25,
+  "text": "Balance Sheet of Ashish and Lokesh as on April 01, 2017\nLiabilities Amount Assets Amount\n(Rs.) (Rs.)\nCapitals : Land 4,00,000\nAshish 7,80,000 Buildings 3,80,000\nLokesh 3,37,000 11,17,000 Plant and Machinery 4,65,000\nSuresh’s Loan 4,98,000 Furniture 80,000\nSundry Creditors 1,24,000 Stock 1,72,000\nOutstanding Expresses 16,000 Sundry Debtors 1,72,000\nLess: Provision for\nDoubtful Debts 10,000 1,62,000\nCash (Rs. 1,21,000–Rs. 40,000) 81,000\nP&L Suspense A/c 15,000\n17,55,000 17,55,000"
+ },
+ {
+  "ref": "F14",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p20-c0-g2-s0",
+  "chapter": "Goodwill Valuation",
+  "support_hash": "4034750cedc8670e4e1aae02b5fd3c8f24ad6d1501a3684c150b981cc149e8ad",
+  "page": 20,
+  "text": "Illustration 11\nAmrinder, Mahinder and Joginder are partners in a firm. Mahinder retires from\nthe firm. On his date of retirement, Rs. 60,000 becomes due to him. Amrinder\nand Joginder promised to pay him in instalments every year at the end of the\nyear to which he agreed. Prepare Mahinder’s Loan Account in the following cases:\n1. When payment is made four yearly instalments plus interest @ 12% p.a.\non the unpaid balance.\n2. When when payment is made in three yearly instalments of Rs. 20,000\nincluding interest @ 12% p.a on the outstanding balance during the first\nthree years and the balance including interest in the fourth year.\n3. When payment is made in 4 equal yearly instalment’s including interest @\n12% p.a. on the unpaid balance."
+ },
+ {
+  "ref": "F15",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p15-c0-g5-s0",
+  "chapter": "Change in Profit Sharing Ratio",
+  "support_hash": "fb70417a4c7bd1449d81e63ac7195aad057c5ef900c906600b7954704832f901",
+  "page": 15,
+  "text": "Date Particulars L.F. Debit Credit\n2017 Amount Amount\n(Rs.) (Rs.)\nMar. 31 Revaluation A/c Dr. 10,000\nTo Machinery A/c 10,000\n(Decrease in the value of machinery)\nPatents A/c Dr. 10,000\nBuildings A/c Dr. 25,000\nTo Revaluation A/c 35,000\n(Increase in the value of patents and buildings)\nRevaluation A/c Dr. 25,000\nTo Mitali’s Capital A/c 12,500\nTo Indu’s Capital A/c 7,500\nTo Geeta’s Capital A/c 5,000\n(Profit on revaluation transferred to all\npartner’s capital accounts in old profit\nsharing ratio)"
+ },
+ {
+  "ref": "F16",
+  "source_id": "ncertcol-leac103-v1",
+  "version": 1,
+  "locator": "p1-c1-g1-s0",
+  "chapter": "Change in Profit Sharing Ratio",
+  "support_hash": "debb83427aac4423737fc6f42ee923e4040aff348337e670523ebf12f30d55fc",
+  "page": 1,
+  "text": "You have learnt that retirement or death of a\npartner also leads to reconstitution of a\npartnership firm. On the retirement or death of a\npartner, the existing partnership deed comes to an\nend, and in its place, a new partnership deed needs\nto be framed whereby, the remaining partners\ncontinue to do their business on changed terms and\nconditions. There is not much difference in the\naccounting treatment at the time of retirement or in\nthe event of death. In both the cases, we are required\nto determine the sum due to the retiring partner (in\ncase of retirement) and to the legal representatives\n(in case of deceased partner) after making necessary\nadjustments in respect of goodwill, revaluation of a\nassets and liabilities and transfer of accumulated\nprofits and losses. In addition, we may also have to\ncompute the new profit sharing’s ratio among the\nremaining partners and so also their gaining ratio,\nThis covers all these aspects in detail."
+ },
+ {
+  "ref": "F17",
+  "source_id": "ncertcol-leac104-v1",
+  "version": 1,
+  "locator": "p20-c0-g3-s0",
+  "chapter": "Dissolution of Partnership Firm",
+  "support_hash": "da1a3461adee3400bc14d7a84be64c54958ddeb56e594405dabf71bb6294a9f0",
+  "page": 20,
+  "text": "The firm was dissolved on that date. Close the books of the firm with following\ninformation:\n1. Buildings realised for Rs.1,90,000, Bills receivable realised for\nRs.1,10,000; Stock realised Rs.1,50,000; and Machinery sold for\nRs.48,000 and furniture for Rs. 75,000,\n2. Bank loan was settled for Rs.1,30,000. Creditors and Bills payable were\nsettled at 10% discount,\n3. Rohit paid the realisation expenses of Rs.10,000 for which he paid\nRs.12,000 for completing the dissolution process.\nPrepare necessary ledger accounts.\nSolution\nBooks of Sonia, Rohit and Udit\nDr. Realisation Account Cr.\nParticulars Amount Particulars Amount\n(Rs.) (Rs.)\nBuildings 2,00,000 Creditors 30,000\nMachinery 40,000 Bills payable 30,000\nStock 1,60,000 Bank loan 1,20,000\nBills receivable 1,20,000 Sonia’s husband’s loan 1,30,000\nFurniture 80,000 6,00,000 Bank:\nBank (Bank Loan) 1,30,000 Buildings 1,90,000\nBank Bills receivable 1,10,000\n[creditors and Bills payable] 54,000 Stock 1,50,000\nBank [Sonia’s husbands loan] 1,30,000 Machinery 48,000\nRohit’s capital 12,000 Furniture 75,000 5,73,000\n(reslisation expenses) Loss transferred to\ncapital accounts:\nSonia 21,500\nRohit 12,900\nUdit 8,600 43,000\n9,26,000 9,26,000"
+ },
+ {
+  "ref": "F18",
+  "source_id": "ncertcol-leac104-v1",
+  "version": 1,
+  "locator": "p3-c0-g2-s0",
+  "chapter": "Dissolution of Partnership Firm",
+  "support_hash": "a02693d1193e16d64b5d9ce70859f4a4f14452646acebbfd24a003237c749788",
+  "page": 3,
+  "text": "Distinction between Dissolution of Partnership and Dissolution of Firm\nBasis Dissolution of Partnership Dissolution of Firm\n1. Termination of The business is not The business of the firm is\nbusiness terminated. closed.\n2. Settlement of Assets and liabilities are Assets are sold and\nassets and revalued and new balance liabilities are paid-off.\nliabilities sheet is drawn.\n3. Court’s Court does not intervene A firm can be dissolved by\nintervention because partnership is the court’s order.\ndissolved by mutual\nagreement.\n4. Economic Economic relationship Economic relationship\nrelationship between the partners between the partners\ncontinues though in comes to an end.\na changed form.\n5. Closure of books Does not require because The books of account are\nthe business is not closed.\nterminated."
+ },
+ {
+  "ref": "F19",
+  "source_id": "ncertcol-leac104-v1",
+  "version": 1,
+  "locator": "p21-c0-g1-s0",
+  "chapter": "Dissolution of Partnership",
+  "support_hash": "e2d0c96becdfc13972d94da00055c9acec5db066e612d077083ad7e897ec426b",
+  "page": 21,
+  "text": "Partner’s Capital Accounts\nDr. Cr.\nDate Particulars J.F. S o n i a Rohit Udit Date Particulars J.F. S o n i a Rohit Udit\n2 0 1 7 (Rs.) (Rs.) (Rs.) 2017 (Rs.) (Rs.) (Rs.)\nRealisation 2 1 , 5 0 0 1 2 , 9 0 0 8 , 6 0 0 Balance b/d 70,000 90,000 1,10,000\n(Loss) Realisation — 12,000 —\nBank 8 8 , 5 0 0 1,13,100 1,17,400 (renumaration)\nGeneral 40,000 24,000 16,000\nreserve\n1,10,000 1,26,000 1,26,000 1,10,000 1,26,000 1,26,000"
+ },
+ {
+  "ref": "F20",
+  "source_id": "ncertcol-leac104-v1",
+  "version": 1,
+  "locator": "p1-c0-g1-s0",
+  "chapter": "Dissolution of Partnership",
+  "support_hash": "d9d800e4f216626cfdd4905a1386638848a8121d289c2719b626e73343af76e5",
+  "page": 1,
+  "text": "LEARNING OBJECTIVES\nAfter studying this chapter\nyou will be able to :\n• State the meaning of\ndissolution of\npartnership firm;\n• Differentiate between\ndissolution of partner-\nship and dissolution of\na partnership firm;\n• Describe the various\nmodes of dissolution of\nthe partnership firm;\n• Explain the rules\nrelating to the\nsettlement of claims\namong all partners;\n• Prepare Realisation\nAccount;"
+ },
+ {
+  "ref": "F21",
+  "source_id": "ncertcol-leac201-v1",
+  "version": 1,
+  "locator": "p37-c0-g2-s0",
+  "chapter": "Share Capital",
+  "support_hash": "0ff5b4e41b3f035d1037c9b17c58637f105ec07d471e92d9be69bd010fb33dde",
+  "page": 37,
+  "text": "1.7 Forfeiture of Shares\nIt may happen that some shareholders fail to pay one or more instalments,\nviz. allotment money and/or call money. In such circumstances, the company\ncan forfeit their shares, i.e. cancel their allotment and treat the amount already\nreceived thereon as forfeited to the company within the framework of the\nprovisions in its articles. These provisions are usually based on Table F\nwhich authorise the directors to forefeit the shares for non-payment of calls\nmade. For this purpose, they have to strictly follow the procedure laid down\nin this regard. Following is the accounting treatment of shares issued at par,\npremium or at a discount. When shares are forefeited all entries relating to\nthe shares forfeited except those relating to premium, already recorded in\nthe accounting records must be reversed. Accordingly, share capital account\nis debited with the amount called-up in respect of shares are forfeited and\ncrediting the respective unpaid calls accounts’s or calls in arrears account\nwith the amount already received. Thus, the journal entry will be as follows:"
+ },
+ {
+  "ref": "F22",
+  "source_id": "ncertcol-leac201-v1",
+  "version": 1,
+  "locator": "p60-c0-g2-s0",
+  "chapter": "Share Capital",
+  "support_hash": "5cdfed91d9738773cdcb7e9f5574ede38a1a7a9ba9818fb11ae979aed7b9bac5",
+  "page": 60,
+  "text": "Share first and Final Call A/c Dr. 40,000\nShare Capital A/c 40,000\n(Money due on call on 10,000 shares\n@ Rs. 4 per share)\nBank A/c Dr. 38,800\nTo Share first and Final Call A/c 38,800\n(Call money received on 9,700 shares)\nShare Capital A/c Dr. 3,000\nSecurities Premium Reserve A/c 100\nTo Share Allotment A/c 340\nTo Share first and Final Call A/c 1,200\nTo Share Forfeiture A/c 1,560\n(Forfeiture of 300 shares)\nBank A/c Dr. 1,200\nShares Forfeiture A/c Dr. 300\nTo Share Capital A/c 1,500\n(Reissue of 150 forfeited shares)\nShares Forfeiture A/c Dr. 360\nTo Capital Reserve 360\n(Profit on reissue of 150\nforfeited shares transferred)"
+ },
+ {
+  "ref": "F23",
+  "source_id": "ncertcol-leac201-v1",
+  "version": 1,
+  "locator": "p13-c0-g2-s0",
+  "chapter": "Financial Statements of Company",
+  "support_hash": "2b382094c0bf5ad061d927310a18f76973695fe50e4dc933b93ae215dfce40ce",
+  "page": 13,
+  "text": "Illustration 1\nMona Earth Mover Limited decided to issue 12,000 shares of Rs.100 each\npayable at Rs.30 on application, Rs.40 on allotment, Rs.20 on first call and\nbalance on second and final call. Applications were received for 13,000 shares.\nThe directors decided to reject application of 1,000 shares and their application\nmoney being refunded in full. The allotment money was duly received on all the\nshares, and all sums due on calls are received except on 100 shares.\nRecord the transactions in the books of Mona Earth Movers Limited"
+ },
+ {
+  "ref": "F24",
+  "source_id": "ncertcol-leac201-v1",
+  "version": 1,
+  "locator": "p38-c0-g3-s0",
+  "chapter": "Financial Statements of Company",
+  "support_hash": "c90f178afdd04f65d071a862eb0bf5960bd78c958a7256b8b8ebb7b5a1c836b8",
+  "page": 38,
+  "text": "Solution\nBooks of Honda Limited\nJournal\nDate Particulars L.F. Debit Credit\nAmount Amount\n(Rs.) (Rs.)\nBank A/c Dr. 2,00,000\nTo Equity Share Application A/c 2,00,000\n(Application money on 10,000 shares\n@Rs.20 per share received)\nShare Application A/c Dr. 2,00,000\nTo Equity Share Capital A/c 2,00,000\n(Application money transferred to\nshare capital)\nShare Allotment A/c Dr. 3,00,000\nTo Equity Share Capital A/c 3,00,000\n(Money due on allotment of 10,000 shares\n@Rs. 30 per share)\nBank A/c Dr. 3,00,000\nTo Equity Share Allotment A/c 3,00,000\n(Allotment Money received on 10,000 shares\n@ Rs. 30 per share on )"
+ },
+ {
+  "ref": "F25",
+  "source_id": "ncertcol-leac202-v1",
+  "version": 1,
+  "locator": "p2-c0-g2-s0",
+  "chapter": "Debentures",
+  "support_hash": "631e4a8ab0315145ac9f5508a5e3aba14d616c872e653cdf67d3e5b1e2deae5b",
+  "page": 2,
+  "text": "2.2 Distinction between Shares and Debentures\nOwnership: A ‘share’ represents ownership of the company whereas a debenture\nis only acknowledgement of Debt. A share is a part of the owned capital whereas\na debenture is a part of borrowed capital.\nReturn: The return on shares is known as dividend while the return on\ndebentures is called interest. The rate of return on shares may vary from year to\nyear depending upon the profits of the company but the rate of interest on\ndebentures is prefixed. The payment of dividend is an appropriation of profits,\nwhereas the payment of interest is a charge on profits and is to be paid even if\nthere is no profit.\nRepayment: Normally, the amount of shares is not returned during the life of\nthe company, whereas, generally, the debentures are issued for a specified period\nand repayable on the expiry of that period.\nVoting Rights: Shareholders enjoy voting rights whereas debentureholders do\nnot normally enjoy any voting right.\nSecurity : Shares are not secured by any charge whereas the debentures are\ngenerally secured and carry a fixed or floating charge over the assets of the\ncompany.\nConvertibility: Shares cannot be converted into debentures whereas debentures\ncan be converted into shares if the terms of issue so provide, and in that case\nthese are known as convertible debentures."
+ },
+ {
+  "ref": "F26",
+  "source_id": "ncertcol-leac202-v1",
+  "version": 1,
+  "locator": "p19-c0-g5-s0",
+  "chapter": "Debentures",
+  "support_hash": "17a6b3cef2cd191fddfae08daf2be4e2bac1e9e01b96dfe53e79eccf531c945f",
+  "page": 19,
+  "text": "2.7 Issue of Debentures as a Collateral Security\nA collateral security may be defined as a subsidiary or secondary or additional\nsecurity besides the primary security when a company obtains a loan or\noverdraft from a bank or any other financial Institution. It may pledge or\nmortgage some assets as a secured loan against the said loan. But the lending"
+ },
+ {
+  "ref": "F27",
+  "source_id": "ncertcol-leac203-v1",
+  "version": 1,
+  "locator": "p10-c0-g1-s0",
+  "chapter": "Financial Statements of Company",
+  "support_hash": "476460986036497e17275fe2d7ca0e63a0121ca7d1fac586b2690b01fc15b649",
+  "page": 10,
+  "text": "criteria for defining current assets and liabilities has been clearly spelled out\nwith non-current assets and liabilities being the residual items.\nCurrent/Non-current distinction\nAn item is classified as current:\n if it is involved in entity’s operating cycle or,\n is expected to be realised/settled within twelve months or,\n if it is held primarily for trading or,\n is cash and cash equivalent or,\n if entity does not have on unconditional rights to defer settlement of\nliability for atleast 12 months after the reporting period,\n Other assets and liabilities are non-current.\nIllustration 2\nShow the following items in the balance sheet of Amba Ltd. as on March 31,\n2017: Rs.\n8% Debentures 10,00,000\nEquity share capital 50,00,000\nSecurities premium 20,000\nPreliminary expenses 40,000\nStatement of Profit & Loss (cr.) 1,50,000\nLoose tools 20,000\nBank balance 60,000\nCash in hand 38,000\nSolution:\nBooks of Amba Ltd.\n*Balance Sheet as at March 31, 2017"
+ },
+ {
+  "ref": "F28",
+  "source_id": "ncertcol-leac203-v1",
+  "version": 1,
+  "locator": "p6-c0-g4-s0",
+  "chapter": "Financial Statements of Company",
+  "support_hash": "f215dfd8f116ce6f2ab43414b85dd7fa80474fd5d18fad7f3908e4ecbddbc687",
+  "page": 6,
+  "text": "Shareholders Fund\nThe shareholders’ funds are sub-classified on the face of the balance sheet.\na) Share Capital\nb) Reserves and Surplus\nc) Money received against Share Warrants\nShare Capital\nDisclosures relating to share capital are to be given in notes to accounts. The\nfollowing additions/modifications are significant:\na) For each class of shares, recognition of the number of shares outstanding\nat the beginning and at the end of the reporting period is required.\nb) The rights, preferences and restrictions attached to each class of shares\nincluding restrictions on the distribution of dividends and repayment of\ncapital.\nc) In order to bring clarity regarding the identity of ultimate owners of the\ncompany:"
+ },
+ {
+  "ref": "F29",
+  "source_id": "ncertcol-leac204-v1",
+  "version": 1,
+  "locator": "p9-c0-g1-s0",
+  "chapter": "Analysis of Financial Statements",
+  "support_hash": "1cfdf9a6b257f13f16768b30921ed9271685fb9baa373cde218be281c823062d",
+  "page": 9,
+  "text": "Illustration 3\nThe following are the Balance Sheets of J. Ltd. as at March 31, 2016 and\n2017. Prepare a Comparative balance sheet.\nParticulars Note March 31, March 31,\nNo. 2017 2016\n(Rs.) (Rs.)\nI. Equity and Liabilities\n1. Shareholders’ Funds\na) Share capital 20,00,000 15,00,000\nb) Reserve and surplus 3,00,000 4,00,000\n2. Non-current Liabilities\nLong-term borrowings 9,00,000 6,00,000\n3. Current liabilities\nTrade payables 3,00,000 2,00,000\nTotal 35,00,000 27,00,000\nII. Assets\n1. Non-current assets\na) Fixed assets\n- Tangible assets 20,00,000 15,00,000\n- Intangible assets 9,00,000 6,00,000\n2. Current assets\n- Inventories 3,00,000 4,00,000\n- Cash and cash equivalents 3,00,000 2,00,000"
+ },
+ {
+  "ref": "F30",
+  "source_id": "ncertcol-leac204-v1",
+  "version": 1,
+  "locator": "p15-c0-g4-s0",
+  "chapter": "Analysis of Financial Statements",
+  "support_hash": "497655da0b75b4a1df20d53a56038d26ebcbf02d123ec5361d25e44dc5bfcecd",
+  "page": 15,
+  "text": "31.03.2016 31.03.2017 31.03.2016 31.03.2017\n(Rs.) (Rs.) (%) (%)\nI. Equity and Liabilities\n1. Shareholders fund\na) Share capital 15,00,000 12,00,000 36.14 36.93\nb) Reserve and surplus 5,00,000 5,00,000 12.05 15.38\n2. Non-current liabilities\nLong-term borrowings 6,00,000 5,00,000 14.46 15.38\n3. Current liabilities\nTrade payables 15,50,000 10,50,000 37.35 32.31\nTotal 41,50,000 32,50,000 100 100\nII. Assets\n1. Non-current assets\na) Fixed assets\n- Tangible asset\nPlant & machinery 14,00,000 8,00,000 33.73 24.62\n- Intangible assets\nGoodwill 16,00,000 12,00,000 38.55 36.92\nNon-current investments 10,00,000 10,00,000 24.10 30.77\n2. Current assets\nInventories 1,50,000 2,50,000 3.62 7.69\nTotal 41,50,000 32,50,000 100 100"
+ },
+ {
+  "ref": "F31",
+  "source_id": "ncertcol-leac204-v1",
+  "version": 1,
+  "locator": "p6-c0-g1-s0",
+  "chapter": "Comparative & Common Size Statements",
+  "support_hash": "88e04538aa75cdb1b3186ffe545862d686bf3dca291de41a5a8e757eb7db9cf9",
+  "page": 6,
+  "text": "4.5 Comparative Statements\nAs stated earlier, these statements refer to the statement of profit and loss and\nthe balance sheet prepared by providing columns for the figures for both the\ncurrent year as well as for the previous year and for the changes during the\nyear, both in absolute and relative terms. As a result, it is possible to find out\nnot only the balances of accounts as on different dates and summaries of\ndifferent operational activities of different periods, but also the extent of their\nincrease or decrease between these dates. The figures in the comparative\nstatements can be used for identifying the direction of changes and also the\ntrends in different indicators of performance of an organisation.\nThe following steps may be followed to prepare the comparative statements:\nStep 1 : List out absolute figures in rupees relating to two points of time (as\nshown in columns 2 and 3 of Exhibit 4.1).\nStep 2 : Find out change in absolute figures by subtracting the first year\n(Col.2) from the second year (Col.3) and indicate the change as increase (+) or\ndecrease (–) and put it in column 4.\nStep 3 : Preferably, also calculate the percentage change as follows and put it\nin column 5."
+ },
+ {
+  "ref": "F32",
+  "source_id": "ncertcol-leac204-v1",
+  "version": 1,
+  "locator": "p17-c0-g1-s0",
+  "chapter": "Comparative & Common Size Statements",
+  "support_hash": "4a6153da04f8f2aaea851e40fb1645cfb10d5bba90567fa24889467169ca5c6c",
+  "page": 17,
+  "text": "Test your Understanding – III\nState whether each of the following is True or False :\n(a) The financial statements of a business enterprise include cash flow statement.\n(b) Comparative statements are the form of horizontal analysis.\n(c) Common size statements and financial ratios are the two tools employed in\nvertical analysis.\n(d) Ratio analysis establishes relationship between two financial statements.\n(e) Ratio analysis is a tool for analysing the financial statements of any enterprise.\n(f) Financial analysis is used only by the creditors.\n(g) Statement of profit and loss account shows the operating performance of an\nenterprise for a period of time.\n(h) Financial analysis helps an analyst to arrive at a decision.\n(i) Cash Flow Statement is a tool of financial statement analysis.\n(j) In a Common size statement each item is expressed as a percentage of some\ncommon base."
+ },
+ {
+  "ref": "F33",
+  "source_id": "ncertcol-leac205-v1",
+  "version": 1,
+  "locator": "p35-c0-g1-s0",
+  "chapter": "Accounting Ratios",
+  "support_hash": "fa655f9e802ffa162877a297a899ad35d3c74f4ae506566c4976c440c89737a8",
+  "page": 35,
+  "text": "5.9.10 Price / Earning Ratio\nThe ratio is computed as –\nP/E Ratio = Market Price of a share/earnings per share\nFor example, if the EPS of X Ltd. is Rs. 10 and market price is Rs. 100, the price\nearning ratio will be 10 (100/10). It reflects investors expectation about the growth\nin the firm’s earnings and reasonableness of the market price of its shares. P/E\nRatio vary from industy to industry and company to company in the same industry\ndepending upon investors perception of their future."
+ },
+ {
+  "ref": "F34",
+  "source_id": "ncertcol-leac205-v1",
+  "version": 1,
+  "locator": "p41-c0-g1-s0",
+  "chapter": "Accounting Ratios",
+  "support_hash": "084a0de86f3586f17f06934c9b4f19d0783b2637817d003656a045504b2c9d7e",
+  "page": 41,
+  "text": "ratio and interest coverage ratio. The turnover ratios basically exhibit the\nactivity levels characterised by the capacity of the business to make more\nsales or turnover and include Inventory Turnover, Trade Receivables\nTurnover, Trade Payables Turnover, Working Capital Turnover, Fixed Assets\nTurnover and Current assets Turnover. Profitability ratios are calculated\nto analyse the earning capacity of the business which is the outcome of\nutilisation of resources employed in the business. The ratios include Gross\nProfit ratio, Operating ratio, Net Profit Ratio, Return on investment (Capital\nemployed), Earnings per Share, Book Value per Share, Dividend per Share\nand Price/Earning ratio."
+ },
+ {
+  "ref": "F35",
+  "source_id": "ncertcol-leac206-v1",
+  "version": 1,
+  "locator": "p5-c0-g4-s0",
+  "chapter": "Cash Flow Statement",
+  "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5",
+  "page": 5,
+  "text": "6.5.3 Cash from Financing Activities\nAs the name suggests, financing activities relate to long-term funds or capital of\nan enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising\nlong-term bank loans, repayment of bank loan, etc. As per AS-3, financing\nactivities are activities that result in changes in the size and composition of the\nowners’ capital (including preference share capital in case of a company) and\nborrowings of the enterprise. Separate disclosure of cash flows arising from\nfinancing activities is important because it is useful in predicting claims on future\ncash flows by providers of funds ( both capital and borrowings ) to the enterprise.\nExamples of financing activities are:"
+ },
+ {
+  "ref": "F36",
+  "source_id": "ncertcol-leac206-v1",
+  "version": 1,
+  "locator": "p18-c0-g2-s0",
+  "chapter": "Cash Flow Statement",
+  "support_hash": "d2086d94cb73e791a6024f318da51d3926d6b1da43cf16473f02dbc34d309ff1",
+  "page": 18,
+  "text": "6.7 Ascertainment of Cash Flow from Investing and Financing Activities\nThe details of item leading inflows and outflows from investing and financing\nactivities have already been outlined. While preparing the cash flow statement,\nall major items of gross cash receipts, gross cash payments, and net cash flows\nfrom investing and financing activities must be shown separately under the\nheadings ‘Cash Flow from Investing Activities’ and ‘Cash Flow from Financing\nActivities’ respectively.’\nThe ascertainment of net cash flows from investing and financing activities\nhave been briefly dealt with in Illustrations 5 and 6."
+ }
+]

@@ -1,0 +1,19 @@
+✔ V717 preserves observed Easy and Medium bands and only confirms Hard by independent agreement (6.6484ms)
+✔ V717 binds authenticated comparator claims to supplied exemplar IDs and keeps heuristic claims unanchored (1.4241ms)
+✔ V717 does not treat a true statement as a NOT-stem answer and quarantines an unresolved rival (0.8892ms)
+✔ V717 separates contradictory NOT-stem reports from coherent academic failures (3.1212ms)
+✔ V717 distinguishes an internally contradictory explanation audit from an actual unsupported claim (0.7375ms)
+✔ V717 routes exactly six to practice and only seven or more to NTA (1.356ms)
+✔ V717 body sizing exercises real adapter retries with longest observed V716 blind fields (128.0799ms)
+✔ V717 pilot proof gate requires the exact completed passing qualification artifacts (368.1211ms)
+✔ V717 qualification registration pins execution freeze, sealed cases, custody, and full retry bodies (1005.5811ms)
+✔ V717 publication replay is receipt-only for committed/uncertain writes and refuses changed content (95.1573ms)
+✔ V717 manual controller delegates only to the bounded current qualification report route (457.6957ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2471.1706

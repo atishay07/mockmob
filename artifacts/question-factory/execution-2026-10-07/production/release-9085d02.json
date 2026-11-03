@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T07:51:58.798Z",
+  "commit": "9085d02849756710323abf3e702c633b4608dfcf",
+  "initial_deployment": "https://vercel.com/atishay07s-projects/mockmob/DGxWsvLonsrCYne28DGD6srvMUHf",
+  "initial_state": "failed",
+  "failure": "Turbopack Google font internal module resolution in restored cache; local build passed",
+  "rebuild": "https://vercel.com/atishay07s-projects/mockmob/C8p3csy9nUdgFkFvWg3VQYo5HSHe",
+  "rebuild_used_cache": false,
+  "state": "Ready",
+  "duration_seconds": 70,
+  "assigned_domain": "https://www.mockmob.in",
+  "evidence": "Actual signed-in Vercel deployment detail DOM",
+  "new_factory_student_retrieval_verified": false
+}

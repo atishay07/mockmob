@@ -1,0 +1,513 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "business_studies",
+  "offset": 10,
+  "total": 21,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-lebs105:1:quality-v4-c8d4ce1fa39d:c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72": {
+      "id": "ncert-lebs105",
+      "version": 1,
+      "locator": "quality-v4-c8d4ce1fa39d",
+      "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72",
+      "text": "The formal organisation can be better understood by a study of its features which are as follows: (a) It specifies the relationships among various job positions and the nature of their inter ­ relationship. This clarifies who has to report to whom. (b) It is a means to achieve the objectives specified in the plans, as it lays down rules and procedures essential for their achievement. (c) Efforts of various departments are coordinated, interlinked and integrated through the formal organisation. (d) It is deliberately designed by the top management to facilitate the smooth functioning of the organisation. (e) It places more emphasis on work to be performed than interpersonal relationships among the employees. Advantages: Formal organisation offers many advantages. Some of the important ones are: (a) It is easier to fix responsibility since mutual relationships are clearly defined. (b) There is no ambiguity in the role that each member has to play as duties are specified. This also helps in avoiding duplication of effort. (c) Unity of command is maintained through an established chain of command. (d) It leads to effective accomplish­ ment of goals by providing a framework for the operations to be performed and ensuring that each employee knows the r ole he has to play. (e) It provides stability to the organ­ isation. This is because behaviour of employees can be fairly pre­ dicted since there are specific rules to guide them.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145"
+    },
+    "ncert-lebs105:1:quality-v4-18f392ccae68:18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f": {
+      "id": "ncert-lebs105",
+      "version": 1,
+      "locator": "quality-v4-18f392ccae68",
+      "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f",
+      "text": "Thus, a functional structure is an organisational design that groups similar or related jobs together. Advantages: The functional structure has many advantages to offer. Important among them are as follows: (a) A functional structure leads to occupational specialisation since emphasis is placed on specific functions. This pr omotes efficiency in utilisation of manpower as employees perform similar tasks within a department and are able to improve performance. (b) It promotes control and coordination within a department because of similarity in the tasks being perfor med. (c) It helps in increasing managerial and operational efficiency and this results in increased pr ofit. (d) It leads to minimal duplication of effort which results in economies of scale and this lowers cost. (e) It makes training of employees easier as the focus is only on a limited range of skills. (f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145"
+    },
+    "ncert-lebs103:1:pdf-page-9:adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0": {
+      "id": "ncert-lebs103",
+      "version": 1,
+      "locator": "pdf-page-9",
+      "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0",
+      "text": "77 have all been responsible and in the long term projects for creating new business. the growth of the economy. (iv) Political Environment: Political Politi cal instability can shake environment in cludes political that confidence. Similarly, conditio ns such as general the attitudes of government stability and peace in the of ficials towards business may coun­try and specific attitudes have either positive or negative that elected gover nment impact upon business. representatives hold towards (v) Legal Environment: Legal business. The significance of envi ronment includes various political conditions in business legis lations passed by the success lies in the predictability Government administrative of business activities under orders issued by government stable political conditions. authorities, court judgments as On the other hand, there may well as the decisions rendered be uncertainty of business by various commissions and activities due to political agencies at every level of the unrest and threats to law and government— centre, state order. Political stability, thus, or local. It is imperative for builds up confidence among the management of every business people to invest enterprise to obey the law Major Elements of Social Environment n Attitudes towards product innovations, lifestyles, occupational distribution and consumer preferences n Concern with quality of life n Life expectancy n Expectations from the workforce n Shifts in the presence of women in the workforce n Birth and death rates n Population shifts n Educational system and literacy rates n Consumption habits n Composition of family Ch_03.indd 77 08-08-2022 09:37:32",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064"
+    },
+    "ncert-lebs103:1:pdf-page-12:c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7": {
+      "id": "ncert-lebs103",
+      "version": 1,
+      "locator": "pdf-page-12",
+      "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7",
+      "text": "80 of the land. Therefore, an 2002 and host of such other legal adequate knowledge of rules enactments as amended from and regulations framed by the time to time by the Parliament, Government is a pre ­requisite is important for doing business. for better business per for mance. Impact of legal environment Non­compliance of laws can can be illustrated with the help land the business enterprise of government regulations to into legal pr oblems. In India, protect consumer’s interests. For Constitutional Provisions; example, the advertisement of Companies Act 2013; Industries alcoholic beverages is prohibited. (Development and Regulations) Advertisements, including Act 1951; Foreign Exchange packets of cigarettes carry the Management Act and the statutory warning ‘Cigarette Imports and Exports (Control) smoking is injurious to health’. Act 1947; Factories Act, Similarly, advertisements of 1948; Trade Union Act; 1926; baby food must necessarily Workmen’s Compensation Act, inform the potential buyer that 1923; Industrial Disput es Act, mothers milk is the best. All 1947, Consumer Protectio n these regulations are required Act, 1986, Competition Act, to be followed by advertisers. Major Elements of the Political Environment n Prevailing political system n The degree of politicisation of business and economic issues n Dominant ideologies and values of major political parties n The nature and profile of political leadership and thinking of political personalities n The level of political morality n Political institutions like the government and allied agencies n Political ideology and practices of the ruling party n The extent and nature of government intervention in business n The nature of relationship of our country with foreign countries Ch_03.indd 80 08-08-2022 09:37:34",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064"
+    },
+    "ncert-lebs108:1:pdf-page-6:5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5": {
+      "id": "ncert-lebs108",
+      "version": 1,
+      "locator": "pdf-page-6",
+      "support_hash": "5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5",
+      "text": "206 3. Comparison of actual effort must be made to define them per for mance with standards in a manner that would make their 4. Analysing deviations measurement easier. For instance, for 5. Taking corrective action improving customer satisfaction in a Step 1: Setting Performance Stan­ fast food chain having self-service, dards: The first step in the controlling standards can be set in ter ms of time process is setting up of per formance taken by a customer to wait for a table, standards. Standards are the criteria time taken by him to place the order against which actual performance and time taken to collect the order. would be measured. Thus, standards It is important that standards serve as benchmarks towards which should be flexible enough to be an organisation strives to work. modified whenever required. Due to Standards can be set in both changes taking place in the internal quantitative as well as qualitative and external business environment, terms. For instance, standards set standards may need some modification in terms of cost to be incurred, to be realistic in the changed business revenue to be ear ned, product units environment. to be produced and sold, time to Step 2: Measurement of Actual be spent in performing a task, all Performance: Once performance represents quantitative standards. standards are set, the next step is Sometimes standards may also be measurement of actual per for mance. set in qualitative terms. Improving Performance should be measured in goodwill and motivation level of an objective and reliable manner. employees are examples of qualitative There are several techniques for standards. The table in the next page measurement of per formance. These gives a glimpse of standards used in include personal observation, sample dif ferent functional areas of business checking, performance reports, etc. to gauge per for mance. As far as possible, performance At the time of setting standards, a should be measured in the same units in which standards are set as manager should try to set standards this would make their comparison in precise quantitative terms as this easier. would make their comparison with It is generally believed that actual per for mance much easier. For measurement should be done after instance, reduction of defects from 10 the task is completed. However, in every 1,000 pieces produced to 5 in wherever possible, measurement every 1,000 pieces produced by the of work should be done during the end of the quarter. However, whenever per for mance. For instance, in case of qualitative standards are set, an assembling task, each part produced Ch_08.indd 206 08-08-2022 16:39:16",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3"
+    },
+    "ncert-lebs108:1:pdf-page-4:586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42": {
+      "id": "ncert-lebs108",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42",
+      "text": "204 quantitative terms. This makes a strict watch with the help measurement of per for mance and of Closed Circuit Televisions their comparison with standards (CCTVs). a difficult task. Employee morale, (iv) Costly affair: Control is a costly job satisfaction and human affair as it involves a lot of behaviour are such areas where expenditur e, time and effort. A this problem might arise. small enterprise cannot afford (ii) Little control on external to install an expensive control factors: Generally an enterprise system. It cannot justify the cannot control external factors expenses involved. Managers such as government policies, must ensure that the costs of technological changes, installing and operating a control competition etc. system should not exceed the (iii) Resistance from employees: benefits derived from it. Control is often resisted by The box on Control System at employees. They see it as a FedEx gives an overview of the restriction on their freedom. control system used by FedEx and For instance, employees might how it helped FedEx to increase its object when they are kept under profits. Remain level headed even when things go wrong Ch_08.indd 204 08-08-2022 16:39:16",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3"
+    },
+    "ncert-lebs108:1:pdf-page-8:c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79": {
+      "id": "ncert-lebs108",
+      "version": 1,
+      "locator": "pdf-page-8",
+      "support_hash": "c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79",
+      "text": "208 control and management by exception significant deviations which go should be used by a manager in this beyond the permissible limit regard. should be brought to the notice of 1. Critical Point Control: It is neither management. Thus, if the plans economical nor easy to keep a lay down 2 per cent increase in check on each and every activity labour cost as an acceptable range in an or ganisation. Control of deviation in a manufacturing should, therefore, focus on key organisation, only increase in result areas (KRAs) which are labour cost beyond 2 per cent critical to the success of an should be brought to the notice organisation. These KRAs are set of the management. However, in as the critical points. If anything case of major deviation from the goes wrong at the critical points, standard (say, 5 per cent), the the entire organisation suffers. matter has to receive immediate For instance, in a manufacturing action of management on a organisation, an increase of priority basis. 5 per cent in the labour cost The box below highlights the may be more troublesome than advantages of critical point control a 15 per cent increase in postal and management by exception. charges. After identifying the deviations that 2. Management by Exception: demand managerial attention, these Management by exception, which deviations need to be analysed for their is often referred to as control causes. Deviations may have multiple by exception, is an important causes for their origin. These include principle of management control unrealistic standards, defective based on the belief that an attempt process, inadequacy of resources, to control everything results in structural drawbacks, organisational controlling nothing. Thus, only constraints and environmental factors Advantages of Critical Point Control and Management by Exception When a manager sets critical points and focuses attention on significant deviations which cross the permissible limit, the following advantages accrue: 1. It saves the time and efforts of managers as they deal with only significant deviations. 2. It focuses managerial attention on important areas. Thus, there is better utilisation of managerial talent. 3. The routine problems are left to the subordinates. Management by exception, thus, facilitates delegation of authority and increases morale of the employees. 4. It identifies critical problems which need timely action to keep the organisation in right track. Ch_08.indd 208 08-08-2022 16:39:16",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3"
+    },
+    "ncert-lebs203:1:p6-c0:f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa": {
+      "id": "ncert-lebs203",
+      "version": 1,
+      "locator": "p6-c0",
+      "support_hash": "f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa",
+      "text": "BUSINESS STUDIES 294 Protection against malpractices and exploitation services for resale or commercial consumer rIghts purpose is nottreated as a consumer and is outside the scope of Consumer The Consumer Protection Act 2019 Protection Act 2019. provides for six rights of consumers. Terms & Definitions 1. Complaint: Any allegation in writing made by the complainant for obtaining relief w.r.t restrictive trade practice, defect in goods or deficiency in services provided, overcharging of price or offer of goods or service injurious to life and safety. 2. Complainant: means one or more consumers, or any voluntary consumer association, central or state government or the central authority or a legal heir or legal representative or a parent or legal representative in case of a minor. 3. Spurious goods: Goods that are falsely claimed to be genuine. 4. Unfair trade practice: A trade practice for the purpose of promoting sale, use or supply of any goods or service falsely represents its quality, standard, quantity, composition, style or model. Reprint 2026-27 Ch_11.indd 294 10-08-2022 10:03:34",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+    },
+    "ncert-lebs203:1:p3-c0:f2c4bbfd4749cfddce6a31bbb229e300205169992415f829a7316ae63033f67f": {
+      "id": "ncert-lebs203",
+      "version": 1,
+      "locator": "p3-c0",
+      "support_hash": "f2c4bbfd4749cfddce6a31bbb229e300205169992415f829a7316ae63033f67f",
+      "text": "cONSUMER pROTEcTION 291 5. Use of malfunctioning weights and from various types of exploitation and measures that lead to underweight should complain about it. Consumer of products. protection has a wide scope. It not only 6. Black marketing and hoarding that includes educating consumers about eventually leads to scarcity of the their rights and responsibilities, but product and well as a rise in the also helps in getting their grievances price of the same. redressed. It not only requires a judicial machinery for protecting the interests 7. Overcharging a product, i.e., of consumers but also requires the charging a product above its consumers to be united and form Maximum Retail Price. themselves into consumer associations 8. Supplying of defective goods. for protection and promotion of their 9. Advertisements that are interests. misleading, i.e., advertisements that falsely claim a product or a From consumers’ point of view service to be shown as superior The importance of consumer protection quality, grade or standard when from the consumers’ point of view can not in real. be understood from the following 10. Supply of inferior services, i.e., points: quality of service lesser than the (i) Consumer Ignorance: In the condition agreed. light of widespread ignorance of consumers about their rights need for consumer Protection and reliefs available to them, it becomes necessary to educate The need for consumer protection arises them about the same so as to from the need to protect consumers from the loss or injury or other prevailing achieve consumer awareness. malpractices and to ensure: (ii) Unorganised Consumers: 1. Physical safety of a consumer. Consumers need to be organised in the form of consumer 2. Access to information. organisations which would 3. Corporate Social Responsibility take care of their interests. to provide quality and quantity of Though, in India, we do have goods at fair prices. consumer organisations which 4. Consumer satisfaction. are working in this direction, 5. Social justice and Trusteeship adequate protection is required 6.",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420"
+    },
+    "ncert-lebs202:1:pdf-page-14:d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a": {
+      "id": "ncert-lebs202",
+      "version": 1,
+      "locator": "pdf-page-14",
+      "support_hash": "d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a",
+      "text": "MArke TING 255 Vegetable Oil); Tata offers Tata Steel, Trucks, Salt and a large number of other products; LG electronics offers televisions, refrigerators, colour monitors for computers, etc; Amul offers a number of food products (Amul milk, ghee, butter, cheese, chocolates, etc.). The concept of product relates to not only the physical product as mentioned in the above examples but also the benefits offered by it from customer’s view point (for example toothpaste is bought for whitening teeth, strengthening gums, etc.). The concept of product also include the extended product or what is offered to the customers by way of after sales services, handling complaints, availability of spare parts etc. These aspects are very important, particularly in the marketing of consumer durable products (like Automobiles, refrigerators, etc.). The important product decisions include deciding about the features, quality, packaging, labelling and branding of the products. 2. Price: Price is the amount of money customers have to pay to obtain the product. In case of most of the products, level of price affects the level of their demand. The marketers have not only to decide about the objectives of price setting but to analyse the factors determining the price and fix a price for the firm’s products. Decisions have also to be taken in respect of discounts to customers, traders and credit terms, etc., so that customers Marketing Mix: elements Product Price Product Mix Price Level Product Quality Margins New Product Pricing Policy Design and Development Pricing Strategies Packaging Price Change Labelling Branding Place Promotion Channel Strategy Promotion Mix Channel Selection Advertising Channel Conflict Personal Selling Channel Cooperation Sales Promotion Physical Distribution Publicity Public r elations Ch_10.indd 255 10-08-2022 10:04:27 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+    },
+    "ncert-lebs202:1:pdf-page-36:2ccbedcab0a8e805870ebf7c275f1a7cc5ec71d3bb35f328383b9c2e3e53d59f": {
+      "id": "ncert-lebs202",
+      "version": 1,
+      "locator": "pdf-page-36",
+      "support_hash": "2ccbedcab0a8e805870ebf7c275f1a7cc5ec71d3bb35f328383b9c2e3e53d59f",
+      "text": "Marketing 277 cycle that the economic activity in the society is fostered, leading to more jobs, more incomes and more products and services. t hat is how economic growth is influenced by personal selling. (ii) Employment Opportunities: Personal selling offers greater income and employment opportunities to the unemployed youth. (iii) Career Opportunities: Personal selling provides attractive career with greater opportunities for advancement and job satisfaction as well as security, respect, variety, interest and independence to young men and women. (iv) Mobility of Sales People: t here is a greater degree of mobility in sales people, which promote travel and tourism in the country. (v) Product Standardisation: Personal selling increases product standardisation and uniformity in consumption pattern in a diverse society. SaleS Promotion Sales promotion refers to short- term incentives, which are designed to encourage the buyers to make immediate purchase of a product or service. t hese include all promotional eff orts other than advertising, personal selling and publicity, used by a company to boost its sales. Sales promotion activities include offering cash discounts, sales contests, free gift offers, and free sample distribution. Sales promotion is usually undertaken to supplement other promotional efforts such as advertising and personal selling. Companies use sales promotion tools specifically designed to promote to customers (e.g., free samples, discounts, and contests), tradesmen or middlemen (e.g., cooperative advertising, dealer discounts and dealer incentives and contests) and to sales person (e.g., bonus, salesmen contests, special offers). Sales promotions include only those activities that are used to provide short term incentives to boost the sales of a firm. Merits of Sales Promotion (i) Atten tion Value: Sales promotion activities attract attention of the people because of the use of incentives. (ii) Useful in New Product Launch: Sales promotion tools can be very effective at the time of introduction of a new product in the market. it induces peopl e to break away from their regular buying behaviour and try the new product. (iii) Synergy in Total Promotional Efforts: Sales promotion activities are designed to supplement the personal selling and advertising efforts used by a firm and add to the over all effectiveness of the promotional efforts of a firm. Limitation of Sales Promotion (i) Reflects Crisis: If a firm frequently rely on sales promotion, it may give the impression that it is unable to manage its sales Ch_10.indd 277 2/6/2024 10:54:03 AM Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+    },
+    "ncert-lebs101:1:quality-v4-12f33385e060:12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140": {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-12f33385e060",
+      "support_hash": "12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140",
+      "text": "(ii) Management is all pervasive: The activities involved in managing an enterprise are common to all organisations whether economic, social or political. A petrol pump needs to be managed as much as a hospital or a school. What managers do in India, the USA, Germany or Japan is the same. How they do it may be quite different. This difference is due to the differences in culture, tradition and history.",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5"
+    },
+    "ncert-lebs101:1:quality-v4-ed90283b33f1:ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d": {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-ed90283b33f1",
+      "support_hash": "ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d",
+      "text": "(vii) Management is an intangible force: Management is an intangi - ble force that cannot be seen but its presence can be felt in the way the organisation functions. The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5"
+    },
+    "sebi-secondary-market-definition:1:definition:c66033a5b777ffa9a641098a94d8bfec3d0ecbebeee6037a1621fffc04e7cc2a": {
+      "id": "sebi-secondary-market-definition",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "c66033a5b777ffa9a641098a94d8bfec3d0ecbebeee6037a1621fffc04e7cc2a",
+      "text": "The Secondary Market is a place where an investor can buy/sell shares or securities from another investor rather than the issuer.",
+      "url": "https://investor.sebi.gov.in/securities-stockmarket.html",
+      "publisher": "investor.sebi.gov.in",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a3799396ffb2003ca5a40a214e4555a08c06aed81ae2ced7df341defa68eac96"
+    },
+    "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012": {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012",
+      "text": "Financial ManageMents 225 BUsiness st UDies 224 certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard. Financial Planning Financial planning is essentially the preparation of a financial blueprint of an organisation’s future operations. The objective of financial planning is to ensure that enough funds are available at right time. If adequate funds are not available the firm will not be able to honour its commitments and carry out its plans. On the other hand, if excess funds are available, it will unnecessarily add to the cost and may encourage wasteful expenditure. It must be kept in mind that financial planning is not equivalent to, or a substitute for, financial management. Financial management aims at choosing the best investment and financing alternatives by focusing on their costs and benefits. Its objective is to increase the shareholders’ wealth. Financial planning on the other hand aims at smooth operations by focusing on fund requirements and their availability in the light of financial decisions. For example, if a capital budgeting decisions is taken, the operations are likely to be at a higher scale. The amount of expenses and revenues are likely to increase. Financial planning process tries to forecast all the items which are likely to undergo changes. It enables the management to foresee the fund requirements both the quantum as well as the timing. Likely shortage and surpluses are forecast so that necessary activities are taken in advance to meet those situations. Thus, financial planning strives to achieve the following twin objectives. (a) To ensure availability of funds whenever requir ed: This include a proper estimation of the funds required for different purposes such as for the purchase of long- term assets or to meet day-to- day expenses of business etc. Apart from this, there is a need to estimate the time at which these funds are to be made available. Financial planning also tries to specify possible sources of these funds. (b) To see tha t the firm does not raise resources unnecessarily: Excess funding is almost as bad as inadequate funding. Even if there is some surplus money, good financial planning would put it to the best possible use so that the financial resources are not left idle and don’t unnecessarily add to the cost. Thus, a proper matching of funds requirements and their availability is sought to be achieved by financial planning. This process of estimating the fund requirement of a business and specifying the sources of funds Ch_9.indd 224 1/23/2024 03:51:22 PM Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1"
+    },
+    "ncert-lebs105:1:quality-v4-b1bc338a616f:b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54": {
+      "id": "ncert-lebs105",
+      "version": 1,
+      "locator": "quality-v4-b1bc338a616f",
+      "support_hash": "b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54",
+      "text": "(v) Basis of management hier­ archy: Delegation of autho rity establishes superior­subordinate relationships, which are the basis of hierarchy of management. It is the degree and flow of authority which determines who has to report to whom. The extent of delegated authority also decides the power that each job position enjoys in the organisation.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145"
+    }
+  },
+  "cases": [
+    {
+      "id": "e0cfe81041f8ab2aa13c68770042ed62",
+      "content_hash": "0d5a145582ffe2cf45165a3d812f9228300330565f4e40a8b2282623280e9e0b",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "topic": "Organising: focus on this supplied section: The formal organisation can be better understood by a study of its features which are as follows: (a) It specifies the relationships among various job positions and the nature of t. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A warehouse misses a dispatch deadline. Its formal job descriptions clearly assign order verification to one role and release authorisation to another. The records show that verification was completed, but the required authorisation was not. Which advantage of formal organisation is most directly illustrated?",
+        "options": [
+          "Maintaining unity of command through an established chain of command.",
+          "Fixing responsibility more easily through clearly defined role relationships.",
+          "Avoiding duplication of effort through specified duties.",
+          "Providing stability through rules that make behaviour predictable."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs105:1:quality-v4-c8d4ce1fa39d:c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72",
+        "ncert-lebs105:1:quality-v4-18f392ccae68:18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+      ]
+    },
+    {
+      "id": "3567fb5736b09efcd72b7d417d28aa88",
+      "content_hash": "b9a9439c6c2bc07c99783b80a36ed0d5c28260484b95db26847d60741d16d074",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Business Environment",
+        "topic": "Business Environment: focus on this supplied section: 77 have all been responsible and in the long term projects for creating new business. the growth of the economy. (iv) Political Environment: Political Politi cal instability can sh. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "At a firm, elected government representatives express favourable attitudes towards business, and government officials take a favourable view of business. Managers observe a positive impact on the firm’s business prospects. Consumer preferences and legislation remain unchanged, and political stability remains unchanged. Which interpretation best explains the case?",
+        "options": [
+          "The social environment explains the improvement through a shift in consumer preferences.",
+          "The legal environment explains the improvement through a change in legislation.",
+          "The political environment matters only through stability and peace, not through officials’ or representatives’ attitudes.",
+          "The political environment can have a positive impact through officials’ and representatives’ favourable attitudes towards business."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs103:1:pdf-page-9:adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0",
+        "ncert-lebs103:1:pdf-page-12:c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+      ]
+    },
+    {
+      "id": "ed7bb5598ff5e89266efbdd5501f84a2",
+      "content_hash": "cce6780c8c0dcc36de793d1d54b965026a064238486d4d3755f84527702d4da7",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Controlling",
+        "topic": "Controlling: focus on this supplied section: 206 3. Comparison of actual effort must be made to define them per for mance with standards in a manner that would make their 4. Analysing deviations measurement easier. For instan. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "For each case, calculate the signed deviation as actual performance minus the standard, after expressing both in the same unit. All actual results refer to the same period or basis as their standards. Use 60 seconds = 1 minute. For the defect-rate case, treat the observed rate as representative and scale it proportionally to 1,000 units.\n\nMatch List-I with List-II.\n\nList-I\n(A) The weekly output standard is 1,200 pieces; actual output is 3 batches of 390 pieces each.\n(B) The standard average customer waiting time is 8 minutes; the actual average is 510 seconds per customer.\n(C) The standard is 6 defects per 1,000 pieces; actual production has 9 defects among 1,500 pieces.\n(D) The weekly cost standard is ₹1,20,000; the actual weekly cost is ₹1,29,000.\n\nList-II\n(I) +₹9,000\n(II) 0 defects per 1,000 pieces\n(III) −30 pieces\n(IV) +0.5 minute per customer\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(IV), (C)-(II), (D)-(III)",
+          "(A)-(III), (B)-(II), (C)-(IV), (D)-(I)",
+          "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+          "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs108:1:pdf-page-6:5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5",
+        "ncert-lebs108:1:pdf-page-4:586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42"
+      ]
+    },
+    {
+      "id": "5f649f52cbfb1439a77ef9b48ba42e8b",
+      "content_hash": "524d64b64cd5e1273f8bf328856fe4895630b47dc5a987226aaca5b4d33e55c0",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Controlling",
+        "topic": "Controlling: focus on this supplied section: 208 control and management by exception significant deviations which go should be used by a manager in this beyond the permissible limit regard. should be brought to the notice of . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm is establishing a control procedure for one key result area. The manager must set up the procedure and then handle a deviation that qualifies for managerial attention. Arrange the following stages from earliest to latest:\n(A) Set the critical point and permissible limit for the key result area.\n(B) Identify a deviation that requires managerial attention by assessing it against the permissible limit.\n(C) Bring the significant deviation beyond the permissible limit to management’s notice.\n(D) Analyse the causes of the deviation requiring managerial attention.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(A), (B), (C), (D)",
+          "(B), (A), (C), (D)",
+          "(A), (C), (B), (D)",
+          "(A), (B), (D), (C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs108:1:pdf-page-8:c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79",
+        "ncert-lebs108:1:pdf-page-4:586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42"
+      ]
+    },
+    {
+      "id": "89cfa7dc25a1ec3a95e633660a40ce0d",
+      "content_hash": "3560105bedc2fd2326093640e2cd9f1900da50e83185c4d92b2b5e0c2a1134b9",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "topic": "Consumer Protection: focus on this supplied section: BUSINESS STUDIES 294 Protection against malpractices and exploitation services for resale or commercial consumer rIghts purpose is nottreated as a consumer and is outside the scope. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A person who obtains goods or avails services for resale or commercial purpose is not treated as a consumer and is outside the scope of consumer protection. Match each case in List-I with the classification in List-II. For (C) and (D), neither resale nor commercial purpose applies; the classification must not imply any other eligibility.\nList-I\n(A) A shopkeeper obtains goods solely to resell them.\n(B) A company avails a service solely for its commercial operations.\n(C) A household obtains goods solely for household use, not for resale or commercial purpose.\n(D) An individual avails a service solely for personal use, not for resale or commercial purpose.\nList-II\n(I) Goods obtained for resale; the stated purpose falls within the exclusion.\n(II) Services availed for commercial purpose; the stated purpose falls within the exclusion.\n(III) Goods obtained for neither resale nor commercial purpose; the stated purpose does not fall within this exclusion.\n(IV) Services availed for neither resale nor commercial purpose; the stated purpose does not fall within this exclusion.\nChoose the correct answer from the options given below:\nA. (A)-(III), (B)-(IV), (C)-(I), (D)-(II)\nB. (A)-(II), (B)-(I), (C)-(III), (D)-(IV)\nC. (A)-(I), (B)-(II), (C)-(III), (D)-(IV)\nD. (A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+        "options": [
+          "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+          "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs203:1:p6-c0:f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa",
+        "ncert-lebs203:1:p3-c0:f2c4bbfd4749cfddce6a31bbb229e300205169992415f829a7316ae63033f67f"
+      ]
+    },
+    {
+      "id": "a70d05a908bbcf3ea12b4c5395021085",
+      "content_hash": "e9bf10ed6ec8be8d9af17bce7bda37ea0b3e292c7cbe5c5d9b4bd35d2ed16dcd",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "topic": "Marketing Management: focus on this supplied section: MArke TING 255 Vegetable Oil); Tata offers Tata Steel, Trucks, Salt and a large number of other products; LG electronics offers televisions, refrigerators, colour monitors for comp. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Two firms sell the same physical refrigerator model. Firm P also provides after-sales service, handles complaints and makes spare parts available; Firm Q offers none of these. Assume these are the only differences in their offers. Consider the following statements:\n(A) The firms’ product offers are necessarily identical because their physical refrigerators are identical.\n(B) Firm P’s after-sales service, complaint handling and spare-part availability may form part of the extended product.\n(C) The firms’ total product offers may differ even though their physical refrigerators are identical.\n(D) Support provided after purchase is outside the concept of product.\nWhich statements are correct?",
+        "options": [
+          "(A) and (B) only",
+          "(A) and (C) only",
+          "(B) and (D) only",
+          "(B) and (C) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs202:1:pdf-page-14:d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a",
+        "ncert-lebs202:1:pdf-page-36:2ccbedcab0a8e805870ebf7c275f1a7cc5ec71d3bb35f328383b9c2e3e53d59f"
+      ]
+    },
+    {
+      "id": "9ea83c0e4f7dc6c133f9a1bb16bee6a7",
+      "content_hash": "32418c2135e447396c80e88cf3029e24d7ee720a2af12b61b2d50f749b5b8412",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Nature & Significance of Management",
+        "topic": "Nature & Significance of Management: focus on this supplied section: (ii) Management is all pervasive: The activities involved in managing an enterprise are common to all organisations whether economic, social or political. A petrol pump needs to be. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Assume a community-run food bank is a social organisation. Arrange the following steps in the order of reasoning needed to apply the principle of management being all pervasive to this case, beginning with the case and ending with an inference.\n(A) Infer that the food bank requires management.\n(B) Identify the food bank as a social organisation.\n(C) Apply the principle that management activities are common to economic, social and political organisations.\n(D) Consider the community-run food bank as the case.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(B), (D), (C), (A)",
+          "(D), (B), (C), (A)",
+          "(D), (C), (B), (A)",
+          "(C), (B), (D), (A)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs101:1:quality-v4-12f33385e060:12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140",
+        "ncert-lebs101:1:quality-v4-ed90283b33f1:ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d"
+      ]
+    },
+    {
+      "id": "1670079b3e8c801354374a52bf4ed31d",
+      "content_hash": "11f224f019fa9389bd38d7d8f0f487c63a43ddd436d5590ff968315129bf6a15",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Financial Markets",
+        "topic": "Financial Markets: focus on this supplied section: The Secondary Market is a place where an investor can buy/sell shares or securities from another investor rather than the issuer.. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Use this rule: a secondary-market transaction occurs when an investor buys securities from, or sells securities to, another investor rather than the issuer. In each case below, the named party is the direct counterparty.\n(A) An investor buys shares from another investor.\n(B) A company sells its shares directly to an investor.\n(C) An investor sells securities directly to the issuing company.\n(D) An investor sells securities to another investor.\nWhich transactions are secondary-market transactions?",
+        "options": [
+          "(A) and (B) only",
+          "(A) and (C) only",
+          "(A) and (D) only",
+          "(B) and (D) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "sebi-secondary-market-definition:1:definition:c66033a5b777ffa9a641098a94d8bfec3d0ecbebeee6037a1621fffc04e7cc2a"
+      ]
+    },
+    {
+      "id": "e8a06388bc4cc402576482908fd381f8",
+      "content_hash": "fb98dbf02959370c0d6e28428e5bb5a426007a56cbab8cd0bdcc1e3ae3663d8d",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Financial Management",
+        "topic": "Financial Management: focus on this supplied section: Financial ManageMents 225 BUsiness st UDies 224 certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm has taken a capital-budgeting decision that is expected to increase the scale of its operations. It is preparing a financial plan to ensure that funds are available whenever required. Arrange the following considerations in a logical sequence, from estimating fund requirements to matching requirements with availability.\n(A) Specify possible sources of funds\n(B) Estimate funds required for different purposes\n(C) Match fund requirements with their availability\n(D) Estimate when the funds are to be made available\nChoose the correct sequence from the options given below:",
+        "options": [
+          "B-D-A-C",
+          "D-B-A-C",
+          "B-A-D-C",
+          "B-D-C-A"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012"
+      ]
+    },
+    {
+      "id": "f3e8e74061bf6e5cfc408edc3e934bb6",
+      "content_hash": "0d86ebce62a11fe49102be6b5967b7201c2438163df8aedf706eb9a2c22c6c93",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "topic": "Organising: focus on this supplied section: (v) Basis of management hier­ archy: Delegation of autho rity establishes superior­subordinate relationships, which are the basis of hierarchy of management. It is the degree and f. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Consider the following delegated-authority links among four positions. Each link shows the one-way direction of authority flow, and these are the only links among the positions.\n(A) P delegates authority to Q.\n(B) M delegates authority to N.\n(C) N delegates authority to P.\nArrange the links from the first delegator to the final recipient.\nChoose the correct sequence:",
+        "options": [
+          "(A), (B), (C)",
+          "(B), (C), (A)",
+          "(C), (B), (A)",
+          "(B), (A), (C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs105:1:quality-v4-b1bc338a616f:b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54",
+        "ncert-lebs105:1:quality-v4-18f392ccae68:18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+      ]
+    }
+  ]
+}

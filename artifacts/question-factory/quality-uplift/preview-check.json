@@ -1,0 +1,8 @@
+{
+  "http_status": 200,
+  "quality_gate": true,
+  "historical_label": true,
+  "audit_visible": true,
+  "forecast_withheld": true,
+  "scope": "Server-rendered local preview only; interactive/authenticated staging flows unverified"
+}

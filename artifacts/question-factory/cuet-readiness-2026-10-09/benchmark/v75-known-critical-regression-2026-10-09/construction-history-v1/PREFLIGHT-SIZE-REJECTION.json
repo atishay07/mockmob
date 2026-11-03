@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-08T19:30:27.389Z",
+  "stage": "pre-dispatch construction revision; no provider call, no ledger, no run results existed",
+  "superseded_files": {
+    "superseded-frozen.json": "386b65590027b05b6a4f0754997cc18fa959305cb7e29981fa09fd11f6913e92",
+    "superseded-scratch-registry-overlay.json": "27054387ace4d61f1f874a051af97bf0f3f5529399dca9378a9527e3696173f5"
+  },
+  "reason": "runFreshCuetReadinessV75.mjs preflight rejected the first build with input_request_size_bound_exceeded",
+  "rejected": [
+    {
+      "fixture": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "openai",
+      "bytes": 33583,
+      "limit": 33024
+    },
+    {
+      "fixture": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "gemini",
+      "bytes": 33585,
+      "limit": 33024
+    }
+  ],
+  "note": "v7.4 maximum was 31,597 bytes; the frozen v7.5 request adds the judge instructions and the learning objective view.",
+  "fix": "Construction only: removed the irrelevant NCERT 2.5.4 Methods of Valuation of Goodwill reference from this fixture (candidate and oracle). No contract, runner, bound, prompt or threshold changed. Stem, options, key, explanation and oracle key unchanged. After the fix 24/24 captures pass, maximum 31,407 bytes."
+}

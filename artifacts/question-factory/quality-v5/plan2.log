@@ -1,0 +1,53 @@
+{"blueprints":"cuet2024-accountancy-bookA-q4","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q7","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q8","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q9","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q11","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q12","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q13","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q14","accepted":1,"rejected":1}
+{"blueprints":"cuet2024-accountancy-bookA-q16","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q17","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q18","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q23","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q22","accepted":1,"rejected":1}
+{"blueprints":"cuet2024-accountancy-bookA-q3","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q21","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q20","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-accountancy-bookA-q5","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q26","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q24","accepted":3,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q6","accepted":0,"rejected":3}
+{"blueprints":"cuet2024-business_studies-bookA-q27","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q8","accepted":0,"rejected":3}
+{"blueprints":"cuet2024-business_studies-bookA-q37","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q38","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q36","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q41","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q40","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q43","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q44","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q42","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q45","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-business_studies-bookA-q7","accepted":1,"rejected":2}
+{"blueprints":"cuet2024-economics-bookA-q3","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q7","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q5","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q8","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q26","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q25","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q10","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q11","accepted":3,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q45","accepted":1,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q27","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q47","accepted":2,"rejected":0}
+{"blueprints":"cuet2024-economics-bookA-q22","accepted":2,"rejected":0}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/qualityCampaign.mjs:142
+        if(added<need)throw new Error(`insufficient_blueprints:${subject}:${added}/${need}`);
+                            ^
+
+Error: insufficient_blueprints:economics:19/23
+    at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/qualityCampaign.mjs:142:29
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.15.0

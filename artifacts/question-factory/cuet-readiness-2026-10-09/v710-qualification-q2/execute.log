@@ -1,0 +1,80 @@
+v710q2-accountancy-v4 VALID  -> eligible 
+v710q2-accountancy-d1 DEFECT -> quarantined blind_key_contradiction
+v710q2-accountancy-v2 VALID  -> eligible 
+v710q2-accountancy-v1 VALID  -> eligible 
+v710q2-accountancy-d2 DEFECT -> quarantined failed:source_support
+v710q2-business_studies-v2 VALID  -> eligible 
+v710q2-accountancy-d3 DEFECT -> quarantined failed:explanation_support
+v710q2-accountancy-d4 DEFECT -> quarantined blind_key_contradiction
+v710q2-business_studies-v3 VALID  -> eligible 
+v710q2-business_studies-d1 DEFECT -> quarantined blind_key_contradiction
+v710q2-business_studies-v1 VALID  -> eligible 
+v710q2-business_studies-v4 VALID  -> quarantined failed:source_support
+v710q2-accountancy-v3 VALID  -> eligible 
+v710q2-business_studies-d3 DEFECT -> quarantined failed:source_support
+v710q2-economics-v1 VALID  -> eligible 
+v710q2-economics-v2 VALID  -> quarantined failed:explanation_support
+v710q2-business_studies-v5 VALID  -> quarantined failed:source_support
+v710q2-economics-d1 DEFECT -> quarantined blind_key_contradiction
+v710q2-accountancy-v5 VALID  -> error provider_output_incomplete
+v710q2-economics-d2 DEFECT -> quarantined failed:source_support
+v710q2-economics-v3 VALID  -> eligible 
+v710q2-economics-v4 VALID  -> eligible 
+v710q2-economics-d3 DEFECT -> quarantined failed:source_support
+v710q2-economics-v5 VALID  -> eligible 
+v710q2-business_studies-d2 DEFECT -> quarantined failed:source_support
+v710q2-economics-d4 DEFECT -> quarantined blind_key_contradiction
+v710q2-english-v1 VALID  -> quarantined failed:source_support
+v710q2-english-v4 VALID  -> eligible 
+v710q2-business_studies-d4 DEFECT -> quarantined failed:source_support
+v710q2-english-d1 DEFECT -> quarantined blind_key_contradiction
+v710q2-english-v5 VALID  -> eligible 
+v710q2-english-v3 VALID  -> quarantined failed:explanation_support
+v710q2-english-d4 DEFECT -> quarantined failed:source_support
+v710q2-english-d3 DEFECT -> quarantined failed:explanation_support
+v710q2-english-v2 VALID  -> eligible 
+v710q2-english-d2 DEFECT -> quarantined failed:source_support
+{
+ "kind": "v710_fresh_qualification_study",
+ "terminal": 35,
+ "of": 36,
+ "valid_eligible": "14/20",
+ "defects_accepted": "0/16",
+ "errors": [
+  "v710q2-accountancy-v5:provider_output_incomplete"
+ ],
+ "valid_failures": [
+  "v710q2-business_studies-v4:failed:source_support",
+  "v710q2-economics-v2:failed:explanation_support",
+  "v710q2-business_studies-v5:failed:source_support",
+  "v710q2-accountancy-v5:provider_output_incomplete",
+  "v710q2-english-v1:failed:source_support",
+  "v710q2-english-v3:failed:explanation_support"
+ ],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.381135,
+  "held_usd": 0,
+  "requests": 102,
+  "receipt_complete": true,
+  "at": "2026-10-09T14:48:48.999Z"
+ }
+}
+{
+ "decision": {
+  "pass": false,
+  "pooled_valid_survival": 0.7,
+  "per_subject_valid_survival": {
+   "accountancy": 0.8,
+   "business_studies": 0.6,
+   "economics": 0.8,
+   "english": 0.6
+  },
+  "accepted_defects": [],
+  "unfinished_defects": [],
+  "unfinished_valid": [
+   "v710q2-accountancy-v5"
+  ],
+  "assessed_at": "2026-10-09T14:48:49.002Z"
+ }
+}

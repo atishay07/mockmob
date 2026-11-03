@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-06T22:00:01.786Z",
+  "frozen_at": "2026-10-06T21:34:37.792Z",
+  "current_model_contract": "luna-gemini-cuET-v6.2",
+  "contract_amendment": {
+    "at": "2026-10-06T21:43:51.105Z",
+    "original_contract_hash": "40906328e2c437d7ed500157798b552e2e25470954ae0b734127ee8be08f3f87",
+    "new_contract_hash": "2822eec914883a624a2c2e1327e3b0ce30f24a7c0984701746ce268cabb54d48",
+    "reason": "Reject undefined ex ante/post hybrid terms identified by historical regression; one extra free rejection rule only. Fresh item content, oracle, model prompts, schema, source excerpts and provider decisions remain unchanged.",
+    "unseen_evaluation_rerun": false,
+    "paid_requests": 0,
+    "original_frozen_at": "2026-10-06T21:34:37.792Z"
+  },
+  "fresh_denominator": 24,
+  "valid_survival": 1,
+  "defect_false_accepts": 0,
+  "regression_denominator": 18,
+  "regression_false_accepts": 0,
+  "blind_key_accuracy": {
+    "english": {
+      "sample_size": 3,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_n": 3,
+      "gemini_n": 3
+    },
+    "accountancy": {
+      "sample_size": 3,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_n": 3,
+      "gemini_n": 3
+    },
+    "business_studies": {
+      "sample_size": 3,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_n": 3,
+      "gemini_n": 3
+    },
+    "economics": {
+      "sample_size": 3,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_n": 3,
+      "gemini_n": 3
+    }
+  },
+  "fresh_cost_usd": 0.120406,
+  "fresh_holds_usd": 0,
+  "all_calibration_attempts_cost_usd": 0.422157,
+  "defect_false_accept_rate_95_percent_upper_bound": 0.22092219194555585,
+  "quality_claim": "This small, source-keyed sample is measured reliability evidence. It does not prove perfect or large-scale accuracy."
+}

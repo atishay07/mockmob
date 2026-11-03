@@ -1,0 +1,12 @@
+{
+  "schema": "completed-v73-transport-custody-v1",
+  "study_id": "fresh-official-source-v73-2026-10-08-model",
+  "summary_timestamp": "2026-10-08T12:16:32.261Z",
+  "pinned_original_sha256": "678d5c12f069e87a7d7189bf96223891889e2de530f757dd2516e7773a8887d2",
+  "archived_sha256": "678d5c12f069e87a7d7189bf96223891889e2de530f757dd2516e7773a8887d2",
+  "current_scoped_transport_sha256": "40df58fccc18ad9ddfb7e589bba6aab1a899cff1f8cdf68514a31a7a91fc1be8",
+  "archived_source": "Original transport reconstructed by reversing only the scoped-flush edit and restoring CRLF line endings; exact raw SHA-256 matches immutable execution-plan code hash.",
+  "resumption": "none",
+  "rebinding": "none",
+  "provider_calls": "none"
+}

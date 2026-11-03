@@ -1,0 +1,543 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "economics",
+  "offset": 0,
+  "total": 53,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-keec103:1:p2-c0:44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395": {
+      "id": "ncert-keec103",
+      "version": 1,
+      "locator": "p2-c0",
+      "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395",
+      "text": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country. This unit is an appraisal of the reform process and its implications for India. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae"
+    },
+    "ncert-keec103:1:p21-c0:45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d": {
+      "id": "ncert-keec103",
+      "version": 1,
+      "locator": "p21-c0",
+      "support_hash": "45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d",
+      "text": "BYRES, TERENCE J. 1997. The State, Development Planning and Liberalisation in India. Oxford University Press, Delhi. CHADHA, G.K. 1994. Policy Perspectives in Indian Economic Development. Har-Anand, Delhi. CHELLIAH, RAJA J. 1996. Towards Sustainable Growth: Essays in Fiscal and Financial Sector Reforms in India. Oxford University Press, New Delhi. DEBROY, B. and RAHUL MUKHERJI (Eds.). 2004. The Political Economy of Reforms. Bookwell Publication, New Delhi. DREZE, JEAN and AMARTYA SEN. 1996. India: Economic Development and Social Opportunity. Oxford University Press, New Delhi. DUTT, RUDDAR AND K.P.M. SUNDARAM. 2005. Indian Economy. S. Chand and Company, New Delhi. GUHA, ASHOK (Ed.) 1990. Economic Liberalisation, Industrial Structure and Growth in India. Oxford University Press, New Delhi. JALAN, BIMAL. 1993. India’s Economic Crisis: The Way Ahead. Oxford University Press, New Delhi. JALAN, BIMAL. 1996. India’s Economic Policy: Preparing for the Twenty First Century. Viking, Delhi. JOSHI, VIJAY and I.M.D. LITTLE. 1996. India’s Economic Reforms 1991-2001. Oxford University Press, New Delhi, KAPILA, Uma. 2020. Indian Economy: Performences and Policies. Academic Foundation, New Delhi. MAHAJAN, V.S. 1994. Indian Economy Towards 2000 A.D. Deep & Deep, Delhi. PAREKH, KIRIT and RADHAKRISHNA, 2002, India Development Report 2001-02. Oxford University Press, New Delhi. RAO, C.H. HANUMANTHA. and HANS LINNEMANN. 1996. Economic Reforms and Poverty Alleviation in India, Sage Publication, Delhi. SACHS, JEFFREY D., ASHUTOSH VARSHNEY and NIRUPAM BAJPAI.1999. India in the Era of Economic Reforms. Oxford University Press, New Delhi. Government Reports and Websites Economic Survey for various years. Ministry of Finance, Government of India. Published by Oxford University Press, New Delhi. Tenth Five Year Plan 1997-2002. Vol. 1. Government of India, Planning Commission, New Delhi. Appraisal Document of Twelfth Five Year Plan 2012-2017, NITI Aayog, Government of India. https://dipam.gov.in Handbook of Statistics on Indian Economy, Reserve Bank of India for various years, Mumbai.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae"
+    },
+    "ncert-leec204:1:p15-c0:cc143e08915c699281f5fb20b232ee1bd039dced591fc3fa456a3fa414657b1a": {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p15-c0",
+      "support_hash": "cc143e08915c699281f5fb20b232ee1bd039dced591fc3fa456a3fa414657b1a",
+      "text": "67 under Perfect Competition The Theory of the Firm • In a perfectly competitive market, firms are price-takers. • The total revenue of a firm is the market price of the good multiplied by the firm’s output of the good. • For a price-taking firm, average revenue is equal to market price. • For a price-taking firm, marginal revenue is equal to market price. • The demand curve that a firm faces in a perfectly competitive market is perfectly elastic; it is a horizontal straight line at the market price. • The profit of a firm is the difference between total revenue earned and total cost incurred. • If there is a positive level of output at which a firm’s profit is maximised in the short run, three conditions must hold at that output level (i) p = SMC (ii) SMC is non-decreasing (iii) p ≥ AV C. • If there is a positive level of output at which a firm’s profit is maximised in the long run, three conditions must hold at that output level (i) p = LRMC (ii) LRMC is non-decreasing (iii) p ≥ LRAC. • The short run supply curve of a firm is the rising part of the SMC curve from and above minimum AVC together with 0 output for all prices less than the minimum AVC. • The long run supply curve of a firm is the rising part of the LRMC curve from and above minimum LRAC together with 0 output for all prices less than the minimum LRAC. • Technological progress is expected to shift the supply curve of a firm to the right. • An increase (decrease) in input prices is expected to shift the supply curve of a firm to the left (right). • The imposition of a unit tax shifts the supply curve of a firm to the left. • The market supply curve is obtained by the horizontal summation of the supply curves of individual firms. • The price elasticity of supply of a good is the percentage change in quantity supplied due to one per cent change in the market price of the good. ssssseeeeesssssiiiiicccccrrrrreeeeexxxxxEEEEE yyyyyrrrrraaaaammmmmmmmmmuuuuuSSSSS 1. What are the characteristics of a perfectly competitive market? 2.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "d6a85628f214baa60dc886bc5e618d2d4dc4ba919fcf25ef01632371cd1b0af8"
+    },
+    "ncert-leec204:1:p11-c0:310b415b312a7150ec22d60d840ca31e266615a4ab52c93348e0fa7dafd72962": {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "310b415b312a7150ec22d60d840ca31e266615a4ab52c93348e0fa7dafd72962",
+      "text": "63 under Perfect Competition The Theory of the Firm Recall that the long run supply curve of a firm is the rising part of the LRMC curve from and above the minimum LRAC together with zero output for all prices less than the minimum LRAC. Using this observation in Figure 4.12, it is immediate that S0 and S1 are, respectively, the long run supply curve of the firm before and after the imposition of the unit tax. Notice that the unit tax shifts the firm’s long run supply curve to the left: at any given market price, the firm now supplies fewer units of output. LRMC1 Price S1 S0 Costs LRAC1 LRMC0 LRAC0 p0+t p0+t t p0 p0 O q 0 Output O q 0 Output Fig. 4.11 Fig. 4.12 Cost Curves and the Unit Tax. LRAC0 Supply Curves and Unit Tax. S0 is the and LRMC0 are, respectively, the long run supply curve of a firm before a unit tax average cost curve and the long run is imposed. After a unit tax of Rs t is marginal cost curve of a firm before a unit imposed, S1 represents the supply curve tax is imposed. LRAC1 and LRMC1 are, of the firm. respectively, the long run average cost curve and the long run marginal cost curve of a firm after a unit tax of Rs t is imposed. 4.6 MARKET SUPPLY CURVE The market supply curve shows the output levels (plotted on the x-axis) that firms in the market produce in aggregate corresponding to different values of the market price (plotted on the y-axis). How is the market supply curve derived? Consider a market with n firms: firm 1, firm 2, firm 3, and so on. Suppose the market price is fixed at p. Then, the output produced by the n firms in aggregate is [supply of firm 1 at price p] + [supply of firm 2 at price p] + ... + [supply of firm n at price p]. In other words, the market supply at price p is the summation of the supplies of individual firms at that price. Let us now construct the market supply curve geometrically with just two firms in the market: firm 1 and firm 2. The two firms have different cost structures.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "d6a85628f214baa60dc886bc5e618d2d4dc4ba919fcf25ef01632371cd1b0af8"
+    },
+    "ncert-leec105:1:pdf-page-4:8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d": {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d",
+      "text": "69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts. When government takes fresh loans it will mean that in future these loans will have to be returned and interest will have to be paid on these loans. Similarly, when government sells an asset, then it means that in future its earnings from that asset, will disappear. Thus, these receipts can be debt creating or non-debt creating. 5.1.3. Classification of Expenditure Revenue Expenditure Revenue Expenditure is expenditure incurred for purposes other than the creation of physical or financial assets of the central government. It relates to those expenses incurred for the normal functioning of the government departments and various services, interest payments on debt incurred by the government, and grants given to state governments and other parties (even though some of the grants may be meant for creation of assets). Budget documents classify total expenditure into plan and non-plan expenditure 3. This is shown in item 6 on Table 5.1 within revenue expenditure, a distinction is made between plan and non-plan. According to this classification, plan revenue expenditure relates to central Plans (the Five-Year Plans) and central assistance for State and Union Territory plans. Non-plan expenditure, the more important component of revenue expenditure, covers a vast range of general, economic and social services of the 3A case against this kind of classification has been put forth on the ground that it has led to an increasing tendency to start new schemes/projects neglecting maintenance of existing capacity and service levels. It has also led to the misperception that non-plan expenditure is inherently wasteful, adversely affecting resource allocation to social sectors like education and health where salary comprises an important element. Government Budget Revenue Budget Capital Budget Revenue Receipts Revenue Expenditure Capital Receipts Capital Expenditure Non-tax Revenue Tax Revenue Plan Revenue Expenditure Non-plan Revenue Expenditure Non-plan Capital Expenditure Plan Capital Expenditure Chart 1: The Components of the Government Budget Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+    },
+    "ncert-leec105:1:quality-v4-28dc3b745963:28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae": {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae",
+      "text": "Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27\n69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+    },
+    "ncert-leec104:1:pdf-page-11:bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28": {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-11",
+      "support_hash": "bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28",
+      "text": "63 63636363 Determination of Income and Employment Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift If all the people of the economy increase the proportion of income they save (i.e. if the mps of the economy increases) the total value of savings in the economy will not increase – it will either decline or remain unchanged. This result is known as the Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift – which states that as people become more thrifty they end up saving less or same as before. This result, though sounds apparently impossible, is actually a simple application of the model we have learnt. Let us continue with the example. Suppose at the initial equilibrium of Y = 250, there is an exogenous or autonomous shift in peoples’ expenditure pattern – they suddenly become more thrifty. This may happen due to a new information regarding an imminent war or some other impending disaster , which makes people mor e cir cumspect and conservative about their expenditures. Hence the mps of the economy increases, or , alter natively, the mpc decr eases fr om 0.8 to 0.5. At the initial income level of AD* 1 = Y * 1 = 250, this sudden decline in mpc will imply a decrease in aggregate consumption spending and hence in aggregate demand, AD = A + cY , by an amount equal to (0.8 – 0.5) 250 = 75. This can be regarded as an autonomous reduction in consumption expenditure, to the extent that the change in mpc is occurring from some exogenous cause and is not a consequence of changes in the variables of the model. But as aggregate demand decreases by 75, it falls short of the output Y * 1 = 250 and there emerges an excess supply equal to 75 in the economy. Stocks are piling up in warehouses and producers decide to cut the value of production by 75 in the next round to restore equilibrium in the market. But that would mean a reduction in factor payments in the next round and hence a reduction in income by 75. As income decreases people reduce consumption proportionately but, this time, according to the new value of mpc which is 0.5. Consumption expenditure, and hence aggregate demand, decreases by (0.5)75, which creates again an excess supply in the market. In the next round, therefore, producers reduce output further by (0.5)75. Income of the people decreases accordingly and consumption expenditure and aggregate demand goes down again by (0.5) 2 75. The process goes on. However, as can be inferr ed fr om the dwindling values of the successive round effects, the process is convergent. What is the total decrease in the value of output and aggregate demand? Add up the infinite series 75 + (0.5) 75 + (0.5) 2 75 + ........ ¥ and the total reduction in output turns out to be 75 1 – 0.5 = 150 But that means the new equilibrium output of the economy is only Y * 2 = 100. People are now saving S * 2 = Y * 2 – C * 2 = Y * 2 – ( C + c2.Y * 2 ) = 100 – (40 + 0.5 × 100) = 10 in aggregate, whereas under the previous equilibrium they were saving S * 1 = Y * 1 – C * 1 = Y * 1 – ( C + c1.Y * 1) = 250 – (40 + 0.8 × 250) = 10 at the previous mpc, c1 = 0.8. Total value of savings in the economy has, therefore, remained unchanged. When A changes the line shifts upwards or downwards in parallel. When c changes, however , the line swings up or down. An incr ease in mps, Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c"
+    },
+    "ncert-leec104:1:quality-v3-pdf-page-11-cddd2ad805:cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76": {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-11-cddd2ad805",
+      "support_hash": "cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76",
+      "text": "If all the people of the economy increase the proportion of income they save (i.e. if the mps of the economy increases) the total value of savings in the economy will not increase – it will either decline or remain unchanged.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c"
+    },
+    "ncert-keec108:1:p4-c0:cbad813aec21d334a01b3a3856d73ca8dc8fe7c30b4d11d6e443093ac826be79": {
+      "id": "ncert-keec108",
+      "version": 1,
+      "locator": "p4-c0",
+      "support_hash": "cbad813aec21d334a01b3a3856d73ca8dc8fe7c30b4d11d6e443093ac826be79",
+      "text": "Geography has made us neighbours. History has made us friends. Economics has made us partners, and necessity has made us allies. Those whom God has so joined together, let no man put asunder. John F. Kennedy 8.1 INTRODUCTION understanding of the other economies in our neighbourhood is also required In the preceding units we studied the as all major common economic developmental experience of India in activities in the region impinge on detail. We also studied the kind of overall human development in a policies India adopted, which had shared environment. varying impacts in different sectors. In this chapter we will compare the Over the last two decades or so, the developmental strategies pursued by economic transformation that is taking India and the largest two of its place in different countries across the neighbouring economies—Pakistan world, partly because of the process and China. It has to be remembered of globalisation, has both short as that despite being endowed with vast well as long-term implications for natural resources, there is little each country, including India. Nations similarity between the political power have been primarily trying to adopt setup of India - the largest democracy various means which will strengthen of the world which is wedded to a their own domestic economies. To this secular and deeply liberal Constitution effect, they are forming regional and for more than half a century, and the global economic groupings such as militarist political power structure of the SAARC, European Union, Pakistan or the command economy ASEAN, G-8, G-20, BRICS etc. In of China that has only recently addition, there is also an increasing started moving towards a democratic eagerness on the parts of various system and more liberal economic nations to try and understand the restructuring respectively. developmental processes pursued by their neighbouring nations as it 8.2 DEVELOPMENTAL PATH—A allows them to better comprehend SNAPSHOT VIEW their own strengths and weaknesses vis-à-vis their neighbours.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "cfa442e1daaf5782deae47c365e0e7ae189ed8d4ea07397db4675fed53c36386"
+    },
+    "ncert-keec108:1:p3-c0:6ef7e97163bc899902d2bce8fe249ebba0d9d135a208e76f60f325ed4b11d381": {
+      "id": "ncert-keec108",
+      "version": 1,
+      "locator": "p3-c0",
+      "support_hash": "6ef7e97163bc899902d2bce8fe249ebba0d9d135a208e76f60f325ed4b11d381",
+      "text": "8 C OMPARATIVE D E I EVELOPMENT XPERIENCES OF NDIA N AND ITS EIGHBOURS After studying this chapter, the learners will • figure out comparative trends in various economic and human development indicators of India and its neighbours, China and Pakistan • assess the strategies that these countries have adopted to reach their present state of development. 134 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec108.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "cfa442e1daaf5782deae47c365e0e7ae189ed8d4ea07397db4675fed53c36386"
+    },
+    "ncert-keec106:1:p10-c0:f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p10-c0",
+      "support_hash": "f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b",
+      "text": "between the growth of GDP and rural areas and is dependent on employment. This means that in the agriculture as their main livelihood. Indian economy, without generating Developmental strategies in many employment, we have been able to countries, including India, have aimed produce more goods and services. at reducing the proportion of people Scholars refer to this phenomenon as depending on agriculture. jobless growth. Distribution of workforce by So far we have seen how employment industrial sectors shows substantial has grown in comparison to GDP. Now it shift from farm work to non-farm work is necessary to know how the growth (see Table 6.3). In 1972-73, about 74 pattern of employment and GDP per cent of workforce was engaged in affected different sections of workforce. primary sector and in 2023-24, this From this we will also be able to proportion has declined to about understand what types of employment 46 per cent. Secondary and service are generated in our country. sectors are showing promising future Let us look at two indicators that for the Indian workforce. You may we have seen in the preceding sections notice that the shares of these sectors — employment of people in various have increased from 11 to 24 per cent industries and their status. We know and 15 to 30 per cent, respectively. that India is an agrarian nation; a The distribution of workforce in major section of population lives in different status indicates that over the Chart 6.3: Growth of Employment and Gross Domestic Product, 1951–2023 (%) Note: *This is the period for which comparable and authentic data are available. EMPLOYMENT : GROWTH, INFORMALISATION AND OTHER ISSUES 101 )% ni( htworG fo etaR Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec106:1:p13-c0:f8ae446f457b81240ee597663a4776911786b8d0b92c28277db38dd7c76e2dc3": {
+      "id": "ncert-keec106",
+      "version": 1,
+      "locator": "p13-c0",
+      "support_hash": "f8ae446f457b81240ee597663a4776911786b8d0b92c28277db38dd7c76e2dc3",
+      "text": "Fig. 6.4 Road side vending: an increasing variety of informal sector employment Those who are working in the formal per cent (59/535×100)! Thus, the rest sector enjoy social security benefits. 89 per cent are in the informal sector. They earn more than those in the In 2011–2012, the year for which gender informal sector. Developmental wise data on formal-informal sector planning envisaged that as the economy employment is available about 20 per cent grows, more and more workers would of formal sector and 30 per cent of become formal sector workers and the informal sector workers were women. proportion of workers engaged in the informal sector would dwindle. But what has Chart 6.4: Workers in Formal and Informal happened in India? Look at Sector, 2011–2020 (in millions) the following chart which 500 476 443 gives the distribution of 450 workforce in formal and 400 informal sectors. 350 In 2019–2020 there were 300 about 535 million workers in 250 India. There were about 59 200 million workers in the formal 150 sector (Chart 6.4). Can you 100 59 estimate the percentage of 50 30 people employed in the 0 2011–12 2019–20 formal sectors in the country? About only 11 Formal Informal 104 INDIAN ECONOMIC DEVELOPMENT srekrow fo .oN Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec106.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0"
+    },
+    "ncert-keec105:1:p14-c0:5479e9e45e466bf7db4a5fd515b8b639d37acc6e7783fe4d6117dbedc25d40cb": {
+      "id": "ncert-keec105",
+      "version": 1,
+      "locator": "p14-c0",
+      "support_hash": "5479e9e45e466bf7db4a5fd515b8b639d37acc6e7783fe4d6117dbedc25d40cb",
+      "text": "appropriate agriculture policy to sector might continue to remain promote organic farming. It has been backward. There is a greater need observed that the yields from organic today to make rural areas more farming are less than modern vibrant through diversification into agricultural farming in the initial years. dairying, poultry, fisheries, Therefore, small and marginal farmers vegetables and fruits and linking up may find it difficult to adapt to large- the rural production centres with the scale production. Organic produce may urban and foreign (export) markets also have more blemishes and a shorter to realise higher returns on the shelf life than sprayed produce. investments for the products. Moreover choice in production of Moreover, infrastructure elements off-season crops is quite limited in like credit and marketing, farmer- organic farming. Nevertheless, organic friendly agricultural policies and a farming helps in sustainable constant appraisal and dialogue development of agriculture and India between farmers’ groups and state has a clear advantage in producing agricultural departments are organic products for both domestic and essential to realise the full potential international markets. Do you think of the sector. food and non-food items cultivated Today we cannot look at the using organic farming methods will be environment and rural development as cheaper? two distinct subjects. There is need to invent or procure alternate sets of eco- 5.7 CONCLUSION friendly technologies that lead to It is clear that until and unless some sustainable development in different spectacular changes occur, the rural circumstances. From these, each rural Work These Out Ø Make a list of five popular items that are organically produced in India. Ø Visit a nearby super market, vegetable shop and/or a departmental shop. Identify a few products. Prepare a chart comparing a few goods that are produced organically and in the normal way on the basis of their prices, shelf life, quality and the kind of advertisement through which they are popularised.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "348723059bdcfc922c25df80312a5910f1e1b8fddd7fe875cd10af65fdcb4ae6"
+    },
+    "ncert-keec105:1:p16-c0:1e4d22d54570d0463e69fd766de0041e50b820458ad13f769e43e531b7396fab": {
+      "id": "ncert-keec105",
+      "version": 1,
+      "locator": "p16-c0",
+      "support_hash": "1e4d22d54570d0463e69fd766de0041e50b820458ad13f769e43e531b7396fab",
+      "text": "7. What do you mean by agricultural marketing? 8. Mention some obstacles that hinder the mechanism of agricultural marketing. 9. What are the alternative channels available for agricultural marketing? Give some examples. 10. Distinguish between ‘Green Revolution’ and ‘Golden Revolution’. 11. Do you think various measures taken by the government to improve agricultural marketing are sufficient? Discuss. 12. Explain the role of non-farm employment in promoting rural diversification. 13. Bring out the importance of animal husbandry, fisheries and horticulture as a source of diversification. 14. ‘Information technology plays a very significant role in achieving sustainable development and food security’ — comment. 15. What is organic farming and how does it promote sustainable development? 16. Identify the benefits and limitations of organic farming. 17. Enlist some problems faced by farmers during the initial years of organic farming. 18. “Jan-Dhan-Yojna helps in the rural development.” Do you agree with this statement? Explain. REFERENCES ACHARYA, S.S. 2004. Agricultural Marketing, State of the Indian Farmer, a Millennium Study. Academic Foundation, New Delhi. ALAGH, Y.K. 2004. State of the Indian Farmer, a Millennium Study — an Overview. Academic Foundation, New Delhi. CHAWLA, N.K., M.P.G. KURUP and V. P. SHARMA. 2004. Animal Husbandry, State of the Indian Farmer, a Millennium Study. Academic Foundation, New Delhi. DEHADRAI, P.V. and Y.S. YADAV. 2004. Fisheries Development, State of the Indian Farmer, a Millennium Study. Academic Foundation, New Delhi. JALAN, BIMAL. (Ed.). 1992. The Indian Economy: Problems and Perspectives. Penguin Publication, New Delhi. 90 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec105.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "348723059bdcfc922c25df80312a5910f1e1b8fddd7fe875cd10af65fdcb4ae6"
+    },
+    "ncert-keec104:1:p10-c0:2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p10-c0",
+      "support_hash": "2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11",
+      "text": "Box 4.2: India as a Knowledge Economy The Indian software industry has been showing an impressive record over the past two decades. Entrepreneurs, bureaucrats and politicians are now advancing views about how India can transform itself into a knowledge-based economy by using information technology (IT). There have been some instances of villagers using e-mail which are cited as examples of such transformation. Likewise, e- governance is being projected as the way of the future. The value of IT depends greatly on the existing level of economic development. Do you think IT - based services in rural areas will lead to human development? Discuss. among the three largest economies in human beings are ends in themselves. the world. This policy vision suggests Human welfare should be increased how human capital formation in India through investments in education and will move its economy to a higher health even if such investments do not growth trajectory based on knowledge result in higher labour productivity. landscape. Therefore, basic education and basic health are important in themselves, 4.4 HUMAN CAPITAL AND HUMAN irrespective of their contribution to DEVELOPMENT labour productivity. In such a view, every individual has a right to get basic The two terms sound similar but there education and basic health care, that is a clear distinction between them. is, every individual has a right to be Human capital considers education literate and lead a healthy life. and health as a means to increase labour productivity. Human development is based on the idea that Work This Out education and health are integral to human well-being because only when Ø If a construction worker, people have the ability to read and maid-servant, dhobi or a write and the ability to lead a long peon in school has absented and healthy life, they herself/himself for long due will be able to make other choices to ill health, find out how it which they value. Human capital has affected her/his treats human beings as a means to (i) job security an end; the end being the increase in productivity.",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-keec104:1:p6-c1905:4c68ee0909e97372af3a003cbe9c29ea2e14243a75db726541582cf567b9eec8": {
+      "id": "ncert-keec104",
+      "version": 1,
+      "locator": "p6-c1905",
+      "support_hash": "4c68ee0909e97372af3a003cbe9c29ea2e14243a75db726541582cf567b9eec8",
+      "text": "al capital is separable from its owner, whereas, human capital is inseparable from its owner. The two forms of capital differ in terms of mobility across space. Physical capital is completely mobile between countries except for some artificial trade restrictions. Human capital is not perfectly mobile between countries as movement is restricted by nationality and culture. Therefore, physical capital formation can be built even through imports, whereas human capital formation is to be done through conscious policy formulations in consonance with the nature of the society and economy and expenditure by the state and the individuals. Both forms of capital depreciate with time but the nature of depreciation differs between the two. Continuous use of machine leads to depreciation and change of technology makes a machine obsolete. In the case of human capital, depreciation takes place with ageing but can be reduced, to a large extent, through continuous investment in education, health, etc. This investment also facilitates the human capital to cope with change in technology which is not the case with physical capital. Nature of benefits flowing from human capital are different from that of physical capital. Human capital benefits not only the owner but also the society in general. This is called external benefit. An educated person can effectively take part in a democratic process and contribute to the socio-economic progress of a nation. A healthy person, by maintaining personal hygiene and sanitation, stops the spread of contagious diseases and epidemics. Human capital creates both private and social benefits, whereas physical capital creates only private benefit. That is, benefits from a capital good flow to those who pay the price for the product and services produced by it. 62 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/keec104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca"
+    },
+    "ncert-leec102:1:pdf-page-16:ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2": {
+      "id": "ncert-leec102",
+      "version": 1,
+      "locator": "pdf-page-16",
+      "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2",
+      "text": "24 2424 2424Introductory Macroeconomics 4 In this example, we have left out factor payments in the form of rent and interest. But this will not make any difference to the basic result, because after paying wages the remainder of value added by a firm will be distributed between rent, interest and profits (together called operating surplus). Table 2.3: Distributions of factor incomes of firms A and B Firm A Firm B Wages 20 60 Profits 30 90 Recall that GDP by income method = sum total of factor incomes, which is equal to total wages received (workers of A and B) and total profits earned (by A and B), which is equal4 to 80 + 120 = 200. 2.2.4 Factor Cost, Basic Prices and Market Prices In India, the most highlighted measure of national income has been the GDP at factor cost. The Central Statistics Office (CSO) of the Government of India has been reporting the GDP at factor cost and at market prices. In its revision in January 2015 the CSO replaced GDP at factor cost with the GVA at basic prices, and the GDP at market prices, which is now called only GDP, is now the most highlighted measure. The idea of GVA has already been discussed: it is the value of total output produced in the economy less the value of intermediate consumption (the output which is used in production of output further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc. Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f"
+    },
+    "ncert-leec102:1:quality-v3-pdf-page-21-d74bda1b3e:d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d": {
+      "id": "ncert-leec102",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+      "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d",
+      "text": "The ratio of nominal to real GDP is a well known index of prices. This is called GDP Deflator.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f"
+    }
+  },
+  "cases": [
+    {
+      "id": "f5c7d0572d7d7222effd5b40f5f8a117",
+      "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Indian economic system and common goals of Five Year Plans",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Consider the following facts: After forty years of planned development, India achieved a strong industrial base and became self-sufficient in the production of food grains. In 1991, a crisis in the balance of payments led to the introduction of economic reforms.\n\nMatch List-I with List-II.\n\nList-I\n(A) Forty years of planned development\n(B) Strong industrial base\n(C) Self-sufficiency in the production of food grains\n(D) 1991 balance-of-payments crisis\n\nList-II\n(I) Led to the introduction of economic reforms\n(II) Achievement stated for India after planned development\n(III) Achievement in food-grain production stated for India\n(IV) Period after which the two achievements in (II) and (III) are reported\n\nChoose the correct answer from the options given below:\nA. (A)-(IV), (B)-(III), (C)-(II), (D)-(I)\nB. (A)-(II), (B)-(IV), (C)-(III), (D)-(I)\nC. (A)-(IV), (B)-(II), (C)-(III), (D)-(I)\nD. (A)-(IV), (B)-(II), (C)-(I), (D)-(III)",
+        "options": [
+          "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+          "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+          "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+          "(A)-(IV), (B)-(II), (C)-(I), (D)-(III)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec103:1:p2-c0:44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395",
+        "ncert-keec103:1:p21-c0:45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+      ]
+    },
+    {
+      "id": "3dce0344d7ad78f4346cd451c509983e",
+      "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Theory of Firms under Perfect Competition",
+        "topic": "Unit III: The Theory of the firms under perfect competition",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following steps in the correct sequence for constructing a market supply curve from the supply schedules of the same firms at a range of market prices.\n(A) Add the quantities supplied by all firms at a given market price.\n(B) Read the quantity supplied by each firm at that market price.\n(C) Repeat the process for other market prices.\n(D) Plot the aggregate quantity supplied against the corresponding market price.",
+        "options": [
+          "(A), (B), (C), (D)",
+          "(B), (A), (C), (D)",
+          "(B), (C), (A), (D)",
+          "(A), (C), (B), (D)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec204:1:p15-c0:cc143e08915c699281f5fb20b232ee1bd039dced591fc3fa456a3fa414657b1a",
+        "ncert-leec204:1:p11-c0:310b415b312a7150ec22d60d840ca31e266615a4ab52c93348e0fa7dafd72962"
+      ]
+    },
+    {
+      "id": "44337f81bb4f1b4b7ade81e162eb760a",
+      "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Indian economic system and common goals of Five Year Plans",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A planning review summarises two findings for India after forty years of planned development: (i) a strong industrial base had been achieved and food-grain production had become self-sufficient; (ii) a major segment of the population continued to depend on agriculture for its livelihood. Treat both findings as accurate. A reviewer argues that finding (ii) cannot be true once finding (i) is true. Which assessment best applies the findings?",
+        "options": [
+          "The reviewer is correct: food-grain self-sufficiency rules out continued dependence on agriculture for livelihood.",
+          "The reviewer is correct: a strong industrial base rules out continued dependence on agriculture for livelihood.",
+          "The reviewer is incorrect: food-grain self-sufficiency can coexist with continued dependence on agriculture for livelihood.",
+          "The reviewer is incorrect: the food-grain achievement shows that the major segment dependent on agriculture had shifted to industrial livelihoods."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec103:1:p2-c0:44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395",
+        "ncert-keec103:1:p21-c0:45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+      ]
+    },
+    {
+      "id": "b9214d6f466afd7c117d4880e872a3a2",
+      "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Classification of receipts - revenue receipts and capital receipts;",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "During a budget period, a government records only these receipts: revenue receipts of ₹2,40,000, fresh loans of ₹1,20,000, and ₹35,000 from selling shares in a public sector undertaking. What is the total amount of capital receipts for the period?",
+        "options": [
+          "₹1,55,000",
+          "₹3,95,000",
+          "₹1,20,000",
+          "₹85,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec105:1:pdf-page-4:8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d",
+        "ncert-leec105:1:quality-v4-28dc3b745963:28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+      ]
+    },
+    {
+      "id": "d03862b65899f0dcdae662824a18069e",
+      "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "topic": "Balance of payments account - meaning and components;",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Consider the following statements about the paradox of thrift. It states that if all people increase the proportion of income they save, total savings will not increase; they will either decline or remain unchanged. In an illustration, aggregate saving is 10 both before and after an increase in thrift.\n(A) An increase in the proportion of income saved necessarily raises total savings.\n(B) When people become more thrifty, total savings may remain unchanged.\n(C) Total savings must decline whenever people become more thrifty.\n(D) In the illustration, aggregate saving is 10 at both points.\nChoose the correct answer using the options below:",
+        "options": [
+          "(A) and (B) only",
+          "(A) and (C) only",
+          "(C) and (D) only",
+          "(B) and (D) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec104:1:pdf-page-11:bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28",
+        "ncert-leec104:1:quality-v3-pdf-page-11-cddd2ad805:cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76"
+      ]
+    },
+    {
+      "id": "9e62010f5c2d2f0291f8874bd0f108bc",
+      "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: Geography has made us neighbours. History has made us friends. Economics has made us partners, and necessity has made us allies. Those whom God has so joined together, let no man p. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A study team is comparing India, Pakistan and China. It identifies major economic activities common to the region and a shared environment. Which conclusion best explains why the team should understand the neighbouring economies?",
+        "options": [
+          "It permits the assumption that India, Pakistan and China have similar political power structures.",
+          "It shows that neighbouring economies need study only when their domestic policies are identical.",
+          "It makes analysis of domestic developmental strategies unnecessary once regional groupings are identified.",
+          "Major common economic activities in the region affect overall human development in a shared environment."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec108:1:p4-c0:cbad813aec21d334a01b3a3856d73ca8dc8fe7c30b4d11d6e443093ac826be79",
+        "ncert-keec108:1:p3-c0:6ef7e97163bc899902d2bce8fe249ebba0d9d135a208e76f60f325ed4b11d381"
+      ]
+    },
+    {
+      "id": "a086a294fae62986ef3cc7451ac08f81",
+      "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: between the growth of GDP and rural areas and is dependent on employment. This means that in the agriculture as their main livelihood. Indian economy, without generating Developmen. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "An economy records the following changes:\nYear 1 to Year 2: GDP index rises from 200 to 220; employed persons increase from 80 million to 84 million.\nYear 2 to Year 3: GDP index rises from 220 to 242; employed persons remain at 84 million.\nCalculate percentage changes using (final value − initial value) ÷ initial value × 100. For this question, an increase in the GDP index represents an increase in production of goods and services, and jobless growth means an increase in production without generating employment. Which statement is correct?",
+        "options": [
+          "GDP grew by 10% in each interval; employment grew by 5% and then 0%, so Year 2 to Year 3 shows jobless growth.",
+          "GDP grew by 10% in each interval; employment grew by 5% in each interval, so neither interval shows jobless growth.",
+          "GDP grew by 10% in each interval; employment grew by 5% and then 0%, so Year 1 to Year 2 shows jobless growth.",
+          "GDP grew by 10% and 9.09% in the two intervals; employment grew by 5% and then 0%, so Year 2 to Year 3 shows jobless growth."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec106:1:p10-c0:f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b",
+        "ncert-keec106:1:p13-c0:f8ae446f457b81240ee597663a4776911786b8d0b92c28277db38dd7c76e2dc3"
+      ]
+    },
+    {
+      "id": "b26c48b73d3af972154a476ba7d8f802",
+      "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Rural Development",
+        "topic": "Rural Development: focus on this supplied section: appropriate agriculture policy to sector might continue to remain promote organic farming. It has been backward. There is a greater need observed that the yields from organic today. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A review considers four issues in organic farming. Match each issue in List-I with the corresponding implication in List-II.\n\nList-I\n(A) Comparing organic yields with yields from modern agricultural farming during the initial years\n(B) A small or marginal farmer considering adaptation to large-scale organic production\n(C) Comparing organic produce with sprayed produce for blemishes and shelf life\n(D) Planning the range of off-season crops under organic farming\n\nList-II\n(I) The choice of off-season crops is quite limited.\n(II) Organic produce may have more blemishes and a shorter shelf life.\n(III) Organic yields are lower during the initial years than yields from modern agricultural farming.\n(IV) Small and marginal farmers may find adaptation to large-scale production difficult.\n\nChoose the correct answer from the options given below:\n\nA. (A)-(III), (B)-(IV), (C)-(II), (D)-(I)\nB. (A)-(IV), (B)-(III), (C)-(II), (D)-(I)\nC. (A)-(III), (B)-(IV), (C)-(I), (D)-(II)\nD. (A)-(II), (B)-(IV), (C)-(III), (D)-(I)",
+        "options": [
+          "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+          "(A)-(IV), (B)-(III), (C)-(II), (D)-(I)",
+          "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+          "(A)-(II), (B)-(IV), (C)-(III), (D)-(I)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec105:1:p14-c0:5479e9e45e466bf7db4a5fd515b8b639d37acc6e7783fe4d6117dbedc25d40cb",
+        "ncert-keec105:1:p16-c0:1e4d22d54570d0463e69fd766de0041e50b820458ad13f769e43e531b7396fab"
+      ]
+    },
+    {
+      "id": "3c8d31764c62441ee2a27c97059c5b08",
+      "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: Box 4.2: India as a Knowledge Economy The Indian software industry has been showing an impressive record over the past two decades. Entrepreneurs, bureaucrats and politicians are n. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "direct_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "An account cites villagers’ use of e-mail as an example of transformation, projects e-governance as a way of the future, and states that the value of IT depends greatly on the existing level of economic development. It raises, without answering, whether IT-based services in rural areas lead to human development. An agency compares two rural areas with different existing levels of economic development. Which conclusion is supported by the stated principle?",
+        "options": [
+          "The value of IT should be assessed in relation to each area’s existing level of economic development.",
+          "Villagers’ use of e-mail establishes that IT has equal value across the two areas.",
+          "The projection of e-governance establishes that IT’s value is independent of economic development.",
+          "The discussion question establishes that rural IT services lead to human development."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-keec104:1:p10-c0:2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11",
+        "ncert-keec104:1:p6-c1905:4c68ee0909e97372af3a003cbe9c29ea2e14243a75db726541582cf567b9eec8"
+      ]
+    },
+    {
+      "id": "386dca46542a02901d2837324bf0b69e",
+      "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "topic": "National Income & Related Aggregates: focus on this supplied section: 24 2424 2424Introductory Macroeconomics 4 In this example, we have left out factor payments in the form of rent and interest. But this will not make any difference to the basic res. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "For one period, an economy has GVA at factor cost of ₹8,00,000. It pays production taxes of ₹70,000 and product taxes of ₹50,000, and receives production subsidies of ₹10,000 and product subsidies of ₹20,000. These are the only production taxes, product taxes and subsidies for the period.\n\nConsider the following statements:\n(A) Net production taxes are ₹60,000.\n(B) GVA at basic prices is ₹8,60,000.\n(C) Net product taxes are ₹30,000.\n(D) GDP at market prices is ₹8,80,000.\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A), (B) and (D) only",
+          "(A), (B) and (C) only",
+          "(A), (C) and (D) only",
+          "(B), (C) and (D) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leec102:1:pdf-page-16:ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2",
+        "ncert-leec102:1:quality-v3-pdf-page-21-d74bda1b3e:d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+      ]
+    }
+  ]
+}

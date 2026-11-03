@@ -1,0 +1,347 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "accountancy",
+  "offset": 30,
+  "total": 36,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-leac102:1:span-8a1d40054567:8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-8a1d40054567",
+      "support_hash": "8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+      "text": "5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed. If, however, they decide to withdraw their amounts, (in full or in part) the following additional entry will be passed: Existing Partner’s Capital A/c (Individually) Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-ae361e8a3770",
+      "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5",
+      "text": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method 2.5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-aa617840faf0:aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-aa617840faf0",
+      "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9",
+      "text": "2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio. The sacrifice by a partner is equal to : Old Share of Profit – New Share of Profit Reprint 2026-27\r\nPAGE 6\r\nAdmission of a Partner 53 As stated earlier, the new partner is required to compensate the old partner’s for their loss of share in the super profits of the firm for which he brings in an additional amount as premium for goodwill. This amount is shared by the existing partners in the ratio in which they forgo their shares in favour of the new partner which is called sacrificing ratio. The ratio is normally clearly given as agreed among the partners which could be the old ratio, equal sacrifice, or a specified ratio. The difficulty arises where the ratio in which the new partner acquires his share from the old partners is not specified. Instead, the new profit sharing ratio is given. In such a situation, the sacrificing ratio is to be worked out by deducting each partner’s new share from his old share. Look at the illustrations 6 to 8 and see how sacrificing ratio is calculated in such a situation.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-a50bfa9f5679",
+      "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111",
+      "text": "2.5.5 Treatment of Goodwill As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill). 2.5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm. But, when the amount is paid through the firm, which is generally the case, the following journal entries are passed: (i) Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium) (ii) Goodwill A/c Dr. To Sacrificing Partners Capital A/c (Individually)(Goodwill distributed among the existing partners’ in their sacrificing ratio). Alternatively, it is credited to the new partner’s capital account and then adjusted in favour of the existing partners in their sacrificing ratio. In that case the journal entries will be as follows: Reprint 2026-27\r\nPAGE 18\r\nAdmission of a Partner 65 (i) Bank A/c Dr. To New Partner’s Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner’s Capital A/c Dr. To Sacrificing Partner’s Capital A/c’s (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio) If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-4f456816afcf",
+      "support_hash": "4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+      "text": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on capital is Reprint 2026-27\n16 Accountancy – Partnership Accounts credited to the partners at the agreed rate with reference to the time period for which the capital remained in business during a financial year. Interest on capital is generally provided for in two situations : (i) when the partners contribute unequal amounts of capitals but share profits equally, and (ii) where the capital contribution is same but profit sharing is unequal. Interest on capital is calculated with due allowance for any addition or withdrawal of capital during the accounting period. For example, Mohini, Rashmi and Navin entered into partnership, bringing in Rs. 3,00,000, Rs. 2,00,000 and Rs. 1,00,000 respectively into the business. They decided to share profits and losses equally and agreed that interest on capital will be provided to the partners @10 per cent per annum. There was no addition or withdrawal of capital by any partner during the year . The inter est on capital works out to Rs. 30,000 (10% on 30,000) for Mohini, Rs. 20,000 (10% on 2,00,000) for Rashmi, and Rs. 10,000 (10% on 1,00,000) for Navin. Take another case of Mansoor and Reshma who are partners in a firm and their capital accounts showed the balance of Rs. 2,00,000 and Rs. 1,50,000 respectively on April 1, 2019. Mansoor introduced additional capital of Rs. 1,00,000 on August 1, 2019 and Reshma brought in further capital of Rs. 1,50,000 on October 1, 2019. Interest is to be allowed @ 6% p.a. on the capitals. It shall be worked as follows: For Mansoor 6 6 8Rs. 2,00,000 Rs. 1,00,000100 100 12              = Rs. 12,000 + Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-4386d49f5b11",
+      "support_hash": "4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792",
+      "text": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions or the preparation of summary statements are found after the final accounts have been prepared and the profits distributed among the partners. The omission may be in respect of interest on capitals, interest on drawings, interest on partners’ loan, partner’s salary, partner’s commission or outstanding expenses. There may also be some changes in the provisions of partnership deed or system of accounting having impact with retrospective effect. All these acts of omission and commission need adjustments for correction of their impact. Instead of altering old accounts, necessary adjustments can be made either; (a) through ‘Profit and Loss Adjustment Account’, or (b) directly in the capital accounts of the concerned partners. This is explained with the help of following example. Rameez and Zaheer are equal partners. Their capitals as on April 01, 2015 were Rs. 50,000 and Rs. 1,00,000 respectively. After the accounts for the financial year ending March 31, 2016 have been prepared, it is discovered that interest at the rate of 6 per cent per annum, as provided in the partnership deed has not been credited to the partners’ capital accounts before distribution of profit. In this case, the interest on capital not credited to the partners’ capital accounts works out to be Rs. 3000 (6/100 × Rs. 50,000) for Rameez and Rs. 6,000 (6/100 × Rs. 1,00,000) for Zaheer. Had the interest on capital been duly provided, the firm’s profit would have reduced by Rs. 9,000. By this omission, the whole amount of profit as per Profit and Loss Account (without adjustment of Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+      "text": "4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classified as follows: • Authorised Capital: Authorised capital is the amount of share capital which a company is authorised to issue by its Memorandum of Association. The company cannot raise more than the amount of capital as specified in the Memorandum of Association. It is also called Nominal or Registered capital. The authorised capital can be increased or decreased as per the procedure laid down in the Companies Act. It should be noted that the company need not issue the entire authorised capital for public subscription at a time. Depending upon its requirement, it may issue share capital but in any case, it should not be more than the amount of authorised capital. • Issued Capital: It is that part of the authorised capital which is actually issued to the public for subscription including the shares allotted to vendors and the signatories to the company’s memorandum. The authorised capital which is not offered for public subscription is known as ‘unissued capital’. Unissued capital may be offered for public subscription at a later date. • Subscribed Capital: It is that part of the issued capital which has been actually subscribed by the public. When the shares offered for public subscription are subscribed fully by the public the issued capital and subscribed capital would be the same. It may be noted that ultimately, the subscribed capital may be equal to or less than issued capital. In case the number of shares subscribed is less than what is offered, the company allots only the number of shares for which subscription has been received. In case it is higher than what is offered, the allotment will be equal to the offer. In other words, the fact of over subscription is not reflected in the books. • Called up Capital: It is that part of the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share. The remaining Rs. 3 may be collected from its shareholders as and when needed. • Paid up Capital: It is that portion of the called up capital which has been actually received from the shareholders. When the shareholders have paid all the called amount, the called up capital is the same to the paid up capital. If any of the shareholders has not paid amount on calls, such an amount may be called as ‘calls in arrears’. Therefore, paid up capital is equal to the called-up capital minus call in arrears. • Uncalled Capital: That portion of the subscribed capital which has not yet been called up. As stated earlier, the company may collect this amount any time when it needs further funds. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-39-a14adf94f3",
+      "support_hash": "a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19",
+      "text": "Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received.",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-88acd5a861b0",
+      "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+      "text": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and liabilities, transfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio and adjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio. All this is done in the same way as in case of admission of a partner.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-2c978c97c40a",
+      "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36",
+      "text": "2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27\r\nPAGE 31\r\n78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-2bf9ffb186bb",
+      "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+      "text": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-b92b17a10903",
+      "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+      "text": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of debentures by repayment made to the debenture holders. Debentures can be redeemed either at par or at a premium. Depending upon the terms and conditions of issue and redemption of debentures, the following six situations are commonly found in practice. (i) Issued at par and redeemable at par (ii) Issued at discount and redeemable at par (iii) Issued at a premium and redeemable at par (iv) Issued at par and redeemable at a premium (v) Issued at a discount and redeemable at a premium (vi) Issued at a premium and redeemable at a premium In all the above six cases, the following journal entries will be passed: Reprint 2026-27\r\nPAGE 24\r\n98 Accountancy : Company Accounts and Analysis of Financial Statements 1. Issue at par and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c (Allotment of debentures) 2. Issue at a discount and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. Discount on Issue of Debentures A/c Dr. To Debentures A/c (Allotment of debentures at a discount) 3. Issue at premium and redemption at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c To Securities Premium Reserve A/c (Allotment of debentures at a premium) 4. Issue at par and redeemable at premium (a) Bank A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    }
+  },
+  "cases": [
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Goodwill Valuation: focus on this supplied section: 5.5.1 When the new Partner brings goodwill in cash. The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice. If this amou. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "In each independent case, a new partner brings a cash premium for goodwill, and the existing partners sacrifice part of their shares. Match each situation in List-I with its accounting treatment in List-II.\n\nList-I\n(A) The new partner pays the premium directly and privately to the existing partners.\n(B) The premium is received through the firm and initially credited to Premium for Goodwill A/c.\n(C) The premium is received through the firm and initially credited to the new partner’s capital account before distribution to the sacrificing partners.\n(D) The premium has been credited to the existing partners’ capital accounts in their sacrificing ratio, and they retain the amount in the business.\n\nList-II\n(I) No entry is passed in the firm’s books.\n(II) Bank A/c Dr. to Premium for Goodwill A/c; then Goodwill A/c Dr. to the sacrificing partners’ capital accounts individually.\n(III) Bank A/c Dr. to the new partner’s capital account; then the new partner’s capital account Dr. to the sacrificing partners’ capital accounts individually.\n(IV) No additional entry is passed for retaining the credited amounts in the business.\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+          "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-8a1d40054567:8a1d40054567c33eab49185014ea5fe30223d6d0a50bdaee3aa4bc2fed0e5a36",
+        "ncert-leac102:1:span-ae361e8a3770:ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+      ]
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "topic": "Admission of Partner: focus on this supplied section: 2.4 Sacrificing Ratio The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio. The sacrifice by a. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "P, Q and R are existing partners, and S is admitted. Their complete old profit shares are P: 1/2, Q: 1/3 and R: 1/6. Their new profit shares, including S’s, are P: 2/5, Q: 1/4, R: 1/5 and S: 3/20. S brings ₹1,32,000 as premium for goodwill through the firm’s bank account. The firm distributes the entire premium among the existing partners in their sacrificing ratio. What amounts are credited to P’s, Q’s and R’s capital accounts, respectively?",
+        "options": [
+          "P ₹72,000; Q ₹60,000; R ₹0",
+          "P ₹66,000; Q ₹66,000; R ₹0",
+          "P ₹60,000; Q ₹72,000; R ₹0",
+          "P ₹66,000; Q ₹44,000; R ₹22,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-aa617840faf0:aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9",
+        "ncert-leac102:1:span-a50bfa9f5679:a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+      ]
+    },
+    {
+      "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+      "content_hash": "6a4b1e28d6d6268d0087047c4675aeb46b19c0d866a55aa9dd47f54280875325",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Profit & Loss Appropriation Account",
+        "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expressly agreed among the partners. When the Deed specifically provides for it, interest on cap. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A and B contributed ₹4,00,000 and ₹2,00,000, respectively, to their partnership and share profits equally. Their partnership deed contains no provision for interest on capital. Neither partner added to or withdrew capital during the year. What should be recorded as interest on capital for the year?",
+        "options": [
+          "Allow interest to A only, because A contributed more capital.",
+          "Allow no interest to either partner.",
+          "Allow equal interest to both partners, because they share profits equally.",
+          "Allow interest to both partners in the ratio 2:1, matching their capital contributions."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:quality-v4-4f456816afcf:4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56",
+        "ncert-leac101:1:quality-v4-4386d49f5b11:4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+      ]
+    },
+    {
+      "id": "6314a93c1f302347c03562d66b15f2d3",
+      "content_hash": "8487bbbc4d461c412eea92198d53eccf324e3f45b45043fb445ef9d48ef3f4f4",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "topic": "Financial Statements of Company: focus on this supplied section: 4 Accountancy : Company Accounts and Analysis of Financial Statements 1.3.1Categories of Share Capital From accounting point of view the share capital of the company can be classif. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company issues 15,000 shares of face value ₹10 each at par. It receives applications for 18,000 shares, and all 15,000 shares offered are allotted. The company calls ₹8 per allotted share. Holders of 600 allotted shares pay only ₹5 per share against this call; holders of all the remaining allotted shares pay the full amount called. There are no other unpaid calls. What is the paid-up share capital at this stage?",
+        "options": [
+          "₹1,20,000",
+          "₹1,18,200",
+          "₹1,17,000",
+          "₹1,42,200"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac201:1:pdf-page-4:6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de",
+        "ncert-leac201:1:quality-v3-pdf-page-39-a14adf94f3:a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+      ]
+    },
+    {
+      "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "content_hash": "1f73b92ca5d0dcc644ed40ed95cb9258e21db4e854e8028dd2d98d3e5da4308d",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Change in Profit Sharing Ratio",
+        "topic": "Goodwill Valuation: focus on this supplied section: 2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retir. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A, B, C and D are existing partners. Their old profit-sharing ratio is 8:5:3:4 and their new profit-sharing ratio is 5:6:5:4. Match each partner with the change in that partner’s share of total profits.\nList-I\n(A) Partner A\n(B) Partner B\n(C) Partner C\n(D) Partner D\nList-II\n(I) Sacrifices 3/20 share\n(II) Gains 1/20 share\n(III) Gains 2/20 share\n(IV) Share remains unchanged\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+          "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+          "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+        "ncert-leac102:1:span-2c978c97c40a:2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+      ]
+    },
+    {
+      "id": "99519ad997494b32a08ca17d0c48315b",
+      "content_hash": "49cfcd69352856e80f80ff08bceb1d77b045ac8850ed292e44adeb82616042ee",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "topic": "Debentures: focus on this supplied section: 2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company issues one debenture with a nominal value of ₹250 for ₹280. Arrange the following steps in the order from determining the issue premium to presenting it in the balance sheet.\n(A) Show the premium credited to Securities Premium Reserve on the liabilities side under “Reserves and Surpluses”.\n(B) Compare the issue price with the nominal value to establish whether the debenture is issued at a premium.\n(C) Determine the premium as ₹30 per debenture.\n(D) Credit Securities Premium Reserve with the premium.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(B), (C), (A), (D)",
+          "(C), (B), (D), (A)",
+          "(B), (D), (C), (A)",
+          "(B), (C), (D), (A)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+        "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+      ]
+    }
+  ]
+}

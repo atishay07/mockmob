@@ -1,0 +1,94 @@
+{
+  "at": "2026-10-04T16:52:24.900Z",
+  "scope": "Development fixture only; no actual persistence or hardware performance evidence",
+  "libraryDark": [
+    {
+      "height": 740,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 320
+    },
+    {
+      "height": 844,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 390
+    },
+    {
+      "height": 1024,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 768
+    },
+    {
+      "height": 768,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 1024
+    },
+    {
+      "height": 900,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 1440
+    },
+    {
+      "height": 390,
+      "overflow": -10,
+      "smallButtons": [],
+      "width": 844
+    }
+  ],
+  "recallLight": [
+    {
+      "height": 740,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 320
+    },
+    {
+      "height": 844,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "height": 1024,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 768
+    },
+    {
+      "height": 768,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 1024
+    },
+    {
+      "height": 900,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "height": 390,
+      "overflow": 0,
+      "smallButtons": [],
+      "theme": "light",
+      "width": 844
+    }
+  ],
+  "interactions": [
+    "keyboard reveal",
+    "keyboard rating advances with heading focus",
+    "spelling answer hidden until explicit submission",
+    "correct spelling feedback",
+    "phone More and theme toggle",
+    "Escape closes menu"
+  ]
+}

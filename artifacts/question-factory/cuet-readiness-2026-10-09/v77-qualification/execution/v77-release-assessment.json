@@ -1,0 +1,22 @@
+{
+  "state": "pending",
+  "topology": "dual_blind",
+  "policy": {
+    "policy": "cuet-fit-release-v2",
+    "fresh_false_accepts_max": 0,
+    "regression_false_accepts_max": 0,
+    "valid_survival_min": 0.85,
+    "per_subject_valid_survival_min": 0.7
+  },
+  "problems": [
+    "qualification_evidence_or_receipts_incomplete"
+  ],
+  "metrics": {
+    "fresh_complete": false,
+    "regression_complete": false,
+    "execution_finished": false,
+    "receipt_complete": true,
+    "held_micro": 0
+  },
+  "academic_assessment": null
+}

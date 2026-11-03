@@ -1,0 +1,76 @@
+{
+  "id": "cuet-v716-diagnostic-r1",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "created_at": "2026-10-09T23:00:13.697Z",
+  "contract_hash": "2e6a4a58a33b5ee8281e817fe32e7b760bf5f4cf42dff8f3170234213a29a95d",
+  "prompt_hash": "ae9831a252cb86f01c4de7ad3bc0653f6a818e0924253aef4bbbad38fdf1e8ea",
+  "campaign_sha256": "274a9d0fe8db6b203a1d825379b9deceb2538cff0db72f1870b47e609bec3d93",
+  "registry_sha256": "ea8b2eb8026b64e85364717fff32c1eb8acdbc33f168bcda698ea3b0b55a34f4",
+  "runner_sha256": "9afd09a6ceda61bc559ef2a5d0b88aa4c83714880b3d66d01ebe6735dd7ca33d",
+  "engine_sha256": "37afe85629b75211fcbbf5d78b14882cc3ceb7a6844d5b236d537b735881eb89",
+  "registry_hash": "ea8b2eb8026b64e85364717fff32c1eb8acdbc33f168bcda698ea3b0b55a34f4",
+  "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+  "pricing_expires_at": "2026-10-12T21:37:55.116Z",
+  "cost_profile": {
+    "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+    "input_byte_bounds": {
+      "gpt-6-luna": 33024,
+      "gemini-3.8-flash": 33024
+    }
+  },
+  "jobs": [
+    {
+      "id": "f-234e398c6040b350",
+      "subject": "accountancy",
+      "candidate_hash": "72ae420d05b64fc2ee4deeccdb233c83b1bc315cdb80d53c4adb0b42716991fa"
+    },
+    {
+      "id": "f-90b386844e029292",
+      "subject": "accountancy",
+      "candidate_hash": "38b1fe65e5fa365d147ed62351e95c6ac7d0cc3f20394fe3a9b6b9a74fc49253"
+    },
+    {
+      "id": "f-793e37a7f34732b6",
+      "subject": "business_studies",
+      "candidate_hash": "3388374813723ce8ed31aad99fa4e472663f8b2b4270bd492717aaa6412294ce"
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "subject": "economics",
+      "candidate_hash": "6925999a51049c148585eaa54639bb0e701dcaba7d331af4fee14a413ab7ca77"
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "subject": "english",
+      "candidate_hash": "1cfa688159a8844cb8725de2e213ff639a0edde103ad460cc6e81a18a50d4671"
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "subject": "business_studies",
+      "candidate_hash": "0ff8538c6b01cbb2e259774bc91147898ea6b192bcf1239acda3f63094750291"
+    }
+  ],
+  "qualification": false,
+  "validation_only": true,
+  "cap_usd": 0.6,
+  "publication": "never",
+  "max_repairs": 0,
+  "replacements": 0,
+  "standard_full_bound_usd": 1.017288,
+  "budget_stop_possible": true,
+  "input_byte_bound": 33024,
+  "full_retry_bounds": true,
+  "preflight_hash": "fe9976492a53801dfbb5bdc7b5af2054846d58c2dd44d41ddfa4dcbc3908a156",
+  "decision_rule": "Diagnostic only: native V716 report format compliance, outcome labelling and actual cost on six already-inspected R3 regression cases. Not qualification or release evidence; any later prompt change is followed by a fresh benchmark.",
+  "standard_full_bound_exceeds_cap": true,
+  "execution_freeze": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-DIAGNOSTIC-EXECUTION-FREEZE-R3.json",
+    "sha256": "7635ee9f26f9d6b2f15ad189bf8ee59f53c9a6c8f1a204de626b3ceb6cbd61a0"
+  },
+  "cases": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/diagnostic-native-r1/cases.json",
+    "sha256": "62617243be532939908f3ab50cdb12127580c995867ccd9db84a0a1ae687870f"
+  },
+  "max_planned_request_bytes": 25820
+}

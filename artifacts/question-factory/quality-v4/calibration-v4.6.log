@@ -1,0 +1,33 @@
+{"id":"commission-v3-cuet2024-english-bookA-q42","complete":1,"pending":0}
+{"id":"commission-v3-cuet2024-accountancy-bookA-q28","complete":1,"pending":0}
+{"id":"commission-v3-cuet2024-english-bookA-q44","complete":1,"pending":0}
+{"id":"commission-v3-cuet2024-accountancy-bookA-q46","complete":1,"pending":0}
+{"id":"commission-v3-cuet2024-english-bookA-q7","complete":1,"pending":0}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:47
+      const error=new Error(`provider_http_${response.status}`);
+                  ^
+
+Error: provider_http_429:You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.
+    at request (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:47:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:95:32)
+    at async completeJSON (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:200:27)
+    at async adapters.explanation_support (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidence.mjs:154:29)
+    at async verifyCandidate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/evidencePipeline.mjs:62:14)
+    at async inspect (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryCalibration.mjs:65:18)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryCalibration.mjs:88:9
+    at async Promise.allSettled (index 3)
+    at async runFactoryCalibration (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryCalibration.mjs:86:3) {
+  providerReceipt: {
+    http_status: 429,
+    provider: 'openai',
+    provider_request_id: 'req_1fcd2106fb9848ecbf4ace9207da6e86',
+    code: 'credit_balance_exhausted',
+    type: 'insufficient_quota',
+    param: '',
+    message: 'You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.'
+  },
+  rejectedBeforeInference: false
+}
+
+Node.js v24.15.0

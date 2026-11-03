@@ -1,0 +1,803 @@
+{
+  "schema_version": 1,
+  "subject": "economics",
+  "audit_date": "2026-10-06",
+  "scope": "All 17 currently passing Economics items in supplied blind snapshot",
+  "method": "Read blind questions and actual supplied excerpts; saved initial solutions before opening keys; compared explanations; checked current 2026 syllabus and primary NCERT PDFs. No paid API or database writes.",
+  "syllabus_version": "cuet-2026-provisional-for-2027",
+  "key_index_convention": "Letter keys in audit; zero-based numeric keys in independent initial-solutions artifact",
+  "independent_solution_artifact": "economics-initial-solutions.json",
+  "summary": {
+    "reviewed": 17,
+    "intended_key_matches": 17,
+    "approve": 11,
+    "suspect": 5,
+    "incomplete": 1,
+    "publication_recommendation": "Withhold suspect/incomplete original hashes pending repairs/evidence and independent revalidation. Matching keys do not establish unique defensible answers or source/syllabus entitlement."
+  },
+  "limitations": [
+    "This review is bounded to the supplied content hashes and evidence; it is not a 100 percent correctness guarantee.",
+    "2026 syllabus remains provisional for 2027.",
+    "No publication, registry change, credential use or database mutation performed.",
+    "No rendered exam UI was available to this subtask; formatting observations concern the supplied text."
+  ],
+  "items": [
+    {
+      "id": "7398cc0e-85ff-4daf-b51e-d66316c6124f",
+      "content_hash": "de8f9e854c159fc8f3078fc0dc7a9316aa1e70b1f3222bd2a3ee4495549e5d9d",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is the unique standard-regime answer. Both regime and quotation direction are explicit; no reciprocal-rate ambiguity.",
+        "Explanation correctly distinguishes flexible-rate appreciation from government changes under fixed rates."
+      ],
+      "recommended_chapter": "Balance of Payments",
+      "recommended_syllabus_unit": "Course II, Unit V: Open Economy Macroeconomics",
+      "recommended_ncert_chapter": "Open Economy Macroeconomics",
+      "recommended_topic": "Flexible exchange rate: appreciation versus depreciation; fixed-rate revaluation versus devaluation",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "evidence": [
+        "NCERT leec106 pdf-page-8 explicitly calls a rise in domestic currency's foreign-currency price appreciation; pdf-page-10 distinguishes government-set fixed-rate revaluation.",
+        "2026 syllabus Unit V includes meaning of fixed/flexible exchange rates and determination of exchange rate."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Intended B matches: A is planned saving and C realised saving.",
+        "Statement D uses the undefined hybrid term 'Ex Ante Post Saving'. Its explanation rejects this non-term rather than a meaningful economic assertion. Preserve the historical transcription as provenance, but repair before using it as clean current practice.",
+        "A's phrase 'actually planned to save' is awkward; statements and option lists should be split across lines in the rendered item."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Ex ante planned saving and ex post realised saving",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 defines ex ante as planned values and ex post as what actually happened.",
+        "2026 syllabus Unit III includes aggregate demand and income determination in a two-sector model; planned versus actual aggregates are prerequisite concepts in that chapter."
+      ],
+      "recommended_revision": "For a clearly labelled adaptation, write A: 'Ex ante saving is planned saving'; B: 'Ex post saving is planned saving'; C: 'Ex post saving is realised saving'; D: 'Ex ante saving is realised saving'. Keep B as the answer (A and C). Rehash and revalidate the adapted item.",
+      "also_defensible_keys": null
+    },
+    {
+      "id": "bfef7eb8-0e03-4f97-a848-f8cab4f76776",
+      "content_hash": "59360281763818faf6a8de9c8e55f5dcb5026b7a23b4506c13c4d45387bf0653",
+      "solved_key": "D",
+      "supplied_key": "D",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "D is the unique textbook-policy answer: A,D,E hold; outright and repo are the types, while a bank-rate reduction tends to expand rather than contract money supply.",
+        "Explanation accurately uses 'tending' and 'generally' for the policy transmission; it does not claim a guaranteed realised outcome.",
+        "Minor format improvement: put each labelled statement and the choose-answer instruction on separate lines."
+      ],
+      "recommended_chapter": "Money & Banking",
+      "recommended_syllabus_unit": "Course II, Unit II: Money and Banking",
+      "recommended_ncert_chapter": "Money and Banking",
+      "recommended_topic": "RBI quantitative tools: CRR, open market operations and bank rate",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "evidence": [
+        "NCERT leec103 pdf-page-7 names quantitative tools, says RBI bond sales reduce reserves, and names outright and repo operations; pdf-page-3 lists bank-rate control.",
+        "2026 syllabus Unit II explicitly includes the central bank and policy tools to control money supply."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "241254c1-410a-4e91-81b4-d623b89fcb73",
+      "content_hash": "9eb41ec71bd1c1e55347e96e9035953df6bf194a075a1cbb2a4c379e294d905b",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "C is uniquely correct: B,D,E. Stock and flow definitions are correctly contrasted.",
+        "Explanation correctly adds total indirect taxes and deducts total subsidies when converting from factor cost to market prices.",
+        "No confusion with conversion from basic prices: that would require net product taxes instead."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Stock versus flow; factor cost, basic prices and market prices",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-4 defines stocks at a time point and flows over a time period.",
+        "NCERT leec102 pdf-page-16 says factor cost to market prices adds total indirect taxes less total subsidies, and distinguishes basic prices.",
+        "2026 syllabus Unit I includes basic macroeconomic concepts and Factor Cost, Basic Prices and Market Price."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "C is the intended exact identity, but D is ALSO true: zero is less than one. There is no uniquely defensible correct option under literal mathematical reading.",
+        "The explanation establishes C without refuting D, so matching the official intended key does not repair the overlap.",
+        "G,T,M,X are not defined in the stem; familiar exam shorthand is weaker than explicit self-contained notation."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Two-sector closed economy without government: omitted fiscal and external flows",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q45",
+          "support_hash": "d905e92825428fd3baafb81ad59cc4a34de5db99bd3513ef94e33f3eb3572644"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "0e5fdc77b4b50404c293c474363d3a4fee8354a5c6aabb877fca6aad55b25097"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-4 describes income determination without government; pdf-page-5 identifies G as government expenditure and T as taxes.",
+        "2026 syllabus Unit III explicitly includes income determination in the two-sector model.",
+        "Direct option entailment: G=T=M=X=0 implies G=T=M=X<1."
+      ],
+      "recommended_revision": "Make a labelled adaptation; define G,T,M,X and replace D with a mutually exclusive assertion such as 'G = T = 0, while M and X are positive'. Keep C (=0), then rehash and independently revalidate.",
+      "also_defensible_keys": [
+        "C",
+        "D"
+      ]
+    },
+    {
+      "id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "A is the intended answer, but the stem says receipts create liability AND decrease assets. That is not the textbook's disjunctive definition.",
+        "Borrowing creates a liability; disinvestment reduces financial assets. Either criterion suffices. The explanation silently changes the stem to 'either ... or'.",
+        "The stem also calls receipts 'elements' rather than identifying government receipts."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Capital versus revenue receipts",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-3 separates borrowing and sale of assets; pdf-page-4 defines capital receipts with 'create liability or reduce financial assets'.",
+        "2026 syllabus Unit IV explicitly includes classification of revenue and capital receipts."
+      ],
+      "recommended_revision": "Use a labelled adaptation: 'Government receipts that either create a liability or reduce the government's financial assets are classified as:'. Keep A, preserve historical wording only in provenance, and rehash/revalidate.",
+      "also_defensible_keys": null
+    },
+    {
+      "id": "02fc49a9-7017-459b-9d70-d571d0a0edf3",
+      "content_hash": "7407a0968a37759e2371fc875b82452ca7a61b3dffcf5c8a723badbe55e041a0",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: all 720 crore of sales receipts are distributed as household factor income.",
+        "No saving, government, external trade and full distribution are explicit. The stem supplies the assumptions necessary for the equality.",
+        "Explanation uses the stated model rather than implying that all real economies have this equality."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Two-sector circular flow: equality of household expenditure and factor income",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "multiple_choice_numerical",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-pages-6 and 7 describe a simple economy without savings, government or external trade, and equality of sales revenue and factor payments.",
+        "2026 syllabus Unit I explicitly includes circular flow of income."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "736b38df-f7fd-4c72-82f1-55bd7789e2d4",
+      "content_hash": "e99654fc414314cfcb5ee392f25c48b90d057961a9d7ab60d3305e66c33d1a28",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "C is unique: planned income 36000+9000=45000 and realised income 39000+7000=46000.",
+        "The assumption that disposable income divides only into consumption and saving is stated, so the calculation does not rely on hidden expenditure categories.",
+        "Explanation correctly keeps planned and actual quantities separate."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Ex ante and ex post consumption, saving and disposable income",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_calculation",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 defines planned versus realised aggregates; pdf-page-4 uses planned consumption in two-sector income determination.",
+        "2026 syllabus Unit III includes aggregate demand and income determination in a two-sector model; the sum relationship is also explicitly supplied by the question."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "331a63d4-1402-48fa-83d0-e65ebd16419f",
+      "content_hash": "40928fd31c334dc55c665aa6a28ab5a6078359dbfbe5deedd71b22cff89fb82b",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is unique: percentage rise in the explicitly named price is (0.05-0.04)/0.04 = 25%.",
+        "The inverse domestic-currency price of foreign currency falls 20%, but that is not what the stem asks; quotation direction is clear.",
+        "Flexible-rate appreciation, rather than revaluation, is explained correctly."
+      ],
+      "recommended_chapter": "Balance of Payments",
+      "recommended_syllabus_unit": "Course II, Unit V: Open Economy Macroeconomics",
+      "recommended_ncert_chapter": "Open Economy Macroeconomics",
+      "recommended_topic": "Flexible exchange rate: percentage appreciation of domestic currency quoted in foreign currency",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "evidence": [
+        "NCERT leec106 pdf-page-8 directly supports appreciation from an increase in this quotation; pdf-page-10 distinguishes fixed rates.",
+        "2026 syllabus Unit V includes exchange-rate meanings and determination."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "7910a488-0ca9-4524-a5fd-c019b6a9710a",
+      "content_hash": "114ac3aedee8d3c13c98a89c3bd0bfb59d1bd5da6ea548ce6a77f857a09b1039",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: 150 crore capacity reduction / multiplier 5 = 30 crore reserve withdrawal.",
+        "No cash leakage, no excess reserves, a 20% required ratio, maximum deposit capacity and rupee-for-rupee reserve withdrawal are explicit; therefore the simple multiplier applies.",
+        "This asks maximum capacity rather than claiming the same realised lending contraction in an actual banking system. Explanation follows those assumptions."
+      ],
+      "recommended_chapter": "Money & Banking",
+      "recommended_syllabus_unit": "Course II, Unit II: Money and Banking",
+      "recommended_ncert_chapter": "Money and Banking",
+      "recommended_topic": "Reserve multiplier and RBI open-market bond sale",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "evidence": [
+        "NCERT leec103 pdf-page-7 gives the 20% reserve-ratio/5 deposit multiplier example and states that RBI bond sales reduce reserves.",
+        "2026 syllabus Unit II explicitly includes money creation, multiplier and policy tools."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "2c29250c-6a94-428d-9f4a-6b809f2472ec",
+      "content_hash": "c9bff0b853665616bc6ce0923ddaa65d71ed9f720bef6eab3b03c16298a38179",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: sale of shares reduces government financial assets and so is a capital receipt even without creating debt.",
+        "The explanation correctly uses the asset-reduction criterion rather than requiring both debt creation and asset reduction.",
+        "The stem is self-contained and avoids any claim about current disinvestment policy."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Non-debt capital receipt: PSU disinvestment",
+      "recommended_question_type": "conceptual_application",
+      "current_question_type": "application_single_correct",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-3 explicitly mentions sale of shares in PSUs; pdf-page-4 calls this asset reduction and a capital receipt.",
+        "2026 syllabus Unit IV explicitly includes classification of government receipts."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "1cf1f238-b143-4aa7-8acd-c5550ec35eeb",
+      "content_hash": "f4bdb91a5284a844b17f0640e30406f9c5de9b323c6d98cc2543189cfc656f66",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: 950-120+30 = 860 crore.",
+        "Explanation correctly reverses the stated total-indirect-tax/subsidy conversion and keeps amounts in crore.",
+        "The stem uses market prices rather than basic prices, avoiding misuse of only product taxes."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "GVA at market prices to GVA at factor cost",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-16 defines factor-cost/basic-price/market-price conversions and total indirect taxes less total subsidies.",
+        "2026 syllabus Unit I explicitly names Factor Cost, Basic Prices and Market Price."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "incomplete",
+      "reasons": [
+        "A is arithmetically unique under the supplied simplified additive relationship: 9-4=5%. The stem's approximation is explicit, so the exact multiplicative Fisher relation is not a competing answer.",
+        "Attached Money and Banking pdf-page-2 covers purchasing power and money demand; pdf-page-10 covers bond present value. Neither excerpt entails the stated nominal/real interest relation.",
+        "The current 2026 Money and Banking syllabus lists functions/supply of money, creation/multiplier, central-bank functions and money-supply policy tools. No exact current-syllabus topic entitlement was supplied for this formula.",
+        "A 2024 PYQ is evidence of historical examination content, not sufficient evidence of the 2026 boundary or 2027 entitlement. Live text searches in NCERT Money and Banking, National Income Accounting, Determination of Income and Employment and Open Economy Macroeconomics did not locate 'real interest'; this is not proof of universal absence, so verdict is incomplete rather than categorical off-syllabus.",
+        "The explanation is correct conditional on the question's given equation, but that does not fill the source/syllabus gap."
+      ],
+      "recommended_chapter": null,
+      "recommended_syllabus_unit": null,
+      "recommended_ncert_chapter": null,
+      "recommended_topic": "Simplified Fisher relation: nominal versus real interest and inflation",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "edeffb07173e998181322b0a59a59587ed56279259112f778edadfc481932acb"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "3423cf95e2a968a93e76ce68b239394aa996fe5ac70a7f30d76a2b485c90494f"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "516d9a3c52f50b14ef7f2e6164572a1e5b0f2583c55b10abd0ae3cc115c3ec2c"
+        }
+      ],
+      "evidence": [
+        "Supplied NCERT leec103 pdf-page-2 and pdf-page-10 lack the Fisher formula.",
+        "Supplied 2026 syllabus Course II Unit II has no explicit nominal/real interest relationship.",
+        "Authenticated historical anchor q49 asks the additive relation; its date is 2024.",
+        "Live primary PDF inspected: https://www.ncert.nic.in/textbook/pdf/leec103.pdf ; no 'real interest' text match on 6 Oct 2026."
+      ],
+      "recommended_revision": "Withhold until a precise authoritative current-syllabus entitlement and textbook locator for this topic are supplied. Do not solve by moving it to another chapter without positive evidence. Alternatively replace the item with a fresh in-syllabus CRR/multiplier application and independently validate it.",
+      "also_defensible_keys": null
+    },
+    {
+      "id": "4ecf0ccf-8840-4b54-93e0-2867b7df8c7a",
+      "content_hash": "c1fc0767d8d7469d8e43dbe6b94f9a95c6b7435cc7489d491656979ee419499d",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: household factor services to firms are real factor-market flow.",
+        "B is monetary factor-market flow; C is real goods-market flow; D is monetary goods-market flow.",
+        "Explanation clearly distinguishes both the market and whether the flow is real or monetary."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Circular flow: real versus monetary factor-market flow",
+      "recommended_question_type": "conceptual_application",
+      "current_question_type": "conceptual_application",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-7 separately describes all four arrows and identifies factor and goods/services markets.",
+        "2026 syllabus Unit I explicitly includes circular flow of income."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "B is the source-supported intended answer.",
+        "The item says 'According to the chapter' but supplies neither a chapter title, cited text nor passage. It is source-dependent phrasing in a standalone exam question.",
+        "The explanation repeats the same unidentified 'chapter' reference. It should identify the historical textbook framing or give a standalone explanation.",
+        "No claim about the present continuation of Five-Year Plans should be introduced."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Government budget as a national policy statement",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "9c80af9d9945eb799a51f79ab5c674fe62c4638a6a25b972e97984faba6a6f8a"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "80cbd7f335f1012af407cb7133bff0bb64af36c911df2d39675fabb28e5d6d2c"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-5 explicitly says that since Independence and the launch of Five-Year Plans the budget became a significant national policy statement.",
+        "2026 syllabus Unit IV includes budget meaning, objectives and components.",
+        "Attached pdf-page-18 is about GST/exercises and adds no support to this historical role; retain pdf-page-5 as the actual support."
+      ],
+      "recommended_revision": "Rewrite without the unspecified dependency: 'Since Independence, particularly with the launching of the Five-Year Plans, the Union Budget acquired which broader role beyond a statement of receipts and expenditure?' Or supply the cited NCERT passage/title. Keep B, identify the historical framing in the explanation, rehash and revalidate.",
+      "also_defensible_keys": null
+    },
+    {
+      "id": "dd83debc-8114-4729-b431-222013a04bfc",
+      "content_hash": "5df659590a0bc1f066cb0ffe88ed4c0eeb5b20af9b9c694ece374f2f6c02a7cd",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is unique: planned saving is 120000-90000=30000; realised saving is 110000-95000=15000. A and B true, C and D false.",
+        "The saving identity is given. Plans and actual outcomes use the same year, avoiding period mismatch.",
+        "Explanation correctly uses ex ante for planned and ex post for realised; minor formatting improvement is to split A-D onto separate lines."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Planned and realised saving calculated from income less consumption",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 explicitly defines ex ante/planned and ex post/realised.",
+        "2026 syllabus Unit III includes two-sector income determination and aggregate-demand components."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null
+    },
+    {
+      "id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "C is the unique intended textbook-role answer; the supplied simple NCERT circular-flow source supports it.",
+        "The explanation says a two-sector model assumes households spend their entire income and do not save. That does not follow from being two-sector alone: two-sector income-determination models can include household saving and firm investment.",
+        "The stem omits 'simple economy without saving' while the explanatory source uses that narrower model. Do not turn a restricted source illustration into a general definition of a two-sector economy.",
+        "Repair the explanation and model assumptions before approval; do not claim a discovered official-key mismatch."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Two-sector circular flow: firms produce goods/services and households provide factors",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-6 explicitly introduces a simple economy without government, external trade OR savings; pdf-page-7 derives the no-leakage illustration.",
+        "NCERT leec104 pdf-page-4 separately describes a two-sector model with investment and AD=C+I, showing that two-sector alone is not synonymous with the no-saving circular-flow illustration.",
+        "2026 syllabus Unit I includes circular flow of income; Unit III separately includes two-sector income determination."
+      ],
+      "recommended_revision": "For a labelled adaptation specify the simple no-saving circular-flow model. In the explanation say households supply factors, firms produce output, government is excluded, and the household-investment/firm-saving statement does not describe the stated source model. Avoid teaching that all two-sector economies have no saving. Rehash if the stem changes and revalidate.",
+      "also_defensible_keys": null
+    }
+  ]
+}

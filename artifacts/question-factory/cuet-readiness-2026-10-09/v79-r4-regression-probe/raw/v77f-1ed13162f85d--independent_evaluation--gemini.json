@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12504,
+ "request_bytes": 37434,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r4-regression-2026-10-09-v77f-1ed13162f85d\",\n  \"content_hash\": \"84a7f0702dc57fd33c42ef0fd25a2374496b04581c706a2c3977e337c0ff857a\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E3.1\"],\n  \"reasons\": [\n    \"The passage explicitly states: 'When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through.'\",\n    \"Therefore, Dev crossed out the crossing because the operator cancelled it when the current became too strong.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Reading Comprehension - Narrative\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The passage provides the direct cause for crossing out the noon ferry crossing.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Visitors found the timetable familiar, motivating Dev to change it.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Dev crossed out noon because of a personal travel preference.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The board itself was washed away again, necessitating the alteration.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests direct factual retrieval from a short narrative passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option reading comprehension MCQ format used in CUET UG English.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches the cognitive demand of standard CUET comprehension recall items.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors draw plausible surface terms from the passage while key directly reflects causality.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-english-bookA-q17\",\n      \"cuet2024-english-bookA-q18\",\n      \"cuet2024-english-bookA-q19\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through.\",\n      \"reason\": \"Directly matches the cause given in the narrative.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The timetable was familiar to the visitors\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through.\",\n      \"reason\": \"The passage states crossing out occurred due to cancellation, not visitor familiarity.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Dev preferred to travel in the morning\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through.\",\n      \"reason\": \"The passage never mentions Dev's travel preferences as the reason.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The board had been washed away again\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning.\",\n      \"reason\": \"The printed timetable washed away in the monsoon, not the board again.\"\n    }\n  ]\n}",
+       "thoughtSignature": "ErYJCrMJAWkUfROC6Kn7hdwy2vOAw9pFt01J0YZtm5Ukgh3l0a7JA+sjHNi0FWxGXQ68WgRCeB97PVOXGbbEBxU5nSb3+3IGtcTmO2we2L51mB+naAdn/hgJiqn6uMnp5+w0rz4X3pKhnndEzVNfLknVrmMclUXFY/uJmEXz1TIMW56jq2tFeFcLSu4a/8wqUCA+tFb433ILgDcnzU6qQcI+8Qlnb6hOrIKuq7okYiTTTrJHYwAq3vGLaNGDYKlRggIAm0xUqnzgBs3n4/l6gfEgYcq3wA5HWSVObN+2Y+h/Nty4VzRFxzeR1Q7Sutr5DbwpKvE/AtSxG+aERklT2S+QeSZC0zF8pXrtjTZNG2252tm8UVqUOtZogEAv6z+kMz74AC44ymUKVjksA0MhDFVs6b+w54jTvfmGGpJMpK24pjf3uHwPwCnIOHRNdJwOLszROLvAEGZyKg8GHsStY45lQgkIyyArzemkM7CDXFIESyTjV4v6l2wzqwngiy1zERCB37fWK1qBuliWIN7e944enhLqp+MgD8gYNgR2Czi4fV7KGHFncOiN6CI7CBEOS9fr2ebNLoSXdfKbF5AAjljmlmsmMEDnvU92ZF6oVktc3yNi/ocvnt+agPPoFJboFV/un+AERpHLxmJXzscIaTUJl19HPryBf0YnXxYI0pAA4B8CKTcoZ4ZmdqB2UBbc+qndpakpcrQ2Hwn+kfRtoWHJOIbKyWsS7hT+x8XktkgEM3QiBgPuzOhrJiJlWBQHCwLSsGUOJeS628JgTlUwy9dIfx0z67p+vLuSumiZLqKjrG4htuDzVknUhMxg89i63n+71TtI3Ib4NJ6W26OvSR31rLTAhANacKkkHN3SfxyDZMFTm7T5ZmkkW8Cm+aZ/OS24fIwAC4ksqEAZZPIdSJHm258j/yK0RwB6M1Abz61N7DbbHUyyrnaQdwDxmYMPJFRsc8rR57XVp/c7IWLENBSnblaKFlBcr8qBouhFY95EbXLg7xcOZt24CH0CI5IiL26uVAQ/OlC9d10JLs9i+sP7CxFScvu6vlsRRP9dINa5HHyu2eYq/vzXf7ImB3wVbnxQtmXKz7o23RHcjjgRj8Kq0pM6AEGVtsJfvCyW8K8bFK0uIEUEQdmftE7gmEWR7dyysffeWH7eun8iacMKA/FEu+wYHaCRqBOLDS0b0KtSNVayfcXiZtXRo59NKl1mZ6/IvJ18amJ56XVE6/HeWDNYlKtdkgyfQS9yaZOrydlsIstrjBDHZPv4Npe4iJUKB+rIEAOjzoXfnJPt4rF/+65IMjf3DHBXQrhOv88HTiwApFHZFqqFYEF+x70TNKWg64nEZMdF1giw3PnP/eaSveD1Cml020klDA7FdfgcxjN5O3G31RGp/4FUa4Q8/4M0Pr80OaHB7JyCyU4YEeY7KW2Y/KvrcQAN+8K0lrjuACUvbJ5D68Aqvu2lT4ojgWyEATjJ0YNEyngnJYb0/I2yQn2stusFfVlRg8F7sOLKD1AT3x7NpJUQcb3JFRImXxHxNR7DyYmDZk/2WQEXoqsSc8GqHpE0EbNXfcjk7TkTNTtwKnKpL3oVGyf6bJc3ADOGIjAcDuivzmVw"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6993,
+   "candidatesTokenCount": 1387,
+   "totalTokenCount": 8621,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6993
+    }
+   ],
+   "thoughtsTokenCount": 241,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "6trIaoKJDcWzg8UP0MmkoAc"
+ }
+}

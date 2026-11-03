@@ -1,0 +1,184 @@
+[
+  {
+    "source_id": "ncert-lebs108",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs108.logical-pages-v5.json",
+    "pdf_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+    "cache_sha256": "a431cd1846019daea888cd686292043f454312c81f07a711ed7c8ac4e5341542",
+    "pages": 14
+  },
+  {
+    "source_id": "ncert-lebs202",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs202.logical-pages-v5.json",
+    "pdf_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+    "cache_sha256": "690399004431c16152eb0d8190d57730c29a8715adc3ab09950febdc00119ada",
+    "pages": 47
+  },
+  {
+    "source_id": "ncert-lebs105",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+    "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+    "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+    "pages": 30
+  },
+  {
+    "source_id": "ncert-lebs107",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs107.logical-pages-v5.json",
+    "pdf_sha256": "64d3468ab4013752040834ff7b718915a1683bfae1b218ac2ba5791c8857645b",
+    "cache_sha256": "d1c24b1e724c5378f9ac6f12a2e72bbd3dcccb85948a3e20a06089f2e27d1319",
+    "pages": 32
+  },
+  {
+    "source_id": "ncert-leac102",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+    "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+    "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+    "pages": 59
+  },
+  {
+    "source_id": "ncert-leec102",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec102.logical-pages-v5.json",
+    "pdf_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+    "cache_sha256": "904630e2c298bd2d6db3814ccde7c3e4af24d125b0da7a03e775ad070640053a",
+    "pages": 27
+  },
+  {
+    "source_id": "ncert-leac104",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+    "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+    "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+    "pages": 39
+  },
+  {
+    "source_id": "ncert-leec103",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec103.logical-pages-v5.json",
+    "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+    "cache_sha256": "cdaa503ea4c9f0b2c3a7aa526cea7b837983e9df1f0372de935e2c0dff1525b7",
+    "pages": 17
+  },
+  {
+    "source_id": "ncert-leec105",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec105.logical-pages-v5.json",
+    "pdf_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+    "cache_sha256": "874b824e0160a502ef708a028eacf4856c9091719cc440c31272cffbfecc555d",
+    "pages": 19
+  },
+  {
+    "source_id": "ncert-lebs201",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs201.logical-pages-v5.json",
+    "pdf_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+    "cache_sha256": "00d66585865d21651efcbf8c8702c48328f12be1623dfd67faddc954e63fa081",
+    "pages": 27
+  },
+  {
+    "source_id": "ncert-leac201",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+    "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+    "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+    "pages": 74
+  },
+  {
+    "source_id": "ncert-leec106",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+    "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+    "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+    "pages": 15
+  },
+  {
+    "source_id": "ncert-leac103",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac103.logical-pages-v5.json",
+    "pdf_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
+    "cache_sha256": "4100a5033f658ee6672baccceec2237984b10eb5c3c45d4c5f269e8aab71045f",
+    "pages": 49
+  },
+  {
+    "source_id": "ncert-lebs203",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs203.logical-pages-v5.json",
+    "pdf_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+    "cache_sha256": "fe60d791a915260fee53376fca0734f6eb46697f85e7565bd28f74efd15110fb",
+    "pages": 16
+  },
+  {
+    "source_id": "ncert-lebs102",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs102.logical-pages-v5.json",
+    "pdf_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+    "cache_sha256": "50642c9e15a15359ac28f6e14071084d2b522cfc6327584fd6c2a7f558c1adb4",
+    "pages": 39
+  },
+  {
+    "source_id": "ncert-lebs106",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs106.logical-pages-v5.json",
+    "pdf_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+    "cache_sha256": "d6b1a31dafdc27206441695577bb1adfd4a563275905ed583b0818b389672eb0",
+    "pages": 30
+  },
+  {
+    "source_id": "ncert-keec103",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec103.logical-pages-v5.json",
+    "pdf_sha256": "1f7a1586778ba96d0518398d1e5231f69327e3878cbe4450da6b0085054538ae",
+    "cache_sha256": "125bd69facbe0abc898e6bfacd45cffb95c8b845d1d4f5c1d12e15082452fdc7",
+    "pages": 21
+  },
+  {
+    "source_id": "ncert-leec104",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+    "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+    "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+    "pages": 13
+  },
+  {
+    "source_id": "ncert-leac202",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac202.logical-pages-v5.json",
+    "pdf_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+    "cache_sha256": "37c3f086e840ad9a5e0e895ab1e5285c1e147d10bada764173bb8140abd8b64f",
+    "pages": 69
+  },
+  {
+    "source_id": "ncert-leac101",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+    "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+    "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+    "pages": 47
+  },
+  {
+    "source_id": "ncert-lebs101",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs101.logical-pages-v5.json",
+    "pdf_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+    "cache_sha256": "a1c8621eed76ff2b84afbda6e5c722f5c4d84477736c5b5d12ba7531de4df4b0",
+    "pages": 29
+  },
+  {
+    "source_id": "ncert-lebs103",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+    "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+    "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+    "pages": 22
+  },
+  {
+    "source_id": "ncert-keec101",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec101.logical-pages-v5.json",
+    "pdf_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+    "cache_sha256": "791bbf9389559ee7cfcfb133842ace8713e3e400fd2a8f36235dcb40a8a07411",
+    "pages": 15
+  },
+  {
+    "source_id": "ncert-keec104",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec104.logical-pages-v5.json",
+    "pdf_sha256": "aa011ca2fbace63b6655a14dcf8ec0247bae98a8370feee818b587b1932f68ca",
+    "cache_sha256": "5eac18d097df6b647acef72418b8e33c0fabbb1fdcbe224bcd744525fe047ef4",
+    "pages": 18
+  },
+  {
+    "source_id": "ncert-lebs104",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs104.logical-pages-v5.json",
+    "pdf_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+    "cache_sha256": "b19c43331a7982b37827a6198530664df695b9e18f1c4441f3faa1c1526ef409",
+    "pages": 18
+  },
+  {
+    "source_id": "ncert-keec106",
+    "cache_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-keec106.logical-pages-v5.json",
+    "pdf_sha256": "c0e914fda22f2885ca4807f78c73bbcffa8d5154178aafb7a73120b21c9c15f0",
+    "cache_sha256": "70ea021e3043464eb2ed5aa0a90105c56af73fb4b24fd83c91e064b8b8c19f92",
+    "pages": 23
+  }
+]

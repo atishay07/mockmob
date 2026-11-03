@@ -1,0 +1,17 @@
+{"at":"2026-10-09T17:04:09.936Z","network_preflight":"passed","paid_calls_in_preflight":0}
+{"at":"2026-10-09T17:04:10.092Z","execute":"start","denominator":40,"cap_usd":3,"untouched":40,"budget":{"limit_micro":50000000,"committed_micro":39098298,"requests":14761,"unresolved":46,"unbounded_unresolved":0}}
+{"at":"2026-10-09T17:04:10.130Z","wave":1,"pending":10}
+{"at":"2026-10-09T17:06:05.445Z","candidate":"61c7b9abca6c29e84fe1f333ed5b9920","subject":"accountancy","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:06:23.612Z","candidate":"d4c3fd2212899f6f5ece15478b881142","subject":"economics","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:06:52.673Z","candidate":"e72f96a39d411d96f9174d6a479b96e7","subject":"business_studies","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:09:06.194Z","candidate":"6c5c2777b7bd5c64e0eb9ac80ef4d1ee","subject":"english","state":"eligible","repaired":false}
+{"at":"2026-10-09T17:09:10.250Z","candidate":"b5b1264e21803f31f0933264840539a2","subject":"business_studies","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:11:01.465Z","candidate":"1b74d78aba08b44a916955de7fe79ef7","subject":"english","state":"eligible","repaired":false}
+{"at":"2026-10-09T17:12:03.285Z","candidate":"c931bf54c71aa673bd40ca77df0c245c","subject":"economics","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:12:24.708Z","candidate":"be5edf533d6f3a0716a229563a6471f9","subject":"accountancy","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:12:54.850Z","candidate":"bb2ab9f42a30c379212f509e2f0582a2","subject":"accountancy","state":"quarantined","reasons":["input_bound_exceeded"]}
+{"at":"2026-10-09T17:12:55.909Z","candidate":"87f3c625ccd021285e7d9b14526f74ca","subject":"english","state":"eligible","repaired":false}
+{"at":"2026-10-09T17:12:55.910Z","wave":1,"terminal":10,"approved":3,"yield":0.3}
+{"at":"2026-10-09T17:12:55.968Z","wave":2,"pending":10}
+{"at":"2026-10-09T17:16:08.778Z","candidate":"3129d0f8b9269267a1b02b9027517e11","subject":"english","state":"quarantined","reasons":["invalid_structure,option_collision"]}
+{"at":"2026-10-09T17:16:08.860Z","execute":"finished","status":"stopped","terminal":11,"approved":3,"untouched":26,"committed_usd_from_keys":0.065621,"budget":{"limit_micro":50000000,"committed_micro":39163919,"requests":14788,"unresolved":46,"unbounded_unresolved":0}}

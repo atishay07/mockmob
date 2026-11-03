@@ -1,0 +1,252 @@
+[
+  {
+    "word": "benevolent",
+    "brief": "Use only this sense: sense 1; formal; especially people in authority. Do not use the organization-name sense; avoid two kindness synonyms in the same option set.",
+    "ref": {
+      "id": "oxford-quality-benevolent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a"
+    }
+  },
+  {
+    "word": "frugal",
+    "brief": "Use only this sense: sense 1; lifestyle or spending, not a small meal. Do not mix sense 1 with the separate meagre-meal sense.",
+    "ref": {
+      "id": "oxford-quality-frugal",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73"
+    }
+  },
+  {
+    "word": "resolute",
+    "brief": "Use only this sense: sense 1; firmness of purpose. Do not make physical strength the deciding meaning; focus on resolve.",
+    "ref": {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+    }
+  },
+  {
+    "word": "candid",
+    "brief": "Use only this sense: sense 1; speech or interview, not photography. A contextual item must exclude the unposed-photograph sense; do not offer both frank and honest.",
+    "ref": {
+      "id": "oxford-quality-candid",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+    }
+  },
+  {
+    "word": "diligent",
+    "brief": "Use only this sense: sense 1; formal; worker or student. Distinguish sustained effort from the meticulous target's attention to every detail; avoid both hardworking and industrious.",
+    "ref": {
+      "id": "oxford-quality-diligent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+    }
+  },
+  {
+    "word": "hostile",
+    "brief": "Use only this sense: sense 1; reception or attitude. Do not use business-takeover, military-territory or adverse-environment senses.",
+    "ref": {
+      "id": "oxford-quality-hostile",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+    }
+  },
+  {
+    "word": "sparse",
+    "brief": "Use only this sense: sense 1; vegetation or population spread over an area. Use spatial context for dense; plentiful and abundant can be alternative quantity opposites, so avoid them together.",
+    "ref": {
+      "id": "oxford-quality-sparse",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205"
+    }
+  },
+  {
+    "word": "obsolete",
+    "brief": "Use only this sense: sense 1; technology or method. Old alone does not imply disuse; do not offer both outdated and out of date.",
+    "ref": {
+      "id": "oxford-quality-obsolete",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+    }
+  },
+  {
+    "word": "prudent",
+    "brief": "Use only this sense: sense 1; formal; decision or course of action. Reckless is also a plausible antonym; do not offer both reckless and imprudent in an antonym set.",
+    "ref": {
+      "id": "oxford-quality-prudent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+    }
+  },
+  {
+    "word": "tedious",
+    "brief": "Use only this sense: sense 1; work, journey or experience. Dull is also a close synonym on the page; avoid boring and dull as competing keys.",
+    "ref": {
+      "id": "oxford-quality-tedious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+    }
+  },
+  {
+    "word": "meticulous",
+    "brief": "Use only this sense: sense 1; approving; records, planning or craftsmanship. Fastidious is another dictionary synonym; keep it out of distractors for the same target.",
+    "ref": {
+      "id": "oxford-quality-meticulous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "58600bc680a564b067d2a390dbd57c607ff98cb61a7c6e8f71a006c10da46609"
+    }
+  },
+  {
+    "word": "perilous",
+    "brief": "Use only this sense: sense 1; formal or literary; journey or situation. Dangerous and hazardous can both be correct synonyms; include only one as the key.",
+    "ref": {
+      "id": "oxford-quality-perilous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "fe1fda8fcaee66224858c25c7167746575f515d773cd9dcccaf71ae322a55ce7"
+    }
+  },
+  {
+    "word": "arduous",
+    "brief": "Use only this sense: sense 1; task or journey requiring sustained effort. Avoid replacing exertion with danger: perilous is a different lexical skill.",
+    "ref": {
+      "id": "oxford-quality-arduous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b"
+    }
+  },
+  {
+    "word": "coherent",
+    "brief": "Use only this sense: sense 1; ideas, thoughts or arguments. Clear is also definition-supported; do not put logical and clear in the same synonym set.",
+    "ref": {
+      "id": "oxford-quality-coherent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+    }
+  },
+  {
+    "word": "conspicuous",
+    "brief": "Use only this sense: sense 1; notice, object or feature; not the absence idiom. Avoid conspicuous by one's absence; visible and noticeable are both plausible synonyms.",
+    "ref": {
+      "id": "oxford-quality-conspicuous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9df7ee041528c911adddcda701f0a15733e04bd3b0238a0789fe481eed68935d"
+    }
+  },
+  {
+    "word": "impartial",
+    "brief": "Use only this sense: sense 1; inquiry, observer or decision. Neutral is another dictionary synonym; keep neutral and unbiased out of the same option set.",
+    "ref": {
+      "id": "oxford-quality-impartial",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3aea27cc09ebc5742af0491851291e042ee63beb8962c7fa8fb7a9a30d997f93"
+    }
+  },
+  {
+    "word": "inevitable",
+    "brief": "Use only this sense: sense 1; event or consequence; not the humorous expected habit sense. Certain is related but not always equivalent to unavoidability; lock the sense with context if necessary.",
+    "ref": {
+      "id": "oxford-quality-inevitable",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b"
+    }
+  },
+  {
+    "word": "tranquil",
+    "brief": "Use only this sense: sense 1; formal; place, scene or water. Calm and serene can both fit; do not offer both as synonym alternatives.",
+    "ref": {
+      "id": "oxford-quality-tranquil",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "68a552959ce0b968effed033bccc44863b0f663ac209f87cfe4a76c6d766212d"
+    }
+  },
+  {
+    "word": "authentic",
+    "brief": "Use only this sense: sense 1; original painting or document, not an exact replica. Counterfeit is also a strong opposite in artwork context; avoid two valid opposites. Exclude sense 3, which permits an authentic model/replica.",
+    "ref": {
+      "id": "oxford-quality-authentic",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625"
+    }
+  },
+  {
+    "word": "elated",
+    "brief": "Use only this sense: sense 1; pleased after good news. Joyful, jubilant and overjoyed can all be close; do not place multiple valid near-synonyms in one item.",
+    "ref": {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+    }
+  },
+  {
+    "word": "concise",
+    "brief": "Use only this sense: sense 1; a summary or statement, not an abridged-book label. Do not offer both brief and succinct; avoid terse as a competing key because it can imply abruptness.",
+    "ref": {
+      "id": "oxford-quality-concise",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "97eb3dd1f1c14ea929c85ddfded8c53de3b1dab1f8e6f157b5765a2039afe30b"
+    }
+  },
+  {
+    "word": "gregarious",
+    "brief": "Use only this sense: sense 1; personality, not biological group-living. Social and sociable can both fit; keep only one in the option set. Do not confuse enjoying company with benevolent generosity.",
+    "ref": {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+    }
+  },
+  {
+    "word": "arrogant",
+    "brief": "Use only this sense: sense 1; unpleasantly proud attitude. Do not use proud alone as a distractor if it could be interpreted as the source's intended sense. Preserve the unpleasant-superiority context.",
+    "ref": {
+      "id": "oxford-quality-arrogant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "5b1733e45b20ad4eaa56687cf0983b01ce7a1cc4a034bc6a39c2374500f7e12b"
+    }
+  },
+  {
+    "word": "feeble",
+    "brief": "Use only this sense: sense 1; physical condition or strength, not an unconvincing excuse. Frail is also plausible; do not put weak and frail together as synonym options. Do not use the weak-excuse sense without changing evidence.",
+    "ref": {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+    }
+  },
+  {
+    "word": "transient",
+    "brief": "Use only this sense: sense 1; duration, not a person moving from place to place. Fleeting is also an explicit synonym; do not put temporary and fleeting together.",
+    "ref": {
+      "id": "oxford-quality-transient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b"
+    }
+  }
+]

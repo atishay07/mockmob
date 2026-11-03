@@ -1,0 +1,21 @@
+{
+  "mock_fetch_only": true,
+  "real_provider_calls": 0,
+  "attempts": 2,
+  "sent_service_tiers": [
+    "flex",
+    "flex"
+  ],
+  "reserved_amounts": [
+    6300,
+    6300
+  ],
+  "settled_amounts": [
+    0,
+    0
+  ],
+  "error": {
+    "message": "provider_http_429:Resource unavailable",
+    "flexUnavailable": true
+  }
+}

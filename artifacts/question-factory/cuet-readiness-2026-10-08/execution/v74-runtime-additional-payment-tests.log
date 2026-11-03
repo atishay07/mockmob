@@ -1,0 +1,35 @@
+✔ signed scalar distractors stay distinct while mathematically equal scalar options are rejected (6.2616ms)
+✔ signed rupee scalars preserve Indian grouping and equivalent currency placements (1.2222ms)
+✔ ordinary truth-related vocabulary definitions are not answer-verdict assertions (0.6953ms)
+✔ ordinary more-than-one lexical definitions are not combined-answer claims (0.3664ms)
+✔ combined-answer more-than-one options remain withheld (0.6163ms)
+✔ top15 answer guard subjects match the popularity rollout list (1.4624ms)
+✔ answer integrity rejects wrong keys and explanation contradictions (0.4692ms)
+✔ cleanup report scans only top15 subjects and classifies unsafe rows (18.9235ms)
+✔ safe hide patches never mutate answer keys (0.3051ms)
+✔ generator answer guard blocks top15 bad rows and ignores phased-out subjects (0.6035ms)
+✔ apply mode requires a dry-run report path (0.5246ms)
+✔ fresh non-NTA mocks rank newest rows before older high-score rows (3.7628ms)
+✔ usage pushes already-attempted rows behind unseen rows (1.2918ms)
+✔ picker preserves difficulty targets while keeping newest rows within each level (0.7501ms)
+✔ selection usage metadata records latest-window and revisit counts (2.7688ms)
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (1.2403ms)
+✔ paid-through date prefers Razorpay invoice billing end (2.9201ms)
+✔ paid-through date falls back to a bounded paid period (0.3158ms)
+✔ effective premium survives cancellation inside paid-through window (0.3297ms)
+✔ paid evidence requires a captured payment record (0.5629ms)
+✔ discounted creator payments can validate below nominal amount (1.239ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (1.1556ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.2333ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.6624ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.3586ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1784ms)
+✔ legacy monthly plan is not live for new checkout (0.123ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 392.5967

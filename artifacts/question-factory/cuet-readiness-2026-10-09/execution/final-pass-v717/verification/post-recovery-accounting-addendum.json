@@ -1,0 +1,43 @@
+{
+  "schema": "v717-post-recovery-accounting-addendum-v1",
+  "created_at": "2026-10-10T06:05:28.416Z",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "provider_rows": {
+    "openai_blind_solution_receipts": 15,
+    "openai_explanation_support_receipts": 10,
+    "gemini_independent_evaluation_settled_rows": 11,
+    "gemini_completed_provider_responses": 10,
+    "gemini_zero_cost_cancelled_unsent": 1,
+    "gemini_cancelled_unsent_evidence": "Queued local row had no provider ID, provider response, or receipt; frozen receipt recovery contract canceled it and settled $0."
+  },
+  "candidate_accounting": {
+    "complete_candidates_with_both_provider_judgments_and_explanation": 10,
+    "additional_candidates_with_openai_blind_only": 5,
+    "unfinished_candidates_not_counted_as_failures": 22,
+    "terminal_review_incomplete": 1
+  },
+  "old_shared_gemini_batch": {
+    "remote_batch_state": "BATCH_STATE_SUCCEEDED",
+    "total": 64,
+    "succeeded": 60,
+    "failed": 4,
+    "failed_row_code": 14,
+    "failed_row_message": "The service is currently unavailable.",
+    "usage_receipts_missing": true,
+    "uncertain_rows": 4,
+    "held_usd": 0.079152,
+    "replayed": false
+  },
+  "campaign_receipts": {
+    "settled_usd": 0.061662,
+    "held_usd": 0,
+    "receipt_complete": true,
+    "rows": 36
+  },
+  "process_check": {
+    "checked_at": "2026-10-10T06:05:28.418Z",
+    "qualified_runner_or_recovery_processes": 0,
+    "worker_lock_files_in_study_dir": 0,
+    "method": "read-only process query excluding inspection shell and recursive study-dir lock filename scan"
+  }
+}

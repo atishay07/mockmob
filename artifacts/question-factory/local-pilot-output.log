@@ -1,0 +1,208 @@
+
+> mockmob@0.1.0 factory
+> node --use-system-ca scripts/pipeline/factory.mjs local-pilot --once
+
+{
+  "at": "2026-10-05T22:43:48.211Z",
+  "mode": "local_commissioning",
+  "production_changes": 0,
+  "counts": {
+    "total": 0,
+    "by_subject": {}
+  },
+  "blocker": "four_subject_source_coverage_required",
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 168367,
+    "requests": 68,
+    "unresolved": 0
+  },
+  "costs": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 0,
+        "open_requests": 1,
+        "settled_usd": 0,
+        "held_usd": 0.001357,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 35,
+        "settled_usd": 0.000528,
+        "held_usd": 0.06926500000000002,
+        "input_tokens": 3012,
+        "output_tokens": 1506,
+        "reasoning_tokens": 837,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 26,
+        "open_requests": 2,
+        "settled_usd": 0.07123800000000001,
+        "held_usd": 0.025182,
+        "input_tokens": 68491,
+        "output_tokens": 24288,
+        "reasoning_tokens": 14369,
+        "usage_missing_requests": 0
+      }
+    ]
+  },
+  "sources": [
+    {
+      "subject": "english",
+      "authenticated_anchors": 30,
+      "active_packs": 1,
+      "chapters": [
+        "Para Jumbles",
+        "Vocabulary",
+        "Match the Following",
+        "Correct Word Usage",
+        "Narrative Passage"
+      ],
+      "missing_chapters": [
+        "Factual Passage",
+        "Literary Passage"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 0,
+      "ready": false,
+      "reason": "reference_coverage_beyond_reserved_calibration_required"
+    },
+    {
+      "subject": "accountancy",
+      "authenticated_anchors": 45,
+      "active_packs": 1,
+      "chapters": [
+        "Financial Statements of Company",
+        "Admission of Partner",
+        "Partnership Fundamentals",
+        "Analysis of Financial Statements",
+        "Profit & Loss Appropriation Account",
+        "Cash Flow Statement",
+        "Comparative & Common Size Statements",
+        "Goodwill Valuation",
+        "Share Capital",
+        "Debentures",
+        "Retirement & Death of Partner",
+        "Computerized Accounting System",
+        "Change in Profit Sharing Ratio",
+        "Accounting Ratios",
+        "Dissolution of Partnership",
+        "Dissolution of Partnership Firm"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 0,
+      "ready": false,
+      "reason": "reference_coverage_beyond_reserved_calibration_required"
+    },
+    {
+      "subject": "business_studies",
+      "authenticated_anchors": 48,
+      "active_packs": 1,
+      "chapters": [
+        "Principles of Management",
+        "Business Environment",
+        "Planning",
+        "Staffing",
+        "Directing",
+        "Controlling",
+        "Financial Markets",
+        "Consumer Protection",
+        "Organising",
+        "Entrepreneurship Development",
+        "Financial Management",
+        "Nature & Significance of Management",
+        "Marketing Management"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 0,
+      "ready": false,
+      "reason": "reference_coverage_beyond_reserved_calibration_required"
+    },
+    {
+      "subject": "economics",
+      "authenticated_anchors": 50,
+      "active_packs": 1,
+      "chapters": [
+        "Income Determination",
+        "Money & Banking",
+        "Government Budget & the Economy",
+        "Balance of Payments",
+        "Employment",
+        "Indian Economic Development 1950–1990",
+        "Environment & Sustainable Development",
+        "Human Capital Formation",
+        "Infrastructure",
+        "Economic Reforms Since 1991",
+        "Development Experiences of India",
+        "Rural Development",
+        "National Income & Related Aggregates",
+        "Indian Economy on the Eve of Independence",
+        "Market Equilibrium & Simple Applications",
+        "Introduction & Theory of Consumer Behaviour"
+      ],
+      "missing_chapters": [
+        "Production & Costs",
+        "Theory of Firms under Perfect Competition"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 0,
+      "ready": false,
+      "reason": "reference_coverage_beyond_reserved_calibration_required"
+    }
+  ],
+  "cost_per_eligible_usd": null,
+  "forecast_usd": null,
+  "pilot": {
+    "target": 800,
+    "total": 0,
+    "eligible": 0,
+    "complete": false
+  },
+  "jobs": {},
+  "rejection_reasons": {},
+  "publication_gate": "staging_and_explicit_production_migration_required",
+  "job_count": 0
+}

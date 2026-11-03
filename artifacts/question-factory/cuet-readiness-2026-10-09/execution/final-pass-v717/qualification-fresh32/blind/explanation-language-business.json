@@ -1,0 +1,640 @@
+{
+  "schema": "cuet-v717-postblind-explanation-audit-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "created_at": "2026-10-10T05:35:09.649853+00:00",
+  "reviewer_id": "/root/difficulty_selection_final",
+  "scope": {
+    "subjects": [
+      "business_studies",
+      "english"
+    ],
+    "case_count": 16,
+    "purpose": "post-blind answer/source/explanation and construction audit; no case edits or relabeling"
+  },
+  "bindings": {
+    "packet_sha256": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530",
+    "authored_sha256": "c9dd8b9c70999bf55b989a83c7938cbc8d6008ed0b883628395d0eaf47e5e63b",
+    "blind_id_map_sha256": "13d241223e76bb493588837747e89ed1bda4dc5beeecd2980a05fa4171a21bd6",
+    "independent_language_business_sha256": "35f41205b5a519e122d96a72641a65b9464db6031b7579390c6a9d7b97d4f848",
+    "independent_commerce_sha256": "e529b69c8b9b6209117edeca3442794ab37890691ff0b62cf7d2d643e60674bd",
+    "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+    "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+    "packet_author_mapping": "All 16 assigned body/options/passage payloads match the mapped authored candidate."
+  },
+  "summary": {
+    "valid_controls": 10,
+    "valid_keys_match_independent": 10,
+    "valid_explanations_supported": 10,
+    "expected_invalid_controls": 6,
+    "confirmed_invalid_controls": 5,
+    "valid_items_mislabeled_invalid": 1,
+    "author_medium_independent_easy": 14,
+    "author_medium_independent_medium": 2,
+    "hard_demand_observed": 0
+  },
+  "blocking_construction_issue": "q717-23393bb7b488f77a58ed3c66 is answerable and source-supported but registered expected-invalid; if retained as a defect control it is a false-negative control and undermines the defect denominator.",
+  "interpretation_note": "The independent difficulty label is a reviewer assessment made blind to author targets. It is not a relabel. Difficulty disagreement does not establish a correctness defect; however 14/16 assigned items are authored Medium and independently assessed Easy, which merits resolution before using target-match as a benchmark criterion.",
+  "cases": [
+    {
+      "opaque_id": "q717-823c642827fa0755990d20a6",
+      "fixture_id": "v717-fresh32-b-v1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "author_key": "B",
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_solved_key": "B",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Machine replacement is capital budgeting.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "investment in a new machine to replace an existing one",
+          "reason": "Directly named as an investment decision."
+        },
+        {
+          "claim": "Such decisions involve large amounts, affect long-run earning capacity and are hard to reverse.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "affect its earning capacity in the long run ... involve huge amounts of investment and are irreversible except at a huge cost",
+          "reason": "Faithful paraphrase."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind demand Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-deae7562fbbcc6865560a309",
+      "fixture_id": "v717-fresh32-b-v2",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "author_key": "C",
+      "independent_answer_set": [
+        "C"
+      ],
+      "independent_solved_key": "C",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "With risk equal, the higher-return proposal is normally selected.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "with the same risk involved ... 10 per cent and 12 per cent ... project B should be selected",
+          "reason": "Source example establishes the rule; apply to the stated 9%/13%."
+        },
+        {
+          "claim": "Q offers 13% and P 9%.",
+          "verdict": "supported",
+          "basis": "question_stem",
+          "source_ids": [],
+          "evidence_quote": "Proposal P is expected to return 9% and proposal Q 13%.",
+          "reason": "Directly stated."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-24a5b6b47bfb7b7caa018bf3",
+      "fixture_id": "v717-fresh32-b-v3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "author_key": "D",
+      "independent_answer_set": [
+        "D"
+      ],
+      "independent_solved_key": "D",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Stronger cash flow may make debt more viable than equity.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "A stronger cash flow position may make debt financing more viable than funding through equity.",
+          "reason": "Direct source entailment."
+        },
+        {
+          "claim": "This does not make debt compulsory.",
+          "verdict": "supported_inference",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "may make debt financing more viable",
+          "reason": "The source’s modal “may” expresses a tendency, not an absolute requirement."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-41d4531e8657244ffdc2276d",
+      "fixture_id": "v717-fresh32-b-v4",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "author_key": "A",
+      "independent_answer_set": [
+        "A"
+      ],
+      "independent_solved_key": "A",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "medium",
+      "difficulty_aligned": true,
+      "explanation_claim_audit": [
+        {
+          "claim": "Financial planning considers growth, performance, investments and fund requirements.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "takes into consideration the growth, performance, investments and requirement of funds",
+          "reason": "Faithful paraphrase."
+        },
+        {
+          "claim": "Long-term planning concerns growth/investment and capital expenditure; one-year-or-less detailed action is budget/short-term.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "Long-term planning relates to long term growth and investment. It focuses on capital expenditure programmes. ... Plans made for periods of one year or less are termed as budgets.",
+          "reason": "Supports the explanation and makes A the unsupported NOT-statement."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Medium matches authored Medium."
+    },
+    {
+      "opaque_id": "q717-81165e9f76d2fe017fbae7a6",
+      "fixture_id": "v717-fresh32-b-v5",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "author_key": "B",
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_solved_key": "B",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Growth companies retain more earnings to finance required investment and have smaller dividends.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "Companies having good growth opportunities retain more money out of their earnings so as to finance the required investment. The dividend in growth companies is, therefore, smaller",
+          "reason": "Direct source entailment; author caveat about other conditions is appropriate."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-9955b8830fbf37578383f2fa",
+      "fixture_id": "v717-fresh32-b-d1",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "author_key": "B",
+      "independent_answer_set": [
+        "C"
+      ],
+      "independent_solved_key": "C",
+      "author_key_matches_unique_independent_solution": false,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "At equal risk, the lower 10% return is preferable to 12%.",
+          "verdict": "incorrect_or_unsupported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "with the same risk involved ... 10 per cent and 12 per cent ... project B should be selected.",
+          "reason": "Source supports the higher return; author key selects lower-return Project A."
+        }
+      ],
+      "construction_assessment": "Controlled wrong-key defect confirmed; author key disagrees with blind unique answer and explanation reverses the source rule."
+    },
+    {
+      "opaque_id": "q717-96f23a45cd5ddc58d0235eda",
+      "fixture_id": "v717-fresh32-b-d2",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "author_key": "C",
+      "independent_answer_set": [
+        "B",
+        "C"
+      ],
+      "independent_solved_key": "uncertain",
+      "author_key_matches_unique_independent_solution": false,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Lower fixed operating costs can make more debt financing preferable.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "if fixed operating cost is less, more of debt financing may be preferred.",
+          "reason": "Direct source conclusion."
+        },
+        {
+          "claim": "The business can bear the fixed financing cost.",
+          "verdict": "supported_inference",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "If a business has high fixed operating costs ... It must reduce fixed financing costs. Hence, lower debt financing is better. Similarly, if fixed operating cost is less, more of debt financing may be preferred.",
+          "reason": "Plausible rationale inferred from the source contrast; the excerpt itself states the resulting preference."
+        },
+        {
+          "claim": "A stronger cash-flow position may make debt more viable.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "A stronger cash flow position may make debt financing more viable than funding through equity.",
+          "reason": "Direct source entailment."
+        },
+        {
+          "claim": "The supported choices are A and B.",
+          "verdict": "incorrect_or_unsupported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "A stronger cash flow position may make debt financing more viable ... if fixed operating cost is less, more of debt financing may be preferred.",
+          "reason": "Option A is weak cash flow and is unsupported; the two supported options are B and C."
+        }
+      ],
+      "construction_assessment": "Controlled multiple-answer defect confirmed: B and C are both supported although stem requests one factor. Explanation also mislabels the options. Author key C is not unique."
+    },
+    {
+      "opaque_id": "q717-23393bb7b488f77a58ed3c66",
+      "fixture_id": "v717-fresh32-b-d3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "author_key": "D",
+      "independent_answer_set": [
+        "D"
+      ],
+      "independent_solved_key": "D",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Loan agreements may restrict dividends.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "certain restrictions on the payment of dividends in future.",
+          "reason": "Source states this."
+        },
+        {
+          "claim": "Companies must ensure dividends do not violate the loan terms.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "The companies are required to ensure that the dividend does not violate the terms of the loan agreement",
+          "reason": "Direct source entailment."
+        },
+        {
+          "claim": "Management should check the agreement before declaration.",
+          "verdict": "supported_inference",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "ncertcol-lebs201-v1"
+          ],
+          "evidence_quote": "ensure that the dividend does not violate the terms of the loan agreement",
+          "reason": "Necessary procedural implication; stem already says this agreement has a dividend condition."
+        }
+      ],
+      "construction_assessment": "INVALID NEGATIVE CONTROL: expected-invalid label is not justified. D is a unique source-supported answer and explanation; no case-specific threshold is needed for the procedural question. Construction blocker before registration."
+    },
+    {
+      "opaque_id": "q717-4f74bc0977085544510a0c54",
+      "fixture_id": "v717-fresh32-l-v1",
+      "subject": "english",
+      "expected_valid": true,
+      "author_key": "D",
+      "independent_answer_set": [
+        "D"
+      ],
+      "independent_solved_key": "D",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Prudent means sensible/careful in decisions and avoids unnecessary risks.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "oxford-quality-prudent"
+          ],
+          "evidence_quote": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks",
+          "reason": "Faithful definition."
+        },
+        {
+          "claim": "Leena compared relevant conditions and checked risks before deciding.",
+          "verdict": "supported",
+          "basis": "question_stem",
+          "source_ids": [],
+          "evidence_quote": "compared the warranty, delivery record and total cost, checking the risks before deciding",
+          "reason": "Directly stated and contextually matches prudent."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-a9ee331ee3870ef6bd58be41",
+      "fixture_id": "v717-fresh32-l-v2",
+      "subject": "english",
+      "expected_valid": true,
+      "author_key": "A",
+      "independent_answer_set": [
+        "A"
+      ],
+      "independent_solved_key": "A",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "Conspicuous means easy to see/notice or likely to attract attention.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "oxford-quality-conspicuous"
+          ],
+          "evidence_quote": "easy to see or notice; likely to attract attention",
+          "reason": "Exact definition."
+        },
+        {
+          "claim": "The bright orange sign was easy to see at a distance.",
+          "verdict": "supported",
+          "basis": "question_stem",
+          "source_ids": [],
+          "evidence_quote": "bright orange evacuation sign was easy to see from the far end of the crowded corridor",
+          "reason": "Direct contextual match."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-1e1c41b571d2ecd7230552fb",
+      "fixture_id": "v717-fresh32-l-v3",
+      "subject": "english",
+      "expected_valid": true,
+      "author_key": "B",
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_solved_key": "B",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "medium",
+      "difficulty_aligned": true,
+      "explanation_claim_audit": [
+        {
+          "claim": "Return records showed when books were returned, not how carefully they were read.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "records showed when books were returned, rather than how carefully they had been read",
+          "reason": "Passage states this contrast."
+        },
+        {
+          "claim": "Discussing notes adds evidence about students’ experience to numerical records.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "The proposal therefore combined a numerical record with evidence about the students’ experience.",
+          "reason": "Explicit passage purpose."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Medium matches authored Medium."
+    },
+    {
+      "opaque_id": "q717-c9935a08a1dadd15bc03c6fe",
+      "fixture_id": "v717-fresh32-l-v4",
+      "subject": "english",
+      "expected_valid": true,
+      "author_key": "C",
+      "independent_answer_set": [
+        "C"
+      ],
+      "independent_solved_key": "C",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "The librarian did not grade notes.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "The librarian recorded the number of books returned, but did not grade the notes.",
+          "reason": "Exact passage statement."
+        },
+        {
+          "claim": "The other options restate explicit details.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "trial reading programme ran for four weeks; Students could borrow two books at a time; ... increase in returns during the second and third weeks, followed by a small decrease in the fourth",
+          "reason": "A, B and D are supported; C is the unique NOT-supported option."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-c3520ac2c10a06a48b19552b",
+      "fixture_id": "v717-fresh32-l-v5",
+      "subject": "english",
+      "expected_valid": true,
+      "author_key": "D",
+      "independent_answer_set": [
+        "D"
+      ],
+      "independent_solved_key": "D",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "The librarian proposed discussing a few notes with students before deciding.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "She proposed discussing a few notes with students before deciding whether to continue the programme.",
+          "reason": "Exact passage statement."
+        }
+      ],
+      "construction_assessment": "Expected-valid; unique key/explanation supported. Blind Easy vs authored Medium."
+    },
+    {
+      "opaque_id": "q717-cbbef17389750dffae8dc207",
+      "fixture_id": "v717-fresh32-l-d1",
+      "subject": "english",
+      "expected_valid": false,
+      "author_key": "D",
+      "independent_answer_set": [
+        "A"
+      ],
+      "independent_solved_key": "A",
+      "author_key_matches_unique_independent_solution": false,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "The neighbours’ helpful, generous actions are benevolent.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "oxford-quality-benevolent"
+          ],
+          "evidence_quote": "kind, helpful and generous",
+          "reason": "Matches the actions and supplied definition."
+        },
+        {
+          "claim": "Benevolent means sensible and careful when deciding.",
+          "verdict": "incorrect_or_unsupported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "oxford-quality-benevolent"
+          ],
+          "evidence_quote": "kind, helpful and generous",
+          "reason": "The supplied definition does not support this; explanation substitutes the prudent sense and then claims option D."
+        }
+      ],
+      "construction_assessment": "Controlled wrong-key/false-explanation defect confirmed: A is the unique contextual answer, author key D is wrong, and explanation contradicts both definition and option."
+    },
+    {
+      "opaque_id": "q717-35134360a9497d7ed3cf3105",
+      "fixture_id": "v717-fresh32-l-d2",
+      "subject": "english",
+      "expected_valid": false,
+      "author_key": "A",
+      "independent_answer_set": [],
+      "independent_solved_key": "uncertain",
+      "author_key_matches_unique_independent_solution": false,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "The passage gives only a trend, not weekly or aggregate counts.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "returns showed an increase in the second and third weeks followed by a small decrease in the fourth",
+          "reason": "No numeric values appear."
+        },
+        {
+          "claim": "No listed total can be established.",
+          "verdict": "supported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "Each Friday they returned at least one book ... borrowing records showed an increase ... followed by a small decrease",
+          "reason": "Minimum cadence/borrow limit/trend do not determine an exact total."
+        }
+      ],
+      "construction_assessment": "Controlled missing-data defect confirmed; expected-invalid label is justified. The answer set is empty; no numeric total is derivable."
+    },
+    {
+      "opaque_id": "q717-3662a54735c8a56d98672412",
+      "fixture_id": "v717-fresh32-l-d3",
+      "subject": "english",
+      "expected_valid": false,
+      "author_key": "B",
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_solved_key": "B",
+      "author_key_matches_unique_independent_solution": true,
+      "author_difficulty": "medium",
+      "independent_difficulty": "easy",
+      "difficulty_aligned": false,
+      "explanation_claim_audit": [
+        {
+          "claim": "The records showed how carefully books were read.",
+          "verdict": "incorrect_or_unsupported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "records showed when books were returned, rather than how carefully they had been read",
+          "reason": "This reverses the explicit passage contrast."
+        },
+        {
+          "claim": "Option A is the correct interpretation.",
+          "verdict": "incorrect_or_unsupported",
+          "basis": "registered_excerpt",
+          "source_ids": [
+            "mockmob-original-stimulus-factual-passage"
+          ],
+          "evidence_quote": "records showed when books were returned",
+          "reason": "A is explicitly excluded; B is uniquely supported."
+        }
+      ],
+      "construction_assessment": "Controlled false-explanation defect confirmed: key B is correct, but explanation states the opposite and names A."
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "schema": "official-source-discovery-v1",
+  "status": "source-located-but-not-byte-bound; supplemental lead only, not a frozen evidence span",
+  "retrieval_method": "Public web search limited to official Government of India primary sources; no login, key, or model provider used. Direct PDF fetch/open timed out or did not complete; no local source bytes were retained, so SHA256 and extraction/page text hashes are unavailable.",
+  "records": [
+    {
+      "item_id": "cbse26-bs-q08",
+      "claim_needed": "Definition and exceptions for “consumer”.",
+      "official_source": "The Consumer Protection Act, 2019, section 2(7), India Code official English PDF.",
+      "url": "https://www.indiacode.nic.in/bitstream/123456789/15256/1/eng201935.pdf",
+      "web_search_ref": "turn79search1",
+      "status": "Official search result exposes the statutory definition, approved users/beneficiaries, and resale/commercial-purpose exclusions; must still acquire/hash/extract the PDF before promoting this to locally bound evidence."
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "claim_needed": "The Central Consumer Protection Authority regulates consumer-rights violations and unfair trade practices.",
+      "official_source": "The Consumer Protection Act, 2019, sections 10 and 18, India Code official English PDF.",
+      "url": "https://www.indiacode.nic.in/indiacode/bitstream/123456789/15256/1/eng201935.pdf",
+      "web_search_ref": "turn82search0",
+      "official_page_locator_in_search_result": "Section 10 is shown on PDF page 13; section 18 follows on PDF page 14.",
+      "status": "Official primary-source search result directly supports the authority/function. The stem mentions dark patterns only as context; item does not ask for the guideline definition. Must still acquire/hash/extract the PDF for a frozen local source span."
+    }
+  ],
+  "limitations": [
+    "This file is not a source-registry mutation or an approved scratch-registry overlay.",
+    "No CUET-fit or target-year syllabus claim is inferred from finding the statute.",
+    "The items remain in the full 64-case denominator."
+  ]
+}

@@ -1,0 +1,860 @@
+{
+  "at": "2026-10-08T11:36:19.445Z",
+  "complete": true,
+  "positive_ids": [
+    "cbse24-ac-q01",
+    "cbse24-ac-q02",
+    "cbse24-ac-q04",
+    "cbse24-ac-q08",
+    "cbse24-bs-q02",
+    "cbse24-bs-q03",
+    "cbse24-bs-q05",
+    "cbse24-bs-q06",
+    "cbse24-bs-q07",
+    "cbse24-eco-q02",
+    "cbse24-eco-q03",
+    "cbse24-eco-q04",
+    "cbse24-eco-q05",
+    "cbse24-eco-q06",
+    "cbse24-eco-q07",
+    "cbse24-eco-q08",
+    "cbse24-eng-q01",
+    "cbse24-eng-q02",
+    "cbse24-eng-q03",
+    "cbse24-eng-q04",
+    "cbse24-eng-q07",
+    "cbse24-eng-q08"
+  ],
+  "problems": [],
+  "raw_reference_denominator": 32,
+  "withheld_ids": [
+    "cbse24-ac-q03",
+    "cbse24-ac-q05",
+    "cbse24-ac-q06",
+    "cbse24-ac-q07",
+    "cbse24-bs-q01",
+    "cbse24-bs-q04",
+    "cbse24-bs-q08",
+    "cbse24-eco-q01",
+    "cbse24-eng-q05",
+    "cbse24-eng-q06"
+  ],
+  "all_raw_comparison": {
+    "at": "2026-10-08T11:19:13.129Z",
+    "raw_denominator": 32,
+    "pre_acquisition_binding": {
+      "topology": "dual_blind",
+      "verifier_version": "cuet-fit-validator-v7.3",
+      "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+      "cuet_fit_contract": "cuet-fit-v1.2",
+      "effort_policy": "effort-policy-v1",
+      "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+      "efforts": {
+        "blind": {
+          "default": "high",
+          "medium_when": {
+            "subject": "english",
+            "formats": [
+              "synonym",
+              "antonym",
+              "correct_word_usage",
+              "matching"
+            ]
+          }
+        },
+        "explanation": "high",
+        "gemini": "medium"
+      }
+    },
+    "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+    "second_review_freeze_sha256": "d3e1ba7255765504ea1d96a05d295b05c3d83044e58ce14107778dc2dfd7138f",
+    "official_key_manifest_sha256": "a11b4b39f6f0ed6f498fc1d7259eb8257db2047de937656db1be3e31b0031b47",
+    "records": [
+      {
+        "id": "cbse24-ac-q01",
+        "subject": "accountancy",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 187,
+          "quote_end": 203,
+          "quote": "1. B- ₹ 1,20,000"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q02",
+        "subject": "accountancy",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 206,
+          "quote_end": 237,
+          "quote": "2. D - A is false but R is true"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q03",
+        "subject": "accountancy",
+        "first_source_key": null,
+        "independent_second_key": null,
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 240,
+          "quote_end": 257,
+          "quote": "3. C - Subscribed"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_solver_abstained_or_not_ready",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q04",
+        "subject": "accountancy",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 269,
+          "quote_end": 358,
+          "quote": "4. A - Bad Debts A/c Dr. To Debtors A/c Prov. for Doubtful Debts A/c Dr. To Bad Debts A/c"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q05",
+        "subject": "accountancy",
+        "first_source_key": "C",
+        "independent_second_key": null,
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 422,
+          "quote_end": 433,
+          "quote": "5. C - 12 %"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "independent_solver_abstained_or_not_ready",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q06",
+        "subject": "accountancy",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 436,
+          "quote_end": 467,
+          "quote": "6. B- ₹ 4,800; ₹ 2,700; ₹ 2,100"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "frozen_review_integrity_hold"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q07",
+        "subject": "accountancy",
+        "first_source_key": null,
+        "independent_second_key": null,
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 485,
+          "quote_end": 504,
+          "quote": "7. D - 1st May 2024"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_solver_abstained_or_not_ready",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-ac-q08",
+        "subject": "accountancy",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+          "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+          "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+          "physical_pdf_page": 1,
+          "quote_start": 507,
+          "quote_end": 562,
+          "quote": "8. A - Realisation Account will be credited by ₹ 60,000"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q01",
+        "subject": "business_studies",
+        "first_source_key": "A",
+        "independent_second_key": "abstain",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 79,
+          "quote_end": 106,
+          "quote": "1. A. Management as science"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "independent_solver_abstained_or_not_ready",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q02",
+        "subject": "business_studies",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 109,
+          "quote_end": 135,
+          "quote": "2. D. Assignment of duties"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q03",
+        "subject": "business_studies",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 138,
+          "quote_end": 251,
+          "quote": "3. C. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of the Assertion."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q04",
+        "subject": "business_studies",
+        "first_source_key": null,
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 254,
+          "quote_end": 302,
+          "quote": "4. D. Statement II is true, Statement I is false"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q05",
+        "subject": "business_studies",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 305,
+          "quote_end": 354,
+          "quote": "5. A. Competitive spirit among the existing staff"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q06",
+        "subject": "business_studies",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 357,
+          "quote_end": 401,
+          "quote": "6. D. Economic and technological environment"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q07",
+        "subject": "business_studies",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 404,
+          "quote_end": 440,
+          "quote": "7. C. Buy only standardised products"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-bs-q08",
+        "subject": "business_studies",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+          "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+          "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+          "physical_pdf_page": 1,
+          "quote_start": 513,
+          "quote_end": 561,
+          "quote": "8. D. Assertion (A) is false, Reason (R) is true"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q01",
+        "subject": "economics",
+        "first_source_key": null,
+        "independent_second_key": "A",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 93,
+          "quote_end": 146,
+          "quote": "1. D. Assertion (A) is false, but Reason (R) is true."
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_solver_abstained_or_not_ready",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q02",
+        "subject": "economics",
+        "first_source_key": "C",
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 149,
+          "quote_end": 179,
+          "quote": "2. C. Redistribution of income"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q03",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 182,
+          "quote_end": 205,
+          "quote": "3. B. Net Product Taxes"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q04",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 208,
+          "quote_end": 222,
+          "quote": "4. B. flexible"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q05",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 235,
+          "quote_end": 275,
+          "quote": "For Visually Impaired Candidates: B. 450"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "The selected visually impaired source variant has B=45 degrees; the original graphical variant uses different diagram labels."
+      },
+      {
+        "id": "cbse24-eco-q06",
+        "subject": "economics",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 280,
+          "quote_end": 292,
+          "quote": "6. B. fiscal"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q07",
+        "subject": "economics",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 295,
+          "quote_end": 346,
+          "quote": "7. A. Statement 1 is true and Statement 2 is false."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eco-q08",
+        "subject": "economics",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+          "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+          "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+          "physical_pdf_page": 1,
+          "quote_start": 349,
+          "quote_end": 424,
+          "quote": "8. D. Autonomous Consumption, Induced Consumption and Autonomous Investment"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": null
+      },
+      {
+        "id": "cbse24-eng-q01",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 783,
+          "quote_end": 837,
+          "quote": "I They lead to instant interruptions in conversations."
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q02",
+        "subject": "english",
+        "first_source_key": "B",
+        "independent_second_key": "B",
+        "official_comparison_key": "B",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 909,
+          "quote_end": 1017,
+          "quote": "II It illustrates how moments are fleeting and unnoticed, lost amid the distractions of digital interactions"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q03",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1197,
+          "quote_end": 1290,
+          "quote": "III A. a deep (psychological) dependence on technology for a sense of wholeness or connection"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q04",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1293,
+          "quote_end": 1366,
+          "quote": "IV reduce the anxiety associated with the need to constantly be connected"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q05",
+        "subject": "english",
+        "first_source_key": null,
+        "independent_second_key": "A",
+        "official_comparison_key": "C",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1369,
+          "quote_end": 1451,
+          "quote": "V C. It interferes with our ability to engage with meaningful aspects of our life."
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_solver_abstained_or_not_ready",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q06",
+        "subject": "english",
+        "first_source_key": null,
+        "independent_second_key": "C",
+        "official_comparison_key": "C",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1454,
+          "quote_end": 1523,
+          "quote": "VI Yes it does - develop a hunch / mind is constantly alert (any one)"
+        },
+        "positive_control_eligible": false,
+        "withhold_reasons": [
+          "first_source_solver_withheld",
+          "independent_source_key_disagreement",
+          "official_key_or_value_point_disagreement"
+        ],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q07",
+        "subject": "english",
+        "first_source_key": "A",
+        "independent_second_key": "A",
+        "official_comparison_key": "A",
+        "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 1526,
+          "quote_end": 1648,
+          "quote": "VII The phrase refers to the natural, meaningful, and often quieter moments that make up human existence and relationships"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      },
+      {
+        "id": "cbse24-eng-q08",
+        "subject": "english",
+        "first_source_key": "D",
+        "independent_second_key": "D",
+        "official_comparison_key": "D",
+        "official_key_type": "official_letter_for_selected_source_variant",
+        "official_source": {
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+          "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+          "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+          "physical_pdf_page": 1,
+          "quote_start": 2017,
+          "quote_end": 2032,
+          "quote": "VIII D. clamour"
+        },
+        "positive_control_eligible": true,
+        "withhold_reasons": [],
+        "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+      }
+    ],
+    "positive_count": 22,
+    "withheld_count": 10,
+    "frozen_answers_changed": 0,
+    "paid_calls": 0,
+    "CUET_validator_results_seen": false,
+    "publication": false,
+    "limitations": [
+      "All 32 raw cases retained; positive-control selection is based only on frozen source solves and official comparison before paid CUET-fit outcomes.",
+      "Official source paper families and the eight linked English adaptations are correlated.",
+      "Agreement with a marking scheme does not compensate for ambiguity or missing support."
+    ]
+  },
+  "independent_second_review_freeze": {
+    "schema": "all-raw-independent-first-passes-frozen-v4",
+    "frozen_at": "2026-10-08T11:16:07.773Z",
+    "raw_denominator": 32,
+    "input_packet_sha256": "e1cd69636842d1f86f8d35a2fed08fa66e51d0da9c67ccbdb3d1ca0f89c2bdfe",
+    "contract_binding": {
+      "topology": "dual_blind",
+      "verifier_version": "cuet-fit-validator-v7.3",
+      "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+      "cuet_fit_contract": "cuet-fit-v1.2",
+      "effort_policy": "effort-policy-v1",
+      "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+      "efforts": {
+        "blind": {
+          "default": "high",
+          "medium_when": {
+            "subject": "english",
+            "formats": [
+              "synonym",
+              "antonym",
+              "correct_word_usage",
+              "matching"
+            ]
+          }
+        },
+        "explanation": "high",
+        "gemini": "medium"
+      }
+    },
+    "first_derivation_freeze_sha256": "d5b8bcf08149bb12e03cd70454db8b70836f82e980fc3d112d670601568d09d5",
+    "reviews": [
+      {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-english-first-pass.json",
+        "sha256": "edca00c37e384bbf066897a9515e22ebcf049ce91f02b49757903d0b6b27aa06",
+        "reported_metadata": {
+          "at": "2026-10-08T11:04:58Z",
+          "reviewer_model": "gpt-6",
+          "effort": "high"
+        },
+        "raw_records": 8
+      },
+      {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-accountancy-first-pass.json",
+        "sha256": "0ec94b3d867224340d440d7e3e35b985e642d30366d8951c598e95f5d7e0dbd9",
+        "reported_metadata": {
+          "at": "2026-10-08T12:00:00Z",
+          "reviewer_model": "GPT-6",
+          "effort": "high"
+        },
+        "raw_records": 8
+      },
+      {
+        "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\independent-business-economics-first-pass.json",
+        "sha256": "c38fbf3817e9ae44559d48773140d5f3f7e5698fd146182655ce1a812e7fb24d",
+        "reported_metadata": {
+          "at": "2026-10-08T11:05:55.038Z",
+          "reviewer_model": "GPT-6",
+          "effort": "high"
+        },
+        "raw_records": 16
+      }
+    ],
+    "official_candidate_marking_schemes_read": false,
+    "paid_CUET_validator_results_seen": false,
+    "publication": false,
+    "actual_dispatch_metadata": {
+      "english": {
+        "model": "gpt-6-luna",
+        "reasoning_effort": "medium"
+      },
+      "accountancy": {
+        "model": "gpt-6-luna",
+        "reasoning_effort": "high"
+      },
+      "business_economics": {
+        "model": "gpt-6-luna",
+        "reasoning_effort": "high"
+      }
+    },
+    "record_integrity_disclosures": [
+      "Agent-reported model names do not match the dispatch model; actual dispatch settings are separately recorded without changing the frozen reviews.",
+      "Accountancy reported at=12:00Z even though review completion was received around 11:07Z; that timestamp is not accepted as custody time. This freeze uses the local clock.",
+      "Accountancy Q6 includes a wrong intermediate forfeiture claim before a correct final derivation. Preserve the record and exclude Q6 from positive release controls; no overwrite or substitute first pass.",
+      "An automatic approval reviewer rejected rewriting the frozen Accountancy first pass and prohibited a workaround. The original bytes are retained."
+    ],
+    "positive_control_additional_exclusions": [
+      {
+        "id": "cbse24-ac-q06",
+        "reason": "independent first-pass record has an erroneous intermediate assertion; preserved as held construction evidence"
+      }
+    ],
+    "limitation": "Independent source solves and official-key comparison are not proof of perfect accuracy. All raw exclusions remain in construction accounting."
+  },
+  "official_key_manifest_sha256": "a11b4b39f6f0ed6f498fc1d7259eb8257db2047de937656db1be3e31b0031b47",
+  "validator_results_seen": false,
+  "limitation": "Selection uses only pre-validation source/key evidence; all 32 source cases and 20 explicit controlled mutations remain auditable."
+}

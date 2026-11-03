@@ -1,0 +1,48 @@
+✔ signed scalar distractors stay distinct while mathematically equal scalar options are rejected (3.3956ms)
+✔ signed rupee scalars preserve Indian grouping and equivalent currency placements (0.8546ms)
+✔ ordinary truth-related vocabulary definitions are not answer-verdict assertions (0.8769ms)
+✔ ordinary more-than-one lexical definitions are not combined-answer claims (0.2117ms)
+✔ combined-answer more-than-one options remain withheld (0.4306ms)
+✔ top15 answer guard subjects match the popularity rollout list (0.8464ms)
+✔ answer integrity rejects wrong keys and explanation contradictions (0.2712ms)
+✔ cleanup report scans only top15 subjects and classifies unsafe rows (9.8045ms)
+✔ safe hide patches never mutate answer keys (0.3961ms)
+✔ generator answer guard blocks top15 bad rows and ignores phased-out subjects (0.3403ms)
+✔ apply mode requires a dry-run report path (0.2912ms)
+✔ monthly Pro is Rs 99, recurring and closed until its Razorpay plan ID exists (2.0258ms)
+✔ before monthly opens, the existing Rs 99 one-time access is the only thing on sale and the copy says so (0.3378ms)
+✔ once the plan ID is configured, monthly is sold and one-time stops being sold (0.1624ms)
+✔ historical plans still resolve, so old orders keep verifying and keep their expiry (0.1642ms)
+✔ the future Rs 299 plan stays unreleased regardless of monthly billing (0.1255ms)
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (0.7939ms)
+✔ paid-through date prefers Razorpay invoice billing end (2.269ms)
+✔ paid-through date falls back to a bounded paid period (0.4045ms)
+✔ effective premium survives cancellation inside paid-through window (0.2186ms)
+✔ paid evidence requires a captured payment record (0.193ms)
+✔ discounted creator payments can validate below nominal amount (0.2806ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (0.9291ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.1915ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.5129ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.3699ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1365ms)
+✔ legacy monthly plan is not live for new checkout (0.1034ms)
+✔ expired and legacy entitlements follow the central effective-premium rule (0.9651ms)
+✔ missing schema and read errors never produce a balance (0.2535ms)
+✔ paused paid AI shows real stored balances but nothing is spendable (2.1335ms)
+✔ a stale stored period is projected as reset without writing; no row is not materialised (0.2063ms)
+✔ client mapping turns failed or malformed responses into unknown, never zero (account switch/stale cache safe) (0.1939ms)
+✔ missing-function detection is narrow enough not to swallow real RPC errors (0.1479ms)
+✔ wallet service has no direct read-modify-write path and fails closed while paused (0.8641ms)
+✔ atomic RPC: concurrent consumes cannot overspend; a retried key charges once (1488.5086ms)
+✔ atomic RPC: a ledger insert failure rolls back the balance change (1043.4312ms)
+✔ reconciliation flags a balance change whose ledger row is missing (4.1425ms)
+✔ reconciliation treats a released reservation as a reversal, not a purchase (0.3433ms)
+✔ atomic grant RPC is idempotent for a captured payment key (983.1717ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3739.2752

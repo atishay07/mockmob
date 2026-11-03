@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T03:40:57.644Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "passed": true,
+  "worker_identity": "ca0f0efd7eed5250cdb12746f4f72db376cf0077b57c024fa7a45f2d73b84b2e",
+  "live_process": 4876,
+  "accepted_generation_id": "batch_6ac56ba712c48190844a05f35788a7d6",
+  "unique_registered_candidates": 100,
+  "saved_requests_per_candidate": 1,
+  "duplicate_submissions": 0,
+  "paid_requests_submitted_by_check": 0,
+  "production_writes": 0,
+  "scope": "Current live process after restart preserves the original accepted IDs. Concurrency and dead-lease recovery are separately tested."
+}

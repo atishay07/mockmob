@@ -1,0 +1,39 @@
+{
+  "id": "cuet-v713-final-fresh31-regression6",
+  "denominator": 37,
+  "created_at": "2026-10-09T20:38:21.152Z",
+  "decision_rule": "zero eligible controlled defects; valid eligible >=85% pooled and >=70% per subject; every fixture terminal; unfinished/errors do not count as rejections",
+  "execution_delta_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\EXECUTION-CORRECTION-R3.json",
+  "execution_delta_sha256": "9af13e0e9d3c99646a454b45fa60ca7fd03a09159f4fba11f5d10239e37be4e1",
+  "cap_usd": 1,
+  "publication": "never",
+  "repairs": 0,
+  "replacements": 0,
+  "qualification": true,
+  "frozen_sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+  "registry_sha256": "0cd90b86dab2816c1e276f6a8bc23d340e608c1f2274f45685c7f17cd68b3730",
+  "campaign_sha256": "b2970e784b6e2da57ef374265a1df00750593b9933924d8dc18b01ce457fb644",
+  "contract_hash": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+  "prompt_hash": "a273fed3c6b7bb5ee7a900e04513bb39fedd1693acbb6ba519c40af922be970f",
+  "cost_profile": {
+    "version": "v713-luna-flex-gemini-native-batch",
+    "pricing_hash": "a14cb48562726aeaf7ff3dfe184d2434aebc3345c0ab0bf93a0238d2cb95eaa3",
+    "stages": {
+      "authoring": "openai_flex",
+      "blind_solution": "openai_flex",
+      "independent_evaluation": "gemini_batch",
+      "explanation_support": "openai_flex",
+      "repair": "openai_flex"
+    },
+    "target_per_publishable_usd": 0.01,
+    "target_per_10000_usd": 100,
+    "rates_are_estimates_until_receipts": true,
+    "lifetime_limit_usd": 50,
+    "input_byte_bounds": {
+      "gpt-6-luna": 33024,
+      "gemini-3.8-flash": 33024
+    }
+  },
+  "runner_sha256": "9ffe4afd13498ddffc33b654743092dddaa69969c679c9f9ab9d456ad02ea7e9",
+  "engine_sha256": "c0b114f331390ff4cc2daa69b18bd991a2a13d1768c447b504f51d3188f21ecc"
+}

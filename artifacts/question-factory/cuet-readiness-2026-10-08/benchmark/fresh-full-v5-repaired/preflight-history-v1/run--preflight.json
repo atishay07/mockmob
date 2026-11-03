@@ -1,0 +1,152 @@
+{
+  "at": "2026-10-07T22:33:31.820Z",
+  "hashes": {
+    "frozen": "88dfecefab46cc4a81dbdd051d2a6cb6918d487c1caea1093d76c5594ee57861",
+    "overlay": "2d8a084ade1c3d37a27178d020a9de52ea6519c050a04072f136a920c5777b0d",
+    "blind_packet": "fd0cf657c43d8e4afb0147ed0f6616feaf0ffb6eaf20f0b10061f9c584e7ecf4",
+    "blind_sources": "e6437eade966a85be6674d524f49d95d680ca08e9237fb8a1171062e19156e41"
+  },
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "captures": 256,
+  "expected": 256,
+  "answers_hidden": true,
+  "maximum_body_bytes": 38719,
+  "over_bound": [
+    {
+      "id": "fresh-v5r-business_studies-planning-1",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38291,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-1",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38293,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38393,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38395,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-3",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38654,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-3",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38656,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38288,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38290,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-1--wrong_key",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38324,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-1--wrong_key",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38326,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2--wrong_key",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38426,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-2--wrong_key",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38428,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-3--overlapping_options",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38717,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-3--overlapping_options",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38719,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4--overlapping_options",
+      "stage": "validation",
+      "provider": "openai",
+      "bytes": 38351,
+      "limit": 33024
+    },
+    {
+      "id": "fresh-v5r-business_studies-planning-4--overlapping_options",
+      "stage": "validation",
+      "provider": "gemini",
+      "bytes": 38353,
+      "limit": 33024
+    }
+  ],
+  "paid_calls": 0
+}

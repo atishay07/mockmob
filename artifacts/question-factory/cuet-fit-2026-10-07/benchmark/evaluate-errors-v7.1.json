@@ -1,0 +1,102 @@
+[
+ {
+  "id": "v7d-acc-loan-interest--conditional_answer",
+  "provider": "gemini",
+  "error": "provider_output_incomplete"
+ },
+ {
+  "id": "v7d-eco-price-taker",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-price-taker--wrong_key",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-price-taker--wrong_key",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-price-taker--second_defensible",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-price-taker--embedded_unsupported",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-price-taker--embedded_unsupported",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-bop-balance--second_defensible",
+  "provider": "openai",
+  "error": "fetch failed"
+ },
+ {
+  "id": "v7d-eng-synonym-resilient--wrong_key",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-synonym-resilient--second_defensible",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eco-bop-balance--wrong_key",
+  "provider": "openai",
+  "error": "fetch failed"
+ },
+ {
+  "id": "v7d-eng-antonym-candid",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-antonym-candid--wrong_key",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-rc-fares-detail",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-rc-fares-detail",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-rc-fares-detail--passage_unanswerable",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-rc-fares-inference",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-eng-paraj-trip",
+  "provider": "openai",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-oos3-acc-subscription",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ },
+ {
+  "id": "v7d-oos3-eco-std-dev",
+  "provider": "gemini",
+  "error": "provider_request_unresolved_do_not_resubmit"
+ }
+]

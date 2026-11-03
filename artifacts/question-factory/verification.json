@@ -1,0 +1,36 @@
+{
+  "date_ist": "2026-10-06",
+  "state": "implementation_verified_locally_publication_paused",
+  "repository_head": "6c5e05b",
+  "tests": {"total": 186, "passed": 186, "failed": 0, "skipped": 0, "receipt": "tests.txt", "factory": 23, "recovery": 35, "answer_integrity": 6, "selectors_nta_payments": 38, "learning_student_ai_wallet": 84},
+  "targeted_eslint": {"exit_code": 0, "receipt": "lint.txt"},
+  "production_build": {"exit_code": 0, "next_version": "16.2.4", "receipt": "build.txt"},
+  "unauthenticated_http": [{"path": "/api/admin/question-factory", "method": "GET", "status": 401}, {"path": "/api/admin/question-factory", "method": "POST", "status": 401}, {"path": "/admin/question-factory", "method": "GET", "status": 307, "location": "/login"}],
+  "browser": {
+    "surface": "localhost:3000/preview/question-factory",
+    "mobile": {"viewport_width": 390, "viewport_height": 844, "document_scroll_width": 380},
+    "desktop": {"viewport_width": 1440, "viewport_height": 1000, "document_scroll_width": 1430},
+    "interaction": "English chapter disclosure expands and shows missing paper coverage with generation paused",
+    "controls": "Preview mutation controls disabled; no publish-anyway control",
+    "screenshots": ["dashboard-mobile.jpg", "dashboard-desktop.jpg", "dashboard-overview.jpg"],
+    "viewport_override_reset": true,
+    "authenticated_admin_flow_verified": false
+  },
+  "legacy_scan": {"rows": 9242, "mechanically_clear": 6299, "suspect_signals": 2943, "bundles": 284, "production_receipt_imports": 0, "api_spend_usd": 0},
+  "subscription_sample": {"model": "gpt-6-luna", "effort": "medium", "mechanically_clear_rows_reviewed": 20, "no_issue_found": 15, "suspect": 3, "incomplete": 2, "ids_and_hashes_validated_locally": true, "route": "signed-in desktop included agent usage", "cli_login_confirmed": false, "academic_certification": false},
+  "content_spend": {"new_paid_api_calls": 0, "new_paid_api_spend_usd": 0, "historical_reconciled": false, "lifetime_ceiling_usd": 50, "remaining_budget_established": false},
+  "new_questions_published": 0,
+  "production_changes": 0,
+  "remaining_gates": [
+    "Authenticated complete paper stems/options, matched final keys and reuse permission",
+    "Verified source excerpts, syllabus/pattern specs and disjoint officially keyed development/held-out examples",
+    "Historical provider content-spend reconciliation and current pricing refresh",
+    "Content signing secret and author configuration",
+    "Staging migration and authenticated admin/import/repair evidence; approval before production migration",
+    "CLI ChatGPT subscription authentication if using the optional CLI path",
+    "Guarded live provider compatibility and academic calibration",
+    "Actual 200-candidate pilot, measured Gemini catches/token cost/acceptance and checkpoint release",
+    "Stage legacy screening receipts before deploying stricter ordinary-practice fallback",
+    "Reconcile this older checkout with already published study-suite work before any release"
+  ]
+}

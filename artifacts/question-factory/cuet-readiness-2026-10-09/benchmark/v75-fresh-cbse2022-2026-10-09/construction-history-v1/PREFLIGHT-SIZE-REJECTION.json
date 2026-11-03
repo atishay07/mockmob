@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-08T19:30:27.387Z",
+  "stage": "pre-dispatch construction revision; no provider call, no ledger, no run results existed",
+  "superseded_files": {
+    "superseded-frozen.json": "da8834e6d2ed12c76ead2d6ba180954381e99fb4acddef8599fc1e2236fd3614",
+    "superseded-scratch-registry-overlay.json": "8fc8330435d8d3a104beb278733620adf4faac40437434e4451eb57ffd70e456"
+  },
+  "reason": "runFreshCuetReadinessV75.mjs preflight rejected the first build with input_request_size_bound_exceeded",
+  "rejected": [
+    {
+      "fixture": "v75f-825e60a00f (Business Studies Q3 natural defect)",
+      "provider": "openai",
+      "bytes": 33202,
+      "limit": 33024
+    },
+    {
+      "fixture": "v75f-825e60a00f",
+      "provider": "gemini",
+      "bytes": 33204,
+      "limit": 33024
+    }
+  ],
+  "fix": "Construction only: the 2,440-byte functional-structure excerpt registered as two exact sub-spans (definition; advantage (f) through disadvantages); advantages (a)-(e) bear on no option. No contract, runner, bound, prompt or threshold changed. Stem, options, key and oracle unchanged. Rebuilt with freezeV75QualificationSets.mjs; after the fix 81/81 captures pass, maximum 32,488 bytes."
+}

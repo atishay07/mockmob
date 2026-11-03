@@ -1,0 +1,126 @@
+{
+  "subject": "economics",
+  "phase": "independent solutions saved before opening economics-keys.json",
+  "key_index_convention": "zero-based",
+  "solutions": [
+    {
+      "id": "7398cc0e-85ff-4daf-b51e-d66316c6124f",
+      "content_hash": "de8f9e854c159fc8f3078fc0dc7a9316aa1e70b1f3222bd2a3ee4495549e5d9d",
+      "solved_key": 1,
+      "solved_option_1_based": 2,
+      "reason": "Flexible-rate increase in domestic currency foreign price is appreciation."
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "solved_key": 1,
+      "solved_option_1_based": 2,
+      "reason": "A is planned; C is realised. D uses the undefined expression Ex Ante Post."
+    },
+    {
+      "id": "bfef7eb8-0e03-4f97-a848-f8cab4f76776",
+      "content_hash": "59360281763818faf6a8de9c8e55f5dcb5026b7a23b4506c13c4d45387bf0653",
+      "solved_key": 3,
+      "solved_option_1_based": 4,
+      "reason": "A,D,E true; B should be outright/repo, C reverses standard effect."
+    },
+    {
+      "id": "241254c1-410a-4e91-81b4-d623b89fcb73",
+      "content_hash": "9eb41ec71bd1c1e55347e96e9035953df6bf194a075a1cbb2a4c379e294d905b",
+      "solved_key": 2,
+      "solved_option_1_based": 3,
+      "reason": "B,D,E true: stocks at an instant; flows over time; add net indirect taxes."
+    },
+    {
+      "id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "solved_key": 2,
+      "solved_option_1_based": 3,
+      "reason": "Absent sectors imply zero, but option 4 less than 1 is also mathematically satisfied."
+    },
+    {
+      "id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "Intended capital receipts, but definition needs OR, not AND."
+    },
+    {
+      "id": "02fc49a9-7017-459b-9d70-d571d0a0edf3",
+      "content_hash": "7407a0968a37759e2371fc875b82452ca7a61b3dffcf5c8a723badbe55e041a0",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "All sales receipts distributed: 720 crore."
+    },
+    {
+      "id": "736b38df-f7fd-4c72-82f1-55bd7789e2d4",
+      "content_hash": "e99654fc414314cfcb5ee392f25c48b90d057961a9d7ab60d3305e66c33d1a28",
+      "solved_key": 2,
+      "solved_option_1_based": 3,
+      "reason": "Planned 36000+9000=45000; actual 39000+7000=46000."
+    },
+    {
+      "id": "331a63d4-1402-48fa-83d0-e65ebd16419f",
+      "content_hash": "40928fd31c334dc55c665aa6a28ab5a6078359dbfbe5deedd71b22cff89fb82b",
+      "solved_key": 1,
+      "solved_option_1_based": 2,
+      "reason": "(0.05-0.04)/0.04=25%; appreciation."
+    },
+    {
+      "id": "7910a488-0ca9-4524-a5fd-c019b6a9710a",
+      "content_hash": "114ac3aedee8d3c13c98a89c3bd0bfb59d1bd5da6ea548ce6a77f857a09b1039",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "Reserve withdrawal 150/5=30 crore, with supplied ideal-system assumptions."
+    },
+    {
+      "id": "2c29250c-6a94-428d-9f4a-6b809f2472ec",
+      "content_hash": "c9bff0b853665616bc6ce0923ddaa65d71ed9f720bef6eab3b03c16298a38179",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "Share sale reduces financial assets: capital receipt."
+    },
+    {
+      "id": "1cf1f238-b143-4aa7-8acd-c5550ec35eeb",
+      "content_hash": "f4bdb91a5284a844b17f0640e30406f9c5de9b323c6d98cc2543189cfc656f66",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "950-120+30=860 crore."
+    },
+    {
+      "id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "Under stated simplified relation 9-4=5%; syllabus/source check remains necessary."
+    },
+    {
+      "id": "4ecf0ccf-8840-4b54-93e0-2867b7df8c7a",
+      "content_hash": "c1fc0767d8d7469d8e43dbe6b94f9a95c6b7435cc7489d491656979ee419499d",
+      "solved_key": 0,
+      "solved_option_1_based": 1,
+      "reason": "Factor services are real household-to-firm factor-market flow."
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "solved_key": 1,
+      "solved_option_1_based": 2,
+      "reason": "Intended policy statement; unspecified chapter dependency needs source check."
+    },
+    {
+      "id": "dd83debc-8114-4729-b431-222013a04bfc",
+      "content_hash": "5df659590a0bc1f066cb0ffe88ed4c0eeb5b20af9b9c694ece374f2f6c02a7cd",
+      "solved_key": 1,
+      "solved_option_1_based": 2,
+      "reason": "Planned saving 120000-90000=30000; realised 110000-95000=15000; A,B."
+    },
+    {
+      "id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "solved_key": 2,
+      "solved_option_1_based": 3,
+      "reason": "Firms produce goods and services; other options reverse flows or add government."
+    }
+  ]
+}

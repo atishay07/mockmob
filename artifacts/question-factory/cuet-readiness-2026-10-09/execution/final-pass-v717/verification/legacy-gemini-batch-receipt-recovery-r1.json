@@ -1,0 +1,84 @@
+{
+  "schema": "receipt-only-gemini-batch-recovery-v1",
+  "created_at": "2026-10-10T06:00:58.560Z",
+  "provider": "gemini",
+  "batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+  "remote_status_evidence_path": "artifacts/question-factory/execution-2026-10-07/provider-status.json",
+  "remote_status_evidence_sha256": "3987571cf475b91d7baac610106de0c686ce6f1c8382e40b22e79bd227227142",
+  "rows": [
+    {
+      "request_key_sha256": "5dfb795a5d7cdf1dbd8aa4b95900fb7a1a8341049a5abc155770dc8b6c004de0",
+      "batch_state": "unresolved",
+      "reservation_state": "unresolved",
+      "actual_micro": null,
+      "reserved_micro": 19788,
+      "result": "reconcile_error",
+      "failure": "batch_failed_usage_missing",
+      "per_item_error_present": false,
+      "per_item_error_code": null,
+      "per_item_usage_present": false,
+      "receipt_json_present": true
+    },
+    {
+      "request_key_sha256": "41086b55e0a9e30893de931f6c31a68cbbebfd34e114897ece0ee30d81609d87",
+      "batch_state": "unresolved",
+      "reservation_state": "unresolved",
+      "actual_micro": null,
+      "reserved_micro": 19788,
+      "result": "reconcile_error",
+      "failure": "batch_failed_usage_missing",
+      "per_item_error_present": false,
+      "per_item_error_code": null,
+      "per_item_usage_present": false,
+      "receipt_json_present": true
+    },
+    {
+      "request_key_sha256": "c0c1ef024a745b3d7344d6669cc3b22c0bce261a9ff74902436e62db760b7a10",
+      "batch_state": "unresolved",
+      "reservation_state": "unresolved",
+      "actual_micro": null,
+      "reserved_micro": 19788,
+      "result": "reconcile_error",
+      "failure": "batch_failed_usage_missing",
+      "per_item_error_present": false,
+      "per_item_error_code": null,
+      "per_item_usage_present": false,
+      "receipt_json_present": true
+    },
+    {
+      "request_key_sha256": "5d22140c813a14a0a885bd3b10febbd23ca59daf1735ab7e95cea142f091b0f2",
+      "batch_state": "unresolved",
+      "reservation_state": "unresolved",
+      "actual_micro": null,
+      "reserved_micro": 19788,
+      "result": "reconcile_error",
+      "failure": "batch_failed_usage_missing",
+      "per_item_error_present": false,
+      "per_item_error_code": null,
+      "per_item_usage_present": false,
+      "receipt_json_present": true
+    }
+  ],
+  "global_request_state_counts": [
+    {
+      "state": "settled",
+      "n": 14992,
+      "reserved": 204772020,
+      "actual": 39139769
+    },
+    {
+      "state": "submitted",
+      "n": 1,
+      "reserved": 23634,
+      "actual": null
+    },
+    {
+      "state": "unresolved",
+      "n": 65,
+      "reserved": 821324,
+      "actual": null
+    }
+  ],
+  "no_post_or_new_reservation": true,
+  "unknown_holds_preserved": true
+}

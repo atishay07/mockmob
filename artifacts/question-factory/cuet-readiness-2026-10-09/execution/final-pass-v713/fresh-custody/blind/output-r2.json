@@ -1,0 +1,1272 @@
+{
+  "schema": "cuet-v713-blind_output-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "packet_sha256": "952947ee419ca129ff117d1b7f1ce3cd83dbd72f44d4c3d345e1b148873d4fa3",
+  "reviewer_id": "/root/fresh_v713_blind",
+  "created_at": "2026-10-10T00:24:09.8297838+05:30",
+  "items": [
+    {
+      "opaque_id": "b-7c2033e3b8172546",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT 6.5.1 names raw-material procurement and garment sales as operating activities; 6.5.1-2 lists goods receipts."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.1 names raw-material procurement and garment sales as operating activities; 6.5.1-2 lists goods receipts."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.1 names raw-material procurement and garment sales as operating activities; 6.5.1-2 lists goods receipts."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.1 names raw-material procurement and garment sales as operating activities; 6.5.1-2 lists goods receipts."
+        }
+      ],
+      "decisive_basis": "NCERT 6.5.1 names raw-material procurement and garment sales as operating activities; 6.5.1-2 lists goods receipts.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct category recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c78e551751b6cb42",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT 6.1 says a cash flow statement supports assessment of ability to generate/use cash, including timing and certainty."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.1 says a cash flow statement supports assessment of ability to generate/use cash, including timing and certainty."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.1 says a cash flow statement supports assessment of ability to generate/use cash, including timing and certainty."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.1 says a cash flow statement supports assessment of ability to generate/use cash, including timing and certainty."
+        }
+      ],
+      "decisive_basis": "NCERT 6.1 says a cash flow statement supports assessment of ability to generate/use cash, including timing and certainty.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct purpose recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c8a3af0823b1f451",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT 6.5.2 lists cash from disposal of fixed assets as an investing inflow."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.2 lists cash from disposal of fixed assets as an investing inflow."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.2 lists cash from disposal of fixed assets as an investing inflow."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.2 lists cash from disposal of fixed assets as an investing inflow."
+        }
+      ],
+      "decisive_basis": "NCERT 6.5.2 lists cash from disposal of fixed assets as an investing inflow.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct transaction classification.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-9a437747c0d0ead2",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT 6.5.3 places cash proceeds from equity-share issue under financing."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from equity-share issue under financing."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from equity-share issue under financing."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from equity-share issue under financing."
+        }
+      ],
+      "decisive_basis": "NCERT 6.5.3 places cash proceeds from equity-share issue under financing.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct transaction classification.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-b818f26dac47c3f9",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT Non-cash Transactions says non-cash investing/financing transactions are excluded and disclosed elsewhere; machinery for shares is its example."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions says non-cash investing/financing transactions are excluded and disclosed elsewhere; machinery for shares is its example."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions says non-cash investing/financing transactions are excluded and disclosed elsewhere; machinery for shares is its example."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions says non-cash investing/financing transactions are excluded and disclosed elsewhere; machinery for shares is its example."
+        }
+      ],
+      "decisive_basis": "NCERT Non-cash Transactions says non-cash investing/financing transactions are excluded and disclosed elsewhere; machinery for shares is its example.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "Applies the stated treatment to a non-cash acquisition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-e6858812d5d9c37b",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT investing inflows include fixed-asset disposal, dividend from investments, and interest on loans/advances; equity issue is financing. A, B, C are each valid."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT investing inflows include fixed-asset disposal, dividend from investments, and interest on loans/advances; equity issue is financing. A, B, C are each valid."
+        },
+        {
+          "option": "C",
+          "status": true,
+          "basis": "Supported: NCERT investing inflows include fixed-asset disposal, dividend from investments, and interest on loans/advances; equity issue is financing. A, B, C are each valid."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT investing inflows include fixed-asset disposal, dividend from investments, and interest on loans/advances; equity issue is financing. A, B, C are each valid."
+        }
+      ],
+      "decisive_basis": "NCERT investing inflows include fixed-asset disposal, dividend from investments, and interest on loans/advances; equity issue is financing. A, B, C are each valid.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct category recognition, but the stem admits three answers.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c4ef29779aa134de",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT 6.5.3 places cash proceeds from share issue under financing; the other choices describe investing or operating flows."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from share issue under financing; the other choices describe investing or operating flows."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from share issue under financing; the other choices describe investing or operating flows."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT 6.5.3 places cash proceeds from share issue under financing; the other choices describe investing or operating flows."
+        }
+      ],
+      "decisive_basis": "NCERT 6.5.3 places cash proceeds from share issue under financing; the other choices describe investing or operating flows.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct category recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-4d3da6a684c4d6a3",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT Non-cash Transactions expressly says machinery acquired for shares is excluded from the cash flow statement and disclosed elsewhere."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions expressly says machinery acquired for shares is excluded from the cash flow statement and disclosed elsewhere."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions expressly says machinery acquired for shares is excluded from the cash flow statement and disclosed elsewhere."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT Non-cash Transactions expressly says machinery acquired for shares is excluded from the cash flow statement and disclosed elsewhere."
+        }
+      ],
+      "decisive_basis": "NCERT Non-cash Transactions expressly says machinery acquired for shares is excluded from the cash flow statement and disclosed elsewhere.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct recall/application.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-b9c3f62aa80e106d",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT accepts both direct (gross receipts/payments) and indirect (adjusted profit/loss) methods for operating cash flows; A, B and C are true."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT accepts both direct (gross receipts/payments) and indirect (adjusted profit/loss) methods for operating cash flows; A, B and C are true."
+        },
+        {
+          "option": "C",
+          "status": true,
+          "basis": "Supported: NCERT accepts both direct (gross receipts/payments) and indirect (adjusted profit/loss) methods for operating cash flows; A, B and C are true."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT accepts both direct (gross receipts/payments) and indirect (adjusted profit/loss) methods for operating cash flows; A, B and C are true."
+        }
+      ],
+      "decisive_basis": "NCERT accepts both direct (gross receipts/payments) and indirect (adjusted profit/loss) methods for operating cash flows; A, B and C are true.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "Compare two methods; three options state true claims.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-695843fb606c0794",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT defines planning as setting objectives, forming courses of action and selecting the best alternative."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines planning as setting objectives, forming courses of action and selecting the best alternative."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines planning as setting objectives, forming courses of action and selecting the best alternative."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines planning as setting objectives, forming courses of action and selecting the best alternative."
+        }
+      ],
+      "decisive_basis": "NCERT defines planning as setting objectives, forming courses of action and selecting the best alternative.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct definition match.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-6d3d6ff08e4b075b",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT says other functions are performed within plans and planning provides their basis; it is pervasive, not top-only."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says other functions are performed within plans and planning provides their basis; it is pervasive, not top-only."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says other functions are performed within plans and planning provides their basis; it is pervasive, not top-only."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says other functions are performed within plans and planning provides their basis; it is pervasive, not top-only."
+        }
+      ],
+      "decisive_basis": "NCERT says other functions are performed within plans and planning provides their basis; it is pervasive, not top-only.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct feature recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-af3d696995035ab7",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT classifies a one-time, non-recurring programme/project as single-use; standing plans cover recurring activity."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT classifies a one-time, non-recurring programme/project as single-use; standing plans cover recurring activity."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT classifies a one-time, non-recurring programme/project as single-use; standing plans cover recurring activity."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT classifies a one-time, non-recurring programme/project as single-use; standing plans cover recurring activity."
+        }
+      ],
+      "decisive_basis": "NCERT classifies a one-time, non-recurring programme/project as single-use; standing plans cover recurring activity.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct category application.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-9a5cea0fba795084",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT states that setting objectives is the first step in planning."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT states that setting objectives is the first step in planning."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT states that setting objectives is the first step in planning."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT states that setting objectives is the first step in planning."
+        }
+      ],
+      "decisive_basis": "NCERT states that setting objectives is the first step in planning.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct sequence recall.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-5254011051c99513",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT describes strategy as broad contours and long-run direction/scope."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT describes strategy as broad contours and long-run direction/scope."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT describes strategy as broad contours and long-run direction/scope."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT describes strategy as broad contours and long-run direction/scope."
+        }
+      ],
+      "decisive_basis": "NCERT describes strategy as broad contours and long-run direction/scope.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct plan-type recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-0f33295b9e5f0244",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT includes product/price planning, outlet selection and selling within marketing; it says selling is one part. A, B, C and D are all true."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT includes product/price planning, outlet selection and selling within marketing; it says selling is one part. A, B, C and D are all true."
+        },
+        {
+          "option": "C",
+          "status": true,
+          "basis": "Supported: NCERT includes product/price planning, outlet selection and selling within marketing; it says selling is one part. A, B, C and D are all true."
+        },
+        {
+          "option": "D",
+          "status": true,
+          "basis": "Supported: NCERT includes product/price planning, outlet selection and selling within marketing; it says selling is one part. A, B, C and D are all true."
+        }
+      ],
+      "decisive_basis": "NCERT includes product/price planning, outlet selection and selling within marketing; it says selling is one part. A, B, C and D are all true.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct reading, but all choices are defensible.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-e95e8487c40621c7",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT states support services aim at maximum customer satisfaction; it does not address repeat sales or brand loyalty."
+        },
+        {
+          "option": "B",
+          "status": "undecidable",
+          "basis": "B is undecidable from this excerpt: it neither states nor contradicts repeat sales or brand loyalty."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT states support services aim at maximum customer satisfaction; it does not address repeat sales or brand loyalty."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT states support services aim at maximum customer satisfaction; it does not address repeat sales or brand loyalty."
+        }
+      ],
+      "decisive_basis": "NCERT states support services aim at maximum customer satisfaction; it does not address repeat sales or brand loyalty.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "Separates an explicit aim from an unstated possible effect.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": [
+        "B is undecidable from this excerpt: it neither states nor contradicts repeat sales or brand loyalty."
+      ]
+    },
+    {
+      "opaque_id": "b-9bb36ec44449ae5f",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT defines physical distribution as moving goods from production locations to where needed for use or consumption."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines physical distribution as moving goods from production locations to where needed for use or consumption."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines physical distribution as moving goods from production locations to where needed for use or consumption."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines physical distribution as moving goods from production locations to where needed for use or consumption."
+        }
+      ],
+      "decisive_basis": "NCERT defines physical distribution as moving goods from production locations to where needed for use or consumption.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct function recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-fa2b4c530e4fb9ac",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT lists Product, Price, Place and Promotion as the four mix elements; every option is correct."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT lists Product, Price, Place and Promotion as the four mix elements; every option is correct."
+        },
+        {
+          "option": "C",
+          "status": true,
+          "basis": "Supported: NCERT lists Product, Price, Place and Promotion as the four mix elements; every option is correct."
+        },
+        {
+          "option": "D",
+          "status": true,
+          "basis": "Supported: NCERT lists Product, Price, Place and Promotion as the four mix elements; every option is correct."
+        }
+      ],
+      "decisive_basis": "NCERT lists Product, Price, Place and Promotion as the four mix elements; every option is correct.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct recall, but all four options are valid.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-6845aae444cfd150",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT defines GDP by production within the domestic economy; ownership abroad does not change that location criterion."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines GDP by production within the domestic economy; ownership abroad does not change that location criterion."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines GDP by production within the domestic economy; ownership abroad does not change that location criterion."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines GDP by production within the domestic economy; ownership abroad does not change that location criterion."
+        }
+      ],
+      "decisive_basis": "NCERT defines GDP by production within the domestic economy; ownership abroad does not change that location criterion.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Domestic-versus-national distinction.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-3bc8f06974f959df",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT gives GNP = GDP + net factor income from abroad; 640+25=665 crore."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT gives GNP = GDP + net factor income from abroad; 640+25=665 crore."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT gives GNP = GDP + net factor income from abroad; 640+25=665 crore."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT gives GNP = GDP + net factor income from abroad; 640+25=665 crore."
+        }
+      ],
+      "decisive_basis": "NCERT gives GNP = GDP + net factor income from abroad; 640+25=665 crore.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "One-step substitution.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-c1c4728267ecc94b",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Product-method value: farmers 150 plus bakers contribution 240-60=180; total 330 without double counting."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Product-method value: farmers 150 plus bakers contribution 240-60=180; total 330 without double counting."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Product-method value: farmers 150 plus bakers contribution 240-60=180; total 330 without double counting."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Product-method value: farmers 150 plus bakers contribution 240-60=180; total 330 without double counting."
+        }
+      ],
+      "decisive_basis": "Product-method value: farmers 150 plus bakers contribution 240-60=180; total 330 without double counting.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "One subtraction and one addition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-f9eaf16201f59cc4",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT calls adding final expenditures the expenditure method."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT calls adding final expenditures the expenditure method."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT calls adding final expenditures the expenditure method."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT calls adding final expenditures the expenditure method."
+        }
+      ],
+      "decisive_basis": "NCERT calls adding final expenditures the expenditure method.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Direct method recognition.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-5214a5b92c224191",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Stated sequence: basic prices 200+8=208; market prices 208+12=220 crore."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Stated sequence: basic prices 200+8=208; market prices 208+12=220 crore."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Stated sequence: basic prices 200+8=208; market prices 208+12=220 crore."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Stated sequence: basic prices 200+8=208; market prices 208+12=220 crore."
+        }
+      ],
+      "decisive_basis": "Stated sequence: basic prices 200+8=208; market prices 208+12=220 crore.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "Two-step conversion.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-4e7d4eed8ae8c8f7",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT defines real GDP using constant prices, including base-year prices; A and B describe the same measure."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT defines real GDP using constant prices, including base-year prices; A and B describe the same measure."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines real GDP using constant prices, including base-year prices; A and B describe the same measure."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT defines real GDP using constant prices, including base-year prices; A and B describe the same measure."
+        }
+      ],
+      "decisive_basis": "NCERT defines real GDP using constant prices, including base-year prices; A and B describe the same measure.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Definition recognition, but A and B duplicate.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-e5e8b5fb032f7d57",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT expresses same-basket current-year cost as a percentage of base-year cost; A and B describe the same operation."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: NCERT expresses same-basket current-year cost as a percentage of base-year cost; A and B describe the same operation."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT expresses same-basket current-year cost as a percentage of base-year cost; A and B describe the same operation."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT expresses same-basket current-year cost as a percentage of base-year cost; A and B describe the same operation."
+        }
+      ],
+      "decisive_basis": "NCERT expresses same-basket current-year cost as a percentage of base-year cost; A and B describe the same operation.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Procedure recognition, but A and B duplicate.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-130066edd048947f",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: NCERT says a GDP rise concentrated among few while others income falls does not establish that whole-country welfare rose."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says a GDP rise concentrated among few while others income falls does not establish that whole-country welfare rose."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says a GDP rise concentrated among few while others income falls does not establish that whole-country welfare rose."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: NCERT says a GDP rise concentrated among few while others income falls does not establish that whole-country welfare rose."
+        }
+      ],
+      "decisive_basis": "NCERT says a GDP rise concentrated among few while others income falls does not establish that whole-country welfare rose.",
+      "difficulty_assessment": {
+        "level": "medium",
+        "reason": "Applies the stated distribution caveat.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-af71fca03b355145",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Conversion sequence gives 200+8+12=220 crore at market prices."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Conversion sequence gives 200+8+12=220 crore at market prices."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Conversion sequence gives 200+8+12=220 crore at market prices."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Conversion sequence gives 200+8+12=220 crore at market prices."
+        }
+      ],
+      "decisive_basis": "Conversion sequence gives 200+8+12=220 crore at market prices.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Two additions from the supplied relation.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-0879d390cafd2b0f",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines resolute as strong and determined; repeated testing matches."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines resolute as strong and determined; repeated testing matches."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines resolute as strong and determined; repeated testing matches."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines resolute as strong and determined; repeated testing matches."
+        }
+      ],
+      "decisive_basis": "Oxford defines resolute as strong and determined; repeated testing matches.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-aadd6b90ee88c648",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines diligent as showing care and effort in work; careful repeated record checks match."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines diligent as showing care and effort in work; careful repeated record checks match."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines diligent as showing care and effort in work; careful repeated record checks match."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines diligent as showing care and effort in work; careful repeated record checks match."
+        }
+      ],
+      "decisive_basis": "Oxford defines diligent as showing care and effort in work; careful repeated record checks match.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-525ba8eeef3d9995",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines hostile as aggressive/unfriendly and ready to argue or fight; the reception matches."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines hostile as aggressive/unfriendly and ready to argue or fight; the reception matches."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines hostile as aggressive/unfriendly and ready to argue or fight; the reception matches."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines hostile as aggressive/unfriendly and ready to argue or fight; the reception matches."
+        }
+      ],
+      "decisive_basis": "Oxford defines hostile as aggressive/unfriendly and ready to argue or fight; the reception matches.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-4476970985f825f6",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines sparse as present in small amounts/numbers; few observations and blank pages match."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines sparse as present in small amounts/numbers; few observations and blank pages match."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines sparse as present in small amounts/numbers; few observations and blank pages match."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines sparse as present in small amounts/numbers; few observations and blank pages match."
+        }
+      ],
+      "decisive_basis": "Oxford defines sparse as present in small amounts/numbers; few observations and blank pages match.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-a176c06ba33763b6",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines obsolete as no longer used because something new was invented; the replaced reader matches."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines obsolete as no longer used because something new was invented; the replaced reader matches."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines obsolete as no longer used because something new was invented; the replaced reader matches."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines obsolete as no longer used because something new was invented; the replaced reader matches."
+        }
+      ],
+      "decisive_basis": "Oxford defines obsolete as no longer used because something new was invented; the replaced reader matches.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-ecd1a2f12609098c",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines meticulous as paying careful attention to every detail; B paraphrases A."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: Oxford defines meticulous as paying careful attention to every detail; B paraphrases A."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines meticulous as paying careful attention to every detail; B paraphrases A."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines meticulous as paying careful attention to every detail; B paraphrases A."
+        }
+      ],
+      "decisive_basis": "Oxford defines meticulous as paying careful attention to every detail; B paraphrases A.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Definition recognition, but A and B are synonymous.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-7e7ef77a6d62cf50",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines arduous as requiring much effort/energy over time; the multi-day route fits."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines arduous as requiring much effort/energy over time; the multi-day route fits."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines arduous as requiring much effort/energy over time; the multi-day route fits."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines arduous as requiring much effort/energy over time; the multi-day route fits."
+        }
+      ],
+      "decisive_basis": "Oxford defines arduous as requiring much effort/energy over time; the multi-day route fits.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-387d56b45500a927",
+      "solved_key": "A",
+      "mandatory_gates_passed": true,
+      "one_defensible_answer": true,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines coherent as logical and well organized; the linked statement fits."
+        },
+        {
+          "option": "B",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines coherent as logical and well organized; the linked statement fits."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines coherent as logical and well organized; the linked statement fits."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines coherent as logical and well organized; the linked statement fits."
+        }
+      ],
+      "decisive_basis": "Oxford defines coherent as logical and well organized; the linked statement fits.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Contextual vocabulary.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    },
+    {
+      "opaque_id": "b-417b7f62fd58868f",
+      "solved_key": null,
+      "mandatory_gates_passed": false,
+      "one_defensible_answer": false,
+      "option_judgments": [
+        {
+          "option": "A",
+          "status": true,
+          "basis": "Supported: Oxford defines tranquil as quiet and peaceful; B paraphrases A."
+        },
+        {
+          "option": "B",
+          "status": true,
+          "basis": "Supported: Oxford defines tranquil as quiet and peaceful; B paraphrases A."
+        },
+        {
+          "option": "C",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines tranquil as quiet and peaceful; B paraphrases A."
+        },
+        {
+          "option": "D",
+          "status": false,
+          "basis": "Inconsistent with decisive evidence: Oxford defines tranquil as quiet and peaceful; B paraphrases A."
+        }
+      ],
+      "decisive_basis": "Oxford defines tranquil as quiet and peaceful; B paraphrases A.",
+      "difficulty_assessment": {
+        "level": "easy",
+        "reason": "Definition recognition, but A and B are synonymous.",
+        "comparison_basis": "heuristic"
+      },
+      "source_or_syllabus_caveats": []
+    }
+  ]
+}

@@ -1,0 +1,611 @@
+{
+  "version": "cuet-llm-v3",
+  "verifier_version": "luna-gemini-cuET-v5.4",
+  "source_registry_version": 53,
+  "at": "2026-10-06T19:05:33.758Z",
+  "independent": true,
+  "state": "paused",
+  "reason": "calibration_cache_incomplete",
+  "pending": [
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q19",
+      "provider": "luna",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q19",
+      "provider": "gemini",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q42",
+      "provider": "gemini",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q44",
+      "provider": "gemini",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-negative-missing_assumptions",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-negative-out_of_syllabus",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    },
+    {
+      "id": "unseen-v54-negative-solver_boundary",
+      "batch_id": null,
+      "not_dispatched": true,
+      "reason": "calibration_cache_miss"
+    }
+  ],
+  "routes": {},
+  "observations": [
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q17",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q18",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q19",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q20",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q21",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-english-bookA-q22",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q26",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q27",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q30",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q31",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "abstain",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "Under the standard admission treatment, the intended set is (A), (B) and (C): the gaining old partner is debited for the gain from sacrificing partner(s), and the sacrificing partner(s) are credited; the incoming premium is also debited when distributed. Thus the intended option is B, while (D) is false.",
+        "The supplied excerpts describe the incoming partner’s cash premium and credit to sacrificing partners, but do not establish the separate debit to a gaining old partner. Moreover, E1.2 as supplied says “Goodwill A/c Dr.” rather than establishing the stated Premium for Goodwill debit. The decisive rules therefore cannot be verified from the permitted academic evidence, so the key is abstained.",
+        "The wording “brings his share of goodwill in cash” in a journal-entry question implies payment through the firm; a private payment would have no firm entry under E1.1.",
+        "Defect: The supplied excerpts do not establish the gaining-partner debit rule needed to determine statement (A), so the decisive principle is unsupported by the academic evidence provided.",
+        "Defect: The supplied excerpt does not establish statement (B) as written: it gives a Goodwill Account debit, not a Premium for Goodwill Account debit.",
+        "Quality score 6/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: The old partner’s gain is adjusted against sacrificing old partner(s) through their capital accounts."
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q32",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q39",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-accountancy-bookA-q40",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "abstain",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The expected sequence is E → A → B → C → D (option C): goodwill amortisation is adjusted before working-capital changes; cash generated from operations follows those changes; income tax paid is then deducted to arrive at net cash flow from operating activities.",
+        "The excerpts establish that the indirect method adjusts profit for non-cash items and identify goodwill written off as non-cash, but do not establish the complete sequence or the placement of tax paid. Under the source-only constraint, the key cannot be verified, so I abstain.",
+        "Defect: The supplied excerpts do not state the full sequence, particularly the working-capital adjustment, cash-generated-from-operations stage, and deduction of income tax paid; the decisive principle is therefore not fully source-supported.",
+        "Quality score 6/10",
+        "Decisive principle is not stated in the supplied excerpts"
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q10",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q11",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q12",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q20",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q21",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q22",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-business_studies-bookA-q39",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q12",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q13",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "abstain",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The expected historical order is RBI nationalisation (1949), Third Five Year Plan (1961–66), NABARD establishment (1982), then the FRBM Act (2003), yielding option D. The supplied academic excerpts do not establish these dates, so the answer is unsupported by the permitted evidence and I abstain.",
+        "The excerpts establish that Five Year Plans are part of the 1950–1990 discussion, but not the Third Plan’s dates or the chronology of the other named events.",
+        "The current syllabus includes Five Year Plan goals and broad development policies, but does not specify this chronology of RBI nationalisation, NABARD’s establishment, or the FRBM Act.",
+        "Defect: The decisive event dates needed to order the choices are not established by the supplied academic excerpts.",
+        "Defect: The specific chronology tested is not covered by the supplied current syllabus; only the Five Year Plan context is broadly related.",
+        "Quality score 5/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: RBI nationalisation occurred before the Third Five Year Plan.",
+        "Condition missing: The Third Five Year Plan preceded NABARD’s establishment.",
+        "Condition missing: NABARD’s establishment preceded passage of the FRBM Act."
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q14",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q15",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q18",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q20",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "abstain",
+      "gemini": "abstain",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The conventional periodization points to B (mid-1970s to mid-1980s), with A preceding and C and D earlier and later, respectively. However, the supplied academic excerpts mention the Green Revolution only generally and do not establish its phases or their dates; the paper example is not evidence for the answer, so abstain.",
+        "The current syllabus topics listed for Rural Development do not include the historical phases of the Green Revolution.",
+        "The stem is awkwardly phrased: “is termed from” should be replaced with a clear question about the period covered.",
+        "Defect: No supplied academic excerpt supports the phase dates needed to validate the answer.",
+        "Defect: Historical Green Revolution phase dating is outside the supplied current Rural Development syllabus topics.",
+        "Defect: The wording “Second phase of Green Revolution is termed from” is ungrammatical and unclear.",
+        "Quality score 5/10",
+        "Decisive principle is not stated in the supplied excerpts"
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q21",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q38",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "abstain",
+      "gemini": "abstain",
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q39",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "A, C and E are correct: marginal utility measures the change in total utility for an additional unit; MU is zero when TU is constant; and an indifference curve slopes downward.",
+        "B is false in the standard indifference-curve model; D is false because diminishing MRS determines the curve's shape. Thus option B, (A), (C) and (E) only, is the sole correct choice. The alternatives A, C and D each include at least one false statement.",
+        "The supplied excerpts support A, C, E and diminishing MRS, but do not establish the non-intersection principle needed to assess B.",
+        "The supplied current syllabus scope specifies the utility approach to consumer equilibrium, not ordinal utility or indifference-curve properties; this authentic 2024 item is therefore not within the stated current scope.",
+        "Defect: The item tests indifference-curve and ordinal-utility properties not included in the supplied current syllabus scope.",
+        "Defect: The supplied academic excerpts do not establish that distinct indifference curves cannot intersect, a principle needed to evaluate statement (B); the paper question itself is not academic source support.",
+        "Quality score 6/10",
+        "Decisive principle is not stated in the supplied excerpts"
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q40",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The matches are A–I, B–III, C–II, and D–IV, so option B is the unique correct sequence.",
+        "E2.3 supports excess supply as supply exceeding demand; E1.2 defines a price ceiling as a government-imposed upper limit. The supplied excerpts do not establish the equilibrium or inferior-good matches, so they do not support the full key.",
+        "Defect: The supplied academic excerpts do not state the tested equilibrium and inferior-good relationships; the paper example cannot substitute for academic source support.",
+        "Quality score 6/10",
+        "Decisive principle is not stated in the supplied excerpts"
+      ]
+    },
+    {
+      "id": "unseen-v54-cuet2024-economics-bookA-q41",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-wrong_key",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-multiple_correct",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "C",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-false_citation",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "D",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "source_support_missing"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-unsupported_explanation",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "C",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "markdown"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-orphan_passage",
+      "subject": "english",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "C",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "orphan_passage"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-cosmetic_duplicate",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "D",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "adaptation_not_distinct"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "unseen-v54-negative-option_collision",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "D",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "option_collision"
+      ],
+      "failure_details": []
+    }
+  ],
+  "cost_usd": 0
+}

@@ -1,0 +1,76 @@
+
+> mockmob@0.1.0 start
+> node --use-system-ca node_modules/next/dist/bin/next start --port 3011
+
+▲ Next.js 16.2.4
+- Local:         http://localhost:3011
+- Network:       http://192.168.1.8:3011
+✓ Ready in 254ms
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/auth/me","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/auth/me","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":401,"durationMs":4}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":9912}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":12349}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":12607}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":16072}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":18266}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":20285}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":1}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":23253}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":25094}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":1}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":27279}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":1}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":1}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":0}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_start","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"request_done","route":"/api/stats","method":"GET","requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser","status":200,"durationMs":1}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}
+{"level":"info","event":"middleware_decision","route":"/pricing","method":"GET","action":"next_public_referral_entrypoint","protectedRoute":false,"referralEntrypoint":true,"refCaptured":false,"status":200,"durationMs":0,"requestId":null,"vercelId":null,"ip":"::1:x","uaClass":"desktop-browser"}

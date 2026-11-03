@@ -1,0 +1,224 @@
+{
+  "at": "2026-10-04T17:36:24.361Z",
+  "base": "6c5e05b6562830fc2e12450a87846eb8c678f0c2",
+  "target": "artifacts\\study-suite\\release",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "eba402223f050ad2766d8789138abbaab1b753899f136eeb1be138cf18f119af"
+    },
+    {
+      "path": "package.json",
+      "sha256": "e0af41cfa22cd65ea7a140d4cd5128169a0ad38490f2da3854e0576983cf2c4d"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "0240332ec98767fe235fcc1670b7ee02a1fb2a54f3fc44494070e1a2c503d98e"
+    },
+    {
+      "path": "data/study_engine.js",
+      "sha256": "f10cae44fa40656cb8723711b0dd7a417202ef174eaba38e37f0a55cbb720f63"
+    },
+    {
+      "path": "data/study_content.js",
+      "sha256": "58ab6cc8ddbea9e24cd61a8f573ce5cd98f8c75f73d92df9ebc472d0a1b2c54f"
+    },
+    {
+      "path": "data/study_scheduler.mjs",
+      "sha256": "4094ec284169d6ca64a4f3290250753d0c253cffe88faf346ef711cb72e25b4e"
+    },
+    {
+      "path": "data/tests/study_engine.test.mjs",
+      "sha256": "2067ebba267d1540d64e046b99a1674f10af810cb24ae6ba4ecc7a3fca5559da"
+    },
+    {
+      "path": "data/tests/study_database.test.mjs",
+      "sha256": "84695601e838dcb5982b743817bfaae28403dfc0b9dbcc76bd8e62d18e7cc3e1"
+    },
+    {
+      "path": "src/app/(app)/layout.js",
+      "sha256": "d6faa07d5c3b92d7e7ade1dfab16018ef7bed0fdd8594fc6d25b770b710e2d23"
+    },
+    {
+      "path": "src/app/(app)/AppLayoutClient.jsx",
+      "sha256": "43ed09615034c91987115e8feceeb9b560fa3985775d9d372355004c303d6f90"
+    },
+    {
+      "path": "src/app/(app)/dashboard/DashboardPageClient.jsx",
+      "sha256": "efccaec07fcdefaf4bf3ae3fd6fb75aa43a11943278475aaab66871cb39a7bea"
+    },
+    {
+      "path": "src/app/api/recovery/replay/route.js",
+      "sha256": "4fd9e1cdf05b91096fd71f33785f361838b60ad8c44006edfdf1cc81facd41c4"
+    },
+    {
+      "path": "src/components/LearningNextAction.jsx",
+      "sha256": "972fd8d4a358fcbc6de58bc8578edc620dabdb78d9cde086ad63b4a109868a2a"
+    },
+    {
+      "path": "src/components/RecoveryOverview.jsx",
+      "sha256": "48e928f21d2c6cd69464ad7695caabe16475b75fbce1f36f471617080253957e"
+    },
+    {
+      "path": "src/components/ScoreRecoveryLab.jsx",
+      "sha256": "f506742bebb69c4f05991bbb79968cbfc783e0928c5d97b5348bd408b4892125"
+    },
+    {
+      "path": "src/components/ui/Glyph.jsx",
+      "sha256": "8853cfcd9e25a4045d05e86ec38bb9067b7808b871d39f2cbe4c694f922769df"
+    },
+    {
+      "path": "src/components/ai/AssistantLauncherGate.jsx",
+      "sha256": "8192db27f2ee89cfd8d715a6c8eedcfdd3737d5fc55e9254390540eca7226ead"
+    },
+    {
+      "path": "src/lib/arenaNavigation.js",
+      "sha256": "3b951d4540076a5dc0e517c6f778000b3940c92ff4b55d07003b864a2aa9466b"
+    },
+    {
+      "path": "src/lib/server/learning.js",
+      "sha256": "53f4bb9a928d07f1a42943ab9c1e1d676a92a8c2f54564d977d3acb1abe44bb4"
+    },
+    {
+      "path": "src/lib/server/recoverySessions.js",
+      "sha256": "095a1ee339fbf87a797a8df4bcf79da8ed05f4c49aa37bb220b7fad238cf459c"
+    },
+    {
+      "path": "src/lib/server/study.js",
+      "sha256": "b7b591393a17bfe81da447b011e0b143b3f54e52de277d1836e5ca6b9b11d3b0"
+    },
+    {
+      "path": "src/lib/server/studyExposure.js",
+      "sha256": "ba0d8e64032558e4078d3f193e556587fce4782d604bc5a64a33de67d1ef4d68"
+    },
+    {
+      "path": "src/services/ai/getStudentAIContext.js",
+      "sha256": "9e88829bcfc6796f748e7bc4a83e83e2388a4b5cfcb156bcf348005bc3941ce4"
+    },
+    {
+      "path": "scripts/learning/build-study-pilot.mjs",
+      "sha256": "319ce89ea778abc34e166f6e8970556fa0d2482cd3888c84ff9a47cd75ac15fc"
+    },
+    {
+      "path": "scripts/learning/validate-study-pilot.mjs",
+      "sha256": "84e7314213475368bfb7172df425d469694151dbb0c953ff2bb55e27a19b76df"
+    },
+    {
+      "path": "scripts/learning/build-study-import.mjs",
+      "sha256": "319f62b2c52bed5990acafa4ebf2f22b451046bfc900d0f2869926970eb66889"
+    },
+    {
+      "path": "scripts/learning/study-schema-dry-run.mjs",
+      "sha256": "38be38f92fa22fc81ddd4a9f545c6e8e7cf44d9f3db1fd23f209c817f0e8cf48"
+    },
+    {
+      "path": "scripts/learning/study-current-project-smoke.mjs",
+      "sha256": "476a33be2fee7b9441482fff177371b7965f42ac41a83684f4209a458bc00553"
+    },
+    {
+      "path": "scripts/learning/study-ratio-source-check.mjs",
+      "sha256": "ae12081a14a8f7027e37132103296b43f75ac3fa46512d7923027808e7db0a0f"
+    },
+    {
+      "path": "data/study/pilot.json",
+      "sha256": "a114320b9e54c4050497e0a0d8096fec36965dee27d475e4fe7dbe0dbe67bc6a"
+    },
+    {
+      "path": "data/study/release.json",
+      "sha256": "dff3093d24d074197bd55b2da1d4940f8e669409672421be012153f67011dbb8"
+    },
+    {
+      "path": "data/study/sources/ratio-validation.json",
+      "sha256": "f627adba0ca1fd10f2d17dc4394dbf1972ce7c19a80519a04cee9d9f9de10847"
+    },
+    {
+      "path": "data/study/sources/registry.json",
+      "sha256": "318029e35876ab8142660094874fbb55755a1a011ca396decb89d8cc703d1206"
+    },
+    {
+      "path": "data/study/sources/wordnet-excerpts.json",
+      "sha256": "04d540171dcb24aaf38366da70cf15fc07fc7587a2784744b39ece503c8182f0"
+    },
+    {
+      "path": "data/study/sources/WORDNET-LICENSE.txt",
+      "sha256": "7731175a77952e259390b496fab905e57118b8d19ad3a8383c67eee724ff443f"
+    },
+    {
+      "path": "src/app/(app)/learn/page.jsx",
+      "sha256": "14eae4cbb4896b9d747ef499a43bfebf4fae88d53f9ab6b6ec4a83731d3f5ed3"
+    },
+    {
+      "path": "src/app/(app)/learn/[id]/page.jsx",
+      "sha256": "3b6ac5bf0c9f29096186a1a58ad6ada68d1a83c58483e4234dd805391cde29c6"
+    },
+    {
+      "path": "src/app/(app)/study/[id]/page.jsx",
+      "sha256": "487087d43280936a71f880fa81d5b3eb12455665e1f4d7460d7bddc496b237b6"
+    },
+    {
+      "path": "src/app/api/study/catalog/route.js",
+      "sha256": "29e92aa444afd464418d39c5a4f31930a25c8f8836e8683b7ba9add8b373e45c"
+    },
+    {
+      "path": "src/app/api/study/preferences/route.js",
+      "sha256": "02678f33fa11eb0ab34e69f66ee637f69cd1424bd05afef2f875f890cd206ea1"
+    },
+    {
+      "path": "src/app/api/study/runs/route.js",
+      "sha256": "a253c64d7789e75973b16443e7fb174685bc76755778d95a3458983b12e2748b"
+    },
+    {
+      "path": "src/app/api/study/runs/[id]/events/route.js",
+      "sha256": "1294452ec8e4db5ed3402158679d2088b9874f330c42603371dd82de51bf5515"
+    },
+    {
+      "path": "src/app/api/study/runs/[id]/route.js",
+      "sha256": "57ef8a8415e30d89e35e2e2a6909c13596b293a4d4f81f17ff138f5e4b752d6a"
+    },
+    {
+      "path": "src/app/api/study/units/[id]/route.js",
+      "sha256": "ae9f06dcb45c7fd4db348c4923220203ef3fc2287f062ef89a8159d658a69fe9"
+    },
+    {
+      "path": "src/app/preview/study/page.jsx",
+      "sha256": "9ec4d5d60e339d213f12bc59f9c080b88410a3b710b428ed543f58797c93f51e"
+    },
+    {
+      "path": "src/app/preview/study/StudyPreview.jsx",
+      "sha256": "0bc164df7420aaa870e2ed8fe70e2f7f2d447b71197b9f4eb6580e45c94ea9f9"
+    },
+    {
+      "path": "src/components/study/MistakeLessonLink.jsx",
+      "sha256": "e2600d24706cd5c3f7d04d4fa50c7eb437a8b44d964cd79a7f198ea1dd6f2d6c"
+    },
+    {
+      "path": "src/components/study/study.css",
+      "sha256": "9a54542a862bac8b8f2fad347d887b9335c3b39ec83b9c0780add73d75cbfa76"
+    },
+    {
+      "path": "src/components/study/StudyProgress.jsx",
+      "sha256": "a46dd9436a64f63dcd2161a6aaf9d1e5a6206298eee05b14cf8cac434b37ba4b"
+    },
+    {
+      "path": "src/components/study/StudyWorkspace.jsx",
+      "sha256": "99056cb48a57b4a297ee10818a354b1a36b9b873781eb1bc9a873921445ab16a"
+    },
+    {
+      "path": "supabase/migrations/20261004154217_connected_study_suite.sql",
+      "sha256": "872dd1e4144c39d518b10d29a129c6f381a13fc797894b5dbb8d72d137461b86"
+    },
+    {
+      "path": "supabase/migrations/20261004172214_study_review_backlog.sql",
+      "sha256": "9910da2aa33bdc60a3a296efff4d5fc94bed2983816d6fe80231e11843659ebb"
+    }
+  ],
+  "preservedOwnerEdits": [
+    "AI capabilities and provider routing",
+    "AI evaluation scripts",
+    "pricing pages",
+    "payment scripts",
+    "landing ProductScreens",
+    "previous local status entries"
+  ],
+  "secretsInManifest": false
+}

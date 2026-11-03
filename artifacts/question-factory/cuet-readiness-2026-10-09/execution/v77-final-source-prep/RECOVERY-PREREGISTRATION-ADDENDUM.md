@@ -1,0 +1,7 @@
+# V77 final study: additive receipt recovery
+
+Frozen before study registration/native evaluation at 2026-10-09T07:03:41.923Z. Raw supplemental freeze SHA256: 61e86d6f8236d28979cbc7489bca47cf1a82b41c2ea6158fd4272065c732f258.
+
+The original V77 runner/transport and academic contract remain unchanged. Its recover branch calls an undefined completedCache function; do not use that branch or claim it was verified. The separately frozen recoverV77Receipts.mjs consumes only exact complete, settled durable responses under both studies' unchanged plans, core/transport/input/source/custody/authorization/preflight bindings. Accepted or unknown records, missing next stages and missing retries remain pending. It has no provider-network or reservation path, opens persistent SQLite read-only, retains original result errors, and rewrites only derived local result JSON. Topology recovery uses the existing signing key after frozen-input checks and does not expose it.
+
+Root independently ran all4 SQLite tests with4 passes and0 failures, including complete response replay without response cache, denied missing retry, complete bounded retry, and verifier-derived terminal topology replay. This is software recovery evidence, not academic qualification. Bind this freeze hash into both frozen studies' construction disclosures and authorization evidence before registration. The fixed41-case denominator, source/key custody, zero-false-accept/85%/70% rule, USD4 stop cap and USD50 lifetime ceiling are unchanged. No additional native calls or validators are authorized.

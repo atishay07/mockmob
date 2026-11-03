@@ -1,0 +1,1265 @@
+{
+  "sources": {
+    "v75f-s-cd33d1be4862": {
+      "id": "v75f-s-cd33d1be4862",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Financial Statements of Company"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac203.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "c39c34b6445eef09159ccbf3a7b14163edb5b203c6b37411bbf92317304ac82c",
+      "extraction_sha256": "41044cd7d58ef7c3a21bf7ef7e8f7fde2ff6fabbb6b54e255652c1b394eeb233",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac203.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "3. Postulates: Financial statements are prepared on certain basic assumptions (pre-requisites) known as postulates such as going concern postulate, money measurement postulate, realisation postulate, etc. Going concern postulate assumes that the enterprise is treated as a going concern and exists for a longer period of time. So the assets are shown on historical cost basis. Money measurement postulate assumes that the value of money will remain the same in different periods. Though there is drastic change in purchasing power of money, the assets purchased at different times will be shown at"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "f162b23a6715f38fe1638aad3305bbde91cfae1c43f803523d6df40b2f7672c8"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-1e123583a653": {
+      "id": "v75f-s-1e123583a653",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Accounting Ratios"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0",
+      "extraction_sha256": "6639d4a32ef88f623eec0d8bd206301d1a8bf6e147a9062ff7446b5b5b49f210",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac205.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "5.7.5 Interest Coverage Ratio\nIt is a ratio which deals with the servicing of interest on loan. It is a measure of\nsecurity of interest payable on long-term debts. It expresses the relationship\nbetween profits available for payment of interest and the amount of interest\npayable. It is calculated as follows:\nInterest Coverage Ratio = Net Profit before Interest and Tax\nInterest on long-term debts\nSignificance: It reveals the number of times interest on long-term debts is covered\nby the profits available for interest. A higher ratio ensures safety of interest on\ndebts.\nIllustration 11\nFrom the following details, calculate interest coverage ratio:\nNet Profit after tax Rs. 60,000; 15% Long-term debt 10,00,000; and Tax rate\n40%.\nSolution:\nNet Profit after Tax = Rs. 60,000\nTax Rate = 40%\nNet Profit before tax = Net profit after tax × 100/(100 – Tax rate)\n= Rs. 60,000 × 100/(100 – 40)\n= Rs. 1,00,000\nInterest on Long-term Debt = 15% of Rs. 10,00,000 = Rs. 1,50,000\nNet profit before interest and tax = Net profit before tax + Interest\n= Rs. 1,00,000 + Rs. 1,50,000 = Rs. 2,50,000\nInterest Coverage Ratio = Net Profit before Interest and\nTax/Interest on long-term debt\n= Rs. 2,50,000/Rs. 1,50,000\n= 1.67 times."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "b7ebee32c37de1253500087bd79ba4361e01215b241fb2dec84f774b22315ec3"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-b2e32a98eb55": {
+      "id": "v75f-s-b2e32a98eb55",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_sha256": "e295309517b1e8abf1adad92e40f086c125cba5388f035ae5ddc12418fb3141d",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Extraordinary items are not the regular phenomenon, e.g., loss due to theft\nor earthquake or flood. Extraordinary items are non-recurring in nature and\nhence cash flows associated with extraordinary items should be classified and\ndisclosed separately as arising from operating, investing or financing activities.\nThis is done to enable users to understand their nature and effect on the\npresent and future cash flows of an enterprise."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "64b3344e9a35b941e7a7bdc3ad06a7b2292dc82d131992cb255235219a30ec61"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-03284d44f89a": {
+      "id": "v75f-s-03284d44f89a",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_sha256": "08339c4f6cc0efd75eea2a19149726101e718613d8b702e31f6a3c27dc593a9c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "All other items for which the cash effects are investing or financing cash\nflows. The treatment of such items depends upon their nature. All investing\nand financing incomes are to be deducted from the amount of net profit"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "14c08bc89be38c083cf0a2e6a1c32d4fd7e374204930b2669310fcacf615e0e2"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-42434b4106ee": {
+      "id": "v75f-s-42434b4106ee",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_sha256": "f0df0106992b263b37ed2b4a757765bc7c0c62ead54a3ce81854d7ea5910fea0",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "10cbb57d52d695fa3d0e01b944fa82d852ca2442fb0c8546570a192e20d86ef4"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-f47fc3466d5b": {
+      "id": "v75f-s-f47fc3466d5b",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_sha256": "0b9c471ac811d9d06a44409729c91290175cf1525b4010c705e40f2a0a4447ad",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "During the year, a Machine costing Rs. 25,000 with Accumulated Depreciation of\nRs. 15,000 was sold for Rs. 13,000.\nCalculate cash flow from Investing Activities on the basis of the above\ninformation.\nSolution:\nCash Flows from Investing Activities Rs.\nSale of Machinery 13,000\nPurchase of Machinery (35,000)\nNet cash used in Investing Activities (22,000"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "100057268f2a7a0f110d05d6a0fc2e94e2ceade262408f38dc334a1a8ab126e8"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-e0884a03ec8a": {
+      "id": "v75f-s-e0884a03ec8a",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Cash Flow Statement"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_sha256": "40c163dbf3b6a700e5a5207611be7a51587a9bb9387382d56abb1ffb9901c05e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac206.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Machinery Account\nDr. Cr.\nParticulars J.F. Amount Particulars J.F. Amount\n(Rs.) (Rs.)\nBalance b/d 50,000 Cash (proceeds\nStatement of Profit and Loss from sale of machine) 13,000\n(profit on sale of machine) 3,000 Accumulated\nCash (balancing figure:new Depreciation 15,000\nmachinery purchased) 35,000 Balance c/d 60,000\n88,000 88,000"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "98ab8ca395c295b232a9e687475a4d404eee9b62b546bf43115f736b52ad07a1"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-s-8787c8a68842": {
+      "id": "v75f-s-8787c8a68842",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "9a6d35e1ee7f526b8d11d7c462acaa4e30c2c7cdde0a3c945fa6b77f03cdcd23",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "From the above description, the following steps emerge in the process of organising: (i) Identification and division of work: The first step in the process of organising involves identifying and dividing the work that has to be done in accordance with previously determined plans. The work is divided into manageable activities so that duplication can be avoided and the burden of work can be shared among the employees. (ii) Departmentalisation: Once work has been divided into small and manageable activities then those activities which are similar in nature are grouped together. Such sets facilitate specialisation."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "653acae50fa1a8e3d07525faa32048884b0cc0db6a7845456560ca50dd7f303f"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-6b2385fc0383": {
+      "id": "v75f-s-6b2385fc0383",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "b60d1ad682342e662323872e8eb92477d20da2a8b5fbd377bfc6bd601b5a10be",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "iii) Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well. (iv) Establishing authority and reporting relationships: Merely allocating work is not enough. Each individual should also know who he has to take orders fr om and to whom he is accountable. The establishment of such clear relationships helps to create a hierarchal structure and helps in coordination amongst various departments."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "bd1ee99fcfc6f28b084693bf4eb4fe61b6c7404878aba0077e3ddd92f11b10c4"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-1c69eeff1eb5": {
+      "id": "v75f-s-1c69eeff1eb5",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "f30444cd7041a6bdc944ab5c8ea4f45bad5ef8820867aa707ed23aceec3dfbea",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "iii) Inter -relatedness: Different elements or parts of business environment are closely inter ­ related. For example, increased life expectancy of people and increased awareness for health care have increased the demand for many health products and services like soft drinks, fat ­free cooking oil, and health resorts. New health products and services have, in turn, changed people’s life styles. (iv) Dyna mic nature: Business environment is dynamic in that it keeps on changing whether in terms of technological imp­ rovement, shifts in consumer preferences or entry of new competition in the market. (v) Uncertainty: Business envir­ onment is largely uncertain as it is very difficult to predict future happenings, especially when environment changes are taking place too frequently as in the case of information tech nolo gy or fashion industries. (v i ) Complexity: Since business env ironment consists of numerous interrelated and dynamic conditions or forces which arise from different sources, it becomes difficult to comprehend at once what exactly constitutes a given environment. In other words, environment is a complex phenomenon that is relatively easier to understand in parts but difficult to grasp in its"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "367ed587d0ba02cb8dfb63040073ba20474d67fb944c872fa65b27fedb816477"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-c6b370b25df0": {
+      "id": "v75f-s-c6b370b25df0",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "6e29da29895449952e7d79cc63b7e57883d891ba83422e4ebd74e8c10e13f101",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "vii) Relativity: Business environment is a relative concept since it differs from country to country and even region to region. Political conditions in the USA, for instance, differ from those in China or Pakistan. Similarly, demand for sarees may be fairly high in India whereas it may be almost non ­existent in France."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "6767ca6ad39395a5f284d7861eb5b69900292ca7dde9460377ec4df761defc67"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-513241e50fe5": {
+      "id": "v75f-s-513241e50fe5",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "4712cff0666034f9a181e933a8b4b77c57bc0589fe1b50242abfa67275318f94",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Attitudes towards product innovations, lifestyles, occupational distribution and consumer preferences n Concern with quality of life n Life expectancy n Expectations from the workforce n Shifts in the presence of women in the workforce n Birth and death rates n Population shifts n Educational system and literacy rates n Consumption habits n Composition of family"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "fc1e0faea1d9df638fa0ecc8306f7cf051b2f59838ec942e5b67e8947a669297"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-693bcfd856ed": {
+      "id": "v75f-s-693bcfd856ed",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "8de411d67dbb5dee65749017ea338989b29c5f6f685ce1e5319fe70dcf1abd2e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "innovations which provide new ways o f prod ucing goods and services and new methods and techni ques of operating a business."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "0f702fcca1c7c7fe6585a7fb340f16ddcdb10971e98047c74195e4113d80901f"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-f8d79b635e03": {
+      "id": "v75f-s-f8d79b635e03",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "8b8f9536f0b84d83c350bf68f15b759464aa76792e113148d85f43d8563a1551",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "iv) Political Environment: Political environment in cludes political conditio ns such as general stability and peace in the coun­try and specific attitudes that elected gover nment representatives hold towards business. The significance of political conditions in business success lies in the predictability of business activities under stable political conditions. On the other hand, there may be uncertainty of business activities due to political unrest and threats to law and order. Political stability, thus, builds up confidence among business people to invest in the long term projects for the growth of the economy. Political instability can shake that confidence. Similarly, the attitudes of government officials towards business may have either positive or negative impact upon business. (v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by gover nment authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the manag ement of every enterprise to obey the law"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "c87cc6fde1c3342fa6da4010fc223b429b3999757a292bd4f732ac880ca56890"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-1f5fec77a512": {
+      "id": "v75f-s-1f5fec77a512",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "edb81fbb60a9283e8c7551faad379e1023e3237133ea195008657d202ac79a84",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "iii) Technological Environment: Technological environment includes forces relating to scie ntific improvements and"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "d1d8cd41b7c3568e4cd5b132a72c1ba9ae5b61f01ef973fd9a8810a392905a0e"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-48eff510c961": {
+      "id": "v75f-s-48eff510c961",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "356dad5b0a7ab0e11f74b9cdd5b6a75bb6f0f9e2d2a4d6165b45cea75ceb8b92",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "4.1.1. Consumption The most important determinant of consumption demand is household income. A consumption function describes the relation between consumption and income. The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption. We can describe this function as: C C cY= + (4.1) The above equation is called the consumption function. Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income. When income rises by Re 1. induced consumption rises by MPC i.e. c or the marginal propensity to consume. It may be explained as a rate of change of consumption as income changes. CMPC c Y ∆= =∆ Now, let us look at the value that MPC can take. When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "2c2aa5a57a3c6038fac6eca9837bccc91f9b9c1c457e0590bc1d5991676c8886"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-bef032b662d4": {
+      "id": "v75f-s-bef032b662d4",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "bf390147104a87cf7aaa59283f98e4c32560c5c7cbabac4e6f403852fc224fd5",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "In a two sector model, there are two sources of final demand, the first is consumption and the second is investment. The investment function was shown as I = I Graphically, this is shown as a horizontal line at a height equal to I above the horizontal axis. In this model, I is autonomous which means, it is the same no matter whatever is the level of income."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "48d39ebf57b32766b8e51a603c5f83c73adf4ab1ffe4e879df9317bee6c65677"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-e921797ab9bd": {
+      "id": "v75f-s-e921797ab9bd",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "342925253a1c17af6ddb03ac3ced4ad4d5a6e30c5802b2e0e2e6290db0f8ae39",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Aggregate Demand: Graphical Representation The A ggregate Demand function shows the total demand (made up of consumption + investment) at each level of income. Graphically it means the aggregate demand function can be obtained by vertically adding the consumption and investment function. Here, OM = C OJ = I OL = C I+ The aggregate demand function is parallel to the consumption function i.e., they have the same slope c. It may be noted that this function shows ex ante demand."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "d3f786b90d0e6b541166da8da0eb12d862b11ad0d6f1852a121377a3ca2446f6"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-7239aa14a94e": {
+      "id": "v75f-s-7239aa14a94e",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Money & Banking"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_sha256": "ca7668de27d45260b46a604102931b857a2eff77ca0282a19ad322cc62228d93",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Central bank Central Bank is a very important institution in a modern economy. Almost every country has one central bank. India got its central bank in 1935. Its name is the ‘Reserve Bank of India’. Central bank has several important functions. It issues the currency of the country. It controls money supply of the country through various methods, like bank rate, open market operations and variations in reserve ratios. It acts as a banker to the government. It is the custodian of the foreign exchange reserves of the economy. It also acts as a bank to the banking system, which is discussed in detail later. From the point of view of money supply, we need to focus on its function of issuing currency. This currency issued by the central bank can be held by the public or by the commercial banks, and is called the ‘high-powered money’ or ‘reserve money’ or ‘monetary base’ as it acts as a basis for credit creation."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "7f6ca8f825ab36f62e3a0cdc3a98f69a6b2764f0f82094bf7e153f1bad6ad4e1"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-ca4eda4985d7": {
+      "id": "v75f-s-ca4eda4985d7",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Money & Banking"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_sha256": "fdf4b1e05dc0225ddb6e737ddded8d6bc321f82d6971788eb8183804981a347f",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Commercial Banks Commercial banks are the other type of institutions which are a part of the money-creating system of the economy. In the following section we look at the commercial banking system in detail. They accept deposits from the public and lend out part of these funds to those who want to borrow. The interest rate paid by the banks to depositors is lower than the rate charged from the borrowers. This difference between these two types of interest rates, called the ‘spread’ is the profit appropriated by the bank. The process of deposit and loan (credit) creation by banks is explained below."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "ed97adbe85329b896a870aa5d015329c18b4ec5293889b42fe0d40f28d7d71c8"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-dc4d924b3121": {
+      "id": "v75f-s-dc4d924b3121",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "023e51ae822312dc94db7077b9991bdb259cd5f99c0a6098941ff8680f278581",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "6.1 THE BALANCE OF PAYMENTS The balance of payments (BoP) record the transactions in goods, services and assets between residents of a country with the rest of the world for a specified time period typically a year. There are two main accounts in the BoP — the current account and the capital account1. 6.1.1 Current Account Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods. Trade in services includes factor income and non-factor income transactions. Transfer payments are the receipts which the residents of a country get for ‘free’, without having to provide any goods or services in return. They consist of gifts, remittances and grants."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "5a9b53559c5db01ec5d0ee42aa35c626be0c9f53cd621f26c62a94e3cea3b7c3"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-89ee2df980f5": {
+      "id": "v75f-s-89ee2df980f5",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "440bb348f3c701ed60e88259c0f895acce105a44ebe073858d63bdab5ff870ab",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "of imports of invisibles of a country in a given period of time. Invisibles include services, transfers and flows of income that take place between different countries. Services trade includes both factor and non-factor income. Factor income includes net international earnings on factors of production (like labour, land and capital). Non-factor income is net sale of service products like shipping, banking, tourism, software services, etc. 6.1.2 Capital Account Capital Account records all international transactions of assets. An asset is any one of the forms in which wealth can be held, for example: money, stocks, bonds, Government debt, etc. Purchase of assets is a debit item on the capital account. If an Indian buys a UK Car Company, it enters capital account transactions as a debit item (as foreign exchange is flowing out of India). On the other hand, sale of assets like sale of share of an Indian company to a Chinese customer is a credit item on the capital account. Fig. 6.2 classifies the items which are a part of capital account transactions. These items are Foreign Direct Investments (FDIs), Foreign Institutional Investments (FIIs), external borrowings and assistance."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "ba34802f8ab7c24713bc18bcb14465d08dade635a8b91efc3dbaf414082aab84"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-a21cb8bfaa53": {
+      "id": "v75f-s-a21cb8bfaa53",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "National Income & Related Aggregates"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+      "extraction_sha256": "eb72a15dbf749b356edd75ce41e72adbc1140277832732186cce7babdd50787d",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec102.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "In contrast, capital goods or consumer durables once produced do not wear out or get consumed in a delineated time period. In fact capital goods continue to serve us through different cycles of production. The buildings or machines in a factory are there irrespective of the specific time period. There can be addition to, or deduction from, these if a new machine is added or a machine falls in disuse and is not replaced. These are called stocks. Stocks are defined at a particular point of time. However we can measure a change in stock over a specific period of time like how many machines wer e added this year . Such changes in stocks are thus flows, which can be measured over specific time periods. A particular machine can be part of the capital stock for many years (unless it wears out); but that machine can be part of the flow of new machines added to the capital stock only for a single year when it was initially installed. To further understand the difference between stock variables and flow variables, let us take the following example. Suppose a tank is being filled with water coming from a tap. The amount of water which is flowing into the tank from the tap per minute is a flow. But how much water there is in the tank at a particular point of time is a stock concept. To come back to our discussion on the measure of final output, that part of our final output that comprises of capital goods constitutes gross investment of an economy1. These may be machines, tools and implements; buildings, office spaces, storehouses or infrastructure like roads, bridges, airports or jetties. But all the capital goods produced in a year do not constitute an addition to the capital stock already existing. A significant part of current output of capital goods goes in maintaining or replacing part of the existing stock of capital goods. This is because the already existing capital stock suffers wear and tear and needs maintenance and replacement. A part of the capital goods produced this year goes for replacement of existing capital goods and is not an addition to the stock of capital goods already existing and its value needs to be subtracted from gross investment for arriving at the measure for net investment. This deletion, which is made from the value of gross investment in order to accommodate regular wear and tear of capital, is called depreciation . So new addition to capital stock in an economy is measured by net investment or new capital formation, which is expressed as Net Investment = Gross investment – Depreciation"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "ceb6fe94aae26a256895df78d6027232d152ddc06427e4023244eb419a6a5b3e"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-s-15cc9bd238fa": {
+      "id": "v75f-s-15cc9bd238fa",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://mockmob/v75-fresh/practice-passage",
+      "title": "Practice passage (adapted)",
+      "identity_sha256": "30cfb4d3744357cee6e11ec341f021f59420cde3e29e2663df99f30374c4d398",
+      "extraction_sha256": "30cfb4d3744357cee6e11ec341f021f59420cde3e29e2663df99f30374c4d398",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original abridgment of a CBSE sample-paper stimulus for private educational verification; not an authentic CUET passage and never published",
+        "reference": "local://mockmob/v75-fresh/practice-passage"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(1) A ghost net is a fishing net lost or abandoned in the ocean. Although fishers no longer use it, it keeps working, trapping marine life. Abandoned fishing gear creates a wider problem known as ghost fishing.\n\n(2) Ghost nets entangle turtles, dolphins, birds, sharks, seals and fish. They restrict movement, cause injuries and prevent mammals and birds from reaching air. Hundreds of animals can be caught in one net, making the threat monumental. Nets also break corals, exposing them to disease and blocking needed sunlight.\n\n(3) Most modern nets contain nylon or other plastics that can last for centuries. Ghost nets contribute to the Great Pacific Garbage Patch. When they break down, they become smaller plastic pieces rather than disappearing. Animals mistake these microplastics for food. Eating them can harm internal organs, prevent further feeding and expose animals to toxic chemicals.\n\n(4) Removing ghost nets requires commitment, cooperation and innovation. Conservation groups work with local fishers and governments to locate abandoned gear and remove it from the sea.\n\n(5) Preventing abandonment also matters. Conservation organisations suggest traceable ownership so people dumping nets can be fined, and refundable deposits to encourage returning or recycling nets. Sonar reflectors can help locate lost nets. Working with small-scale fisheries can develop more sustainable gear and practices. Tackling the problem from several sides, with conservation partners, fishers and supporters, can help protect the oceans."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "33fd1ec0ff81ed5724f08e40b8a8a885e732ac87731300964ba268677b60ac6a"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-87512ca3a7c3": {
+      "id": "v75f-s-87512ca3a7c3",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/learner-english/negligible",
+      "title": "Cambridge Dictionary: negligible",
+      "identity_sha256": "03217962540b3ce0c2ae859c6bb835024e8c36fe34dda8b12d5d1f8c21be0091",
+      "extraction_sha256": "03217962540b3ce0c2ae859c6bb835024e8c36fe34dda8b12d5d1f8c21be0091",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/learner-english/negligible"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "small and not important"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "1c85cc6bc5180cbff4b80b1e88722e8bee629762409134237b4873d2bf303822"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-20edb02bfac6": {
+      "id": "v75f-s-20edb02bfac6",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/english/unimpressive",
+      "title": "Cambridge Dictionary: unimpressive",
+      "identity_sha256": "e115d8b5715aeef190e4ddc2d067bde0606ee7f4e50e74f0833be4ea846ffa0e",
+      "extraction_sha256": "e115d8b5715aeef190e4ddc2d067bde0606ee7f4e50e74f0833be4ea846ffa0e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/english/unimpressive"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "not making you feel admiration or respect"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "512709f1a14e739ab0a52b743a871678b82dcea9e0e1d9eb7be3bb32beef4dbf"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-0233aad4b5c1": {
+      "id": "v75f-s-0233aad4b5c1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/english/monumental",
+      "title": "Cambridge Dictionary: monumental",
+      "identity_sha256": "3db0d6285dba953a2f3490530f6bc4da40d744c7e4f415585308788b298f03fa",
+      "extraction_sha256": "3db0d6285dba953a2f3490530f6bc4da40d744c7e4f415585308788b298f03fa",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/english/monumental"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "very big or very great"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "4d7e3e8a08a7650cf9a128e13138b23f86a215e66147ffc782abd21899467882"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-60216836de9a": {
+      "id": "v75f-s-60216836de9a",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/english/exposing",
+      "title": "Cambridge Dictionary: exposing",
+      "identity_sha256": "0542f1eecb77f72f2ae438830cdd8dc157d7ea3625c412536e506f94bc4c0e08",
+      "extraction_sha256": "0542f1eecb77f72f2ae438830cdd8dc157d7ea3625c412536e506f94bc4c0e08",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/english/exposing"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "to put someone at risk from something harmful or unpleasant"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "f1284a51be1bf5197bb270145ae38ad30b0db06d5309211b76f408a87f956d72"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-c12dfa43c013": {
+      "id": "v75f-s-c12dfa43c013",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/us/dictionary/english/threat",
+      "title": "Cambridge Dictionary: threat",
+      "identity_sha256": "d41a2534e354bc9004e5c99b288c98f1db6a398e87d1732632814a7c2c40386c",
+      "extraction_sha256": "d41a2534e354bc9004e5c99b288c98f1db6a398e87d1732632814a7c2c40386c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/us/dictionary/english/threat"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "the possibility that something unwanted will happen"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "ceeb7cdfbab2e1b91ffa32f4db0fe94d5f857fbdec2c5a78de42ac0570705b88"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-79e7dc0e8f5d": {
+      "id": "v75f-s-79e7dc0e8f5d",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/learner-english/practical",
+      "title": "Cambridge Dictionary: practical",
+      "identity_sha256": "71ba78370f1c988430c47d71758b525cbbb1719162e9d929611ec48e2ce8dd24",
+      "extraction_sha256": "71ba78370f1c988430c47d71758b525cbbb1719162e9d929611ec48e2ce8dd24",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/learner-english/practical"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "able to be done successfully"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "66b632c21e9d7bdd56b3b8c3bed58e046aeea65d4cc4e79bfcf950bb8197a609"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-d5cd7458d12c": {
+      "id": "v75f-s-d5cd7458d12c",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/english/presentable",
+      "title": "Cambridge Dictionary: presentable",
+      "identity_sha256": "f99c2e751ad9b17d2527cd5404b4ebaca4c50d773daf4f1fe42e399028c9a036",
+      "extraction_sha256": "f99c2e751ad9b17d2527cd5404b4ebaca4c50d773daf4f1fe42e399028c9a036",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/english/presentable"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "looking suitable or good enough, especially in the way you are dressed"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "bb62200e46cd770929ccc416b1421630a5c351228cb77e66527099c77caf70a0"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-95d58031b182": {
+      "id": "v75f-s-95d58031b182",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/learner-english/popular",
+      "title": "Cambridge Dictionary: popular",
+      "identity_sha256": "d07b570160bd67f4d4baaa2541d77b255344bc679671def71e3c538fbde42ec1",
+      "extraction_sha256": "d07b570160bd67f4d4baaa2541d77b255344bc679671def71e3c538fbde42ec1",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/learner-english/popular"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "liked by many people"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "3c29e55de7c900b9a6ec7f7083eddca12f4181215bb40ed0ba569c6173ca6657"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-b2d9a66408da": {
+      "id": "v75f-s-b2d9a66408da",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "https://dictionary.cambridge.org/dictionary/english/prejudiced",
+      "title": "Cambridge Dictionary: prejudiced",
+      "identity_sha256": "d28584c0901b7101fa47ff27bc4e8c2706c0d47ebcacbca91b42de5b1455613c",
+      "extraction_sha256": "d28584c0901b7101fa47ff27bc4e8c2706c0d47ebcacbca91b42de5b1455613c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication",
+        "reference": "https://dictionary.cambridge.org/dictionary/english/prejudiced"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "showing an unreasonable dislike for something or someone"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "ec4ff8941f90a0bcae1df28cc63f7932b7fce2eff923f5c203abe569cf17e205"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-s-880d6ca6f835": {
+      "id": "v75f-s-880d6ca6f835",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "125198cff4c946d7085bc4d2296eb37a8ed2e3bca1d177a74e537e3edc2eb6b4",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together. Advantages: The functional structure has many advantages to offer. Important among them are as follows: (a) A functional structure leads to occupational specialisation since emphasis is placed on specific functions. This pr omotes efficiency in utilisation of manpower as employees perform similar tasks within a department and are able to improve performance. (b) It promotes control and coordination within a department because of similarity in the tasks being perfor med. (c) It helps in increasing managerial and operational efficiency and this results in increased pr ofit. (d) It leads to minimal duplication of effort which results in economies of scale and this lowers cost. (e) It makes training of employees easier as the focus is only on a limited range of skills. (f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "efd1db31ba781e0b0ac4c507d103b8071dbfb9310c0106ef233aab16f1ee5153"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-c66a1d325241": {
+      "id": "v75f-s-c66a1d325241",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "7dffea3871b2cba27ea5dc13fb2b83022b8813dff4996f5edee0ca605a0f2a92",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-6e21e3af87ba": {
+      "id": "v75f-s-6e21e3af87ba",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "3b22df313ad629cb9505ebfe9b3e3d98425216459601f69f623fa125d27b4db1",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-5d7f6593d351": {
+      "id": "v75f-s-5d7f6593d351",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "NCERT Class XII textbook excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "7769fa30662a472ddae7356b12fb9ee666132ffa3fb750e4c4480e310989ab94",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "may gain power and in a bid to assert his independence may ignore organisational interests."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-95fb0c69993a": {
+      "id": "v75f-s-95fb0c69993a",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "local://mockmob/v75-fresh/reference-note-3f7f800a",
+      "title": "Reference note",
+      "identity_sha256": "3f7f800a050d2a3fd4e9ac0cecace38219081a1debc273c1e93787b2cc3d0467",
+      "extraction_sha256": "3f7f800a050d2a3fd4e9ac0cecace38219081a1debc273c1e93787b2cc3d0467",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original controlled reference note written for this qualification; never published",
+        "reference": "local://mockmob/v75-fresh/reference-note-3f7f800a"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "In a Joint Hindu Family business, the business is owned and carried on by the members of a Hindu undivided family. The eldest member, called the karta, manages the business and has unlimited liability, while the other members, called coparceners, have limited liability up to their share in the joint property."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "84d56da324d8593b641c0c25761f983aa416733a13071bf6e67ef73268c03506"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-s-542db4426008": {
+      "id": "v75f-s-542db4426008",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "National Income & Related Aggregates"
+      ],
+      "url": "local://mockmob/v75-fresh/reference-note-d681e255",
+      "title": "Reference note",
+      "identity_sha256": "d681e255d80ce80e4d2a8b6f8089ae560e3a414297381c61c94411a97abf42d7",
+      "extraction_sha256": "d681e255d80ce80e4d2a8b6f8089ae560e3a414297381c61c94411a97abf42d7",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original controlled reference note written for this qualification; never published",
+        "reference": "local://mockmob/v75-fresh/reference-note-d681e255"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "A histogram presents a continuous frequency distribution as adjacent rectangles whose widths are the class intervals and whose heights are the class frequencies. A pie diagram divides a circle into sectors to show the shares of a total. An ogive plots cumulative frequencies. A time series graph plots a variable against time."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "2912fa8bce406c7d3de7506612bb4f7cd8e859c13872c51d1780390d1bdf3eae"
+      },
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    }
+  },
+  "families": {
+    "v75f-fam-0783dc12": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-fam-eef39c0e": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-fam-1f2471f9": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-fam-572bf103": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-accountancy"
+    },
+    "v75f-fam-bb818f97": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-fam-dee37492": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-fam-d1aee6a3": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-fam-6d4d60da": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-fam-3521e970": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-fam-c8a88681": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-fam-86ef6cb0": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-economics"
+    },
+    "v75f-fam-78fdf3ce": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-fam-7d3bb889": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    },
+    "v75f-fam-c966ae5f": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-business_studies"
+    },
+    "v75f-fam-5b5d3730": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v75-fresh-cbse2022-pack-english"
+    }
+  },
+  "packs": {
+    "v75-fresh-cbse2022-pack-accountancy": {
+      "id": "v75-fresh-cbse2022-pack-accountancy",
+      "subject": "accountancy",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-09T00:00:00.000Z",
+      "document_ids": [
+        "v75f-s-cd33d1be4862",
+        "v75f-s-1e123583a653",
+        "v75f-s-b2e32a98eb55",
+        "v75f-s-03284d44f89a",
+        "v75f-s-42434b4106ee",
+        "v75f-s-f47fc3466d5b",
+        "v75f-s-e0884a03ec8a"
+      ]
+    },
+    "v75-fresh-cbse2022-pack-business_studies": {
+      "id": "v75-fresh-cbse2022-pack-business_studies",
+      "subject": "business_studies",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-09T00:00:00.000Z",
+      "document_ids": [
+        "v75f-s-8787c8a68842",
+        "v75f-s-6b2385fc0383",
+        "v75f-s-1c69eeff1eb5",
+        "v75f-s-c6b370b25df0",
+        "v75f-s-513241e50fe5",
+        "v75f-s-693bcfd856ed",
+        "v75f-s-f8d79b635e03",
+        "v75f-s-1f5fec77a512",
+        "v75f-s-880d6ca6f835",
+        "v75f-s-c66a1d325241",
+        "v75f-s-6e21e3af87ba",
+        "v75f-s-5d7f6593d351",
+        "v75f-s-95fb0c69993a"
+      ]
+    },
+    "v75-fresh-cbse2022-pack-economics": {
+      "id": "v75-fresh-cbse2022-pack-economics",
+      "subject": "economics",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-09T00:00:00.000Z",
+      "document_ids": [
+        "v75f-s-48eff510c961",
+        "v75f-s-bef032b662d4",
+        "v75f-s-e921797ab9bd",
+        "v75f-s-7239aa14a94e",
+        "v75f-s-ca4eda4985d7",
+        "v75f-s-dc4d924b3121",
+        "v75f-s-89ee2df980f5",
+        "v75f-s-a21cb8bfaa53",
+        "v75f-s-542db4426008"
+      ]
+    },
+    "v75-fresh-cbse2022-pack-english": {
+      "id": "v75-fresh-cbse2022-pack-english",
+      "subject": "english",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-09T00:00:00.000Z",
+      "document_ids": [
+        "v75f-s-15cc9bd238fa",
+        "v75f-s-87512ca3a7c3",
+        "v75f-s-20edb02bfac6",
+        "v75f-s-0233aad4b5c1",
+        "v75f-s-60216836de9a",
+        "v75f-s-c12dfa43c013",
+        "v75f-s-79e7dc0e8f5d",
+        "v75f-s-d5cd7458d12c",
+        "v75f-s-95d58031b182",
+        "v75f-s-b2d9a66408da"
+      ]
+    }
+  }
+}

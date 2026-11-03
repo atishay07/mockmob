@@ -1,0 +1,1339 @@
+{
+  "schema": "fresh-independent-review-question-source-view-v4",
+  "at": "2026-10-08T10:58:11.345Z",
+  "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "raw_denominator": 32,
+  "contains_proposed_answers": false,
+  "contains_proposed_explanations": false,
+  "contains_first_solver_decisions": false,
+  "official_marking_schemes_included": false,
+  "items": [
+    {
+      "item_id": "cbse24-ac-q01",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹80,000"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac101",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "quote": "The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount.",
+          "physical_pdf_page": 26,
+          "page_text_sha256": "2754b184f8dd289da5d067eb144f86aeff2b87aa3dc5659c7d2642faccab542f",
+          "document_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q02",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "Assertion (A): Partners’ current accounts are opened when their capitals are fluctuating. Reason (R): Under fixed capitals, transactions other than changes in capital are recorded through partners’ current accounts. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac101",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "quote": "All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account.",
+          "physical_pdf_page": 5,
+          "page_text_sha256": "0e3636ba7560392239592af4fc7fb352808398743a6734088d87738e157d99eb",
+          "document_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leac101",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "quote": "Fluctuating Capital Method: Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner. All the adjustments such as share of profit and loss, interest on capital, drawings, interest on drawings, salary or commission to partners, etc are recorded directly in the capital accounts of the partners.",
+          "physical_pdf_page": 6,
+          "page_text_sha256": "983ebf9d6ddba6c2ed2a6d150ee4a1991bf2f6f5a8d1dbc55b37b77a1d3b39b1",
+          "document_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q03",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "Forfeiture of shares leads to a reduction of which capital?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Authorised capital"
+        },
+        {
+          "key": "B",
+          "text": "Issued capital"
+        },
+        {
+          "key": "C",
+          "text": "Subscribed capital"
+        },
+        {
+          "key": "D",
+          "text": "Called-up capital"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "quote": "Subscribed Capital: It is that part of the issued capital which has been actually subscribed by the public.",
+          "physical_pdf_page": 4,
+          "page_text_sha256": "9fd6f3909ea0afc9c0b8d66a3c0b503715c7bbdc0e599c081a8c4ffe9f2ebd44",
+          "document_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leac201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "quote": "Called up Capital: It is that part of the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share.",
+          "physical_pdf_page": 4,
+          "page_text_sha256": "9fd6f3909ea0afc9c0b8d66a3c0b503715c7bbdc0e599c081a8c4ffe9f2ebd44",
+          "document_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leac201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "quote": "share capital account is debited with the amount called-up in respect of shares are forfeited and crediting the respective unpaid calls accounts’s or calls in arrears account with the amount already received.",
+          "physical_pdf_page": 37,
+          "page_text_sha256": "b5d81d9c20ea3a04484cb16814f4bd6b64433bacde8e54519bc553dcc947232d",
+          "document_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q04",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of ₹20,000. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+        },
+        {
+          "key": "B",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+        },
+        {
+          "key": "C",
+          "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+        },
+        {
+          "key": "D",
+          "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-keac202",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+          "quote": "When such a provision already exists, the loss due to bad debts during the current year are adjusted against the same",
+          "physical_pdf_page": 15,
+          "page_text_sha256": "f2989f71fe128ece61989d16832fd8bda0c8cba0f9b46330fc2e6014286ca2ec",
+          "document_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        },
+        {
+          "source_id": "ncert-keac202",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+          "quote": "Bad debts A/c Dr. 1,000 31, 2017 To Sundry debtors 1,000 (Futher bad debts) (b) Provision for doubtful debts A/c Dr. 3,000 To Bad debts A/c 3,000 (Bad debts adjusted against the provision",
+          "physical_pdf_page": 16,
+          "page_text_sha256": "723e49697109810458e84615371edab58caf10c6cfb8371d2791332746b3d55b",
+          "document_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q05",
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation",
+      "body": "A firm’s profit after retaining ₹15,000 in reserve is ₹75,000. Its tangible assets are ₹10,00,000 and outside liabilities are ₹3,00,000. Goodwill under capitalisation of average profit is ₹50,000. What is the normal rate of return?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10%"
+        },
+        {
+          "key": "B",
+          "text": "5%"
+        },
+        {
+          "key": "C",
+          "text": "12%"
+        },
+        {
+          "key": "D",
+          "text": "8%"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac102",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "quote": "Capitalisation of Average Profits: Under this method, the value of goodwill is ascertained by deducting the actual firm’s capital in the business from the capitalized value of the average profits on the basis of normal rate of return. This involves the following steps: (i) Ascertain the average profits based on the past few years’ performance. (ii) Capitalize the average profits on the basis of the normal rate of return to ascertain the capitalised value of average profits as follows: Average Profits × 100/Normal Rate of Return (iii) Ascertain the actual firm’s capital (net assets) by deducting outside liabilities from the total assets (excluding goodwill and ficticious assets). Firms’ Capital = Total Assets (excluding goodwill) – Outside Liabilities Where outside Liabilities include both long term and short term Liabilities. (iv) Compute the value of goodwill by deducting net assets from the capitalised value of average profits, i.e. (ii) – (iii",
+          "physical_pdf_page": 15,
+          "page_text_sha256": "869537f06d82fd3961539aef2311cda04dffb487e834b3a487191bf4194c1a5d",
+          "document_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q06",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "Mohit applies for 900 shares. The ratio of shares applied for to shares allotted is 3:2. He pays application money of ₹3 per applied share but does not pay allotment money of ₹5 per allotted share. The first and final call of ₹2 has not been made. His shares are forfeited. In the entry Share Capital A/c Dr X; To Share Forfeiture A/c Y; To Share Allotment A/c Z, what are X, Y and Z?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹6,000; ₹2,700; ₹3,300"
+        },
+        {
+          "key": "B",
+          "text": "₹4,800; ₹2,700; ₹2,100"
+        },
+        {
+          "key": "C",
+          "text": "₹4,800; ₹1,800; ₹3,000"
+        },
+        {
+          "key": "D",
+          "text": "₹6,000; ₹1,800; ₹4,200"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "quote": "the excess application money must be adjusted towards the amount due on allotment from the allottees.",
+          "physical_pdf_page": 9,
+          "page_text_sha256": "fdfbde0aa5c3d77d587db63a2b2a1327239b6b0bd80be0b07ae0cb2a79b84264",
+          "document_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leac201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "quote": "the share capital is debited to the extent to called-up capital and credited to (i) respective unpaid calls account i.e., calls in arrears and (ii) share forfeiture account with the amount already received on shares.",
+          "physical_pdf_page": 38,
+          "page_text_sha256": "6591e8f682a6ee1418336339a3d776214297b9fc361374fc0bbf5c9894bf107b",
+          "document_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q07",
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "body": "On 1 April 2019, a company borrows ₹80,00,000 secured by land and buildings and additionally issues 40,000 12% debentures of ₹100 as collateral security. It defaults on repayment of the loan principal on 31 March 2024. On 1 April 2024 the bank takes over and sells the land and buildings for ₹70,00,000. It sells debentures in the market on 1 May 2024 for the balance. From which date does interest on the debentures become payable by the company?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 April 2019"
+        },
+        {
+          "key": "B",
+          "text": "31 March 2024"
+        },
+        {
+          "key": "C",
+          "text": "1 April 2024"
+        },
+        {
+          "key": "D",
+          "text": "1 May 2024"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac202",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+          "quote": "If the company fails to repay the loan along with interest, the lender is free to receive his money from the sale of primary security and if the realisable value of the primary security falls short to cover the entire amount, the lender has the right to invoke the benefit of collateral security whereby debentures may either be presented for redemption or sold in the open market.",
+          "physical_pdf_page": 20,
+          "page_text_sha256": "b1f6cd58386df3f54b314bbd1a083ac3c9bc946a3053ead56a2002359da904a8",
+          "document_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-ac-q08",
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership",
+      "body": "Rama, a partner, takes over machinery with a book value of ₹50,000 in full settlement of her loan of ₹60,000. The machinery has already been transferred to Realisation Account. What is the effect of the settlement entry on Realisation Account?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Credit of ₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "Credit of ₹10,000"
+        },
+        {
+          "key": "C",
+          "text": "Credit of ₹50,000"
+        },
+        {
+          "key": "D",
+          "text": "No effect"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leac104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "quote": "For an asset taken over by a partner Partner’s Capital A/c Dr. To Realisation A/c 5. For payment of liabilities Realisation A/c Dr. To Bank A/c with the same value with the amount assets are taken over",
+          "physical_pdf_page": 9,
+          "page_text_sha256": "fc97ca9b6a733b58de165b914dcc1873262ef17f22a519261f216e90b76cde87",
+          "document_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leac104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "quote": "For payment of loans due to partners Partner’s Loan A/c Dr. To Bank A/c",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "61f684697d5c1fe544e1998f87b6e902b169c59b32dd1905e4985a7ee620f1e6",
+          "document_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q01",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "body": "A production manager notices that factory workers are not performing well because physical conditions are poor. He conducts an experiment by improving ventilation and water facilities, and observes reduced worker fatigue. Which nature of management is highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Management as a science"
+        },
+        {
+          "key": "B",
+          "text": "Management as a profession"
+        },
+        {
+          "key": "C",
+          "text": "Management as an art"
+        },
+        {
+          "key": "D",
+          "text": "Both a science and an art"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs101",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "quote": "Principles based on experimen- tation: Scientific principles are first developed through observation and then tested through repeated experimentation under controlled conditions.",
+          "physical_pdf_page": 15,
+          "page_text_sha256": "d42211379a416fa5b25647df6c0569075b96254217659d11d5d933ff8092d39b",
+          "document_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs101",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs101.pdf",
+          "quote": "The principles of management have evolved over a period of time based on repeated experimentation and observation in different types of organisations.",
+          "physical_pdf_page": 15,
+          "page_text_sha256": "d42211379a416fa5b25647df6c0569075b96254217659d11d5d933ff8092d39b",
+          "document_sha256": "4dd5f7b4bd8c3076adaee5789325069700d60f20b1c0f9c3655ad7ccb7caa7e5",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "A museum marketing manager divides event work into graphic design, registration enquiries and bill payments, but gives each team member responsibility for an entire event rather than allocating these tasks. She holds regular feedback meetings, yet task quality suffers. Next season she allocates the tasks according to each member’s skills and competencies. Which organising step was previously not performed properly and is now performed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Identification and division of work"
+        },
+        {
+          "key": "B",
+          "text": "Establishing reporting relationships"
+        },
+        {
+          "key": "C",
+          "text": "Departmentalisation"
+        },
+        {
+          "key": "D",
+          "text": "Assignment of duties"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs105",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "quote": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well.",
+          "physical_pdf_page": 4,
+          "page_text_sha256": "1584e6d578766dfda76195dd01557094312dea030e8869ef2e68182dff01add6",
+          "document_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q03",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "body": "Assertion (A): Financial planning helps a company tackle uncertainty about the availability and timing of funds. Reason (R): Capital structure is the mix of owners’ funds and borrowed funds. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A is false, but R is true."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are false."
+        },
+        {
+          "key": "C",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "D",
+          "text": "Both A and R are true, and R correctly explains A."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "quote": "It aims at enabling the company to tackle the uncertainty in respect of the availability and timing of the funds and helps in smooth functioning of an organisation.",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "09354d0ac63776bce7169aa95fd231d9c017fb48efb6eac4400351d2c8e9ce12",
+          "document_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs201",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+          "quote": "Capital structure refers to the mix between owners and borrowed funds. These shall be referred as equity and debt in the subsequent text.",
+          "physical_pdf_page": 13,
+          "page_text_sha256": "714992f454ff578eaabc04378e815bb4173e0408c9c35e954799213571c4bc47",
+          "document_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q04",
+      "subject": "business_studies",
+      "chapter": "Financial Markets",
+      "body": "Statement I: The secondary market directly promotes capital formation. Statement II: The capital market deals in medium- and long-term securities such as equity shares and debentures. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "B",
+          "text": "Both statements are false."
+        },
+        {
+          "key": "C",
+          "text": "Statement I is true, but Statement II is false."
+        },
+        {
+          "key": "D",
+          "text": "Statement II is true, but Statement I is false."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "sebi-secondary-market",
+          "kind": "official_teaching_reference",
+          "url": "https://www.sebi.gov.in/sebi_data/docfiles/20615_t.html",
+          "quote": "In the primary market, securities are offered to public for subscription for the purpose of raising capital or fund. Secondary market is an equity trading avenue in which already existing/pre- issued securities are traded amongst investors.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "9ffe90109b6d186c11bd37b6b20bbd4c855893f34eacc3fe6d59bc90e04b2ecc",
+          "document_sha256": "b34212cab6bb9c92d30066a0c967d64ccfbd69c560195c6147db9e42ed5783fa",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q05",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "body": "Which is a benefit of using external sources of recruitment?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Competitive spirit among existing staff"
+        },
+        {
+          "key": "B",
+          "text": "Reduction in employee turnover"
+        },
+        {
+          "key": "C",
+          "text": "Increased employee satisfaction"
+        },
+        {
+          "key": "D",
+          "text": "A sense of security among existing employees"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs106",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "quote": "Competitive Spirit: If a company taps external sources, the extisting staff will have to compete with the outsiders. They will work harder to show better performance.",
+          "physical_pdf_page": 16,
+          "page_text_sha256": "c9616b7b6463ff3a67235f9d95dd89eb5aa1887421c517506effb4f54fea0e3b",
+          "document_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs106",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+          "quote": "Dissatisfaction among existing staff: Exter nal recruitment may lead to dissatisfaction and frustration among existing employees. They may feel that their chances of promotion are reduced.",
+          "physical_pdf_page": 16,
+          "page_text_sha256": "c9616b7b6463ff3a67235f9d95dd89eb5aa1887421c517506effb4f54fea0e3b",
+          "document_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q06",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "body": "An automobile manufacturer offers easy finance at a low interest rate, increasing demand for its products. It also installs new software to coordinate its branches. Which business-environment components are highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Political and economic"
+        },
+        {
+          "key": "B",
+          "text": "Economic and social"
+        },
+        {
+          "key": "C",
+          "text": "Technological and legal"
+        },
+        {
+          "key": "D",
+          "text": "Economic and technological"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs103",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "quote": "Short and long term interest rates significantly affect the demand for product and services. For example, in case of construction companies and automobile manufacturers, low longer ­term rates are beneficial because they result in increased spending by consumers for buying homes and cars on borrowed money.",
+          "physical_pdf_page": 6,
+          "page_text_sha256": "81be40cb2c1b55d39925fac9d86f754a12a794b1c1a662e4107707eecef806cb",
+          "document_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "quote": "Technological Environment: Technological environment includes forces relating to scie ntific improvements and",
+          "physical_pdf_page": 8,
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "document_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "quote": "innovations which provide new ways o f prod ucing goods and services and new methods and techni ques of operating a business. For exa mple, recent technological, a dva nces in computers and electro nics have modified the ways in which companies advertise their pr oducts.",
+          "physical_pdf_page": 8,
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "document_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q07",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "body": "A consumer looks for appropriate standard quality marks when buying products. Which consumer responsibility is being fulfilled?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Assert yourself to obtain a fair deal"
+        },
+        {
+          "key": "B",
+          "text": "Obtain a proper receipt"
+        },
+        {
+          "key": "C",
+          "text": "Buy only standardised products"
+        },
+        {
+          "key": "D",
+          "text": "Be honest in your dealings"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs203",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+          "quote": "Buy only standardised goods as they provide quality assurance. Thus, look for ISI mark on electrical goods, FPO mark on food products, Hallmark on jewelry, etc.",
+          "physical_pdf_page": 8,
+          "page_text_sha256": "cc6a8d8fc78b275eaa406eaebcd0c5a2a4cc86f28ac1a99508faa1deb0c9e2ce",
+          "document_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q08",
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "body": "Assertion (A): Controlling can prevent deviations. Reason (R): Controlling helps minimise deviations by taking actions and decisions that reduce their recurrence. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-lebs108",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs108.pdf",
+          "quote": "when the deviations go beyond the acceptable range, especially in the important areas, it demands immediate managerial attention so that deviations do not occur again and standards are accomplished.",
+          "physical_pdf_page": 9,
+          "page_text_sha256": "b429565254676ff0354eecb49d7bf84ff694b0623bf1c171b2619600e3231b8e",
+          "document_sha256": "16e4751fcdf1fbd8de8c3386743baad13b299c9c5b094efceef6f5019dfdc4d3",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q01",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "Assertion (A): The government can reduce a deflationary gap by purchasing government securities in the open market. Reason (R): The central bank purchases government securities in the open market to increase commercial banks’ lending capacity. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec103",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "quote": "Open Market Operations refers to buying and selling of bonds issued by the Government in the open market. This purchase and sale is entrusted to the Central bank on behalf of the Government. When RBI buys a Government bond in the open market, it pays for it by giving a cheque. This cheque increases the total amount of reserves in the economy and thus increases the money supply.",
+          "physical_pdf_page": 7,
+          "page_text_sha256": "f358bea58af67a1980e0d42131d6501ae32c707c448905fc409c5061b63a6f24",
+          "document_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q02",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "In a hypothetical budget policy, the government supplies free food grains to households with low incomes. Which budgetary objective is most directly illustrated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reallocation of resources"
+        },
+        {
+          "key": "B",
+          "text": "Economic stability"
+        },
+        {
+          "key": "C",
+          "text": "Redistribution of income"
+        },
+        {
+          "key": "D",
+          "text": "Economic instability"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec105",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "quote": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "68f01a0e44c39248627e391e756a9ae59c7f4b56d94b7ddca4f4f2d25da2ff12",
+          "document_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q03",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "What must be added to Gross Value Added at basic prices to obtain Gross Value Added at market prices?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Product taxes"
+        },
+        {
+          "key": "B",
+          "text": "Net product taxes"
+        },
+        {
+          "key": "C",
+          "text": "Production taxes"
+        },
+        {
+          "key": "D",
+          "text": "Net production taxes"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ies-gva-basic-market",
+          "kind": "official_teaching_reference",
+          "url": "https://ies.gov.in/arthapedia/concept/gdp-national-accounts-revised-series-2011-12-base-year",
+          "quote": "GDP at market prices which is henceforth be referred as GDP, can be computed by adding net of product tax and product subsidies in GVA at basic prices.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "fa74823038ffac33eaf97b9052b692cbfd4e4f5b69a2d0bb54be5258699fb93b",
+          "document_sha256": "5ad369edd826d042a15193d3e6f0b541291f88362c61229f6623bd152fcade2c",
+          "permission_basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q04",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Under which exchange-rate system do market forces automatically adjust a surplus or deficit in the Balance of Payments?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fixed"
+        },
+        {
+          "key": "B",
+          "text": "Flexible"
+        },
+        {
+          "key": "C",
+          "text": "Managed floating"
+        },
+        {
+          "key": "D",
+          "text": "Dirty floating"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec106",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "quote": "movements in the exchange rate automatically take car e of the surpluses and deficits in the BoP",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "f2e89a5d45cdbe843634716f0eba3de91600d7082a830ea3b1825a742d0ca4d1",
+          "document_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q05",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "In the Keynesian income–expenditure diagram, the reference line is a straight line through the origin drawn at what angle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "25°"
+        },
+        {
+          "key": "B",
+          "text": "45°"
+        },
+        {
+          "key": "C",
+          "text": "55°"
+        },
+        {
+          "key": "D",
+          "text": "75°"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "quote": "This kind of supply situation is shown by a 45 ° line. Now, the 45 ° line has the feature that every point on it has the same horizontal and vertical coordinates.",
+          "physical_pdf_page": 7,
+          "page_text_sha256": "3dd45bc050236f7449613adab826aa089bfb6f0af733e9008529a7d3e2073a77",
+          "document_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q06",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹17.8 lakh crore?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Revenue deficit"
+        },
+        {
+          "key": "B",
+          "text": "Fiscal deficit"
+        },
+        {
+          "key": "C",
+          "text": "Budgetary deficit"
+        },
+        {
+          "key": "D",
+          "text": "Primary deficit"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec105",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "quote": "Fiscal deficit is the difference between the government’s total expenditure and its total receipts excluding borrowing Gross fiscal deficit = Total expenditure – (Revenue receipts + Non-debt creating capital receipts",
+          "physical_pdf_page": 7,
+          "page_text_sha256": "5bed6747a6f903d797b3380d6524c169ec07272cece912f7a54a516086a9e745",
+          "document_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q07",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "Statement 1: The maximum value of marginal propensity to consume can be one. Statement 2: As income rises, the increase in consumption is always proportionately greater than the increase in income. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true, but Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false, but Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "quote": "When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "d2dfddb469f0c7000feeb8972be6a00adc32d522e8a037567161e986ce5511aa",
+          "document_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q08",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "In the NCERT two-sector model with autonomous investment, aggregate demand is the sum of which components?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Autonomous consumption, induced consumption and induced investment"
+        },
+        {
+          "key": "B",
+          "text": "Autonomous consumption, autonomous investment and induced investment"
+        },
+        {
+          "key": "C",
+          "text": "Autonomous consumption and autonomous investment"
+        },
+        {
+          "key": "D",
+          "text": "Autonomous consumption, induced consumption and autonomous investment"
+        }
+      ],
+      "source_excerpts": [
+        {
+          "source_id": "ncert-leec104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "quote": "Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income.",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "d2dfddb469f0c7000feeb8972be6a00adc32d522e8a037567161e986ce5511aa",
+          "document_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        },
+        {
+          "source_id": "ncert-leec104",
+          "kind": "official_teaching_reference",
+          "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "quote": "In a two sector model, there are two sources of final demand, the first is consumption and the second is investment. The investment function was shown as I = I Graphically, this is shown as a horizontal line at a height equal to I above the horizontal axis. In this model, I is autonomous which means, it is the same no matter whatever is the level of income.",
+          "physical_pdf_page": 6,
+          "page_text_sha256": "b81b4e168358ae7d1923f023a09e19a973048042e8d8fec1a4644f3e51c5f5e2",
+          "document_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim"
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q01",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "According to paragraph 1, what do smartphone notifications do to the people in the room?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Repeatedly draw their attention away from conversations"
+        },
+        {
+          "key": "B",
+          "text": "Help them listen more closely to others"
+        },
+        {
+          "key": "C",
+          "text": "Make their time pass more slowly"
+        },
+        {
+          "key": "D",
+          "text": "Prevent them from looking at screens"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Notifications repeatedly interrupt conversations and draw fingers towards screens.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q02",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "What does the image of moments drifting like autumn leaves suggest?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Time remains fixed while people use their phones"
+        },
+        {
+          "key": "B",
+          "text": "Moments pass fleetingly while attention is elsewhere"
+        },
+        {
+          "key": "C",
+          "text": "Notifications follow a carefully controlled seasonal schedule"
+        },
+        {
+          "key": "D",
+          "text": "People deliberately preserve every passing moment"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q03",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "The comparison of an absent phone to a phantom limb chiefly points to which concern?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Psychological dependence on technology for a sense of completeness"
+        },
+        {
+          "key": "B",
+          "text": "Physical damage to arms caused by holding a phone"
+        },
+        {
+          "key": "C",
+          "text": "The expense of replacing lost digital devices"
+        },
+        {
+          "key": "D",
+          "text": "An inability to read the time without a smartwatch"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q04",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Which benefit of setting aside specific hours without checking devices is best suggested by paragraph 2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reducing the compulsion to keep checking updates"
+        },
+        {
+          "key": "B",
+          "text": "Guaranteeing that no important message ever arrives"
+        },
+        {
+          "key": "C",
+          "text": "Increasing the number of likes on every post"
+        },
+        {
+          "key": "D",
+          "text": "Removing the need for any human conversation"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q05",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Why does the writer call digital noise “dissonance” in paragraph 3?",
+      "options": [
+        {
+          "key": "A",
+          "text": "It creates a jarring and chaotic environment that disrupts focus."
+        },
+        {
+          "key": "B",
+          "text": "It contributes to a sense of overload, overwhelming the senses."
+        },
+        {
+          "key": "C",
+          "text": "It interferes with engagement in meaningful aspects of life."
+        },
+        {
+          "key": "D",
+          "text": "It induces stress by interrupting with regular updates about the device."
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q06",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Which detail in paragraph 3 most directly gives a bodily sign of constant digital engagement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thumbs moving like skilled pianists"
+        },
+        {
+          "key": "B",
+          "text": "Waiting for another like or comment"
+        },
+        {
+          "key": "C",
+          "text": "A hunch on shoulders caused by the burden of connectivity"
+        },
+        {
+          "key": "D",
+          "text": "The true rhythm of life remaining unheard"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q07",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "In paragraphs 3–4, what does the unheard “true rhythm of life” chiefly refer to?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Meaningful human connections and lived experiences"
+        },
+        {
+          "key": "B",
+          "text": "The speed at which thumbs type messages"
+        },
+        {
+          "key": "C",
+          "text": "The mechanical vibration of a phone"
+        },
+        {
+          "key": "D",
+          "text": "The count of likes and shares on a screen"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    },
+    {
+      "item_id": "cbse24-eng-q08",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Complete the analogy using a word from paragraph 4: whisper : quietly :: ______ : loudly.",
+      "options": [
+        {
+          "key": "A",
+          "text": "validation"
+        },
+        {
+          "key": "B",
+          "text": "fleeting"
+        },
+        {
+          "key": "C",
+          "text": "essence"
+        },
+        {
+          "key": "D",
+          "text": "clamour"
+        }
+      ],
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "passage_text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "passage_words": 190,
+      "source_excerpts": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "url": null,
+          "quote": "Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.",
+          "physical_pdf_page": null,
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "document_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "permission_basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet."
+        }
+      ]
+    }
+  ],
+  "review_requirements": [
+    "Derive the answer before inspecting any proposed answer or marking scheme.",
+    "Check each alternative under its strongest reasonable within-syllabus reading.",
+    "Record abstention and decisive missing support rather than forcing an answer.",
+    "Assess CUET readiness against syllabus, format and level; valid easy questions need no artificial traps.",
+    "Freeze all 32 first-pass observations and input hash before official-key comparison."
+  ]
+}

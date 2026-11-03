@@ -1,0 +1,726 @@
+### 1 1ac7cfec-c29c-472f-98ae-074c689f349f | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "benevolent" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "benevolent" from the options given below.
+  A. generous
+  B. influential
+  C. articulate
+  D. hostile
+KEY: A
+EXPLANATION: The supplied definition describes benevolent as “kind, helpful and generous”. Therefore, generous matches the stated sense.
+SOURCE oxford-quality-benevolent:definition: kind, helpful and generous
+
+### 4 1545e337-de4b-483d-a062-2a051c2e8bce | english | Vocabulary | pyq_adapted | synonym | easy | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "candid" in its supplied dictionary sense
+STEM: During a spoken interview, a candidate gives a candid answer. Choose the correct SYNONYM for "candid" in this context from the options given below.
+  A. Expressing one's thoughts openly and honestly
+  B. Expressing one's thoughts indirectly and dishonestly
+  C. Keeping one's thoughts hidden while answering
+  D. Withholding one's answer and stating no view
+KEY: A
+EXPLANATION: “Candid” means saying what one thinks openly and honestly, without hiding one's thoughts. Option A expresses that meaning; the other options describe withholding or concealing one's thoughts, or expressing them dishonestly.
+SOURCE oxford-quality-candid:definition: saying what you think openly and honestly; not hiding your thoughts
+
+### 6 b016c1ba-e593-4a54-889f-3e46739e47dd | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q46 | Blueprint: Vocabulary: "hostile" in its supplied dictionary sense
+STEM: During the town-hall meeting, the audience gave the proposal a "hostile" reception, responding with angry interruptions and repeated challenges. Identify the option closest in meaning to the quoted word "hostile" as used in the sentence.
+  A. cautious
+  B. attentive
+  C. unfriendly
+  D. welcoming
+KEY: C
+EXPLANATION: The word describes the audience’s attitude towards the proposal, shown by angry interruptions and repeated challenges. The supplied definition includes being “unfriendly” and ready to argue, making “unfriendly” the closest option.
+SOURCE oxford-quality-hostile:definition: aggressive or unfriendly and ready to argue or fight
+
+### 8 80128a04-efc4-4dda-875a-1de62e3b6715 | english | Vocabulary | pyq_adapted | antonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q49 | Blueprint: Vocabulary: "obsolete" in its supplied dictionary sense
+STEM: Choose the correct ANTONYM for "obsolete" from the options given below.
+  A. in use
+  B. durable
+  C. electronic
+  D. antiquated
+KEY: A
+EXPLANATION: The supplied definition says that "obsolete" means no longer used because something new has been invented. "In use" expresses the opposite use-status.
+SOURCE oxford-quality-obsolete:definition: no longer used because something new has been invented
+
+### 10 06e12149-3182-4996-a0a3-1ce255770929 | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "tedious" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "tedious" from the options given below.
+  A. uninteresting
+  B. difficult
+  C. predictable
+  D. entertaining
+KEY: A
+EXPLANATION: The supplied definition of "tedious" includes “not interesting”. “Uninteresting” directly expresses that sense.
+SOURCE oxford-quality-tedious:definition: lasting or taking too long and not interesting
+
+### 22 849dc884-83dc-4d91-b0d7-c4944af77416 | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "gregarious" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "gregarious" from the options given below.
+  A. popular
+  B. solitary
+  C. sociable
+  D. generous
+KEY: C
+EXPLANATION: Gregarious means “liking to be with other people”, so sociable matches the stated sense. Popularity, being alone and generosity do not express that preference for company.
+SOURCE oxford-quality-gregarious:definition: liking to be with other people
+
+### 25 7c3e1e42-fc5d-41b1-9057-9e26e4e149b6 | english | Vocabulary | pyq_adapted | synonym | easy | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "transient" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "transient" from the options given below.
+  A. continuing for a long time
+  B. continuing for only a short time
+  C. happening again at regular intervals
+  D. beginning or occurring for the first time
+KEY: B
+EXPLANATION: Transient means continuing for only a short time. Option B restates that meaning.
+SOURCE oxford-quality-transient:definition: continuing for only a short time
+
+### 27 337f9816-1231-4d79-b3f8-fe8592b8f4ab | accountancy | Admission of Partner | authentic_pyq | statement_based | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q8
+STEM: Which of the following would affect the Revaluation Account at the time of admission of a partner ? (A) Increase in assets (B) Drawings against capital (C) Recording of unrecorded assets (D) Decrease in liabilities Choose the correct answer from the options given below :
+  A. (A), (B) and (C) only
+  B. (A), (B) and (D) only
+  C. (A), (C) and (D) only
+  D. (B), (C) and (D) only
+KEY: C
+EXPLANATION: An increase in an asset and a decrease in a liability are gains credited to the Revaluation Account; an unrecorded asset is also credited to it. Drawings against capital are not a revaluation of an asset or liability, so the correct selection is (A), (C) and (D) only.
+SOURCE ncert-leac102:span-2c978c97c40a: 2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27 PAGE 31 78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.
+
+### 29 7531d589-9880-461b-b20e-75193ad67378 | accountancy | Cash Flow Statement | authentic_pyq | numerical_one_step | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q11
+STEM: Calculate the resulting cash flow and state the nature of cash flow from the following information : Acquired machinery for ₹ 3,50,000 by issuing cheque.
+  A. Investing activity and outflow ₹ 3,50,000
+  B. Investing activity and inflow ₹ 3,50,000
+  C. Investing activity and no flow
+  D. Operating activity and outflow ₹ 3,50,000
+KEY: A
+EXPLANATION: Machinery is a fixed asset, so its acquisition is an investing activity. Payment by cheque is a cash outflow of ₹3,50,000.
+SOURCE ncert-leac206:span-9becf1f3d140: 6.5.2 Cash from Investing Activities As per AS-3, investing activities are the acquisition and disposal of long-term assets and other investments not included in cash equivalents. Investing activities relate to purchase and sale of long-term assets or fixed assets such Reprint 2026-27 PAGE 5 Cash Flow Statement 245 as machinery, furniture, land and building, etc. Transactions related to long- term investment are also investing activities. Separate disclosure of cash flows from investing activities is important because they represent the extent to which expenditures have been made for resources intended to generate future income and cash flows. Examples of cash flows arising from investing activities are: Cash Outflows from investing activities  Cash payments to acquire fixed assets including intangibles and capitalised research and development.  Cash payments to acquire shares, warrants or debt instruments of other enterprises other than the instruments those held for trading purposes.  Cash advances and loans made to third party (other than advances and loans made by a financial enterprise wherein it is operating activities). Cash Inflows from Investing Activities  Cash receipt from disposal of fixed assets including intangibles.  Cash receipt from the repayment of advances or loans made to third parties (except in case of financial enterprise).  Cash receipt from disposal of shares, warrants or debt instruments of other enterprises except those held for trading purposes.  Interest received in cash from loans and advances.  Dividend received from investments in other enterprises.
+SOURCE ncert-leac206:span-8f2903c3938e: 6.4 Cash Flows ‘Cash Flows’ implies movement of cash in and out due to some non-cash items. Receipt of cash from a non-cash item is termed as cash inflow while cash payment in respect of such items as cash outflow. For example, purchase of machinery by paying cash is cash outflow while sale proceeds received from sale of machinery is cash inflow. Other examples of cash flows include collection of cash from trade receivables, payment to trade payables, payment to employees, receipt of dividend, interest payments, etc. Cash management includes the investment of excess cash in cash equivalents. Hence, purchase of marketable securities or short-term investment which constitutes cash equivalents is not considered while preparing cash flow statement. 6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflows or payments) which is the subject matter of a cash flow statement. As per AS-3, these activities are to be classified into three categories: (1)operating, (2) investing, and (3) financing activities so as to show separately the cash flows generated (or used) by (in) these activities. This helps the users of cash flow statement to assess the impact of these activities on the financial position of an enterprise and also on its cash and cash equivalents. Reprint 2026-27 PAGE 4 244 Accountancy : Company Accounts and Analysis of Financial Statements 6.5.1 Cash from Operating Activities Operating activities are the activities that constitute the primary or main activities of an enterprise. For example, for a company manufacturing garments, operating activities are procurement of raw material, incurrence of manufacturing expenses, sale of garments, etc.
+
+### 34 5c7f7bc7-8480-4896-a4a3-95dde7d4abc6 | accountancy | Share Capital | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q3 | Blueprint: Apply the definition of calls in arrears to an unpaid call amount.
+STEM: A first call of ₹2,400 is due from a shareholder on 15 October. The shareholder has not paid any of it after that date. What is the accounting term for the unpaid ₹2,400?
+  A. Calls in Arrears
+  B. Calls in Advance
+  C. Securities Premium Reserve
+  D. Forfeiture of Shares
+KEY: A
+EXPLANATION: An amount due on a call but not paid by the shareholder is called Calls in Arrears or Unpaid Calls. Here, the ₹2,400 call is due and remains unpaid.
+SOURCE ncert-leac201:pdf-page-66: 66 Accountancy : Company Accounts and Analysis of Financial Statements Calls in Arrears: Sometimes, the full amount called on allotment and/or call (calls) is not received from the allottees/shareholders. The amount not so received are cumulatively called ‘Unpaid calls’ or ‘Calls in Arrears’. However, it is not mandatory for a company to maintain a separate Calls-in-Arrears Account. There are also instances where some shareholders consider it discreet to pay a part or whole of the amount not yet called-up on the shares allotted to them. Any amount paid by a shareholder in the excess of the amount due from him on allotment/call (calls) is known as ‘Calls in Advance’ for which a separate account is maintained. A company has the power to charge interest on calls in arrears and is under an obligation to pay interest on calls-in-advance if it accepts them in accordance with the provisions of Articles of Association. Over Subscription: It is possible for the shares of some companies to be over subscribed which means that applications for more shares are received than the number offered for subscription. If the amount of minimum subscription is not received to the extent of 90%, the issue dissolves. In case the applications received are less than the number of shares offered to the public, the issue is termed as ‘under subscribed’. Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account 
+SOURCE ncert-leac201:quality-v3-pdf-page-18-b5a4c91410: 1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)
+SOURCE ncert-leac201:quality-v4-2497dc78d958: 1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due date. When any shareholder fails to pay the amount due on allotment or on any of the calls, such amount is known as ‘Calls in Arrears’/‘Unpaid Calls’. Calls in Arrears represent the debit balance of all the calls account. Such amount shall appear as ‘Note to Accounts (Refer Chapter 3). However, where a company maintains ‘Calls in Arrears’ Account, it needs to pass the following additional journal entry: Calls in Arrears A/c Dr. To Share First Call Account A/c To Share Second and Final Call Account A/c (Calls in arrears brought into account) The Articles of Association of a company may empower the directors to charge interest at a stipulated rate on calls in arrears. If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof. On receipt of the call amount together with interest, the amount of interest shall be credited to interest account while call money shall be credited to the respective call account or to calls in arrears account. When the shareholder makes the payment of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr.
+
+### 35 3a2d6d96-40a7-42ee-b841-cfa1a6c7b101 | accountancy | Admission of Partner | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q4 | Blueprint: Interpretation of a credit balance in the Revaluation Account
+STEM: At the admission of a partner, the firm's assets are revalued and its liabilities are reassessed. After these entries are recorded, the Revaluation Account has a final credit balance. What does this balance indicate?
+  A. An overall net gain from the revaluation of assets and liabilities.
+  B. An overall net loss from the revaluation of assets and liabilities.
+  C. Only changes in asset values, without indicating an overall net result.
+  D. A net gain only if no liabilities were reassessed.
+KEY: A
+EXPLANATION: A final credit balance in the Revaluation Account indicates a net gain. The account includes gains and losses arising from the revaluation of assets and liabilities.
+SOURCE ncert-leac102:span-2c978c97c40a: 2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27 PAGE 31 78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.
+
+### 36 2b07d0fa-b34d-4a3a-bcce-c697b3b86279 | accountancy | Partnership Fundamentals | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q5 | Blueprint: Ask which account records a partner’s share of profit when the firm follows the fixed capital method.
+STEM: A firm maintains partners’ accounts under the fixed capital method. At year-end, it records each partner’s share of profit. In which account is this item recorded?
+  A. Each partner’s Current Account
+  B. Each partner’s Capital Account
+  C. One combined Partners’ Capital Account for all partners
+  D. The firm’s Profit and Loss Account
+KEY: A
+EXPLANATION: Under the fixed capital method, each partner’s share of profit is recorded in the Partner’s Current Account. The capital account remains separate from the current account.
+SOURCE ncert-leac101:quality-v3-pdf-page-5-58df58a906: (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.
+SOURCE ncert-leac101:quality-v4-5f1d4244dc0b: 1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capital, withdrawal of capital, share of profit, interest on capital, interest on drawings, partner’s salary, commission to partners, etc. There are two methods by which the capital accounts of partners can be maintained. These are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.
+
+### 38 3be97e80-c862-49f7-9b33-0c8be74285ae | accountancy | Admission of Partner | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q8 | Blueprint: Calculate the net revaluation gain from stated asset and liability changes and allocate it to the old partners in their stated old profit-sharing ratio.
+STEM: On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?
+  A. X: ₹24,000; Y: ₹16,000
+  B. X: ₹12,000; Y: ₹8,000
+  C. X: ₹27,000; Y: ₹18,000
+  D. X: ₹20,000; Y: ₹20,000
+KEY: A
+EXPLANATION: An increase in an asset and a decrease in a liability are gains; a decrease in an asset and an increase in a liability are losses. The net revaluation gain is ₹40,000 + ₹10,000 − ₹5,000 − ₹5,000 = ₹40,000. Sharing this gain in the old ratio of 3:2 gives X ₹24,000 and Y ₹16,000.
+SOURCE ncert-leac102:span-2c978c97c40a: 2.7 Revaluation of Assets and Reassessment of Liabilities At the time of admission of a new partner, it is always desirable to ascertain whether the assets of the firm are shown in books at their current values. In case the assets are overstated or understated, these are revalued. Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values. At times there may also be some unrecorded assets and liabilities of the firm. These also have to be brought into the books of the firm. For this purpose the firm has to prepare the Revaluation Account. The gain or loss on revaluation of each asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27 PAGE 31 78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.
+
+### 39 ffbd0fc4-b49e-4f23-9802-bfa2608735fa | accountancy | Cash Flow Statement | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q9 | Blueprint: Apply the acquisition-date maturity criterion when assessing a short-term investment for cash-equivalent qualification
+STEM: A short-term, highly liquid debt investment, not an investment in shares, is readily convertible into a known amount of cash and is subject to an insignificant risk of changes in value. Its contractual maturity is six months after acquisition. At the reporting date, two months remain until maturity.
+
+Which maturity interval should be compared with the three-month-or-less reference?
+  A. (A) The six-month period from acquisition to contractual maturity
+  B. (B) The two-month period remaining from the reporting date to maturity
+  C. (C) The four-month period for which the investment has been held by the reporting date
+  D. (D) A fixed three-month period from acquisition, regardless of the contractual maturity
+KEY: A
+EXPLANATION: The reference is to the investment’s maturity from its date of acquisition, so the interval to compare is the six-month period. The two-month remaining period and the four-month holding period do not replace that acquisition-date maturity; three months or less is a reference, not a fixed maturity period.
+SOURCE ncert-leac206:span-bf84275049e9: 6.3 Cash and Cash Equivalents As stated earlier, cash flow statement shows inflows and outflows of cash and cash equivalents from various activities of an enterprise during a particular period. As per AS-3, ‘Cash’ comprises cash in hand and demand deposits with banks, and ‘Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition. Investments in shares are excluded from cash equivalents unless they are in substantial cash equivalents. For example, preference shares of a company acquired shortly before their specific redemption date, provided there is only insignificant risk of failure of the company to repay the amount at maturity. Similarly, short-term marketable securities which can be readily converted into cash are treated as cash equivalents and is liquidable immediately without considerable change in value. 6.4 Cash Flows ‘Cash Flows’ implies movement of cash in and out due to some non-cash items. Receipt of cash from a non-cash item is termed as cash inflow while cash payment in respect of such items as cash outflow. For example, purchase of machinery by paying cash is cash outflow while sale proceeds received from sale of machinery is cash inflow. Other examples of cash flows include collection of cash from trade receivables, payment to trade payables, payment to employees, receipt of dividend, interest payments, etc. Cash management includes the investment of excess cash in cash equivalents.
+
+### 43 4b5d0834-3386-4c04-926b-6c7a4b00bc12 | accountancy | Share Capital | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q14 | Blueprint: Statement-selection item: Ask which statements correctly describe when premium on shares may be called. (A) It may technically be called at any stage of the issue. (B) It is generally called with the amount due on allotment. (C) It is sometimes called with the application money. (D) It is never called with call money. Answer choices: (1) (A), (B) and (C) only; (2) (A), (B) and (D) only; (3) (A), (C) and (D) only; (4) (B), (C) and (D) only.
+STEM: For shares issued at a premium, consider the following statements about when the premium may be called:
+(A) The amount of premium may technically be called at any stage of the issue of shares.
+(B) Premium is generally called with the amount due on allotment.
+(C) Premium is sometimes called with the application money.
+(D) Premium is never called with call money.
+Choose the correct answer from the options given below:
+  A. (A), (B) and (C) only
+  B. (A), (B) and (D) only
+  C. (A), (C) and (D) only
+  D. (B), (C) and (D) only
+KEY: A
+EXPLANATION: The premium may technically be called at any stage, is generally called with allotment money, and is sometimes called with application money. It is rarely called with call money, so statement (D), which says “never”, is incorrect; therefore, the first combination is correct.
+SOURCE ncert-leac201:quality-v4-f7aa34da4f0a: 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27 31Accounting for Share Capital shown under the title ‘Equity and Liabilities’ of the company’s balance sheet under the head ‘Reserves and Surpluses’.
+
+### 44 024746b3-3570-4a3c-a6cb-724aa7c0cca7 | accountancy | Debentures | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q16 | Blueprint: Calculate the total premium on 1,000 debentures with a nominal value of ₹100 each, issued for ₹110 each.
+STEM: A company issues 1,000 debentures, each with a nominal value of ₹100, at an issue price of ₹110 per debenture. What is the total issue premium?
+  A. ₹10,000
+  B. ₹1,10,000
+  C. ₹1,00,000
+  D. ₹10
+KEY: A
+EXPLANATION: The premium per debenture is ₹110 − ₹100 = ₹10. For 1,000 debentures, the total issue premium is ₹10 × 1,000 = ₹10,000.
+SOURCE ncert-leac202:span-2bf9ffb186bb: 2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.
+
+### 45 ac07a2c4-84ad-4e0d-ae94-3a35007ed2a0 | accountancy | Share Capital | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q17 | Blueprint: Calculate the maximum aggregate discount permitted when forfeited shares are reissued
+STEM: A company forfeited 100 shares of ₹10 each, issued at par and fully called up. At the time of initial issue, ₹4 per share had been received and ₹6 per share remained unpaid. All 100 shares are now being reissued as fully paid. No other forfeited shares or amounts are included. What is the maximum aggregate discount permitted on reissue?
+  A. (A) ₹400
+  B. (B) ₹1,000
+  C. (C) ₹600
+  D. (D) ₹0
+KEY: A
+EXPLANATION: The discount allowed on reissue cannot exceed the amount received on the forfeited shares at their initial issue. The maximum aggregate discount is therefore 100 × ₹4 = ₹400.
+SOURCE ncert-leac201:quality-v4-2cec3d6b3d07: 1.7.1 Reissue of Forfeited Shares The directors can either cancel or re-issue the forefeited shares. In most cases, they reissue such shares which may be at par, at premium or at a discount. Forfeited shares may be reissued as fully paid at a par, premium, discount. In this context, it may be noted that the amount of discount allowed cannot exceed the amount that had been received on forfeited shares at the time of initial issue, and that the discount allowed on reissue of forfeited shares should be debited to the ‘Forfeited Share Account’. The balance, if any, left in the Share-Forfeited Account relating to reissued Shares, should be treated as capital profit and transferred to Capital Reserve Account. For example, when a company forfeits 200 shares of Rs. 10 each on which Rs. 600 had been received, it can allow a maximum discount of Rs. 600 on their reissue. Assuming that the company reissues these shares for Rs. 1,800 as fully paid, the necessary journal entry will be: Bank A/c Dr. 1,800 Share Forfeiture A/c Dr. 200 To Share Capital A/c 2,000 (Reissue of 200 forfeited shares at Rs. 9 per share as fully paid) This shall leave a balance of Rs. 400 in share forfeited account which should be transferred to Capital Reserve Account by recording the following journal entry: Share Forfeiture A/c Dr. 400 To Capital Reserve 400 (Profit on reissue of forfeited shares transferred) Reprint 2026-27 50 Accountancy : Company Accounts and Analysis of Financial Statements Another important point to be noted in this context is that the capital profit arises only in respect of the forefited share reissued, and not on all forefeited shares. Hence, when a part of the forfeited shares are reissued, the whole balance of share forfeiture account cannot be transferred to the capital reserve.
+
+### 47 3d5079c4-4e0e-44bf-98cd-b862fef1b9db | accountancy | Share Capital | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q20 | Blueprint: In a case where shareholders pay through the bank for calls not yet made, identify the journal entry to record the receipt.
+STEM: A company receives ₹24,000 through its bank from shareholders for calls that have not yet been made. The entire amount is received in advance, and the entry required is the entry at the time of receipt. Which journal entry should be recorded?
+  A. Bank A/c Dr. ₹24,000; To Calls in Advance A/c ₹24,000
+  B. Calls in Advance A/c Dr. ₹24,000; To Bank A/c ₹24,000
+  C. Bank A/c Dr. ₹24,000; To Share First Call A/c ₹24,000
+  D. Bank A/c Dr. ₹24,000; To Calls in Arrears A/c ₹24,000
+KEY: A
+EXPLANATION: An amount received for calls not yet made is calls in advance. At the time of receipt through the bank, Bank A/c is debited and Calls in Advance A/c is credited.
+SOURCE ncert-leac201:quality-v3-pdf-page-18-b5a4c91410: 1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance)
+SOURCE ncert-leac201:quality-v4-2497dc78d958: 1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due date. When any shareholder fails to pay the amount due on allotment or on any of the calls, such amount is known as ‘Calls in Arrears’/‘Unpaid Calls’. Calls in Arrears represent the debit balance of all the calls account. Such amount shall appear as ‘Note to Accounts (Refer Chapter 3). However, where a company maintains ‘Calls in Arrears’ Account, it needs to pass the following additional journal entry: Calls in Arrears A/c Dr. To Share First Call Account A/c To Share Second and Final Call Account A/c (Calls in arrears brought into account) The Articles of Association of a company may empower the directors to charge interest at a stipulated rate on calls in arrears. If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof. On receipt of the call amount together with interest, the amount of interest shall be credited to interest account while call money shall be credited to the respective call account or to calls in arrears account. When the shareholder makes the payment of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr.
+
+### 48 238cc906-ee04-4574-9ada-d75ac01a8f87 | accountancy | Retirement & Death of Partner | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q21 | Blueprint: Numerical calculation of a deceased partner’s estimated share of profit for the intervening period, using the preceding year’s profit, the proportionate period and the deceased partner’s profit-sharing fraction.
+STEM: A, B and C are partners sharing profits in the ratio of 1:2:3. The accounting year runs from 1 April to 31 March, and the profit for the year ended 31 March was ₹2,40,000. C died on 30 June of the ensuing year. Estimate C’s share of profit for the period from 1 April to the date of death using the preceding year’s profit, apportioned by time over the year. Exclude interest on capital and interest on drawings from the calculation.
+
+What is C’s estimated share of profit?
+  A. ₹1,20,000
+  B. ₹30,000
+  C. ₹20,000
+  D. ₹90,000
+KEY: B
+EXPLANATION: C’s share is calculated as preceding year’s profit × proportion of the year elapsed × C’s profit-sharing fraction. Thus, ₹2,40,000 × 3/12 × 3/6 = ₹30,000.
+SOURCE ncert-leac103:span-ce862e7dfa8c: 3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred to his executors and settled in the same manner as that of the retired partner. However, there is one major difference that, while the retirement normally takes place at the end of an accounting period, the death of a partner may occur any time. Hence, in case of a partner, his claim shall also include his share of profit or loss, interest on capital, interest on drawings (if any) from the date of the last Balance Sheet to the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27 PAGE 35 Retirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year ending on March 31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan decided to share profits equally. Champak’s share of profit for the period from April 1 to June 30, 2017, shall be calculated as follows: Total profit for the year ending on 31st March, 2017 = Rs.1,00,000 Champak’s share of profit : Proceeding Year’s Profit × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs.
+
+### 50 73a0be2c-2484-4c8e-b5ab-ffcee3c3c995 | accountancy | Cash Flow Statement | pyq_adapted | case_application | medium | state=eligible | attempt=1
+Anchor: cuet2024-accountancy-bookA-q23 | Blueprint: A case-based item asking candidates to classify separately the interest and loan (principal) elements of a cash instalment for a fixed asset acquired on deferred payment basis.
+STEM: A non-financial enterprise prepares its cash flow statement under AS-3. It pays a cash instalment of ₹1,20,000 for a fixed asset acquired on deferred payment basis. The instalment consists only of separately identifiable interest of ₹20,000 and repayment of the loan principal of ₹1,00,000. How should the two elements be classified in its cash flow statement?
+  A. Interest element: investing activity; loan element: investing activity
+  B. Interest element: financing activity; loan element: financing activity
+  C. Interest element: operating activity; loan element: investing activity
+  D. Interest element: financing activity; loan element: investing activity
+KEY: D
+EXPLANATION: For an instalment paid for a fixed asset acquired on deferred payment basis, the interest element is classified under financing activities and the loan element under investing activities. Thus, the ₹20,000 interest is a financing outflow and the ₹1,00,000 loan repayment is an investing outflow.
+SOURCE ncert-leac206:span-a507d1e4b724: 6.5.3 Cash from Financing Activities As the name suggests, financing activities relate to long-term funds or capital of an enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising long-term bank loans, repayment of bank loan, etc. As per AS-3, financing activities are activities that result in changes in the size and composition of the owners’ capital (including preference share capital in case of a company) and borrowings of the enterprise. Separate disclosure of cash flows arising from financing activities is important because it is useful in predicting claims on future cash flows by providers of funds ( both capital and borrowings ) to the enterprise. Examples of financing activities are: Cash Inflows from financing activities  Cash proceeds from issuing shares (equity or/and preference).  Cash proceeds from issuing debentures, loans, bonds and other short/ long-term borrowings. Reprint 2026-27 PAGE 6 246 Accountancy : Company Accounts and Analysis of Financial Statements Cash Outflows from financing activities  Cash repayments of amounts borrowed.  Interest paid on debentures and long-term loans and advances.  Dividends paid on equity and preference capital. It is important to mention here that a transaction may include cash flows that are classified differently. For example, when the instalment paid in respect of a fixed asset acquired on deferred payment basis includes both interest and loan, the interest element is classified under financing activities and the loan element is classified under investing activities. Moreover, same activity may be classified differently for different enterprises.
+
+### 51 ac914c80-ef24-41d4-aab5-b612ca50dc2a | business_studies | Organising | authentic_pyq | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q24
+STEM: Match List-I with List-II on the basis of meaning and the term : List-I List-II (Meaning) (Term) (A) Right to command (I) Answerability (B) Obligation to perform task (II) Delegation (C) Accountability (III) Authority (D) Basis of management hierarchy (IV) Responsibility Choose the correct answer from the options given below :
+  A. (A) - (I), (B) - (II), (C) - (III), (D) - (IV)
+  B. (A) - (I), (B) - (III), (C) - (II), (D) - (IV)
+  C. (A) - (I), (B) - (II), (C) - (IV), (D) - (III)
+  D. (A) - (III), (B) - (IV), (C) - (I), (D) - (II)
+KEY: D
+EXPLANATION: Authority means the right to command, and responsibility is the obligation to perform an assigned task. Accountability means answerability for the outcome of the assigned task, while delegation establishes the superior–subordinate relationships that form the basis of management hierarchy. Thus, the correct matching is (A)-(III), (B)-(IV), (C)-(I) and (D)-(II).
+SOURCE ncert-lebs105:quality-v4-910ff72d0f84: Elements of Delegation According to Louis Allen, delegation is the entrustment of responsibility and authority to another and the creation of accountability for performance. A detailed analysis of Louis Allen’s definition brings to light the following essential elements of delegation: (i) Authority: Authority refers to the right of an individual to command his subordinates and to take action within the scope of his position. The concept of authority arises from the established scalar chain which links the various job positions and levels of an organisation. Authority also refers to the right to take decisions inherent in a managerial position to tell people what to do and expect them to do it. In the formal organisation authority originates by virtue of an individual’s position and the extent of authority is highest at the top management levels and reduces successively as we go down the corporate ladder. Thus, authority flows from top to bottom, Ch_05.indd 126 08-08-2022 09:50:39 Reprint 2026-27 PAGE 19 Organising 127 i.e., the superior has authority over the subordinate. Authority relationships helps to maintain order in the organisation by giving the managers the right to exact obedience and give directions to the workforce under them. Authority determines the superior subordinate relationship wherein the superior communicates his decision to the subordinate, expecting compliance from him and the subordinate executes the decision as per the guidelines of the superior. The extent to which a superior can exact compliance also depends on the personality of the superior. It must be noted that authority is restricted by laws and the rules and regulation of the organisation, which limit its scope. However, as we go higher up in the management hierarchy, the scope of authori
+SOURCE ncert-lebs105:quality-v4-b1bc338a616f: (v) Basis of management hier­ archy: Delegation of autho rity establishes superior­subordinate relationships, which are the basis of hierarchy of management. It is the degree and flow of authority which determines who has to report to whom. The extent of delegated authority also decides the power that each job position enjoys in the organisation.
+
+### 53 dfa84aaf-fceb-4b55-8744-d66145709295 | business_studies | Organising | authentic_pyq | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q27
+STEM: The informal organisation offers many benefits. Important among them are given below : (A) Prescribed lines of communication are not followed. Thus, informal organisation leads to faster spread of information as well as quick feedback. (B) It helps to fulfil the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (C) It contributes towards fulfilment of organisational objectives by compensating for inadequacies in the formal organisation. (D) Unity of command is maintained through an established chain of command. Choose the correct answer from the options given below :
+  A. (A), (B) and (D) only
+  B. (A), (B) and (C) only
+  C. (A), (B), (C) and (D)
+  D. (B), (C) and (D) only
+KEY: B
+EXPLANATION: Statements (A), (B) and (C) describe benefits of informal organisation: it supports faster communication and feedback, fulfils members’ social needs, and can compensate for inadequacies in formal organisation. Statement (D) is inconsistent with the informal organisation, whose communication does not follow a planned route. Therefore, option (B) is correct.
+SOURCE ncert-lebs105:quality-v4-e5d85ed5309a: Formal and informal organisation: A Comparative view Basis Formal organisation Informal organisation Meaning Structure of authority relationships created by the management Network of social relationships arising out of interaction among employees Origin Arises as a result of company rules and policies Arises as a result of social interaction Authority Arises by virtue of position in management Arises out of personal qualities Behavior It is directed by rules There is no set behaviour pattern Flow of Communication Communication takes place through the scalar chain Flow of communication is not through a planned route. It can take place in any direction Nature Rigid Flexible Leadership Managers are leaders. Leaders may or may not be managers. They are chosen by the group. Advantages: The informal organisation offers many benefits. Important among them are given below: (a) Prescribed lines of communication are not followed. Thus, the informal organisation leads to faster spread of information as well as quick feedback. (b) It helps to fulfill the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (c) It contributes towards fulfillment of organisational objectives by compensating for inadequacies in the formal organisation. For example, employees reactions towards plans and policies can be tested through the informal network.
+
+### 55 b6ac036b-59ac-496e-bba4-a122eda36737 | business_studies | Nature & Significance of Management | authentic_pyq | concept_identification | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37
+STEM: "Management always works by keeping an end result or aim of the organisation. All activities of managers are directed towards the end result." From the above statement, identify the feature of management.
+  A. Management is multidimensional
+  B. Management is continuous
+  C. Management is intangible
+  D. Management is a goal oriented process
+KEY: D
+EXPLANATION: The statement says that management directs activities towards the organisation’s aim or end result. Management unites individuals’ efforts towards achieving organisational goals; therefore, management is a goal-oriented process.
+SOURCE ncert-lebs101:quality-v4-6ecbeb2308f3: (i) Management is a goal-oriented process: An organisation has a set of basic goals which are the basic reason for its existence. These should be simple and clearly stated. Different organ - isations have different goals. For example, the goal of a retail stor e may be to increase sales, but the goal of The Spastics Society of India is to impart education to children with special needs. Management unites the efforts of different individuals in the organisation towards achieving these goals.
+SOURCE ncert-lebs101:quality-v4-12f33385e060: (ii) Management is all pervasive: The activities involved in managing an enterprise are common to all organisations whether economic, social or political. A petrol pump needs to be managed as much as a hospital or a school. What managers do in India, the USA, Germany or Japan is the same. How they do it may be quite different. This difference is due to the differences in culture, tradition and history.
+SOURCE ncert-lebs101:quality-v4-80cbe19c5a06: (iv) Management is a continuous process: The process of manage- ment is a series of continuous, composite, but separate functions (planning, organising, directing, staffing and controlling). These functions are simultaneously performed by all managers all the time.
+SOURCE ncert-lebs101:quality-v4-9fc81b5f6682: (v) Management is a group activity: An organisation is a collection of diverse individuals with differ ent needs. Every member of the group has a different purpose for joining the organisation but as members of the organisation they work towards fulfilling the common organisational goal. This requires team work and coordination of individual effort in a common direction.
+SOURCE ncert-lebs101:quality-v4-a6fbf530d291: (vi) Management is a dynamic function: Management is a dynamic function and has to adapt itself to the changing environment. An organisation interacts with its external envi- ronment which consists of various social, economic and political factors. In order to be successful, an organisation must change itself and its goals according to the needs of the environment.
+SOURCE ncert-lebs101:quality-v4-ed90283b33f1: (vii) Management is an intangible force: Management is an intangi - ble force that cannot be seen but its presence can be felt in the way the organisation functions. The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.
+
+### 56 414f6e75-bf33-4ed5-8a55-d63493c61c61 | business_studies | Organising | authentic_pyq | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q40
+STEM: Which of the following are advantages of functional structure of an organisation ? (A) Leads to occupational specialisation. (B) Places less emphasis on organisational objectives. (C) Promotes coordination and control within a department. (D) Increases operational efficiency. Choose the correct answer from the options given below :
+  A. (A), (B) and (C) only
+  B. (A) and (B) only
+  C. (A), (C) and (D) only
+  D. (C) and (D) only
+KEY: C
+EXPLANATION: A functional structure leads to occupational specialisation, promotes coordination and control within a department, and increases operational efficiency. Placing less emphasis on overall organisational objectives is a disadvantage, so (B) is not included.
+SOURCE ncert-lebs105:quality-v4-18f392ccae68: Thus, a functional structure is an organisational design that groups similar or related jobs together. Advantages: The functional structure has many advantages to offer. Important among them are as follows: (a) A functional structure leads to occupational specialisation since emphasis is placed on specific functions. This pr omotes efficiency in utilisation of manpower as employees perform similar tasks within a department and are able to improve performance. (b) It promotes control and coordination within a department because of similarity in the tasks being perfor med. (c) It helps in increasing managerial and operational efficiency and this results in increased pr ofit. (d) It leads to minimal duplication of effort which results in economies of scale and this lowers cost. (e) It makes training of employees easier as the focus is only on a limited range of skills. (f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments.
+
+### 57 aa00c24f-10d0-417b-a160-9a4d2354651c | business_studies | Business Environment | pyq_adapted | statement_selection | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q7 | Blueprint: Classify listed characteristics as elements of the social rather than the political environment through statement selection.
+STEM: Which of the following statements identify characteristics explicitly listed under the social environment?
+(A) Birth and death rates
+(B) Prevailing political system
+(C) Consumption habits
+(D) Degree of politicisation of business and economic issues
+Choose the correct answer from the options given below:
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (A) and (D) only
+KEY: B
+EXPLANATION: Birth and death rates and consumption habits are listed as elements of the social environment. The prevailing political system and degree of politicisation are listed as elements of the political environment, so only (A) and (C) meet the question's condition.
+SOURCE ncert-lebs103:pdf-page-12: 80 of the land. Therefore, an 2002 and host of such other legal adequate knowledge of rules enactments as amended from and regulations framed by the time to time by the Parliament, Government is a pre ­requisite is important for doing business. for better business per for mance. Impact of legal environment Non­compliance of laws can can be illustrated with the help land the business enterprise of government regulations to into legal pr oblems. In India, protect consumer’s interests. For Constitutional Provisions; example, the advertisement of Companies Act 2013; Industries alcoholic beverages is prohibited. (Development and Regulations) Advertisements, including Act 1951; Foreign Exchange packets of cigarettes carry the Management Act and the statutory warning ‘Cigarette Imports and Exports (Control) smoking is injurious to health’. Act 1947; Factories Act, Similarly, advertisements of 1948; Trade Union Act; 1926; baby food must necessarily Workmen’s Compensation Act, inform the potential buyer that 1923; Industrial Disput es Act, mothers milk is the best. All 1947, Consumer Protectio n these regulations are required Act, 1986, Competition Act, to be followed by advertisers. Major Elements of the Political Environment n Prevailing political system n The degree of politicisation of business and economic issues n Dominant ideologies and values of major political parties n The nature and profile of political leadership and thinking of political personalities n The level of political morality n Political institutions like the government and allied agencies n Political ideology and practices of the ruling party n The extent and nature of government intervention in business n The nature of relationship of our country with foreign countries Ch_03.indd 80 08-08-2022 09:37:34
+SOURCE ncert-lebs103:pdf-page-9: 77 have all been responsible and in the long term projects for creating new business. the growth of the economy. (iv) Political Environment: Political Politi cal instability can shake environment in cludes political that confidence. Similarly, conditio ns such as general the attitudes of government stability and peace in the of ficials towards business may coun­try and specific attitudes have either positive or negative that elected gover nment impact upon business. representatives hold towards (v) Legal Environment: Legal business. The significance of envi ronment includes various political conditions in business legis lations passed by the success lies in the predictability Government administrative of business activities under orders issued by government stable political conditions. authorities, court judgments as On the other hand, there may well as the decisions rendered be uncertainty of business by various commissions and activities due to political agencies at every level of the unrest and threats to law and government— centre, state order. Political stability, thus, or local. It is imperative for builds up confidence among the management of every business people to invest enterprise to obey the law Major Elements of Social Environment n Attitudes towards product innovations, lifestyles, occupational distribution and consumer preferences n Concern with quality of life n Life expectancy n Expectations from the workforce n Shifts in the presence of women in the workforce n Birth and death rates n Population shifts n Educational system and literacy rates n Consumption habits n Composition of family Ch_03.indd 77 08-08-2022 09:37:32
+
+### 58 d913de0e-3d30-4a5b-9a5b-1e9c5c653763 | business_studies | Organising | pyq_adapted | statement_selection | easy | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q24 | Blueprint: Identify the correct delegability status of authority, responsibility and accountability.
+STEM: Select the correct statements regarding the delegability of authority, responsibility and accountability:
+(A) Authority can be delegated.
+(B) Responsibility cannot be entirely delegated.
+(C) Accountability can be delegated in part.
+(D) Authority cannot be delegated.
+Choose the correct answer from the options given below:
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (C) and (D) only
+KEY: A
+EXPLANATION: Authority can be delegated, and responsibility cannot be entirely delegated, so statements (A) and (B) are correct. Accountability cannot be delegated at all, making (C) incorrect; authority can be delegated, making (D) incorrect.
+SOURCE ncert-lebs105:quality-v4-910ff72d0f84: Elements of Delegation According to Louis Allen, delegation is the entrustment of responsibility and authority to another and the creation of accountability for performance. A detailed analysis of Louis Allen’s definition brings to light the following essential elements of delegation: (i) Authority: Authority refers to the right of an individual to command his subordinates and to take action within the scope of his position. The concept of authority arises from the established scalar chain which links the various job positions and levels of an organisation. Authority also refers to the right to take decisions inherent in a managerial position to tell people what to do and expect them to do it. In the formal organisation authority originates by virtue of an individual’s position and the extent of authority is highest at the top management levels and reduces successively as we go down the corporate ladder. Thus, authority flows from top to bottom, Ch_05.indd 126 08-08-2022 09:50:39 Reprint 2026-27 PAGE 19 Organising 127 i.e., the superior has authority over the subordinate. Authority relationships helps to maintain order in the organisation by giving the managers the right to exact obedience and give directions to the workforce under them. Authority determines the superior subordinate relationship wherein the superior communicates his decision to the subordinate, expecting compliance from him and the subordinate executes the decision as per the guidelines of the superior. The extent to which a superior can exact compliance also depends on the personality of the superior. It must be noted that authority is restricted by laws and the rules and regulation of the organisation, which limit its scope. However, as we go higher up in the management hierarchy, the scope of authori
+
+### 59 c6019c80-8086-41bc-b0eb-f4fef92abb7c | business_studies | Organising | pyq_adapted | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q26 | Blueprint: Match each stated advantage of formal organisation with the specific basis given for it.
+STEM: Match each advantage of formal organisation in List-I with its stated basis in List-II. Use each entry in List-II once.
+List-I
+(A) Easier to fix responsibility
+(B) No ambiguity in roles and avoidance of duplication of effort
+(C) Unity of command
+(D) Stability of the organisation
+List-II
+(I) Employees’ behaviour is fairly predictable because specific rules guide them
+(II) Mutual relationships are clearly defined
+(III) Duties are specified
+(IV) An established chain of command
+Choose the correct answer from the options given below:
+  A. (A)-(III), (B)-(II), (C)-(IV), (D)-(I)
+  B. (A)-(II), (B)-(III), (C)-(I), (D)-(IV)
+  C. (A)-(II), (B)-(III), (C)-(IV), (D)-(I)
+  D. (A)-(III), (B)-(II), (C)-(I), (D)-(IV)
+KEY: C
+EXPLANATION: Fixing responsibility is linked to clearly defined mutual relationships, while role clarity and avoidance of duplication follow from specified duties. Unity of command is maintained through an established chain of command, and stability is supported by predictable behaviour guided by specific rules.
+SOURCE ncert-lebs105:quality-v4-c8d4ce1fa39d: The formal organisation can be better understood by a study of its features which are as follows: (a) It specifies the relationships among various job positions and the nature of their inter ­ relationship. This clarifies who has to report to whom. (b) It is a means to achieve the objectives specified in the plans, as it lays down rules and procedures essential for their achievement. (c) Efforts of various departments are coordinated, interlinked and integrated through the formal organisation. (d) It is deliberately designed by the top management to facilitate the smooth functioning of the organisation. (e) It places more emphasis on work to be performed than interpersonal relationships among the employees. Advantages: Formal organisation offers many advantages. Some of the important ones are: (a) It is easier to fix responsibility since mutual relationships are clearly defined. (b) There is no ambiguity in the role that each member has to play as duties are specified. This also helps in avoiding duplication of effort. (c) Unity of command is maintained through an established chain of command. (d) It leads to effective accomplish­ ment of goals by providing a framework for the operations to be performed and ensuring that each employee knows the r ole he has to play. (e) It provides stability to the organ­ isation. This is because behaviour of employees can be fairly pre­ dicted since there are specific rules to guide them.
+
+### 60 a1f2184c-de2c-4e1b-b4d2-102995f7f0d6 | business_studies | Organising | pyq_adapted | matching | medium | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q27 | Blueprint: Match the origin, basis of authority, behaviour and leadership characteristics of formal and informal organisations. List the formal column before the informal column and use each description once.
+STEM: Match List-I with List-II:
+
+List-I
+(A) Origin
+(B) Authority
+(C) Behaviour
+(D) Leadership
+
+List-II
+(I) Formal organisation: behaviour is directed by rules; informal organisation: there is no set behaviour pattern.
+(II) Formal organisation: managers are leaders; informal organisation: leaders are chosen by the group and may or may not be managers.
+(III) Formal organisation: arises from company rules and policies; informal organisation: arises from social interaction.
+(IV) Formal organisation: authority arises from position in management; informal organisation: authority arises from personal qualities.
+
+In each List-II entry, the formal organisation is stated before the informal organisation. Match each basis in List-I with the corresponding paired characteristic in List-II, using each List-II entry once. Choose the correct answer from the options given below:
+  A. (A)-(III), (B)-(IV), (C)-(I), (D)-(II)
+  B. (A)-(III), (B)-(I), (C)-(IV), (D)-(II)
+  C. (A)-(II), (B)-(IV), (C)-(I), (D)-(III)
+  D. (A)-(IV), (B)-(III), (C)-(I), (D)-(II)
+KEY: A
+EXPLANATION: Origin matches company rules and policies in formal organisation with social interaction in informal organisation. Authority is based on position in management or personal qualities, behaviour is directed by rules or has no set pattern, and leadership is provided by managers or by group-chosen leaders who may or may not be managers. Thus the correct mapping is (A)-(III), (B)-(IV), (C)-(I), (D)-(II).
+SOURCE ncert-lebs105:quality-v4-e5d85ed5309a: Formal and informal organisation: A Comparative view Basis Formal organisation Informal organisation Meaning Structure of authority relationships created by the management Network of social relationships arising out of interaction among employees Origin Arises as a result of company rules and policies Arises as a result of social interaction Authority Arises by virtue of position in management Arises out of personal qualities Behavior It is directed by rules There is no set behaviour pattern Flow of Communication Communication takes place through the scalar chain Flow of communication is not through a planned route. It can take place in any direction Nature Rigid Flexible Leadership Managers are leaders. Leaders may or may not be managers. They are chosen by the group. Advantages: The informal organisation offers many benefits. Important among them are given below: (a) Prescribed lines of communication are not followed. Thus, the informal organisation leads to faster spread of information as well as quick feedback. (b) It helps to fulfill the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (c) It contributes towards fulfillment of organisational objectives by compensating for inadequacies in the formal organisation. For example, employees reactions towards plans and policies can be tested through the informal network.
+
+### 62 b7313d0f-f78c-41c5-bcc8-d8c78a354d37 | business_studies | Nature & Significance of Management | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37 | Blueprint: Apply the dynamic-function feature of management to an organisation that adapts itself and its goals to changing environmental needs.
+STEM: A retail organisation faces a change in its external environment. Its managers change the organisation and its goals to meet the needs arising from that environmental change. Which feature of management is illustrated specifically by this response?
+  A. Management is a continuous process
+  B. Management is all pervasive
+  C. Management is a dynamic function
+  D. Management is an intangible force
+KEY: C
+EXPLANATION: The managers change the organisation and its goals in response to changing environmental needs. Management’s adaptation to a changing environment, including changing an organisation and its goals according to environmental needs, is its dynamic function.
+SOURCE ncert-lebs101:quality-v4-12f33385e060: (ii) Management is all pervasive: The activities involved in managing an enterprise are common to all organisations whether economic, social or political. A petrol pump needs to be managed as much as a hospital or a school. What managers do in India, the USA, Germany or Japan is the same. How they do it may be quite different. This difference is due to the differences in culture, tradition and history.
+SOURCE ncert-lebs101:quality-v4-80cbe19c5a06: (iv) Management is a continuous process: The process of manage- ment is a series of continuous, composite, but separate functions (planning, organising, directing, staffing and controlling). These functions are simultaneously performed by all managers all the time.
+SOURCE ncert-lebs101:quality-v4-a6fbf530d291: (vi) Management is a dynamic function: Management is a dynamic function and has to adapt itself to the changing environment. An organisation interacts with its external envi- ronment which consists of various social, economic and political factors. In order to be successful, an organisation must change itself and its goals according to the needs of the environment.
+
+### 63 24b0a999-915d-454e-b511-248b529f0ba8 | business_studies | Nature & Significance of Management | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q38 | Blueprint: Identify the managerial level that links top and lower-level managers and is subordinate to top managers but superior to first-line managers.
+STEM: A division head is a middle manager. Which task is a main responsibility of this managerial level?
+  A. Formulate overall organisational goals and strategies
+  B. Carry out plans formulated by top managers
+  C. Directly oversee the efforts of the workforce
+  D. Take responsibility for the organisation’s welfare and survival
+KEY: B
+EXPLANATION: Carrying out plans formulated by top managers is identified as a main task of middle management. Formulating overall goals and strategies and taking responsibility for the organisation’s welfare and survival are top-management tasks, while directly overseeing workforce efforts is assigned to supervisory or operational management.
+SOURCE ncert-lebs101:quality-v4-99eb9fc192b1: (i) Top Management: They consist of the senior-most executives of the or ganisation by whatever name they are called. They are usually referred to as the chairman, the chief executive officer, chief operating officer, president and vice-president. Top management is a team consisting of managers from different functional levels, heading finance, marketing etc. For example chief finance officer, vice president (marketing). Their basic task is to integrate diverse elements and coordinate the activities of different departments according to the overall objectives of the organisation. These top level managers are responsible for the welfare and survival of the organisation. They analyse the business environment and its implications for the survival of the firm. They formulate overall organisational goals and strategies for their achievement. They are responsible for all the activities of the business and for its impact on society. The job of the top manager is complex and stressful, demanding long hours and commitment to the organisation. (ii) Middle Management: is the link between top and lower level managers. They ar e subordinate to top managers and superior to the first line managers. They are usually known as division heads, for example production manager. Middle management is responsible for implementing and controlling plans and strategies developed by top management. At the same time they are responsible for all the activities of first line managers. Their main task is to carry out the plans formulated by the top managers. For this they need to: (i) interpret the policies framed by top management, (ii) ensure that their department has the necessary personnel, (iii) assign necessary duties and responsibilities to them, (iv) motivate them to achieve desired objectives,
+
+### 64 e37d3f34-9cd2-498e-8ba0-a40c1380356a | business_studies | Organising | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q40 | Blueprint: Test the stated link from minimal duplication of effort to economies of scale and lower cost in a functional structure.
+STEM: In a functional structure, which result is specifically linked to minimal duplication of effort?
+  A. It leads to economies of scale, which lower cost.
+  B. It leads to occupational specialisation, which improves manpower utilisation.
+  C. It leads to coordination and control within a department.
+  D. It makes employee training easier by limiting the range of skills.
+KEY: A
+EXPLANATION: Minimal duplication of effort leads to economies of scale, which lower cost. Occupational specialisation, departmental coordination and control, and easier training are also stated advantages of a functional structure, but they are linked to other features.
+SOURCE ncert-lebs105:quality-v4-18f392ccae68: Thus, a functional structure is an organisational design that groups similar or related jobs together. Advantages: The functional structure has many advantages to offer. Important among them are as follows: (a) A functional structure leads to occupational specialisation since emphasis is placed on specific functions. This pr omotes efficiency in utilisation of manpower as employees perform similar tasks within a department and are able to improve performance. (b) It promotes control and coordination within a department because of similarity in the tasks being perfor med. (c) It helps in increasing managerial and operational efficiency and this results in increased pr ofit. (d) It leads to minimal duplication of effort which results in economies of scale and this lowers cost. (e) It makes training of employees easier as the focus is only on a limited range of skills. (f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments.
+
+### 68 dc55033f-1e94-4e87-ba45-e8b7de7c7424 | business_studies | Marketing Management | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q44 | Blueprint: Classify acceptance from a group as the benefit sought from a product purchase.
+STEM: A customer chooses a particular music player because owning it helps the customer gain acceptance among a peer group. Which type of benefit is the customer seeking?
+  A. Functional benefit
+  B. Psychological benefit
+  C. Social benefit
+  D. Economic benefit
+KEY: C
+EXPLANATION: The benefit being classified is acceptance from a group. This is a social benefit; the excerpt distinguishes it from functional and psychological benefits.
+SOURCE ncert-lebs202:pdf-page-15: BUSINe SS STUDIe S 256 perceive the price to be in line with the value of the product. 3. Place: Place or Physical Distribution include activities that make firm’s products available to the target customers. Important decision areas in this respect include selection of dealers or intermediaries to reach the customers, providing support to the intermediaries (by way of discounts, promotional campaigns, etc.). The intermediaries in turn keep inventory of the firm’s products, demonstrate them to potential buyers, negotiate price with buyers, close sales and also service the products after the sale. The other decision areas relate to managing inventory, storage and warehousing and transportation of goods from the place it is produced to the place it is required by the buyers. 4. Promotion: Promotion of products and services include activities that communicate availability, features, merits, etc., of the products to the target customers and persuade them to buy it. Most marketing organisations, undertake various promotional activities and spend substantial amount of money on the promotion of their goods through using number of tools such as advertising, personal selling and sales promotion techniques (like price discounts, free samples, etc.). A large number of decisions are to be taken in each of the area specified above. For example, in the respect of advertising it is important to decide about the message, the media to be used (example, print-media– newspaper, magazines, the objections of customers, etc.). The success of a market offer will depend on how well these ingredients are mixed to create superior value for the customers and simultaneously achieve their sale and profit objectives. Let us say a firm would like to achieve necessary volume of sale at a cost that will
+
+### 69 7f3afb35-dc5a-4cc0-8611-21c64c1e4ec1 | business_studies | Marketing Management | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q45 | Blueprint: A case-based item asks candidates to classify three stated benefits sought by a motorcycle buyer: transportation, prestige and esteem, and acceptance by a group.
+STEM: A buyer purchases a motorcycle seeking (i) transportation, (ii) prestige and esteem, and (iii) acceptance from a group through riding it. How should these three benefits be classified, respectively?
+  A. Functional, functional, functional
+  B. Functional, psychological, psychological
+  C. Functional, psychological, social
+  D. Functional, social, social
+KEY: C
+EXPLANATION: Transportation is a functional utility of a motorcycle. Prestige and esteem are psychological benefits, while acceptance from a group is a social benefit; therefore, in the order given, the classification is functional, psychological and social.
+SOURCE ncert-lebs202:pdf-page-15: BUSINe SS STUDIe S 256 perceive the price to be in line with the value of the product. 3. Place: Place or Physical Distribution include activities that make firm’s products available to the target customers. Important decision areas in this respect include selection of dealers or intermediaries to reach the customers, providing support to the intermediaries (by way of discounts, promotional campaigns, etc.). The intermediaries in turn keep inventory of the firm’s products, demonstrate them to potential buyers, negotiate price with buyers, close sales and also service the products after the sale. The other decision areas relate to managing inventory, storage and warehousing and transportation of goods from the place it is produced to the place it is required by the buyers. 4. Promotion: Promotion of products and services include activities that communicate availability, features, merits, etc., of the products to the target customers and persuade them to buy it. Most marketing organisations, undertake various promotional activities and spend substantial amount of money on the promotion of their goods through using number of tools such as advertising, personal selling and sales promotion techniques (like price discounts, free samples, etc.). A large number of decisions are to be taken in each of the area specified above. For example, in the respect of advertising it is important to decide about the message, the media to be used (example, print-media– newspaper, magazines, the objections of customers, etc.). The success of a market offer will depend on how well these ingredients are mixed to create superior value for the customers and simultaneously achieve their sale and profit objectives. Let us say a firm would like to achieve necessary volume of sale at a cost that will
+
+### 72 7b3edef9-9a8e-4e60-8bd5-7cffc853ec92 | business_studies | Organising | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q27 | Blueprint: Apply the stated meanings of formal and informal organisation to a workplace case in which employees form a network of social relationships through interaction. Ask which paired description correctly identifies that network and contrasts it with formal organisation.
+STEM: At a firm, employees from different departments interact and build a network of social relationships. Management did not create this network as a structure of authority relationships. Which paired description correctly identifies this network and contrasts it with formal organisation?
+  A. The network is informal organisation; formal organisation is a structure of authority relationships created by management.
+  B. The network is formal organisation; informal organisation is a structure of authority relationships created by management.
+  C. Both the network and formal organisation are structures of authority relationships created by management.
+  D. Both the network and formal organisation are networks of social relationships arising from employee interaction.
+KEY: A
+EXPLANATION: The employees’ network is informal organisation because it arises from social interaction among employees. Formal organisation is the structure of authority relationships created by management.
+SOURCE ncert-lebs105:quality-v4-e5d85ed5309a: Formal and informal organisation: A Comparative view Basis Formal organisation Informal organisation Meaning Structure of authority relationships created by the management Network of social relationships arising out of interaction among employees Origin Arises as a result of company rules and policies Arises as a result of social interaction Authority Arises by virtue of position in management Arises out of personal qualities Behavior It is directed by rules There is no set behaviour pattern Flow of Communication Communication takes place through the scalar chain Flow of communication is not through a planned route. It can take place in any direction Nature Rigid Flexible Leadership Managers are leaders. Leaders may or may not be managers. They are chosen by the group. Advantages: The informal organisation offers many benefits. Important among them are given below: (a) Prescribed lines of communication are not followed. Thus, the informal organisation leads to faster spread of information as well as quick feedback. (b) It helps to fulfill the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (c) It contributes towards fulfillment of organisational objectives by compensating for inadequacies in the formal organisation. For example, employees reactions towards plans and policies can be tested through the informal network.
+
+### 73 b474b153-3757-48eb-b3f2-e2bf30e89fff | business_studies | Nature & Significance of Management | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q36 | Blueprint: Statement-selection item on classifying needs within personnel objectives. Planned statements: (A) Competitive salaries and perks are financial needs. (B) Peer recognition is a financial need. (C) Personal growth and development are social needs. (D) Personal growth and development are higher-level needs. The correct selection is (A) and (D) only.
+STEM: Consider the following statements about needs addressed through personnel objectives:
+(A) Competitive salaries and perks are financial needs.
+(B) Peer recognition is a financial need.
+(C) Personal growth and development are social needs.
+(D) Personal growth and development are higher-level needs.
+Which of the above statements are correct?
+  A. (A) and (D) only
+  B. (B) and (C) only
+  C. (A) and (C) only
+  D. (B) and (D) only
+KEY: A
+EXPLANATION: Competitive salaries and perks are financial needs, while personal growth and development are higher-level needs. Peer recognition is a social need. Therefore, only statements (A) and (D) are correctly classified.
+SOURCE ncert-lebs101:quality-v4-864b5b8ea540: (ii) Social objectives: It involves the creation of benefit for society. As a part of society, every organisation whether it is business or non-business, has a social obligation to fulfill. This ITC – Empowering Rural India Ch_01.indd 10 24-09-2019 12:15:16 PM Reprint 2026-27 Nature and Significance of Management 11 refers to consistently creating economic value for various constituents of society. This includes using environmental friendly methods of production, giving employment opportunities to the underpreviledged sections of society and providing basic amenities like schools and healthcare, etc., for community. The box given below illustrates how a company can fulfill its social responsibility. (iii) Personnel objectives: Organi- sations are made up of people who have different personalities, backgrounds, experiences and objectives. They all become part of the organisation to satisfy their diverse needs. These vary from financial needs such as competitive salaries and perks, social needs such as peer recognition and higher level needs such as personal growth and development. Management has to reconcile personal goals with organisational objectives for harmony in the organisation.
+
+### 74 752f989e-f8d7-4ac5-beb1-41bda7020cb7 | business_studies | Nature & Significance of Management | pyq_adapted | assertion_reason | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37 | Blueprint: Explain the relationship between management’s intangible nature and the organisational effects through which its presence can be felt.
+STEM: Given below are two statements: one is labelled as Assertion (A) and the other is labelled as Reason (R).
+Assertion (A): Management cannot be seen, but its presence can be felt in the way the organisation functions.
+Reason (R): The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.
+Choose the correct answer from the options given below:
+  A. Both A and R are true, and R is the correct explanation of A.
+  B. Both A and R are true, but R is not the correct explanation of A.
+  C. A is true, but R is false.
+  D. A is false, but R is true.
+KEY: A
+EXPLANATION: Management itself cannot be seen, but its presence is felt in the way the organisation functions. The listed organisational effects are examples of how that presence is felt, so R explains A. Therefore, option (A) is correct.
+SOURCE ncert-lebs101:quality-v4-ed90283b33f1: (vii) Management is an intangible force: Management is an intangi - ble force that cannot be seen but its presence can be felt in the way the organisation functions. The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.
+
+### 75 6dc5619f-7788-4137-b25d-fd77cde09130 | business_studies | Nature & Significance of Management | pyq_adapted | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q38 | Blueprint: Match each management level with a responsibility explicitly associated with it: formulation of overall organisational goals and strategies, implementation and control of top-management plans, or direct supervision of the workforce.
+STEM: Match List-I with List-II. Each management level is to be matched once with its best corresponding responsibility.
+
+List-I
+(A) Top management
+(B) Middle management
+(C) Supervisory management
+
+List-II
+(I) Directly oversee the efforts of the workforce
+(II) Formulate overall organisational goals and strategies
+(III) Implement and control plans and strategies developed by top management
+
+Choose the correct answer from the options given below:
+  A. (A)-(II), (B)-(III), (C)-(I)
+  B. (A)-(III), (B)-(II), (C)-(I)
+  C. (A)-(II), (B)-(I), (C)-(III)
+  D. (A)-(I), (B)-(III), (C)-(II)
+KEY: A
+EXPLANATION: Top management formulates overall organisational goals and strategies, middle management implements and controls plans developed by top management, and supervisors directly oversee the workforce. These responsibilities give the mapping shown in option A.
+SOURCE ncert-lebs101:quality-v4-99eb9fc192b1: (i) Top Management: They consist of the senior-most executives of the or ganisation by whatever name they are called. They are usually referred to as the chairman, the chief executive officer, chief operating officer, president and vice-president. Top management is a team consisting of managers from different functional levels, heading finance, marketing etc. For example chief finance officer, vice president (marketing). Their basic task is to integrate diverse elements and coordinate the activities of different departments according to the overall objectives of the organisation. These top level managers are responsible for the welfare and survival of the organisation. They analyse the business environment and its implications for the survival of the firm. They formulate overall organisational goals and strategies for their achievement. They are responsible for all the activities of the business and for its impact on society. The job of the top manager is complex and stressful, demanding long hours and commitment to the organisation. (ii) Middle Management: is the link between top and lower level managers. They ar e subordinate to top managers and superior to the first line managers. They are usually known as division heads, for example production manager. Middle management is responsible for implementing and controlling plans and strategies developed by top management. At the same time they are responsible for all the activities of first line managers. Their main task is to carry out the plans formulated by the top managers. For this they need to: (i) interpret the policies framed by top management, (ii) ensure that their department has the necessary personnel, (iii) assign necessary duties and responsibilities to them, (iv) motivate them to achieve desired objectives,
+
+### 78 e1ec2b03-2fe4-4cfa-8b50-20735bdf8e99 | economics | Money & Banking | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q3 | Blueprint: Calculate the deposits supported by a stated amount of reserves when the reserve ratio is 20%, using the reserves-to-deposits relationship.
+STEM: A bank holds reserves equal to exactly 20% of its deposits. It has ₹2,40,000 in reserves backing the deposits being considered, and no other constraint limits the deposits supported. How much in deposits can these reserves support?
+  A. ₹48,000
+  B. ₹12,00,000
+  C. ₹12,000
+  D. ₹1,92,000
+KEY: B
+EXPLANATION: Reserves are 20% of deposits, so deposits supported = ₹2,40,000 ÷ 0.20 = ₹12,00,000. The reserve ratio must be used as 0.20 when calculating deposits from reserves.
+SOURCE ncert-leec103:quality-v3-pdf-page-7-d2a5125880: Since the bank is only expected to keep 20 per cent of its deposits as reserves, thus, reserves of Rs 100 (20per cent of 500 = 100) can support the deposits of Rs 500.
+
+### 79 e8df2960-bcf3-4076-a2ea-656a01865aa0 | economics | Money & Banking | pyq_adapted | case_application | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q5 | Blueprint: Apply the stated effect of an RBI open-market sale of a Government bond on reserves and money supply.
+STEM: The RBI sells a Government bond in the open market to private individuals, who pay for it. No other operation affecting reserves or money supply occurs at the same time. What is the resulting effect?
+  A. Reserves increase, and money supply increases.
+  B. Reserves increase, and money supply remains unchanged.
+  C. Reserves remain unchanged, and money supply remains unchanged.
+  D. Reserves decrease, and money supply decreases.
+KEY: D
+EXPLANATION: When the RBI sells a Government bond to private individuals, the quantity of reserves falls and, consequently, the money supply falls. The stem excludes any simultaneous operation that could offset this effect, so D is correct.
+SOURCE ncert-leec103:quality-v3-pdf-page-7-d838c7ed2c: When RBI buys a Government bond in the open market, it pays for it by giving a cheque. This cheque increases the total amount of reserves in the economy and thus increases the money supply. Selling of a bond by RBI (to private individuals or institutions) leads to reduction in quantity of reserves and hence the money supply.
+
+### 81 2d491e7e-eb7d-4196-a666-169819500893 | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q8 | Blueprint: Revenue receipts are divided into which two categories?
+STEM: Revenue receipts are divided into which two categories?
+  A. Tax and non-tax revenues
+  B. Tax and capital receipts
+  C. Revenue and capital receipts
+  D. Redeemable and non-redeemable receipts
+KEY: A
+EXPLANATION: Revenue receipts are divided into tax and non-tax revenues. Therefore, option A identifies the two categories. Non-redeemable describes a characteristic of revenue receipts, rather than the stated division into categories.
+SOURCE ncert-leec105:quality-v3-pdf-page-3-681bdd9372: Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues.
+
+### 82 5bf22a44-44fd-4bb6-a6a3-ea8692c1b089 | economics | Balance of Payments | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q10 | Blueprint: Direct conceptual MCQ: identify the exchange-rate regime in which the rate is determined by market forces of demand and supply.
+STEM: Which exchange-rate regime is one in which the exchange rate is determined by market forces of demand and supply?
+  A. Floating exchange rate
+  B. Fixed exchange rate
+  C. Devaluation
+  D. Revaluation
+KEY: A
+EXPLANATION: An exchange rate determined by market forces of demand and supply is also known as a floating exchange rate. Devaluation and revaluation refer to government actions in a fixed exchange rate system, not to the regime identified in the question.
+SOURCE ncert-leec106:quality-v3-pdf-page-8-687c9c8f4e: This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate .
+SOURCE ncert-leec106:quality-v3-pdf-page-10-2c8bfe854e: In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.
+
+### 83 e374fd28-32fe-468f-99f8-6328573e5c4d | economics | Balance of Payments | pyq_adapted | case_application | medium | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q11 | Blueprint: Apply the fixed exchange-rate intervention principle: when a fixed rate produces an excess supply of dollars, identify the RBI action that absorbs it.
+STEM: A government fixes the exchange rate at ₹70 per US dollar. At this rate, the supply of dollars in the foreign exchange market exceeds the demand for dollars, and the government seeks to maintain the fixed rate. Which action should the RBI take to absorb the excess supply?
+  A. The RBI purchases the excess dollars and pays rupees for them.
+  B. The RBI sells dollars and receives rupees for them.
+  C. The RBI sets the fixed rate above ₹70 per US dollar.
+  D. The RBI makes no purchase or sale and allows the exchange rate to adjust.
+KEY: A
+EXPLANATION: With a fixed exchange rate and an excess supply of dollars, the RBI absorbs the excess by purchasing dollars and paying rupees. This intervention helps maintain the fixed rate.
+SOURCE ncert-leec106:quality-v4-ead0c0a1a3fa: Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In Fig. 6.3, the market determined exchange rate is e. However, let us suppose that for some reason the Indian Government wants to encourage exports for which it needs to make rupee cheaper for foreigners it would do so by fixing a higher exchange rate, say Rs 70 per dollar from the current exchange rate of Rs 50 per dollar. Thus, the new exchange rate set by the Government is e1, where e1 > e. At this exchange rate, the supply of dollars exceeds the demand for dollars. The RBI intervenes to purchase the dollars for rupees in the foreign exchange market in order to absorb this excess supply which has been marked as AB in the figure. Thus, through intervention, the Government can maintain any exchange rate in the economy. But it will be accumulating more and more foreign exchange so long as this intervention goes on. On the other hand if the goverment was to set an exchange rate at a level such as e 2, there would be an excess demand for dollars in the foreign exchange market. To meet this excess demand for dollars, the government would have to withdraw dollars from its past holdings of dollars. If it fails to do so, a black market for dollars may come up. In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.
+
+### 84 7b651fcb-ec32-4fc8-8333-bf64354e266f | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q22 | Blueprint: Numerical calculation: A producer plans to add ₹1,00,000 to inventory during the year. To meet sales above the planned level, the producer sells ₹30,000 worth of goods from stock. State that there are no other inventory changes during the year, then ask for actual (ex post) investment. Intended answer: ₹70,000.
+STEM: During one year, a producer plans to add ₹1,00,000 to inventory. To meet sales above the planned level during that same year, the producer sells goods worth ₹30,000 from inventory. Assume there are no other inventory changes during the year. What is the producer’s actual (ex post) investment in inventory for the year?
+  A. ₹70,000
+  B. ₹1,00,000
+  C. ₹1,30,000
+  D. ₹30,000
+KEY: A
+EXPLANATION: The producer plans to add ₹1,00,000 to inventory, but sells ₹30,000 worth of goods from stock during the same year. With no other inventory changes, the actual investment is the net increase in inventory: ₹1,00,000 − ₹30,000 = ₹70,000. Thus, option A is correct.
+SOURCE ncert-leec104:quality-v4-87826f6f5d78: These terms, however, can be used with a different connotation. Consumption may denote not what people have actually consumed in a given year, but what they Reprint 2026-27 54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be different from what she ends up doing. Suppose the producer plans to add Rs 100 worth goods to her stock by the end of the year. Her planned investment is, therefore, Rs 100 in that year. However, due to an unforeseen upsurge of demand for her goods in the market the volume of her sales exceeds what she had planned to sell and, to meet this extra demand, she has to sell goods worth Rs 30 from her stock. Therefore, at the end of the year , her inventory goes up by Rs (100 – 30) = Rs 70 only. Her planned investment is Rs 100 whereas her actual, or ex post, investment is Rs 70 only. We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures.
+
+### 85 2d6fcd66-5b15-4b43-80c7-6e3e95a16f94 | economics | National Income & Related Aggregates | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q25 | Blueprint: Case-based MCQ: A circular-flow model is explicitly stated to have no leakage. For the same period, firms distribute aggregate factor payments of ₹12 lakh, and their sales revenue in the question means aggregate consumption expenditure received by firms. Ask which relationship holds between the factor payments and that sales revenue.
+STEM: In a circular-flow model with no leakage, firms distribute aggregate factor payments of ₹12 lakh during a period. For that same period, “sales revenue” means the aggregate consumption expenditure received by firms. Which relationship holds between the factor payments and this sales revenue?
+  A. Sales revenue is ₹10 lakh, which is ₹2 lakh less than factor payments.
+  B. Sales revenue is ₹14 lakh, which is ₹2 lakh more than factor payments.
+  C. Sales revenue is ₹12 lakh, equal to factor payments.
+  D. Sales revenue cannot be determined from the stated information.
+KEY: C
+EXPLANATION: With no leakage, factor payments distributed by firms do not differ from the aggregate consumption expenditure they receive as sales revenue. Since factor payments are ₹12 lakh and sales revenue is defined as that expenditure for the same period, sales revenue is also ₹12 lakh.
+SOURCE ncert-leec102:quality-v3-pdf-page-7-ec2810240f: There is no leakage from the system – there is no difference between the amount that the firms had distributed in the form of factor payments (which is the sum total of remunerations earned by the four factors of production) and the aggregate consumption expenditure that they receive as sales revenue.
+
+### 86 448f147f-badc-4f4d-9968-5cbe48758a6e | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q26 | Blueprint: Calculate ex-ante aggregate demand for final goods from ex-ante consumption and investment expenditure in an economy without a government.
+STEM: In an economy without a government, ex-ante consumption expenditure on final goods for a period is ₹4,80,000 and ex-ante investment expenditure on final goods for the same period is ₹1,20,000. What is the ex-ante aggregate demand for final goods for that period?
+  A. ₹6,00,000
+  B. ₹3,60,000
+  C. ₹4,80,000
+  D. ₹1,20,000
+KEY: A
+EXPLANATION: For an economy without a government, ex-ante aggregate demand for final goods is the sum of ex-ante consumption and investment expenditure. Therefore, AD = ₹4,80,000 + ₹1,20,000 = ₹6,00,000.
+SOURCE ncert-leec104:quality-v3-pdf-page-2-4c12ff7f8f: We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures. In simple words, ex-ante depicts what has been planned, and ex-post depicts what has actually happened.
+SOURCE ncert-leec104:quality-v3-pdf-page-4-5fac2a1794: In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.
+
+### 87 239e0c1f-2dcc-4044-8bea-7f37985abcaa | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q27 | Blueprint: Identify the start and end dates of the financial year described for the Annual Financial Statement.
+STEM: The Annual Financial Statement presents estimated receipts and expenditures of the government for each financial year. For the government financial year to which this statement relates, which pair of dates marks its beginning and end, respectively?
+  A. 1 January to 31 December
+  B. 1 April to 31 March
+  C. 31 March to 30 March
+  D. 1 April to 31 December
+KEY: B
+EXPLANATION: The financial year runs from 1 April to 31 March. Therefore, its beginning is 1 April and its end is 31 March.
+SOURCE ncert-leec105:quality-v4-7bca1f78c90d: (Article 112) to present before the Parliament a statement of estimated receipts and expenditures of the government in respect of every financial year which runs from 1 April to 31 March. This ‘Annual Financial Statement’ constitutes the main budget document of the government.
+
+### 88 00e1e26d-7502-42f7-9ac1-10c0d9c21c41 | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q45 | Blueprint: In an economy without a government, ex ante consumption expenditure on final goods for a period is ₹7,20,000 and ex ante investment expenditure on final goods for the same period is ₹1,80,000. Calculate ex ante aggregate demand for final goods.
+STEM: In an economy with no government and no foreign trade, ex ante consumption expenditure on final goods for a period is ₹7,20,000 and ex ante investment expenditure on final goods for the same period is ₹1,80,000. Calculate ex ante aggregate demand for final goods.
+  A. (A) ₹9,00,000
+  B. (B) ₹7,20,000
+  C. (C) ₹1,80,000
+  D. (D) ₹5,40,000
+KEY: A
+EXPLANATION: With no government and no foreign trade, ex ante aggregate demand for final goods is AD = C + I. Therefore, AD = ₹7,20,000 + ₹1,80,000 = ₹9,00,000.
+SOURCE ncert-leec104:quality-v3-pdf-page-4-5fac2a1794: In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.
+
+### 89 bee206df-b2c0-42cf-b1e1-cb4c79f9552e | economics | National Income & Related Aggregates | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q47 | Blueprint: Test the distinction between the production-tax/subsidy pair and the product-tax/subsidy pair in the composition of basic prices.
+STEM: For basic prices, which treatment applies to production taxes/subsidies and product taxes/subsidies?
+  A. Production taxes less production subsidies, but not product taxes less product subsidies.
+  B. Product taxes less product subsidies, but not production taxes less production subsidies.
+  C. Both production taxes less production subsidies and product taxes less product subsidies.
+  D. Neither production taxes less production subsidies nor product taxes less product subsidies.
+KEY: A
+EXPLANATION: Basic prices include production taxes less production subsidies, but exclude product taxes less product subsidies. This matches option A.
+SOURCE ncert-leec102:quality-v3-pdf-page-16-aa3fba62bc: Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies).
+
+### 90 28e0818f-da35-4e92-a447-3c7e12e53e1b | economics | Money & Banking | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q3 | Blueprint: A case-based item asks what sequence follows when the RBI raises the bank rate, considering only the bank-rate channel: the effect on the cost of loans taken by commercial banks, their reserves and the money supply.
+STEM: In a policy situation, the RBI raises the bank rate. Assume that no other policy change or offsetting change affects the outcomes, and consider only the bank-rate channel. Which sequence gives the directions of change in the cost of loans taken by commercial banks, their reserves and the money supply?
+  A. Loans become more expensive → reserves decrease → money supply decreases.
+  B. Loans become more expensive → reserves increase → money supply increases.
+  C. Loans become less expensive → reserves increase → money supply increases.
+  D. Loans become more expensive → reserves decrease → money supply increases.
+KEY: A
+EXPLANATION: An increase in the bank rate makes loans taken by commercial banks more expensive, reduces their reserves and hence decreases the money supply. Option D gives the wrong direction for money supply when reserves decrease; options B and C conflict with the stated effects of a bank-rate increase.
+SOURCE ncert-leec103:quality-v3-pdf-page-8-66d989857f: The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply.
+
+### 91 ec69a447-f593-494b-bb5b-9b10bd73f6c8 | economics | Money & Banking | pyq_adapted | assertion_reason | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q5 | Blueprint: Test the causal relationship by which an increase in the Bank Rate reduces money supply through the cost of commercial-bank loans and commercial-bank reserves.
+STEM: Given below are two statements: one is labelled as Assertion (A) and the other as Reason (R).
+Assertion (A): An increase in the Bank Rate reduces the money supply.
+Reason (R): An increase in the Bank Rate makes loans from the RBI to commercial banks more expensive, reducing commercial-bank reserves and thereby decreasing the money supply.
+For this question, the Bank Rate is the rate at which the RBI gives loans to commercial banks. Assume that the Bank Rate increases and that no other policy operation is undertaken.
+Choose the correct answer from the options given below:
+  A. Both Assertion (A) and Reason (R) are true, and Reason (R) is the correct explanation of Assertion (A).
+  B. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of Assertion (A).
+  C. Assertion (A) is true, but Reason (R) is false.
+  D. Assertion (A) is false, but Reason (R) is true.
+KEY: A
+EXPLANATION: The Bank Rate is the rate at which the RBI gives loans to commercial banks. When it increases, those loans become more expensive, commercial-bank reserves fall, and the money supply decreases; therefore, both statements are true and the Reason explains the Assertion.
+SOURCE ncert-leec103:quality-v3-pdf-page-8-66d989857f: The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply.
+
+### 92 8c0232d7-0ab2-438d-b1b9-3d397a90ecfa | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q8 | Blueprint: Identify the stated relationship between the absence of a claim on government and the non-redeemable character of revenue receipts.
+STEM: For government revenue receipts, which statement correctly describes their relationship to a claim on the government and redeemability?
+  A. They do not lead to a claim on the government and are therefore non-redeemable.
+  B. They lead to a claim on the government and are therefore non-redeemable.
+  C. They do not lead to a claim on the government and are therefore redeemable.
+  D. They lead to a claim on the government and are therefore redeemable.
+KEY: A
+EXPLANATION: Government revenue receipts do not lead to a claim on the government; they are therefore non-redeemable. The other options reverse one or both parts of this stated relationship.
+SOURCE ncert-leec105:quality-v3-pdf-page-3-681bdd9372: Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues.
+
+### 94 d06ec060-4020-455b-af86-6a0b4ead9c02 | economics | Balance of Payments | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q11 | Blueprint: Classify a government decrease in the quoted exchange rate in a fixed exchange-rate system as revaluation.
+STEM: Under a fixed exchange-rate system, the government changes the quoted rate from ₹86 per US dollar to ₹82 per US dollar. Which term names this government action?
+  A. Devaluation, making the rupee costlier
+  B. Revaluation, making the rupee costlier
+  C. Devaluation, making the rupee cheaper
+  D. Revaluation, making the rupee cheaper
+KEY: B
+EXPLANATION: The quoted rate decreases from ₹86 to ₹82 per US dollar. In a fixed exchange-rate system, a government decrease in the exchange rate is a revaluation, which makes the domestic currency costlier. Devaluation refers to a government increase in the exchange rate, which makes the domestic currency cheaper.
+SOURCE ncert-leec106:quality-v4-ead0c0a1a3fa: Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In Fig. 6.3, the market determined exchange rate is e. However, let us suppose that for some reason the Indian Government wants to encourage exports for which it needs to make rupee cheaper for foreigners it would do so by fixing a higher exchange rate, say Rs 70 per dollar from the current exchange rate of Rs 50 per dollar. Thus, the new exchange rate set by the Government is e1, where e1 > e. At this exchange rate, the supply of dollars exceeds the demand for dollars. The RBI intervenes to purchase the dollars for rupees in the foreign exchange market in order to absorb this excess supply which has been marked as AB in the figure. Thus, through intervention, the Government can maintain any exchange rate in the economy. But it will be accumulating more and more foreign exchange so long as this intervention goes on. On the other hand if the goverment was to set an exchange rate at a level such as e 2, there would be an excess demand for dollars in the foreign exchange market. To meet this excess demand for dollars, the government would have to withdraw dollars from its past holdings of dollars. If it fails to do so, a black market for dollars may come up. In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.
+
+### 95 c8212d8b-a1bd-4c44-823a-2cd2954617a4 | economics | Income Determination | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q22 | Blueprint: Statement-selection item on classifying ex ante and ex post measures. State that, for the same period, a producer's planned inventory investment is ₹100 and actual investment is ₹70. Use these statements: (A) Planned consumption is an ex ante measure. (B) The actual investment of ₹70 in this case is an ex ante measure. (C) Planned output of final goods is an ex ante measure. (D) The planned investment of ₹100 in this case is an ex post measure. Ask which statements are correct; intended key: (A) and (C) only.
+STEM: For the same period, a producer's planned inventory investment is ₹100, while the actual investment is ₹70. Consider the following statements:
+(A) Planned consumption is an ex ante measure.
+(B) The actual investment of ₹70 in this case is an ex ante measure.
+(C) Planned output of final goods is an ex ante measure.
+(D) The planned investment of ₹100 in this case is an ex post measure.
+Which of the statements given above are correct?
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (C) and (D) only
+KEY: B
+EXPLANATION: The planned values of consumption and output of final goods are ex ante measures, so (A) and (C) are correct. For the stated same-period figures, ₹100 is planned investment and ₹70 is actual, or ex post, investment; therefore, (B) and (D) are incorrect.
+SOURCE ncert-leec104:quality-v4-87826f6f5d78: These terms, however, can be used with a different connotation. Consumption may denote not what people have actually consumed in a given year, but what they Reprint 2026-27 54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be different from what she ends up doing. Suppose the producer plans to add Rs 100 worth goods to her stock by the end of the year. Her planned investment is, therefore, Rs 100 in that year. However, due to an unforeseen upsurge of demand for her goods in the market the volume of her sales exceeds what she had planned to sell and, to meet this extra demand, she has to sell goods worth Rs 30 from her stock. Therefore, at the end of the year , her inventory goes up by Rs (100 – 30) = Rs 70 only. Her planned investment is Rs 100 whereas her actual, or ex post, investment is Rs 70 only. We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures.
+
+### 96 0fd5b59a-25d6-4a25-9e8a-b72572294fb3 | economics | National Income & Related Aggregates | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q25 | Blueprint: Ask: “In a circular-flow account, firms distribute factor payments. What do these payments comprise?” Key: the total remuneration earned by the four factors of production.
+STEM: In a circular-flow account, firms distribute aggregate factor payments. What do these payments comprise?
+  A. The sum total of remuneration earned by one factor of production
+  B. The sum total of remuneration earned by the four factors of production
+  C. The sum total of remuneration earned by three factors of production
+  D. The sum total of remuneration earned by two factors of production
+KEY: B
+EXPLANATION: Firms’ aggregate factor payments comprise the sum total of remuneration earned by the four factors of production. Hence, option B is correct.
+SOURCE ncert-leec102:quality-v3-pdf-page-7-ec2810240f: There is no leakage from the system – there is no difference between the amount that the firms had distributed in the form of factor payments (which is the sum total of remunerations earned by the four factors of production) and the aggregate consumption expenditure that they receive as sales revenue.
+
+### 97 ad10fd1a-e15f-420c-b8e3-659ed5ff93ec | economics | Income Determination | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q26 | Blueprint: Identify the components of ex ante aggregate demand in an economy without a government, without calculating a numerical value.
+STEM: For the two-sector model of an economy without a government, which expression gives ex ante aggregate demand for final goods?
+  A. Ex ante consumption expenditure + ex ante investment expenditure
+  B. Ex ante consumption expenditure alone
+  C. Ex ante investment expenditure alone
+  D. Ex ante consumption expenditure + ex post investment expenditure
+KEY: A
+EXPLANATION: In this model, ex ante aggregate demand for final goods is the sum of ex ante consumption expenditure and ex ante investment expenditure. Option D uses ex post investment expenditure instead of ex ante investment expenditure, so it does not give the stated expression.
+SOURCE ncert-leec104:quality-v3-pdf-page-4-5fac2a1794: In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.
+
+### 98 0a1f1cb8-f56d-43a4-a5d5-184d7dd25e5d | economics | Balance of Payments | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q27 | Blueprint: Calculate net exports from stated export and import values.
+STEM: For a given period, exports are ₹5,25,000 and imports are ₹4,80,000. Both figures are in rupees and refer to the same period. Calculate net exports (NX).
+  A. ₹45,000
+  B. −₹45,000
+  C. ₹10,05,000
+  D. ₹4,80,000
+KEY: A
+EXPLANATION: Net exports are exports minus imports: ₹5,25,000 − ₹4,80,000 = ₹45,000. Since exports exceed imports, NX is positive and indicates a trade surplus.
+SOURCE ncert-leec106:quality-v4-b66ef79f1ac6: where, NX is net exports (exports – imports). A positive NX (with exports greater than imports) implies a trade surplus and a negative NX (with imports exceeding exports) implies a trade deficit.
+
+### 99 dce000b8-99f7-4443-ab9d-9b78c2749e5f | economics | Income Determination | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q45 | Blueprint: Select the expression for ex ante aggregate demand for final goods in an economy without a government.
+STEM: Let C denote ex ante consumption expenditure and I denote ex ante investment expenditure on final goods for the same period. Assume an economy with no government and no foreign trade. Which expression represents ex ante aggregate demand (AD) for final goods?
+  A. AD = C + I
+  B. AD = C − I
+  C. AD = C × I
+  D. AD = I
+KEY: A
+EXPLANATION: In the stated economy, ex ante aggregate demand for final goods is the sum of ex ante consumption expenditure and ex ante investment expenditure. Therefore, AD = C + I.
+SOURCE ncert-leec104:quality-v3-pdf-page-4-5fac2a1794: In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.
+
+### 100 efb8cf73-2757-4e89-9160-98491c19fca5 | economics | National Income & Related Aggregates | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q47 | Blueprint: Calculate factor cost from a short set of accounting entries by including only payments to factors of production.
+STEM: An enterprise reports GVA at factor cost of ₹80,000. For the same period, indirect taxes are ₹12,000 and subsidies are ₹2,000. Assuming these are the only adjustments needed to convert GVA at factor cost to GVA at market prices, what is GVA at market prices?
+  A. ₹90,000
+  B. ₹92,000
+  C. ₹94,000
+  D. ₹70,000
+KEY: A
+EXPLANATION: GVA at market prices is obtained by adding indirect taxes and subtracting subsidies from GVA at factor cost. Therefore, ₹80,000 + ₹12,000 − ₹2,000 = ₹90,000. ₹92,000 omits the subsidy adjustment, while ₹94,000 adds the subsidy instead of subtracting it.
+SOURCE ncert-leec102:quality-v3-pdf-page-16-aa3fba62bc: Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies).

@@ -1,0 +1,3534 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "f5c7d0572d7d7222effd5b40f5f8a117",
+      "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+      "key": "C",
+      "explanation": "The stem states that the strong industrial base and self-sufficiency in food-grain production were achievements after forty years of planned development. It separately states that the 1991 balance-of-payments crisis led to the introduction of reforms. Therefore, the complete matching is (A)-(IV), (B)-(II), (C)-(III) and (D)-(I).",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "f5c7d0572d7d7222effd5b40f5f8a117",
+          "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f5c7d0572d7d7222effd5b40f5f8a117",
+              "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "a50b8093b8ef4ebf32f588689cc1008242edaf880d2104d4e2d6ed1bc783c2bc",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f5c7d0572d7d7222effd5b40f5f8a117",
+              "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+              "evidence_hash": "4031aac78f850a9f364a4d0a5fb2c3b503ddff568646b08f40c54fb0ff966725"
+            },
+            "source_support": {
+              "candidate_id": "f5c7d0572d7d7222effd5b40f5f8a117",
+              "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The stem states that forty years of planned development preceded both achievements: a strong industrial base and self-sufficiency in food grains. Thus A-IV, B-II and C-III.",
+                "It also states that the 1991 balance-of-payments crisis led to economic reforms, so D-I. These pairings appear together only in option C.",
+                "cuet_fit_syllabus_objective_below_2",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_5_below_7"
+              ],
+              "syllabus_chapter": "Economic Reforms Since 1991",
+              "syllabus_topic": "Background to the 1991 reforms: achievements after planned development and the balance-of-payments crisis.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "Forty years of planned development is the period preceding the two stated achievements.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A strong industrial base is an achievement stated after planned development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Self-sufficiency in food-grain production is the food-grain achievement stated after planned development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The 1991 balance-of-payments crisis led to the introduction of economic reforms.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If II and III were transposed, A's achievement pairings would fit; the printed list instead makes III food-grain-specific and II the broader post-planning achievement.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If II described a period and IV an achievement, B's first two pairings could fit; the printed descriptions assign those roles oppositely.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If I described the food-grain achievement and III the cause of reforms, D's last two pairings could fit; the stem states the reverse.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem restates the source facts and makes the matching exercise highly direct."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 1,
+                    "evidence": "Tests introductory historical context for an in-syllabus unit; the particular achievements are contextual facts."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option list-matching format closely resembles authenticated CUET Economics matching items."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "All relationships needed for the match are stated in the stem, so no Economics knowledge is needed."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The stem directly supplies the pairings' meaning, making the key accessible by reading alone."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q19",
+                  "cuet2024-economics-bookA-q27",
+                  "cuet2024-economics-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec103",
+                  "locator": "p2-c0",
+                  "quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country. This unit is an appraisal of the reform process and its implications for India. Reprint 2026-27",
+                  "start": 0,
+                  "end": 462
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 5,
+                "levels": {
+                  "syllabus_objective": 1,
+                  "format_authenticity": 3,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_syllabus_objective_below_2",
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_5_below_7"
+                ],
+                "derived_solve_seconds": 138,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 192,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 192,
+                  "median_words": 98,
+                  "p95_words": 105,
+                  "observed_max_words": 105
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 5,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Economic Reforms Since 1991"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Economic Reforms Since 1991"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p2-c0",
+                  "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395"
+                },
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p21-c0",
+                  "support_hash": "45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "b09825298ff972035afb2e726329e6ab73898804ad615ed3e24b1d8fddcc8c4a"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "f5c7d0572d7d7222effd5b40f5f8a117",
+              "content_hash": "2d74a3f076b5ca5d83e3bdd33425b9dc947e3aedb107c1f53d8d9b140eaef40b",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The stem states that forty years of planned development preceded both achievements: a strong industrial base and self-sufficiency in food grains. Thus A-IV, B-II and C-III.",
+                "It also states that the 1991 balance-of-payments crisis led to economic reforms, so D-I. These pairings appear together only in option C.",
+                "cuet_fit_syllabus_objective_below_2",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_5_below_7"
+              ],
+              "syllabus_chapter": "Economic Reforms Since 1991",
+              "syllabus_topic": "Background to the 1991 reforms: achievements after planned development and the balance-of-payments crisis.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "Forty years of planned development is the period preceding the two stated achievements.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A strong industrial base is an achievement stated after planned development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Self-sufficiency in food-grain production is the food-grain achievement stated after planned development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The 1991 balance-of-payments crisis led to the introduction of economic reforms.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If II and III were transposed, A's achievement pairings would fit; the printed list instead makes III food-grain-specific and II the broader post-planning achievement.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If II described a period and IV an achievement, B's first two pairings could fit; the printed descriptions assign those roles oppositely.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If I described the food-grain achievement and III the cause of reforms, D's last two pairings could fit; the stem states the reverse.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem restates the source facts and makes the matching exercise highly direct."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 1,
+                    "evidence": "Tests introductory historical context for an in-syllabus unit; the particular achievements are contextual facts."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option list-matching format closely resembles authenticated CUET Economics matching items."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "All relationships needed for the match are stated in the stem, so no Economics knowledge is needed."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The stem directly supplies the pairings' meaning, making the key accessible by reading alone."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q19",
+                  "cuet2024-economics-bookA-q27",
+                  "cuet2024-economics-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec103",
+                  "locator": "p2-c0",
+                  "quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country. This unit is an appraisal of the reform process and its implications for India. Reprint 2026-27",
+                  "start": 0,
+                  "end": 462
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 5,
+                "levels": {
+                  "syllabus_objective": 1,
+                  "format_authenticity": 3,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_syllabus_objective_below_2",
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_5_below_7"
+                ],
+                "derived_solve_seconds": 138,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 192,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 192,
+                  "median_words": 98,
+                  "p95_words": 105,
+                  "observed_max_words": 105
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 5,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Economic Reforms Since 1991"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Economic Reforms Since 1991"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p2-c0",
+                  "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395"
+                },
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p21-c0",
+                  "support_hash": "45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "abb5a8e3202819b08044d546e07da967588ae6319987dc20238d2f4bf791ff32"
+            }
+          },
+          "failure_details": [
+            "The stem states that forty years of planned development preceded both achievements: a strong industrial base and self-sufficiency in food grains. Thus A-IV, B-II and C-III.",
+            "It also states that the 1991 balance-of-payments crisis led to economic reforms, so D-I. These pairings appear together only in option C.",
+            "cuet_fit_syllabus_objective_below_2",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_5_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:58:40.539Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "f5c7d0572d7d7222effd5b40f5f8a117"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "f5c7d0572d7d7222effd5b40f5f8a117"
+        ],
+        "would_withhold_ids": [
+          "f5c7d0572d7d7222effd5b40f5f8a117"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "3dce0344d7ad78f4346cd451c509983e",
+      "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+      "key": "B",
+      "explanation": "At a given market price, first read each firm's quantity supplied and then add these quantities to find market supply at that price. Repeat this for other prices, then plot aggregate quantities against the corresponding prices to obtain the market supply curve.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "3dce0344d7ad78f4346cd451c509983e",
+          "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3dce0344d7ad78f4346cd451c509983e",
+              "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f81a73c4f15a039f12d4c0c80105b52035ff0f2faf7f125e62490fc6a8fb85e7",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3dce0344d7ad78f4346cd451c509983e",
+              "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+              "evidence_hash": "bbe878f9dc31b2bfcf3608eb7a2fdbe9a48a1c0df2d3d00f5da4434ae874f6b3"
+            },
+            "source_support": {
+              "candidate_id": "3dce0344d7ad78f4346cd451c509983e",
+              "content_hash": "ce0ddd924e514e1ed80b82ecf53238536bff8c8141aef21d7af71a6407cf4fc5",
+              "solved_key": "B",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "The intended procedure is to read each firm's quantity at a given price, sum those quantities, repeat across prices, and plot the aggregate quantities against price: option B.",
+                "Option C can also work if the firm quantities are read for all prices first and then summed price by price. The stem does not specify that summing must happen before moving to other prices.",
+                "Defect: multiple_correct_options: Option C is defensible if firm quantities are gathered at each price before the totals are calculated price by price. The stem does not require summing at one price before repeating the reading step for other prices.",
+                "Defect: missing_decisive_assumption: option C is correct if Read every firm's quantity at each price first, repeat that data-gathering across prices, then sum quantities within each price and plot the totals.",
+                "Condition implied_decisive: The steps imply completing the reading and summation at one price before repeating the entire operation at other prices."
+              ],
+              "syllabus_chapter": "Theory of Firms under Perfect Competition",
+              "syllabus_topic": "Market supply: supply schedules and horizontal summation to construct the market supply curve",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The schedules concern the same firms over a range of market prices.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "At each price, market quantity is obtained by summing the individual firms' quantities, and aggregate quantities are paired with corresponding prices for plotting.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.2",
+                    "E2.3"
+                  ]
+                },
+                {
+                  "condition": "The steps imply completing the reading and summation at one price before repeating the entire operation at other prices.",
+                  "status": "implied_decisive",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "The schedules already display the quantities, so one could sum their visible entries first and read each firm's quantity afterward as a check.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read every firm's quantity at each price first, repeat that data-gathering across prices, then sum quantities within each price and plot the totals.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat the schedules as already aggregated, repeat across prices, and only afterward read the individual firms' quantities.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "Option C is defensible if firm quantities are gathered at each price before the totals are calculated price by price. The stem does not require summing at one price before repeating the reading step for other prices."
+                }
+              ],
+              "style_notes": [
+                "Clarify whether “repeat the process” means repeat only the reading step or repeat both reading and summing at each price."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Market supply and supply schedules are named topics in the perfect-competition unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option sequence ordering matches the format of the authenticated sequence exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short procedural ordering task is within the range of the authenticated sequence exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "The intended order tests the method, but the alternative interpretation makes another option defensible."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q13"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec204",
+                  "locator": "p15-c0",
+                  "quote": " all prices less than the minimum LRAC. • Technological progress is expected to shift the supply curve of a firm to the right. • An increase (decrease) in input prices is expected to shift the supply curve of a firm to the left (right). • The imposition of a unit tax shifts the supply curve of a firm to the left. • The market supply curve is obtained by the horizontal summation of the supply curves of individual firms. • The price elasticity of supply of a good is the percentage change in quantity supplied due to one per cent change in the market price of the good. ssssseeeeesssssiiiiicccccrrrrreeeeexxxxxEEEEE",
+                  "start": 1298,
+                  "end": 1915
+                },
+                {
+                  "source_id": "ncert-leec204",
+                  "locator": "p11-c0",
+                  "quote": " Fig. 4.11 Fig. 4.12 Cost Curves and the Unit Tax. LRAC0 Supply Curves and Unit Tax. S0 is the and LRMC0 are, respectively, the long run supply curve of a firm before a unit tax average cost curve and the long run is imposed. After a unit tax of Rs t is marginal cost curve of a firm before a unit imposed, S1 represents the supply curve tax is imposed. LRAC1 and LRMC1 are, of the firm. respectively, the long run average cost curve and the long run marginal cost curve of a firm after a unit tax of Rs t is imposed. 4.6 MARKET SUPPLY CURVE The market supply curve shows the output levels (plotted on the x-axis) that firms in the market produce in",
+                  "start": 649,
+                  "end": 1298
+                },
+                {
+                  "source_id": "ncert-leec204",
+                  "locator": "p11-c0",
+                  "quote": " aggregate corresponding to different values of the market price (plotted on the y-axis). How is the market supply curve derived? Consider a market with n firms: firm 1, firm 2, firm 3, and so on. Suppose the market price is fixed at p. Then, the output produced by the n firms in aggregate is [supply of firm 1 at price p] + [supply of firm 2 at price p] + ... + [supply of firm n at price p]. In other words, the market supply at price p is the summation of the supplies of individual firms at that price. Let us now construct the market supply curve geometrically with just two firms in the market: firm 1 and firm 2. The two firms have different",
+                  "start": 1298,
+                  "end": 1947
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 89,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 88,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 88
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: Option C is defensible if firm quantities are gathered at each price before the totals are calculated price by price. The stem does not require summing at one price before repeating the reading step for other prices.",
+                "missing_decisive_assumption: option C is correct if Read every firm's quantity at each price first, repeat that data-gathering across prices, then sum quantities within each price and plot the totals."
+              ],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Theory of Firms under Perfect Competition"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Theory of Firms under Perfect Competition"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leec204",
+                  "version": 1,
+                  "locator": "p15-c0",
+                  "support_hash": "cc143e08915c699281f5fb20b232ee1bd039dced591fc3fa456a3fa414657b1a"
+                },
+                {
+                  "id": "ncert-leec204",
+                  "version": 1,
+                  "locator": "p11-c0",
+                  "support_hash": "310b415b312a7150ec22d60d840ca31e266615a4ab52c93348e0fa7dafd72962"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "105583c80e8938205f9764ad38977a14960c534762c8b0b330414f1e2f63f786"
+            }
+          },
+          "failure_details": [
+            "The intended procedure is to read each firm's quantity at a given price, sum those quantities, repeat across prices, and plot the aggregate quantities against price: option B.",
+            "Option C can also work if the firm quantities are read for all prices first and then summed price by price. The stem does not specify that summing must happen before moving to other prices.",
+            "Defect: multiple_correct_options: Option C is defensible if firm quantities are gathered at each price before the totals are calculated price by price. The stem does not require summing at one price before repeating the reading step for other prices.",
+            "Defect: missing_decisive_assumption: option C is correct if Read every firm's quantity at each price first, repeat that data-gathering across prices, then sum quantities within each price and plot the totals.",
+            "Condition implied_decisive: The steps imply completing the reading and summation at one price before repeating the entire operation at other prices."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:00:34.770Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "3dce0344d7ad78f4346cd451c509983e"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "3dce0344d7ad78f4346cd451c509983e"
+        ],
+        "would_withhold_ids": [
+          "3dce0344d7ad78f4346cd451c509983e"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "44337f81bb4f1b4b7ade81e162eb760a",
+      "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+      "key": "C",
+      "explanation": "The findings concern food-grain production and livelihood dependence, respectively. The stated excerpt reports both outcomes together, so food-grain self-sufficiency does not rule out continued dependence on agriculture for livelihood.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "44337f81bb4f1b4b7ade81e162eb760a",
+          "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "44337f81bb4f1b4b7ade81e162eb760a",
+              "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "68b29fa86a212a473aad54cecf2ad65305e396662138de6d3f8e6d43722f35b5",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "44337f81bb4f1b4b7ade81e162eb760a",
+              "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+              "evidence_hash": "e838f921914d88173e97cbb1b269638d75199d6c3979e4355466a12198199b3b"
+            },
+            "source_support": {
+              "candidate_id": "44337f81bb4f1b4b7ade81e162eb760a",
+              "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "C is correct: the stem stipulates that both findings are accurate, and E1.1 explicitly reports food-grain self-sufficiency alongside continued agricultural livelihood dependence. Those outcomes are compatible.",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Indian Economic Development 1950–1990",
+              "syllabus_topic": "Achievements and continuing challenges of planned development, including food-grain self-sufficiency and dependence on agriculture for livelihoods.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "Food-grain production is self-sufficient, as stated in finding (i).",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A major segment of the population continues to depend on agriculture for its livelihood, as stated in finding (ii).",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Both findings are to be treated as accurate together.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "One might infer that food-grain self-sufficiency means agriculture no longer supports many livelihoods, but finding (ii) explicitly says otherwise.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "One might read a strong industrial base as replacing agricultural livelihoods, but the stem explicitly retains substantial agricultural dependence.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If industrial growth had absorbed the agricultural workforce, livelihoods could have shifted; the stem instead says a major segment still depends on agriculture.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem stipulates both propositions and C restates their compatibility, so the answer can be found by checking consistency without economics knowledge."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "The outcomes of planned development and continuing agricultural dependence are central to the 1950–1990 development unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option, single-answer objective item, though framed as a short case application."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "The stem itself supplies both claims as accurate; resolving their compatibility requires no subject knowledge."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The key directly restates the compatibility of the two stipulated findings."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12",
+                  "cuet2024-economics-bookA-q17"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec103",
+                  "locator": "p2-c0",
+                  "quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country. This unit is an appraisal of the reform process and its implications for India. Reprint 2026-27",
+                  "start": 0,
+                  "end": 462
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 68,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 140,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 140
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Economic Reforms Since 1991"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": true,
+                "validator_chapters": [
+                  "Indian Economic Development 1950–1990"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p2-c0",
+                  "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395"
+                },
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p21-c0",
+                  "support_hash": "45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "ae99b1886f1b089f165c513ef61b3902aa9577c7b55b80a537dc63a6a8846081"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "44337f81bb4f1b4b7ade81e162eb760a",
+              "content_hash": "227335e57da13c394417e86198c6bd65665ad73e8f681fab2b25fa7c881b859e",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "C is correct: the stem stipulates that both findings are accurate, and E1.1 explicitly reports food-grain self-sufficiency alongside continued agricultural livelihood dependence. Those outcomes are compatible.",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Indian Economic Development 1950–1990",
+              "syllabus_topic": "Achievements and continuing challenges of planned development, including food-grain self-sufficiency and dependence on agriculture for livelihoods.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "Food-grain production is self-sufficient, as stated in finding (i).",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A major segment of the population continues to depend on agriculture for its livelihood, as stated in finding (ii).",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Both findings are to be treated as accurate together.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "One might infer that food-grain self-sufficiency means agriculture no longer supports many livelihoods, but finding (ii) explicitly says otherwise.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "One might read a strong industrial base as replacing agricultural livelihoods, but the stem explicitly retains substantial agricultural dependence.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If industrial growth had absorbed the agricultural workforce, livelihoods could have shifted; the stem instead says a major segment still depends on agriculture.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem stipulates both propositions and C restates their compatibility, so the answer can be found by checking consistency without economics knowledge."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "The outcomes of planned development and continuing agricultural dependence are central to the 1950–1990 development unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option, single-answer objective item, though framed as a short case application."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "The stem itself supplies both claims as accurate; resolving their compatibility requires no subject knowledge."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The key directly restates the compatibility of the two stipulated findings."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12",
+                  "cuet2024-economics-bookA-q17"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec103",
+                  "locator": "p2-c0",
+                  "quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country. This unit is an appraisal of the reform process and its implications for India. Reprint 2026-27",
+                  "start": 0,
+                  "end": 462
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 68,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 140,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 140
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Economic Reforms Since 1991"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": true,
+                "validator_chapters": [
+                  "Indian Economic Development 1950–1990"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p2-c0",
+                  "support_hash": "44b092c0f93a9d4b3cfbf3c2de46d5999cffd3ed18268dff8c248422eee14395"
+                },
+                {
+                  "id": "ncert-keec103",
+                  "version": 1,
+                  "locator": "p21-c0",
+                  "support_hash": "45f595d32dc3afc329cef577af89e1636325f6e689d9daf9109875990c002f9d"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "cf7aa83b82cabeaba1ff8876471916d4568b6bbceb784fb7568edf5318862574"
+            }
+          },
+          "failure_details": [
+            "C is correct: the stem stipulates that both findings are accurate, and E1.1 explicitly reports food-grain self-sufficiency alongside continued agricultural livelihood dependence. Those outcomes are compatible.",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_6_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:26:46.459Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "44337f81bb4f1b4b7ade81e162eb760a"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "44337f81bb4f1b4b7ade81e162eb760a"
+        ],
+        "would_withhold_ids": [
+          "44337f81bb4f1b4b7ade81e162eb760a"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "b9214d6f466afd7c117d4880e872a3a2",
+      "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+      "key": "A",
+      "explanation": "A fresh loan creates a liability, and selling government shares reduces the government’s financial assets; both are capital receipts. Therefore, total capital receipts are ₹1,20,000 + ₹35,000 = ₹1,55,000, excluding the stated revenue receipts.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "b9214d6f466afd7c117d4880e872a3a2",
+          "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b9214d6f466afd7c117d4880e872a3a2",
+              "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "addc970795a692d9a2092494a9bf74bd9fa634d395371e114daf72d49999c1e6",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b9214d6f466afd7c117d4880e872a3a2",
+              "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+              "evidence_hash": "ce104afdb6c581fe18fe1e1f5d00942609b970e1dc4c125d40e41239296d613a"
+            },
+            "source_support": {
+              "candidate_id": "b9214d6f466afd7c117d4880e872a3a2",
+              "content_hash": "c7f53df70a05564e26516c79d0b47204aff8b14e8e8f301b8f3eeac46377b439",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.4",
+                "E2.1",
+                "E2.2"
+              ],
+              "reasons": [
+                "Fresh loans are capital receipts because they create liabilities; proceeds from selling government PSU shares are capital receipts because they reduce financial assets.",
+                "Exclude the ₹2,40,000 in revenue receipts. Add the two capital receipts: ₹1,20,000 + ₹35,000 = ₹1,55,000."
+              ],
+              "syllabus_chapter": "Government Budget & the Economy",
+              "syllabus_topic": "Classification of receipts: revenue receipts and capital receipts, including loans and PSU share sales.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The listed amounts are the only receipts recorded for the period.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Fresh loans amount to ₹1,20,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The share-sale receipt is ₹35,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Revenue receipts amount to ₹2,40,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Fresh loans are classified as capital receipts.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E2.1"
+                  ]
+                },
+                {
+                  "condition": "Proceeds from selling government shares in a PSU are classified as capital receipts.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E2.1",
+                    "E2.2"
+                  ]
+                },
+                {
+                  "condition": "Revenue receipts are excluded when calculating capital receipts.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.4"
+                  ]
+                },
+                {
+                  "condition": "The capital receipts are added: ₹1,20,000 + ₹35,000 = ₹1,55,000.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Count every listed receipt, including revenue receipts, as the requested total.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat the share proceeds as not being from the government’s disposal of an asset; then only the fresh loan qualifies.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Read the request as netting the share-sale proceeds against fresh borrowing rather than adding capital receipts.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Receipt classification is explicitly named in the Government Budget unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Direct four-option numerical MCQ, consistent with the authenticated economics examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Requires straightforward classification followed by a one-step addition, within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect including all receipts, omitting disinvestment proceeds, or subtracting instead of adding."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q2",
+                  "cuet2024-economics-bookA-q46"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec105",
+                  "locator": "pdf-page-4",
+                  "quote": "69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts. When government takes fresh loans it will mean that in future these loans will have to be returned and interest will have to be paid on these loans. Similarly, when government sells an asset, then it means that in future its earnings from that asset, will disappear. Thus, these receipts can be debt creating or non-debt creating. 5.1.3. Classification of Expenditure Revenue Expenditure Revenue",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-leec105",
+                  "locator": "pdf-page-4",
+                  "quote": " like education and health where salary comprises an important element. Government Budget Revenue Budget Capital Budget Revenue Receipts Revenue Expenditure Capital Receipts Capital Expenditure Non-tax Revenue Tax Revenue Plan Revenue Expenditure Non-plan Revenue Expenditure Non-plan Capital Expenditure Plan Capital Expenditure Chart 1: The Components of the Government Budget Reprint 2026-27",
+                  "start": 1941,
+                  "end": 2335
+                },
+                {
+                  "source_id": "ncert-leec105",
+                  "locator": "quality-v4-28dc3b745963",
+                  "quote": "Capital Receipts: The government also receives money by way of loans or from the sale of its assets. Loans will have to be returned to the agencies from which they have been borrowed. Thus they create liability. Sale of government assets, like sale of shares in Public Sector Undertakings (PSUs) which is referred 1The India Tax system witnessed a dramatic change with the introduction of the GST (Goods and Services Tax) which encompasses both goods and services and was be implemented by the Centre, 28 states and 7 Union territories from 1 July, 2017. 2A Finance Bill, presented along with the Annual Financial Statement, provides details on the",
+                  "start": 0,
+                  "end": 648
+                },
+                {
+                  "source_id": "ncert-leec105",
+                  "locator": "quality-v4-28dc3b745963",
+                  "quote": " imposition, abolition, remission, alteration or regulation of taxes proposed in the Budget. Reprint 2026-27\n69 6969 6969 Government Budget and the Economy to as PSU disinvestment, reduce the total amount of financial assets of the government. All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+                  "start": 648,
+                  "end": 1010
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 10,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 61,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 55,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 55,
+                  "median_words": 38,
+                  "p95_words": 55,
+                  "observed_max_words": 55
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 10,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Government Budget & the Economy"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Government Budget & the Economy"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leec105",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+                },
+                {
+                  "id": "ncert-leec105",
+                  "version": 1,
+                  "locator": "quality-v4-28dc3b745963",
+                  "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "4ba0b4137455e2d900da4c34f5d79847fa10f19c9d805e2087225ffc15c91cb4"
+            }
+          },
+          "failure_details": [
+            "Fresh loans are capital receipts because they create liabilities; proceeds from selling government PSU shares are capital receipts because they reduce financial assets.",
+            "Exclude the ₹2,40,000 in revenue receipts. Add the two capital receipts: ₹1,20,000 + ₹35,000 = ₹1,55,000."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:26:42.516Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "b9214d6f466afd7c117d4880e872a3a2"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "b9214d6f466afd7c117d4880e872a3a2"
+        ],
+        "would_withhold_ids": [
+          "b9214d6f466afd7c117d4880e872a3a2"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "d03862b65899f0dcdae662824a18069e",
+      "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+      "key": "D",
+      "explanation": "The paradox of thrift states that total savings do not increase when people raise the proportion of income they save; savings may remain unchanged. In the illustration, aggregate saving is 10 both before and after the increase in thrift. Therefore, statements (B) and (D) are correct.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "d03862b65899f0dcdae662824a18069e",
+          "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "d03862b65899f0dcdae662824a18069e",
+              "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "efade70ace9250d75740832d08bfa97c115beab6bb91fddf90f3580c3ae1f453",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "d03862b65899f0dcdae662824a18069e",
+              "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+              "evidence_hash": "8b7506929afc45080e3360fcf32a7a8c16b1c0b9cc04db45fcb759c55c07815a"
+            },
+            "source_support": {
+              "candidate_id": "d03862b65899f0dcdae662824a18069e",
+              "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.5"
+              ],
+              "reasons": [
+                "The stated paradox allows aggregate saving to decline or remain unchanged, so (A) and (C) are false while (B) is true. The illustration explicitly gives saving as 10 at both points, making (D) true; the matching answer is D.",
+                "The rule and equal-saving example are supported by E1.1 and E1.5.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Income Determination",
+              "syllabus_topic": "Paradox of thrift as an application of income determination",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The paradox is applied to an increase in the proportion of income saved by all people.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Under the stated paradox, aggregate saving does not increase and may either decline or remain unchanged.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The illustration states aggregate saving is 10 before and after the increase in thrift.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Even setting aside the numerical illustration, A's necessary increase conflicts with B's permitted unchanged total; D is also explicitly true.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "A's necessary increase conflicts with C's necessary decline; moreover, D is explicitly true, so this cannot be the complete correct set.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Only by disregarding the stated unchanged aggregate saving could C's universal decline claim hold; D itself is explicitly true.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The introductory premise gives the central rule and repeats the numerical fact in statement (D), so the item has limited discrimination."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognised application of income determination; the syllabus names determination of income but not the paradox by name."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option statement selection matches authenticated CUET Economics items."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within the exemplar range, but the stem supplies the rule and example, making this more direct."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The premise directly supplies the rule and numerical fact needed to select the statements."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q26",
+                  "cuet2024-economics-bookA-q39",
+                  "cuet2024-economics-bookA-q43"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec104",
+                  "locator": "pdf-page-11",
+                  "quote": "63 63636363 Determination of Income and Employment Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift If all the people of the economy increase the proportion of income they save (i.e. if the mps of the economy increases) the total value of savings in the economy will not increase – it will either decline or remain unchanged. This result is known as the Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift – which states that as people become more thrifty they end up saving less or same as before. This result, though sounds apparently impossible, is actually a simple",
+                  "start": 0,
+                  "end": 640
+                },
+                {
+                  "source_id": "ncert-leec104",
+                  "locator": "pdf-page-11",
+                  "quote": " convergent. What is the total decrease in the value of output and aggregate demand? Add up the infinite series 75 + (0.5) 75 + (0.5) 2 75 + ........ ¥ and the total reduction in output turns out to be 75 1 – 0.5 = 150 But that means the new equilibrium output of the economy is only Y * 2 = 100. People are now saving S * 2 = Y * 2 – C * 2 = Y * 2 – ( C + c2.Y * 2 ) = 100 – (40 + 0.5 × 100) = 10 in aggregate, whereas under the previous equilibrium they were saving S * 1 = Y * 1 – C * 1 = Y * 1 – ( C + c1.Y * 1) = 250 – (40 + 0.8 × 250) = 10 at the previous mpc, c1 = 0.8. Total value of savings in the economy has, therefore, remained unchanged.",
+                  "start": 2574,
+                  "end": 3224
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 3,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 134,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 118,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 118,
+                  "median_words": 83,
+                  "p95_words": 107,
+                  "observed_max_words": 107
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Income Determination"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Income Determination"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-leec104",
+                  "version": 1,
+                  "locator": "pdf-page-11",
+                  "support_hash": "bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28"
+                },
+                {
+                  "id": "ncert-leec104",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-11-cddd2ad805",
+                  "support_hash": "cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "69ed8f75729d30ce8d412a86e9e15227d316ac00e57f393baa382832d84628c7"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "d03862b65899f0dcdae662824a18069e",
+              "content_hash": "3f0db137f8ea1155f06f9b4082fc8e3aa06974a3626d38d3d4571868be2bd1c5",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.5"
+              ],
+              "reasons": [
+                "The stated paradox allows aggregate saving to decline or remain unchanged, so (A) and (C) are false while (B) is true. The illustration explicitly gives saving as 10 at both points, making (D) true; the matching answer is D.",
+                "The rule and equal-saving example are supported by E1.1 and E1.5.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Income Determination",
+              "syllabus_topic": "Paradox of thrift as an application of income determination",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The paradox is applied to an increase in the proportion of income saved by all people.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Under the stated paradox, aggregate saving does not increase and may either decline or remain unchanged.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The illustration states aggregate saving is 10 before and after the increase in thrift.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Even setting aside the numerical illustration, A's necessary increase conflicts with B's permitted unchanged total; D is also explicitly true.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "A's necessary increase conflicts with C's necessary decline; moreover, D is explicitly true, so this cannot be the complete correct set.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Only by disregarding the stated unchanged aggregate saving could C's universal decline claim hold; D itself is explicitly true.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The introductory premise gives the central rule and repeats the numerical fact in statement (D), so the item has limited discrimination."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognised application of income determination; the syllabus names determination of income but not the paradox by name."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option statement selection matches authenticated CUET Economics items."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within the exemplar range, but the stem supplies the rule and example, making this more direct."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The premise directly supplies the rule and numerical fact needed to select the statements."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q26",
+                  "cuet2024-economics-bookA-q39",
+                  "cuet2024-economics-bookA-q43"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec104",
+                  "locator": "pdf-page-11",
+                  "quote": "63 63636363 Determination of Income and Employment Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift If all the people of the economy increase the proportion of income they save (i.e. if the mps of the economy increases) the total value of savings in the economy will not increase – it will either decline or remain unchanged. This result is known as the Paradox of ThriftParadox of ThriftParadox of ThriftParadox of ThriftParadox of Thrift – which states that as people become more thrifty they end up saving less or same as before. This result, though sounds apparently impossible, is actually a simple",
+                  "start": 0,
+                  "end": 640
+                },
+                {
+                  "source_id": "ncert-leec104",
+                  "locator": "pdf-page-11",
+                  "quote": " convergent. What is the total decrease in the value of output and aggregate demand? Add up the infinite series 75 + (0.5) 75 + (0.5) 2 75 + ........ ¥ and the total reduction in output turns out to be 75 1 – 0.5 = 150 But that means the new equilibrium output of the economy is only Y * 2 = 100. People are now saving S * 2 = Y * 2 – C * 2 = Y * 2 – ( C + c2.Y * 2 ) = 100 – (40 + 0.5 × 100) = 10 in aggregate, whereas under the previous equilibrium they were saving S * 1 = Y * 1 – C * 1 = Y * 1 – ( C + c1.Y * 1) = 250 – (40 + 0.8 × 250) = 10 at the previous mpc, c1 = 0.8. Total value of savings in the economy has, therefore, remained unchanged.",
+                  "start": 2574,
+                  "end": 3224
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 3,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 134,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 118,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 118,
+                  "median_words": 83,
+                  "p95_words": 107,
+                  "observed_max_words": 107
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Income Determination"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Income Determination"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leec104",
+                  "version": 1,
+                  "locator": "pdf-page-11",
+                  "support_hash": "bb68b8eaaaf0a4d8ae19b247b4c8603d254e08844293646cba907be3b6425d28"
+                },
+                {
+                  "id": "ncert-leec104",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-11-cddd2ad805",
+                  "support_hash": "cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "9c0d175bcbbb0b2987effa7938cc14c5f90343e980e71cf023a80b0b578b092a"
+            }
+          },
+          "failure_details": [
+            "The stated paradox allows aggregate saving to decline or remain unchanged, so (A) and (C) are false while (B) is true. The illustration explicitly gives saving as 10 at both points, making (D) true; the matching answer is D.",
+            "The rule and equal-saving example are supported by E1.1 and E1.5.",
+            "cuet_fit_score_6_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:29:13.312Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "d03862b65899f0dcdae662824a18069e"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "d03862b65899f0dcdae662824a18069e"
+        ],
+        "would_withhold_ids": [
+          "d03862b65899f0dcdae662824a18069e"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "9e62010f5c2d2f0291f8874bd0f108bc",
+      "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+      "key": "D",
+      "explanation": "D follows because major common economic activities in a region affect overall human development in a shared environment. The stated rationale is the shared economic and human-development context, not an assumption of political similarity. The excerpt specifically notes little similarity between the political power setups of India, Pakistan and China.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "9e62010f5c2d2f0291f8874bd0f108bc",
+          "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9e62010f5c2d2f0291f8874bd0f108bc",
+              "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "fff6b724d2c5e6fe4b63c3bab8a3560ee432ba6c05a497a90a8f0f3aeee978b1",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9e62010f5c2d2f0291f8874bd0f108bc",
+              "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+              "evidence_hash": "115657869de213a707eeb97b4adba7d4fbf1b3f244f58623e22fc974a427bd34"
+            },
+            "source_support": {
+              "candidate_id": "9e62010f5c2d2f0291f8874bd0f108bc",
+              "content_hash": "4712c0d0e7e3496052763d2a62949c4c96315f36d4af4f6282167f9aba1538b2",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3",
+                "E1.4",
+                "E2.1"
+              ],
+              "reasons": [
+                "E1.1 states that common economic activities in the region affect overall human development in a shared environment, which directly supports D.",
+                "A is unsupported and contrary to the excerpt's description of differing political power structures; B and C conflict with the excerpt's rationale for understanding neighbouring economies and their strategies."
+              ],
+              "syllabus_chapter": "Development Experiences of India",
+              "syllabus_topic": "Comparison with neighbours: rationale for studying their developmental experiences and common regional effects on human development",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Common economic activities in the region affect overall human development in a shared environment.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat shared regional conditions as implying a common political structure, rather than only shared geography and economic activity.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Constrain the need to study neighbours to a controlled policy comparison that requires matched domestic policies.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read the task as merely identifying a regional grouping, without interest in developmental strategies or country performance.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Option D closely echoes the textbook phrasing, while A–C are conspicuously implausible."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Neighbour comparison is an examinable part of the syllabus; this tests a supporting rationale for it."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option, single-answer conceptual MCQ, with a slightly more inferential stem than the exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "One-step comprehension is within the range of the authenticated recall and matching items."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "D repeats the stem's cues and the other options make implausible claims, so the key can be spotted with little subject knowledge."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q18",
+                  "cuet2024-economics-bookA-q19",
+                  "cuet2024-economics-bookA-q21"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec108",
+                  "locator": "p4-c0",
+                  "quote": "Geography has made us neighbours. History has made us friends. Economics has made us partners, and necessity has made us allies. Those whom God has so joined together, let no man put asunder. John F. Kennedy 8.1 INTRODUCTION understanding of the other economies in our neighbourhood is also required In the preceding units we studied the as all major common economic developmental experience of India in activities in the region impinge on detail. We also studied the kind of overall human development in a policies India adopted, which had shared environment. varying impacts in different sectors. In this chapter we will compare the Over the last",
+                  "start": 0,
+                  "end": 648
+                },
+                {
+                  "source_id": "ncert-keec108",
+                  "locator": "p4-c0",
+                  "quote": " two decades or so, the developmental strategies pursued by economic transformation that is taking India and the largest two of its place in different countries across the neighbouring economies—Pakistan world, partly because of the process and China. It has to be remembered of globalisation, has both short as that despite being endowed with vast well as long-term implications for natural resources, there is little each country, including India. Nations similarity between the political power have been primarily trying to adopt setup of India - the largest democracy various means which will strengthen of the world which is wedded to a their",
+                  "start": 648,
+                  "end": 1295
+                },
+                {
+                  "source_id": "ncert-keec108",
+                  "locator": "p4-c0",
+                  "quote": " own domestic economies. To this secular and deeply liberal Constitution effect, they are forming regional and for more than half a century, and the global economic groupings such as militarist political power structure of the SAARC, European Union, Pakistan or the command economy ASEAN, G-8, G-20, BRICS etc. In of China that has only recently addition, there is also an increasing started moving towards a democratic eagerness on the parts of various system and more liberal economic nations to try and understand the restructuring respectively. developmental processes pursued by their neighbouring nations as it 8.2 DEVELOPMENTAL PATH—A allows",
+                  "start": 1295,
+                  "end": 1943
+                },
+                {
+                  "source_id": "ncert-keec108",
+                  "locator": "p4-c0",
+                  "quote": " them to better comprehend SNAPSHOT VIEW their own strengths and weaknesses vis-à-vis their neighbours.",
+                  "start": 1943,
+                  "end": 2046
+                },
+                {
+                  "source_id": "ncert-keec108",
+                  "locator": "p3-c0",
+                  "quote": "8 C OMPARATIVE D E I EVELOPMENT XPERIENCES OF NDIA N AND ITS EIGHBOURS After studying this chapter, the learners will • figure out comparative trends in various economic and human development indicators of India and its neighbours, China and Pakistan • assess the strategies that these countries have adopted to reach their present state of development. 134 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+                  "start": 0,
+                  "end": 401
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 53,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 90,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 90
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 7,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Development Experiences of India"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Development Experiences of India"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec108",
+                  "version": 1,
+                  "locator": "p4-c0",
+                  "support_hash": "cbad813aec21d334a01b3a3856d73ca8dc8fe7c30b4d11d6e443093ac826be79"
+                },
+                {
+                  "id": "ncert-keec108",
+                  "version": 1,
+                  "locator": "p3-c0",
+                  "support_hash": "6ef7e97163bc899902d2bce8fe249ebba0d9d135a208e76f60f325ed4b11d381"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "dc2a082180a94bf2bcd4fe679caeadb2c8e26f756ba6703ae8faf89567a50806"
+            }
+          },
+          "failure_details": [
+            "E1.1 states that common economic activities in the region affect overall human development in a shared environment, which directly supports D.",
+            "A is unsupported and contrary to the excerpt's description of differing political power structures; B and C conflict with the excerpt's rationale for understanding neighbouring economies and their strategies."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:51:20.237Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "9e62010f5c2d2f0291f8874bd0f108bc"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "9e62010f5c2d2f0291f8874bd0f108bc"
+        ],
+        "would_withhold_ids": [
+          "9e62010f5c2d2f0291f8874bd0f108bc"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "a086a294fae62986ef3cc7451ac08f81",
+      "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+      "key": "A",
+      "explanation": "From Year 1 to Year 2, GDP growth is (220 − 200) ÷ 200 × 100 = 10%, and employment growth is (84 − 80) ÷ 80 × 100 = 5%. From Year 2 to Year 3, GDP growth is (242 − 220) ÷ 220 × 100 = 10%, while employment growth is 0%. Thus, production increases without generating employment in the second interval, which meets the stated meaning of jobless growth.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "a086a294fae62986ef3cc7451ac08f81",
+          "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "a086a294fae62986ef3cc7451ac08f81",
+              "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "0e20ae65cc484055c441521bb17828ef2a59226545d8784276ba8ed1e8887887",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "a086a294fae62986ef3cc7451ac08f81",
+              "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+              "evidence_hash": "a8be7e28db5a6cdec06c1148f25e62e363131f88385c558a405071f8fecf13c7"
+            },
+            "source_support": {
+              "candidate_id": "a086a294fae62986ef3cc7451ac08f81",
+              "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "GDP growth is (220−200)/200=10% and (242−220)/220=10%. Employment growth is (84−80)/80=5%, then (84−84)/84=0%.",
+                "Given the stem's definition, production rises without generating employment in Year 2 to Year 3 only. E1.1 supports the jobless-growth concept.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Employment",
+              "syllabus_topic": "Employment growth in relation to GDP growth; jobless growth",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "GDP index values are 200 in Year 1, 220 in Year 2, and 242 in Year 3.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Employed persons are 80 million in Year 1, 84 million in Year 2, and 84 million in Year 3.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Use the stated percentage-change formula with the initial value as denominator.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "An increase in the GDP index represents increased production, and jobless growth means increased production without generating employment.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat the unchanged Year 2-to-Year 3 employment count as a 5% increase.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Label the first interval jobless growth despite the stated increase in employed persons.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Use 242, the final value, as the denominator for the second interval's percentage change.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Tests the employment-growth and jobless-growth concepts within the Employment unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option numerical MCQ with a clear calculation task, matching the supplied Economics exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Requires straightforward percentage calculations and a short application, within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect identifiable interval-labeling, employment-growth, and denominator errors."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q2",
+                  "cuet2024-economics-bookA-q46",
+                  "cuet2024-economics-bookA-q50"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec106",
+                  "locator": "p10-c0",
+                  "quote": "between the growth of GDP and rural areas and is dependent on employment. This means that in the agriculture as their main livelihood. Indian economy, without generating Developmental strategies in many employment, we have been able to countries, including India, have aimed produce more goods and services. at reducing the proportion of people Scholars refer to this phenomenon as depending on agriculture. jobless growth. Distribution of workforce by So far we have seen how employment industrial sectors shows substantial has grown in comparison to GDP. Now it shift from farm work to non-farm work is necessary to know how the growth (see Table",
+                  "start": 0,
+                  "end": 648
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 153,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 182,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 182,
+                  "median_words": 38,
+                  "p95_words": 55,
+                  "observed_max_words": 55
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Employment"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Employment"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-keec106",
+                  "version": 1,
+                  "locator": "p10-c0",
+                  "support_hash": "f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b"
+                },
+                {
+                  "id": "ncert-keec106",
+                  "version": 1,
+                  "locator": "p13-c0",
+                  "support_hash": "f8ae446f457b81240ee597663a4776911786b8d0b92c28277db38dd7c76e2dc3"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "9fe55468805365698eee705bbb3d201951c9f7c1f5a0e427e8177d3dd421168e"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "a086a294fae62986ef3cc7451ac08f81",
+              "content_hash": "592ce0416586cc75bae4f8f32fce90b2eb7a0fba6d3b2ff131d7675bbbee94b2",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "GDP growth is (220−200)/200=10% and (242−220)/220=10%. Employment growth is (84−80)/80=5%, then (84−84)/84=0%.",
+                "Given the stem's definition, production rises without generating employment in Year 2 to Year 3 only. E1.1 supports the jobless-growth concept.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Employment",
+              "syllabus_topic": "Employment growth in relation to GDP growth; jobless growth",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "GDP index values are 200 in Year 1, 220 in Year 2, and 242 in Year 3.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Employed persons are 80 million in Year 1, 84 million in Year 2, and 84 million in Year 3.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Use the stated percentage-change formula with the initial value as denominator.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "An increase in the GDP index represents increased production, and jobless growth means increased production without generating employment.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat the unchanged Year 2-to-Year 3 employment count as a 5% increase.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Label the first interval jobless growth despite the stated increase in employed persons.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Use 242, the final value, as the denominator for the second interval's percentage change.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Tests the employment-growth and jobless-growth concepts within the Employment unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option numerical MCQ with a clear calculation task, matching the supplied Economics exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Requires straightforward percentage calculations and a short application, within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect identifiable interval-labeling, employment-growth, and denominator errors."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q2",
+                  "cuet2024-economics-bookA-q46",
+                  "cuet2024-economics-bookA-q50"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec106",
+                  "locator": "p10-c0",
+                  "quote": "between the growth of GDP and rural areas and is dependent on employment. This means that in the agriculture as their main livelihood. Indian economy, without generating Developmental strategies in many employment, we have been able to countries, including India, have aimed produce more goods and services. at reducing the proportion of people Scholars refer to this phenomenon as depending on agriculture. jobless growth. Distribution of workforce by So far we have seen how employment industrial sectors shows substantial has grown in comparison to GDP. Now it shift from farm work to non-farm work is necessary to know how the growth (see Table",
+                  "start": 0,
+                  "end": 648
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 153,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 182,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 182,
+                  "median_words": 38,
+                  "p95_words": 55,
+                  "observed_max_words": 55
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Employment"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Employment"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec106",
+                  "version": 1,
+                  "locator": "p10-c0",
+                  "support_hash": "f0d0365563e92e9c1fb47cbef905063b28a5e4d17d1d3e4dd2795b0667a9916b"
+                },
+                {
+                  "id": "ncert-keec106",
+                  "version": 1,
+                  "locator": "p13-c0",
+                  "support_hash": "f8ae446f457b81240ee597663a4776911786b8d0b92c28277db38dd7c76e2dc3"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "c5ee4d0dcf82bec0d4804130cd8be02cdd38258f6a41573b06479200bb3ad396"
+            }
+          },
+          "failure_details": [
+            "GDP growth is (220−200)/200=10% and (242−220)/220=10%. Employment growth is (84−80)/80=5%, then (84−84)/84=0%.",
+            "Given the stem's definition, production rises without generating employment in Year 2 to Year 3 only. E1.1 supports the jobless-growth concept.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:51:16.305Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "a086a294fae62986ef3cc7451ac08f81"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "a086a294fae62986ef3cc7451ac08f81"
+        ],
+        "would_withhold_ids": [
+          "a086a294fae62986ef3cc7451ac08f81"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "b26c48b73d3af972154a476ba7d8f802",
+      "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+      "key": "A",
+      "explanation": "The initial-years yield comparison maps (A) to (III), and the scale-adaptation concern for small and marginal farmers maps (B) to (IV). The comparison with sprayed produce maps (C) to (II), while the limited choice of off-season crops maps (D) to (I). Therefore, option A gives the complete match.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "b26c48b73d3af972154a476ba7d8f802",
+          "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b26c48b73d3af972154a476ba7d8f802",
+              "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "867a27e84fce43c0fff3707f17e17d0b275dc3e0f0498ef8384758dc8bd96035",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b26c48b73d3af972154a476ba7d8f802",
+              "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+              "evidence_hash": "ae73b7d8005fdbbb3735c14e9b551321fb447d3346c886c99ad7057b7675cf15"
+            },
+            "source_support": {
+              "candidate_id": "b26c48b73d3af972154a476ba7d8f802",
+              "content_hash": "d2c8e4c29d0b2ddbf3d1ef612ad693356463b390026e0b7a62e3647a721e02cb",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "The source supports the four matches: initial-year yields are lower; small and marginal farmers may find large-scale adaptation difficult; organic produce may have more blemishes and shorter shelf life; and off-season crop choice is limited. These correspond to (A)-(III), (B)-(IV), (C)-(II), and (D)-(I), so A is correct.",
+                "The issue descriptions retain the source’s relevant qualifiers, including “initial years” and “may”; no additional case-specific assumption or calculation is needed."
+              ],
+              "syllabus_chapter": "Rural Development",
+              "syllabus_topic": "Alternative farming: organic farming and its limitations",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Organic yields are lower than modern agricultural yields during the initial years.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Small and marginal farmers may find adaptation to large-scale organic production difficult.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Organic produce may have more blemishes and a shorter shelf life than sprayed produce.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The choice of off-season crops under organic farming is limited.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Read A as the small-farmer adaptation issue and B as the initial-year yield comparison; then these pairings fit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read C as planning off-season crops and D as comparing produce blemishes and shelf life; then these two assignments fit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat issue descriptions A and C as exchanged, while B and D retain their stated meanings.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The issue descriptions closely cue the corresponding implications, making the matching relatively direct."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Organic farming is a named alternative-farming topic within the Rural Development syllabus."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Standard four-option matching format, as in the authenticated economics matching exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct factual matching falls within the recall and matching demand of the supplied CUET exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The alternatives swap plausible limitations, though the descriptions closely cue the matches."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "recall",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q19",
+                  "cuet2024-economics-bookA-q27",
+                  "cuet2024-economics-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec105",
+                  "locator": "p14-c0",
+                  "quote": "appropriate agriculture policy to sector might continue to remain promote organic farming. It has been backward. There is a greater need observed that the yields from organic today to make rural areas more farming are less than modern vibrant through diversification into agricultural farming in the initial years. dairying, poultry, fisheries, Therefore, small and marginal farmers vegetables and fruits and linking up may find it difficult to adapt to large- the rural production centres with the scale production. Organic produce may urban and foreign (export) markets also have more blemishes and a shorter to realise higher returns on the shelf",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-keec105",
+                  "locator": "p14-c0",
+                  "quote": " life than sprayed produce. investments for the products. Moreover choice in production of Moreover, infrastructure elements off-season crops is quite limited in like credit and marketing, farmer- organic farming. Nevertheless, organic friendly agricultural policies and a farming helps in sustainable constant appraisal and dialogue development of agriculture and India between farmers’ groups and state has a clear advantage in producing agricultural departments are organic products for both domestic and essential to realise the full potential international markets. Do you think of the sector. food and non-food items cultivated Today we cannot",
+                  "start": 649,
+                  "end": 1298
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 141,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 202,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 202,
+                  "median_words": 98,
+                  "p95_words": 105,
+                  "observed_max_words": 105
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Rural Development"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Rural Development"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec105",
+                  "version": 1,
+                  "locator": "p14-c0",
+                  "support_hash": "5479e9e45e466bf7db4a5fd515b8b639d37acc6e7783fe4d6117dbedc25d40cb"
+                },
+                {
+                  "id": "ncert-keec105",
+                  "version": 1,
+                  "locator": "p16-c0",
+                  "support_hash": "1e4d22d54570d0463e69fd766de0041e50b820458ad13f769e43e531b7396fab"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "3454bab9c33c408f18548752ad01eca83a7a3dcfbcf0233f589cd058466cafaa"
+            }
+          },
+          "failure_details": [
+            "The source supports the four matches: initial-year yields are lower; small and marginal farmers may find large-scale adaptation difficult; organic produce may have more blemishes and shorter shelf life; and off-season crop choice is limited. These correspond to (A)-(III), (B)-(IV), (C)-(II), and (D)-(I), so A is correct.",
+            "The issue descriptions retain the source’s relevant qualifiers, including “initial years” and “may”; no additional case-specific assumption or calculation is needed."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:54:41.155Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "b26c48b73d3af972154a476ba7d8f802"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "b26c48b73d3af972154a476ba7d8f802"
+        ],
+        "would_withhold_ids": [
+          "b26c48b73d3af972154a476ba7d8f802"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "3c8d31764c62441ee2a27c97059c5b08",
+      "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+      "key": "A",
+      "explanation": "The stated relationship makes each area’s existing level of economic development relevant when assessing the value of IT. The e-mail example, the projection of e-governance and the open discussion question do not establish the conclusions in options B, C and D.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "3c8d31764c62441ee2a27c97059c5b08",
+          "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3c8d31764c62441ee2a27c97059c5b08",
+              "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "4f09b0c51339b5bc36cdd1a06b00cd9a71f145ed07801e0c218eb0787974ee40",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3c8d31764c62441ee2a27c97059c5b08",
+              "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+              "evidence_hash": "2fb8957142ec29e11771fd3d8490d011339801cb9e6e8d0849158e8610dda80a"
+            },
+            "source_support": {
+              "candidate_id": "3c8d31764c62441ee2a27c97059c5b08",
+              "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The cited principle says IT’s value depends greatly on the existing level of economic development, so assessing it in relation to each area’s level is supported.",
+                "The e-mail example and e-governance projection do not establish equal or development-independent value; the discussion question is expressly left unanswered.",
+                "cuet_fit_syllabus_objective_below_2"
+              ],
+              "syllabus_chapter": "Human Capital Formation",
+              "syllabus_topic": "Human capital, economic development and the knowledge economy",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The account states that IT’s value depends greatly on the existing level of economic development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The two rural areas have different existing levels of economic development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The e-mail use is presented as an example of transformation, not as evidence of equal IT value across the two areas.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The e-governance statement is a projection, not a claim that IT’s value is independent of development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The question about rural IT services and human development is raised without being answered.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat villagers’ e-mail use as evidence that the same technology has comparable value across areas.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read the future projection of e-governance as evidence that IT value does not vary with development.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat the discussion question about rural services and human development as an affirmative answer.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem incorporates the relevant account information directly, so a separate passage is not needed."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 1,
+                    "evidence": "A peripheral knowledge-economy application within the Human Capital Formation unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective question, with a short scenario and one supported conclusion."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "A straightforward application, slightly beyond the supplied direct-recall exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors test confusing an example or projection with evidence, and treating an open question as answered."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q15",
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p10-c0",
+                  "quote": "Box 4.2: India as a Knowledge Economy The Indian software industry has been showing an impressive record over the past two decades. Entrepreneurs, bureaucrats and politicians are now advancing views about how India can transform itself into a knowledge-based economy by using information technology (IT). There have been some instances of villagers using e-mail which are cited as examples of such transformation. Likewise, e- governance is being projected as the way of the future. The value of IT depends greatly on the existing level of economic development. Do you think IT - based services in rural areas will lead to human development? Discuss.",
+                  "start": 0,
+                  "end": 650
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 1,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_syllabus_objective_below_2"
+                ],
+                "derived_solve_seconds": 85,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 134,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 134
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Human Capital Formation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Human Capital Formation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p10-c0",
+                  "support_hash": "2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11"
+                },
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p6-c1905",
+                  "support_hash": "4c68ee0909e97372af3a003cbe9c29ea2e14243a75db726541582cf567b9eec8"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "ac25b5ce10a0e178f6e5090bae58cd002bdbbc852b4a660b0a7cb793bea11388"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "3c8d31764c62441ee2a27c97059c5b08",
+              "content_hash": "b6c55bdaa339a75ef2227619d68a541ac5ad4765ba38b6b00d1c10c55544a0e2",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The cited principle says IT’s value depends greatly on the existing level of economic development, so assessing it in relation to each area’s level is supported.",
+                "The e-mail example and e-governance projection do not establish equal or development-independent value; the discussion question is expressly left unanswered.",
+                "cuet_fit_syllabus_objective_below_2"
+              ],
+              "syllabus_chapter": "Human Capital Formation",
+              "syllabus_topic": "Human capital, economic development and the knowledge economy",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The account states that IT’s value depends greatly on the existing level of economic development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The two rural areas have different existing levels of economic development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The e-mail use is presented as an example of transformation, not as evidence of equal IT value across the two areas.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The e-governance statement is a projection, not a claim that IT’s value is independent of development.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The question about rural IT services and human development is raised without being answered.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat villagers’ e-mail use as evidence that the same technology has comparable value across areas.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read the future projection of e-governance as evidence that IT value does not vary with development.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat the discussion question about rural services and human development as an affirmative answer.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem incorporates the relevant account information directly, so a separate passage is not needed."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 1,
+                    "evidence": "A peripheral knowledge-economy application within the Human Capital Formation unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective question, with a short scenario and one supported conclusion."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "A straightforward application, slightly beyond the supplied direct-recall exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors test confusing an example or projection with evidence, and treating an open question as answered."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q15",
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p10-c0",
+                  "quote": "Box 4.2: India as a Knowledge Economy The Indian software industry has been showing an impressive record over the past two decades. Entrepreneurs, bureaucrats and politicians are now advancing views about how India can transform itself into a knowledge-based economy by using information technology (IT). There have been some instances of villagers using e-mail which are cited as examples of such transformation. Likewise, e- governance is being projected as the way of the future. The value of IT depends greatly on the existing level of economic development. Do you think IT - based services in rural areas will lead to human development? Discuss.",
+                  "start": 0,
+                  "end": 650
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 1,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_syllabus_objective_below_2"
+                ],
+                "derived_solve_seconds": 85,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 134,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 134
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Human Capital Formation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Human Capital Formation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p10-c0",
+                  "support_hash": "2e12837f3a45f1793241933ed41864f307d0aa027ed1281bdca6fc152e938a11"
+                },
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p6-c1905",
+                  "support_hash": "4c68ee0909e97372af3a003cbe9c29ea2e14243a75db726541582cf567b9eec8"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "522f20eeea41f7a3d146b7e417cb77249a5ca91ad9ba46a87395bee6ec744612"
+            }
+          },
+          "failure_details": [
+            "The cited principle says IT’s value depends greatly on the existing level of economic development, so assessing it in relation to each area’s level is supported.",
+            "The e-mail example and e-governance projection do not establish equal or development-independent value; the discussion question is expressly left unanswered.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:57:13.644Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "3c8d31764c62441ee2a27c97059c5b08"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "3c8d31764c62441ee2a27c97059c5b08"
+        ],
+        "would_withhold_ids": [
+          "3c8d31764c62441ee2a27c97059c5b08"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "386dca46542a02901d2837324bf0b69e",
+      "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+      "key": "B",
+      "explanation": "Net production taxes are ₹70,000 − ₹10,000 = ₹60,000, so GVA at basic prices is ₹8,00,000 + ₹60,000 = ₹8,60,000. Net product taxes are ₹50,000 − ₹20,000 = ₹30,000, so GDP at market prices is ₹8,60,000 + ₹30,000 = ₹8,90,000. Thus statements (A), (B) and (C) are correct, while (D) is not.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "independent_validation_incomplete_unresolved_provider_request"
+        ],
+        "failed_stage": "blind_solution",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "independent_validation_complete": false,
+          "academic_defect_proven": false,
+          "provider_usage_resolved": false,
+          "reasons": [
+            "independent_validation_incomplete_unresolved_provider_request"
+          ],
+          "conservative_holds": [
+            {
+              "request_key": "6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+              "reservation_id": "6c5fc270-35d4-4339-85dd-eb374261dfcb",
+              "provider": "openai",
+              "stage": "blind_solution",
+              "maximum_micro": 11628,
+              "provider_request_id": "unconfirmed-client-key:6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+              "receipt_resolved": false
+            }
+          ],
+          "external_dependency": "The provider response and usage receipt were lost before a retrievable response ID was received. Resolve the original client request with provider billing/support; never resend it."
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T06:05:57.336Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "386dca46542a02901d2837324bf0b69e"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "386dca46542a02901d2837324bf0b69e"
+        ],
+        "would_withhold_ids": [
+          "386dca46542a02901d2837324bf0b69e"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

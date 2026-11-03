@@ -1,0 +1,652 @@
+### 1 1ac7cfec-c29c-472f-98ae-074c689f349f | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "benevolent" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "benevolent" from the options given below.
+  A. generous
+  B. influential
+  C. articulate
+  D. hostile
+KEY: A
+EXPLANATION: The supplied definition describes benevolent as “kind, helpful and generous”. Therefore, generous matches the stated sense.
+
+### 4 1545e337-de4b-483d-a062-2a051c2e8bce | english | Vocabulary | pyq_adapted | synonym | easy | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "candid" in its supplied dictionary sense
+STEM: During a spoken interview, a candidate gives a candid answer. Choose the correct SYNONYM for "candid" in this context from the options given below.
+  A. Expressing one's thoughts openly and honestly
+  B. Expressing one's thoughts indirectly and dishonestly
+  C. Keeping one's thoughts hidden while answering
+  D. Withholding one's answer and stating no view
+KEY: A
+EXPLANATION: “Candid” means saying what one thinks openly and honestly, without hiding one's thoughts. Option A expresses that meaning; the other options describe withholding or concealing one's thoughts, or expressing them dishonestly.
+
+### 6 b016c1ba-e593-4a54-889f-3e46739e47dd | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q46 | Blueprint: Vocabulary: "hostile" in its supplied dictionary sense
+STEM: During the town-hall meeting, the audience gave the proposal a "hostile" reception, responding with angry interruptions and repeated challenges. Identify the option closest in meaning to the quoted word "hostile" as used in the sentence.
+  A. cautious
+  B. attentive
+  C. unfriendly
+  D. welcoming
+KEY: C
+EXPLANATION: The word describes the audience’s attitude towards the proposal, shown by angry interruptions and repeated challenges. The supplied definition includes being “unfriendly” and ready to argue, making “unfriendly” the closest option.
+
+### 8 80128a04-efc4-4dda-875a-1de62e3b6715 | english | Vocabulary | pyq_adapted | antonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q49 | Blueprint: Vocabulary: "obsolete" in its supplied dictionary sense
+STEM: Choose the correct ANTONYM for "obsolete" from the options given below.
+  A. in use
+  B. durable
+  C. electronic
+  D. antiquated
+KEY: A
+EXPLANATION: The supplied definition says that "obsolete" means no longer used because something new has been invented. "In use" expresses the opposite use-status.
+
+### 10 06e12149-3182-4996-a0a3-1ce255770929 | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "tedious" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "tedious" from the options given below.
+  A. uninteresting
+  B. difficult
+  C. predictable
+  D. entertaining
+KEY: A
+EXPLANATION: The supplied definition of "tedious" includes “not interesting”. “Uninteresting” directly expresses that sense.
+
+### 22 849dc884-83dc-4d91-b0d7-c4944af77416 | english | Vocabulary | pyq_adapted | synonym | medium | state=eligible | attempt=0
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "gregarious" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "gregarious" from the options given below.
+  A. popular
+  B. solitary
+  C. sociable
+  D. generous
+KEY: C
+EXPLANATION: Gregarious means “liking to be with other people”, so sociable matches the stated sense. Popularity, being alone and generosity do not express that preference for company.
+
+### 25 7c3e1e42-fc5d-41b1-9057-9e26e4e149b6 | english | Vocabulary | pyq_adapted | synonym | easy | state=eligible | attempt=1
+Anchor: cuet2024-english-bookA-q48 | Blueprint: Vocabulary: "transient" in its supplied dictionary sense
+STEM: Choose the correct SYNONYM for "transient" from the options given below.
+  A. continuing for a long time
+  B. continuing for only a short time
+  C. happening again at regular intervals
+  D. beginning or occurring for the first time
+KEY: B
+EXPLANATION: Transient means continuing for only a short time. Option B restates that meaning.
+
+### 27 337f9816-1231-4d79-b3f8-fe8592b8f4ab | accountancy | Admission of Partner | authentic_pyq | statement_based | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q8
+STEM: Which of the following would affect the Revaluation Account at the time of admission of a partner ? (A) Increase in assets (B) Drawings against capital (C) Recording of unrecorded assets (D) Decrease in liabilities Choose the correct answer from the options given below :
+  A. (A), (B) and (C) only
+  B. (A), (B) and (D) only
+  C. (A), (C) and (D) only
+  D. (B), (C) and (D) only
+KEY: C
+EXPLANATION: An increase in an asset and a decrease in a liability are gains credited to the Revaluation Account; an unrecorded asset is also credited to it. Drawings against capital are not a revaluation of an asset or liability, so the correct selection is (A), (C) and (D) only.
+
+### 29 7531d589-9880-461b-b20e-75193ad67378 | accountancy | Cash Flow Statement | authentic_pyq | numerical_one_step | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q11
+STEM: Calculate the resulting cash flow and state the nature of cash flow from the following information : Acquired machinery for ₹ 3,50,000 by issuing cheque.
+  A. Investing activity and outflow ₹ 3,50,000
+  B. Investing activity and inflow ₹ 3,50,000
+  C. Investing activity and no flow
+  D. Operating activity and outflow ₹ 3,50,000
+KEY: A
+EXPLANATION: Machinery is a fixed asset, so its acquisition is an investing activity. Payment by cheque is a cash outflow of ₹3,50,000.
+
+### 34 5c7f7bc7-8480-4896-a4a3-95dde7d4abc6 | accountancy | Share Capital | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q3 | Blueprint: Apply the definition of calls in arrears to an unpaid call amount.
+STEM: A first call of ₹2,400 is due from a shareholder on 15 October. The shareholder has not paid any of it after that date. What is the accounting term for the unpaid ₹2,400?
+  A. Calls in Arrears
+  B. Calls in Advance
+  C. Securities Premium Reserve
+  D. Forfeiture of Shares
+KEY: A
+EXPLANATION: An amount due on a call but not paid by the shareholder is called Calls in Arrears or Unpaid Calls. Here, the ₹2,400 call is due and remains unpaid.
+
+### 35 3a2d6d96-40a7-42ee-b841-cfa1a6c7b101 | accountancy | Admission of Partner | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q4 | Blueprint: Interpretation of a credit balance in the Revaluation Account
+STEM: At the admission of a partner, the firm's assets are revalued and its liabilities are reassessed. After these entries are recorded, the Revaluation Account has a final credit balance. What does this balance indicate?
+  A. An overall net gain from the revaluation of assets and liabilities.
+  B. An overall net loss from the revaluation of assets and liabilities.
+  C. Only changes in asset values, without indicating an overall net result.
+  D. A net gain only if no liabilities were reassessed.
+KEY: A
+EXPLANATION: A final credit balance in the Revaluation Account indicates a net gain. The account includes gains and losses arising from the revaluation of assets and liabilities.
+
+### 36 2b07d0fa-b34d-4a3a-bcce-c697b3b86279 | accountancy | Partnership Fundamentals | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q5 | Blueprint: Ask which account records a partner’s share of profit when the firm follows the fixed capital method.
+STEM: A firm maintains partners’ accounts under the fixed capital method. At year-end, it records each partner’s share of profit. In which account is this item recorded?
+  A. Each partner’s Current Account
+  B. Each partner’s Capital Account
+  C. One combined Partners’ Capital Account for all partners
+  D. The firm’s Profit and Loss Account
+KEY: A
+EXPLANATION: Under the fixed capital method, each partner’s share of profit is recorded in the Partner’s Current Account. The capital account remains separate from the current account.
+
+### 38 3be97e80-c862-49f7-9b33-0c8be74285ae | accountancy | Admission of Partner | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q8 | Blueprint: Calculate the net revaluation gain from stated asset and liability changes and allocate it to the old partners in their stated old profit-sharing ratio.
+STEM: On the admission of a new partner, X and Y are the old partners, sharing profits in their old ratio of 3:2. The only revaluation changes are an increase in an asset of ₹40,000, a decrease in an asset of ₹5,000, a decrease in a liability of ₹10,000 and an increase in a liability of ₹5,000. What are X’s and Y’s respective shares of the net revaluation gain?
+  A. X: ₹24,000; Y: ₹16,000
+  B. X: ₹12,000; Y: ₹8,000
+  C. X: ₹27,000; Y: ₹18,000
+  D. X: ₹20,000; Y: ₹20,000
+KEY: A
+EXPLANATION: An increase in an asset and a decrease in a liability are gains; a decrease in an asset and an increase in a liability are losses. The net revaluation gain is ₹40,000 + ₹10,000 − ₹5,000 − ₹5,000 = ₹40,000. Sharing this gain in the old ratio of 3:2 gives X ₹24,000 and Y ₹16,000.
+
+### 39 ffbd0fc4-b49e-4f23-9802-bfa2608735fa | accountancy | Cash Flow Statement | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q9 | Blueprint: Apply the acquisition-date maturity criterion when assessing a short-term investment for cash-equivalent qualification
+STEM: A short-term, highly liquid debt investment, not an investment in shares, is readily convertible into a known amount of cash and is subject to an insignificant risk of changes in value. Its contractual maturity is six months after acquisition. At the reporting date, two months remain until maturity.
+
+Which maturity interval should be compared with the three-month-or-less reference?
+  A. (A) The six-month period from acquisition to contractual maturity
+  B. (B) The two-month period remaining from the reporting date to maturity
+  C. (C) The four-month period for which the investment has been held by the reporting date
+  D. (D) A fixed three-month period from acquisition, regardless of the contractual maturity
+KEY: A
+EXPLANATION: The reference is to the investment’s maturity from its date of acquisition, so the interval to compare is the six-month period. The two-month remaining period and the four-month holding period do not replace that acquisition-date maturity; three months or less is a reference, not a fixed maturity period.
+
+### 43 4b5d0834-3386-4c04-926b-6c7a4b00bc12 | accountancy | Share Capital | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q14 | Blueprint: Statement-selection item: Ask which statements correctly describe when premium on shares may be called. (A) It may technically be called at any stage of the issue. (B) It is generally called with the amount due on allotment. (C) It is sometimes called with the application money. (D) It is never called with call money. Answer choices: (1) (A), (B) and (C) only; (2) (A), (B) and (D) only; (3) (A), (C) and (D) only; (4) (B), (C) and (D) only.
+STEM: For shares issued at a premium, consider the following statements about when the premium may be called:
+(A) The amount of premium may technically be called at any stage of the issue of shares.
+(B) Premium is generally called with the amount due on allotment.
+(C) Premium is sometimes called with the application money.
+(D) Premium is never called with call money.
+Choose the correct answer from the options given below:
+  A. (A), (B) and (C) only
+  B. (A), (B) and (D) only
+  C. (A), (C) and (D) only
+  D. (B), (C) and (D) only
+KEY: A
+EXPLANATION: The premium may technically be called at any stage, is generally called with allotment money, and is sometimes called with application money. It is rarely called with call money, so statement (D), which says “never”, is incorrect; therefore, the first combination is correct.
+
+### 44 024746b3-3570-4a3c-a6cb-724aa7c0cca7 | accountancy | Debentures | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q16 | Blueprint: Calculate the total premium on 1,000 debentures with a nominal value of ₹100 each, issued for ₹110 each.
+STEM: A company issues 1,000 debentures, each with a nominal value of ₹100, at an issue price of ₹110 per debenture. What is the total issue premium?
+  A. ₹10,000
+  B. ₹1,10,000
+  C. ₹1,00,000
+  D. ₹10
+KEY: A
+EXPLANATION: The premium per debenture is ₹110 − ₹100 = ₹10. For 1,000 debentures, the total issue premium is ₹10 × 1,000 = ₹10,000.
+
+### 45 ac07a2c4-84ad-4e0d-ae94-3a35007ed2a0 | accountancy | Share Capital | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q17 | Blueprint: Calculate the maximum aggregate discount permitted when forfeited shares are reissued
+STEM: A company forfeited 100 shares of ₹10 each, issued at par and fully called up. At the time of initial issue, ₹4 per share had been received and ₹6 per share remained unpaid. All 100 shares are now being reissued as fully paid. No other forfeited shares or amounts are included. What is the maximum aggregate discount permitted on reissue?
+  A. (A) ₹400
+  B. (B) ₹1,000
+  C. (C) ₹600
+  D. (D) ₹0
+KEY: A
+EXPLANATION: The discount allowed on reissue cannot exceed the amount received on the forfeited shares at their initial issue. The maximum aggregate discount is therefore 100 × ₹4 = ₹400.
+
+### 47 3d5079c4-4e0e-44bf-98cd-b862fef1b9db | accountancy | Share Capital | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q20 | Blueprint: In a case where shareholders pay through the bank for calls not yet made, identify the journal entry to record the receipt.
+STEM: A company receives ₹24,000 through its bank from shareholders for calls that have not yet been made. The entire amount is received in advance, and the entry required is the entry at the time of receipt. Which journal entry should be recorded?
+  A. Bank A/c Dr. ₹24,000; To Calls in Advance A/c ₹24,000
+  B. Calls in Advance A/c Dr. ₹24,000; To Bank A/c ₹24,000
+  C. Bank A/c Dr. ₹24,000; To Share First Call A/c ₹24,000
+  D. Bank A/c Dr. ₹24,000; To Calls in Arrears A/c ₹24,000
+KEY: A
+EXPLANATION: An amount received for calls not yet made is calls in advance. At the time of receipt through the bank, Bank A/c is debited and Calls in Advance A/c is credited.
+
+### 48 238cc906-ee04-4574-9ada-d75ac01a8f87 | accountancy | Retirement & Death of Partner | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=0
+Anchor: cuet2024-accountancy-bookA-q21 | Blueprint: Numerical calculation of a deceased partner’s estimated share of profit for the intervening period, using the preceding year’s profit, the proportionate period and the deceased partner’s profit-sharing fraction.
+STEM: A, B and C are partners sharing profits in the ratio of 1:2:3. The accounting year runs from 1 April to 31 March, and the profit for the year ended 31 March was ₹2,40,000. C died on 30 June of the ensuing year. Estimate C’s share of profit for the period from 1 April to the date of death using the preceding year’s profit, apportioned by time over the year. Exclude interest on capital and interest on drawings from the calculation.
+
+What is C’s estimated share of profit?
+  A. ₹1,20,000
+  B. ₹30,000
+  C. ₹20,000
+  D. ₹90,000
+KEY: B
+EXPLANATION: C’s share is calculated as preceding year’s profit × proportion of the year elapsed × C’s profit-sharing fraction. Thus, ₹2,40,000 × 3/12 × 3/6 = ₹30,000.
+
+### 50 73a0be2c-2484-4c8e-b5ab-ffcee3c3c995 | accountancy | Cash Flow Statement | pyq_adapted | case_application | medium | state=eligible | attempt=1
+Anchor: cuet2024-accountancy-bookA-q23 | Blueprint: A case-based item asking candidates to classify separately the interest and loan (principal) elements of a cash instalment for a fixed asset acquired on deferred payment basis.
+STEM: A non-financial enterprise prepares its cash flow statement under AS-3. It pays a cash instalment of ₹1,20,000 for a fixed asset acquired on deferred payment basis. The instalment consists only of separately identifiable interest of ₹20,000 and repayment of the loan principal of ₹1,00,000. How should the two elements be classified in its cash flow statement?
+  A. Interest element: investing activity; loan element: investing activity
+  B. Interest element: financing activity; loan element: financing activity
+  C. Interest element: operating activity; loan element: investing activity
+  D. Interest element: financing activity; loan element: investing activity
+KEY: D
+EXPLANATION: For an instalment paid for a fixed asset acquired on deferred payment basis, the interest element is classified under financing activities and the loan element under investing activities. Thus, the ₹20,000 interest is a financing outflow and the ₹1,00,000 loan repayment is an investing outflow.
+
+### 51 ac914c80-ef24-41d4-aab5-b612ca50dc2a | business_studies | Organising | authentic_pyq | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q24
+STEM: Match List-I with List-II on the basis of meaning and the term : List-I List-II (Meaning) (Term) (A) Right to command (I) Answerability (B) Obligation to perform task (II) Delegation (C) Accountability (III) Authority (D) Basis of management hierarchy (IV) Responsibility Choose the correct answer from the options given below :
+  A. (A) - (I), (B) - (II), (C) - (III), (D) - (IV)
+  B. (A) - (I), (B) - (III), (C) - (II), (D) - (IV)
+  C. (A) - (I), (B) - (II), (C) - (IV), (D) - (III)
+  D. (A) - (III), (B) - (IV), (C) - (I), (D) - (II)
+KEY: D
+EXPLANATION: Authority means the right to command, and responsibility is the obligation to perform an assigned task. Accountability means answerability for the outcome of the assigned task, while delegation establishes the superior–subordinate relationships that form the basis of management hierarchy. Thus, the correct matching is (A)-(III), (B)-(IV), (C)-(I) and (D)-(II).
+
+### 53 dfa84aaf-fceb-4b55-8744-d66145709295 | business_studies | Organising | authentic_pyq | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q27
+STEM: The informal organisation offers many benefits. Important among them are given below : (A) Prescribed lines of communication are not followed. Thus, informal organisation leads to faster spread of information as well as quick feedback. (B) It helps to fulfil the social needs of the members and allows them to find like minded people. This enhances their job satisfaction since it gives them a sense of belongingness in the organisation. (C) It contributes towards fulfilment of organisational objectives by compensating for inadequacies in the formal organisation. (D) Unity of command is maintained through an established chain of command. Choose the correct answer from the options given below :
+  A. (A), (B) and (D) only
+  B. (A), (B) and (C) only
+  C. (A), (B), (C) and (D)
+  D. (B), (C) and (D) only
+KEY: B
+EXPLANATION: Statements (A), (B) and (C) describe benefits of informal organisation: it supports faster communication and feedback, fulfils members’ social needs, and can compensate for inadequacies in formal organisation. Statement (D) is inconsistent with the informal organisation, whose communication does not follow a planned route. Therefore, option (B) is correct.
+
+### 55 b6ac036b-59ac-496e-bba4-a122eda36737 | business_studies | Nature & Significance of Management | authentic_pyq | concept_identification | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37
+STEM: "Management always works by keeping an end result or aim of the organisation. All activities of managers are directed towards the end result." From the above statement, identify the feature of management.
+  A. Management is multidimensional
+  B. Management is continuous
+  C. Management is intangible
+  D. Management is a goal oriented process
+KEY: D
+EXPLANATION: The statement says that management directs activities towards the organisation’s aim or end result. Management unites individuals’ efforts towards achieving organisational goals; therefore, management is a goal-oriented process.
+
+### 56 414f6e75-bf33-4ed5-8a55-d63493c61c61 | business_studies | Organising | authentic_pyq | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q40
+STEM: Which of the following are advantages of functional structure of an organisation ? (A) Leads to occupational specialisation. (B) Places less emphasis on organisational objectives. (C) Promotes coordination and control within a department. (D) Increases operational efficiency. Choose the correct answer from the options given below :
+  A. (A), (B) and (C) only
+  B. (A) and (B) only
+  C. (A), (C) and (D) only
+  D. (C) and (D) only
+KEY: C
+EXPLANATION: A functional structure leads to occupational specialisation, promotes coordination and control within a department, and increases operational efficiency. Placing less emphasis on overall organisational objectives is a disadvantage, so (B) is not included.
+
+### 57 aa00c24f-10d0-417b-a160-9a4d2354651c | business_studies | Business Environment | pyq_adapted | statement_selection | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q7 | Blueprint: Classify listed characteristics as elements of the social rather than the political environment through statement selection.
+STEM: Which of the following statements identify characteristics explicitly listed under the social environment?
+(A) Birth and death rates
+(B) Prevailing political system
+(C) Consumption habits
+(D) Degree of politicisation of business and economic issues
+Choose the correct answer from the options given below:
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (A) and (D) only
+KEY: B
+EXPLANATION: Birth and death rates and consumption habits are listed as elements of the social environment. The prevailing political system and degree of politicisation are listed as elements of the political environment, so only (A) and (C) meet the question's condition.
+
+### 58 d913de0e-3d30-4a5b-9a5b-1e9c5c653763 | business_studies | Organising | pyq_adapted | statement_selection | easy | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q24 | Blueprint: Identify the correct delegability status of authority, responsibility and accountability.
+STEM: Select the correct statements regarding the delegability of authority, responsibility and accountability:
+(A) Authority can be delegated.
+(B) Responsibility cannot be entirely delegated.
+(C) Accountability can be delegated in part.
+(D) Authority cannot be delegated.
+Choose the correct answer from the options given below:
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (C) and (D) only
+KEY: A
+EXPLANATION: Authority can be delegated, and responsibility cannot be entirely delegated, so statements (A) and (B) are correct. Accountability cannot be delegated at all, making (C) incorrect; authority can be delegated, making (D) incorrect.
+
+### 59 c6019c80-8086-41bc-b0eb-f4fef92abb7c | business_studies | Organising | pyq_adapted | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q26 | Blueprint: Match each stated advantage of formal organisation with the specific basis given for it.
+STEM: Match each advantage of formal organisation in List-I with its stated basis in List-II. Use each entry in List-II once.
+List-I
+(A) Easier to fix responsibility
+(B) No ambiguity in roles and avoidance of duplication of effort
+(C) Unity of command
+(D) Stability of the organisation
+List-II
+(I) Employees’ behaviour is fairly predictable because specific rules guide them
+(II) Mutual relationships are clearly defined
+(III) Duties are specified
+(IV) An established chain of command
+Choose the correct answer from the options given below:
+  A. (A)-(III), (B)-(II), (C)-(IV), (D)-(I)
+  B. (A)-(II), (B)-(III), (C)-(I), (D)-(IV)
+  C. (A)-(II), (B)-(III), (C)-(IV), (D)-(I)
+  D. (A)-(III), (B)-(II), (C)-(I), (D)-(IV)
+KEY: C
+EXPLANATION: Fixing responsibility is linked to clearly defined mutual relationships, while role clarity and avoidance of duplication follow from specified duties. Unity of command is maintained through an established chain of command, and stability is supported by predictable behaviour guided by specific rules.
+
+### 60 a1f2184c-de2c-4e1b-b4d2-102995f7f0d6 | business_studies | Organising | pyq_adapted | matching | medium | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q27 | Blueprint: Match the origin, basis of authority, behaviour and leadership characteristics of formal and informal organisations. List the formal column before the informal column and use each description once.
+STEM: Match List-I with List-II:
+
+List-I
+(A) Origin
+(B) Authority
+(C) Behaviour
+(D) Leadership
+
+List-II
+(I) Formal organisation: behaviour is directed by rules; informal organisation: there is no set behaviour pattern.
+(II) Formal organisation: managers are leaders; informal organisation: leaders are chosen by the group and may or may not be managers.
+(III) Formal organisation: arises from company rules and policies; informal organisation: arises from social interaction.
+(IV) Formal organisation: authority arises from position in management; informal organisation: authority arises from personal qualities.
+
+In each List-II entry, the formal organisation is stated before the informal organisation. Match each basis in List-I with the corresponding paired characteristic in List-II, using each List-II entry once. Choose the correct answer from the options given below:
+  A. (A)-(III), (B)-(IV), (C)-(I), (D)-(II)
+  B. (A)-(III), (B)-(I), (C)-(IV), (D)-(II)
+  C. (A)-(II), (B)-(IV), (C)-(I), (D)-(III)
+  D. (A)-(IV), (B)-(III), (C)-(I), (D)-(II)
+KEY: A
+EXPLANATION: Origin matches company rules and policies in formal organisation with social interaction in informal organisation. Authority is based on position in management or personal qualities, behaviour is directed by rules or has no set pattern, and leadership is provided by managers or by group-chosen leaders who may or may not be managers. Thus the correct mapping is (A)-(III), (B)-(IV), (C)-(I), (D)-(II).
+
+### 62 b7313d0f-f78c-41c5-bcc8-d8c78a354d37 | business_studies | Nature & Significance of Management | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37 | Blueprint: Apply the dynamic-function feature of management to an organisation that adapts itself and its goals to changing environmental needs.
+STEM: A retail organisation faces a change in its external environment. Its managers change the organisation and its goals to meet the needs arising from that environmental change. Which feature of management is illustrated specifically by this response?
+  A. Management is a continuous process
+  B. Management is all pervasive
+  C. Management is a dynamic function
+  D. Management is an intangible force
+KEY: C
+EXPLANATION: The managers change the organisation and its goals in response to changing environmental needs. Management’s adaptation to a changing environment, including changing an organisation and its goals according to environmental needs, is its dynamic function.
+
+### 63 24b0a999-915d-454e-b511-248b529f0ba8 | business_studies | Nature & Significance of Management | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q38 | Blueprint: Identify the managerial level that links top and lower-level managers and is subordinate to top managers but superior to first-line managers.
+STEM: A division head is a middle manager. Which task is a main responsibility of this managerial level?
+  A. Formulate overall organisational goals and strategies
+  B. Carry out plans formulated by top managers
+  C. Directly oversee the efforts of the workforce
+  D. Take responsibility for the organisation’s welfare and survival
+KEY: B
+EXPLANATION: Carrying out plans formulated by top managers is identified as a main task of middle management. Formulating overall goals and strategies and taking responsibility for the organisation’s welfare and survival are top-management tasks, while directly overseeing workforce efforts is assigned to supervisory or operational management.
+
+### 64 e37d3f34-9cd2-498e-8ba0-a40c1380356a | business_studies | Organising | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=1
+Anchor: cuet2024-business_studies-bookA-q40 | Blueprint: Test the stated link from minimal duplication of effort to economies of scale and lower cost in a functional structure.
+STEM: In a functional structure, which result is specifically linked to minimal duplication of effort?
+  A. It leads to economies of scale, which lower cost.
+  B. It leads to occupational specialisation, which improves manpower utilisation.
+  C. It leads to coordination and control within a department.
+  D. It makes employee training easier by limiting the range of skills.
+KEY: A
+EXPLANATION: Minimal duplication of effort leads to economies of scale, which lower cost. Occupational specialisation, departmental coordination and control, and easier training are also stated advantages of a functional structure, but they are linked to other features.
+
+### 68 dc55033f-1e94-4e87-ba45-e8b7de7c7424 | business_studies | Marketing Management | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q44 | Blueprint: Classify acceptance from a group as the benefit sought from a product purchase.
+STEM: A customer chooses a particular music player because owning it helps the customer gain acceptance among a peer group. Which type of benefit is the customer seeking?
+  A. Functional benefit
+  B. Psychological benefit
+  C. Social benefit
+  D. Economic benefit
+KEY: C
+EXPLANATION: The benefit being classified is acceptance from a group. This is a social benefit; the excerpt distinguishes it from functional and psychological benefits.
+
+### 69 7f3afb35-dc5a-4cc0-8611-21c64c1e4ec1 | business_studies | Marketing Management | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q45 | Blueprint: A case-based item asks candidates to classify three stated benefits sought by a motorcycle buyer: transportation, prestige and esteem, and acceptance by a group.
+STEM: A buyer purchases a motorcycle seeking (i) transportation, (ii) prestige and esteem, and (iii) acceptance from a group through riding it. How should these three benefits be classified, respectively?
+  A. Functional, functional, functional
+  B. Functional, psychological, psychological
+  C. Functional, psychological, social
+  D. Functional, social, social
+KEY: C
+EXPLANATION: Transportation is a functional utility of a motorcycle. Prestige and esteem are psychological benefits, while acceptance from a group is a social benefit; therefore, in the order given, the classification is functional, psychological and social.
+
+### 72 7b3edef9-9a8e-4e60-8bd5-7cffc853ec92 | business_studies | Organising | pyq_adapted | case_application | easy | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q27 | Blueprint: Apply the stated meanings of formal and informal organisation to a workplace case in which employees form a network of social relationships through interaction. Ask which paired description correctly identifies that network and contrasts it with formal organisation.
+STEM: At a firm, employees from different departments interact and build a network of social relationships. Management did not create this network as a structure of authority relationships. Which paired description correctly identifies this network and contrasts it with formal organisation?
+  A. The network is informal organisation; formal organisation is a structure of authority relationships created by management.
+  B. The network is formal organisation; informal organisation is a structure of authority relationships created by management.
+  C. Both the network and formal organisation are structures of authority relationships created by management.
+  D. Both the network and formal organisation are networks of social relationships arising from employee interaction.
+KEY: A
+EXPLANATION: The employees’ network is informal organisation because it arises from social interaction among employees. Formal organisation is the structure of authority relationships created by management.
+
+### 73 b474b153-3757-48eb-b3f2-e2bf30e89fff | business_studies | Nature & Significance of Management | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q36 | Blueprint: Statement-selection item on classifying needs within personnel objectives. Planned statements: (A) Competitive salaries and perks are financial needs. (B) Peer recognition is a financial need. (C) Personal growth and development are social needs. (D) Personal growth and development are higher-level needs. The correct selection is (A) and (D) only.
+STEM: Consider the following statements about needs addressed through personnel objectives:
+(A) Competitive salaries and perks are financial needs.
+(B) Peer recognition is a financial need.
+(C) Personal growth and development are social needs.
+(D) Personal growth and development are higher-level needs.
+Which of the above statements are correct?
+  A. (A) and (D) only
+  B. (B) and (C) only
+  C. (A) and (C) only
+  D. (B) and (D) only
+KEY: A
+EXPLANATION: Competitive salaries and perks are financial needs, while personal growth and development are higher-level needs. Peer recognition is a social need. Therefore, only statements (A) and (D) are correctly classified.
+
+### 74 752f989e-f8d7-4ac5-beb1-41bda7020cb7 | business_studies | Nature & Significance of Management | pyq_adapted | assertion_reason | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q37 | Blueprint: Explain the relationship between management’s intangible nature and the organisational effects through which its presence can be felt.
+STEM: Given below are two statements: one is labelled as Assertion (A) and the other is labelled as Reason (R).
+Assertion (A): Management cannot be seen, but its presence can be felt in the way the organisation functions.
+Reason (R): The effect of management is noticeable in an organisation where targets are met according to plans, employees are happy and satisfied, and there is orderliness instead of chaos.
+Choose the correct answer from the options given below:
+  A. Both A and R are true, and R is the correct explanation of A.
+  B. Both A and R are true, but R is not the correct explanation of A.
+  C. A is true, but R is false.
+  D. A is false, but R is true.
+KEY: A
+EXPLANATION: Management itself cannot be seen, but its presence is felt in the way the organisation functions. The listed organisational effects are examples of how that presence is felt, so R explains A. Therefore, option (A) is correct.
+
+### 75 6dc5619f-7788-4137-b25d-fd77cde09130 | business_studies | Nature & Significance of Management | pyq_adapted | matching | medium | state=eligible | attempt=0
+Anchor: cuet2024-business_studies-bookA-q38 | Blueprint: Match each management level with a responsibility explicitly associated with it: formulation of overall organisational goals and strategies, implementation and control of top-management plans, or direct supervision of the workforce.
+STEM: Match List-I with List-II. Each management level is to be matched once with its best corresponding responsibility.
+
+List-I
+(A) Top management
+(B) Middle management
+(C) Supervisory management
+
+List-II
+(I) Directly oversee the efforts of the workforce
+(II) Formulate overall organisational goals and strategies
+(III) Implement and control plans and strategies developed by top management
+
+Choose the correct answer from the options given below:
+  A. (A)-(II), (B)-(III), (C)-(I)
+  B. (A)-(III), (B)-(II), (C)-(I)
+  C. (A)-(II), (B)-(I), (C)-(III)
+  D. (A)-(I), (B)-(III), (C)-(II)
+KEY: A
+EXPLANATION: Top management formulates overall organisational goals and strategies, middle management implements and controls plans developed by top management, and supervisors directly oversee the workforce. These responsibilities give the mapping shown in option A.
+
+### 78 e1ec2b03-2fe4-4cfa-8b50-20735bdf8e99 | economics | Money & Banking | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q3 | Blueprint: Calculate the deposits supported by a stated amount of reserves when the reserve ratio is 20%, using the reserves-to-deposits relationship.
+STEM: A bank holds reserves equal to exactly 20% of its deposits. It has ₹2,40,000 in reserves backing the deposits being considered, and no other constraint limits the deposits supported. How much in deposits can these reserves support?
+  A. ₹48,000
+  B. ₹12,00,000
+  C. ₹12,000
+  D. ₹1,92,000
+KEY: B
+EXPLANATION: Reserves are 20% of deposits, so deposits supported = ₹2,40,000 ÷ 0.20 = ₹12,00,000. The reserve ratio must be used as 0.20 when calculating deposits from reserves.
+
+### 79 e8df2960-bcf3-4076-a2ea-656a01865aa0 | economics | Money & Banking | pyq_adapted | case_application | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q5 | Blueprint: Apply the stated effect of an RBI open-market sale of a Government bond on reserves and money supply.
+STEM: The RBI sells a Government bond in the open market to private individuals, who pay for it. No other operation affecting reserves or money supply occurs at the same time. What is the resulting effect?
+  A. Reserves increase, and money supply increases.
+  B. Reserves increase, and money supply remains unchanged.
+  C. Reserves remain unchanged, and money supply remains unchanged.
+  D. Reserves decrease, and money supply decreases.
+KEY: D
+EXPLANATION: When the RBI sells a Government bond to private individuals, the quantity of reserves falls and, consequently, the money supply falls. The stem excludes any simultaneous operation that could offset this effect, so D is correct.
+
+### 81 2d491e7e-eb7d-4196-a666-169819500893 | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q8 | Blueprint: Revenue receipts are divided into which two categories?
+STEM: Revenue receipts are divided into which two categories?
+  A. Tax and non-tax revenues
+  B. Tax and capital receipts
+  C. Revenue and capital receipts
+  D. Redeemable and non-redeemable receipts
+KEY: A
+EXPLANATION: Revenue receipts are divided into tax and non-tax revenues. Therefore, option A identifies the two categories. Non-redeemable describes a characteristic of revenue receipts, rather than the stated division into categories.
+
+### 82 5bf22a44-44fd-4bb6-a6a3-ea8692c1b089 | economics | Balance of Payments | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q10 | Blueprint: Direct conceptual MCQ: identify the exchange-rate regime in which the rate is determined by market forces of demand and supply.
+STEM: Which exchange-rate regime is one in which the exchange rate is determined by market forces of demand and supply?
+  A. Floating exchange rate
+  B. Fixed exchange rate
+  C. Devaluation
+  D. Revaluation
+KEY: A
+EXPLANATION: An exchange rate determined by market forces of demand and supply is also known as a floating exchange rate. Devaluation and revaluation refer to government actions in a fixed exchange rate system, not to the regime identified in the question.
+
+### 83 e374fd28-32fe-468f-99f8-6328573e5c4d | economics | Balance of Payments | pyq_adapted | case_application | medium | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q11 | Blueprint: Apply the fixed exchange-rate intervention principle: when a fixed rate produces an excess supply of dollars, identify the RBI action that absorbs it.
+STEM: A government fixes the exchange rate at ₹70 per US dollar. At this rate, the supply of dollars in the foreign exchange market exceeds the demand for dollars, and the government seeks to maintain the fixed rate. Which action should the RBI take to absorb the excess supply?
+  A. The RBI purchases the excess dollars and pays rupees for them.
+  B. The RBI sells dollars and receives rupees for them.
+  C. The RBI sets the fixed rate above ₹70 per US dollar.
+  D. The RBI makes no purchase or sale and allows the exchange rate to adjust.
+KEY: A
+EXPLANATION: With a fixed exchange rate and an excess supply of dollars, the RBI absorbs the excess by purchasing dollars and paying rupees. This intervention helps maintain the fixed rate.
+
+### 84 7b651fcb-ec32-4fc8-8333-bf64354e266f | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q22 | Blueprint: Numerical calculation: A producer plans to add ₹1,00,000 to inventory during the year. To meet sales above the planned level, the producer sells ₹30,000 worth of goods from stock. State that there are no other inventory changes during the year, then ask for actual (ex post) investment. Intended answer: ₹70,000.
+STEM: During one year, a producer plans to add ₹1,00,000 to inventory. To meet sales above the planned level during that same year, the producer sells goods worth ₹30,000 from inventory. Assume there are no other inventory changes during the year. What is the producer’s actual (ex post) investment in inventory for the year?
+  A. ₹70,000
+  B. ₹1,00,000
+  C. ₹1,30,000
+  D. ₹30,000
+KEY: A
+EXPLANATION: The producer plans to add ₹1,00,000 to inventory, but sells ₹30,000 worth of goods from stock during the same year. With no other inventory changes, the actual investment is the net increase in inventory: ₹1,00,000 − ₹30,000 = ₹70,000. Thus, option A is correct.
+
+### 85 2d6fcd66-5b15-4b43-80c7-6e3e95a16f94 | economics | National Income & Related Aggregates | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q25 | Blueprint: Case-based MCQ: A circular-flow model is explicitly stated to have no leakage. For the same period, firms distribute aggregate factor payments of ₹12 lakh, and their sales revenue in the question means aggregate consumption expenditure received by firms. Ask which relationship holds between the factor payments and that sales revenue.
+STEM: In a circular-flow model with no leakage, firms distribute aggregate factor payments of ₹12 lakh during a period. For that same period, “sales revenue” means the aggregate consumption expenditure received by firms. Which relationship holds between the factor payments and this sales revenue?
+  A. Sales revenue is ₹10 lakh, which is ₹2 lakh less than factor payments.
+  B. Sales revenue is ₹14 lakh, which is ₹2 lakh more than factor payments.
+  C. Sales revenue is ₹12 lakh, equal to factor payments.
+  D. Sales revenue cannot be determined from the stated information.
+KEY: C
+EXPLANATION: With no leakage, factor payments distributed by firms do not differ from the aggregate consumption expenditure they receive as sales revenue. Since factor payments are ₹12 lakh and sales revenue is defined as that expenditure for the same period, sales revenue is also ₹12 lakh.
+
+### 86 448f147f-badc-4f4d-9968-5cbe48758a6e | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q26 | Blueprint: Calculate ex-ante aggregate demand for final goods from ex-ante consumption and investment expenditure in an economy without a government.
+STEM: In an economy without a government, ex-ante consumption expenditure on final goods for a period is ₹4,80,000 and ex-ante investment expenditure on final goods for the same period is ₹1,20,000. What is the ex-ante aggregate demand for final goods for that period?
+  A. ₹6,00,000
+  B. ₹3,60,000
+  C. ₹4,80,000
+  D. ₹1,20,000
+KEY: A
+EXPLANATION: For an economy without a government, ex-ante aggregate demand for final goods is the sum of ex-ante consumption and investment expenditure. Therefore, AD = ₹4,80,000 + ₹1,20,000 = ₹6,00,000.
+
+### 87 239e0c1f-2dcc-4044-8bea-7f37985abcaa | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q27 | Blueprint: Identify the start and end dates of the financial year described for the Annual Financial Statement.
+STEM: The Annual Financial Statement presents estimated receipts and expenditures of the government for each financial year. For the government financial year to which this statement relates, which pair of dates marks its beginning and end, respectively?
+  A. 1 January to 31 December
+  B. 1 April to 31 March
+  C. 31 March to 30 March
+  D. 1 April to 31 December
+KEY: B
+EXPLANATION: The financial year runs from 1 April to 31 March. Therefore, its beginning is 1 April and its end is 31 March.
+
+### 88 00e1e26d-7502-42f7-9ac1-10c0d9c21c41 | economics | Income Determination | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q45 | Blueprint: In an economy without a government, ex ante consumption expenditure on final goods for a period is ₹7,20,000 and ex ante investment expenditure on final goods for the same period is ₹1,80,000. Calculate ex ante aggregate demand for final goods.
+STEM: In an economy with no government and no foreign trade, ex ante consumption expenditure on final goods for a period is ₹7,20,000 and ex ante investment expenditure on final goods for the same period is ₹1,80,000. Calculate ex ante aggregate demand for final goods.
+  A. (A) ₹9,00,000
+  B. (B) ₹7,20,000
+  C. (C) ₹1,80,000
+  D. (D) ₹5,40,000
+KEY: A
+EXPLANATION: With no government and no foreign trade, ex ante aggregate demand for final goods is AD = C + I. Therefore, AD = ₹7,20,000 + ₹1,80,000 = ₹9,00,000.
+
+### 89 bee206df-b2c0-42cf-b1e1-cb4c79f9552e | economics | National Income & Related Aggregates | pyq_adapted | conceptual_mcq | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q47 | Blueprint: Test the distinction between the production-tax/subsidy pair and the product-tax/subsidy pair in the composition of basic prices.
+STEM: For basic prices, which treatment applies to production taxes/subsidies and product taxes/subsidies?
+  A. Production taxes less production subsidies, but not product taxes less product subsidies.
+  B. Product taxes less product subsidies, but not production taxes less production subsidies.
+  C. Both production taxes less production subsidies and product taxes less product subsidies.
+  D. Neither production taxes less production subsidies nor product taxes less product subsidies.
+KEY: A
+EXPLANATION: Basic prices include production taxes less production subsidies, but exclude product taxes less product subsidies. This matches option A.
+
+### 90 28e0818f-da35-4e92-a447-3c7e12e53e1b | economics | Money & Banking | pyq_adapted | case_application | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q3 | Blueprint: A case-based item asks what sequence follows when the RBI raises the bank rate, considering only the bank-rate channel: the effect on the cost of loans taken by commercial banks, their reserves and the money supply.
+STEM: In a policy situation, the RBI raises the bank rate. Assume that no other policy change or offsetting change affects the outcomes, and consider only the bank-rate channel. Which sequence gives the directions of change in the cost of loans taken by commercial banks, their reserves and the money supply?
+  A. Loans become more expensive → reserves decrease → money supply decreases.
+  B. Loans become more expensive → reserves increase → money supply increases.
+  C. Loans become less expensive → reserves increase → money supply increases.
+  D. Loans become more expensive → reserves decrease → money supply increases.
+KEY: A
+EXPLANATION: An increase in the bank rate makes loans taken by commercial banks more expensive, reduces their reserves and hence decreases the money supply. Option D gives the wrong direction for money supply when reserves decrease; options B and C conflict with the stated effects of a bank-rate increase.
+
+### 91 ec69a447-f593-494b-bb5b-9b10bd73f6c8 | economics | Money & Banking | pyq_adapted | assertion_reason | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q5 | Blueprint: Test the causal relationship by which an increase in the Bank Rate reduces money supply through the cost of commercial-bank loans and commercial-bank reserves.
+STEM: Given below are two statements: one is labelled as Assertion (A) and the other as Reason (R).
+Assertion (A): An increase in the Bank Rate reduces the money supply.
+Reason (R): An increase in the Bank Rate makes loans from the RBI to commercial banks more expensive, reducing commercial-bank reserves and thereby decreasing the money supply.
+For this question, the Bank Rate is the rate at which the RBI gives loans to commercial banks. Assume that the Bank Rate increases and that no other policy operation is undertaken.
+Choose the correct answer from the options given below:
+  A. Both Assertion (A) and Reason (R) are true, and Reason (R) is the correct explanation of Assertion (A).
+  B. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of Assertion (A).
+  C. Assertion (A) is true, but Reason (R) is false.
+  D. Assertion (A) is false, but Reason (R) is true.
+KEY: A
+EXPLANATION: The Bank Rate is the rate at which the RBI gives loans to commercial banks. When it increases, those loans become more expensive, commercial-bank reserves fall, and the money supply decreases; therefore, both statements are true and the Reason explains the Assertion.
+
+### 92 8c0232d7-0ab2-438d-b1b9-3d397a90ecfa | economics | Government Budget & the Economy | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q8 | Blueprint: Identify the stated relationship between the absence of a claim on government and the non-redeemable character of revenue receipts.
+STEM: For government revenue receipts, which statement correctly describes their relationship to a claim on the government and redeemability?
+  A. They do not lead to a claim on the government and are therefore non-redeemable.
+  B. They lead to a claim on the government and are therefore non-redeemable.
+  C. They do not lead to a claim on the government and are therefore redeemable.
+  D. They lead to a claim on the government and are therefore redeemable.
+KEY: A
+EXPLANATION: Government revenue receipts do not lead to a claim on the government; they are therefore non-redeemable. The other options reverse one or both parts of this stated relationship.
+
+### 94 d06ec060-4020-455b-af86-6a0b4ead9c02 | economics | Balance of Payments | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q11 | Blueprint: Classify a government decrease in the quoted exchange rate in a fixed exchange-rate system as revaluation.
+STEM: Under a fixed exchange-rate system, the government changes the quoted rate from ₹86 per US dollar to ₹82 per US dollar. Which term names this government action?
+  A. Devaluation, making the rupee costlier
+  B. Revaluation, making the rupee costlier
+  C. Devaluation, making the rupee cheaper
+  D. Revaluation, making the rupee cheaper
+KEY: B
+EXPLANATION: The quoted rate decreases from ₹86 to ₹82 per US dollar. In a fixed exchange-rate system, a government decrease in the exchange rate is a revaluation, which makes the domestic currency costlier. Devaluation refers to a government increase in the exchange rate, which makes the domestic currency cheaper.
+
+### 95 c8212d8b-a1bd-4c44-823a-2cd2954617a4 | economics | Income Determination | pyq_adapted | statement_selection | medium | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q22 | Blueprint: Statement-selection item on classifying ex ante and ex post measures. State that, for the same period, a producer's planned inventory investment is ₹100 and actual investment is ₹70. Use these statements: (A) Planned consumption is an ex ante measure. (B) The actual investment of ₹70 in this case is an ex ante measure. (C) Planned output of final goods is an ex ante measure. (D) The planned investment of ₹100 in this case is an ex post measure. Ask which statements are correct; intended key: (A) and (C) only.
+STEM: For the same period, a producer's planned inventory investment is ₹100, while the actual investment is ₹70. Consider the following statements:
+(A) Planned consumption is an ex ante measure.
+(B) The actual investment of ₹70 in this case is an ex ante measure.
+(C) Planned output of final goods is an ex ante measure.
+(D) The planned investment of ₹100 in this case is an ex post measure.
+Which of the statements given above are correct?
+  A. (A) and (B) only
+  B. (A) and (C) only
+  C. (B) and (D) only
+  D. (C) and (D) only
+KEY: B
+EXPLANATION: The planned values of consumption and output of final goods are ex ante measures, so (A) and (C) are correct. For the stated same-period figures, ₹100 is planned investment and ₹70 is actual, or ex post, investment; therefore, (B) and (D) are incorrect.
+
+### 96 0fd5b59a-25d6-4a25-9e8a-b72572294fb3 | economics | National Income & Related Aggregates | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=0
+Anchor: cuet2024-economics-bookA-q25 | Blueprint: Ask: “In a circular-flow account, firms distribute factor payments. What do these payments comprise?” Key: the total remuneration earned by the four factors of production.
+STEM: In a circular-flow account, firms distribute aggregate factor payments. What do these payments comprise?
+  A. The sum total of remuneration earned by one factor of production
+  B. The sum total of remuneration earned by the four factors of production
+  C. The sum total of remuneration earned by three factors of production
+  D. The sum total of remuneration earned by two factors of production
+KEY: B
+EXPLANATION: Firms’ aggregate factor payments comprise the sum total of remuneration earned by the four factors of production. Hence, option B is correct.
+
+### 97 ad10fd1a-e15f-420c-b8e3-659ed5ff93ec | economics | Income Determination | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q26 | Blueprint: Identify the components of ex ante aggregate demand in an economy without a government, without calculating a numerical value.
+STEM: For the two-sector model of an economy without a government, which expression gives ex ante aggregate demand for final goods?
+  A. Ex ante consumption expenditure + ex ante investment expenditure
+  B. Ex ante consumption expenditure alone
+  C. Ex ante investment expenditure alone
+  D. Ex ante consumption expenditure + ex post investment expenditure
+KEY: A
+EXPLANATION: In this model, ex ante aggregate demand for final goods is the sum of ex ante consumption expenditure and ex ante investment expenditure. Option D uses ex post investment expenditure instead of ex ante investment expenditure, so it does not give the stated expression.
+
+### 98 0a1f1cb8-f56d-43a4-a5d5-184d7dd25e5d | economics | Balance of Payments | pyq_adapted | numerical_calculation | medium | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q27 | Blueprint: Calculate net exports from stated export and import values.
+STEM: For a given period, exports are ₹5,25,000 and imports are ₹4,80,000. Both figures are in rupees and refer to the same period. Calculate net exports (NX).
+  A. ₹45,000
+  B. −₹45,000
+  C. ₹10,05,000
+  D. ₹4,80,000
+KEY: A
+EXPLANATION: Net exports are exports minus imports: ₹5,25,000 − ₹4,80,000 = ₹45,000. Since exports exceed imports, NX is positive and indicates a trade surplus.
+
+### 99 dce000b8-99f7-4443-ab9d-9b78c2749e5f | economics | Income Determination | pyq_adapted | conceptual_mcq | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q45 | Blueprint: Select the expression for ex ante aggregate demand for final goods in an economy without a government.
+STEM: Let C denote ex ante consumption expenditure and I denote ex ante investment expenditure on final goods for the same period. Assume an economy with no government and no foreign trade. Which expression represents ex ante aggregate demand (AD) for final goods?
+  A. AD = C + I
+  B. AD = C − I
+  C. AD = C × I
+  D. AD = I
+KEY: A
+EXPLANATION: In the stated economy, ex ante aggregate demand for final goods is the sum of ex ante consumption expenditure and ex ante investment expenditure. Therefore, AD = C + I.
+
+### 100 efb8cf73-2757-4e89-9160-98491c19fca5 | economics | National Income & Related Aggregates | pyq_adapted | numerical_calculation | easy | state=eligible | attempt=1
+Anchor: cuet2024-economics-bookA-q47 | Blueprint: Calculate factor cost from a short set of accounting entries by including only payments to factors of production.
+STEM: An enterprise reports GVA at factor cost of ₹80,000. For the same period, indirect taxes are ₹12,000 and subsidies are ₹2,000. Assuming these are the only adjustments needed to convert GVA at factor cost to GVA at market prices, what is GVA at market prices?
+  A. ₹90,000
+  B. ₹92,000
+  C. ₹94,000
+  D. ₹70,000
+KEY: A
+EXPLANATION: GVA at market prices is obtained by adding indirect taxes and subtracting subsidies from GVA at factor cost. Therefore, ₹80,000 + ₹12,000 − ₹2,000 = ₹90,000. ₹92,000 omits the subsidy adjustment, while ₹94,000 adds the subsidy instead of subtracting it.

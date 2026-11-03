@@ -1,0 +1,770 @@
+{
+  "subject": "accountancy",
+  "syllabus": {
+    "state": "verified",
+    "syllabus_version": "cuet-2026-provisional-for-2027",
+    "pattern_version": "cuet-2024-authenticated-bookA-v1",
+    "exam_rule_version": "2026-syllabus-boundaries-2027-revalidation-required",
+    "included_topics": [
+      "PAGE 1\r\n \r\n \r\nFor the Year 2026 \r\n \r\n  \r\nAccountancy / Book \r\nKeeping – 301                     \r\nSyllabus for CUET \r\n(UG)\r\n \r\n \r\n\r\nPAGE 2\r\n \r\n1 | P a g e   \r\nUnit I:  Accounting for Partnership  \r\n• Nature of Partnership Firm:  Partnership deed (meaning, importance).  \r\n• Accounts of Partnership:  Fixed v/s Fluctuating capital, Division of profit among partners, \r\nProfit and Loss Appropriation account, guarantee of profit to a partner, past adjustments. \r\n \r\nUnit II:  Reconstitution of a Partnership firm \r\n• Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining \r\nratio.  \r\n• Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of \r\nreserves and accumulated profits.  \r\n• Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit \r\nand Capitalisation methods.  \r\n• Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, \r\nAccounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , \r\nReserves adjustment/distribution of (accumulated profits) and adjustment of capitals.  \r\n• Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of \r\ngoodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated \r\nprofits (Reserves) , Preparation of deceased partner’s  capital account and his executor’s \r\naccount, Preparation of Loan Account. \r\n \r\nUnit III:  Dissolution of Partnership Firm  \r\n• Meaning, Settlement of accounts: Preparation of Realisation Account and related Accounts \r\n(excluding piecemeal distribution, sale to a company and insolvency of a Partner). \r\n  \r\nUnit IV:  Company Accounts: Accounting for Share and Debenture Capital \r\n• Features and type of companies. \r\n• Share Capital: Meaning, Nature and Types \r\n• Accounting for Share Capital: Issue and Allotment of Equity and Preference Shares; Over \r\nsubscription and Under subscription; Issue at par  and premium; Calls in advance, Calls in \r\narrears, Issue of shares for consideration other than cash.  \r\n• Accounting treatment of Forfeiture of Shares and Re-issue of forfeited shares.  \r\n• Presentation of shares capital and Debentures in company’s balance sheet. \r\n• Issue of Debenture – At par, premium and discount; Issue of debentures for consideration \r\nother than cash.  Issue of debentures with terms of redemption, Debenture as collateral \r\nsecurity- concept, Interest on debentures, writing off discount/Loss on issues of debenture. \r\n \r\n \r\n \r\n \r\n \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating accounting information, preparing reports using pivot Table, common errors in \r\nspreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  \r\n• Graphs and Charts in electronic spreadsheet for Business Data. \r\n "
+    ],
+    "excluded_topics": [
+      "Not-for-profit organisation accounting",
+      "Piecemeal distribution",
+      "Sale to a company",
+      "Insolvency of a partner"
+    ],
+    "pattern_rules": [
+      "Use the authenticated paper examples for wording, format and depth.",
+      "Preserve four ordered options and one defensible answer; dropped or multiple-answer originals are excluded.",
+      "Historical paper timing and attempt rules do not establish 2027 examination rules."
+    ],
+    "source_refs": [
+      {
+        "id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus"
+      },
+      {
+        "id": "cuet2024-accountancy-bookA-paper",
+        "locator": "q1"
+      }
+    ]
+  },
+  "sources": {
+    "cuet2024-accountancy-bookA-paper:q14": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q14",
+      "text": "14. Oversubscription is a situation where the (1) number of shares applied for is equal to the number of shares issued. (2) number of shares applied for is more than the number of shares issued. (3) number of shares applied for is less than the number of shares issued. (4) face value of the share is less than the issue price of the share.",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-24": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-24",
+      "text": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’. In such a condition, three alternatives are available to the directors to deal with the situation: (1) they can accept some applications in full and totally reject the others; (2) they can make a pro-rata allotment to all; and (3) they can adopt a combination of the above two alternatives which happens to be the most common course adopted in practice. The problem of over subscription is resolved with the allotment of shares. Therefore, from the accounting point of view, it is better to place the situation of over subscription within the total frame of application and allotment, i.e. receipt of application amount, amount due on allotment and its receipt from the shareholders, and the same has been observed in the pattern of entries. First Alternative : When the directors decide to fully accept some applications and totally reject the others, the application money received on rejected applications is fully refunded. For example, a company invited applications for 20,000 shares and received the applications for 25,000 shares. The directors rejected the applications for 5,000 shares which are in excess of the required number and refunded their application money in full. In this case, the journal entries on application and allotment will be as follows : The journal entries on application and allotment according to this alternative are as follows: 1 Bank A/c Dr. To Share Application A/c (Money received on application for 25,000 shares @ Rs. _ per share) 2 Share Application A/c Dr. To Share Capital A/c To Bank A/c (Transfer of application for money 20,000 for shares allotted and money refunded on applications for 5,000 shares rejected) 3 Share Allotment A/c Dr. To Share Capital A/c (Amount due on the allotment of 20,000 shares @ Rs. _ per share) 4 Bank A/c Dr. To Share Allotment A/c (Allotment money received) Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-30": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-30",
+      "text": "30 Accountancy : Company Accounts and Analysis of Financial Statements June 01 Bank A/c Dr. 4,00,000 Calls in Advance A/c Dr. 1,00,000 To Equity Share Second and Final Call A/c 5,00,000 (Calls-in-advance adjusted against final call and the balance money on call received) Note: The balance of excess application money as a result of pro-rata distribution in journal entry 3 above is large enough to meet the demands on allotted shares in respect of the allotment and the two call money, as well as to leave an amount to be refunded along with that on the rejected applications. Working Notes: Rs. Rs. Excess Application Money 15,00,000 Less Transfers : Share Allotment — 20,000 shares @ Rs. 7.50 1,50,000 Share Calls — 20,000 shares @ Rs. 12.50 2,50,000 4,00,0001 Amount to be refunded (including that on 11,00,000 the rejected applications) 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-66": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-66",
+      "text": "66 Accountancy : Company Accounts and Analysis of Financial Statements Calls in Arrears: Sometimes, the full amount called on allotment and/or call (calls) is not received from the allottees/shareholders. The amount not so received are cumulatively called ‘Unpaid calls’ or ‘Calls in Arrears’. However, it is not mandatory for a company to maintain a separate Calls-in-Arrears Account. There are also instances where some shareholders consider it discreet to pay a part or whole of the amount not yet called-up on the shares allotted to them. Any amount paid by a shareholder in the excess of the amount due from him on allotment/call (calls) is known as ‘Calls in Advance’ for which a separate account is maintained. A company has the power to charge interest on calls in arrears and is under an obligation to pay interest on calls-in-advance if it accepts them in accordance with the provisions of Articles of Association. Over Subscription: It is possible for the shares of some companies to be over subscribed which means that applications for more shares are received than the number offered for subscription. If the amount of minimum subscription is not received to the extent of 90%, the issue dissolves. In case the applications received are less than the number of shares offered to the public, the issue is termed as ‘under subscribed’. Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. Issue of Shares at Discount: Shares can as well be issued at a discount, i.e. for an amount less than the nominal or par value of shares provided the company fully complies with the provisions laid down by law with regard to the same. Apart from such compliance, shares of a company cannot ordinarily be issued at a discount. According to the Companies Act, 2013, only sweat equity shares can be issued at a discount. When shares are issued at a discount, the amount of discount is debited to ‘Discount on Issue of Share Account’, which is in the nature of capital loss for the company. Forfeiture of Shares: Sometimes, shareholders fail to pay one or more instalments on shares allotted to them. In such a case, the company has the authority to forfeit shares of the defaulters. This is called ‘Forfeiture of Shares’. Forfeiture means the cancellation of allotment due to breach of contract and to treat the amount already received on such shares as forfeited to the company. The precise accounting treatment of share forfeiture depends upon the conditions on which the shares have been issued — at par, premium or discount. Generally speaking, accounting treatment on forfeiture is to reverse the entries passed till the stage of forfeiture, the amount already received on the shares being credited to Forfeiture Shares Account. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-accountancy-bookA-paper:q17": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q17",
+      "text": "17. Match List-I with List-II. List-I List-II (Name of account to be debited or (Amount to be debited or credited) credited, when shares are forfeited) (A) Share Capital Account (I) Debited with amount not received (B) Share Forfeited Account (II) Credited with amount not received (C) Calls-in-arrears Account (III) Credited with amount received towards share capital (D) Securities Premium Account (IV) Debited with amount called up Choose the correct answer from the options given below : (1) (A) - (I), (B) - (II), (C) - (III), (D) - (IV) (2) (A) - (IV), (B) - (III), (C) - (II), (D) - (I) (3) (A) - (I), (B) - (II), (C) - (IV), (D) - (III) (4) (A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-39": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-39",
+      "text": "39Accounting for Share Capital Share First Call A/c Dr. 2,00,000 To Equity Share Capital A/c 2,00,000 (Money due on 10,000 shares @ Rs. 20 per share on Ist Call) Bank A/c Dr. 1,94,000 To Equity Share First Call A/c 1,94,000 (First call money received except for 300 shares) Share Second and Final Call A/c Dr. 3,00,000 To Equity Share Capital A/c 3,00,000 (Money due on 10,000 shares @ Rs. 30 per share on Second and Final Call) Bank A/c Dr. 2,91,000 To Equity Share Second and Final Call A/c 2,91,000 (Second and Final Call money received except for 300 shares) Share Capital A/c Dr. 30,000 To Equity Share First Call A/c 6,000 To Equity Share Second and Final Call A/c 9,000 To Share Forfeiture A/c 15,000 (300 shares forfeited) Forfeiture of Shares issued at a Premium: If shares were initially issued at a premium and the premium amount has been fully realised, but some of the shares are forfeited due to non-payment of call money, the accounting treatment for forfeiture shall be on the same pattern as in the case of shares issued at par. The important point to be noted in this context is that the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount. In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received. Thus, the journal entry to record the forfeiture of shares issued at a premium on which premium has not been fully received, will be : Share Capital A/c Dr. Securities Premium Reserve A/c Dr. To Share Forfeiture A/c Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-35": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-35",
+      "text": "35Accounting for Share Capital Books of Jindal and Company Journal Date Particulars L.F. Debit Credit Amount Amount (Rs.) (Rs.) Machine A/c Dr. 3,80,000 To Bank A/c 20,000 To High Life Machine Limited 3,60,000 (Machine purchased and Rs. 20,000 paid in cash and the balance paid by issue of share) (a) When shares are issued at par High Life Machine Limited Dr. 3,60,000 To Share Capital A/c 3,60,000 (3,600 Shares are Rs.100 each) (b) When shares are issued at premium High Life Machine Limited Dr. 3,60,000 To Share Capital A/c 3,00,000 To Securities Premium Reserve A/c 60,000 (3,000 shares issued at Rs.120 per share) Test your Understanding – II Choose the correct answer. (a) Equity shareholders are: (i) creditors (ii) owners (iii) customers of the company (iv) none of the above (b) Nominal share capital is : (i) that part of the authorised capital which is issued by the company. (ii) the amount of capital which is actually applied for by the prospective shareholders. (iii) the maximum amount of share capital which a company is authorised to issue. (iv) the amount actually paid by the shareholders. (c) Interest on calls in arrears is charged according to “Table F” at : (i) 10% (ii) 6% (iii) 8% (iv) 11% (d) Money received in advance from shareholders before it is actually called-up by the directors is : (i) debited to calls in advance account (ii) credited to calls in advance account Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-accountancy-bookA-paper:q20": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q20",
+      "text": "20. A company can accept calls in advance, if authorised by : (1) Shareholders (2) Board of Directors (3) Articles of Association (4) Memorandum of Association st",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-18": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-18",
+      "text": "18 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.2 Calls in Advance Sometimes shareholders pay a part or the whole of the amount of the calls not yet made. The amount so received from the shareholders is known as “Calls in Advance”. The amount received in advance is a liability of the company and should be credited to ‘Call in Advance Account.” The amount received will be adjusted towards the payment of calls as and when they becomes due. Table F of the Companies Act provides for the payment of interest on calls in advance at a rate not exceeding 12% per annum. The following journal entry is recorded for the amount of calls received in advance. Bank A/c Dr. To Calls in Advance A/c (Amount received on call in advance) On the due date of the calls, the amount of ‘Calls in Advance’ is adjusted by the following entry : Calls in Advance A/c Dr. To Particular Call A/c (Calls in advance adjusted with the call money due) The balance in ‘Calls in Advance’ account is shown as a separate item under the title Equity and Liabilities in the company’s balance sheet under the head ‘current liabilities’, as sub-head ‘others current liabilities’. It is not added to the amount of paid-up capital. As ‘Calls in Advance’ is a liability of the company, it is under obligation, if provided by the Articles, to pay interest on such amount from the date of its receipt up to the date when appropriate call is due for payment. A stipulation is generally made in the Articles regarding the rate at which interest is payable. However, if Articles are silent on this account, Table F is applicable which provides for interest on calls in advance at a rate not exceeding 12% per annum. The accounting treatment of interest on Calls in Advance is as follows: 1. For Payment of Interest Interest on Calls in Advance A/c Dr. To Bank A/c (Interest paid on Calls in Advance) OR 2.(a) For Interest due Interest on Calls in Advance A/c Dr. To Sundry Shareholder’s A/c (Interest paid on Calls in Advance) 2.(b) For Interest Paid Sundry Shareholder’s A/c Dr. To Bank A/c Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-55": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-55",
+      "text": "55Accounting for Share Capital Working Notes : 1. Excess Application Money Categories of No. of Shares No. of Share Ratio of Allotment Applied Alloted Allotment i 38,000 38,000 100% ii 2,40,000 1,60,000 2/3 iii 8,000 2,000 1/4 2,86,000 2,00,000 Therefore, refund of application money = (3,17,000 – 2,86,000) × Rs. 2.50 = Rs. 77,500 Application money received = Rs. 7,15,000 (2,86,000 shares @ Rs. 2.50) Application money due : = Rs. 5,00,000 (2,00,000 shares @ Rs. 2.50) Excess application money Rs. 2,15,000 2. Amount of Calls in Advance As two allotees, each holding 4,000 shares, paid the full amount on allotment, amount of calls-in-advance is thus : 8,000 shares × (Rs. 2.50 + Rs. 2.50) = Rs. 40,000 Buy-back of Shares : When a company purchase its own shares, it is called ‘Buy-back of Shares’. Section 68 of The Companies Act, 2013 provides that the company can buy their own shares from either of the following sources : (a) Existing equity shareholders on a proportionate basis (b) Open Market (c) Odd-lot shareholders (d) Employees of the company The company can buy back its own shares either from the free reserves, securities premium or from the proceeds of any shares or other specified securities. In case shares are bought back out of free reserves, the company must transfer a sum equal to the nominal value of shares bought back to ‘Capital Redemption Reserve Account’. The following procedures have been laid down for buy back of shares : (a) The Articles of the Association must authorise the company for the buy back of shares. (b) A special resolution must be passed in the companies’ Annual General Body meeting. (c) The amount of buy back of shares in any financial year should not exceed 25% of the paid-up capital and free reserves. (d) The debt-equity ratio should not be more than a ratio of 2:1 after the buy back. (e) All the shares of buy back should be fully paid-up. (f) The buy-back of the shares should be completed within 12 months from the date of passing the special resolution. (g) The company should file a solvency declaration with the Registrar and SEBI which must be signed by at least two directors of the company. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac201:pdf-page-65": {
+      "id": "ncert-leac201",
+      "locator": "pdf-page-65",
+      "text": "65Accounting for Share Capital Termes Used in the Chapter 1. Joint Stock Company 16. Premium on Shares 2. Share Capital 17. Application Money 3. Authorised Capital 18. Minimum Subscription 4. Issued Capital 19. Calls on Shares 5. Unissued Capital 20. Calls in Arrears 6. Subscribed Capital 21. Calls in Advance 7. Subscribed and fully paid-up 22. Over subscription 8. Subscribed but not fully paid up 23. Under subscription 9. Paid-up Capital 24. For feiture of Shares 10. Reserve Capital 25. Reissue of forfeited shares 11. Shares 26. Buy-back of Shares 12. Preference Shares 13. Non-redeemable Preference Shares 14. Equity Shares 15. Issue of Shares for Consideration Other than Cash Summary Company: An organisation consisting of individuals called ‘shareholders’ by virtue of their holding the shares of a company, who can act as legal person as regards its business through board of directors. Share: Fractional part of the capital, and forms the basis of ownership in a company. Shares are generally of two types, viz. equity shares and preference shares, according to the provisions of the Companies Act, 2013. Preference shares again are of different types based on varying shades of rights attached to them. Share Capital of a company is collected by issuing shares to either a select group of persons through the route of private placements and/or offered to the public for subscription. Thus, the issue of shares is basic to the capital of a company. Shares are issued either for cash or for consideration other than cash, the former being more common. Shares are said to be issued for consideration other than cash when a company purchases business, or some asset/assets, and the vendors have agreed to receive payment in the form of fully paid shares of a company. Stages of Share Issue: The issue of shares for cash is required to be made in strict conformity with the procedure laid down by law for the same. When shares are issued for cash, the amount on them can be collected at one or more of the following stages: (i) Application for shares (ii) Allotment of shares (iii) Call/Calls on shares. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-accountancy-bookA-paper:q5": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q5",
+      "text": "5. Identify the correct sequence to be followed while preparing of final account of a partnership firm : (A) Profit and Loss Appropriation Account (B) Profit and Loss Account (C) Trading Account (D) Balance Sheet Choose the correct answer from the options given below : (1) (C), (B), (A), (D) (2) (A), (C), (B), (D) (3) (B), (A), (D), (C) (4) (C), (B), (D), (A)",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "ncert-leac101:pdf-page-5": {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-5",
+      "text": "5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partner’s loan is to be given @ 12% p.a., if the deed is silent about the rate. 1.3 Special Aspects of Partnership Accounts Accounting treatment for partnership firm is similar to that of a sole proprietorship business with the exception of the following aspects: • Maintenance of Partners’ Capital Accounts; • Distribution of Profit and Loss among the partners; • Adjustments for Wrong Appropriation of Profits in the Past; • Reconstitution of the Partnership Firm; and • Dissolution of Partnership Firm. The first three aspects mentioned above have been taken up in the following sections of this chapter . The r emaining aspects have been cover ed in the subsequent chapters. 1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capital, withdrawal of capital, share of profit, interest on capital, interest on drawings, partner’s salary, commission to partners, etc. There are two methods by which the capital accounts of partners can be maintained. These are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance. The partner’s capital account and the current account under the fixed capital method would appear as shown in Fig.1.1. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "ncert-leac101:pdf-page-1": {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-1",
+      "text": "Y ou have learnt about the preparation of financial statements for a sole proprietary concern. As the business expands, one needs more capital and larger number of people to manage the business and share its risks. In such a situation, people usually adopt the partnership form of organisation. Accounting for partnership firms has it’s own peculiarities, as the partnership firm comes into existence when two or more persons come together to establish business and share its profits. On many issues affecting distribution of profits, there may not be any specific agreement between the partners. In such a situation the provisions of the Indian Partnership Act 1932 apply. Similarly, calculation of interest on capital, interest on drawings and maintenance of partners capital accounts have their own peculiarities. Not only that a variety of adjustments are required on the death of a partner or when a new partner is admitted and so on. These peculiar situations need specific treatment in accounting that need to be clarified. The present chapter discusses some basic aspects of partnership such as distribution of profit, maintenance of capital accounts, etc. The treatment of situations like admission of partner, retirement, death and dissolution have been taken up in the subsequent chapters. 1.1 Nature of Partnership When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership. Section 4 of the Indian Partnership Act 1932 defines partnership as the LEARNING OBJECTIVES After studying this chapter, you will be able to : • Define partnership and list its essential features; • Identify the provisions of the Indian Partnership Act 1932 that are relevant for accounting; • Prepare partners’ capital accounts under fixed and fluctuating capital methods; • Explain the distribution profit or loss among the partners and prepare the Profit and Loss Appropriation Account; • Calculate interest on capital and drawing under various situations; • Explain how guarantee for a minimum amount of profit affects the distribution of profits among the partners; • Make necessary adjustments to rectify the past err ors in partners capital accounts; and • Prepare final accounts of a partnership firm; Accounting for Partnership: Basic Concepts 1 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "title": null
+    },
+    "cuet2024-accountancy-bookA-paper:q3": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q3",
+      "text": "3. Match List-I with List-II. List-I List-II (A) Share capital (I) Will be called at the time of winding up (B) Reserves and surplus (II) Calls in advance (C) Reserve capital (III) Subscribed but not fully paid (D) Current liabilities (IV) Sinking fund Choose the correct answer from the options given below : (1) (A) - (I), (B) - (II), (C) - (III), (D) - (IV) (2) (A) - (I), (B) - (III), (C) - (II), (D) - (IV) (3) (A) - (I), (B) - (II), (C) - (IV), (D) - (III) (4) (A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "cuet2024-accountancy-bookA-paper:q7": {
+      "id": "cuet2024-accountancy-bookA-paper",
+      "locator": "q7",
+      "text": "7. Match List-I with List-II. List-I List-II (A) Salary to partner (I) Credit side of Partner's Capital Account (B) Interest on partner's loan (II) Debit side of Partner's Current Accont (C) Interest on partner's drawings (III) Debit side of Profit and Loss Account (D) Additional capital introduced (IV) Credit side of Partner's Current Account Choose the correct answer from the options given below : (1) (A) - (I), (B) - (II), (C) - (III), (D) - (IV) (2) (A) - (I), (B) - (III), (C) - (II), (D) - (IV) (3) (A) - (IV), (B) - (III), (C) - (II), (D) - (I) (4) (A) - (III), (B) - (IV), (C) - (I), (D) - (II)",
+      "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+      "publisher": "cdn.aglasem.com",
+      "title": null
+    },
+    "ncert-leac101:pdf-page-36": {
+      "id": "ncert-leac101",
+      "locator": "pdf-page-36",
+      "text": "36 Accountancy – Partnership Accounts 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner may be guaranteed a minimum amount by way of his share in profits. If, in any year, the shar e of pr ofits as calculated accor ding to his pr ofit sharing ratio is less than the guaranteed amount, the deficiency is made good by the guaranteeing partners’ in the agreed ratio which usually is the profit sharing ratio. If, however , such guarantee has been given by any of them, he or they alone shall bear the amount of deficiency. 7. Treatment of past adjustments: If, after the final accounts have been prepared, some omission or commissions are noticed say in respect of the interest on capital, interest on drawings, partner’s salary, commission, etc. necessary adjustments can be made in the partner’s capital accounts through the Profit and Loss Adjustment Account, to rectify the same. 8. Preparation of final accounts of a partnership firm: There is not much difference in the final accounts of a sole proprietary concern and that of a partnership firm except that in case of a partnership firm an additional account called Profit and Loss Appropriation Account is prepared to show distribution of profit and loss among the partners. Questions for Practice Short Answer Questions 1. Define Partnership Deed. 2. Why is it considered desirable to make the partnership agreement in writing? 3. List the items which may be debited or credited in capital accounts of the partners when: (i) Capitals are f ixed. (ii) Capital are fluctuating. 4. Why is Profit and Loss Appropriation Account prepared? 5. Give two circumstances under which the fixed capitals of partners may change. 6. If a fixed amount is withdrawn on the first day of every quarter , for what period the interest on total amount withdrawn will be calculated? 7. In the absence of Partnership deed, specify the rules relating to the following : (i) Sharing of profits and losses. (ii) Interest on partner’s capital. (iii) Interest on Partner’s drawings. (iv) Interest on Partner’s loan (v) Salary to a partner . Long Answer Questions 1. What is meant by partnership? Explain its chief characteristics? Explain. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "title": null
+    }
+  },
+  "questions": [
+    {
+      "id": "fab8e8b9-af16-4d92-8b96-0363050eea8b",
+      "content_hash": "745048814e3a5d124179c76c43fb50011048d64cc8db793a5f758289c4cfcd8f",
+      "chapter": "Share Capital",
+      "body": "Oversubscription is a situation where the",
+      "options": [
+        "number of shares applied for is equal to the number of shares issued.",
+        "number of shares applied for is more than the number of shares issued.",
+        "number of shares applied for is less than the number of shares issued.",
+        "face value of the share is less than the issue price of the share."
+      ],
+      "passage": "",
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-accountancy-bookA-q14"
+    },
+    {
+      "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "chapter": "Share Capital",
+      "body": "Match List-I with List-II. List-I List-II (Name of account to be debited or (Amount to be debited or credited) credited, when shares are forfeited) (A) Share Capital Account (I) Debited with amount not received (B) Share Forfeited Account (II) Credited with amount not received (C) Calls-in-arrears Account (III) Credited with amount received towards share capital (D) Securities Premium Account (IV) Debited with amount called up Choose the correct answer from the options given below :",
+      "options": [
+        "(A) - (I), (B) - (II), (C) - (III), (D) - (IV)",
+        "(A) - (IV), (B) - (III), (C) - (II), (D) - (I)",
+        "(A) - (I), (B) - (II), (C) - (IV), (D) - (III)",
+        "(A) - (III), (B) - (IV), (C) - (I), (D) - (II)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-accountancy-bookA-q17"
+    },
+    {
+      "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "chapter": "Share Capital",
+      "body": "A company can accept calls in advance, if authorised by :",
+      "options": [
+        "Shareholders",
+        "Board of Directors",
+        "Articles of Association",
+        "Memorandum of Association st"
+      ],
+      "passage": "",
+      "question_type": "factual_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-accountancy-bookA-q20"
+    },
+    {
+      "id": "ffbf2eaa-257a-4930-bf2d-6bd6d54aad1c",
+      "content_hash": "127f068ee7eee72b939fdf2e95943402b285aba9596b3cb18c91b19d20f443df",
+      "chapter": "Partnership Fundamentals",
+      "body": "A partnership firm has completed its Balance Sheet. When tracing the preparation of its final accounts backwards, which sequence of the other accounts is correct?\n\n(A) Profit and Loss Appropriation Account\n(B) Profit and Loss Account\n(C) Trading Account",
+      "options": [
+        "(A), (B), (C)",
+        "(B), (C), (A)",
+        "(C), (B), (A)",
+        "(A), (C), (B)"
+      ],
+      "passage": "",
+      "question_type": "sequence_ordering",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q5"
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "chapter": "Financial Statements of Company",
+      "body": "Match List-I with List-II.\n\n| List-I | List-II |\n|---|---|\n| (A) Calls in arrears | (I) Amount paid by a shareholder before it is called by the company |\n| (B) Calls in advance | (II) Subscribed share capital that has not been fully paid up |\n| (C) Reserve capital | (III) Amount called by the company but not yet received from shareholders |\n| (D) Subscribed but not fully paid share capital | (IV) Uncalled share capital that the company can call only in the event of winding up |\n\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A)–(I), (B)–(III), (C)–(II), (D)–(IV)",
+        "(A)–(III), (B)–(I), (C)–(IV), (D)–(II)",
+        "(A)–(III), (B)–(II), (C)–(IV), (D)–(I)",
+        "(A)–(IV), (B)–(I), (C)–(III), (D)–(II)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q3"
+    },
+    {
+      "id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "chapter": "Profit & Loss Appropriation Account",
+      "body": "Under the fixed capital method, match each transaction in List I with the account in which it is recorded in List II.\n\nList I\n(I) A partner’s share of profit\n(II) Additional capital introduced by a partner\n(III) Salary to a partner\n(IV) Part of a partner’s capital withdrawn under the agreement\n\nList II\n(A) Partner’s Capital Account\n(B) Partner’s Current Account\n\nChoose the correct combination:",
+      "options": [
+        "(I)–(A), (II)–(B), (III)–(B), (IV)–(A)",
+        "(I)–(B), (II)–(A), (III)–(B), (IV)–(A)",
+        "(I)–(B), (II)–(A), (III)–(A), (IV)–(B)",
+        "(I)–(A), (II)–(A), (III)–(B), (IV)–(B)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": "partnership_fixed_capital_account_treatment",
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q7"
+    },
+    {
+      "id": "b05f3b4d-275f-4c20-903f-80b9eefc4d33",
+      "content_hash": "0e09f1b85f330d9951e32050991a52d958d44ccdad3586cfd3b78c31b079e962",
+      "chapter": "Share Capital",
+      "body": "A company receives applications for 54,000 shares, which is 9,000 more than the number of shares it offered for subscription. How many shares did the company offer?",
+      "options": [
+        "45,000 shares",
+        "63,000 shares",
+        "9,000 shares",
+        "54,000 shares"
+      ],
+      "passage": "",
+      "question_type": "numerical_mcq",
+      "concept_id": "share_capital_oversubscription",
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q14"
+    },
+    {
+      "id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "chapter": "Profit & Loss Appropriation Account",
+      "body": "A firm maintains partners’ capital accounts under the fixed capital method. Match List-I with List-II.\n\nList-I\n(A) Interest on capital\n(B) Partner’s drawings\n(C) Additional capital introduced\n(D) Share of profit\n\nList-II\n(I) Credit side of Partner’s Capital Account\n(II) Credit side of Partner’s Current Account\n(III) Debit side of Partner’s Current Account\n\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A) - (II), (B) - (III), (C) - (I), (D) - (II)",
+        "(A) - (II), (B) - (I), (C) - (III), (D) - (II)",
+        "(A) - (III), (B) - (II), (C) - (I), (D) - (II)",
+        "(A) - (II), (B) - (III), (C) - (II), (D) - (I)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": "partnership_fixed_capital_method",
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q7"
+    },
+    {
+      "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "chapter": "Share Capital",
+      "body": "A company forfeited some fully called-up equity shares of ₹10 each. The holders had not paid the final call of ₹3 per share, but the issue premium of ₹2 per share had been received in full. The total amount credited to Share Forfeiture Account on forfeiture was ₹4,200. How many shares were forfeited?",
+      "options": [
+        "420 shares",
+        "600 shares",
+        "525 shares",
+        "1,400 shares"
+      ],
+      "passage": "",
+      "question_type": "single_correct_numerical",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q17"
+    },
+    {
+      "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "chapter": "Financial Statements of Company",
+      "body": "Match List-I with List-II.\n\nList-I\n(A) Calls in arrears\n(B) Calls in advance\n(C) Securities premium\n(D) Reserve capital\n\nList-II\n(I) Amount received over and above the nominal value of shares\n(II) Amount called on shares but not received\n(III) Called at the time of winding up\n(IV) Amount received from a shareholder before it becomes due\n\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A)–(II), (B)–(I), (C)–(IV), (D)–(III)",
+        "(A)–(IV), (B)–(II), (C)–(I), (D)–(III)",
+        "(A)–(II), (B)–(IV), (C)–(III), (D)–(I)",
+        "(A)–(II), (B)–(IV), (C)–(I), (D)–(III)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q3"
+    },
+    {
+      "id": "5ec3ec4d-fe39-4608-a3a0-4c02f53707e3",
+      "content_hash": "3ca6b676c3f53e3ba748a3654e6961234f84a16ab7979950e82d2755bed995eb",
+      "chapter": "Partnership Fundamentals",
+      "body": "In a partnership firm, identify the correct sequence for tracing the transfer and final presentation of profit, starting with the Trading Account and ending with the Balance Sheet:\n\n(A) Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Partners’ Capital/Current Accounts → Balance Sheet\n(B) Trading Account → Profit and Loss Appropriation Account → Profit and Loss Account → Partners’ Capital/Current Accounts → Balance Sheet\n(C) Trading Account → Profit and Loss Account → Partners’ Capital/Current Accounts → Profit and Loss Appropriation Account → Balance Sheet\n(D) Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Balance Sheet → Partners’ Capital/Current Accounts",
+      "options": [
+        "(A) Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Partners’ Capital/Current Accounts → Balance Sheet",
+        "(B) Trading Account → Profit and Loss Appropriation Account → Profit and Loss Account → Partners’ Capital/Current Accounts → Balance Sheet",
+        "(C) Trading Account → Profit and Loss Account → Partners’ Capital/Current Accounts → Profit and Loss Appropriation Account → Balance Sheet",
+        "(D) Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Balance Sheet → Partners’ Capital/Current Accounts"
+      ],
+      "passage": "",
+      "question_type": "sequence_ordering",
+      "concept_id": "partnership_final_accounts_profit_flow",
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q5"
+    },
+    {
+      "id": "6ff08f7a-b79b-4290-83a6-007f7b4df498",
+      "content_hash": "ea2f72066da04da54a9b3d04d26a34f248f78c42405247346da0b71ca8d0edac",
+      "chapter": "Share Capital",
+      "body": "When a company receives money for a call before the call is made, which journal entry is recorded?",
+      "options": [
+        "Calls in Advance A/c Dr. — To Bank A/c",
+        "Bank A/c Dr. — To Calls in Advance A/c",
+        "Bank A/c Dr. — To Share Capital A/c",
+        "Calls in Arrears A/c Dr. — To Bank A/c"
+      ],
+      "passage": "",
+      "question_type": "factual_recall",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q20"
+    },
+    {
+      "id": "3d547d56-6873-4057-85d8-8a627eed611d",
+      "content_hash": "d21b26fbc1fbb1f4e3eb2747ff813517384de421ffc5035f25e7a865754ee96e",
+      "chapter": "Share Capital",
+      "body": "A company offers 20,000 shares to the public and receives valid applications for exactly 20,000 shares. How should the issue be classified?",
+      "options": [
+        "As oversubscribed, because applications have been received for the shares offered.",
+        "As undersubscribed, because applications do not exceed the number of shares offered.",
+        "As fully subscribed, because applications equal the number of shares offered.",
+        "As issued at a premium, because applications equal the number of shares offered."
+      ],
+      "passage": "",
+      "question_type": "conceptual_mcq",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q14"
+    },
+    {
+      "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "chapter": "Profit & Loss Appropriation Account",
+      "body": "A firm maintains partners’ accounts under the fixed capital method. After all appropriations, a residual profit of ₹1,20,000 is to be shared equally between its two partners. Which journal entry records the transfer of this profit to the partners?",
+      "options": [
+        "Debit Profit and Loss Appropriation Account ₹1,20,000; credit each partner’s Current Account ₹60,000.",
+        "Debit each partner’s Current Account ₹60,000; credit Profit and Loss Appropriation Account ₹1,20,000.",
+        "Debit Profit and Loss Account ₹1,20,000; credit each partner’s Current Account ₹60,000.",
+        "Debit Profit and Loss Appropriation Account ₹1,20,000; credit each partner’s Capital Account ₹60,000."
+      ],
+      "passage": "",
+      "question_type": "single_correct_mcq",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q7"
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "chapter": "Financial Statements of Company",
+      "body": "Match each situation in List-I with the appropriate accounting treatment or classification in List-II.\n\n| List-I | List-II |\n|---|---|\n| (A) A shareholder does not pay an amount that the company has called on the shares | (I) Recorded in a separate Calls-in-Advance account |\n| (B) A shareholder pays an amount before the company calls for it | (II) Uncalled capital reserved to be called only in the event of winding up |\n| (C) Shares are issued for more than their nominal value | (III) Unpaid calls, also called calls in arrears |\n| (D) The company resolves that a part of its uncalled capital will be called only if it is wound up | (IV) Amount credited to Securities Premium Reserve |\n\nChoose the correct matching:",
+      "options": [
+        "(A)–(I), (B)–(III), (C)–(II), (D)–(IV)",
+        "(A)–(III), (B)–(I), (C)–(IV), (D)–(II)",
+        "(A)–(II), (B)–(IV), (C)–(I), (D)–(III)",
+        "(A)–(IV), (B)–(II), (C)–(III), (D)–(I)"
+      ],
+      "passage": "",
+      "question_type": "match_type",
+      "concept_id": "share_capital_classification_and_presentation",
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-accountancy-bookA-q3"
+    }
+  ]
+}

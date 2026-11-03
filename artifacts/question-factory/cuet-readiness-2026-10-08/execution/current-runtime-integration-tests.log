@@ -1,0 +1,39 @@
+✔ request snapshot retains fresh item checks and content binding (5.461ms)
+✔ a subsequent current snapshot revokes sources and calibration without cached verdicts (0.7724ms)
+✔ snapshot sharing never caches expiry or bypasses the factory release predicate (0.7362ms)
+✔ admin readiness binds the current verifier rather than a released legacy state (113.1069ms)
+✔ the student publication path rejects a stale signed-contract binding before content checks (41.6008ms)
+✔ CUET fit: direct recall at PYQ level passes; easy is not poor (1.6034ms)
+✔ CUET fit: anchors drive a deterministic pass/fail, never a model-chosen overall (0.3349ms)
+✔ CUET fit: time is a heuristic estimate, not an observed timing rule (1.483ms)
+✔ reading reference uses authenticated subject and format examples and reports thin or missing samples (0.4819ms)
+✔ answer conditions: only unstated, merely implied or concluded decisive assumptions block; conventions need evidence (0.4457ms)
+✔ alternative-reading challenge: a reasonable reading that makes another option correct blocks; a strained one does not (0.5867ms)
+✔ chapter labels inside one syllabus unit are a relabel, not a rejection; a different unit is (0.4833ms)
+✔ mandatory defects stay blocking; style notes never block (0.6176ms)
+✔ V7 flow: a sound item is eligible under every topology and the record verifies independently (103.345ms)
+✔ V7 flow: single-validator topologies make fewer paid calls; hidden-key solving is blind (19.2088ms)
+✔ V7 flow: wrong key, blocking defects, undeclared decisive assumptions and weak CUET fit all reject (34.3281ms)
+✔ V7 flow: disagreement between validators and a failed explanation audit reject (17.3504ms)
+✔ V7 evidence is tamper-evident and student retrieval needs a measured release (17.7093ms)
+✔ quote integrity: exact, whole short definitions and line-joined verbatim spans pass; paraphrase and fabrication do not (0.6073ms)
+✔ option label prefixes are stripped only when uniform and sequential, and never from matching-style options (0.7858ms)
+✔ reading load above the observed maximum does not fail by itself (0.2423ms)
+✔ legacy released v6 manifest cannot unlock current CUET publication (5.8999ms)
+✔ exact current dual-blind binding passes the current release predicate (7.8166ms)
+✔ stale validation hash, prompt, source version, or effort/provider policy fail closed (48.6694ms)
+✔ actual release builder counts both false-accept lists and roundtrips to frozen/runtime predicates (8.4197ms)
+✔ release builder fails closed if either false-accept list is missing (0.6352ms)
+✔ release producer marks benchmark completed only after the assessment passed (4.6764ms)
+✔ profile binds exact v7.3 contract, source registry and current release (127.0691ms)
+✔ pinning clones only unpinned new jobs and preserves their other fields (24.9715ms)
+✔ student evidence rejects unknown v7 versions and requires the exact current v7.3 release (56.1822ms)
+✔ evaluation cache identity separates validation-contract hashes (0.3268ms)
+ℹ tests 31
+ℹ suites 0
+ℹ pass 31
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 477.622

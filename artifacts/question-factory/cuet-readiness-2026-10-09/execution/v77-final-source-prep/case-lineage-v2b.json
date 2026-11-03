@@ -1,0 +1,167 @@
+{
+  "schema": "v77-case-lineage-v2",
+  "created_at": "2026-10-09T06:59:20.629Z",
+  "claim_boundary": "The 28 cases are not 28 independent semantic roots. The reviewer found four root-mutant pairs and additional within-objective/passage relationships; these are disclosed as families and remain correlated evidence.",
+  "review_source": "execution/v77-final-source-prep/freshness-review-v1.json",
+  "families": [
+    {
+      "id": "v77-final-v2-family-cash-equivalent-eligibility",
+      "case_ids": [
+        "v77f-ad344a8b5f2d",
+        "v77f-59b58a25bbb3"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-customer-receipts-machine-sale",
+      "case_ids": [
+        "v77f-2105354e5de1",
+        "v77f-84e9ba57542c"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-662880a2c5fb",
+      "case_ids": [
+        "v77f-662880a2c5fb"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-073bdc31e03c",
+      "case_ids": [
+        "v77f-073bdc31e03c"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-workforce-staffing-sequence",
+      "case_ids": [
+        "v77f-3546cbf8ea19",
+        "v77f-1db3dc389725"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-c6d21440345d",
+      "case_ids": [
+        "v77f-c6d21440345d"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-consumer-rights",
+      "case_ids": [
+        "v77f-a20de9004938",
+        "v77f-9a31e9a4c29b",
+        "v77f-e9ef75026c19"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-marginal-utility-28-30",
+      "case_ids": [
+        "v77f-ea8f75b17d74",
+        "v77f-63d002be451c"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-ordinal-ranking",
+      "case_ids": [
+        "v77f-b123137834cc",
+        "v77f-fcf957a734d5"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-466fab2284fd",
+      "case_ids": [
+        "v77f-466fab2284fd"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-2d806114710e",
+      "case_ids": [
+        "v77f-2d806114710e"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-library-passage",
+      "case_ids": [
+        "v77f-4c09b80e91ce",
+        "v77f-a99cc144f9e5"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-ferry-passage",
+      "case_ids": [
+        "v77f-1ed13162f85d",
+        "v77f-2ca94e8b4e72"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-dfcca21b749e",
+      "case_ids": [
+        "v77f-dfcca21b749e"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-e77493e30567",
+      "case_ids": [
+        "v77f-e77493e30567"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-3e505228c987",
+      "case_ids": [
+        "v77f-3e505228c987"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-v77f-98a231fa15fa",
+      "case_ids": [
+        "v77f-98a231fa15fa"
+      ],
+      "relationship": "single case lineage; no independence claim"
+    },
+    {
+      "id": "v77-final-v2-family-workshop-passage",
+      "case_ids": [
+        "v77f-c519f01371f2",
+        "v77f-56f266269b74"
+      ],
+      "relationship": "shared source, passage, objective, or reviewer-flagged root-mutant relationship"
+    }
+  ],
+  "reviewer_flagged_mutant_pairs": [
+    [
+      "v77f-2105354e5de1",
+      "v77f-84e9ba57542c"
+    ],
+    [
+      "v77f-3546cbf8ea19",
+      "v77f-1db3dc389725"
+    ],
+    [
+      "v77f-ea8f75b17d74",
+      "v77f-63d002be451c"
+    ],
+    [
+      "v77f-b123137834cc",
+      "v77f-fcf957a734d5"
+    ]
+  ],
+  "reviewer_flagged_objective_overlap": [
+    "v77f-a20de9004938",
+    "v77f-9a31e9a4c29b",
+    "v77f-e9ef75026c19"
+  ]
+}

@@ -55,6 +55,13 @@ function firstPresent(row, fields) {
 }
 
 function normalizeComparable(value) {
+  const scalar = textValue(value).replace(/\u2212/g, '-').match(/^([+-]?)\s*([₹$]?)\s*([+-]?)\s*(\d+(?:,\d+)*(?:\.\d+)?|\.\d+)\s*(%?)$/);
+  const integer = scalar?.[4].split('.')[0];
+  const groupingValid = integer !== undefined && (!integer.includes(',') || /^\d{1,3}(?:,\d{3})+$/.test(integer) || /^\d{1,2}(?:,\d{2})*,\d{3}$/.test(integer));
+  const numeric = scalar && Number((scalar[1] || scalar[3]) + scalar[4].replaceAll(',', ''));
+  if (scalar && !(scalar[1] && scalar[3]) && groupingValid && Number.isFinite(numeric)) {
+    return `scalar:${scalar[2]}:${numeric}:${scalar[5]}`;
+  }
   return textValue(value)
     .toLowerCase()
     .replace(/&/g, ' and ')
@@ -168,6 +175,7 @@ function answerRaw(row) {
 export function resolveAnswerCorrectIndex(row, options) {
   const indexFields = [row?.correctIndex, row?.correct_index, row?.correct_option_index, row?.correctOptionIndex];
   for (const value of indexFields) {
+    if (value == null || value === '') continue;
     const numeric = Number(value);
     if (Number.isInteger(numeric)) {
       if (numeric >= 0 && numeric < options.length) return numeric;
@@ -275,12 +283,20 @@ function hasObviousMultipleCorrectRisk(row, options, correctIndex) {
   const correctText = normalizeComparable(correct.text);
   if (!correctText) return true;
 
-  const explicitBad = options.some((option) => /\b(all of the above|none of the above|both a and b|both b and c|all statements are correct|more than one)\b/i.test(option.text));
+  const explicitBad = options.some((option) =>
+    /\b(all of the above|none of the above|both a and b|both b and c|all statements are correct)\b/i.test(option.text) ||
+    // "Understood in more than one way" is an ordinary lexical definition,
+    // not a combined-answer option. Retain the guard for answer combinations.
+    /\bmore than one\s+(?:of\b|(?:answer|option|choice|statement)s?\b|(?:is|are)\s+(?:correct|true|valid)\b)/i.test(option.text) ||
+    /^\s*more than one\s*[.!]?\s*$/i.test(option.text));
   if (explicitBad) return true;
 
   if (hasStatementCombinationBody(body)) return false;
 
-  const repeatedTruthyOptions = options.filter((option) => /\b(correct|true|valid|accurate|appropriate)\b/i.test(option.text)).length;
+  // Definitions such as "likely to be true" describe a word's meaning; they
+  // do not assert that an answer/statement is correct. Require an actual verdict.
+  const repeatedTruthyOptions = options.filter((option) => /^\s*(?:correct|true|valid|accurate|appropriate)\s*[.!]?\s*$/i.test(option.text) ||
+    /\b(?:is|are)\s+(?:correct|true|valid|accurate|appropriate)\b/i.test(option.text)).length;
   return repeatedTruthyOptions >= 3 && !/\bincorrect|not true|not valid|false\b/i.test(body);
 }
 

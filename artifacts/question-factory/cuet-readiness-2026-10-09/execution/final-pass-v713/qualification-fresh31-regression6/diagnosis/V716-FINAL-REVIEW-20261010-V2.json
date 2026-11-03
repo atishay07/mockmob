@@ -1,0 +1,53 @@
+{
+  "review": "v716-final-offline-review-after-session-fixture-fix",
+  "recorded_at": "2026-10-10",
+  "provider_calls_by_reviewer": 0,
+  "qualification_or_release_claim": false,
+  "focused_tests": {
+    "command": "node --test scripts/pipeline/tests/v716ScorecardPolicy.test.mjs",
+    "tests": 19,
+    "passed": 19,
+    "failed": 0,
+    "test_sha256": "a0995ebe7325c5cece5eb0c1932b52a0b41698b399e594ef84c71eda3e3e4325"
+  },
+  "regression_suites": [
+    { "command": "npm.cmd run test:factory", "tests": 1038, "passed": 1038, "failed": 0,
+      "note": "One initial restart-session fixture failure was corrected by explicitly supplying registry and prices; the one authorized rerun passed." },
+    { "command": "npm.cmd run test:recovery", "tests": 40, "passed": 40, "failed": 0 },
+    { "command": "node --test data/tests/payment_entitlements.test.mjs data/tests/nta_question_selector.test.mjs data/tests/mock_question_selector.test.mjs scripts/pipeline/tests/practiceModeFiltering.test.mjs",
+      "tests": 47, "passed": 47, "failed": 0 }
+  ],
+  "request_sizing": {
+    "artifact": "qualification-fresh31-regression6/v716-body-size-diagnostic-r2.json",
+    "artifact_sha256": "5b899275bfd3c6083720b0e0413ffad945cd8b195024e316c12b03d84ae55f2d",
+    "capture_helper_sha256": "ab16c3868587409303f7f1a415983389b03a20430321d5fa0a44e1616bbf952c",
+    "requests": 222,
+    "maximum_request_bytes": 26935,
+    "limit_bytes": 33024,
+    "over_limit": 0,
+    "synthetic_responses_only": true,
+    "paid_calls": 0,
+    "academic_evidence": false
+  },
+  "contract_bindings": {
+    "v713_validation_contract": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+    "v713_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "v714_validation_contract": "ed0e4ae7fd56c045dd67c74e33686c2fcd1c0d25e640fc2e2f578fba4dfcf545",
+    "v714_freeze_sha256": "095b049fc43bf20f014c09b0f4dad4bb6d1870cfcc6421aca88aedd985d98092",
+    "v715_validation_contract": "e44f34f94187283d851db1d6b46d95615e02de089bcbc783d7a312344f77de9d",
+    "v715_freeze_sha256": "d52ef7e40a1cfdc8d7e1d03d40a4ae89edef565e65d163c8fbe534844390bb7a",
+    "v716_current_unfrozen_validation_contract": "48d1f62021153d34f8cdc33a96ad5a1dada206d7498242dd158ceddfa5b1889b",
+    "v716_current_prompt_hash": "628df899412096dee97bbf088d67dbfa4094035b1fba035776b95752e0e205c5",
+    "v716_freeze_written": false
+  },
+  "r3_registered_input_hashes": {
+    "frozen_fixtures": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+    "registration": "45ddc15b8e4f668ba1151c2e2e513b92a2f55dfec3d1e2925a930b2112018fff",
+    "preflight": "ac9cf2b64b004c620c5233350bde3987700d0044704c1b7d44c337456384075f"
+  },
+  "active_process_check": { "mockmob_factory_or_qualification_node_processes": 0, "unrelated_desktop_services_stopped": false },
+  "limits": [
+    "V716 remains local and unfrozen; its current hashes change if contract-bound modules change.",
+    "The test suites establish local software behavior only, not qualification, publication, UI/build, or production readiness."
+  ]
+}

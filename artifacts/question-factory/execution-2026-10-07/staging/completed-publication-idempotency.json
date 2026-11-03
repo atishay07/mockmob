@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-07T03:45:50.942Z",
+  "passed": true,
+  "newly_published": 50,
+  "unique_rows_after_repeated_publication": 50,
+  "budget_requests_before_and_after_completed_restarts": 3359,
+  "new_paid_requests_during_completed_restarts": 0,
+  "accepted_batch_ids_resubmitted": 0,
+  "production_writes": 0,
+  "scope": "Observed completed-worker restarts and repeated publish calls retained exactly the same 50 staging questions; saved generation-ID proof is in worker-restart.json."
+}

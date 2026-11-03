@@ -1,0 +1,93 @@
+{
+  "acquired_at": "2026-10-08T09:58:02.698388+00:00",
+  "pre_acquisition_binding_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\PRE-ACQUISITION-BINDING.json",
+  "pre_acquisition_binding_sha256": "d60f01257973cda20ca016f7736740dc30e8d56f7869e91d9267a75570e34966",
+  "validator_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "official_index_url": "https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html",
+  "documents": [
+    {
+      "source_id": "cbse-2024-25-accountancy-sqp",
+      "subject": "accountancy",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+      "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+      "bytes": 395632,
+      "extraction_method": "pypdf original content-stream order; whitespace normalized",
+      "source_kind": "official_cbse_sample_question_paper_not_cuet_pyq",
+      "page_count": 15,
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pages.json",
+      "cache_sha256": "4199f8a480fcdaa3eec3555e1f7d0b25ee9b971e40574c189cf618e9c5ba8e5c"
+    },
+    {
+      "source_id": "cbse-2024-25-business_studies-sqp",
+      "subject": "business_studies",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+      "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+      "bytes": 202856,
+      "extraction_method": "pypdf original content-stream order; whitespace normalized",
+      "source_kind": "official_cbse_sample_question_paper_not_cuet_pyq",
+      "page_count": 8,
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pages.json",
+      "cache_sha256": "3e96f5c8686c22135197c7ede24f4505a962447b0c741f85146ad2818d5fc5bf"
+    },
+    {
+      "source_id": "cbse-2024-25-economics-sqp",
+      "subject": "economics",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+      "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+      "bytes": 448313,
+      "extraction_method": "pypdf original content-stream order; whitespace normalized",
+      "source_kind": "official_cbse_sample_question_paper_not_cuet_pyq",
+      "page_count": 10,
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pages.json",
+      "cache_sha256": "70ae0bae2b58019632fd1edc0e5920b9eae8b75ebe31ed58ba1e7e62e25b75ee"
+    },
+    {
+      "source_id": "cbse-2024-25-english-sqp",
+      "subject": "english",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+      "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+      "bytes": 346377,
+      "extraction_method": "pypdf original content-stream order; whitespace normalized",
+      "source_kind": "official_cbse_sample_question_paper_not_cuet_pyq",
+      "page_count": 12,
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pages.json",
+      "cache_sha256": "6ead808b1946dd08e994a3523ad4487ee4277698fd1d5e4bab67c66b55f3939b"
+    }
+  ],
+  "sealed_key_documents_read": 0,
+  "paid_calls": 0,
+  "candidate_or_release_status": "construction_not_started",
+  "permission_basis": "Private official reference custody and brief attributed educational verification excerpts; no unrestricted publication or redistribution claim",
+  "limitations": [
+    "CBSE papers are academic references, not authenticated CUET PYQs.",
+    "Extracted text still needs semantic and rendered-page checking.",
+    "The earlier-read Economics question 14 worked example is excluded."
+  ]
+}

@@ -1,0 +1,47 @@
+
+> mockmob@0.1.0 test:recovery
+> node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs data/tests/recovery_pathway_candidate.test.mjs data/tests/session_recovery.test.mjs
+
+✔ server snapshot scores answers; a correct-to-wrong change loses six marks (2.4902ms)
+✔ missing event answers cannot invent score effects (1.6237ms)
+✔ unknown questions, duplicate sequence, out-of-bounds answer and future events fail (0.5515ms)
+✔ repeats, assisted answers and same-family variants cannot demonstrate improvement (0.4259ms)
+✔ practice submission survives a clock-skewed event log but never an invalid answer (0.3905ms)
+✔ attempt provenance separates server practice, recovery sessions and browser-scored history (0.1527ms)
+✔ migration enforces owner access, atomic charge and exactly-once score/progress (1666.5874ms)
+✔ candidate passes software consistency and the committed build is current (10.1821ms)
+✔ candidate is never served: manifest, release gates and claim ladder stay closed (0.2916ms)
+✔ validator catches corrupted keys, matrices, families, text and derivations (26.6999ms)
+✔ simulators reproduce the textbook cases independently of authored text (0.2271ms)
+✔ each misconception is supported by two families, routed to its repair, then checked fresh on schedule (13.1063ms)
+✔ a secure learner gets no gap label and a short path; repair activity never counts as evidence (0.4936ms)
+✔ conflicting probe evidence abstains and falls back to the general repair (0.369ms)
+✔ repeat exposure: seen families block a start, failed checks consume families, exhaustion blocks claims (1.7941ms)
+✔ interruption: a stale or duplicated submission after progress is rejected, never double-counted (0.5051ms)
+✔ public views never expose keys, matrices, claims or future checks (0.3855ms)
+✔ shared plan explains a due check with record facts and a rule, and stays deterministic (8.0051ms)
+✔ validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes (4.0449ms)
+✔ storage: retries create one episode and one allowance; corrections invalidate claims (1692.14ms)
+✔ marks gap is exact: 6 per wrong answer, 5 per blank, and adds up to the maximum (4.1033ms)
+✔ chapters are ranked by the marks they cost, and only chapters that cost marks appear (1.323ms)
+✔ dwell time comes from the device timeline and is credited to the active question (0.3923ms)
+✔ observations are factual: a right answer changed to wrong, fast wrong picks, and a concentrated chapter (1.1881ms)
+✔ inconsistent or missing device events never produce behaviour claims, but marks still work (0.3656ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (102.0302ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (122.9054ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.4734ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (144.9689ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (235.3928ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (93.6202ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (1.3863ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.5763ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (1.5252ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.185ms)
+ℹ tests 35
+ℹ suites 0
+ℹ pass 35
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1996.8163

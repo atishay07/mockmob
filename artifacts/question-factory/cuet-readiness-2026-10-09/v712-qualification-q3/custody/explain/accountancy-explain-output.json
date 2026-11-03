@@ -1,0 +1,257 @@
+{
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "An item expected to be realised/settled within twelve months is current",
+     "label": "stated",
+     "why": "F27 criterion"
+    },
+    {
+     "claim": "Asset expected to be realised within twelve months is current (A)",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "The other options are not correct",
+     "label": "unsupported",
+     "why": "D, cash and cash equivalent, is also listed as current in F27, so two options are defensible"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "acc-b2",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Interest is a charge on profits payable even if no profit",
+     "label": "stated",
+     "why": "F25"
+    },
+    {
+     "claim": "Dividend, not interest, is an appropriation of profits",
+     "label": "stated",
+     "why": "F25"
+    },
+    {
+     "claim": "Debenture interest rate is prefixed; return on shares may vary with profits",
+     "label": "stated",
+     "why": "F25"
+    },
+    {
+     "claim": "Debentureholders do not normally enjoy voting rights",
+     "label": "stated",
+     "why": "F25"
+    },
+    {
+     "claim": "Interest payment is not tied to voting rights",
+     "label": "entailed",
+     "why": "Follows from interest being payable even with no profit, no voting condition stated"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "acc-b3",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "P/E = Market price / EPS",
+     "label": "stated",
+     "why": "F33"
+    },
+    {
+     "claim": "96/12 = 6",
+     "label": "unsupported",
+     "why": "96/12 = 8; arithmetic is wrong, so key A is wrong and B is correct"
+    },
+    {
+     "claim": "12 is only the EPS",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "0.125 results from inverting the formula (12/96)",
+     "label": "entailed",
+     "why": "exact arithmetic"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "acc-b4",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Normal profit = 3,00,000 x 10/100 = 30,000",
+     "label": "entailed",
+     "why": "exact arithmetic with stem formula"
+    },
+    {
+     "claim": "Super profit = 45,000 - 30,000 = 15,000",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "Goodwill = 15,000 x 100/10 = 1,50,000",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "15,000 is super profit; 30,000 is normal profit",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "4,50,000 is average profit x 100/10",
+     "label": "entailed",
+     "why": "45,000 x 10"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "acc-b5",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "B's new share is 1/3 of 3/4 = 1/4",
+     "label": "entailed",
+     "why": "old ratio 2:1"
+    },
+    {
+     "claim": "B's required capital is 1/4 of 80,000 = 20,000",
+     "label": "entailed",
+     "why": "F10 capital proportionate to profit share"
+    },
+    {
+     "claim": "B has 15,000, so is 5,000 short and brings in 5,000",
+     "label": "entailed",
+     "why": "F10 additional amount brought in"
+    },
+    {
+     "claim": "Withdrawal applies to a surplus, which B does not have",
+     "label": "entailed",
+     "why": "F10 withdrawal of excess"
+    },
+    {
+     "claim": "20,000 is required capital not the shortfall; no adjustment is wrong since 15,000 differs from 20,000",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "acc-b6",
+   "key_agrees": false,
+   "claims": [
+    {
+     "claim": "Whenever a partnership is dissolved the economic relationship between partners ends",
+     "label": "unsupported",
+     "why": "F18 says that in dissolution of partnership the relationship continues in a changed form; it ends only on dissolution of the firm"
+    },
+    {
+     "claim": "A and C do not apply to mutual agreement",
+     "label": "entailed",
+     "why": "F18: business is not terminated and court does not intervene in dissolution of partnership"
+    },
+    {
+     "claim": "B only describes a revaluation exercise, so it is wrong",
+     "label": "unsupported",
+     "why": "F18 lists revaluation and a new balance sheet as the feature of dissolution of partnership, so B is the correct option and D is the firm-dissolution attribute"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "acc-b7",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "Share capital is debited with the amount called up on forfeited shares",
+     "label": "stated",
+     "why": "F21"
+    },
+    {
+     "claim": "100 x 8 = 800",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "600 is the amount received, not the debit",
+     "label": "entailed",
+     "why": "F21 credits amount received to calls; 100 x 6"
+    },
+    {
+     "claim": "1,000 is full face value although only Rs. 8 was called",
+     "label": "entailed",
+     "why": "10 x 100"
+    },
+    {
+     "claim": "Balance of Share Forfeiture A/c must always be transferred to General Reserve under the Companies Act, so no profit remains",
+     "label": "unsupported",
+     "why": "Not in the excerpt; adds a rule (and is not generally correct, capital reserve treatment applies)"
+    }
+   ],
+   "explanation_supported": false
+  },
+  {
+   "local_id": "acc-b8",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "For net profit the entry is P&L A/c Dr. To P&L Appropriation A/c",
+     "label": "stated",
+     "why": "F1 1(a)"
+    },
+    {
+     "claim": "Option A is the entry for a debit balance (net loss)",
+     "label": "stated",
+     "why": "F1 1(b)"
+    },
+    {
+     "claim": "C and D credit a different account than P&L Appropriation A/c",
+     "label": "entailed",
+     "why": "read from options"
+    }
+   ],
+   "explanation_supported": true
+  },
+  {
+   "local_id": "acc-b9",
+   "key_agrees": true,
+   "claims": [
+    {
+     "claim": "R's ratio share is 1/6 x 1,50,000 = 25,000, 5,000 short of 30,000",
+     "label": "entailed",
+     "why": "exact arithmetic"
+    },
+    {
+     "claim": "Shortfall is borne by the guaranteeing partners",
+     "label": "stated",
+     "why": "F3 and stem"
+    },
+    {
+     "claim": "P's ratio share is 3/6 x 1,50,000 = 75,000",
+     "label": "entailed",
+     "why": ""
+    },
+    {
+     "claim": "P bears 3/5 of 5,000 = 3,000, so gets 72,000",
+     "label": "entailed",
+     "why": "stem gives 3:2"
+    },
+    {
+     "claim": "75,000 ignores shortfall; 73,000 deducts 2/5 (2,000); 70,000 deducts whole 5,000",
+     "label": "entailed",
+     "why": ""
+    }
+   ],
+   "explanation_supported": true
+  }
+ ]
+}

@@ -1,0 +1,135 @@
+{
+  "benchmark": "verified-rule-v4",
+  "status": "PRE-JUDGMENT / LABELS-FROZEN",
+  "cases": 194,
+  "subjects": {
+    "english": {
+      "valid": 10,
+      "invalid": 30,
+      "rootFamilies": 10
+    },
+    "accountancy": {
+      "valid": 10,
+      "invalid": 64,
+      "rootFamilies": 15
+    },
+    "business_studies": {
+      "valid": 10,
+      "invalid": 30,
+      "rootFamilies": 10
+    },
+    "economics": {
+      "valid": 10,
+      "invalid": 30,
+      "rootFamilies": 10
+    }
+  },
+  "defectCategories": {
+    "wrong_key": 40,
+    "overlapping_options": 40,
+    "missing_decisive_condition": 1,
+    "unsupported_explanation": 40,
+    "syllabus_mismatch": 3,
+    "numeric_error": 30
+  },
+  "rootFamilies": 45,
+  "partitions": {
+    "development": {
+      "cases": 113,
+      "roots": 24
+    },
+    "release": {
+      "cases": 81,
+      "roots": 21
+    }
+  },
+  "designDisclosure": "Benchmark designed by the same agent that contributed to validator design. It is independent of generation authoring and uses no paid model judgments, but it is not an independent external audit. Controlled variants share a root and are not independent n.",
+  "roots": [
+    "AC-01",
+    "AC-02",
+    "AC-03",
+    "AC-04",
+    "AC-05",
+    "AC-06",
+    "AC-07",
+    "AC-08",
+    "AC-09",
+    "AC-10",
+    "AC-COND-CAPITAL-INTEREST",
+    "AC-EX-01",
+    "AC-EX-02",
+    "AC-EX-03",
+    "AC-NUM-PROFIT-SHARE-ARITHMETIC",
+    "BS-01",
+    "BS-02",
+    "BS-03",
+    "BS-04",
+    "BS-05",
+    "BS-06",
+    "BS-07",
+    "BS-08",
+    "BS-09",
+    "BS-10",
+    "EC-01",
+    "EC-02",
+    "EC-03",
+    "EC-04",
+    "EC-05",
+    "EC-06",
+    "EC-07",
+    "EC-08",
+    "EC-09",
+    "EC-10",
+    "EN-01",
+    "EN-02",
+    "EN-03",
+    "EN-04",
+    "EN-05",
+    "EN-06",
+    "EN-07",
+    "EN-08",
+    "EN-09",
+    "EN-10"
+  ],
+  "payloadSha256": "e08c13c8e0ad13b3ed61639f0b881c1b197fe3e5bff95f37208c155deac26de0",
+  "developmentSha256": "f1dffb1a67c1c10c71ee0888a3aeb6a6546b33db13225e8e24d9e569904d036f",
+  "releaseSha256": "e880dcc9fa5ec1f08cf4624c016ee12d0d0b925d545fc20224de79539b583dbd",
+  "sourceRegistryVersion": 58,
+  "noProviderCalls": true,
+  "evaluationStatus": "not_evaluated",
+  "releaseResult": null,
+  "release_eligibility": {
+    "scope": "diagnostic",
+    "classification": "fresh",
+    "preregistration_id": "verified-rule-v4-diagnostic-2026-10-08-01",
+    "approved_before_evaluation": true,
+    "previously_read": false,
+    "tuned_on": false
+  },
+  "verifier_version": "cuet-fit-validator-v7.2",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "frozenAt": "2026-10-07T20:59:57.352Z"
+}

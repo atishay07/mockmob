@@ -1,0 +1,8 @@
+{
+  "schema": "cuet-v713-blind_freeze-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "created_at": "2026-10-10T00:24:09.8631003+05:30",
+  "packet_sha256": "952947ee419ca129ff117d1b7f1ce3cd83dbd72f44d4c3d345e1b148873d4fa3",
+  "output_sha256": "cf8b7d0d424f0fd793f3792b14df0f75b30f7310da2507e074fc51bf2e4a02aa"
+}

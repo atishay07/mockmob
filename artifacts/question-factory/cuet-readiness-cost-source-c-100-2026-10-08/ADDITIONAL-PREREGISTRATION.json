@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-08T08:30:57.229Z",
+  "scope": "Prospective C only; before its first paid call",
+  "campaign_sha256": "4e58306cacae14fb9d2bff5ce54c2cd689175482d091a723bf9e771e4c0ae588",
+  "verification_profile_sha256": "f8ba832811ea62d7e5fc2237aa29ddb78032434ebc32cb16a6e6e3b8e659e318",
+  "original_preregistration_sha256": "eccd8a72bf08e6c7ca7a8b922bb4a101535cc9d56923d2fdf5aca0e5d5a0e2c1",
+  "format_contract": "registered-cuet-brief-format-c1",
+  "additional_change": "Author request schema requires the registered question format, removes conceptual fallback for numerical briefs, and rejects a returned format or route mismatch before verification. Mandatory correctness and source gates remain unchanged.",
+  "author_format_code_sha256": "c84998f448365af431e1a4c8bc21146ee368d60252843a1b574831700ca25abe",
+  "denominator": 100,
+  "per_subject": 25,
+  "maximum_content_repairs": 1,
+  "campaign_cap_usd": 5,
+  "lifetime_cap_usd": 50,
+  "publication_policy": "never",
+  "ledger_before_dispatch": {
+    "at": "2026-10-08T08:30:57.226Z",
+    "settled_usd": 32.087118,
+    "held_usd": 0.400254,
+    "committed_usd": 32.487372,
+    "remaining_usd": 17.512628,
+    "unresolved": 32
+  }
+}

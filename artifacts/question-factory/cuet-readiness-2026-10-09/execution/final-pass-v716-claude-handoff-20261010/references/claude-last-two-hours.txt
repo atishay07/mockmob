@@ -1,0 +1,241 @@
+I'll start by refreshing the ledger, process state and latest checkpoint, then fix the quotation provenance bug first.
+
+The ledger is unchanged since the stop: $38.130 settled + $0.623 held, $11.25 remaining. Reproducing the reviewer's counterexamples against frozen V7.11.
+
+I found that V7.11's lenient hyphen-joining fallback can incorrectly merge separate words, so for V7.12 I'll restrict joins to only genuine source line-breaks, never merge space-separated or inline-hyphenated tokens, and make the scope rules (case_scope, passage_scope, etc.) deterministic based on question type. I'm now creating V7.12 as additive copies of the frozen V7.11.
+
+Replacing the V7.12 anchoring with the conservative version: no whitespace merging, and only true line-end hyphens become a marker that may match "-" or nothing.
+
+Shell escaping mangled the regexes. Rewriting that block precisely with the editor.
+
+The broken block contains literal control characters. I'll splice it out by line number and insert a block written cleanly through the Write tool.
+
+All 13 test cases pass now—reviewer negatives and merge cases correctly fail while hyphenation, case, glyph, and line-wrap variants still match. Next, I'll enforce question scope deterministically in both the binder and the audit check.
+
+The binder now enforces the deterministic rules. Next I'll update the request schemas to only expose scope labels valid for each item, preventing choices that would get rejected.
+
+V7.12 code for both fixes is confirmed in place (13/13 anchoring cases). Now I'll write tests exercising them through the real adapter seam, covering blind requests, freezing, the explanation audit, and the verifier.
+
+All 10 adapter-level tests pass, covering the reviewer's negatives, hyphen handling, illustration logic, classification refusals, and answer quarantine. Next, I'll check the inherited V7.12 test copies, some of which deliberately asserted the old unsafe behavior.
+
+These nine failures are expected—they're inherited tests checking old V7.11 behavior that V7.12 intentionally removed, or tests missing fields the new scope detector requires. I'll update them to match V7.12's intended behavior.
+
+A literal newline went into the test source, and one more inherited assertion (a spaced soft hyphen merging words) needs flipping under the no-merge rule. Fixing both.
+
+56/56 pass. Before source repair, measuring what the stricter binder costs on the real saved q2 outputs (offline, no spend), to see how much now depends on clean sources.
+
+The fix closed the provenance gap without affecting any saved q1/q2 bindings or detector classifications. Next, I'll work on source custody repair by locating the original NCERT PDFs and tracing how the current facts were extracted.
+
+The original NCERT PDFs are local, with SHA-256 identities recorded. Checking which PDF tooling is available for column-aware extraction.
+
+Good, pdfplumber and pdftotext are both available for column-aware extraction with independent verification. Next I'll check how the generator selects source facts for each authoring job, since repaired facts need to feed into that same path.
+
+Repaired excerpts need to replace damaged ones in both the pilot author registry and its derived "teaching-context" views. I'm building a column-aware extractor now and will test it on the Business Studies page that produced the "In other a continuous process…" fragment.
+
+Page 2 is a two-column layout that naive extraction interleaves, so I'm writing an extractor that detects the column gutter, reads each column top-to-bottom, and splits paragraphs on vertical gaps while preserving genuine line-end hyphens. I'll then verify each paragraph against poppler's pdftotext cropped to the same column box.
+
+pdfplumber is installed in user site-packages, which `-I` hides. The script is mine and the PDFs are only data arguments, so running without `-I` is fine.
+
+The columns now split correctly, but the pdftotext crop verification shows 0 paragraphs matched—I'll debug why that check is failing.
+
+This pdftotext build lacks crop flags, but its `-raw` mode reads content-stream order, which already matches correct column order—so I'll use it as an independent check: each paragraph's tokens must appear contiguously in that sequence, otherwise the page is treated as interleaved and its paragraphs are skipped.
+
+118 of 213 paragraphs verify. To see why large body paragraphs fail, I'm diffing one against the independent token stream at its first mismatch.
+
+The disagreements are actually word-spacing issues (e.g. "person nel" vs "perso nnel"), not reading-order errors—so I'll compare letter/digit streams to verify order independent of spacing. Since spacing errors could still break exact quote matching, I'll check if a dictionary is available to repair spacing reliably.
+
+I'll measure actual gap sizes at each space pdfplumber inserted and cross-check against xpdf's spacing to find a size-relative threshold that separates true word spaces from kerning splits, starting with lebs106.
+
+xpdf emits Latin-1 by default. I'll pass `-enc UTF-8` here and in the extractor, then rerun the measurement.
+
+I've confirmed word-gap thresholds: real spaces are ≥0.15× font size while intra-word gaps stay at 0.05–0.07, and pdfplumber's fixed 3pt tolerance wrongly merges many words in tight justified text. I'll now build words from characters using a 0.12× font-size gap threshold and verify reading order against xpdf's character stream.
+
+I'll rewrite the extractor cleanly with character-level word building and character-stream verification, rather than patching it piecemeal.
+
+Found two regressions: explicit space glyphs were being dropped instead of outputting spaces, and the strict zero-crossing gutter rule now misses most two-column pages. I'll fix both by rendering space glyphs as spaces and restoring the ≤1% crossing tolerance for the gutter.
+
+The text now extracts correctly with proper column order and spacing, but remaining failures trace to soft hyphens (U+00AD) being deleted instead of handled as line-break or visible hyphens, plus headings/labels embedded in columns breaking whole-paragraph verification. I'll update the binder to treat U+00AD as a hyphen and change the extractor to verify maximal contiguous line runs so short non-paragraph fragments drop out cleanly.
+
+I'll replace that line with explicit `\u` escapes so the soft hyphen renders as a hyphen instead of getting silently deleted.
+
+V7.12's binder now correctly handles NCERT's soft-hyphen encoding, and all 41 tests (including the reviewer's negatives) pass. Next I'll refine the extractor to split paragraphs into maximal verified runs of lines.
+
+The extractor now verifies **97.7% of lebs106's text**, including every body paragraph of ≥200 characters, in true reading order. Running it across all 40 registered NCERT chapter PDFs.
+
+All 37 available PDFs are extracted (lebs107's PDF is missing locally). Business Studies and Economics have plenty of verified body paragraphs, but Accountancy looks fragmented—lots of segments but very few body-length paragraphs per chapter—so I'll dig into leac201 (Share Capital) to see why.
+
+Found a false gutter detection on the accountancy page—justified text with word gaps was mistaken for a column split, breaking lines mid-sentence. I'll tighten the detector to require a 10 pt glyph-free band before calling something a gutter, then retest against both a real two-column page and this accountancy page.
+
+Accountancy is fixed—all 128 body paragraphs verified, with "Calls in Advance" now reading as one coherent passage. The stricter band excluded 9 genuine two-column pages in lebs106 since unsplit pages fail verification; I'll measure band-occupancy distributions across page types to set a data-driven threshold.
+
+The distributions separate cleanly: genuine two-column pages stay under 0.39% glyph overlap with the band, while single-column pages run 0.57% or higher. I'll set the split threshold at 0.4%, which leaves ambiguous pages (like full-width figures) unsplit and excluded after failing verification.
+
+1,852 of 1,860 body paragraphs across 37 chapters now verify in correct reading order, with two-column detection fixed to only trigger on genuinely empty gutters. Before registering, I'll check the pilot's teaching-context views, since those were derived from the damaged extraction and need to be excluded or rebuilt.
+
+The clean overlay needs to add the verified column-extracted sources and supersede both the original NCERT sources and the private leac203 extraction before views are derived. I'll check how normative spans are selected to ensure the new facts flow through.
+
+I'll register the repaired excerpts under a new `ncertcol-<book>-v1` prefix instead, since the teaching-context views only re-derive spans for `ncert-` prefixed sources using the old extraction logic. First I'll check the private leac203 source.
+
+Extracting the private leac203 PDF too, then writing the overlay builder.
+
+Found two coverage issues: lebs102 is losing content after a mid-chapter exercise box flips its parsing mode permanently, and lebs105 has 495 unverified segments pointing to a content-stream/reading-order mismatch. Diagnosing both now since these are core CUET topics.
+
+Found the issue: lebs102 was cut off at a mid-chapter "Test Your Understanding" box on page 10, excluding pages 10–35 of teaching text including Fayol and Taylor. I'll fix this so chapter-end exercise headings still exclude everything after them, but mid-chapter boxes only exclude the rest of that page, with question-like text filtered separately at retrieval time.
+
+Escaping again; using the editor directly.
+
+Coverage is restored with 2,096 verified excerpts (973 Accountancy, 639 Economics, 484 Business Studies), replacing the old 641 facts — Principles of Management alone grew from 15 to 58 excerpts. The one gap is Directing (lebs107), whose PDF isn't stored locally; since downloading it from ncert.nic.in needs your permission, I'll flag it rather than fetch it myself, and next I'll have a reviewer visually spot-check a stratified sample of excerpts against the rendered PDF pages.
+
+I'm integrating the clean overlay into qualification and pilot authoring: one function marks the original NCERT and private leac203 extractions as superseded and adds the column-verified sources, feeding into the pilot's source-selection registry. Next, I'll check how V7.12's pilot preparation builds that registry.
+
+The visual audit failed since Claude's Read tool lacks a PDF renderer, so I'll check whether pdfplumber's bundled pypdfium2 can render pages to PNG instead.
+
+It's installed. Rendering the 24 sampled pages to PNG for the visual audit.
+
+Running the visual audit on rendered page images, and in parallel dry-running the V7.12 pilot prep (no allocator, no spend) to confirm it plans solely from verified excerpts while still covering every subject.
+
+The dry run confirms all 40 planned jobs now reference column-verified NCERT sources, with chapters selected by the coverage-gap planner rather than manually. Next I'll update the V7.12 study runner and build a V7.12 assembler to apply the overlay and bind its SHA-256 into the frozen study.
+
+Both the runner and the V7.12 assembler now bind the overlay, with freeze and custody checks enforced; I'm now deterministically building the Q3 kit from repaired sources across the full syllabus—two hash-selected excerpts per chapter, clean English passages with Oxford entries, nothing reused from Q1/Q2—while ensuring valid controls span ≥4 chapters and the CUET format mix.
+
+The Q3 kit now includes 15 accountancy, 10 BS, and 17 economics chapters, but English only has 3 since the Oxford lexical entries didn't come through—I'll dig into that while waiting on the visual excerpt audit.
+
+The visual audit confirms 24/24 verbatim matches and correct order, but word spacing is off in 3/24 due to letter-spaced headings and spurious intra-word splits — these only risk false rejections, not false accepts, but I'll fix them by tracking down the source pages and their gap distributions.
+
+The "prod ucing" split on lebs103 p.8 is caused by an embedded space glyph in the PDF, not a geometry issue, so I won't rewrite the text. Instead I'll exclude letter-spaced runs and probable split-word artifacts from registration rather than "fixing" them, keeping all other excerpts verbatim.
+
+The screen is flagging too much—most "splits" are legitimate line-end hyphenations already handled correctly by the V7.12 binder. I'll join hyphen-plus-newline breaks before screening so only genuine in-line splits and letter-spacing issues get flagged.
+
+Same shell-escaping trap. Fixing line 44 by line index with a script file.
+
+Rebuild confirms 2,071 verified excerpts kept and 25 spacing-damaged ones excluded. I found the letter-spacing regex lost its `\b` word boundaries to escaping, causing false matches on ordinary text like "is a b" — fixing that line now and rebuilding.
+
+Excluding the three spacing failures leaves 2,043 verified excerpts (Accountancy 969, Economics 636, Business Studies 438). Next I'll finish binding V7.12 — validator, scope detector, author layer, transport fix, runner, assembler, extractor, overlay builder, overlay file, and prices — run the full suites, and freeze before any q3 case exists.
+
+Factory suite: **928/928**. Running the recovery and payment/question suites, then freezing V7.12.
+
+V7.12 is frozen (contract 1107c72a…, hash 557f43b3…), with all suites passing: factory 928/928, recovery 40/40, payment/question 66/66. Now building q3 fresh, adding stronger custody: blind reviewers will write their own source-only explanations, hashed and frozen before any proposed answer is revealed to a separate checker.
+
+Briefs are ready, keeping the same Q2 defect categories. I'll now spawn four fresh Sonnet authors at medium effort on the repaired-source kit.
+
+While the authors work, writing the post-freeze explanation-custody brief and recording V7.12 and the source repair in STATUS.
+
+All four subjects are authored, and the blind packets have no leakage. Launching four independent blind reviewers, who now also write their own source-only explanations.
+
+I'm building the explanation-custody packet builder, which won't run until every blind output has been hashed and frozen—only then will it pair the proposed key and explanation with the blind reviewer's frozen derivation.
+
+The BS reviewer had no excerpts to work from and answered from general knowledge instead, so its custody isn't valid as source-only evidence. I'll track down why and redo the BS blind custody step properly.
+
+I found that every item has an empty `fact_refs` field despite F-refs being reported—a construction defect since nothing cites its source. I'll have the same author fill in only that field, confirm the rest of the file stays byte-identical, then rerun blind custody with a fresh reviewer, setting aside the invalid output.
+
+Verified: only `fact_refs` changed (content hash identical), and every BS item now carries its excerpts. Running fresh, independent BS blind custody.
+
+Blind derivations are hashed and frozen. Launching four explanation-custody reviewers. They see the proposed keys and explanations only now, alongside each blind reviewer's frozen derivation.
+
+V7.12 and the blind derivations are both frozen, so I can now compare author labels with blind custody while the explanation checks run.
+
+Key custody checks out: all 20 valid controls confirmed, and every wrong-key, second-answer, numerical, and unanswerable defect correctly caught. Two cases still need adjudication (economics-d3 and the three unsupported-explanation defects) — waiting on explanation custody before resolving those.
+
+All 20 valid controls have agreed keys and fully supported explanations, with defects independently flagged except for one case, economics-d3, where reviewers agree on the key and defect label but note the multiplier formula isn't in the cited excerpts. I'll check that item before deciding.
+
+Economics-d3 stays flagged as a genuine defect since its own cited excerpts raise imports as a leakage (F25, F23) without printing the decisive formula, so all 36 cases remain included with no exclusions. Now assembling and freezing q3 against the frozen V7.12 contract and repaired-source overlay.
+
+Q3 is frozen: 36 cases (20 valid, 16 defects), no stem collisions or superseded references, bound to V7.12 and overlay 2390610c. Now refreshing accounting and dispatching through the guard under the $1.20 study cap.
+
+Status: fresh qualification **q3 is running** on V7.12 with repaired sources (36 cases; no paid work since the 9 Oct stop until now). Meanwhile, recording the q3 registration in STATUS.
+
+While q3 runs, scoping the staging step that would follow a pass and pilot. Reading the V7.6 staging publication adapter, which would need a V7.12 counterpart.
+
+Staging publication needs a release record tied to the exact verifier, prompt, and contract, plus fully settled pilot accounting — all of which depend on q3 passing first. I'll wait for q3 to complete before proceeding.
+
+Business Studies has already dropped below the 70% per-subject floor due to two quarantined controls, and Economics-v1 is also quarantined; notably, one defect (BS-d3) was flagged by a registry custody check pre-model-call rather than an academic one, so I'll look into that. I'll let the study finish running, then diagnose all the failures.
+
+Q3 is still a FAIL overall despite zero defects accepted (0/47 across three studies); valid rate sits at 70%, with the six losses pointing to real control flaws—unstated outputs, out-of-syllabus content, and overreaching explanations. I'll get this independently verified rather than trust my own assessment, and also investigate why BS-d3 triggered `source_support_missing`, which suggests my assembler failed to validate defect-item custody.
+
+Found that BS-d3's excerpt hash mismatches the registered overlay text, meaning custody caught it rather than academic judgment—updating the tally to 15/16 academic catches with 1 custody block. Now investigating why the hash diverged.
+
+Found the bug: the q3 kit was built from an intermediate overlay before four facts were excluded, letting BS-d3 cite one invalid fact even though all official controls checked out clean. Q3 ended at 70% valid survival with zero false accepts; I'll now get an independent adjudication of the six valid losses using the official CUET 2026 syllabus text to determine whether the validator or my controls were at fault.
+
+While that runs, computing measured per-stage costs from receipts for the three fresh studies. This feeds the cost recalculation you asked for.
+
+Receipts confirm a fully validated item costs ~$0.0148 (Luna ~$0.0026, Gemini ~$0.0113, audit ~$0.001), while study averages run lower ($0.0096–0.0106) since flawed items skip Gemini—this is the stage-vs-campaign average gap you asked about. I'll recompute it properly from pilot receipts while waiting on the adjudication.
+
+The adjudication shows 3 of the 6 Q3 "valid losses" were false rejections, 1 a genuine control flaw, and 2 debatable—meaning V7.12 still falsely rejects ~15-25% of truly valid items by design. Rather than re-running studies to chase a pass (which would be p-hacking), I'm stopping here and recording the result.
+
+Updating persistent memory with this session's durable lessons.
+
+I'll proceed with the measurement-only pilot (40 candidates, no publication, $3 stop cap, no release/staging) and download lebs107.pdf, checking it against the registered identity before extracting and verifying it like the others.
+
+The registry already records lebs107's official SHA-256 (`64d3468a…`), so the download can be verified exactly. It failed with a connection reset (Windows TLS), so I'll retry with Node's fetch.
+
+The download matches the registered identity **exactly** (SHA-256 `64d3468a…`, 3.0 MB). Extracting it with the same verified method.
+
+All 54 Directing body paragraphs check out against the independent extractor. I'll now build overlay v2 as a separate file, keeping v1 untouched, while adding lebs107 and fixing the path-join bug that caused it to be flagged as missing.
+
+Overlay v2 is complete — 39 sources and 2,091 verified excerpts, now including Directing (48 excerpts) — and matches v1 byte-for-byte. Next, I'll check how the V7.12 pilot binds its tooling so the measurement-pilot prep can use overlay v2 without touching frozen files.
+
+The preregistration's dependency hashes don't cover the scope detector and overlay library, so I'll create an additive copy (`prepareCuetPilotV712m.mjs`) using overlay v2 and your measurement-only authorization, leaving the frozen V7.12 tool untouched. Now reading the registration section to patch this copy.
+
+The dry run confirms 40 jobs across all four subjects with verified NCERT references, no gaps, and spend safely under the $3 cap. Now registering for real to reserve these 40 ideas in the durable allocator before writing the preregistration.
+
+40 ideas registered in the durable allocator, preregistration locked to V7.12 contract. I'll now check the runner's read-only report, then kick off the paid pilot in the background (10-idea waves, $3 stop cap, draining via stop file rather than being killed).
+
+The paid pilot is running. Meanwhile, recording the download and pilot registration in STATUS.
+
+Wave 1 (10 candidates) has started. A wave takes roughly 15–25 minutes with flex authoring and validation. I'll wait for wave events rather than poll.
+
+While wave 1 runs, checking the export format so the quality review can start as soon as the pilot finishes.
+
+The measurement pilot is still on its first wave. It started at 17:04 UTC with the $3 stop cap, 40 candidates in waves of 10, and nothing logged since, which is normal: one wave takes several minutes. No result yet.
+
+Once it finishes I'll export the run, have independent reviewers score the eligible questions on the 20 quality criteria, and work out the real cost per accepted question from the billing receipts. Nothing gets published or released, as you chose.
+
+Wave 1 finished: 3 of 10 candidates were approved (30% yield). Wave 2 has started, and the run continues under the $3 cap.
+
+All 7 non-English candidates in wave 1 failed with `input_bound_exceeded` before validation, pointing to a systemic wiring issue rather than bad questions. I'll request a graceful stop to avoid burning the remaining allocations on the same failure.
+
+A stop has been requested. The pilot will drain in-flight work, then halt. Meanwhile I'm diagnosing the oversized-validation-request failure offline, with no paid calls.
+
+I'm still diagnosing offline. My probe didn't capture a request, so I'm checking what the verifier returned.
+
+I've confirmed the issue is the request-size limit, not question quality: the first validator request runs 30–36.6 KB against a 33,024-byte cap, so English candidates pass but most subject candidates don't. Next I'll check what's bulking up the request.
+
+The validator's fixed instructions (~20 KB) plus the candidate payload (~10 KB: evidence catalogue, calibration exemplars, exam spec) exceed the 33,024-byte reservation ceiling in the pricing file. Now I'll check whether that ceiling is bound into the frozen registration.
+
+I realize my preflight checked author request sizes against the bound but missed validating validator request sizes—that's a gap I introduced. Next I'll check how the pilot engine handles tooling failures before deciding on a fix.
+
+Found precedent for raising this internal byte ceiling before, with documented notes from two prior changes. Before adjusting it, I'll check whether the V7.12 freeze or pilot registration hashes the pricing file.
+
+Since the contract hash doesn't cover the pricing file, raising the internal byte ceiling won't affect V7.12, and the current pilot registration correctly fails to resume after a change since it binds the bounds. Before picking a new ceiling, I'll size the later stages (Gemini blind and the Luna audit) using earlier receipts.
+
+Real traffic since Oct 8 peaked at 8,551 input tokens, confirming the 30–36.6 KB rejections are just normal requests hitting a too-low byte ceiling. I'll raise the limit to 49,152 bytes (1.34× the largest observed request, affecting only reservations, not token rates) — but first checking whether the pilot has drained.
+
+The pilot stopped cleanly. 11 candidates reached a terminal state, 3 were approved and 26 are untouched, for $0.066 committed. I'm stopping the watcher and moving to the fix.
+
+Since pricing bindings can't be overridden, resuming the stopped pilot would silently change a registered input—so I'll register a fresh measurement under a new pilot ID instead. Since `cuetPilotV712Plan.mjs` and the runner are frozen in V7.12, I'll wrap them rather than edit them directly, starting with the ceiling change and a documented note.
+
+The classifier blocked raising the request-size ceiling as a guard weakening, so I'll leave that decision to you. In the meantime, I'll export the stopped pilot, review its approved items, and record the measured costs.
+
+The export was blocked too. I'll stick to read-only inspection: the approved items and the pilot's receipts.
+
+The measurement pilot ran into a setup problem that I missed, so it gave no useful numbers for Accountancy, Business Studies or Economics. I've stopped all paid work until you decide on two blocked steps.
+
+**What happened.** I stopped the pilot cleanly after its first wave, at $0.066 committed. The stop let work already in progress drain; nothing was killed.
+- 3 of 10 questions were approved, all English (two reading-comprehension, one antonym).
+- All 7 Accountancy, Business Studies and Economics questions were rejected before any checking model was called. The first checking request was too large: it is 33.1–36.6 KB, and the size check allows at most 33,024 bytes. That check uses bytes as a stand-in for tokens. The fixed checking instructions alone are about 20 KB, and the question's source material and examples add about 10 KB. English questions came in just under the limit (30.5–31.9 KB).
+- The requests themselves are normal size. The biggest request in the billing receipts since 8 Oct used 8,551 tokens.
+- The mistake is mine: before registering the pilot I measured the size of the question-writing requests but never the checking requests.
+- One more English question (a sequence-ordering one) was rejected for a real defect: two of its options collide.
+- These results stay recorded as they happened. By design, a registered pilot can't resume after its size limits change.
+
+**What's blocked.** The tool's permission system stopped two things, and I didn't try to get around either:
+1. Raising that size limit in `data/pipeline-prices.json` from 33,024 to 49,152 bytes for the two checking models (GPT-6 Luna and Gemini 3.8 Flash). It was flagged as weakening a safeguard. The cost per token wouldn't change; each call would just hold a slightly larger amount of budget up front, about $0.012 more for each Gemini call.
+2. The pilot's export command, which only reads results and writes report files.
+
+**To get real measurements, I'd need you to:**
+- Approve the limit change, or make it yourself. The limit has been raised twice before, each time with a written note.
+- Allow a new 40-question measurement pilot under a new ID, capped at $3. This time I'd check the size of every request type before registering it. I'd build it as add-on files, so the frozen V7.12 files stay untouched.
+
+The budget is $39.16 of $50 committed. I recorded all of this in `docs/brain/STATUS.md` and updated my project notes.
+
+One quality note on the 3 approved questions: the antonym one asks for the opposite of "plausible" and the answer is "implausible". It passed the checks but it's too easy to be useful CUET practice. A real 20-criterion quality review will only mean something once the pilot covers all four subjects.

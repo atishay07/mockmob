@@ -1,0 +1,80 @@
+Browser tab: 1, Title: "Contact MockMob — Support and Payment Questions", URL: "http://localhost:3010/contact".
+1 AXWebArea Contact MockMob — Support and Payment Questions, URL: localhost:3010/contact
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 heading Tell us what happened., Value: 1
+				8 text Tell us what happened.
+			9 text No ticket walls, no chatbots pretending to help. Pick the lane that matches your question so it lands with the right context.
+		10 container
+			11 content list
+				12 container
+					13 heading Student support, Value: 2
+						14 text Student support
+					15 text Account access, mock issues, credits, or anything broken. Include the email you signed up with.
+					16 link Description: support@mockmob.in, Value: mailto:support@mockmob.in?subject=Support%20request
+					17 text Include the email on your account so we can find the right record.
+				18 container
+					19 heading Payments and refunds, Value: 2
+						20 text Payments and refunds
+					21 text Charged but access not active, duplicate payment, or a refund request. Include your Razorpay payment ID if you have it.
+					22 link Description: support@mockmob.in, Value: mailto:support@mockmob.in?subject=Payment%20issue
+					23 text Include your Razorpay payment ID if you have it. Do not send card or bank credentials.
+				24 container
+					25 heading Report a wrong question, Value: 2
+						26 text Report a wrong question
+					27 text Spotted a possible answer-key or question issue? Send the question text or a screenshot so we can investigate it.
+					28 link Description: support@mockmob.in, Value: mailto:support@mockmob.in?subject=Question%20report
+					29 text Uncertain content is held until its evidence checks are complete.
+				30 container
+					31 heading Partnership enquiries, Value: 2
+						32 text Partnership enquiries
+					33 text For school, institute, or creator enquiries, describe the idea and the audience you have in mind.
+					34 link Description: support@mockmob.in, Value: mailto:support@mockmob.in?subject=Partnership
+					35 text We will review the request and reply if there is a fit.
+			36 text You can also reach us on
+			37 link Description: Instagram, Value: instagram.com/mockmob.in/
+			38 text . For policy details, see
+			39 link Description: Terms, Value: localhost:3010/terms
+			40 text ,
+			41 link Description: Privacy, Value: localhost:3010/privacy
+			42 text , and
+			43 link Description: Refunds, Value: localhost:3010/refunds
+			44 text .
+		45 link Description: MockMob ., Value: localhost:3010/
+		46 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		47 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		48 heading PRACTICE, Value: 3
+			49 text PRACTICE
+		50 content list
+			51 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			52 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			53 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			54 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			55 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			56 link Description: Features, Value: localhost:3010/features
+			57 link Description: Pricing, Value: localhost:3010/pricing
+		58 heading SUBJECTS, Value: 3
+			59 text SUBJECTS
+		60 content list
+			61 link Description: English, Value: localhost:3010/cuet/english
+			62 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			63 link Description: Economics, Value: localhost:3010/cuet/economics
+			64 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			65 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		66 heading COMPANY, Value: 3
+			67 text COMPANY
+		68 content list
+			69 link Description: About, Value: localhost:3010/about
+			70 link Description: Contact, Value: localhost:3010/contact
+			71 link Description: Privacy, Value: localhost:3010/privacy
+			72 link Description: Terms, Value: localhost:3010/terms
+			73 link Description: Refunds, Value: localhost:3010/refunds
+		74 container
+			75 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		76 text Support replies within 24h.
+		77 link Description: Start free, Value: localhost:3010/signup
+
+The focused UI element is 1 AXWebArea Contact MockMob — Support and Payment Questions, URL: localhost:3010/contact

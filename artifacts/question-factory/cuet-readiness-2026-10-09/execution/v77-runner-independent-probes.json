@@ -1,0 +1,41 @@
+{
+  "contested_accepted_fresh_defect_assessment": {
+    "state": "released",
+    "topology": "dual_blind",
+    "policy": {
+      "policy": "cuet-fit-release-v2",
+      "fresh_false_accepts_max": 0,
+      "regression_false_accepts_max": 0,
+      "valid_survival_min": 0.85,
+      "per_subject_valid_survival_min": 0.7
+    },
+    "problems": [],
+    "metrics": {
+      "fresh_false_accepts": [],
+      "regression_false_accepts": [],
+      "valid_survival": 1,
+      "valid_by_subject": {
+        "accountancy": {
+          "n": 1,
+          "ok": 1
+        },
+        "business_studies": {
+          "n": 1,
+          "ok": 1
+        },
+        "economics": {
+          "n": 1,
+          "ok": 1
+        },
+        "english": {
+          "n": 1,
+          "ok": 1
+        }
+      },
+      "fresh_defects": 0,
+      "regression_defects": 1,
+      "valid_items": 4
+    }
+  },
+  "earlier_v73_exact_reuse_passes_current_prior_list": true
+}

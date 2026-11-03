@@ -1,0 +1,678 @@
+{
+  "id": "cuet-v716-qualification-fresh32b",
+  "kind": "qualification",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 32,
+  "terminal": 32,
+  "valid_total": 20,
+  "valid_eligible": 16,
+  "valid_by_subject": {
+    "accountancy": {
+      "ok": 4,
+      "n": 5
+    },
+    "business_studies": {
+      "ok": 3,
+      "n": 5
+    },
+    "economics": {
+      "ok": 4,
+      "n": 5
+    },
+    "english": {
+      "ok": 5,
+      "n": 5
+    }
+  },
+  "controlled_defects": 12,
+  "controlled_false_accepts": [],
+  "review_incomplete": [],
+  "unfinished": [],
+  "decision_rule": "PASS iff all hold: (1) every registered case reaches a terminal state (eligible, quarantined, or review_incomplete error) with receipts complete and zero holds; (2) zero controlled defects reach eligible (critical false accepts = 0); (3) expected-valid eligible >= 85% pooled; (4) expected-valid eligible >= 70% in each of the four subjects. Review-incomplete errors on valid controls count as not eligible; on defects they are not false accepts. A budget, availability or stop pause leaves the study incomplete, which is not a pass. Thresholds are the unchanged R3 academic reliability rule. No repairs, replacements, relabels, exclusions or threshold changes after registration; a failure is reported and diagnosed, never tuned around; the spent benchmark becomes regression evidence.",
+  "decision": "failed",
+  "settled_usd": 0.192796,
+  "held_usd": 0,
+  "receipt_complete": true,
+  "cases": [
+    {
+      "id": "q716-1b7941239ab42546",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": "easy",
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": [
+        "academic_issue:blind_solution:syllabus_entitlement:issue",
+        "reported_academic_issue:blind_solution:off_syllabus",
+        "explanation_or_option_audit_failed",
+        "explanation_claim_unsupported",
+        "reported_academic_issue:explanation_support:off_syllabus",
+        "reported_academic_issue:explanation_support:explanation_error"
+      ]
+    },
+    {
+      "id": "q716-5960dc1d428e5a7d",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": [
+        "explanation_or_option_audit_failed",
+        "explanation_claim_unsupported",
+        "reported_academic_issue:explanation_support:false_or_unsupported_fact"
+      ]
+    },
+    {
+      "id": "q716-eaec14d465f3d626",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.783333333333333,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-f2ed02807efdcda6",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "passage_not_answerable",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "A"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:D"
+      ]
+    },
+    {
+      "id": "q716-0cbcb918cd562ba3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.7,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-7ad4731e3fa8a7f1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": [
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:B",
+        "unresolved_or_defensible_rival:blind_solution:C",
+        "unresolved_or_defensible_rival:blind_solution:D"
+      ]
+    },
+    {
+      "id": "q716-f6bef8adb2477abf",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "independent_key_mismatch:independent_evaluation"
+      ]
+    },
+    {
+      "id": "q716-5793cf6e53b31bd7",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.466666666666667,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-0cb57ffa675aafac",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.4,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-455a5bf939b6e1fc",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.533333333333333,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-4132c3318d5a384e",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.516666666666667,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-fab2648348aafe3d",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "uncertain"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:B",
+        "unresolved_or_defensible_rival:blind_solution:C",
+        "unresolved_or_defensible_rival:blind_solution:D",
+        "independent_key_mismatch:independent_evaluation",
+        "not_one_defensible_answer:independent_evaluation",
+        "unresolved_or_defensible_rival:independent_evaluation:B",
+        "unresolved_or_defensible_rival:independent_evaluation:C",
+        "unresolved_or_defensible_rival:independent_evaluation:D"
+      ]
+    },
+    {
+      "id": "q716-37419460874166a4",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.266666666666667,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-fc60d251db352449",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.383333333333333,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-049cb25601d5d391",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.6,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-c48aba09fb24df8d",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": "easy",
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": [
+        "explanation_or_option_audit_failed",
+        "explanation_claim_unsupported",
+        "reported_academic_issue:explanation_support:explanation_error"
+      ]
+    },
+    {
+      "id": "q716-5d219896c544b775",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.35,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-e864ccb583a2d54d",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "independent_key_mismatch:independent_evaluation"
+      ]
+    },
+    {
+      "id": "q716-e76983f4b009532f",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "uncertain"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:C",
+        "independent_key_mismatch:independent_evaluation",
+        "not_one_defensible_answer:independent_evaluation",
+        "unresolved_or_defensible_rival:independent_evaluation:A",
+        "unresolved_or_defensible_rival:independent_evaluation:C"
+      ]
+    },
+    {
+      "id": "q716-b987344a2cca2f76",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.7,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-157e2cb25b374b68",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "independent_key_mismatch:independent_evaluation"
+      ]
+    },
+    {
+      "id": "q716-69cae90fe70ed169",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.5,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-239e860c6d0d67dd",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.3,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-4f29ebd950b469b1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": "easy",
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": [
+        "explanation_or_option_audit_failed",
+        "explanation_claim_unsupported",
+        "reported_academic_issue:explanation_support:false_or_unsupported_fact"
+      ]
+    },
+    {
+      "id": "q716-291064574578e38e",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.083333333333332,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-bf38d5bc7489125b",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.4,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "B",
+        "B"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "q716-d6a80a021b5fe88c",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "independent_key_mismatch:independent_evaluation"
+      ]
+    },
+    {
+      "id": "q716-d6a19426296c0ee6",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "uncertain"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:D",
+        "independent_key_mismatch:independent_evaluation",
+        "not_one_defensible_answer:independent_evaluation",
+        "unresolved_or_defensible_rival:independent_evaluation:A",
+        "unresolved_or_defensible_rival:independent_evaluation:D"
+      ]
+    },
+    {
+      "id": "q716-290b91a4a6872458",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "uncertain"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:B",
+        "independent_key_mismatch:independent_evaluation",
+        "not_one_defensible_answer:independent_evaluation",
+        "unresolved_or_defensible_rival:independent_evaluation:A",
+        "unresolved_or_defensible_rival:independent_evaluation:B",
+        "unresolved_or_defensible_rival:independent_evaluation:C",
+        "unresolved_or_defensible_rival:independent_evaluation:D"
+      ]
+    },
+    {
+      "id": "q716-810cdcbdb256e5b6",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [
+        "uncertain",
+        "uncertain"
+      ],
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:A",
+        "unresolved_or_defensible_rival:blind_solution:D",
+        "independent_key_mismatch:independent_evaluation",
+        "not_one_defensible_answer:independent_evaluation",
+        "unresolved_or_defensible_rival:independent_evaluation:A",
+        "unresolved_or_defensible_rival:independent_evaluation:D"
+      ]
+    },
+    {
+      "id": "q716-94d8de4174ece4aa",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "state": "quarantined",
+      "outcome": "academic_quarantine",
+      "academic_sound": false,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": "easy",
+      "blind_keys": [
+        "D",
+        "D"
+      ],
+      "reasons": [
+        "explanation_or_option_audit_failed",
+        "explanation_claim_unsupported",
+        "reported_academic_issue:explanation_support:explanation_error"
+      ]
+    },
+    {
+      "id": "q716-8e633131cb3181c2",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.633333333333333,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "C",
+        "C"
+      ],
+      "reasons": []
+    }
+  ],
+  "publication": "never",
+  "release_record": false
+}

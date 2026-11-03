@@ -1,0 +1,576 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "english",
+  "offset": 0,
+  "total": 17,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "oxford-quality-inquisitive:1:definition:4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c": {
+      "id": "oxford-quality-inquisitive",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+      "text": "very interested in learning about many different things",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "08dac78797ea1ab40131d5fe724ce1f11ef79bd87c4555291b4f0c48cedd4e0a"
+    },
+    "oxford-quality-discreet:1:definition:b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652": {
+      "id": "oxford-quality-discreet",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652",
+      "text": "careful in what you say or do, in order to keep something secret",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/discreet",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "f9624a62635d25dcd85596bd7e95be3628547f80607e8cb4398ef77eb93edd5a"
+    },
+    "oxford-quality-ambiguous:1:definition:180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8": {
+      "id": "oxford-quality-ambiguous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+      "text": "that can be understood in more than one way; having different meanings",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b139829d3f3bba1c0efd3bf7767dbab50739d2c8f612cd6362cea370a23dd39e"
+    },
+    "oxford-quality-inevitable:1:definition:14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b": {
+      "id": "oxford-quality-inevitable",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b",
+      "text": "that you cannot avoid or prevent",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inevitable",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "71c51414f67b440a5837efc514e0fe6779f0a46692ff5a239c118634563f4bb4"
+    },
+    "mockmob-original-stimulus-diverse-da372640fcbd743d7544:1:stimulus:108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528": {
+      "id": "mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528",
+      "text": "In a fictional school event, the organiser first asked each group how many chairs it needed. After collecting the replies, she prepared a seating list. Volunteers then placed the chairs according to that completed list. When the arrangement was ready, the organiser checked it against the groups' replies. The account explicitly orders those four stages of this particular event.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-da372640fcbd743d7544",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "3253a786643c34945305e6f41b736bb7b8b58ee6aac87e0fe538aee08cb39365"
+    },
+    "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6:1:stimulus:4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6": {
+      "id": "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6",
+      "text": "In this fictional account, Ravi received a sealed parcel addressed to his class. Before opening it, he checked the address against the class's order receipt. Once he had confirmed the match, he opened the parcel and counted the notebooks inside. Finally, he recorded the count on the receipt and placed the notebooks in the cupboard. These events occurred in that stated order.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "45c6ac59d256a5a110e3ffbc87f55a05d2483d3f73a43beea5194ed1c381e199"
+    },
+    "oxford-quality-frugal:1:definition:0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73": {
+      "id": "oxford-quality-frugal",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73",
+      "text": "using only as much money or food as is necessary",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/frugal",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "04a5468f71ccedc7c785387705eb6d77802c5b6748d5ae4d6070453d2e75f6cf"
+    },
+    "oxford-quality-sparse:1:definition:2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205": {
+      "id": "oxford-quality-sparse",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+      "text": "only present in small amounts or numbers and often spread over a large area",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sparse",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "6799e275dca854ff9f3d702f4547acc6fa97c74cecd80207194b71f2c0049dcb"
+    },
+    "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703": {
+      "id": "oxford-quality-diligent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+      "text": "showing care and effort in your work or duties",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "679a434f60ecf9549e5f9127327e1f5716f20dfd02965bebed3e08796848f4db"
+    },
+    "oxford-quality-transient:1:definition:9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b": {
+      "id": "oxford-quality-transient",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b",
+      "text": "continuing for only a short time",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/transient_1",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "1d7d85481b665f1108c48c657ad02cbefb5bc3dcff02bb537832c4037489128a"
+    },
+    "oxford-quality-obsolete:1:definition:ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea": {
+      "id": "oxford-quality-obsolete",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+      "text": "no longer used because something new has been invented",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/obsolete",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "be43888fa7647eb6e02381b2e0f272f9720f1d513ef86bc7edb9c8422f34017a"
+    },
+    "oxford-quality-authentic:1:definition:dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625": {
+      "id": "oxford-quality-authentic",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625",
+      "text": "known to be real and what somebody claims it is, and not a copy",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/authentic",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "33bbc384d6f86083b0927dc3cd554e92c825cd92b26aca58fbd5d65778681a1e"
+    },
+    "oxford-quality-hostile:1:definition:a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913": {
+      "id": "oxford-quality-hostile",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+      "text": "aggressive or unfriendly and ready to argue or fight",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "2a579f6ac437924065f8aeb9ed77ff679067a0d118193114f14fab678f3106ac"
+    },
+    "oxford-quality-benevolent:1:definition:d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a": {
+      "id": "oxford-quality-benevolent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a",
+      "text": "kind, helpful and generous",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/benevolent",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "9d98866e195fe921b1eb2112a30b2c499c4e2eadfa000c885a088d2f62593a8b"
+    },
+    "oxford-quality-prudent:1:definition:2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3": {
+      "id": "oxford-quality-prudent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3",
+      "text": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/prudent",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "6fa04b6693cdbb86f51eb05fe1375978127bb939b294500c758b39469d8fb16e"
+    },
+    "oxford-quality-tedious:1:definition:ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81": {
+      "id": "oxford-quality-tedious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81",
+      "text": "lasting or taking too long and not interesting",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "55877cfb35d40c21a5fe51e75b6f639ef1c3517db6da21176533780da20ef946"
+    },
+    "oxford-quality-plausible:1:definition:831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763": {
+      "id": "oxford-quality-plausible",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763",
+      "text": "(of an excuse or explanation) reasonable and likely to be true",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/plausible",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "3a61a81e18163e80d781d894b1715007384c6fe868c475b0380ba9dfbc863271"
+    },
+    "oxford-quality-arduous:1:definition:bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b": {
+      "id": "oxford-quality-arduous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b",
+      "text": "involving a lot of effort and energy, especially over a period of time",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "c2ff979d8b9e49dbe9586c24c18aed430bcef435d7da79325fae4919f441c49b"
+    },
+    "oxford-quality-sceptical:1:definition:80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf": {
+      "id": "oxford-quality-sceptical",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf",
+      "text": "having doubts that a claim or statement is true or that something will happen",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "5f691494e19cc00610b5af30299eca4c3034c26ecf9250db06a78b96ce2d27d1"
+    },
+    "mockmob-original-stimulus-diverse-d5b819342a779eafd29d:1:stimulus:55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71": {
+      "id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71",
+      "text": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "0e83481a664384bf53796a9bf7d5bc3c6a5555045d769c4797e50a6ad0d2b6ba"
+    }
+  },
+  "cases": [
+    {
+      "id": "efd5073278a5b9862be45fb89c7e7cf6",
+      "content_hash": "3e55abc1d3c08424e603ca98708b4465e95c60680117faa9e1a8df163e956663",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "topic": "Vocabulary: test \"inquisitive\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "hard",
+        "format": "antonym",
+        "question_type": "antonym",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "At a museum, Asha asked questions about exhibits in several unrelated sections. Dev completed the task for one display, declined the optional sections and said he did not want to learn about anything else there. Which word best describes Dev’s attitude as the opposite of Asha’s inquisitive attitude?",
+        "options": [
+          "discreet",
+          "ambiguous",
+          "inevitable",
+          "uninterested"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-inquisitive:1:definition:4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+        "oxford-quality-discreet:1:definition:b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652",
+        "oxford-quality-ambiguous:1:definition:180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+        "oxford-quality-inevitable:1:definition:14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b"
+      ]
+    },
+    {
+      "id": "b7b7e9358ed2fc2a03d80893a060d198",
+      "content_hash": "3be1a6ca19d4aca4bee73a147ded0d09a8ce456563f9560f902d72c7e566e1f4",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Rearrange the following sentences to show the stages of the fictional school event in their coherent order.\n(A) Volunteers then placed the chairs according to that completed list.\n(B) In a fictional school event, the organiser first asked each group how many chairs it needed.\n(C) When the arrangement was ready, the organiser checked it against the groups' replies.\n(D) After collecting the replies, she prepared a seating list.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "B-A-D-C",
+          "D-B-A-C",
+          "B-D-C-A",
+          "B-D-A-C"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-da372640fcbd743d7544:1:stimulus:108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528"
+      ]
+    },
+    {
+      "id": "6e65669238f8a31b656dbe0e711a7e70",
+      "content_hash": "e4963f3d0ad73745d9510139e0bc674d94f2e34106b95467bfa9c3b79855839b",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following sentences to form a coherent paragraph.\n(A) After confirming the match, Ravi opened the parcel and counted the notebooks inside.\n(B) Finally, he recorded the count on the receipt and placed the notebooks in the cupboard.\n(C) Ravi received a sealed parcel addressed to his class.\n(D) Before opening it, Ravi checked the address against the class's order receipt.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "C-A-D-B",
+          "D-C-A-B",
+          "C-D-B-A",
+          "C-D-A-B"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6:1:stimulus:4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6"
+      ]
+    },
+    {
+      "id": "13baa89b0354877f55f5d8a5c4afaa7e",
+      "content_hash": "e43fa415cfd2b7c5b8de32b6f191a9383da13e0953938e544257ca89921088c1",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "topic": "Correct Word Usage: test \"frugal\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "medium",
+        "format": "correct_word_usage",
+        "question_type": "correct_word_usage",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Choose the sentence in which \"frugal\" is used correctly.",
+        "options": [
+          "The concert was \"frugal\" because it lasted only a few minutes.",
+          "The shrubs were \"frugal\", growing in small numbers and widely scattered across the hillside.",
+          "Nila was \"frugal\" with food, taking only what she needed.",
+          "Ravi was \"frugal\" at work, checking each entry carefully and making a sustained effort."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-frugal:1:definition:0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73",
+        "oxford-quality-sparse:1:definition:2feeb8a0b3512bc3fe5c98f8e85f64261ceff0015037ee1ddc8e0a1c0846f205",
+        "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+        "oxford-quality-transient:1:definition:9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b"
+      ]
+    },
+    {
+      "id": "379191f2d6fa6e4844bf6a8b159f1a10",
+      "content_hash": "0c0a45aa436b66fbb224994646405fd5b4a44414c06378f8b9dc52e99e8faeb8",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Match the Following",
+        "topic": "Match the Following: focus on this supplied section: no longer used because something new has been invented. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Match each case in List-I with the appropriate assessment in List-II. Use only the information stated in each case.\n\nList-I\n(A) An old scanner is no longer used because a newly invented scanner has replaced it.\n(B) A printer is no longer used because it broke; no new device replaced it.\n(C) An older radio remains in regular use, although a newer radio has been invented.\n(D) A new audio player has just been invented; no earlier player is said to have stopped being used because of it.\n\nList-II\n(I) Both the end of use and the new invention as its cause are stated.\n(II) The item is still in use.\n(III) The item is no longer used, but a new invention is not given as the cause.\n(IV) A new invention is mentioned, but no earlier item is said to have stopped being used because of it.\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+          "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+          "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+          "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-obsolete:1:definition:ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea",
+        "oxford-quality-authentic:1:definition:dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625",
+        "oxford-quality-hostile:1:definition:a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+        "oxford-quality-transient:1:definition:9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b"
+      ]
+    },
+    {
+      "id": "21ffdb2198b350582fa6e53d8a820211",
+      "content_hash": "005d0a169ecb6d9e7f405b9e6ed2d934aa28159528d39e83faad6ef5061a48c6",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following sentences in a coherent order.\n(A) Only after this match was confirmed did he open it and count the notebooks inside.\n(B) He then recorded that number on the receipt and placed the notebooks in the cupboard.\n(C) Before opening the parcel, Ravi compared its address with the class's order receipt.\n(D) Ravi received a sealed parcel addressed to his class.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(D), (A), (C), (B)",
+          "(D), (C), (A), (B)",
+          "(C), (D), (A), (B)",
+          "(D), (C), (B), (A)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-fb5bfb09a13085bbffd6:1:stimulus:4eb7389a769f45c0be50f4e23fd6a66a40f493eb68a9770eb15519b5420fc5f6"
+      ]
+    },
+    {
+      "id": "c41b2c41c0fbbbeb4ba60fcace13f02e",
+      "content_hash": "0363d97096d85b355b49ddd8958a5e3d0ee33ab9be6240d72f41f989f786951f",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "topic": "Correct Word Usage: test \"benevolent\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "medium",
+        "format": "correct_word_usage",
+        "question_type": "correct_word_usage",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Choose the sentence in which “benevolent” is used correctly. In options A-C, the reason following “solely because” is the complete reason for applying the word.",
+        "options": [
+          "The adviser was called benevolent solely because she chose the plan that avoided unnecessary risks.",
+          "The clerk was called benevolent solely because she completed every duty with care and effort.",
+          "The speaker was called benevolent solely because his talks were long and uninteresting.",
+          "The neighbour was called benevolent because she shared food with a family in need and offered practical help."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-benevolent:1:definition:d750b5877ed3491a5ec3a3240d174861ba7101cafc98e1bcd43800a06d8f548a",
+        "oxford-quality-prudent:1:definition:2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3",
+        "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+        "oxford-quality-tedious:1:definition:ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+      ]
+    },
+    {
+      "id": "9bd2d77281ddf33604855c9a579c0c71",
+      "content_hash": "ddd6d4c5080f52f482ab09ce0b1cea0e84491f42fe32e16bb3190b34f499e741",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "The following four complete sentences describe one fictional school event. Arrange them in the correct order.\n(A) Volunteers then placed the chairs according to that completed list.\n(B) When the arrangement was ready, the organiser checked it against the groups' replies.\n(C) The organiser first asked each group how many chairs it needed.\n(D) After collecting the replies, she prepared a seating list.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "C-A-D-B",
+          "C-D-A-B",
+          "D-C-A-B",
+          "C-D-B-A"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-da372640fcbd743d7544:1:stimulus:108d1b84c5f62ce2d068a0ee2ed0c6516e9e4548870fbc070295044c6f7b1528"
+      ]
+    },
+    {
+      "id": "82d3698b9973e8b58b67691d2e0c9792",
+      "content_hash": "4b1e675446b7361d30cd33afec6e85fa1bd0bcd9dce62fbcf3ec55d531c81458",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "topic": "Correct Word Usage: test \"plausible\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "medium",
+        "format": "correct_word_usage",
+        "question_type": "vocabulary_in_context",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A verified log records a power interruption at the exact time of a shutdown. The proposed explanation is that the interruption caused the shutdown; assume the log is reliable evidence supporting this explanation, but not conclusive proof. Choose the sentence in which \"plausible\" is used to describe an explanation that is reasonable and likely to be true.",
+        "options": [
+          "The trek was \"plausible\"—it involved a lot of effort and energy over several days.",
+          "The vase was \"plausible\"—it was known to be genuine and not a copy.",
+          "The reviewer was \"plausible\" about the forecast—she doubted it would happen.",
+          "The explanation for the shutdown was \"plausible\"—a verified log recorded a power interruption at the exact time."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-plausible:1:definition:831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763",
+        "oxford-quality-arduous:1:definition:bfa88982859e52dc8664cc27b0bac1e4c7e9e8da61ee364e17cf23a83a46188b",
+        "oxford-quality-authentic:1:definition:dfa28b96bd8a64e82bec3e168dd8777d51520f339314a1e28f904f003cb05625",
+        "oxford-quality-sceptical:1:definition:80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf"
+      ]
+    },
+    {
+      "id": "9081a9c01da9a7634cfc78b889b8129f",
+      "content_hash": "19125eecbcdb5585d45f47418bcc2b9e7fce555aa95e13962e2950f20e2eea38",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "topic": "Literary Passage: test a distinct supported detail, inference or textual relationship in this original fictional stimulus.",
+        "difficulty": "easy",
+        "format": "reading_comprehension",
+        "question_type": "reading_comprehension",
+        "passage_group_id": "original-passage-cd55b65c95234040105a",
+        "order_index": 0
+      },
+      "question": {
+        "stem": "What is the most reasonable inference about the effect of the neighbour's question?",
+        "options": [
+          "It confirms the children's memories and fixes the original layout.",
+          "It leads the children to consider a new design rather than reproduce the old one.",
+          "It persuades the children to abandon the game before drawing further.",
+          "It resolves the disagreement by showing that the turning square was on the left."
+        ],
+        "passage": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented."
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-d5b819342a779eafd29d:1:stimulus:55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71"
+      ]
+    }
+  ]
+}

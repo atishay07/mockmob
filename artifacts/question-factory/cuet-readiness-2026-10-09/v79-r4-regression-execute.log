@@ -1,0 +1,42 @@
+v77f-662880a2c5fb VALID  -> eligible 
+v77f-a99cc144f9e5 VALID  -> eligible 
+v77f-b123137834cc VALID  -> quarantined failed:explanation_support
+v77f-4c09b80e91ce VALID  -> quarantined failed:explanation_support
+v77f-1ed13162f85d VALID  -> eligible 
+v77f-e9ef75026c19 DEFECT -> quarantined failed:source_support
+v77f-e77493e30567 DEFECT -> quarantined failed:explanation_support
+v77f-dfcca21b749e VALID  -> eligible 
+v77f-c519f01371f2 DEFECT -> quarantined blind_key_contradiction
+v77f-98a231fa15fa DEFECT -> quarantined failed:source_support
+v77f-c6d21440345d VALID  -> quarantined failed:explanation_support
+v77f-2ca94e8b4e72 DEFECT -> quarantined failed:explanation_support
+v77f-56f266269b74 DEFECT -> quarantined failed:source_support
+cbse24-eng-q01--wrong_key DEFECT -> quarantined blind_key_contradiction
+cbse24-bs-q02 VALID  -> quarantined failed:explanation_support
+cbse24-eng-q01 VALID  -> eligible 
+known-bank-ea0352db044b73bb7158800c58be188d DEFECT -> eligible 
+v75f-825e60a00f DEFECT -> quarantined failed:source_support
+{
+ "kind": "v79_native_regression_probe_not_qualification",
+ "terminal": 18,
+ "of": 41,
+ "valid_eligible": "5/9",
+ "defects_accepted": "1/9",
+ "errors": [],
+ "valid_failures": [
+  "v77f-b123137834cc:failed:explanation_support",
+  "v77f-4c09b80e91ce:failed:explanation_support",
+  "v77f-c6d21440345d:failed:explanation_support",
+  "cbse24-bs-q02:failed:explanation_support"
+ ],
+ "accepted_defects": [
+  "known-bank-ea0352db044b73bb7158800c58be188d:missing_decisive_assumption"
+ ],
+ "accounting": {
+  "settled_usd": 0.193378,
+  "held_usd": 0,
+  "requests": 45,
+  "receipt_complete": true,
+  "at": "2026-10-09T12:34:09.952Z"
+ }
+}

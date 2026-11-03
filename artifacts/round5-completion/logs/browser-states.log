@@ -1,0 +1,17 @@
+{"url":"http://localhost:3010/preview/arena?view=today&tonight=done","errors":[],"body":"Development preview\nIllustrative data · free · ready. No real saves, scores, credits or billing.\nView\ndashboard\ntest\nprepos\ncompass\nradar\nsaved\ntoday\nreview\nprogress\nrecovery\nexplore\nranks\nprofile\nupload\nmy-uploads\nresult\nrival\nonboarding\nMockMob\n.\n40\n40 practice credits\nToday\nPreview, here is your next useful step.\n\nChoose how much time you have. The plan comes from your practice record and the content available right now.\n\nGetting your next step.\n\nReading your available practice.\n\nTonight’s plan\nTime for practice\n10 min\n20 min\n30 min\n\n2027 exam specifications remain provisional until officially confirmed. Existing access and credits are preserved.\n\nToday\nPractice\nExplore\nReview\nMore"}
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.waitFor: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByText('Tonight’s practice is recorded.', { exact: true }) to be visible
+
+    at C:\Users\atish\Desktop\mockmob copy\mockmob copy\scripts\design-audit\round5-completion.mjs:53:56 {
+  log: [
+    "  - waiting for getByText('Tonight’s practice is recorded.', { exact: true }) to be visible"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.15.0

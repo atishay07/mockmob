@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-07T03:45:50.945Z",
+  "passed": true,
+  "target": "http://localhost:3101",
+  "signed_in_admin": true,
+  "signed_in_student": true,
+  "admin_published": 50,
+  "dashboard_shows_settled_and_held_separately": true,
+  "student_subject_filter_changed": true,
+  "numerical_feedback": {
+    "question_id": "13c8f8cff4c3db04b09070b0d51f8c57",
+    "selected": "B",
+    "observed": "Correct. Keep the reasoning.",
+    "explanation_included": true
+  },
+  "passage_feedback": {
+    "question_id": "a9417080710f69ccf49d5ae0ed8c43c9",
+    "complete_passage_visible_in_accessibility_tree": true,
+    "selected": "C",
+    "observed": "Correct. Keep the reasoning.",
+    "explanation_included": true
+  },
+  "screenshots": [
+    "admin-published.jpg",
+    "student-retrieval.jpg"
+  ],
+  "paid_provider_calls": 0,
+  "production_writes": 0
+}

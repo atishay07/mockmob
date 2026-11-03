@@ -1,0 +1,318 @@
+{
+  "at": "2026-10-09T07:38:30.957Z",
+  "parent_sha256": "dbbcd2e9af175e873fe99087f146658022c14b2ca6c01ee01cbf8c36b4be21cb",
+  "final_sha256": "5fc02070c0c9b6c3974330bb6531cc15654516ea2ba95e9a8fe492911f9208fa",
+  "source_texts_and_candidate_refs_unchanged": true,
+  "changes": [
+    {
+      "source": "v77v2src-syllabus_accountancy-p3",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-3",
+      "to": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "source": "v77v2src-leac206-p5-ac_investing_disposal",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-5",
+      "to": "physical-pdf-page-5-investing-activity-heading-and-examples",
+      "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+    },
+    {
+      "source": "v77v2src-syllabus_business_studies-p2",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-2",
+      "to": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "source": "v77v2src-syllabus_business_studies-p4",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-4",
+      "to": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "source": "v77v2src-syllabus_economics-p2",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-2",
+      "to": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "source": "v77v2src-english-library",
+      "field": "locator_alias",
+      "from": "library",
+      "to": "original-stimulus:library",
+      "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+    },
+    {
+      "source": "v77v2src-syllabus_english-p2",
+      "field": "locator_alias",
+      "from": "physical-pdf-page-2",
+      "to": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "source": "v77v2src-english-ferry",
+      "field": "locator_alias",
+      "from": "ferry",
+      "to": "original-stimulus:ferry",
+      "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+    },
+    {
+      "source": "v77v2src-english-orchard",
+      "field": "locator_alias",
+      "from": "orchard",
+      "to": "original-stimulus:orchard",
+      "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+    },
+    {
+      "source": "v77v2src-english-workshop",
+      "field": "locator_alias",
+      "from": "workshop",
+      "to": "original-stimulus:workshop",
+      "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+    },
+    {
+      "source": "v77v2src-leac206-p3-ac_cash",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p3-ac_shares",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p4-ac_operating",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p4-ac_operating_examples",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p5-ac_investing_disposal",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p5-ac_investing_purchase",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p5-ac_financing",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leac206-p2-ac_purpose",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-lebs106-p2-bs_staffing",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-lebs106-p28-bs_training",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-lebs203-p7-bs_rights_1_3",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-lebs203-p8-bs_rights_4_6",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leec202-p2-ec_mu",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leec202-p3-ec_dmu",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leec202-p4-ec_ordinal",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leec202-p6-ec_indifference",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-leec202-p2-ec_place_time",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-syllabus_accountancy-p3",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-syllabus_business_studies-p2",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-syllabus_business_studies-p4",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-syllabus_economics-p2",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-syllabus_english-p2",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-english-library",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Original locally authored source text; no third-party or PYQ passage claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-english-ferry",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Original locally authored source text; no third-party or PYQ passage claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-english-orchard",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Original locally authored source text; no third-party or PYQ passage claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v2src-english-workshop",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Original locally authored source text; no third-party or PYQ passage claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v3src-lebs106-p2-column-right-staffing",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    },
+    {
+      "source": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "field": "reuse_permitted",
+      "before": null,
+      "after": true,
+      "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim",
+      "scope": "This isolated, owner-authorized local qualification only. Attributed source excerpts/original stimuli; no independently established republication licence or production permission inferred."
+    }
+  ]
+}

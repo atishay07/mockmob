@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12247,
+ "request_bytes": 31534,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710b-regression-on-q1-run-v79q1-economics-v4\",\n  \"content_hash\": \"1f18f9fe4a50892df012444a5ec2d8bb9d00306e537a0630f42aa2ebfaf0408a\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"Option A is a tax revenue, which does not create a claim or liability on the government and is non-redeemable, fitting the textbook definition of a revenue receipt.\",\n    \"Options B, C, and D are borrowings/debt liabilities that the government must repay, making them capital receipts rather than revenue receipts.\"\n  ],\n  \"syllabus_chapter\": \"Government Budget & the Economy\",\n  \"syllabus_topic\": \"Classification of receipts - revenue receipts and capital receipts\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Revenue receipts are those receipts that do not lead to a claim on the government and are non-redeemable.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\n        \"E1.1\"\n      ]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The loan brings in immediate cash inflow for government expenditures.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Foreign borrowing constitutes external receipts available to finance government projects.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Funds received through issuing securities provide liquid receipts to the government.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests the distinction between revenue and capital receipts from Unit IV.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard four-option multiple choice question matching CUET UG economics format.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Tests core conceptual classification at the Class 12 NCERT macroeconomics level.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Contrasts non-redeemable tax receipts against redeemable debt liabilities.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Revenue receipts are those receipts that do not lead to a claim on the government.\",\n      \"reason\": \"Corporation tax is a non-redeemable tax receipt creating no liability.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A loan raised by issuing bonds that the government must repay on maturity\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Revenue receipts are those receipts that do not lead to a claim on the government.\",\n      \"reason\": \"A repayable loan creates a claim/liability on the government.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Money borrowed from a foreign government, to be repaid with interest\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Revenue receipts are those receipts that do not lead to a claim on the government.\",\n      \"reason\": \"Money borrowed creates a debt liability and claim on the government.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Funds raised through securities that are redeemable after a fixed period\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"They are therefore termed non-redeemable.\",\n      \"reason\": \"Redeemable securities create a claim, whereas revenue receipts are non-redeemable.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EvsICvgIAWkUfROsYz8MdGhrchM3mXBxGPaC9sZ3oYIhaoEF2dakLZg6dr7ELOpiDEK8WTOFJ+NbtHrYGyhEjKOqIi7pZfaZXTUqvFKt4If+Ju4GRPen6zr4aMp/PZ2+zwDjMQauJuFQKfSUnLK1xCsUfOjvLUEYmeXWOp8TVNlztbZ+zGyi0Fjz8cwLVdoWlBWiUqI+8kKRxKTSCh4kzfefqOzsTUaBAICtUXTIHWvCYn+vs3qkxFUl/zoxTwmwgtEzVKQVupEwutRQe7P9iwXCtYy3W1FdWBBgXm+pRlOGNfcrWYXPxMJdVRjEZ76eUHGEZHR/k6do85zP0FKp9WOr3q2gJQvalT6q4CclsJywunq6HA7OJQW0pjoRa2JCyRvKg97db4ZMsSdlVamfm8CPyozuExaC0ly62RhTOgX2trS8rkcfoOom8RFkRdCQKdKZGWo6u/wm8FzgixnH4/69iDguLAn5Vp5XKZN8yqNd6VXy6lGi3jYgHI5TTf6nddA4umedhUShE1BqYF4dHGICOwV2iW17+jCXJ3dKn+jPFxb8QD9OlBupsVfwJoLBT4fy8hv6gXipPbUMp18jLwGV13bPYZ7m0FfoVBXZHUdMNc+0MiuPeS4j+OVhZq12IZQMhJv6iU1468BtEEJz8CXP18IJbani+5PkEA0+WBXMXaI3srDANWo8J8z1szqFi6oFQ7aNlDuCp0fFbSAPb38pDSP9MSChTxj8qxhY+uGMgo6iwj+GQRBlBawcopjYrp1UXkwkAMXJZAEiqasMkdmhtnGnyZZGsL1AQoqDCWOg89sbUPUidylpam+VaRymJlKqUSY2YaOJd62xWv95C3j6aOz4TbTvXjrufKLtBo4MoSM0ndKB5iLwp6DNPFQA22NZUJrjLNR7w2JS/GyDVP22hh/sh7a/OP7oqnRRZxrDsUSAcFmwEcUixJ9eNvF52sqlbQk8jUAUawQKQ1gP3ryUkZAI+AsH2vuF41sGTbkZRJW8VG/Bdprkobps3eTOqKxgHxkS1FdCm4LGXfqPtRBlENOIBqOF9FwKPJdj3S5J8NDvUWQsOr24sy2Q46gtYcC8Yu4DwOUCCWzcutatuWLTHjBSWP7H3tJpARoERbLTspEkDUEbPQCqIcUVVcwMIatphGPPQNldJcdQh35pjVd0ZLAWYdUNSsQYuEFX7H0LqkeY4TzjmEa1kDte89n++K0hgqrwWXjV3FzgMm8qo9wuaJulJtj5p2m/h3l8cToHPdd8QFcLJQHLpzS61V0RUHrxLrzCOukd2/mCHCepvsDtaP5hGeTMvENT28p83b4+IRIy8cTJ1hCIje73p7V6jrJSwgPHqp192MHLTkbbbO7qdpL51Kl4/Un/yWgRwz9bhcs84ybMIvf09fpSnlcwp0aQvvSRLkZs38DXtG1FrB91dnTX8eeo1HYN0zaPvkp0hwMSJz9CPDVZnxmUc5+JIQNQbWCUkHlOjaGbcuniy8PIjoQoSfINzCVyczlqpwbD/C99ojCU31XguvWVzA=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5213,
+   "candidatesTokenCount": 1369,
+   "totalTokenCount": 6816,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5213
+    }
+   ],
+   "thoughtsTokenCount": 234,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "svXIaoGgBZvKjuMPr6PdqA4"
+ }
+}

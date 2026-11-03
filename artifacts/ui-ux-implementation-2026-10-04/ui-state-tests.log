@@ -1,0 +1,13 @@
+✔ demo resumes at visible elapsed time after a long hidden period (1.2429ms)
+✔ repeated resume is idempotent and unmount cancels pending changes (0.1408ms)
+✔ held and unexplained questions never count as explanations or repeat in the automatic queue (0.21ms)
+✔ an unknown response stays eligible for retry and is never presented as repaired (0.147ms)
+✔ uncertain server failures keep the request identity; only a confirmed release permits a fresh retry (0.1964ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 110.7987

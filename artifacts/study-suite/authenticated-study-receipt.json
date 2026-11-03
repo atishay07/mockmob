@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-04T17:50:05.435Z",
+  "state": "passed",
+  "scope": "Read-only owner QA receipts; not student learning-outcome evidence",
+  "completedEnglishLesson": true,
+  "resumedRecallCursor": 1,
+  "answerHiddenOnNextCard": true,
+  "runRevision": 2,
+  "cardRevision": 1,
+  "scheduledReviews": 1,
+  "nextReviewMatchesRunReceipt": true,
+  "timePreferenceRestored": 20,
+  "productionWrites": 0
+}

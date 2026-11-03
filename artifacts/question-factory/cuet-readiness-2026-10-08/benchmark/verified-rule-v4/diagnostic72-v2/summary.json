@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-07T21:45:48.908Z",
+  "scope": "diagnostic",
+  "complete": false,
+  "denominator": 72,
+  "topology_completed": 72,
+  "judgments": 214,
+  "provider_errors": 2,
+  "valid_eligible": 35,
+  "valid_denominator": 40,
+  "primary_valid_denominator": 39,
+  "primary_valid_eligible": 34,
+  "controlled_false_accepts": [],
+  "unresolved_topology_errors": [
+    "business_studies-BS-06-unsupported-explanation"
+  ],
+  "settled_usd": 1.509084,
+  "held_usd": 0,
+  "gross_usd": 1.509084,
+  "receipt_complete": true,
+  "publication_writes": 0,
+  "release": false
+}

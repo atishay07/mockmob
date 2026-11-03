@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-12",
+  "project": "MockMob",
+  "sources": [
+    {
+      "id": "product-brain",
+      "original": "C:\\Users\\atish\\Downloads\\MarkMob_Product_Brain.md",
+      "preserved": "docs\\brain\\research-sources\\2026-10-12-product-experience\\product-brain.md",
+      "bytes": 126110,
+      "sha256": "4c49ca1f9c74a634d8d5c3e263138cf64306ee611f19e62448bf4d6e7dc27a61",
+      "lines": 1412
+    },
+    {
+      "id": "ux-specification",
+      "original": "C:\\Users\\atish\\Downloads\\MarkMob_Product_Research_and_UX_Specification (1).pdf",
+      "preserved": "docs\\brain\\research-sources\\2026-10-12-product-experience\\ux-specification.pdf",
+      "bytes": 268401,
+      "sha256": "96a2cabd6c2fd441d9cccc28a8a5a1090ae97664aa45f8899c3b9bb168538cc2"
+    },
+    {
+      "id": "dashboard-undertone-transcript",
+      "original": "C:\\Users\\atish\\.codex\\attachments\\d64123a4-710d-45a9-a2e0-f1baa98c6e35\\Pasted text.txt",
+      "preserved": "docs\\brain\\research-sources\\2026-10-12-product-experience\\dashboard-undertone-transcript.txt",
+      "bytes": 32251,
+      "sha256": "df49e52224ed6bf9d117ebb42117296cb61345596162544f0e8aa8ff082a00a0",
+      "lines": 164
+    }
+  ],
+  "pdf_pages": 59,
+  "chat_notes": {
+    "id": "user-request-and-notes",
+    "provenance": "owner message 2026-10-12; Markdown transcription",
+    "preserved": "docs\\brain\\research-sources\\2026-10-12-product-experience\\user-request-and-notes.md",
+    "sha256": "a612ebab305e968d42d0ce49f2892263bebf43dde43777a50b19bb4be858ccdd"
+  },
+  "pdf_figure_pages": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ]
+}

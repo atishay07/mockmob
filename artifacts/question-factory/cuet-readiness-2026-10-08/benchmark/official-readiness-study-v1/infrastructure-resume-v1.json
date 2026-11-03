@@ -1,0 +1,17 @@
+{
+  "schema": "study-infrastructure-resume-v1",
+  "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+  "from_freeze_hash": "f46f148ebd5b45ba340ebcb824e1101c3fcf00ce3e80d7ef0872819f17de00a3",
+  "from_runner_sha256": "ba1089911cf1786f1b164ffce4393afc2af04376f14c0c2f8be8f6cbe55f3c95",
+  "from_transport_source_hash": "7fb6de7575175ed60a4a201a8b4872afd72f3d4dc71320966e4b419d480ae1c4",
+  "to_runner_sha256": "cd667403452f2ae370d1f6f055122c1d43e7f618f32bf8732dcc9d7f28ef62aa",
+  "to_transport_source_hash": "7fb6de7575175ed60a4a201a8b4872afd72f3d4dc71320966e4b419d480ae1c4",
+  "semantic_contract_sha256": "dab3e9f96c8acf3c08b8cc0f1e8e77fadf63935971ff09eddb0d244a13262d1f",
+  "permitted_infrastructure_changes": [
+    "cooperative stop-file check between provider judgments",
+    "study-only candidate attribution and cost accounting"
+  ],
+  "preserved_outcomes": true,
+  "paid_calls_authorized": false,
+  "created_at": "2026-10-07T20:46:15.819Z"
+}

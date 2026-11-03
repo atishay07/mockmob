@@ -1,0 +1,41 @@
+{
+  "schema": "v77-local-option-resolution-structural-proposal-v2-review",
+  "reviewed_at": "2026-10-09T08:44:14Z",
+  "freeze_sha256": "a68e3cab4e8affd735dc55a13235d5f3f53cd3271a2e6cb925c53fb91201e612",
+  "proposal_review_v1_and_final_diagnosis": {
+    "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\proposal-review-v2.json",
+    "sha256": "d8efbdd3ccf6b763b2a34291bfffd74036c9eb134678dc45bc8d7f2591f62368",
+    "case_count": 5
+  },
+  "stable_final_export_sha256": "bef35e60b203d58c72048921709b07da7fbddb96210184a65142a165167257f6",
+  "study_snapshot": {
+    "denominator": 41,
+    "terminal": 5,
+    "pending": 36,
+    "settled_usd": 0.084744,
+    "held_usd": 0
+  },
+  "addressed_review_findings": [
+    "Premise source classification is explicit and basis constrained. Excerpt clauses allow exact cited-source premises plus exact stem facts, require at least one exact excerpt premise, and forbid printed-option inputs. Stem clauses require body premises only. Arithmetic allows exact source rule and exact stem or printed option input.",
+    "Printed option text is only a hypothetical arithmetic input and cannot serve as support evidence or source proof.",
+    "Independent semantic audit binds case/content, exact matrix and evidence catalog hashes, every exact clause/status/basis/contradiction basis/premise/evidence/provenance, and the derived whole-option status for all four options.",
+    "A whole-option false conjunction may contain a distinct truthful unresolved clause; unresolved alternatives still block a unique key unless another clause directly contradicts the whole conjunction.",
+    "Malformed top-level input, matrix rows/clauses, option text, evidence catalog entries and whole-option decisions fail closed without throwing.",
+    "Whitespace-only normalization preserves every non-whitespace code point and word order, with Unicode word boundaries to prevent substring matches inside larger words; numbers, punctuation, ellipses, omissions and negation changes remain non-matching.",
+    "Exact selected source identity hashes, locators, quotes and support spans remain bound; V2 is not imported by the frozen runtime or publication path."
+  ],
+  "tested_counterexamples": [
+    "Case 073 OpenAI: excerpt-basis clause combines exact stem facts and exact source rule and structurally binds.",
+    "Case 073 Gemini: paraphrased source premise remains unbound.",
+    "Case 3546 OpenAI/Luna: line-wrap-only excerpt variation binds; Gemini ellipsis/omission does not.",
+    "Synthetic arithmetic: exact option input plus exact source rule can pass with clause-bound audit.",
+    "Synthetic false conjunction: directly contradicted clause defeats rival despite separate source-silent unresolved detail.",
+    "Adversarial: wrong matrix status/provenance, missing clause audit, false number, changed negation, forged span/hash, partial option, malformed nulls, and word substring all fail."
+  ],
+  "test_results": {
+    "passed": 10,
+    "failed": 0
+  },
+  "reviewer_boundary": "The audit object used in positive tests is synthetic. This proves structural binding behavior only, not reviewer independence, academic truth, or qualification success. Independent root review remains pending.",
+  "no_runtime_qualification_claim": true
+}

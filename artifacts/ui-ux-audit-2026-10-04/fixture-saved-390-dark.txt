@@ -1,0 +1,94 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=saved&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=saved&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: saved, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 (selected) saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 container
+			30 text Saved
+		31 heading Saved questions, Value: 1
+			32 text Saved questions
+		33 text Everything you save from Explore lands here for another look. 2 saved.
+		34 link Description: Explore questions, Value: localhost:3010/explore
+		35 link Description: Choose practice, Value: localhost:3010/dashboard
+		36 container
+			37 text Partnership Fundamentals Easy
+		38 heading Goodwill brought in by an incoming partner is shared by old partners in:, Value: 3
+			39 text Goodwill brought in by an incoming partner is shared by old partners in:
+		40 container Answer options
+			41 button A New ratio
+				42 text A
+				43 text New ratio
+			44 button B Old ratio
+				45 text B
+				46 text Old ratio
+			47 button C Sacrificing ratio
+				48 text C
+				49 text Sacrificing ratio
+			50 button D Equal ratio
+				51 text D
+				52 text Equal ratio
+		53 container
+			54 container Question voting
+				55 checkbox Description: Upvote, Value: 0
+				56 container Vote score: 0
+					57 text 0
+				58 checkbox Description: Downvote, Value: 0
+			59 checkbox Save, Value: 0
+			60 button Show answer
+		61 container
+			62 text Accounting Equation Medium
+		63 heading Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?, Value: 3
+			64 text Assets are ₹80,000 and liabilities are ₹30,000. What is the owner’s equity?
+		65 container Answer options
+			66 button A ₹30,000
+				67 text A
+				68 text ₹30,000
+			69 button B ₹50,000
+				70 text B
+				71 text ₹50,000
+			72 button C ₹80,000
+				73 text C
+				74 text ₹80,000
+			75 button D ₹1,10,000
+				76 text D
+				77 text ₹1,10,000
+		78 container
+			79 container Question voting
+				80 checkbox Description: Upvote, Value: 0
+				81 container Vote score: 1
+					82 text +1
+				83 checkbox Description: Downvote, Value: 0
+			84 checkbox Save, Value: 0
+			85 button Show answer
+	86 container Quick study navigation
+		87 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		88 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		89 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		90 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		91 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=saved&plan=pro

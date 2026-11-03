@@ -1,0 +1,2976 @@
+{
+  "dry_run": true,
+  "audit_created_at": "2026-10-01T15:59:59.890Z",
+  "changes": [
+    {
+      "id": "00b8b5f3-4b94-4d79-abf8-0627b73f3463",
+      "expected_hash": "628fffa6b00fa5ba003c96d57dfc9f06ccce2b91ddf1261479b00edbc4cf5155",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Zenith Ltd. issued 85,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3,40,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹8,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 85,000 × ₹4 = ₹3,40,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹3,40,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹8,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "012bf711-3888-4dbc-b028-67ed1d096b38",
+      "expected_hash": "e9eb11e61cb174b3d92a807392d3b301e9f5f5adb855e110c76b92c7ec884d2a",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "पत्रकारिता में 'सिक्स W' (6 Ws) का क्या अर्थ है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "B",
+        "explanation": "समाचार लेखन में संपूर्ण जानकारी देने के लिए 'क्या, कब, कहाँ, कौन, क्यों, कैसे' इन छह प्रश्नों का उत्तर देना आवश्यक है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "छह तरह के पत्र"
+        },
+        {
+          "B": "छह प्रश्न (क्या, कब, कहाँ, कौन, क्यों, कैसे)"
+        },
+        {
+          "C": "छह प्रकार के विज्ञापन"
+        },
+        {
+          "D": "छह स्तंभ"
+        }
+      ],
+      "expected_key": "B",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "050dcdef-03a2-4858-bd7b-97644de5f59b",
+      "expected_hash": "c208bf54200bf625bd889a8c1875b6f6a1d64950f6160c275962b7f219030c56",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 30,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹90,000"
+          },
+          {
+            "key": "B",
+            "text": "₹90,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹3,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 30,000 × ₹3 = ₹90,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹90,000"
+        },
+        {
+          "key": "B",
+          "text": "₹90,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹3,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "08b42023-6b1f-41ad-ab91-80dba0226b13",
+      "expected_hash": "3cffcb22259dc6eb00d83405c5fe8ae7d98850a431b7d24e696d6fb0f43cb885",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 90,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "D",
+            "text": "₹9,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 90,000 × ₹2 = ₹1,80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "D",
+          "text": "₹9,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "10d425f0-b256-4b1b-8809-81785d6e0c2c",
+      "expected_hash": "e21a42cd028265faeb962ca84a4b52d565d9f039f47afde2eeeb7efad35bd646",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 30,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹60,000"
+          },
+          {
+            "key": "D",
+            "text": "₹3,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 30,000 × ₹2 = ₹60,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹60,000"
+        },
+        {
+          "key": "D",
+          "text": "₹3,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "163999d6-dc8d-4cdd-96af-33ddd5bb36fc",
+      "expected_hash": "47a03022d7bda8b3b6816eb585f0645831d9c90cb599812813cc469f5855c8e4",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Zenith Ltd. issued 15,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹1,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 15,000 × ₹4 = ₹60,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "₹60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹1,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "25c0acb9-a47f-4a15-a1d8-ee4a115943d0",
+      "expected_hash": "72a7e1889175b9bfee8e94c18c686b4acd8d87e9ba7fa4782d324946efa54237",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Vertex Ltd. issued 85,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,70,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,70,000"
+          },
+          {
+            "key": "D",
+            "text": "₹8,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 85,000 × ₹2 = ₹1,70,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,70,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,70,000"
+        },
+        {
+          "key": "D",
+          "text": "₹8,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "26173f32-f4eb-4d74-957b-39166ca8d45d",
+      "expected_hash": "9ea5050d8d07fd73153155c30545ced500af35f1db533f52b09fda58a8af2066",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Beta Ltd. issued 70,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹2,10,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,10,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹7,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 70,000 × ₹3 = ₹2,10,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹2,10,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,10,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹7,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "2b3cc742-77f6-4c38-969e-63d97447ce41",
+      "expected_hash": "94c5cfbe6a5a2a3df661fcc5d5e2ac0eabde87704da54fd805240c23bfb484bd",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Beta Ltd. issued 85,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹2,55,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,55,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹8,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 85,000 × ₹3 = ₹2,55,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹2,55,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,55,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹8,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "2cc599ea-48ca-4455-a713-40c7bf1ae6dd",
+      "expected_hash": "6fbee51c75bc5ae93679fe9e016af09c209d8c10da03853d10b7fc311c18798f",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Gamma Ltd. issued 65,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,95,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,95,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹6,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 65,000 × ₹3 = ₹1,95,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,95,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,95,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹6,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "2ecdfb09-10f4-4b7a-b61c-ec0f1573913d",
+      "expected_hash": "1e8fc9bcaedd22748c2c724ca22b246b0724ef1e133ad05886c14bbcf6374aff",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Beta Ltd. issued 95,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3,80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹9,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 95,000 × ₹4 = ₹3,80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹3,80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹9,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "315695f1-ac37-4ee3-9963-922aa6c307d1",
+      "expected_hash": "fdf2c70e6594d0e31946147c57d87061129ab36b505555ccee454d8a6b871b4f",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "एक अच्छे फीचर लेखन की विशेषता क्या है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "B",
+        "explanation": "फीचर लेखन केवल सूचना नहीं देता, बल्कि वह रचनात्मक, भावपूर्ण और मनोरंजक होता है जो पाठकों को बांधे रखता है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "तथ्यात्मक और शुष्क"
+        },
+        {
+          "B": "रचनात्मक और मनोरंजक"
+        },
+        {
+          "C": "केवल सूचनात्मक"
+        },
+        {
+          "D": "केवल संक्षिप्त"
+        }
+      ],
+      "expected_key": "B",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "3ae8d8ee-2a20-4fc8-a6cc-70a0b4c899b1",
+      "expected_hash": "2d1556338ec954b48195df1334e85d3aaad80cec70992cef973821adef782972",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Gamma Ltd. issued 10,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹40,000"
+          },
+          {
+            "key": "B",
+            "text": "₹40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹1,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 10,000 × ₹4 = ₹40,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹40,000"
+        },
+        {
+          "key": "B",
+          "text": "₹40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹1,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "3f6b49a2-00fd-4a94-85d6-0a204008694d",
+      "expected_hash": "ad16f5d4f1acb65c734f4d5abac162d0c77709a2e2363697784d76e304b72b64",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹3,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 35,000 × ₹3 = ₹1,05,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹3,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "42d6541c-cad8-400e-9fcb-375654f8eadc",
+      "expected_hash": "06352885fb313970b60e38287484ed1d3971ab622cce98a9f0b5b3559de04249",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Delta Ltd. issued 90,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "D",
+            "text": "₹9,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 90,000 × ₹2 = ₹1,80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "D",
+          "text": "₹9,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "4462a4de-8e65-4343-9b71-b5d8661fd800",
+      "expected_hash": "2c6c0b51525df1f01a31d3380ef9f2298398b97f2b9073ac6f9238781da3d1f1",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 25,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹50,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹50,000"
+          },
+          {
+            "key": "D",
+            "text": "₹2,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 25,000 × ₹2 = ₹50,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹50,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹50,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "50f1a789-630c-4efd-9cd5-e5ed0667e9d7",
+      "expected_hash": "2e4595315819416294a8cca92e99203c8a6a58945c23e9229214bc529e9aadc0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 30,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹3,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 30,000 × ₹4 = ₹1,20,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹3,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "5af4e290-c460-4e34-bbe6-240355ad9c8b",
+      "expected_hash": "93274f4c82330f2352c31fa4d8152a50c174d3d5bc549f172e138a3707e411a0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Vertex Ltd. issued 65,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,30,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,30,000"
+          },
+          {
+            "key": "D",
+            "text": "₹6,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 65,000 × ₹2 = ₹1,30,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,30,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,30,000"
+        },
+        {
+          "key": "D",
+          "text": "₹6,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6213ddd3-6ee0-45f9-8cb3-9d6dbcd8e1a7",
+      "expected_hash": "64a1f7b94d05e38e0886ef08248b12d2ea439ade26a8ff0ed731b2ef40d29993",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Beta Ltd. issued 70,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,40,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,40,000"
+          },
+          {
+            "key": "D",
+            "text": "₹7,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 70,000 × ₹2 = ₹1,40,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,40,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,40,000"
+        },
+        {
+          "key": "D",
+          "text": "₹7,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6a01bb9c-e7ce-46e3-a4f8-b948517d332a",
+      "expected_hash": "512a33989858fbafba6a56de5c55e5c47e7f320b94cc78206ae68cb282be4450",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Pinnacle Ltd. issued 25,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹75,000"
+          },
+          {
+            "key": "B",
+            "text": "₹75,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹2,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 25,000 × ₹3 = ₹75,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹75,000"
+        },
+        {
+          "key": "B",
+          "text": "₹75,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹2,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6b57a5ba-c891-4cf0-aa73-2f59f6d3adef",
+      "expected_hash": "dea35c16e09facf5c63939474e24376625abbeaca739d9f23f16e353c0cc48b0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept": "",
+        "body": "Harsh and Deepika are partners. Harsh's capital is ₹2,70,000 and Deepika's capital is ₹2,90,000. If the partnership deed provides for interest on capital @ 5% p.a., what will be the interest on Harsh's capital?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹13,500"
+          },
+          {
+            "key": "B",
+            "text": "₹14,500"
+          },
+          {
+            "key": "C",
+            "text": "₹14,500"
+          },
+          {
+            "key": "D",
+            "text": "Nil, unless there is profit."
+          }
+        ],
+        "key": "A",
+        "explanation": "Interest on Harsh's capital is calculated as ₹2,70,000 x 5% = ₹13,500.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹13,500"
+        },
+        {
+          "key": "B",
+          "text": "₹14,500"
+        },
+        {
+          "key": "C",
+          "text": "₹14,500"
+        },
+        {
+          "key": "D",
+          "text": "Nil, unless there is profit."
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6b877910-060f-464e-8109-77dff2387d34",
+      "expected_hash": "9c4b21ba07d0721c3777673ca81a0f7b4a66c9a294a615f85414639c45ae98b0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Pinnacle Ltd. issued 50,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,50,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,50,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹5,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 50,000 × ₹3 = ₹1,50,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,50,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,50,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹5,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6bea2084-daa6-4130-bccc-ec7519d6fa1c",
+      "expected_hash": "9d60d4d223491a2468aba3626276e579a3dc44a1ff467b63bae6c0430fbdae4d",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Zenith Ltd. issued 75,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3,00,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹7,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 75,000 × ₹4 = ₹3,00,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹3,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹7,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "6f73a6e4-b21f-4730-bae7-0f38d745e11b",
+      "expected_hash": "f9457162f45a3203ad734ecb03c6a507057715db133c44e0e1057829fdbd6765",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 20,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹60,000"
+          },
+          {
+            "key": "B",
+            "text": "₹60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹2,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 20,000 × ₹3 = ₹60,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "₹60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹2,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "723b1989-9b72-40ad-b384-e559b82b0a27",
+      "expected_hash": "d54f3e106fefd0889b3150bcf73a113f46f927043948460b13e43eb8bf9b1152",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 70,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹2,10,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,10,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹7,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 70,000 × ₹3 = ₹2,10,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹2,10,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,10,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹7,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "727be145-168b-488d-86fa-f55a22f481bc",
+      "expected_hash": "74e26b11caa78562351cc1dbaaab757ea2fb2b12ed152c5080fbcbfb1f3ddb23",
+      "expected_content": {
+        "subject": "biology",
+        "chapter": "Cell Cycle and Cell Division",
+        "concept": "",
+        "body": "What is mitosis?",
+        "options": [],
+        "key": "Nuclear division producing two identical cells",
+        "explanation": "",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": null,
+      "expected_key": "Nuclear division producing two identical cells",
+      "reason": "invalid_structure; unsupported_mapping; missing_explanation; local_integrity_signal:answer_guard_options_count; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_key_unresolved; publication_disabled"
+    },
+    {
+      "id": "767a577e-aff3-49e8-9804-f581cceb22df",
+      "expected_hash": "f528e3f8c66274d1fed28bfc71a6e78b3a11f5ddfa9acdf0c9b14266bea235f3",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Beta Ltd. issued 50,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "D",
+            "text": "₹5,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 50,000 × ₹2 = ₹1,00,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "D",
+          "text": "₹5,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "7b145e71-00bc-4749-9199-d19bc555d491",
+      "expected_hash": "5875ee54cdd8f85616167e1079afce429696e6d476397e1afce9134e3cac5c34",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept": "",
+        "body": "Varun and Bhavna are partners. Varun's capital is ₹1,30,000 and Bhavna's capital is ₹1,40,000. If the partnership deed provides for interest on capital @ 10% p.a., what will be the interest on Varun's capital?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹13,000"
+          },
+          {
+            "key": "B",
+            "text": "₹14,000"
+          },
+          {
+            "key": "C",
+            "text": "₹14,000"
+          },
+          {
+            "key": "D",
+            "text": "Nil, unless there is profit."
+          }
+        ],
+        "key": "A",
+        "explanation": "Interest on Varun's capital is calculated as ₹1,30,000 x 10% = ₹13,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹13,000"
+        },
+        {
+          "key": "B",
+          "text": "₹14,000"
+        },
+        {
+          "key": "C",
+          "text": "₹14,000"
+        },
+        {
+          "key": "D",
+          "text": "Nil, unless there is profit."
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "7ee32ed3-bc4e-4b87-af28-3c894309c070",
+      "expected_hash": "623f8918db572d536e30e62c4a0a876fb1d9f08e67b1f57b64f495eb22911f0e",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Delta Ltd. issued 25,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹50,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹50,000"
+          },
+          {
+            "key": "D",
+            "text": "₹2,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 25,000 × ₹2 = ₹50,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹50,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹50,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "80b7961d-c37f-40d2-bb05-bdceb927d4c8",
+      "expected_hash": "a24fdc29fa5889f18c4da70f07788fe2ba57ecb8a1b82f30c2ace2ba726ae7ea",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Zenith Ltd. issued 95,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,90,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹9,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 95,000 × ₹2 = ₹1,90,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,90,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹9,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "8238f84c-4fe5-4c02-a10b-12c0c30dbdce",
+      "expected_hash": "281e05d9b75430ef97d92e686fc90e1897fedb0b9bcfebaf3f961b714b41fc01",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "समाचार लेखन के 'पिरामिड शैली' में सबसे महत्वपूर्ण जानकारी कहाँ दी जाती है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "C",
+        "explanation": "समाचार लेखन की 'उल्टा पिरामिड शैली' में सबसे महत्वपूर्ण जानकारी पहले पैराग्राफ यानी 'मुखड़े' (Lead) में दी जाती है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "अंत में"
+        },
+        {
+          "B": "मध्य में"
+        },
+        {
+          "C": "मुखड़े (Lead) में"
+        },
+        {
+          "D": "शीर्षक के बाद"
+        }
+      ],
+      "expected_key": "C",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "827827ca-94e3-4a19-96ab-74f5dbc2c8e9",
+      "expected_hash": "4731e0ced841044254761b43d86b05344ecab9384a895398551a254d4c0018cf",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Zenith Ltd. issued 25,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹2,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 25,000 × ₹4 = ₹1,00,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹2,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "838d7ea5-965c-44ef-ac48-38e81eaa8f65",
+      "expected_hash": "1aff4775def7c557fa5b008878a05ed5f0fb7158d2b6bc3e93385e2c6377ad90",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Pinnacle Ltd. issued 15,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹3 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹45,000"
+          },
+          {
+            "key": "B",
+            "text": "₹45,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹1,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 15,000 × ₹3 = ₹45,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹45,000"
+        },
+        {
+          "key": "B",
+          "text": "₹45,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹1,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "851ea79c-b94f-4723-bd5b-a3a3359eef68",
+      "expected_hash": "efb9cda264407b67ba26aae3c515ee14c4690262f550c7630a2c2ac003b48217",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 50,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,00,000"
+          },
+          {
+            "key": "D",
+            "text": "₹5,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 50,000 × ₹2 = ₹1,00,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "D",
+          "text": "₹5,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "943074a4-6946-446d-a992-e8c88a8efe71",
+      "expected_hash": "20b9b04ad532b424888a93ce26b55ba18cbbfa9b8378b97b08e807531f545cd3",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 40,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹80,000"
+          },
+          {
+            "key": "D",
+            "text": "₹4,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 40,000 × ₹2 = ₹80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹80,000"
+        },
+        {
+          "key": "D",
+          "text": "₹4,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "96f3743d-49b8-4932-8796-96908937b63c",
+      "expected_hash": "05e5565efad65b2306c240293c220cf0be187fd69221cc1ab96db455003d3ac3",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "कार्यालयी पत्र में 'विषय' (Subject) का क्या महत्व है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "B",
+        "explanation": "कार्यालयी पत्रों में विषय लिखने का उद्देश्य अधिकारी को एक नजर में यह बताना होता है कि पत्र किस संदर्भ में लिखा गया है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "पत्र की लंबाई बढ़ाना"
+        },
+        {
+          "B": "पत्र का सारांश प्रस्तुत करना"
+        },
+        {
+          "C": "हस्ताक्षर के लिए जगह बनाना"
+        },
+        {
+          "D": "दिनांक स्पष्ट करना"
+        }
+      ],
+      "expected_key": "B",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "a4b3aaa0-2e0a-4370-8262-1a1ce3b03cf6",
+      "expected_hash": "52c05ce423bd42080a65684eab177e697ae8da1768c48bfdaeea7e09bf0ab8dc",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 60,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,20,000"
+          },
+          {
+            "key": "D",
+            "text": "₹6,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 60,000 × ₹2 = ₹1,20,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "D",
+          "text": "₹6,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "a71fbe93-6dff-42bd-ae05-b00db1302da1",
+      "expected_hash": "164e8ed851b198bc009efb772b15207c0a0ac8633750d94736a8e2f9035806f5",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 10,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹30,000"
+          },
+          {
+            "key": "B",
+            "text": "₹30,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹1,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 10,000 × ₹3 = ₹30,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹30,000"
+        },
+        {
+          "key": "B",
+          "text": "₹30,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹1,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "a72cfb39-df0b-42be-8947-8dedb87d7869",
+      "expected_hash": "77a892035307e655e7c4f71241de64cf05e909d934cc74950c1cfac16de5652a",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹70,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹70,000"
+          },
+          {
+            "key": "D",
+            "text": "₹3,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 35,000 × ₹2 = ₹70,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹70,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹70,000"
+        },
+        {
+          "key": "D",
+          "text": "₹3,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "aa1335e3-c2e7-4690-a01c-93027910055d",
+      "expected_hash": "cb11ea12132cc59cce30987e84ebe96f153f61586a5812fa7da521d03d6701fd",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 25,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹3 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹75,000"
+          },
+          {
+            "key": "B",
+            "text": "₹75,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹2,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 25,000 × ₹3 = ₹75,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹75,000"
+        },
+        {
+          "key": "B",
+          "text": "₹75,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹2,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "aae258df-d95d-488b-848e-c722944b14e9",
+      "expected_hash": "5d017207959786e0d2ad28d0d10e45d5c353927f51a3badbe0aea18b44227138",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "फीचर लेखन में किस तरह की शैली अपनाई जाती है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "A",
+        "explanation": "फीचर लेखन अक्सर एक कहानी की तरह शुरू होता है, इसलिए इसमें कथात्मक शैली का उपयोग किया जाता है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "कथात्मक शैली"
+        },
+        {
+          "B": "सीधी और शुष्क शैली"
+        },
+        {
+          "C": "संवादात्मक शैली"
+        },
+        {
+          "D": "अनुदेशात्मक शैली"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "af28b941-df9b-4170-9685-16bab3952886",
+      "expected_hash": "b4103e77673fa8a2c542fd74b969f55af301444baf107a3d1657edcfdcc7ff17",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Apex Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹70,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹70,000"
+          },
+          {
+            "key": "D",
+            "text": "₹3,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 35,000 × ₹2 = ₹70,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹70,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹70,000"
+        },
+        {
+          "key": "D",
+          "text": "₹3,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "b6a5e748-8c48-4de3-acf6-e651c27f899c",
+      "expected_hash": "938f62a6364ad185fbb12994b62b5893c89c1c01f3ddb61009abd78b6a36c02d",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 80,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3,20,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹8,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 80,000 × ₹4 = ₹3,20,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹3,20,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹8,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "c1aa31c8-d2c5-4149-b685-18488ab8ed00",
+      "expected_hash": "a13fa4e5ee0c8fed3d9fa336e01edd5d30a8758feb76f5734aaf5ec65259f3c4",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "डायरी लेखन (Diary writing) की मुख्य विशेषता क्या है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "B",
+        "explanation": "डायरी लेखन पूर्णतः व्यक्तिगत होता है, जिसमें लेखक अपने दैनिक अनुभवों और भावों को लिखता है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "सार्वजनिक प्रकाशन"
+        },
+        {
+          "B": "आत्मनिष्ठ (व्यक्तिगत अनुभव)"
+        },
+        {
+          "C": "तथ्यात्मक रिपोर्ट"
+        },
+        {
+          "D": "औपचारिक भाषा"
+        }
+      ],
+      "expected_key": "B",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "c42534ac-5e47-48dd-96b4-9da035a76b9b",
+      "expected_hash": "7f0e9dcc785e2e273f3c56a547c07001dabd3beb42743a63cbc8403b3b961fa0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 90,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹2,70,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,70,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹9,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 90,000 × ₹3 = ₹2,70,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹2,70,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,70,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹9,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "cc31f72f-d6ce-4bd5-9c0f-95b3ecd1cdb2",
+      "expected_hash": "c159bbaf61c6a131676e27abaefa3eadfd60494d0d31a22ddd94446b4eda334d",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Apex Ltd. issued 60,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹2 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹6,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 60,000 × ₹3 = ₹1,80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹6,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "cde7556d-bd28-46d4-ad29-a3043737154a",
+      "expected_hash": "40165603c7c8f053d66b8dfa93b69a8023a98ffefead717ab90edcf6dda86fb3",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Quantum Ltd. issued 60,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹2,40,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,40,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹6,00,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 60,000 × ₹4 = ₹2,40,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹2,40,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,40,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹6,00,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "d469bcc2-c9c4-4459-9e98-f3e3fd9987f1",
+      "expected_hash": "68dd33aeff49cb7ba3cde9de72c2db352cc9a5f1a3699f160efabe8364b17eff",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Pinnacle Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹3 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹3,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 35,000 × ₹3 = ₹1,05,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹3,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "daeb3575-3db5-49d5-8a1d-c85874f821b0",
+      "expected_hash": "054451b22b56f3f4cfe56569d475ba4ef2750dde0bcdd8d0680b2bfb86fd252e",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "वृत्तांत लेखन (Account writing) मुख्य रूप से किस काल में लिखा जाता है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "C",
+        "explanation": "वृत्तांत किसी घटित घटना का विवरण होता है, इसलिए यह सामान्यतः भूतकाल में लिखा जाता है।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "वर्तमान काल"
+        },
+        {
+          "B": "भविष्य काल"
+        },
+        {
+          "C": "भूतकाल"
+        },
+        {
+          "D": "आज्ञा सूचक"
+        }
+      ],
+      "expected_key": "C",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    },
+    {
+      "id": "e648e6e9-7873-4d59-980b-f2472ab5e175",
+      "expected_hash": "bda5919619b0b27ee9c217e81fe75b7ada78cefc0d3a8a3497451d239b99e94d",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Pinnacle Ltd. issued 55,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,10,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,20,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,10,000"
+          },
+          {
+            "key": "D",
+            "text": "₹5,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 55,000 × ₹2 = ₹1,10,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,10,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,10,000"
+        },
+        {
+          "key": "D",
+          "text": "₹5,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "e69e942e-2bc0-4e80-8ee8-3b48e4486431",
+      "expected_hash": "af12483aec304929632613e85e930f382de086a099aee9355aaa7525b0af58a0",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept": "",
+        "body": "Neha and Sneha are partners. Neha's capital is ₹4,80,000 and Sneha's capital is ₹4,80,000. If the partnership deed provides for interest on capital @ 10% p.a., what will be the interest on Neha's capital?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹48,000"
+          },
+          {
+            "key": "B",
+            "text": "₹49,000"
+          },
+          {
+            "key": "C",
+            "text": "₹48,000"
+          },
+          {
+            "key": "D",
+            "text": "Nil, unless there is profit."
+          }
+        ],
+        "key": "A",
+        "explanation": "Interest on Neha's capital is calculated as ₹4,80,000 x 10% = ₹48,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹48,000"
+        },
+        {
+          "key": "B",
+          "text": "₹49,000"
+        },
+        {
+          "key": "C",
+          "text": "₹48,000"
+        },
+        {
+          "key": "D",
+          "text": "Nil, unless there is profit."
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "e95c845c-39ce-4148-8be9-7ed46b0b66aa",
+      "expected_hash": "44653455cc767dda2df8c25f2b066f05828ae6452fd36d5f9e69aff016f03e93",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Apex Ltd. issued 35,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹3 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,05,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹3,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 35,000 × ₹3 = ₹1,05,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,05,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹3,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "e99216c9-81fe-47b0-9b84-3ae1ce46811b",
+      "expected_hash": "41f65349ec30c4c47e2189a97c627fb541a6fb7d8737fa82878b005eff59a836",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept": "",
+        "body": "Chirag and Aman are partners. Chirag's capital is ₹3,20,000 and Aman's capital is ₹3,20,000. If the partnership deed provides for interest on capital @ 10% p.a., what will be the interest on Chirag's capital?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹32,000"
+          },
+          {
+            "key": "B",
+            "text": "₹33,000"
+          },
+          {
+            "key": "C",
+            "text": "₹32,000"
+          },
+          {
+            "key": "D",
+            "text": "Nil, unless there is profit."
+          }
+        ],
+        "key": "A",
+        "explanation": "Interest on Chirag's capital is calculated as ₹3,20,000 x 10% = ₹32,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹32,000"
+        },
+        {
+          "key": "B",
+          "text": "₹33,000"
+        },
+        {
+          "key": "C",
+          "text": "₹32,000"
+        },
+        {
+          "key": "D",
+          "text": "Nil, unless there is profit."
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "eaa49ec5-6c40-4f6b-977e-cd005182e205",
+      "expected_hash": "0823b97e057e1deee6247a0bdf18cc55ec203cc509c996a6342b3663b1fb5613",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 15,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹30,000"
+          },
+          {
+            "key": "B",
+            "text": "₹60,000"
+          },
+          {
+            "key": "C",
+            "text": "₹30,000"
+          },
+          {
+            "key": "D",
+            "text": "₹1,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 15,000 × ₹2 = ₹30,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹30,000"
+        },
+        {
+          "key": "B",
+          "text": "₹60,000"
+        },
+        {
+          "key": "C",
+          "text": "₹30,000"
+        },
+        {
+          "key": "D",
+          "text": "₹1,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "ecae0cb1-1f7d-4d4e-9a16-a873874add1b",
+      "expected_hash": "4c1acf56190faa623f2cf0f9fe1b91b91e5b26e6e663ced31c9a54ab4b342556",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Alpha Ltd. issued 95,000 equity shares of ₹10 each at a premium of ₹4 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3,80,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹9,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 95,000 × ₹4 = ₹3,80,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹3,80,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹9,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "f18aab30-6051-4835-afd6-f01c7ec09aa4",
+      "expected_hash": "b56a76bb9aabe0b662edf7fe73308e40e6f7402c3137063bee48023936aca261",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 55,000 equity shares of ₹10 each at a premium of ₹3 per share. Amount payable on application is ₹3 and on allotment is ₹3 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,65,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,65,000"
+          },
+          {
+            "key": "C",
+            "text": "₹0"
+          },
+          {
+            "key": "D",
+            "text": "₹5,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 55,000 × ₹3 = ₹1,65,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,65,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,65,000"
+        },
+        {
+          "key": "C",
+          "text": "₹0"
+        },
+        {
+          "key": "D",
+          "text": "₹5,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "f888c67d-b704-45cd-84e4-2259131c5cda",
+      "expected_hash": "bb88247c1d4ae521312dae8df5f65d580b7d0eefe8284b009528e895e3bbac88",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Omega Ltd. issued 75,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹2 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,50,000"
+          },
+          {
+            "key": "B",
+            "text": "₹3,00,000"
+          },
+          {
+            "key": "C",
+            "text": "₹1,50,000"
+          },
+          {
+            "key": "D",
+            "text": "₹7,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 75,000 × ₹2 = ₹1,50,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹1,50,000"
+        },
+        {
+          "key": "B",
+          "text": "₹3,00,000"
+        },
+        {
+          "key": "C",
+          "text": "₹1,50,000"
+        },
+        {
+          "key": "D",
+          "text": "₹7,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "f943579e-cb03-4f56-b3aa-fb1d10f2b5f0",
+      "expected_hash": "bcbbf6ab40d0da78eb51493df9ea880bffca53df864b074ad2108150700a4ecf",
+      "expected_content": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept": "",
+        "body": "Vertex Ltd. issued 45,000 equity shares of ₹10 each at a premium of ₹2 per share. Amount payable on application is ₹3 and on allotment is ₹4 (including premium). What is the amount transferred to Securities Premium Reserve account upon allotment?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹90,000"
+          },
+          {
+            "key": "B",
+            "text": "₹1,80,000"
+          },
+          {
+            "key": "C",
+            "text": "₹90,000"
+          },
+          {
+            "key": "D",
+            "text": "₹4,50,000"
+          }
+        ],
+        "key": "A",
+        "explanation": "Securities Premium Reserve = Number of shares × Premium per share = 45,000 × ₹2 = ₹90,000.",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "key": "A",
+          "text": "₹90,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,80,000"
+        },
+        {
+          "key": "C",
+          "text": "₹90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹4,50,000"
+        }
+      ],
+      "expected_key": "A",
+      "reason": "invalid_structure; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_near_duplicate_options; publication_disabled"
+    },
+    {
+      "id": "fa694cc2-718b-4ccb-880a-608e2266df0c",
+      "expected_hash": "3d69a4fae4a1d9c38100a5b3da1988f41e7b75a1a373494e026d38d93464c38b",
+      "expected_content": {
+        "subject": "hindi",
+        "chapter": "Rachnatmak Lekhan",
+        "concept": "",
+        "body": "समाचार पत्र में 'आलेख' (Article) किसे कहा जाता है?",
+        "options": [
+          {
+            "key": "A"
+          },
+          {
+            "key": "B"
+          },
+          {
+            "key": "C"
+          },
+          {
+            "key": "D"
+          }
+        ],
+        "key": "B",
+        "explanation": "आलेख किसी विशेष विषय पर गहराई से किया गया विश्लेषण होता है, जिसमें तथ्यों के साथ लेखक के विचार भी शामिल होते हैं।",
+        "passage": "",
+        "family": ""
+      },
+      "expected_options": [
+        {
+          "A": "तात्कालिक घटना"
+        },
+        {
+          "B": "गहन विश्लेषण वाला लेख"
+        },
+        {
+          "C": "विज्ञापन"
+        },
+        {
+          "D": "मौसम की जानकारी"
+        }
+      ],
+      "expected_key": "B",
+      "reason": "invalid_structure; unsupported_mapping; local_integrity_signal:answer_guard_options_invalid; local_integrity_signal:answer_guard_correct_option_empty; local_integrity_signal:answer_guard_multiple_correct_risk; route_calibration_required"
+    }
+  ]
+}

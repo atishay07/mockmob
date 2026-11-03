@@ -1,0 +1,1113 @@
+{
+  "version": "cuet-llm-v3",
+  "verifier_version": "luna-gemini-cuET-v5.3",
+  "source_registry_version": 50,
+  "at": "2026-10-06T14:34:16.303Z",
+  "independent": true,
+  "state": "paused",
+  "release_policy": {
+    "policy": "strict-quality-v4",
+    "valid_survival_overall": 0.85,
+    "valid_survival_route": 0.8,
+    "small_route_size": 3,
+    "answered_accuracy": 0.95,
+    "max_abstention": 0.15
+  },
+  "valid_survival": 0.8064516129032258,
+  "abstention": {
+    "luna": 0,
+    "gemini": 0
+  },
+  "routes": {
+    "conceptual": {
+      "sample_size": 23,
+      "valid_sample_size": 15,
+      "invalid_sample_size": 8,
+      "missing_categories": [],
+      "independent": true,
+      "split_disjoint": true,
+      "valid_survival": 0.9333333333333333,
+      "critical_false_accepts": 0,
+      "released": true,
+      "results": [
+        {
+          "id": "commission-v3-cuet2024-english-bookA-q7",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-english-bookA-q42",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-cuet2024-english-bookA-q44",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-business_studies-bookA-q32",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-business_studies-bookA-q33",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-business_studies-bookA-q34",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-business_studies-bookA-q35",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-economics-bookA-q1",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-economics-bookA-q4",
+          "category": "adjudicated_official_defect",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-cuet2024-economics-bookA-q48",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-fault-wrong_key-conceptual",
+          "category": "wrong_key",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-multiple_correct",
+          "category": "multiple_correct",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-out_of_syllabus",
+          "category": "out_of_syllabus",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-false_citation",
+          "category": "false_citation",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-unsupported_explanation",
+          "category": "unsupported_explanation",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-cosmetic_duplicate",
+          "category": "cosmetic_duplicate",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-option_collision",
+          "category": "option_collision",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-english-bookA-q3",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-english-bookA-q5",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-english-bookA-q8",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q38",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-business_studies-bookA-q4",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-business_studies-bookA-q17",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "version": "cuet-llm-v3",
+      "verifier_version": "luna-gemini-cuET-v5.3",
+      "source_registry_version": 50,
+      "at": "2026-10-06T14:34:16.303Z",
+      "blind_answer_accuracy": {
+        "sample_size": 15,
+        "luna": 1,
+        "gemini": 1,
+        "luna_answered": 1,
+        "gemini_answered": 1,
+        "luna_abstention": 0,
+        "gemini_abstention": 0
+      }
+    },
+    "numerical": {
+      "sample_size": 6,
+      "valid_sample_size": 3,
+      "invalid_sample_size": 3,
+      "missing_categories": [],
+      "independent": true,
+      "split_disjoint": true,
+      "valid_survival": 0.6666666666666666,
+      "critical_false_accepts": 0,
+      "released": false,
+      "results": [
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q28",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-fault-wrong_key-numerical",
+          "category": "wrong_key",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-missing_assumptions",
+          "category": "missing_assumptions",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-solver_boundary",
+          "category": "solver_boundary",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q50",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q29",
+          "category": "valid_difficult",
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "version": "cuet-llm-v3",
+      "verifier_version": "luna-gemini-cuET-v5.3",
+      "source_registry_version": 50,
+      "at": "2026-10-06T14:34:16.303Z",
+      "blind_answer_accuracy": {
+        "sample_size": 3,
+        "luna": 1,
+        "gemini": 1,
+        "luna_answered": 1,
+        "gemini_answered": 1,
+        "luna_abstention": 0,
+        "gemini_abstention": 0
+      }
+    },
+    "passage": {
+      "sample_size": 16,
+      "valid_sample_size": 13,
+      "invalid_sample_size": 3,
+      "missing_categories": [],
+      "independent": true,
+      "split_disjoint": true,
+      "valid_survival": 0.6923076923076923,
+      "critical_false_accepts": 0,
+      "released": false,
+      "results": [
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q46",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q47",
+          "category": "valid_difficult",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q48",
+          "category": "valid_difficult",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q49",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "commission-v3-cuet2024-accountancy-bookA-q50",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-wrong_key-passage",
+          "category": "wrong_key",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "commission-v3-fault-orphan_passage",
+          "category": "orphan_passage",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q42",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q43",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q44",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-accountancy-bookA-q45",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q28",
+          "category": "valid_medium",
+          "expected": true,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q29",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q30",
+          "category": "adjudicated_official_defect",
+          "expected": false,
+          "passed": false
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q31",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        },
+        {
+          "id": "fresh-v4-cuet2024-economics-bookA-q32",
+          "category": "valid_easy",
+          "expected": true,
+          "passed": true
+        }
+      ],
+      "version": "cuet-llm-v3",
+      "verifier_version": "luna-gemini-cuET-v5.3",
+      "source_registry_version": 50,
+      "at": "2026-10-06T14:34:16.303Z",
+      "blind_answer_accuracy": {
+        "sample_size": 13,
+        "luna": 1,
+        "gemini": 1,
+        "luna_answered": 1,
+        "gemini_answered": 1,
+        "luna_abstention": 0,
+        "gemini_abstention": 0
+      }
+    }
+  },
+  "by_subject": {
+    "english": {
+      "sample_size": 6,
+      "luna": 1,
+      "gemini": 1,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_abstention": 0,
+      "gemini_abstention": 0
+    },
+    "accountancy": {
+      "sample_size": 12,
+      "luna": 1,
+      "gemini": 1,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_abstention": 0,
+      "gemini_abstention": 0
+    },
+    "business_studies": {
+      "sample_size": 6,
+      "luna": 1,
+      "gemini": 1,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_abstention": 0,
+      "gemini_abstention": 0
+    },
+    "economics": {
+      "sample_size": 7,
+      "luna": 1,
+      "gemini": 1,
+      "luna_answered": 1,
+      "gemini_answered": 1,
+      "luna_abstention": 0,
+      "gemini_abstention": 0
+    }
+  },
+  "observations": [
+    {
+      "id": "commission-v3-cuet2024-english-bookA-q7",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-english-bookA-q42",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "“Quashed” means taking action to stop something from continuing, and the supplied example specifically uses it with “rumours”; it fits the sentence.",
+        "“Defended” means supported, “cleared” does not naturally take “the rumours” here, and “rebuked” is not the appropriate verb for stopping rumours.",
+        "Quality score 10/10",
+        "Luna sample 2: “Quashed” fits the usual sense of putting an end to rumours, and the supplied excerpt directly supports that usage.",
+        "Luna sample 2: But the sentence gives no indication that the Principal opposed or sought to stop the rumours. “Defended the rumours” could also form a meaningful sentence if the Principal supported them, so the intended stance is unstated.",
+        "Luna sample 2: Defect: The stem does not establish that the Principal opposed the rumours: “defended the rumours” can also be meaningful if the Principal supports them, making the intended answer depend on unstated context.",
+        "Luna sample 2: Quality score 7/10",
+        "Luna sample 2: Condition missing: The sentence’s intended meaning is that the Principal put an end to or suppressed the rumours."
+      ]
+    },
+    {
+      "id": "commission-v3-cuet2024-english-bookA-q44",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q28",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q46",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "All three partners decided to dissolve the firm; the excerpt identifies dissolution with all partners’ consent as dissolution by agreement, so A is correct.",
+        "The passage does not indicate a contingency, a notice by one partner in a partnership at will, or a compulsory ground; B, C, and D therefore do not fit.",
+        "The tested classification is supported by the excerpt, but it is not listed in the supplied current syllabus scope of meaning and settlement of accounts.",
+        "Defect: The dissolution-mode classification is outside the supplied current syllabus scope, which lists meaning and settlement of accounts.",
+        "Defect: The passage has awkward grammar: “running a partnership for last 10 years” should read “running a partnership for the last 10 years.”",
+        "Quality score 7/10"
+      ]
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q47",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "Capital balances total ₹9,00,000; adding liabilities of ₹80,000 gives claims of ₹9,80,000. Cash plus other assets total ₹8,90,000, so the residual P&L balance is a ₹90,000 debit: option B.",
+        "The passage explicitly says the P&L A/c constitutes the rest. The other options have the wrong amount or balance side; the realization figures are not needed for this residual.",
+        "The item is an answerable numerical case question within dissolution accounting and uses the authenticated anchor format.",
+        "Quality score 10/10",
+        "Luna sample 2: The figures imply a debit P&L balance of ₹90,000: capitals total ₹9,00,000 and liabilities ₹80,000, while stated assets total ₹8,90,000; the shortfall is ₹90,000. Thus option B is the unique arithmetic result.",
+        "Luna sample 2: I abstain because the supplied academic excerpts do not state the balance-sheet identity that is decisive to this question; the stimulus supplies the figures but is not academic source support.",
+        "Luna sample 2: Defect: The supplied academic excerpts concern dissolution settlement and realisation, but do not establish the balance-sheet relationship used to determine the P&L balance.",
+        "Luna sample 2: Defect: The tested opening-balance computation is not expressly covered by the supplied current Unit III scope, which specifies settlement and preparation of the Realisation Account and related accounts.",
+        "Luna sample 2: Quality score 7/10",
+        "Luna sample 2: Decisive principle is not stated in the supplied excerpts",
+        "Luna samples disagree on the key"
+      ]
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q48",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q49",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-accountancy-bookA-q50",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The stated ratio is 5:3:2. Total capitals and liabilities are ₹9,80,000, while cash and other assets total ₹8,90,000; the balancing P&L is therefore a debit balance of ₹90,000. Under the standard convention for an existing accumulated P&L balance, partners bear it in their profit-sharing ratio: A.",
+        "B (equal ratio), C (4:3:2), and D (closing capital claims) do not give the stated profit-sharing ratio. The options do not overlap.",
+        "The supplied excerpt discusses sharing a loss arising from realisation in the profit-sharing ratio, but does not expressly state the treatment of an existing P&L balance. Thus the answer is conventionally determinable, but its decisive principle is not established in the excerpts.",
+        "Defect: The decisive rule for distributing an existing P&L balance is not stated in the supplied textbook excerpts; the excerpt on sharing realisation losses does not itself establish this rule.",
+        "Quality score 8/10",
+        "Decisive principle is not stated in the supplied excerpts"
+      ]
+    },
+    {
+      "id": "commission-v3-cuet2024-business_studies-bookA-q32",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-business_studies-bookA-q33",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-business_studies-bookA-q34",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-business_studies-bookA-q35",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-economics-bookA-q1",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-cuet2024-economics-bookA-q4",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "D",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "D states the NCERT definition directly: when everyone raises the share of income saved, aggregate saving does not increase. E1.5 illustrates unchanged saving after the resulting equilibrium-income adjustment.",
+        "The alternatives are not securely false as propositions in the usual fixed-investment two-sector equilibrium: saving equals investment, so A can also describe an unchanged investment outcome; increases in spending propensity or decreases in saving propensity can likewise leave equilibrium aggregate saving unchanged.",
+        "The stem does not specify the equilibrium model or investment assumptions needed to distinguish those alternatives. The item reproduces its authenticated anchor, so it is meaningfully distinct under the stated rule.",
+        "Defect: Potentially non-unique: under the standard fixed-investment two-sector equilibrium, A can also be true because aggregate saving equals investment.",
+        "Defect: B and C can also yield unchanged equilibrium aggregate saving under that model, so they are not cleanly false propositions.",
+        "Defect: The stem does not specify the equilibrium model or that planned investment is held constant, leaving the scope of the alternatives ambiguous.",
+        "Quality score 6/10",
+        "Condition missing: For the investment and reversed-propensity alternatives to be evaluated through S = I, the standard two-sector equilibrium applies and planned investment is held fixed."
+      ]
+    },
+    {
+      "id": "commission-v3-cuet2024-economics-bookA-q48",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-wrong_key-conceptual",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-wrong_key-numerical",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-wrong_key-passage",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-multiple_correct",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The supported third-conditional pattern is “if + past perfect” with “would have + past participle,” so the intended completion is “had known, have visited.”",
+        "A and B contain the same word pair; only A adds a period. Since the question asks for a word pair, that punctuation does not establish a distinct answer. If treated as part of the completion, A’s period falls before “him” and makes the sentence malformed.",
+        "C and D do not fit the required conditional construction. With A and B duplicating the valid pair, there is no unique defensible option.",
+        "Defect: Options A and B give the same lexical pair, creating multiple correct choices; their only difference is terminal punctuation.",
+        "Defect: Option A’s period is misplaced if read as part of the inserted text, producing “I would have visited. him.”",
+        "Defect: The item reproduces the anchor question and options without a substantive change; the punctuation difference is cosmetic.",
+        "Quality score 3/10"
+      ]
+    },
+    {
+      "id": "commission-v3-fault-missing_assumptions",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The cited textbook states that the reissue discount is debited to Share Forfeiture Account and the remaining balance for reissued shares is transferred to Capital Reserve.",
+        "The amount would require the forfeiture balance attributable to the reissued shares and the reissue discount. Neither is supplied, so none of the four rupee options can be selected.",
+        "The linked anchor supplies the numerical facts for a specific calculation; this candidate removes those facts rather than offering a meaningfully distinct numerical variant.",
+        "Defect: The stem gives no number of shares, forfeiture amount attributable to the reissued shares, or amount of discount on reissue. The required capital-reserve balance therefore cannot be calculated.",
+        "Defect: Options A–D are unsupported by the stem; different omitted values could make different options correct.",
+        "Defect: The discount ceiling established in the source—discount cannot exceed the amount received on forfeited shares—cannot be checked from the supplied information.",
+        "Defect: This is not meaningfully distinct from the linked anchor: it strips the numerical data from the anchor’s calculation instead of presenting a recalculated variant.",
+        "Quality score 1/10",
+        "Condition missing: The number of shares reissued and the forfeiture balance attributable to those shares are known.",
+        "Condition missing: The discount allowed on reissue is known.",
+        "Condition missing: The reissue discount does not exceed the amount received on the forfeited shares."
+      ]
+    },
+    {
+      "id": "commission-v3-fault-out_of_syllabus",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The scientifically expected choice is A: gluons mediate the strong interaction in QCD; photons mediate the electromagnetic interaction, W bosons the weak interaction, and gravitons are associated with gravity.",
+        "The supplied excerpt concerns conditionals and does not support the QCD fact, so the key is unsupported by the permitted evidence and I abstain.",
+        "This is a standalone physics-knowledge question, not an English language task covered by the supplied syllabus.",
+        "Defect: Tests specialist physics knowledge rather than a topic in the supplied English syllabus.",
+        "Defect: The decisive QCD force-carrier fact is absent from the supplied excerpts; the supplied conditional-grammar excerpt is irrelevant.",
+        "Defect: The assigned word_usage task type does not match the actual task, which asks for a physics fact.",
+        "Quality score 2/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: Gluons mediate the strong interaction in QCD."
+      ]
+    },
+    {
+      "id": "commission-v3-fault-false_citation",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "source_support_missing"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-unsupported_explanation",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ],
+      "failure_details": [
+        "The excerpt supports the third-conditional construction used by option B, not a new rule for all conditional sentences. It specifies a past-perfect if-clause and a would-have plus past-participle result; the explanation misstates that as the future perfect.",
+        "unsupported claim: A new English grammar rule exists.",
+        "incorrect claim: Every conditional sentence must use the future perfect tense."
+      ]
+    },
+    {
+      "id": "commission-v3-fault-orphan_passage",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "orphan_passage"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-cosmetic_duplicate",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "adaptation_not_distinct"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-option_collision",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "option_collision"
+      ],
+      "failure_details": []
+    },
+    {
+      "id": "commission-v3-fault-solver_boundary",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "On the usual reading that only the final call is unpaid, ₹40 per share has been received on forfeiture: ₹50 − ₹10. For 400 shares, the forfeiture balance is ₹16,000.",
+        "Reissue at ₹5 as fully paid requires a discount of ₹45 per share, or ₹18,000 total. NCERT states that reissue discount cannot exceed the amount received on forfeiture; this transaction exceeds that limit by ₹2,000.",
+        "The reissue is impermissible, so no valid amount is transferable to capital reserve and none of the options is defensible.",
+        "Defect: The stated reissue price requires a discount of ₹45 per share, exceeding the ₹40 per share received on forfeiture, contrary to the supplied NCERT rule.",
+        "Defect: Because the stated reissue is impermissible, there is no valid capital-reserve amount among the answer choices.",
+        "Quality score 2/10"
+      ]
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q42",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q43",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q44",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q45",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-english-bookA-q3",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-english-bookA-q5",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-english-bookA-q8",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q38",
+      "subject": "accountancy",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-business_studies-bookA-q4",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-business_studies-bookA-q17",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q28",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The passage links earthworm composting of organic matter to civic authorities having to dispose of a reduced quantity of waste, so D is the direct answer.",
+        "A reverses the stated effect; B claims no waste remains, whereas the passage says a reduced quantity must still be disposed of; C gives an unrelated reason.",
+        "The passage supports the answer directly. This authentic PYQ is marked meaningfully distinct as required for its source kind.",
+        "Defect: The stem is awkward and non-standardly phrased: “How is civic authority getting benefitted due to biocomposting?”",
+        "Defect: Option C is a conspicuous, non-parallel outlier beginning “Because” and offering an obviously irrelevant explanation, making it an easy-to-eliminate distractor.",
+        "Quality score 7/10",
+        "Luna sample 2: D is explicitly stated in the passage. A gives the opposite result, and C conflicts with the passage’s statement that civic authorities must dispose of waste.",
+        "Luna sample 2: B says no waste needs disposal. That could be a limiting case of a reduced quantity; the passage does not say that some positive quantity remains, so B and D are not reliably distinguished.",
+        "Luna sample 2: The stem’s phrasing, “How is civic authority getting benefitted due to…?”, is awkward and nonstandard. The item is directly answerable from the passage, but the option overlap and wording make it unsuitable unchanged.",
+        "Luna sample 2: Defect: Options B and D can overlap: zero waste to dispose of is a limiting case of a reduced quantity, and the passage does not establish that a positive quantity remains.",
+        "Luna sample 2: Defect: The stem uses awkward, nonstandard phrasing (“How is civic authority getting benefitted due to biocomposting?”); “How do civic authorities benefit from biocomposting?” would be clearer.",
+        "Luna sample 2: Quality score 6/10",
+        "Luna sample 2: Condition missing: A positive quantity of waste remains to be disposed of, which would distinguish D from B."
+      ]
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q29",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q30",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "B is the intended choice: the passage explicitly says water bodies, including groundwater, suffered from chemical contamination; it separately reports that irrigation demand was rising.",
+        "A, C and D do not identify the stated source of water-body damage. However, B's wording makes rising irrigation demand an additional cause of that damage, a relationship the passage does not establish.",
+        "B is conspicuously longer and repeats the passage's key wording; the other choices are readily eliminated. The stem's phrase “including ground water system” is also awkward.",
+        "Defect: Option B combines chemical contamination with increased irrigation demand as causes of water-body damage, but the passage attributes the damage to chemical contamination and states rising irrigation demand separately. Thus the intended option is not fully supported as written.",
+        "Defect: The correct option is conspicuously longer and echoes the passage, while the other options are readily eliminated.",
+        "Defect: The stem's wording “including ground water system” is awkward and would be clearer as “including the groundwater system.”",
+        "Quality score 7/10",
+        "Condition missing: Increased irrigation demand caused water-body damage."
+      ]
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q31",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q32",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "id": "fresh-v4-cuet2024-economics-bookA-q50",
+      "subject": "economics",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "Using the standard two-sector multiplier, k = 1/MPS: initially k = 1/0.4 = 2.5; after the increase, k = 1/0.5 = 2. Thus the multiplier decreases (D).",
+        "A, B and C are false under that relation: the change is neither an increase nor no change, and the given MPS values determine the multiplier.",
+        "The NCERT excerpts describe MPS rising as MPC falls and illustrate the multiplier through the convergent-round calculation. The syllabus includes the multiplier mechanism.",
+        "This reproduces the authenticated anchor; distinctness is true under the instruction for authentic_pyq items.",
+        "Quality score 9/10",
+        "Luna sample 2: In the standard two-sector multiplier model, k = 1/MPS: the multiplier falls from 1/0.4 = 2.5 to 1/0.5 = 2. Thus A and B are false, C is false in that model, and D is correct.",
+        "Luna sample 2: The excerpts describe a rise in MPS as a fall in MPC and illustrate the multiplier process and its geometric-series total.",
+        "Luna sample 2: Both MPS values are valid proportions between 0 and 1. The question is answerable without a passage.",
+        "Luna sample 2: Defect: The stem does not specify the two-sector multiplier model. The answer relies on that model’s k = 1/MPS relationship; under a model with other leakages, MPS alone may not determine the multiplier.",
+        "Luna sample 2: Quality score 8/10"
+      ]
+    },
+    {
+      "id": "fresh-v4-cuet2024-accountancy-bookA-q29",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    }
+  ],
+  "critical_false_accepts": 0,
+  "missing_categories": [],
+  "cost_usd": 0.431459
+}

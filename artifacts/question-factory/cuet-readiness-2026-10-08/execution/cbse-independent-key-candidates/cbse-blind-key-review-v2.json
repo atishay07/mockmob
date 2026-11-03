@@ -1,0 +1,130 @@
+{
+  "schema": "cbse-independent-blind-key-review-v2",
+  "input_file": "questions-blinded-v2.json",
+  "input_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+  "review_scope": "five changed IDs plus all eight English adaptations, deduplicated",
+  "review_count": 11,
+  "items": [
+    {
+      "item_id": "cbse26-bs-q08",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "D",
+      "reasoning": "D states the core definition and includes the key statutory qualifications: consideration, approved users/beneficiaries, exclusion of resale/commercial use, and the livelihood-through-self-employment exception.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "C",
+      "reasoning": "The stem explicitly specifies the Class XII NCERT narrow-money definition: currency held by the public plus net demand deposits with commercial banks. That makes Statement 1 true under the stated definition. Statement 2 correctly defines demand deposits as withdrawable on demand, so it is also true.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "A",
+      "reasoning": "Using public budget funds to provide roads, a public good that market exchange does not provide efficiently to all users, is the government's allocation function.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "B",
+      "reasoning": "The supplied adaptation says the radiant is the apparent origin and helps identify the shower. It acts as a visual guide to locate or identify the shower.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "B",
+      "reasoning": "The adaptation gives factual explanation of the Geminids and practical viewing conditions, so its tone is explanatory and informative.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "D",
+      "reasoning": "The passage covers the shower's scientific origin and characteristics as well as practical observation and visibility. D captures both strands.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "B",
+      "reasoning": "Paragraph 1 directly states that the study tracked changes in everyday payment habits through UPI data for four Octobers. B closely restates that purpose.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "A",
+      "reasoning": "Transaction counts increase in each year from 4.21 to 16.58 billion, and transaction values increase in each year from ₹7.71 to ₹23.49 lakh crore. Both series rise steadily.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "B",
+      "reasoning": "The listed settings range from workplaces and shops to homes and small roadside vendors, supporting adoption across formal and informal settings.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "sourcebasis": "printed question plus independently applied curriculum knowledge",
+      "no_proposedkeyseen": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "C",
+      "reasoning": "The adaptation discusses transaction growth, user confidence, small-business effects, and cash use; it does not discuss a policy framework governing digital payments.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "solved_key": "A",
+      "reasoning": "Small roadside vendors using UPI supports the inference that digital payments have become more inclusive.",
+      "multiple_keys": [],
+      "decisive_assumptions": [],
+      "support_flags": [],
+      "no_proposedkeyseen": true,
+      "sourcebasis": "printed question plus independently applied curriculum knowledge"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+
+C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\arena\ArenaPreviewClient.jsx
+  241:38  error  Error: This value cannot be modified
+
+Modifying a variable defined outside a component or hook is not allowed. Consider using an effect.
+
+  239 |   const params = useSearchParams();
+  240 |   // Set during render so the fetch stub has it before child effects request the plan.
+> 241 |   if (typeof window !== 'undefined') window.__previewPathway = params.get('recovery') === 'candidate' ? candidatePathway : null;
+      |                                      ^^^^^^ value cannot be modified
+  242 |   const [drawerOpen, setDrawerOpen] = useState(false);
+  243 |   const pro = params.get('plan') === 'pro';
+  244 |   const views = ['dashboard', 'test', 'prepos', 'compass', 'radar', 'saved', 'today', 'review', 'progress', 'recovery', 'explore', 'ranks', 'profile', 'upload', 'my-uploads', 'result', 'rival', 'onboarding', ...(params.get('role') === 'moderator' ? ['moderation'] : [])];  react-hooks/immutability
+
+✖ 1 problem (1 error, 0 warnings)
+

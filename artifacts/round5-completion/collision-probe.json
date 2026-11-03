@@ -1,0 +1,108 @@
+{
+  "actor": {
+    "x": 1106,
+    "y": 179.08999633789062,
+    "width": 160,
+    "height": 180,
+    "top": 179.08999633789062,
+    "right": 1266,
+    "bottom": 359.0899963378906,
+    "left": 1106
+  },
+  "track": {
+    "x": 0,
+    "y": -530.234375,
+    "width": 1100,
+    "height": 456.875,
+    "top": -530.234375,
+    "right": 1100,
+    "bottom": -73.359375,
+    "left": 0
+  },
+  "controls": [
+    {
+      "rect": {
+        "x": 40,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 288,
+        "bottom": -85.359375,
+        "left": 40
+      },
+      "overlap": false,
+      "paintedHit": false
+    },
+    {
+      "rect": {
+        "x": 304,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 552,
+        "bottom": -85.359375,
+        "left": 304
+      },
+      "overlap": false,
+      "paintedHit": false
+    },
+    {
+      "rect": {
+        "x": 568,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 816,
+        "bottom": -85.359375,
+        "left": 568
+      },
+      "overlap": false,
+      "paintedHit": false
+    },
+    {
+      "rect": {
+        "x": 832,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 1080,
+        "bottom": -85.359375,
+        "left": 832
+      },
+      "overlap": false,
+      "paintedHit": false
+    },
+    {
+      "rect": {
+        "x": 1096,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 1344,
+        "bottom": -85.359375,
+        "left": 1096
+      },
+      "overlap": false,
+      "paintedHit": false
+    },
+    {
+      "rect": {
+        "x": 1360,
+        "y": -526.234375,
+        "width": 248,
+        "height": 440.875,
+        "top": -526.234375,
+        "right": 1608,
+        "bottom": -85.359375,
+        "left": 1360
+      },
+      "overlap": false,
+      "paintedHit": false
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "date_ist": "2026-10-06",
+  "state": "pilot_prepared_paid_dispatch_blocked",
+  "pilot": {
+    "target_candidates": 100,
+    "per_subject": 25,
+    "queued": 0,
+    "generated": 0,
+    "published": 0,
+    "academic_quality_measured": false
+  },
+  "new_paid_generation_requests": 0,
+  "new_paid_generation_spend_usd": 0,
+  "historical_spending_reconciled": false,
+  "remaining_lifetime_budget_established": false,
+  "configuration": {
+    "local_signing_key": true,
+    "existing_content_author": true,
+    "secrets_committed": false,
+    "production_environment_changed": false
+  },
+  "provider_preflight": "provider-preflight.json",
+  "current_schema_read_only": "current-schema-readonly.json",
+  "source_review": "commissioning-source-review.json",
+  "verification": {
+    "tests": {
+      "total": 105,
+      "passed": 105,
+      "failed": 0,
+      "skipped": 0,
+      "factory": 26,
+      "recovery": 35,
+      "question_selector_nta_payment": 44
+    },
+    "test_receipts": [
+      "commissioning-tests.txt",
+      "commissioning-recovery.txt",
+      "commissioning-question-payment.txt"
+    ],
+    "targeted_eslint_exit_code": 0,
+    "build_exit_code": 0,
+    "build_receipt": "commissioning-build.txt",
+    "migration_dry_run": "migration-dry-run.json",
+    "browser": {
+      "preview": "http://localhost:3000/preview/question-factory",
+      "mobile_width": 390,
+      "mobile_scroll_width": 380,
+      "desktop_width": 1440,
+      "desktop_scroll_width": 1430,
+      "pilot_target_visible": 100,
+      "viewport_reset": true,
+      "authenticated_operations_verified": false,
+      "screenshots": [
+        "commissioning-mobile.jpg",
+        "commissioning-desktop.jpg",
+        "commissioning-dashboard.jpg"
+      ]
+    }
+  },
+  "changes": [
+    "Balanced 100-candidate pilot with complete passage groups",
+    "Native Gemini REST response nesting and request metadata checks",
+    "Read-only provider preflight blocks dispatch on invalid credentials",
+    "Stage cost and token breakdown separates settled spending from pending holds",
+    "Local evidence signing and content-author setup"
+  ],
+  "blockers": [
+    "Historical content spending has not been established",
+    "No authenticated source packs across four subjects; reuse is owner-attested",
+    "Academic calibration remains paused",
+    "Factory schema absent from the connected existing site database; staging environment not supplied"
+  ],
+  "production_database_writes": 0,
+  "production_migration_performed": false,
+  "deployment_performed": false,
+  "limitations": [
+    "Successful GET access does not prove successful paid batch execution",
+    "Software tests do not establish academic accuracy",
+    "PGlite fixture migration is not full Supabase staging proof",
+    "An image-based English paper mirror failed to match two sampled question IDs to the acquired official 2023 final key and was not registered",
+    "100-candidate acceptance, Gemini catches, reasoning usage and cost per eligible question remain unmeasured"
+  ],
+  "provider_status": {
+    "openai_model": 200,
+    "openai_batch_listing": 200,
+    "gemini_model": 200,
+    "gemini_batch_listing": 200,
+    "gemini_batch_method_supported": true,
+    "live_batch_submitted": false
+  },
+  "reuse_permission": {
+    "basis": "owner_attestation",
+    "licence_document_provided": false,
+    "independently_verified_licence": false
+  },
+  "updated_at": "2026-10-05T21:23:25.873Z"
+}

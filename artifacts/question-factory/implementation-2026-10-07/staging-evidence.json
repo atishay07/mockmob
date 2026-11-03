@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-06T18:59:28.078Z",
+  "state": "not_created",
+  "project_ref": null,
+  "production_project_ref": "isrxrxzjocewrdureyhp",
+  "browser_evidence": {
+    "organization": "mockmob",
+    "project_count": 1,
+    "only_project_ref": "isrxrxzjocewrdureyhp",
+    "project_name": "mockmob",
+    "recent_branch_label": "No branches",
+    "last_migration_label": "runtime_ai_monthly_cap"
+  },
+  "production_schema_read": {
+    "http_status": 404,
+    "error_code": "PGRST205",
+    "control_table_available": false
+  },
+  "signed_in_admin": false,
+  "worker_restart": false,
+  "atomic_publication": false,
+  "dispute_invalidation": false,
+  "production_changes": 0,
+  "next_action": "Create a separate staging project and provide its configured test credentials before signed-in staging verification. The project creation form is available; no project or credential was created.",
+  "other_organization": {
+    "name": "Campusos",
+    "project_count": 0
+  },
+  "account_wide_staging_found": false
+}

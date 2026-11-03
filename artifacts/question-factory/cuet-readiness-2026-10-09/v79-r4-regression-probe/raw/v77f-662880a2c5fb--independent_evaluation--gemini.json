@@ -1,0 +1,66 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13024,
+ "request_bytes": 33343,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r4-regression-2026-10-09-v77f-662880a2c5fb\",\n  \"content_hash\": \"1e66a6cab27ded88a75d99fbb6b452eb1a14838694926ad819ec48418e433125\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\"],\n  \"reasons\": [\n    \"E1.1 defines the primary objective of a cash flow statement as providing information regarding cash inflows and outflows under operating, investing, and financing activities.\",\n    \"Options A, C, and D state incorrect or non-objective roles that contradict standard accounting objectives.\"\n  ],\n  \"syllabus_chapter\": \"Cash Flow Statement\",\n  \"syllabus_topic\": \"Meaning and Objectives of Cash Flow Statement\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The primary objective is defined as reporting cash inflows and outflows classified by the three activity heads.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The statement's sole purpose is assumed to be displaying the net profit earned.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The cash flow statement is assumed to act as a substitute for traditional financial statements.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The separate classification is intended solely to show closing cash balances.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly assesses 'Cash Flow Statement: Meaning and Objectives' specified in Unit V.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-stem direct conceptual MCQ matching CUET Accountancy questions.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Straightforward recall and conceptual comprehension aligned with exemplars like cuet2024-accountancy-bookA-q6.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target common novice misconceptions about financial reporting purposes.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": [\"cuet2024-accountancy-bookA-q6\", \"cuet2024-accountancy-bookA-q14\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"To show only the profit earned in the period\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.\",\n      \"reason\": \"The statement reports cash flows under three activity heads, not solely accounting profit.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.\",\n      \"reason\": \"Accurately expresses the textbook-defined primary objective of the separate activity presentation.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"To replace the income statement and balance sheet\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.\",\n      \"reason\": \"The objective is to provide cash flow information, not to replace the balance sheet and income statement.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"To report only cash held at year end\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities.\",\n      \"reason\": \"The statement tracks inflows and outflows across activities during the period, not just year-end cash.\"\n    }\n  ]\n}",
+       "thoughtSignature": "Eu0JCuoJAWkUfROFpFWDefhfzgxtA6tE7/ro96l8RQrBmh/nALM4EsRmBh/P14S/HmIAxccHyC/AaAz3VszJO2eig7EU421j+SavTIJNasVBODL53UC1dlFjtbjTtQ93DP0L4v3n2oiP3GsrlUOJfYY524bq7HXiEj4CKWfpFmz536BUMGuJ7fLXYJ+bMgoJXiHcLbm7x+kiAXKNFKYO004LmehNGqbuv3KJ6x2XL3SP4FQhgjZRODUJvOmMzedcB7xPthCSzh+XyB8AytThAsEnQXjDkYHL1h3bj0tVYzRxcQ0+tLSpNN1D7MjHxUMoOQcJBSXeaYV63EoABmHONydUxvoeysaubcfnSYB85OsXk+n0Ng1Xr7sBEpETsPv6j6cv7+r3zxr5kehAY3rBhIefSZamgaDYCnVebKoq/csPI94FtLJGR3shDYDXuMbyMe5Auo8Yavfpxhr3QBQHzaw+ctUkQjkebaNNnnxHGXc4Gw4PmKFKZ6pcHKAewp2jWUkCpdEjWhmSKN3ymbpxU8w6/rv56YVumyogscX2BJQTl7SKtIIk4pC6FEGthUWv09CanSqNhp0oVtfgTn+iFlezSIb+An/SWDe1cGpnk2kFNCoSXqVP4U4FdiTVNEvxooBC7JtK4S+G4SrDkD5KGLRVvn8UMIv+DiK39pwxhXVlOFSP2Kgs+L6sI03XVCjUqHziiPN3/fwk2ja+5tT/pyA/Tcih7NO/hGJznet+GkVR0V+oQ5yc+hWfv9kU8eBvq910JG4PrRLU+pAthKOwXNm/n2zFX+Gm1wZVXH1jTuBCHv4boPi7tb+xa6LYLEosjS5/e/144letvfvrzLa8ZYvyBf6mn4OSOD12ycTgInRTgQ1Z9+biZ4iBFAfrLdNBYYF3CmkKvuM+a6MyHUTBk+N4rL5pwf//Uo4LAspgV2+HVVJvHWZQdGmRoxwpAFcc/yBldthTa9AB+ZNXhxtbPlk0HXL7NJwYhIYumSwWLijwL0SIJ2c+O+e2nmDZ8Yc/GJXn0SuVcdAV4r/Y4fMVP5Dd07A4RrDFpW5gWdetGgchxrvaKQZROHsaqANi+oDht2x5+AEv/Pj7Yubl5gewaIWoPyR6/sk+Rv6iVU3/dP72euKsNHqiyOo/M3n5xetGp9AFECGjuHQ4xlRVXALD2m6/V0i5Fbo8dhsy0SNPY9D4BHNz0hRaylDUHGRmdSBBydFWRe9im5MAmgihRbm9xBS1yXWDx3IaY6g6nCugzwKSDdytk+hi0bQMDg+I/BO6bFaQnyGSaXCTBWwe4rlE+/M1Ex9n3iy3hhpd10o6jyTgUkphD9K6B/5amWD1LozR6xjfTrtSiiEU1B5czsMfhPhUq3G5TTdUCuRtEEG7nuOJp+V3RoaRxP+lgo3S8+1EETAsYen7+ss9aiiA1cYCkyHdK/D8ebDSa+FYg1ywqh/K6WDVJqkIJijjbWRtGNnAsOWTRD2cXkYabvvHpIOY5sHB5Lkerh+dQ9tBO4aScaFnQUksYWbzZaIYr9Ic1DCwmPPmu8JVH5ogiAcDSFOe7tEx2dz+2R4pNOIwpudE5SoQ+eBuEAbo6brJlD1TRreiddwK/w85HBhhvnlwzGN4uOFdHP07P/pPzhB2Fcor452ddHms0iNvmojc4sGp2UGf1fiWrgQDnkqmX7BJieNczQ=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0,
+    "citationMetadata": {
+     "citationSources": [
+      {
+       "startIndex": 3410,
+       "endIndex": 3631,
+       "uri": "https://www.scribd.com/document/633986225/Untitled",
+       "license": ""
+      },
+      {
+       "startIndex": 3954,
+       "endIndex": 4175,
+       "uri": "https://www.scribd.com/document/633986225/Untitled",
+       "license": ""
+      },
+      {
+       "startIndex": 4558,
+       "endIndex": 4779,
+       "uri": "https://www.scribd.com/document/633986225/Untitled",
+       "license": ""
+      },
+      {
+       "startIndex": 5156,
+       "endIndex": 5377,
+       "uri": "https://www.scribd.com/document/633986225/Untitled",
+       "license": ""
+      }
+     ]
+    }
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5928,
+   "candidatesTokenCount": 1520,
+   "totalTokenCount": 7688,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5928
+    }
+   ],
+   "thoughtsTokenCount": 240,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "b9rIauH3MJyvjuMPgtLbiAY"
+ }
+}

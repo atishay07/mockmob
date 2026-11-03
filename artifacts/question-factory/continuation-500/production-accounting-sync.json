@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-07T20:01:43.179Z",
+  "state": "synced",
+  "controls_before": {
+    "paused": true,
+    "phase": "1000",
+    "publication_enabled": false
+  },
+  "controls_after": {
+    "paused": true,
+    "phase": "1000",
+    "publication_enabled": false
+  },
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 20130952,
+    "requests": 9341,
+    "unresolved": 16,
+    "unbounded_unresolved": 8
+  },
+  "forecast_usd": 99.75767194864048,
+  "original_pilot_approved": 50,
+  "paid_provider_calls": 0,
+  "question_writes": 0,
+  "payment_writes": 0,
+  "student_budget_writes": 0
+}

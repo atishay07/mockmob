@@ -1,0 +1,1176 @@
+{
+  "schema": "cuet-bank-final-distribution-qa-v1",
+  "created_at": "2026-10-08T06:35:34.007Z",
+  "source": {
+    "export_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\reassessment\\snapshot-20261008T060712941Z\\bank-reassessment-export.json",
+    "export_sha256": "70934506d98a7383db64f0bf26a86809e03978d29b1bff79c851f26c6002bccb",
+    "plan_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\reassessment\\snapshot-20261008T060712941Z\\dry-run-withholding-plan.json",
+    "plan_sha256": "17a0c7474a500937f30c04fff9dd435c33328932e01d27969dfe63497acca662",
+    "withholding_journal_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\reassessment\\snapshot-20261008T060712941Z\\staging-withholding-journal.json",
+    "withholding_journal_sha256": "d29fcf502ef2f1dcff0819ef805555419a2844c8d0ba1750856b3c20aa1421de",
+    "run_contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "validator": "cuet-fit-validator-v7.2",
+    "topology": "dual_blind"
+  },
+  "scope": {
+    "export_denominator": 662,
+    "result_terminal": 662,
+    "machine_eligible_before_atomic_group_withholding": 536,
+    "quarantined": 126,
+    "group_withheld_total": 127,
+    "eligible_sibling_withheld_by_group": 1,
+    "retained_machine_eligible": 535,
+    "staging_withholding_complete": true,
+    "dispute_receipts_complete": 127,
+    "staging_jobs_complete": 127,
+    "publication_claim": "none; export and validator contract are unreleased"
+  },
+  "subject_distribution": {
+    "accountancy": {
+      "total": 141,
+      "machine_eligible": 105,
+      "quarantined": 36,
+      "withheld_by_group_plan": 36,
+      "retained_machine_eligible": 105,
+      "formats": {
+        "case_application": 18,
+        "conceptual_mcq": 22,
+        "matching": 19,
+        "numerical_calculation": 12,
+        "sequence_ordering": 13,
+        "statement_selection": 21
+      },
+      "difficulty": {
+        "easy": 47,
+        "hard": 13,
+        "medium": 45
+      },
+      "chapters": {
+        "Accounting Ratios": 8,
+        "Admission of Partner": 11,
+        "Analysis of Financial Statements": 2,
+        "Cash Flow Statement": 10,
+        "Change in Profit Sharing Ratio": 6,
+        "Comparative & Common Size Statements": 13,
+        "Debentures": 4,
+        "Dissolution of Partnership Firm": 6,
+        "Goodwill Valuation": 2,
+        "Partnership Fundamentals": 8,
+        "Profit & Loss Appropriation Account": 6,
+        "Retirement & Death of Partner": 8,
+        "Share Capital": 21
+      }
+    },
+    "business_studies": {
+      "total": 183,
+      "machine_eligible": 162,
+      "quarantined": 21,
+      "withheld_by_group_plan": 21,
+      "retained_machine_eligible": 162,
+      "formats": {
+        "case_application": 32,
+        "conceptual_mcq": 35,
+        "matching": 35,
+        "sequence_ordering": 30,
+        "statement_selection": 30
+      },
+      "difficulty": {
+        "easy": 60,
+        "hard": 25,
+        "medium": 77
+      },
+      "chapters": {
+        "Business Environment": 16,
+        "Consumer Protection": 12,
+        "Controlling": 13,
+        "Directing": 12,
+        "Financial Management": 15,
+        "Financial Markets": 21,
+        "Marketing Management": 12,
+        "Nature & Significance of Management": 12,
+        "Organising": 9,
+        "Planning": 10,
+        "Principles of Management": 13,
+        "Staffing": 17
+      }
+    },
+    "economics": {
+      "total": 165,
+      "machine_eligible": 112,
+      "quarantined": 53,
+      "withheld_by_group_plan": 53,
+      "retained_machine_eligible": 112,
+      "formats": {
+        "case_application": 20,
+        "conceptual_mcq": 23,
+        "matching": 17,
+        "numerical_calculation": 21,
+        "sequence_ordering": 10,
+        "statement_selection": 21
+      },
+      "difficulty": {
+        "easy": 46,
+        "hard": 19,
+        "medium": 47
+      },
+      "chapters": {
+        "Balance of Payments": 9,
+        "Development Experiences of India": 8,
+        "Economic Reforms Since 1991": 4,
+        "Employment": 7,
+        "Environment & Sustainable Development": 4,
+        "Government Budget & the Economy": 6,
+        "Human Capital Formation": 8,
+        "Income Determination": 6,
+        "Indian Economic Development 1950–1990": 8,
+        "Indian Economy on the Eve of Independence": 3,
+        "Introduction & Theory of Consumer Behaviour": 6,
+        "Market Equilibrium & Simple Applications": 8,
+        "Money & Banking": 7,
+        "National Income & Related Aggregates": 5,
+        "Production & Costs": 7,
+        "Rural Development": 10,
+        "Theory of Firms under Perfect Competition": 6
+      }
+    },
+    "english": {
+      "total": 173,
+      "machine_eligible": 157,
+      "quarantined": 16,
+      "withheld_by_group_plan": 17,
+      "retained_machine_eligible": 156,
+      "formats": {
+        "antonym": 22,
+        "correct_word_usage": 24,
+        "matching": 27,
+        "reading_comprehension": 30,
+        "sequence_ordering": 20,
+        "synonym": 33
+      },
+      "difficulty": {
+        "easy": 66,
+        "hard": 15,
+        "medium": 75
+      },
+      "chapters": {
+        "Correct Word Usage": 24,
+        "Factual Passage": 8,
+        "Literary Passage": 13,
+        "Match the Following": 27,
+        "Narrative Passage": 9,
+        "Para Jumbles": 20,
+        "Vocabulary": 55
+      }
+    }
+  },
+  "cuet_fit": {
+    "contract": "cuet-fit-v1.2",
+    "score_distribution": {
+      "7": 16,
+      "8": 172,
+      "9": 314,
+      "10": 33
+    },
+    "minimum_score": 7,
+    "lowest_score_item_count": 16,
+    "lowest_score_low_discrimination_count": 14,
+    "lowest_score_items": [
+      {
+        "id": "b64d12e2ab797dcdc203ce7264b19de9",
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "format": "correct_word_usage",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 0,
+          "time_suitability": 3
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Choosing the correct word is an expressly named English syllabus objective."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option objective word-usage question; the sentence-selection wording differs modestly from the supplied fill-in-the-blank exemplars."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A direct meaning match is more recall/comprehension-oriented than the supplied word-usage exemplars."
+          },
+          "discrimination_value": {
+            "level": 0,
+            "evidence": "The definition is given in the stem and the alternatives contrast it conspicuously with opposite descriptions."
+          }
+        },
+        "style_notes": [
+          "The definition is supplied in the stem, making the item a direct matching task with limited discrimination."
+        ],
+        "question": {
+          "stem": "Assume that a report’s key findings are the only information necessary and important. Choose the sentence in which “concise” is used correctly to mean giving only necessary and important information, using few words.",
+          "options": [
+            "The writer described the report as concise because it included every detail, whether important or not.",
+            "The writer described the report as concise because it omitted one of its key findings and retained minor details.",
+            "The writer described the report as concise because it retained its key findings and used few words.",
+            "The writer described the report as concise because it expanded each point with lengthy, unrelated explanations."
+          ],
+          "key": "C",
+          "explanation": "Concise means giving only necessary and important information using few words. The stem identifies the key findings as the report’s necessary and important information, and option C says these are retained and expressed using few words. The other options include minor details, omit a key finding, or add lengthy unrelated explanations.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "C",
+          "blind": "C",
+          "independent": "C"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The stem defines concise as giving only necessary and important information, using few words; E1.1 confirms that definition.",
+          "C retains the key findings, which the stem says are the only necessary and important information, and uses few words. A includes unimportant details, B omits a key finding and retains minor details, and D adds lengthy unrelated explanations."
+        ]
+      },
+      {
+        "id": "69a5f5b276d3756e0bab00ed790efa2a",
+        "subject": "business_studies",
+        "chapter": "Consumer Protection",
+        "format": "case_application",
+        "difficulty_label": "hard",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 3,
+          "discrimination_value": 0,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Tests the syllabus-listed topic of who can file a complaint."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A valid four-option case-application MCQ, though its paired scenarios differ slightly from the supplied case exemplars."
+          },
+          "level_calibration": {
+            "level": 3,
+            "evidence": "A brief application of a stated category definition, comparable in demand to the supplied identification case questions."
+          },
+          "discrimination_value": {
+            "level": 0,
+            "evidence": "The stem expressly rules out every person in B–D, allowing the remaining option to be selected without knowing the definition."
+          }
+        },
+        "style_notes": [
+          "The explicit statement excluding all categories for options B–D makes those distractors easy to eliminate."
+        ],
+        "question": {
+          "stem": "A minor consumer is involved in a complaint concerning a school bag, and the minor’s parent proposes to file on the minor’s behalf. Separately, an adult consumer who bought a home appliance for household use has died, and that consumer’s legal heir proposes to file a complaint. The people and entities named in options B–D are not consumers, voluntary consumer associations, central or state governments, the central authority, legal heirs, legal representatives, or parents or legal representatives in a minor’s case. Which proposed pair consists of two categories included in the definition of “complainant”?",
+          "options": [
+            "The minor consumer’s parent and the deceased appliance consumer’s legal heir.",
+            "The minor consumer’s adult sibling and a bystander who witnessed the purchase.",
+            "The appliance retailer’s employee acting for the retailer and a witness to the minor’s purchase.",
+            "The minor consumer’s friend and the repair technician who inspected the appliance."
+          ],
+          "key": "A",
+          "explanation": "The definition expressly includes a parent in the case of a minor and a legal heir. Therefore, both people in option A are included under the stated facts. The people in options B–D are stipulated to have none of the listed complainant statuses.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The supplied definition of complainant includes a parent or legal representative in a minor’s case and a legal heir. The stem identifies the proposed filers as the minor’s parent and the deceased consumer’s legal heir, so both parts of option A qualify.",
+          "Options B–D are expressly stated not to belong to any listed complainant category."
+        ]
+      },
+      {
+        "id": "74d976848985c48f5b5697a9203b959b",
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "format": "sequence_ordering",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Directly tests the syllabus skill of rearranging parts."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option sequencing MCQ; the options arrange full sentences rather than sentence fragments."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Within the para-jumble range, but more straightforward than the supplied medium sentence-ordering exemplars."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The order is clear from temporal cues, making the distractors relatively easy to eliminate."
+          }
+        },
+        "style_notes": [
+          "The chronological cues make the intended sequence straightforward."
+        ],
+        "question": {
+          "stem": "Arrange the following sentences to form a coherent paragraph.\n(A) Each member then practised the assigned part individually.\n(B) Finally, they performed the scene together using the parts they had practised.\n(C) At a fictional rehearsal, the group first read a short scene together.\n(D) After reading it, they assigned its speaking parts.\nChoose the correct sequence from the options given below:\n(A) C-A-D-B\n(B) D-C-A-B\n(C) C-D-A-B\n(D) C-D-B-A",
+          "options": [
+            "C-A-D-B",
+            "D-C-A-B",
+            "C-D-A-B",
+            "C-D-B-A"
+          ],
+          "key": "C",
+          "explanation": "The account reports that the group first read the scene, assigned its parts after reading, practised those assigned parts, and finally performed the scene using the practised parts. Therefore, the coherent order is C-D-A-B. This is the sequence of events in the stated account, not a claim about all rehearsals.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "C",
+          "blind": "C",
+          "independent": "C"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The sentences establish the order: the group reads the scene (C), assigns parts (D), practises them (A), and finally performs (B).",
+          "E1.1 supports that same reported sequence. The answer follows from the sentence order and reference cues."
+        ]
+      },
+      {
+        "id": "9721d9b0f1f334d38af2ef240c62e70a",
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "format": "correct_word_usage",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 3
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "Contextual word meaning is a recognized English language skill."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option objective word-usage question; the sentence-selection format differs slightly from the supplied fill-in-the-blank exemplars."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A simple contextual meaning check, somewhat easier than the supplied word-usage exemplars."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The distractors' explicit clauses negate visibility or attention, so several are readily eliminated."
+          }
+        },
+        "style_notes": [
+          "Options B–D explicitly negate visibility or attention, making the correct choice relatively apparent."
+        ],
+        "question": {
+          "stem": "Choose the sentence in which \"conspicuous\" is used to mean easy to see or notice and likely to attract attention.",
+          "options": [
+            "The orange rescue flag was conspicuous against the snow, and the search team spotted it at once.",
+            "The lookout was conspicuous while watching for danger, although he was concealed from view and no one could see him.",
+            "The adviser's decision was conspicuous because it avoided unnecessary risks, although it was private and attracted no attention.",
+            "The audience was conspicuous in showing no interest in the speech, although that lack of interest went entirely unnoticed."
+          ],
+          "key": "A",
+          "explanation": "The flag stands out against the snow, and the search team notices it immediately, which fits the required meaning. Options B, C and D state that the person or decision was unseen or attracted no attention, so their contexts do not support that meaning.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The stem supplies the target meaning of “conspicuous,” and E1.1 confirms that definition.",
+          "In A, the flag stands out against the snow and is spotted at once, matching the target meaning.",
+          "B contradicts visibility, C describes prudence rather than conspicuousness, and D says the audience's lack of interest went unnoticed."
+        ]
+      },
+      {
+        "id": "762829e64d0018f9924de752e31fb832",
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "format": "correct_word_usage",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 3
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "Choosing the correct word is a recognised English syllabus element; this tests word use in context."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option objective word-usage task, with a minor variation: the target sense is stated directly."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Within the word-usage exemplar range, but more direct than the contextual completion examples."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The alternatives have distinct meanings, making several distractors relatively easy to eliminate."
+          }
+        },
+        "style_notes": [
+          "The distractors are semantically distinguishable from the supplied sense, so the answer may be relatively easy."
+        ],
+        "question": {
+          "stem": "Choose the sentence in which \"versatile\" is used in the supplied sense of a person able to do many different things.",
+          "options": [
+            "The versatile consultant could draft reports, analyse data, and train new staff.",
+            "The versatile explanation seemed reasonable and likely to be true to the committee.",
+            "The versatile forecast predicted that the project would succeed.",
+            "The versatile claim was doubted by the reviewer."
+          ],
+          "key": "A",
+          "explanation": "In A, the consultant is a person whose abilities include several different tasks, matching the supplied sense of \"versatile\". In B, C and D, the word describes an explanation, a forecast and a claim, respectively, rather than a person.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The stem specifies the sense of a person able to do many different things, matching the supplied definition of versatile (E1.1).",
+          "Option A describes a person doing several different tasks. B instead uses the sense of plausible (E4.1); C suggests optimism (E3.1); D suggests scepticism (E2.1)."
+        ]
+      },
+      {
+        "id": "4ce51f89959ceb021a0f5cfd78f63779",
+        "subject": "english",
+        "chapter": "Match the Following",
+        "format": "matching",
+        "difficulty_label": "easy",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Matching is expressly named in the English syllabus."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option matching MCQ, with a simple scenario-to-description format."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Simpler than the supplied matching exemplars, but within their direct matching demand."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The comparisons are transparent, though candidates must still match each case to the correct description."
+          }
+        },
+        "style_notes": [],
+        "question": {
+          "stem": "Match List-I with List-II. Each entry in List-I is to be matched with one entry in List-II, and each entry in List-II is to be used once. The stated necessary amount in each case is the amount required for that person's stated need.\n\nList-I\n(A) Leena takes 1 portion of food when 1 portion is necessary for her meal.\n(B) Omar uses ₹40 when ₹40 is necessary for his task.\n(C) Nisha takes 2 portions of food when 1 portion is necessary for her meal.\n(D) Ravi uses ₹60 when ₹40 is necessary for his task.\n\nList-II\n(I) Uses only the necessary amount of money\n(II) Uses more food than is necessary\n(III) Uses only the necessary amount of food\n(IV) Uses more money than is necessary\n\nChoose the correct answer from the options given below:",
+          "options": [
+            "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+            "(A)-(III), (B)-(I), (C)-(II), (D)-(IV)",
+            "(A)-(III), (B)-(IV), (C)-(II), (D)-(I)",
+            "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)"
+          ],
+          "key": "B",
+          "explanation": "Using only the necessary amount of money or food is the defining criterion. Leena and Omar use exactly the stated necessary amounts of food and money, respectively, while Nisha and Ravi use more than the necessary amounts of food and money, respectively.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "B",
+          "blind": "B",
+          "independent": "B"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "Leena and Omar use exactly the stated necessary amounts, so they match only the necessary amount of food and money, respectively. Nisha and Ravi use more than necessary, so they match more food and more money, respectively. This gives option B.",
+          "The stem supplies all amounts and needs; the comparison is direct, with equality distinguished from an amount greater than necessary."
+        ]
+      },
+      {
+        "id": "8b93316006439c791a59e7a5a664f278",
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "format": "sequence_ordering",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Rearranging parts is a named verbal-ability skill in the syllabus."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option sequence-ordering MCQ; uses complete account sentences rather than the fragment-based format in the exemplars."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Within para-jumble demand, but explicit chronological cues make it simpler than the authenticated sentence-reconstruction examples."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The options are readily eliminated by the overt temporal cues, though the task still tests comprehension."
+          }
+        },
+        "style_notes": [
+          "The explicit instruction to treat temporal expressions as ordering cues makes the intended sequence especially transparent."
+        ],
+        "question": {
+          "stem": "Arrange the following sentences to form a coherent account. Treat the temporal expressions in the sentences as explicit ordering cues.\n(A) Only after writing the recorded name on a new label did Jaya replace the unreadable label.\n(B) After checking the garden's planting record and finding the recorded name, Jaya wrote it on a new label.\n(C) Jaya first noticed that the plant's label had become unreadable.\n(D) After noticing that the label was unreadable, Jaya checked the plant's identity in the garden's own planting record.\nChoose the correct sequence from the options given below:",
+          "options": [
+            "C-D-B-A",
+            "D-C-B-A",
+            "C-D-A-B",
+            "C-B-D-A"
+          ],
+          "key": "A",
+          "explanation": "The sequence is C-D-B-A: Jaya first notices the unreadable label, then checks the record, writes the recorded name on a new label, and only afterwards replaces the unreadable label. This order satisfies the explicit temporal links in all four sentences.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The explicit timeline is C (first noticing), D (checking the record), B (finding the name and writing it), then A (replacing the label after writing). This gives C-D-B-A.",
+          "The supplied fictional account independently confirms the same order of actions."
+        ]
+      },
+      {
+        "id": "642c90266fa0dcdd6f6b1fb8259c144e",
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "format": "conceptual_mcq",
+        "difficulty_label": "easy",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 3,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "Applies a forest-management safeguard under strategies for sustainable development."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A standard four-option objective question with a direct application stem."
+          },
+          "level_calibration": {
+            "level": 3,
+            "evidence": "A short application within the recall and comprehension demand shown by the exemplars."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The distractors reverse or narrow explicit conditions, so they are fairly easy to eliminate."
+          }
+        },
+        "style_notes": [
+          "The rule is stated in the stem, making this a direct application of the supplied guideline."
+        ],
+        "question": {
+          "stem": "A forest-management guideline states that trees within 100 metres of a water source and on a slope of 30 degrees or above should not be felled. A tree proposed for felling is 80 metres from a water source and lies on a 35-degree slope. What decision follows from the guideline?",
+          "options": [
+            "Fell it, because the guideline applies only at distances greater than 100 metres.",
+            "Do not fell it, because it meets both stated location conditions.",
+            "Fell it, because the guideline applies only to slopes below 30 degrees.",
+            "Fell it, because the guideline applies only when the tree is exactly 100 metres from the water source."
+          ],
+          "key": "B",
+          "explanation": "The tree is within 100 metres of a water source and lies on a slope of at least 30 degrees. Both stated conditions apply, so the guideline says it should not be felled.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "B",
+          "blind": "B",
+          "independent": "B"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The sourced guideline says trees within 100 metres of a water source and on a slope of 30 degrees or above should not be felled.",
+          "The tree is 80 metres away and on a 35-degree slope, so both stated conditions are met; do not fell it."
+        ]
+      },
+      {
+        "id": "6e446ae75181808ba9ac4238fd3d5486",
+        "subject": "economics",
+        "chapter": "Rural Development",
+        "format": "case_application",
+        "difficulty_label": "hard",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 2,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "Fisheries relate to agricultural diversification in the Rural Development unit; the calculation is a supporting application."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A valid four-option, single-answer MCQ, with a straightforward numerical application."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A simple multi-step calculation, somewhat more applied than the supplied direct-recall exemplars."
+          },
+          "discrimination_value": {
+            "level": 2,
+            "evidence": "The alternatives reflect plausible misapplication of the stated shares or equal split."
+          }
+        },
+        "style_notes": [],
+        "question": {
+          "stem": "Two cooperatives report annual fish-production values of ₹48 lakh and ₹72 lakh. For this exercise, treat the source shares as exact: inland sources together account for 75% of each cooperative’s total value, and the marine sector accounts for the remaining 25%. Each cooperative divides its inland-source value equally between river-sourced and lake-sourced fish; all marine-sector value is sea-sourced. What are the combined values attributed to river, lake and sea across both cooperatives, respectively?",
+          "options": [
+            "River: ₹45 lakh; lake: ₹45 lakh; sea: ₹30 lakh",
+            "River: ₹15 lakh; lake: ₹15 lakh; sea: ₹90 lakh",
+            "River: ₹40 lakh; lake: ₹40 lakh; sea: ₹40 lakh",
+            "River: ₹30 lakh; lake: ₹30 lakh; sea: ₹60 lakh"
+          ],
+          "key": "A",
+          "explanation": "The combined production value is ₹48 lakh + ₹72 lakh = ₹120 lakh. Inland sources account for 75% of ₹120 lakh, or ₹90 lakh, which is divided equally between river and lake; the remaining 25%, or ₹30 lakh, is attributed to the sea.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "Combined production value is ₹48 lakh + ₹72 lakh = ₹120 lakh. Inland value is 75% of ₹120 lakh = ₹90 lakh, split equally to give ₹45 lakh each for river and lake; the remaining 25% is ₹30 lakh for sea.",
+          "The NCERT excerpt supports the inland/marine 75%/25% shares. The question explicitly stipulates that these shares are exact for this exercise and specifies the river/lake split and sea attribution."
+        ]
+      },
+      {
+        "id": "acfe4927de77c0cc2c95d1a664d206b0",
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "format": "sequence_ordering",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Rearranging parts is explicitly named in the English syllabus."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option sequence-ordering MCQ; the exemplars use sentence-part rearrangement, while this orders complete narrative sentences."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Within the para-jumble range, but explicit temporal cues make it easier than the authenticated examples."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "Some distractors conflict with conspicuous sequence cues, though the task still tests sentence linkage."
+          }
+        },
+        "style_notes": [
+          "The temporal cues make the intended order fairly transparent."
+        ],
+        "question": {
+          "stem": "Arrange the following four sentences from a fictional account in a coherent order.\n(A) The account concludes with a note that this sequence establishes the order of Jaya's actions without making an outside claim about the plant itself.\n(B) In the fictional account, Jaya first noticed that a plant's label had become unreadable.\n(C) Having found the recorded name, she wrote it on a new label.\n(D) After noticing this, she checked the plant's identity in the garden's own planting record and found its recorded name.\nChoose the correct sequence from the options given below:",
+          "options": [
+            "(B), (C), (D), (A)",
+            "(B), (D), (C), (A)",
+            "(D), (B), (C), (A)",
+            "(B), (D), (A), (C)"
+          ],
+          "key": "B",
+          "explanation": "B precedes D because “this” in D refers to the unreadable label noticed in B. D precedes C because Jaya finds the recorded name while checking the planting record, and C says she writes it after finding that name. A comes last because it states that the account concludes with this note.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "B",
+          "blind": "B",
+          "independent": "B"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "B gives Jaya's first observation; D follows that observation and supplies the recorded name; C says she wrote it after finding it; A says the account concludes with the note. The resulting order is B, D, C, A, option B.",
+          "The source excerpt supports this sequence and the concluding note (E1.1)."
+        ]
+      },
+      {
+        "id": "c6eac54db23692e188f253448f5e6b36",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "format": "synonym",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 0,
+          "time_suitability": 3
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Synonyms are explicitly named in the English syllabus."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option objective vocabulary question; its phrase-based choices differ slightly from the exemplar format."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A direct synonym task, simpler than the supplied medium-level synonym exemplar."
+          },
+          "discrimination_value": {
+            "level": 0,
+            "evidence": "The context itself nearly states the correct option’s meaning."
+          }
+        },
+        "style_notes": [
+          "The context repeats the core idea in the correct option, making the answer especially easy."
+        ],
+        "question": {
+          "stem": "While reviewing an inventory, Sana checked each record and paid close attention to its details. Her supervisor described her work as “meticulous”. Which phrase is closest in meaning to “meticulous”?",
+          "options": [
+            "Happening only occasionally or at intervals that are not regular",
+            "Paying careful attention to every detail",
+            "Not supporting one person or group more than another",
+            "Having or showing no interest in somebody or something"
+          ],
+          "key": "B",
+          "explanation": "Sana’s close attention to the details matches the meaning of “meticulous”. The other choices describe irregular occurrence, impartiality, and lack of interest, respectively.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "B",
+          "blind": "B",
+          "independent": "B"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "“Meticulous” means paying careful attention to every detail, which matches option B.",
+          "The context also describes attention to details, reinforcing B."
+        ]
+      },
+      {
+        "id": "792a2de8e6e896455610f3d9100ccd79",
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "format": "sequence_ordering",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Tests the syllabus-listed verbal-ability skill of rearranging parts."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A clear four-option sequencing MCQ, though the exemplars reorder sentence fragments rather than reported events."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A straightforward application of temporal clues, easier than the authenticated medium fragment-ordering examples."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The explicit “first,” “after that,” and “finally” cues make several distractors easy to eliminate."
+          }
+        },
+        "style_notes": [],
+        "question": {
+          "stem": "Arrange the following four sentences in the order in which the events are reported.\n(A) Each participant practised the assigned speaking part individually.\n(B) Finally, the group performed the scene together using the parts they had practised.\n(C) The group first read a short scene together.\n(D) After that reading, the group assigned its speaking parts.\nChoose the correct sequence from the options given below:\n(A) C-D-A-B\n(B) D-C-A-B\n(C) C-A-D-B\n(D) C-D-B-A",
+          "options": [
+            "C-D-A-B",
+            "D-C-A-B",
+            "C-A-D-B",
+            "C-D-B-A"
+          ],
+          "key": "A",
+          "explanation": "The group read the scene first, then assigned its speaking parts. The members practised those assigned parts before the group performed the scene, so the reported order is C-D-A-B.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The sequence is C-D-A-B: the group first reads the scene, then assigns parts; participants practise their assigned parts, and the group finally performs using those practised parts.",
+          "The stimulus in E1.1 confirms the same event order. No outside rule or numerical calculation is needed."
+        ]
+      },
+      {
+        "id": "43406ac6c98c08f1737d73974a91b8ec",
+        "subject": "business_studies",
+        "chapter": "Organising",
+        "format": "matching",
+        "difficulty_label": "easy",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 3,
+          "level_calibration": 3,
+          "discrimination_value": 0,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "Functional structure is a recognised element of the Organising unit; the item tests its standard advantages."
+          },
+          "format_authenticity": {
+            "level": 3,
+            "evidence": "Four-option matching format and list structure align closely with authenticated Business Studies matching items."
+          },
+          "level_calibration": {
+            "level": 3,
+            "evidence": "The matching demand is within the range of the supplied CUET 2024 Business Studies matching exemplars."
+          },
+          "discrimination_value": {
+            "level": 0,
+            "evidence": "List-I and List-II repeat key phrases, so the correct matches are discoverable largely by semantic cues."
+          }
+        },
+        "style_notes": [
+          "The list statements closely echo the textbook advantages, making the matching relatively direct."
+        ],
+        "question": {
+          "stem": "A firm groups related jobs into departments according to function. Match each situation in List-I with the corresponding advantage in List-II.\nList-I\n(A) A new employee’s training is limited to a narrow range of skills used in the assigned function.\n(B) A redesign reduces the repeated performance of the same activity by different teams.\n(C) The organisational structure gives a place to each of the firm’s different functions.\n(D) Employees in one department perform similar tasks.\nList-II\n(I) Training becomes easier because the focus is on a limited range of skills.\n(II) Minimal duplication of effort supports economies of scale and lower cost.\n(III) Different functions receive due attention.\n(IV) Similar tasks promote control and coordination within a department.\nChoose the correct answer from the options given below:",
+          "options": [
+            "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+            "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+            "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+            "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)"
+          ],
+          "key": "A",
+          "explanation": "A limited range of skills makes training easier, while reducing repeated effort leads to economies of scale and lower cost. Giving each function a place ensures that different functions receive due attention, and similar tasks within a department promote control and coordination.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "A",
+          "blind": "A",
+          "independent": "A"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The matches are (A)-(I): training is easier when the focus is a limited range of skills; (B)-(II): minimal duplication supports economies of scale and lower cost; (C)-(III): different functions receive due attention; and (D)-(IV): similar tasks support control and coordination within a department.",
+          "These functional-structure advantages are stated in E1.1 and E1.2. The matching yields option A; the other options interchange relationships that the source distinguishes."
+        ]
+      },
+      {
+        "id": "2fc5d2b616d989d89cdb24ddcb45a34b",
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "format": "case_application",
+        "difficulty_label": "hard",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 3
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "A recognized application of the human-capital role of education and health in development."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A four-option, single-answer objective item; the short case is a modest variation on the supplied direct-recall examples."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "A short application, somewhat more demanding than the supplied direct-recall exemplars."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "The options contrast partial or segregated coverage with broad coverage, but the both/both choice is readily signalled."
+          }
+        },
+        "style_notes": [],
+        "question": {
+          "stem": "A district divides residents into Group P, which is already well served, and Group Q, which has limited access to services. The district plans additional public outlays for education and health, with the aim of pursuing economic growth and equity together. Each plan describes where the additional outlays extend services; “only” means that the proposed extension does not reach the other group. Which plan best applies this objective?",
+          "options": [
+            "Extend education to both Groups P and Q, but extend health only to Group P.",
+            "Extend education only to Group P, but extend health to both Groups P and Q.",
+            "Extend education to both Groups P and Q, and extend health to both Groups P and Q.",
+            "Extend education only to Group P and health only to Group Q."
+          ],
+          "key": "C",
+          "explanation": "The stated principle is to spread both education and health services across different sections of society so that economic growth and equity are pursued together. Plan C extends each service to both groups. Plans A and B leave one service confined to one group, while Plan D does not spread either service across both groups.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "C",
+          "blind": "C",
+          "independent": "C"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The NCERT excerpt says education and health services should be spread across different sectors of society to pursue economic growth and equity together.",
+          "Only option C extends both education and health services to both groups. No numerical calculation or missing passage is required."
+        ]
+      },
+      {
+        "id": "3840664fceb9afc9c36309542c0ab16f",
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "format": "sequence_ordering",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 3,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 1,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 3,
+            "evidence": "Rearranging parts is explicitly named in the English syllabus."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "Four-option ordering MCQ, with complete sentences rather than sentence fragments."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Within the para-jumble range of the 2024 examples, but the temporal cues make this comparatively straightforward."
+          },
+          "discrimination_value": {
+            "level": 1,
+            "evidence": "Several distractors conflict with conspicuous sequence cues, though solving still requires ordering skill."
+          }
+        },
+        "style_notes": [
+          "The task uses complete sentences in a short account, whereas the supplied authenticated para-jumble examples use sentence parts; the four-option ordering format remains workable."
+        ],
+        "question": {
+          "stem": "Arrange the following four sentences to form a coherent account.\n(A) Only then did the class vote on the listed titles.\n(B) In a fictional class, the teacher first asked pupils to propose titles for a shared story.\n(C) After the votes had been counted, she wrote the selected title on the story's cover.\n(D) She collected their proposals and read the full list aloud.\nChoose the correct sequence from the options given below:",
+          "options": [
+            "B-A-D-C",
+            "D-B-A-C",
+            "B-D-C-A",
+            "B-D-A-C"
+          ],
+          "key": "D",
+          "explanation": "Sentence (B) introduces the class and the proposed titles. Sentence (D) says the proposals were collected and read aloud; “Only then” in (A) places the vote after that step, and (C) places writing the title after the votes were counted. The resulting order is B-D-A-C.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "D",
+          "blind": "D",
+          "independent": "D"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "B introduces the pupils' proposals, which D then collects and reads as a list.",
+          "A's vote naturally follows D's list-reading; C follows the vote and its counting. The sequence is B-D-A-C."
+        ]
+      },
+      {
+        "id": "ceb78659a116438dd3c1483edb323f71",
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "format": "numerical_calculation",
+        "difficulty_label": "medium",
+        "score": 7,
+        "score_levels": {
+          "syllabus_objective": 2,
+          "format_authenticity": 2,
+          "level_calibration": 2,
+          "discrimination_value": 2,
+          "time_suitability": 2
+        },
+        "score_rationale": {
+          "syllabus_objective": {
+            "level": 2,
+            "evidence": "A quantitative comparison within the syllabus topic of development experiences compared with neighbours."
+          },
+          "format_authenticity": {
+            "level": 2,
+            "evidence": "A valid four-option numerical MCQ, with a slightly longer calculation stem than the exemplars."
+          },
+          "level_calibration": {
+            "level": 2,
+            "evidence": "Two ratio calculations followed by a difference; somewhat more calculation than the one-step numerical exemplars."
+          },
+          "discrimination_value": {
+            "level": 2,
+            "evidence": "The options distinguish the magnitude and direction of the change, though the sign is a salient check."
+          }
+        },
+        "style_notes": [],
+        "question": {
+          "stem": "In 2004–05, India’s exports to China were ₹25,232 crore and imports from China were ₹31,892 crore. In 2024–25, the corresponding values were ₹1,20,617 crore and ₹9,59,666 crore. For each year, calculate exports ÷ imports × 100, rounding the resulting ratios to one decimal place. By how many percentage points did India’s exports to China as a percentage of its imports from China change from 2004–05 to 2024–25?",
+          "options": [
+            "It decreased by 84.1 percentage points.",
+            "It increased by 669.2 percentage points.",
+            "It decreased by 66.5 percentage points.",
+            "It increased by 66.5 percentage points."
+          ],
+          "key": "C",
+          "explanation": "The export-to-import ratios are (₹25,232 ÷ ₹31,892) × 100 = 79.1% and (₹1,20,617 ÷ ₹9,59,666) × 100 = 12.6%. The change is 12.6 − 79.1 = −66.5 percentage points, so the ratio decreased by 66.5 percentage points. The 84.1 figure is a relative percentage decrease, not a percentage-point decrease.",
+          "passage": ""
+        },
+        "saved_key_check": {
+          "source": "C",
+          "blind": "C",
+          "independent": "C"
+        },
+        "syllabus_entitlement": true,
+        "source_reasons": [
+          "The supplied table gives exports/imports of ₹25,232/₹31,892 for 2004–05 and ₹1,20,617/₹9,59,666 for 2024–25; it also asks students to calculate exports as a percentage of imports.",
+          "The ratios are 79.1% and 12.6%, respectively. The later ratio is lower by 66.5 percentage points, so C is correct."
+        ]
+      }
+    ],
+    "interpretation": "Validator-rated CUET fit only; scores and agreement do not establish correctness or publication readiness."
+  },
+  "english_syllabus_source": {
+    "id": "cuet2026-english-syllabus",
+    "kind": "official_syllabus",
+    "publisher": "NTA/CUET UG",
+    "official_url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+    "local_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-english-syllabus.pdf",
+    "sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+    "bytes": 231641,
+    "pages": 2,
+    "locator": "PDF page 2",
+    "clause": "Reading Comprehension: literary passages, maximum 300 words",
+    "application": "The 300-word cap is applied as the user's mandated provisional 2026 baseline for this passage QA. The 132-word maximum is the longest observed item in this export, not a separate universal limit."
+  },
+  "reading_passages": {
+    "english_items_with_separate_passage": 32,
+    "at_most_300_words": 32,
+    "over_300_words": [],
+    "longest_observed_words": 132,
+    "word_count_method": "Unicode word-token count over question.passage.",
+    "limit_status": "All 32 English passages satisfy the 300-word provisional 2026 baseline; the official CUET UG 2026 English syllabus specifies a maximum of 300 words for literary passages. The 132-word maximum is empirical for this export only and is not a universal cap."
+  },
+  "duplicates_and_keys": {
+    "full_export": {
+      "exact_content_hash_groups": 0,
+      "normalized_stem_groups": 0,
+      "exact_normalized_stem_options_key_groups": 0,
+      "retained_rows_with_duplicate_option_text": 0
+    },
+    "retained_answer_positions": {
+      "A": 163,
+      "B": 129,
+      "C": 125,
+      "D": 118
+    },
+    "retained_answer_position_percent": {
+      "A": 30.5,
+      "B": 24.1,
+      "C": 23.4,
+      "D": 22.1
+    },
+    "retained_key_or_option_invalid_count": 0,
+    "recorded_source_or_blind_independent_key_or_explanation_gate_exceptions": 0,
+    "key_gate_exceptions": [],
+    "interpretation": "Mechanical duplicate and saved-validator checks only; matching keys are not proof of correctness."
+  },
+  "syllabus_mapping": {
+    "retained_items_with_recorded_syllabus_entitlement_and_ok_chapter_mapping": 535,
+    "retained_total": 535,
+    "mapped_chapter_labels_by_subject": {
+      "accountancy": 13,
+      "business_studies": 12,
+      "economics": 17,
+      "english": 7
+    },
+    "unique_subject_chapter_pairs": 49,
+    "audit_status": "These are validator-recorded source-syllabus mappings; this report did not perform a separate official-syllabus audit."
+  },
+  "bounded_correctness_review": {
+    "reviewed": "All retained items at the minimum recorded CUET-fit score, inspecting actual stem/options/key/explanation and saved source/key rationale.",
+    "count": 16,
+    "confirmed_clear_correctness_defects": [],
+    "additional_staging_withhold_recommended": false,
+    "findings": [
+      "No clear wrong-key or unsupported-explanation defect was found in this bounded low-score review; each reviewed item has matching saved source, blind, and independent keys and a positive source-support gate. This is evidence of checks recorded, not proof of truth.",
+      "The recurring CUET-fit weakness is low discrimination: supplied definitions/context, explicit eliminations, or overt chronological cues make some items easier than the authenticated exemplars. This is a fit weakness, not a factual defect.",
+      "Consumer Protection item 69a5f5b276d3756e0bab00ed790efa2a explicitly rules out the listed complainant categories in options B–D, allowing elimination without applying the definition. The saved fit rationale flags this; key A is supported by the stated definition.",
+      "English “concise” item b64d12e2ab797dcdc203ce7264b19de9 supplies the target definition and contrasts it with conspicuously opposite options. Key C follows from the stated definition; the concern is discrimination."
+    ],
+    "limitations": "This was a bounded manual review of the 16 lowest-fit retained items, not a human audit of all 535 retained items. No eligibility was rewritten."
+  },
+  "exclusions_and_caveats": [
+    "Fresh B-campaign evidence is excluded because B is incomplete; this report covers only the frozen 662-item export.",
+    "Machine eligibility and staged withholding do not establish that every retained question is accurate, officially aligned, or ready for publication.",
+    "The 300-word passage limit is the user's mandated provisional 2026 baseline and is stated for literary passages in the official CUET UG 2026 English syllabus; 132 words is only this export's observed maximum, not a universal cap.",
+    "No provider calls, database reads/writes, question edits, eligibility changes, or publication writes were performed for this report."
+  ]
+}

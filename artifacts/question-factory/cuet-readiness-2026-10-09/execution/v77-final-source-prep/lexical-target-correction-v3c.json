@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-09T07:08:51.978Z",
+  "parent_packet_sha256": "4ac3922d2b9b3f7ba3d96bf3bc4a75b26b88c1d4588a45bdb8eb13efd3568bf8",
+  "packet_sha256": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b",
+  "changes": [
+    {
+      "id": "v77f-4c09b80e91ce",
+      "field": "learning_objective.target_term",
+      "before": "contextual vocabulary",
+      "after": "ledger",
+      "basis": "Name the word already explicitly tested in the stem; generic skill label fails the frozen lexical preparation check."
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "field": "learning_objective.target_term",
+      "before": "contextual vocabulary",
+      "after": "fresh",
+      "basis": "Name the word already explicitly tested in the stem; generic skill label fails the frozen lexical preparation check."
+    }
+  ],
+  "body_options_passage_source_changes": 0,
+  "proposed_answers_or_labels_read_for_correction": false
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "v713-offline-capture-correction-v1",
+  "created_at": "2026-10-09T18:39:21.838Z",
+  "frozen_contract_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "frozen_contract_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "original_capture_helper": {
+    "path": "scripts/pipeline/tools/captureFinalGeneratorV713Preflight.mjs",
+    "sha256": "003a5b3c8cd8099544637eb248a474194f9f1d5d370d97562d15d2443daa4fc3"
+  },
+  "corrected_capture_helper": {
+    "path": "scripts/pipeline/tools/captureFinalGeneratorV713PreflightR2.mjs",
+    "sha256": "247e0ec359f1ed184feca1a19edfc8d9f92c30dfea88b4b9c32d6532a212cf1d"
+  },
+  "purpose": "Offline sizing-only preflight correction. The original helper throws on retry, preventing evaluation cache warm-up and causing the frozen audit adapter to re-request two independent judgments. R2 returns schema-shaped synthetic identity-matched output on blind/evaluation retries solely to populate local request caches; output is never used as academic evidence. Audit/author/repair retries still terminate after capture.",
+  "validation_contract_changed": false,
+  "frozen_files_changed": false,
+  "registration_changed": false,
+  "provider_calls": 0,
+  "provider_reservations": 0,
+  "publication": false
+}

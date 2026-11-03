@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-07T03:31:22.271Z",
+  "old_contract_hash": "2822eec914883a624a2c2e1327e3b0ce30f24a7c0984701746ce268cabb54d48",
+  "new_contract_hash": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+  "reason": "JSONB reorders object keys. Canonical signing and structural provenance comparison preserve array order and every evidence gate. Legacy in-memory signatures remain verifiable; no academic prompt, candidate, oracle or provider decision changes.",
+  "paid_requests": 0,
+  "unseen_evaluation_rerun": false,
+  "canonical_serializer_bound": true
+}

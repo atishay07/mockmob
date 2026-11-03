@@ -1,0 +1,858 @@
+{
+  "schema": "cuet-v717-commerce-explanation-custody-r1",
+  "created_at_utc": "2026-10-10T05:38:30.522062+00:00",
+  "reviewer": "fresh_blind_custody",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "inputs": {
+    "solution": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\blind\\independent-commerce-custody-r1.json",
+      "sha256": "0b2c2dc3db7f48e14b0fc9b486290eb16728ec37dc12f3d19cfdbf3851a7b7c6"
+    },
+    "author": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\sealed\\authored-custody-r2.json",
+      "sha256": "d9fef4fdf9ca2d54735cc405d0d0b1b8cff0056c7c9ebaee12e6fc90b9e02c7a"
+    },
+    "map": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\sealed\\blind-id-map-custody-r1.json",
+      "sha256": "0b09d5b7b7d40bf58396a8d9eb9dc92d2afeee90f32495fa6f241f62805377f6"
+    },
+    "packet": {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v717\\qualification-fresh32\\blind\\packet-custody-r1.json",
+      "sha256": "52fdb60ea16ff764e647c6e4987824e30b00274d917ad330f67f8dc466897dbe"
+    }
+  },
+  "custody": {
+    "frozen_independent_solution_precedes_author_disclosure": true,
+    "only_six_revised_commerce_cases_audited": true,
+    "source_text_exact_substring_checks": true,
+    "author_packet_full_options_and_stems_checked": true,
+    "originals_unchanged": true,
+    "no_paid_provider_calls": true,
+    "no_runtime_registration_label_edits": true,
+    "create_only_output": true
+  },
+  "summary": {
+    "cases": 6,
+    "positive_controls": 2,
+    "academically_supported_positive_controls": 2,
+    "academic_positive_blockers": 0,
+    "negative_controls": 4,
+    "decisive_negative_labels_confirmed": 4,
+    "wrong_key": 1,
+    "missing_decisive_input": 1,
+    "false_explanation": 2,
+    "explicit_syllabus_entitlement": 6,
+    "candidate_source_refs_match_packet": 6,
+    "obsolete_provenance_reference_discrepancies": 6,
+    "registration_metadata_followup": "Root must resolve or formally classify obsolete provenance refs before final registration; no academic construction blocker remains among these six."
+  },
+  "items": [
+    {
+      "opaque_id": "q717-4a082f0b51de029bb76828b2",
+      "authored_id": "v717-fresh32-a-v1-custody-r1",
+      "slot": "A_V1",
+      "subject": "accountancy",
+      "original_expected_valid": true,
+      "original_defect_class": null,
+      "independent_answer_set": [
+        "A"
+      ],
+      "independent_answerability": "uniquely_answerable",
+      "independent_calculation": "Common-size expense share = expense / revenue × 100. P: 600/800 × 100 = 75%. Q: 160/200 × 100 = 80%. P has the lower expense share.",
+      "option_review": {
+        "A": "Correct: P is 75% and Q is 80%, so P has the lower share.",
+        "B": "Incorrect: compares absolute rupee expenses (₹600 versus ₹160) rather than shares of revenue; Q's share is actually higher.",
+        "C": "Incorrect: reverses the two calculated percentages and the resulting comparison.",
+        "D": "Incorrect: being below revenue does not make the shares equal; they are 75% and 80%."
+      },
+      "candidate_key": "A",
+      "candidate_key_matches_independent_solution": true,
+      "candidate_key_established": true,
+      "full_explanation": "Common-size profit-and-loss statements express expenses as a percentage of revenue from operations. P: 600 ÷ 800 × 100 = 75%; Q: 160 ÷ 200 × 100 = 80%. P has the lower expense share despite its larger absolute expenses.",
+      "claim_audit": [
+        {
+          "exact_claim": "Common-size profit-and-loss statements express expenses as a percentage of revenue from operations.",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "supported_source",
+          "assessment": "Expense divided by revenue is exactly the supplied common-size profit-and-loss basis.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p4-c0-g2-s0",
+              "exact_quote": "2. Common Size Statements: These are the statements which indicate the\nrelationship of different items of a financial statement with a common item\nby expressing each item as a percentage of that common item.",
+              "exact_substring_verified": true,
+              "offset": 867,
+              "quote_sha256_utf8": "e3d07b2e79162f3d528cbd7d61bd423145cf716a9528b172e45deb305027ad90",
+              "quote_sha256_json_string": "3a3428894e7a8aef74d1f661eb5f72fb500e593af1114bbc8d363752f0146d82"
+            },
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        },
+        {
+          "exact_claim": "P: 600 ÷ 800 × 100 = 75%; Q: 160 ÷ 200 × 100 = 80%.",
+          "exact_substring_verified": true,
+          "offset": 100,
+          "status": "supported_calculation",
+          "assessment": "All printed premises used: 600/800*100=75 and 160/200*100=80. Both percentages and denominators are correct.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p4-c0-g2-s0",
+              "exact_quote": "2. Common Size Statements: These are the statements which indicate the\nrelationship of different items of a financial statement with a common item\nby expressing each item as a percentage of that common item.",
+              "exact_substring_verified": true,
+              "offset": 867,
+              "quote_sha256_utf8": "e3d07b2e79162f3d528cbd7d61bd423145cf716a9528b172e45deb305027ad90",
+              "quote_sha256_json_string": "3a3428894e7a8aef74d1f661eb5f72fb500e593af1114bbc8d363752f0146d82"
+            },
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        },
+        {
+          "exact_claim": "P has the lower expense share despite its larger absolute expenses.",
+          "exact_substring_verified": true,
+          "offset": 152,
+          "status": "entailed_comparison",
+          "assessment": "75<80 establishes the lower expense share; printed 600>160 supports larger absolute expenses. The whole conjunction is true.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p4-c0-g2-s0",
+              "exact_quote": "2. Common Size Statements: These are the statements which indicate the\nrelationship of different items of a financial statement with a common item\nby expressing each item as a percentage of that common item.",
+              "exact_substring_verified": true,
+              "offset": 867,
+              "quote_sha256_utf8": "e3d07b2e79162f3d528cbd7d61bd423145cf716a9528b172e45deb305027ad90",
+              "quote_sha256_json_string": "3a3428894e7a8aef74d1f661eb5f72fb500e593af1114bbc8d363752f0146d82"
+            },
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "locator": "p4-c0-g2-s0",
+          "exact_quote": "2. Common Size Statements: These are the statements which indicate the\nrelationship of different items of a financial statement with a common item\nby expressing each item as a percentage of that common item.",
+          "exact_substring_verified": true,
+          "offset": 867,
+          "quote_sha256_utf8": "e3d07b2e79162f3d528cbd7d61bd423145cf716a9528b172e45deb305027ad90",
+          "quote_sha256_json_string": "3a3428894e7a8aef74d1f661eb5f72fb500e593af1114bbc8d363752f0146d82"
+        },
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "locator": "p12-c0-g2-s0",
+          "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+          "exact_substring_verified": true,
+          "offset": 502,
+          "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+          "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "exact_substring_verified": true,
+          "offset": 279,
+          "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+          "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": true,
+      "intended_defect_confirmed": null,
+      "decisive_defect_proof": null,
+      "positive_academic_construction_supported": true,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p5-c0-g1-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p4-c0-g2-s0"
+        ],
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    },
+    {
+      "opaque_id": "q717-e584ab5fb5543a34e09e6cec",
+      "authored_id": "v717-fresh32-a-d2-custody-r1",
+      "slot": "A_D2",
+      "subject": "accountancy",
+      "original_expected_valid": false,
+      "original_defect_class": "missing_decisive_input",
+      "independent_answer_set": [],
+      "independent_answerability": "not_uniquely_answerable_missing_revenue_denominator",
+      "independent_calculation": "The required percentage is ₹100 lakh / revenue from operations × 100. Revenue from operations is not given, so no unique percentage follows. Each listed percentage could arise under a different revenue denominator.",
+      "option_review": {
+        "A": "80% is not determined; it would require revenue of ₹125 lakh.",
+        "B": "125% is not determined; it would require revenue of ₹80 lakh.",
+        "C": "100% is not determined; it would require revenue of ₹100 lakh.",
+        "D": "20% is not determined; it would require revenue of ₹500 lakh."
+      },
+      "candidate_key": "B",
+      "candidate_key_matches_independent_solution": null,
+      "candidate_key_established": false,
+      "full_explanation": "Common-size profit-and-loss statements express expenditure as a percentage of revenue from operations. Revenue is not supplied, so no percentage can be determined from the printed information.",
+      "claim_audit": [
+        {
+          "exact_claim": "Common-size profit-and-loss statements express expenditure as a percentage of revenue from operations.",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "supported_source",
+          "assessment": "The supplied common-size rule requires expenditure as a percentage of revenue.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        },
+        {
+          "exact_claim": "Revenue is not supplied, so no percentage can be determined from the printed information.",
+          "exact_substring_verified": true,
+          "offset": 103,
+          "status": "supported_missing_input",
+          "assessment": "Only expense100 is printed. Revenue125,80,100,500 respectively realizes options A80%, B125%, C100%, D20%. No option is established uniquely.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "locator": "p12-c0-g2-s0",
+          "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+          "exact_substring_verified": true,
+          "offset": 502,
+          "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+          "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "exact_substring_verified": true,
+          "offset": 279,
+          "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+          "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": false,
+      "intended_defect_confirmed": true,
+      "decisive_defect_proof": "Missing decisive revenue denominator; rival positive bases make all four options possible.",
+      "positive_academic_construction_supported": false,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p5-c0-g1-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    },
+    {
+      "opaque_id": "q717-9ac63f86dadab0ed3f237782",
+      "authored_id": "v717-fresh32-a-d3-custody-r1",
+      "slot": "A_D3",
+      "subject": "accountancy",
+      "original_expected_valid": false,
+      "original_defect_class": "false_explanation",
+      "independent_answer_set": [
+        "C"
+      ],
+      "independent_answerability": "uniquely_answerable",
+      "independent_calculation": "Cost-of-goods-sold share = 150/200 × 100 = 75% of revenue.",
+      "option_review": {
+        "A": "Incorrect: 25% is the remainder share (₹200−₹150) / ₹200, not cost of goods sold.",
+        "B": "Incorrect: 133.33% reverses the ratio (₹200/₹150) and is not the expense share of revenue.",
+        "C": "Correct: ₹150/₹200 × 100 = 75%.",
+        "D": "Incorrect: 50% does not follow from the given cost and revenue figures."
+      },
+      "candidate_key": "C",
+      "candidate_key_matches_independent_solution": true,
+      "candidate_key_established": true,
+      "full_explanation": "Common-size analysis divides revenue by expenditure: ₹200 lakh ÷ ₹150 lakh × 100 = 133.33%. Therefore option C is correct.",
+      "claim_audit": [
+        {
+          "exact_claim": "Common-size analysis divides revenue by expenditure: ₹200 lakh ÷ ₹150 lakh × 100 = 133.33%.",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "false_rule_and_wrong_target",
+          "assessment": "Arithmetic200/150*100=133.33% is approximately true, but common-size expense share divides expense150 by revenue200. The sentence reverses the decisive ratio and computes the wrong quantity.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        },
+        {
+          "exact_claim": "Therefore option C is correct.",
+          "exact_substring_verified": true,
+          "offset": 92,
+          "status": "correct_key_unsupported_inference",
+          "assessment": "C75% is independently correct, but the preceding133.33% equals printed optionB and cannot justify C. The word Therefore asserts a false inference; the full explanation is defective.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leac204-v1",
+              "locator": "p12-c0-g2-s0",
+              "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+              "exact_substring_verified": true,
+              "offset": 502,
+              "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+              "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+            },
+            {
+              "source_id": "cuet2026-accountancy-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+              "exact_substring_verified": true,
+              "offset": 279,
+              "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+              "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leac204-v1",
+          "locator": "p12-c0-g2-s0",
+          "exact_quote": "Similarly, in the common size statement of profit and loss, the items of\nexpenditure are shown as a percentage of the revenue from operations.",
+          "exact_substring_verified": true,
+          "offset": 502,
+          "quote_sha256_utf8": "1ce6ddf2d278a936a318ebdfba7780c653b93cbd40ce6d54f98e7a43edc9fc52",
+          "quote_sha256_json_string": "53ca2e8f80dc81ab51c0e9ab77abc55919f08252ab56e5e36b6b7315736e7fad"
+        },
+        {
+          "source_id": "cuet2026-accountancy-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+          "exact_substring_verified": true,
+          "offset": 279,
+          "quote_sha256_utf8": "6195e40e4926e361a1417ada0a84a0cce00dfa1e6d876bc2664ffde240df55e8",
+          "quote_sha256_json_string": "ae775b8539c80bb8397e89667b28f1ea0eae283ae39abe65eb39aa5058326f71"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": true,
+      "intended_defect_confirmed": true,
+      "decisive_defect_proof": "Expense/revenue is replaced by its inverse; correct C key does not repair the false ratio rule or contradictory inference.",
+      "positive_academic_construction_supported": false,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p5-c0-g1-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leac204-v1",
+          "p12-c0-g2-s0"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    },
+    {
+      "opaque_id": "q717-6901065455b2e85d5839fb5c",
+      "authored_id": "v717-fresh32-e-v4-custody-r1",
+      "slot": "E_V4",
+      "subject": "economics",
+      "original_expected_valid": true,
+      "original_defect_class": null,
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_answerability": "uniquely_answerable",
+      "independent_calculation": "Marginal cost for the increase from 3 to 4 units = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+      "option_review": {
+        "A": "Incorrect: ₹4 is not the change in total cost; total cost rises by ₹5 for one additional unit.",
+        "B": "Correct: the total-cost increase is ₹5 over one unit of output.",
+        "C": "Incorrect: ₹6 does not equal the observed cost difference.",
+        "D": "Incorrect: ₹8 does not equal the observed cost difference."
+      },
+      "candidate_key": "B",
+      "candidate_key_matches_independent_solution": true,
+      "candidate_key_established": true,
+      "full_explanation": "Short-run marginal cost is the change in total cost per unit of change in output. Output rises by one unit, so MC = (₹49 − ₹44) ÷ (4 − 3) = ₹5.",
+      "claim_audit": [
+        {
+          "exact_claim": "Short-run marginal cost is the change in total cost per unit of change in output.",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "supported_source",
+          "assessment": "The supplied NCERT excerpt explicitly defines SMC as change in total cost per unit change in output.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s23",
+              "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+              "exact_substring_verified": true,
+              "offset": 448,
+              "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+              "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+            },
+            {
+              "source_id": "cuet2026-economics-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+              "exact_substring_verified": true,
+              "offset": 175,
+              "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+              "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+            }
+          ]
+        },
+        {
+          "exact_claim": "Output rises by one unit, so MC = (₹49 − ₹44) ÷ (4 − 3) = ₹5.",
+          "exact_substring_verified": true,
+          "offset": 82,
+          "status": "supported_calculation",
+          "assessment": "4-3=1;49-44=5;5/1=5. All necessary inputs are printed; no headerless-table interpretation is needed.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s23",
+              "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+              "exact_substring_verified": true,
+              "offset": 448,
+              "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+              "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+            },
+            {
+              "source_id": "cuet2026-economics-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+              "exact_substring_verified": true,
+              "offset": 175,
+              "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+              "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "locator": "p9-c0-g0-s23",
+          "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+          "exact_substring_verified": true,
+          "offset": 448,
+          "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+          "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+          "exact_substring_verified": true,
+          "offset": 175,
+          "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+          "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": true,
+      "intended_defect_confirmed": null,
+      "decisive_defect_proof": null,
+      "positive_academic_construction_supported": true,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p10-c0-g3-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    },
+    {
+      "opaque_id": "q717-de1089f449002fb3f7ee64c0",
+      "authored_id": "v717-fresh32-e-d1-custody-r1",
+      "slot": "E_D1",
+      "subject": "economics",
+      "original_expected_valid": false,
+      "original_defect_class": "wrong_key",
+      "independent_answer_set": [
+        "B"
+      ],
+      "independent_answerability": "uniquely_answerable",
+      "independent_calculation": "Short-run marginal cost = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+      "option_review": {
+        "A": "Incorrect: ₹6 is not the change in total cost over the one-unit output increase.",
+        "B": "Correct: ₹5/1 unit = ₹5 per unit.",
+        "C": "Incorrect: ₹8 is not supported by the stated totals.",
+        "D": "Incorrect: ₹10 is not supported by the stated totals."
+      },
+      "candidate_key": "C",
+      "candidate_key_matches_independent_solution": false,
+      "candidate_key_established": false,
+      "full_explanation": "The change in total cost per unit of output change is (₹49 − ₹44) ÷ (4 − 3) = ₹5 (option B).",
+      "claim_audit": [
+        {
+          "exact_claim": "The change in total cost per unit of output change is (₹49 − ₹44) ÷ (4 − 3) = ₹5 (option B).",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "supported_source_and_calculation",
+          "assessment": "Definition supports deltaTC/deltaq; printed49,44,4,3 gives5; optionB is5. Every explanation clause is true, but candidate keyC8 is wrong independently.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s23",
+              "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+              "exact_substring_verified": true,
+              "offset": 448,
+              "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+              "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+            },
+            {
+              "source_id": "cuet2026-economics-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+              "exact_substring_verified": true,
+              "offset": 175,
+              "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+              "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "locator": "p9-c0-g0-s23",
+          "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+          "exact_substring_verified": true,
+          "offset": 448,
+          "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+          "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+          "exact_substring_verified": true,
+          "offset": 175,
+          "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+          "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": true,
+      "intended_defect_confirmed": true,
+      "decisive_defect_proof": "Correct B5 established uniquely; proposed C8 disagrees. Explanation correctly gives B5.",
+      "positive_academic_construction_supported": false,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p10-c0-g3-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    },
+    {
+      "opaque_id": "q717-6920a1ed5fb5a21c884c8425",
+      "authored_id": "v717-fresh32-e-d3-custody-r1",
+      "slot": "E_D3",
+      "subject": "economics",
+      "original_expected_valid": false,
+      "original_defect_class": "false_explanation",
+      "independent_answer_set": [
+        "D"
+      ],
+      "independent_answerability": "uniquely_answerable",
+      "independent_calculation": "Total cost = fixed cost + variable cost. TC rises from ₹20+₹60=₹80 to ₹20+₹75=₹95. For one additional unit, SMC = (₹95−₹80)/(9−8) = ₹15 per unit; equivalently, fixed cost is unchanged so the ₹15 increase in variable cost is the total-cost increase.",
+      "option_review": {
+        "A": "Incorrect: ₹8.33 is close to an average variable-cost calculation (₹75/9), not marginal cost.",
+        "B": "Incorrect: ₹10.55 does not equal the ₹15 increase in total cost for one extra unit.",
+        "C": "Incorrect: ₹13 does not equal the ₹15 increase in variable/total cost for one extra unit.",
+        "D": "Correct: with fixed cost unchanged, total cost rises by ₹15 for the one-unit output increase."
+      },
+      "candidate_key": "D",
+      "candidate_key_matches_independent_solution": true,
+      "candidate_key_established": true,
+      "full_explanation": "Marginal cost is total variable cost divided by output: ₹75 ÷ 9 = ₹8.33. The keyed answer is D, ₹15.",
+      "claim_audit": [
+        {
+          "exact_claim": "Marginal cost is total variable cost divided by output: ₹75 ÷ 9 = ₹8.33.",
+          "exact_substring_verified": true,
+          "offset": 0,
+          "status": "false_rule_with_true_arithmetic",
+          "assessment": "75/9 approximately8.33 is arithmetic for total variable cost per unit, not deltaTC/deltaq. True arithmetic does not validate the false marginal-cost definition.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s0",
+              "exact_quote": "Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)",
+              "exact_substring_verified": true,
+              "offset": 264,
+              "quote_sha256_utf8": "488554df46442b39e348e7098a6c6867e59a2435d47ae5284e2b3327bdd235ea",
+              "quote_sha256_json_string": "bf6528a56d20f9b900f81ea58f915422a23ad236f2788b963cf4ff438106e690"
+            },
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s23",
+              "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+              "exact_substring_verified": true,
+              "offset": 448,
+              "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+              "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+            },
+            {
+              "source_id": "cuet2026-economics-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+              "exact_substring_verified": true,
+              "offset": 175,
+              "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+              "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+            }
+          ]
+        },
+        {
+          "exact_claim": "The keyed answer is D, ₹15.",
+          "exact_substring_verified": true,
+          "offset": 73,
+          "status": "true_key_without_valid_derivation",
+          "assessment": "The declared keyD is15 and is independently correct: (20+75)-(20+60)=15 over one unit. The sentence accurately reports the key but does not cure the preceding false definition/calculation target.",
+          "all_clauses_assessed": true,
+          "source_evidence": [
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s0",
+              "exact_quote": "Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)",
+              "exact_substring_verified": true,
+              "offset": 264,
+              "quote_sha256_utf8": "488554df46442b39e348e7098a6c6867e59a2435d47ae5284e2b3327bdd235ea",
+              "quote_sha256_json_string": "bf6528a56d20f9b900f81ea58f915422a23ad236f2788b963cf4ff438106e690"
+            },
+            {
+              "source_id": "ncertcol-leec203-v1",
+              "locator": "p9-c0-g0-s23",
+              "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+              "exact_substring_verified": true,
+              "offset": 448,
+              "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+              "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+            },
+            {
+              "source_id": "cuet2026-economics-syllabus",
+              "locator": "full-syllabus",
+              "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+              "exact_substring_verified": true,
+              "offset": 175,
+              "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+              "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+            }
+          ]
+        }
+      ],
+      "decisive_source_and_syllabus_evidence": [
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "locator": "p9-c0-g0-s0",
+          "exact_quote": "Adding the fixed and the variable costs,\nwe get the total cost (TC) of a firm\nTC = TVC + TFC (3.6)",
+          "exact_substring_verified": true,
+          "offset": 264,
+          "quote_sha256_utf8": "488554df46442b39e348e7098a6c6867e59a2435d47ae5284e2b3327bdd235ea",
+          "quote_sha256_json_string": "bf6528a56d20f9b900f81ea58f915422a23ad236f2788b963cf4ff438106e690"
+        },
+        {
+          "source_id": "ncertcol-leec203-v1",
+          "locator": "p9-c0-g0-s23",
+          "exact_quote": "The short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output",
+          "exact_substring_verified": true,
+          "offset": 448,
+          "quote_sha256_utf8": "6cfa569a7739a828266a86fb676007dd91dd2aa7f27744b6762e41d685a33ad8",
+          "quote_sha256_json_string": "05447d83d4dd0e04e1f8f6b70b97c54ab4bf0290a0b34aad57006f881e3cad7d"
+        },
+        {
+          "source_id": "cuet2026-economics-syllabus",
+          "locator": "full-syllabus",
+          "exact_quote": "short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs)",
+          "exact_substring_verified": true,
+          "offset": 175,
+          "quote_sha256_utf8": "f6cec2f6469bf2281056c3f6956d86f8894a93eff012cf34c04e0364b4318062",
+          "quote_sha256_json_string": "6f853feccd62f7726ae7f74865dbcd0a9a55ca4cc38bf1184ae3aba67552a861"
+        }
+      ],
+      "explicit_syllabus_entitlement": true,
+      "printed_numerical_premises_sufficient": true,
+      "intended_defect_confirmed": true,
+      "decisive_defect_proof": "Correct D15 established uniquely; explanation misdefines marginal cost as TVC/output rather than deltaTC/deltaq.",
+      "positive_academic_construction_supported": false,
+      "author_packet_stem_options_chapter_unit_match": true,
+      "candidate_sources_match_packet_excerpts": true,
+      "original_provenance_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p10-c0-g3-s0"
+        ]
+      ],
+      "candidate_source_refs": [
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s0"
+        ],
+        [
+          "ncertcol-leec203-v1",
+          "p9-c0-g0-s23"
+        ]
+      ],
+      "provenance_metadata_issue": "Obsolete prior-draft locators remain in provenance.source_refs. Decisive candidate.sources and actual blind excerpts are correct. Synchronize authoritative registration refs or explicitly preserve this field as historical provenance before final registration. This is a metadata discrepancy, not an additional academic defect.",
+      "demand_observation": "Simple numerical/common-size comparison objective is legitimate; no difficulty or premium rejection.",
+      "preservation": "Original labels and all prior drafts preserved; no runtime or registration modification."
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11311,
+ "request_bytes": 34712,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r5-regression-2026-10-09-v77f-e77493e30567\",\n  \"content_hash\": \"9a464dcfc46e300212b0fad5888d389a0ff2640332fe3395c01a535627750400\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\",\n    \"E2.1\"\n  ],\n  \"reasons\": [\n    \"Cash received from customers is an operating cash inflow of ₹12,000, and cash paid to suppliers is an operating cash outflow of ₹4,500.\",\n    \"Net cash generated from these operating transactions is ₹12,000 - ₹4,500 = ₹7,500.\"\n  ],\n  \"syllabus_chapter\": \"Cash Flow Statement\",\n  \"syllabus_topic\": \"Cash flows from operating activities\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Cash received from customers is ₹12,000 and cash paid to suppliers is ₹4,500.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Receipts from customers are cash inflows and payments to suppliers are cash outflows under operating activities.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\n        \"E2.1\"\n      ]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Net cash is calculated with an arithmetic error yielding ₹8,500 instead of ₹7,500.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Both transactions are added together as total cash movement rather than calculating net inflow.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Net cash is calculated with an arithmetic error yielding ₹6,500 instead of ₹7,500.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests computation of operating cash flows under Cash Flow Statement.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Clean single-step numerical MCQ typical of CUET UG Accountancy.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Straightforward application matching easy CUET numerical items.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 2,\n        \"evidence\": \"Distractors target common arithmetic errors and the addition of inflow and outflow.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-accountancy-bookA-q11\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"₹12,000 received minus ₹4,500 paid equals net cash inflow of ₹7,500.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹8,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"12000 - 4500 is 7500, not 8500.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹16,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"16500 is the sum of both amounts, not the net cash.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"₹6,500\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A firm receives ₹12,000 from customers and pays ₹4,500 to suppliers.\",\n      \"reason\": \"12000 - 4500 is 7500, not 6500.\"\n    }\n  ]\n}",
+       "thoughtSignature": "ErAGCq0GAWkUfRMiTaSuzQMq3ogGciizx+o+YeuQZzzH/iq+XfNufBaLAU62rEChsudop1lftFY1aXMf2/lUu5HcyC03UMyQ57m6qdX83TzD/tTbW8QkHloqqLdjg7aCmd/NKnCqsY6LNOQ0Nj7dYG960ohMp1/HedtE3rh3ElfwobvCwnJkWsABYUHtQAlLMesFjTtPT8snS4mRLQYjOaP3MX89albYTczFnyMv2iyJJJM8NGKSL+GnkgKDEjx0/tsbal3sj+5NSc17j7IXpiPHMaFjjGI7+WUK+Ivx00BqR+NOzrqX4vffjM9HBv+GRGS4sN6ZhAk715dOC+I/8gsasHcF3GKEimgtdvjyqy02T8YPJ8FaHaQFE165gw9vcg4ttfjwAPAL6fKULoJwVDXmsYM2JbbaASBMyId0mbqu+dZbWj+xzp7IfzFKnjqzKiCuNo+u4uQCn/Du7epYBeHnutvG+Jwz20wdtGy+1OIqq0ASGswgLOH6t69F61QTU2FyzItFtijYHxKpdFqicLh2OCgPZiy0G8nY/z13jVIbEnswOCl+kQbGG8qZr0huvhORsf4G3EunFjCuD5ulXJqspUMwxl+xcKEu/SNKT3cEu5qbG+88X2kDkNt5ueUFUNkzvwCubsHnLWiYVVm8Zo6+NZDHruF8aRywI3wqcUV+ryf3NO8t4RsQGr9OpH73BF+sZj5MMpjqh4X6c1e78QGN7BIM0XhRU5M4nmRAxoeWbBDr0+LR//M5RvfiRQNCZQskXRI82ziFrPK4QftFblkY1LFNktvYwRXL4y1guRn+COH9R8FKXsWUUqdtYLTjAviDLqI36WEurAGMQztcanLJ6SF4bLzZzktBJCjOYW/RzRClwSBvlLce7y7c3czBo9o8Vb+RASFypmYQvmkI7Y5u3MpX8TUD13HbpYddjLRlxWaouvz1HssK5b+Iye8pmYSMbcWkljHv8633H2dtw2tfpFLI+tLi0c2hpnfnny7mIt+g5PIC4yWo01LJtW95f5JOWNomzgBGF8ktE8ZtsVD3Ah39zdv1pppw9hSzdTJHKO+u5W0lbxAD3oW9VZYQNhWd"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6385,
+   "candidatesTokenCount": 1527,
+   "totalTokenCount": 8130,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6385
+    }
+   ],
+   "thoughtsTokenCount": 218,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "G-LIapiFOuaumNMPze754As"
+ }
+}

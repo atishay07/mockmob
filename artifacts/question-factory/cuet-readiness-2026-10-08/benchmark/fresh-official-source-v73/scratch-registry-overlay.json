@@ -1,0 +1,1074 @@
+{
+  "sources": {
+    "fresh-v73-cbse24-ac-q01-excerpt-1": {
+      "id": "fresh-v73-cbse24-ac-q01-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Partnership Fundamentals"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "147157b76db3e4e1ad19bcbb5a925da3db6c5185ca80c7da6b1fdb062cd3c1f4",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "125bbe4a39eb3aaef3e5dbed272a71ba33ee0c8264a5dbe48337fe71561e706d"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q02-excerpt-1": {
+      "id": "fresh-v73-cbse24-ac-q02-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Partnership Fundamentals"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "151d82ee9175000f18e6b608a168d9ecd02abe551f23de67e5d64ddfdbedcc79",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "82732cb8a6a0e1f1662a5195fd7185c0cd4d9c27f07436e243468bb4a6590342"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q02-excerpt-2": {
+      "id": "fresh-v73-cbse24-ac-q02-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Partnership Fundamentals"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "5b00bf3d294d6548781283e50b4b55e9bef1c28c7b5d71ee80e8452ecf3f88f3",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Fluctuating Capital Method: Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner. All the adjustments such as share of profit and loss, interest on capital, drawings, interest on drawings, salary or commission to partners, etc are recorded directly in the capital accounts of the partners."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "a987909622afc482b95d7470fc3c6fadbd53cdfb7719760f78015dd6c9fd07aa"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q04-excerpt-1": {
+      "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Admission of Partner"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+      "extraction_sha256": "86013026a3965f030733312b7f6b63bf14327c4b9698ab9ef99cad3fdf1aa00a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/keac202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "When such a provision already exists, the loss due to bad debts during the current year are adjusted against the same"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q04-excerpt-2": {
+      "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Admission of Partner"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/keac202.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "089032f2b84df5aa949e659d593b698363b6711ee1c6fb52d67e236afa7bcbdd",
+      "extraction_sha256": "37244add8f415922d71a32b6250d187dd9dd17f44d7d98dc0c771b5ad8f58272",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/keac202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Bad debts A/c Dr. 1,000 31, 2017 To Sundry debtors 1,000 (Futher bad debts) (b) Provision for doubtful debts A/c Dr. 3,000 To Bad debts A/c 3,000 (Bad debts adjusted against the provision"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q08-excerpt-1": {
+      "id": "fresh-v73-cbse24-ac-q08-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Dissolution of Partnership Firm"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+      "extraction_sha256": "6cc8cc662e2457748cd00f62bc77abeb0df6a409ae231ec97ab75064e36d166a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "For an asset taken over by a partner Partner’s Capital A/c Dr. To Realisation A/c 5. For payment of liabilities Realisation A/c Dr. To Bank A/c with the same value with the amount assets are taken over"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "5d6de8d9a9be56deb6fe9dd1abba00b17854cfd1ba3701069ed5eab81ed3956a"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-ac-q08-excerpt-2": {
+      "id": "fresh-v73-cbse24-ac-q08-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Dissolution of Partnership Firm"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+      "extraction_sha256": "8d77689186256e5af87c9af3000f06faa5900dcae3437169fc6d74244331788f",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "For payment of loans due to partners Partner’s Loan A/c Dr. To Bank A/c"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "155b547f2b3b91347a0c83dbacfd21099c4107ad558cbee2eb8ba88ffc53497f"
+      },
+      "source_pack_id": "fresh-v73-source-accountancy"
+    },
+    "fresh-v73-cbse24-bs-q02-excerpt-1": {
+      "id": "fresh-v73-cbse24-bs-q02-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Organising"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+      "extraction_sha256": "5b71e0d55ac445d5cd0b9cf16fe9ca43daa92496d084b1b387fb665c4c0e521a",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "47c7ba98560225b2c27b4caf9eee6241322b48a1038c2bba1ef624b3b9ddb485"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q03-excerpt-1": {
+      "id": "fresh-v73-cbse24-bs-q03-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Financial Management"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+      "extraction_sha256": "2af88ab117bf5de528e07f70c220f0ce1401864275e64b1a1db6a0c55f25f258",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs201.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "It aims at enabling the company to tackle the uncertainty in respect of the availability and timing of the funds and helps in smooth functioning of an organisation."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "a6b590c3097713c923878b0d71cb7dc98d2f0bb07016cda0885bf58852a46867"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q03-excerpt-2": {
+      "id": "fresh-v73-cbse24-bs-q03-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Financial Management"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+      "extraction_sha256": "d9110c781d502246a5a98d1304d85715cbdb9237f08d8892faa9ce0d034e0de1",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs201.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Capital structure refers to the mix between owners and borrowed funds. These shall be referred as equity and debt in the subsequent text."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "623f088eb0dbeb45400715bd08ab24470bc147640f5849caaa76dd95099a22ef"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q05-excerpt-1": {
+      "id": "fresh-v73-cbse24-bs-q05-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Staffing"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_sha256": "0a7704768371a5ba20de786a0ca544e6cf9aa824c6a69c4faaa18fd1f967a954",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Competitive Spirit: If a company taps external sources, the extisting staff will have to compete with the outsiders. They will work harder to show better performance."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "2e72dc96bf88a9dc6dd17caf9f0a22076d3ede75ef396e5cb31a2d51ad69eb6f"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q05-excerpt-2": {
+      "id": "fresh-v73-cbse24-bs-q05-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Staffing"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_sha256": "e6a9c3a80672e1ff5adb94b0433465714816b2408a457705188e7c2fa24a782e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Dissatisfaction among existing staff: Exter nal recruitment may lead to dissatisfaction and frustration among existing employees. They may feel that their chances of promotion are reduced."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "91bd640f467062d75ffd5664887c03d5503c9e7d6bffba9e5fa48a6f14b30497"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q06-excerpt-1": {
+      "id": "fresh-v73-cbse24-bs-q06-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "bfc091495767863098a0e7b010d92583dba1a6a6066c9b9af54d0ea259738547",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Short and long term interest rates significantly affect the demand for product and services. For example, in case of construction companies and automobile manufacturers, low longer ­term rates are beneficial because they result in increased spending by consumers for buying homes and cars on borrowed money."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "1d39d3856a7e21419865e0fc32dcb5184d65d13f3aa814eaae3c54dceacbe4f1"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q06-excerpt-2": {
+      "id": "fresh-v73-cbse24-bs-q06-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "b40fe88693b8ac94dbfea47a178baa6401fa0b54a84d329ad824096f8d167159",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Technological Environment: Technological environment includes forces relating to scie ntific improvements and"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "0c455be511c8c4ff96081014ed6284acd91164dcaf82699e96274dc348d13ea6"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q06-excerpt-3": {
+      "id": "fresh-v73-cbse24-bs-q06-excerpt-3",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Business Environment"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "06976fc78af6bb8f53d439dea46f7a04f90d42115d961ae3c708174b4431b504",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "innovations which provide new ways o f prod ucing goods and services and new methods and techni ques of operating a business. For exa mple, recent technological, a dva nces in computers and electro nics have modified the ways in which companies advertise their pr oducts."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "1b47f82f9eb35019fe636e31d9ce557d3fe65c857d077f64a167da718898889b"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-bs-q07-excerpt-1": {
+      "id": "fresh-v73-cbse24-bs-q07-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Consumer Protection"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_sha256": "f61f06b527d187ccb6aca3f2c249e6ca8d91186ead9ea46d569fe274aae9320e",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs203.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Buy only standardised goods as they provide quality assurance. Thus, look for ISI mark on electrical goods, FPO mark on food products, Hallmark on jewelry, etc."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "db318b3c3527b171567a0656496f2066c765bb4e7b152d236107779f564d9465"
+      },
+      "source_pack_id": "fresh-v73-source-business_studies"
+    },
+    "fresh-v73-cbse24-eco-q02-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q02-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Government Budget & the Economy"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "extraction_sha256": "ab64cbcf61be09c18329014ae6973524e59a9098f7877be05e937f8b566f56ac",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "The government sector affects the personal disposable income of households by making transfers and collecting taxes. It is through this that the government can change the distribution of income and bring about a distribution that is considered ‘fair’ by society. This is the redistribution function"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "021d9cc6ee7d134fdd98a0e942d344a57b6fa59d75606d530f79c9e5244e8eab"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q03-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q03-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "National Income & Related Aggregates"
+      ],
+      "url": "https://ies.gov.in/arthapedia/concept/gdp-national-accounts-revised-series-2011-12-base-year",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "5ad369edd826d042a15193d3e6f0b541291f88362c61229f6623bd152fcade2c",
+      "extraction_sha256": "adfe6acea570ac82f0ea417cd563f33f23a8c1a691340425cc240e0e6562e304",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official excerpts for local verification; no unrestricted redistribution claim",
+        "reference": "https://ies.gov.in/arthapedia/concept/gdp-national-accounts-revised-series-2011-12-base-year"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "GDP at market prices which is henceforth be referred as GDP, can be computed by adding net of product tax and product subsidies in GVA at basic prices."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "d4ce99e8a6c693ac75dddc9430eae7582ea110b3b6863876b6d45a4f0e3691d1"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q04-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q04-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "075b94d76e7ad047c310afa376ac512ef531b5bdea401a8e32c2fade7d8fb3f8",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "movements in the exchange rate automatically take car e of the surpluses and deficits in the BoP"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "0c2cc11a91afcc4d1f778929d83cd4b6cb1dda24c737738bd51edc7ef8c4f4bd"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q05-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q05-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "0d366367a328485430651acce590909625da1b865fc0f5c1afe42c58ba7a1a10",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "This kind of supply situation is shown by a 45 ° line. Now, the 45 ° line has the feature that every point on it has the same horizontal and vertical coordinates."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "e10cb1e359f67fdc24a79c1678f6a767c7c5b4044f96f17b9ac8dbae79fe36ff"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q06-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q06-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Government Budget & the Economy"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "extraction_sha256": "061dc12fcc7e5ebc43244dd1222292fa3533599e77f788ebd3a4592b3b8ddd41",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Fiscal deficit is the difference between the government’s total expenditure and its total receipts excluding borrowing Gross fiscal deficit = Total expenditure – (Revenue receipts + Non-debt creating capital receipts"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "cffd726ea25d92a8e5930406e4ebdf1f77631bf230721c0afbb8c36c8a290e3a"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q07-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q07-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "5d17a4bd3c4d8a0fb77e8adc9faaf6294635b47be939ac39f958f71c6c057467",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "8428823b1ecc4eb1737a630376d7cddc1d64e18e6f1fb94d6256eea7d6283748"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q08-excerpt-1": {
+      "id": "fresh-v73-cbse24-eco-q08-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "4d606a56417cb8ca49dd9fcd18f03bdf2452a619b05f946c402559d5c40cbc7d",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "a475500c249d10846ddb42d1d0e6d4db57d38b0e4dc0499becb57104e7160489"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eco-q08-excerpt-2": {
+      "id": "fresh-v73-cbse24-eco-q08-excerpt-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Income Determination"
+      ],
+      "url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+      "title": "Selected authoritative teaching excerpt",
+      "identity_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+      "extraction_sha256": "bf390147104a87cf7aaa59283f98e4c32560c5c7cbabac4e6f403852fc224fd5",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "In a two sector model, there are two sources of final demand, the first is consumption and the second is investment. The investment function was shown as I = I Graphically, this is shown as a horizontal line at a height equal to I above the horizontal axis. In this model, I is autonomous which means, it is the same no matter whatever is the level of income."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "48d39ebf57b32766b8e51a603c5f83c73adf4ab1ffe4e879df9317bee6c65677"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    },
+    "fresh-v73-cbse24-eng-q01-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q01-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "36ab2a3c9ce90faaffcab1363e8891da3a03890009e9e2f7619b1a94fea01f6c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Notifications repeatedly interrupt conversations and draw fingers towards screens."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "2edbd0c310e5df2d56756a7ed7abf0518f74e4c00380b28dee23c9379d45bdc1"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-cbse24-eng-q02-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q02-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "206ce25906e162b601a1a70f5b9e8eff92d1fa02ecc2c6a468f8b34385cab234",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "b22d265c074445f66bfd15620bd5cb01d641e617a67dc615ee690660e86088b8"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-cbse24-eng-q03-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q03-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "51be1addf0f65b572bb5ed3a146fca842226f9d20e7d076606dff3b4195377e3",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-cbse24-eng-q04-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q04-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "51be1addf0f65b572bb5ed3a146fca842226f9d20e7d076606dff3b4195377e3",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "b2e29a41b0a7b3632c06d9140531577164e198b6bec6ec8302222c9f87769acf"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-cbse24-eng-q07-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q07-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "35e5746938ccfca899a1b0e0dd71c8bee01fb9d47b88eb726983f0e3ad053168",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "85354ebb8fe83119b4b58e70d92c1c06b5921c3facd43d23b676ad3296957ce1"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-cbse24-eng-q08-excerpt-1": {
+      "id": "fresh-v73-cbse24-eng-q08-excerpt-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted",
+      "title": "Frozen original adapted practice passage",
+      "identity_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "extraction_sha256": "a016ef2a0fa6ebb4f5526cfab51be073fff99a6d8ff4f5ae4888d823e42964a9",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original adapted practice stimulus; source lineage is preserved in the frozen packet.",
+        "reference": "local://mockmob/fresh-source-stimulus/cbse24-english-digital-connectivity-adapted"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences."
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "5b4bdb13d4ab740ed1e84ddb847fa92c6bc78fdd7e7e33b855f2b7a8012716f5"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-oxford-clamour-noun": {
+      "id": "fresh-v73-oxford-clamour-noun",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "https://www.oxfordlearnersdictionaries.com/us/definition/english/clamour_2",
+      "title": "Oxford Advanced Learner’s Dictionary: clamour noun",
+      "identity_sha256": "fe417771d977d600e3a762d7d7c55a0897b7296776d21820fab60c7f5a6e976d",
+      "extraction_sha256": "fe417771d977d600e3a762d7d7c55a0897b7296776d21820fab60c7f5a6e976d",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Short attributed dictionary quotation for private educational verification; original publisher page identity is the URL, and cached excerpt identity is its recorded digest.",
+        "reference": "https://www.oxfordlearnersdictionaries.com/us/definition/english/clamour_2"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "a loud noise, especially one that is made by a lot of people or animals"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "a63667236383a3561703aaa9d78f5cf5844e16454dd140b41ea1a50fcb8e364e"
+      },
+      "source_pack_id": "fresh-v73-source-english"
+    },
+    "fresh-v73-original-statistics-stimulus": {
+      "id": "fresh-v73-original-statistics-stimulus",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "url": "local://mockmob/fresh-controlled-statistics-stimulus",
+      "title": "Original hypothetical statistics definition and data",
+      "identity_sha256": "27fa0ee79cb6ce0e5b5bfa20db2d3b47afcd2fc82f949381517f039ba75dc2f6",
+      "extraction_sha256": "27fa0ee79cb6ce0e5b5bfa20db2d3b47afcd2fc82f949381517f039ba75dc2f6",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original controlled hypothetical stimulus; never published.",
+        "reference": "local://mockmob/fresh-controlled-statistics-stimulus"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "For this statistics question, define the median of five ordered observations as the third observation. For the observations 11, 27, 39, 45 and 70, what is the median?"
+        }
+      },
+      "supports": {
+        "decisive-excerpt": "72ff7ea113e423fcc45ee9e97d324070f30c870bf2ffbfd98dde81df185cfe7f"
+      },
+      "source_pack_id": "fresh-v73-source-economics"
+    }
+  },
+  "families": {
+    "fresh-v73-family-cbse24-ac-q01": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-accountancy",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-ac-q02": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-accountancy",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-ac-q04": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-accountancy",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-ac-q08": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-accountancy",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-bs-q02": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-business_studies",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-bs-q03": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-business_studies",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-bs-q05": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-business_studies",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-bs-q06": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-business_studies",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-bs-q07": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-business_studies",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q02": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q03": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q04": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q05": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q06": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q07": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-family-cbse24-eco-q08": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-economics",
+      "kind": "original_practice"
+    },
+    "fresh-v73-english-linked-passage": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-v73-source-english",
+      "kind": "original_practice"
+    }
+  },
+  "packs": {
+    "fresh-v73-source-english": {
+      "id": "fresh-v73-source-english",
+      "subject": "english",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T11:36:19.425Z",
+      "document_ids": [
+        "fresh-v73-cbse24-eng-q01-excerpt-1",
+        "fresh-v73-cbse24-eng-q02-excerpt-1",
+        "fresh-v73-cbse24-eng-q03-excerpt-1",
+        "fresh-v73-cbse24-eng-q04-excerpt-1",
+        "fresh-v73-cbse24-eng-q07-excerpt-1",
+        "fresh-v73-cbse24-eng-q08-excerpt-1",
+        "fresh-v73-oxford-clamour-noun"
+      ]
+    },
+    "fresh-v73-source-accountancy": {
+      "id": "fresh-v73-source-accountancy",
+      "subject": "accountancy",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T11:36:19.427Z",
+      "document_ids": [
+        "fresh-v73-cbse24-ac-q01-excerpt-1",
+        "fresh-v73-cbse24-ac-q02-excerpt-1",
+        "fresh-v73-cbse24-ac-q02-excerpt-2",
+        "fresh-v73-cbse24-ac-q04-excerpt-1",
+        "fresh-v73-cbse24-ac-q04-excerpt-2",
+        "fresh-v73-cbse24-ac-q08-excerpt-1",
+        "fresh-v73-cbse24-ac-q08-excerpt-2"
+      ]
+    },
+    "fresh-v73-source-business_studies": {
+      "id": "fresh-v73-source-business_studies",
+      "subject": "business_studies",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T11:36:19.427Z",
+      "document_ids": [
+        "fresh-v73-cbse24-bs-q02-excerpt-1",
+        "fresh-v73-cbse24-bs-q03-excerpt-1",
+        "fresh-v73-cbse24-bs-q03-excerpt-2",
+        "fresh-v73-cbse24-bs-q05-excerpt-1",
+        "fresh-v73-cbse24-bs-q05-excerpt-2",
+        "fresh-v73-cbse24-bs-q06-excerpt-1",
+        "fresh-v73-cbse24-bs-q06-excerpt-2",
+        "fresh-v73-cbse24-bs-q06-excerpt-3",
+        "fresh-v73-cbse24-bs-q07-excerpt-1"
+      ]
+    },
+    "fresh-v73-source-economics": {
+      "id": "fresh-v73-source-economics",
+      "subject": "economics",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T11:36:19.427Z",
+      "document_ids": [
+        "fresh-v73-cbse24-eco-q02-excerpt-1",
+        "fresh-v73-cbse24-eco-q03-excerpt-1",
+        "fresh-v73-cbse24-eco-q04-excerpt-1",
+        "fresh-v73-cbse24-eco-q05-excerpt-1",
+        "fresh-v73-cbse24-eco-q06-excerpt-1",
+        "fresh-v73-cbse24-eco-q07-excerpt-1",
+        "fresh-v73-cbse24-eco-q08-excerpt-1",
+        "fresh-v73-cbse24-eco-q08-excerpt-2",
+        "fresh-v73-original-statistics-stimulus"
+      ]
+    }
+  }
+}

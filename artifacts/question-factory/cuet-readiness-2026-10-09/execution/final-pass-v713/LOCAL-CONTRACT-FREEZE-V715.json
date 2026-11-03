@@ -1,0 +1,45 @@
+{
+  "schema": "cuet-v715-local-correction-freeze-v1",
+  "created_at": "2026-10-09T21:53:51.4902191Z",
+  "verifier_version": "cuet-fit-validator-v7.15-printed-source-binding",
+  "validation_contract_hash": "e44f34f94187283d851db1d6b46d95615e02de089bcbc783d7a312344f77de9d",
+  "prompt_hash": "d900a166e86cf3607cc823f9fc664a04901a721deb222711df2a4105a38e3521",
+  "parent_validation_contract_hash": "ed0e4ae7fd56c045dd67c74e33686c2fcd1c0d25e640fc2e2f578fba4dfcf545",
+  "parent_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\LOCAL-CONTRACT-FREEZE-V714.json",
+  "parent_freeze_sha256": "095b049fc43bf20f014c09b0f4dad4bb6d1870cfcc6421aca88aedd985d98092",
+  "files": {
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\contractV715.mjs": "7d7d98a2bf32f90dbc7d2b47453a12a48b664cd08aaa413fec041a1c22c574fd",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\factoryEvidenceV715.mjs": "2bb1ff6b950aef2a56425c821749096f82373b71678e3cea134f804812dc2372",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\verifyV715.mjs": "038cf00cd5734171d07715224bfac00f0d766adfa45badb584965ab46b932f5f",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\compactValidationV715.mjs": "113f0eda9f4fcc639a7f838a5ccca125f44c7c5ca73fa168804e7f0511d69139",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\optionResolutionV715.mjs": "cdabd204e1097d6a43db4fb6151cb0696c0ee7c47728d6536c72ab8ccd4decd8"
+  },
+  "independent_review_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\diagnosis\\V715-LOCAL-REVIEW-20261010-V2.json",
+  "independent_review_sha256": "34e4d144d93f41e682e9f16bd3d270ad1832e45dd88c1f5f5504fac99c7934c8",
+  "independent_local_tests": 8,
+  "body_sizing": {
+    "artifact": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/v715-body-size-diagnostic.json",
+    "artifact_sha256": "939baf6e64acfd5dd0b73863dbf978666ff819b51c1bc02f1e53a0763b2b6023",
+    "fixture_count": 37,
+    "request_count": 222,
+    "maximum_request_bytes": 32811,
+    "input_bound_bytes": 33024,
+    "headroom_bytes": 213,
+    "over_bound": 0,
+    "synthetic_responses": true,
+    "academic_evidence": false
+  },
+  "qualification": "not_run",
+  "paid_provider_calls": 0,
+  "release": false,
+  "runtime_publication_integration": false,
+  "retained_gates": "Independently solved key, four whole options, fair uniqueness, answer prerequisites, source and syllabus entitlement, numerical correctness, explanation claims and two frozen resolution audits.",
+  "correction": "Accept an exact printed source quote before the inherited source line-joining fallback, retaining identical word/number boundaries; clarify excerpt versus arithmetic source kind and IDs.",
+  "evidence_use": "Inspected V713 fixtures, synthetic sizing responses and local tests are regression/software evidence only, never fresh V715 qualification.",
+  "limits": [
+    "No native quality, approved yield, premium or USD100/10000 cost proof.",
+    "The one final native study cannot pass; no additional paid benchmark was dispatched.",
+    "Frozen V714/V713/R3 files, source labels, outcomes and historical receipts remain unchanged.",
+    "Production publication, deployment and migration need explicit final approval."
+  ]
+}

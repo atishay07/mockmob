@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-07T17:01:44.562Z",
+  "scope": "Actual production stored evidence checked with local signing configuration, compared with protected deployed evidence diagnostics. This does not prove student retrieval.",
+  "local": {
+    "rows": 666,
+    "eligible": 662,
+    "rejection_reasons": {
+      "publication_disabled": 4
+    }
+  },
+  "deployed": {
+    "available": true,
+    "counts": {
+      "usable_factory": 662,
+      "unavailable_factory": 4,
+      "by_subject_usable": {
+        "accountancy": 141,
+        "economics": 165,
+        "english": 173,
+        "business_studies": 183
+      },
+      "total": 666,
+      "usable": 2660,
+      "by_subject": {
+        "english": 177,
+        "accountancy": 141,
+        "business_studies": 183,
+        "economics": 165
+      },
+      "authentic": 0,
+      "adapted": 0,
+      "original": 666
+    },
+    "diagnostics": {
+      "signing_key_configured": true,
+      "publication_rejection_reasons": {}
+    },
+    "duration_ms": 33924
+  },
+  "paid_provider_calls": 0,
+  "emails_sent": 0,
+  "production_writes": 0
+}

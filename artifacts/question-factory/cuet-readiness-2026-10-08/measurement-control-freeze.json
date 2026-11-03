@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-07T20:12:00.018Z",
+  "baseline_validation_contract": "e1d7a7324dbab7be937f74ceaa046449d5f9f573a236aaa3b9ba5d0c62745a81",
+  "files": [
+    {
+      "path": "scripts/pipeline/lib/campaignExecutionV7.mjs",
+      "sha256": "79735df68fc76346b19001038265f917b65175543a8ba0764007c564d1d49c5b"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareCuetFitCampaign.mjs",
+      "sha256": "79d96e0b33ac0723aa24d93e936b9f322800496dd675686a2b973322c370976f"
+    },
+    {
+      "path": "scripts/pipeline/tools/cuetFitFactory.mjs",
+      "sha256": "c89a54f8714380d283ac61a5c3e9fcb1371902a9f957116d2884db840f9871b3"
+    }
+  ],
+  "academic_verdict_changes": false,
+  "measurement_can_publish": false
+}

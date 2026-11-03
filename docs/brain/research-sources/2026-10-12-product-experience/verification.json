@@ -1,0 +1,175 @@
+{
+  "date": "2026-10-12",
+  "document": "docs\\brain\\PRODUCT-EXPERIENCE-RESEARCH-2026-10-12.md",
+  "document_sha256": "967259eb4944127e8866f69df290c8b77b0cc7132c5d6aab937ba49775562d50",
+  "bytes": 407183,
+  "words": 62275,
+  "lines": 5699,
+  "added_analysis_words": 10884,
+  "source_pdf_pages": 59,
+  "earlier_transcript_lines": 201,
+  "new_transcript_lines": 164,
+  "figure_pages": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "checks": [
+    {
+      "name": "source_bytes_product-brain",
+      "passed": true,
+      "detail": {
+        "bytes": 126110,
+        "sha256": "4c49ca1f9c74a634d8d5c3e263138cf64306ee611f19e62448bf4d6e7dc27a61"
+      }
+    },
+    {
+      "name": "source_bytes_ux-specification",
+      "passed": true,
+      "detail": {
+        "bytes": 268401,
+        "sha256": "96a2cabd6c2fd441d9cccc28a8a5a1090ae97664aa45f8899c3b9bb168538cc2"
+      }
+    },
+    {
+      "name": "source_bytes_dashboard-undertone-transcript",
+      "passed": true,
+      "detail": {
+        "bytes": 32251,
+        "sha256": "df49e52224ed6bf9d117ebb42117296cb61345596162544f0e8aa8ff082a00a0"
+      }
+    },
+    {
+      "name": "complete_product_brain_included",
+      "passed": true,
+      "detail": 126077
+    },
+    {
+      "name": "complete_new_transcript_included",
+      "passed": true,
+      "detail": 32251
+    },
+    {
+      "name": "complete_owner_notes_included",
+      "passed": true,
+      "detail": 6986
+    },
+    {
+      "name": "earlier_transcript_labels",
+      "passed": true,
+      "detail": 201
+    },
+    {
+      "name": "new_transcript_index_exhaustive",
+      "passed": true,
+      "detail": 164
+    },
+    {
+      "name": "nineteen_original_sections",
+      "passed": true,
+      "detail": 19
+    },
+    {
+      "name": "all_pdf_text_pages_included",
+      "passed": true,
+      "detail": 59
+    },
+    {
+      "name": "all_pdf_pages_nonempty",
+      "passed": true,
+      "detail": 428
+    },
+    {
+      "name": "six_visual_references",
+      "passed": true,
+      "detail": 6
+    },
+    {
+      "name": "eleven_external_register_entries",
+      "passed": true,
+      "detail": 11
+    },
+    {
+      "name": "local_reference_links_resolve",
+      "passed": true,
+      "detail": [
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-15.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-16.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-17.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-18.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-19.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/figure-20.png",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/product-brain.md",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/ux-specification.pdf",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/dashboard-undertone-transcript.txt",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/user-request-and-notes.md",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/source-manifest.json",
+          "exists": true
+        },
+        {
+          "target": "research-sources/2026-10-12-product-experience/verification.json",
+          "exists": true
+        }
+      ]
+    },
+    {
+      "name": "balanced_fenced_blocks",
+      "passed": true,
+      "detail": 124
+    },
+    {
+      "name": "balanced_disclosure_blocks",
+      "passed": true,
+      "detail": 4
+    },
+    {
+      "name": "section_navigation_targets",
+      "passed": true,
+      "detail": 16
+    }
+  ],
+  "passed": true,
+  "visual_review": "All six rendered PDF reference pages inspected together. Source illustrations and labels retained unchanged.",
+  "limits": [
+    "Documentation-only; no application implementation or app release.",
+    "No fresh application tests, production walkthrough, user research or retention experiment.",
+    "Selective external-source verification, not verification of every source claim.",
+    "No automated agent hook or technical enforcement installed.",
+    "PDF extraction is a text layer, not layout or guaranteed reading-order fidelity.",
+    "Original standalone earlier transcript was not supplied; its 201 labels are preserved within source A."
+  ]
+}

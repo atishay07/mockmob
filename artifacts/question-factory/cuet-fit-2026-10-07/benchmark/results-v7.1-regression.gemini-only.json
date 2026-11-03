@@ -1,0 +1,2647 @@
+{
+ "tag": "v7.1",
+ "set": "regression",
+ "benchmark": {
+  "id": "cuet-fit-regression-2026-10-07",
+  "payload_hash": "788c20ff3d1249d138ab400760ca3f28ad17636d7d4f6b7100061ee6e92dfdcc"
+ },
+ "verifier_version": "cuet-fit-validator-v7.1",
+ "at": "2026-10-07T16:30:33.313Z",
+ "topologies": {
+  "single_gemini_full": [
+   {
+    "id": "v7r-3937817c7006d70ad2c1389c8d287929",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 43,
+      "reading_words": 55,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-e782dbf87de28240061ad4e3a45d2134",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "D",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 63,
+      "reading_words": 63,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-d27c200e85979d12a81aa9daaca9cdaa",
+    "group": "regression_benchmark",
+    "category": "valid_medium",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 64,
+      "reading_words": 65,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-6558fc2abc5840e589d1fcfe1944ebfd",
+    "group": "regression_benchmark",
+    "category": "valid_medium",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 44,
+      "reading_words": 58,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-53a50e508d7be85c6b9f68f037a9cce4",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 56,
+      "reading_words": 41,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-853f26de4b881bbce7cd53317789274b",
+    "group": "regression_benchmark",
+    "category": "valid_hard",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 78,
+      "reading_words": 52,
+      "reasoning_steps": 3,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-5ebc67a59f85dc3bf45325168c4a724a",
+    "group": "regression_benchmark",
+    "category": "valid_medium",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "D",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 58,
+      "reading_words": 46,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-3e612af48b4eca35eb623e5d7cfb5a9a",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 43,
+      "reading_words": 56,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-e890ee91a7014cb8c5e8873050497d16",
+    "group": "regression_benchmark",
+    "category": "valid_medium",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "D",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 44,
+      "reading_words": 61,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-bebfe544b6fe63d5157c1b664a24e26b",
+    "group": "regression_benchmark",
+    "category": "wrong_key",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "blind_key_contradiction"
+    ],
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 78,
+      "reading_words": 52,
+      "reasoning_steps": 3,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-7a5f073887a3e796caf1c9894d87b93c",
+    "group": "regression_benchmark",
+    "category": "wrong_key",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "blind_key_contradiction"
+    ],
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 38,
+      "reading_words": 39,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-fc183ef92a32b67ad76ca6db93bd2f0e",
+    "group": "regression_benchmark",
+    "category": "multiple_correct",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "Proceeds from raising a new bank loan (₹6,00,000) are a financing cash inflow, while repayment of bank loan principal (₹2,40,000) is a financing cash outflow.",
+     "The net cash flow from financing activities is ₹6,00,000 - ₹2,40,000 = ₹3,60,000 inflow (Option A).",
+     "However, Option B ('Positive net financing cash flow') is also completely true under the stem, creating a distractor that is true and leading to multiple correct/defensible options.",
+     "Defect: multiple_correct_options: Option B ('Positive net financing cash flow') is a distractor that is factually and logically true under the stem, since a net inflow of ₹3,60,000 is indeed a positive net financing cash flow."
+    ]
+   },
+   {
+    "id": "v7r-952af5aad952fb5c7c6b5cfe6053d8ba",
+    "group": "regression_benchmark",
+    "category": "multiple_correct",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "NCERT Microeconomics Chapter 3 states: 'For any level of an input, the sum of marginal products of every preceeding unit of that input gives the total product. So total product is the sum of marginal products.'",
+     "However, Option A ('Sum of marginal products') and Option B ('Total of marginal products') are semantically identical in English and mathematics, making Option B defensibly correct alongside Option A.",
+     "Defect: multiple_correct_options: Option A ('Sum of marginal products') and Option B ('Total of marginal products') convey the exact same mathematical and semantic meaning. A student cannot reasonably distinguish between 'sum' and 'total' in this context without relying solely on verbatim rote memorization of the word 'sum'.",
+     "Defect: missing_decisive_assumption: option B is correct if In plain mathematical English, the total of a sequence of quantities is synonymous with their sum, making 'total of marginal products' identical to 'sum of marginal products'."
+    ]
+   },
+   {
+    "id": "v7r-40f2acfd1073ec96cb785e40d31f622e",
+    "group": "regression_benchmark",
+    "category": "missing_assumptions",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "The question stem is missing essential data needed to compute Gross Profit, such as Purchases, Direct Expenses, Cost of Revenue from Operations, or the Inventory Turnover Ratio.",
+     "Gross Profit cannot be determined solely from Opening Inventory, Closing Inventory, and Revenue from Operations.",
+     "Defect: incomplete_stimulus_or_data: The stem provides Opening Inventory (₹1,20,000), Closing Inventory (₹1,80,000), and Revenue from Operations (₹15,00,000), but omits purchases, direct expenses, or inventory turnover ratio. Thus, Cost of Revenue from Operations and Gross Profit cannot be computed.",
+     "cuet_fit_format_authenticity_below_2"
+    ]
+   },
+   {
+    "id": "v7r-d52e9d65462a4a6aff4677a8b3b89ffc",
+    "group": "regression_benchmark",
+    "category": "missing_assumptions",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "The stem omits the numerical amount of the payment made on the older loan ('makes a payment on an older loan').",
+     "Without the repayment amount (which was likely intended as ₹2,40,000 to arrive at Option C's ₹3,60,000 net inflow), the net cash flow cannot be determined.",
+     "Defect: incomplete_stimulus_or_data: The stem states that the company 'makes a payment on an older loan' but completely omits the amount of the payment, rendering the net cash flow uncomputable.",
+     "Condition missing: Amount of payment on the older loan"
+    ]
+   },
+   {
+    "id": "v7r-fcc3d8e0744c61c9415f29a79d235059",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 56,
+      "reading_words": 40,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-05670f7b5e5612b355ced57104205008",
+    "group": "regression_benchmark",
+    "category": "unsupported_explanation",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "explanation_support",
+    "reasons": [
+     "failed:explanation_support"
+    ],
+    "details": [
+     "The explanation invents a fabricated rule about a 'national law requiring exactly sixty days of bird observation', which is absent from and contradicted by the passage.",
+     "The passage states that Mira kept observing because the week had been unusually quiet, not due to any legal requirement.",
+     "incorrect claim: Mira waited because a national law requires exactly sixty days of bird observation before recording a visitor."
+    ],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 44,
+      "reading_words": 58,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-74d72187537436c77b5400b8123aa337",
+    "group": "regression_benchmark",
+    "category": "out_of_syllabus",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "The item asks for the chemical symbol of sodium, which is a science/chemistry question completely outside the CUET English (101) syllabus.",
+     "The evidence catalog contains unrelated English dictionary definitions ('diligent', 'hostile', 'obsolete') and provides zero support for the question.",
+     "The question is labeled as 'matching' under chapter 'Match the Following', but it is a standalone single-question MCQ.",
+     "Defect: syllabus_mismatch: The question tests chemistry knowledge (chemical symbol of sodium) under the CUET English syllabus, which only covers Reading Comprehension and Verbal Ability."
+    ]
+   },
+   {
+    "id": "v7r-b1e3d9de67c17a349fdb1f100534c504",
+    "group": "regression_benchmark",
+    "category": "out_of_syllabus",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "The question is a basic plant biology question ('Which part of a plant absorbs water from soil?'), which completely falls outside the Business Studies syllabus.",
+     "None of the provided textbook excerpts from Business Studies Chapter 5 (Organising) support or relate to plant biology.",
+     "Defect: syllabus_mismatch: The question tests primary-school plant biology rather than the Class 12 Business Studies curriculum.",
+     "Defect: unsupported_fact_or_explanation: The supplied evidence catalog contains Business Studies text on delegation and authority, providing no support for the biological question."
+    ]
+   },
+   {
+    "id": "v7r-724bfd33ef0cde82e2d25ce718e8ea86",
+    "group": "regression_benchmark",
+    "category": "numerical_fault",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "According to NCERT Microeconomics, total product at any level of employment is the sum of the marginal products of each preceding unit of that input.",
+     "Given TP(0) = 0 and MP values of 8, 11, and 9 for the first, second, and third workers respectively, TP with three workers equals 8 + 11 + 9 = 28 units.",
+     "The options provided are 9 units, 11 units, 19 units, and 29 units. The mathematically correct value (28 units) is not among the options.",
+     "Defect: broken_numerical: The sum of marginal products for three workers is 8 + 11 + 9 = 28 units, but the options list 9, 11, 19, and 29 units. The correct total of 28 is missing due to an arithmetic error in option D."
+    ]
+   },
+   {
+    "id": "v7r-058b7b256e5fc3335cd9c5633a7693e6",
+    "group": "regression_benchmark",
+    "category": "numerical_fault",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "blind_key_contradiction"
+    ],
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 78,
+      "reading_words": 52,
+      "reasoning_steps": 3,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-720ab503-fa80-4e36-8838-de942a3487f7",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "According to the dictionary definitions in the evidence catalog, 'sycophantic' means praising powerful or important people insincerely to gain favour, which directly corresponds to 'flattering'.",
+     "Options A ('cowardly'), B ('domineering'), and D ('insolent') have unrelated meanings."
+    ]
+   },
+   {
+    "id": "v7r-d482949e89937fe25d0bd144d3028c45",
+    "group": "regression_benchmark",
+    "category": "valid_medium",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 41,
+      "reading_words": 48,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-0f45611a-97a5-4954-84ff-ac48135d7b78",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "unsupported_student_markup"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-audit-afe7332b-0e12-467f-990a-74053d984bde",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "D",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 34,
+      "reading_words": 28,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-d2b937d1978cf5a0317614f8711a5c1b",
+    "group": "regression_benchmark",
+    "category": "unsupported_explanation",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "explanation_support",
+    "reasons": [
+     "failed:explanation_support"
+    ],
+    "details": [
+     "The explanation asserts that responsibility can always be completely delegated, which contradicts NCERT Organising text stating that responsibility cannot be entirely delegated.",
+     "The explanation asserts that accountability flows downwards, whereas NCERT explicitly states that accountability flows upwards from subordinate to superior.",
+     "incorrect claim: Responsibility can always be completely delegated.",
+     "incorrect claim: Accountability flows downwards."
+    ],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 56,
+      "reading_words": 40,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-1b161744-da1e-440e-8bd3-a6df28773a5a",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "unsupported_student_markup"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-c5fc7a4827604f9011a1f2a4f2cbaa88",
+    "group": "regression_benchmark",
+    "category": "valid_easy",
+    "expected_valid": true,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 38,
+      "reading_words": 39,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "matching_options_not_distinct_bijections"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-audit-d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "reasons": [
+     "failed:source_support"
+    ],
+    "details": [
+     "Shares are of nominal face value ₹10 and fully called up.",
+     "The unpaid call is ₹3 per share, meaning ₹10 - ₹3 = ₹7 per share was received towards share capital.",
+     "As per NCERT rules, when premium has already been received, Securities Premium Reserve is not debited and the amount credited to Share Forfeiture Account excludes the premium amount.",
+     "Therefore, the amount credited to Share Forfeiture Account per share is ₹7."
+    ]
+   },
+   {
+    "id": "v7r-audit-5315d8d9-8a25-4171-83c3-41fba1ff160c",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "syllabus_mapping",
+    "reasons": [
+     "failed:syllabus_mapping"
+    ],
+    "details": [
+     "Calls in arrears refers to the amount called up on shares but remaining unpaid by shareholders, matching (A) with (II).",
+     "Calls in advance refers to the amount paid by a shareholder before the call actually falls due, matching (B) with (IV).",
+     "Securities premium represents the consideration received over and above the nominal (face) value of the shares, matching (C) with (I).",
+     "Reserve capital is that portion of uncalled share capital which a company resolves can only be called up in the event and for the purpose of winding up, matching (D) with (III)."
+    ]
+   },
+   {
+    "id": "v7r-audit-e539e791-5e64-48ad-be13-53df6e25a079",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 75,
+      "reading_words": 102,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-f354a935-306d-40af-a914-6159be1bbcd9",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "unsupported_student_markup"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-audit-d5db67c1-dbcd-4fac-954f-67169bc49631",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "undefined_economic_term"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-audit-2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 77,
+      "reading_words": 108,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-9376c4a1-b3f2-425f-b159-7f462e52ec03",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 9,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 2,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 35,
+      "reading_words": 30,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-2c7f1331-d354-4808-8ebe-23aa248448cb",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "B",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 78,
+      "reading_words": 112,
+      "reasoning_steps": 2,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-088188f1-4aa7-43d2-bba5-e4192d233d0c",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": null,
+    "reasons": [
+     "unseen_reference"
+    ],
+    "details": []
+   },
+   {
+    "id": "v7r-audit-2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 33,
+      "reading_words": 23,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-2782c53c-4cd4-4031-b0df-466f478627b9",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "explanation_support",
+    "reasons": [
+     "failed:explanation_support"
+    ],
+    "details": [
+     "The decisive rule that a company can accept calls in advance only if authorised by its Articles of Association is not stated or established by any of the provided excerpts or the stem.",
+     "unsupported claim: A company may accept calls in advance when its Articles of Association authorise it.",
+     "unsupported claim: Therefore, option C is correct."
+    ],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 32,
+      "reading_words": 21,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "quarantined",
+    "failed_stage": "explanation_support",
+    "reasons": [
+     "failed:explanation_support"
+    ],
+    "details": [
+     "The definition/formula is provided directly within the question stem.",
+     "The algebraic rearrangement and arithmetic are entirely accurate and lead directly to option A."
+    ],
+    "luna": {
+     "key": "A",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 38,
+      "reading_words": 38,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   },
+   {
+    "id": "v7r-audit-217a1fc6-a646-4a32-9e80-b0f405cca714",
+    "group": "regression_audit_defect",
+    "category": "known_audit_defect",
+    "expected_valid": false,
+    "state": "eligible",
+    "failed_stage": null,
+    "details": [],
+    "luna": {
+     "key": "C",
+     "fit": {
+      "pass": true,
+      "score": 10,
+      "levels": {
+       "syllabus_objective": 3,
+       "format_authenticity": 3,
+       "level_calibration": 3,
+       "discrimination_value": 3,
+       "time_suitability": 3
+      },
+      "reasons": [],
+      "derived_solve_seconds": 38,
+      "reading_words": 39,
+      "reasoning_steps": 1,
+      "contract": "cuet-fit-v1.1"
+     },
+     "conditions": 0,
+     "defects": []
+    }
+   }
+  ]
+ },
+ "explanation_audit_cost_usd": {
+  "single_gemini_full": 0.111564
+ },
+ "evaluations": {
+  "v7r-3937817c7006d70ad2c1389c8d287929": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 43,
+     "reading_words": 55,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Match the Following",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-6558fc2abc5840e589d1fcfe1944ebfd": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 44,
+     "reading_words": 58,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Narrative Passage",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-e782dbf87de28240061ad4e3a45d2134": {
+   "gemini": {
+    "key": "D",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 63,
+     "reading_words": 63,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Narrative Passage",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-853f26de4b881bbce7cd53317789274b": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 78,
+     "reading_words": 52,
+     "reasoning_steps": 3,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "application",
+    "chapter": "Accounting Ratios",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-d27c200e85979d12a81aa9daaca9cdaa": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 64,
+     "reading_words": 65,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Cash Flow Statement",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-53a50e508d7be85c6b9f68f037a9cce4": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 56,
+     "reading_words": 41,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Cash Flow Statement",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-5ebc67a59f85dc3bf45325168c4a724a": {
+   "gemini": {
+    "key": "D",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 58,
+     "reading_words": 46,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Production & Costs",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-c5fc7a4827604f9011a1f2a4f2cbaa88": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 38,
+     "reading_words": 39,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Income Determination",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-3e612af48b4eca35eb623e5d7cfb5a9a": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 43,
+     "reading_words": 56,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Production & Costs",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-e890ee91a7014cb8c5e8873050497d16": {
+   "gemini": {
+    "key": "D",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 44,
+     "reading_words": 61,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Organising",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-fcc3d8e0744c61c9415f29a79d235059": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 56,
+     "reading_words": 40,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Organising",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-d482949e89937fe25d0bd144d3028c45": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 41,
+     "reading_words": 48,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Organising",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-bebfe544b6fe63d5157c1b664a24e26b": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 78,
+     "reading_words": 52,
+     "reasoning_steps": 3,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "application",
+    "chapter": "Accounting Ratios",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-7a5f073887a3e796caf1c9894d87b93c": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 38,
+     "reading_words": 39,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Income Determination",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-fc183ef92a32b67ad76ca6db93bd2f0e": {
+   "gemini": {
+    "key": "A",
+    "single": false,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [
+     "multiple_correct_options: Option B ('Positive net financing cash flow') is a distractor that is factually and logically true under the stem, since a net inflow of ₹3,60,000 is indeed a positive net financing cash flow.",
+     "multiple_correct_options: option B is also correct as written (An inflow of ₹3,60,000 represents an overall positive net financing cash flow, making the qualitative description in Option B undeniably true under the stem.)"
+    ],
+    "style_notes": [
+     "Option B breaks parallel construction with the other options (which specify rupee amounts) and inadvertently states a correct qualitative property of the answer."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 8,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "discrimination_value": 1,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 64,
+     "reading_words": 66,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Cash Flow Statement",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-952af5aad952fb5c7c6b5cfe6053d8ba": {
+   "gemini": {
+    "key": "A",
+    "single": false,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [
+     "multiple_correct_options: Option A ('Sum of marginal products') and Option B ('Total of marginal products') convey the exact same mathematical and semantic meaning. A student cannot reasonably distinguish between 'sum' and 'total' in this context without relying solely on verbatim rote memorization of the word 'sum'.",
+     "missing_decisive_assumption: option B is correct if In plain mathematical English, the total of a sequence of quantities is synonymous with their sum, making 'total of marginal products' identical to 'sum of marginal products'."
+    ],
+    "style_notes": [
+     "The options are sentence fragments completing an unpunctuated stem.",
+     "Option B should be replaced with a distinct economic distractor, such as 'Product of marginal products' or 'Ratio of marginal products'."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 8,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "discrimination_value": 1,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 35,
+     "reading_words": 31,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Production & Costs",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-40f2acfd1073ec96cb785e40d31f622e": {
+   "gemini": {
+    "key": "abstain",
+    "single": false,
+    "source_support": false,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": false,
+    "blocking_conditions": [
+     "Cost of Revenue from Operations or Purchases is given",
+     "Inventory Turnover Ratio is given"
+    ],
+    "defects": [
+     "incomplete_stimulus_or_data: The stem provides Opening Inventory (₹1,20,000), Closing Inventory (₹1,80,000), and Revenue from Operations (₹15,00,000), but omits purchases, direct expenses, or inventory turnover ratio. Thus, Cost of Revenue from Operations and Gross Profit cannot be computed."
+    ],
+    "style_notes": [],
+    "fit": {
+     "pass": false,
+     "score": 5,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 1,
+      "level_calibration": 0,
+      "discrimination_value": 0,
+      "time_suitability": 3
+     },
+     "reasons": [
+      "cuet_fit_format_authenticity_below_2",
+      "cuet_fit_level_calibration_below_1",
+      "cuet_fit_score_5_below_7"
+     ],
+     "derived_solve_seconds": 37,
+     "reading_words": 36,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "hard",
+    "cognitive_level": "application",
+    "chapter": "Accounting Ratios",
+    "numeric": false,
+    "boundary": false,
+    "quotes_valid": false
+   }
+  },
+  "v7r-d52e9d65462a4a6aff4677a8b3b89ffc": {
+   "gemini": {
+    "key": "abstain",
+    "single": false,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [
+     "Amount of payment on the older loan"
+    ],
+    "defects": [
+     "incomplete_stimulus_or_data: The stem states that the company 'makes a payment on an older loan' but completely omits the amount of the payment, rendering the net cash flow uncomputable."
+    ],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 8,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 2,
+      "level_calibration": 3,
+      "discrimination_value": 1,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 57,
+     "reading_words": 43,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "application",
+    "chapter": "Cash Flow Statement",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-05670f7b5e5612b355ced57104205008": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 44,
+     "reading_words": 58,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Narrative Passage",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-d2b937d1978cf5a0317614f8711a5c1b": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 56,
+     "reading_words": 40,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Organising",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-74d72187537436c77b5400b8123aa337": {
+   "gemini": {
+    "key": "abstain",
+    "single": false,
+    "source_support": false,
+    "entitlement": false,
+    "presentation": true,
+    "qtype": false,
+    "principle_ok": true,
+    "blocking_conditions": [
+     "The item belongs to the CUET English syllabus"
+    ],
+    "defects": [
+     "syllabus_mismatch: The question tests chemistry knowledge (chemical symbol of sodium) under the CUET English syllabus, which only covers Reading Comprehension and Verbal Ability.",
+     "unsupported_fact_or_explanation: No relevant evidence exists in the provided evidence catalog to support the chemical symbol of sodium."
+    ],
+    "style_notes": [
+     "Question format does not match the assigned type 'matching'."
+    ],
+    "fit": {
+     "pass": false,
+     "score": 3,
+     "levels": {
+      "syllabus_objective": 0,
+      "format_authenticity": 1,
+      "level_calibration": 0,
+      "discrimination_value": 0,
+      "time_suitability": 3
+     },
+     "reasons": [
+      "cuet_fit_syllabus_objective_below_2",
+      "cuet_fit_format_authenticity_below_2",
+      "cuet_fit_level_calibration_below_1",
+      "cuet_fit_score_3_below_7"
+     ],
+     "derived_solve_seconds": 29,
+     "reading_words": 11,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Match the Following",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": false
+   }
+  },
+  "v7r-b1e3d9de67c17a349fdb1f100534c504": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": false,
+    "entitlement": false,
+    "presentation": true,
+    "qtype": false,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [
+     "syllabus_mismatch: The question tests primary-school plant biology rather than the Class 12 Business Studies curriculum.",
+     "unsupported_fact_or_explanation: The supplied evidence catalog contains Business Studies text on delegation and authority, providing no support for the biological question."
+    ],
+    "style_notes": [
+     "Question content belongs to basic Science/Biology, not Business Studies."
+    ],
+    "fit": {
+     "pass": false,
+     "score": 3,
+     "levels": {
+      "syllabus_objective": 0,
+      "format_authenticity": 1,
+      "level_calibration": 0,
+      "discrimination_value": 0,
+      "time_suitability": 3
+     },
+     "reasons": [
+      "cuet_fit_syllabus_objective_below_2",
+      "cuet_fit_format_authenticity_below_2",
+      "cuet_fit_level_calibration_below_1",
+      "cuet_fit_score_3_below_7"
+     ],
+     "derived_solve_seconds": 30,
+     "reading_words": 13,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Organising",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": false
+   }
+  },
+  "v7r-724bfd33ef0cde82e2d25ce718e8ea86": {
+   "gemini": {
+    "key": "abstain",
+    "single": false,
+    "source_support": false,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [
+     "broken_numerical: The sum of marginal products for three workers is 8 + 11 + 9 = 28 units, but the options list 9, 11, 19, and 29 units. The correct total of 28 is missing due to an arithmetic error in option D."
+    ],
+    "style_notes": [
+     "Fix Option D to '28 units' to make the question mathematically correct and valid."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 9,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 1,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 58,
+     "reading_words": 46,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Production & Costs",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-058b7b256e5fc3335cd9c5633a7693e6": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 78,
+     "reading_words": 52,
+     "reasoning_steps": 3,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Accounting Ratios",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-720ab503-fa80-4e36-8838-de942a3487f7": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": false,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [
+     "The stem refers to 'the underlined word', but no word in the sentence has typographic underlining. The target word is nonetheless unambiguously deducible as 'sycophantic'."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 33,
+     "reading_words": 24,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "recall",
+    "chapter": "Vocabulary",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-afe7332b-0e12-467f-990a-74053d984bde": {
+   "gemini": {
+    "key": "D",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 34,
+     "reading_words": 28,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Vocabulary",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-0f45611a-97a5-4954-84ff-ac48135d7b78": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 38,
+     "reading_words": 38,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "comprehension",
+    "chapter": "Vocabulary",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-2c7f1331-d354-4808-8ebe-23aa248448cb": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 78,
+     "reading_words": 112,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "comprehension",
+    "chapter": "Share Capital",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-2782c53c-4cd4-4031-b0df-466f478627b9": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [
+     "Option D contains a trailing OCR fragment ('st') from the authenticated paper."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 32,
+     "reading_words": 21,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Share Capital",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-1b161744-da1e-440e-8bd3-a6df28773a5a": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 81,
+     "reading_words": 122,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Share Capital",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-e539e791-5e64-48ad-be13-53df6e25a079": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 75,
+     "reading_words": 102,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Partnership Fundamentals",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [
+     "The 4-to-3 matching format tests whether students understand that both interest on capital and share of profit are credited to the Current Account under the fixed capital method."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 9,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 2
+     },
+     "reasons": [],
+     "derived_solve_seconds": 111,
+     "reading_words": 102,
+     "reasoning_steps": 4,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Partnership Fundamentals",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-d1e4b734-18a9-45a4-9be3-fdee0d226e8f": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 63,
+     "reading_words": 64,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "medium",
+    "cognitive_level": "application",
+    "chapter": "Share Capital",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-5315d8d9-8a25-4171-83c3-41fba1ff160c": {
+   "gemini": {
+    "key": "D",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 75,
+     "reading_words": 102,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Share Capital",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-2d2a61f1-9e8c-4118-a689-52fbde8d14f7": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 77,
+     "reading_words": 108,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "comprehension",
+    "chapter": "Profit & Loss Appropriation Account",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-f354a935-306d-40af-a914-6159be1bbcd9": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 90,
+     "reading_words": 152,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Share Capital",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-d5db67c1-dbcd-4fac-954f-67169bc49631": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 66,
+     "reading_words": 72,
+     "reasoning_steps": 2,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Income Determination",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-9376c4a1-b3f2-425f-b159-7f462e52ec03": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 9,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 2,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 35,
+     "reading_words": 30,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Income Determination",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-2681477c-8455-4fb2-8ec2-2fed9fdeb650": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [
+     "The stem loosely uses the conjunction 'and' instead of 'or' ('create liability or decrease the assets'), reflecting verbatim the formulation in authentic CUET 2024 papers."
+    ],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 33,
+     "reading_words": 23,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Government Budget & the Economy",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d": {
+   "gemini": {
+    "key": "A",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 38,
+     "reading_words": 38,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "application",
+    "chapter": "Money & Banking",
+    "numeric": true,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-088188f1-4aa7-43d2-bba5-e4192d233d0c": {
+   "gemini": {
+    "key": "B",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 45,
+     "reading_words": 63,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "Government Budget & the Economy",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  },
+  "v7r-audit-217a1fc6-a646-4a32-9e80-b0f405cca714": {
+   "gemini": {
+    "key": "C",
+    "single": true,
+    "source_support": true,
+    "entitlement": true,
+    "presentation": true,
+    "qtype": true,
+    "principle_ok": true,
+    "blocking_conditions": [],
+    "defects": [],
+    "style_notes": [],
+    "fit": {
+     "pass": true,
+     "score": 10,
+     "levels": {
+      "syllabus_objective": 3,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "discrimination_value": 3,
+      "time_suitability": 3
+     },
+     "reasons": [],
+     "derived_solve_seconds": 38,
+     "reading_words": 39,
+     "reasoning_steps": 1,
+     "contract": "cuet-fit-v1.1"
+    },
+    "difficulty": "easy",
+    "cognitive_level": "recall",
+    "chapter": "National Income & Related Aggregates",
+    "numeric": false,
+    "boundary": true,
+    "quotes_valid": true
+   }
+  }
+ },
+ "cost_usd_incremental": 0.111564
+}

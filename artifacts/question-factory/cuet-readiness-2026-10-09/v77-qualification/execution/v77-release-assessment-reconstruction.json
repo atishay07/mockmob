@@ -1,0 +1,182 @@
+{
+  "at": "2026-10-09T08:36:41.726Z",
+  "scope": "Receipt-only reconstruction of final report after original ENOENT directory error; no native execution or qualification change",
+  "original_runner": "scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs",
+  "original_runner_sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+  "original_execution_log_sha256": "15acded3dbbe178d344cff2f7e735f0b92af06f82574a80a6eb121d2e76dfdec",
+  "inputBindings": {
+    "fresh": {
+      "frozen_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "results_sha256": "e0ed8bfc51df6c415689ea50f5dff6bf5e34753b4773a13e55f264a1bae2935f"
+    },
+    "regression": {
+      "frozen_sha256": "6a179539474b980b907b31a5068a5dcfc30913610d2f1eaa9c0a912060b38293",
+      "results_sha256": "355f9f038ed93a4133357e325a1d3ae0346717c0e2f9a8002950e6591b9870e5"
+    }
+  },
+  "execution_finished": false,
+  "accounting": {
+    "settled_micro": 84744,
+    "held_micro": 0,
+    "committed_micro": 84744,
+    "requests": [
+      {
+        "reservation_id": "9d355f8c-60dc-4d78-a34e-b75d87d1c0d8",
+        "request_id": "51bacde7977f7b5288f31f2922bee8f0aa2ece406ae086e4a09e2368da571461",
+        "candidate_id": "v77f-ad344a8b5f2d",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2279,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "9ce119b2-c092-43e0-9a40-80612bd32ed2",
+        "request_id": "743f1aa87fa91419bbb4a62fdd3503e74d7fe036e5f3edaeb82d96450e03e312",
+        "candidate_id": "v77f-ad344a8b5f2d",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 3559,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "22572c3d-656f-424e-b142-23a23ecdc7a9",
+        "request_id": "1990a2a00b22c36665d5e7aff9cfd1969f94e53d869c852402cff9c69a2cbf5e",
+        "candidate_id": "v77f-ad344a8b5f2d",
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "state": "settled",
+        "settled_micro": 12041,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "f63a4a5f-99fd-4040-9265-842783d90545",
+        "request_id": "a9bb75e9bca42aa33df14aa5c1e5abe1ad2c5ea56a0edb1c9f45b9c3ec6a13f2",
+        "candidate_id": "v77f-2105354e5de1",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2319,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "3671b882-d5b4-4789-b13a-5889d962cefe",
+        "request_id": "1adbd0d227d72c01b23b60b80199cb7b422b6e7b6fdd7066b3c889d3cdfba3d0",
+        "candidate_id": "v77f-2105354e5de1",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2731,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "239dd365-d01c-45ff-93e5-0ef38f379911",
+        "request_id": "747bb7fb817ac7aa15889560b3ce739d4375c2eafed7a7489cc0047ca97bfd6f",
+        "candidate_id": "v77f-2105354e5de1",
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "state": "settled",
+        "settled_micro": 13048,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "19f13ed4-1213-4d80-a0f2-a2b98be2c097",
+        "request_id": "9007a45e496653d3b3529e9e1ed9cf157df87374c3eeef3b23a81ca0459b2d14",
+        "candidate_id": "v77f-662880a2c5fb",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 1542,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "6456f5a8-c598-4af4-9ad5-602a5029543e",
+        "request_id": "bde7992d3006f0bda57395bcea978752a6086ea291a0dee77d164641af0047a0",
+        "candidate_id": "v77f-662880a2c5fb",
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "state": "settled",
+        "settled_micro": 12403,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "ad6998da-6349-4598-bbaf-d3dd72eac4be",
+        "request_id": "cf865e9db60d593da35c0365cc4e41a531e2a04e185c26077716136fbc588d35",
+        "candidate_id": "v77f-073bdc31e03c",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2316,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "42a35321-12f1-47f1-bc45-3ca6c585d471",
+        "request_id": "47427055e8cc5979e4b4fae7b5477e90d9c07547c9f007dc73bf1f924716b23f",
+        "candidate_id": "v77f-073bdc31e03c",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2235,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "99850874-4598-44a7-aaed-243e9bd2ec11",
+        "request_id": "68a1fb9ee584f8d134d76915cecafd4ddcd0443c6ec4118dab82d4ed8e9d76a8",
+        "candidate_id": "v77f-073bdc31e03c",
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "state": "settled",
+        "settled_micro": 12614,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "498201fa-c14e-4f88-a598-be41acad115c",
+        "request_id": "4abdd87ee5c38dafafea73891ba088b40b1dadf2cead2e07803406f714726443",
+        "candidate_id": "v77f-3546cbf8ea19",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2266,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "e1c1579a-dc52-4553-bb54-bb17640a01db",
+        "request_id": "ca11d3187e98e117a1bb9bfa8fa2f3d2c615f79eda5309c8cd052429670957e2",
+        "candidate_id": "v77f-3546cbf8ea19",
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "state": "settled",
+        "settled_micro": 13066,
+        "held_micro": 0
+      },
+      {
+        "reservation_id": "6f0db918-74c3-4130-ac49-287993bf1736",
+        "request_id": "c95531e2ba7e81a86691a89f430225547f3034db4671b980ac3d1fe8e2156879",
+        "candidate_id": "v77f-c6d21440345d",
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "state": "settled",
+        "settled_micro": 2325,
+        "held_micro": 0
+      }
+    ],
+    "receipt_complete": true
+  },
+  "assessment_sha256": "f748a04dcb99e5d0b0f310454a396fb0d3b84547933aa2f121a53def334c5937",
+  "helper_sha256": "d52366feb65a499898b8b5f602ace9d4f2d7d00d1b3845a35cfaa7e6ef796337"
+}

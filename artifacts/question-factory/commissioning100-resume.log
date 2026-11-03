@@ -1,0 +1,28 @@
+{"complete":58,"total":100,"eligible":21}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:47
+      const error=new Error(`provider_http_${response.status}`);
+                  ^
+
+Error: provider_http_400:Invalid schema for response_format 'factory_result': In context=('properties', 'passage_text'), " is not allowed in string literals for structured outputs (strict=true).
+    at request (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:47:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:95:32)
+    at async authorCandidate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryCore.mjs:41:27)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:70:30
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:31:7
+    at async Promise.allSettled (index 0)
+    at async parallel (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:29:2)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/commissionFactory.mjs:67:3 {
+  providerReceipt: {
+    http_status: 400,
+    provider: 'openai',
+    provider_request_id: 'req_bc86734348e04a369db11315231f94e6',
+    code: 'invalid_json_schema',
+    type: 'invalid_request_error',
+    param: 'text.format.schema',
+    message: `Invalid schema for response_format 'factory_result': In context=('properties', 'passage_text'), " is not allowed in string literals for structured outputs (strict=true).`
+  },
+  rejectedBeforeInference: true
+}
+
+Node.js v24.15.0

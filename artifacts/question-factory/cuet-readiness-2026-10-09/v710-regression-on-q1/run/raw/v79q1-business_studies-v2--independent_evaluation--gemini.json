@@ -1,0 +1,48 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 14099,
+ "request_bytes": 35832,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-business_studies-v2\",\n  \"content_hash\": \"437757860e0e37e9a5c2a01cbc7c160b28a8bb334cdf8efe9ca31d5c2cac832c\",\n  \"solved_key\": \"D\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The scenario directly exemplifies the textbook concept that managerial activities are common across economic, social, and political organisations irrespective of geographic location or culture, establishing that management is all pervasive.\"\n  ],\n  \"syllabus_chapter\": \"Nature & Significance of Management\",\n  \"syllabus_topic\": \"Features/Characteristics of Management\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The scenario describes petrol pumps, hospitals, and schools across India, Germany, and Japan performing identical core managerial activities despite cultural differences.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Management activities being applicable across all types of organisations and countries defines the characteristic of management as 'all pervasive'.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\n        \"E1.1\"\n      ]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The stem mentions managers carrying out activities, which implies performing managerial functions over time.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"strained\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The organizations mentioned employ people, which requires team coordination and group activity.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"strained\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Managers in these enterprises ultimately direct their work toward achieving their respective institutional goals.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"strained\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Assesses direct knowledge of the core features of management from NCERT Class XII Chapter 1.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard CUET single-scenario application MCQ testing identification of a management characteristic.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches the standard difficulty and conceptual recall/application depth of CUET Business Studies items.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent other valid management features, requiring the candidate to link the specific cross-organizational scenario to pervasiveness.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-business_studies-bookA-q41\",\n      \"cuet2024-business_studies-bookA-q44\",\n      \"cuet2024-business_studies-bookA-q45\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Management is a continuous process, because functions are performed by all managers all the time\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The activities involved in managing an enterprise are common to all organisations whether economic, social or political.\",\n      \"reason\": \"The stem illustrates management across diverse organisations and countries, which exemplifies pervasiveness rather than continuous process.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Management is a group activity, because it needs team work and coordination of individual effort\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The activities involved in managing an enterprise are common to all organisations whether economic, social or political.\",\n      \"reason\": \"The cross-country and cross-sector comparison demonstrates pervasiveness, not coordination within a work group.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Management is a goal-oriented process, because the efforts of individuals are united towards organisational goals\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The activities involved in managing an enterprise are common to all organisations whether economic, social or political.\",\n      \"reason\": \"Comparing petrol pumps, hospitals, and schools illustrates universality/pervasiveness, not goal orientation.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Management is all pervasive: The activities involved in managing an enterprise are common to all organisations whether economic, social or political. A petrol pump needs to be managed as much as a hospital or a school. What managers do in India, the USA, Germany or Japan is the same. How they do it may be quite different. This difference is due to the differences in culture, tradition and history.\",\n      \"reason\": \"Matches the NCERT excerpt verbatim in definition and illustrative example.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0,
+    "citationMetadata": {
+     "citationSources": [
+      {
+       "startIndex": 5626,
+       "endIndex": 5874,
+       "uri": "https://www.scribd.com/document/668120083/DEY-s-BST-XII-Exam-Handbook-for-2024-Exam-Sample-PDF",
+       "license": ""
+      }
+     ]
+    }
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6237,
+   "candidatesTokenCount": 1593,
+   "totalTokenCount": 8121,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6237
+    }
+   ],
+   "thoughtsTokenCount": 291,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "Ku_Iaq-kEcOvjuMP34D-kAk"
+ }
+}

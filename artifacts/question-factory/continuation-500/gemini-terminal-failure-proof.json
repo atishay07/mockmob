@@ -1,0 +1,93 @@
+{
+  "at": "2026-10-07T12:51:38.498Z",
+  "provider": "gemini",
+  "accepted_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+  "terminal_failed_requests": 4,
+  "items": [
+    {
+      "provider_key": "90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6",
+      "reservation_id": "4494a221-f9f4-43cd-bd91-2674862b94da",
+      "candidate_id": "e06e2ff469bc8f376d681bfd3ae3a0ca",
+      "native_batch_status": "BATCH_STATE_SUCCEEDED",
+      "native_record": {
+        "error": {
+          "code": 14,
+          "message": "The service is currently unavailable."
+        },
+        "metadata": {
+          "key": "90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6"
+        }
+      },
+      "quarantine_reasons": [
+        "batch_submission_unresolved"
+      ],
+      "held_usd": 0.019788,
+      "settled": false
+    },
+    {
+      "provider_key": "c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1",
+      "reservation_id": "2cb69b39-6b4d-4d73-ab68-629912b39751",
+      "candidate_id": "c73279ef0af5c7aa588c1a2e42a7e0e2",
+      "native_batch_status": "BATCH_STATE_SUCCEEDED",
+      "native_record": {
+        "error": {
+          "code": 14,
+          "message": "The service is currently unavailable."
+        },
+        "metadata": {
+          "key": "c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1"
+        }
+      },
+      "quarantine_reasons": [
+        "batch_submission_unresolved"
+      ],
+      "held_usd": 0.019788,
+      "settled": false
+    },
+    {
+      "provider_key": "ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2",
+      "reservation_id": "8c836f78-0fed-4507-aea1-183efbfa53ce",
+      "candidate_id": "a924363377a3a3e9df03e3768f324254",
+      "native_batch_status": "BATCH_STATE_SUCCEEDED",
+      "native_record": {
+        "error": {
+          "code": 14,
+          "message": "The service is currently unavailable."
+        },
+        "metadata": {
+          "key": "ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2"
+        }
+      },
+      "quarantine_reasons": [
+        "batch_submission_unresolved"
+      ],
+      "held_usd": 0.019788,
+      "settled": false
+    },
+    {
+      "provider_key": "ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884",
+      "reservation_id": "53354d68-7029-4d53-ba2b-e4f6d44dd338",
+      "candidate_id": "7b3a8efb83db84e7e5e94e1cd7169cb7",
+      "native_batch_status": "BATCH_STATE_SUCCEEDED",
+      "native_record": {
+        "error": {
+          "code": 14,
+          "message": "The service is currently unavailable."
+        },
+        "metadata": {
+          "key": "ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884"
+        }
+      },
+      "quarantine_reasons": [
+        "batch_submission_unresolved"
+      ],
+      "held_usd": 0.019788,
+      "settled": false
+    }
+  ],
+  "held_usd": 0.079152,
+  "candidate_questions_withheld": true,
+  "usage_resolved": false,
+  "resubmitted_requests": 0,
+  "paid_calls_for_this_check": 0
+}

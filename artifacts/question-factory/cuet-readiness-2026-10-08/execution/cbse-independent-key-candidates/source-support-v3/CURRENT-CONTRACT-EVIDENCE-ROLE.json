@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-08T10:02:58.087Z",
+  "verifier": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "classification": "regression",
+  "scope": "regression",
+  "raw_denominator": 64,
+  "source_key_positive_candidates": 51,
+  "withheld": 13,
+  "reason": "The 2026-27 candidates were inspected before the prospective prompt. The additional 2025-26 source PDFs were acquired at 07:12 UTC, before contractV73 was finalized at 07:22 UTC. Conservative current-contract release classification is regression for both sets.",
+  "not_used_as_fresh_release_evidence": true,
+  "original_positive_answers_changed": false,
+  "new_fresh_source_acquisition": "../cbse-2024-25-source-keys-v4/QUESTION-SOURCE-MANIFEST.json",
+  "paid_fit_evaluations": 0
+}

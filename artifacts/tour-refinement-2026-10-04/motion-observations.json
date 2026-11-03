@@ -1,0 +1,52 @@
+{
+  "configuredPanelMs": 4800,
+  "observations": [
+    {
+      "time": 1791121147147,
+      "active": "6",
+      "live": "true",
+      "playing": "true",
+      "rect": {
+        "bottom": 749.59375,
+        "height": 672.96875,
+        "left": 20,
+        "right": 360,
+        "top": 76.625,
+        "width": 340,
+        "x": 20,
+        "y": 76.625
+      },
+      "scrollLeft": 2028,
+      "scrollY": 1843,
+      "step": "6",
+      "width": 390
+    },
+    {
+      "time": 1791121226747,
+      "active": "7",
+      "live": "true",
+      "playing": "true",
+      "scrollLeft": 2366,
+      "scrollY": 1522,
+      "step": "1",
+      "width": 390
+    },
+    {
+      "time": 1791121271409,
+      "active": "0",
+      "live": "true",
+      "playing": "true",
+      "scrollLeft": 0,
+      "scrollY": 1522,
+      "step": "3"
+    },
+    {
+      "time": 1791121271974,
+      "active": "0",
+      "playing": "false",
+      "step": "3"
+    }
+  ],
+  "keyboardHoldAndResume": true,
+  "timingPrecisionClaim": false
+}

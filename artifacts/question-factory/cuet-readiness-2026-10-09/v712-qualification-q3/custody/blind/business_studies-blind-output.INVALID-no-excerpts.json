@@ -1,0 +1,256 @@
+{
+ "items": [
+  {
+   "local_id": "bus-b1",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "Reward for cost-saving suggestions is a classic Initiative illustration; the stem names it as part of the setup."
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Using 'we' not 'I' reflects Esprit de corps, but it is only one of the two described practices."
+    },
+    "C": {
+     "status": "false",
+     "why": "Nothing about one plan/one head for a group of activities."
+    },
+    "D": {
+     "status": "false",
+     "why": "No mention of concentration of decision authority."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Stem gives two practices (suggestion reward system, 'we' usage) pointing to different principles; it does not say which one is tested.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair CUET topic (Fayol's principles).",
+   "quality_note": "Two-clue stem makes both Initiative and Esprit de corps defensible; ambiguous.",
+   "source_explanation": "No excerpts supplied. 'We' instead of 'I' points to Esprit de corps (B), but a suggestion system rewarding cost cutting equally points to Initiative (A). Unity of direction and Centralisation are not shown. As two options are defensible, there is no single answer."
+  },
+  {
+   "local_id": "bus-b2",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Debt is cheaper than equity, so cost falls."
+    },
+    "B": {
+     "status": "true",
+     "why": "Cheaper debt lowers overall cost with equity cost unchanged; fixed interest charges and financial risk rise."
+    },
+    "C": {
+     "status": "false",
+     "why": "Interest and principal repayment are obligatory, so risk rises."
+    },
+    "D": {
+     "status": "false",
+     "why": "Equity is not riskless; risk rises with debt."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (Financial Management: financing decision, debt).",
+   "quality_note": "Clear; distractors are plausible reversals.",
+   "source_explanation": "No excerpts supplied. Debt is cheaper than equity, so with equity cost unchanged overall cost falls, while fixed interest obligations raise financial risk (B). A reverses the cost relation, C wrongly says repayment is not obligatory, D wrongly calls equity riskless."
+  },
+  {
+   "local_id": "bus-b3",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Consumer Protection Act 2019: appeal from District Commission to State Commission within 45 days."
+    },
+    "B": {
+     "status": "false",
+     "why": "30 days is not the limit."
+    },
+    "C": {
+     "status": "false",
+     "why": "60 days is not the limit."
+    },
+    "D": {
+     "status": "false",
+     "why": "15 days is not the limit."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (CPA 2019 redressal agencies).",
+   "quality_note": "Factual recall; clear. Relies on the 2019 Act, which the stem does not name.",
+   "source_explanation": "No excerpts supplied. Under the Consumer Protection Act 2019 an appeal against a District Commission order lies to the State Commission within 45 days (A); 30, 60 and 15 days are not the statutory period."
+  },
+  {
+   "local_id": "bus-b4",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Education is broad theoretical learning, not a job-skill programme."
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Development is broader long-term growth, mostly managerial; a skills and knowledge programme could loosely fit."
+    },
+    "C": {
+     "status": "false",
+     "why": "Selection is choosing among candidates."
+    },
+    "D": {
+     "status": "true",
+     "why": "Training is a short programme improving knowledge and skills for a job."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Whether the programme is job-specific (training) or overall growth (development) is not stated.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair (Staffing: training and development).",
+   "quality_note": "Training is the best fit but Development is a plausible rival; weak discrimination.",
+   "source_explanation": "No excerpts supplied. A three-week programme building skills and knowledge best matches Training (D). Education and Selection do not fit. Development is not clearly excluded since the stem gives no job-specific or long-term cue."
+  },
+  {
+   "local_id": "bus-b5",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Planning in June then continuous monitoring and timely briefing shows an ongoing process."
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Coordination being all pervasive is true in general but the scenario does not illustrate it."
+    },
+    "C": {
+     "status": "false",
+     "why": "Contradicted by continuous monitoring after planning."
+    },
+    "D": {
+     "status": "false",
+     "why": "Contradicted: coordination is needed at all levels."
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (features of coordination).",
+   "quality_note": "Clear scenario; B is a general truth so not strictly refuted, but A is the best illustration.",
+   "source_explanation": "No excerpts supplied. Continuous monitoring after an initial plan illustrates coordination as a continuous process (A). C is contradicted by that monitoring and D is false as coordination applies at all levels. B is true generally but is not what the scenario shows."
+  },
+  {
+   "local_id": "bus-b6",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Management by exception means only significant deviations are examined, saving time."
+    },
+    "B": {
+     "status": "false",
+     "why": "It encourages delegation, not hinders it."
+    },
+    "C": {
+     "status": "true",
+     "why": "Management by exception saves managerial time and focuses attention on key areas."
+    },
+    "D": {
+     "status": "false",
+     "why": "Not a recognised consequence; it aids delegation and motivation."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (Controlling: management by exception).",
+   "quality_note": "Clear; options are straightforward inversions.",
+   "source_explanation": "No excerpts supplied. Looking only at deviations beyond the permissible limit is management by exception, which saves time and focuses on important areas (C). A contradicts it, B and D reverse its effect on delegation and morale."
+  },
+  {
+   "local_id": "bus-b7",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "(i) and (iii) are inputs received from the environment."
+    },
+    "B": {
+     "status": "false",
+     "why": "(i) finance is an input."
+    },
+    "C": {
+     "status": "false",
+     "why": "(iii) power and water are inputs."
+    },
+    "D": {
+     "status": "true",
+     "why": "Taxes paid and returns paid to investors are outputs supplied to the environment."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (Business environment: input-output interaction).",
+   "quality_note": "Clear; relies on the textbook classification the stem invokes.",
+   "source_explanation": "No excerpts supplied. Finance and power/water are inputs drawn from the environment; tax payments and return on investment are outputs supplied to it, so (ii) and (iv) (D). A, B and C each include an input."
+  },
+  {
+   "local_id": "bus-b8",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "That describes the formal organisation."
+    },
+    "B": {
+     "status": "false",
+     "why": "Barnard says it may contribute to joint results; not 'only when'."
+    },
+    "C": {
+     "status": "false",
+     "why": "Conscious purpose characterises formal, not informal, organisation."
+    },
+    "D": {
+     "status": "true",
+     "why": "Davis: network of relationships not established or required by formal organisation, arising spontaneously."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair (Organising: informal organisation).",
+   "quality_note": "Good; B is a subtle distractor distorting Barnard.",
+   "source_explanation": "No excerpts supplied. Barnard calls it joint personal activity without conscious joint purpose, and Davis a network of relationships not established or required by the formal organisation (D). A and C describe formal organisation; B distorts 'may contribute' into 'only when'."
+  },
+  {
+   "local_id": "bus-b9",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "10,000 + 4x1,800 = 17,200; fixed salary (time based) plus per-unit incentive."
+    },
+    "B": {
+     "status": "false",
+     "why": "7,200 omits salary and the plan is not performance only."
+    },
+    "C": {
+     "status": "false",
+     "why": "10,000 omits incentive; plan is not time based only."
+    },
+    "D": {
+     "status": "false",
+     "why": "Total is right but a direct incentive is not an indirect payment like insurance."
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "4 x 1,800 = 7,200; 10,000 + 7,200 = 17,200.",
+   "syllabus_fit": "Fair (Staffing: remuneration, direct pay plans).",
+   "quality_note": "Clear calculation with plausible distractors.",
+   "source_explanation": "No excerpts supplied. Total pay is 10,000 + 7,200 = Rs 17,200, combining a fixed time-based salary with a per-unit incentive (A). B and C drop a component; D has the right amount but wrongly classifies direct pay as indirect."
+  }
+ ]
+}

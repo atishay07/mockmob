@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13566,
+ "request_bytes": 30365,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v712-v712-qualification-q3-run-v712q3-english-v1\",\n  \"content_hash\": \"d795cc237252387cc49a56207d396e50f57d1b740956bc7c4636abcfb2e6b235\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\"],\n  \"reasons\": [\n    \"The passage explicitly states that correcting the score turned Dev's team's victory into a tie, and the captains agreed and changed the result accordingly.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Reading Comprehension - Narrative Passage\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The passage states that the captains changed the result such that his team's victory became a tie without replaying the match.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The match was replayed to determine the final score after the correction was reported.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The reduction in runs caused the opposing team to win instead of tie.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The captains dismissed the discrepancy since only Dev noticed it.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests reading comprehension of a narrative passage as prescribed in the syllabus.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option single-correct reading comprehension question.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Calibrated to standard CUET UG reading comprehension difficulty.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target common misreadings explicitly contradicted in the passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The match was replayed\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The captains changed the result without replaying the match.\",\n      \"reason\": \"The passage explicitly states that the match was not replayed.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Correcting it would turn his team's victory into a tie.\",\n      \"reason\": \"The passage confirms the result changed the victory into a tie.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The opposing team was declared the winner\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Correcting it would turn his team's victory into a tie.\",\n      \"reason\": \"The outcome became a tie, not an opposing team win.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The captains refused the correction\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"He showed the scorebook to the captains, who checked the recorded deliveries and agreed on the correction.\",\n      \"reason\": \"The captains accepted and agreed on the correction.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EskICsYIAWkUfRO6N+XbpEnHjBX2P1Gsw3CC5oUhZKstGsdANt3/jsXA/aq1BLOtrlkVd6xH/L6vVGLN7z+h0L+cy1qjQAmlBOQGde95E7Lo3zSesuSBAo+NUk+SkD2pUQ4Xw305c+64gW/Mch+i/fxxQskztBlWreULc1O3nBKQXrEJrDoEdnXqE0W1TGFDhaNkiF4LBoDOBcsp3wJqsCS3zkYnfPj+pfK08jBQcQ5dgunay9BKGZBEp5BPE1zFWB2nVQmTfdR/MpQCTj4OYle7+4QDyX0wYSUoiyzKI1LydMYMxPakAN/RBXvuKB7RaQbOKQdBLukxkBg3Ok/Kf+l97X45TWKACKb00U4ul+cNWaWx+wt1bfJLll76Vm82hEsxuGZcdqqDxp3I+aDigMcMRAofv5RlxsT3sS4SCjaXuz0pCneGHl9dpcVMr6GR6JOuvjtKxq1v0iDWb8MoxgDhN6Uf1PRVP5P2C6EWzXvxhAU7kCwQJDeO0eic7psLxz3611vx1sWJ5HZAUGh5eDd168DWOyJ3CG2ADJYUSb32tpoI5OiGiBFsd46GpVk79nZDBG+VCVYlFMhN7yIaKvYvBF0y/bQu19EgQg8bmVR/Nt3qsbueVVJuN8JGNy2IKKN6LUTUZJe/b8YFoDI/aaakbVq5l3cMT1a7jjbXgYFn4RYlzq9U7/mp1bafByA++w5vUFj9p/+8EIKMtJsASoaAW2oy5gq35fY8/VHcbO55qDZ21d9AbTx4FE1w7XmSdIEQwmD64K2yDVQXC/k5rjjcBca+3ZwF+A8cooYppyGPtiacgoOWwZzTwKubi3yPatbQdSItX2iEMOEEpRmPwBch832iJ1L34lvdeSyxSUqqRoJY8Pjb8Oyb2YvZFHdVQ0iEOPwDIUESog5yVtqU0bmpFWBI2UqXkQALj4YBkuBrnmODzbi4I/XMRftjm4Gp1iZimrlcBBpTNanYOvdWuZKKxdBO25TGbx8oTtpelbUBYrKUcGjv9v+GBCTQphUctISA+V9fufXjVENxNcqRrKkHws9d8L0N1rl0afhOoiSBdPbp9OVhfpwkOvq/Ng81CcLreMKvgI7ZyKWMtk3itvQMbevttpmVnYltwsplp3YRBQaHgCKOlLFfTmHBGhRjJvLuSQrmekIeqWFMYtrAiSYgexAFpwUzQA6EEZW828Hl5aZXd/9asD4CPfcTnhbjcKK+jWpgzt942rHFnkLlVjQSsAqJub0JzhViRj8l46YBUIZF4rqiDKJFYQ/h+8yQvGVfMDgFcacbnegM2BOcx9ZarKQZaKD+AuDfqESGPypF+oGcAFbuB9OJn/oumLQ+vPEfplqVFgct/RmzDM205395gP/IrEKi8mWFbMnviv/N/C0l84lBMeVFJuR6H1RTioJYVR8QCGYb0U2OVQcuQ7+C54df8SvOEKTChmtpsrB3zgThXwDJRJSuqHA="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5121,
+   "candidatesTokenCount": 1288,
+   "totalTokenCount": 6627,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5121
+    }
+   ],
+   "thoughtsTokenCount": 218,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "ZBvJapK8Conx4-EPlKOI-A0"
+ }
+}

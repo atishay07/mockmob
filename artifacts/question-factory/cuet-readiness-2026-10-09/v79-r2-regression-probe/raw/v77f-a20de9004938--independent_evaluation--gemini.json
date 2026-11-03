@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13346,
+ "request_bytes": 40107,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r2-regression-2026-10-09-v77f-a20de9004938\",\n  \"content_hash\": \"ffe6f1bf0c01da53021e8d1a5d725b9527410e4386e3a14709f92c4cbc8a1a6f\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E2.1\", \"E5.1\"],\n  \"reasons\": [\n    \"According to NCERT Chapter on Consumer Protection, the 'Right to seek redressal' provides the consumer the right to get relief in case a product or service falls short of expectations.\"\n  ],\n  \"syllabus_chapter\": \"Consumer Protection\",\n  \"syllabus_topic\": \"Consumer rights\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The buyer is seeking relief after a product falls short of expectations.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Under Consumer Protection rules, the right to get relief when a product falls short of expectations is the Right to seek redressal.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E5.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The buyer files a complaint and voices dissatisfaction with the seller.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The buyer exercises discretion to select among competing product options in the market.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The buyer acquires general knowledge about legal rights and available market remedies.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests consumer rights listed in Unit XII Consumer Protection.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard single-stem direct MCQs in CUET Business Studies.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct conceptual application typical of CUET UG Class XII syllabus testing.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distinguishes right to seek redressal from right to be heard and consumer education.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-business_studies-bookA-q41\",\n      \"cuet2024-business_studies-bookA-q44\",\n      \"cuet2024-business_studies-bookA-q45\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E5.1\",\n      \"premise_quote\": \"The consumer has a right to get relief against unfair trade practice of restrictive trade practices or unscrupulous exploitation in case the product or a service falls short of his expectations.\",\n      \"reason\": \"NCERT defines the Right to seek redressal as getting relief when a product falls short of expectations.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to be heard\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E5.1\",\n      \"premise_quote\": \"The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.\",\n      \"reason\": \"Right to be heard relates to filing a complaint, not directly getting relief.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to choose\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E4.1\",\n      \"premise_quote\": \"The consumer has the freedom to access variety of products at competitive prices.\",\n      \"reason\": \"Right to choose relates to accessing a variety of goods, not getting relief.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to consumer education\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E5.2\",\n      \"premise_quote\": \"The consumer has a right to acquire knowledge and to be a well informed consumer throughout life.\",\n      \"reason\": \"Right to consumer education relates to acquiring knowledge and awareness.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EpQGCpEGAWkUfROFFhb7KY2NeCR9IbcBSBASN/y9AhsinWHpShMix3Xz92PtTY9ZuE05d8Ja6Op7/9kVCTprFjG/cI1ZtDms7KLFlNcfs4zAoDEr+u0ov2kMs7qVGIJkd87Fu2I1a+utv87L6YaGVl6Hycnic7bNeyD3DcGLnMcMTfFpRiJ1tIb7ErT7AMiH3pm0zglB79alYmjRxB88V7G2/t0D0WNP+o6u1YmD0piRSnkT92K0V9ga9PUUAhdQYvRF1VkRCFPzgjEEDupP1vL0Cw2t8qr0OjJN4RNDBBDdMx5oITcwM1m/mvTCzp4WwTOms5GaoScLZmXmigCgQKRLBhTMtwgwcRwqFQcm30MvItnNTCcysi2PtYifFtULXq7+dH1YF7yefN/Ifi3PZMvgd4VFk+4tW9yGG+4OyfjYSPHYzNQO7uMggS5ODpJAymavaC+sFkX7fwXbPK+nbQmBDGxbLhI1eADxtdZ7wrHuwQYI0pHjel1g7O/Xc+Ux+WH3wxfz0iYTZCOc12gdI2QYg+9s303TDOZRT65D82fvBf/6w5WAU9rIDY2sTMHgz07K4JcHWJZw/TuazunTHjsQ76iXkGaNB/o5uQvBInMCyRBXTsGm4JMK7+MMY+DbA9cg4E9C4gH2pzwEBCIDTV+mGTxtRbBK7iqi8eXYKnI/6lxmrOPDBnPL2GznVyMEhSP8WZf842vfmIf3gWrcTyEHx9/tyQ4Ffiua/QS8jPTv/kq6MdGb9To9R3QxFAj/0pDCur7w94WISh6MfD9iXob05Yp0r3X9VyvjpEYR/+VvCQEaI9vBs04qP+V3N0OQYVcL/WGGvSt8n9TcdwTzxHULr6uGfNCJRLlTXG9sS9HqrMLUwnShYvJx8jOCVkyVq6EJsuTS8W5d5SmeDSeb5UkUrc9JJcrPi2KbRf2tYe0UTmCO2PKsO/vAUWqb+Kx9YYYnE1b9lJYBXbC0VBoburAOPRL6uNO2yZUbRMjKQ/q905B04UYBr0SvHzeUkoDeIV01Js/Akd7JUCG/bBwcSImcuGPAdBs="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 7698,
+   "candidatesTokenCount": 1463,
+   "totalTokenCount": 9307,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 7698
+    }
+   ],
+   "thoughtsTokenCount": 146,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "FM_IataFIbSJjuMPjLS4qQo"
+ }
+}

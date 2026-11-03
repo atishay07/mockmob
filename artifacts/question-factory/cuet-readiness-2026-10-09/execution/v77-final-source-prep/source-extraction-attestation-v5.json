@@ -1,0 +1,1307 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-09T07:57:59.567Z",
+  "complete": true,
+  "problems": [],
+  "reviewer_independent": true,
+  "scope": "Offline local source extraction and family metadata integration for the fixed V77 fresh case set. No academic payload, permission, licence, publication, production or native evaluation changes.",
+  "bindings": {
+    "source_overlay_v4_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-overlay-v4.json",
+    "source_overlay_v4_raw_sha256": "5fc02070c0c9b6c3974330bb6531cc15654516ea2ba95e9a8fe492911f9208fa",
+    "source_overlay_v5_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-overlay-v5.json",
+    "source_overlay_v5_raw_sha256": "be9b24a885b5ad7e5771206d274b9419512637b6f9e1ee99535c2feccce2da56",
+    "frozen_input_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh/frozen.json",
+    "frozen_input_raw_sha256": "5d37ea7710d4dce9ddebe857f4ce8e0e767c5cdad899bd0063eabcd908deed57",
+    "core_raw_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+    "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb"
+  },
+  "coverage": {
+    "case_count": 28,
+    "source_reference_count": 85,
+    "unique_used_source_count": 26,
+    "referenced_family_count": 18
+  },
+  "source_records": [
+    {
+      "source_id": "v77v2src-english-ferry",
+      "kind": "authored-stimulus",
+      "version": 1,
+      "identity_sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-ferry.txt",
+      "identity_file_raw_sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-ferry.txt",
+      "extraction_file_raw_sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e",
+      "verified_locators": [
+        {
+          "locator": "ferry",
+          "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec",
+          "fact_text_json_sha256": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+        },
+        {
+          "locator": "original-stimulus:ferry",
+          "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec",
+          "fact_text_json_sha256": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-english-library",
+      "kind": "authored-stimulus",
+      "version": 1,
+      "identity_sha256": "e92d4a3ddeff970524c952061364772220f9f4dd33a15029967a1050da1447d7",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-library.txt",
+      "identity_file_raw_sha256": "e92d4a3ddeff970524c952061364772220f9f4dd33a15029967a1050da1447d7",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-library.txt",
+      "extraction_file_raw_sha256": "e92d4a3ddeff970524c952061364772220f9f4dd33a15029967a1050da1447d7",
+      "verified_locators": [
+        {
+          "locator": "library",
+          "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e",
+          "fact_text_json_sha256": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+        },
+        {
+          "locator": "original-stimulus:library",
+          "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e",
+          "fact_text_json_sha256": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-english-orchard",
+      "kind": "authored-stimulus",
+      "version": 1,
+      "identity_sha256": "f44f5224b5acf589c09a8264ac2c82db34f49d1361ad8fc87a99dc3d58c7a25c",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-orchard.txt",
+      "identity_file_raw_sha256": "f44f5224b5acf589c09a8264ac2c82db34f49d1361ad8fc87a99dc3d58c7a25c",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-orchard.txt",
+      "extraction_file_raw_sha256": "f44f5224b5acf589c09a8264ac2c82db34f49d1361ad8fc87a99dc3d58c7a25c",
+      "verified_locators": [
+        {
+          "locator": "orchard",
+          "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b",
+          "fact_text_json_sha256": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+        },
+        {
+          "locator": "original-stimulus:orchard",
+          "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b",
+          "fact_text_json_sha256": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-english-workshop",
+      "kind": "authored-stimulus",
+      "version": 1,
+      "identity_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-workshop.txt",
+      "identity_file_raw_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/authored-workshop.txt",
+      "extraction_file_raw_sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4",
+      "verified_locators": [
+        {
+          "locator": "workshop",
+          "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f",
+          "fact_text_json_sha256": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+        },
+        {
+          "locator": "original-stimulus:workshop",
+          "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f",
+          "fact_text_json_sha256": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p2-ac_purpose",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7",
+          "fact_text_json_sha256": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p3-ac_cash",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-3",
+          "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18",
+          "fact_text_json_sha256": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p4-ac_operating",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-4",
+          "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a",
+          "fact_text_json_sha256": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p4-ac_operating_examples",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-4",
+          "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645",
+          "fact_text_json_sha256": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p5-ac_financing",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-5",
+          "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df",
+          "fact_text_json_sha256": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p5-ac_investing_disposal",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-5",
+          "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643",
+          "fact_text_json_sha256": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+        },
+        {
+          "locator": "physical-pdf-page-5-investing-activity-heading-and-examples",
+          "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643",
+          "fact_text_json_sha256": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leac206-p5-ac_investing_purchase",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pdf",
+      "identity_file_raw_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "extraction_file_raw_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-5",
+          "support_hash": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7",
+          "fact_text_json_sha256": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-lebs106-p28-bs_training",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs106.pdf",
+      "identity_file_raw_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs106.pages.json",
+      "extraction_file_raw_sha256": "5b13599c461be12a2ff17783aa484cf712fae7f33a3ab81159b7e10107a35f7a",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-28",
+          "support_hash": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1",
+          "fact_text_json_sha256": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leec202-p2-ec_mu",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pdf",
+      "identity_file_raw_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "extraction_file_raw_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5",
+          "fact_text_json_sha256": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leec202-p2-ec_place_time",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pdf",
+      "identity_file_raw_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "extraction_file_raw_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231",
+          "fact_text_json_sha256": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leec202-p3-ec_dmu",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pdf",
+      "identity_file_raw_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "extraction_file_raw_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-3",
+          "support_hash": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a",
+          "fact_text_json_sha256": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leec202-p4-ec_ordinal",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pdf",
+      "identity_file_raw_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "extraction_file_raw_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-4",
+          "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f",
+          "fact_text_json_sha256": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-leec202-p6-ec_indifference",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pdf",
+      "identity_file_raw_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "extraction_file_raw_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-6",
+          "support_hash": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c",
+          "fact_text_json_sha256": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "kind": "syllabus",
+      "version": 1,
+      "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-accountancy-syllabus.pdf",
+      "identity_file_raw_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/accountancy-pypdf-physical-pages.txt",
+      "extraction_file_raw_sha256": "5552bba268aaef38df6baa79ded095120717912581c48489383f13ad5ac1d9d4",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-3",
+          "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a",
+          "fact_text_json_sha256": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+        },
+        {
+          "locator": "CUET-2026-syllabus-physical-page-3",
+          "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a",
+          "fact_text_json_sha256": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "kind": "syllabus",
+      "version": 1,
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-business-studies-syllabus.pdf",
+      "identity_file_raw_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/business-studies-pypdf-physical-pages.txt",
+      "extraction_file_raw_sha256": "fd3bdae44550ef62d49ad2810075d5a0d086dce4098259325127b2d52d4c7c4d",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0",
+          "fact_text_json_sha256": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+        },
+        {
+          "locator": "CUET-2026-syllabus-physical-page-2",
+          "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0",
+          "fact_text_json_sha256": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "kind": "syllabus",
+      "version": 1,
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-business-studies-syllabus.pdf",
+      "identity_file_raw_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/business-studies-pypdf-physical-pages.txt",
+      "extraction_file_raw_sha256": "fd3bdae44550ef62d49ad2810075d5a0d086dce4098259325127b2d52d4c7c4d",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-4",
+          "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3",
+          "fact_text_json_sha256": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+        },
+        {
+          "locator": "CUET-2026-syllabus-physical-page-4",
+          "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3",
+          "fact_text_json_sha256": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "kind": "syllabus",
+      "version": 1,
+      "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-economics-syllabus.pdf",
+      "identity_file_raw_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/economics-pypdf-physical-pages.txt",
+      "extraction_file_raw_sha256": "973b3129df1538fad7a2d7d009688d7ecc77efa0aa284e45572bf874d456ba22",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f",
+          "fact_text_json_sha256": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+        },
+        {
+          "locator": "CUET-2026-syllabus-physical-page-2",
+          "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f",
+          "fact_text_json_sha256": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v2src-syllabus_english-p2",
+      "kind": "syllabus",
+      "version": 1,
+      "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/independent-source-candidates/syllabus/cuet-2026-english-syllabus.pdf",
+      "identity_file_raw_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/source-extraction-v5/english-pypdf-physical-pages.txt",
+      "extraction_file_raw_sha256": "29841bf7fb5987882c6f8047614be7493d8613a8aa1798f07b9432a25b402593",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2",
+          "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77",
+          "fact_text_json_sha256": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+        },
+        {
+          "locator": "CUET-2026-syllabus-physical-page-2",
+          "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77",
+          "fact_text_json_sha256": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v3src-lebs106-p2-column-right-staffing",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs106.pdf",
+      "identity_file_raw_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs106.columns-v3b.json",
+      "extraction_file_raw_sha256": "b10846bc64aab08e2afaecd9912e089739e8e5a8d9f4b31532d3443ca2e7b96a",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-2-column-right",
+          "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471",
+          "fact_text_json_sha256": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.pdf",
+      "identity_file_raw_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.columns-v3b.json",
+      "extraction_file_raw_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-7-column-left",
+          "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51",
+          "fact_text_json_sha256": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.pdf",
+      "identity_file_raw_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.columns-v3b.json",
+      "extraction_file_raw_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-7-column-right",
+          "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937",
+          "fact_text_json_sha256": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+        }
+      ]
+    },
+    {
+      "source_id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "kind": "reference",
+      "version": 1,
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "identity_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.pdf",
+      "identity_file_raw_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_checked": true,
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.columns-v3b.json",
+      "extraction_file_raw_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "verified_locators": [
+        {
+          "locator": "physical-pdf-page-8-column-left",
+          "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd",
+          "fact_text_json_sha256": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+        }
+      ]
+    }
+  ],
+  "reference_records": [
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "source_id": "v77v2src-leac206-p3-ac_cash",
+      "version": 1,
+      "locator": "physical-pdf-page-3",
+      "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+    },
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "source_id": "v77v2src-leac206-p4-ac_operating",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "source_id": "v77v2src-leac206-p4-ac_operating_examples",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "source_id": "v77v2src-leac206-p5-ac_investing_disposal",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "source_id": "v77v2src-leac206-p5-ac_financing",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "source_id": "v77v2src-leac206-p2-ac_purpose",
+      "version": 1,
+      "locator": "physical-pdf-page-2",
+      "support_hash": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7"
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "source_id": "v77v2src-leac206-p5-ac_investing_purchase",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "source_id": "v77v2src-leac206-p4-ac_operating",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "source_id": "v77v2src-leac206-p5-ac_financing",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "source_id": "v77v2src-leac206-p5-ac_investing_disposal",
+      "version": 1,
+      "locator": "physical-pdf-page-5-investing-activity-heading-and-examples",
+      "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "source_id": "v77v3src-lebs106-p2-column-right-staffing",
+      "version": 1,
+      "locator": "physical-pdf-page-2-column-right",
+      "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+    },
+    {
+      "case_id": "v77f-c6d21440345d",
+      "source_id": "v77v2src-lebs106-p28-bs_training",
+      "version": 1,
+      "locator": "physical-pdf-page-28",
+      "support_hash": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1"
+    },
+    {
+      "case_id": "v77f-c6d21440345d",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-c6d21440345d",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "source_id": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-left",
+      "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "source_id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-right",
+      "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "source_id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "version": 1,
+      "locator": "physical-pdf-page-8-column-left",
+      "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "source_id": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-left",
+      "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "source_id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-right",
+      "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "source_id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "version": 1,
+      "locator": "physical-pdf-page-8-column-left",
+      "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+    },
+    {
+      "case_id": "v77f-ea8f75b17d74",
+      "source_id": "v77v2src-leec202-p2-ec_mu",
+      "version": 1,
+      "locator": "physical-pdf-page-2",
+      "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+    },
+    {
+      "case_id": "v77f-ea8f75b17d74",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-b123137834cc",
+      "source_id": "v77v2src-leec202-p4-ec_ordinal",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+    },
+    {
+      "case_id": "v77f-b123137834cc",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-466fab2284fd",
+      "source_id": "v77v2src-leec202-p6-ec_indifference",
+      "version": 1,
+      "locator": "physical-pdf-page-6",
+      "support_hash": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c"
+    },
+    {
+      "case_id": "v77f-466fab2284fd",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-2d806114710e",
+      "source_id": "v77v2src-leec202-p2-ec_place_time",
+      "version": 1,
+      "locator": "physical-pdf-page-2",
+      "support_hash": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231"
+    },
+    {
+      "case_id": "v77f-2d806114710e",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-4c09b80e91ce",
+      "source_id": "v77v2src-english-library",
+      "version": 1,
+      "locator": "original-stimulus:library",
+      "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+    },
+    {
+      "case_id": "v77f-4c09b80e91ce",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-4c09b80e91ce",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-a99cc144f9e5",
+      "source_id": "v77v2src-english-library",
+      "version": 1,
+      "locator": "original-stimulus:library",
+      "support_hash": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+    },
+    {
+      "case_id": "v77f-a99cc144f9e5",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-a99cc144f9e5",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-1ed13162f85d",
+      "source_id": "v77v2src-english-ferry",
+      "version": 1,
+      "locator": "original-stimulus:ferry",
+      "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+    },
+    {
+      "case_id": "v77f-1ed13162f85d",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-1ed13162f85d",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-dfcca21b749e",
+      "source_id": "v77v2src-english-orchard",
+      "version": 1,
+      "locator": "original-stimulus:orchard",
+      "support_hash": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+    },
+    {
+      "case_id": "v77f-dfcca21b749e",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-dfcca21b749e",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "source_id": "v77v2src-leac206-p4-ac_operating",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "source_id": "v77v2src-leac206-p4-ac_operating_examples",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "source_id": "v77v2src-leac206-p5-ac_investing_disposal",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "source_id": "v77v2src-leac206-p5-ac_financing",
+      "version": 1,
+      "locator": "physical-pdf-page-5",
+      "support_hash": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-59b58a25bbb3",
+      "source_id": "v77v2src-leac206-p3-ac_cash",
+      "version": 1,
+      "locator": "physical-pdf-page-3",
+      "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+    },
+    {
+      "case_id": "v77f-59b58a25bbb3",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-e77493e30567",
+      "source_id": "v77v2src-leac206-p4-ac_operating",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+    },
+    {
+      "case_id": "v77f-e77493e30567",
+      "source_id": "v77v2src-leac206-p4-ac_operating_examples",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+    },
+    {
+      "case_id": "v77f-e77493e30567",
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "support_hash": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+    },
+    {
+      "case_id": "v77f-1db3dc389725",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-1db3dc389725",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-1db3dc389725",
+      "source_id": "v77v3src-lebs106-p2-column-right-staffing",
+      "version": 1,
+      "locator": "physical-pdf-page-2-column-right",
+      "support_hash": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "source_id": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-left",
+      "support_hash": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "source_id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "version": 1,
+      "locator": "physical-pdf-page-7-column-right",
+      "support_hash": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "source_id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "version": 1,
+      "locator": "physical-pdf-page-8-column-left",
+      "support_hash": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+    },
+    {
+      "case_id": "v77f-3e505228c987",
+      "source_id": "v77v2src-syllabus_business_studies-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+    },
+    {
+      "case_id": "v77f-3e505228c987",
+      "source_id": "v77v2src-syllabus_business_studies-p4",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-4",
+      "support_hash": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+    },
+    {
+      "case_id": "v77f-63d002be451c",
+      "source_id": "v77v2src-leec202-p2-ec_mu",
+      "version": 1,
+      "locator": "physical-pdf-page-2",
+      "support_hash": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+    },
+    {
+      "case_id": "v77f-63d002be451c",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-98a231fa15fa",
+      "source_id": "v77v2src-leec202-p3-ec_dmu",
+      "version": 1,
+      "locator": "physical-pdf-page-3",
+      "support_hash": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a"
+    },
+    {
+      "case_id": "v77f-98a231fa15fa",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-fcf957a734d5",
+      "source_id": "v77v2src-leec202-p4-ec_ordinal",
+      "version": 1,
+      "locator": "physical-pdf-page-4",
+      "support_hash": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+    },
+    {
+      "case_id": "v77f-fcf957a734d5",
+      "source_id": "v77v2src-syllabus_economics-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+    },
+    {
+      "case_id": "v77f-c519f01371f2",
+      "source_id": "v77v2src-english-workshop",
+      "version": 1,
+      "locator": "original-stimulus:workshop",
+      "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+    },
+    {
+      "case_id": "v77f-c519f01371f2",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-c519f01371f2",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-2ca94e8b4e72",
+      "source_id": "v77v2src-english-ferry",
+      "version": 1,
+      "locator": "original-stimulus:ferry",
+      "support_hash": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+    },
+    {
+      "case_id": "v77f-2ca94e8b4e72",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-2ca94e8b4e72",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "source_id": "v77v2src-english-workshop",
+      "version": 1,
+      "locator": "original-stimulus:workshop",
+      "support_hash": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "source_id": "v77v2src-syllabus_english-p2",
+      "version": 1,
+      "locator": "CUET-2026-syllabus-physical-page-2",
+      "support_hash": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+    }
+  ],
+  "family_memberships": [
+    {
+      "family_id": "v77-final-v2-family-cash-equivalent-eligibility",
+      "state": "active",
+      "case_ids": [
+        "v77f-ad344a8b5f2d",
+        "v77f-59b58a25bbb3"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-customer-receipts-machine-sale",
+      "state": "active",
+      "case_ids": [
+        "v77f-2105354e5de1",
+        "v77f-84e9ba57542c"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-662880a2c5fb",
+      "state": "active",
+      "case_ids": [
+        "v77f-662880a2c5fb"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-073bdc31e03c",
+      "state": "active",
+      "case_ids": [
+        "v77f-073bdc31e03c"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-workforce-staffing-sequence",
+      "state": "active",
+      "case_ids": [
+        "v77f-3546cbf8ea19",
+        "v77f-1db3dc389725"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-c6d21440345d",
+      "state": "active",
+      "case_ids": [
+        "v77f-c6d21440345d"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-consumer-rights",
+      "state": "active",
+      "case_ids": [
+        "v77f-a20de9004938",
+        "v77f-9a31e9a4c29b",
+        "v77f-e9ef75026c19"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-marginal-utility-28-30",
+      "state": "active",
+      "case_ids": [
+        "v77f-ea8f75b17d74",
+        "v77f-63d002be451c"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-ordinal-ranking",
+      "state": "active",
+      "case_ids": [
+        "v77f-b123137834cc",
+        "v77f-fcf957a734d5"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-466fab2284fd",
+      "state": "active",
+      "case_ids": [
+        "v77f-466fab2284fd"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-2d806114710e",
+      "state": "active",
+      "case_ids": [
+        "v77f-2d806114710e"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-library-passage",
+      "state": "active",
+      "case_ids": [
+        "v77f-4c09b80e91ce",
+        "v77f-a99cc144f9e5"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-ferry-passage",
+      "state": "active",
+      "case_ids": [
+        "v77f-1ed13162f85d",
+        "v77f-2ca94e8b4e72"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-dfcca21b749e",
+      "state": "active",
+      "case_ids": [
+        "v77f-dfcca21b749e"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-e77493e30567",
+      "state": "active",
+      "case_ids": [
+        "v77f-e77493e30567"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-3e505228c987",
+      "state": "active",
+      "case_ids": [
+        "v77f-3e505228c987"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-v77f-98a231fa15fa",
+      "state": "active",
+      "case_ids": [
+        "v77f-98a231fa15fa"
+      ],
+      "verified_exact_membership": true
+    },
+    {
+      "family_id": "v77-final-v2-family-workshop-passage",
+      "state": "active",
+      "case_ids": [
+        "v77f-c519f01371f2",
+        "v77f-56f266269b74"
+      ],
+      "verified_exact_membership": true
+    }
+  ],
+  "methods": {
+    "ncert_pdf_identity": "Raw SHA-256 of exact local PDF bytes; referenced facts were matched against normalized page extraction or exact column-row text at recorded source offsets.",
+    "cuet_syllabus_pdf_identity": "Raw SHA-256 of exact CUET 2026 syllabus PDF bytes from the older source-candidate root. Physical-page-order text was extracted with PyPDF; cited excerpts were compared after lowercase alphanumeric normalization, with similarity 0.9914–0.9982 across five source records.",
+    "authored_stimuli": "Exact passage bytes are the identity and extraction; candidate passage text equals the source passage byte-for-byte.",
+    "source_material": "Imported factoryEvidence.sourceMaterial and validated every frozen ref for active state, extraction_checked, reuse_permitted, identity presence, version, locator text hash and support hash.",
+    "metadata_boundary": "All source text, refs, versions, URLs, permissions and reuse scope preserved. Added extraction metadata for 26 used sources, corrected authored identity hashes to exact text bytes, and added state=active for 18 referenced families without changing IDs, versions or memberships.",
+    "no_unresolved_used_source": true,
+    "no_permission_or_publication_claim": true,
+    "provider_calls": 0
+  }
+}

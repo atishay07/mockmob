@@ -1,0 +1,32 @@
+{
+  "schema": "cuet-v714-local-correction-freeze-v1",
+  "created_at": "2026-10-09T21:26:49.0195963Z",
+  "verifier_version": "cuet-fit-validator-v7.14-schema-semantics",
+  "validation_contract_hash": "ed0e4ae7fd56c045dd67c74e33686c2fcd1c0d25e640fc2e2f578fba4dfcf545",
+  "prompt_hash": "e3f74330022521221e0229b25b478b236a18dc37eb74330ac3498ab5658e7415",
+  "parent_validation_contract_hash": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d",
+  "parent_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "parent_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "files": {
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\contractV714.mjs": "a3edb394b301cfd262be13ec9cb97ddc88af577bc7600dcededc7932b8a74a57",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\factoryEvidenceV714.mjs": "c7ca516ad6c450d60ed5fb286e2a4bce1cf47ff8be21f2ac49d925082440480d",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\verifyV714.mjs": "3d6d5113947be5607bf237b6b1564e186c9197789694bd2e5ccae9584c467957",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\compactValidationV714.mjs": "caec371c4c3e56ff78a89069d4a18c9e9bcdd12377ba9764195baf346c363551",
+    "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\scripts\\pipeline\\lib\\validatorDiagnosticsV714.mjs": "eecf59df2cffbc134653c85be6d01e98ca8f749f6c93cdcadf8066c1338b5830"
+  },
+  "independent_local_tests": 17,
+  "reconstructed_request_variants": 222,
+  "maximum_reconstructed_body_bytes": 32554,
+  "input_bound_bytes": 33024,
+  "qualification": "not_run",
+  "paid_provider_calls": 0,
+  "release": false,
+  "runtime_publication_integration": false,
+  "mandatory_gates": "inherited-v713-unchanged",
+  "evidence_use": "Inspected V713 cases and mock tests are regression/software evidence only, never fresh V714 qualification.",
+  "limits": [
+    "No native quality/yield/unit-cost or premium claim.",
+    "One final V713 study remains in progress; no additional paid benchmark authorized by this local freeze.",
+    "Production publication/deployment/migration still needs explicit approval."
+  ]
+}

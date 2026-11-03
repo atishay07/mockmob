@@ -1,0 +1,19 @@
+{
+  "schema": "cuet-v713-execution-correction-r3",
+  "frozen_at": "2026-10-09T20:38:07.341Z",
+  "academic_contract_changed": false,
+  "academic_freeze_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\final-pass-v713\\CONTRACT-FREEZE.json",
+  "academic_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "original_r2_manifest_sha256": "69fab26bcf6641e08ae84c2ace6ca96c7f4ba703e419954f4c723f49fe118de5",
+  "correction": "Trusted Windows CA enforced; no-payload TLS preflight before ledger/reservation; network failure pauses shared dispatch, retains holds/judgments. Prospective explicit 31-fresh/6-regression custody plumbing preserves all 37 labels and outcomes under one USD1 cap. No academic prompt, verifier, price, effort, or threshold changes.",
+  "files": {
+    "scripts/pipeline/lib/trustedNetworkV713R3.mjs": "26998ba8f35ce4201123459b60bf16414659ec52b1d235b31d2bf7ca55db2b0c",
+    "scripts/pipeline/lib/mixedCustodyV713R3.mjs": "6c4bb0a5e367ae634a3cdee07598fe7ecf00fe6a75fde082921453554a4ddbfb",
+    "scripts/pipeline/lib/providerAvailabilityV713R2.mjs": "2bb4352ea3b4a80bb51e8ea83f9aaf2588377781cd318463a90a6ab9c9e1cc4f",
+    "scripts/pipeline/lib/cuetPilotRunV713R3.mjs": "58f9e110feca67273cf9ca7222cbd59a12c9dbfe4d466ea5a25987e05daeb4d8",
+    "scripts/pipeline/tools/prepareMixedQualificationV713R3.mjs": "532f22c542e0b8d2e2542cff1f8faa3376f57b0f42d7040582433cb987f23fd9",
+    "scripts/pipeline/tools/runQualificationV713R3.mjs": "9ffe4afd13498ddffc33b654743092dddaa69969c679c9f9ab9d456ad02ea7e9",
+    "scripts/pipeline/tools/captureMixedQualificationV713R3.mjs": "754e05666da274c56323f22ca5cd82b79952646ee9bd76f92510c20041eb5c85",
+    "scripts/pipeline/tools/collectMixedQualificationV713R3.mjs": "474b27e5e97f6c99d62491aab4dd04982c1254e90f3e975372221b2516374148"
+  }
+}

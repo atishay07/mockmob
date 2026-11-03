@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-08T15:04:36.451Z",
+  "denominator": 127,
+  "original_packet_files_unchanged": true,
+  "independent_answers_unchanged": true,
+  "all_ids_unique": true,
+  "all19_dimensions": true,
+  "counts_reconcile": true,
+  "compiler_sha256": "48825338ce09a98e1ba9a5ada06bf985069175ef757f85bae03b6f8f732a11a1",
+  "compiled_json_sha256": "515bafa1270e43da5b658f33f947c2947ddeb18bba23f621fb13c7ff07fa5920",
+  "compiled_md_sha256": "32067c67ccaba6b26712098a057efebeb9ecfd2df15c8e35988a116d4850de5b",
+  "additional_review_correction": {
+    "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+    "finding": "The first blind derivation correctly computed3/20 sacrifice,1/20 gain and2/20 gain, but mistyped option A. The mapping is stored D. This is separate from20cc88..., whose reviewer reversed both the reasoning and answer."
+  },
+  "new_publications": 0,
+  "accounting_writes": 0,
+  "new_paid_factory_calls": 0
+}

@@ -1,0 +1,392 @@
+{
+  "at": "2026-10-06T14:07:55.964Z",
+  "verifier": "luna-gemini-cuET-v5.2",
+  "complete": 18,
+  "expected": 18,
+  "false_accepts": 1,
+  "cost_usd": 0.070665,
+  "observations": [
+    {
+      "original_id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "content_hash": "836070680a3d09429bddc726bcd2cedce817ec861e133cf06de675eec22e1cb3",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Intended meaning of ingratiating is correct. Raw HTML is exposed in the stem and the supplied definitions cover sycophantic/flatter, not the changed target ingratiating."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "content_hash": "1f7aca4672f837feb0d225fbc42d3597d3f6c2206bbf69328ebdf81529fe4e73",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Sycophantic means flattering in context, but the underlined target is not marked in the extracted stem. Specify the target or restore faithful presentation before use."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "For the intended target, sycophantic means excessively insincere praise; “flattering” is the closest option. Cowardly, domineering, and insolent do not express that meaning.",
+        "The stem refers to an underlined word, but no word is visibly underlined in the supplied body. This leaves a missing target-identification cue in the rendered item.",
+        "The authentic-PYQ status requires treating reproduction of its anchor as meaningfully distinct.",
+        "Defect: The stem refers to an underlined word, but the supplied body contains no visible underlining.",
+        "Quality score 8/10",
+        "Condition implied: The intended target word is “sycophantic.”",
+        "Condition missing: The target word is visibly underlined as the stem specifies."
+      ]
+    },
+    {
+      "original_id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The question tests definitions of share-capital categories, not preparation or presentation of company financial statements. Financial Statements of Company is the wrong primary chapter.",
+        "The registered NCERT page 55 concerns buy-backs and page 66 does not define reserve capital or subscribed-but-not-fully-paid capital. The historical paper is not enough to entail the fuller adapted definition of uncalled reserve capital.",
+        "The Markdown table is rendered as literal pipes and separator characters by the existing plain-text question renderer."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Option 4 contains a stray st that is absent from the printed option. The rendered source shows the next question refers to 1st July: the extracted superscript leaked into q20.",
+        "Attached NCERT locators explain accounting and interest treatment but do not explicitly state the acceptance-authority rule. The mirror question gives historical wording, not an independent explanatory rule."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The expected answer appears to be C (Articles of Association), and the wording presents one conventional best answer. However, E1.1 defines calls in advance and E1.3 discusses Articles only in connection with interest; neither establishes that Articles must authorize acceptance. Under the source-only requirement, I abstain.",
+        "There is no numerical work or passage to assess. Calls in advance are within the stated syllabus scope.",
+        "Option D contains the stray fragment “st”, which makes the item unready for presentation.",
+        "Defect: The decisive rule that calls in advance must be authorized by the Articles of Association is not established in the supplied academic excerpts; the excerpts discuss the Articles only in relation to interest on calls in advance.",
+        "Defect: Option D contains the extraction fragment “st” after “Memorandum of Association”.",
+        "Quality score 7/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: Acceptance of calls in advance must be authorized by the applicable Articles of Association",
+        "Condition implied: The payment is made before the relevant call falls due, as implied by “calls in advance”"
+      ]
+    },
+    {
+      "original_id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "content_hash": "bba46fd077b57f64075c66fbf9245418be4c2af248b7aaa212b0c3c45c70fbb4",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Genial fits the description. The antonym-in-context label does not describe this choosing-a-word task. Definitions of the three distractors are not directly supported by the supplied excerpts."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "D, genial, means friendly and cheerful (E2.1), matching Leena's warm, cheerful and welcoming behaviour. Morose and reticent fit the cues poorly; timid is less apt.",
+        "The anchor has the same four options and keyed word. This recasts the same genial-versus-sullen semantic contrast as a contextual clue rather than introducing a meaningfully different lexical target.",
+        "The stem is answerable from its own context; no passage or numeric calculation is needed.",
+        "Defect: The stated question type, \"antonym in context,\" does not match the task: the stem asks for a word fitting a positive description.",
+        "Defect: The adaptation retains the anchor's exact options and keyed word and recasts the same semantic contrast, so it is not meaningfully distinct.",
+        "Quality score 7/10",
+        "Condition implied: These cues indicate a friendly and cheerful manner."
+      ]
+    },
+    {
+      "original_id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The stem omits the condition that premium was previously credited but remains unpaid. Securities Premium is not debited when premium was received. The explanation correctly states the condition, but the unconditional matching stem does not.",
+        "OCR flattens the List-I/List-II headings into an interleaved run-on sentence."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The intended match is B: Share Capital—debit called-up amount; Share Forfeiture—credit amount received; Calls-in-Arrears—credit amount unpaid; Securities Premium—debit premium unpaid.",
+        "NCERT says forfeiture treatment depends on issue conditions and specifically says Securities Premium is debited only when premium has not been received. The question does not state that this applies, so the premium-account match is not universally valid.",
+        "NCERT also notes a separate Calls-in-Arrears Account is optional. Its inclusion in the list suggests that account is being maintained, but the question does not state this.",
+        "The match format fits CUET and the chapter is in scope. This is the authenticated anchor itself, so meaningfully_distinct is true under the stated rule.",
+        "Defect: The Securities Premium Account is debited only if premium on the forfeited shares remains unpaid; the question does not specify the issue/premium-payment status.",
+        "Defect: A separate Calls-in-Arrears Account is optional, but the question does not state that the company maintains one.",
+        "Defect: “Share Forfeited Account” is non-standard terminology; the standard account name is “Share Forfeiture Account.”",
+        "Quality score 6/10",
+        "Condition missing: The forfeited shares were issued at a premium and that premium remains unpaid.",
+        "Condition implied: The company maintains a separate Calls-in-Arrears Account."
+      ]
+    },
+    {
+      "original_id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The primary task is maintenance of capital/current accounts, including additional and permanent withdrawal of capital. It should map to Partnership Fundamentals; Profit & Loss Appropriation Account covers only some listed items."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Under the fixed capital method, additional capital and capital withdrawn under the agreement are recorded in the Capital Account; profit share and salary are recorded in the Current Account (E1.2–E1.4). This gives I–B, II–A, III–B, IV–A: option B.",
+        "Option A misassigns I and II; C misassigns III and IV; D misassigns I and IV.",
+        "The item tests fixed-capital account classification within the included partnership syllabus. It is meaningfully different from the anchor’s matching of transactions to account sides or other accounts.",
+        "Quality score 10/10",
+        "Condition implied: The profit share and partner salary are transactions other than additions or withdrawals of capital."
+      ]
+    },
+    {
+      "original_id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Definitions of share-capital items are misclassified under Financial Statements of Company.",
+        "Reserve capital is not merely any amount called at winding up; it is specifically a reserved portion of uncalled capital callable only then. The explanation repeats the abbreviated definition.",
+        "Existing leac201 page 55 does not support reserve capital; page 66 supports the other three definitions."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The correct matching is A–II (called but unpaid), B–IV (received before due), C–I (received above nominal value), and D–III (reserve capital associated with winding up), so only option D matches all four.",
+        "Options A–C each mismatch at least one pair; there is no competing complete match.",
+        "The excerpts establish the calls-in-arrears, calls-in-advance and securities-premium definitions, but do not establish the reserve-capital definition needed for D–III.",
+        "Defect: The supplied academic excerpts do not define reserve capital as uncalled capital callable only in winding up, leaving one of the four tested mappings without excerpt support.",
+        "Quality score 8/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition missing: Reserve capital is uncalled capital callable only in winding up (D–III)."
+      ]
+    },
+    {
+      "original_id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The situations test share-capital classifications and transactions; Financial Statements of Company is the wrong primary chapter.",
+        "Existing NCERT page 55 is unrelated to reserve-capital definition and page 66 does not define it.",
+        "Markdown table syntax is unsupported by the question renderer.",
+        "C-IV should explicitly say the premium excess, since only the excess over nominal value is credited to Securities Premium Reserve, not the entire share proceeds."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The item principally tests capital/current account maintenance and includes additional capital. Partnership Fundamentals is a more exact primary chapter than Profit & Loss Appropriation Account."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Under the fixed capital method, interest on capital, drawings and share of profit are recorded in the current account; additional capital is recorded in the capital account (E1.3). Ordinary accounting treatment puts interest and profit on the credit side, drawings on the debit side, and additional capital on the credit side.",
+        "Thus the mapping is A: (A)-(II), (B)-(III), (C)-(I), (D)-(II). B, C and D each misplace at least one item; only option A is correct.",
+        "The adapted item tests different transaction classifications from its anchor, rather than merely renaming entities or reshuffling options.",
+        "Quality score 10/10",
+        "Condition implied: The usual debit/credit treatment applies: interest on capital and share of profit are credited, drawings are debited, and additional capital is credited."
+      ]
+    },
+    {
+      "original_id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "600 is correct only if the final call is the sole unpaid capital instalment. Fully called-up means demanded, not received; the stem does not explicitly state all other capital instalments were paid.",
+        "For example, if a further Rs 4 capital instalment had also been unpaid, capital received would be Rs 3 per share and 1,400 shares would also fit Rs 4,200. The current explanation silently assumes Rs 7 received."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "NCERT supports crediting the amount received toward share capital to Share Forfeiture and excluding premium that was fully received.",
+        "If all earlier share-capital calls were paid, the credit is ₹10 − ₹3 = ₹7 per share, giving ₹4,200 ÷ ₹7 = 600 shares (B).",
+        "The stem does not say earlier calls were paid. If ₹4 per share of earlier calls were also unpaid, only ₹3 per share would be credited, giving 1,400 shares (D). Thus the amount is not uniquely determined.",
+        "This is a substantive numerical calculation rather than a cosmetic change to the supplied match-type anchor.",
+        "Defect: It does not state whether share-capital calls before the final call were paid. The intended 600-share answer requires that assumption; other prior arrears can make option D (1,400 shares) consistent with the stated total.",
+        "Quality score 6/10",
+        "Condition missing: All share-capital calls before the final call were paid."
+      ]
+    },
+    {
+      "original_id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "Intended B matches: A is planned saving and C realised saving.",
+        "Statement D uses the undefined hybrid term 'Ex Ante Post Saving'. Its explanation rejects this non-term rather than a meaningful economic assertion. Preserve the historical transcription as provenance, but repair before using it as clean current practice.",
+        "A's phrase 'actually planned to save' is awkward; statements and option lists should be split across lines in the rendered item."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The excerpt defines ex ante as planned and ex post as what actually happened. Thus (A) is true, (B) is false, and (C) is true; on a literal reading of (D), the set is (A) and (C), option B.",
+        "“Ex Ante Post Saving” is not a recognized term. If it is a typo for “Ex Post Saving,” (D) becomes true, leaving three true statements but no matching option. This prevents a uniquely defensible answer.",
+        "The item reproduces its authenticated anchor, so it is meaningfully distinct under the authentic-PYQ rule.",
+        "Defect: Statement (D) uses the malformed, non-standard expression “Ex Ante Post Saving”; it is unclear whether this is intended as a false statement or a typo for “Ex Post Saving.”",
+        "Defect: If statement (D) is silently corrected to “Ex Post Saving,” then (A), (C), and (D) are true, and none of the options gives that set.",
+        "Defect: The conspicuously invalid terminology in (D) makes it an obvious false-statement cue under the literal reading.",
+        "Quality score 5/10",
+        "Condition implied: Statement (D) is interpreted as written rather than silently corrected to “Ex Post Saving.”"
+      ]
+    },
+    {
+      "original_id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "A is the intended answer, but the stem says receipts create liability AND decrease assets. That is not the textbook's disjunctive definition.",
+        "Borrowing creates a liability; disinvestment reduces financial assets. Either criterion suffices. The explanation silently changes the stem to 'either ... or'.",
+        "The stem also calls receipts 'elements' rather than identifying government receipts."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "A is the intended answer: the excerpt classifies receipts that create liability or reduce financial assets as capital receipts. Revenue receipts do not create a claim; B and D are payment distractors.",
+        "The stem uses “and” where the defining rule uses “or.” A capital receipt need not both create a liability and decrease assets, so the literal wording does not accurately define the category. A would be unambiguous if “and” were changed to “or.”",
+        "The classification is within the Government Budget syllabus. As an authenticated-PYQ item, reproduction of its anchor is not a novelty defect.",
+        "Defect: The conjunctive “and” makes the definition inaccurate: the supplied source states that capital receipts create liability or reduce financial assets.",
+        "Defect: “Elements” and “decrease the assets of government” are imprecise wording; the source classifies government receipts and refers to reducing financial assets.",
+        "Defect: “Capital Payments” and “Revenue Payments” are non-standard distractor labels for a syllabus classification framed as capital and revenue expenditure.",
+        "Quality score 5/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition implied: The items being classified are government receipts rather than payments or expenditure.",
+        "Condition missing: The intended capital-receipt test is liability creation or reduction of financial assets, not necessarily both."
+      ]
+    },
+    {
+      "original_id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "B is the source-supported intended answer.",
+        "The item says 'According to the chapter' but supplies neither a chapter title, cited text nor passage. It is source-dependent phrasing in a standalone exam question.",
+        "The explanation repeats the same unidentified 'chapter' reference. It should identify the historical textbook framing or give a standalone explanation.",
+        "No claim about the present continuation of Five-Year Plans should be introduced."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The textbook excerpt supports that, alongside the Five-Year Plans, the Budget acquired the role of a significant national policy statement; therefore B answers the question. A describes part of the Budget’s basic function, not the additional role; C and D do not fit.",
+        "The tested role is supported by the supplied excerpt and fits the Government Budget unit. The item tests a different concept from its anchor, which concerns Article 112.",
+        "The stem refers to an unidentified “chapter,” so its source reference is unclear. A is partly true as a description of the Budget, although “confined” conflicts with the stem; C and D are also weak, narrowly framed distractors.",
+        "Defect: “According to the chapter” does not identify a chapter, an unclear student-facing reference.",
+        "Defect: Option A is partly true as a statement of the Budget’s basic function, though its claim that the Budget is confined to that function is contradicted by the stem.",
+        "Defect: Options C and D are weak, readily eliminated distractors because they restrict the Budget to taxation approval or capital expenditure.",
+        "Quality score 7/10",
+        "Condition missing: The chapter referred to in the stem is the intended Government Budget source."
+      ]
+    },
+    {
+      "original_id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "C is the intended exact identity, but D is ALSO true: zero is less than one. There is no uniquely defensible correct option under literal mathematical reading.",
+        "The explanation establishes C without refuting D, so matching the official intended key does not repair the overlap.",
+        "G,T,M,X are not defined in the stem; familiar exam shorthand is weaker than explicit self-contained notation."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "Under the conventional meanings G = government expenditure, T = taxes, M = imports and X = exports, the intended value is zero for each when government and foreign trade are absent.",
+        "But option C (all equal zero) also satisfies option D (all equal and less than one), because 0 < 1. Thus there are at least two correct options, so I abstain.",
+        "The excerpts support the two-sector, no-government context and identify G and T as government fiscal variables, but do not establish the import/export notation or the foreign-trade implication tested.",
+        "Defect: Options C and D overlap: if G = T = M = X = 0, then they are also all less than 1. The item has no unique answer.",
+        "Defect: Option D is partly true under the stated conditions and effectively includes the intended zero answer.",
+        "Defect: The excerpts do not establish that M and X denote imports and exports, or the foreign-trade implication; source support for that part of the tested principle is missing.",
+        "Defect: The symbols are not defined in the stem; M in particular can have other macroeconomic meanings.",
+        "Quality score 4/10",
+        "Decisive principle is not stated in the supplied excerpts",
+        "Condition implied: G and T denote government expenditure and taxes; M and X denote imports and exports.",
+        "Condition implied: With those meanings, the absent government and foreign-trade components are zero."
+      ]
+    },
+    {
+      "original_id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "The numerical split and debit/credit direction are academically correct. However, none of the currently attached textbook locators directly prints the residual-profit transfer journal entry. A fixed-account definition and summary of final accounts do not by themselves establish debit Appropriation / credit partners."
+      ],
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "original_id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "audit_verdict": "incomplete",
+      "audit_reasons": [
+        "A is arithmetically unique under the supplied simplified additive relationship: 9-4=5%. The stem's approximation is explicit, so the exact multiplicative Fisher relation is not a competing answer.",
+        "Attached Money and Banking pdf-page-2 covers purchasing power and money demand; pdf-page-10 covers bond present value. Neither excerpt entails the stated nominal/real interest relation.",
+        "The current 2026 Money and Banking syllabus lists functions/supply of money, creation/multiplier, central-bank functions and money-supply policy tools. No exact current-syllabus topic entitlement was supplied for this formula.",
+        "A 2024 PYQ is evidence of historical examination content, not sufficient evidence of the 2026 boundary or 2027 entitlement. Live text searches in NCERT Money and Banking, National Income Accounting, Determination of Income and Employment and Open Economy Macroeconomics did not locate 'real interest'; this is not proof of universal absence, so verdict is incomplete rather than categorical off-syllabus.",
+        "The explanation is correct conditional on the question's given equation, but that does not fill the source/syllabus gap."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The stem supplies the simplified relation, so real interest rate = 9% − 4% = 5% (A). The other choices are not solutions to that relation: 13% is addition, 2.25% is 9/4, and 36% is multiplication.",
+        "The cited NCERT excerpts discuss interest rates in money demand and bond valuation, but do not establish the nominal-real-inflation relationship. The authenticated paper anchor is not academic source support.",
+        "The candidate changes the anchor's formula-identification task into a numerical application, so it is meaningfully distinct. Its format and one-step arithmetic fit the MCQ pattern, but the specified current Money and Banking unit does not include this relationship.",
+        "Defect: The tested nominal-real-inflation relationship is not established by the supplied academic excerpts; the paper anchor cannot provide academic source support.",
+        "Defect: The relationship is not listed in the supplied current Money and Banking syllabus scope, so the item is not syllabus-entitled.",
+        "Quality score 7/10",
+        "Condition implied: The two rates are measured on a comparable time-period basis."
+      ]
+    },
+    {
+      "original_id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "audit_verdict": "suspect",
+      "audit_reasons": [
+        "C is the unique intended textbook-role answer; the supplied simple NCERT circular-flow source supports it.",
+        "The explanation says a two-sector model assumes households spend their entire income and do not save. That does not follow from being two-sector alone: two-sector income-determination models can include household saving and firm investment.",
+        "The stem omits 'simple economy without saving' while the explanatory source uses that narrower model. Do not turn a restricted source illustration into a general definition of a two-sector economy.",
+        "Repair the explanation and model assumptions before approval; do not claim a discovered official-key mismatch."
+      ],
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "C is correct: firms use household factor services to produce goods and services (E1.3, E2.4). A reverses the direction of factor services. B conflicts with the simple model's no-saving assumption. D brings in government, which is absent from the two-sector model described in the excerpts.",
+        "No numerical calculation is required. The two-sector model convention is sufficient to interpret the sector references; the decisive production relationship is stated in the supplied excerpts.",
+        "Quality score 9/10",
+        "Luna sample 2: C is correct: firms produce goods and services in the circular-flow model.",
+        "Luna sample 2: A reverses the factor-service flow: households provide services to firms and receive payments from them.",
+        "Luna sample 2: B conflicts with the simplified model's no-saving assumption; D introduces a government sector into the two-sector setting.",
+        "Luna sample 2: The excerpted NCERT principles support these distinctions. No numerical work is required, and the direct-recall format is appropriate.",
+        "Luna sample 2: Quality score 10/10",
+        "Luna sample 2: Condition implied: The simplified model used to reject the saving claim assumes households do not save."
+      ]
+    }
+  ]
+}

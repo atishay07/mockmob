@@ -1,0 +1,205 @@
+[
+  {
+    "route": "home",
+    "fonts": [
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "route": "practice",
+    "fonts": [
+      "12px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "route": "result",
+    "fonts": [
+      "12px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": false,
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "route": "du",
+    "fonts": [
+      "16px",
+      "16px",
+      "16px",
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 320
+  },
+  {
+    "route": "home",
+    "fonts": [
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "route": "practice",
+    "fonts": [
+      "12px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "route": "result",
+    "fonts": [
+      "12px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": false,
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "route": "du",
+    "fonts": [
+      "16px",
+      "16px",
+      "16px",
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 390
+  },
+  {
+    "route": "home",
+    "fonts": [
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 768
+  },
+  {
+    "route": "practice",
+    "fonts": [
+      "12px",
+      "14px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 768
+  },
+  {
+    "route": "result",
+    "fonts": [
+      "12px",
+      "15px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": true,
+    "theme": "dark",
+    "width": 768
+  },
+  {
+    "route": "du",
+    "fonts": [
+      "16px",
+      "16px",
+      "16px",
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 768
+  },
+  {
+    "route": "home",
+    "fonts": [
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 1440
+  },
+  {
+    "route": "practice",
+    "fonts": [
+      "12px",
+      "14px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 1440
+  },
+  {
+    "route": "result",
+    "fonts": [
+      "12px",
+      "15px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": true,
+    "theme": "dark",
+    "width": 1440
+  },
+  {
+    "route": "du",
+    "fonts": [
+      "15px",
+      "14px",
+      "16px",
+      "16px",
+      "16px"
+    ],
+    "main": 1,
+    "overflow": 0,
+    "overlap": null,
+    "theme": "dark",
+    "width": 1440
+  }
+]

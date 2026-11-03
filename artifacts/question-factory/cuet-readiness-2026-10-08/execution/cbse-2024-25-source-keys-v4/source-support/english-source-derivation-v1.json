@@ -1,0 +1,431 @@
+{
+  "schema": "fresh-source-derivation-v4",
+  "at": "2026-10-08T10:35:59.540Z",
+  "subject": "english",
+  "raw_denominator": 8,
+  "option_claims": 32,
+  "provisional_positive": 6,
+  "withheld": 2,
+  "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "official_marking_scheme_read": false,
+  "paid_validator_results_seen": false,
+  "construction_author_also_prepared_question_view": true,
+  "independent_second_review_required": true,
+  "CUET_fit": "not_evaluated",
+  "release": false,
+  "publication": false,
+  "items": [
+    {
+      "item_id": "cbse24-eng-q01",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "c603a18fbaf203761489977c4273d0e29bbc04c39919f19e38d06fae0c86d5f5",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Paragraph 1 expressly describes notifications interrupting conversations and attracting attention to screens.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 136,
+          "quote_end": 218,
+          "quote": "Notifications repeatedly interrupt conversations and draw fingers towards screens.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Repeatedly draw their attention away from conversations",
+          "assessment": "Directly restates both effects in the passage."
+        },
+        {
+          "option": "B",
+          "text": "Help them listen more closely to others",
+          "assessment": "Closer listening contradicts interrupted conversations."
+        },
+        {
+          "option": "C",
+          "text": "Make their time pass more slowly",
+          "assessment": "No slowing of time is claimed."
+        },
+        {
+          "option": "D",
+          "text": "Prevent them from looking at screens",
+          "assessment": "Attention is drawn towards screens, not prevented from reaching them."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q02",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "025d5bea0891d2f67f42bac793f62234935949d6e39d85227d01752989821229",
+      "source_derived_provisional_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Drifting autumn leaves represent passing, fleeting moments. The surrounding sentences place attention on notifications and screens.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 85,
+          "quote_end": 218,
+          "quote": "Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Time remains fixed while people use their phones",
+          "assessment": "Fixed time contradicts moments drifting away."
+        },
+        {
+          "option": "B",
+          "text": "Moments pass fleetingly while attention is elsewhere",
+          "assessment": "Combines the fleeting-time metaphor with the stated diverted attention."
+        },
+        {
+          "option": "C",
+          "text": "Notifications follow a carefully controlled seasonal schedule",
+          "assessment": "The passage does not describe a seasonal notification schedule."
+        },
+        {
+          "option": "D",
+          "text": "People deliberately preserve every passing moment",
+          "assessment": "It describes moments slipping away, not deliberately preserving them."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q03",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "b5fcbad6a3ece66171e44f9a841c3b2c27849a5b349fc72b5cc014f2a3a00e7e",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Anxiety and incompleteness when the device is absent establish psychological dependence. The absent-limb comparison is explicitly figurative.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 224,
+          "quote_end": 450,
+          "quote": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Psychological dependence on technology for a sense of completeness",
+          "assessment": "Restates the anxiety and incomplete-self concern."
+        },
+        {
+          "option": "B",
+          "text": "Physical damage to arms caused by holding a phone",
+          "assessment": "No arm injury is described."
+        },
+        {
+          "option": "C",
+          "text": "The expense of replacing lost digital devices",
+          "assessment": "Replacement expense is absent from the passage."
+        },
+        {
+          "option": "D",
+          "text": "An inability to read the time without a smartwatch",
+          "assessment": "Neither a smartwatch nor inability to read time is mentioned."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q04",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "02b7207870c6f2b452b81985962316a0b89ac86a564c3eb67986e4e98727ab3d",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The question asks for an inference about device-free hours, not a clinical cure. Among these alternatives, reducing repeated update checking addresses the stated compulsion; the other outcomes are unsupported guarantees or unrelated claims.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 224,
+          "quote_end": 450,
+          "quote": "When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Reducing the compulsion to keep checking updates",
+          "assessment": "Addresses the repeated-checking behaviour named in paragraph 2."
+        },
+        {
+          "option": "B",
+          "text": "Guaranteeing that no important message ever arrives",
+          "assessment": "Device-free hours cannot guarantee that no message arrives."
+        },
+        {
+          "option": "C",
+          "text": "Increasing the number of likes on every post",
+          "assessment": "The passage supplies no mechanism or promise of more likes."
+        },
+        {
+          "option": "D",
+          "text": "Removing the need for any human conversation",
+          "assessment": "The passage values human connection and does not remove its need."
+        }
+      ],
+      "issues": [],
+      "note": "This is an inference item. Separate CUET-fit review must judge the strength of the inference and distractors.",
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q05",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "0f1c9f613cde105ea59cbb6f074f062f82aa06ef3080ad515b32db166cdbe294",
+      "source_derived_provisional_key": null,
+      "unique_key_supported": false,
+      "derivation": "Paragraph 3 connects dissonance with unheard life rhythm and information overload. Alternatives A, B and C can all describe that disruption. No decisive textual distinction makes exactly one of those interpretations correct.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 456,
+          "quote_end": 733,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "It creates a jarring and chaotic environment that disrupts focus.",
+          "assessment": "A jarring environment disrupting focus is defensible."
+        },
+        {
+          "option": "B",
+          "text": "It contributes to a sense of overload, overwhelming the senses.",
+          "assessment": "Overload is explicitly mentioned and is defensible."
+        },
+        {
+          "option": "C",
+          "text": "It interferes with engagement in meaningful aspects of life.",
+          "assessment": "Interference with meaningful life is supported by the unheard rhythm and paragraph 4."
+        },
+        {
+          "option": "D",
+          "text": "It induces stress by interrupting with regular updates about the device.",
+          "assessment": "Regular updates about the device itself are not established."
+        }
+      ],
+      "issues": [
+        "overlapping_defensible_interpretations"
+      ],
+      "note": null,
+      "source_key_construction_state": "withheld",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q06",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "461e1655d78f86f4eae4b6f89c60bcc49d3b4b688e8a86285c79a1a5b5259812",
+      "source_derived_provisional_key": null,
+      "unique_key_supported": false,
+      "derivation": "A hunch is explicitly labelled a physical sign, but thumb movement is also a bodily sign of digital engagement. The current question asks about engagement, rather than the bodily burden alone. The phrase most directly does not establish an exclusive condition.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 456,
+          "quote_end": 733,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Thumbs moving like skilled pianists",
+          "assessment": "Thumb movement is a bodily behaviour associated with engagement."
+        },
+        {
+          "option": "B",
+          "text": "Waiting for another like or comment",
+          "assessment": "Waiting for a like is a mental anticipation, not a bodily sign."
+        },
+        {
+          "option": "C",
+          "text": "A hunch on shoulders caused by the burden of connectivity",
+          "assessment": "The hunch is expressly described as a physical sign."
+        },
+        {
+          "option": "D",
+          "text": "The true rhythm of life remaining unheard",
+          "assessment": "The unheard rhythm is figurative, not an anatomical sign."
+        }
+      ],
+      "issues": [
+        "bodily_sign_options_not_exclusive"
+      ],
+      "note": null,
+      "source_key_construction_state": "withheld",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q07",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "9653dcbac680da1632776fdf6415ba3ef7e1d9c749fa4ebea3a8697498bbf5a3",
+      "source_derived_provisional_key": "A",
+      "unique_key_supported": true,
+      "derivation": "The contrast between digital activity and an unheard life rhythm is developed in paragraph 4 through fleeting genuine connections and sacrificed shared experiences.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 456,
+          "quote_end": 992,
+          "quote": "Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "Meaningful human connections and lived experiences",
+          "assessment": "Fits the connection and lived-experience contrast developed in paragraphs 3–4."
+        },
+        {
+          "option": "B",
+          "text": "The speed at which thumbs type messages",
+          "assessment": "Typing speed is part of the digital activity contrasted with the rhythm."
+        },
+        {
+          "option": "C",
+          "text": "The mechanical vibration of a phone",
+          "assessment": "No mechanical vibration is identified as the rhythm."
+        },
+        {
+          "option": "D",
+          "text": "The count of likes and shares on a screen",
+          "assessment": "Likes and shares are digital validation, contrasted with meaningful experiences."
+        }
+      ],
+      "issues": [],
+      "note": null,
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    },
+    {
+      "item_id": "cbse24-eng-q08",
+      "subject": "english",
+      "candidate_file_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+      "question_view_sha256": "db7394f07c8fecdeb7a0e744c139b40499d6f714801ea4c65a4039dbebb3b836",
+      "source_derived_provisional_key": "D",
+      "unique_key_supported": true,
+      "derivation": "The relation is an action or sound to its manner: a whisper is quiet and a clamour is loud. Clamour is the passage word denoting loud noise or demand.",
+      "decisive_support": [
+        {
+          "source_id": "cbse24-english-digital-connectivity-adapted",
+          "kind": "adapted_question_stimulus",
+          "packet_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\questions-blinded-v1.json",
+          "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+          "stimulus_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d",
+          "quote_start": 831,
+          "quote_end": 992,
+          "quote": "Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.",
+          "page_text_sha256": "a633a33238992cb3c317bf7bee0135a28199a196d682c2829da3c69af4bdd00d"
+        }
+      ],
+      "option_claims": [
+        {
+          "option": "A",
+          "text": "validation",
+          "assessment": "Validation is approval, not a loud sound."
+        },
+        {
+          "option": "B",
+          "text": "fleeting",
+          "assessment": "Fleeting denotes brief duration."
+        },
+        {
+          "option": "C",
+          "text": "essence",
+          "assessment": "Essence denotes a fundamental quality."
+        },
+        {
+          "option": "D",
+          "text": "clamour",
+          "assessment": "Clamour supplies the loud-sound side of the analogy."
+        }
+      ],
+      "issues": [],
+      "note": "The ordinary lexical interpretation is independently derived from the passage usage; the official key has not been read.",
+      "source_key_construction_state": "provisional_positive",
+      "CUET_fit": "not_yet_independently_assessed"
+    }
+  ]
+}

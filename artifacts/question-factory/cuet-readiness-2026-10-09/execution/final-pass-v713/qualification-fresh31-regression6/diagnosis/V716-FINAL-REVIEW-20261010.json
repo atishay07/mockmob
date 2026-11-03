@@ -1,0 +1,50 @@
+{
+  "review": "v716-final-offline-review",
+  "recorded_at": "2026-10-10",
+  "provider_calls_by_reviewer": 0,
+  "qualification_or_release_claim": false,
+  "targeted_v716": {
+    "command": "node --test scripts/pipeline/tests/v716ScorecardPolicy.test.mjs",
+    "tests": 19,
+    "passed": 19,
+    "failed": 0,
+    "test_sha256": "a0995ebe7325c5cece5eb0c1932b52a0b41698b399e594ef84c71eda3e3e4325"
+  },
+  "requested_regression_suites": [
+    { "command": "npm.cmd run test:factory", "tests": 1038, "passed": 1037, "failed": 1,
+      "failure": "V716 session close refuses in-flight work, flush remains registration-scoped, and novelty survives restart; TypeError hashing undefined in assertRegistrationV716 at campaignSessionV716.mjs:22 on restart open." },
+    { "command": "npm.cmd run test:recovery", "tests": 40, "passed": 40, "failed": 0 },
+    { "command": "node --test data/tests/payment_entitlements.test.mjs data/tests/nta_question_selector.test.mjs data/tests/mock_question_selector.test.mjs scripts/pipeline/tests/practiceModeFiltering.test.mjs",
+      "tests": 47, "passed": 47, "failed": 0 }
+  ],
+  "v716_request_sizing": {
+    "artifact": "qualification-fresh31-regression6/v716-body-size-diagnostic-r2.json",
+    "artifact_sha256": "5b899275bfd3c6083720b0e0413ffad945cd8b195024e316c12b03d84ae55f2d",
+    "capture_helper": "scripts/pipeline/tools/captureV716BodySizeDiagnostic.mjs",
+    "capture_helper_sha256": "ab16c3868587409303f7f1a415983389b03a20430321d5fa0a44e1616bbf952c",
+    "captured_requests": 222,
+    "maximum_request_bytes": 26935,
+    "bound_bytes": 33024,
+    "over_bound": 0,
+    "responses": "discarded synthetic identity-bound sizing responses",
+    "paid_calls": 0,
+    "academic_evidence": false
+  },
+  "contracts": {
+    "v713": { "validation_contract_hash": "f7d31a74138f497581e545b1199f57ac43a450edb56d38c5ab368aeb0500b72d", "freeze_file_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4" },
+    "v714": { "validation_contract_hash": "ed0e4ae7fd56c045dd67c74e33686c2fcd1c0d25e640fc2e2f578fba4dfcf545", "freeze_file_sha256": "095b049fc43bf20f014c09b0f4dad4bb6d1870cfcc6421aca88aedd985d98092" },
+    "v715": { "validation_contract_hash": "e44f34f94187283d851db1d6b46d95615e02de089bcbc783d7a312344f77de9d", "freeze_file_sha256": "d52ef7e40a1cfdc8d7e1d03d40a4ae89edef565e65d163c8fbe534844390bb7a" },
+    "v716_current_unfrozen": { "validation_contract_hash": "48d1f62021153d34f8cdc33a96ad5a1dada206d7498242dd158ceddfa5b1889b", "prompt_hash": "628df899412096dee97bbf088d67dbfa4094035b1fba035776b95752e0e205c5" }
+  },
+  "r3_registered_inputs_observed": {
+    "frozen_fixture_file_sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+    "registration_file_sha256": "45ddc15b8e4f668ba1151c2e2e513b92a2f55dfec3d1e2925a930b2112018fff",
+    "registered_preflight_file_sha256": "ac9cf2b64b004c620c5233350bde3987700d0044704c1b7d44c337456384075f"
+  },
+  "active_process_check": { "mockmob_factory_or_qualification_node_processes": 0, "unrelated_desktop_services_stopped": false },
+  "limits": [
+    "V716 contract and prompt are current but unfrozen; later source edits invalidate their hashes and request sizing.",
+    "The factory suite has one restart-session fixture failure requiring parent review.",
+    "No UI/build/release or production-readiness conclusion is made."
+  ]
+}

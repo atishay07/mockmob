@@ -1,0 +1,21 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {verifyV77Freeze,verifyV77TransportFreeze,V77_TRANSPORT_DEPENDENCIES} from '../../../../scripts/pipeline/lib/freshCuetReadinessV77Guards.mjs';
+const base='artifacts/question-factory/cuet-readiness-2026-10-09/execution',proposal=base+'/v77-final-source-prep/regression-proposal';
+const read=p=>JSON.parse(readFileSync(p)),sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+verifyV77Freeze('.');verifyV77TransportFreeze('.',V77_TRANSPORT_DEPENDENCIES);
+const bindings=[];
+for(const version of ['V2','V3']){
+ const path=`${proposal}/optionResolutionStructuralProposal${version}-freeze.json`,freeze=read(path);
+ for(const entry of Object.values(freeze.files)){const actual=sha(entry.path);if(actual!==entry.sha256)throw Error('proposal_freeze_mismatch:'+entry.path);bindings.push({path:entry.path,sha256:actual});}
+ bindings.push({path,sha256:sha(path)});
+}
+const exportDir=base+'/v77-final-export-2026-10-09',manifest=read(exportDir+'/manifest.json');
+for(const file of manifest.files){const actual=sha(exportDir+'/'+file.name);if(actual!==file.sha256)throw Error('export_hash_mismatch:'+file.name);}
+const all=read(exportDir+'/all-cases.json');
+if(all.denominator!==41||all.all_cases.length!==41||all.provider_requests!==14||all.held_usd!==0||all.all_cases.reduce((s,c)=>s+c.item_costs.requests.length,0)!==14)throw Error('fixed_export_or_receipt_attribution_invalid');
+const preservation=read(base+'/v77-final-postdrain-preservation.json');
+if(preservation.checks!==228||preservation.mismatches.length)throw Error('historical_preservation_failure');
+const output={at:new Date().toISOString(),reviewer:'root independent local review',status:'focused regression correction verified locally; NOT a qualified runtime or release',root_tests:{command:'node --test '+proposal+'/optionResolutionStructuralProposalV3.test.mjs '+proposal+'/rootIndependentProposalV3.test.mjs',passed:20,failed:0,synthetic_audit_format_only:true,no_paid_calls:true},prior_root_v2_tests:{passed:19,failed:0},bindings,independent_root_test_sha256:sha(proposal+'/rootIndependentProposalV3.test.mjs'),native_evidence:{registered:41,terminal:5,unfinished:36,provider_requests:14,settled_usd:0.084744,held_usd:0,qualified:false},preservation:{protected_bindings:228,distinct_historical_paths:61,mismatches:0,current_v77_core_and_transport:'verified'},implemented_correction:['Separate exact source/stem premises from paraphrased explanatory context','Whitespace-only source line-wrap normalization with word boundaries','Explicit provenance resolves repeated source/stem/option strings','Printed-option givens are hypothetical arithmetic inputs, not academic proof','Every material clause and whole option bound to separate audit; no blanket status laundering','Malformed records, fabricated quotations, changed values, omissions, source-silence contradictions and unresolved alternatives fail closed'],limits:['No runtime or publication imports; publication_eligible and dispatch_eligible remain false','Positive semantic audit objects in these tests are synthetic; reviewer independence and truth are not established by a boolean or hash','Prototype arithmetic case covers sourced rule plus explicit input; general stem-only arithmetic must retain its existing valid behavior when designing any next runtime contract','All inspected cases are regression evidence; fresh independent qualification is still required','No further paid qualification under the final-attempt scope; pilot/current-profile live staging blocked'],next_steps:['Preserve frozen failed/incomplete qualification and all receipts','Before any future runtime integration select an unused verifier version, retain all inherited mandatory gates and freeze the complete contract','New paid qualification requires changed human scope; never reuse these inspected cases as fresh','Only a genuinely qualified current profile may run the fixed pilot and staging proof; production still needs final approval']};
+writeFileSync(base+'/v77-final-root-local-review.json',JSON.stringify(output,null,2)+'\n',{flag:'wx'});
+console.log(JSON.stringify({root_tests:output.root_tests,protected_bindings:228,proposal_bindings:bindings.length,export_denominator:all.denominator,qualified:false}));

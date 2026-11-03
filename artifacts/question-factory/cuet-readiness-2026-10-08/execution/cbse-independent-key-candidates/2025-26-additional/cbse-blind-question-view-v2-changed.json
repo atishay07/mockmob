@@ -1,0 +1,221 @@
+{
+  "schema": "cbse-blind-question-view-2025-26-v2",
+  "version": "v2",
+  "answers_removed": true,
+  "candidate_question_count": 7,
+  "stimuli": [
+    {
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "source_locator": "printed pages 1-2, Q1 literary passage (448 words)",
+      "adaptation": "Private paraphrase for a concise candidate stimulus; one unsupported added claim about Pip’s local knowledge/ability to escape was removed. Question meanings and answer support must be rederived from this version. Not the original CBSE passage.",
+      "word_count": 77,
+      "text": "At dusk, Pip is alone in a marsh churchyard near the sea. A rough, frightened-looking man with an iron on his leg seizes him and turns him so Pip must look up helplessly. The man asks about a file and food, then orders Pip to bring both the next morning. Pip is cold, wet, shaking and afraid. The man demands, ‘Tell us your name! Quick! Give it mouth!’ He warns, ‘Keep still, or I’ll make you pay!’"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_forfeiture_reissue",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "3",
+      "paper_page": 2,
+      "question": "Pali Limited offered 2,00,000 shares of ₹10 each at a premium of ₹2 per share. Applications were received for 1,95,000 shares, which were duly allotted. The amount was payable as ₹3 on application (including ₹1 premium), ₹6 on allotment (including ₹1 premium), and the balance on call. Manoj, holding 6,000 shares, failed to pay allotment money and his shares were immediately forfeited. Out of the forfeited shares, 4,000 shares were re-issued at ₹11 per share as fully paid up. What is the amount of Capital Reserve?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹16,000"
+        },
+        {
+          "label": "B",
+          "text": "₹12,000"
+        },
+        {
+          "label": "C",
+          "text": "₹8,000"
+        },
+        {
+          "label": "D",
+          "text": "₹18,000"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Restored the one omitted payment-schedule detail from the original question paper; options retained as transcribed. CBSE SQP-derived, not a CUET PYQ."
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "subject": "business_studies",
+      "topic_family": "communication_process_sequence",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "10",
+      "paper_page": 6,
+      "question": "Arrange the communication-process elements in the correct sequence: (i) Media; (ii) Message; (iii) Sender; (iv) Decoding; (v) Receiver; (vi) Feedback; (vii) Encoding.",
+      "options": [
+        {
+          "label": "A",
+          "text": "iii, i, vii, ii, v, iv, vi"
+        },
+        {
+          "label": "B",
+          "text": "iii, ii, vii, i, v, iv, vi"
+        },
+        {
+          "label": "C",
+          "text": "ii, iii, vii, vi, iv, v, i"
+        },
+        {
+          "label": "D",
+          "text": "ii, i, vii, iii, v, iv, vi"
+        }
+      ],
+      "source_status": "CBSE_SQP_stem_with_one_disclosed_option_adaptation_not_CUET_PYQ",
+      "construction_note": "One answer choice was corrected as an explicitly disclosed construction adaptation because none of the printed choices represents the communication sequence supported by the current NCERT text. The stem is from the CBSE SQP; the adapted option is not the original CBSE choice and does not inherit its key."
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "subject": "business_studies",
+      "topic_family": "planning_dynamic_environment",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "14",
+      "paper_page": 8,
+      "question": "Mr Gun Amroha, the General Manager of Welworth Textiles, scans the business environment and adapts the organisation to changes taking place in different dimensions of the business environment. However, it is still difficult for him to accurately assess future trends. Identify the limitation of planning related to the above.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Planning leads to rigidity."
+        },
+        {
+          "label": "B",
+          "text": "Planning may not work in a dynamic environment."
+        },
+        {
+          "label": "C",
+          "text": "Planning does not guarantee success."
+        },
+        {
+          "label": "D",
+          "text": "Planning reduces creativity."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Replaced the generic, incorrect v1 transcription with the original scenario and exact option wording from the CBSE SQP. CBSE SQP-derived, not a CUET PYQ."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "subject": "english_core",
+      "topic_family": "reading_literary_inference",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-III",
+      "paper_page": 2,
+      "question": "The writer emphasises Pip’s vulnerability in all of the following ways EXCEPT:",
+      "options": [
+        {
+          "label": "A",
+          "text": "The harsh setting near the sea"
+        },
+        {
+          "label": "B",
+          "text": "The man’s threatening behaviour"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s helpless fear"
+        },
+        {
+          "label": "D",
+          "text": "Pip’s knowledge of the surrounding area"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "subject": "english_core",
+      "topic_family": "reading_tone_speech_act",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-IV",
+      "paper_page": 2,
+      "question": "The man’s words ‘Keep still, or I’ll make you pay!’ are best described as a:",
+      "options": [
+        {
+          "label": "A",
+          "text": "caution"
+        },
+        {
+          "label": "B",
+          "text": "threat"
+        },
+        {
+          "label": "C",
+          "text": "prediction"
+        },
+        {
+          "label": "D",
+          "text": "announcement"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-VI",
+      "paper_page": 3,
+      "question": "In the man’s demand, ‘Give it mouth!’, what does he want Pip to do?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Speak louder"
+        },
+        {
+          "label": "B",
+          "text": "Open his mouth wide"
+        },
+        {
+          "label": "C",
+          "text": "Answer the question"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "subject": "english_core",
+      "topic_family": "reading_main_idea",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-X",
+      "paper_page": 3,
+      "question": "Complete the statement with the most suitable option. The main idea of the text is:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pip’s encounter with a frightening man who demands information"
+        },
+        {
+          "label": "B",
+          "text": "the harshness of Pip’s environment and the fear it creates"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s struggle to understand the man’s intentions and stay calm"
+        },
+        {
+          "label": "D",
+          "text": "the importance of family relationships in Pip’s life"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    }
+  ]
+}

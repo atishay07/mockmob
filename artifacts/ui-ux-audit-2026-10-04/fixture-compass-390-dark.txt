@@ -1,0 +1,189 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=compass&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=compass&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: compass, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 (selected) compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 container
+			30 text Admission Compass
+		31 heading Which DU courses can your subjects get?, Value: 1
+			32 text Which DU courses can your subjects get?
+		33 text Your subjects are already ticked below. Add a category and a score, or try a what-if, to check subject eligibility under the 2026 rules and compare published 2026 cutoffs.
+		34 content list How it works
+			35 container
+				36 text 1. Subjects Checked against DU’s 2026 Bulletin rules
+			37 container
+				38 text 2. Category and score Real minimum allocation scores, Rounds I to III
+			39 container
+				40 text 3. The gap Compare the 2026 cutoff, college by college
+		41 text The calculator compares scores with published history. Compass Pro adds a projection from your own practice, labelled as such: it is not a prediction or a normalised CUET score. 2027 rules stay provisional until DU publishes them. Your choices are saved on this device.
+		42 text Reading your practice record…
+		43 container Your selection
+			44 button
+			45 button
+		46 container Your CUET subjects
+			47 heading 2
+			48 container
+				49 button
+				50 button
+				51 button
+				52 button
+				53 button
+				54 button
+			55 container
+				56 search text field (settable)
+			57 container
+				58 checkbox 0
+				59 checkbox 0
+				60 checkbox 1
+				61 checkbox 0
+				62 checkbox 0
+				63 checkbox 0
+				64 checkbox 0
+				65 checkbox 0
+				66 checkbox 0
+				67 checkbox 0
+				68 checkbox 0
+				69 checkbox 0
+				70 checkbox 0
+				71 checkbox 0
+			72 container
+				73 checkbox 1
+				74 checkbox 0
+				75 checkbox 0
+				76 checkbox 0
+				77 checkbox 1
+				78 checkbox 0
+				79 checkbox 0
+				80 checkbox 1
+				81 checkbox 0
+				82 checkbox 0
+				83 checkbox 0
+				84 checkbox 0
+				85 checkbox 0
+				86 checkbox 0
+				87 checkbox 0
+				88 checkbox 0
+				89 checkbox 0
+				90 checkbox 0
+				91 checkbox 0
+				92 checkbox 0
+				93 checkbox 0
+				94 checkbox 0
+			95 container
+				96 checkbox 0
+			97 heading 3
+			98 radio button 1
+			99 radio button 0
+			100 radio button 0
+			101 radio button 0
+			102 radio button 0
+			103 container
+				104 pop up button (collapsed) Secondary Actions: Expand
+					105 menu
+						106 (selected)
+			107 container
+				108 text field (settable)
+		109 heading 2
+		110 button
+		111 button
+		112 content list
+			113 button
+			114 button
+			115 button
+			116 button
+		117 content list
+			118 button
+			119 button
+			120 button
+		121 container
+			122 checkbox 1
+			123 checkbox 0
+			124 checkbox 0
+			125 checkbox 0
+			126 checkbox 0
+			127 checkbox 0
+		128 container
+			129 search text field (settable)
+		130 container
+			131 pop up button (collapsed) Secondary Actions: Expand
+				132 menu
+					133 (selected)
+		134 button (collapsed) Secondary Actions: Expand
+		135 button (collapsed) Secondary Actions: Expand
+		136 button (collapsed) Secondary Actions: Expand
+		137 button (collapsed) Secondary Actions: Expand
+		138 button (collapsed) Secondary Actions: Expand
+		139 button (collapsed) Secondary Actions: Expand
+		140 button (collapsed) Secondary Actions: Expand
+		141 button (collapsed) Secondary Actions: Expand
+		142 button (collapsed) Secondary Actions: Expand
+		143 button (collapsed) Secondary Actions: Expand
+		144 button (collapsed) Secondary Actions: Expand
+		145 button (collapsed) Secondary Actions: Expand
+		146 button (collapsed) Secondary Actions: Expand
+		147 button (collapsed) Secondary Actions: Expand
+		148 button (collapsed) Secondary Actions: Expand
+		149 button (collapsed) Secondary Actions: Expand
+		150 button (collapsed) Secondary Actions: Expand
+		151 button (collapsed) Secondary Actions: Expand
+		152 button (collapsed) Secondary Actions: Expand
+		153 button (collapsed) Secondary Actions: Expand
+		154 button (collapsed) Secondary Actions: Expand
+		155 button (collapsed) Secondary Actions: Expand
+		156 button (collapsed) Secondary Actions: Expand
+		157 button (collapsed) Secondary Actions: Expand
+		158 button (collapsed) Secondary Actions: Expand
+		159 button (collapsed) Secondary Actions: Expand
+		160 button (collapsed) Secondary Actions: Expand
+		161 button (collapsed) Secondary Actions: Expand
+		162 button (collapsed) Secondary Actions: Expand
+		163 button (collapsed) Secondary Actions: Expand
+		164 button (collapsed) Secondary Actions: Expand
+		165 button (collapsed) Secondary Actions: Expand
+		166 button (collapsed) Secondary Actions: Expand
+		167 button (collapsed) Secondary Actions: Expand
+		168 button (collapsed) Secondary Actions: Expand
+		169 button (collapsed) Secondary Actions: Expand
+		170 container Cutoffs are only half the plan.
+			171 heading 2
+			172 content list
+				173 link localhost:3010/cuet/english
+				174 link localhost:3010/cuet/accountancy
+				175 link localhost:3010/cuet/economics
+				176 link localhost:3010/cuet/business-studies
+			177 link localhost:3010/dashboard
+			178 link localhost:3010/analytics
+		179 button (collapsed) Official source documents, Secondary Actions: Expand
+			180 text Official source documents
+	181 container Quick study navigation
+		182 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		183 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		184 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		185 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		186 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=compass&plan=pro

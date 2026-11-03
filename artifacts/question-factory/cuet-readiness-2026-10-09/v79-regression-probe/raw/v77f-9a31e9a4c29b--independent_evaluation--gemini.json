@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12369,
+ "request_bytes": 39223,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-9a31e9a4c29b\",\n  \"content_hash\": \"8f18ccbee0a1cc7ae192902f1c8f85fbe20374eda8620a408687439a50d9e0b6\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E2.1\", \"E5.1\"],\n  \"reasons\": [\n    \"According to NCERT Business Studies Class XII, 'Right to be heard' establishes that a consumer has the right to file a complaint and to be heard.\",\n    \"Presenting a complaint for the company's consideration directly exercises the right to be heard.\"\n  ],\n  \"syllabus_chapter\": \"Consumer Protection\",\n  \"syllabus_topic\": \"Consumer rights\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Filing a complaint and being given the opportunity to present it directly engages the consumer's right to be heard.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E5.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The customer is seeking information about product ingredients, date of manufacture, or pricing.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The customer is claiming protection against hazardous goods or services threatening health and life.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The customer is demanding freedom of choice and access to a variety of competitive products.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests core consumer rights outlined in Unit XII: Consumer Protection.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-scenario CUET Business Studies MCQ format.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Requires direct identification of a textbook-defined right from a short scenario.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors are other recognised consumer rights, separating prepared students from those guessing.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-business_studies-bookA-q41\",\n      \"cuet2024-business_studies-bookA-q44\",\n      \"cuet2024-business_studies-bookA-q45\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E5.1\",\n      \"premise_quote\": \"The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service.\",\n      \"reason\": \"Directly defines the right to file and present a complaint.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to seek information\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E4.1\",\n      \"premise_quote\": \"complete information about the product he intends to buy including its ingredients, date of manufacture, price, quantity, directions for use, etc.\",\n      \"reason\": \"Concerns product specifications, not filing a grievance.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to safety\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"The consumer has a right to be protected against goods and services which are hazardous to life, health and property.\",\n      \"reason\": \"Protects against hazardous goods, not complaint presentation.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Right to choose\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E4.1\",\n      \"premise_quote\": \"The consumer has the freedom to access variety of products at competitive prices.\",\n      \"reason\": \"Refers to market options and variety, not lodging complaints.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EtsICtgIAWkUfRMeMDflBgUnrZ/vjda2ek7q5F7MiycgYNkjg7By3EEZ3PbS+dys2wwJxCCJXcYrmTL690ycjAXXhCnunHnrvkzH/+C1OQHczKKaED/qCTgkA2up3M4OZTQnierTIoZU595N0jwUeQn3+QMZ30RvbDaAYrCwvcdsixh4L9KJtWMRT98XgVXgg7ndcvorFEIEAmL7r9/edaO6isDJFVURDpsFCffL2Ch3Wqs3arhd/W4vjtZs1wGPFk41u4beLYBlgELBOj4iKT79AmWdXshb6qkLzNgf4K3alU9EOOKt1+zGjS36HDOiuJIhLlxK9p/MigylazDlTD0f7+BYpNce9bl3pQFR0E7CmB9LVkxpwCuiIWWdmqS2N/M7kaSjwMLIIyzE3GyzLgBSHi/Tx78pv4nMe+0xFIlhXrBsLP51h2WsgLiXzFOApHvFWdml7uw9Guc7c6X2Kfh/wgiz5ohft2TVy1gokgqOm3OGLIwAKYbVtKH55LtR+pwuyhEeui2WgHSV6yARZAiwpCf14zANzzMF8ioXUPzu/ZQaBG8PitMpqNwne8kh1jxDTjyRlAVj3D2cD+LT/DFC9fW5jb9S5WQAX1j0QccZJR9JUDYbTiFApRi6lKFZ8lOhlFwGNvUoMW6XOkuWH2Z8sKzRvDgLAsd7Ft+p4/S0AmANc1YZygCfKD5F45NkYjwwMfuJKOXf1pXHAUSWKw4aWnKA91giv0/bHqUFgw4vhfrDb+SbCLO2SWnDML/wQlxftTgXeHKV4L2RNFqX3sRIJTdOBeY7JjBByNePkW7b0hR9rbXHQgk3NqwitJqXquosLf7wqL2RN/uUgPRSqehs5jEnknTUdD8dIbW1eHvZA/vXWgrVBZ8bf6eS5iTj2/rGg4AG1dCa1a2TmOZF9YGftI3D8+5qztUSTVuO9xCS88nvN5SqDBlPbkAzm3oc4KX8GftvJ4+5IsXbVMRdIl7UeWNwArdBgCFfx9+JeK8EprWwzcvK0BqEVlc9ErR4IbPec5mCcBQbYlxi/915inzUEAhS65qLBMAkPRCFTFsI/tDAzmzfIh1gFPzBUEsmnn4DkNIxsDaRewVcl107KJK27YmxzRoOfWFL7ftF6aA3NqOKxtjAI9iqzmUsXDxcdkDdGQwcDURFm6Y3yIHnJAiO+LrTmotEgepKY9ezazXVBGvnhQ0VMjTZWDjxVX7OawdgTJyld5YIHRcDJvjfyBpSGsVeDh02Z+Qa0b5gqN7zMNRgf3waWtoTEGg0qvL+ZfnxEjtzSKIz7VWcGUgYYBxnTy1BTCZl+oqifXopCHfXho+Ke7nkLdIwwwH5+gmz0n/Xk3WVnC7LK4cUlPiZrQ1WegRJmNhOWRRTLTG6WF0/HGvPdcl9Egj1aMWJ+KV2XIg+84p0YSieb/6rkmap8nDE2D1vnmZ+ptG48R3joFPYRLFIoS7T7YfK+tDmx2j3JMt2leAOwg1gAxbNrXQ="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 7518,
+   "candidatesTokenCount": 1404,
+   "totalTokenCount": 9156,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 7518
+    }
+   ],
+   "thoughtsTokenCount": 234,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "-8TIarL_EoHa4-EPw7Ki0AQ"
+ }
+}

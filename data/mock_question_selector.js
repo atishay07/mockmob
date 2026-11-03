@@ -1,6 +1,47 @@
 import { computeDifficultyTargets } from './test_modes.js';
 
-export const MOCK_SELECTION_POLICY = 'latest_first_usage_aware';
+export const MOCK_SELECTION_POLICY = 'evidence_first_latest_usage_aware';
+
+export async function loadPagedQuestionRows(fetchPage, { pageSize = 1000, maxRows = 6000 } = {}) {
+  const safePageSize = Math.max(1, Math.floor(Number(pageSize) || 1000));
+  const safeMaxRows = Math.max(1, Math.floor(Number(maxRows) || 6000));
+  const rows = [];
+  let offset = 0;
+  let complete = false;
+
+  while (rows.length < safeMaxRows) {
+    const limit = Math.min(safePageSize, safeMaxRows - rows.length);
+    const page = await fetchPage(offset, limit);
+    const safePage = Array.isArray(page) ? page : [];
+    rows.push(...safePage.slice(0, limit));
+    offset += Math.min(safePage.length, limit);
+    if (safePage.length < limit) {
+      complete = true;
+      break;
+    }
+  }
+
+  // A short one-row probe distinguishes an exactly full final page from a
+  // pool that continues beyond the bounded in-memory buffer.
+  if (!complete) {
+    const probe = await fetchPage(offset, 1);
+    complete = !Array.isArray(probe) || probe.length === 0;
+  }
+
+  return { rows, complete, scannedCount: offset };
+}
+
+export function ntaSelectionRowsForInventory(rows, truncatedDifficulties = []) {
+  const truncated = new Set(Array.isArray(truncatedDifficulties) ? truncatedDifficulties : []);
+  const baseDifficultyScanIncomplete = truncated.has('medium') || truncated.has('easy');
+  const safeRows = Array.isArray(rows) ? rows : [];
+  return {
+    rows: baseDifficultyScanIncomplete
+      ? safeRows.filter((row) => row.difficulty === 'medium' || row.difficulty === 'easy')
+      : safeRows,
+    hardFallbackSuppressed: baseDifficultyScanIncomplete,
+  };
+}
 
 export function questionCreatedTime(row) {
   const created = row?.created_at || row?.createdAt || 0;
@@ -47,6 +88,7 @@ export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts 
       const lastAttempted = seen?.last_attempted_at ? new Date(seen.last_attempted_at).getTime() : 0;
       return {
         row,
+        tier: Number(row.selection_evidence_tier || 0),
         sourceIndex,
         isUnseen,
         isWeak,
@@ -57,6 +99,7 @@ export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts 
       };
     })
     .sort((a, b) => {
+      if (a.tier !== b.tier) return b.tier - a.tier;
       if (a.isUnseen !== b.isUnseen) return a.isUnseen ? -1 : 1;
       if (a.isWeak !== b.isWeak) return a.isWeak ? -1 : 1;
       if (a.attemptCount !== b.attemptCount) return a.attemptCount - b.attemptCount;
@@ -75,30 +118,53 @@ export function pickWithConstraints(orderedRows, count, mode) {
   const cap = mode.maxPerConcept || 2;
   const out = [];
   const used = new Set();
+  const families = new Set();
+  const familyOf = row => row.family_id || row.evidence?.record?.family_id || null;
+  const difficultyOf = row => ['easy', 'medium', 'hard'].includes(row?.difficulty) ? row.difficulty : null;
 
-  for (const row of orderedRows) {
-    if (out.length >= count) break;
-    const d = ['easy', 'medium', 'hard'].includes(row.difficulty) ? row.difficulty : 'medium';
-    if (taken[d] >= targets[d]) continue;
-    if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
-    out.push(row);
-    used.add(row.id);
-    taken[d]++;
-    if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
-  }
-
-  if (out.length < count) {
-    for (const row of orderedRows) {
+  const tiers = [...new Set(orderedRows.map(row => Number(row.selection_evidence_tier || 0)))].sort((a,b)=>b-a);
+  for (const tier of tiers) {
+    const tierRows = orderedRows.filter(row => Number(row.selection_evidence_tier || 0) === tier);
+    for (const row of tierRows) {
       if (out.length >= count) break;
-      if (used.has(row.id)) continue;
+      if (familyOf(row) && families.has(familyOf(row))) continue;
+      const difficulty = difficultyOf(row);
+      if (!difficulty || taken[difficulty] >= targets[difficulty]) continue;
       if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
       out.push(row);
       used.add(row.id);
+      if (familyOf(row)) families.add(familyOf(row));
+      taken[difficulty]++;
       if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
+    }
+
+    if (out.length < count) {
+      for (const row of tierRows) {
+        if (out.length >= count) break;
+        if (used.has(row.id)) continue;
+        if (familyOf(row) && families.has(familyOf(row))) continue;
+        if (!difficultyOf(row)) continue;
+        if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+        out.push(row);
+        used.add(row.id);
+        if (familyOf(row)) families.add(familyOf(row));
+        if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
+      }
     }
   }
 
   return out.slice(0, count);
+}
+
+export function excludeRepeatedFamilies(rows) {
+  const used=new Map();
+  return rows.filter(row=>{
+    const family=row.family_id || row.evidence?.record?.family_id;
+    if(!family)return true;
+    const group=row.passage_group_id || row.passage_id || null;
+    if(used.has(family))return Boolean(group && used.get(family)===group);
+    used.set(family,group);return true;
+  });
 }
 
 export function buildSelectionUsageMeta({

@@ -1,0 +1,99 @@
+{
+  "schema": "v73-regression-semantic-view-manifest-v1",
+  "status": "proposal_only_not_registered_not_executed",
+  "frozen_id": "cuet-readiness-v73-regression-semantic-view-2026-10-08",
+  "verifier_version": "cuet-fit-validator-v7.3",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "payload_hash": "988c3c63f4c591241a2ada44ec4f1a01508113a6e87713b0e2aaec007a68fe83",
+  "counts": {
+    "denominator": 40,
+    "positives": 12,
+    "original_critical_defects": 12,
+    "audited_correctness_defects": 16,
+    "unscored_contract_disagreements": 2,
+    "audited_lineage_records": 16,
+    "semantic_content_identical": true,
+    "audit_cases_with_deterministic_local_stops": 5
+  },
+  "diagnostic_boundary": "Module-isolation semantic-view study only. The sixteen transformed records are not represented as authentic PYQs or pyq_adapted records. This does not establish the production provenance path or release eligibility.",
+  "source_hashes": {
+    "base_frozen": "e78eaa419774bd079dda25ea27fe90206132c79d1337bc14fa7312f2acf0f624",
+    "base_audit_history": "b5519f900f8c7f4aad96ca7bbb172f5ad839971ae3f45c5f1567af9b75d9497f",
+    "base_overlay": "8ec964f99df4702bc2793ca90fcadd270f98152b482d0cecb9496f13cdba4c63",
+    "base_custody": "6448eccce91af522b3173b4c1f38b23091d0b8d635b1eec0394e490852ce6c42",
+    "current_source_registry_read_only": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "current_v73_anchor_selector": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+    "current_provenance_policy": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3"
+  },
+  "changes": [
+    "New frozen file and private overlay in separate directory.",
+    "Exactly sixteen provenance-view changes: kind to original_practice, anchor_id to null.",
+    "Private source-pack/family metadata overlays align to existing candidate fields; global registry remains untouched.",
+    "Strict claim-path selector outcomes and reserved exemplar-anchor flags recorded for all sixteen.",
+    "All 12 positives and all 28 negative academic content/oracles/labels unchanged."
+  ],
+  "deterministic_local_stops": [
+    {
+      "id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "reasons": [
+        "unsupported_student_markup",
+        "html",
+        "vocabulary_options_not_words"
+      ]
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "reasons": [
+        "unsupported_student_markup",
+        "markdown"
+      ]
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "reasons": [
+        "unsupported_student_markup",
+        "markdown"
+      ]
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "reasons": [
+        "undefined_economic_term"
+      ]
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "reasons": [
+        "unseen_reference"
+      ]
+    }
+  ],
+  "blocked_actions": [
+    "No runner prepare, preflight, execute, or report.",
+    "No provider or ledger calls.",
+    "No changes to registered parent, 18 audit rows, contract exclusions, global registry, production state or release files."
+  ]
+}

@@ -1,0 +1,1190 @@
+[
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "reducedMotion": true
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "reducedMotion": true
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "reducedMotion": true
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "reducedMotion": true
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "reducedMotion": true
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "right",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "reducedMotion": true
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "reducedMotion": true
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "close",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "pricing",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "demo",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "eligibility",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "compass",
+    "pose": "pointing",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "matrix(-1, 0, 0, 1, 0, 0)"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "lab",
+    "pose": "attentive",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "requested": "hero",
+    "pose": "greeting",
+    "facing": "left",
+    "faces": 1,
+    "matrix": "none"
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "reducedMotion": true
+  },
+  {
+    "width": 320,
+    "theme": "dark",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 320,
+    "theme": "light",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 390,
+    "theme": "dark",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 390,
+    "theme": "light",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 768,
+    "theme": "dark",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 768,
+    "theme": "light",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "freeRecord": true,
+    "pausedModel": true
+  },
+  {
+    "state": "live",
+    "requests": 1,
+    "stableRetry": false,
+    "balanceVerified": true
+  },
+  {
+    "state": "network",
+    "requests": 2,
+    "stableRetry": true,
+    "balanceVerified": true
+  },
+  {
+    "state": "failure",
+    "requests": 1,
+    "stableRetry": false,
+    "balanceVerified": true
+  },
+  {
+    "unknownWallet": true
+  },
+  {
+    "freeUnknownNeverBilled": true
+  },
+  {
+    "width": 390,
+    "keyboardAnswerStill": true
+  },
+  {
+    "width": 390,
+    "correctAnswerHop": true
+  },
+  {
+    "width": 390,
+    "wrongAnswerSupportive": true
+  },
+  {
+    "width": 390,
+    "wheelReverse": true
+  },
+  {
+    "width": 1280,
+    "keyboardAnswerStill": true
+  },
+  {
+    "width": 1280,
+    "correctAnswerHop": true
+  },
+  {
+    "width": 1280,
+    "wrongAnswerSupportive": true
+  },
+  {
+    "width": 1280,
+    "wheelReverse": true
+  },
+  {
+    "width": 320,
+    "view": "dashboard",
+    "text200": true,
+    "quietCompanion": true
+  },
+  {
+    "width": 320,
+    "view": "prepos",
+    "text200": true,
+    "quietCompanion": true
+  },
+  {
+    "width": 320,
+    "view": "review",
+    "text200": true,
+    "quietCompanion": true
+  },
+  {
+    "width": 1280,
+    "view": "dashboard",
+    "text200": true,
+    "quietCompanion": true
+  },
+  {
+    "width": 1280,
+    "view": "prepos",
+    "text200": true,
+    "quietCompanion": true
+  },
+  {
+    "width": 1280,
+    "view": "review",
+    "text200": true,
+    "quietCompanion": true
+  }
+]

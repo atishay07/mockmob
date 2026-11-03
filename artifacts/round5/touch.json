@@ -1,0 +1,29 @@
+{
+  "positions": [
+    {
+      "y": 634,
+      "station": "hero",
+      "overflow": 0
+    },
+    {
+      "y": 0,
+      "station": "hero",
+      "overflow": 0
+    }
+  ],
+  "peak": "jump-1",
+  "hit": true,
+  "errors": [],
+  "resting": [
+    {
+      "place": "hero",
+      "frames": 1,
+      "visible": "true"
+    },
+    {
+      "place": "footer",
+      "frames": 0,
+      "visible": "false"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "cuet-source-support-gap-register-v1",
+  "status": "draft_unapproved",
+  "denominator": 64,
+  "gaps": [
+    {
+      "item_id": "cbse26-bs-q08",
+      "gap_type": "primary_law_definition",
+      "status": "unresolved_statutory_definition_source_needed",
+      "what_is_missing": "Exact Consumer Protection Act 2019 definition of consumer, not an NCERT overview or CBSE marking-scheme answer.",
+      "next_evidence_needed": "Official India Code or Ministry of Consumer Affairs consolidated Act excerpt, version/date and exact section locator."
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "gap_type": "current_guideline",
+      "status": "unsupported_current_guideline_gap_ccpa_dark_patterns_source_needed",
+      "what_is_missing": "Current official CCPA/MoCA dark-pattern definition or guideline text.",
+      "next_evidence_needed": "Official CCPA/MoCA guideline/notice with publication date, exact clause locator, and source hash."
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "gap_type": "specific_accounting_treatment",
+      "status": "unresolved_workmen_compensation_reserve_claim_treatment_source_needed",
+      "what_is_missing": "Treatment of Workmen Compensation Reserve against a specific claim on reconstitution; generic reserve principles are insufficient.",
+      "next_evidence_needed": "Exact NCERT chapter excerpt or permitted official teaching source for claim less than/equal to/greater than reserve."
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "gap_type": "numerical_concept_rule",
+      "status": "unresolved_break_even_condition_or_saving_zero_excerpt_needed",
+      "what_is_missing": "Decisive break-even income condition (consumption equals income / saving zero) from teaching text; the current excerpt only defines the consumption function.",
+      "next_evidence_needed": "Exact registered NCERT page/formula, or another permitted authoritative teaching source."
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "gap_type": "classification_fact",
+      "status": "unresolved_mutual_fund_classification_source_needed",
+      "what_is_missing": "Why mutual funds belong to the financial-sector reform area; the source excerpt found only the section heading.",
+      "next_evidence_needed": "NCERT paragraph or permitted authoritative source that expressly classifies mutual funds."
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "gap_type": "specific_accounting_treatment",
+      "status": "partial_general_revaluation_support_specific_investment_fluctuation_reserve_treatment_unverified",
+      "what_is_missing": "Specific Investment Fluctuation Reserve treatment where a partner takes over a portion of an investment; the linked excerpt only establishes general reserve/revaluation principles.",
+      "next_evidence_needed": "Exact NCERT treatment and accounting entries for investment fluctuation reserve on admission/asset takeover."
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "gap_type": "causal_sequence",
+      "status": "partial_exchange_rate_effect_support_full_sequence_explanation_needs_claim_audit",
+      "what_is_missing": "Source supports a higher domestic-currency price of foreign currency/depreciation; the full chain in the answer/explanation and each distractor remains unaudited.",
+      "next_evidence_needed": "Item-level claim map to official textbook passages for each causal step and each distractor."
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "gap_type": "wording_or_key_dispute",
+      "status": "key_or_wording_dispute_preserved_not_positive",
+      "what_is_missing": "Independent solver and official key differed over the meaning/base of the fractional transfer of a deceased partner’s share.",
+      "next_evidence_needed": "Resolve from exact printed source wording and official marking scheme with all assumptions explicit; retain in denominator."
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "gap_type": "wording_or_key_dispute",
+      "status": "key_or_wording_dispute_preserved_not_positive",
+      "what_is_missing": "Independent solver and CBSE key differed on a deflationary-gap definition that appears textbook-supported.",
+      "next_evidence_needed": "Independent source review and official-source reconciliation; retain in denominator."
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "gap_type": "construction_repair",
+      "status": "construction_or_answerability_repair_pending_blind_recheck",
+      "what_is_missing": "Original candidate omitted the share payment schedule needed to calculate forfeiture/reissue treatment.",
+      "next_evidence_needed": "Use the separately authorized source-backed question-only repair and independently re-solve that version; original v1 remains unchanged."
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "gap_type": "construction_repair",
+      "status": "construction_or_answerability_repair_pending_blind_recheck",
+      "what_is_missing": "No listed option matched the standard communication sequence in the original candidate.",
+      "next_evidence_needed": "Any corrected option list is an amended item; preserve original and require a fresh blind solve."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "gap_type": "passage_answerability_repair",
+      "status": "construction_or_answerability_repair_pending_blind_recheck",
+      "what_is_missing": "Passage wording about Pip knowing little of the surrounding marshland makes one alternative’s polarity ambiguous.",
+      "next_evidence_needed": "Use only the separately authorized passage-only repair and reblind all items sharing that stimulus."
+    }
+  ],
+  "all_gap_item_ids_remain_in_denominator": true,
+  "no_publication_or_release_authority": true
+}

@@ -1,0 +1,250 @@
+{
+  "kind": "v79_native_regression_probe_not_qualification",
+  "verifier": "cuet-fit-validator-v7.9-compact-resolution-r5",
+  "contract": "67cbdd05da43334b89b1320559b23cc19be28f7170977910d0ff67f9ff025f4d",
+  "prefix": "v79-r5c-regression-2026-10-09-",
+  "created_at": "2026-10-09T12:35:05.167Z",
+  "cases": {
+    "v77f-98a231fa15fa": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ],
+      "failed_stage": null,
+      "failure_details": [],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The supplied diminishing-marginal-utility rule says marginal utility declines as consumption increases, holding other commodities’ consumption constant.",
+            "The rule belongs to the syllabus’s consumer-equilibrium utility approach."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "syllabus_mapping": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The supplied diminishing-marginal-utility rule says marginal utility declines as consumption increases, holding other commodities’ consumption constant.",
+            "The rule belongs to the syllabus’s consumer-equilibrium utility approach."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "presentation_quality": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The supplied diminishing-marginal-utility rule says marginal utility declines as consumption increases, holding other commodities’ consumption constant.",
+            "The rule belongs to the syllabus’s consumer-equilibrium utility approach."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        },
+        "blind_solution": {
+          "passed": true,
+          "provider": "openai",
+          "solved_key": "A",
+          "reasons": [
+            "The supplied diminishing-marginal-utility rule says marginal utility declines as consumption increases, holding other commodities’ consumption constant.",
+            "The rule belongs to the syllabus’s consumer-equilibrium utility approach."
+          ],
+          "option_resolution": {
+            "passed": true,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002692,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T12:38:04.456Z"
+    },
+    "v77f-59b58a25bbb3": {
+      "study": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "The excerpt requires high liquidity, conversion into known cash amounts, insignificant value risk, and normally maturity of about three months or less from acquisition.",
+        "The stem gives only short term, readily convertible, and low risk; those phrases do not establish every defined criterion or the investment's maturity.",
+        "A could be true if the omitted criteria are met; B could be true if one fails. The stem does not distinguish those cases.",
+        "The definition is source-supported, but the missing case facts prevent a defensible yes-or-no answer.",
+        "Defect: missing_decisive_assumption: The stem omits whether the investment is highly liquid, convertible into known cash amounts, subject to insignificant value risk, and within the short-maturity criterion.",
+        "Defect: wrong_or_uncertain_key: The supplied description allows reasonable cases in which the investment does or does not meet the cash-equivalent definition, so neither Yes nor No is established.",
+        "Condition missing: The investment is highly liquid.",
+        "Condition missing: It is convertible into known amounts of cash.",
+        "Condition implied_decisive: Its risk of changes in value is insignificant, not merely described as low.",
+        "Condition missing: This investment's maturity meets that short-maturity criterion.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "The excerpt requires high liquidity, conversion into known cash amounts, insignificant value risk, and normally maturity of about three months or less from acquisition.",
+            "The stem gives only short term, readily convertible, and low risk; those phrases do not establish every defined criterion or the investment's maturity.",
+            "A could be true if the omitted criteria are met; B could be true if one fails. The stem does not distinguish those cases.",
+            "The definition is source-supported, but the missing case facts prevent a defensible yes-or-no answer.",
+            "Defect: missing_decisive_assumption: The stem omits whether the investment is highly liquid, convertible into known cash amounts, subject to insignificant value risk, and within the short-maturity criterion.",
+            "Defect: wrong_or_uncertain_key: The supplied description allows reasonable cases in which the investment does or does not meet the cash-equivalent definition, so neither Yes nor No is established.",
+            "Condition missing: The investment is highly liquid.",
+            "Condition missing: It is convertible into known amounts of cash.",
+            "Condition implied_decisive: Its risk of changes in value is insignificant, not merely described as low.",
+            "Condition missing: This investment's maturity meets that short-maturity criterion.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.002839,
+        "held": 0,
+        "requests": 1
+      },
+      "at": "2026-10-09T12:40:10.454Z"
+    },
+    "known-bank-ea0352db044b73bb7158800c58be188d": {
+      "study": "v77-qualification-2026-10-09-final-regression-integrated",
+      "subject": "economics",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "oracle_key": "indeterminate",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failed_stage": "source_support",
+      "failure_details": [
+        "E1.1 distinguishes revenue receipts and tax/non-tax revenues; E3.2 also classifies receipts reducing financial assets as capital receipts.",
+        "The stem excludes a claim on government but does not exclude a reduction in financial assets for the second receipt.",
+        "If that receipt reduces financial assets, B can be correct; otherwise A can be correct. The missing fact prevents a unique key.",
+        "Defect: missing_decisive_assumption: The stem does not say whether the non-tax receipt reduces financial assets. If it does, E3.2 classifies it as capital even without a claim on government, so A and B can each fit different realizations.",
+        "Condition missing: Whether the second receipt reduces the government's financial assets.",
+        "v79_solved_key_not_supported",
+        "v79_solved_key_not_supported"
+      ],
+      "cuet_fit": null,
+      "stages": {
+        "schema": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "dedupe": {
+          "passed": true,
+          "provider": "local",
+          "solved_key": null,
+          "reasons": [],
+          "option_resolution": null,
+          "option_resolution_audit": null
+        },
+        "source_support": {
+          "passed": false,
+          "provider": "openai",
+          "solved_key": "abstain",
+          "reasons": [
+            "E1.1 distinguishes revenue receipts and tax/non-tax revenues; E3.2 also classifies receipts reducing financial assets as capital receipts.",
+            "The stem excludes a claim on government but does not exclude a reduction in financial assets for the second receipt.",
+            "If that receipt reduces financial assets, B can be correct; otherwise A can be correct. The missing fact prevents a unique key.",
+            "Defect: missing_decisive_assumption: The stem does not say whether the non-tax receipt reduces financial assets. If it does, E3.2 classifies it as capital even without a claim on government, so A and B can each fit different realizations.",
+            "Condition missing: Whether the second receipt reduces the government's financial assets.",
+            "v79_solved_key_not_supported",
+            "v79_solved_key_not_supported"
+          ],
+          "option_resolution": {
+            "passed": false,
+            "reasons": []
+          },
+          "option_resolution_audit": null
+        }
+      },
+      "cost_usd": {
+        "settled": 0.00573,
+        "held": 0,
+        "requests": 2
+      },
+      "at": "2026-10-09T12:45:09.013Z"
+    }
+  },
+  "accounting": {
+    "settled_usd": 0.011261,
+    "held_usd": 0,
+    "requests": 4,
+    "receipt_complete": true,
+    "at": "2026-10-09T12:45:09.467Z"
+  }
+}

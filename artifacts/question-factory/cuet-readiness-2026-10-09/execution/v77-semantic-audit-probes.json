@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-09",
+  "scope": "offline V77 focused tests only",
+  "contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "provider_calls": 0,
+  "frozen_files_changed": false,
+  "probes": [
+    {
+      "case": "retained V76 accepted disputed evaluation",
+      "result": "rejected by V77 structural gate because required identity and option matrix proof are absent"
+    },
+    {
+      "case": "category-only B with a structurally complete matrix",
+      "result": "structural receipt can pass; existing explanation_support semantic audit marks category_only, unresolved/not_entailed and the verifier quarantines at explanation_support"
+    },
+    {
+      "case": "sound unique red-token stem deduction",
+      "result": "offline full verifier reaches eligible with complete matrix and audit coverage; inherited result must already pass"
+    },
+    {
+      "case": "false conjunction with one contradicted clause and a nondecisive unresolved clause",
+      "result": "offline full verifier accepts the accurate uncertainty after the whole conjunction and decisive contradiction are entailed"
+    },
+    {
+      "case": "arithmetic deduction with premises only in the stem and empty evidence IDs on audit rows",
+      "result": "offline full verifier reaches eligible; inherited source-support evidence remains present and mandatory"
+    },
+    {
+      "case": "unresolved nonchosen full option",
+      "result": "quarantined at source_support; it is not promoted to an answer"
+    },
+    {
+      "case": "cache-hit missing candidate/hash or mock result",
+      "result": "rejected before current identity can be stamped"
+    },
+    {
+      "case": "fresh malformed adapter result",
+      "result": "rejected before outer stage-cache write"
+    },
+    {
+      "case": "quoted source linkage and exact clause coverage",
+      "result": "forged spans, missing/foreign/cropped clause coverage and invalid citations rejected; valid source quotes must match the trusted catalog"
+    }
+  ],
+  "focused_test_command": "node --test scripts/pipeline/tests/optionResolutionV77.test.mjs",
+  "focused_tests_passed": 14,
+  "focused_tests_failed": 0,
+  "semantic_limit": "The explanation-stage audit remains model judgment. Structural bindings and cited quotations do not prove the auditor interpreted full option semantics, quantifiers, modality, source scope, or question objective correctly. No V77 qualification or release claim follows."
+}

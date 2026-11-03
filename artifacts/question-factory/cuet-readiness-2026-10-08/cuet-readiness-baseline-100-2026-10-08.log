@@ -1,0 +1,169 @@
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":20181481,"requests":9380,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":6,"rejected":0,"pending":94,"cost":{"settled_usd":0.09772,"held_usd":0,"gross_usd":0.09772,"requests":46,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20190849,"requests":9387,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":11,"rejected":2,"pending":87,"cost":{"settled_usd":0.158291,"held_usd":0,"gross_usd":0.158291,"requests":67,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20251420,"requests":9408,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":7,"approved":5}
+{"complete":false,"approved":11,"rejected":2,"pending":87,"cost":{"settled_usd":0.158291,"held_usd":0,"gross_usd":0.158291,"requests":67,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20251420,"requests":9408,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":20251420,"requests":9408,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":11,"rejected":2,"pending":87,"cost":{"settled_usd":0.172993,"held_usd":0,"gross_usd":0.172993,"requests":76,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20453935,"requests":9451,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":18,"rejected":3,"pending":79,"cost":{"settled_usd":0.255979,"held_usd":0,"gross_usd":0.255979,"requests":104,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20745410,"requests":9530,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":8,"approved":7}
+{"complete":false,"approved":18,"rejected":3,"pending":79,"cost":{"settled_usd":0.255979,"held_usd":0,"gross_usd":0.255979,"requests":104,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":20745410,"requests":9530,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":20745410,"requests":9530,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":18,"rejected":3,"pending":79,"cost":{"settled_usd":0.267756,"held_usd":0,"gross_usd":0.267756,"requests":114,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21072840,"requests":9587,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":24,"rejected":3,"pending":73,"cost":{"settled_usd":0.34558,"held_usd":0,"gross_usd":0.34558,"requests":148,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21413277,"requests":9715,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":6,"approved":6}
+{"complete":false,"approved":24,"rejected":3,"pending":73,"cost":{"settled_usd":0.34558,"held_usd":0,"gross_usd":0.34558,"requests":148,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21408766,"requests":9715,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":21408766,"requests":9715,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":24,"rejected":3,"pending":73,"cost":{"settled_usd":0.355517,"held_usd":0,"gross_usd":0.355517,"requests":156,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21452474,"requests":9728,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":26,"rejected":6,"pending":68,"cost":{"settled_usd":0.409427,"held_usd":0,"gross_usd":0.409427,"requests":182,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21987816,"requests":9845,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":5,"approved":2}
+{"complete":false,"approved":26,"rejected":6,"pending":68,"cost":{"settled_usd":0.409427,"held_usd":0,"gross_usd":0.409427,"requests":182,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":21987816,"requests":9845,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":21987816,"requests":9845,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":26,"rejected":6,"pending":68,"cost":{"settled_usd":0.418606,"held_usd":0,"gross_usd":0.418606,"requests":189,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":22152434,"requests":9894,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":31,"rejected":9,"pending":60,"cost":{"settled_usd":0.537347,"held_usd":0,"gross_usd":0.537347,"requests":214,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":22606572,"requests":9993,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":8,"approved":5}
+{"complete":false,"approved":31,"rejected":9,"pending":60,"cost":{"settled_usd":0.537347,"held_usd":0,"gross_usd":0.537347,"requests":214,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":22600220,"requests":9993,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":22608098,"requests":9994,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":31,"rejected":9,"pending":60,"cost":{"settled_usd":0.549481,"held_usd":0,"gross_usd":0.549481,"requests":223,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":23020016,"requests":10073,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":37,"rejected":10,"pending":53,"cost":{"settled_usd":0.61909,"held_usd":0,"gross_usd":0.61909,"requests":250,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":23661110,"requests":10207,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":7,"approved":6}
+{"complete":false,"approved":37,"rejected":10,"pending":53,"cost":{"settled_usd":0.61909,"held_usd":0,"gross_usd":0.61909,"requests":250,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":23661110,"requests":10207,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":23661110,"requests":10207,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":37,"rejected":10,"pending":53,"cost":{"settled_usd":0.626523,"held_usd":0,"gross_usd":0.626523,"requests":257,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":23805125,"requests":10255,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":43,"rejected":11,"pending":46,"cost":{"settled_usd":0.707379,"held_usd":0,"gross_usd":0.707379,"requests":288,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":24467936,"requests":10424,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":7,"approved":6}
+{"complete":false,"approved":43,"rejected":11,"pending":46,"cost":{"settled_usd":0.707379,"held_usd":0,"gross_usd":0.707379,"requests":288,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":24467936,"requests":10424,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":24467936,"requests":10424,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":43,"rejected":11,"pending":46,"cost":{"settled_usd":0.727515,"held_usd":0,"gross_usd":0.727515,"requests":302,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":24673804,"requests":10506,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":47,"rejected":13,"pending":40,"cost":{"settled_usd":0.794208,"held_usd":0,"gross_usd":0.794208,"requests":334,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":25145478,"requests":10660,"unresolved":16,"unbounded_unresolved":0}}
+{"wave":10,"terminal":6,"approved":4}
+{"complete":false,"approved":47,"rejected":13,"pending":40,"cost":{"settled_usd":0.794208,"held_usd":0,"gross_usd":0.794208,"requests":334,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":25138917,"requests":10660,"unresolved":16,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":25180560,"requests":10661,"unresolved":16,"unbounded_unresolved":0}}
+{"complete":false,"approved":47,"rejected":13,"pending":40,"cost":{"settled_usd":0.810177,"held_usd":0,"gross_usd":0.810177,"requests":345,"unresolved":0},"budget":{"limit_micro":50000000,"committed_micro":25466445,"requests":10778,"unresolved":17,"unbounded_unresolved":0}}
+{"complete":false,"approved":50,"rejected":17,"pending":33,"cost":{"settled_usd":0.867755,"held_usd":0.011628,"gross_usd":0.879383,"requests":372,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":25920340,"requests":10920,"unresolved":22,"unbounded_unresolved":0}}
+{"wave":10,"terminal":7,"approved":3}
+{"complete":false,"approved":50,"rejected":17,"pending":33,"cost":{"settled_usd":0.867755,"held_usd":0.011628,"gross_usd":0.879383,"requests":372,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":25955455,"requests":10921,"unresolved":22,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":25955455,"requests":10921,"unresolved":22,"unbounded_unresolved":0}}
+{"complete":false,"approved":50,"rejected":17,"pending":33,"cost":{"settled_usd":0.879776,"held_usd":0.011628,"gross_usd":0.891404,"requests":382,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":26109619,"requests":10988,"unresolved":22,"unbounded_unresolved":0}}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:70
+      if (unbounded > 0) throw new Error('budget_usage_unresolved');
+                               ^
+
+Error: budget_usage_unresolved
+    at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:70:32
+    at BudgetLedger.transaction (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:47:26)
+    at BudgetLedger.reserve (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:63:17)
+    at generateOnce (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:164:32)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:216:24)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/tools/cuetFitFactory.mjs:63:35)
+    at completeJSON (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:376:41)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async evaluation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryEvidenceV7.mjs:114:36)
+    at async adapters.<computed> [as source_support] (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryEvidenceV7.mjs:126:17)
+
+Node.js v24.15.0
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":26295544,"requests":11082,"unresolved":23,"unbounded_unresolved":0}}
+{"complete":false,"approved":54,"rejected":18,"pending":28,"cost":{"settled_usd":0.951364,"held_usd":0.011628,"gross_usd":0.962992,"requests":411,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":26534507,"requests":11176,"unresolved":23,"unbounded_unresolved":0}}
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:70
+      if (unbounded > 0) throw new Error('budget_usage_unresolved');
+                               ^
+
+Error: budget_usage_unresolved
+    at file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:70:32
+    at BudgetLedger.transaction (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:47:26)
+    at BudgetLedger.reserve (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/budgetLedger.mjs:63:17)
+    at generateOnce (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:164:32)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:216:24)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/tools/cuetFitFactory.mjs:63:35)
+    at completeJSON (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryTransport.mjs:370:43)
+    at evaluation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryEvidenceV7.mjs:114:42)
+    at adapters.<computed> [as independent_evaluation] (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/lib/factoryEvidenceV7.mjs:126:23)
+    at prefetch (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/artifacts/question-factory/cuet-readiness-2026-10-08/baseline-code/scripts/pipeline/tools/cuetFitFactory.mjs:88:38)
+
+Node.js v24.15.0
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":27166316,"requests":11391,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":57,"rejected":19,"pending":24,"cost":{"settled_usd":0.989096,"held_usd":0.011628,"gross_usd":1.000724,"requests":429,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":27336556,"requests":11434,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":60,"rejected":22,"pending":18,"cost":{"settled_usd":1.038018,"held_usd":0.011628,"gross_usd":1.049646,"requests":450,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":27627203,"requests":11539,"unresolved":26,"unbounded_unresolved":0}}
+{"wave":10,"terminal":6,"approved":3}
+{"complete":false,"approved":60,"rejected":22,"pending":18,"cost":{"settled_usd":1.038018,"held_usd":0.011628,"gross_usd":1.049646,"requests":450,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":27628289,"requests":11540,"unresolved":26,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":27657204,"requests":11541,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":60,"rejected":22,"pending":18,"cost":{"settled_usd":1.044513,"held_usd":0.011628,"gross_usd":1.056141,"requests":456,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":27759850,"requests":11566,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":65,"rejected":25,"pending":10,"cost":{"settled_usd":1.116953,"held_usd":0.011628,"gross_usd":1.128581,"requests":482,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":28361067,"requests":11751,"unresolved":26,"unbounded_unresolved":0}}
+{"wave":10,"terminal":8,"approved":5}
+{"complete":false,"approved":65,"rejected":25,"pending":10,"cost":{"settled_usd":1.116953,"held_usd":0.011628,"gross_usd":1.128581,"requests":482,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":28361067,"requests":11751,"unresolved":26,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":28395810,"requests":11752,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":65,"rejected":25,"pending":10,"cost":{"settled_usd":1.13108,"held_usd":0.011628,"gross_usd":1.142708,"requests":492,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":28613814,"requests":11821,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":69,"rejected":26,"pending":5,"cost":{"settled_usd":1.197969,"held_usd":0.011628,"gross_usd":1.209597,"requests":516,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":29221198,"requests":12007,"unresolved":26,"unbounded_unresolved":0}}
+{"wave":10,"terminal":5,"approved":4}
+{"complete":false,"approved":69,"rejected":26,"pending":5,"cost":{"settled_usd":1.197969,"held_usd":0.011628,"gross_usd":1.209597,"requests":516,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":29221198,"requests":12007,"unresolved":26,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":29221198,"requests":12007,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":false,"approved":69,"rejected":26,"pending":5,"cost":{"settled_usd":1.197969,"held_usd":0.011628,"gross_usd":1.209597,"requests":516,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":29290667,"requests":12009,"unresolved":26,"unbounded_unresolved":0}}
+{"complete":true,"approved":70,"rejected":30,"pending":0,"cost":{"settled_usd":1.216368,"held_usd":0.011628,"gross_usd":1.227996,"requests":522,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":29496296,"requests":12074,"unresolved":26,"unbounded_unresolved":0}}
+{"wave":5,"terminal":5,"approved":1}
+{"complete":true,"approved":70,"rejected":30,"pending":0,"cost":{"settled_usd":1.216368,"held_usd":0.011628,"gross_usd":1.227996,"requests":522,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":29470436,"requests":12076,"unresolved":26,"unbounded_unresolved":0}}
+{"receipt_pending":"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2","reason":"batch_failed_usage_missing"}
+{"receipt_pending":"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884","reason":"batch_failed_usage_missing"}
+{"receipt_checks":4,"settled":0,"budget":{"limit_micro":50000000,"committed_micro":31916954,"requests":12802,"unresolved":29,"unbounded_unresolved":0}}
+{"complete":true,"approved":70,"rejected":30,"pending":0,"cost":{"settled_usd":1.216368,"held_usd":0.011628,"gross_usd":1.227996,"requests":522,"unresolved":1},"budget":{"limit_micro":50000000,"committed_micro":31916954,"requests":12802,"unresolved":29,"unbounded_unresolved":0}}

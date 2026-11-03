@@ -1,0 +1,9 @@
+# V4 key/source audit staging
+
+This folder is reserved for the v4 key/source audit. The guarded exporter `make-blind-packet.mjs` verifies the current frozen development, release, and combined payload hashes, selects only the 40 `valid` roots, and emits only question text/options/passages, registered source excerpts, and official syllabus clauses. It excludes proposed keys, explanations, derivations, oracle keys, and defect certificates. It prints fixture and packet hashes without printing case content.
+
+The exporter has **not** been run against the designer's pending corrected freeze. A pre-correction preview was removed as soon as the freeze update was announced. Wait for the parent to confirm the final freeze before running it.
+
+Independence disclosure: this auditor read the v4 builder source, which contains authored answer text and option construction, before completing any blind first-pass key record. No frozen-oracle fields were opened and no answers were recorded, but the exposure prevents an honest claim that this worker can independently key the authored items. A clean reviewer without builder/case-authoring context must write the first-pass keys and decisive quotes/calculations before any oracle comparison. Do not fill an independent audit record from this worker's judgments.
+
+After a clean reviewer completes the blind record, run `verify.mjs` for structural certificate integrity, then separately compare the reviewer record to frozen oracle keys and verify source support, explanation claims, decisive conditions, syllabus entitlement, and numeric derivations. Report one valid root per item, and disclose shared document/concept families and the small five-release-roots-per-subject sample. Do not treat controlled mutations or repeat calculations as independent sample size.

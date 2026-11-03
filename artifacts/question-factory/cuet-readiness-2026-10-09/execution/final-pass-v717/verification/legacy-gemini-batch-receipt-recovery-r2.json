@@ -1,0 +1,76 @@
+{
+  "schema": "receipt-only-gemini-error-output-evidence-v2",
+  "created_at": "2026-10-10T06:02:54.750Z",
+  "remote_status_file": "artifacts/question-factory/execution-2026-10-07/provider-status.json",
+  "remote_status_sha256": "3987571cf475b91d7baac610106de0c686ce6f1c8382e40b22e79bd227227142",
+  "remote_status": {
+    "http_status": 200,
+    "state": "BATCH_STATE_SUCCEEDED",
+    "request_count": 64,
+    "successful": 60,
+    "failed": 4
+  },
+  "rows": [
+    {
+      "id": "90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6",
+      "provider": "gemini",
+      "provider_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "reservation_id": "4494a221-f9f4-43cd-bd91-2674862b94da",
+      "bs": "unresolved",
+      "rs": "unresolved",
+      "reserved": 19788,
+      "actual": null,
+      "receipt_json": "{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"provider\":\"gemini\",\"provider_batch_id\":\"batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7\",\"provider_batch_status\":\"BATCH_STATE_SUCCEEDED\",\"provider_batch_done\":true,\"provider_request_id\":null,\"provider_batch_record\":{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"metadata\":{\"key\":\"90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6\"}},\"prior_failure_receipt\":{\"error\":\"batch_terminal_usage_missing\"}}"
+    },
+    {
+      "id": "c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1",
+      "provider": "gemini",
+      "provider_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "reservation_id": "2cb69b39-6b4d-4d73-ab68-629912b39751",
+      "bs": "unresolved",
+      "rs": "unresolved",
+      "reserved": 19788,
+      "actual": null,
+      "receipt_json": "{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"provider\":\"gemini\",\"provider_batch_id\":\"batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7\",\"provider_batch_status\":\"BATCH_STATE_SUCCEEDED\",\"provider_batch_done\":true,\"provider_request_id\":null,\"provider_batch_record\":{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"metadata\":{\"key\":\"c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1\"}},\"prior_failure_receipt\":{\"error\":\"batch_terminal_usage_missing\"}}"
+    },
+    {
+      "id": "ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2",
+      "provider": "gemini",
+      "provider_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "reservation_id": "8c836f78-0fed-4507-aea1-183efbfa53ce",
+      "bs": "unresolved",
+      "rs": "unresolved",
+      "reserved": 19788,
+      "actual": null,
+      "receipt_json": "{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"provider\":\"gemini\",\"provider_batch_id\":\"batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7\",\"provider_batch_status\":\"BATCH_STATE_SUCCEEDED\",\"provider_batch_done\":true,\"provider_request_id\":null,\"provider_batch_record\":{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"metadata\":{\"key\":\"ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2\"}},\"prior_failure_receipt\":{\"error\":\"batch_terminal_usage_missing\"}}"
+    },
+    {
+      "id": "ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884",
+      "provider": "gemini",
+      "provider_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "reservation_id": "53354d68-7029-4d53-ba2b-e4f6d44dd338",
+      "bs": "unresolved",
+      "rs": "unresolved",
+      "reserved": 19788,
+      "actual": null,
+      "receipt_json": "{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"provider\":\"gemini\",\"provider_batch_id\":\"batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7\",\"provider_batch_status\":\"BATCH_STATE_SUCCEEDED\",\"provider_batch_done\":true,\"provider_request_id\":null,\"provider_batch_record\":{\"error\":{\"code\":14,\"message\":\"The service is currently unavailable.\"},\"metadata\":{\"key\":\"ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884\"}},\"prior_failure_receipt\":{\"error\":\"batch_terminal_usage_missing\"}}"
+    }
+  ],
+  "remaining_old_batch_hold_usd": 0,
+  "global_request_state_counts": [
+    {
+      "state": "settled",
+      "n": 14993,
+      "reserved": 204795654,
+      "actual": 39139769
+    },
+    {
+      "state": "unresolved",
+      "n": 65,
+      "reserved": 821324,
+      "actual": null
+    }
+  ],
+  "accounting_effect": "All four per-item records report code 14, service unavailable, with no response or billable usage metadata. Full receipts remain in the native ledger; each maximum hold remains unresolved. No resubmission or new reservation.",
+  "prior_attempt_report_sha256": "bdef77a2cabb4fbdf276d520b3b6af45d592f842c085e8035dc037bab77a572f"
+}

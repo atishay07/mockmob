@@ -1,0 +1,1071 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-10-06T09:12:21.148Z",
+  "subject": "english",
+  "state": "primary_dictionary_source_candidates",
+  "target_count": 25,
+  "distinct_words": 25,
+  "purpose": "Broaden substantively distinct lexical content for faithful CUET2024 synonym/antonym skill adaptations; this source artifact creates no published item.",
+  "selection_notes": [
+    "All 25 target definitions were observed in successful web.open results from official Oxford Learner's Dictionary pages.",
+    "Dictionary usage labels and sense qualifiers are separate from the exact quoted definition text.",
+    "Definitions are brief full sense definitions; each quote is under 25 words. No dictionary example sentence is copied.",
+    "The target list spans generosity, economy, determination, openness, diligence, aggression, density, disuse, prudent judgement, boredom, detail, danger, exertion, logical clarity, visibility, bias, inevitability, calm, authenticity and joy. The additional five targets cover brevity, sociability, pride, weakness and short duration.",
+    "Diligent and meticulous intentionally test distinct effort-versus-detail meanings; use the supplied sense context to preserve the distinction.",
+    "Synonym/antonym pairs are authoring ideas, not an independent answer-validation receipt or a guarantee that a future option set is unique."
+  ],
+  "syllabus_fit": {
+    "subject_code": 101,
+    "syllabus_year": 2026,
+    "official_topic": "Verbal Ability – Synonyms and Antonyms",
+    "evidence_file": "data/question-factory-runtime/source-foundation/english-syllabus-2026.txt",
+    "authority_note": "The official English syllabus in the checked blind bundle explicitly names Synonyms and Antonyms; 2027 applicability remains provisional.",
+    "historical_pattern_examples_used": [
+      "cuet2024-english-bookA-q46",
+      "cuet2024-english-bookA-q48",
+      "cuet2024-english-bookA-q49"
+    ],
+    "anchors_reserved_for_calibration_consumed": false,
+    "historical_fit": "Retain direct synonym/antonym or contextual closest-meaning skill, four grammatically parallel ordered alternatives, and one defensible best answer. Target substitution alone does not confer authentic-PYQ status."
+  },
+  "retrieval_failures": {
+    "cambridge_attempt": "Official Cambridge pages for benevolent/frugal/reluctant/candid/diligent returned 403 or unexpected status; no snippet definitions used.",
+    "oxford_attempt": "Scarce failed; replaced with successfully retrieved sparse. Reluctant was observed but excluded because its full definition exceeded the brief-quotation limit; resolute is the replacement. The unsuffixed transient URL failed; its official adjective entry transient_1 was retrieved successfully. Haughty was observed as relation evidence but not added as a target because its full definition exceeded the requested 14-word limit; arrogant supplies the concise target."
+  },
+  "permissions_and_limits": {
+    "runtime_registry_mutated": false,
+    "code_mutated": false,
+    "paid_model_calls": 0,
+    "credentials_accessed": false,
+    "production_data_changed": false,
+    "source_reuse_permission_granted": false,
+    "notes": "Attributed short quotations for local source evaluation do not establish unrestricted republication permission."
+  },
+  "targets": [
+    {
+      "word": "benevolent",
+      "part_of_speech": "adjective",
+      "exact_definition": "kind, helpful and generous",
+      "definition_quote_complete": true,
+      "definition_word_count": 4,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/benevolent",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; formal; especially people in authority",
+      "semantic_domain": "kindness/generosity",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "benevolent adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 175,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "malevolent",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "kind",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A person using authority to help others.",
+        "uniqueness_guard": "Do not use the organization-name sense; avoid two kindness synonyms in the same option set."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "frugal",
+      "part_of_speech": "adjective",
+      "exact_definition": "using only as much money or food as is necessary",
+      "definition_quote_complete": true,
+      "definition_word_count": 10,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/frugal",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; lifestyle or spending, not a small meal",
+      "semantic_domain": "economy/resource use",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "frugal adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 168,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "extravagant",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "thrifty",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A careful spending habit.",
+        "uniqueness_guard": "Do not mix sense 1 with the separate meagre-meal sense."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "resolute",
+      "part_of_speech": "adjective",
+      "exact_definition": "strong and determined",
+      "definition_quote_complete": true,
+      "definition_word_count": 3,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/resolute",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; firmness of purpose",
+      "semantic_domain": "determination",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "resolute adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 175,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "irresolute",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "determined",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A person who firmly continues a course of action.",
+        "uniqueness_guard": "Do not make physical strength the deciding meaning; focus on resolve."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "candid",
+      "part_of_speech": "adjective",
+      "exact_definition": "saying what you think openly and honestly; not hiding your thoughts",
+      "definition_quote_complete": true,
+      "definition_word_count": 11,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/candid",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; speech or interview, not photography",
+      "semantic_domain": "openness in speech",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "candid adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 180,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "frank",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "evasive",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "An open, honest account or response.",
+        "uniqueness_guard": "A contextual item must exclude the unposed-photograph sense; do not offer both frank and honest."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "diligent",
+      "part_of_speech": "adjective",
+      "exact_definition": "showing care and effort in your work or duties",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; formal; worker or student",
+      "semantic_domain": "careful work/effort",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "diligent adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 168,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "hardworking",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "negligent",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A worker consistently putting effort into duties.",
+        "uniqueness_guard": "Distinguish sustained effort from the meticulous target's attention to every detail; avoid both hardworking and industrious."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "hostile",
+      "part_of_speech": "adjective",
+      "exact_definition": "aggressive or unfriendly and ready to argue or fight",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; reception or attitude",
+      "semantic_domain": "unfriendliness/aggression",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "hostile adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 111,
+        "returned_total_lines": 234,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "unfriendly",
+        "relationship_support": "word_present_in_definition",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "friendly",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "An aggressive reception to a speaker.",
+        "uniqueness_guard": "Do not use business-takeover, military-territory or adverse-environment senses."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "sparse",
+      "part_of_speech": "adjective",
+      "exact_definition": "only present in small amounts or numbers and often spread over a large area",
+      "definition_quote_complete": true,
+      "definition_word_count": 14,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/sparse",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; vegetation or population spread over an area",
+      "semantic_domain": "low spatial density",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "sparse adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 172,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "dense",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "scattered",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "Vegetation thinly distributed across a large area.",
+        "uniqueness_guard": "Use spatial context for dense; plentiful and abundant can be alternative quantity opposites, so avoid them together."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "obsolete",
+      "part_of_speech": "adjective",
+      "exact_definition": "no longer used because something new has been invented",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/obsolete",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; technology or method",
+      "semantic_domain": "replacement/disuse",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "obsolete adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 176,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "out of date",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "current",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A technology replaced by a newer invention.",
+        "uniqueness_guard": "Old alone does not imply disuse; do not offer both outdated and out of date."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "prudent",
+      "part_of_speech": "adjective",
+      "exact_definition": "sensible and careful when you make judgements and decisions; avoiding unnecessary risks",
+      "definition_quote_complete": true,
+      "definition_word_count": 12,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/prudent",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; formal; decision or course of action",
+      "semantic_domain": "careful judgement/risk",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "prudent adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 184,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "imprudent",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "sensible",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A decision made after weighing unnecessary risks.",
+        "uniqueness_guard": "Reckless is also a plausible antonym; do not offer both reckless and imprudent in an antonym set."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "tedious",
+      "part_of_speech": "adjective",
+      "exact_definition": "lasting or taking too long and not interesting",
+      "definition_quote_complete": true,
+      "definition_word_count": 8,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; work, journey or experience",
+      "semantic_domain": "duration/boredom",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "tedious adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 195,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "boring",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "engaging",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A long, uninteresting task.",
+        "uniqueness_guard": "Dull is also a close synonym on the page; avoid boring and dull as competing keys."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "meticulous",
+      "part_of_speech": "adjective",
+      "exact_definition": "paying careful attention to every detail",
+      "definition_quote_complete": true,
+      "definition_word_count": 6,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/meticulous",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; approving; records, planning or craftsmanship",
+      "semantic_domain": "attention to detail",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "meticulous adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 104,
+        "returned_total_lines": 182,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "thorough",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "careless",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "Careful checking of each detail in records.",
+        "uniqueness_guard": "Fastidious is another dictionary synonym; keep it out of distractors for the same target."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "perilous",
+      "part_of_speech": "adjective",
+      "exact_definition": "very dangerous",
+      "definition_quote_complete": true,
+      "definition_word_count": 2,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/perilous",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; formal or literary; journey or situation",
+      "semantic_domain": "danger",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "perilous adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 173,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "hazardous",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "safe",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A dangerous journey or situation.",
+        "uniqueness_guard": "Dangerous and hazardous can both be correct synonyms; include only one as the key."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "arduous",
+      "part_of_speech": "adjective",
+      "exact_definition": "involving a lot of effort and energy, especially over a period of time",
+      "definition_quote_complete": true,
+      "definition_word_count": 13,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/arduous",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; task or journey requiring sustained effort",
+      "semantic_domain": "effort-demanding difficulty",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "arduous adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 179,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "easy",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "strenuous",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A task requiring prolonged exertion.",
+        "uniqueness_guard": "Avoid replacing exertion with danger: perilous is a different lexical skill."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "coherent",
+      "part_of_speech": "adjective",
+      "exact_definition": "logical and well organized; easy to understand and clear",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/coherent",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; ideas, thoughts or arguments",
+      "semantic_domain": "logical clarity",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "coherent adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 202,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "logical",
+        "relationship_support": "word_present_in_definition",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "incoherent",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "An argument whose parts fit logically and clearly.",
+        "uniqueness_guard": "Clear is also definition-supported; do not put logical and clear in the same synonym set."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "conspicuous",
+      "part_of_speech": "adjective",
+      "exact_definition": "easy to see or notice; likely to attract attention",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/conspicuous",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; notice, object or feature; not the absence idiom",
+      "semantic_domain": "visibility/noticeability",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "conspicuous adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 202,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "inconspicuous",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "noticeable",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "An object or notice that immediately attracts attention.",
+        "uniqueness_guard": "Avoid conspicuous by one's absence; visible and noticeable are both plausible synonyms."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "impartial",
+      "part_of_speech": "adjective",
+      "exact_definition": "not supporting one person or group more than another",
+      "definition_quote_complete": true,
+      "definition_word_count": 9,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/impartial",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; inquiry, observer or decision",
+      "semantic_domain": "absence of bias",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "impartial adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 179,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "unbiased",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "partial",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A decision-maker who favours neither side.",
+        "uniqueness_guard": "Neutral is another dictionary synonym; keep neutral and unbiased out of the same option set."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "inevitable",
+      "part_of_speech": "adjective",
+      "exact_definition": "that you cannot avoid or prevent",
+      "definition_quote_complete": true,
+      "definition_word_count": 6,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/inevitable",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; event or consequence; not the humorous expected habit sense",
+      "semantic_domain": "unavoidability",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "inevitable adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 107,
+        "returned_total_lines": 209,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "unavoidable",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "avoidable",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A consequence that cannot be prevented.",
+        "uniqueness_guard": "Certain is related but not always equivalent to unavoidability; lock the sense with context if necessary."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "tranquil",
+      "part_of_speech": "adjective",
+      "exact_definition": "quiet and peaceful",
+      "definition_quote_complete": true,
+      "definition_word_count": 3,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/tranquil",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; formal; place, scene or water",
+      "semantic_domain": "peace/calm",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "tranquil adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 186,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "serene",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "turbulent",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A quiet, peaceful lake or setting.",
+        "uniqueness_guard": "Calm and serene can both fit; do not offer both as synonym alternatives."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "authentic",
+      "part_of_speech": "adjective",
+      "exact_definition": "known to be real and what somebody claims it is, and not a copy",
+      "definition_quote_complete": true,
+      "definition_word_count": 14,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/authentic",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; original painting or document, not an exact replica",
+      "semantic_domain": "genuineness",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "authentic adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 107,
+        "returned_total_lines": 184,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "antonym",
+        "preferred_key_idea": "inauthentic",
+        "relationship_support": "dictionary_labels_opposite",
+        "alternate_relation_task": "synonym",
+        "alternate_key_idea": "genuine",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A verified original work rather than a copy.",
+        "uniqueness_guard": "Counterfeit is also a strong opposite in artwork context; avoid two valid opposites. Exclude sense 3, which permits an authentic model/replica."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q49 direct antonym"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "elated",
+      "part_of_speech": "adjective",
+      "exact_definition": "very happy and excited because of something good that has happened or will happen",
+      "definition_quote_complete": true,
+      "definition_word_count": 14,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/elated",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; pleased after good news",
+      "semantic_domain": "joy/excitement",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "elated adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 184,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "overjoyed",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "dejected",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A person's excited happiness after good news.",
+        "uniqueness_guard": "Joyful, jubilant and overjoyed can all be close; do not place multiple valid near-synonyms in one item."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "concise",
+      "part_of_speech": "adjective",
+      "exact_definition": "giving only the information that is necessary and important, using few words",
+      "definition_quote_complete": true,
+      "definition_word_count": 12,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/concise",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; a summary or statement, not an abridged-book label",
+      "semantic_domain": "brevity in expression",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "concise adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 172,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "brief",
+        "relationship_support": "definition_grounded_inference",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "wordy",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A statement that conveys its important information in few words.",
+        "uniqueness_guard": "Do not offer both brief and succinct; avoid terse as a competing key because it can imply abruptness."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "gregarious",
+      "part_of_speech": "adjective",
+      "exact_definition": "liking to be with other people",
+      "definition_quote_complete": true,
+      "definition_word_count": 6,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/gregarious",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; personality, not biological group-living",
+      "semantic_domain": "sociability",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "gregarious adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 184,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "sociable",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "unsociable",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A person who enjoys company and group activities.",
+        "uniqueness_guard": "Social and sociable can both fit; keep only one in the option set. Do not confuse enjoying company with benevolent generosity."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "arrogant",
+      "part_of_speech": "adjective",
+      "exact_definition": "behaving in a proud, unpleasant way, showing little thought for other people",
+      "definition_quote_complete": true,
+      "definition_word_count": 12,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/arrogant",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; unpleasantly proud attitude",
+      "semantic_domain": "pride/superiority",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "arrogant adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 103,
+        "returned_total_lines": 176,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "haughty",
+        "relationship_support": "dictionary_relation_on_counterpart_page",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "humble",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A person whose unpleasant pride leads them to dismiss other people.",
+        "uniqueness_guard": "Do not use proud alone as a distractor if it could be interpreted as the source's intended sense. Preserve the unpleasant-superiority context.",
+        "additional_relation_evidence": {
+          "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/haughty",
+          "method": "web.open official page body",
+          "definition_line": 105,
+          "observed_dictionary_label": "synonym arrogant",
+          "relationship_note": "The haughty entry explicitly links arrogant as its synonym; use the same superiority/unfriendly-attitude sense."
+        }
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "feeble",
+      "part_of_speech": "adjective",
+      "exact_definition": "very weak",
+      "definition_quote_complete": true,
+      "definition_word_count": 2,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/feeble",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; physical condition or strength, not an unconvincing excuse",
+      "semantic_domain": "weakness",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "feeble adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 125,
+        "returned_total_lines": 201,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "weak",
+        "relationship_support": "word_present_in_definition",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "strong",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "Physical weakness rather than firmness of purpose.",
+        "uniqueness_guard": "Frail is also plausible; do not put weak and frail together as synonym options. Do not use the weak-excuse sense without changing evidence."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    },
+    {
+      "word": "transient",
+      "part_of_speech": "adjective",
+      "exact_definition": "continuing for only a short time",
+      "definition_quote_complete": true,
+      "definition_word_count": 6,
+      "source_url": "https://www.oxfordlearnersdictionaries.com/definition/english/transient_1",
+      "source_publisher": "Oxford University Press",
+      "dictionary": "Oxford Advanced Learner's Dictionary",
+      "sense": "sense 1; duration, not a person moving from place to place",
+      "semantic_domain": "short duration",
+      "page_retrieval_proof": {
+        "method": "web.open of the official dictionary page body; not a search result snippet",
+        "retrieved_date_utc": "2026-10-06",
+        "content_type": "text/html",
+        "page_title": "transient adjective - Definition, pictures, pronunciation and usage notes | Oxford Advanced Learner's Dictionary at OxfordLearnersDictionaries.com",
+        "page_headword_line": 89,
+        "part_of_speech_line": 91,
+        "definition_line": 105,
+        "returned_total_lines": 176,
+        "exact_definition_observed_in_page_body": true,
+        "stored_excerpt_field": "exact_definition",
+        "html_bytes_or_full_page_snapshot_saved": false
+      },
+      "adaptation_ideas": {
+        "preferred_task": "synonym",
+        "preferred_key_idea": "temporary",
+        "relationship_support": "dictionary_labels_synonym",
+        "alternate_relation_task": "antonym",
+        "alternate_key_idea": "permanent",
+        "alternate_relationship_status": "sense-based authoring idea; independently validate the complete options before accepting",
+        "context_idea": "A condition or effect lasting only a short time.",
+        "uniqueness_guard": "Fleeting is also an explicit synonym; do not put temporary and fleeting together."
+      },
+      "compatible_historical_skill_frames": [
+        "cuet2024-english-bookA-q48 direct synonym",
+        "cuet2024-english-bookA-q46 contextual closest meaning"
+      ],
+      "candidate_only": true,
+      "question_generated": false
+    }
+  ],
+  "updated_at_utc": "2026-10-06T09:14:45.979Z"
+}

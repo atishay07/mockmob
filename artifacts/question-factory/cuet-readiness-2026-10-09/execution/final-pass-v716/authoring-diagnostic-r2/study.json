@@ -1,0 +1,13 @@
+{
+  "schema": "cuet-v716-pilot-v1",
+  "id": "cuet-v716-authoring-diag-r2",
+  "kind": "authoring_diagnostic",
+  "publication": "never",
+  "max_repairs": 0,
+  "cap_usd": 0.5,
+  "wave_size": 10,
+  "execution_freeze_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v716/V716-DIAGNOSTIC-EXECUTION-FREEZE-R6.json",
+  "stop_rule": "two consecutive completed waves under 40% eligible stop the campaign (not reachable with one wave)",
+  "measurement_rules": "Authoring diagnostic r2 only: same three job shapes as r1 with the restored format/presentation contract in the V716 author prompt and Flex->standard fallback. Not pilot or qualification evidence.",
+  "created_at": "2026-10-09T23:31:26.254034Z"
+}

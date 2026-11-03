@@ -1,0 +1,255 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-02",
+  "batch_offset": 10,
+  "batch_total": 53,
+  "case_count": 10,
+  "blind_packet_sha256": "e2c26dc7ad101bf1f6814e8f57535dd0363b55299542c35a25323b9d144c510e",
+  "created_at_utc": "2026-10-08T14:12:18+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independently solve from blind stems/options and registered source excerpts bundled in this blind packet; no historical keys/explanations/comparison or reassessment results consulted.",
+  "cases": [
+    {
+      "id": "749c7d54f592dbfc93ca164595ca5cff",
+      "content_hash": "3f5d29f0330b9294a08ddbde221d7b765c3886078306671ae5468ff44cf9289d",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: and misuse. Hence the environmental issues of waste generation and pollution have become critical today. 7.3 STATE OF INDIA’S ENVIRONMENT India has abundant natural resources in te. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "A matches land degradation (unstable/inappropriate use), B air pollution (urban vehicular pollution), C freshwater management, and D solid-waste management.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p6-c0",
+        "support_hash": "9883d7d5b364d294b17db065ad82834237d2224e24a04d47364aa782d4aaefb4",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Land in India suffers from varying degrees and types of degradation stemming mainly from unstable use and inappropriate management.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "20d17d6168c3fbf2eb5c0ee350eaf85e",
+      "content_hash": "b9e8500c308c065807977f16f2b84a67c6ad6398ad7834b81d9427a1b7703770",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: TABLE 4.1 Select Indicators of Development in Education and Health Sectors Particulars 1951 1981 1991 2001 2018-22 Real Per Capita Income (in Rs) 7,651 12,174 15,748 23,095 94,054 . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "A: 23,095−15,748=7,347 true. B: 15,748−12,174=3,574, not 4,523. C: 94,054−23,095=70,959 true. D: 12,174−7,651=4,523, not 3,574. Therefore A and C only.",
+      "source_evidence": {
+        "id": "ncert-keec104",
+        "locator": "p9-c0",
+        "support_hash": "f7304ee06f35291816ac731e179883d41444e9fb849d4d422eed1bee24e57e48",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Real Per Capita Income (in Rs) 7,651 12,174 15,748 23,095 94,054",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "0de322e27637f76ac593c99028e4cafa",
+      "content_hash": "d61dbc80f5e4d9528d8f11d35071c5aba4bb6ee96817e9b5aef3c45ee9f9a1fb",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "topic": "Income Determination: focus on this supplied section: 54 5454 5454Introductory Macroeconomics had planned to consume during the same period. Similarly, investment can mean the amount a producer plans to add to her inventory. It may be. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Plan the ₹1,20,000 inventory increase; the later ₹35,000 sale reduces inventory; compute net inventory addition ₹85,000; identify that as actual investment.",
+      "source_evidence": {
+        "id": "ncert-leec104",
+        "locator": "pdf-page-2",
+        "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Her planned investment is, therefore, Rs 100 in that year. However, due to an unforeseen upsurge of demand ... she has to sell goods worth Rs 30 from her stock.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "8b7a12e7cce479ddec3b443b1a09f92a",
+      "content_hash": "9cc9a92c21d971c9dc38a7f93365b212fb137c8c341fadefea445f7835115a74",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: by important failure of our policies agriculture as well as the proportion of followed during 1950-1990. population working in the sector declines considerably. In India, 2.4 INDUS. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "Industry GDP share rose 11.6 percentage points (24.6−13); agriculture population share fell 2.6 points (67.5−64.9); the stem says industry/services did not absorb these workers. GDP composition does not itself prove an equal worker transfer.",
+      "source_evidence": {
+        "id": "ncert-keec102",
+        "locator": "p15-c1870",
+        "support_hash": "cd7d7f6e412aaeca2a6151993acc0ac54b9fdcc786f4ada020146c14748e7a29",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "industry’s share of GDP increased in the period from 13 per cent in 1950-51 to 24.6 per cent in 1990-91.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "559f599c8fa9caddcb113a5b81282e96",
+      "content_hash": "33aefe3ad835a8ada74f8a4c5ab2ad6937c2fdac86d1b95d919e985feff925d7",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Employment",
+        "topic": "Employment: focus on this supplied section: ONCLUSION domestic product, but without There has been a change in the simultaneous increase in employment structure of workforce in India. Newly opportunities. This has forced the. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "The conclusion proceeds from workforce-structure change to service-sector jobs, then the employmentless growth issue and consequent government initiatives: A-B-C-D.",
+      "source_evidence": {
+        "id": "ncert-keec106",
+        "locator": "p18-c1911",
+        "support_hash": "6ec991a54cb33d22e25abd29ac1d9099351a97cac2a7f2de6116822148c093e3",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "There has been a change in the structure of workforce in India. Newly emerging jobs are found mostly in the service sector.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "765c28539460d21e44556e18f6ea5dc3",
+      "content_hash": "6ef4a8486a381562aef48fc51b37e2a591a64b75179b5628123463cdfe6c1362",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 4 INDIAN ECONOMIC DEVELOPMENT 1.1 I NTRODUCTION The primary objective of this book, Indian Economic Development , is to familiarise you with the basic features of the Indian econom. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "“Malmal khas” denotes muslin worn by, or fit for, royalty. The supplied catalog record does not identify the wearer of this particular textile, so it cannot establish a particular royal wearer.",
+      "source_evidence": {
+        "id": "ncert-keec101",
+        "locator": "pdf-page-4",
+        "support_hash": "0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "foreign travellers also used to refer to it as malmal shahi or malmal khas implying that it was worn by, or fit for, the royalty.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "8c1cc9b05e28b915f65be085a1f701f1",
+      "content_hash": "aa8de55bed85c6cc0b57831ccff00f47af8d058b0cf4de32bb7e6593cb4bbf1f",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "topic": "Introduction & Theory of Consumer Behaviour: focus on this supplied section: goods and services and try to figure out how prices and quantities of goods and services are determined through the interaction of individuals in these markets. In macroeconomics, . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Macroeconomics studies aggregate measures and the economy as a whole; total output growth over time is an aggregate question. The other choices concern an individual or a single commodity market.",
+      "source_evidence": {
+        "id": "ncert-leec201",
+        "locator": "p6-c1875",
+        "support_hash": "1b68ad70c0b7a18a0791af904cb3626d3f02731521724c607f9ef9ba76b468cc",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "in macroeconomics ... understanding of the economy as a whole ... aggregate measures such as total output, employment and aggregate price level.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "8ae5b51a291e1e4af741fed6b275739c",
+      "content_hash": "55908e5468c89193398307a0e654a997762bbde896f93696874cab8fa9d7f7e8",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "topic": "Government Budget & the Economy: focus on this supplied section: Primary Deficit : We must note that the borrowing requirement of the government includes interest obligations on accumulated debt. The goal of measuring primary deficit is to focus. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Primary deficit = fiscal deficit − interest payments = ₹8,40,000−₹1,20,000=₹7,20,000. Interest receipts from net domestic lending are not subtracted by this definition.",
+      "source_evidence": {
+        "id": "ncert-leec105-focused-v1",
+        "locator": "definition",
+        "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "It is simply the fiscal deficit minus the interest payments",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "e28748f678ef9c8fff1c553cb667a2a2",
+      "content_hash": "59bd6f0e3297015e84d9cebc6fc5ac6cf752fb74d8b2f37043ee1de739e0900e",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: Constitution that the government is the highest. As per NSSO data, in the should provide free and compulsory year 2011-12, the rate of education for all children up to the age unem. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "A: 19−16=3 points (I); B: nearly 30−19≈11 points (II); C: rural female graduates nearly 30% are highest (III); D: 3–6% is below 16%/19% (IV). A-I,B-II,C-III,D-IV is option C.",
+      "source_evidence": {
+        "id": "ncert-keec104",
+        "locator": "p15-c0",
+        "support_hash": "73884e4e19fb1a35af681d9ffddcdf12d58f72d02a9938234ded537b6f367119",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "rural areas was 19 per cent. Their urban counterparts had relatively less level of unemployment at 16 per cent. ... rural female graduates as nearly 30 per cent of them are unemployed.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "dfe119a36518933ac33780d01f3d313a",
+      "content_hash": "28e1d8e0f4d8d3f29311c697e3eafbe5ecfe5296cf21811568347180bb3dcd8a",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economic Development 1950–1990",
+        "topic": "Indian Economic Development 1950–1990: focus on this supplied section: Box 2.2: What is a Plan? A plan spells out how the resources of a nation should be put to use. It should have some general goals as well as specific objectives which are to be achi. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "The sequence follows the prompt: specify the five-year objectives (I), then the twenty-year horizon (II), identify that long-term plan as the perspective plan (III), and state five-year plans provide its basis (IV).",
+      "source_evidence": {
+        "id": "ncert-keec102",
+        "locator": "p4-c0",
+        "support_hash": "9de9411a61fe27409eafae880132535cb0cf7aa3586652e9eb06e9b0a1f574fb",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "This long-term plan is called perspective plan. The five year plans were supposed to provide the basis for the perspective plan.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    }
+  ]
+}

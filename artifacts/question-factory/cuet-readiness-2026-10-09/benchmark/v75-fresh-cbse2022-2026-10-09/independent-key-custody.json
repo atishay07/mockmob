@@ -1,0 +1,648 @@
+{
+  "at": "2026-10-09T00:00:00.000Z",
+  "complete": true,
+  "positive_ids": [
+    "v75f-08df5940be",
+    "v75f-28c2aeabbb",
+    "v75f-3b869653b4",
+    "v75f-3cc2cce569",
+    "v75f-49e41d100d",
+    "v75f-62f3c01bb0",
+    "v75f-6657abc5d1",
+    "v75f-86f0f7dc6c",
+    "v75f-9c1cf0ec0b",
+    "v75f-a636639141",
+    "v75f-e4dd3dcfbd",
+    "v75f-f790bb5d76",
+    "v75f-f992f37503"
+  ],
+  "problems": [],
+  "raw_reference_denominator": 16,
+  "source_item_map": {
+    "v75f-08df5940be": "v74-cbse22-acc-q30",
+    "v75f-28c2aeabbb": "v74-cbse22-bs-q04",
+    "v75f-3b869653b4": "v74-cbse22-en-q1-ix",
+    "v75f-3cc2cce569": "v74-cbse22-bs-q01",
+    "v75f-49e41d100d": "v74-cbse22-en-q1-iv",
+    "v75f-62f3c01bb0": "v74-cbse22-econ-q05",
+    "v75f-6657abc5d1": "v74-cbse22-acc-q27",
+    "v75f-792627d8f1": "v74-cbse22-en-q1-v",
+    "v75f-825e60a00f": "v74-cbse22-bs-q03",
+    "v75f-86f0f7dc6c": "v74-cbse22-bs-q02",
+    "v75f-9c1cf0ec0b": "v74-cbse22-econ-q03",
+    "v75f-a636639141": "v74-cbse22-econ-q01",
+    "v75f-e4dd3dcfbd": "v74-cbse22-acc-q28",
+    "v75f-f790bb5d76": "v74-cbse22-acc-q29",
+    "v75f-f992f37503": "v74-cbse22-econ-q04"
+  },
+  "source_key_records": [
+    {
+      "id": "v75f-08df5940be",
+      "source_item_id": "v74-cbse22-acc-q30",
+      "subject": "accountancy",
+      "first_source_key": "B",
+      "independent_second_key": "B",
+      "official_comparison_key": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "physical_pdf_page": 11,
+          "quote_start": 2046,
+          "quote_end": 2124,
+          "quote": "From the following information find out the inflow of Cash by sale of Office 1"
+        },
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "physical_pdf_page": 12,
+          "quote_start": 0,
+          "quote_end": 333,
+          "quote": "equipment’s\n31st March, 2022 31st March, 2021\nOffice Equipment ₹ 2,00,000 ₹ 3,00,000\nAdditional Information:\nDepreciation for the year 2021-22 was Rs. 40,000\nPurchase of Office Equipment purchased during the year Rs. 30,000\nPart of Office Equipment sold at a profit of Rs. 12,000\na) ₹ 1,00,000 b) ₹ 1,02,000\nc) ₹ 90,000 d) ₹ 1,12,000"
+        }
+      ],
+      "adaptation_note": "Named the reported balances as carrying amounts and made the completeness of the listed asset movements explicit; retained all amounts and options.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-28c2aeabbb",
+      "source_item_id": "v74-cbse22-bs-q04",
+      "subject": "business_studies",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "physical_pdf_page": 2,
+          "quote_start": 5,
+          "quote_end": 292,
+          "quote": "Identify the dimensions of the business environment illustrated by the picture given above\nin which Sapna who has joined the workforce recently is working on an accounting\nsoftware.\na. Technological and social.\nb. Technological and political\nc. Political and economic\nd. Social and legal"
+        }
+      ],
+      "adaptation_note": "Replaced the visually verified woman-at-computer image with text, and named the workforce-participation theme rather than assuming a social trend from an isolated hire.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-3b869653b4",
+      "source_item_id": "v74-cbse22-en-q1-ix",
+      "subject": "english",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "physical_pdf_page": 3,
+          "quote_start": 3,
+          "quote_end": 128,
+          "quote": "How can the solutions, suggested in paragraph five, best be described? 1\nA. practical\nB. presentable\nC. popular\nD. prejudiced"
+        }
+      ],
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-3cc2cce569",
+      "source_item_id": "v74-cbse22-bs-q01",
+      "subject": "business_studies",
+      "first_source_key": "B",
+      "independent_second_key": "B",
+      "official_comparison_key": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "physical_pdf_page": 1,
+          "quote_start": 497,
+          "quote_end": 982,
+          "quote": "Rishabh joined an entertainment company Avtaar, as a creative head. As a manager\n1. looking after the creative unit of the company, one of the functions he has to perform is 1\nthe process of organizing. Which step of the process will he need to perform after\nidentifying and dividing the work that has to be done in accordance with previously\ndetermined plans?\na)Identification and division of work\nb).Departmentalisation\nc).Assignment of Duties\nd).Establishing Reporting Relationships"
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0
+    },
+    {
+      "id": "v75f-49e41d100d",
+      "source_item_id": "v74-cbse22-en-q1-iv",
+      "subject": "english",
+      "first_source_key": "B",
+      "independent_second_key": "B",
+      "official_comparison_key": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "physical_pdf_page": 2,
+          "quote_start": 871,
+          "quote_end": 1019,
+          "quote": "Select the option that conveys the opposite of ‘negligible’, from words used in 1\nparagraph two.\nA. unimpressive\nB. monumental\nC. exposing\nD. threat"
+        }
+      ],
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-62f3c01bb0",
+      "source_item_id": "v74-cbse22-econ-q05",
+      "subject": "economics",
+      "first_source_key": "D",
+      "independent_second_key": "D",
+      "official_comparison_key": "D",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "physical_pdf_page": 2,
+          "quote_start": 530,
+          "quote_end": 879,
+          "quote": "Statement 1 - Net investment is a stock concept.\nStatement 2 - Capital is a flow concept.\nIn the light of the given statements, choose the correct alternative from the following:\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true\nc) Both statements 1 and 2 are true 1\nd) Both statements 1 and 2 are false"
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0
+    },
+    {
+      "id": "v75f-6657abc5d1",
+      "source_item_id": "v74-cbse22-acc-q27",
+      "subject": "accountancy",
+      "first_source_key": "C",
+      "independent_second_key": "C",
+      "official_comparison_key": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "physical_pdf_page": 10,
+          "quote_start": 1882,
+          "quote_end": 2080,
+          "quote": "Financial statements are prepared on certain basic assumptions (pre-requisites) 1\nknown as___________.\na) Provision of Companies Act,2013 b) Accounting Standards\nc) Postulates d) Basis of Accounting"
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0
+    },
+    {
+      "id": "v75f-86f0f7dc6c",
+      "source_item_id": "v74-cbse22-bs-q02",
+      "subject": "business_studies",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "physical_pdf_page": 1,
+          "quote_start": 983,
+          "quote_end": 1212,
+          "quote": "Which characteristic of the business environment is highlighted when changes are taking\n2. place too frequently and it becomes difficult to predict the future? 1\na). Uncertainty\nb). Complexity\nc). Inter-relatedness\nd). Relativity"
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0
+    },
+    {
+      "id": "v75f-9c1cf0ec0b",
+      "source_item_id": "v74-cbse22-econ-q03",
+      "subject": "economics",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "physical_pdf_page": 1,
+          "quote_start": 1694,
+          "quote_end": 1899,
+          "quote": "is an institution that accept deposits for lending purposes.\n(Fill up the blank with correct alternative)\na) Commercial Banks b) Life Insurance Corporation 1\nc) Reserve Bank of India d) Government of India"
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0
+    },
+    {
+      "id": "v75f-a636639141",
+      "source_item_id": "v74-cbse22-econ-q01",
+      "subject": "economics",
+      "first_source_key": "C",
+      "independent_second_key": "C",
+      "official_comparison_key": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "physical_pdf_page": 1,
+          "quote_start": 724,
+          "quote_end": 1270,
+          "quote": "Statement 1: The consumption curve is an upward sloping straight line curve due to the\ndirect relationship between income and consumption and the assumption of constant\nMarginal Propensity to Consume.\nStatement 2: Aggregate Demand curve and Consumption curve are parallel to each other.\nIn the light of the given statements, choose the correct alternative from the following:\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true 1\nc) Both statements 1 and 2 are true\nd) Both statements 1 and 2 are false"
+        }
+      ],
+      "adaptation_note": "Named the autonomous-investment model and positive constant MPC range explicitly; retained the two source propositions and option ordering.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-e4dd3dcfbd",
+      "source_item_id": "v74-cbse22-acc-q28",
+      "subject": "accountancy",
+      "first_source_key": "B",
+      "independent_second_key": "B",
+      "official_comparison_key": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "physical_pdf_page": 11,
+          "quote_start": 404,
+          "quote_end": 583,
+          "quote": "From the following calculate Interest coverage ratio 1\nNet profit after tax Rs 12,00,000; 10% debentures Rs 1,00,00,000; Tax Rate 40%\na) 1.2 times b) 3 times\nc) 2 times d) 5 times"
+        }
+      ],
+      "adaptation_note": "Made the annual interest period and complete interest-bearing-debt scope explicit; retained every source amount, rate and option.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-f790bb5d76",
+      "source_item_id": "v74-cbse22-acc-q29",
+      "subject": "accountancy",
+      "first_source_key": "D",
+      "independent_second_key": "D",
+      "official_comparison_key": "D",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "physical_pdf_page": 11,
+          "quote_start": 588,
+          "quote_end": 1172,
+          "quote": "Insurance Claim received by Albert Co. Ltd. of ₹ 5,00,000 for Loss of Machinery 1\ndue to theft will be recorded in Cash Flow Statement in which of the following\nmanner?\na) Added under Operating b) Subtracted under Operating\nActivities as Extraordinary Activities as Extraordinary Item\nItem and Subtracted from and Added to Operating\nOperating Activities also. Activities also.\nc) Added under Operating d) Subtracted under Operating\nActivities as Extraordinary Activities as Extraordinary Item\nItem and Outflow under and Inflow under Investing\nInvesting Activity also. Activities also."
+        }
+      ],
+      "adaptation_note": "Specified indirect preparation, inclusion of this receipt in net profit, and the non-financial enterprise scope; retained the fixed-asset theft receipt and four classifications.",
+      "targeted_source_edits_used": 1
+    },
+    {
+      "id": "v75f-f992f37503",
+      "source_item_id": "v74-cbse22-econ-q04",
+      "subject": "economics",
+      "first_source_key": "C",
+      "independent_second_key": "C",
+      "official_comparison_key": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "custody_status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "physical_pdf_page": 2,
+          "quote_start": 43,
+          "quote_end": 486,
+          "quote": "Statement 1: Export of financial services by India will be recorded on credit side of current\naccount.\nStatement2: Foreign Direct Investments in India will be recorded on credit side of capital\naccount.\nIn the light of the given statements, choose the correct alternative: 1\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true\nc) Both statements 1 and 2 are true\nd) Both statements 1 and 2 are false"
+        }
+      ],
+      "adaptation_note": "Identified the textbook’s two-account classification explicitly; did not assert that it is the only current international reporting framework.",
+      "targeted_source_edits_used": 1
+    }
+  ],
+  "natural_defect_ids": [
+    "v75f-792627d8f1",
+    "v75f-825e60a00f"
+  ],
+  "held_reference_conflict_ids": [
+    "v74-cbse22-en-q1-i"
+  ],
+  "withheld_source_item_ids": [
+    "v74-cbse22-en-q1-i"
+  ],
+  "independent_derivations": {
+    "first": {
+      "reviewer": "root developer reviewer",
+      "sha256": "e4eceaf79c259450f5cfaff47b39d7c945e998d5842e5003cd203902dc94edba"
+    },
+    "second": {
+      "reviewer": "Claude Sonnet subagent (independent second reviewer)",
+      "sha256": "04a9fd02322bb9353dbd0034f40df55250b614f35da88fea99da413c91993ba7"
+    },
+    "official_comparison_sha256": "a226295fc4e6040dbe3ad73b8a38931799c18cc50972427b813c86f79e33abda",
+    "official_marking_scheme_opened_after_both_derivations": true,
+    "official_key_extraction": "marking-schemes-v1/OFFICIAL-KEYS-EXTRACTED-v1.json (Claude Haiku subagent; option letters mapped to packet options by printed letter and text)"
+  },
+  "all_raw_comparison": {
+    "schema": "v74-official-key-comparison-v1",
+    "at": "2026-10-08T19:08:01.832Z",
+    "custody_record_sha256": "8584967b0fee5c7f00d4908d7f3e70b37ed9c080f3494c7f64357425a0093bcc",
+    "marking_schemes": {
+      "Accountancy-MS.pdf": "a3ff016d287f2872608b135e1d8ee8d01fd32d75d22d72e44211b28975dd44e1",
+      "BusinessStudies-MS.pdf": "1fd3af225e65defe9cc0dc9a3d5dfd575c7418160f77c66236ee1f52cc46d63f",
+      "Economics-MS.pdf": "5829d940472bdc489c1bbf7aefa4a48f9eb3090b0abebb347b1f79a871c7a180",
+      "EnglishCore-MS.pdf": "5ae1f5f2795a83bb6916875a18610e4540ef083a20fb5ba7f37b817bc33de5d8"
+    },
+    "extraction": "marking-schemes-v1/OFFICIAL-KEYS-EXTRACTED-v1.json (Claude Haiku subagent; option letters mapped to packet options by printed letter and text)",
+    "comparison_rule": "Written in V75-QUALIFICATION-PLAN.md before comparison: disagreement -> held_reference_conflict (denominator, excluded from survival); reviewer-held items stay natural defects.",
+    "agreed_items": 14,
+    "official_agrees": 13,
+    "official_disagrees": [
+      "v74-cbse22-en-q1-i"
+    ],
+    "roles": {
+      "valid_positive": 13,
+      "natural_defect_multiple_defensible": 2,
+      "held_reference_conflict": 1
+    },
+    "items": [
+      {
+        "item_id": "v74-cbse22-acc-q27",
+        "subject": "accountancy",
+        "first": "C",
+        "second": "C",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "C",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-acc-q28",
+        "subject": "accountancy",
+        "first": "B",
+        "second": "B",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "B",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-acc-q29",
+        "subject": "accountancy",
+        "first": "D",
+        "second": "D",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "D",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-acc-q30",
+        "subject": "accountancy",
+        "first": "B",
+        "second": "B",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "B",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-bs-q01",
+        "subject": "business_studies",
+        "first": "B",
+        "second": "B",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "B",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-bs-q02",
+        "subject": "business_studies",
+        "first": "A",
+        "second": "A",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "A",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-bs-q03",
+        "subject": "business_studies",
+        "first": "held",
+        "second": "D",
+        "status": "held_ambiguous_or_disagreeing",
+        "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+        "official_key_mapped_to_packet": "D",
+        "official_agrees": null,
+        "qualification_role": "natural_defect_multiple_defensible",
+        "note": "Official D; both reviewers found B overlapping the functional-structure disadvantage (functional empires) in the supplied NCERT excerpt. Retained as natural multiple-defensible defect per the plan written before comparison."
+      },
+      {
+        "item_id": "v74-cbse22-bs-q04",
+        "subject": "business_studies",
+        "first": "A",
+        "second": "A",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "A",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-econ-q01",
+        "subject": "economics",
+        "first": "C",
+        "second": "C",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "C",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-econ-q03",
+        "subject": "economics",
+        "first": "A",
+        "second": "A",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "A",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-econ-q04",
+        "subject": "economics",
+        "first": "C",
+        "second": "C",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "C",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-econ-q05",
+        "subject": "economics",
+        "first": "D",
+        "second": "D",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "D",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-en-q1-i",
+        "subject": "english",
+        "first": "B",
+        "second": "B",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "C",
+        "official_agrees": false,
+        "qualification_role": "held_reference_conflict",
+        "note": "Both independent derivations chose B on the adapted 230-word passage; the official key C relies on the original passage. The adaptation appears to omit the decisive ownership statement, so the adapted item lacks support for C. Held, never forced to a key."
+      },
+      {
+        "item_id": "v74-cbse22-en-q1-iv",
+        "subject": "english",
+        "first": "B",
+        "second": "B",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "B",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      },
+      {
+        "item_id": "v74-cbse22-en-q1-v",
+        "subject": "english",
+        "first": "held",
+        "second": "abstain",
+        "status": "held_ambiguous_or_disagreeing",
+        "hold_basis": "multiple_exceptions_preserved_no_silent_replacement | second: Two defensible options (A and C) are both contradicted by paragraph 3, so the EXCEPT item has no unique key.; Whether A or C was intended is not determinable from the stimulus alone.",
+        "official_key_mapped_to_packet": "C",
+        "official_agrees": null,
+        "qualification_role": "natural_defect_multiple_defensible",
+        "note": "Official C on the original passage; on the adapted passage both reviewers found two exceptions (A and C). Retained as natural defect."
+      },
+      {
+        "item_id": "v74-cbse22-en-q1-ix",
+        "subject": "english",
+        "first": "A",
+        "second": "A",
+        "status": "two_independent_derivations_agree",
+        "hold_basis": null,
+        "official_key_mapped_to_packet": "A",
+        "official_agrees": true,
+        "qualification_role": "valid_positive",
+        "note": ""
+      }
+    ],
+    "caveats": [
+      "Marking schemes print OR alternatives for Accountancy Q27/Q29 and Economics Q5; the main-question key was used.",
+      "Business Studies keys read from a page-1 answer table with jumbled layout text (slightly less certain).",
+      "TLS certificate verification was disabled for the download (local curl CA issue); identity rests on the recorded sha256 and the official URL."
+    ]
+  },
+  "validator_results_seen": false,
+  "limitation": "Selection uses only pre-validation source and key evidence; all 16 raw cases, the held item and the 12 seeded mutations remain auditable. CBSE sample-paper derived, not authenticated CUET PYQs."
+}

@@ -1,0 +1,53 @@
+{"at":"2026-10-09T23:27:58.154Z","id":"f89008be9de2adeb6f34bbe44efd701c","state":"paused","error":"provider_http_429:Flex processing is temporarily unavailable. Please try again later or use standard processing."}
+{"at":"2026-10-09T23:28:58.058Z","id":"0df7c7e2190a3e83680e021df42c3d08","state":"quarantined","outcome":"author_rejected"}
+{"at":"2026-10-09T23:30:02.701Z","id":"047604488af129fc2cca5c60faa37f21","state":"pending","error":"provider_batch_pending"}
+{
+  "id": "cuet-v716-authoring-diag-r1",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 3,
+  "terminal": 1,
+  "approved": 0,
+  "approved_nta": 0,
+  "approved_practice_only": 0,
+  "by_outcome": {
+    "author_rejected": 1,
+    "pending": 1,
+    "paused": 1
+  },
+  "by_subject": {
+    "accountancy": {
+      "approved": 0,
+      "n": 1
+    },
+    "business_studies": {
+      "approved": 0,
+      "n": 0
+    },
+    "economics": {
+      "approved": 0,
+      "n": 0
+    },
+    "english": {
+      "approved": 0,
+      "n": 2
+    }
+  },
+  "waves": [
+    {
+      "wave": 1,
+      "eligible": 0,
+      "terminal": 1,
+      "n": 3
+    }
+  ],
+  "stop_rule": "two consecutive completed waves under 40% eligible stop the campaign (not reachable with one wave)",
+  "stopped": null,
+  "settled_usd": 0.002006,
+  "held_usd": 0.023634,
+  "receipt_complete": false,
+  "cost_per_approved_usd": null,
+  "cost_per_10000_approved_usd": null,
+  "cost_basis": "All settled campaign spend (authoring, reasoning, blind solves, independent evaluation, audits, completion retries, failures) divided by approved; holds excluded only when zero.",
+  "publication": "never"
+}
+exit=0

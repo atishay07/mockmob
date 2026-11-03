@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-10-03T19:15:36.999Z",
+  "readOnly": true,
+  "runtimeGateOpen": true,
+  "providerKeyConfigured": true,
+  "emergencyDisabled": false,
+  "tables": {
+    "ai_credit_reservations": {
+      "readable": true,
+      "errorCode": null
+    },
+    "runtime_ai_prices": {
+      "readable": true,
+      "errorCode": null
+    },
+    "ai_credit_wallets": {
+      "readable": true,
+      "errorCode": null
+    },
+    "runtime_ai_requests": {
+      "readable": true,
+      "errorCode": null
+    },
+    "ai_credit_ledger": {
+      "readable": true,
+      "errorCode": null
+    },
+    "runtime_ai_budget": {
+      "readable": true,
+      "errorCode": null
+    }
+  },
+  "fundingAvailable": true,
+  "monthlyCapUsd": 25,
+  "configuredPricesVerified": true,
+  "activationReady": true
+}

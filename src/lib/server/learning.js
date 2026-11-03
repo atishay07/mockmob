@@ -9,6 +9,8 @@ import { excludeHeldFamilies } from '@/../data/evidence_holds';
 import { validatePathway, createEpisode, advanceEpisode, publicEpisode, learningPlan, allowancePeriod, permittedStep } from '@/../data/learning_engine';
 import { tonightCompletion, studyMilestones } from '@/../data/study_progress';
 import { pathwayDigest } from '@/../data/pathway_validation';
+import { studyRecord, getStudyPreferences } from './study';
+import { guidedSequence, istDay } from '@/../data/study_engine';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
@@ -42,6 +44,15 @@ export async function validateCurrentPathway(p) {
 }
 
 export async function learningRecord(userId, { subject, minutes } = {}) {
+  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
+    try {
+      const prefs=await getStudyPreferences(userId);
+      const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
+      const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
+      if(!subject) subject=weekly?.subject;
+      if(![10,20,30].includes(minutes)) minutes=weekly?.minutes || prefs.minutes;
+    } catch { /* Existing learning record remains available if study storage is not deployed. */ }
+  }
   const db = supabaseAdmin();
   const attempts = await Database.getAttempts(userId);
   const [episodeResult, sessionResult] = await Promise.all([
@@ -57,7 +68,19 @@ export async function learningRecord(userId, { subject, minutes } = {}) {
   let available = [];
   try { available = await releasedPathways(); } catch { /* fail closed; ordinary review remains useful */ }
   const activeSession = active ? { id: active.id, href: `/test?${new URLSearchParams({ subject: active.subject, mode: active.mode, sessionId: active.id, experience: active.selection_meta?.learningPurpose === 'ordinary_practice' ? 'practice' : 'recovery' })}` } : null;
-  return { ...learningPlan({ episodes, activeSession, attempts, subject, minutes, availableConcepts: available.map(p => p.id) }), episodes,
+  const plan = learningPlan({ episodes, activeSession, attempts, subject, minutes, availableConcepts: available.map(p => p.id) });
+  let suite = {};
+  if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
+    try {
+      const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
+      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts});
+      if (study.state === 'ready') {
+        const sequence = guidedSequence(plan,study,plan.minutes);
+        suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };
+      }
+    } catch { suite = { studyState:'unavailable' }; } // Existing practice remains usable during rollback.
+  }
+  return { ...plan, ...suite, episodes,
     pathwayState: available.length ? 'available' : 'blocked_content', supportedConcepts: available.map(p => ({ id: p.id, subject: p.subject, title: p.title })),
     recordState: episodeResult.error ? 'unavailable' : 'ready', ordinaryAttemptCount: attempts.length,
     tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes) };

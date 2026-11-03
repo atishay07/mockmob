@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-07T14:47:15.382Z",
+  "previous_goal_turn": "verified wait: session 48897 live and both accepted providers confirm unfinished jobs with no new outputs",
+  "current_goal_turn": "verified wait: third consecutive authoritative check shows live collector but unchanged accepted provider jobs with no results; goal is externally blocked",
+  "controller_session": 48897,
+  "controller_confirmed_live": true,
+  "accepted_batches": [
+    {
+      "provider": "gemini",
+      "id": "batches/u5aqbxca4soyogvjki5ui6szg5teo7fi4xgl",
+      "status": "BATCH_STATE_RUNNING",
+      "requests": 1
+    },
+    {
+      "provider": "openai",
+      "id": "batch_6ac6311aa79481909d9e257151b0078c",
+      "status": "in_progress",
+      "counts": {
+        "total": 9,
+        "completed": 0,
+        "failed": 0
+      }
+    }
+  ],
+  "owner_dependency": null,
+  "owner_dependency_proof": "artifacts/question-factory/execution-2026-10-07/production/evidence-configuration-diagnosis.json",
+  "consecutive_impasse_goal_turns": 3,
+  "paid_requests_resubmitted": 0,
+  "controller_left_running": true,
+  "owner_dependency_verified_again": true,
+  "owner_handoff_screenshot": "artifacts/question-factory/execution-2026-10-07/production/signing-key-correction-handoff.jpg",
+  "ledger_micro": {
+    "settled": 12856620,
+    "held": 157718,
+    "committed": 13014338,
+    "requests": 7155
+  },
+  "production_deployment": {
+    "id": "8MzzAQBiuYNgwVuwdZw1bB2k29v1",
+    "source": "4476a5af8710093b2d7fc220d4e97aef7e1db2e8",
+    "status": "Ready"
+  },
+  "ledger_snapshot_at": "2026-10-07T14:47:15.383Z",
+  "owner_handoff_visible": true,
+  "owner_handoff_tab": "4",
+  "pending_candidates": 10,
+  "previous_controller_session": 59386,
+  "restart_proof": "artifacts/question-factory/continuation-500/restart-after-process-ended.json",
+  "production_student_retrieval_verified": true,
+  "production_student_retrieval_proof": "artifacts/question-factory/continuation-500/production-retrieval.json",
+  "unique_production_retrieved": 575,
+  "craft_filter_economics": "artifacts/question-factory/continuation-500/craft-filter-economics.json",
+  "production_student_retrieval_at": "2026-10-07T14:36:23.811Z",
+  "external_dependency": "Provider completion of one accepted Gemini independent check and nine accepted OpenAI authoring requests; unresolved historical/failure billing receipts retained"
+}

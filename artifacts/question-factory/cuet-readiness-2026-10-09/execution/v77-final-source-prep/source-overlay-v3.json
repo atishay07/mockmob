@@ -1,0 +1,1160 @@
+{
+  "schema": "v77-final-source-overlay-v3",
+  "created_at": "2026-10-09T07:05:13.624Z",
+  "parent_overlay": "source-overlay-v2b.json",
+  "parent_overlay_sha256": "2dd8dc34aa6dc22b55a5d443a61f6b40e11e64fb2ca03d5d4a4142a1fcdc13b3",
+  "contract_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "sources": {
+    "v77v2src-leac206-p3-ac_cash": {
+      "id": "v77v2src-leac206-p3-ac_cash",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-3": {
+          "text": "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-3": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 3,
+      "raw_start_offset": 298,
+      "raw_end_offset": 629
+    },
+    "v77v2src-leac206-p3-ac_shares": {
+      "id": "v77v2src-leac206-p3-ac_shares",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-3": {
+          "text": "Investments in shares are excluded from cash equivalents unless they are in substantial cash equivalents."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-3": "1210b496d2da538d0fb52f87d04ae246d3e356a33bffa3101b4b2cbd2dfbe4f2"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 3,
+      "raw_start_offset": 630,
+      "raw_end_offset": 735
+    },
+    "v77v2src-leac206-p4-ac_operating": {
+      "id": "v77v2src-leac206-p4-ac_operating",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-4": {
+          "text": "Operating activities are the activities that constitute the primary or main activities of an enterprise. For example, for a company manufacturing garments, operating activities are procurement of raw material, incurrence of manufacturing expenses, sale of garments, etc. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-4": "ba500ced6dfc2f2954c90491eb7aed7a66daf633d1e926a9845019cb6886ef2a"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 4,
+      "raw_start_offset": 109,
+      "raw_end_offset": 540
+    },
+    "v77v2src-leac206-p4-ac_operating_examples": {
+      "id": "v77v2src-leac206-p4-ac_operating_examples",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-4": {
+          "text": "Examples of cash flows from operating activities are: Cash Inflows from operating activities  cash receipts from sale of goods and the rendering of services.  cash receipts from royalties, fees, commissions and other revenues. Cash Outflows from operating activities  Cash payments to suppliers for goods and services."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-4": "bf2c56cb0a125e42825b0c4746a92fbb59d0f475cb0c4ede81e9f259167fc645"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 4,
+      "raw_start_offset": 1154,
+      "raw_end_offset": 1475
+    },
+    "v77v2src-leac206-p5-ac_investing_disposal": {
+      "id": "v77v2src-leac206-p5-ac_investing_disposal",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-5": {
+          "text": "Examples of cash flows arising from investing activities are: Cash Outflows from investing activities  Cash payments to acquire fixed assets including intangibles and capitalised research and development.  Cash payments to acquire shares, warrants or debt instruments of other enterprises other than the instruments those held for trading purposes.  Cash advances and loans made to third party (other than advances and loans made by a financial enterprise wherein it is operating activities). Cash Inflows from Investing Activities  Cash receipt from disposal of fixed assets including intangibles."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-5": "de6f3c1c987693445ba1538684d8ecb38b6f814e4cc5453a5369913af4ace643"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 5,
+      "raw_start_offset": 359,
+      "raw_end_offset": 961
+    },
+    "v77v2src-leac206-p5-ac_investing_purchase": {
+      "id": "v77v2src-leac206-p5-ac_investing_purchase",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-5": {
+          "text": "Cash payments to acquire fixed assets including intangibles and capitalised research and development."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-5": "5107b616af4fd9f4bc5005bd89373739e0197229fba237414fddca3ec452caf7"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 5,
+      "raw_start_offset": 463,
+      "raw_end_offset": 564
+    },
+    "v77v2src-leac206-p5-ac_financing": {
+      "id": "v77v2src-leac206-p5-ac_financing",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-5": {
+          "text": "financing activities relate to long-term funds or capital of an enterprise, e.g., cash proceeds from issue of equity shares, debentures, raising long-term bank loans, repayment of bank loan, etc."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-5": "043795a95d73c530f485a5392f9a449a51f7609eb384ff12dd3f1a1bb451a8df"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 5,
+      "raw_start_offset": 1382,
+      "raw_end_offset": 1577
+    },
+    "v77v2src-leac206-p2-ac_purpose": {
+      "id": "v77v2src-leac206-p2-ac_purpose",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leac206",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leac206.pages.json",
+      "extraction_sha256": "c200ac9e5e0d40c08c6a457ce9696b24f1948bf799d4a629573503a89dd60e85",
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "The primary objective of cash flow statement is to provide useful information about cash flows (inflows and outflows) of an enterprise during a particular period under various heads, i.e., operating activities, investing activities and financing activities."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "af3869211e974a8b5f0859c4cc356e30c110ec23695fc1f97b707adb035bdbd7"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 2,
+      "raw_start_offset": 642,
+      "raw_end_offset": 899
+    },
+    "v77v2src-lebs106-p2-bs_staffing": {
+      "id": "v77v2src-lebs106-p2-bs_staffing",
+      "kind": "reference",
+      "state": "superseded-by-v3-column-extraction",
+      "version": 1,
+      "title": "lebs106",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/lebs106.pages.json",
+      "extraction_sha256": "5b13599c461be12a2ff17783aa484cf712fae7f33a3ab81159b7e10107a35f7a",
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "Staffing has been described as growth of an organisation requires the managerial function of filling the continual infusion of quality and keeping filled the positions in staff. Thus, adequate staffing or the the organisation structure."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "49da114a8a49d9d4086b4f72028495a44ebd6941c530d16125ed19a3d4f3de32"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 2,
+      "raw_start_offset": 301,
+      "raw_end_offset": 537
+    },
+    "v77v2src-lebs106-p28-bs_training": {
+      "id": "v77v2src-lebs106-p28-bs_training",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "lebs106",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/lebs106.pages.json",
+      "extraction_sha256": "5b13599c461be12a2ff17783aa484cf712fae7f33a3ab81159b7e10107a35f7a",
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-28": {
+          "text": "Training is any process by which the aptitudes, skills and abilities of employees to perform specific jobs are increased."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-28": "e57b1d0c854a0fa3c4a52b3d696d5a7b08b81b213d0da69fb42a23073ba561c1"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 28,
+      "raw_start_offset": 221,
+      "raw_end_offset": 342
+    },
+    "v77v2src-lebs203-p7-bs_rights_1_3": {
+      "id": "v77v2src-lebs203-p7-bs_rights_1_3",
+      "kind": "reference",
+      "state": "superseded-by-v3-column-extraction",
+      "version": 1,
+      "title": "lebs203",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/lebs203.pages.json",
+      "extraction_sha256": "7d6bd928bb3d6d09d937097081b2acde65340c96452c987523c29f48467a282e",
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-7": {
+          "text": "These rights include the following: complete information about the product he intends to buy 1. Right to Safety: The consumer including its ingredients, date has a right to be protected of manufacture, price, quantity, against goods and services which directions for use, etc. It is are hazardous to life, health because of this reason that the and property. For example, legal framework in India requires electrical appliances which are the manufactures to provide such manufactured with substandard information on the package and products or do not conform to label of the product. the safety norms might cause serious injury. Thus, consumers 3. Right to be assured: The consumer has the freedom to are educated that they should access variety of products at use electrical appliances which competitive prices. This implies are ISI marked as this would be that the marketers should offer a an assurance of such products wide variety of products in terms meeting quality specifications. of quality, brand, prices, size, etc. 2. Right to be informed: The and allow the consumer to make consumer has a right to have a choice from amongst these."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-7": "ba13e563dfe1b3eb59cdd889b6406dc872ff6319cd8b2cb919becb155e761f9c"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 7,
+      "raw_start_offset": 1538,
+      "raw_end_offset": 2681
+    },
+    "v77v2src-lebs203-p8-bs_rights_4_6": {
+      "id": "v77v2src-lebs203-p8-bs_rights_4_6",
+      "kind": "reference",
+      "state": "superseded-by-v3-column-extraction",
+      "version": 1,
+      "title": "lebs203",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/lebs203.pages.json",
+      "extraction_sha256": "7d6bd928bb3d6d09d937097081b2acde65340c96452c987523c29f48467a282e",
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-8": {
+          "text": "4. Right to be heard: The consumer consumer responsIbIlItIes has a right to file a complaint The Consumer Protection Act and to be heard in case of empowers the consumer to fight dissatisfaction with a good or against any unscrupulous, exploitative a service. It is because of this and unfair, restrictive trade practices reason that many enlightened adopted by sellers. Consumer rights, business firms have set up by themselves, cannot be effective in their own consumer service and achieving the objective of consumer grievance cells. Many consumer protection. Consumer protection can, organisations are also working in effect, be achieved only when the towards this direction and helping consumers also understand their consumers in redressal of their responsibilities. grievances. A consumer should keep in mind 5. Right to seek redressal: The the following responsibilities while consumer has a right to get relief purchasing, using and consuming against unfair trade practice goods and services — of restrictive trade practices or (i) Be aware about various goods unscrupulous exploitation in and services available in the case the product or a service market so that an intelligent and falls short of his expectations. wise choice can be made. The Consumer Protection Act 2019 provides for redressal to the (ii) Buy only standardised goods as they provide quality assurance. consumers including replacement Thus, look for ISI mark on of the product, removal of defect electrical goods, FPO mark on in the product, compensation paid food products, Hallmark on for any loss or injury suffered by jewelry, etc. the consumer, etc. (iii) Learn about the risks associated 6. Right to Consumer Education: with products and services, follow The consumer has a right to manufacturer’s instructions and acquire knowledge and to be use the products safely. a well informed consumer throughout life. He should be (iv) Read labels carefully so as to aware about his rights and the have information about prices, net weight, manufacturing and reliefs available to him in case expiry dates, etc. of a product or service falling short of his expectations. Many (v) Assert yourself to ensure that consumer organisations and you get a fair deal. some enlightened businesses are (vi) Be honest in your dealings. taking an active part in educating Choose only from legal goods consumers in this respect."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-8": "547ca24ba73ab06665ace3af7659b2cf038b1443ccc48137964cd9f70641f3c8"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 8,
+      "raw_start_offset": 21,
+      "raw_end_offset": 2411
+    },
+    "v77v2src-leec202-p2-ec_mu": {
+      "id": "v77v2src-leec202-p2-ec_mu",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leec202",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leec202.pages.json",
+      "extraction_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "Marginal utility (MU) is the change in total utility due to consumption of one additional unit of a commodity. For example, suppose 4 bananas give us 28 units of total utility and 5 bananas give us 30 units of total utility. Clearly, consumption of the 5th banana has caused total utility to increase by 2 units (30 units minus 28 units). Therefore, marginal utility of the 5th banana is 2 units."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "9364d96d70caeadaad5c50ab20c6019259f7457e3f7824b67baf9047dc235fa5"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 2,
+      "raw_start_offset": 1103,
+      "raw_end_offset": 1499
+    },
+    "v77v2src-leec202-p3-ec_dmu": {
+      "id": "v77v2src-leec202-p3-ec_dmu",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leec202",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leec202.pages.json",
+      "extraction_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-3": {
+          "text": "marginal utility from consuming each additional unit of a commodity declines as its consumption increases, while keeping consumption of other commodities constant."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-3": "6c89df7db8b6ea01ef170988191d7acdd24d3f203fad8c278beac24908d13e3a"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 3,
+      "raw_start_offset": 660,
+      "raw_end_offset": 823
+    },
+    "v77v2src-leec202-p4-ec_ordinal": {
+      "id": "v77v2src-leec202-p4-ec_ordinal",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leec202",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leec202.pages.json",
+      "extraction_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-4": {
+          "text": "Cardinal utility analysis is simple to understand, but suffers from a major drawback in the form of quantification of utility in numbers. In real life, we never express utility in the form of numbers. At the most, we can rank various alternative combinations in terms of having more or less utility. In other words, the consumer does not measure utility in numbers, though she often ranks various consumption bundles. This forms the starting point of this topic – Ordinal Utility Analysis."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-4": "98a551dcbc6c1b196650b974c76e59f41f623017ec4f78e95a448a1a24b7fd3f"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 4,
+      "raw_start_offset": 536,
+      "raw_end_offset": 1025
+    },
+    "v77v2src-leec202-p6-ec_indifference": {
+      "id": "v77v2src-leec202-p6-ec_indifference",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leec202",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leec202.pages.json",
+      "extraction_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-6": {
+          "text": "All points on an indifference curve represent bundles which are considered indifferent by the consumer."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-6": "48a274b0ddcc53b314acfc925d9da4eb59ec010dac2a0a0253a14a135082280c"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 6,
+      "raw_start_offset": 943,
+      "raw_end_offset": 1046
+    },
+    "v77v2src-leec202-p2-ec_place_time": {
+      "id": "v77v2src-leec202-p2-ec_place_time",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "leec202",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\ncert/leec202.pages.json",
+      "extraction_sha256": "5ad15a4e4122bd3066296eb141a1a8b48edf457ba5b622c083254f0aa9ee2c08",
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "utility that one individual gets from the commodity can change with change in place and time. For example, utility from the use of a room heater will depend upon whether the individual is in Ladakh or Chennai (place) or whether it is summer or winter (time)."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "4ba586b8705bc30146656bc8386c55e0cbbf01f29bb5b0e168ee8f61fa115231"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT source for local educational validation; no unrestricted republication claim"
+      },
+      "physical_pdf_page": 2,
+      "raw_start_offset": 117,
+      "raw_end_offset": 375
+    },
+    "v77v2src-syllabus_accountancy-p3": {
+      "id": "v77v2src-syllabus_accountancy-p3",
+      "kind": "syllabus",
+      "state": "active",
+      "version": 1,
+      "title": "CUET UG 2026 accountancy syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+      "identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+      "extraction_file": "source-foundation/accountancy-syllabus-2026.txt",
+      "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4",
+      "physical_pdf_page": 3,
+      "source_pack_id": "v77-final-v2-pack-accountancy",
+      "facts": {
+        "physical-pdf-page-3": {
+          "text": "PAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating accounting information, preparing reports using pivot Table, common errors in \r\nspreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  \r\n• Graphs and Charts in electronic spreadsheet for Business Data."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-3": "08dd73a5addef89bee0d82fc6471a8b00a66c02fcbd2dfa593d28a25192d647a"
+      },
+      "permission": {
+        "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review"
+      }
+    },
+    "v77v2src-syllabus_business_studies-p2": {
+      "id": "v77v2src-syllabus_business_studies-p2",
+      "kind": "syllabus",
+      "state": "active",
+      "version": 1,
+      "title": "CUET UG 2026 business_studies syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "extraction_file": "source-foundation/business_studies-syllabus-2026.txt",
+      "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+      "physical_pdf_page": 2,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "PAGE 2\r\n \r\n \r\n \r\nUnit I:  Nature and Significance of Management \r\n• Management – concept, objectives, importance. \r\n• Nature of management; Management as Science, Art, Profession. \r\n• Levels of management – top, middle supervisory (First level). \r\n• Management functions – planning, organising, staffing, directing and controlling. \r\n• Coordination – nature and importance. \r\n \r\nUnit II:  Principles of Management \r\n• Principles of Management – meaning, nature and significance. \r\n• Fayol’s principles of management. \r\n• Taylor’s Scientific Management – Principles and Techniques. \r\n \r\nUnit III:  Business Environment \r\n• Business Environment – meaning and importance. \r\n• Dimensions of Business Environment – Economic, Social, Technological, Political and Legal. \r\n \r\nUnit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme. \r\n \r\nUnit V: Organising \r\n• Meaning and importance. \r\n• Steps in the process of organising. \r\n• Structure of organization – functional and divisional. \r\n• Formal and informal organisation. \r\n• Delegation: meaning, elements and importance. \r\n• Decentralization: meaning and importance. \r\n• Difference between delegation and decentralisation. \r\n \r\nUnit VI:  Staffing \r\n• Meaning, need and importance of staffing. \r\n• Staffing as a part of Human Resources Management. \r\n• Steps in staffing process. \r\n• Recruitment – meaning, process and sources, Merits and demerits of internal and external \r\nsources of recruitment. \r\n• Selection – meaning and process. \r\n• Training and Development – meaning, need, methods – on the job and off the job methods of \r\ntraining."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "2dbd9bdc28c6ea835499d5e0bddcd49bc3ad543cddb20709ff445c907fdbb0d0"
+      },
+      "permission": {
+        "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review"
+      }
+    },
+    "v77v2src-syllabus_business_studies-p4": {
+      "id": "v77v2src-syllabus_business_studies-p4",
+      "kind": "syllabus",
+      "state": "active",
+      "version": 1,
+      "title": "CUET UG 2026 business_studies syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+      "identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+      "extraction_file": "source-foundation/business_studies-syllabus-2026.txt",
+      "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+      "physical_pdf_page": 4,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-4": {
+          "text": "PAGE 4\r\n \r\n \r\n \r\nUnit XII:  Consumer Protection \r\n• Meaning and concept. \r\n• Meaning, Importance of consumer protection. \r\n• The Consumer protection Act,2019. [http://egazette.nic.in/WriteReadData/2019/210422.pdf] \r\n• Consumer rights. \r\n• Consumer responsibilities. \r\n• Who can file a complaint? \r\n• Ways and means of consumer protection – Consumer awareness and legal redressal with \r\nspecial reference to Consumer protection Act 2019, Remedies available. \r\n• Role of consumer organizations and NGOs."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-4": "2a08e9267e4b409a642320330e45cfa2eb4c67ed1993fc97bba146a1b6d0a8b3"
+      },
+      "permission": {
+        "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review"
+      }
+    },
+    "v77v2src-syllabus_economics-p2": {
+      "id": "v77v2src-syllabus_economics-p2",
+      "kind": "syllabus",
+      "state": "active",
+      "version": 1,
+      "title": "CUET UG 2026 economics syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+      "identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+      "extraction_file": "source-foundation/economics-syllabus-2026.txt",
+      "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865",
+      "physical_pdf_page": 2,
+      "source_pack_id": "v77-final-v2-pack-economics",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "PAGE 2\r\n \r\n1 | P a g e   \r\nCourse I Introductory Microeconomics \r\nUnit I: Introduction, Theory of Consumer Behaviour \r\n What is microeconomics? \r\n Central problems of an economy \r\n Consumer’s Equilibrium: meaning and attainment of equilibrium through \r\nUtility Approach: One and two commodity cases, Consumers Budget and \r\nOptimal choice of the consumer. \r\n Demand: market demand, determinants of demand, demand schedule, \r\ndemand curve, movement along and shifts in the demand curve, price \r\nelasticity of demand, measurement of price elasticity of demand – \r\npercentage, total expenditure, factor determining price elasticity of demand \r\nfor a good. \r\nUnit II: Production and Costs. \r\n Production function: Short run and Long run production function \r\n Shapes of TP, MP and AP curves \r\n Cost and Revenue: Concepts of costs; short -run cost curve s (fixed and \r\nvariable costs; total, average and marginal costs); concepts of revenue – total, \r\naverage and marginal revenue and their relationship. Producer’s equilibrium \r\n– with the help of MC and MR. \r\n \r\nUnit III: The Theory of the firms under perfect competition \r\n Features of perfect competition  \r\n Profit maximization. \r\n Price determination under perfect competition – equilibrium price, effects of \r\nshifts in demand and supply. \r\n Supply: market supply, determinants of supply, supply schedule, supply \r\ncurve movement along and shifts in supply curve, price elasticity of supply, \r\nmeasurement of price elasticity of supply. \r\n \r\nUnit IV: Market Equilibrium and Simple Applications  \r\n Market equilibrium, excess demand, excess supply, \r\n Applications:=- Price ceiling and Price flooring. \r\n \r\n \r\nCourse II Introductory Macroeconomics \r\n \r\nUnit I: Introduction and National Income Accounting"
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "ce9d06ffad09450f5cd79f1c48224ee47e79765b4d7b8ea6e54f6f9b3262430f"
+      },
+      "permission": {
+        "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review"
+      }
+    },
+    "v77v2src-syllabus_english-p2": {
+      "id": "v77v2src-syllabus_english-p2",
+      "kind": "syllabus",
+      "state": "active",
+      "version": 1,
+      "title": "CUET UG 2026 english syllabus",
+      "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+      "identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+      "extraction_file": "source-foundation/english-syllabus-2026.txt",
+      "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5",
+      "physical_pdf_page": 2,
+      "source_pack_id": "v77-final-v2-pack-english",
+      "facts": {
+        "physical-pdf-page-2": {
+          "text": "PAGE 2\r\n \r\n \r\n \r\n \r\nQuestions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms \r\nSYLLABUS FOR ENGLISH - 101"
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2": "47498dcf0ee1a2c256b5a1e43c48c59c428c970f30b14b9811593491ff2a8e77"
+      },
+      "permission": {
+        "basis": "Official CUET 2026 syllabus copy used only for local benchmark entitlement review"
+      }
+    },
+    "v77v2src-english-library": {
+      "id": "v77v2src-english-library",
+      "kind": "authored-stimulus",
+      "state": "active",
+      "version": 1,
+      "title": "Original V77 narrative stimulus: library",
+      "url": null,
+      "identity_sha256": "6783a6ec61ce3c4769f1249585fca8487221031d118f6f0dad81810fc9f1dec1",
+      "source_pack_id": "v77-final-v2-pack-english",
+      "facts": {
+        "library": {
+          "text": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely."
+        }
+      },
+      "supports": {
+        "library": "7d5a2caad1c15fde2c675f43162f23c46dd40b44727cd96208ce19a637ac743e"
+      },
+      "permission": {
+        "basis": "Original locally authored source text; no third-party or PYQ passage claim"
+      }
+    },
+    "v77v2src-english-ferry": {
+      "id": "v77v2src-english-ferry",
+      "kind": "authored-stimulus",
+      "state": "active",
+      "version": 1,
+      "title": "Original V77 narrative stimulus: ferry",
+      "url": null,
+      "identity_sha256": "6783a6ec61ce3c4769f1249585fca8487221031d118f6f0dad81810fc9f1dec1",
+      "source_pack_id": "v77-final-v2-pack-english",
+      "facts": {
+        "ferry": {
+          "text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise."
+        }
+      },
+      "supports": {
+        "ferry": "526a06bb032141234ff9bc6f585d4cb92af7013e61aaec218e36eb9750f0ebec"
+      },
+      "permission": {
+        "basis": "Original locally authored source text; no third-party or PYQ passage claim"
+      }
+    },
+    "v77v2src-english-orchard": {
+      "id": "v77v2src-english-orchard",
+      "kind": "authored-stimulus",
+      "state": "active",
+      "version": 1,
+      "title": "Original V77 narrative stimulus: orchard",
+      "url": null,
+      "identity_sha256": "6783a6ec61ce3c4769f1249585fca8487221031d118f6f0dad81810fc9f1dec1",
+      "source_pack_id": "v77-final-v2-pack-english",
+      "facts": {
+        "orchard": {
+          "text": "Leela’s first harvest came in uneven batches. Rather than send every basket to market at once, she asked buyers to choose a collection window and wrote each promise beside the buyer’s name. The first week, one buyer arrived early. Leela did not scold him; she showed him the list and offered the next available slot. By the end of the month, buyers had begun checking the list before setting out. Leela kept the system because it made small delays visible while there was still time to adjust."
+        }
+      },
+      "supports": {
+        "orchard": "26059559cc6aaa423c7e119364f4cece99affd9437193711714903be8fbc7e2b"
+      },
+      "permission": {
+        "basis": "Original locally authored source text; no third-party or PYQ passage claim"
+      }
+    },
+    "v77v2src-english-workshop": {
+      "id": "v77v2src-english-workshop",
+      "kind": "authored-stimulus",
+      "state": "active",
+      "version": 1,
+      "title": "Original V77 narrative stimulus: workshop",
+      "url": null,
+      "identity_sha256": "6783a6ec61ce3c4769f1249585fca8487221031d118f6f0dad81810fc9f1dec1",
+      "source_pack_id": "v77-final-v2-pack-english",
+      "facts": {
+        "workshop": {
+          "text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair."
+        }
+      },
+      "supports": {
+        "workshop": "d48cc9d9f865194e19363785100b85ac2eb294dee6f6e8ae5d4d20fb7cfe9b7f"
+      },
+      "permission": {
+        "basis": "Original locally authored source text; no third-party or PYQ passage claim"
+      }
+    },
+    "v77v3src-lebs106-p2-column-right-staffing": {
+      "id": "v77v3src-lebs106-p2-column-right-staffing",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "NCERT lebs106 physical page 2 right column",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_file": "ncert/lebs106.columns-v3b.json",
+      "extraction_sha256": "b10846bc64aab08e2afaecd9912e089739e8e5a8d9f4b31532d3443ca2e7b96a",
+      "physical_pdf_page": 2,
+      "column": "right",
+      "crop_bbox_points": [
+        255,
+        45,
+        490,
+        681
+      ],
+      "raw_start_offset": 131,
+      "raw_end_offset": 492,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-2-column-right": {
+          "text": "Staffing has been described as\nthe managerial function of filling\nand keeping filled the positions in\nthe organisation structure. This is\nachieved by, first of all, identifying\nrequirement of work force, followed\nby recruitment, selection, placement,\npromotion, appraisal and development\nof personnel, to fill the roles designed\ninto the organisation structure."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-2-column-right": "6bd6a0319c28f28132e305837be3a88cf2a3e394a595f7d5fc94a0909b1b3471"
+      },
+      "permission": {
+        "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim"
+      }
+    },
+    "v77v3src-lebs203-p7-column-left-rights_safety": {
+      "id": "v77v3src-lebs203-p7-column-left-rights_safety",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "NCERT lebs203 physical page 7 left column",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "ncert/lebs203.columns-v3b.json",
+      "extraction_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "physical_pdf_page": 7,
+      "column": "left",
+      "crop_bbox_points": [
+        35,
+        45,
+        262,
+        681
+      ],
+      "raw_start_offset": 787,
+      "raw_end_offset": 1282,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-7-column-left": {
+          "text": "These rights include the following:\n1. Right to Safety: The consumer\nhas a right to be protected\nagainst goods and services which\nare hazardous to life, health\nand property. For example,\nelectrical appliances which are\nmanufactured with substandard\nproducts or do not conform to\nthe safety norms might cause\nserious injury. Thus, consumers\nare educated that they should\nuse electrical appliances which\nare ISI marked as this would be\nan assurance of such products\nmeeting quality specifications."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-7-column-left": "e5dfedbb63d951d3e210f72339fdac984e89fb7a94943121b158108dadbb6f51"
+      },
+      "permission": {
+        "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim"
+      }
+    },
+    "v77v3src-lebs203-p7-column-right-rights_information_choice": {
+      "id": "v77v3src-lebs203-p7-column-right-rights_information_choice",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "NCERT lebs203 physical page 7 right column",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "ncert/lebs203.columns-v3b.json",
+      "extraction_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "physical_pdf_page": 7,
+      "column": "right",
+      "crop_bbox_points": [
+        280,
+        45,
+        490,
+        681
+      ],
+      "raw_start_offset": 708,
+      "raw_end_offset": 1297,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-7-column-right": {
+          "text": "complete information about\nthe product he intends to buy\nincluding its ingredients, date\nof manufacture, price, quantity,\ndirections for use, etc. It is\nbecause of this reason that the\nlegal framework in India requires\nthe manufactures to provide such\ninformation on the package and\nlabel of the product.\n3. Right to be assured: The\nconsumer has the freedom to\naccess variety of products at\ncompetitive prices. This implies\nthat the marketers should offer a\nwide variety of products in terms\nof quality, brand, prices, size, etc.\nand allow the consumer to make\na choice from amongst these."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-7-column-right": "0eecf756c62b6889d4b3e06bcb6a024dfb06146b123459f6c34bb95a3907f937"
+      },
+      "permission": {
+        "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim"
+      }
+    },
+    "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education": {
+      "id": "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "NCERT lebs203 physical page 8 left column",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "ncert/lebs203.columns-v3b.json",
+      "extraction_sha256": "06866c922ecf585b05422024da38e2767e4e8a5bb7767cfdf85e7b08519d7009",
+      "physical_pdf_page": 8,
+      "column": "left",
+      "crop_bbox_points": [
+        35,
+        45,
+        262,
+        681
+      ],
+      "raw_start_offset": 21,
+      "raw_end_offset": 1238,
+      "source_pack_id": "v77-final-v2-pack-business_studies",
+      "facts": {
+        "physical-pdf-page-8-column-left": {
+          "text": "4. Right to be heard: The consumer\nhas a right to file a complaint\nand to be heard in case of\ndissatisfaction with a good or\na service. It is because of this\nreason that many enlightened\nbusiness firms have set up\ntheir own consumer service and\ngrievance cells. Many consumer\norganisations are also working\ntowards this direction and helping\nconsumers in redressal of their\ngrievances.\n5. Right to seek redressal: The\nconsumer has a right to get relief\nagainst unfair trade practice\nof restrictive trade practices or\nunscrupulous exploitation in\ncase the product or a service\nfalls short of his expectations.\nThe Consumer Protection Act\n2019 provides for redressal to the\nconsumers including replacement\nof the product, removal of defect\nin the product, compensation paid\nfor any loss or injury suffered by\nthe consumer, etc.\n6. Right to Consumer Education:\nThe consumer has a right to\nacquire knowledge and to be\na well informed consumer\nthroughout life. He should be\naware about his rights and the\nreliefs available to him in case\nof a product or service falling\nshort of his expectations. Many\nconsumer organisations and\nsome enlightened businesses are\ntaking an active part in educating\nconsumers in this respect."
+        }
+      },
+      "supports": {
+        "physical-pdf-page-8-column-left": "4e16b91c5b11c441e4f93146a50918330c08855f8b2e22bb445b7a6f2995a1fd"
+      },
+      "permission": {
+        "basis": "Attributed NCERT source, exact column-specific extraction from the locally verified PDF; no unrestricted republication claim"
+      }
+    }
+  },
+  "families": {
+    "v77-final-v2-family-cash-equivalent-eligibility": {
+      "id": "v77-final-v2-family-cash-equivalent-eligibility",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-ad344a8b5f2d",
+        "v77f-59b58a25bbb3"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-customer-receipts-machine-sale": {
+      "id": "v77-final-v2-family-customer-receipts-machine-sale",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-2105354e5de1",
+        "v77f-84e9ba57542c"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-v77f-662880a2c5fb": {
+      "id": "v77-final-v2-family-v77f-662880a2c5fb",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-662880a2c5fb"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-v77f-073bdc31e03c": {
+      "id": "v77-final-v2-family-v77f-073bdc31e03c",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-073bdc31e03c"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-workforce-staffing-sequence": {
+      "id": "v77-final-v2-family-workforce-staffing-sequence",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-3546cbf8ea19",
+        "v77f-1db3dc389725"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-v77f-c6d21440345d": {
+      "id": "v77-final-v2-family-v77f-c6d21440345d",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-c6d21440345d"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-consumer-rights": {
+      "id": "v77-final-v2-family-consumer-rights",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-a20de9004938",
+        "v77f-9a31e9a4c29b",
+        "v77f-e9ef75026c19"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-marginal-utility-28-30": {
+      "id": "v77-final-v2-family-marginal-utility-28-30",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-ea8f75b17d74",
+        "v77f-63d002be451c"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-ordinal-ranking": {
+      "id": "v77-final-v2-family-ordinal-ranking",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-b123137834cc",
+        "v77f-fcf957a734d5"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-v77f-466fab2284fd": {
+      "id": "v77-final-v2-family-v77f-466fab2284fd",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-466fab2284fd"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-v77f-2d806114710e": {
+      "id": "v77-final-v2-family-v77f-2d806114710e",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-2d806114710e"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-library-passage": {
+      "id": "v77-final-v2-family-library-passage",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-4c09b80e91ce",
+        "v77f-a99cc144f9e5"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-ferry-passage": {
+      "id": "v77-final-v2-family-ferry-passage",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-1ed13162f85d",
+        "v77f-2ca94e8b4e72"
+      ],
+      "correlated": true
+    },
+    "v77-final-v2-family-v77f-dfcca21b749e": {
+      "id": "v77-final-v2-family-v77f-dfcca21b749e",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-dfcca21b749e"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-v77f-e77493e30567": {
+      "id": "v77-final-v2-family-v77f-e77493e30567",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-e77493e30567"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-v77f-3e505228c987": {
+      "id": "v77-final-v2-family-v77f-3e505228c987",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-3e505228c987"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-v77f-98a231fa15fa": {
+      "id": "v77-final-v2-family-v77f-98a231fa15fa",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-98a231fa15fa"
+      ],
+      "correlated": false
+    },
+    "v77-final-v2-family-workshop-passage": {
+      "id": "v77-final-v2-family-workshop-passage",
+      "kind": "original-practice-family",
+      "version": 1,
+      "case_ids": [
+        "v77f-c519f01371f2",
+        "v77f-56f266269b74"
+      ],
+      "correlated": true
+    }
+  },
+  "packs": {
+    "v77-final-v2-pack-accountancy": {
+      "id": "v77-final-v2-pack-accountancy",
+      "version": 1,
+      "state": "active",
+      "subject": "accountancy",
+      "source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-leac206-p3-ac_shares",
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_investing_purchase",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-leac206-p2-ac_purpose",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "syllabus_source_ids": [
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+        "identity_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "aglasem_edutech_private_limited",
+        "identity": {
+          "subject_code": "301",
+          "language": "Assamese",
+          "paper_languages": [
+            "English",
+            "Assamese"
+          ],
+          "booklet": "A",
+          "key_date_token": "17.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://www.ndl.gov.in/cd_document/cuet_ug/cuetug/acc_qp_2024",
+          "quote": "Accountancy Question Paper for CUET (UG) 2024 (17th May 2024)",
+          "identity_sha256": "b4bf56593372c67ea8611ec5e84c6a0e42be35fb016b564b69c8bc89fecb03d8"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "v77-final-v2-pack-business_studies": {
+      "id": "v77-final-v2-pack-business_studies",
+      "version": 1,
+      "state": "active",
+      "subject": "business_studies",
+      "source_ids": [
+        "v77v2src-lebs106-p2-bs_staffing",
+        "v77v2src-lebs106-p28-bs_training",
+        "v77v2src-lebs203-p7-bs_rights_1_3",
+        "v77v2src-lebs203-p8-bs_rights_4_6",
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "syllabus_source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+        "identity_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "305",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "17.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/bus_qp_2024",
+          "quote": "Business Studies Question Paper for CUET (UG) 2024 (17th May 2024) Question Paper",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "v77-final-v2-pack-economics": {
+      "id": "v77-final-v2-pack-economics",
+      "version": 1,
+      "state": "active",
+      "subject": "economics",
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-leec202-p3-ec_dmu",
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-leec202-p6-ec_indifference",
+        "v77v2src-leec202-p2-ec_place_time",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "syllabus_source_ids": [
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-economics-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+        "identity_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "309",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "16.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eco_qp_2024",
+          "quote": "Economics/Business Economics Question Paper for CUET (UG) 2024 (16th May 2024)",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-economics-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    },
+    "v77-final-v2-pack-english": {
+      "id": "v77-final-v2-pack-english",
+      "version": 1,
+      "state": "active",
+      "subject": "english",
+      "source_ids": [
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-english-library",
+        "v77v2src-english-ferry",
+        "v77v2src-english-orchard",
+        "v77v2src-english-workshop"
+      ],
+      "syllabus_source_ids": [
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-english-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://infinitylearn.com/surge/wp-content/uploads/securepdfs/2025/05/CUET-English-Question-Paper-2024.pdf",
+        "identity_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "InfinityLearn / Rankguru Technology Solutions Private Limited",
+        "identity": {
+          "subject_code": "101",
+          "language": "English",
+          "booklet": "A",
+          "key_date_token": "15.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eng_qp_15may2024",
+          "quote": "English Language Question Paper for CUET (UG) 2024 (15th May 2024)",
+          "identity_sha256": "d63edc05a2f4c688461bf399cea0b4a7273924b500ca7741e3dc578829406159"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-english-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      }
+    }
+  }
+}

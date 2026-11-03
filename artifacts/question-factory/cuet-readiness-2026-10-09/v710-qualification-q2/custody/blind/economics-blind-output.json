@@ -1,0 +1,247 @@
+{
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "At p=60: qD=300-120=180, qS=60+240=300; not equal"
+    },
+    "B": {
+     "status": "false",
+     "why": "At p=30: qD=240, qS=180; not equal"
+    },
+    "C": {
+     "status": "true",
+     "why": "p=40: qD=220=qS=220"
+    },
+    "D": {
+     "status": "false",
+     "why": "At p=50: qD=200, qS=260; not equal"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "300-2p=60+4p -> 240=6p -> p*=40; q*=300-80=220; check qS=60+160=220",
+   "syllabus_fit": "Fair, Class XII Ch. Market Equilibrium (linear demand/supply).",
+   "quality_note": "Clean; distractors are plausible wrong-price pairs."
+  },
+  {
+   "local_id": "eco-b2",
+   "solved_key": "D",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "At 40 units MC=50>P=25, profit falls; not P=MC"
+    },
+    "B": {
+     "status": "false",
+     "why": "At 30 units MC=35>25; output beyond the P=MC point reduces profit"
+    },
+    "C": {
+     "status": "false",
+     "why": "At 10 units MC=15<P=25, profit still rising"
+    },
+    "D": {
+     "status": "true",
+     "why": "At 20 units P=MC=25 with MC rising"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "P=MR=25; MC=25 at 20 units; MC rising so second-order condition holds",
+   "syllabus_fit": "Fair, Theory of Firms (P=MC rule).",
+   "quality_note": "Clear; table of MC makes the answer direct."
+  },
+  {
+   "local_id": "eco-b3",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "At p=60: qD=140, qS=180, excess supply 40"
+    },
+    "B": {
+     "status": "false",
+     "why": "qS>qD so it is not excess demand"
+    },
+    "C": {
+     "status": "false",
+     "why": "Gap is 180-140=40, not 60"
+    },
+    "D": {
+     "status": "false",
+     "why": "qD 140 != qS 180; equilibrium price is 40"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "qD=200-60=140; qS=120+60=180; qS-qD=40 -> excess supply 40 kg (p>=10 satisfied)",
+   "syllabus_fit": "Fair, Market Equilibrium (excess supply at price above p*).",
+   "quality_note": "Clear; distractors address sign and magnitude errors."
+  },
+  {
+   "local_id": "eco-b4",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "undecidable",
+     "why": "Equals multiplier 2 (MPC 0.5); MPC not given"
+    },
+    "B": {
+     "status": "undecidable",
+     "why": "Equals multiplier 2.5 (MPC 0.6); MPC not given"
+    },
+    "C": {
+     "status": "undecidable",
+     "why": "Equals multiplier 3 (MPC 2/3); MPC not given"
+    },
+    "D": {
+     "status": "undecidable",
+     "why": "Equals multiplier 5 (MPC 0.8); MPC not given"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "The marginal propensity to consume (or multiplier value) is not given; the cited definition only says multiplier = total output change / initial autonomous change, so the change in output cannot be computed.",
+   "numeric_check": null,
+   "syllabus_fit": "Concept fits Income Determination, but the item as printed is unsolvable.",
+   "quality_note": "Stem omits MPC/MPS; every option is equally possible. Needs MPC supplied."
+  },
+  {
+   "local_id": "eco-b5",
+   "solved_key": "B",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "Repo rate is for central bank lending money against securities with repurchase, not withdrawing money"
+    },
+    "B": {
+     "status": "true",
+     "why": "Excerpt: sale via agreement to repurchase; rate at which money is withdrawn is reverse repo rate"
+    },
+    "C": {
+     "status": "false",
+     "why": "Bank rate is the rate on RBI loans to commercial banks"
+    },
+    "D": {
+     "status": "false",
+     "why": "Not a term in the source; outright sale has no repurchase agreement"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": null,
+   "syllabus_fit": "Fair, Money & Banking (monetary policy instruments).",
+   "quality_note": "Stem closely paraphrases the textbook; distractors are standard."
+  },
+  {
+   "local_id": "eco-b6",
+   "solved_key": "C",
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "NX=120-150 is negative, so deficit not surplus"
+    },
+    "B": {
+     "status": "false",
+     "why": "270 is the sum, not difference; and sign wrong"
+    },
+    "C": {
+     "status": "true",
+     "why": "NX=-30 -> trade deficit of Rs 30 crore"
+    },
+    "D": {
+     "status": "false",
+     "why": "270 is the sum of exports and imports"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "NX = 120 - 150 = -30 crore -> trade deficit of Rs 30 crore",
+   "syllabus_fit": "Fair, Balance of Payments (trade balance).",
+   "quality_note": "Simple but valid; distractors target sign and sum errors."
+  },
+  {
+   "local_id": "eco-b7",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "Loans 800 (liability) + PSU share sale 300 (reduces assets) = 1,100"
+    },
+    "B": {
+     "status": "false",
+     "why": "Omits PSU share sale which is a capital receipt"
+    },
+    "C": {
+     "status": "false",
+     "why": "Includes the 600 which creates no liability and reduces no assets, so it is not capital receipt"
+    },
+    "D": {
+     "status": "false",
+     "why": "Omits borrowings of 800"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Capital receipts = 800 + 300 = 1,100; the 600 is a revenue receipt by the stated definition",
+   "syllabus_fit": "Fair, Government Budget (capital receipts).",
+   "quality_note": "Stem embeds the definition via conditions; clear."
+  },
+  {
+   "local_id": "eco-b8",
+   "solved_key": "A",
+   "option_status": {
+    "A": {
+     "status": "true",
+     "why": "400/100=4"
+    },
+    "B": {
+     "status": "false",
+     "why": "0.25 is the inverse ratio"
+    },
+    "C": {
+     "status": "false",
+     "why": "5 would be 500/100 (or 400+100 over 100)"
+    },
+    "D": {
+     "status": "false",
+     "why": "300 is the difference of changes, not a ratio"
+    }
+   },
+   "single_defensible_answer": true,
+   "missing_decisive_condition": null,
+   "numeric_check": "Multiplier = total increment in output / initial increment in autonomous expenditure = 400/100 = 4",
+   "syllabus_fit": "Fair, Income Determination (definition of multiplier).",
+   "quality_note": "Straight definition application; distractors plausible."
+  },
+  {
+   "local_id": "eco-b9",
+   "solved_key": null,
+   "option_status": {
+    "A": {
+     "status": "false",
+     "why": "GST rates are not set by the central bank"
+    },
+    "B": {
+     "status": "false",
+     "why": "Recording BoP errors and omissions is not a central bank function in source"
+    },
+    "C": {
+     "status": "true",
+     "why": "Excerpt: it issues the currency of the country"
+    },
+    "D": {
+     "status": "true",
+     "why": "Excerpt: it acts as a banker to the government"
+    }
+   },
+   "single_defensible_answer": false,
+   "missing_decisive_condition": "Two options (C and D) are both stated central bank functions in the cited source.",
+   "numeric_check": null,
+   "syllabus_fit": "Fair topic (functions of central bank), but item is flawed.",
+   "quality_note": "Single-answer stem with two correct options; C and D both defensible. Needs rewording or one option replaced."
+  }
+ ]
+}

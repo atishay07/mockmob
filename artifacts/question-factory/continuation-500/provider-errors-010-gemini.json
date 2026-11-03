@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-07T12:40:32.817Z",
+  "provider": "gemini",
+  "id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+  "state": "BATCH_STATE_SUCCEEDED",
+  "total": 64,
+  "failures": [
+    {
+      "error": {
+        "code": 14,
+        "message": "The service is currently unavailable."
+      },
+      "metadata": {
+        "key": "90445a9080845717dbf4666781bc9b5a14b03396b430eab043c4478e9f5ea3f6"
+      }
+    },
+    {
+      "error": {
+        "code": 14,
+        "message": "The service is currently unavailable."
+      },
+      "metadata": {
+        "key": "c37c28db327fb552c3ac56038b54b296ed59a394ac9030a4cfa48798c88311d1"
+      }
+    },
+    {
+      "error": {
+        "code": 14,
+        "message": "The service is currently unavailable."
+      },
+      "metadata": {
+        "key": "ce6c58fd44709995fc3935d68256760699a975ff476c60507d50aa99e74ec884"
+      }
+    },
+    {
+      "error": {
+        "code": 14,
+        "message": "The service is currently unavailable."
+      },
+      "metadata": {
+        "key": "ea6a8afc97443dc2d3fe23368c9e66d1705b57697e7e6a8118ef3a9daaacfab2"
+      }
+    }
+  ]
+}

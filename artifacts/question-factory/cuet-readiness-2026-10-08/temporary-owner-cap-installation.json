@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-07T20:48:13.528Z",
+  "process_identity_verified": true,
+  "caps": [
+    {
+      "owner_pid": 6916,
+      "cap_micro": 9000000
+    },
+    {
+      "owner_pid": 37712,
+      "cap_micro": 6000000
+    }
+  ],
+  "reason": "Phase attribution/reporting bugs in already loaded workers; reserve transaction trigger safely bounds new calls without cancelling accepted calls.",
+  "lifetime_cap_micro": 50000000
+}

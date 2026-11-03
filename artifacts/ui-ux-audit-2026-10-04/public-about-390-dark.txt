@@ -1,0 +1,69 @@
+Browser tab: 1, Title: "About MockMob — The CUET-First Mock Test Platform", URL: "http://localhost:3010/about".
+1 AXWebArea About MockMob — The CUET-First Mock Test Platform, URL: localhost:3010/about
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 heading Built for one exam. Obsessively., Value: 1
+				8 text Built for one exam. Obsessively.
+			9 text CUET preparation brings subject practice, review, and university requirements into one demanding season. We are a small independent team, founded by Atishay Jain, building the platform we wished existed.
+		10 container
+			11 heading What we hold to., Value: 2
+				12 text What we hold to.
+			13 definition list
+				14 container One exam, all the way down
+					15 text One exam, all the way down
+				16 text MockMob focuses on CUET UG, from practice and review to sourced DU eligibility and historical cutoff tools. CUET is the product’s only exam focus.
+				17 container Receipts over reviews
+					18 text Receipts over reviews
+				19 text We show product counters when they are available and describe the checks behind our content. We do not use testimonials or score outcomes as proof.
+				20 container The question bank is engineered, not scraped
+					21 text The question bank is engineered, not scraped
+				22 text Our content pipeline uses schema checks, answer-key checks, duplicate detection, and difficulty tagging. These checks help catch defects; they are not proof that every question is correct.
+				23 container A score should tell you what to do next
+					24 text A score should tell you what to do next
+				25 text A mock should help you choose what to do next. Radar organizes practice history by subject and chapter, while Admission Compass checks programme eligibility and sourced historical cutoffs separately from practice marks.
+		26 container
+			27 heading Independent, and clear about it., Value: 2
+				28 text Independent, and clear about it.
+			29 text MockMob is not affiliated with NTA, Delhi University, or any exam body. We are an independent practice platform. Payments are processed by Razorpay, and our refund policy is written in plain language on the
+			30 link Description: refunds page, Value: localhost:3010/refunds
+			31 text .
+			32 link Description: Start a free mock, Value: localhost:3010/signup
+			33 link Description: Talk to us, Value: localhost:3010/contact
+		34 link Description: MockMob ., Value: localhost:3010/
+		35 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		36 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		37 heading PRACTICE, Value: 3
+			38 text PRACTICE
+		39 content list
+			40 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			41 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			42 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			43 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			44 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			45 link Description: Features, Value: localhost:3010/features
+			46 link Description: Pricing, Value: localhost:3010/pricing
+		47 heading SUBJECTS, Value: 3
+			48 text SUBJECTS
+		49 content list
+			50 link Description: English, Value: localhost:3010/cuet/english
+			51 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			52 link Description: Economics, Value: localhost:3010/cuet/economics
+			53 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			54 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		55 heading COMPANY, Value: 3
+			56 text COMPANY
+		57 content list
+			58 link Description: About, Value: localhost:3010/about
+			59 link Description: Contact, Value: localhost:3010/contact
+			60 link Description: Privacy, Value: localhost:3010/privacy
+			61 link Description: Terms, Value: localhost:3010/terms
+			62 link Description: Refunds, Value: localhost:3010/refunds
+		63 container
+			64 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		65 text One exam. Done properly.
+		66 link Description: Start free, Value: localhost:3010/signup
+
+The focused UI element is 1 AXWebArea About MockMob — The CUET-First Mock Test Platform, URL: localhost:3010/about

@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-08T13:36:37.333Z",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.4",
+    "prompt_hash": "7683aa3e5de157e85178f2086ac47c8c6dc5ec7f01ffce3f76d6c575b018c44b",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "exclusion_manifest_sha256": "fe929d9d206b12334c8b126e07bf4df43645de968e361a0c46b0ae7674b07e5d",
+  "source_inventory_sha256": "199ae5d32faba60872d5b5ae1fdc814b14a43da51d1db0d715a389d21f186164",
+  "prior_diagnostic": "v74-prerequisite-diagnostic-2026-10-08",
+  "prompt_changes_after_acquisition_require_new_version_and_new_unseen_cases": true,
+  "planned_source_family": "CBSE Class XII 2022-23 SQP question-only documents; marking schemes remain unread until independently frozen source answers",
+  "provenance": "Source-keyed practice evidence; not authenticated CUET PYQs",
+  "paid_calls": 0,
+  "release": false
+}

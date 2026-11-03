@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-07T23:07:07.609Z",
+  "denominator": 96,
+  "valid_roots": 64,
+  "controlled_defects": 32,
+  "changed_candidates": [
+    "fresh-v5r-economics-money-banking-3",
+    "fresh-v5r-economics-money-banking-3--overlapping_options"
+  ],
+  "parent_audit_problem_retained": true,
+  "paid_calls": 0,
+  "parent_unchanged_sha256": "70bd1f1275e6b7287fd02f2f2c605db40835464fc3b528c9f50e1efe52b180ea",
+  "payload_hash": "cbfe07f8510e80f31f5d09ffa08a0b7b224c2eb61d717eb927e8ba8911e465b3"
+}

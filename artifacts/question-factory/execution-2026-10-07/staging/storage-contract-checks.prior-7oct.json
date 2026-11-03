@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-06T20:59:24.727Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "software_fixtures": true,
+  "academic_publications": 0,
+  "production_writes": 0,
+  "checks": [
+    "single publication idempotent",
+    "single passage child rejected",
+    "failed group rolls back passage and children",
+    "complete group publishes atomically and idempotently",
+    "dispute immediately invalidates availability"
+  ],
+  "passed": true,
+  "fixture_rows_remaining": 0
+}

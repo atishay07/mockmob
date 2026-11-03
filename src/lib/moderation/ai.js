@@ -3,9 +3,7 @@
 // The AbortController aborts the in-flight HTTP request; the error
 // propagates to the worker, which then writes a retry record.
 
-import Anthropic from '@anthropic-ai/sdk'
-
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+import { generateAIResponse, LUNA_MODEL } from '@/services/ai/providers'
 
 const SYSTEM_PROMPT = `You are a strict question quality evaluator for a competitive exam preparation platform (MockMob), specifically focused on the CUET (Common University Entrance Test) for 12th-grade level students.
 
@@ -96,29 +94,28 @@ export async function callModerationLLM(question, { timeoutMs = 28_000 } = {}) {
   }
 
   const userMessage = buildUserMessage(question)
-
-  const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(new Error('LLM call timed out')), timeoutMs)
-
   const startMs = Date.now()
-  try {
-    const response = await client.messages.create(
-      {
-        model:      'claude-sonnet-4-6',
-        max_tokens: 700,
-        system:     SYSTEM_PROMPT,
-        messages:   [{ role: 'user', content: userMessage }],
-      },
-      { signal: controller.signal }
-    )
+  // GPT-6 Luna through the budget-guarded router. Moderation verifies the key by solving the
+  // question, so it is the one task here that runs at medium reasoning effort.
+  const requestKey = `moderation:${question.id || 'q'}:${startMs}`
+  const ai = await withTimeout(generateAIResponse({
+    requestKey,
+    tier: 'smart',
+    provider: 'openai',
+    model: LUNA_MODEL,
+    reasoningEffort: 'medium',
+    systemPrompt: SYSTEM_PROMPT,
+    userMessage,
+  }), timeoutMs)
 
-    const raw = response.content[0]?.text ?? ''
-    const parsed = parseJsonSafe(raw)
+  if (!ai.parsed && !ai.data) throw new Error(ai.error || 'moderation_llm_failed')
+  return { parsed: ai.data, raw: ai.raw, processingMs: Date.now() - startMs, modelUsed: ai.usage?.model || LUNA_MODEL }
+}
 
-    return { parsed, raw, processingMs: Date.now() - startMs, modelUsed: response.model }
-  } finally {
-    clearTimeout(timer)
-  }
+function withTimeout(promise, ms) {
+  let timer
+  const timeout = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('LLM call timed out')), ms) })
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer))
 }
 
 function buildUserMessage(q) {

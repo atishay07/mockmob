@@ -1,0 +1,53 @@
+{
+  "at": "2026-10-07T12:15:53.840Z",
+  "environment": "staging",
+  "base": "http://localhost:3101",
+  "checks": [
+    {
+      "name": "authenticated admin publication history and current usable count",
+      "count": 579,
+      "usable_factory": 575
+    },
+    {
+      "name": "funded 1000 checkpoint release and replay, completed original pilot retained",
+      "passed": true
+    },
+    {
+      "name": "unfunded ten-thousand checkpoint rejected",
+      "passed": true
+    },
+    {
+      "name": "actual paginated signed-in student feed english",
+      "available": 149,
+      "expected": 149
+    },
+    {
+      "name": "actual paginated signed-in student feed accountancy",
+      "available": 123,
+      "expected": 123
+    },
+    {
+      "name": "actual paginated signed-in student feed business_studies",
+      "available": 159,
+      "expected": 159
+    },
+    {
+      "name": "actual paginated signed-in student feed economics",
+      "available": 144,
+      "expected": 144
+    }
+  ],
+  "expected_published": 575,
+  "expected_content_hash": "6c00ef870ea595a66c4258886c53eca51ee0bb3a8c3a3d038ba5931e8852c530",
+  "validation_contract": "d80135b0271f350a1864c9d107b078f07fbefa54419c4615a8891aa096308399",
+  "unique_retrieved": 575,
+  "missing_ids": [],
+  "passed": true,
+  "minimum_required": 500,
+  "complete_passage_groups": 10,
+  "rejected_received": 0,
+  "student_ai_monthly_cap": 25,
+  "paid_provider_calls": 0,
+  "emails_sent": 0,
+  "production_writes": 0
+}

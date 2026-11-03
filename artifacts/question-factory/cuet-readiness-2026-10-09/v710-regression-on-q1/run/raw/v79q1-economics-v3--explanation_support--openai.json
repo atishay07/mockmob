@@ -1,0 +1,269 @@
+{
+ "stage": "explanation_support",
+ "provider": "openai",
+ "ms": 43883,
+ "request_bytes": 18536,
+ "response": {
+  "id": "resp_0424b90f0c12c985016ac8f05de79c87d186cb6381e22eaddb",
+  "object": "response",
+  "created_at": 1791553629,
+  "status": "completed",
+  "access_programs": null,
+  "background": false,
+  "billing": {
+   "payer": "developer"
+  },
+  "completed_at": 1791553672,
+  "error": null,
+  "frequency_penalty": 0,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 8000,
+  "max_tool_calls": null,
+  "model": "gpt-6-luna",
+  "moderation": null,
+  "output": [
+   {
+    "id": "rs_0424b90f0c12c985016ac8f064144487d184ec52654f7ec7de",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyPCI5rx_Qmy4zn534Ozg-76LicSb2b5ileHXmII9hdZwDs74xicKe8EHzySdUCOtA8lsm-zZOG0KG5sR-SCxQWweYSC6tjw4SDWkZCUMejvE4GtRf0WCZf7O0u_brnIH0ed4q2O6cr-Nv0uJzeXh8eqo7NDGloXtTSp0n9ZLDMzDGplo-ZCyFsWwObldamgnjSCLZAxhauPoxLbJnFUbCyXD1VktId9Be2Etd_XObIAjuvwXJUsQOFn3CP077znbr5IjxiU5blekr0M51i8okvhNWwxYbnwplLTmc6WEsctgs_wNqxmZ_ABPjcVHLhsm7Yabk3JgQZ67t7oiZeIdnrvQKG9XUt4AeMeEM08f8tq3eYqk1qQX2RxgovY6PApafHcbTdxy51Rhb3HRiWLhKU7Pw3Ky9H38zNbP_rtq7Xo-FtNP4KVrDUaCQydmlzS6LHGjyWt5VJjkut0SfACXez26IIZT2zv1F1AII8_rTC9XtHvQ3f2vmBclJnZpAllz5Eln1MNUafFxZJcTj8mT1fURtxwPnV_ZbyLv1R75qg5NgNPrDCNo8PyI0XE56E2jgT3OBpGeCWc3J47mF6Zg3BhVLYPcSXWw_T8X6kW--97OJQpWMMQ9WkFe1YK2XoKixZvLlOih1-p6AdjV_VpKzhFwtFFvfu63fUNHC-BzJEL5B6un7EVCF7qYZTdV23gq1RP-Hrg8d01-86vYcEpZtcgCpiSmVBbpLBiyTTzNiRD75LYtGi9lNIIXRu83eHIDcngy_B66g63pBE3fsjHdH2wScIdFK-VgY0tdSS7NTNRP1zWoceRayGjBR0qk9QeF5GMCDrgpC58w-9cCrA9YoNbh1s2Z8KN7PVhioEFNckTTHkFwBf3hhXIvtxkMuK82H6J8NjAHcuhBqn53G47Xz-Wp9exBJi4YZ8gphtVCPjwdGly0om6ngB6rwG2U9rk8mMH-RBQneKU8Rfxu0QJJQK0Pks3MY_mWUyBU6RQ-FpKs7lW1EqySTWG35Z6Eog3LphSp6wGtSNlTQoGS5lKfc2WAHdwL72TSqLh86L8G4l4B7omkEavFi5pvZYXveJ5Rhnv3HCMIVOUhBi-abGtw1I7JnlMdithd9vqhPWybVwFQRtl_gZxwewLQn19Un7Mt_Kvtu-iYluvKsXDXzJAABMSOOFTjg8OyIaeSu1SQ-zIY9ikxylq1dD9vAC1CWaNEVqa8rKa2DwKMbtusn0At2VGOhoXT-3y1YduKu5nDB_GnilJWUvyTkWYOVsFd7x_GRKHPMEzZbnGkWejtHox6iEmZpS4NU3uNxUh9XrShwjRjmkYduyx0Z7xq76Aw_9HOO3rV26lL07gHhRNmHPi2KiYz9-Y7cecOtSQidl8uZ0sThnwxUe6zqkwilPeX9PdPi2tTxQpSGaNJ0mW4vtYOWLyuyFi-znfotW4a1q1ryj96Vl9KyGjXJliZX79q9W6dU8Q3hFBRAi0l0F_IACod6shksbSYsoMEpHL3TOmzWdGtmsNLGYnMK4x5Q4ax4ECoKPcD5LIRDsyBW2oI-YnRIjDJjsk0kWKpze_GNB_dEy_0BpIruR3aL7IsVoafT6p3olZWMgO5zgUWKCatASUkG4TxrWhwzANZKyG0mz248JaQDHxRuhT_eH39Qd6S-tbsnO3u59HRd4xOFzUiy8MLCi69mk2Cyr3RxX0EEMfPG0QG6pDI67ruxyDDZmT3HXu7s8JuzjOBvCIiOK-Yc1Z8PVh5JIkaFbcIx-A5CeeCa5RXWam-KlvMVJ4UZ2SnIcxmcdonh2TpWxaSzG8reDixR8vKuMiv6gc_G-PePbuG2kVoHin91HlePHDTm2sNaS1rXFGjOUsFIAS8JtlxILnfJ1A4cqIf0_sZh19K2q9I22sP7QEI5K4bqy0zXTiD80TowPGIR5ynF-hgnhHieckzDUHaNlx7fjpiInb2UCyHMkt7caxzq53sHKmmEOFEMwulocm4XTySi_EH-59CQJy8w1UF0rZj-ineekZSlvhJcBfi-BuqYASYRdvZj6b6n4gwSn30J-dLIXD4UEcxj6e-24vJFaOLU688t7QdKnTipBPRCd0MFuvqCtatU2wyh_qdWY5yN_LDxDH49zedNjx2lUIni8myP8RJxWv6KfFS3GGYXRvfa0nMDCOX44T4ewaGF09EWJk0nCfUTlB9L_CXCvJFAp2hXFP2dCXFK13zf31dTWmDYkGp9eDydGqiKwd7c1U9QDHYIyHYx_LTyKhmKzx75ku_HVnC5p0wtUEb-6o3IzMm2c7j_6ospGSktS8kvUjnUPaA3fT70TpqKw7vziX4kPL7EgPAjlHqf-PEdLF4qKJ61Jk_zprNfk1ILGiGRP1b6jirMkqqaBdllBSF47YOm3qE0dnWD90hJe27f0ICdky5NzLHzCHhy2q6grbMsECAty5TJvp831VlcIk6PiIyX66Kyz4L0i5_1XGvAhPHOsSjYCP7Y_LYDJD3pUhDUiJkpZGrDwVoUwrU4_1zVoniS3BxD0_UbSB1mpVRhHhg7njDMTueREFVJnlN_xb7uO1smXsoRS5Q_Awm-jXMqC3lTVN8mcQxV1oAdz5tmGu9-eaZfRVDNR0IIYTSbMPHq-y0P4ghFYbannvFYcayF_9B3m3yLMgeys14K0GBlyDln9cDTnMbKUUE3quZi4WmojXLrdxHjDMWPOkzs8i7pOs3j7RVB6V-m0abBtNXUWlZ8sclA-lbyFeWqcKZ0kjZ3A7jmwy6_cVsRdXrZG-OIAQktxkfHbRGlLjTzcyJhG6qtLgLKapcz2bVPHYMp2Tkkt4MxeJdb_ljR8qCQHpSdnzieBL2pDQ_uk_Vfy-ZDx3iW8dyKxvYnuRp9mOOLpE8lztCjIpQgCQwdxN-ChanWUJNIcwgZMgxMMRPA4MVEVUGpFMBEHttHxr5BQbqnTr8vosTi9oumlFLyu-qiBD3oeh3s2RUtPYrk8sYX26LLEFCKRUUaGz1kqgXcigKGqKDA8qGca9oeh9XWI4zcxlal9l8tz3kgRCBA9WglgDku_y-ZzdGE3aP7eUDp2ZrWOTcsiXQ1o22_OSSaGTVnM7UDUVho96dtNiMWtynpnfey7ZorXPvyvBONBhdK2dQQdYJCiVbx1o3TvAN9umJTdomkF4hixWAIy8ae9mfDvFWbtpaNs63vbpTnE45hSzvtO6jslBI-y8cfQZ_eNxusBVgk_36La_fWKyyroGmMgs0eogoGfjrBA_Trz2djXFiBxQUstwJU0yjR2csM2yJhTPn9NR8SyOYKkq5wWj-sEkcNPM6u3qNxzY0isAGDk6d23TlaqYg1jomO8C5JlE-idmUZEsbUX_9C3cCGJyZWl1HhPLku3Yh-04wolgOkV5fIHn0qWGQcfQRXKIt_Ew4nQ2-4jvzoTytwZW4m0KEZx8hfFdb526j4o02s6iqKAi4ahbJqYBXmQJ6A3BE594N55nV81PB0pCcvznqo0OJgQVLZgU8nlwZxCmsovNKELbscyNzED_dUcvb5yJjsT008sPyZ8e5nFqjiOpr67coEcvWO8NmZVVEeZjMEcpLrYXGBf-pR87fnXD1tQdA86k7iAsw7tPvmzMHyBVKbzqiEmU5DI8ulqZYChYe__LssJ1LPIV1rJ0FGZ9M6Qdo2DRaaUJdTsNIq1KtoC2TXvpt62LELsUGKVd3mhU8GJchP9bsJYbAv2L0b2Wc3mMWHNuRmwK45VA85MPyvXUTQk46fKqRVCcyW8EnqD61dXqqunpuHWRfNUIEGr3X-3R3zXbf-S-3gpHEX0RrK3UnCIwngaGhDgxJaOPZ57nx0J7_DkC3ajrHM8lGLW6SFL5I6HtvEwKf2PRhzJbtMyQDKc-LBkeH5RKbj3ZelnB88D87f0daJ1Q9lt7Xn_tP3G_JpWeMP2C3y0GzH9lezmM7DL1UsCHcNz7wkNXcGdQA9r3fVb9BZ0xj1s5gEMuH29zUXnn_5dgcrbtFDZnBrSJJ7BxWuICQTAueSyjcXapl0JH1pISEgaG24fbS1oGfzRy8-5q-EMAEio_xijWrxMAHAgnAheTunm2JweMUhjVMoSth2h6F3NDX6UrD41q_9B8IISq9QUyKiDJGn4lCwB_S-tfoBNmO-BT94io7GSAt9d26v8t8mIibgNRhtllOIdMy59R54stbzH6GFeVdwQLr0lwj2ie3JSKZtwmMxFtUYV11oT8U41IMh9aOJMAMLDxA1iImWOgwkQaFkTX5gyPsXyoyQ3PGUzZLzZNSNV0KZbMQ2h5mcGXgAhc29hyP-tdMPXgxHcoiOTc0MVxky__hwBzOjUbgOgu3zx-4mgWnDEMnGlHTpTO2pb4Yx9p3toHsyql1iYFDL37Gk9Vp9LDDIGNKMvqlk96LRSXOdjWgwG_B2KZZZOfG98YiDWpcCPZmYCvQkfZ8Ws18mIUWm4rf_n3_n5IJt2VePmpG_v7mNb8XlxF1rmq-NbSX3HTblAzc_ZRedymfkf582u2DmuZvol0FZPGCCrsQlwu-ehUkkxGNHQ-yNliBy9vTA1G9y-_-Gc0_JyOhWarNXWKjG_Ep-lqpUdsFURciZI5AloT7ng4xpbBmK656S39S3EfI3c3GKHuViD7wMToIVhM6oqvQ-VHejzRI4yjHublSzNn4GUK1yAOxZY9JoXG38aaQ5DYxysD1Po-yjcI2Vj7YBpEq-QyNOQ-MfH7NSOlMJ5LUNm3D1AfGFEfzD-93gV0Lnwi99DgvB6EfsLahLYAgKkWIvM3aGf8UkPR3JOWr4-3jL6DFRSFNvy7H0SSJ9Rwt7OwAOYgjc5gkT_CYeA==",
+    "summary": []
+   },
+   {
+    "id": "rs_0424b90f0c12c985016ac8f074a83087d1a11ebd733bc842ed",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyPCI1III4y40Hrmb-C_4S2fKI_gHtvzki0W5f8P0bly73rwcMcrYi1IEAG1_Tp9Z43heSVR0H3GvM8YvZHV_bcBXAKzFj_cu-b0DCzhKv_HsetQuhwqrLOO_-mM51wOhIs6asO5lV0anRuBF8o3J7Vl3oGVFY9P5NrsbAc74SdE4O-EJDJpHyWfY7dDm017QDKqXYBnkhTxrKNiv9QjUElR-BteT-BHSLCwmG2bGr_kOZw9ocHb_aQYG_KAYP3nzQS1mPMblqZDZK5E6YfNzCfcdVYoX7-cAm_WCLNhVvQa_FuXTOVLmpSluCKINAXq_4xCunPpLPUR8iBfu8FzOELbfZ3OXeFhKWVH5Oax9-Wv0OBxxJYmFLiLvA9R999ijCGPV_WhSY18xd4a5P2cZRqUmQKeRMHlLSlkyzfvGhcZo9Bml0_YG7kyde8Y71qWEcAGT0rfVTXrZISx9X9tfmAL8cvfvThF8plCVgyMe_mnftqr6qr9pLlwtq7t9TLN3dtDdA5DS_Cg7Epf9Mh1QCaHvNhpngLor-dDCHL_OC7WPDcgC5hjVXnzAFMR2BygeVzLiRYGyCg2HCoWzZVPjTsESEAoEpC_MqQ1kbHrV6HIHNXbW56rQ6AwnwEE71JcjZFb3v_4FGLDFfJjkK_33jBexLSMZfaVdm9T1HczM5IuMxcON0_eMgUPYsUPdS-uEjYr7ykR_TdysPgtdL8fOWvHVu5S-wliqzYyVRdNeLZnDgC-YriBVw7n_IUDPuNxDtpwIuHQ3IiHPpDUhmEu9HIvBefp-wEIZ2as280Sj7MtOkMkN3C0TxBwAxuQ0OXZhf9aRRO_QdLVV0ZkjhB6Z0KFS0lhCV9BtNOAEoqIOBNYqzm7JiCaiWHmuuo_FyU5B57pVhMbW5gNEoPQM7iFH-KtvQQc61LjzXpjYoUt2f4yjvsLVDWXIjXzbKRQor3O5mUDkY23oXb7OKbziZhD1bDC_DZsebVosqlgrs6RAjr7hX81Fwr_KOW8Yuqw_spEOj7KkKXKbHEZCh9bmv41sPO3vQtcC0dNTwIFN5PB90cqOQNV4hEtzGz6DKWGNqVjq6YO8ccaRWfso73hLcMiZ-Ls0HxNAWC-Ui-mRBIpUdEHFSYKgQQoNpeu9sT2vLo0D2iUiyAEVFzreUpEUaN5OHno3Ots0ckpLKSrQhn6KFB8HCArNKnP3SXjCn8h3_nPk8T-1hLNdwLcBLkUseKLh8O1vkjR4x1Mov5pJ2VcXFwq0Y1jbMKt8_3EySgKbJQV6R07_DFph-TtxmRmqVMoNsUmvnLCJNGscWW1Ve9k5X0dsKLXNu2g2Q41yx3HmOuyv1acBO3BQu0V9h_XgR8PAukHbr8cgI1jKz8aHsW5qFllh-qX74r-10mkvlW4-fTsz57VLOtGt0ZYLpBKjjKH26PGztWxGUKKLw6IKPCLNCb2tBGDxl6yL_qPxfYLXgLYMrigkXeHAqgHHd2-ADKU1nVO3P27_xcFRNvBSyM0jP8fjZsw12Lvq1ZP0jcPXQ9OGF6uOtCjW9gUUNiEn_X7znw_SIjrjQIRQcnoIr31e3w6HNHVfqYlBTwN5dCt9UOWiUb0TMxizDVyoHKIzrvL3GmIUtB_Sds5sk5fWik15Uq3blLUqtvlvQs5c0VqfyeaQmg9IdOHokpsKAJ1EE8kt4HlcfE_1E5fe-ErfupMXa5npa2p0R3R1rdqRPS8yi-yAt1DYkJIEtu7J0Z0dTdOCha5qNNBluljKGfq7jYdCEVAraylIqP1Hu6RXxcxaULy6z5T60-9ktKSzyVuw-IlPkscu8K-cWOU9CQgP-M-X_utZc_aCho9fwwV1KuZfPAH9lUFq4eGOpBA-VNElkHmczb5XbzeG2aYdQRwkm-DNTA1z7jYF31uv8KiVeOxEAU35c2bJ2Zqsex4eGXMcvnZ2lsWnZQXQtG0X2KjT15A8qPBJqCo965NL0RjJkv_THzQIwms8F9VKE80EV7bwVQVjL-bIKiRmM9eowl3XaE6sX5G3UKUrtrp6jAi3bBJqgilbc-nSV2QSKbXB9o7ORd80_T3WH_wAgIyFSCJ_s9iDAbvFf64s37cN5c8QV9-6YGFkXApJ_lhCG53Yhw8a8WZxYDcGfCaKX4KdCsUl5B_qgg0ogCxL7LCCgj6Kp-PfbhLIHPAMciAvDNM6286AhkyPG7vookg9tGM7BQywc-LGuWQWB2zCy72zMPP3UTCfUeAxhAptBAW0yOCEYKd96Kka1aBGeIahUDiCs-zvbLtScw2uC7gGThUUvbd-BdIvfBtkrUWjyg5HrLQ1MKp8lPIkujRaQuKzLxTbcaPuhloAb1fFcYOSokoQTooctsZt9zuf082TeTOw3sc1Zt8jia-LMtjkoTU7wGYZjFvmmzkJw_K6IeFXHaMMpuVMzG6ifEqlEheG5zsNcEXQcS1Xp_e0r6WRcyyJ4U5obSpSO9RZHdRvHUn2tVLuoqnXV6vDpMTmUKJ4olwfar5Mu06y6ccLnQIXq73Up2Ll_f9pCQZnGsTdyACwsi_mcdGcnxzgdbevtUWbtRk5gWT8ZHh6owEKVjOzvKGtfCrF71Pxb2gYOvYRV2tUnvjjQuKXBiy1eB8V6goNywwwi3JFDvozcKzL_9eAAdyvIWQOEz8y4Z-lFu8OEfHFTUssPjYIptC7oVYDW8_bIGuGbT1DrO7sHn5Pcd2srUZQY69W9ivA7wltBga-Jqp7g7yp7g7nQd03CiykFfnv_xFRseA6o5TAELHR-PZtvLTZK8gAQWY4qIJLBxLC9uE2qgVgoU2B6oEbwtlUHyRlUIy652MFb6TTlKdqb1_Q1nJyg88aAsm5Iv4WksF_ylkQFadDKLnLm8prIOu0ByDtbCSBexSSgDo8wI0j8Sj_ClpqdtemAmsj3HBIHoKUMj6ZkHHH8BolbzsjORoAWv8qZVqOq-iAZwdp6j2a70a4CzE09rWdm9dPJh4tJ1iR_OtMvLLlri2VGuqG7jm5rqJw",
+    "summary": []
+   },
+   {
+    "id": "msg_0424b90f0c12c985016ac8f07d884887d1b6ff826079999d2e",
+    "type": "message",
+    "status": "completed",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-economics-v3\",\n  \"content_hash\": \"0718ab50e3f97ce7622b6566992117c9df085e7cdd3ace739070eadc4bd98ede\",\n  \"claims\": [\n    {\n      \"claim\": \"An RBI sale of bonds to private individuals or institutions reduces reserves and the money supply.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"An RBI purchase of a bond, paid for by cheque, increases reserves and the money supply.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"Option A reverses the direction of the effect of the sale stated in the excerpt.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"The stated reduction in reserves leads to a fall in the money supply.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"That effect contradicts option B's claim that the money supply is unaffected.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"That effect also contradicts option C's claim that neither reserves nor the money supply change.\",\n      \"basis\": \"excerpt\"\n    }\n  ],\n  \"passed\": true,\n  \"reasons\": [],\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"resolution_audit\": {\n    \"key\": \"D\",\n    \"key_fully_supported\": true,\n    \"key_reason\": \"The excerpt states that an RBI bond sale to private individuals or institutions reduces reserves and hence the money supply, matching option D.\",\n    \"unexcluded_rival_conditions\": [],\n    \"distractors\": [\n      {\n        \"option\": \"A\",\n        \"decisively_wrong\": true,\n        \"basis\": \"direct_contradiction\",\n        \"reason\": \"The excerpt says this sale reduces reserves and money supply, not that both increase.\"\n      },\n      {\n        \"option\": \"B\",\n        \"decisively_wrong\": true,\n        \"basis\": \"direct_contradiction\",\n        \"reason\": \"The excerpt says the sale reduces the money supply, contrary to the claim that it is unaffected.\"\n      },\n      {\n        \"option\": \"C\",\n        \"decisively_wrong\": true,\n        \"basis\": \"direct_contradiction\",\n        \"reason\": \"The excerpt says the sale reduces both reserves and the money supply, rather than leaving them unchanged.\"\n      }\n    ]\n  }\n}"
+     }
+    ],
+    "phase": "final_answer",
+    "role": "assistant"
+   }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+   "context": "all_turns",
+   "effort": "high",
+   "mode": "standard",
+   "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "flex",
+  "store": false,
+  "temperature": 1,
+  "text": {
+   "format": {
+    "type": "json_schema",
+    "description": null,
+    "name": "factory_result",
+    "schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "candidate_id",
+      "content_hash",
+      "claims",
+      "passed",
+      "reasons",
+      "evidence_ids",
+      "resolution_audit"
+     ],
+     "properties": {
+      "candidate_id": {
+       "type": "string",
+       "enum": [
+        "v710-v710-regression-on-q1-run-v79q1-economics-v3"
+       ]
+      },
+      "content_hash": {
+       "type": "string",
+       "enum": [
+        "0718ab50e3f97ce7622b6566992117c9df085e7cdd3ace739070eadc4bd98ede"
+       ]
+      },
+      "claims": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "claim",
+         "basis"
+        ],
+        "properties": {
+         "claim": {
+          "type": "string"
+         },
+         "basis": {
+          "type": "string",
+          "enum": [
+           "excerpt",
+           "stem",
+           "arithmetic",
+           "fundamental",
+           "unsupported",
+           "incorrect"
+          ]
+         }
+        }
+       }
+      },
+      "passed": {
+       "type": "boolean"
+      },
+      "reasons": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "evidence_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "enum": [
+         "E1.1"
+        ]
+       }
+      },
+      "resolution_audit": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "key",
+        "key_fully_supported",
+        "key_reason",
+        "unexcluded_rival_conditions",
+        "distractors"
+       ],
+       "properties": {
+        "key": {
+         "type": "string",
+         "enum": [
+          "A",
+          "B",
+          "C",
+          "D"
+         ]
+        },
+        "key_fully_supported": {
+         "type": "boolean"
+        },
+        "key_reason": {
+         "type": "string"
+        },
+        "unexcluded_rival_conditions": {
+         "type": "array",
+         "items": {
+          "type": "string"
+         }
+        },
+        "distractors": {
+         "type": "array",
+         "minItems": 3,
+         "maxItems": 3,
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+           "option",
+           "decisively_wrong",
+           "basis",
+           "reason"
+          ],
+          "properties": {
+           "option": {
+            "type": "string",
+            "enum": [
+             "A",
+             "B",
+             "C",
+             "D"
+            ]
+           },
+           "decisively_wrong": {
+            "type": "boolean"
+           },
+           "basis": {
+            "type": "string",
+            "enum": [
+             "direct_contradiction",
+             "arithmetic",
+             "passage_unsupported",
+             "category_only",
+             "source_silence",
+             "partial_truth",
+             "unsupported",
+             "incorrect"
+            ]
+           },
+           "reason": {
+            "type": "string"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "strict": true
+   },
+   "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+   "image_gen": {
+    "input_tokens": 0,
+    "input_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "output_tokens": 0,
+    "output_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "total_tokens": 0
+   },
+   "web_search": {
+    "num_requests": 0
+   }
+  },
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+   "input_tokens": 3693,
+   "input_tokens_details": {
+    "cache_write_tokens": 3690,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1321,
+   "output_tokens_details": {
+    "reasoning_tokens": 778
+   },
+   "total_tokens": 5014
+  },
+  "user": null,
+  "metadata": {}
+ }
+}

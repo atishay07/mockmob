@@ -1,0 +1,43 @@
+Accounting for Partnership : Basic Concepts 21
+Interest on Drawings = = Rs. 5,200.
+(b) When the amount is withdrawn at the end of each month
+Average Period = 
+No. of months of 1 drawings + No. of months of last drawings
+2
+ =
+11+ 0
+2
+ = 
+1
+5
+2
+months
+Interest on Drawings = = Rs. 4,400.
+(c) When money is withdrawn in the middle of the month
+When money is withdrawn in the middle of the month, nothing is added or
+deduced from the total period.
+Average Period = No. of months of 1 drawings + No. of month of last drawings 11.5+0.5
+=
+2 2
+ =
+6 months
+Interest on Drawings = = Rs. 4,800.
+When Fixed Amount is withdrawn Quarterly
+When fixed amount of money is withdrawn quarterly by partners, in such a
+situation, for the purpose of calculation of interest, the total period of time is
+ascertained depending on whether the money was withdrawn at the beginning
+or at the end of each quarter. If the amount is withdrawn at the beginning of
+each quarter, the interest is calculated on the total money withdrawn during the
+year, for a period of seven and half months i.e.,
+12+ 3
+2
+and if withdrawn at the
+end of each quarter it will be calculated for a period of 4½ months, i.e.,
+9+0
+2
+.
+Suppose Satish and Tilak are partners in a firm, sharing profits and losses
+equally. During financial year 2016–2017, Satish withdrew Rs. 30,000 quarterly.
+If interest is to be charged on drawings @ 8% per annum, the calculation of
+average period and interest on drawings will be as follows:
+Reprint 2026-27

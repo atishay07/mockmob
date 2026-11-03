@@ -1,0 +1,19 @@
+{
+  "recorded_at_utc": "2026-10-08T21:29:00Z",
+  "scope": "Correction to reported completion bound, not a mutation of preregistered inputs, costs, cap, labels or outcomes",
+  "initial_requests_bound_usd": 2.383125,
+  "maximum_with_one_existing_billed_output_completion_retry_per_stage_usd": 5.714375,
+  "per_item_maximum_usd": 0.139375,
+  "initial_then_retry_maxima_usd": {
+    "luna_blind": [0.008125, 0.011875],
+    "gemini_blind": [0.043125, 0.06],
+    "luna_explanation": [0.006875, 0.009375]
+  },
+  "registered_cases": 41,
+  "shared_persistent_stop_cap_usd": 4,
+  "lifetime_stop_cap_usd": 50,
+  "completion_guaranteed_by_cap": false,
+  "cause": "The initial offline capture throws before a response and therefore cannot traverse completeJSON's existing exactly-one billed-truncation/invalid-JSON completion retry. The retry keeps the same question/input, doubles only the output ceiling and uses a distinct persistent request key. No accepted or uncertain provider ID is resubmitted. Both the original failed receipt and any retry are charged through the same persistent phase and lifetime guard.",
+  "policy": "Preserve the original estimate and every input/result. No cap increase and no extra benchmark. An insufficient cap would leave retained pending/error cases in the denominator. The qualified version, if any, must retain this exact bounded transport behavior.",
+  "billing_mode": "The current qualification runner does not supply flexStages to the transport. Do not assume the planned Flex preference was realized; use the exact served tier and rates from receipts. No native Batch discount is booked."
+}

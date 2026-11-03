@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-10T05:47:05.956Z",
+  "groups": [
+    {
+      "provider": "gemini",
+      "provider_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "items": 4,
+      "saved_at": "2026-10-07 11:48:36",
+      "http_status": 200,
+      "status": "BATCH_STATE_SUCCEEDED",
+      "counts": {
+        "requestCount": "64",
+        "successfulRequestCount": "60",
+        "failedRequestCount": "4"
+      }
+    }
+  ],
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 39899431,
+    "requests": 15022,
+    "unresolved": 65,
+    "unbounded_unresolved": 0
+  },
+  "paid_requests_submitted": 0
+}

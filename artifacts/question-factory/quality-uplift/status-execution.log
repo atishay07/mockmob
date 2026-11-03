@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-06T09:59:07.205Z",
+  "state": "not_production_ready",
+  "verifier": "luna-gemini-cuET-v3.2",
+  "policy": "cuet-llm-v3",
+  "registry_version": 42,
+  "audit": {
+    "reviewed": 48,
+    "intended_key_matches": 48,
+    "approve": 30,
+    "suspect": 17,
+    "incomplete": 1,
+    "perfection_guaranteed": false
+  },
+  "calibration": {
+    "state": "paused",
+    "valid_sample_size": 16,
+    "valid_eligible": 11,
+    "luna_key_accuracy": 0.9375,
+    "gemini_key_accuracy": 1,
+    "known_bad": 12,
+    "known_bad_accepted": 0,
+    "audit_challenges": 18,
+    "audit_challenges_quarantined": 15,
+    "audit_challenges_accepted": 3
+  },
+  "generation_allowed": false,
+  "new_candidate_jobs": 0,
+  "new_pilot_questions": 0,
+  "production_changes": 0,
+  "measured_yield_above_70": false,
+  "forecast_60_usd_validated": false,
+  "budget": {
+    "limit_usd": 50,
+    "gross_usd": 1.616247,
+    "held_usd": 0,
+    "available_usd": 48.383753,
+    "resumed_validation_usd": 0.19724,
+    "unresolved": 0,
+    "credits_applied": "Unverified; gross cost reported"
+  },
+  "checks": {
+    "factory": 45,
+    "recovery": 35,
+    "question_payment_nta": 49,
+    "total": 129,
+    "targeted_lint": "passed",
+    "production_build": "passed",
+    "local_preview": {
+      "http_status": 200,
+      "quality_gate": true,
+      "historical_label": true,
+      "audit_visible": true,
+      "forecast_withheld": true,
+      "scope": "Server-rendered local preview only; interactive/authenticated staging flows unverified"
+    }
+  }
+}

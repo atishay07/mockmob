@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-07T21:09:42.059Z",
+  "stage": "real_adapter_sourceMaterial",
+  "reason": "authenticated_reference_excerpt_required",
+  "likely_cause": "Original English scratch references use raw excerpt digest instead of factory canonical hashJSON(text).",
+  "paid_provider_calls": 0,
+  "original_freeze_preserved": true,
+  "repair": "Versioned adapter-only correction, no question or label changes."
+}

@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-08T06:21:04.696Z",
+  "totals": {
+    "settled_micro": 31557870,
+    "held_micro": 373748,
+    "requests": 12809,
+    "unresolved": 29
+  },
+  "improved_saved_candidates": 59,
+  "denominator": 100,
+  "states": {
+    "quarantined": 12,
+    "eligible": 38,
+    "repaired": 1,
+    "generated": 8
+  }
+}

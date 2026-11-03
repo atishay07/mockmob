@@ -1,0 +1,30 @@
+{
+  "at": "2026-10-07T13:22:44.328Z",
+  "scope": "read-only public deployment network diagnosis after first retrieval timeout",
+  "rows": [
+    {
+      "url": "https://www.mockmob.in/api/admin/question-factory",
+      "status": 401,
+      "ms": 1398,
+      "bytes": 27,
+      "content_type": "application/json",
+      "summary": "{\"error\":\"unauthenticated\"}"
+    },
+    {
+      "url": "https://www.mockmob.in/api/questions/feed?subject=english&limit=5&offset=0",
+      "status": 200,
+      "ms": 3311,
+      "bytes": 12280,
+      "content_type": "application/json",
+      "summary": "{\"questions\":[{\"id\":\"d8602438-3f30-40e2-a0cf-f9d2a56b47e2\",\"subject\":\"english\",\"chapter\":\"Para Jumbles\",\"difficulty\":\"easy\",\"body\":\"Rearrange the following sentences to form a coherent paragraph:\\nA. The rise of remote work has blurred the boundaries between professional and personal life.\\nB. This constant connectivity can lead to burnout and decreased productivity.\\nC. Companies are now experime"
+    },
+    {
+      "url": "https://www.mockmob.in/",
+      "status": 200,
+      "ms": 1193,
+      "bytes": 216514,
+      "content_type": "text/html; charset=utf-8",
+      "summary": null
+    }
+  ]
+}

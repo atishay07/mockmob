@@ -1,0 +1,929 @@
+{
+  "sources": {
+    "v76s-6d1b7733806ef2": {
+      "id": "v76s-6d1b7733806ef2",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "file": "reference-downloads/leac201.pdf",
+      "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "extraction_file": "ncert-leac201-commissioning-extraction.txt",
+      "extraction_sha256": "c274bae83113afadab19a2cce5b5cbdf8ba5b8a2212f8f9a32f6e0cd30424684",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. "
+        }
+      },
+      "chapters": [
+        "Share Capital",
+        "Financial Statements of Company"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be"
+      },
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76s-acea30f1971048": {
+      "id": "v76s-acea30f1971048",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "file": "reference-downloads/leac201.pdf",
+      "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "extraction_file": "ncert-leac201-commissioning-extraction.txt",
+      "extraction_sha256": "c274bae83113afadab19a2cce5b5cbdf8ba5b8a2212f8f9a32f6e0cd30424684",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. "
+        }
+      },
+      "chapters": [
+        "Share Capital",
+        "Financial Statements of Company"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749"
+      },
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76s-5d15ae1f40fc11": {
+      "id": "v76s-5d15ae1f40fc11",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "file": "reference-downloads/leac201.pdf",
+      "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+      "extraction_file": "ncert-leac201-commissioning-extraction.txt",
+      "extraction_sha256": "c274bae83113afadab19a2cce5b5cbdf8ba5b8a2212f8f9a32f6e0cd30424684",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). "
+        }
+      },
+      "chapters": [
+        "Share Capital",
+        "Financial Statements of Company"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c"
+      },
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76s-a949188b3a7854": {
+      "id": "v76s-a949188b3a7854",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "file": "reference-downloads/leac101.pdf",
+      "extraction_file": "ncert-leac101-commissioning-extraction.txt",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "a5a0e0d5e8be22268fbe794095f532e14ddd4daad7e891997129b01d01b763f5",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. "
+        }
+      },
+      "chapters": [
+        "Partnership Fundamentals",
+        "Profit & Loss Appropriation Account"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f"
+      },
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76s-c1094fe215c415": {
+      "id": "v76s-c1094fe215c415",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "file": "reference-downloads/leac101.pdf",
+      "extraction_file": "ncert-leac101-commissioning-extraction.txt",
+      "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+      "extraction_sha256": "a5a0e0d5e8be22268fbe794095f532e14ddd4daad7e891997129b01d01b763f5",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leac101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "When Fixed Amounts was Withdrawn Every Month Many a time, a fixed amount of money is withdrawn by the partners, at equal time interval, say each month or each quarter. While calculating the time period, attention must be paid to whether the fixed amount was withdrawn at the beginning (first day) of the month, middle of the month or at the end (last day) of the month. If withdrawn on the first day of every month, interest on total amount will be calculated for 6½ months; if withdrawn at the end at every month, it will be calculated for 5½ months, and if withdrawn during the middle of the month, it will be calculated for 6 months. "
+        }
+      },
+      "chapters": [
+        "Partnership Fundamentals",
+        "Profit & Loss Appropriation Account"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "acc30acd03108e5a1692489d551b93cc98895d225fec3117ecf924200b2bceab"
+      },
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76s-87d44285dea4ca": {
+      "id": "v76s-87d44285dea4ca",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs102.pdf",
+      "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+      "extraction_file": "ncert-lebs102-commissioning-extraction.txt",
+      "extraction_sha256": "a7c7b3f0757eb2350e70786749438c898089b56bdc0934e45ec84eebe814402c",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(iii) Discipline: Discipline is the obedience to organisational rules and employment agreement which are necessary for the working of the organisation. According to Fayol, discipline requires good superiors at all levels, clear and fair agreements and judicious application of penalties. Suppose management and labour union have entered into an agreement whereby workers have agreed to put in extra hours without any additional payment to revive the company out of loss. In return the management has promised to increase wages of the workers when this mission is accomplished. Here discipline when applied would mean that the workers and management both honour their commitments without any prejudice towards one another. "
+        }
+      },
+      "chapters": [
+        "Principles of Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "5ce8883a69ee1925b645c113d0e1280ab717b05841988ac6e8149ae489aa1f1c"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-fe899efe69ba71": {
+      "id": "v76s-fe899efe69ba71",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs102.pdf",
+      "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+      "extraction_file": "ncert-lebs102-commissioning-extraction.txt",
+      "extraction_sha256": "a7c7b3f0757eb2350e70786749438c898089b56bdc0934e45ec84eebe814402c",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(iv) Unity of Command: According to Fayol there should be one and only one boss for every individual employee. If an employee gets orders from two superiors at the same time the principle of unity of command is violated. The principle of unity of command states that each participant in a formal organisation should receive orders from and be responsible to only one superior. "
+        }
+      },
+      "chapters": [
+        "Principles of Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "d2f8810859f0b98ecf3b2899045aea567789ccb9f3834bc16b75168b66d1edc5"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-2f42089dcd1b43": {
+      "id": "v76s-2f42089dcd1b43",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs102.pdf",
+      "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+      "extraction_file": "ncert-lebs102-commissioning-extraction.txt",
+      "extraction_sha256": "a7c7b3f0757eb2350e70786749438c898089b56bdc0934e45ec84eebe814402c",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(v) Unity of Direction: All the units of an organisation should be moving towards the same objectives through coordinated and focussed efforts. Each group of activities having the same objective must have one head and one plan. "
+        }
+      },
+      "chapters": [
+        "Principles of Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "79d49f1dd1200e3cbc99a3ab70de54c457505aa767b8bb2d9826089c60b3fbeb"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-ddf508df450a19": {
+      "id": "v76s-ddf508df450a19",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs102.pdf",
+      "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+      "extraction_file": "ncert-lebs102-commissioning-extraction.txt",
+      "extraction_sha256": "a7c7b3f0757eb2350e70786749438c898089b56bdc0934e45ec84eebe814402c",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Division of Work: Work is divided into small tasks/ jobs. A trained specialist who is competent is required to perform each job. Thus, division of work leads to specialisation. According to Fayol, “The intent of division of work is to produce more and better work for the same effort. Specialisation is the most efficient way to use human effort.” "
+        }
+      },
+      "chapters": [
+        "Principles of Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "251ee667a5b086020d585f73523ded30c0a41aeaaf54862d9a2eb0156b88f6a8"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-874bdc90b70999": {
+      "id": "v76s-874bdc90b70999",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+      "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+      "extraction_file": "ncert-lebs104-commissioning-extraction.txt",
+      "extraction_sha256": "d8aac73f890cf9b99ba7ad9dc85c4e29610884e9a13c06273eb365e6c883e1d8",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. "
+        }
+      },
+      "chapters": [
+        "Planning"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-868e1d8356ca08": {
+      "id": "v76s-868e1d8356ca08",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs104.pdf",
+      "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+      "extraction_file": "ncert-lebs104-commissioning-extraction.txt",
+      "extraction_sha256": "d8aac73f890cf9b99ba7ad9dc85c4e29610884e9a13c06273eb365e6c883e1d8",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. "
+        }
+      },
+      "chapters": [
+        "Planning"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-4c88c6e320b3b4": {
+      "id": "v76s-4c88c6e320b3b4",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "file": "reference-downloads/lebs202.pdf",
+      "extraction_file": "ncert-lebs202-commissioning-extraction.txt",
+      "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "marketing of goods and services. The two major decision areas under this function include (a) decision regarding channels of distribution or the marketing intermediaries (like whole salers, retailers) to be used and (b) physical movement of the product from where it is produced to a place where it is required by the customers for their consumption or use. The important decision areas under physical distribution include managing inventory (levels of stock of goods), storage and warehousing and transportation of goods from one place to the other. "
+        }
+      },
+      "chapters": [
+        "Marketing Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "ee4629924a6b7fb3e082dc96360d8810f40172f614226cc26d364fcc54a81090"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-792292a64da9ca": {
+      "id": "v76s-792292a64da9ca",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "file": "reference-downloads/lebs202.pdf",
+      "extraction_file": "ncert-lebs202-commissioning-extraction.txt",
+      "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "11. transportation: Transportation involves physical movement of goods from one place to the other. As generally the users of products, particularly consumer products are wide spread and geographically separated from the place these are produced, it is necessary to move them to the place where it is needed for consumption or use, For example, tea produced in Assam has to be transported not only within the state but to other far off places like Tamil Nadu, Punjab, Jammu and kashmir and Haryana, rajasthan, where it is consumed. "
+        }
+      },
+      "chapters": [
+        "Marketing Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "37d53ea0da52140d621dc69496c7b84d0763266ba11abfae2b074c4cc926047b"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-6dd88b7799a3ca": {
+      "id": "v76s-6dd88b7799a3ca",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "file": "reference-downloads/lebs202.pdf",
+      "extraction_file": "ncert-lebs202-commissioning-extraction.txt",
+      "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "9. Promotion: Promotion of products and services involves informing the customers about the firm’s product, its features, etc., and persuading them to purchase these products. The four important methods of promotion include advertising, Personal Selling, Publicity and Sales Promotion. A marketer has to take several crucial, decisions in respect of promotion of the products and services such as deciding the promotion budget, the promotion mix, i.e., the combination of the promotional tools that will be use, the promotion budget, etc. "
+        }
+      },
+      "chapters": [
+        "Marketing Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "8b7ed65bbc72da97c74c1c7c10405290254504eff27d36673cbd1f463f308ae2"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-14f5310a351ea2": {
+      "id": "v76s-14f5310a351ea2",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+      "file": "reference-downloads/lebs202.pdf",
+      "extraction_file": "ncert-lebs202-commissioning-extraction.txt",
+      "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs202.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "1. g athering and analysing Market information: One of the important functions of a marketer is to gather and analyse market information. This is necessary to identify the needs of the customers and take various decisions for the successful marketing of the products and services. This is important for making an analysis of the available opportunities and threats as well as strengths and weaknesses of the organisation and help in deciding what opportunities can best be pursued by it. For example, rapid growth is predicted in several areas in the Indian economy, say in the use of the Internet, market for cell phones and several other areas. Which of these areas a particular organisation should enter, or in which area should it expand, requires a careful scanning of the strengths and weaknesses of the organisation, which is done with the help of careful market analysis. With the growth of computers, a new trend has emerged in the collection of market information. More and more companies are using interactive sites on the internet, to gather customer views and opinions, before taking important business decisions. One of the popular TV News Channel (in Hindi) seeks viewers choice (through SMS) on which of the given four or five main news stories Ch_10.indd 251 10-08-2022 10:04:27 Reprint 2026-27\nBUSINe SS STUDIe S 252 of the day would be broadcasted as detailed story at the prime time, to ensure that the viewers get to listen to the story of their own choice. "
+        }
+      },
+      "chapters": [
+        "Marketing Management"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "81aa1306ecf9f25eaa426aa097b2f37f1c8f80c336e6a2c98666b122f920d348"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-4b6323d1fbcecd": {
+      "id": "v76s-4b6323d1fbcecd",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+      "file": "business-economics-auth-work/official-ncert/lebs103.pdf",
+      "extraction_file": "ncert-lebs103-commissioning-extraction.txt",
+      "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "extraction_sha256": "8c4a0fcc53f114fc74c68d73c840fbe74ffd6fdf5ec12c08e823c044c94db2e4",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT local educational validation excerpts",
+        "reference": "https://ncert.nic.in/textbook/pdf/lebs103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law "
+        }
+      },
+      "chapters": [
+        "Business Environment"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76s-683baa9b074343": {
+      "id": "v76s-683baa9b074343",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "file": "business-economics-auth-work/official-ncert/leec103.pdf",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_file": "ncert-leec103-commissioning-extraction.txt",
+      "extraction_sha256": "262a1ae8b87d6f93681eba08acbabf1c638eb150f90c9154cdbe8060f2a52ec2",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. "
+        }
+      },
+      "chapters": [
+        "Money & Banking"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-35f832d5aadae0": {
+      "id": "v76s-35f832d5aadae0",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "file": "business-economics-auth-work/official-ncert/leec103.pdf",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_file": "ncert-leec103-commissioning-extraction.txt",
+      "extraction_sha256": "262a1ae8b87d6f93681eba08acbabf1c638eb150f90c9154cdbe8060f2a52ec2",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. "
+        }
+      },
+      "chapters": [
+        "Money & Banking"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-95141e43c82969": {
+      "id": "v76s-95141e43c82969",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+      "file": "business-economics-auth-work/official-ncert/leec103.pdf",
+      "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+      "extraction_file": "ncert-leec103-commissioning-extraction.txt",
+      "extraction_sha256": "262a1ae8b87d6f93681eba08acbabf1c638eb150f90c9154cdbe8060f2a52ec2",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. "
+        }
+      },
+      "chapters": [
+        "Money & Banking"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-8d02a647372f48": {
+      "id": "v76s-8d02a647372f48",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "file": "reference-downloads/leec106.pdf",
+      "extraction_file": "ncert-leec106-commissioning-extraction.txt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "be6ea6419fbdc418f2668b1c269067b06759998b64d536e6cc8a9319c1507075",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Managed Floating Without any formal international agreement, the world has moved on to what can be best described as a managed floating exchange rate system. It is a mixture of a flexible exchange rate system (the float part) and a fixed rate system (the managed part). Under this system, also called dirty floating, central banks intervene to buy and sell foreign currencies in an attempt to moderate exchange rate movements whenever they feel that such actions are appropriate. Official reserve transactions are, therefore, not equal to zero. "
+        }
+      },
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "4edc35f4c4a874eaa3c5c9a4d039c2bfd8daf5b46ecba2dd698f3274fdac3985"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-2f8f7b48e6edb1": {
+      "id": "v76s-2f8f7b48e6edb1",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "file": "reference-downloads/leec106.pdf",
+      "extraction_file": "ncert-leec106-commissioning-extraction.txt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "be6ea6419fbdc418f2668b1c269067b06759998b64d536e6cc8a9319c1507075",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Flexible Exchange Rate This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate . As depicted in Fig. 6.1, the exchange rate is determined where the demand curve intersects with the supply curve, i.e., at point e on the Y – axis. Point q on the x – axis determines the quantity of US Dollars that have been demanded and supplied on e exchange rate. In a completely flexible system, the Central banks do not intervene in the foreign exchange market. "
+        }
+      },
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "1953b3525b7b404128b33078bfe329b74cfccfea1582c61d3c72903a069847d1"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-5c6954165ace3c": {
+      "id": "v76s-5c6954165ace3c",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+      "file": "reference-downloads/leec106.pdf",
+      "extraction_file": "ncert-leec106-commissioning-extraction.txt",
+      "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+      "extraction_sha256": "be6ea6419fbdc418f2668b1c269067b06759998b64d536e6cc8a9319c1507075",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec106.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In "
+        }
+      },
+      "chapters": [
+        "Balance of Payments"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "f623f9394f604e27205985b5d4e4c1a4041b32bc80d110a551f6e6b417f968e0"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-8710ca0bf43c94": {
+      "id": "v76s-8710ca0bf43c94",
+      "kind": "reference",
+      "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+      "file": "reference-downloads/leec105.pdf",
+      "extraction_file": "ncert-leec105-commissioning-extraction.txt",
+      "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+      "extraction_sha256": "f7af12176ab33ee1682ae497399fb180356ad125fa5e92bcafacdccc756b314c",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed official NCERT excerpts for local validation, not unrestricted republication",
+        "reference": "https://ncert.nic.in/textbook/pdf/leec105.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. "
+        }
+      },
+      "chapters": [
+        "Government Budget & the Economy"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76s-f3f35d090a16fc": {
+      "id": "v76s-f3f35d090a16fc",
+      "kind": "reference",
+      "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+      "file": "business-economics-auth-work/official-ncert/keec101.pdf",
+      "identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+      "extraction_file": "business-economics-auth-work/official-ncert/keec101.normalized.txt",
+      "extraction_sha256": "a3e94ca974630ffa46752fb52144dcefc021f29800c8bc9c117bd563dd25b681",
+      "extraction_checked": true,
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+        "reference": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf"
+      },
+      "facts": {
+        "decisive-excerpt": {
+          "text": "During the colonial period, the occupational structure of India, i.e., distribution of working persons across different industries and sectors, showed little sign of change. "
+        }
+      },
+      "chapters": [
+        "Indian Economy on the Eve of Independence"
+      ],
+      "state": "active",
+      "supports": {
+        "decisive-excerpt": "33c719444c5a48f2e6eb9827649a960e95f31a777a7d14d8b291465bd41fb9b8"
+      },
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76-original-adapted-jibhi": {
+      "id": "v76-original-adapted-jibhi",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Reading Comprehension"
+      ],
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+      "title": "Locally adapted passage from official CBSE 2021-22 English Core SQP, passage I",
+      "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/EnglishCore-SQP.pages.json",
+      "extraction_sha256": "17c18bb831a7ef66477d7042a67e69cca9bee7b90fd41e1378e6a6e783b579c2",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Attributed adapted educational passage for local benchmark validation; no unrestricted republication claim",
+        "reference": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf"
+      },
+      "facts": {
+        "supplied-stimulus": {
+          "text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me."
+        }
+      },
+      "supports": {
+        "supplied-stimulus": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+      },
+      "source_pack_id": "v76-fresh-pack-english",
+      "adaptation_disclosure": "New 224-word abridged stimulus; preserve dates, causality, building changes, environmental burden and final attitude. No CUET-PYQ claim."
+    },
+    "v76-original-math-premise": {
+      "id": "v76-original-math-premise",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original locally authored exercise premise; derivative independently checkable by elementary algebra",
+        "reference": "local:original-stimulus"
+      },
+      "url": "local:original-stimulus",
+      "identity_sha256": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3",
+      "extraction_sha256": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3",
+      "extraction_checked": true,
+      "facts": {
+        "premise": {
+          "text": "In this self-contained mathematical exercise, f(x) = x³ and the supplied differentiation rule is f′(x) = 3x²."
+        }
+      },
+      "supports": {
+        "premise": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3"
+      },
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    }
+  },
+  "families": {
+    "v76-fam-e0932269d0": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76-fam-b2a54a1da6": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76-fam-b43f3aebb6": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76-fam-e6f3811e7b": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-accountancy"
+    },
+    "v76-fam-10a1826742": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76-fam-3f144fd374": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76-fam-0a26fac46f": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76-fam-5628fb9f74": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-business_studies"
+    },
+    "v76-fam-7ac5631def": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76-fam-3d2cef0c02": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76-fam-d42ab3b35b": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76-fam-5fe8e07cac": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-economics"
+    },
+    "v76-fam-461c8da728": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-english"
+    },
+    "v76-fam-71ed304404": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-english"
+    },
+    "v76-fam-d1489a9ae6": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-english"
+    },
+    "v76-fam-154e50ff60": {
+      "state": "active",
+      "version": 1,
+      "kind": "original_practice",
+      "source_pack_id": "v76-fresh-pack-english"
+    }
+  },
+  "packs": {
+    "v76-fresh-pack-accountancy": {
+      "id": "v76-fresh-pack-accountancy",
+      "subject": "accountancy",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T20:38:16.265Z",
+      "kind": "authoritative_reference",
+      "document_ids": [
+        "v76s-6d1b7733806ef2",
+        "v76s-acea30f1971048",
+        "v76s-5d15ae1f40fc11",
+        "v76s-a949188b3a7854",
+        "v76s-c1094fe215c415"
+      ],
+      "syllabus_pack": "cuet2024-accountancy-bookA"
+    },
+    "v76-fresh-pack-business_studies": {
+      "id": "v76-fresh-pack-business_studies",
+      "subject": "business_studies",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T20:38:16.266Z",
+      "kind": "authoritative_reference",
+      "document_ids": [
+        "v76s-87d44285dea4ca",
+        "v76s-fe899efe69ba71",
+        "v76s-2f42089dcd1b43",
+        "v76s-ddf508df450a19",
+        "v76s-874bdc90b70999",
+        "v76s-868e1d8356ca08",
+        "v76s-4c88c6e320b3b4",
+        "v76s-792292a64da9ca",
+        "v76s-6dd88b7799a3ca",
+        "v76s-14f5310a351ea2",
+        "v76s-4b6323d1fbcecd",
+        "v76-original-math-premise"
+      ],
+      "syllabus_pack": "cuet2024-business_studies-bookA"
+    },
+    "v76-fresh-pack-economics": {
+      "id": "v76-fresh-pack-economics",
+      "subject": "economics",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T20:38:16.266Z",
+      "kind": "authoritative_reference",
+      "document_ids": [
+        "v76s-683baa9b074343",
+        "v76s-35f832d5aadae0",
+        "v76s-95141e43c82969",
+        "v76s-8d02a647372f48",
+        "v76s-2f8f7b48e6edb1",
+        "v76s-5c6954165ace3c",
+        "v76s-8710ca0bf43c94",
+        "v76s-f3f35d090a16fc"
+      ],
+      "syllabus_pack": "cuet2024-economics-bookA"
+    },
+    "v76-fresh-pack-english": {
+      "id": "v76-fresh-pack-english",
+      "subject": "english",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T20:38:16.266Z",
+      "kind": "authoritative_reference",
+      "document_ids": [
+        "v76-original-adapted-jibhi"
+      ],
+      "syllabus_pack": "cuet2024-english-bookA"
+    }
+  }
+}

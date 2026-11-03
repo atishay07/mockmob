@@ -1,0 +1,416 @@
+{
+  "id": "fresh-full-v5-repaired-2026-10-08",
+  "paid_evaluation_authorized": false,
+  "evaluation_started": false,
+  "independent_key_audit": "pending",
+  "cap_usd": 3,
+  "maximum_repairs": 0,
+  "publication": "never",
+  "construction_history": {
+    "parent_id": "fresh-full-v5-2026-10-08",
+    "parent_hash": "5ec30fe8a9442a8ea1f998be9bc6cfc6c4947638c0bd19fb7f34e3a25449630e",
+    "parent_never_evaluated": true,
+    "pre_evaluation_repairs": [
+      {
+        "parent_id": "fresh-v5-accountancy-partnership-fundamentals-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-partnership-fundamentals-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type",
+          "route"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-partnership-fundamentals-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-partnership-fundamentals-4",
+        "reason": "Remove reference to an unprinted excerpt.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-4",
+        "reason": "Make statement-selection instruction explicit.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-share-capital-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type",
+          "difficulty"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-share-capital-4",
+        "reason": "State the unchanged-authorisation condition explicitly.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-accounting-ratios-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-accounting-ratios-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-accountancy-accounting-ratios-4",
+        "reason": "Print the formula and numerical propositions.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-planning-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-planning-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-planning-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type",
+          "difficulty"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-organising-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-organising-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-organising-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-organising-4",
+        "reason": "Name the process explicitly.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-directing-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-directing-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-directing-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-marketing-management-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-marketing-management-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-business_studies-marketing-management-4",
+        "reason": "Remove an unprinted excerpt reference.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-money-banking-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-money-banking-2",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type",
+          "route"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-money-banking-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type",
+          "difficulty"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-money-banking-4",
+        "reason": "Name the system.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-income-determination-1",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-income-determination-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-income-determination-4",
+        "reason": "Remove references to an unprinted table or passage.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-government-budget-the-economy-2",
+        "reason": "Align exactly with the source’s net-interest definition.",
+        "fields": [
+          "body",
+          "explanation"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-government-budget-the-economy-3",
+        "reason": "Self-contained CUET task and parallel, within-subject distractors; source-backed answer.",
+        "fields": [
+          "body",
+          "options",
+          "correct_answer",
+          "explanation",
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-balance-of-payments-1",
+        "reason": "Remove an unprinted excerpt reference.",
+        "fields": [
+          "body"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-balance-of-payments-2",
+        "reason": "State the exchange-rate regime; keep the supported directional claim.",
+        "fields": [
+          "body",
+          "options"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-economics-balance-of-payments-3",
+        "reason": "This is a direct synonym question, not a matching task.",
+        "fields": [
+          "question_type"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-english-4-1",
+        "reason": "Clarify mutually distinct label designs; preserve reported observations.",
+        "fields": [
+          "passage_text",
+          "source_refs"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-english-4-2",
+        "reason": "Clarify mutually distinct label designs; preserve reported observations.",
+        "fields": [
+          "passage_text",
+          "source_refs"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-english-4-3",
+        "reason": "Clarify mutually distinct label designs; preserve reported observations.",
+        "fields": [
+          "passage_text",
+          "source_refs"
+        ]
+      },
+      {
+        "parent_id": "fresh-v5-english-4-4",
+        "reason": "Clarify mutually distinct label designs; preserve reported observations.",
+        "fields": [
+          "passage_text",
+          "source_refs"
+        ]
+      }
+    ],
+    "answer_positions": "deterministic balanced permutation; not a model outcome",
+    "disclosure": "Root revised the draft before any native validator evaluation. Author/source audits are required benchmark construction, not measured reliability. The source families and paired controls are correlated."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "at": "2026-10-06T18:18:47.979Z",
+  "factory_tests": 62,
+  "recovery_tests": 35,
+  "answer_integrity_tests": 6,
+  "nta_tests": 22,
+  "question_payment_tests": 16,
+  "total_tests": 141,
+  "failures": 0,
+  "targeted_lint": "passed",
+  "production_build": "passed",
+  "build_warnings": [
+    "Existing invalid image height 280 / width 235 warnings remain"
+  ],
+  "browser": {
+    "desktop_width": 1440,
+    "mobile_width": 375,
+    "matching_lists_restored": true,
+    "selection_preserved": true,
+    "no_horizontal_overflow": true,
+    "preview_hydration_errors": 0
+  },
+  "academic_release": false,
+  "production_changes": 0,
+  "full_batch_probe_complete": false
+}

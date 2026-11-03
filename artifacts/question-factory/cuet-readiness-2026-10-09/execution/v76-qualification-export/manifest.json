@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-08T22:10:29.381Z",
+  "denominator": 41,
+  "terminal": 41,
+  "settled_usd": 0.64998,
+  "held_usd": 0,
+  "files": [
+    {
+      "name": "all-cases.json",
+      "sha256": "26d30a21ad6c0c01b3f5ad910e57f97c7457b9093853ba6d1925bcc1c348e47b"
+    },
+    {
+      "name": "all-cases.csv",
+      "sha256": "b8a621dbff1439a3aac08a7375c0a51908e2b547e49cb39b76d18e06ffe081aa"
+    }
+  ],
+  "limitations": "Root/defect pairs and shared passages are correlated; qualification export is not a representative generated pilot. All unfinished cases remain in denominator. Receipt-settled usage is not a provider invoice."
+}

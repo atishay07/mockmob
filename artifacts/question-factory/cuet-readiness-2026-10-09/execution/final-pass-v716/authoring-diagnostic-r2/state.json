@@ -1,0 +1,3421 @@
+{
+  "registration_hash": "52369643d43e27a1b5f9d4e086158cb0021013063cac6348bc75d712a57a4433",
+  "request_keys": [
+    "4b8172add1aa50a22679b3503894fb82b340a9573372431259387309ef1e0c5c",
+    "d03a37411871cfb3a3e4dbcb198de0d5a2c53ea2a91a927f9dcddc1b7f311015",
+    "c9a11a0204815a7ad5d87d1c4476b0d2a7a2b7249258d7c2eb0d2eb5370a3409",
+    "90316034fe1e0764a499f32d5536c531f3200b1e8a19c5cdc915a3111414fc7f",
+    "130e4d8266ea4da0693409a59e2da77b21901b81419fe0ad5a0e2738f04b0411",
+    "e41f9ee6e4206edc640d8b238d4f94e4101399b7df4de0ee578f3465adf27546",
+    "83e0a632c59ee7148e688d94e9ce178ac4215f47ad498d1b21a6d10bc8eaf08a",
+    "bbcd5675f9c40205e146a4bd246a1d28418d9c856cc1b07f0dae0db443c3ba91",
+    "b3c2368ed741e4b132f9f7b6e9eae9bae0336b1b5305e7119275a46386007a8b",
+    "a26a812bf4cec2b1945b3dde68c46de66b79a535e1dbc9606e4f1244d33d8739",
+    "0db83ac5470f4115cc70141a82ec8eeb694f189341187ebabaed351e19b67a42"
+  ],
+  "cases": {
+    "d3bd0d5de4fe0b0c9f0181b686104166": {
+      "state": "eligible",
+      "generated_candidate": {
+        "body": "Which explanation best captures the club's stated reason for choosing the cable and switches rather than a new drill?",
+        "options": [
+          "It considered buying new equipment wasteful in every situation.",
+          "It could restore use of the working drill and restart waiting repairs without exhausting its budget.",
+          "It had already completed the repairs, so the switches were no longer required.",
+          "The existing drill could no longer handle the workload, making a replacement urgent."
+        ],
+        "correct_answer": "B",
+        "explanation": "The existing drill worked but needed a charging cable, and repairs were waiting for switches. Buying those items let the club resume the repairs without exhausting its budget. The passage does not say that new equipment is always wasteful or that the drill had stopped handling the workload.",
+        "difficulty": "medium",
+        "route": "passage",
+        "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+        "question_type": "reading_comprehension",
+        "concept_id": "english_factual_passage_stated_reason",
+        "evidence_quotes": [
+          "The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget."
+        ],
+        "stated_assumptions": [
+          "The question concerns the reason stated in the supplied fictional passage; no additional facts about the club are assumed."
+        ],
+        "option_analysis": [
+          "Incorrect: the passage explicitly says the minutes did not claim that buying new equipment was always wasteful.",
+          "Correct: the cable and switches enabled the club to resume waiting repairs without exhausting its budget.",
+          "Incorrect: the repairs were waiting to be resumed, not already completed.",
+          "Incorrect: the existing drill worked; reconsidering a drill purchase was conditional on the repaired equipment no longer handling the workload."
+        ],
+        "id": "d3bd0d5de4fe0b0c9f0181b686104166",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "topic": "Factual Passage: test the stated reason behind the club's purchase decision in this printed fictional passage.",
+        "branch": null,
+        "family_id": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        },
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+          }
+        ],
+        "generator_version": "cuet-fit-validator-v7.16-report-policy",
+        "passage_group_id": "grp716-0ca9fa372ef43362",
+        "order_index": 1
+      },
+      "generated_candidate_hash": "685db25e11d7edce1a00c123ac297ef5522ae21395d035dfad134388128afdee",
+      "academic_sound": true,
+      "blind_frozen": {
+        "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+        "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+        "reports": [
+          {
+            "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+            "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+            "answer_set": [
+              "B"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2"
+            ],
+            "issues": [],
+            "solved_key": "B",
+            "derivation": "The supplied fictional passage says the existing drill worked but needed a cable, and switches would let the club resume waiting repairs without exhausting its budget. The minutes characterize the choice as meeting immediate needs. Thus B best captures the reason. The stimulus is a local fictional passage, not an externally authenticated factual source; no authenticated style comparator was supplied.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The passage expressly says the club did not claim that buying new equipment was always wasteful."
+              },
+              {
+                "option": "B",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The cable and switches restored use of the working drill and enabled waiting repairs to resume without exhausting the budget."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The repairs were waiting before the purchases; the purchases allowed the club to resume them."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "The drill was working; reconsidering a new drill was conditional on the equipment no longer handling the workload."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "supported",
+              "passage_answerability": "supported",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "The reason is stated directly in a 92-word passage, and the alternatives are contradicted by explicit details or chronology. Estimated time is about 30–45 seconds, below the verified 2026 baseline average of 72 seconds per question; no authenticated comparator was available.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 8,
+                "note": "Clear, answerable comprehension practice with a uniquely supported answer."
+              },
+              "2": {
+                "score": 9,
+                "note": "Factual-passage reading comprehension is expressly within the supplied English syllabus."
+              },
+              "3": {
+                "score": 8,
+                "note": "Tests identifying a stated reason and distinguishing it from overgeneralization and a conditional future possibility."
+              },
+              "4": {
+                "score": 7,
+                "note": "Uses a clear four-option reading-comprehension format; no authenticated comparator was supplied for finer style calibration."
+              },
+              "5": {
+                "score": 8,
+                "note": "The straightforward demand is appropriate for an easy practice item, with no hidden information requirement."
+              },
+              "6": {
+                "score": 9,
+                "note": "The short passage and direct question are well suited to a brief CUET practice time budget."
+              },
+              "8": {
+                "score": 9,
+                "note": "Only B captures the stated reason without contradicting the passage."
+              },
+              "9": {
+                "score": 8,
+                "note": "The distractors test distinct errors: overgeneralization, reversed chronology, and misreading a future condition."
+              },
+              "10": {
+                "score": 9,
+                "note": "The decisive details and stated rationale are all supplied in the passage."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical calculation or method is involved."
+              },
+              "12": {
+                "score": 8,
+                "note": "The conditional future workload threshold is clearly distinguished from the club's present reason."
+              },
+              "15": {
+                "score": 9,
+                "note": "The passage directly states the rationale and provides enough context to reject the alternatives."
+              },
+              "16": {
+                "score": 9,
+                "note": "The question, passage, and four options are complete for the tested inference."
+              },
+              "17": {
+                "score": 9,
+                "note": "The question and choices are concise and readily understood."
+              },
+              "18": {
+                "score": 8,
+                "note": "The incorrect choices are plausible misreadings but are each clearly ruled out by the passage."
+              },
+              "19": {
+                "score": null,
+                "note": "No authenticated calibration or anchor comparisons were supplied, so semantic novelty cannot be assessed."
+              },
+              "20": {
+                "score": 9,
+                "note": "The item is faithful to the supplied fictional passage and does not require external factual claims."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "73e2e040dadd8ad165246a86eed6680ba5bcb229fda7afea6a74845cfe6ad95e"
+          },
+          {
+            "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+            "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+            "answer_set": [
+              "B"
+            ],
+            "source_ids": [
+              "E1.1"
+            ],
+            "issues": [],
+            "solved_key": "B",
+            "derivation": "The passage states that an inventory check revealed that an existing drill worked but lacked a charging cable, and several repairs were waiting for inexpensive switches. Purchasing the cable and switches 'allowed it to resume the waiting repairs without exhausting the budget.' Option B directly captures this stated rationale. Option A is contradicted ('did not claim that buying new equipment was always wasteful'), Option C is contradicted (repairs were waiting, not completed), and Option D is contradicted (the existing drill still worked, and reconsideration of a purchase was conditional on future workload demands).",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "Directly contradicted by the passage, which explicitly clarifies that the minutes 'did not claim that buying new equipment was always wasteful.'"
+              },
+              {
+                "option": "B",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "Accurately combines and restates the passage facts: the existing drill worked once a cable was provided, and purchasing both parts enabled resuming waiting repairs within budget limits."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "Directly contradicted by the text, which notes that several repairs were waiting for the switches."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Contradicted by the text: the existing drill worked, and buying a new drill was deferred rather than urgent."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "not_applicable",
+              "passage_answerability": "supported",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "The correct answer is a direct, clear synthesis of two explicit consecutive sentences in a short, straightforward factual stimulus, while the three distractors are cleanly refuted by explicit text statements.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 8,
+                "note": "Standard CUET-style reading comprehension item with a clear question stem and definitive options."
+              },
+              "2": {
+                "score": 9,
+                "note": "Directly within the CUET English syllabus under Reading Comprehension (Factual Passage)."
+              },
+              "3": {
+                "score": 9,
+                "note": "Tests targeted information retrieval and distinguishing explicit justifications from distractor claims."
+              },
+              "4": {
+                "score": 8,
+                "note": "Standard multiple-choice format aligned with CUET exam presentation."
+              },
+              "5": {
+                "score": 8,
+                "note": "Well-calibrated easy RC question appropriate for the 72-second per-question pace."
+              },
+              "6": {
+                "score": 9,
+                "note": "Passage is compact (under 100 words) and easily readable well within testing limits."
+              },
+              "8": {
+                "score": 10,
+                "note": "Option B is uniquely correct without any plausible rival interpretation."
+              },
+              "9": {
+                "score": 9,
+                "note": "Options are mutually exclusive and clearly differentiated in meaning."
+              },
+              "10": {
+                "score": 9,
+                "note": "Requires no extrinsic decisive assumptions; all necessary facts are in the text."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical operations involved."
+              },
+              "12": {
+                "score": null,
+                "note": "No quantitative or boundary conditions present."
+              },
+              "15": {
+                "score": 9,
+                "note": "Entirely resolvable using solely the supplied passage text."
+              },
+              "16": {
+                "score": 9,
+                "note": "Self-contained and complete."
+              },
+              "17": {
+                "score": 9,
+                "note": "The prompt and options use clear, unambiguous, grammatically sound language."
+              },
+              "18": {
+                "score": 8,
+                "note": "Distractors target plausible reading traps (generalization, misreading tense/status, reversal of necessity) while remaining clearly incorrect."
+              },
+              "19": {
+                "score": 8,
+                "note": "Fresh scenario crafted for reading comprehension practice."
+              },
+              "20": {
+                "score": 9,
+                "note": "Faithful to the supplied stimulus passage without distortions."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "118526658be72b8157d892057cfa434d7fd307de20e63c299af340e9a80062f5"
+          }
+        ],
+        "sha256": "50349802c8e64e3563e506cac1d7f7d2b6be0b968aea09e508ef948759c91e80"
+      },
+      "policy": "cuet-scorecard-routing-v716",
+      "quality_score": 8.4,
+      "display_score": 8.4,
+      "criteria": [
+        {
+          "id": "1",
+          "parameter": "overall_cuet_readiness",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "Clear, answerable comprehension practice with a uniquely supported answer.",
+            "Standard CUET-style reading comprehension item with a clear question stem and definitive options."
+          ]
+        },
+        {
+          "id": "2",
+          "parameter": "syllabus_entitlement",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Factual-passage reading comprehension is expressly within the supplied English syllabus.",
+            "Directly within the CUET English syllabus under Reading Comprehension (Factual Passage)."
+          ]
+        },
+        {
+          "id": "3",
+          "parameter": "learning_objective",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Tests identifying a stated reason and distinguishing it from overgeneralization and a conditional future possibility.",
+            "Tests targeted information retrieval and distinguishing explicit justifications from distractor claims."
+          ]
+        },
+        {
+          "id": "4",
+          "parameter": "cuet_format_style",
+          "score": 7.5,
+          "applicable": true,
+          "notes": [
+            "Uses a clear four-option reading-comprehension format; no authenticated comparator was supplied for finer style calibration.",
+            "Standard multiple-choice format aligned with CUET exam presentation."
+          ]
+        },
+        {
+          "id": "5",
+          "parameter": "difficulty_calibration",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The straightforward demand is appropriate for an easy practice item, with no hidden information requirement.",
+            "Well-calibrated easy RC question appropriate for the 72-second per-question pace."
+          ]
+        },
+        {
+          "id": "6",
+          "parameter": "time_reading_suitability",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The short passage and direct question are well suited to a brief CUET practice time budget.",
+            "Passage is compact (under 100 words) and easily readable well within testing limits."
+          ]
+        },
+        {
+          "id": "7",
+          "parameter": "answer_accuracy",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both hidden-key independent solutions match the author key."
+          ]
+        },
+        {
+          "id": "8",
+          "parameter": "unique_answer",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "Only B captures the stated reason without contradicting the passage.",
+            "Option B is uniquely correct without any plausible rival interpretation."
+          ]
+        },
+        {
+          "id": "9",
+          "parameter": "option_separation",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The distractors test distinct errors: overgeneralization, reversed chronology, and misreading a future condition.",
+            "Options are mutually exclusive and clearly differentiated in meaning."
+          ]
+        },
+        {
+          "id": "10",
+          "parameter": "decisive_assumptions",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The decisive details and stated rationale are all supplied in the passage.",
+            "Requires no extrinsic decisive assumptions; all necessary facts are in the text."
+          ]
+        },
+        {
+          "id": "11",
+          "parameter": "numerical_accuracy_method",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "No numerical calculation or method is involved.",
+            "No numerical operations involved."
+          ]
+        },
+        {
+          "id": "12",
+          "parameter": "boundary_cases",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The conditional future workload threshold is clearly distinguished from the club's present reason.",
+            "No quantitative or boundary conditions present."
+          ]
+        },
+        {
+          "id": "13",
+          "parameter": "explanation_correctness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Accurately captures the stated reason and does not introduce a conflicting claim."
+          ]
+        },
+        {
+          "id": "14",
+          "parameter": "explanation_source_support",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Each factual point is directly supported by the supplied passage."
+          ]
+        },
+        {
+          "id": "15",
+          "parameter": "passage_answerability",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The passage directly states the rationale and provides enough context to reject the alternatives.",
+            "Entirely resolvable using solely the supplied passage text."
+          ]
+        },
+        {
+          "id": "16",
+          "parameter": "completeness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The question, passage, and four options are complete for the tested inference.",
+            "Self-contained and complete."
+          ]
+        },
+        {
+          "id": "17",
+          "parameter": "language_clarity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The question and choices are concise and readily understood.",
+            "The prompt and options use clear, unambiguous, grammatically sound language.",
+            "Concise, clear, and easy to follow."
+          ]
+        },
+        {
+          "id": "18",
+          "parameter": "distractor_plausibility",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The incorrect choices are plausible misreadings but are each clearly ruled out by the passage.",
+            "Distractors target plausible reading traps (generalization, misreading tense/status, reversal of necessity) while remaining clearly incorrect."
+          ]
+        },
+        {
+          "id": "19",
+          "parameter": "semantic_novelty",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "No authenticated calibration or anchor comparisons were supplied, so semantic novelty cannot be assessed.",
+            "Fresh scenario crafted for reading comprehension practice."
+          ]
+        },
+        {
+          "id": "20",
+          "parameter": "source_fidelity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The item is faithful to the supplied fictional passage and does not require external factual claims.",
+            "Faithful to the supplied stimulus passage without distortions.",
+            "Faithfully preserves the passage’s qualifications about immediate needs and future workload."
+          ]
+        }
+      ],
+      "reported_mean": 8.68421052631579,
+      "composite_basis": [
+        "3",
+        "4",
+        "6",
+        "17",
+        "18"
+      ],
+      "route_band": "nta_eligible",
+      "modes": {
+        "practice": true,
+        "nta": true
+      },
+      "outcome": "eligible",
+      "reasons": [],
+      "difficulty": {
+        "passed": true,
+        "version": "cuet-demand-bands-v713",
+        "level": "easy",
+        "agreement": true,
+        "observations": [
+          {
+            "stage": "blind_solution",
+            "provider": "openai",
+            "assessment": {
+              "level": "easy",
+              "reason": "The reason is stated directly in a 92-word passage, and the alternatives are contradicted by explicit details or chronology. Estimated time is about 30–45 seconds, below the verified 2026 baseline average of 72 seconds per question; no authenticated comparator was available.",
+              "comparison_basis": "heuristic"
+            }
+          },
+          {
+            "stage": "independent_evaluation",
+            "provider": "gemini",
+            "assessment": {
+              "level": "easy",
+              "reason": "The correct answer is a direct, clear synthesis of two explicit consecutive sentences in a short, straightforward factual stimulus, while the three distractors are cleanly refuted by explicit text statements.",
+              "comparison_basis": "heuristic"
+            }
+          }
+        ],
+        "purpose": "warmup",
+        "nta_policy": "preferred_medium_then_easy"
+      },
+      "advisory_issues": [],
+      "question": {
+        "body": "Which explanation best captures the club's stated reason for choosing the cable and switches rather than a new drill?",
+        "options": [
+          "It considered buying new equipment wasteful in every situation.",
+          "It could restore use of the working drill and restart waiting repairs without exhausting its budget.",
+          "It had already completed the repairs, so the switches were no longer required.",
+          "The existing drill could no longer handle the workload, making a replacement urgent."
+        ],
+        "correct_answer": "B",
+        "explanation": "The existing drill worked but needed a charging cable, and repairs were waiting for switches. Buying those items let the club resume the repairs without exhausting its budget. The passage does not say that new equipment is always wasteful or that the drill had stopped handling the workload.",
+        "difficulty": "medium",
+        "route": "passage",
+        "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+        "question_type": "reading_comprehension",
+        "concept_id": "english_factual_passage_stated_reason",
+        "evidence_quotes": [
+          "The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget."
+        ],
+        "stated_assumptions": [
+          "The question concerns the reason stated in the supplied fictional passage; no additional facts about the club are assumed."
+        ],
+        "option_analysis": [
+          "Incorrect: the passage explicitly says the minutes did not claim that buying new equipment was always wasteful.",
+          "Correct: the cable and switches enabled the club to resume waiting repairs without exhausting its budget.",
+          "Incorrect: the repairs were waiting to be resumed, not already completed.",
+          "Incorrect: the existing drill worked; reconsidering a drill purchase was conditional on the repaired equipment no longer handling the workload."
+        ],
+        "id": "d3bd0d5de4fe0b0c9f0181b686104166",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "topic": "Factual Passage: test the stated reason behind the club's purchase decision in this printed fictional passage.",
+        "branch": null,
+        "family_id": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        },
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+          }
+        ],
+        "generator_version": "cuet-fit-validator-v7.16-report-policy",
+        "passage_group_id": "grp716-0ca9fa372ef43362",
+        "order_index": 1,
+        "evidence": {
+          "record": {
+            "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+            "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+            "state": "eligible",
+            "policy_version": "cuet-llm-v3",
+            "verifier_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "scorecard_policy": "cuet-scorecard-routing-v716",
+            "topology": "dual_blind",
+            "source_registry_version": 58,
+            "sources": [
+              {
+                "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+                "version": 1,
+                "locator": "stimulus",
+                "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+              }
+            ],
+            "family_id": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+            "family_version": 1,
+            "route": "passage",
+            "question_type": "reading_comprehension",
+            "passage_group": {
+              "id": "grp716-0ca9fa372ef43362",
+              "member_ids": [
+                "d3bd0d5de4fe0b0c9f0181b686104166",
+                "19263984b97e3387247b71373fd7341f"
+              ]
+            },
+            "provenance": {
+              "kind": "original_practice",
+              "anchor_id": null,
+              "adaptation_family": "original:d3bd0d5de4fe0b0c9f0181b686104166",
+              "adaptation_type": null,
+              "syllabus_version": "cuet-2026-provisional-for-2027",
+              "pattern_version": "cuet-2024-authenticated-bookA-v1",
+              "source_pack_id": "original-english-reference-v1",
+              "source_pack_version": 1
+            },
+            "author_target_difficulty": "medium",
+            "difficulty_target_match": false,
+            "verified_at": "2026-10-09T23:39:03.252Z",
+            "expires_at": "2026-11-08T23:39:03.252Z",
+            "reports": [
+              {
+                "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+                "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+                "answer_set": [
+                  "B"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "issues": [],
+                "solved_key": "B",
+                "derivation": "The supplied fictional passage says the existing drill worked but needed a cable, and switches would let the club resume waiting repairs without exhausting its budget. The minutes characterize the choice as meeting immediate needs. Thus B best captures the reason. The stimulus is a local fictional passage, not an externally authenticated factual source; no authenticated style comparator was supplied.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The passage expressly says the club did not claim that buying new equipment was always wasteful."
+                  },
+                  {
+                    "option": "B",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The cable and switches restored use of the working drill and enabled waiting repairs to resume without exhausting the budget."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The repairs were waiting before the purchases; the purchases allowed the club to resume them."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E1.2"
+                    ],
+                    "reason": "The drill was working; reconsidering a new drill was conditional on the equipment no longer handling the workload."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "supported",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "The reason is stated directly in a 92-word passage, and the alternatives are contradicted by explicit details or chronology. Estimated time is about 30–45 seconds, below the verified 2026 baseline average of 72 seconds per question; no authenticated comparator was available.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 8,
+                    "note": "Clear, answerable comprehension practice with a uniquely supported answer."
+                  },
+                  "2": {
+                    "score": 9,
+                    "note": "Factual-passage reading comprehension is expressly within the supplied English syllabus."
+                  },
+                  "3": {
+                    "score": 8,
+                    "note": "Tests identifying a stated reason and distinguishing it from overgeneralization and a conditional future possibility."
+                  },
+                  "4": {
+                    "score": 7,
+                    "note": "Uses a clear four-option reading-comprehension format; no authenticated comparator was supplied for finer style calibration."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "The straightforward demand is appropriate for an easy practice item, with no hidden information requirement."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "The short passage and direct question are well suited to a brief CUET practice time budget."
+                  },
+                  "8": {
+                    "score": 9,
+                    "note": "Only B captures the stated reason without contradicting the passage."
+                  },
+                  "9": {
+                    "score": 8,
+                    "note": "The distractors test distinct errors: overgeneralization, reversed chronology, and misreading a future condition."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "The decisive details and stated rationale are all supplied in the passage."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "No numerical calculation or method is involved."
+                  },
+                  "12": {
+                    "score": 8,
+                    "note": "The conditional future workload threshold is clearly distinguished from the club's present reason."
+                  },
+                  "15": {
+                    "score": 9,
+                    "note": "The passage directly states the rationale and provides enough context to reject the alternatives."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "The question, passage, and four options are complete for the tested inference."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The question and choices are concise and readily understood."
+                  },
+                  "18": {
+                    "score": 8,
+                    "note": "The incorrect choices are plausible misreadings but are each clearly ruled out by the passage."
+                  },
+                  "19": {
+                    "score": null,
+                    "note": "No authenticated calibration or anchor comparisons were supplied, so semantic novelty cannot be assessed."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "The item is faithful to the supplied fictional passage and does not require external factual claims."
+                  }
+                },
+                "provider": "openai",
+                "model": "gpt-6-luna",
+                "effort": "high",
+                "stage": "blind_solution",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+                "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+                "request_key": "73e2e040dadd8ad165246a86eed6680ba5bcb229fda7afea6a74845cfe6ad95e"
+              },
+              {
+                "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+                "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+                "answer_set": [
+                  "B"
+                ],
+                "source_ids": [
+                  "E1.1"
+                ],
+                "issues": [],
+                "solved_key": "B",
+                "derivation": "The passage states that an inventory check revealed that an existing drill worked but lacked a charging cable, and several repairs were waiting for inexpensive switches. Purchasing the cable and switches 'allowed it to resume the waiting repairs without exhausting the budget.' Option B directly captures this stated rationale. Option A is contradicted ('did not claim that buying new equipment was always wasteful'), Option C is contradicted (repairs were waiting, not completed), and Option D is contradicted (the existing drill still worked, and reconsideration of a purchase was conditional on future workload demands).",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "Directly contradicted by the passage, which explicitly clarifies that the minutes 'did not claim that buying new equipment was always wasteful.'"
+                  },
+                  {
+                    "option": "B",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "Accurately combines and restates the passage facts: the existing drill worked once a cable was provided, and purchasing both parts enabled resuming waiting repairs within budget limits."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "Directly contradicted by the text, which notes that several repairs were waiting for the switches."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E1.2"
+                    ],
+                    "reason": "Contradicted by the text: the existing drill worked, and buying a new drill was deferred rather than urgent."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "not_applicable",
+                  "passage_answerability": "supported",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "The correct answer is a direct, clear synthesis of two explicit consecutive sentences in a short, straightforward factual stimulus, while the three distractors are cleanly refuted by explicit text statements.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 8,
+                    "note": "Standard CUET-style reading comprehension item with a clear question stem and definitive options."
+                  },
+                  "2": {
+                    "score": 9,
+                    "note": "Directly within the CUET English syllabus under Reading Comprehension (Factual Passage)."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "Tests targeted information retrieval and distinguishing explicit justifications from distractor claims."
+                  },
+                  "4": {
+                    "score": 8,
+                    "note": "Standard multiple-choice format aligned with CUET exam presentation."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "Well-calibrated easy RC question appropriate for the 72-second per-question pace."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Passage is compact (under 100 words) and easily readable well within testing limits."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "Option B is uniquely correct without any plausible rival interpretation."
+                  },
+                  "9": {
+                    "score": 9,
+                    "note": "Options are mutually exclusive and clearly differentiated in meaning."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "Requires no extrinsic decisive assumptions; all necessary facts are in the text."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "No numerical operations involved."
+                  },
+                  "12": {
+                    "score": null,
+                    "note": "No quantitative or boundary conditions present."
+                  },
+                  "15": {
+                    "score": 9,
+                    "note": "Entirely resolvable using solely the supplied passage text."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "Self-contained and complete."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The prompt and options use clear, unambiguous, grammatically sound language."
+                  },
+                  "18": {
+                    "score": 8,
+                    "note": "Distractors target plausible reading traps (generalization, misreading tense/status, reversal of necessity) while remaining clearly incorrect."
+                  },
+                  "19": {
+                    "score": 8,
+                    "note": "Fresh scenario crafted for reading comprehension practice."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "Faithful to the supplied stimulus passage without distortions."
+                  }
+                },
+                "provider": "gemini",
+                "model": "gemini-3.8-flash",
+                "effort": "medium",
+                "stage": "independent_evaluation",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+                "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+                "request_key": "118526658be72b8157d892057cfa434d7fd307de20e63c299af340e9a80062f5"
+              }
+            ],
+            "audit": {
+              "candidate_id": "d3bd0d5de4fe0b0c9f0181b686104166",
+              "content_hash": "fc1918a96dee51f170cf2a6ad96f85fa9049617ed9ba870e42648f4849c7c331",
+              "answer_set": [
+                "B"
+              ],
+              "source_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "issues": [],
+              "explanation_status": "supported",
+              "options_status": "supported",
+              "claims": [
+                {
+                  "claim": "The existing drill worked but needed a charging cable, and repairs were waiting for switches.",
+                  "basis": "passage",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1"
+                  ],
+                  "reason": "The passage states both facts directly."
+                },
+                {
+                  "claim": "Buying the cable and switches allowed the club to resume the waiting repairs without exhausting its budget.",
+                  "basis": "passage",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1"
+                  ],
+                  "reason": "This is stated directly in the passage."
+                },
+                {
+                  "claim": "The passage does not say that buying new equipment is always wasteful or that the drill had stopped handling the workload.",
+                  "basis": "passage",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1",
+                    "E1.2"
+                  ],
+                  "reason": "The passage explicitly disclaims the general claim about wastefulness and makes reconsidering a drill purchase conditional on equipment no longer handling the workload."
+                }
+              ],
+              "scores": {
+                "13": {
+                  "score": 9,
+                  "note": "Accurately captures the stated reason and does not introduce a conflicting claim."
+                },
+                "14": {
+                  "score": 9,
+                  "note": "Each factual point is directly supported by the supplied passage."
+                },
+                "17": {
+                  "score": 9,
+                  "note": "Concise, clear, and easy to follow."
+                },
+                "20": {
+                  "score": 9,
+                  "note": "Faithfully preserves the passage’s qualifications about immediate needs and future workload."
+                }
+              },
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "stage": "explanation_support",
+              "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+              "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+              "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+              "request_key": "4771632219924ec583fe2515db89ac051c101785a09f0f257427ba28d872093f"
+            },
+            "local_checks": {
+              "structure": true,
+              "presentation": true,
+              "provenance": true,
+              "syllabus_registry": true,
+              "source_integrity": true,
+              "novelty": true,
+              "numeric_required": false
+            },
+            "decision": {
+              "state": "eligible",
+              "policy": "cuet-scorecard-routing-v716",
+              "academic_sound": true,
+              "quality_score": 8.4,
+              "display_score": 8.4,
+              "criteria": [
+                {
+                  "id": "1",
+                  "parameter": "overall_cuet_readiness",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "Clear, answerable comprehension practice with a uniquely supported answer.",
+                    "Standard CUET-style reading comprehension item with a clear question stem and definitive options."
+                  ]
+                },
+                {
+                  "id": "2",
+                  "parameter": "syllabus_entitlement",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Factual-passage reading comprehension is expressly within the supplied English syllabus.",
+                    "Directly within the CUET English syllabus under Reading Comprehension (Factual Passage)."
+                  ]
+                },
+                {
+                  "id": "3",
+                  "parameter": "learning_objective",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Tests identifying a stated reason and distinguishing it from overgeneralization and a conditional future possibility.",
+                    "Tests targeted information retrieval and distinguishing explicit justifications from distractor claims."
+                  ]
+                },
+                {
+                  "id": "4",
+                  "parameter": "cuet_format_style",
+                  "score": 7.5,
+                  "applicable": true,
+                  "notes": [
+                    "Uses a clear four-option reading-comprehension format; no authenticated comparator was supplied for finer style calibration.",
+                    "Standard multiple-choice format aligned with CUET exam presentation."
+                  ]
+                },
+                {
+                  "id": "5",
+                  "parameter": "difficulty_calibration",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The straightforward demand is appropriate for an easy practice item, with no hidden information requirement.",
+                    "Well-calibrated easy RC question appropriate for the 72-second per-question pace."
+                  ]
+                },
+                {
+                  "id": "6",
+                  "parameter": "time_reading_suitability",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The short passage and direct question are well suited to a brief CUET practice time budget.",
+                    "Passage is compact (under 100 words) and easily readable well within testing limits."
+                  ]
+                },
+                {
+                  "id": "7",
+                  "parameter": "answer_accuracy",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both hidden-key independent solutions match the author key."
+                  ]
+                },
+                {
+                  "id": "8",
+                  "parameter": "unique_answer",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "Only B captures the stated reason without contradicting the passage.",
+                    "Option B is uniquely correct without any plausible rival interpretation."
+                  ]
+                },
+                {
+                  "id": "9",
+                  "parameter": "option_separation",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The distractors test distinct errors: overgeneralization, reversed chronology, and misreading a future condition.",
+                    "Options are mutually exclusive and clearly differentiated in meaning."
+                  ]
+                },
+                {
+                  "id": "10",
+                  "parameter": "decisive_assumptions",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The decisive details and stated rationale are all supplied in the passage.",
+                    "Requires no extrinsic decisive assumptions; all necessary facts are in the text."
+                  ]
+                },
+                {
+                  "id": "11",
+                  "parameter": "numerical_accuracy_method",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "No numerical calculation or method is involved.",
+                    "No numerical operations involved."
+                  ]
+                },
+                {
+                  "id": "12",
+                  "parameter": "boundary_cases",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The conditional future workload threshold is clearly distinguished from the club's present reason.",
+                    "No quantitative or boundary conditions present."
+                  ]
+                },
+                {
+                  "id": "13",
+                  "parameter": "explanation_correctness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Accurately captures the stated reason and does not introduce a conflicting claim."
+                  ]
+                },
+                {
+                  "id": "14",
+                  "parameter": "explanation_source_support",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Each factual point is directly supported by the supplied passage."
+                  ]
+                },
+                {
+                  "id": "15",
+                  "parameter": "passage_answerability",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The passage directly states the rationale and provides enough context to reject the alternatives.",
+                    "Entirely resolvable using solely the supplied passage text."
+                  ]
+                },
+                {
+                  "id": "16",
+                  "parameter": "completeness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The question, passage, and four options are complete for the tested inference.",
+                    "Self-contained and complete."
+                  ]
+                },
+                {
+                  "id": "17",
+                  "parameter": "language_clarity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The question and choices are concise and readily understood.",
+                    "The prompt and options use clear, unambiguous, grammatically sound language.",
+                    "Concise, clear, and easy to follow."
+                  ]
+                },
+                {
+                  "id": "18",
+                  "parameter": "distractor_plausibility",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The incorrect choices are plausible misreadings but are each clearly ruled out by the passage.",
+                    "Distractors target plausible reading traps (generalization, misreading tense/status, reversal of necessity) while remaining clearly incorrect."
+                  ]
+                },
+                {
+                  "id": "19",
+                  "parameter": "semantic_novelty",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "No authenticated calibration or anchor comparisons were supplied, so semantic novelty cannot be assessed.",
+                    "Fresh scenario crafted for reading comprehension practice."
+                  ]
+                },
+                {
+                  "id": "20",
+                  "parameter": "source_fidelity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The item is faithful to the supplied fictional passage and does not require external factual claims.",
+                    "Faithful to the supplied stimulus passage without distortions.",
+                    "Faithfully preserves the passage’s qualifications about immediate needs and future workload."
+                  ]
+                }
+              ],
+              "reported_mean": 8.68421052631579,
+              "composite_basis": [
+                "3",
+                "4",
+                "6",
+                "17",
+                "18"
+              ],
+              "route_band": "nta_eligible",
+              "modes": {
+                "practice": true,
+                "nta": true
+              },
+              "outcome": "eligible",
+              "reasons": [],
+              "difficulty": {
+                "passed": true,
+                "version": "cuet-demand-bands-v713",
+                "level": "easy",
+                "agreement": true,
+                "observations": [
+                  {
+                    "stage": "blind_solution",
+                    "provider": "openai",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "The reason is stated directly in a 92-word passage, and the alternatives are contradicted by explicit details or chronology. Estimated time is about 30–45 seconds, below the verified 2026 baseline average of 72 seconds per question; no authenticated comparator was available.",
+                      "comparison_basis": "heuristic"
+                    }
+                  },
+                  {
+                    "stage": "independent_evaluation",
+                    "provider": "gemini",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "The correct answer is a direct, clear synthesis of two explicit consecutive sentences in a short, straightforward factual stimulus, while the three distractors are cleanly refuted by explicit text statements.",
+                      "comparison_basis": "heuristic"
+                    }
+                  }
+                ],
+                "purpose": "warmup",
+                "nta_policy": "preferred_medium_then_easy"
+              },
+              "advisory_issues": []
+            }
+          },
+          "signature": "446dd4eedc0426f4194c6353359fa6fd81925b9a391a45172f1771e15b8643d8"
+        }
+      }
+    },
+    "19263984b97e3387247b71373fd7341f": {
+      "state": "quarantined",
+      "generated_candidate": {
+        "body": "Which later development would meet the condition the members set for reconsidering the drill purchase?",
+        "options": [
+          "The club has saved enough money to buy a new drill.",
+          "All the repairs that were waiting have been completed.",
+          "The existing drill again needs a charging cable.",
+          "The repaired equipment can no longer handle the club’s workload."
+        ],
+        "correct_answer": "D",
+        "explanation": "The members set an operational condition: they would reconsider the drill if the repaired equipment could no longer handle their workload. Saving money, finishing the waiting repairs, or needing another cable is not the stated condition.",
+        "difficulty": "medium",
+        "route": "passage",
+        "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+        "question_type": "reading_comprehension",
+        "concept_id": "english.factual_passage.stated_condition_reconsider_drill",
+        "evidence_quotes": [
+          "Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload."
+        ],
+        "stated_assumptions": [
+          "The question asks which development matches the stated condition for reconsideration, not which development might independently make a new drill desirable."
+        ],
+        "option_analysis": [
+          "Having enough money is not given as the condition for reconsidering the purchase.",
+          "Completing the waiting repairs is not stated as a trigger for reconsidering the drill.",
+          "A renewed need for a cable is not the stated condition; the condition concerns whether the repaired equipment can handle the workload.",
+          "This matches the stated condition: the repaired equipment can no longer handle the club’s workload."
+        ],
+        "id": "19263984b97e3387247b71373fd7341f",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "topic": "Factual Passage: test what the minutes explicitly did or did not claim, or the stated condition for reconsidering the drill, in this printed fictional passage. Do not ask about the reason for buying the cable and switches.",
+        "branch": null,
+        "family_id": "original:19263984b97e3387247b71373fd7341f",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "original:19263984b97e3387247b71373fd7341f",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        },
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-e582ff65fb4ec14d5e5c",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "52cae6235100193d3f1b7d3e7eb2f244b18db892d945350b331cb1dd0b5dd603"
+          }
+        ],
+        "generator_version": "cuet-fit-validator-v7.16-report-policy",
+        "passage_group_id": "grp716-0ca9fa372ef43362",
+        "order_index": 2
+      },
+      "generated_candidate_hash": "2fd353fe9767c46730299bc8b929d1458c017897cae2889880fea22eb3d70b24",
+      "academic_sound": false,
+      "blind_frozen": {
+        "candidate_id": "19263984b97e3387247b71373fd7341f",
+        "content_hash": "63b352acc3c8932597b67e76afba0988458b7b5da8f2d1c6d9bcdb60d43ca69c",
+        "reports": [
+          {
+            "candidate_id": "19263984b97e3387247b71373fd7341f",
+            "content_hash": "63b352acc3c8932597b67e76afba0988458b7b5da8f2d1c6d9bcdb60d43ca69c",
+            "answer_set": [
+              "C",
+              "D"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2"
+            ],
+            "issues": [
+              {
+                "category": "unresolved_rival",
+                "detail": "D directly restates the stated condition. C is also a plausible reading: if the drill again lacks its charging cable, it may be unavailable for the workload. The passage does not distinguish a temporary cable shortage from equipment being unable to handle the workload."
+              }
+            ],
+            "solved_key": "uncertain",
+            "derivation": "The members would reconsider the purchase if the repaired equipment could no longer handle their workload, making D the direct answer. C is a plausible rival because a drill without its charging cable may be unusable; the passage does not clarify whether that temporary shortfall meets the condition. A and B do not state the condition.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Having enough money is not given as the condition; the passage instead names the equipment’s ability to handle the workload."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Completing the waiting repairs is not stated as the trigger for reconsidering the drill purchase."
+              },
+              {
+                "option": "C",
+                "status": "unresolved",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "A recurring cable shortage could make the drill unavailable for the workload, but the passage does not establish whether that qualifies as the repaired equipment no longer being able to handle it."
+              },
+              {
+                "option": "D",
+                "status": "defensible",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "It directly matches the stated condition for reconsidering the purchase."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "issue",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "issue",
+              "passage_answerability": "issue",
+              "completeness": "issue",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A short factual passage and a direct condition match make this easy; the cable-shortage alternative creates an answer-separation issue, not extra intended difficulty. No authenticated comparator was available. Estimated response time is about 40–55 seconds, heuristically.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 5,
+                "note": "Useful short reading practice, but the plausible C rival weakens answer reliability."
+              },
+              "2": {
+                "score": 9,
+                "note": "Factual-passage comprehension is explicitly within the supplied English syllabus."
+              },
+              "3": {
+                "score": 7,
+                "note": "Tests locating and matching a stated condition in a passage."
+              },
+              "4": {
+                "score": 7,
+                "note": "Uses a conventional passage-based four-option format; no authenticated comparator was supplied."
+              },
+              "5": {
+                "score": 6,
+                "note": "The intended task is easy, but the competing cable-shortage reading impairs calibration."
+              },
+              "6": {
+                "score": 8,
+                "note": "The 75-word passage and one direct item suit a short response time; estimate is heuristic."
+              },
+              "8": {
+                "score": 4,
+                "note": "D is direct, but C remains a plausible rival under the passage’s wording."
+              },
+              "9": {
+                "score": 5,
+                "note": "A and B are distinct distractors; C overlaps materially with D’s condition."
+              },
+              "10": {
+                "score": 4,
+                "note": "The item does not clarify whether a temporary cable shortage counts as inability to handle workload."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical work is involved."
+              },
+              "12": {
+                "score": 4,
+                "note": "The cable-shortage boundary case is not resolved by the passage."
+              },
+              "15": {
+                "score": 4,
+                "note": "The passage supports D, but also permits a reasonable reading of C."
+              },
+              "16": {
+                "score": 5,
+                "note": "The passage and options are complete, but their condition-and-shortage overlap leaves answer separation unresolved."
+              },
+              "17": {
+                "score": 8,
+                "note": "The question and options are concise and readable."
+              },
+              "18": {
+                "score": 5,
+                "note": "A and B are plausible but clearly distinct; C is too close to the keyed condition."
+              },
+              "19": {
+                "score": null,
+                "note": "No authenticated calibration or anchor comparisons were supplied, so novelty cannot be assessed."
+              },
+              "20": {
+                "score": 8,
+                "note": "D closely follows the passage’s stated condition; C also draws on a passage detail."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "9c90b0f60b1d62d251b0d7a87ae4c8806eaf5dcdb8e9a2704149cd61f0419832"
+          },
+          {
+            "candidate_id": "19263984b97e3387247b71373fd7341f",
+            "content_hash": "63b352acc3c8932597b67e76afba0988458b7b5da8f2d1c6d9bcdb60d43ca69c",
+            "answer_set": [
+              "D"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2"
+            ],
+            "issues": [],
+            "solved_key": "D",
+            "derivation": "The passage concludes by explicitly stating the condition under which the drill purchase would be reopened: 'Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.' Therefore, the repaired equipment failing to handle the club's workload directly fulfills the stated condition.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Saving enough money is not the condition agreed upon by the members to reconsider purchasing a drill."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Completing all waiting repairs was an outcome enabled by buying switches and a cable, not the agreed trigger for reconsidering the drill."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Needing another charging cable is not stated as the condition for reconsidering the purchase."
+              },
+              {
+                "option": "D",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Directly matches the final sentence: 'Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.'"
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "not_applicable",
+              "passage_answerability": "supported",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "The question tests direct literal recall/comprehension of an explicit conditional statement in the final sentence of a short, straightforward passage.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 9,
+                "note": "Standard CUET-style direct reading comprehension question."
+              },
+              "2": {
+                "score": 10,
+                "note": "Fully aligned with the Reading Comprehension (Factual/Short passage) component of the CUET syllabus."
+              },
+              "3": {
+                "score": 9,
+                "note": "Accurately assesses explicit information retrieval and conditional understanding."
+              },
+              "4": {
+                "score": 9,
+                "note": "Standard four-option multiple choice format matching standard CUET pattern."
+              },
+              "5": {
+                "score": 8.5,
+                "note": "Calibrated appropriately as an easy passage-based question."
+              },
+              "6": {
+                "score": 9,
+                "note": "Very short passage and concise question, solvable comfortably within 30-40 seconds."
+              },
+              "8": {
+                "score": 10,
+                "note": "Only Option D is supported by the text; completely unambiguous."
+              },
+              "9": {
+                "score": 9.5,
+                "note": "All four options represent distinct events with clear boundaries."
+              },
+              "10": {
+                "score": 10,
+                "note": "No unstated assumptions required beyond standard reading comprehension."
+              },
+              "11": {
+                "score": null,
+                "note": "Non-numerical question."
+              },
+              "12": {
+                "score": null,
+                "note": "No mathematical or logical edge boundary cases."
+              },
+              "15": {
+                "score": 10,
+                "note": "Explicitly stated and fully answerable directly from the stimulus."
+              },
+              "16": {
+                "score": 10,
+                "note": "All necessary elements are present."
+              },
+              "17": {
+                "score": 9.5,
+                "note": "Phrased clearly and cleanly without convoluted phrasing."
+              },
+              "18": {
+                "score": 8,
+                "note": "Distractors draw plausible terms from the context of the story while remaining clearly incorrect."
+              },
+              "19": {
+                "score": 8,
+                "note": "Original stimulus context involving workshop decision-making."
+              },
+              "20": {
+                "score": 10,
+                "note": "Direct, faithful representation of the passage content."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "1a6842d190e204658aaccb5f29f66988da154a4dc08edd2c507e196f68ab4e30"
+          }
+        ],
+        "sha256": "84540fdc18ea8d74191a55199a1394e2e1008204281eb173ca8390b0f09a2008"
+      },
+      "outcome": "academic_quarantine",
+      "quality_score": null,
+      "policy": "cuet-scorecard-routing-v716",
+      "reasons": [
+        "independent_key_mismatch:blind_solution",
+        "not_one_defensible_answer:blind_solution",
+        "unresolved_or_defensible_rival:blind_solution:C",
+        "unresolved_or_defensible_rival:blind_solution:D"
+      ],
+      "explanation_review": "not_performed_key_gate_failed",
+      "checks": {
+        "reports": [
+          {
+            "candidate_id": "19263984b97e3387247b71373fd7341f",
+            "content_hash": "63b352acc3c8932597b67e76afba0988458b7b5da8f2d1c6d9bcdb60d43ca69c",
+            "answer_set": [
+              "C",
+              "D"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2"
+            ],
+            "issues": [
+              {
+                "category": "unresolved_rival",
+                "detail": "D directly restates the stated condition. C is also a plausible reading: if the drill again lacks its charging cable, it may be unavailable for the workload. The passage does not distinguish a temporary cable shortage from equipment being unable to handle the workload."
+              }
+            ],
+            "solved_key": "uncertain",
+            "derivation": "The members would reconsider the purchase if the repaired equipment could no longer handle their workload, making D the direct answer. C is a plausible rival because a drill without its charging cable may be unusable; the passage does not clarify whether that temporary shortfall meets the condition. A and B do not state the condition.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Having enough money is not given as the condition; the passage instead names the equipment’s ability to handle the workload."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Completing the waiting repairs is not stated as the trigger for reconsidering the drill purchase."
+              },
+              {
+                "option": "C",
+                "status": "unresolved",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "A recurring cable shortage could make the drill unavailable for the workload, but the passage does not establish whether that qualifies as the repaired equipment no longer being able to handle it."
+              },
+              {
+                "option": "D",
+                "status": "defensible",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "It directly matches the stated condition for reconsidering the purchase."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "issue",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "issue",
+              "passage_answerability": "issue",
+              "completeness": "issue",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A short factual passage and a direct condition match make this easy; the cable-shortage alternative creates an answer-separation issue, not extra intended difficulty. No authenticated comparator was available. Estimated response time is about 40–55 seconds, heuristically.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 5,
+                "note": "Useful short reading practice, but the plausible C rival weakens answer reliability."
+              },
+              "2": {
+                "score": 9,
+                "note": "Factual-passage comprehension is explicitly within the supplied English syllabus."
+              },
+              "3": {
+                "score": 7,
+                "note": "Tests locating and matching a stated condition in a passage."
+              },
+              "4": {
+                "score": 7,
+                "note": "Uses a conventional passage-based four-option format; no authenticated comparator was supplied."
+              },
+              "5": {
+                "score": 6,
+                "note": "The intended task is easy, but the competing cable-shortage reading impairs calibration."
+              },
+              "6": {
+                "score": 8,
+                "note": "The 75-word passage and one direct item suit a short response time; estimate is heuristic."
+              },
+              "8": {
+                "score": 4,
+                "note": "D is direct, but C remains a plausible rival under the passage’s wording."
+              },
+              "9": {
+                "score": 5,
+                "note": "A and B are distinct distractors; C overlaps materially with D’s condition."
+              },
+              "10": {
+                "score": 4,
+                "note": "The item does not clarify whether a temporary cable shortage counts as inability to handle workload."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical work is involved."
+              },
+              "12": {
+                "score": 4,
+                "note": "The cable-shortage boundary case is not resolved by the passage."
+              },
+              "15": {
+                "score": 4,
+                "note": "The passage supports D, but also permits a reasonable reading of C."
+              },
+              "16": {
+                "score": 5,
+                "note": "The passage and options are complete, but their condition-and-shortage overlap leaves answer separation unresolved."
+              },
+              "17": {
+                "score": 8,
+                "note": "The question and options are concise and readable."
+              },
+              "18": {
+                "score": 5,
+                "note": "A and B are plausible but clearly distinct; C is too close to the keyed condition."
+              },
+              "19": {
+                "score": null,
+                "note": "No authenticated calibration or anchor comparisons were supplied, so novelty cannot be assessed."
+              },
+              "20": {
+                "score": 8,
+                "note": "D closely follows the passage’s stated condition; C also draws on a passage detail."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "9c90b0f60b1d62d251b0d7a87ae4c8806eaf5dcdb8e9a2704149cd61f0419832"
+          },
+          {
+            "candidate_id": "19263984b97e3387247b71373fd7341f",
+            "content_hash": "63b352acc3c8932597b67e76afba0988458b7b5da8f2d1c6d9bcdb60d43ca69c",
+            "answer_set": [
+              "D"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2"
+            ],
+            "issues": [],
+            "solved_key": "D",
+            "derivation": "The passage concludes by explicitly stating the condition under which the drill purchase would be reopened: 'Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.' Therefore, the repaired equipment failing to handle the club's workload directly fulfills the stated condition.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Saving enough money is not the condition agreed upon by the members to reconsider purchasing a drill."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Completing all waiting repairs was an outcome enabled by buying switches and a cable, not the agreed trigger for reconsidering the drill."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "passage_scope",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Needing another charging cable is not stated as the condition for reconsidering the purchase."
+              },
+              {
+                "option": "D",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "Directly matches the final sentence: 'Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.'"
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "not_applicable",
+              "passage_answerability": "supported",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "The question tests direct literal recall/comprehension of an explicit conditional statement in the final sentence of a short, straightforward passage.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 9,
+                "note": "Standard CUET-style direct reading comprehension question."
+              },
+              "2": {
+                "score": 10,
+                "note": "Fully aligned with the Reading Comprehension (Factual/Short passage) component of the CUET syllabus."
+              },
+              "3": {
+                "score": 9,
+                "note": "Accurately assesses explicit information retrieval and conditional understanding."
+              },
+              "4": {
+                "score": 9,
+                "note": "Standard four-option multiple choice format matching standard CUET pattern."
+              },
+              "5": {
+                "score": 8.5,
+                "note": "Calibrated appropriately as an easy passage-based question."
+              },
+              "6": {
+                "score": 9,
+                "note": "Very short passage and concise question, solvable comfortably within 30-40 seconds."
+              },
+              "8": {
+                "score": 10,
+                "note": "Only Option D is supported by the text; completely unambiguous."
+              },
+              "9": {
+                "score": 9.5,
+                "note": "All four options represent distinct events with clear boundaries."
+              },
+              "10": {
+                "score": 10,
+                "note": "No unstated assumptions required beyond standard reading comprehension."
+              },
+              "11": {
+                "score": null,
+                "note": "Non-numerical question."
+              },
+              "12": {
+                "score": null,
+                "note": "No mathematical or logical edge boundary cases."
+              },
+              "15": {
+                "score": 10,
+                "note": "Explicitly stated and fully answerable directly from the stimulus."
+              },
+              "16": {
+                "score": 10,
+                "note": "All necessary elements are present."
+              },
+              "17": {
+                "score": 9.5,
+                "note": "Phrased clearly and cleanly without convoluted phrasing."
+              },
+              "18": {
+                "score": 8,
+                "note": "Distractors draw plausible terms from the context of the story while remaining clearly incorrect."
+              },
+              "19": {
+                "score": 8,
+                "note": "Original stimulus context involving workshop decision-making."
+              },
+              "20": {
+                "score": 10,
+                "note": "Direct, faithful representation of the passage content."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "1a6842d190e204658aaccb5f29f66988da154a4dc08edd2c507e196f68ab4e30"
+          }
+        ],
+        "audit": null
+      },
+      "local_checks": {
+        "structure": true,
+        "presentation": true,
+        "provenance": true,
+        "syllabus_registry": true,
+        "source_integrity": true,
+        "novelty": true,
+        "numeric_required": false
+      }
+    },
+    "26c91c0149fe73ba3c15d10a348d5d77": {
+      "state": "eligible",
+      "generated_candidate": {
+        "body": "After all other appropriations, ₹80,000 is available for division among A, B and C. Their profit-sharing ratio is 5:3:2. B is guaranteed a minimum profit share of ₹30,000 by A and C jointly. A and C have agreed to bear any deficiency in the ratio 2:1. What amount of the deficiency is borne by C?",
+        "options": [
+          "₹4,000",
+          "₹6,000",
+          "₹2,000",
+          "₹3,000"
+        ],
+        "correct_answer": "C",
+        "explanation": "B’s share before applying the guarantee is ₹80,000 × 3/10 = ₹24,000. The deficiency is ₹30,000 − ₹24,000 = ₹6,000. A and C bear it in the agreed ratio 2:1, so C bears ₹6,000 × 1/3 = ₹2,000. ₹4,000 is A’s share of the deficiency; ₹6,000 is the total deficiency.",
+        "difficulty": "medium",
+        "route": "numerical",
+        "passage_text": "",
+        "question_type": "numerical_calculation",
+        "concept_id": "accountancy.partnership.profit_and_loss_appropriation.minimum_profit_guarantee_deficiency",
+        "evidence_quotes": [
+          "If, in any year, the share of profits as calculated according to his profit sharing ratio is less than the guaranteed amount, the deficiency is made good by the guaranteeing partners’ in the agreed ratio which usually is the profit sharing ratio."
+        ],
+        "stated_assumptions": [
+          "The ₹80,000 is the entire amount available for division among the three partners after all other appropriations.",
+          "B's guaranteed minimum share is ₹30,000.",
+          "A and C are the guarantors, and their agreed ratio for bearing the deficiency is 2:1."
+        ],
+        "option_analysis": [
+          "Incorrect: ₹4,000 is A’s portion of the ₹6,000 deficiency under the 2:1 ratio.",
+          "Incorrect: ₹6,000 is the total deficiency, not C’s portion.",
+          "Correct: B’s normal share is ₹24,000, leaving a ₹6,000 deficiency; C bears one-third, or ₹2,000.",
+          "Incorrect: ₹3,000 would result from splitting the deficiency equally, contrary to the stated 2:1 ratio."
+        ],
+        "id": "26c91c0149fe73ba3c15d10a348d5d77",
+        "subject": "accountancy",
+        "chapter": "Profit & Loss Appropriation Account",
+        "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner\nmay be guaranteed a minimum amount by way of his share in profits. If, in any\nyear, the share of prof. Test a distinct implication, application or calculation supported by it.",
+        "branch": "common",
+        "family_id": "original:26c91c0149fe73ba3c15d10a348d5d77",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "original:26c91c0149fe73ba3c15d10a348d5d77",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        },
+        "source_refs": [
+          {
+            "id": "ncertcol-leac101-v1",
+            "version": 1,
+            "locator": "p36-c0-g1-s0",
+            "support_hash": "0ada8cc65e1fb151fb885f5475dec0e6f4cc510f816605fe4abc7ea279d88aaa"
+          },
+          {
+            "id": "ncertcol-leac101-v1",
+            "version": 1,
+            "locator": "p5-c0-g2-s0",
+            "support_hash": "f660fe4b6323853b4e2037a8336830bbb74e0a045a1a3a0ec4df07a469d337bb"
+          }
+        ],
+        "generator_version": "cuet-fit-validator-v7.16-report-policy"
+      },
+      "generated_candidate_hash": "88aaa0a6b8cbcd64cc8e4388fcce4185bf16c201c813110197e7e936b82195df",
+      "academic_sound": true,
+      "blind_frozen": {
+        "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+        "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+        "reports": [
+          {
+            "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+            "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+            "answer_set": [
+              "C"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E2.1"
+            ],
+            "issues": [],
+            "solved_key": "C",
+            "derivation": "B’s share under the 5:3:2 ratio is ₹80,000 × 3/10 = ₹24,000. The ₹30,000 guarantee creates a deficiency of ₹6,000. A and C bear it in a 2:1 ratio, so C bears one-third: ₹6,000 × 1/3 = ₹2,000. The guarantee rule and agreed-ratio treatment are supported by E1.1; the syllabus scope includes profit guarantees (E2.1).",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "C bears one-third, not ₹4,000, of the ₹6,000 deficiency."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "₹6,000 is the whole deficiency; C bears only one-third of it."
+              },
+              {
+                "option": "C",
+                "status": "defensible",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The deficiency is ₹6,000, and C’s one-third share is ₹2,000."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The agreed 2:1 ratio gives C one-third of the deficiency, not ₹3,000."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "supported",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A short, direct calculation: find B’s ratio share, calculate the guarantee deficiency, then allocate it by the stated 2:1 ratio. No authenticated comparator was supplied.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 7,
+                "note": "Clear, syllabus-aligned numerical practice with a unique result; it tests a compact, routine application."
+              },
+              "2": {
+                "score": 9,
+                "note": "Profit guarantees are explicitly within the supplied relevant syllabus scope."
+              },
+              "3": {
+                "score": 8,
+                "note": "Directly tests calculating and allocating a partner-guarantee deficiency."
+              },
+              "4": {
+                "score": 7,
+                "note": "Concise four-option MCQ format; no authenticated style comparator was available."
+              },
+              "5": {
+                "score": 8,
+                "note": "The easy level is appropriate for the short, two-step syllabus calculation."
+              },
+              "6": {
+                "score": 8,
+                "note": "The stem is short and the calculation is suited to quick practice."
+              },
+              "8": {
+                "score": 10,
+                "note": "Only ₹2,000 follows from the stated ratios and guarantee."
+              },
+              "9": {
+                "score": 8,
+                "note": "The options are distinct amounts and distinguish the allocated share from the full deficiency."
+              },
+              "10": {
+                "score": 9,
+                "note": "The profit ratio, guarantee amount, guarantors, and deficiency-sharing ratio are all stated."
+              },
+              "11": {
+                "score": 9,
+                "note": "The share, deficiency, and one-third allocation are arithmetically correct and consistently in rupees."
+              },
+              "12": {
+                "score": 8,
+                "note": "The computed share is below the guarantee, so the deficiency rule applies without a boundary ambiguity."
+              },
+              "15": {
+                "score": null,
+                "note": "Not applicable: this is a numerical question, not a passage-based item."
+              },
+              "16": {
+                "score": 9,
+                "note": "All figures and allocation terms needed for the calculation are supplied."
+              },
+              "17": {
+                "score": 9,
+                "note": "The wording is brief and the allocation terms are clear."
+              },
+              "18": {
+                "score": 7,
+                "note": "The choices include the full deficiency and other distinct amounts, though the item is simple."
+              },
+              "19": {
+                "score": null,
+                "note": "No authenticated calibration examples or anchor comparisons were supplied, so comparative novelty cannot be assessed."
+              },
+              "20": {
+                "score": 9,
+                "note": "The guarantee and agreed-ratio rule used in the item are supported by the supplied NCERT excerpt."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "a5ced6992680900644cd0914333de7cc1f0ee1e5e55b2f649a444cc5a3b26c81"
+          },
+          {
+            "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+            "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+            "answer_set": [
+              "C"
+            ],
+            "source_ids": [
+              "E1.1"
+            ],
+            "issues": [],
+            "solved_key": "C",
+            "derivation": "1. Available profit for division = ₹80,000.\n2. Profit-sharing ratio among A, B, and C = 5:3:2 (total parts = 10).\n3. B's initial share of profit = ₹80,000 × (3 / 10) = ₹24,000.\n4. B is guaranteed a minimum profit of ₹30,000.\n5. Total deficiency to B = ₹30,000 - ₹24,000 = ₹6,000.\n6. The deficiency is borne by A and C in the ratio of 2:1 (total parts = 3).\n7. Deficiency borne by C = ₹6,000 × (1 / 3) = ₹2,000.",
+            "options": [
+              {
+                "option": "A",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "₹4,000 is the share of deficiency borne by partner A (₹6,000 × 2/3), not partner C."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "₹6,000 is the total deficiency suffered by B (₹30,000 - ₹24,000), not the share borne by C."
+              },
+              {
+                "option": "C",
+                "status": "defensible",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "C bears 1/3 of the ₹6,000 deficiency, which equals ₹2,000."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "₹3,000 would be the deficiency borne if A and C shared the deficiency equally (1:1), rather than in the agreed ratio 2:1."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "supported",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "Standard direct calculation involving distribution of profit and calculation of deficiency under guarantee of profit, requiring basic two-step arithmetic.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 9,
+                "note": "Fully aligned with standard CUET UG format, clear phrasing, clean arithmetic, and valid distractors."
+              },
+              "2": {
+                "score": 10,
+                "note": "Directly falls under Unit I: Accounting for Partnership (guarantee of profit to a partner)."
+              },
+              "3": {
+                "score": 9,
+                "note": "Tests core understanding of calculating a partner's deficiency share in the agreed ratio."
+              },
+              "4": {
+                "score": 9,
+                "note": "Standard single-stem numerical multiple-choice format common in CUET."
+              },
+              "5": {
+                "score": 8,
+                "note": "Well-calibrated easy numerical question suitable for rapid calculation under exam conditions."
+              },
+              "6": {
+                "score": 9,
+                "note": "Takes approximately 30-45 seconds, well within the 72-second allocation."
+              },
+              "8": {
+                "score": 10,
+                "note": "Yields exactly one indisputable correct numerical answer (₹2,000)."
+              },
+              "9": {
+                "score": 9,
+                "note": "Options are cleanly separated and represent distinct calculation steps or common student errors."
+              },
+              "10": {
+                "score": 9,
+                "note": "All necessary parameters (profit, ratio, guarantee, deficiency sharing ratio) are explicitly supplied."
+              },
+              "11": {
+                "score": 10,
+                "note": "Arithmetic is exact and unambiguous."
+              },
+              "12": {
+                "score": 9,
+                "note": "Guaranteed amount strictly exceeds the share of profit, giving a definitive positive deficiency."
+              },
+              "15": {
+                "score": null,
+                "note": "Standalone question without a reading passage."
+              },
+              "16": {
+                "score": 9,
+                "note": "Contains all required inputs for a closed-form solution."
+              },
+              "17": {
+                "score": 9,
+                "note": "Text is concise, grammatically sound, and unambiguous."
+              },
+              "18": {
+                "score": 9,
+                "note": "Distractors logically capture A's share, total deficiency, and equal sharing error."
+              },
+              "19": {
+                "score": 7,
+                "note": "Standard textbook-style problem with familiar parameters."
+              },
+              "20": {
+                "score": 9,
+                "note": "Follows the exact accounting procedure outlined in NCERT Class 12 Accountancy text."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "request_key": "6e7d6aad16165a704eb16a08bc0c5e3734895603bcf358445612ffb7991891f3"
+          }
+        ],
+        "sha256": "72abbdd2653b33979cda7246f05ee77e4cd3ba20eaf8332cccbc23f136c540f2"
+      },
+      "policy": "cuet-scorecard-routing-v716",
+      "quality_score": 8.4,
+      "display_score": 8.4,
+      "criteria": [
+        {
+          "id": "1",
+          "parameter": "overall_cuet_readiness",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "Clear, syllabus-aligned numerical practice with a unique result; it tests a compact, routine application.",
+            "Fully aligned with standard CUET UG format, clear phrasing, clean arithmetic, and valid distractors."
+          ]
+        },
+        {
+          "id": "2",
+          "parameter": "syllabus_entitlement",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "Profit guarantees are explicitly within the supplied relevant syllabus scope.",
+            "Directly falls under Unit I: Accounting for Partnership (guarantee of profit to a partner)."
+          ]
+        },
+        {
+          "id": "3",
+          "parameter": "learning_objective",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Directly tests calculating and allocating a partner-guarantee deficiency.",
+            "Tests core understanding of calculating a partner's deficiency share in the agreed ratio."
+          ]
+        },
+        {
+          "id": "4",
+          "parameter": "cuet_format_style",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "Concise four-option MCQ format; no authenticated style comparator was available.",
+            "Standard single-stem numerical multiple-choice format common in CUET."
+          ]
+        },
+        {
+          "id": "5",
+          "parameter": "difficulty_calibration",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The easy level is appropriate for the short, two-step syllabus calculation.",
+            "Well-calibrated easy numerical question suitable for rapid calculation under exam conditions."
+          ]
+        },
+        {
+          "id": "6",
+          "parameter": "time_reading_suitability",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The stem is short and the calculation is suited to quick practice.",
+            "Takes approximately 30-45 seconds, well within the 72-second allocation."
+          ]
+        },
+        {
+          "id": "7",
+          "parameter": "answer_accuracy",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both hidden-key independent solutions match the author key."
+          ]
+        },
+        {
+          "id": "8",
+          "parameter": "unique_answer",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Only ₹2,000 follows from the stated ratios and guarantee.",
+            "Yields exactly one indisputable correct numerical answer (₹2,000)."
+          ]
+        },
+        {
+          "id": "9",
+          "parameter": "option_separation",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The options are distinct amounts and distinguish the allocated share from the full deficiency.",
+            "Options are cleanly separated and represent distinct calculation steps or common student errors."
+          ]
+        },
+        {
+          "id": "10",
+          "parameter": "decisive_assumptions",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The profit ratio, guarantee amount, guarantors, and deficiency-sharing ratio are all stated.",
+            "All necessary parameters (profit, ratio, guarantee, deficiency sharing ratio) are explicitly supplied."
+          ]
+        },
+        {
+          "id": "11",
+          "parameter": "numerical_accuracy_method",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "The share, deficiency, and one-third allocation are arithmetically correct and consistently in rupees.",
+            "Arithmetic is exact and unambiguous."
+          ]
+        },
+        {
+          "id": "12",
+          "parameter": "boundary_cases",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The computed share is below the guarantee, so the deficiency rule applies without a boundary ambiguity.",
+            "Guaranteed amount strictly exceeds the share of profit, giving a definitive positive deficiency."
+          ]
+        },
+        {
+          "id": "13",
+          "parameter": "explanation_correctness",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The calculations and identified answer are correct."
+          ]
+        },
+        {
+          "id": "14",
+          "parameter": "explanation_source_support",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The guarantee treatment is supported by E1.1; the amounts follow from the printed givens."
+          ]
+        },
+        {
+          "id": "15",
+          "parameter": "passage_answerability",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "Not applicable: this is a numerical question, not a passage-based item.",
+            "Standalone question without a reading passage."
+          ]
+        },
+        {
+          "id": "16",
+          "parameter": "completeness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "All figures and allocation terms needed for the calculation are supplied.",
+            "Contains all required inputs for a closed-form solution."
+          ]
+        },
+        {
+          "id": "17",
+          "parameter": "language_clarity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The wording is brief and the allocation terms are clear.",
+            "Text is concise, grammatically sound, and unambiguous.",
+            "The steps and distractor distinctions are concise and clear."
+          ]
+        },
+        {
+          "id": "18",
+          "parameter": "distractor_plausibility",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The choices include the full deficiency and other distinct amounts, though the item is simple.",
+            "Distractors logically capture A's share, total deficiency, and equal sharing error."
+          ]
+        },
+        {
+          "id": "19",
+          "parameter": "semantic_novelty",
+          "score": 7,
+          "applicable": true,
+          "notes": [
+            "No authenticated calibration examples or anchor comparisons were supplied, so comparative novelty cannot be assessed.",
+            "Standard textbook-style problem with familiar parameters."
+          ]
+        },
+        {
+          "id": "20",
+          "parameter": "source_fidelity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The guarantee and agreed-ratio rule used in the item are supported by the supplied NCERT excerpt.",
+            "Follows the exact accounting procedure outlined in NCERT Class 12 Accountancy text.",
+            "The explanation accurately applies the agreed-ratio rule without overstating the excerpt."
+          ]
+        }
+      ],
+      "reported_mean": 8.842105263157896,
+      "composite_basis": [
+        "3",
+        "4",
+        "6",
+        "17",
+        "18"
+      ],
+      "route_band": "nta_eligible",
+      "modes": {
+        "practice": true,
+        "nta": true
+      },
+      "outcome": "eligible",
+      "reasons": [],
+      "difficulty": {
+        "passed": true,
+        "version": "cuet-demand-bands-v713",
+        "level": "easy",
+        "agreement": true,
+        "observations": [
+          {
+            "stage": "blind_solution",
+            "provider": "openai",
+            "assessment": {
+              "level": "easy",
+              "reason": "A short, direct calculation: find B’s ratio share, calculate the guarantee deficiency, then allocate it by the stated 2:1 ratio. No authenticated comparator was supplied.",
+              "comparison_basis": "heuristic"
+            }
+          },
+          {
+            "stage": "independent_evaluation",
+            "provider": "gemini",
+            "assessment": {
+              "level": "easy",
+              "reason": "Standard direct calculation involving distribution of profit and calculation of deficiency under guarantee of profit, requiring basic two-step arithmetic.",
+              "comparison_basis": "heuristic"
+            }
+          }
+        ],
+        "purpose": "warmup",
+        "nta_policy": "preferred_medium_then_easy"
+      },
+      "advisory_issues": [],
+      "question": {
+        "body": "After all other appropriations, ₹80,000 is available for division among A, B and C. Their profit-sharing ratio is 5:3:2. B is guaranteed a minimum profit share of ₹30,000 by A and C jointly. A and C have agreed to bear any deficiency in the ratio 2:1. What amount of the deficiency is borne by C?",
+        "options": [
+          "₹4,000",
+          "₹6,000",
+          "₹2,000",
+          "₹3,000"
+        ],
+        "correct_answer": "C",
+        "explanation": "B’s share before applying the guarantee is ₹80,000 × 3/10 = ₹24,000. The deficiency is ₹30,000 − ₹24,000 = ₹6,000. A and C bear it in the agreed ratio 2:1, so C bears ₹6,000 × 1/3 = ₹2,000. ₹4,000 is A’s share of the deficiency; ₹6,000 is the total deficiency.",
+        "difficulty": "medium",
+        "route": "numerical",
+        "passage_text": "",
+        "question_type": "numerical_calculation",
+        "concept_id": "accountancy.partnership.profit_and_loss_appropriation.minimum_profit_guarantee_deficiency",
+        "evidence_quotes": [
+          "If, in any year, the share of profits as calculated according to his profit sharing ratio is less than the guaranteed amount, the deficiency is made good by the guaranteeing partners’ in the agreed ratio which usually is the profit sharing ratio."
+        ],
+        "stated_assumptions": [
+          "The ₹80,000 is the entire amount available for division among the three partners after all other appropriations.",
+          "B's guaranteed minimum share is ₹30,000.",
+          "A and C are the guarantors, and their agreed ratio for bearing the deficiency is 2:1."
+        ],
+        "option_analysis": [
+          "Incorrect: ₹4,000 is A’s portion of the ₹6,000 deficiency under the 2:1 ratio.",
+          "Incorrect: ₹6,000 is the total deficiency, not C’s portion.",
+          "Correct: B’s normal share is ₹24,000, leaving a ₹6,000 deficiency; C bears one-third, or ₹2,000.",
+          "Incorrect: ₹3,000 would result from splitting the deficiency equally, contrary to the stated 2:1 ratio."
+        ],
+        "id": "26c91c0149fe73ba3c15d10a348d5d77",
+        "subject": "accountancy",
+        "chapter": "Profit & Loss Appropriation Account",
+        "topic": "Profit & Loss Appropriation Account: focus on this supplied section: 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner\nmay be guaranteed a minimum amount by way of his share in profits. If, in any\nyear, the share of prof. Test a distinct implication, application or calculation supported by it.",
+        "branch": "common",
+        "family_id": "original:26c91c0149fe73ba3c15d10a348d5d77",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "original:26c91c0149fe73ba3c15d10a348d5d77",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        },
+        "source_refs": [
+          {
+            "id": "ncertcol-leac101-v1",
+            "version": 1,
+            "locator": "p36-c0-g1-s0",
+            "support_hash": "0ada8cc65e1fb151fb885f5475dec0e6f4cc510f816605fe4abc7ea279d88aaa"
+          },
+          {
+            "id": "ncertcol-leac101-v1",
+            "version": 1,
+            "locator": "p5-c0-g2-s0",
+            "support_hash": "f660fe4b6323853b4e2037a8336830bbb74e0a045a1a3a0ec4df07a469d337bb"
+          }
+        ],
+        "generator_version": "cuet-fit-validator-v7.16-report-policy",
+        "evidence": {
+          "record": {
+            "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+            "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+            "state": "eligible",
+            "policy_version": "cuet-llm-v3",
+            "verifier_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+            "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+            "scorecard_policy": "cuet-scorecard-routing-v716",
+            "topology": "dual_blind",
+            "source_registry_version": 58,
+            "sources": [
+              {
+                "id": "ncertcol-leac101-v1",
+                "version": 1,
+                "locator": "p36-c0-g1-s0",
+                "support_hash": "0ada8cc65e1fb151fb885f5475dec0e6f4cc510f816605fe4abc7ea279d88aaa"
+              },
+              {
+                "id": "ncertcol-leac101-v1",
+                "version": 1,
+                "locator": "p5-c0-g2-s0",
+                "support_hash": "f660fe4b6323853b4e2037a8336830bbb74e0a045a1a3a0ec4df07a469d337bb"
+              }
+            ],
+            "family_id": "original:26c91c0149fe73ba3c15d10a348d5d77",
+            "family_version": 1,
+            "route": "numerical",
+            "question_type": "numerical_calculation",
+            "passage_group": null,
+            "provenance": {
+              "kind": "original_practice",
+              "anchor_id": null,
+              "adaptation_family": "original:26c91c0149fe73ba3c15d10a348d5d77",
+              "adaptation_type": null,
+              "syllabus_version": "cuet-2026-provisional-for-2027",
+              "pattern_version": "cuet-2024-authenticated-bookA-v1",
+              "source_pack_id": "original-accountancy-reference-v1",
+              "source_pack_version": 1
+            },
+            "author_target_difficulty": "medium",
+            "difficulty_target_match": false,
+            "verified_at": "2026-10-09T23:39:41.811Z",
+            "expires_at": "2026-11-08T23:39:41.811Z",
+            "reports": [
+              {
+                "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+                "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+                "answer_set": [
+                  "C"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E2.1"
+                ],
+                "issues": [],
+                "solved_key": "C",
+                "derivation": "B’s share under the 5:3:2 ratio is ₹80,000 × 3/10 = ₹24,000. The ₹30,000 guarantee creates a deficiency of ₹6,000. A and C bear it in a 2:1 ratio, so C bears one-third: ₹6,000 × 1/3 = ₹2,000. The guarantee rule and agreed-ratio treatment are supported by E1.1; the syllabus scope includes profit guarantees (E2.1).",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "C bears one-third, not ₹4,000, of the ₹6,000 deficiency."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "₹6,000 is the whole deficiency; C bears only one-third of it."
+                  },
+                  {
+                    "option": "C",
+                    "status": "defensible",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The deficiency is ₹6,000, and C’s one-third share is ₹2,000."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The agreed 2:1 ratio gives C one-third of the deficiency, not ₹3,000."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "supported",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "A short, direct calculation: find B’s ratio share, calculate the guarantee deficiency, then allocate it by the stated 2:1 ratio. No authenticated comparator was supplied.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 7,
+                    "note": "Clear, syllabus-aligned numerical practice with a unique result; it tests a compact, routine application."
+                  },
+                  "2": {
+                    "score": 9,
+                    "note": "Profit guarantees are explicitly within the supplied relevant syllabus scope."
+                  },
+                  "3": {
+                    "score": 8,
+                    "note": "Directly tests calculating and allocating a partner-guarantee deficiency."
+                  },
+                  "4": {
+                    "score": 7,
+                    "note": "Concise four-option MCQ format; no authenticated style comparator was available."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "The easy level is appropriate for the short, two-step syllabus calculation."
+                  },
+                  "6": {
+                    "score": 8,
+                    "note": "The stem is short and the calculation is suited to quick practice."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "Only ₹2,000 follows from the stated ratios and guarantee."
+                  },
+                  "9": {
+                    "score": 8,
+                    "note": "The options are distinct amounts and distinguish the allocated share from the full deficiency."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "The profit ratio, guarantee amount, guarantors, and deficiency-sharing ratio are all stated."
+                  },
+                  "11": {
+                    "score": 9,
+                    "note": "The share, deficiency, and one-third allocation are arithmetically correct and consistently in rupees."
+                  },
+                  "12": {
+                    "score": 8,
+                    "note": "The computed share is below the guarantee, so the deficiency rule applies without a boundary ambiguity."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Not applicable: this is a numerical question, not a passage-based item."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "All figures and allocation terms needed for the calculation are supplied."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The wording is brief and the allocation terms are clear."
+                  },
+                  "18": {
+                    "score": 7,
+                    "note": "The choices include the full deficiency and other distinct amounts, though the item is simple."
+                  },
+                  "19": {
+                    "score": null,
+                    "note": "No authenticated calibration examples or anchor comparisons were supplied, so comparative novelty cannot be assessed."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "The guarantee and agreed-ratio rule used in the item are supported by the supplied NCERT excerpt."
+                  }
+                },
+                "provider": "openai",
+                "model": "gpt-6-luna",
+                "effort": "high",
+                "stage": "blind_solution",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+                "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+                "request_key": "a5ced6992680900644cd0914333de7cc1f0ee1e5e55b2f649a444cc5a3b26c81"
+              },
+              {
+                "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+                "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+                "answer_set": [
+                  "C"
+                ],
+                "source_ids": [
+                  "E1.1"
+                ],
+                "issues": [],
+                "solved_key": "C",
+                "derivation": "1. Available profit for division = ₹80,000.\n2. Profit-sharing ratio among A, B, and C = 5:3:2 (total parts = 10).\n3. B's initial share of profit = ₹80,000 × (3 / 10) = ₹24,000.\n4. B is guaranteed a minimum profit of ₹30,000.\n5. Total deficiency to B = ₹30,000 - ₹24,000 = ₹6,000.\n6. The deficiency is borne by A and C in the ratio of 2:1 (total parts = 3).\n7. Deficiency borne by C = ₹6,000 × (1 / 3) = ₹2,000.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "₹4,000 is the share of deficiency borne by partner A (₹6,000 × 2/3), not partner C."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "₹6,000 is the total deficiency suffered by B (₹30,000 - ₹24,000), not the share borne by C."
+                  },
+                  {
+                    "option": "C",
+                    "status": "defensible",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "C bears 1/3 of the ₹6,000 deficiency, which equals ₹2,000."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "₹3,000 would be the deficiency borne if A and C shared the deficiency equally (1:1), rather than in the agreed ratio 2:1."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "supported",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "Standard direct calculation involving distribution of profit and calculation of deficiency under guarantee of profit, requiring basic two-step arithmetic.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 9,
+                    "note": "Fully aligned with standard CUET UG format, clear phrasing, clean arithmetic, and valid distractors."
+                  },
+                  "2": {
+                    "score": 10,
+                    "note": "Directly falls under Unit I: Accounting for Partnership (guarantee of profit to a partner)."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "Tests core understanding of calculating a partner's deficiency share in the agreed ratio."
+                  },
+                  "4": {
+                    "score": 9,
+                    "note": "Standard single-stem numerical multiple-choice format common in CUET."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "Well-calibrated easy numerical question suitable for rapid calculation under exam conditions."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Takes approximately 30-45 seconds, well within the 72-second allocation."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "Yields exactly one indisputable correct numerical answer (₹2,000)."
+                  },
+                  "9": {
+                    "score": 9,
+                    "note": "Options are cleanly separated and represent distinct calculation steps or common student errors."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "All necessary parameters (profit, ratio, guarantee, deficiency sharing ratio) are explicitly supplied."
+                  },
+                  "11": {
+                    "score": 10,
+                    "note": "Arithmetic is exact and unambiguous."
+                  },
+                  "12": {
+                    "score": 9,
+                    "note": "Guaranteed amount strictly exceeds the share of profit, giving a definitive positive deficiency."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Standalone question without a reading passage."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "Contains all required inputs for a closed-form solution."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "Text is concise, grammatically sound, and unambiguous."
+                  },
+                  "18": {
+                    "score": 9,
+                    "note": "Distractors logically capture A's share, total deficiency, and equal sharing error."
+                  },
+                  "19": {
+                    "score": 7,
+                    "note": "Standard textbook-style problem with familiar parameters."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "Follows the exact accounting procedure outlined in NCERT Class 12 Accountancy text."
+                  }
+                },
+                "provider": "gemini",
+                "model": "gemini-3.8-flash",
+                "effort": "medium",
+                "stage": "independent_evaluation",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+                "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+                "request_key": "6e7d6aad16165a704eb16a08bc0c5e3734895603bcf358445612ffb7991891f3"
+              }
+            ],
+            "audit": {
+              "candidate_id": "26c91c0149fe73ba3c15d10a348d5d77",
+              "content_hash": "2cda6277ecd0af887e815e0b5672b3c49d1f10ce3f9e97491395a8f73b8be380",
+              "answer_set": [
+                "C"
+              ],
+              "source_ids": [
+                "E1.1"
+              ],
+              "issues": [],
+              "explanation_status": "supported",
+              "options_status": "supported",
+              "claims": [
+                {
+                  "claim": "B’s share before applying the guarantee is ₹80,000 × 3/10 = ₹24,000.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "Derived from the available profit and B’s 3 parts out of 10 in the stated ratio."
+                },
+                {
+                  "claim": "The deficiency is ₹30,000 − ₹24,000 = ₹6,000.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "Derived from the stated guaranteed minimum and B’s calculated share."
+                },
+                {
+                  "claim": "A and C bear the deficiency in the agreed ratio 2:1.",
+                  "basis": "stem",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "The question explicitly gives this agreement."
+                },
+                {
+                  "claim": "C bears one-third of the deficiency, or ₹2,000.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1"
+                  ],
+                  "reason": "The excerpt says the deficiency is borne in the agreed ratio; C’s one part of the stated 2:1 ratio is one-third of ₹6,000."
+                },
+                {
+                  "claim": "₹4,000 is A’s share of the deficiency.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "A’s two parts out of three equal ₹6,000 × 2/3 = ₹4,000."
+                },
+                {
+                  "claim": "₹6,000 is the total deficiency.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "This is the calculated difference between the guarantee and B’s ratio share."
+                }
+              ],
+              "scores": {
+                "13": {
+                  "score": 10,
+                  "note": "The calculations and identified answer are correct."
+                },
+                "14": {
+                  "score": 10,
+                  "note": "The guarantee treatment is supported by E1.1; the amounts follow from the printed givens."
+                },
+                "17": {
+                  "score": 9,
+                  "note": "The steps and distractor distinctions are concise and clear."
+                },
+                "20": {
+                  "score": 9,
+                  "note": "The explanation accurately applies the agreed-ratio rule without overstating the excerpt."
+                }
+              },
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "stage": "explanation_support",
+              "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+              "validation_contract_hash": "9957890e5f5d3426f11e927153b6ea10115c853301a88da7fa690d82e7e182da",
+              "evaluation_prompt": "0cd73e79c577e45ec92159d2f8e34ee898d5e5964642d22d778d1c0a77d3b740",
+              "request_key": "289ed0b46e2ba492a015b2090c9bbf1d9d02ac23cd9c579ef772da278c3ee42a"
+            },
+            "local_checks": {
+              "structure": true,
+              "presentation": true,
+              "provenance": true,
+              "syllabus_registry": true,
+              "source_integrity": true,
+              "novelty": true,
+              "numeric_required": true
+            },
+            "decision": {
+              "state": "eligible",
+              "policy": "cuet-scorecard-routing-v716",
+              "academic_sound": true,
+              "quality_score": 8.4,
+              "display_score": 8.4,
+              "criteria": [
+                {
+                  "id": "1",
+                  "parameter": "overall_cuet_readiness",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "Clear, syllabus-aligned numerical practice with a unique result; it tests a compact, routine application.",
+                    "Fully aligned with standard CUET UG format, clear phrasing, clean arithmetic, and valid distractors."
+                  ]
+                },
+                {
+                  "id": "2",
+                  "parameter": "syllabus_entitlement",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "Profit guarantees are explicitly within the supplied relevant syllabus scope.",
+                    "Directly falls under Unit I: Accounting for Partnership (guarantee of profit to a partner)."
+                  ]
+                },
+                {
+                  "id": "3",
+                  "parameter": "learning_objective",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Directly tests calculating and allocating a partner-guarantee deficiency.",
+                    "Tests core understanding of calculating a partner's deficiency share in the agreed ratio."
+                  ]
+                },
+                {
+                  "id": "4",
+                  "parameter": "cuet_format_style",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "Concise four-option MCQ format; no authenticated style comparator was available.",
+                    "Standard single-stem numerical multiple-choice format common in CUET."
+                  ]
+                },
+                {
+                  "id": "5",
+                  "parameter": "difficulty_calibration",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The easy level is appropriate for the short, two-step syllabus calculation.",
+                    "Well-calibrated easy numerical question suitable for rapid calculation under exam conditions."
+                  ]
+                },
+                {
+                  "id": "6",
+                  "parameter": "time_reading_suitability",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The stem is short and the calculation is suited to quick practice.",
+                    "Takes approximately 30-45 seconds, well within the 72-second allocation."
+                  ]
+                },
+                {
+                  "id": "7",
+                  "parameter": "answer_accuracy",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both hidden-key independent solutions match the author key."
+                  ]
+                },
+                {
+                  "id": "8",
+                  "parameter": "unique_answer",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Only ₹2,000 follows from the stated ratios and guarantee.",
+                    "Yields exactly one indisputable correct numerical answer (₹2,000)."
+                  ]
+                },
+                {
+                  "id": "9",
+                  "parameter": "option_separation",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The options are distinct amounts and distinguish the allocated share from the full deficiency.",
+                    "Options are cleanly separated and represent distinct calculation steps or common student errors."
+                  ]
+                },
+                {
+                  "id": "10",
+                  "parameter": "decisive_assumptions",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The profit ratio, guarantee amount, guarantors, and deficiency-sharing ratio are all stated.",
+                    "All necessary parameters (profit, ratio, guarantee, deficiency sharing ratio) are explicitly supplied."
+                  ]
+                },
+                {
+                  "id": "11",
+                  "parameter": "numerical_accuracy_method",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "The share, deficiency, and one-third allocation are arithmetically correct and consistently in rupees.",
+                    "Arithmetic is exact and unambiguous."
+                  ]
+                },
+                {
+                  "id": "12",
+                  "parameter": "boundary_cases",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The computed share is below the guarantee, so the deficiency rule applies without a boundary ambiguity.",
+                    "Guaranteed amount strictly exceeds the share of profit, giving a definitive positive deficiency."
+                  ]
+                },
+                {
+                  "id": "13",
+                  "parameter": "explanation_correctness",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The calculations and identified answer are correct."
+                  ]
+                },
+                {
+                  "id": "14",
+                  "parameter": "explanation_source_support",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The guarantee treatment is supported by E1.1; the amounts follow from the printed givens."
+                  ]
+                },
+                {
+                  "id": "15",
+                  "parameter": "passage_answerability",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "Not applicable: this is a numerical question, not a passage-based item.",
+                    "Standalone question without a reading passage."
+                  ]
+                },
+                {
+                  "id": "16",
+                  "parameter": "completeness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "All figures and allocation terms needed for the calculation are supplied.",
+                    "Contains all required inputs for a closed-form solution."
+                  ]
+                },
+                {
+                  "id": "17",
+                  "parameter": "language_clarity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The wording is brief and the allocation terms are clear.",
+                    "Text is concise, grammatically sound, and unambiguous.",
+                    "The steps and distractor distinctions are concise and clear."
+                  ]
+                },
+                {
+                  "id": "18",
+                  "parameter": "distractor_plausibility",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The choices include the full deficiency and other distinct amounts, though the item is simple.",
+                    "Distractors logically capture A's share, total deficiency, and equal sharing error."
+                  ]
+                },
+                {
+                  "id": "19",
+                  "parameter": "semantic_novelty",
+                  "score": 7,
+                  "applicable": true,
+                  "notes": [
+                    "No authenticated calibration examples or anchor comparisons were supplied, so comparative novelty cannot be assessed.",
+                    "Standard textbook-style problem with familiar parameters."
+                  ]
+                },
+                {
+                  "id": "20",
+                  "parameter": "source_fidelity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The guarantee and agreed-ratio rule used in the item are supported by the supplied NCERT excerpt.",
+                    "Follows the exact accounting procedure outlined in NCERT Class 12 Accountancy text.",
+                    "The explanation accurately applies the agreed-ratio rule without overstating the excerpt."
+                  ]
+                }
+              ],
+              "reported_mean": 8.842105263157896,
+              "composite_basis": [
+                "3",
+                "4",
+                "6",
+                "17",
+                "18"
+              ],
+              "route_band": "nta_eligible",
+              "modes": {
+                "practice": true,
+                "nta": true
+              },
+              "outcome": "eligible",
+              "reasons": [],
+              "difficulty": {
+                "passed": true,
+                "version": "cuet-demand-bands-v713",
+                "level": "easy",
+                "agreement": true,
+                "observations": [
+                  {
+                    "stage": "blind_solution",
+                    "provider": "openai",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "A short, direct calculation: find B’s ratio share, calculate the guarantee deficiency, then allocate it by the stated 2:1 ratio. No authenticated comparator was supplied.",
+                      "comparison_basis": "heuristic"
+                    }
+                  },
+                  {
+                    "stage": "independent_evaluation",
+                    "provider": "gemini",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "Standard direct calculation involving distribution of profit and calculation of deficiency under guarantee of profit, requiring basic two-step arithmetic.",
+                      "comparison_basis": "heuristic"
+                    }
+                  }
+                ],
+                "purpose": "warmup",
+                "nta_policy": "preferred_medium_then_easy"
+              },
+              "advisory_issues": []
+            }
+          },
+          "signature": "7bb280e8031f1d54784e1c148fbb5e064e39dfc50f14de9d394393682d11e130"
+        }
+      }
+    }
+  },
+  "runs": [],
+  "created_at": "2026-10-09T23:31:27.148Z",
+  "updated_at": "2026-10-09T23:39:41.960Z"
+}

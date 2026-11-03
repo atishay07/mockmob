@@ -1,0 +1,169 @@
+{
+  "at": "2026-10-06T08:13:15.238Z",
+  "original_21_files": 21,
+  "files": [
+    {
+      "path": "scripts/pipeline/lib/sourcePacks.mjs",
+      "bytes": 10263,
+      "sha256": "819ecdd3f9d09a075c676403c56c38a2c30e7f2d78865b0e43f1883f07ce844f",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryQueue.mjs",
+      "bytes": 3652,
+      "sha256": "e24ce35fb50b41010cf86159387640f4b5c5f7b6d2a88a13e0ceed76daf3f6ec",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCore.mjs",
+      "bytes": 14684,
+      "sha256": "8a5438a8396681d382e8bcfbfe1ec71fabadf841cbe20c49b4e93d4bca808947",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidence.mjs",
+      "bytes": 13967,
+      "sha256": "04a0d22782506cf4f7604fe8b7b2a125ac867cbc3b15339e32300b792874d187",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCalibration.mjs",
+      "bytes": 8054,
+      "sha256": "0460a661660fd862d2290eed053638e81d9fc3073f9d58fbc0bfda6cf243e88e",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryTransport.mjs",
+      "bytes": 15760,
+      "sha256": "858ddd4ab521664124fc29ff87ca5f310e816b1515c0df90b58598eabd653a0f",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/localFactoryPilot.mjs",
+      "bytes": 7597,
+      "sha256": "484c5d33a30049292f3e433709d21dfd88b9512c6f291a71f3c7767f404542e8",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryCosts.mjs",
+      "bytes": 1757,
+      "sha256": "fc5b2f5dbe5ef4aee5ed99cf763bfbf64ca8128a4742171c63c02c95e3487200",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/factory.mjs",
+      "bytes": 25648,
+      "sha256": "987855830e01816dce72cd12f96208e2034f37341ea9d8fbc2b9d721da89b093",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/benchmarkGemini.mjs",
+      "bytes": 6059,
+      "sha256": "9f526b79cb6763953e9fc546261373d71ee0eccf0161cfed46d597f994199644",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/factoryProviderProbe.mjs",
+      "bytes": 3584,
+      "sha256": "1440543e7fb1d84bd2f54abefa4a611022870148993233b22d8ec14ed3c05eb8",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareAuthenticatedPacks.mjs",
+      "bytes": 11794,
+      "sha256": "29d73cdcc6b358571de393a2f0c769a68e43f0571a70b0243b22e5e3e87e0b2d",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareCalibration.mjs",
+      "bytes": 7462,
+      "sha256": "541011f04fb50654e8528d8adfe1b658cd9f6f4b842dcc04464b64a5c582a76b",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareCalibrationFaults.mjs",
+      "bytes": 4387,
+      "sha256": "041117215cd38d34d77b63cb745788e5fb8243ba4bc054269ab6be1c7708f628",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareGenerationReferences.mjs",
+      "bytes": 7601,
+      "sha256": "b0ebfcb11dafbcde41f58850ab4e8b09335ae2495e940545fccc669bc19e68b7",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/auditSourceFoundation.mjs",
+      "bytes": 4520,
+      "sha256": "6ed3954da1c4bc4439804af40549240ff02fe5132d879e3c9b96ea6707864a7a",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tests/questionFactory.test.mjs",
+      "bytes": 58756,
+      "sha256": "b0de6aff29212d23904f5d6b519d86ca6eb2689ffad104bac2db91f08abc5328",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "src/components/admin/QuestionFactoryDashboard.jsx",
+      "bytes": 13260,
+      "sha256": "81245778bae80f9c3a06a7b288ab7435cbdb94901045f81ff6fd9dc772d6167f",
+      "syntax_check": "covered by JSX lint/build"
+    },
+    {
+      "path": "src/app/preview/question-factory/page.jsx",
+      "bytes": 2768,
+      "sha256": "20161b24f75a35fc2be5628190849fcf2484fe470a891a156da014ae30d9b49d",
+      "syntax_check": "covered by JSX lint/build"
+    },
+    {
+      "path": "data/source_registry.json",
+      "bytes": 1571441,
+      "sha256": "4686666e07ed5fa7aa5d5e30bcfc33c7830540f05fcb5161f4c54a34d6f344db",
+      "syntax_check": "passed JSON parse"
+    },
+    {
+      "path": "data/calibration_manifest.json",
+      "bytes": 19738,
+      "sha256": "6238c50eba8809019dea356e982be451b548ef2973ed686ce9c8579e4c6a8be7",
+      "syntax_check": "passed JSON parse"
+    },
+    {
+      "path": "scripts/pipeline/tools/commissionFactory.mjs",
+      "bytes": 11000,
+      "sha256": "79a472c344248b8486ffb81d459f764eab31af12b1059b52bc8d78c120d79f7f",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/reportCommissioning.mjs",
+      "bytes": 14377,
+      "sha256": "9758343a0d56f367e6540f1ccf59b0f0b0c8e7b8d8c828424bb2b5ea4560830c",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/tools/prepareFreshCommissioning.mjs",
+      "bytes": 12072,
+      "sha256": "7598f2d754513cdcbbdd1cea16a317387c5f9aaeff3db8e42e9ed4590a3a8dd6",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/budgetLedger.mjs",
+      "bytes": 10153,
+      "sha256": "f7442bbf00b7b06e1036adc215a2d146fe1382c86f41ce856a536cf0951ad034",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "scripts/pipeline/lib/evidencePipeline.mjs",
+      "bytes": 9430,
+      "sha256": "cdfcc0d99fc33e306ec9986880c2cd7fb6df5d05d1c4813f59a8d44e4c370f14",
+      "syntax_check": "passed"
+    },
+    {
+      "path": "data/question_factory_policy.mjs",
+      "bytes": 4909,
+      "sha256": "cf8d5b123b0e4cda0dc6a143c3f47433763a63959dcfdf3fdfc94abd05f61bc5",
+      "syntax_check": "passed"
+    }
+  ],
+  "unrelated_user_edits_preserved": true
+}

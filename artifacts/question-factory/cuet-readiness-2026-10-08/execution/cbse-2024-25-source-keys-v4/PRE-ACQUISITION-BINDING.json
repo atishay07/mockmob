@@ -1,0 +1,44 @@
+{
+  "id": "cbse-2024-25-source-keys-v4",
+  "at": "2026-10-08T09:56:31.405Z",
+  "binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "official_index_url": "https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html",
+  "source_role": "Prospective academic source construction after this exact validator contract; never authentic CUET PYQs",
+  "required_subjects": [
+    "accountancy",
+    "business_studies",
+    "economics",
+    "english"
+  ],
+  "proposed_raw_candidates": 32,
+  "raw_per_subject": 8,
+  "selection_rule": "First eight suitable objective or explicitly adapted short-answer comprehension cases in source order within current CUET entitlement; record every inspected exclusion before paid evaluation. Exclude Economics question 14 and its earlier-read worked example.",
+  "prior_exposure": "The earlier-year Economics marking-scheme break-even worked-definition paragraph for question 14 was read during regression source construction. That question is excluded; initial solvers receive no marking-scheme keys.",
+  "academic_prompt_changes_after_acquisition": false,
+  "paid_evaluation_started": false,
+  "publication": "never",
+  "global_registry_write": false
+}

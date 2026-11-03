@@ -1,0 +1,94 @@
+{
+  "schema": "v74-heldout-source-exclusion-v1",
+  "status": "source_only",
+  "purpose": "Prevent previously inspected items and sources accessed during this planning pass from entering a v7.4 held-out set.",
+  "question_bodies_or_keys_included": false,
+  "families": [
+    {
+      "family_id": "cuet2024-accountancy-bookA-paper",
+      "exam": "CUET-UG-2024",
+      "subject": "accountancy",
+      "question_numbers": ["3-23", "25-35", "38-50"],
+      "question_count": 45,
+      "basis": "data/source_registry.json source IDs; also present in the prior CUET source-keyed calibration set"
+    },
+    {
+      "family_id": "cuet2024-business_studies-bookA-paper",
+      "exam": "CUET-UG-2024",
+      "subject": "business_studies",
+      "question_numbers": ["1-4", "6-30", "32-50"],
+      "question_count": 48,
+      "basis": "data/source_registry.json source IDs; also present in the prior CUET source-keyed calibration set"
+    },
+    {
+      "family_id": "cuet2024-economics-bookA-paper",
+      "exam": "CUET-UG-2024",
+      "subject": "economics",
+      "question_numbers": ["1-50"],
+      "question_count": 50,
+      "basis": "data/source_registry.json source IDs; also present in the prior CUET source-keyed calibration set"
+    },
+    {
+      "family_id": "cuet2024-english-bookA-paper",
+      "exam": "CUET-UG-2024",
+      "subject": "english",
+      "question_numbers": ["1-5", "7-8", "10-22", "41-50"],
+      "question_count": 30,
+      "basis": "data/source_registry.json source IDs; also present in the prior CUET source-keyed calibration set"
+    },
+    {
+      "family_id": "cbse-2024-25-class-xii-sqp-key-comparison",
+      "exam": "CBSE-SQP-2024-25",
+      "subjects": ["accountancy", "business_studies", "economics", "english"],
+      "question_numbers_by_subject": {"accountancy": ["1-8"], "business_studies": ["1-8"], "economics": ["1-8"], "english": ["1-8"]},
+      "item_count": 32,
+      "basis": "fresh-official-source-v73 independent-key custody metadata"
+    },
+    {
+      "family_id": "cbse-2026-27-class-xii-sqp",
+      "exam": "CBSE-SQP-2026-27",
+      "question_numbers_by_subject": {
+        "accountancy": ["3", "4", "8", "10", "12", "14-16"],
+        "business_studies": ["1-3", "5-6", "8", "11", "15"],
+        "economics": ["1-5", "8-9", "19"],
+        "english_core": ["1-2"]
+      },
+      "basis": "IDs in the frozen 64-item CBSE independent-key source cohort; English question parts are excluded with their parent question"
+    },
+    {
+      "family_id": "cbse-2025-26-class-xii-sqp",
+      "exam": "CBSE-SQP-2025-26",
+      "question_numbers_by_subject": {
+        "accountancy": ["1-3", "6", "8-9", "14", "16"],
+        "business_studies": ["1-3", "5", "7", "10", "14-15"],
+        "economics": ["1-2", "5-7", "18-20"],
+        "english_core": ["1-2"]
+      },
+      "basis": "IDs in the frozen 64-item CBSE independent-key source cohort; English question parts are excluded with their parent question"
+    },
+    {
+      "family_id": "cbse-2023-24-class-xii-sqp-and-marking-scheme",
+      "exam": "CBSE-SQP-2023-24",
+      "subjects": ["accountancy", "business_studies", "economics", "english_core"],
+      "question_numbers": "entire four-subject source family excluded",
+      "observed_accountancy_questions_in_search_snippet": ["1", "2", "3"],
+      "observed_marking_scheme_question_rows_in_search_snippet": ["1-4"],
+      "basis": "A source search result exposed Accountancy question text and marking-scheme rows during this preparation pass; exclude the entire year/family to prevent leakage."
+    },
+    {
+      "family_id": "cuet-ug-2025-final-key-document",
+      "exam": "CUET-UG-2025",
+      "question_numbers": "entire official final-key document excluded",
+      "source_url": "https://www.nta.ac.in/Download/Notice/Notice_20250701201050.pdf",
+      "basis": "The final-key PDF was opened during source URL discovery; do not use this document or associated question IDs for this held-out set."
+    },
+    {
+      "family_id": "cuet-ug-2026-final-key-document",
+      "exam": "CUET-UG-2026",
+      "question_numbers": "entire official final-key document excluded",
+      "source_url": "https://www.nta.ac.in/Download/Notice/Notice_20260621191633.pdf",
+      "basis": "The final-key PDF was opened during source URL discovery; do not use this document or associated question IDs for this held-out set."
+    }
+  ],
+  "selection_guard": "Before freeze, use only the URLs and family metadata in source-url-inventory.json. After corrected v7.4 verifier freeze, acquire a new source only if no family or question ID intersects this manifest; independently derive and freeze answers before opening any official key."
+}

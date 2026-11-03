@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-07T13:37:58.985Z",
+  "source_commit": "f1e140038f6e7f014a66b77955eb38f0db78a4c4",
+  "deployment_id": "GtocadTUYiy4UXaA2qcE5bso9WGD",
+  "state": "Ready",
+  "environment": "Production",
+  "duration_seconds": 45,
+  "screenshot": "artifacts/question-factory/execution-2026-10-07/production/release-f1e1400.jpg"
+}

@@ -1,0 +1,11 @@
+{
+  "schema": "v77-final-v3b-correction-start",
+  "v1_construction_started_at": "2026-10-09T06:42:30.000Z",
+  "v2b_correction_started_at": "2026-10-09T06:59:20.631Z",
+  "v3b_correction_started_at": "2026-10-09T07:06:29.188Z",
+  "v1_packet_sha256": "8546f0a2b2b6ce1a937f96eddb78defae1d38c2a3a72ff492f253bf2a16bd956",
+  "v2b_packet_sha256": "be00e328999b88c98238ee26483a6a3cad5e0f35586bbc18f6e7fba59c05a20c",
+  "source_pdfs_unchanged": true,
+  "no_frozen_modules_edited": true,
+  "no_native_or_study_calls": true
+}

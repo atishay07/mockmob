@@ -1,0 +1,34 @@
+
+> mockmob@0.1.0 test:nta
+> node --test data/tests/nta_question_selector.test.mjs
+
+✔ NTA selector returns exactly 50 when 50+ usable questions exist (42.2873ms)
+✔ NTA selector does not fail because chapter is missing (32.6751ms)
+✔ NTA selector does not fail because quality metadata is missing (31.5664ms)
+✔ NTA selector rejects truly unusable questions (0.6205ms)
+✔ accepts valid direct recall without a depth requirement (0.3091ms)
+✔ NTA selector preserves passage group order (29.0635ms)
+✔ NTA selector returns passage context for linked questions (0.6262ms)
+✔ NTA mode forces 60-minute duration (0.2122ms)
+✔ NTA mode ignores requested count and returns 50 (29.378ms)
+✔ Quick/full modes keep their existing count behavior (0.2333ms)
+✔ rejects one-line Read the excerpt pseudo-passage (0.2713ms)
+✔ rejects passage badge without recoverable passage text (0.2101ms)
+✔ rejects generic paraphrasing assertion-reason English theory without passage context (0.2523ms)
+✔ rejects orphan passage-dependent row even when options and answer are valid (0.1448ms)
+✔ accepts valid English passage group with real passage and four linked questions (29.1524ms)
+✔ English NTA selection excludes fake passage labels and keeps standalone verbal ability only (25.7769ms)
+✔ NTA selector returns fewer than 50 when fewer than 50 acceptable questions exist (25.7781ms)
+✔ answer integrity guard rejects explanation that points to another key (0.2272ms)
+✔ NTA answer integrity excludes bad keyed row and refills to 50 (27.1371ms)
+✔ NTA answer integrity refuses to start when only 49 clean questions remain (27.1275ms)
+✔ NTA answer integrity refill keeps passage group ordering intact (29.0846ms)
+✔ NTA AI verifier only checks low-confidence rows and refills rejected answers (62.0171ms)
+ℹ tests 22
+ℹ suites 0
+ℹ pass 22
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 624.3388

@@ -1,0 +1,48 @@
+{
+  "acquired_at": "2026-10-08T11:16:13.144706+00:00",
+  "second_review_freeze_sha256": "d3e1ba7255765504ea1d96a05d295b05c3d83044e58ce14107778dc2dfd7138f",
+  "documents": [
+    {
+      "subject": "accountancy",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-ms.pdf",
+      "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-ms.pages.json",
+      "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+      "page_count": 13
+    },
+    {
+      "subject": "business_studies",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-ms.pdf",
+      "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-ms.pages.json",
+      "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+      "page_count": 9
+    },
+    {
+      "subject": "economics",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-ms.pdf",
+      "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-ms.pages.json",
+      "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+      "page_count": 7
+    },
+    {
+      "subject": "english",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+      "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-ms.pdf",
+      "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+      "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-ms.pages.json",
+      "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+      "page_count": 9
+    }
+  ],
+  "paid_calls": 0,
+  "limitations": [
+    "CBSE keys are academic source evidence, not authenticated CUET PYQs.",
+    "Economics Q14 was seen earlier and is excluded.",
+    "Disagreement with an official key remains held; no frozen independent answer is rewritten."
+  ]
+}

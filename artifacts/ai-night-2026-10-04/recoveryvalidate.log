@@ -1,0 +1,5 @@
+
+> mockmob@0.1.0 recovery:validate
+> node scripts/learning/validate-pathway.mjs sacrificing_gaining --check
+
+{"pathway":"sacrificing_gaining","passed":true,"failed":0,"stale":false}

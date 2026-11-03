@@ -1,0 +1,264 @@
+{
+ "stage": "explanation_support",
+ "provider": "openai",
+ "ms": 35773,
+ "request_bytes": 18143,
+ "response": {
+  "id": "resp_0ca46acd1c494a9c016ac8c44a389887d2a3eef8e8087d15d5",
+  "object": "response",
+  "created_at": 1791542346,
+  "status": "completed",
+  "access_programs": null,
+  "background": false,
+  "billing": {
+   "payer": "developer"
+  },
+  "completed_at": 1791542380,
+  "error": null,
+  "frequency_penalty": 0,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": 8000,
+  "max_tool_calls": null,
+  "model": "gpt-6-luna",
+  "moderation": null,
+  "output": [
+   {
+    "id": "rs_0ca46acd1c494a9c016ac8c44e4b5887d28f75bfbf0c3611d4",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyMRsbSsIq1bBci1jPugkvRYcpn1WCgfliBaiolXP7PtBY-USscZoXlSwgPLuXn3Dh0BMT_n6xP82gR2DDVJnmLbCrMVFrCCHfPyVx8v5qFSKHoaCq6kPbqoYCnQNiQtiMY9roWID5qBSBXTxuw_Xaiv8Ais2RYty-SI29CdXYOTP0jdxwlQIyui8JBVJgPwtrDOAcRrpyAxhQLBu_B4fM8uBr3x4-QU-XJSttD5XKlmgczBlQNvjcE5CMlgyHeOEzk8tew7Z4OoZlqgpBYsafidl3ABc7aE2Hkl-A7HMSeFlajHtXec9Ce-8vPgnWfwHkbPs87X5TXgLuTHHE7VOW5KJA0ELsLEJBsm25EVnD8kd3V7OmOo6ba8wfji5RzCo4j7wcr67gzUHexN_mACmV-L2ULUo4eRd9IxXhxNWJRs-VFiL95X9Q8T33tf9vsDvAlKJc50eJWbu1s4nCtzprdDukyPa-pL5NCBbD33QOYtPI48dLJ9COBA1D0wWby8XcoY3sPCINmD7LOCmEMa_YiLFlmXBKf6dGpMHXu-VxuEPnSXwS9HgTy1ovssbVC3IX4bN55ZU_NDn9ype8AFlRiPx7e1KpN64kPRgt-2FedoeYyc8ucOPqaGik8XH3DFC9f3SNRiVfHrdy_bAHc6DRGyy3gkgpzgsr0smXGdO2V354W4MYPX04WDqF9YS8WBzFJ93SRiiWZHez2xHKK9FtNCdSvRB4meMvXmhHSaiD6BGNmmOgWAhMhvl7MMc4FOcKcssWBDQ3-4HJJyIiZii9ixPDItBvxr_DZKcezq-mo7_d5zBb5bqo0g-pCuvGveNbgEEaWaTsOMua5_mrWwa0K6cgosW8FCBF3l7GCJjBnJn-B-y-xY8MAlCexYMv9nF15TanayYcquQQZp5KN3BGhYf43fDr1Z7nyfvGRWs1Kj_TDUUKKIGh2Z_vivchqgXlIbmxULKuHNq3yhyBz1rcBRF4MeUTr_MuIXvdqiXD2ZwuG7-XgpgjGcjfK4F9i5O9WOhrd43eAepQiLg-mlK7ffaazu8pFzTDE6Cg6wAGpvsGaJwhyA5fiY5xIWheFR_tPI636ohK_2TDEHeXP60X2dCIAPsOYMTo_YTqXW7E62VE-hzflk8s1xDd-prAaRdTxOS__cGsIOguwFyU7MBE9q-cskJQQvVSPDaio-16mOMrzx6aJ9dE9lj0v5yxiB0m57Qldumd54RA3L2WSfJK2-HapEuERwsIRMdEqjWV6NaCNwsrr0-8M54zJZQTBiF3vZhOxdV50Kve-Tj1Xapb2uYjXRCHeqtXey3CZF6RU-bvpX_Xq2hrxkq3pjaNGQxgKNFvJiSKZiPie7vL46KopnEivAI47uYk6MqZQEdW2rWa2ym2K5vCxy6LZUy6LFCIjMUuO2q5gg0g4hAGsCRNqDNkpzXIvi4gKiKJ6vCcOK147XFEE34BgtQfvVM2THQz-KYXiJW1khjk0G2qzW2zEUYx7bgGSKtBXuk7TZczEIdbR9eQs51d2VOMPFEI-JvfMOhtivYfya2ayLszPjqtaSjTl0fwJFGqT3ZtfFRTENAnx5X6w4m5Bw73af7bRzXMaocmCe4uH6856Jo0HIKFRlYwLGrlnYLgGb3NVv63UyBqcctnvf2cKEj2Qm8IKjBCrkWoLka1zZqMIhec8QF1e5xpA_jvebWcv5T_f1L2aDtXiA4uy9_uQ9QP1HTzKV4jpbVZdjGMyY8E138OI5nXcudq2qnrsWGGqm_A_9cufmi9Jw-uJTW2Ju9EgWb-Fh24YqZ57v5pxsVWJrlelvNgqazfPRhtDF7E-Gm4A_wfq1EuTrWVipVujdS0nBgGa0QO6BuOA5LEV-Bi16PZZQXJi-9FXqTFnvX-11gjTizjk2K_TkxO3bUn0Pfp8OWlbi5zZJttPC0FdBd7CxA_MKc3HED7Vj8bSsXofPpqrq7nuOuD9ueTOk4qJG3vma2RutowmjPsvUWtGbYm1LbSSF_4aI8iE8ULxGuVVyq3XJB-BKGpgVYWdAZsqqGwVvXpVN-suGBU7TBeM1XyI7F23sR6V4cvhiOmnh3sROzQCNuQ8fT81XzadDGG9T6H6SH-8dttrOcUxsQTgDZqErdTecvlzAzq_Cv8UZSAmVaBDSqXJMik4AL8NiDiZiyBGcBkPIZCkI7nvjzi8b_WQtdh-MLAUrScSDLJjBkspCCgaGLvT8Z6Lw5aF5-u7YGw23EpngvM5BsMbYZap2QfEus2G88mv869v6IKA3lNSC2UuB_n8d2mXTBQ3ny16NU-eslPFjZk6Q_vk4j3GlmiqUODbr2FLi0yKeGtNQqEi7limk0ITlXn1cWpkB32J0-RaNGCBvJgn4J9bhPxHljZUtjcaHbcv2Vh77LwRQhJzqdyG_BwCOmSaKO5G7zjWIo-U7ejRijIWl7ivJg3zJscymE9_rWYT3auzDeCYSo-2mkIctq2eb8l-6c-pKZVuWYA2kSzwk1jT6Ii-PAdjwVv3LSklXb95s0HF3R1C6JOti6y2VNpEE5tknvwZ3UjJJBObDV94Vx_FxWXq5teX9sfbwPnwaCpFReAqniL1wMzYs8FVRQIie9qGS7X_1jpMV2PqlvUlO3Od1gsXeBNH-JxSFFK5QTxUZE6EgsJFqJhvBaj0t_zP3ue5iYC0HNkzk6IyY0grKiV7Sepqz5I9E_HrslqhZCC9lREGQ1X51vmVYI8G12rXyJ6fZeG7ohH6PlhKUDArsGLNe_mohBfEsumMXrV1qtsAYXmmMUCB070MUFnfkJYiboM4bvFG9qNL_rolibd04iU3ZdhoSdCePUuWCFEc5yTD5q01iOXsw4iX105_P9qOLYRoXzWouPEGfn31s2nUaDFwShFdfiXGHNbPiWZG3SDTkgQWcvte3cjlfmgxNqgc2kE9vCxRtC6IrVlcdB7pWf6BCDcDfdNpTqFC50YEpVr5hxuQIJRSoNLRXsW8AMcWeK_vJ5gI6ogWA-uwPUWwQU8ei-PlfZzbvHVWTjfybVMb2LIhw2yJ-m1F8JZLtWZ_FvI0MihYbEUpCbnOjEOESeVmJ-UXVti_P5Y_VCkFwU5IVzvzGMbwoBA3McusYT7-KKRzvfxx0qJa2l7JpzrTOBxJupYDAU8FZqBIatObD3L_Ain_KRHKr8XrXH4NrGMCv7kxHTWti59A-o6ZID5FVVHuCqfcdLlQYALsU3VOH-ht6QxEc-a0nbw1ZW9bWF7_KLHriwFcFfc_nV89jAl89_QogEuiR3llwoGY7hngcSt0JSP787RpCSWhASEYcsv6E36VVJ_cZMAWD9TAlYJlBq0bGFJFJx__yb2axBSxA_3_LMaPAOLYIFKe0vlR_LgpuIQROyUZm-dDW1U9zi2xi0KbJmAgFg8Mv1qqPAsS5WkdScSHIPks0G04FIWmRxc9wcLDXu3i4mfc2Wt-CrXre0hS1O6h2Scvgp4wFJti6gu50WG0u9BeoRlGvQJxup5eXCGzyh58_eNcJB0a4ZlepApMM0A6wRbjMr5-MVt8T-NSn2fx4LzpLQwFncjrEGCxD5fPUj6uHGXBJXDGyPbgdv3kUHaP8z2W4Bfd3ocDalV5QAEdwvMCYPWjzlwSYTpAfNOaM4pyi_Es-FluoyOEzNxDXDH7IS3c7IoRROAd92-i62PQjvB3H0lamN1I8vyRv_wh_lg8WL2aX5aFnTazBixc9Ix_TWOTBs92KKiw084lF5fbQxNb7ospjjtF8UnUbfb4obzAnj_x-DAs9P0RwXAkFSCLqDlCJA57RF_Pw7xwVr0xwsKxnyCHCoIMjjart_7KdNuoxj9n1iYZTUu-JL1wzji6jKmgEla6EY0la71-rhq0oIbVO6YJ9kqqkXeStdnnzmJE6T9RJaT23ZVlvEcuXyJdzgUq0XrGUr37NZee94KtXrIbTfIH6XE-t89BJCmgX25YlkL6da5MjCaBNdEdI3ZqCtgGJEocYiyma9cjEpjCciCXYlKCmIs1Fo1d8kmg5tB0n6z485PuIt85JqOTJ6-rW9JRFYLSIQQAXdv8rn6AFswlZ-3g5JV_JkRYm8UN93ZH67DRx0dmEpD5EPOcrbdu-GLGtWYJ2EAF6bjLjjLj5OBL1KG6C_mtd03ni8Gei6Wsb4_g6Q6LnbbJ_6dPkl2Ntq6OSnYXPJuX6Wc9i7zVOxXkq65hS06CNkTC_KA20rwwzARDnVn3iEM7xx0CckwZclrXc1xQ7GyGFFBhJ9jwv_sImfpEERup1xZzl4s-3zcsEzCwrqPGxGqBXr_M5oxA_0g9oWEHFwsNtn91GbviJzsiK76CVCl2HWE0Fu-N2uYLks9C-I2Kj1SMO1CvFZnUcR8twhT_wy_Qyv1-pbaA==",
+    "summary": []
+   },
+   {
+    "id": "rs_0ca46acd1c494a9c016ac8c4611a6487d2ac028e5c59cfec85",
+    "type": "reasoning",
+    "content": [],
+    "encrypted_content": "gAAAAABqyMRs5PuikAYsfX1tNLQezHVecQre5bGv6PzeGl1kMvFIwUSmZjR0ce15UsX1_lPJE-i4ZgF1C_S6lAOaJXXDpVR6em2nOK-jMenpdXtznXM2qMzDsNqhGEU8naTLhKdp43HsQb_8CzgnVNWVu-e398QqJCfQOS1PxbFMSXYbsXooMAjRLkMZ8XfcDA9rGNREhPm1OJmtdwmVI1kO29doUalK_6FNaQu0jPmIcUXuVZyz7uCnrjPm_a7lqsf9qBFR50yuopMnrKsdHGLvtSG6pa1t0IdiUzdPZ-eCtQ-dMO6RZIECFpt3U2BGxu5E0Z_c3Goh9Dqg1sS9pTgOs9htgyGWKGDbx-57VFgj2N_Bs9VipCiXwDJXhjK2Hi0O1_iIbWKmDt-sQbwccoqad-OZmne3TiEhGjF5-WuNP1LAt-lrlEXk6ONDuYqwEFgg8kSyCqJjF7BhSa6lOCB-448oLyZda7tqxZjokEBF1cAmlCc1afRjTeGat9e186OhXWg1CHj8PfdC_wxs7x0Flu8UfL_QRCNmGJiLfhVE1lEYu-ecKoZyZnpKT3EK3uWZpuBKDcDyDhM2SKBauNzrIQ05OdaX7ScklyFT9p-X7uFaC_A2KXm5WxoEWDJ4Vu0E_5HUjDlvOvcC4rCMg22O2TtMZ7q2NdoE1FeU63LnXOlfW2J07frtKAWEBG63vK2GJYuJgBGxous-TyB9EUa_-cwihmEWfZATyiUZhVmIjfx9ZLhyScbDol5OorBfXmiC83ifg-R5GkkTVgZcmM6jRibQ3BEAhwWCxuq509IUqj8zC2j4DbtLGKf74ttGq2Gv_1pKj7NbD5NdihiB98m-rF37PvucnLQ5VSWgHGlFMu0tqLkS0_diNJ53scR_ysrbU1tdTAn9G8BtNE8ROE-q85dkXrMOeqzIkMQ83CzuEDFg8FoWOmHbwaOFehA_6HfETnnu5Q513h7VJyXejCN7kLF4qBk0iKt35CYHrNPsOWaD048Pti71iZfRXAbYRnMiz6M6D-RJAn5JZgCtJcutzSCCNcueJcd7mwbHV6YL8LuPIwXQqQvWwm9NMBlWPrFHQsfC_TQTARDZVr1K5YcpnD_QwjSlTtZAFVGmg-eOIdzUHrqIJLMdMBDviOEq1z0DXLubiGsgw2hbHwhUZxMgTSodqHmNPvdXaT5-eA3A9A-QHnAwmH8mThTyFrnoqQE36YPIMNeAOIdFqL2Dx6lr76lJfGTp-tfBz32GUVHsAthl1aAePjEL0P8lu82mORZNFSILKJ-ZU7PcUhPbfMYL7jM30PU6Xyp2ILDfZnMDsDZi_07643tYfyFtPJvwS9jRL9lOaVlhJKxXOx5kwskQ66GoD6rDCcA8CPpikJl9hlPJTmfga-ANEQw4derQaNFIvT8yVTXGuFkf_A1hATq6r5ALBZ-xM5ZGb5NQ62NYIm8V1rzqTRYo-GD9xDPSiipqqZpLMF08",
+    "summary": []
+   },
+   {
+    "id": "msg_0ca46acd1c494a9c016ac8c4636a9c87d2aa98bbed874a17cd",
+    "type": "message",
+    "status": "completed",
+    "content": [
+     {
+      "type": "output_text",
+      "annotations": [],
+      "logprobs": [],
+      "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-ea8f75b17d74\",\n  \"content_hash\": \"d343fbd253d74db6e9228a42e93e617580473e6ebbb6863665ff3b918175421a\",\n  \"claims\": [\n    {\n      \"claim\": \"Marginal utility is the change in total utility from one additional unit.\",\n      \"basis\": \"excerpt\"\n    },\n    {\n      \"claim\": \"30 minus 28 equals 2, so the marginal utility is 2 units.\",\n      \"basis\": \"arithmetic\"\n    }\n  ],\n  \"passed\": true,\n  \"reasons\": [\n    \"The definition is supported by E1.1, and the stated total-utility change is 30 − 28 = 2.\",\n    \"The key is fully supported: E1.1 gives the same 28-to-30 fifth-unit example.\"\n  ],\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"resolution_audit\": {\n    \"key\": \"A\",\n    \"key_fully_supported\": true,\n    \"key_reason\": \"E1.1 defines marginal utility as the change in total utility and gives the matching 28-to-30 fifth-unit example.\",\n    \"distractors\": [\n      {\n        \"option\": \"B\",\n        \"refutation_entailed\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"The change is 30 − 28 = 2, not 5.\"\n      },\n      {\n        \"option\": \"C\",\n        \"refutation_entailed\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"The fifth-unit change is 2, not 28.\"\n      },\n      {\n        \"option\": \"D\",\n        \"refutation_entailed\": true,\n        \"basis\": \"arithmetic\",\n        \"reason\": \"The change is 30 − 28 = 2, not 58.\"\n      }\n    ]\n  }\n}"
+     }
+    ],
+    "phase": "final_answer",
+    "role": "assistant"
+   }
+  ],
+  "parallel_tool_calls": true,
+  "presence_penalty": 0,
+  "previous_response_id": null,
+  "prompt_cache_key": null,
+  "prompt_cache_retention": "24h",
+  "reasoning": {
+   "context": "all_turns",
+   "effort": "high",
+   "mode": "standard",
+   "summary": null
+  },
+  "safety_identifier": null,
+  "service_tier": "flex",
+  "store": false,
+  "temperature": 1,
+  "text": {
+   "format": {
+    "type": "json_schema",
+    "description": null,
+    "name": "factory_result",
+    "schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "candidate_id",
+      "content_hash",
+      "claims",
+      "passed",
+      "reasons",
+      "evidence_ids",
+      "resolution_audit"
+     ],
+     "properties": {
+      "candidate_id": {
+       "type": "string",
+       "enum": [
+        "v79-regression-2026-10-09-v77f-ea8f75b17d74"
+       ]
+      },
+      "content_hash": {
+       "type": "string",
+       "enum": [
+        "d343fbd253d74db6e9228a42e93e617580473e6ebbb6863665ff3b918175421a"
+       ]
+      },
+      "claims": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+         "claim",
+         "basis"
+        ],
+        "properties": {
+         "claim": {
+          "type": "string"
+         },
+         "basis": {
+          "type": "string",
+          "enum": [
+           "excerpt",
+           "stem",
+           "arithmetic",
+           "fundamental",
+           "unsupported",
+           "incorrect"
+          ]
+         }
+        }
+       }
+      },
+      "passed": {
+       "type": "boolean"
+      },
+      "reasons": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "evidence_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "enum": [
+         "E1.1",
+         "E2.1",
+         "E2.2",
+         "E2.3"
+        ]
+       }
+      },
+      "resolution_audit": {
+       "type": "object",
+       "additionalProperties": false,
+       "required": [
+        "key",
+        "key_fully_supported",
+        "key_reason",
+        "distractors"
+       ],
+       "properties": {
+        "key": {
+         "type": "string",
+         "enum": [
+          "A",
+          "B",
+          "C",
+          "D"
+         ]
+        },
+        "key_fully_supported": {
+         "type": "boolean"
+        },
+        "key_reason": {
+         "type": "string"
+        },
+        "distractors": {
+         "type": "array",
+         "minItems": 3,
+         "maxItems": 3,
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+           "option",
+           "refutation_entailed",
+           "basis",
+           "reason"
+          ],
+          "properties": {
+           "option": {
+            "type": "string",
+            "enum": [
+             "A",
+             "B",
+             "C",
+             "D"
+            ]
+           },
+           "refutation_entailed": {
+            "type": "boolean"
+           },
+           "basis": {
+            "type": "string",
+            "enum": [
+             "direct_contradiction",
+             "arithmetic",
+             "category_only",
+             "source_silence",
+             "partial_truth",
+             "unsupported",
+             "incorrect"
+            ]
+           },
+           "reason": {
+            "type": "string"
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "strict": true
+   },
+   "verbosity": "medium"
+  },
+  "tool_choice": "auto",
+  "tool_usage": {
+   "image_gen": {
+    "input_tokens": 0,
+    "input_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "output_tokens": 0,
+    "output_tokens_details": {
+     "image_tokens": 0,
+     "text_tokens": 0
+    },
+    "total_tokens": 0
+   },
+   "web_search": {
+    "num_requests": 0
+   }
+  },
+  "tools": [],
+  "top_logprobs": 0,
+  "top_p": 0.98,
+  "truncation": "disabled",
+  "usage": {
+   "input_tokens": 3959,
+   "input_tokens_details": {
+    "cache_write_tokens": 3956,
+    "cached_tokens": 0
+   },
+   "output_tokens": 1013,
+   "output_tokens_details": {
+    "reasoning_tokens": 564
+   },
+   "total_tokens": 4972
+  },
+  "user": null,
+  "metadata": {}
+ }
+}

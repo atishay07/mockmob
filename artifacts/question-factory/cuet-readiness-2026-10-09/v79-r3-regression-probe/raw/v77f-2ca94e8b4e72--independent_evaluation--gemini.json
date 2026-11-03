@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12334,
+ "request_bytes": 33406,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r3-regression-2026-10-09-v77f-2ca94e8b4e72\",\n  \"content_hash\": \"941969e6f7d7ba46a9c937b60ae8574c605dd50b207fec7a5343f00fb1e7ac64\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E3.1\"],\n  \"reasons\": [\n    \"Dev writes the operator's new schedule in chalk each morning, so pointing to the fresh date indicates a date that was recently written to reflect current conditions.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Vocabulary in context\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Dev copies the schedule in chalk each morning and points to the date at the top as proof of the latest update.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Reading fresh literally as sensory temperature rather than chronological recency.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Interpreting fresh from the visitor's perspective as something novel or unfamiliar.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Confusing the fresh date with the printed timetable washed away by the monsoon.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests contextual vocabulary within a narrative reading comprehension passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard vocabulary-in-context MCQ with four clean options matching CUET UG style.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Directly matches reading comprehension vocabulary items such as cuet2024-english-bookA-q21.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent literal temperature senses and misattributions of passage details.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\"cuet2024-english-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning.\",\n      \"reason\": \"Dev writes the schedule every morning, making the date recently written.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Cool to the touch\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.\",\n      \"reason\": \"The passage concerns chronological accuracy, not physical surface temperature.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Unfamiliar to the visitor\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.\",\n      \"reason\": \"Fresh describes the recentness of the inscription, not the visitor's familiarity.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Damaged by rain\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning.\",\n      \"reason\": \"The old timetable was washed away, whereas the chalk date is newly inscribed.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EqoJCqcJAWkUfRP1LMeo0nt4Fhd3rfF1Yk+YqrPwxa3yxsg3sJM4F2kEu2d6W9ZB5Hk7+VKCInvepVMe05Q33DF5s0zQcfnf0rjctR0iipH5WAo/xOilRIUDPUzxbBblHGpyfGNGfisL7CGkCinFFwijKxA2gtknp8ERjCFC9U6ZdHM/ThSsVTlgD/L/o6X+ZUSoShe/3fkZraG6d/+tRrsBOM9FqZjKdTGrUCmQPlU2muot7zeR7EOpsxFkesg8KrDItwsWth5C/Ixz5+bqKGFtPjV20z0VUm+mmABf5cWT1LsMJEPBPr+PO6u0J5ip1AHqJGV9JEpNJELMyXXDid4KwoNZoUfL2Oj/j3MZVujsZ0rTm0Hz0LAOcy+MAK4lQylCghYqUwM9fkntMpumBbTWBXeYT9FVmE5h7c3+pIL8cMwthFVb7SDMHFW2C+ZztKuXfYWtzbW6g5n23E3klim9jwiXeoSWZf6tfG19EaGRspICpf/1xrRbnO3sccazyoQQwzSYGPjMmKfsGvjOtbSz6lGl2GRXu8d7DHxmfOMU7ZA6vmE6nM84FgFvg2DFzG+lYUu77PttYXuP9K9NWgfJuRjLtz2bZYS28WCTgkM8o4eNfIPAEQ1gEXCy90Q2i4+5yjb36nTdARX79LTfVVn8UWmXojOImEH7GkKW9lcKTCydFRXc1AAR448le5tmN8dE7o87ldPuDeSy4GBw+3MDEySacamxjELZpSEbmRNB193Kc/5mVnA123RD6orw/XCTXyHZLYVxgMTPwSLgA2InQQYV8KHHIV8LBQn3jbi0QY/nTN3tqDfz4gsjuvRi9UMUdyQlyiZiQrNgwZlUa+gC+G5/o0nVH26MT02dO+hHHi+gqtpJl9lTSiFAjodJT6HxY3srwek2rbqRKT81ghJXD+0fRZUR1F2jxFCVyQ5lJseF8dN7h8/NIv534YgtN99AM/pJVD4677Rlvm9AB4NlscDX/T4uYsgOTFmLVDKGkMwG41VvkBecwKPuyeJ8vHyh0xDT49zZwfa5GwG1cDZ+zsIZQWvHAl0nEz957MjC/3ezRfPDtHBDnYh+/DnGeq+5ytNjRS42T00jmvVJHFfp6xHl9BRVm7b3ShUzu9VCmIm874ONqmqM/fJVUYbouUANPshaAN3vs1aytIvofGEU74uRMzxJ+a9oy1uDdo93eAPU2NVAgu5WT5A//hpGOYle+vVJMs2WLJKVQVHN4D6IRo6NEvKEOgW5qxCIk5Q2Ouw7QA3Sj9a6YBlBb0DsjOSbyg9wiQH3HNQvtnoycTpPDRaxGpFMwbR7T2YhyBscyZjjE47/jRbQGH1eKs+iGZHsnIUT9/fMgDgjJCCLc7ILu2DXKDKaocakfyg2tOYWG8STL2Hrt6xdONDWmIdVeAC/Z3IQ8jExUmrGgclV3a9zoeADy2YhBo8Mwm1SD+zzqwkMb7RoCDsvbrLHGLscvh/deH4LtV+FvyZF0ely23q7SeWLGBRZIFQPuMS+V5+yGdAxtWjN7QAWiYJ/SbjUpPikhYDlXotedAefhGEVWOb8K+FRiXge2h4FEeAOD2QdYvSrODIADfVi8Umz"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6163,
+   "candidatesTokenCount": 1367,
+   "totalTokenCount": 7782,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6163
+    }
+   ],
+   "thoughtsTokenCount": 252,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "rNjIarjSGZTFjuMPnNmMsAY"
+ }
+}

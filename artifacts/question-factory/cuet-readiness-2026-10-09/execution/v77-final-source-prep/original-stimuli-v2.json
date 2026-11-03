@@ -1,0 +1,12 @@
+{
+  "schema": "v77-original-stimuli-v2",
+  "authored_at": "2026-10-09T06:42:30.000Z",
+  "restored_at": "2026-10-09T06:58:10.291Z",
+  "note": "Passage text is copied exactly from the authored source embedded in construct-v77-final.mjs. Four passages were omitted from valid V1 packet objects by tuple assembly; V2 restores those exact originals and retains the original V1 IDs and stems/options.",
+  "passages": {
+    "library": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely.",
+    "ferry": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+    "orchard": "Leela’s first harvest came in uneven batches. Rather than send every basket to market at once, she asked buyers to choose a collection window and wrote each promise beside the buyer’s name. The first week, one buyer arrived early. Leela did not scold him; she showed him the list and offered the next available slot. By the end of the month, buyers had begun checking the list before setting out. Leela kept the system because it made small delays visible while there was still time to adjust.",
+    "workshop": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair."
+  }
+}

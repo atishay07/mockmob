@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-07T23:07:42.330Z",
+  "independent_first_pass_sha256": "71ecfe53fac02c4670f254e3064c56987c792f14eff0c81e7968860ddb3a63d0",
+  "records": 64,
+  "problems": [],
+  "ready_for_validation": true,
+  "limitation": "Blinded model/source agreement is an independent checking strategy, not perfect-accuracy or CUET-style proof."
+}

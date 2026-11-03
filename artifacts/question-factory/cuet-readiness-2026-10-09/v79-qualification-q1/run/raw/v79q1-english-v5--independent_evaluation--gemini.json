@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12408,
+ "request_bytes": 29436,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79q1-run-v79q1-english-v5\",\n  \"content_hash\": \"4556e62486c26246bcac5e58963f52b650760b6559326b1550eb89e04783cfb3\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\"],\n  \"reasons\": [\n    \"The passage refers to the 'single discussion table' and notes that the committee's decision 'aimed to share access to a scarce facility', directly conveying that it is limited in supply and must be shared among users (Option B).\"\n  ],\n  \"syllabus_chapter\": \"Factual Passage\",\n  \"syllabus_topic\": \"Contextual meaning of phrases in reading comprehension\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The phrase 'a scarce facility' describes the single discussion table whose access was shared via reservation slots.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The facility is abundant rather than scarce, allowing unrestricted open access at any time.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The table was exclusively reserved for long meetings exceeding thirty minutes.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"The scarce facility was restricted strictly to regular patrons of the reading room.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests contextual phrase comprehension directly aligned with CUET Reading Comprehension objectives.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option context-vocabulary MCQ format used in CUET English papers.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Standard Class 12 reading comprehension demand requiring direct contextual inference.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors offer plausible contextual misreadings or antonyms easily ruled out by reading carefully.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"available in large numbers, so any group can use it whenever it wishes\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"A fictional neighbourhood reading room introduced a reservation system for its single discussion table.\",\n      \"reason\": \"The table is a single facility with restricted booking slots, not available in large numbers.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Its decision aimed to share access to a scarce facility while accommodating a different need elsewhere.\",\n      \"reason\": \"The passage confirms the scarce facility is limited in supply and access had to be shared.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"kept for meetings longer than thirty minutes only\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"The committee kept the reservation rule and offered a separate room for meetings lasting more than thirty minutes.\",\n      \"reason\": \"Meetings longer than 30 minutes were accommodated in a separate room, not this table.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"open only to regular visitors of the reading room\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Unreserved time remained available to any visitor.\",\n      \"reason\": \"The facility was available to any visitor, not only regular visitors.\"\n    }\n  ]\n}",
+       "thoughtSignature": "Ep0KCpoKAWkUfRPy2m1tEE314FyCiassUnRo64mCxTwwNSxppUzd2S855toobWbKqa9/fKL9ZeotGn5uMTs81Yf2hfJu6AUiqQTAoj3EQ39rxPT7+iZ7ggcIqVU+9AJlmocdemfanp/VvNCkwkCYO0vhCtgbA16cefIBvY5nO2kcElvZUFuIYAfeUDTUZSHAC1wq4fAT+MsAIblOjzHriptHdV6XNo+3w2RhC7VO+SCjnGB512Y/2w2CzPCZCVemfdWOCKx+Rv8UEVRWKgYfw6hT8qkr502kuqKvhTNRnDI3REe4ilOa5eKIPLHURd4JUPLpV7yw991QiVMnr2LNjnkxecm0kPOgUtSL6WzuPqLYKPdJkRkSgq7bY3YzdZh/izPRgheo6ZIPj0UJlu6NUYCPeLgSiaT8urJhErnVhXoVK3McohI48iK2l8b0PEkjMMVN2h7QTQoeMfzG27ie5ZbBNPE2uEDURds+5WHS+9HW8POcJwHl30aHHwhZLH//p1U8gL6D39WUZlOEcNDjrL9UxbRsZ1HobrJbChvbJzTV6VGpsDIOPKFZZGh4wAg0JIKVUuw/JtbaOyFHcW1e5CS7fUk02jekcU2JhhzMEwmebbHsqfbf4VzRte6tGWdYoxCl1Mboiwlv+lVb46glxmtCuysaIiYzauczumeCHjjow1ITvWL7B12oOXVjlScm1G+PEFlrwPXicSDis5s2xsKOynpgOzucUFhL5mEyHR8cSA7CdFfgTFu5QMhBqmhaXo70cAOo0H78OS2v2T2/2VR61Gqlh/vfZzTA55hMF5zNGaQ02VBQvmLOVWYQxORqF1+Qvfx8nY9qnOvdg0/OKUT7nM7/aJtOH2HtPPcrVN1SSoUTlNLQqkrA6frzc4Q/yYiK3dADwCHay9kIpLnX2J5FYOPznYtr73unIwFWmwmkmr74wKjgqaEw5uyrnGkkloNaCJfobpkICpBzro6lZ+9kjXaoD8FsSq3CHsOqB4mOocvOp3JAYYxNB+Zk7s2YA0jzuDVcaEpW4hhhaahW7nZD8HQiyhyebJeMl9cGJauREgH2DLSqwNShp4vgI34PM59gfuAmqzyYW30fMUrOvm5rRYfu/RfdgYu+VD6fC1yDT4XQCAt5emrzblPU+EOMnPGf29el91hBKdrn22p2zlxfIggeyvdrwgCqIJ8JnlbMeiWTs5Pg+vtRClqSCRzW51UAoxlI5zyyRst9f42YC4VpcWCjVhDq1pMTsqf/aGvEozcB7VILaVLjEJW+wI8H0nEQsUYegvNhHIkwwSOEEclagm54sBn3G+v7GBqppKoMZz8/Rld8EdE42mLGUeejWflUU1OGDqWbjjlxYUbHr6BWTMGCTwj83teqbh0TOOuzLIjI2TnuMLLhMItxLpDUUdPjODHw6Tvy8ndJiigyi7h5v2C7bg+4nzUJ6MsEKVfX+QCveFJvYk3xR06Bf4/RBVHBhnplczInZJEN1XFjZG668raFbhsrJGtZsQMPpLtghVq6WQLeGTo/dJLm/X+IZ0+x9N5KDL0T8TrHyMYAiqu/82/SqTr0/QiGqRA1omc69N4+fkUpeX7gqJT7sqgvv8P9oIvktZgu7kTx7Ps43nL2FYa3PUSgX4bNLlDmy3aXLITei0hp2mfA7TtfANxvMP3TZ8gra1NewNZlXNQMV2ig8inv5SWTcBWeKRvfIxlEACYOs47Fc4Ch9YhVXbeLnTlgkn3wi8lutOPDexx0pA=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 4907,
+   "candidatesTokenCount": 1335,
+   "totalTokenCount": 6508,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 4907
+    }
+   ],
+   "thoughtsTokenCount": 266,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "3evIaqexL4avg8UP74206Qc"
+ }
+}

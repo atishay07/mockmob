@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-12",
+  "checks": [
+    {
+      "file": "AGENTS.md",
+      "prior_bytes": 2034,
+      "prior_sha256": "5db4a8d5f191572f8ae345613b7598284a62136a369b906ce699b5647ef6575e",
+      "appended_bytes": 1116,
+      "original_prefix_preserved": true
+    },
+    {
+      "file": "docs/brain/README.md",
+      "prior_bytes": 8128,
+      "prior_sha256": "704d642f479e1fd576225260b8082e5d4b32ce6e58eb75d35a992dc946d0a0f0",
+      "appended_bytes": 1180,
+      "original_prefix_preserved": true
+    },
+    {
+      "file": "docs/brain/STATUS.md",
+      "prior_bytes": 433261,
+      "prior_sha256": "1e05152a556295cf3f99f385207b1daab48355c95449fc62a2169c99a1ee19a2",
+      "appended_bytes": 2415,
+      "original_prefix_preserved": true
+    }
+  ],
+  "passed": true
+}

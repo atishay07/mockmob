@@ -1,0 +1,87 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-06",
+  "batch_offset": 50,
+  "batch_total": 53,
+  "case_count": 3,
+  "blind_packet_sha256": "70a66fb59be10d339d77b25c476409702ce2bae4f568a7281c9d96603a93e496",
+  "created_at_utc": "2026-10-08T14:15:23+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independent blind solve using packet-provided question and registered source excerpts; historical comparison not consulted before save.",
+  "cases": [
+    {
+      "id": "022715ffbd5f9ddc00637221a98a8363",
+      "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: r were polluted with the environment. In the initial stages pesticides. Even milk, meat and fishes of development, the demand for were found to be contaminated. environmental resou. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "Contamination is the reported problem (1); efforts to improve pest control follow (2); plant-based pesticides are one such step (3); neem-derived pest chemicals are the specific example (4).",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p14-c1876",
+        "support_hash": "f9e2b06899ba68b688ef7d0e7f25dfc9802dfc5ea72253f1e654abdb408eb2bf",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Even milk, meat and fishes were found to be contaminated. To meet this challenge, efforts are to bring in better methods of pest control. One such step is the use of pesticides based on plant products.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+      "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "topic": "Balance of Payments: focus on this supplied section: Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domes. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "sequence_ordering",
+        "question_type": "direct_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "Under the supplied flexible-rate rule, appreciation occurs when the domestic currency price in foreign currency rises. $0.0135 is above $0.0131; B is the only higher quote.",
+      "source_evidence": {
+        "id": "ncert-leec106",
+        "locator": "quality-v3-pdf-page-8-262565cae8",
+        "support_hash": "262565cae8b7d68397a32693ecd02c3a9c583757032fcb48ebb3e82cf6102b46",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "296c159a29a991573e77266004038898",
+      "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: ce in the measures a large population can itself become of human capital but no sign of an asset in accelerating economic convergence of per capita real income. growth and in ensur. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "The stem stipulates private and social benefits, affordability barriers, and substantial hard-to-reverse effects. These are the stated reasons to continue public intervention in both education and health; no additional case facts are needed.",
+      "source_evidence": {
+        "id": "ncert-keec104",
+        "locator": "p11-c1783",
+        "support_hash": "3478f1513cb94bd93c9ec8f9018f43741804542a6c7e32ed2aca85dcf2e97a0c",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "education and health care services create both private and social benefits ... a substantial section of India’s population cannot afford to access basic education and health care facilities.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    }
+  ]
+}

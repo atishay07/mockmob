@@ -1,0 +1,63 @@
+{
+  "schema": "v717-stopped-qualification-export-review-v1",
+  "created_at": "2026-10-10T06:08:00Z",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "export_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/stopped-qualification-export-20261010/questions-and-evidence.json",
+  "export_sha256": "38d5926bf6b8bdaedf7823a9101d43e0e34e479f3e4d15f6928a0f5b6712383a",
+  "source_accounting": [
+    {"path":"artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/verification/post-recovery-summary.json","sha256":"9e15be6058fd59f7cfed26951c334da25a8704049673b0c934a4024ae123cdab"},
+    {"path":"artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/verification/post-recovery-accounting-addendum.json","sha256":"689b823c76b8b044042c8bfda4e2bf90f553d30ae5b95b72d63e6c476840d6c4"}
+  ],
+  "denominator": 32,
+  "state_counts": {"eligible":9,"error_review_incomplete":1,"not_started":17,"paused":4,"pending":1,"unfinished_total":22},
+  "nta_eligible": 9,
+  "controlled_defects": {"registered":12,"tested":0},
+  "criteria_shape": {"items":32,"criteria_per_item":20},
+  "partial_blind_reports": {
+    "count":5,
+    "promoted_to_terminal":false,
+    "binding_checks": "Exporter includes these only after matching candidate identity and canonical content hash, registered profile, validation contract hash, prompt hash, blind/independent/explanation stage, and a settled campaign reservation whose request ID hashes campaign plus report request key. All five are blind_solution reports; none changes candidate state."
+  },
+  "actual_difficulty_assessments": {"total":25,"openai_luna_blind_easy":15,"gemini_independent_easy":10,"medium":0,"hard":0,"eligible_candidates":{"easy":9}},
+  "eligible_quality_score": {"n":9,"min":8.1333,"max":8.9333,"mean":8.5704},
+  "dimensions": [
+    {"id":1,"parameter":"overall_cuet_readiness","eligible_mean":8.0833,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":7.94,"review_feedback_n":25,"review_null":0},
+    {"id":2,"parameter":"syllabus_entitlement","eligible_mean":9.2778,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.2,"review_feedback_n":25,"review_null":0},
+    {"id":3,"parameter":"learning_objective","eligible_mean":8.6944,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":8.58,"review_feedback_n":25,"review_null":0},
+    {"id":4,"parameter":"cuet_format_style","eligible_mean":8.3056,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":8.1,"review_feedback_n":25,"review_null":0},
+    {"id":5,"parameter":"difficulty_calibration","eligible_mean":8.5278,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":8.48,"review_feedback_n":25,"review_null":0},
+    {"id":6,"parameter":"time_reading_suitability","eligible_mean":8.8611,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":8.8,"review_feedback_n":25,"review_null":0},
+    {"id":7,"parameter":"answer_accuracy","eligible_mean":10,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":null,"review_feedback_n":0,"review_null":0,"note":"Truth is independently derived; no reviewer numeric rating."},
+    {"id":8,"parameter":"unique_answer","eligible_mean":9.8333,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.76,"review_feedback_n":25,"review_null":0},
+    {"id":9,"parameter":"option_separation","eligible_mean":8.6944,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":8.54,"review_feedback_n":25,"review_null":0},
+    {"id":10,"parameter":"decisive_assumptions","eligible_mean":9.5,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.5,"review_feedback_n":25,"review_null":0},
+    {"id":11,"parameter":"numerical_accuracy_method","eligible_mean":9.9167,"eligible_scored":6,"eligible_na":3,"review_feedback_mean":9.923,"review_feedback_n":13,"review_null":12,"review_explicit_na":1},
+    {"id":12,"parameter":"boundary_cases","eligible_mean":8.9286,"eligible_scored":7,"eligible_na":2,"review_feedback_mean":8.889,"review_feedback_n":18,"review_null":7},
+    {"id":13,"parameter":"explanation_correctness","eligible_mean":9.5556,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.5,"review_feedback_n":10,"review_null":0},
+    {"id":14,"parameter":"explanation_source_support","eligible_mean":9.6667,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.6,"review_feedback_n":10,"review_null":0},
+    {"id":15,"parameter":"passage_answerability","eligible_mean":null,"eligible_scored":0,"eligible_na":9,"review_feedback_mean":10,"review_feedback_n":1,"review_null":24,"review_explicit_na":14},
+    {"id":16,"parameter":"completeness","eligible_mean":9.25,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.14,"review_feedback_n":25,"review_null":0},
+    {"id":17,"parameter":"language_clarity","eligible_mean":9.0741,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.071,"review_feedback_n":35,"review_null":0},
+    {"id":18,"parameter":"distractor_plausibility","eligible_mean":7.9167,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":7.72,"review_feedback_n":25,"review_null":0},
+    {"id":19,"parameter":"semantic_novelty","eligible_mean":7.3611,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":7.295,"review_feedback_n":22,"review_null":3},
+    {"id":20,"parameter":"source_fidelity","eligible_mean":9.5556,"eligible_scored":9,"eligible_na":0,"review_feedback_mean":9.457,"review_feedback_n":35,"review_null":0}
+  ],
+  "campaign_accounting": {
+    "settled_usd":0.061662,
+    "item_settled_usd":0.06166200000000001,
+    "held_usd":0,
+    "item_held_usd":0,
+    "reservation_rows":36,
+    "unique_request_ids":36,
+    "provider_rows":{"openai_blind_solution":15,"openai_explanation_support":10,"gemini_settled_reservations":11,"gemini_completed_provider_responses":10,"gemini_proven_unsent_cancelled_zero_cost":1},
+    "receipts_complete":true,
+    "scope":"Campaign reservation/receipt accounting only; no lifetime delta." 
+  },
+  "release_and_forecast": {
+    "qualification_passed":false,
+    "publication_verified":false,
+    "production_published":0,
+    "generated_or_publishable_cost_forecast":null,
+    "note":"A stopped qualification-control cohort does not estimate authoring yield, publishable quality, or generated-question unit economics."
+  }
+}

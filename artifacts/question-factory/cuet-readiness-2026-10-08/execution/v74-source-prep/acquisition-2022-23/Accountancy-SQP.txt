@@ -1,0 +1,553 @@
+SAMPLE QUESTION PAPER 2022-23
+SUBJECT ACCOUNTANCY 055
+CLASS XII
+TIME 3 HOURS MAX. MARKS 80
+GENERAL INSTRUCTIONS:
+1. This question paper contains 34 questions. All questions are compulsory.
+2. This question paper is divided into two parts, Part A and B.
+3. Part - A is compulsory for all candidates.
+4. Part - B has two options i.e. (i) Analysis of Financial Statements and (ii) Computerised
+Accounting. Students must attempt only one of the given options.
+5. Question 1 to 16 and 27 to 30 carries 1 mark each.
+6. Questions 17 to 20, 31and 32 carries 3 marks each.
+7. Questions from 21 ,22 and 33 carries 4 marks each
+8. Questions from 23 to 26 and 34 carries 6 marks each
+9. There is no overall choice. However, an internal choice has been provided in 7 questions of
+one mark, 2 questions of three marks, 1 question of four marks and 2 questions of six
+marks.
+PART A
+(Accounting for Partnership Firms and Companies)
+S.No. Question Marks
+Part A :- Accounting for Partnership Firms and Companies
+1. Navya and Radhey were partners sharing profits and losses in the ratio of 3: 1. 1
+Shreya was admitted for 1/5th share in the profits. Shreya was unable to bring
+her share of goodwill premium in cash. The journal entry recorded for goodwill
+premium is given below:
+Date Particular LF Debit Credit
+(₹) (₹)
+Shreya’s Current A/c. Dr. 24,000
+To Navya’s Capital A/c. 8,000
+To Radhey’s Capital A/c 16,000
+(Being entry for goodwill treatment passed)
+The new profit-sharing ratio of Navya, Radhey and Shreya will be:
+a) 41: 7: 12
+b) 13:12: 10
+c) 3:1: 1
+d) 5:3: 2
+2. Assertion (A):- Commission provided to partner is shown in Profit and Loss A/c. 1
+Reason (R):- Commission provided to partner is charge against profits and is to
+be provided at fixed rate.
+a) (A) is correct but (R) is wrong
+b) Both (A) and (R) are correct, but (R) is not the correct explanation of (A)
+c) Both (A) and (R) are incorrect.
+d) Both (A) and (R) are correct, and (R) is the correct explanation of (A)
+3. A share of ₹ 10 each, issued at ₹ 4 premium out of which ₹ 7 (including ₹ 1 1
+premium) was called up and paid up. The uncalled Capital will be ___________.
+a) ₹ 7 per share b) ₹ 4 per share
+c) ₹ 8 per share d) ₹ 3 per share
+OR
+While issuing ___________ type of Debentures, company doesn’t give any
+undertaking for the repayment of money borrowed by issuing such
+debentures.
+a) Zero Coupon Rate Debentures b) Non-Convertible Debentures
+c) Secured Debentures d) No(cid:13)n-Redeemable Debentures
+4. Samiksha, Arshiya and Divya were partners in a firm sharing profits and losses 1
+in the ratio of 5: 3: 2. With effect from 1st April 2022, they agreed to share
+future profits and losses in the ratio of 2: 5: 3. Their Balance Sheet showed a
+debit balance of ₹ 50,000 in the Profit and Loss Account and a balance of ₹
+40,000 in the Investment Fluctuation Fund. The market value of an investment
+is ₹30,000 against the book value of ₹50,000. Partners have decided, not to
+show revised valued in the balance sheet and to pass an adjusting entry for it.
+Which of the following is the correct treatment of the above?
+a) Samiksha’s Capital A/c. Dr. 9,000
+To Arshiya’s Capital A/c. 6,000
+To Divya’s Capital A/c 3,000
+b) Arshiya’s Capital A/c. Dr. 5,000
+To Samiksha’s Capital A/c. 2,000
+To Divya’s Capital A/c. 3,000
+c) Arshiya’s Capital A/c. Dr. 2,000
+Divya’s Capital A/c. Dr. 1,000
+To Samiksha’s Capital A/c 3,000
+d) Arshiya’s Capital A/c. Dr. 6,000
+Divya’s Capital A/c. Dr. 3,000
+To Samiksha’s Capital A/c 9,000
+Or
+Sohan and Mohan are partners sharing profits and losses in the ratio of 2:3
+with the capitals of ₹ 5,00,000 and ₹ 6,00,000 respectively. On 1st January
+2022, Sohan and Mohan granted loans of ₹ 20,000 and ₹ 10,000 respectively to
+the firm. Determine the amount of loss to be borne by each partner for the
+year ended 31st March 2022 if the loss before interest for the year amounted
+to ₹ 2,500.
+a) Share of Loss Sohan –₹ 1,250 Mohan – ₹ 1,250
+b) Share of Loss Sohan –₹ 1,000 Mohan – ₹ 1,500
+c) Share of Loss Sohan –₹ 820 Mohan – ₹ 1,230
+d) Share of Loss Sohan –₹ 1,180 Mohan – ₹ 1,770
+5. Vihaan and Mann are partners sharing profits and losses in the ratio of 3:2. The 1
+firm maintains fluctuating capital accounts and the balance of the same as on
+31st March 2022 is ₹ 4,00,000 and ₹ 4,65,000 for Vihaan and Mann
+respectively. Drawings during the year were ₹ 65,000 each. As per the
+partnership Deed, Interest on capital @ 10% p.a. on Opening Capital has been
+allowed to them. Calculate the opening capital of Vihaan given that the
+divisible profits during the year 2021-22 was ₹ 2,25,000.
+a) ₹ 3,30,000
+b) ₹ 4,40,000
+c) ₹ 4,00,000
+d) ₹ 3,00,000
+6. Savitri Ltd. issued 50,000, 8% Debentures of ₹ 100 each at certain rate of 1
+premium and to be redeemed at 10% premium. At the time of writing off Loss
+on Issue of Debentures, Statement of Profit and Loss was debited with ₹
+2,00,000. At what rate of premium, these debentures were issued?
+a) 10% b) 16%
+c) 6% d) 4%
+Or
+Durga Ltd. issued 80,000, 10% Debentures of ₹ 100 each at certain rate of
+discount and were to be redeemed at 20% premium. Existing balance of
+Securities Premium before issuing of these debentures was ₹ 25,00,000 and
+after writing off Loss on Issue of Debentures, the balance in Securities Premium
+was ₹ 5,00,000. At what rate of discount, these debentures were issued?
+a) 10% b) 5(cid:13)%
+c) 25% d) 15%
+7. Attire Ltd, issued a prospectus inviting applications for 12,000 shares of ₹10 1
+each payable ₹3 on application, ₹ 5 on allotment and balance on call. Public
+had applied for certain number of shares and application money was received.
+Which of the following application money, if received restricts the company to
+proceed with the allotment of shares, as per SEBI guidelines?
+a) ₹ 36,000 b) ₹ 45,000
+c) ₹ 30,000 d) ₹ 32,400
+8. Amay, Bina and Chander are partners in a firm with capital balances of ₹ 1
+50,000, ₹ 70,000 and ₹ 80,000 respectively on 31st March, 2022. Amay decides
+to retire from the firm on 31st March, 2022. With the help of the information
+provided, calculate the amount to be paid to Amay on his retirement.
+There existed a general reserve of ₹ 7,500 in the balance sheet on that date.
+The goodwill of the firm was valued at ₹ 30,000.
+Gain on revaluation was ₹24,000.
+a) ₹ 88,500 b) ₹ 90,500
+c) ₹ 65,375 d) ₹ 70,500
+Or
+A, B and C are partners. A‘s capital is ₹ 3,00,000 and B‘s capital is ₹1,00,000. C
+has not invested any amount as capital but he alone manages the whole
+business. C wants 30,000 p.a. as salary, though the deed is silent. Firm earned a
+profit of ₹1,50,000. How much will each partner receives as an appropriation of
+profits?
+a) A ₹ 60,000; B ₹ 60,000; C ₹ 30,000
+b) A ₹ 90,000; B ₹ 30,000; C ₹ 30,000
+c) A ₹ 40,000; B ₹ 40,000 and C ₹ 70,000
+d) A ₹ 50,000; B ₹ 50,000 and C ₹ 50,000
+Read the following hypothetical situation, Answer Question No. 9 and 10
+Puneet and Raju are partners in a clay toys making firm. Their capitals were ₹
+5,00,000 and ₹ 10,00,000 respectively. The firm allowed Puneet to get a
+commission of 10% on the net profit before charging any commission and Raju
+to get a commission of 10% on the net profit after charging all commission.
+Following is the Profit and Loss Appropriation Account for the year ended 31st
+March 2022.
+Dr. Profit and Loss Appropriation Account for the year ended 31st March 2022 Cr.
+Particulars Amount Particulars Amount (₹)
+(₹)
+To Puneet’s Capital A/c By Profit and Loss ……………
+(Commission) 44,000 a/c
+(------ x10/100)
+To Raju’s Capital A/c -----------
+(Commission)
+To Profit share transferred
+to :-
+Puneet’s Capital A/c -----------
+Raju’s Capital A/c ------------
+========= ==========
+9. Raju’s commission will be:- 1
+a) ₹ 40,000 b) ₹ 44,000
+c) ₹ 36,000 d) ₹ 36,440
+10. Puneet’s share of profit will be :- 1
+a) ₹ 1,80,000 b) ₹ 1,44,000
+c) ₹ 2,16,000 d) ₹ 1,60,000
+11. Choose the correct sequence of the following transactions in context of 1
+Division of Profits.
+(i) Guarantee by Firm to Partners
+(ii) Guarantee by Partners to Firm
+(iii) Transfer of Profits to Profit and Loss Appropriation Account
+(iv) Guarantee by Partner to Partner
+a) (i); (iii) ; (iv) ; (ii) b) (iii); (i) ; (ii) ; (iv)
+c) (iii) ; (ii) ; (i); (iv) d) (ii); (iii); (iv); (i)
+12. If 10,000 shares of ₹10 each were forfeited for non-payment of final call money 1
+of ₹ 3 per share and only 7,000 shares were re-issued @ ₹ 11 per share as fully
+paid up, then what is the amount of maximum possible discount that company
+can allow at the time of re-issue of the remaining 3,000 shares?
+a) ₹ 28,000 b) ₹ 21,000
+c) ₹ 9,000 d) ₹ 16,000
+13. As per Companies Act 2013, Securities Premium Balance can be utilised for 1
+which of the following purpose?
+a) Issuing bonus to existing b) Providing for Premium payable
+shareholders to convert(cid:13) partly on Redemption of Debentures.
+pa(cid:13)id up into fully paid-up
+bonus shares.
+c) Writing off all Capitalised d) Buy Back of Debentures
+Expenditures
+14. Ganga and Jamuna are partners sharing profits in the ratio of 2:1. They admit 1
+Saraswati for 1/5th share in future profits. On the date of admission, Ganga’s
+capital was ₹ 1,02,000 and Jamuna’s capital was ₹ 73,000. Saraswati brings ₹
+25,000 as her share of goodwill and she agrees to contribute proportionate
+capital of the new firm. How much capital will be brought by Saraswati?
+a) ₹ 43,750
+b) ₹ 37,500
+c) ₹ 50,000
+d) ₹ 40,000
+15. Green and Orange are partners. Green draws a fixed amount at the beginning 1
+of every month. Interest on drawings is charged @8% p.a. At the end of the
+year interest on Green's drawings amounts to ₹ 2,600. Monthly drawings of
+Green were:
+a) ₹ 8,000
+b) ₹ 60,000
+c) ₹ 7,000
+d) ₹ 5,000
+Or
+Girdhar, a partner withdrew ₹ 5,000 in the beginning of each quarter and
+interest on drawings was calculated as ₹ 1,500 at the end of accounting year 31
+March 2022. What is the rate of interest on drawings charged?
+a) 6% p.a.
+b) 8% p.a.
+c) 10% p.a.
+d) 12% p.a.
+16. At the time of dissolution of a firm, Creditors are ₹ 70,000; Firm’s Capital is ₹ 1
+1,20,000; Cash Balance is ₹ 10,000. Other assets realised ₹ 1,50,000. Gain/Loss
+in the realisation account will be:
+a) ₹ 30,000 (Gain)
+b) ₹ 40,000 (Gain)
+c) ₹ 40,000 (Loss)
+d) ₹ 30,000 (Loss)
+17. Nirmala, Divisha and Sara were partners in a firm sharing profits and losses in 3
+the 3:4:3. Books were closed on 31st March every year. Sara died on 1st
+February, 2022. As per the partnership deed Sara's executors are entitled to
+her share of profit till the date of death on the basis of Sales turnover. Sales for
+the year ended 31st March 2021 was ₹ 10,00,000 and profit for the same year
+was ₹ 1,20,000. Sales show a positive trend of 20% and percentage of profit
+earning is reduced by 2%.
+Journalise the transaction along with the working notes.
+18. Amay, Anmol and Rohan entered into partnership on 1st July, 2021 to share 3
+profits and losses in the ratio of 3:2:1. Amay guaranteed that Rohan’s share of
+profit after charging interest on capital @ 6% p.a would not be less than ₹
+36,000 p.a. Their fixed capital balances are: ₹ 2,00,000, ₹ 1,00,000 and ₹
+1,00,000 respectively. Profit for the year ended 31st March, 2022 was
+₹1,38,000.
+Prepare Profit and Loss Appropriation A/c.
+Or
+Ajay, Manish and Sachin were partners sharing profits in the ratio 5:3:2. Their
+Capitals were ₹ 6,00,000; ₹ 8,00,000 and ₹ 11,00,000 as on April 01, 2021. As
+per Partnership deed, Interest on Capitals were to be provided @ 10% p.a. For
+the year ended March 31, 2022, Profits of ₹ 2,00,000 were distributed without
+providing for Interest on Capitals.
+Pass an adjustment entry and show the workings clearly.
+19. Anthony Ltd. issued 20,000, 9% Debentures of ₹ 100 each at 10% discount to 3
+Mithoo Ltd. from whom Assets of ₹ 23,50,000 and Liabilities of ₹ 6,00,000 were
+taken over. Pass entries in the books of Anthony Ltd. if these debentures were
+to be redeemed at 5% premium.
+Or
+Random Ltd. took over running business of Mature Ltd. comprising of Assets of
+₹ 45,00,000 and Liabilities of ₹ 6,40,000 for a purchase consideration of ₹
+36,00,000. The amount was settled by bank draft of ₹ 1,50,000 and balance by
+issuing 12% preference shares of ₹ 100 each at 15% premium. Pass entries in
+the books of Random Ltd.
+20. Doremon, Shinchan and Nobita are partners sharing profits and losses in the 3
+ratio of 3:2:1. With effect from 1st April, 2022 they agree to share profits
+equally. For this purpose, goodwill is to be valued at two year’s purchase of the
+average profit of last four years which were as follows:
+Year ending on 31st March,2019 ₹ 50,000 (Profit)
+Year ending on 31st March,2020 ₹ 1,20,000 (Profit)
+Year ending on 31st March,2021 ₹ 1,80,000 (Profit)
+Year ending on 31st March,2022 ₹ 70,000 (Loss)
+On 1st April, 2021 a Motor Bike costing ₹ 50,000 was purchased and debited to
+travelling expenses account, on which depreciation is to be charged @ 20% p.a
+by Straight Line Method. The firm also paid an annual insurance premium of ₹
+20,000 which had already been charged to Profit and Loss Account for all the
+years.
+Journalise the transaction along with the working notes.
+21. Altaur Ltd. was registered with an authorised Capital of ₹ 4,00,00,000 divided in 4
+25,00,000 Equity Shares of ₹ 10 each and 1,50,000, 9% Preference Shares of ₹
+100 each. The company issued 8,00,000 Equity Shares for public subscription at
+20% premium, payable ₹ 3 on application; ₹ 7 on allotment (including
+premium) and balance on call. Public had applied for 10,00,000 shares. Excess
+Applications were sent letters of regret.
+All the dues on allotment received except on 15,000 shares held by Sanju.
+Another shareholder Rocky paid his call dues along with allotment on his
+holding of 25,000 shares. You are required to prepare the Balance Sheet of the
+company as per Schedule III of Companies Act, 2013, showing Share Capital
+balance and also prepare Notes to Accounts.
+22. Charu, Dhwani, Iknoor and Paavni were partners in a firm. They had entered 4
+into partnership firm last year only, through a verbal agreement. They
+contributed Capitals in the firm and to meet other financial requirements, few
+partners also provided loan to the firm. Within a year, their conflicts arisen due
+to certain disagreements and they decided to dissolve the firm. The firm had
+appointed Ms. Kavya, who is a financial advisor and legal consultant, to carry
+on the dissolution process. In the first instance, Ms. Kavya had transferred
+various assets and external liabilities to Realisation A/c. Due to her busy
+schedule; Ms. Kavya has delegated this assignment to you, being an intern in
+her firm. On the date of dissolution, you have observed the following
+transactions:
+(i) Dhwani’s Loan of ₹ 50,000 to the firm was settled by paying ₹ 42,000.
+(ii) Paavni’s Loan of ₹ 40,000 was settled by giving an unrecorded asset of ₹
+45,000.
+(iii) Loan to Charu of ₹ 60,000 was settled by payment to Charu’s brother
+loan of the same amount.
+(iv) Iknoor’s Loan of ₹ 80,000 to the firm and she took over Machinery of ₹
+60,000 as part payment.
+You are required to pass necessary entries for all the above mentioned
+transactions.
+23. OTUA Ltd. was registered with an authorised capital of 2,00,000 equity shares 6
+of ₹ 100 each. The company offered 60,000 shares for public subscription at
+25% premium. The share was payable as ₹ 40 on application and balance on
+allotment, with premium. Public had applied for 85,000 shares. Pro-rata
+allotment was made in the ratio of 5:4 and remaining applications were sent
+letters of regret.
+Mr. Anand holding 4,000 shares failed to pay allotment money and his shares
+were forfeited. Out of these 3,000 shares were re-issued at a discount of ₹ 20
+per share. Pass necessary entries in the books of the OTUA Ltd.
+Or
+Pass entries for forfeiture and re-issue in both the following cases.
+(a) Vikram Ltd. forfeited 5,000 shares of Rahul, who had applied for 6,000
+shares for non-payment of allotment money of ₹ 5 per share and first
+and final call of ₹ 2 per share. Only application money of ₹ 3 was paid by
+him. Out of these 3,000 shares were re-issued @ ₹ 12 per share as fully
+paid.
+(b) Ratan Ltd. forfeited 3,000 shares of ₹ 10 each (issued at ₹ 2 premium)
+for non-payment of first call of ₹ 2 per share. Final call of ₹ 3 per share
+was not yet made. Out of these 2,000 shares were re-issued at ₹ 10 per
+share as fully paid.
+24. X and Y were partners in the profit-sharing ratio of 3: 2. Their balance sheet as 6
+at March 31, 2022 was as follows:
+Balance Sheet as at March 31, 2022
+Liabilities Amount (₹) Assets Amount (₹)
+Creditors 56,000 Plant and Machinery 70,000
+General Reserve 14,000 Buildings 98,000
+Capital Accounts: Stock 21,000
+X 1,19,000 Debtors 42,000
+Y 1,12,000 2,31,000 (-)Provision 7,000 35,000
+Cash in Hand 77,000
+3,01,000 3,01,000
+Z was admitted for 1/6th share on the following terms:
+(i) Z will bring ₹ 56,000 as his share of capital, but was not able to bring any
+amount to compensate the sacrificing partners.
+(ii) Goodwill of the firm is valued at ₹. 84,000.
+(iii) Plant and Machinery were found to be undervalued by ₹ 14,000 Building
+was to brought up to ₹ 1,09,000.
+(iv) All debtors are good.
+(v) Capitals of X and Y will be adjusted on the basis of Z’s share and
+adjustments will be done by opening necessary current accounts.
+You are required to prepare revaluation account and partners’ capital account.
+Or
+P, Q and R were partners in a firm sharing profits in the ratio of 3:2:1
+respectively. On March 31st, 2022, the balance sheet of the firm stood as
+follows:
+Balance Sheet
+Liabilities Amount (₹) Assets Amount (₹)
+Creditors 13,000 Cash 4,700
+Bills Payable 590 Debtors 8,000
+Capital Accounts: Stock 11,690
+P 15,000 Buildings 23,000
+Q 10,000 Profit and Loss Account 1,200
+R 10,000 35,000
+48,590 48,590
+Q retired on the above-mentioned date on the following terms:
+(i) Buildings to be appreciated by ₹7,000
+(ii) A provision for doubtful debts to be made at 5 % on debtors.
+(iii) Goodwill of the firm is valued at ₹ 18,000 and adjustment to be made by
+raising and writing off the goodwill.
+(iv) ₹ 2,800 was to be paid to Q immediately and the balance in his capital
+account to be transferred to his loan account carrying interest as per the
+agreement.
+(v) Remaining partner decided to maintain equal capital balances, by
+opening current account.
+Prepare the revaluation account and partner’s capital accounts.
+25. A, B and C were partners sharing P&L in the ratio 5:3:2. A died on 30th June, 6
+2019. Entry for treatment of goodwill after his death was passed as follows:-
+Date Particulars L.F Debit Credit
+(₹) (₹)
+B’s Capital A/c Dr. 1,80,000
+C’s Capital A/c Dr. 1,20,000
+To A’s Capital A/c 3,00,000
+(Entry for goodwill treatment passed at the
+time of death of partner)
+A’s profit till date of death was estimated as ₹ 1,20,000, based on the average
+profits of past three years. Final dues payable to A’s executors on the date of
+death was calculated as ₹ 8,40,000 out of which ₹ 2,40,000 was paid
+immediately by giving him Furniture valued for the same and balance was to be
+paid in three equal annual instalments starting from 30 June, 2020, together
+with interest rate as specified in Section 37 of Indian Partnership Act, 1932..
+Pass necessary entry for profit share to be credited to A’s Capital and also
+prepare A’s executors account till final settlement.
+26. Health2Wealth Ltd. had share capital of ₹ 80,00,000 divided in shares of ₹ 100 6
+each and 20,000, 8% Debentures of ₹ 100 each as part of capital employed.
+The company need additional funds of ₹ 55,00,000 for which they decided to
+issue debentures in such a way that they got required funds after issuing
+debentures of the same class as earlier, at 10% premium. These debentures
+were to be redeemed at 20% premium after 4 years. These debentures were
+issued on 01 October, 2021.
+You are required to
+(a) Pass entries for issue of Debentures.
+(b) Prepare Loss on Issue of Debentures Account assuming there was
+existing balance of Securities Premium Account of ₹ 2,80,000.
+(c) Pass entries for Interest on debentures on March 31, 2022 assuming
+interest is payable on 30 September and 31 March every year.
+Part B :- Analysis of Financial Statements
+(Option – I)
+27. Financial statements are prepared on certain basic assumptions (pre-requisites) 1
+known as___________.
+a) Provision of Companies Act,2013 b) Accounting Standards
+c) Postulates d) Basis of Accounting
+Or
+Which one of the following is correct?
+(i) Quick Ratio can be more than Current Ratio.
+(ii) High Inventory Turnover ratio is good for the organisation, except when
+goods are bought in small lots or sold quickly at low margins to realise
+cash.
+(iii) Sum of Operating Ratio and Operating Profit ratio is always 100%.
+a) All are correct. b) Only (i) and (iii) are correct.
+c) Only (ii) and (iii) are d) Only (i) and (ii) are correct
+correct.
+28. From the following calculate Interest coverage ratio 1
+Net profit after tax Rs 12,00,000; 10% debentures Rs 1,00,00,000; Tax Rate 40%
+a) 1.2 times b) 3 times
+c) 2 times d) 5 times
+29. Insurance Claim received by Albert Co. Ltd. of ₹ 5,00,000 for Loss of Machinery 1
+due to theft will be recorded in Cash Flow Statement in which of the following
+manner?
+a) Added under Operating b) Subtracted under Operating
+Activities as Extraordinary Activities as Extraordinary Item
+Item and Subtracted from and Added to Operating
+Operating Activities also. Activities also.
+c) Added under Operating d) Subtracted under Operating
+Activities as Extraordinary Activities as Extraordinary Item
+Item and Outflow under and Inflow under Investing
+Investing Activity also. Activities also.
+Or
+A company issued 20,000; 9% Debentures of ₹ 100 each at 10% Discount. These
+debentures were to be redeemed at 15% Premium at the end of 5 years. The
+balance in Securities Premium Account as on the date of Issue was ₹ 3,70,000.
+How this transaction will be reflected in Cash Flow Statement?
+a) Added ₹ 1,30,000 under b) Added ₹ 5,00,000 under
+Operating Activities as Loss on Operating Activities as Loss on
+Issue of Debentures written Issue of Debentures written
+off and Inflow of ₹ 20,00,000 off and Inflow of ₹ 18,00,000
+under Financing Activities. under Financing Activities.
+c) Added ₹ 1,30,000 under d) Added ₹ 5,00,000 under
+Operating Activities as Loss on Operating Activities as Loss on
+Issue of Debentures written Issue of Debentures written
+off and Inflow of ₹ 18,00,000 off and Inflow of ₹ 20,00,000
+under Financing Activities. under Financing Activities.
+30. From the following information find out the inflow of Cash by sale of Office 1
+equipment’s
+31st March, 2022 31st March, 2021
+Office Equipment ₹ 2,00,000 ₹ 3,00,000
+Additional Information:
+Depreciation for the year 2021-22 was Rs. 40,000
+Purchase of Office Equipment purchased during the year Rs. 30,000
+Part of Office Equipment sold at a profit of Rs. 12,000
+a) ₹ 1,00,000 b) ₹ 1,02,000
+c) ₹ 90,000 d) ₹ 1,12,000
+31. Classify the following items under Major heads and Sub-head (if any) in the 3
+Balance Sheet of a Company as per schedule III of the Companies Act 2013.
+(i) Current maturities of long term debts
+(ii) Furniture and Fixtures
+(iii) Provision for Warranties
+(iv) Income received in advance
+(v) Capital Advances
+(vi) Advances recoverable in cash within the operation cycle
+32. Lala Ltd. and Bala Ltd. use different accounting policies for inventory valuation. 3
+These variations leave a big question mark on the cross-sectional analysis and
+comparison of these two firms was not possible.
+Identify the limitation of Ratio Analysis highlighted in the above situation. Also
+explain any two other limitations of Ratio Analysis apart from the identified
+above.
+33. Determine Return on Investment and Net Assets Turnover ratio from the 4
+following information:-
+Profits after Tax were ₹ 6,00,000; Tax rate was 40%; 15% Debentures were of
+₹20,00,000; 10% Bank Loan was ₹ 20,00,000; 12% Preference Share Capital ₹
+30,00,000; Equity Share Capital ₹ 40,00,000 ; Reserves and Surplus were ₹
+10,00,000; Sales ₹ 3,75,00,000 and Sales Return ₹ 15,00,000.
+Or
+Debt to Capital Employed ratio is 0.3:1. State whether the following
+transactions, will improve, decline or will have no change on the Debt to
+Capital Employed Ratio. Also give reasons for the same.
+(i) Sale of Equipments costing ₹ 10,00,000 for ₹ 9,00,000.
+(ii) Purchased Goods on Credit for ₹ 1,00,000 for a credit of 15 months,
+assuming operating cycle is of 18 months.
+(iii) Conversion of Debentures into Equity Shares of ₹ 2,00,000.
+(iv) Tax Refund of ₹ 50,000 during the year.
+34. Read the following hypothetical text and answer the given questions on the basis of the 6
+same:
+Aashna, an alumnus of CBSE School, initiated her start up Smartpay, in 2015.
+Smartpay is a service platform that processes payments via UPI and POS, and
+provides credit or loans to their clients.. During the year 2021-22, Smartpay issued
+bonus shares in the ratio of 5:1 by capitalising reserves. The profits of Smartpay in the
+year 2021-22 after all appropriations was ₹ 7,50,000. This profit was arrived after
+taking into consideration the following items: -
+Particulars Amount (₹)
+Interim Dividend paid during the year 90,000
+Depreciation on Machinery 40,000
+Loss of Machinery due to fire 20,000
+Insurance claim received for Loss of Machinery 10,000
+due to Fire
+Interest on Non-Current Investments received 3 0 , 0 0 0
+Tax Refund 20,000
+Additional Information:
+Particulars 31.3.22 (₹) 31.3. 21(₹)
+Equity Share Capital 12,00,000 10,00,000
+Securities Premium Account 3,00,000 5,00,000
+General Reserve 1,50,000 1,50,000
+Investment in Marketable Securities 1,50,000 1,00,000
+Cash in hand 2,00,000 3,00,000
+Machinery 3,00,000 2,00,000
+10% Non-Current Investments 4,00,000 3,00,000
+Bank Overdraft 2,50,000 2,00,000
+Goodwill 30,000 80,000
+Provision for Tax 80,000 60,000
+(i) Goodwill purchased during the year was ₹ 20,000.
+(ii) Proposed Dividend for the year ended March 31, 2021 was ₹ 1,60,000 and for
+the year ended March 31,2022 was ₹ 2,00,000.
+You are required to:
+1. Calculate Net Profit before tax and extraordinary items.
+2. Calculate Operating profit before working capital changes.
+3. Calculate Cash flow from Investing activities.
+4. Calculate Cash flow from Financing activities.
+5. Calculate closing cash and cash equivalents.
+Part B :- Computerised Accounting
+(Option – II)
+27. The syntax of PMT Function is ___________ 1
+(a) PMT (rate, pv, nper, [fv], [type])
+(b) PMT (rate, nper, pv, [fv], [type])
+(c) PMT (rate, pv, nper, [type], [fv])
+(d) PMT (rate, nper, pv, [type], [fv])
+Or
+In Excel, the chart tools provide three different options _________, _________ and
+__________ for formatting.
+(a) Layout, Format, DataMaker
+(b) Design, Layout, Format
+(c) Format, Layout, Label
+(d) Design, DataMaker, Layout
+28. Which formulae would result in TRUE if C4 is less than 10 and D4 is less than 100? 1
+(a) =AND(C4>10, D4>10)
+(b) =AND(C4>10, C4<100).
+(c) =AND(C4>10, D4<10).
+(d) =AND (C4<10, D4,100)
+29. Which function results can be displayed in Auto Calculate? 1
+(a) SUM and AVERAGE
+(b) MAX and LOOK
+(c) LABEL and AVERAGE
+(d) MIN and BLANK
+Or
+When navigating in a workbook, which command is used to move to the beginning of
+the current row?
+(a) [Ctrl]+[Home]
+(b) [Page Up]
+(c) [Home]
+(d) [Ctrl]+[Backspace]
+30. What category of functions is used in this formula: =PMT (C10/12, C8, C9,1) 1
+(a) Logical
+(b) Financial
+(c) Payment
+(d) Statistical
+31. State any three types of Accounting Vouchers used for entry in Tally software. 3
+32. State any three requirements which should be considered before making an investing 3
+decision to choose between ‘Desktop database’ or ‘Server database’.
+33. State the features of Computerized Accounting system. 4
+Or
+Explain the use of ‘Conditional Formatting’.
+34. Describe two basic methods of charging depreciation. Differentiate between both of 6
+them.

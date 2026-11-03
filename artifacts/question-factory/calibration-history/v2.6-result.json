@@ -1,0 +1,440 @@
+{
+  "version": "cuet-llm-v2",
+  "verifier_version": "luna-gemini-cuET-v2.6",
+  "source_registry_version": 15,
+  "at": "2026-10-06T06:06:40.263Z",
+  "independent": true,
+  "state": "paused",
+  "reason": "calibration_batches_pending",
+  "pending": [
+    {
+      "id": "calibration-cuet2024-english-bookA-q1",
+      "batch_id": "59e9b21a0391698f2def37181ed4bebe974ccceb0db4765cc4da183c0b375bef"
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q9",
+      "batch_id": "daae45927a7225744b8989f8303baeaf8c3176cdc6beec1db24e37951380a8d7"
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q4",
+      "batch_id": "6e8a8318457bef52825def91294ed3bee3327d2b0d254f4bb984578ef5bbc91a"
+    }
+  ],
+  "routes": {},
+  "observations": [
+    {
+      "id": "calibration-cuet2024-english-bookA-q11",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q45",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q15",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "eligible",
+      "reasons": []
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q41",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q42",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q43",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q44",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "A",
+      "luna": "A",
+      "gemini": "A",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q45",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:passage_integrity"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q25",
+      "subject": "business_studies",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "unmatched_verdict:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q46",
+      "subject": "business_studies",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q47",
+      "subject": "business_studies",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q48",
+      "subject": "business_studies",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q49",
+      "subject": "business_studies",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q50",
+      "subject": "business_studies",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q6",
+      "subject": "economics",
+      "route": "conceptual",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q33",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q34",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q35",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "B",
+      "luna": "B",
+      "gemini": "B",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q36",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "D",
+      "luna": "D",
+      "gemini": "D",
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q37",
+      "subject": "economics",
+      "route": "passage",
+      "expected_valid": true,
+      "official_key": "C",
+      "luna": "C",
+      "gemini": "C",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    },
+    {
+      "id": "fault-wrong_key-conceptual",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ]
+    },
+    {
+      "id": "fault-wrong_key-numerical",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ]
+    },
+    {
+      "id": "fault-wrong_key-passage",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "blind_key_contradiction"
+      ]
+    },
+    {
+      "id": "fault-multiple_correct",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "provider_output_incomplete"
+      ]
+    },
+    {
+      "id": "fault-missing_assumptions",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    },
+    {
+      "id": "fault-out_of_syllabus",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    },
+    {
+      "id": "fault-false_citation",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "source_support_missing"
+      ]
+    },
+    {
+      "id": "fault-unsupported_explanation",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:explanation_support"
+      ]
+    },
+    {
+      "id": "fault-orphan_passage",
+      "subject": "accountancy",
+      "route": "passage",
+      "expected_valid": false,
+      "official_key": "A",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "orphan_passage"
+      ]
+    },
+    {
+      "id": "fault-cosmetic_duplicate",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "adaptation_not_distinct"
+      ]
+    },
+    {
+      "id": "fault-option_collision",
+      "subject": "english",
+      "route": "conceptual",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "option_collision"
+      ]
+    },
+    {
+      "id": "fault-solver_boundary",
+      "subject": "accountancy",
+      "route": "numerical",
+      "expected_valid": false,
+      "official_key": "B",
+      "luna": null,
+      "gemini": null,
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ]
+    }
+  ]
+}

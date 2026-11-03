@@ -1,0 +1,700 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-09T08:23:07.772Z",
+  "complete": true,
+  "problems": [],
+  "scope": "Bounded read-only independent diagnosis of the first terminal case only. No study/code/source/outcome modifications, preflight rerun, dispatch, provider call or receipt recovery.",
+  "bindings": {
+    "case_id": "v77f-ad344a8b5f2d",
+    "case_content_hash": "09302eeddc917d36b8ffcc53897bef83d802368a39df471ae4146e007f3fa47f",
+    "question_and_cited_source_refs_sha256": "fe1c72af70d9e5a6f4199e7c16a5b6562de6d7e8013665af35ad3cc83d936c6d",
+    "frozen_study_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated/frozen.json",
+    "frozen_study_raw_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+    "results_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated/run/results.json",
+    "results_raw_sha256_at_observation": "cac37204b1ca696c598ba0405fae7554ec290ae0014aea939aa3b047ea090c9b",
+    "case_result_record_sha256": "5601eed500bb8ca02d74b0d53494a8427c21e05e1fd99058788a32db0b2845f5",
+    "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+    "contract_binding_sha256": "c884baa1137bc1aa24b524e861155f485dc52b305496dd2fbf2f4e46ade425e5",
+    "contract_binding": {
+      "topology": "dual_blind",
+      "verifier_version": "cuet-fit-validator-v7.7-local-draft",
+      "prompt_hash": "71a45c62d599d38bfa0886cd8da565b57eb59a2a913c2bee669d4f352c94bb90",
+      "cuet_fit_contract": "cuet-fit-v1.2",
+      "effort_policy": "effort-policy-v1",
+      "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+      "efforts": {
+        "blind": {
+          "default": "high",
+          "medium_when": {
+            "subject": "english",
+            "formats": [
+              "synonym",
+              "antonym",
+              "correct_word_usage",
+              "matching"
+            ]
+          }
+        },
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "parent_policy": "cuet-fit-release-v2",
+      "fresh_false_accepts_max": 0,
+      "regression_false_accepts_max": 0,
+      "valid_survival_min": 0.85,
+      "per_subject_valid_survival_min": 0.7
+    },
+    "source_overlay_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated/scratch-registry-overlay.json",
+    "source_overlay_raw_sha256": "be9b24a885b5ad7e5771206d274b9419512637b6f9e1ee99535c2feccce2da56",
+    "source_only_custody_path": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated/independent-key-custody.json",
+    "source_only_custody_raw_sha256": "008d48baa64c1dc4d16ac0dbfa6155ee123130a125ca069a0247884270bb874c",
+    "option_resolution_validator_path": "scripts/pipeline/lib/optionResolutionV77.mjs",
+    "option_resolution_validator_sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+  },
+  "review_sequence": {
+    "independent_source_answer_recorded_before_proposed_keys": true,
+    "source_only_answer": "A",
+    "basis": "A states a two-month maturity from acquisition and the required convertibility/low-value-risk characteristics; the cited text gives a normal short-maturity rule of three months or less.",
+    "custody_checked_after_independent_solve": true,
+    "custody_independent_expected_valid": true,
+    "custody_proposed_key": "A",
+    "custody_sol_keys_one_based": [
+      1
+    ],
+    "custody_sol_keys_converted_to_ABCD": [
+      "A"
+    ],
+    "custody_agrees_with_independent_solve": true
+  },
+  "trusted_question_context": {
+    "body": "Which investment can qualify as a cash equivalent under the stated maturity test?",
+    "options": [
+      {
+        "key": "A",
+        "text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk"
+      },
+      {
+        "key": "B",
+        "text": "Equity shares held for resale with no stated redemption date"
+      },
+      {
+        "key": "C",
+        "text": "A five-year government bond acquired today"
+      },
+      {
+        "key": "D",
+        "text": "A deposit maturing four months after acquisition"
+      }
+    ],
+    "source_material": [
+      {
+        "id": "v77v2src-leac206-p3-ac_cash",
+        "locator": "physical-pdf-page-3",
+        "text": "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+      },
+      {
+        "id": "v77v2src-syllabus_accountancy-p3",
+        "locator": "CUET-2026-syllabus-physical-page-3",
+        "text": "PAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating accounting information, preparing reports using pivot Table, common errors in \r\nspreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  \r\n• Graphs and Charts in electronic spreadsheet for Business Data."
+      }
+    ],
+    "decisive_source_excerpt": {
+      "source_id": "v77v2src-leac206-p3-ac_cash",
+      "locator": "physical-pdf-page-3",
+      "text": "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+      "support_hash": "795c4570848786261a7df3cf0d840585ab5cfe1be29131fbbd95e9614cdbdb18"
+    },
+    "syllabus_context": {
+      "source_id": "v77v2src-syllabus_accountancy-p3",
+      "locator": "CUET-2026-syllabus-physical-page-3",
+      "relevant_excerpt": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non-current assets.",
+      "role": "Supports CUET accountancy objective alignment; not decisive for the cash-equivalent answer."
+    }
+  },
+  "native_records": {
+    "openai": {
+      "status": "judged",
+      "solved_key": "A",
+      "source_support": true,
+      "single_defensible_answer": true,
+      "evidence_selection_valid": true,
+      "reference_quotes_valid": true,
+      "option_resolution": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_arithmetic_premises_required:A"
+      },
+      "reason_checks": {
+        "reasons": [
+          "The supplied source says an investment normally qualifies only with a short maturity of three months or less from acquisition. A's two-month maturity satisfies that test; four months and five years do not.",
+          "A also states that the deposit is readily convertible and subject to insignificant value risk. The question asks which investment can qualify under the maturity test, not for a maturity exactly at the three-month boundary."
+        ],
+        "blocking_defects": [],
+        "defects": [],
+        "principle_ok": true,
+        "conditions_ok": true,
+        "challenges_ok": true,
+        "defects_valid": true
+      },
+      "supporting_spans": [
+        {
+          "source_id": "v77v2src-leac206-p3-ac_cash",
+          "locator": "physical-pdf-page-3",
+          "quote": "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+          "start": 0,
+          "end": 331
+        },
+        {
+          "source_id": "v77v2src-syllabus_accountancy-p3",
+          "locator": "CUET-2026-syllabus-physical-page-3",
+          "quote": "PAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and",
+          "start": 0,
+          "end": 649
+        }
+      ],
+      "option_resolution_matrix": [
+        {
+          "option": "A",
+          "exact_option_text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+          "clauses": [
+            {
+              "clause": "A short-term deposit acquired today and maturing in two months",
+              "status": "support",
+              "decisive_context": "The option gives a two-month maturity from acquisition; the source's stated test is three months or less.",
+              "rationale": "Two months is within the source's inclusive three-month limit.",
+              "basis": "arithmetic",
+              "contradiction_basis": "none",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "A short-term deposit acquired today and maturing in two months",
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            },
+            {
+              "clause": ", readily convertible with insignificant value risk",
+              "status": "support",
+              "decisive_context": "The option states ready convertibility and insignificant value risk, matching the relevant characteristics in the cash-equivalent definition.",
+              "rationale": "The stated liquidity and risk characteristics align with the source definition; the maturity test is also met.",
+              "basis": "excerpt",
+              "contradiction_basis": "none",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                ", readily convertible with insignificant value risk",
+                "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "B",
+          "exact_option_text": "Equity shares held for resale with no stated redemption date",
+          "clauses": [
+            {
+              "clause": "Equity shares held for resale",
+              "status": "support",
+              "decisive_context": "This is the candidate description printed in the option; resale intent alone does not establish a short maturity.",
+              "rationale": "Treating the stated description as given, it does not by itself meet the maturity test.",
+              "basis": "stem",
+              "contradiction_basis": "none",
+              "evidence_ids": [],
+              "premises": [
+                "Equity shares held for resale"
+              ]
+            },
+            {
+              "clause": " with no stated redemption date",
+              "status": "contradiction",
+              "decisive_context": "The source requires a short maturity of three months or less from acquisition; the option gives no redemption date.",
+              "rationale": "The option supplies no short maturity within the source's test, so resale intent cannot make this candidate qualify under that test.",
+              "basis": "excerpt",
+              "contradiction_basis": "source_contradiction",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                " with no stated redemption date",
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "C",
+          "exact_option_text": "A five-year government bond acquired today",
+          "clauses": [
+            {
+              "clause": "A five-year government bond acquired today",
+              "status": "contradiction",
+              "decisive_context": "The option states a five-year maturity from acquisition; the source's test is three months or less from acquisition.",
+              "rationale": "Five years exceeds three months.",
+              "basis": "arithmetic",
+              "contradiction_basis": "arithmetic_result",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "A five-year government bond acquired today",
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "D",
+          "exact_option_text": "A deposit maturing four months after acquisition",
+          "clauses": [
+            {
+              "clause": "A deposit maturing four months after acquisition",
+              "status": "contradiction",
+              "decisive_context": "The option states four months after acquisition; the source's test is three months or less from acquisition.",
+              "rationale": "Four months exceeds the three-month limit.",
+              "basis": "arithmetic",
+              "contradiction_basis": "arithmetic_result",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "A deposit maturing four months after acquisition",
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        }
+      ],
+      "local_validator_result": {
+        "ok": false,
+        "reason": "resolution_arithmetic_premises_required:A",
+        "matrix": [
+          {
+            "option": "A",
+            "exact_option_text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+            "clauses": [
+              {
+                "clause": "A short-term deposit acquired today and maturing in two months",
+                "status": "support",
+                "decisive_context": "The option gives a two-month maturity from acquisition; the source's stated test is three months or less.",
+                "rationale": "Two months is within the source's inclusive three-month limit.",
+                "basis": "arithmetic",
+                "contradiction_basis": "none",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "A short-term deposit acquired today and maturing in two months",
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              },
+              {
+                "clause": ", readily convertible with insignificant value risk",
+                "status": "support",
+                "decisive_context": "The option states ready convertibility and insignificant value risk, matching the relevant characteristics in the cash-equivalent definition.",
+                "rationale": "The stated liquidity and risk characteristics align with the source definition; the maturity test is also met.",
+                "basis": "excerpt",
+                "contradiction_basis": "none",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  ", readily convertible with insignificant value risk",
+                  "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "B",
+            "exact_option_text": "Equity shares held for resale with no stated redemption date",
+            "clauses": [
+              {
+                "clause": "Equity shares held for resale",
+                "status": "support",
+                "decisive_context": "This is the candidate description printed in the option; resale intent alone does not establish a short maturity.",
+                "rationale": "Treating the stated description as given, it does not by itself meet the maturity test.",
+                "basis": "stem",
+                "contradiction_basis": "none",
+                "evidence_ids": [],
+                "premises": [
+                  "Equity shares held for resale"
+                ]
+              },
+              {
+                "clause": " with no stated redemption date",
+                "status": "contradiction",
+                "decisive_context": "The source requires a short maturity of three months or less from acquisition; the option gives no redemption date.",
+                "rationale": "The option supplies no short maturity within the source's test, so resale intent cannot make this candidate qualify under that test.",
+                "basis": "excerpt",
+                "contradiction_basis": "source_contradiction",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  " with no stated redemption date",
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "C",
+            "exact_option_text": "A five-year government bond acquired today",
+            "clauses": [
+              {
+                "clause": "A five-year government bond acquired today",
+                "status": "contradiction",
+                "decisive_context": "The option states a five-year maturity from acquisition; the source's test is three months or less from acquisition.",
+                "rationale": "Five years exceeds three months.",
+                "basis": "arithmetic",
+                "contradiction_basis": "arithmetic_result",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "A five-year government bond acquired today",
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "D",
+            "exact_option_text": "A deposit maturing four months after acquisition",
+            "clauses": [
+              {
+                "clause": "A deposit maturing four months after acquisition",
+                "status": "contradiction",
+                "decisive_context": "The option states four months after acquisition; the source's test is three months or less from acquisition.",
+                "rationale": "Four months exceeds the three-month limit.",
+                "basis": "arithmetic",
+                "contradiction_basis": "arithmetic_result",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "A deposit maturing four months after acquisition",
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "gemini": {
+      "status": "judged",
+      "solved_key": "A",
+      "source_support": true,
+      "single_defensible_answer": true,
+      "evidence_selection_valid": true,
+      "reference_quotes_valid": true,
+      "option_resolution": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "reason_checks": {
+        "reasons": [
+          "Under AS-3 / NCERT, cash equivalents are short-term highly liquid investments readily convertible into known amounts of cash with insignificant risk of changes in value.",
+          "The standard maturity test specifically states that an investment normally qualifies as a cash equivalent only when it has a short maturity of three months or less from the date of acquisition.",
+          "Option A satisfies both the maturity test (two months <= three months from acquisition) and the liquid/risk conditions.",
+          "Options B, C, and D fail the maturity criterion: equity shares have no short maturity date, a five-year bond far exceeds three months, and four months exceeds the three-month threshold."
+        ],
+        "blocking_defects": [],
+        "defects": [],
+        "principle_ok": true,
+        "conditions_ok": true,
+        "challenges_ok": true,
+        "defects_valid": true
+      },
+      "supporting_spans": [
+        {
+          "source_id": "v77v2src-leac206-p3-ac_cash",
+          "locator": "physical-pdf-page-3",
+          "quote": "Cash equivalents’ means short-term highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value. An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition.",
+          "start": 0,
+          "end": 331
+        },
+        {
+          "source_id": "v77v2src-syllabus_accountancy-p3",
+          "locator": "CUET-2026-syllabus-physical-page-3",
+          "quote": "PAGE 3\r\n \r\n2 | P a g e   \r\n \r\n \r\nUnit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and",
+          "start": 0,
+          "end": 649
+        },
+        {
+          "source_id": "v77v2src-syllabus_accountancy-p3",
+          "locator": "CUET-2026-syllabus-physical-page-3",
+          "quote": " tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI).  \r\n \r\nOptional to Unit V \r\n \r\nUnit V:  Computerised Accounting System  \r\n• Overview of Concept and Types of Computerised Accounting System (CAS). \r\n• Features of a Computerised Accounting System, Advantages, limitations \r\n• Structure of a Computerised Accounting System:  chart of accounts, Codification and \r\nHierarchy of account heads. \r\n• Accounting information system (AIS).  \r\n• Accounting Applications of Electronic Spreadsheet. \r\n• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in \r\ngenerating",
+          "start": 649,
+          "end": 1295
+        }
+      ],
+      "option_resolution_matrix": [
+        {
+          "option": "A",
+          "exact_option_text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+          "clauses": [
+            {
+              "clause": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+              "status": "support",
+              "decisive_context": "Qualification as a cash equivalent under the maturity test and risk/convertibility criteria.",
+              "rationale": "Maturity of two months is three months or less from acquisition, and it meets convertibility and risk criteria.",
+              "basis": "excerpt",
+              "contradiction_basis": "none",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "B",
+          "exact_option_text": "Equity shares held for resale with no stated redemption date",
+          "clauses": [
+            {
+              "clause": "Equity shares held for resale with no stated redemption date",
+              "status": "contradiction",
+              "decisive_context": "Maturity requirement for cash equivalents.",
+              "rationale": "Equity shares with no redemption date fail the requirement of having a short maturity of three months or less from acquisition.",
+              "basis": "excerpt",
+              "contradiction_basis": "source_contradiction",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "C",
+          "exact_option_text": "A five-year government bond acquired today",
+          "clauses": [
+            {
+              "clause": "A five-year government bond acquired today",
+              "status": "contradiction",
+              "decisive_context": "Maturity requirement for cash equivalents.",
+              "rationale": "A five-year maturity acquired today exceeds the three-month maximum maturity threshold.",
+              "basis": "excerpt",
+              "contradiction_basis": "source_contradiction",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        },
+        {
+          "option": "D",
+          "exact_option_text": "A deposit maturing four months after acquisition",
+          "clauses": [
+            {
+              "clause": "A deposit maturing four months after acquisition",
+              "status": "contradiction",
+              "decisive_context": "Maturity requirement for cash equivalents.",
+              "rationale": "Four months exceeds the three months or less maturity rule from the date of acquisition.",
+              "basis": "excerpt",
+              "contradiction_basis": "source_contradiction",
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "premises": [
+                "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+              ]
+            }
+          ]
+        }
+      ],
+      "local_validator_result": {
+        "ok": false,
+        "reason": "resolution_excerpt_premise_invalid:A",
+        "matrix": [
+          {
+            "option": "A",
+            "exact_option_text": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+            "clauses": [
+              {
+                "clause": "A short-term deposit acquired today and maturing in two months, readily convertible with insignificant value risk",
+                "status": "support",
+                "decisive_context": "Qualification as a cash equivalent under the maturity test and risk/convertibility criteria.",
+                "rationale": "Maturity of two months is three months or less from acquisition, and it meets convertibility and risk criteria.",
+                "basis": "excerpt",
+                "contradiction_basis": "none",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "B",
+            "exact_option_text": "Equity shares held for resale with no stated redemption date",
+            "clauses": [
+              {
+                "clause": "Equity shares held for resale with no stated redemption date",
+                "status": "contradiction",
+                "decisive_context": "Maturity requirement for cash equivalents.",
+                "rationale": "Equity shares with no redemption date fail the requirement of having a short maturity of three months or less from acquisition.",
+                "basis": "excerpt",
+                "contradiction_basis": "source_contradiction",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "C",
+            "exact_option_text": "A five-year government bond acquired today",
+            "clauses": [
+              {
+                "clause": "A five-year government bond acquired today",
+                "status": "contradiction",
+                "decisive_context": "Maturity requirement for cash equivalents.",
+                "rationale": "A five-year maturity acquired today exceeds the three-month maximum maturity threshold.",
+                "basis": "excerpt",
+                "contradiction_basis": "source_contradiction",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          },
+          {
+            "option": "D",
+            "exact_option_text": "A deposit maturing four months after acquisition",
+            "clauses": [
+              {
+                "clause": "A deposit maturing four months after acquisition",
+                "status": "contradiction",
+                "decisive_context": "Maturity requirement for cash equivalents.",
+                "rationale": "Four months exceeds the three months or less maturity rule from the date of acquisition.",
+                "basis": "excerpt",
+                "contradiction_basis": "source_contradiction",
+                "evidence_ids": [
+                  "E1.1"
+                ],
+                "premises": [
+                  "An investment normally qualifies as cash equivalents only when it has a short maturity, of say, three months or less from the date of acquisition."
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "validator_trace": {
+    "openai_first_failure": "resolution_arithmetic_premises_required:A",
+    "openai_predicate": "For basis=arithmetic, every premise must be in the question body or cited excerpt, and at least one premise must appear verbatim inside decisive_context. The A clause correctly takes “two months” from the exact option text and the <=3-month rule from E1.1, but validator input body excludes options and E1.1 does not contain the option sentence; decisive_context paraphrases the rule instead of embedding a premise verbatim.",
+    "gemini_first_failure": "resolution_excerpt_premise_invalid:A",
+    "gemini_predicate": "For basis=excerpt, selected evidence includes the exact cited maturity premise, but decisive_context says only “Qualification as a cash equivalent under the maturity test and risk/convertibility criteria” and does not include any premise verbatim. This trips the final context-substring requirement.",
+    "latent_matrix_issues_if_first_failure_were_fixed": {
+      "openai": "The B “no stated redemption date” premise is option text absent from the cited excerpt, so its excerpt-basis clause would fail the same cited-premise check; C and D arithmetic clauses likewise use their option text as numeric input and encounter the same arithmetic premise rule.",
+      "gemini": "The B/C/D decisive_context strings (“Maturity requirement for cash equivalents.”) do not embed their cited premise verbatim, so each later excerpt clause would encounter the same excerpt-premise context rule."
+    }
+  },
+  "terminal_outcome": {
+    "state": "quarantined",
+    "category": "valid_control",
+    "expected_valid": true,
+    "failed_stage": "source_support",
+    "reasons": [
+      "failed:source_support"
+    ],
+    "local_source_support_reason_strings": [
+      "The supplied source says an investment normally qualifies only with a short maturity of three months or less from acquisition. A's two-month maturity satisfies that test; four months and five years do not.",
+      "A also states that the deposit is readily convertible and subject to insignificant value risk. The question asks which investment can qualify under the maturity test, not for a maturity exactly at the three-month boundary.",
+      "resolution_arithmetic_premises_required:A"
+    ],
+    "source_support_check_solved_key": "A",
+    "source_support_check_evidence_ids": [
+      "E1.1",
+      "E2.1"
+    ],
+    "reference_quotes_valid": true,
+    "option_resolution": {
+      "required": true,
+      "passed": false,
+      "reason": "resolution_arithmetic_premises_required:A"
+    }
+  },
+  "diagnosis": {
+    "primary_classification": "deterministic_gate_encoding_mismatch_with_matrix_representation_failures",
+    "candidate_level_source_support_rejection_is_false_positive": true,
+    "why": "Both native blind judges return A, single_defensible_answer=true and source_support=true. The trusted source-material excerpt supports A. The source_support stage then quarantines only because the option-resolution matrices do not satisfy the validator’s exact premise/context rules. OpenAI’s arithmetic data comes from the exact option text, which the gate does not permit as an arithmetic premise; Gemini’s cited premise is valid but omitted verbatim from decisive_context.",
+    "legitimate_academic_reject": false,
+    "preparation_false_positive": false,
+    "transport_failure": false,
+    "model_answer_key_error": false,
+    "model_matrix_representation_errors": {
+      "openai": "Matrix reason and arithmetic are substantively sound for A, but the matrix does not meet gate’s exact premise/context representation rules; B is also source-silence-sensitive.",
+      "gemini": "Correct A answer, but decisive_context is generic rather than anchored to its cited premise; its A clause groups maturity and risk/convertibility support without separating the premise trail."
+    },
+    "source_construction_caveats": [
+      {
+        "option": "B",
+        "issue": "The delivered excerpt does not state a specific equity-share exclusion. “No stated redemption date” means the option has not shown the required maturity, but treating that absence as a source contradiction would be an inference from source silence; the actual source_contradiction label is stronger than the excerpt itself.",
+        "status": "legitimate_unresolved_alternative_for_strict_matrix_review"
+      },
+      {
+        "option": "D",
+        "issue": "The source says “normally” and “of say, three months or less,” which is a normal/illustrative threshold rather than an unqualified categorical cutoff. The stem’s phrase “under the stated maturity test” points toward applying that threshold, but a four-month distractor sits near the wording’s interpretive boundary.",
+        "status": "caveat_not_current_quarantine_cause"
+      }
+    ]
+  },
+  "classification": {
+    "primary": "deterministic_gate_encoding_mismatch",
+    "secondary": [
+      "model_matrix_representation_error",
+      "limited_source_construction_ambiguity_for_B_and_D"
+    ],
+    "not": [
+      "transport_failure",
+      "native_provider_failure",
+      "wrong_independent_answer_key",
+      "validity_reject_based_on_a_conflicting_source"
+    ]
+  },
+  "proposed_regression_only_corrections": [
+    {
+      "scope": "future unregistered unit/regression fixture only",
+      "change": "Add a validator test where the selected option supplies the numeric datum and an authenticated excerpt supplies the threshold; allow the exact selected option clause as a premise for arithmetic while retaining source-premise validation."
+    },
+    {
+      "scope": "future unregistered unit/regression fixture only",
+      "change": "Add excerpt-basis tests that require decisive context to anchor each cited premise, while allowing exact quoted premises to be included by the request contract; test generic paraphrase rejection separately."
+    },
+    {
+      "scope": "future authoring/review only",
+      "change": "Avoid using source silence as a source_contradiction. If every alternative needs decisive contradiction, use options with explicit, directly comparable maturity facts and a source/stem that states a categorical cutoff; avoid relying on “normally/of say” for a near-boundary four-month rejection."
+    }
+  ],
+  "preservation": {
+    "existing_running_worker_not_touched": true,
+    "studies_or_frozen_artifacts_modified": false,
+    "source_registry_modified": false,
+    "results_or_outcomes_modified": false,
+    "code_modified": false,
+    "dispatch_or_receipt_recovery_performed": false
+  }
+}

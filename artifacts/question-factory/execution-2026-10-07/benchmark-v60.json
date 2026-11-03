@@ -1,0 +1,1495 @@
+{
+  "registration": {
+    "protocol": "frozen-source-keyed-cuET-v2",
+    "payload_hash": "9c4e013393f27a825bebd5659cef43ca0333ba85be074071b334c7af74a6324c",
+    "contract_hash": "bc17d29f072231b0d3fdd80764111826d602cb15561fcb5d120624483a29f1c5",
+    "registry_version": 56,
+    "verifier_version": "luna-gemini-cuET-v6.0",
+    "frozen_at": "2026-10-06T20:37:06.685Z",
+    "unseen_at_freeze": true,
+    "source_keyed": true,
+    "independent_oracle": true,
+    "oracle_basis": "Expected answers were established before paid validation from exact authoritative excerpts plus explicit arithmetic, independently of the proposed/generated keys. These are newly written assessment items, not unchanged official PYQs.",
+    "content_hashes": [
+      "373af0ea2ad43eba4476f91c858dae37fb59b1677addad6da95007013a0f61ca",
+      "24207b11d2105aaaddcf30493f92bb65bb52c18353f8c5236889c28cdee54cd7",
+      "3e7e1d99393277aa17cbbb5692a856378b1b0ee2ee54d39da8c392969d5f7ead",
+      "5c522d10dc00ceafbe7d1bd7b5a52743685ebd71eeaa226d51cbbcffefbbe1aa",
+      "ac1d44ffb0d1c78fb349a3c7e9fb5918868b1f7a14239c39a26ec6e82ac4f988",
+      "70ed2fc80159c80309e53b4f9a0443895c8192014b02c9ec806d3367eec775e9",
+      "ad25916a1593ea1f0d8c7aaeda0e38804e69b3ca05c7a98e559066b475dd2373",
+      "84fb73aa2f1bada1b0b58981f60ba6abab46cef4d58510a839bc3b57d7cf73f8",
+      "0d753114f694dc16a1dfc57b4e381a9cd2995c1dd39b19d6be70f45cc935dea0",
+      "03eddeab2bf12ebfa0fd6404221159eab663ee617cc6ff8344a70caa4e0d22f9",
+      "2279e0418b01353689880f33b3603fcba59cf0642677aab54a6a5997f0e226d4",
+      "1fce1247cfe5114179cd509122c2c5990ff8e9e3353240603fac4a496bbc9c97",
+      "3bfb1808d088ff844507ea66b80576061e650fa651dc1c448471905cd55063ac",
+      "2b76e0e35256e37a8e75cb53856ee4694d83188f1615926075132b84a31e872b",
+      "a605a5b9e3c2c3675ac764c7515e2ab666293468fbc70a4b25d5f90b08bb07aa",
+      "da7077593b3ea906b885ca6403cd66a1d7577a385423f01d5d1d90f314f0124d",
+      "b7d188c030d1b3985077f128bd8cb8a0c2c37da5dc0d07f07ba895b0dfb1fb51",
+      "adc3b3b7efd19c9dc23254952bb03dddedc16797b68c6d25ec3cd5b8768764d1",
+      "e51fceb3a645f14772ba0602ce2462fe5c77f7156970154cee327bfeac582b4d",
+      "356bf7dfefee265b78d2ba404977f12d3148ef3eb41bf6ebbf7244dd860f2a1e",
+      "3c6cb5e2f40a360a2ec723d76a712ab83d3c0dff5a0c38dd2bd657e6b85a651e",
+      "e7384251558d6abb31414538709066cb9308881ce47fb73d22de3b28af8d62a0",
+      "caecd9fd8e8c2115ff3376f7ca3ca4d21f747ed751b3e3853d7a430b1dad9021",
+      "d96c02e7099ad73a7711eab5e52346891067b35ffe2cc4664108f0d0f638d9d1",
+      "b17bb2623fa73c6a8d60286051f40598ddb10a82f53b5890294e8e6876e112c2"
+    ],
+    "fixture_ids": [
+      "fresh-v6-1",
+      "fresh-v6-2",
+      "fresh-v6-3",
+      "fresh-v6-4",
+      "fresh-v6-5",
+      "fresh-v6-6",
+      "fresh-v6-7",
+      "fresh-v6-8",
+      "fresh-v6-9",
+      "fresh-v6-10",
+      "fresh-v6-11",
+      "fresh-v6-12",
+      "fresh-v6-13",
+      "fresh-v6-defect-14",
+      "fresh-v6-defect-15",
+      "fresh-v6-defect-16",
+      "fresh-v6-defect-17",
+      "fresh-v6-defect-18",
+      "fresh-v6-defect-19",
+      "fresh-v6-defect-20",
+      "fresh-v6-defect-21",
+      "fresh-v6-defect-22",
+      "fresh-v6-defect-23",
+      "fresh-v6-defect-24",
+      "fresh-v6-defect-25"
+    ],
+    "state": "frozen"
+  },
+  "fixtures": [
+    {
+      "id": "fresh-v6-1",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-1",
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "body": "Choose the correct completion: If Ria had checked the address, she ______ the wrong parcel.",
+        "options": [
+          "would not have collected",
+          "will not collect",
+          "did not collect",
+          "does not collect"
+        ],
+        "correct_answer": "A",
+        "explanation": "A third conditional uses if with past perfect and would have with a past participle.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-1",
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-1",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "basis": "A third conditional uses if with past perfect and would have with a past participle.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-2",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-2",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "Choose the word closest in meaning to \"prudent\".",
+        "options": [
+          "rash",
+          "cautious",
+          "careless",
+          "impulsive"
+        ],
+        "correct_answer": "B",
+        "explanation": "Prudent means sensible and careful in decisions, avoiding unnecessary risks; cautious has the closest meaning.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-2",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-2",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "basis": "Prudent means sensible and careful in decisions, avoiding unnecessary risks; cautious has the closest meaning.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-3",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-3",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "According to the passage, why did the first bus not run?",
+        "options": [
+          "The observatory was closed.",
+          "The class arrived late.",
+          "Its driver was ill.",
+          "The exhibition had ended."
+        ],
+        "correct_answer": "C",
+        "explanation": "The passage explicitly states that the first bus was cancelled because its driver was ill.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work.",
+        "family_id": "heldout:fresh-v6-3",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-3",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "basis": "The passage explicitly states that the first bus was cancelled because its driver was ill.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-4",
+      "category": "valid_medium",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-4",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "Which inference best reflects Asha’s experience?",
+        "options": [
+          "Every delay improves a visit.",
+          "Examining the models first helped her understand the demonstration.",
+          "The teacher had planned to miss the demonstration.",
+          "She preferred travelling to studying the models."
+        ],
+        "correct_answer": "B",
+        "explanation": "Asha says the change gave her more time to study the models before seeing them work; this supports that particular benefit, without generalising to every delay.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work.",
+        "family_id": "heldout:fresh-v6-4",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-4",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "basis": "Asha says the change gave her more time to study the models before seeing them work; this supports that particular benefit, without generalising to every delay.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-5",
+      "category": "valid_medium",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-5",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "A and B share profits in the ratio 3:2. They admit C and agree on a new ratio of 5:3:2 for A, B and C respectively. What is the sacrificing ratio of A and B?",
+        "options": [
+          "1:1",
+          "3:2",
+          "5:3",
+          "2:1"
+        ],
+        "correct_answer": "A",
+        "explanation": "A sacrifices 3/5 − 5/10 = 1/10 and B sacrifices 2/5 − 3/10 = 1/10. Their sacrificing ratio is 1:1.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-5",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-5",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "basis": "A sacrifices 3/5 − 5/10 = 1/10 and B sacrifices 2/5 − 3/10 = 1/10. Their sacrificing ratio is 1:1.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-6",
+      "category": "valid_hard",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-6",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "A and B share profits in the ratio 7:5. C is admitted for a 1/6 share, acquired as 1/12 from A and 1/12 from B. What is the new profit-sharing ratio of A, B and C?",
+        "options": [
+          "7:5:2",
+          "3:2:1",
+          "6:5:1",
+          "5:4:3"
+        ],
+        "correct_answer": "B",
+        "explanation": "A retains 7/12 − 1/12 = 6/12, B retains 5/12 − 1/12 = 4/12 and C has 2/12. The ratio 6:4:2 simplifies to 3:2:1.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-6",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "basis": "A retains 7/12 − 1/12 = 6/12, B retains 5/12 − 1/12 = 4/12 and C has 2/12. The ratio 6:4:2 simplifies to 3:2:1.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-7",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-7",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "body": "A company pays ₹2,40,000 by bank transfer to purchase equipment for use in production. How is this cash flow classified?",
+        "options": [
+          "Operating inflow",
+          "Financing outflow",
+          "Investing outflow",
+          "Investing inflow"
+        ],
+        "correct_answer": "C",
+        "explanation": "Purchasing production equipment is acquisition of a long-term asset, an investing activity; paying by bank transfer causes a cash outflow.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-7",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-cbb6d69418bf",
+            "support_hash": "cbb6d69418bf01920a584cb9a04b1f3337023be2641a2591f41792452e9d91cd"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-7",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-leac206",
+            "version": 1,
+            "locator": "span-cbb6d69418bf",
+            "support_hash": "cbb6d69418bf01920a584cb9a04b1f3337023be2641a2591f41792452e9d91cd"
+          }
+        ],
+        "basis": "Purchasing production equipment is acquisition of a long-term asset, an investing activity; paying by bank transfer causes a cash outflow.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-8",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-8",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "body": "Total utility from four units is 42 utils and from five units is 47 utils. What is the marginal utility of the fifth unit?",
+        "options": [
+          "47 utils",
+          "42 utils",
+          "9.4 utils",
+          "5 utils"
+        ],
+        "correct_answer": "D",
+        "explanation": "Marginal utility is the change in total utility from one additional unit: 47 − 42 = 5 utils.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-8",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-8",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "basis": "Marginal utility is the change in total utility from one additional unit: 47 − 42 = 5 utils.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-9",
+      "category": "valid_medium",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-9",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "body": "A government has total expenditure of ₹920 crore, revenue receipts of ₹650 crore and non-debt capital receipts of ₹70 crore. What is its fiscal deficit?",
+        "options": [
+          "₹270 crore",
+          "₹200 crore",
+          "₹340 crore",
+          "₹850 crore"
+        ],
+        "correct_answer": "B",
+        "explanation": "Fiscal deficit is total expenditure minus revenue receipts and non-debt capital receipts: 920 − 650 − 70 = ₹200 crore.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-9",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-9",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "basis": "Fiscal deficit is total expenditure minus revenue receipts and non-debt capital receipts: 920 − 650 − 70 = ₹200 crore.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-10",
+      "category": "valid_hard",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-10",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "body": "Total expenditure is ₹1,050 crore, revenue receipts ₹730 crore, non-debt capital receipts ₹80 crore and interest payments ₹90 crore, with no interest receipts. What is the primary deficit?",
+        "options": [
+          "₹150 crore",
+          "₹240 crore",
+          "₹330 crore",
+          "₹320 crore"
+        ],
+        "correct_answer": "A",
+        "explanation": "Fiscal deficit is 1,050 − 730 − 80 = ₹240 crore. Primary deficit excludes interest payments, so it is 240 − 90 = ₹150 crore.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-10",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          },
+          {
+            "id": "ncert-leec105-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-10",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          },
+          {
+            "id": "ncert-leec105-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+          }
+        ],
+        "basis": "Fiscal deficit is 1,050 − 730 − 80 = ₹240 crore. Primary deficit excludes interest payments, so it is 240 − 90 = ₹150 crore.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-11",
+      "category": "valid_easy",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-11",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "body": "Which plan is prepared for a one-time event or project rather than recurring activities?",
+        "options": [
+          "Policy",
+          "Rule",
+          "Single-use plan",
+          "Standing plan"
+        ],
+        "correct_answer": "C",
+        "explanation": "A single-use plan is developed for a one-time event or project. Standing plans guide recurring activities.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-11",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-11",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "basis": "A single-use plan is developed for a one-time event or project. Standing plans guide recurring activities.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-12",
+      "category": "valid_medium",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-12",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "body": "A company first applies selection tests, then interviews shortlisted applicants, checks references and finally makes its selection decision. Which stage follows the interview in this sequence?",
+        "options": [
+          "Selection tests",
+          "Reference checking",
+          "Preliminary screening",
+          "Selection decision"
+        ],
+        "correct_answer": "B",
+        "explanation": "The stated sequence places reference checking immediately after the interview, consistent with the selection process described in the source.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-12",
+        "source_refs": [
+          {
+            "id": "ncert-lebs106",
+            "version": 1,
+            "locator": "p17-c1807",
+            "support_hash": "259d035e936d4fa663c27af1f8598190995b4ccb79fa0e533700e441f7ec168b"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-12",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-lebs106",
+            "version": 1,
+            "locator": "p17-c1807",
+            "support_hash": "259d035e936d4fa663c27af1f8598190995b4ccb79fa0e533700e441f7ec168b"
+          }
+        ],
+        "basis": "The stated sequence places reference checking immediately after the interview, consistent with the selection process described in the source.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-13",
+      "category": "valid_medium",
+      "expected_valid": true,
+      "candidate": {
+        "id": "fresh-v6-13",
+        "subject": "business_studies",
+        "chapter": "Controlling",
+        "body": "A manager concentrates on departures from standards in the activities most important to achieving organisational goals. Which controlling approach is illustrated?",
+        "options": [
+          "Critical point control",
+          "Universal supervision",
+          "Informal communication",
+          "Decentralisation"
+        ],
+        "correct_answer": "A",
+        "explanation": "Critical point control focuses on key result areas critical to organisational success; not every activity warrants the same level of attention.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-13",
+        "source_refs": [
+          {
+            "id": "ncert-lebs108",
+            "version": 1,
+            "locator": "pdf-page-8",
+            "support_hash": "c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-13",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-lebs108",
+            "version": 1,
+            "locator": "pdf-page-8",
+            "support_hash": "c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79"
+          }
+        ],
+        "basis": "Critical point control focuses on key result areas critical to organisational success; not every activity warrants the same level of attention.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-14",
+      "category": "wrong_key",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-14",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "A and B share profits in the ratio 3:2. They admit C and agree on a new ratio of 5:3:2 for A, B and C respectively. What is the sacrificing ratio of A and B?",
+        "options": [
+          "1:1",
+          "3:2",
+          "5:3",
+          "2:1"
+        ],
+        "correct_answer": "D",
+        "explanation": "A sacrifices 3/5 − 5/10 = 1/10 and B sacrifices 2/5 − 3/10 = 1/10. Their sacrificing ratio is 1:1.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-14",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-14",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "basis": "Independent subtraction of old/new shares gives 1:1, option A; the saved D key is deliberately wrong.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-15",
+      "category": "wrong_key",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-15",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "body": "A government has total expenditure of ₹920 crore, revenue receipts of ₹650 crore and non-debt capital receipts of ₹70 crore. What is its fiscal deficit?",
+        "options": [
+          "₹270 crore",
+          "₹200 crore",
+          "₹340 crore",
+          "₹850 crore"
+        ],
+        "correct_answer": "A",
+        "explanation": "Fiscal deficit is total expenditure minus revenue receipts and non-debt capital receipts: 920 − 650 − 70 = ₹200 crore.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-15",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-15",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "basis": "Independent fiscal-deficit calculation gives ₹200 crore, option B; key A is deliberately wrong.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-16",
+      "category": "multiple_correct",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-16",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "body": "Total utility from four units is 42 utils and from five units is 47 utils. What is the marginal utility of the fifth unit?",
+        "options": [
+          "5 utils",
+          "More than 4 utils",
+          "47 utils",
+          "42 utils"
+        ],
+        "correct_answer": "D",
+        "explanation": "Marginal utility is the change in total utility from one additional unit: 47 − 42 = 5 utils.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-16",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-16",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "basis": "Both 5 utils and more than 4 utils are correct for a marginal utility of 5.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-17",
+      "category": "multiple_correct",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-17",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "Choose the word closest in meaning to \"prudent\".",
+        "options": [
+          "cautious",
+          "careful",
+          "careless",
+          "rash"
+        ],
+        "correct_answer": "B",
+        "explanation": "Prudent means sensible and careful in decisions, avoiding unnecessary risks; cautious has the closest meaning.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-17",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-17",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "basis": "Cautious and careful both express the supplied definition of prudent.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-18",
+      "category": "missing_assumptions",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-18",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "body": "A and B share profits in the ratio 3:2. They admit C. What is the sacrificing ratio of A and B?",
+        "options": [
+          "1:1",
+          "3:2",
+          "5:3",
+          "2:1"
+        ],
+        "correct_answer": "A",
+        "explanation": "A sacrifices 3/5 − 5/10 = 1/10 and B sacrifices 2/5 − 3/10 = 1/10. Their sacrificing ratio is 1:1.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-18",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-18",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-accountancy-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leac102",
+            "version": 1,
+            "locator": "span-aa617840faf0",
+            "support_hash": "aa617840faf03f150ed1c76c4123234b05ac70356965164c5b5353482a9a99b9"
+          }
+        ],
+        "basis": "The incoming share or new sharing ratio is absent; the sacrificing ratio cannot be determined.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-19",
+      "category": "missing_assumptions",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-19",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "body": "Total government expenditure is ₹920 crore and capital receipts are ₹70 crore. What is the fiscal deficit?",
+        "options": [
+          "₹270 crore",
+          "₹200 crore",
+          "₹340 crore",
+          "₹850 crore"
+        ],
+        "correct_answer": "B",
+        "explanation": "Fiscal deficit is total expenditure minus revenue receipts and non-debt capital receipts: 920 − 650 − 70 = ₹200 crore.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-19",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-19",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          }
+        ],
+        "basis": "Revenue receipts and whether capital receipts include borrowings are omitted.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-20",
+      "category": "unsupported_explanation",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-20",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "body": "According to the passage, why did the first bus not run?",
+        "options": [
+          "The observatory was closed.",
+          "The class arrived late.",
+          "Its driver was ill.",
+          "The exhibition had ended."
+        ],
+        "correct_answer": "C",
+        "explanation": "The driver was ill because all observatory trips take place in winter.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work.",
+        "family_id": "heldout:fresh-v6-defect-20",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-20",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "mockmob-fresh-benchmark-stimulus",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "e4951379cc79331f8fb87bba782fc4caddea0d448e6a817985c7fda659f181a7"
+          }
+        ],
+        "basis": "Illness is in the stimulus; season and the general claim about all trips have no support.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-21",
+      "category": "unsupported_explanation",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-21",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "body": "Which plan is prepared for a one-time event or project rather than recurring activities?",
+        "options": [
+          "Policy",
+          "Rule",
+          "Single-use plan",
+          "Standing plan"
+        ],
+        "correct_answer": "C",
+        "explanation": "Single-use plans are required because every Indian company must discard its policies at the end of each year.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-21",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-21",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "basis": "The purported legal rule and policy-expiry claim are not in the excerpts.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-22",
+      "category": "out_of_syllabus",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-22",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "body": "Which chemical symbol represents sodium?",
+        "options": [
+          "Na",
+          "N",
+          "S",
+          "K"
+        ],
+        "correct_answer": "A",
+        "explanation": "Sodium is represented by Na.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "synonym",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-22",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-22",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-english-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "source_refs": [
+          {
+            "id": "oxford-quality-prudent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "2a2990db0a223a466a11e4d1e88e39d42c9f7a26eeb1d1a7f4ffc42efab2e0d3"
+          }
+        ],
+        "basis": "Chemistry factual recall is outside the supplied English syllabus and references.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-23",
+      "category": "out_of_syllabus",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-23",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "body": "Which quantum number determines the orientation of an atomic orbital?",
+        "options": [
+          "Principal",
+          "Azimuthal",
+          "Magnetic",
+          "Spin"
+        ],
+        "correct_answer": "C",
+        "explanation": "The magnetic quantum number determines orientation.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-23",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-23",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-business_studies-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "source_refs": [
+          {
+            "id": "ncert-lebs104-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+          }
+        ],
+        "basis": "Atomic orbital quantum numbers are outside Business Studies and unsupported by planning excerpts.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-24",
+      "category": "numerical_fault",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-24",
+        "subject": "economics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "body": "Total utility from four units is 42 utils and from five units is 47 utils. What is the marginal utility of the fifth unit?",
+        "options": [
+          "47 utils",
+          "42 utils",
+          "9.4 utils",
+          "6 utils"
+        ],
+        "correct_answer": "D",
+        "explanation": "47 minus 42 is 6 utils.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-24",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-24",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "source_refs": [
+          {
+            "id": "ncert-leec202",
+            "version": 1,
+            "locator": "p2-c0",
+            "support_hash": "43e8931d681d7414ff23b7624f782044dfe1757ed1fc37f9ac241e4b7535c6b3"
+          }
+        ],
+        "basis": "47 − 42 equals 5, absent from all four choices; the calculation and key are broken.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    },
+    {
+      "id": "fresh-v6-defect-25",
+      "category": "numerical_fault",
+      "expected_valid": false,
+      "candidate": {
+        "id": "fresh-v6-defect-25",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "body": "Total expenditure is ₹1,050 crore, revenue receipts ₹730 crore, non-debt capital receipts ₹80 crore and interest payments ₹90 crore, with no interest receipts. What is the primary deficit?",
+        "options": [
+          "₹150 crore",
+          "₹240 crore",
+          "₹330 crore",
+          "₹320 crore"
+        ],
+        "correct_answer": "B",
+        "explanation": "The primary deficit is 1,050 − 730 − 80 = ₹240 crore; interest payments are not deducted.",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "heldout:fresh-v6-defect-25",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          },
+          {
+            "id": "ncert-leec105-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+          }
+        ],
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "heldout:fresh-v6-defect-25",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "original-economics-reference-v1",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "source_refs": [
+          {
+            "id": "ncert-leec105",
+            "version": 1,
+            "locator": "pdf-page-18",
+            "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+          },
+          {
+            "id": "ncert-leec105-focused-v1",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+          }
+        ],
+        "basis": "₹240 is the fiscal deficit, not the primary deficit; deduct ₹90 interest to get ₹150.",
+        "independently_established_before_validation": true
+      },
+      "state": "queued"
+    }
+  ]
+}

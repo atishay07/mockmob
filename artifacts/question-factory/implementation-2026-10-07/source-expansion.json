@@ -1,0 +1,647 @@
+{
+  "documents": [
+    {
+      "id": "ncert-lebs106",
+      "subject": "business_studies",
+      "chapters": [
+        "Staffing"
+      ],
+      "exact_spans": 52
+    },
+    {
+      "id": "ncert-lebs203",
+      "subject": "business_studies",
+      "chapters": [
+        "Consumer Protection"
+      ],
+      "exact_spans": 25
+    },
+    {
+      "id": "ncert-leec201",
+      "subject": "economics",
+      "chapters": [
+        "Introduction & Theory of Consumer Behaviour"
+      ],
+      "exact_spans": 13
+    },
+    {
+      "id": "ncert-leec202",
+      "subject": "economics",
+      "chapters": [
+        "Introduction & Theory of Consumer Behaviour"
+      ],
+      "exact_spans": 51
+    },
+    {
+      "id": "ncert-leec203",
+      "subject": "economics",
+      "chapters": [
+        "Production & Costs"
+      ],
+      "exact_spans": 30
+    },
+    {
+      "id": "ncert-leec204",
+      "subject": "economics",
+      "chapters": [
+        "Theory of Firms under Perfect Competition"
+      ],
+      "exact_spans": 32
+    },
+    {
+      "id": "ncert-leec205",
+      "subject": "economics",
+      "chapters": [
+        "Market Equilibrium & Simple Applications"
+      ],
+      "exact_spans": 33
+    },
+    {
+      "id": "ncert-keec102",
+      "subject": "economics",
+      "chapters": [
+        "Indian Economic Development 1950–1990"
+      ],
+      "exact_spans": 33
+    },
+    {
+      "id": "ncert-keec103",
+      "subject": "economics",
+      "chapters": [
+        "Economic Reforms Since 1991"
+      ],
+      "exact_spans": 34
+    },
+    {
+      "id": "ncert-keec104",
+      "subject": "economics",
+      "chapters": [
+        "Human Capital Formation"
+      ],
+      "exact_spans": 26
+    },
+    {
+      "id": "ncert-keec105",
+      "subject": "economics",
+      "chapters": [
+        "Rural Development"
+      ],
+      "exact_spans": 29
+    },
+    {
+      "id": "ncert-keec106",
+      "subject": "economics",
+      "chapters": [
+        "Employment"
+      ],
+      "exact_spans": 35
+    },
+    {
+      "id": "ncert-keec107",
+      "subject": "economics",
+      "chapters": [
+        "Environment & Sustainable Development"
+      ],
+      "exact_spans": 28
+    },
+    {
+      "id": "ncert-keec108",
+      "subject": "economics",
+      "chapters": [
+        "Development Experiences of India"
+      ],
+      "exact_spans": 28
+    }
+  ],
+  "anchors": [
+    {
+      "id": "cuet2024-business_studies-bookA-q10",
+      "chapter": "Staffing",
+      "refs": [
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p20-c0",
+          "support_hash": "0758d494a094180c3c9675e7662607e59cac07ae317598f484d600350323cfa8"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p27-c1503",
+          "support_hash": "62847d6f14be57c95a529ca7728bc2d3c228579950e96d92cbe15006c1fe485a"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p19-c0",
+          "support_hash": "af31d51af72dba1af4adf7b387a7a280956e06b8e4697fd637680ad2857a9397"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q11",
+      "chapter": "Staffing",
+      "refs": [
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p24-c0",
+          "support_hash": "f4b9c1e48e1e3e3c48c81df43e48e9b4e287e28bfdc51c363b7cd4fdb78e5d03"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p28-c0",
+          "support_hash": "e7620154c3df3146bd2edc90bc36a8fd60b43a2d95ff0e92d5c706870cb88e70"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p25-c0",
+          "support_hash": "c8e354d51b376e558c9fcbf3f4c91a34d04d50e6520246873ddde5b20770d9f0"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q12",
+      "chapter": "Staffing",
+      "refs": [
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p11-c0",
+          "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p27-c0",
+          "support_hash": "4382a3d00a68a7782c522efe83ac92c2826ed21218366d519e63440169458597"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p6-c1842",
+          "support_hash": "0fe5bbd4d2907ccfdb8a658db73bf87ce5043d61efd7df189b90456b2eb5e82c"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q20",
+      "chapter": "Consumer Protection",
+      "refs": [
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p12-c1842",
+          "support_hash": "a50cf29c816805b5c6deecd6d4ae5d63e354a2a1cd014bf3c9a9660222c15fb9"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p12-c0",
+          "support_hash": "e6aa106a6a2855717d9e5f622539fb0b851ddd0657c7c95493369ed29ef8c25f"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p13-c0",
+          "support_hash": "6696d096cbf3ce1f76ec101d73666bb1065916bd90c557e5a0ff90b53b2ce178"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q21",
+      "chapter": "Consumer Protection",
+      "refs": [
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "156630c8452bf66811a03e290b4f3e8c42f96a237fdfc6a02c2e8eb6dbd0e45a"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p14-c0",
+          "support_hash": "0d366961e33bf65662c79ceb6f6a89f79219442bb85b6831dd7eaeef094f429e"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p9-c0",
+          "support_hash": "64e40d0e9393b88b1baffb7b8b05cde137d84eb7939d666b81fe887c31447248"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q22",
+      "chapter": "Consumer Protection",
+      "refs": [
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p7-c1736",
+          "support_hash": "683ed029bc303a0da09d3fe05e86bc52b527496f35f47385806e8a8b5355e4a7"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p8-c0",
+          "support_hash": "41148959d23ed6098d96aa636fbdc2f9f6fe9763d5d806cc73bf285082383619"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p14-c0",
+          "support_hash": "0d366961e33bf65662c79ceb6f6a89f79219442bb85b6831dd7eaeef094f429e"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-business_studies-bookA-q39",
+      "chapter": "Staffing",
+      "refs": [
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p17-c1807",
+          "support_hash": "259d035e936d4fa663c27af1f8598190995b4ccb79fa0e533700e441f7ec168b"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p18-c1713",
+          "support_hash": "f834871cea781b853e06da365283a24dc4d2a8d846c3d49eabea4690569d3633"
+        },
+        {
+          "id": "ncert-lebs106",
+          "version": 1,
+          "locator": "p27-c1503",
+          "support_hash": "62847d6f14be57c95a529ca7728bc2d3c228579950e96d92cbe15006c1fe485a"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q12",
+      "chapter": "Employment",
+      "refs": [
+        {
+          "id": "ncert-keec106",
+          "version": 1,
+          "locator": "p18-c0",
+          "support_hash": "da65db02412e16adea24139b65919a89ada6d4dc599ed90d69fbd794cfc5d199"
+        },
+        {
+          "id": "ncert-keec106",
+          "version": 1,
+          "locator": "p12-c1842",
+          "support_hash": "24748f969056d7aadb280f69836e69a95fac8b27039645fd6f2fa2fbf1a6a469"
+        },
+        {
+          "id": "ncert-keec106",
+          "version": 1,
+          "locator": "p4-c0",
+          "support_hash": "1f8f67019bd0bd5f3210a0c94c7d23ffc0f636989640318ce878e87b8d730275"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q13",
+      "chapter": "Indian Economic Development 1950–1990",
+      "refs": [
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p14-c1897",
+          "support_hash": "609d1d530a2a6e6da562e434c395c4bd51e90d8af52e6f3addf64c1286a6bbd1"
+        },
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p7-c0",
+          "support_hash": "86fbf19f95aa88df1b9fd821eedfa6e6fdb33b24f305c11342413bc6a769b83c"
+        },
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p4-c1915",
+          "support_hash": "f5650ba8c7e3197505f4b2e32a286d833b810918861b1ed947beeea5268b22ce"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q14",
+      "chapter": "Environment & Sustainable Development",
+      "refs": [
+        {
+          "id": "ncert-keec107",
+          "version": 1,
+          "locator": "p3-c0",
+          "support_hash": "0834dcce100273d015b87c49c3c0e9180f004a078042e76455b825a69f8eb753"
+        },
+        {
+          "id": "ncert-keec107",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "ecf8d7c0dcd841c5ffec0660502812b99fa2f2dbdae1ba227669a4eff72942bb"
+        },
+        {
+          "id": "ncert-keec107",
+          "version": 1,
+          "locator": "p15-c0",
+          "support_hash": "5b0ea23af9eacdec6542d691c4c50b5e62ad74dc74b7dec1fd66737c9f4b27a1"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q15",
+      "chapter": "Human Capital Formation",
+      "refs": [
+        {
+          "id": "ncert-keec104",
+          "version": 1,
+          "locator": "p13-c0",
+          "support_hash": "b7d106a61d3f1b1c6ad3521e2eac89c4c348d5f4b48cc2473b6c3bb3df4de3ab"
+        },
+        {
+          "id": "ncert-keec104",
+          "version": 1,
+          "locator": "p12-c0",
+          "support_hash": "5ecbc294d789d27ab0eb942a784a9ae59b95c3a359eceb12cd7a6ad9d77c8767"
+        },
+        {
+          "id": "ncert-keec104",
+          "version": 1,
+          "locator": "p15-c0",
+          "support_hash": "73884e4e19fb1a35af681d9ffddcdf12d58f72d02a9938234ded537b6f367119"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q18",
+      "chapter": "Development Experiences of India",
+      "refs": [
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p17-c0",
+          "support_hash": "17b04ee825b725c4b7d832fc5bad9b6f28f48f40f18986cc597359387c7c9c50"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "6e94ce5f474106849fad2ee56c381514dcbc35bdf2badd9767cfc552097a71d2"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p13-c0",
+          "support_hash": "c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q19",
+      "chapter": "Development Experiences of India",
+      "refs": [
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "6e94ce5f474106849fad2ee56c381514dcbc35bdf2badd9767cfc552097a71d2"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p12-c0",
+          "support_hash": "ed6ca7a94d4e2f16f86c0f96200e43c1e9eb3be7a19dd394cba15446863d87c1"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p13-c0",
+          "support_hash": "c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q20",
+      "chapter": "Rural Development",
+      "refs": [
+        {
+          "id": "ncert-keec105",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "96beb65685b0612ab21f9e0537ef06642340815e4a89b63355306a8f50effd95"
+        },
+        {
+          "id": "ncert-keec105",
+          "version": 1,
+          "locator": "p16-c0",
+          "support_hash": "1e4d22d54570d0463e69fd766de0041e50b820458ad13f769e43e531b7396fab"
+        },
+        {
+          "id": "ncert-keec105",
+          "version": 1,
+          "locator": "p4-c0",
+          "support_hash": "c9e5ed0f422d9bf79b275327f9ab5c52f8217a497a2cc8d438d030993c193968"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q21",
+      "chapter": "Development Experiences of India",
+      "refs": [
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p15-c0",
+          "support_hash": "7a9eb658f62b9bdc9beaebc733521df6a61040dc27357d78161206b940d166c6"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p13-c1820",
+          "support_hash": "411a79b7710f2816e16bc028b4dbe646e058081209e30a0d7429414ac5b2ea8e"
+        },
+        {
+          "id": "ncert-keec108",
+          "version": 1,
+          "locator": "p13-c0",
+          "support_hash": "c692f8dcdeddc039947ed665454f633f5d791024eebf3149c66a7afce736f660"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q38",
+      "chapter": "Market Equilibrium & Simple Applications",
+      "refs": [
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p1-c1758",
+          "support_hash": "bb4532175a8bb346e44a4935080222e79567503c74a0cdf32a8514a6a31b2d89"
+        },
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p10-c0",
+          "support_hash": "3794a02bf93ed0d423ad98199be87f225bf27a22a1e8ce54399d4cd86af74319"
+        },
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p8-c0",
+          "support_hash": "0d8c4e62cf1bf6da95fd880f461c84d5caf37866c6a97adca7d3168c8e371670"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q39",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "refs": [
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p3-c0",
+          "support_hash": "aa90316ec482b15be81ba262d860a14b3c29a196b4de0a6b15dc6ae3a76c5044"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p4-c0",
+          "support_hash": "b56eb693788296dd12ad338d9bb0007621cc021265524cdcda1d3c2b8788a839"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p4-c1925",
+          "support_hash": "8d11d48ebda9464b2e8c9e67b1e4b65d7067912b6d1609f71d2f6cc9b6caf94b"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q40",
+      "chapter": "Market Equilibrium & Simple Applications",
+      "refs": [
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p14-c0",
+          "support_hash": "e2fb92a5b21c6ce0d0cf9c8751f3b1142c803a06e19356675db6cff6bee4624b"
+        },
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p15-c0",
+          "support_hash": "c3a67f658f7488a0e9556c2bc7cb801829058474d668d6b2470cf9cd41a8d6be"
+        },
+        {
+          "id": "ncert-leec205",
+          "version": 1,
+          "locator": "p16-c0",
+          "support_hash": "e496f53df4d8d2b3cc36122d797c5eaa30bcd0628e634cbd476cfcaf373fbe0e"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q41",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "refs": [
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p24-c0",
+          "support_hash": "9ccff57845cb426c71cb9b16725b915f09a4373c5164856cdc0c4d5b70ceccaa"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p22-c0",
+          "support_hash": "e879466f805be1c061fa8c527f573a83f6cf8fe252f78c2ea67a39f4437f9ae7"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p25-c1338",
+          "support_hash": "fd92457472f81ef6a7e78962a008b8017c592d40ae3a2072adc0b2a86f41c287"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q42",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "refs": [
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p8-c0",
+          "support_hash": "e893081961442bab6e620b168b717e6801c0c19e6a97113f8fd385f49f7ad9b4"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p8-c1856",
+          "support_hash": "f66634b62ac26a60cf0694f1d39497d3c0a0d196632db38ac6b83892fb100bcd"
+        },
+        {
+          "id": "ncert-leec202",
+          "version": 1,
+          "locator": "p26-c0",
+          "support_hash": "955ca79eae343bff52a585017bbb9e4821a3d625536858a3aa726846668d5882"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    },
+    {
+      "id": "cuet2024-economics-bookA-q44",
+      "chapter": "Indian Economic Development 1950–1990",
+      "refs": [
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p5-c0",
+          "support_hash": "db2e36b93e423012af3bd382d3fbc632925e219af53dae3f148c191f34436c4d"
+        },
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p6-c1940",
+          "support_hash": "3c024244253d37974155a2be387a3313fede54ad8a283a178b8a2471e94a6ba6"
+        },
+        {
+          "id": "ncert-keec102",
+          "version": 1,
+          "locator": "p2-c0",
+          "support_hash": "e3bb0e219f54585c97ec26d1e9560c9cbf28764e8fbc4c12537056d461da6c8c"
+        }
+      ],
+      "selection_basis": "Deterministic lexical retrieval; academic entailment remains a required paid check."
+    }
+  ],
+  "production_changes": 0,
+  "api_spend_usd": 0,
+  "registry_version": 52,
+  "not_calibration_evidence": true
+}

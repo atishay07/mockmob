@@ -1,0 +1,1077 @@
+{
+  "review_mode": "blind-first-pass-before-programmatic-unblind",
+  "reviewer": "root assistant; independent from benchmark-author Luna subagent",
+  "at": "2026-10-07T22:20:30.037Z",
+  "input_hashes": {
+    "packet": "d0483b199a18ea3fbf2c81f51184c9203374a569fd3228763f4851669ffd7c24",
+    "sources": "63bce97a559f64a3010778aeaf7343190f88ba1b06c407de126ef8dcf855b670"
+  },
+  "oracle_read_before_first_pass": false,
+  "paid_calls": 0,
+  "keys": [
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-1",
+      "key": "A",
+      "proof": "The supplied partnership definition describes two or more persons establishing business and sharing profits.",
+      "review_flags": [
+        "unidentified_excerpt"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-2",
+      "key": "C",
+      "proof": "The supplied page says loan interest is 12%; 20000×.12=2400. This cannot certify an academic key: the numbered statement appears to be an unkeyed true/false exercise and the usual silent-deed rule is 6%.",
+      "review_flags": [
+        "exercise_statement_not_a_verified_rule"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-3",
+      "key": "A",
+      "proof": "Persons are partners, they establish a business and share profits.",
+      "review_flags": [
+        "matching_lists_incomplete"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-4",
+      "key": "C",
+      "proof": "Both propositions occur in the definition.",
+      "review_flags": [
+        "unprinted_excerpt"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-1",
+      "key": "A",
+      "proof": "The source expressly says the incoming share comes from old partners.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-2",
+      "key": "A",
+      "proof": "Old-ratio sacrifices are (1/5)(3/5)=3/25 and (1/5)(2/5)=2/25.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-3",
+      "key": "B",
+      "proof": "Admission is a new partner joining and taking a share from old partners.",
+      "review_flags": [
+        "matching_lists_incomplete"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-4",
+      "key": "C",
+      "proof": "The source establishes both acquisition from and sacrifice by existing partners.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-1",
+      "key": "A",
+      "proof": "The Memorandum authorises the maximum share-capital issue.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-2",
+      "key": "C",
+      "proof": "12−9=3 lakh remains within the stated unchanged authorised capital.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-3",
+      "key": "B",
+      "proof": "The corresponding definition is maximum authorised issue specified in the Memorandum.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-4",
+      "key": "B",
+      "proof": "Under the stated unchanged capital limit, only statement 2 is true.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-1",
+      "key": "A",
+      "proof": "The source example computes average collection period from receivables turnover.",
+      "review_flags": [
+        "unprinted_example"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-2",
+      "key": "B",
+      "proof": "365/5=73 days; the 365-day convention is explicit.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-3",
+      "key": "A",
+      "proof": "The cited formula is 365 divided by trade receivables turnover.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-4",
+      "key": "A",
+      "proof": "365/10=36.5, not 365×10.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-1",
+      "key": "A",
+      "proof": "A single-use plan is for a one-time non-recurring event.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-2",
+      "key": "A",
+      "proof": "A one-day non-recurring seminar fits a single-use plan.",
+      "review_flags": [
+        "unidentified_cited_example"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-3",
+      "key": "B",
+      "proof": "The defined use is a one-time non-recurring event or project.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-4",
+      "key": "A",
+      "proof": "Statement 1 is supported; statement 2 contradicts non-recurring use.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-1",
+      "key": "A",
+      "proof": "Organising groups activities and establishes authority relationships.",
+      "review_flags": [
+        "unidentified_source_reference"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-2",
+      "key": "C",
+      "proof": "The source lists identification/division, departmentalisation, duties and reporting: four.",
+      "review_flags": [
+        "unprinted_process"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-3",
+      "key": "B",
+      "proof": "Departmentalisation is second; assigning duties is third in organising.",
+      "review_flags": [
+        "process_not_named"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-4",
+      "key": "B",
+      "proof": "The organising sequence after division is departmentalisation, duties, reporting.",
+      "review_flags": [
+        "process_not_named"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-1",
+      "key": "A",
+      "proof": "The excerpt defines directing through five actions toward organisational objectives.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-2",
+      "key": "C",
+      "proof": "Instructing, guiding, counselling, motivating and leading are five.",
+      "review_flags": [
+        "unprinted_description"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-3",
+      "key": "A",
+      "proof": "Directing aims at organisational objectives.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-4",
+      "key": "A",
+      "proof": "Motivation and leadership are included, and the source denies communication-only scope.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-1",
+      "key": "A",
+      "proof": "Place/physical distribution makes products available to target customers.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-2",
+      "key": "B",
+      "proof": "3 dealer-region placements per region×4 regions=12.",
+      "review_flags": [
+        "arithmetic_without_business_studies_construct"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-3",
+      "key": "A",
+      "proof": "Selecting distribution intermediaries is a place decision.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-4",
+      "key": "A",
+      "proof": "Dealer selection is part of place; place is not pricing.",
+      "review_flags": [
+        "unprinted_excerpt"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-1",
+      "key": "A",
+      "proof": "The supplied NCERT money description includes cash and bank deposits.",
+      "review_flags": [
+        "unprinted_excerpt"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-2",
+      "key": "C",
+      "proof": "4000+6000=10000 within the cash/deposit description.",
+      "review_flags": [
+        "unprinted_excerpt"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-3",
+      "key": "A",
+      "proof": "The source names the central bank and commercial banking system.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-4",
+      "key": "C",
+      "proof": "The source includes both bank deposits and commercial banks.",
+      "review_flags": [
+        "unidentified_system"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-1",
+      "key": "A",
+      "proof": "The last column of the supplied table tracks final-goods output/income increments.",
+      "review_flags": [
+        "unprinted_table"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-2",
+      "key": "C",
+      "proof": "1/(1−.8)=5; both the formula and two-sector scope are stated.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-3",
+      "key": "A",
+      "proof": "The stated output increments equal the income increments in the NCERT account.",
+      "review_flags": [
+        "unprinted_source_and_direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-4",
+      "key": "A",
+      "proof": "The source links final-goods output to income, not tax revenue.",
+      "review_flags": [
+        "unprinted_passage"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-1",
+      "key": "A",
+      "proof": "The supplied paragraph defines primary deficit as fiscal deficit less interest payments.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-2",
+      "key": "A",
+      "proof": "Under the stated textbook formula 90−25=65 crore. The same excerpt distinguishes net interest liabilities; clarify that receipts are absent or that 25 is net.",
+      "review_flags": [
+        "net_interest_clarity"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-3",
+      "key": "A",
+      "proof": "The paragraph explicitly identifies present fiscal imbalances as the focus.",
+      "review_flags": [
+        "unprinted_source_and_direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-4",
+      "key": "C",
+      "proof": "Subtracting interest from fiscal deficit yields primary deficit.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-1",
+      "key": "A",
+      "proof": "Market demand and supply determine the flexible exchange rate.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-2",
+      "key": "A",
+      "proof": "A demand shift under a flexible rate with unchanged supply can change the rate.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-3",
+      "key": "A",
+      "proof": "Flexible is also called floating exchange rate.",
+      "review_flags": [
+        "direct_question_labelled_matching"
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-4",
+      "key": "C",
+      "proof": "The excerpt establishes both demand/supply determination and the floating synonym.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-1",
+      "key": "A",
+      "proof": "The passage explicitly uses late returns per one hundred loans.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-2",
+      "key": "A",
+      "proof": "Both branch rates declined (14→10 and 12→9).",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-3",
+      "key": "A",
+      "proof": "The branches served different reader counts, so raw totals are not comparable.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-4",
+      "key": "A",
+      "proof": "The report expressly notes non-random reader assignment.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-1",
+      "key": "A",
+      "proof": "The printed passage says the indicator light remained on.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-2",
+      "key": "A",
+      "proof": "The technician specifies power lead, volume control, speaker wire in that order.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-3",
+      "key": "A",
+      "proof": "The notebook allows the next student to repeat the checks.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-4",
+      "key": "A",
+      "proof": "The notebook entry is the useful thing left behind.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-1",
+      "key": "A",
+      "proof": "The caretaker first places the chair beneath the neem tree.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-2",
+      "key": "A",
+      "proof": "The voices continue indoors and the same song is heard from the corridor.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-3",
+      "key": "A",
+      "proof": "Chair outside precedes wind/leaves, moving it inside, then the child follows the song.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-4",
+      "key": "A",
+      "proof": "Threaded means the song and cup sounds were heard together.",
+      "review_flags": [],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-1",
+      "key": "A",
+      "proof": "The numerical results identify the combined name/date label at 18/20.",
+      "review_flags": [
+        "inconsistent_label_design_description"
+      ],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-2",
+      "key": "A",
+      "proof": "The last sentence chooses the combined label.",
+      "review_flags": [
+        "inconsistent_label_design_description"
+      ],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-3",
+      "key": "A",
+      "proof": "The limitation is one collection and one month.",
+      "review_flags": [
+        "inconsistent_label_design_description"
+      ],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-4",
+      "key": "A",
+      "proof": "18−15=3 additional successful checks.",
+      "review_flags": [
+        "inconsistent_label_design_description"
+      ],
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    }
+  ]
+}

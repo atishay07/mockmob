@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 15395,
+ "request_bytes": 30204,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v712-v712-qualification-q3-run-v712q3-english-d3\",\n  \"content_hash\": \"6bdc57dfd7f7e46a005be1aeab85862c50da631dea66f8b36bb369b8e2b47a0d\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The passage explicitly states: 'At the far fence she saw another narrow track leading towards a new gate. She took that route home.'\"\n  ],\n  \"syllabus_chapter\": \"Literary Passage\",\n  \"syllabus_topic\": \"Direct factual recall and comprehension of literary passage\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"At the far fence, Anaya chose the narrow track leading to a new gate to return home.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Anaya turned around and retraced her grandfather's path across the field to go home.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Anaya searched for her grandfather along the perimeter fence.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Anaya intentionally cultivated or planted grass along the path borders.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests direct factual detail retrieval from a literary passage in the CUET English syllabus.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard reading comprehension multiple-choice question format used in CUET UG English.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches the standard cognitive difficulty of explicit text-retrieval questions in CUET.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target misreadings of the characters' actions and setting details.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"followed her grandfather’s path back across the field\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"At the far fence she saw another narrow track leading towards a new gate. She took that route home.\",\n      \"reason\": \"She took the new track home instead of retracing her grandfather's path.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"walked along the fence to find her grandfather\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"After he moved away, the grass began to cover its edges.\",\n      \"reason\": \"Her grandfather had already moved away; she did not look for him.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"At the far fence she saw another narrow track leading towards a new gate. She took that route home.\",\n      \"reason\": \"Directly stated in the passage.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"planted grass along the edge of the path\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"After he moved away, the grass began to cover its edges.\",\n      \"reason\": \"The grass grew naturally over the edges; she did not plant it.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5106,
+   "candidatesTokenCount": 1307,
+   "totalTokenCount": 6774,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5106
+    }
+   ],
+   "thoughtsTokenCount": 361,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "qxvJasXsJ5_c4-EPzLT66AY"
+ }
+}

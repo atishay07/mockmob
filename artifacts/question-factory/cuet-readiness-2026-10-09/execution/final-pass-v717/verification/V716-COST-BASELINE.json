@@ -1,0 +1,16 @@
+{
+  "campaign": "cuet-v716-qualification-fresh32b",
+  "basis": "Independent Luna read-only exact candidate-prefix join of native provider_requests/provider_batches to settled requests in data/pipeline-budget.sqlite; all85 have usage metadata; sum reconciles to saved study summary",
+  "settled_requests": 85,
+  "settled_usd": 0.192796,
+  "held_usd": 0,
+  "stages": {
+    "luna_blind": {"calls":32,"high":27,"medium":5,"settled_usd":0.035377,"input_tokens":112560,"output_tokens":113308,"max_output_tokens":7689},
+    "luna_explanation": {"calls":21,"high":21,"settled_usd":0.018716,"input_tokens":76737,"output_tokens":55640,"max_output_tokens":4575},
+    "gemini_independent": {"calls":32,"medium":32,"settled_usd":0.138703,"input_tokens":80328,"candidate_output_tokens":43939,"thought_tokens":13962,"max_candidate_output_tokens":1591}
+  },
+  "decision": "Failed qualification,16/20 designated-valid eligible; no publication",
+  "failed_study_spend_per_10000_eligible": 120.4975,
+  "limitation": "Includes intentionally defective benchmark controls and no authoring; not a generation or publishable-question forecast. Cost goal below USD100/10000 remains unmeasured.",
+  "v717_decision": "Retain established measured efforts/high conditional-answer validation and independent Gemini. Target redundant report prose and avoid unsupported authoring claims. Measure actual all-stage cost and yield only after qualification and conditional pilot. Lower caps alone do not lower usual actual billed tokens."
+}

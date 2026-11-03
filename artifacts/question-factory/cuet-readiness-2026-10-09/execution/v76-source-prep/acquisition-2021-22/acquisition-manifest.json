@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-08T20:21:11.807Z",
+  "contract_frozen_before_acquisition": true,
+  "source_year": "2021-22",
+  "key_content_opened": false,
+  "prior_registered_family_search_hits": 0,
+  "entries": [
+    {
+      "subject": "Accountancy",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-SQP.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-SQP.pdf",
+      "sha256": "69d5fdc004020303ecab5db8f01137b13a3d86782cfb3bd3143f01303ed7d9d7",
+      "bytes": 549146
+    },
+    {
+      "subject": "BusinessStudies",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-SQP.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-SQP.pdf",
+      "sha256": "30ff1c796aad76e2fc8e64ee3caa965f9bbedd3736ec911f6670bdaa98095e17",
+      "bytes": 607790
+    },
+    {
+      "subject": "Economics",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-SQP.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-SQP.pdf",
+      "sha256": "6af42b3bc39cfd8c0d385feffdca87d8a4688616c30d85771e7c75f392037679",
+      "bytes": 498652
+    },
+    {
+      "subject": "EnglishCore",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/EnglishCore-SQP.pdf",
+      "sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+      "bytes": 536017
+    }
+  ]
+}

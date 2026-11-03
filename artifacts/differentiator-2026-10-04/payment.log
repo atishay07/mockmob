@@ -1,0 +1,20 @@
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (0.8089ms)
+✔ paid-through date prefers Razorpay invoice billing end (1.4031ms)
+✔ paid-through date falls back to a bounded paid period (0.1599ms)
+✔ effective premium survives cancellation inside paid-through window (0.1858ms)
+✔ paid evidence requires a captured payment record (0.1678ms)
+✔ discounted creator payments can validate below nominal amount (0.3536ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (0.653ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.1366ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.4155ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.2057ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1068ms)
+✔ legacy monthly plan is not live for new checkout (0.1991ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 130.42

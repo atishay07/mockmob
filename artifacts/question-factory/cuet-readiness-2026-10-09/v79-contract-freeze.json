@@ -1,0 +1,25 @@
+{
+ "frozen_at": "2026-10-09T13:03:42.674Z",
+ "verifier_version": "cuet-fit-validator-v7.9-compact-resolution-r5",
+ "validation_contract_hash": "67cbdd05da43334b89b1320559b23cc19be28f7170977910d0ff67f9ff025f4d",
+ "prompt_hash": "1bca4d95066f08401d42596c12c9dfa70a3a7bf1502a4df4b95c4d0834edea8f",
+ "parent_v78_contract_hash": "e4be26f3e6dcb651edcf736049f872a736abaed1ed4db5b6299d6aaccb613d58",
+ "files": {
+  "scripts/pipeline/lib/contractV79.mjs": "4b770deaebfdc3fbb8098dbd8147dc8ecd4e138d64aaaf310fc3c0bef873d2a7",
+  "scripts/pipeline/lib/optionResolutionV79.mjs": "458b2a0bf3d44796fb9aa5aa3d3a5a51ab3663a9e95df0ed9242043197603658",
+  "scripts/pipeline/lib/factoryEvidenceV79.mjs": "ac679cbcec98ba63db4ef1179589fbad3503c957854946a068dd5cf53a5bcedf",
+  "scripts/pipeline/lib/verifyV79.mjs": "3b365fd5f0d15937656ac6b6f15c9b95af8288257507f5cac45b10e81e76cd07",
+  "scripts/pipeline/lib/originalAuthorPolicyV79.mjs": "fddbcc16aa108d02bcc4df73caa688c2a2b5373ae7d6e7dc535eeecfbd2f92d2",
+  "scripts/pipeline/lib/longFetch.mjs": "2e4fd19f2dddb787afacde3da2ed8664f58841b8b64ec07651816beeaade3c19",
+  "scripts/pipeline/lib/cuetPilotV79Deps.mjs": "84510f9c37634ff7da32e33b06e16aab037a8522ece76f70cc1e861a811c10d0",
+  "scripts/pipeline/tests/v79Integration.test.mjs": "9c7a25dd6b8ef5a21194e6624372e20c42cced99d03784eda7cb25f2febbe025",
+  "scripts/pipeline/tests/v79PassageScope.test.mjs": "59d08374e4f722bbe56e6b554dd1ce16d86e5604d2923cd3ebb493cc2fffe65b",
+  "scripts/pipeline/tools/runV78RegressionProbe.mjs": "a76254237e0c354baef6575f95659180b9ef4356c3ac2981b99008fe1cb747d8",
+  "scripts/pipeline/tools/assembleV79FreshStudy.mjs": "c712ba75a2fd1c138ab34c45492c643789c9af24b1b444fb28dccf4800870cdd",
+  "data/pipeline-prices.json": "390c009fcc1327bbae3abcc7f6cd7074893fd40a0691836623bb6d2c8a146797"
+ },
+ "topology": "dual_blind (Luna blind + Gemini blind + Luna explanation/resolution audit)",
+ "efforts": "effortsFor(): Luna blind per item type, Gemini medium, audit high (unchanged)",
+ "decision_rule": "zero eligible controlled defects; valid eligible >= 85% pooled and >= 70% per subject; unfinished counts as not eligible; any unfinished defect blocks a pass",
+ "note": "Regression evidence (exposed V7.7 cases) shaped r1-r5; it is not qualification. Fresh cases were authored and blind-keyed before this freeze and have not been shown to any validator."
+}

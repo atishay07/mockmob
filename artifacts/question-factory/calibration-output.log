@@ -1,0 +1,5 @@
+
+> mockmob@0.1.0 factory
+> node --use-system-ca scripts/pipeline/factory.mjs calibrate data/question-factory-runtime/calibration-fixtures.json
+
+{"state":"paused","pending":25}

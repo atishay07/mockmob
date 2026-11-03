@@ -1,0 +1,4031 @@
+{
+  "registration_hash": "8901fc4a1e1523b6c00d2b0f228cbd43ae8c64d5a2a2fbfc54613a0a9553831a",
+  "request_keys": [
+    "d0fda011dc88fdb9e7daaf783a5bca40fdd1b7b12a0270bbd164461e8be9c0da",
+    "cb90eb4bfe26d69f9576fd206ebba19e5869f09464d7d8b5701d50bb5cf778a2",
+    "171b43033b13484068e688b124a968eef974d80e900c331ec8d3a580dd58875b",
+    "02cbc0743ebd8158f1fae728eb582294baad06135684fc7561d6b2d8d2698eeb",
+    "7f347d4abf479dd42465b97c9a96a4769dbdda4583d79be7f7289237edb4d91d",
+    "25fa239e56fd2e268f128fa3ec5fc8c471156fe2550483f658ff275fa837b12a",
+    "b51d6b16015415d1042e85ec82fc99677d9b0bc9d95230707690a93a0d35578e",
+    "c1c0d5c42d62c5cf58d82ea42182c7f0efcd52d7af11b8bab2bb662b0c26d912",
+    "c471a98771ee0d61beee06121fc6d86442053c9af4c9d0cd6e5fbc10040accd8"
+  ],
+  "cases": {
+    "f-234e398c6040b350": {
+      "state": "eligible",
+      "candidate_hash": "72ae420d05b64fc2ee4deeccdb233c83b1bc315cdb80d53c4adb0b42716991fa",
+      "pending_batch_id": "7f347d4abf479dd42465b97c9a96a4769dbdda4583d79be7f7289237edb4d91d",
+      "error": "provider_batch_pending",
+      "academic_sound": true,
+      "blind_frozen": {
+        "candidate_id": "f-234e398c6040b350",
+        "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+        "reports": [
+          {
+            "candidate_id": "f-234e398c6040b350",
+            "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E2.1",
+              "E3.1"
+            ],
+            "issues": [],
+            "solved_key": "A",
+            "derivation": "The machinery is acquired by issuing shares, and the stem expressly rules out any cash or cash-equivalent exchange. The supplied rule excludes investing and financing transactions that do not use cash or cash equivalents from the cash flow statement and says to disclose them elsewhere in the financial statements. Therefore A is correct. The fact that issuing shares is ordinarily a financing activity does not make this non-cash transaction a financing cash flow.",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The source explicitly gives machinery acquired by issuing equity shares as a non-cash transaction to exclude from the cash flow statement and disclose elsewhere."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E2.1"
+                ],
+                "reason": "The source says a transaction requiring no cash or cash equivalents is excluded; the purchase of a long-term asset does not create the stated cash investing outflow or an operating inflow."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E3.1"
+                ],
+                "reason": "Share issuance relates to financing, but the source describes cash proceeds from share issues as financing cash flows and separately excludes this exact non-cash share-for-machinery transaction."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E2.1"
+                ],
+                "reason": "The source treats machinery acquired by shares as a non-cash asset acquisition, not as a cash equivalent; it is excluded from the cash flow statement."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A direct application of an explicitly stated cash-use rule to the example in the source. Its demand is comparable to the attached easy conceptual exemplars. Estimated response time: about 20–30 seconds.",
+              "comparison_basis": "authenticated_exemplar"
+            },
+            "scores": {
+              "1": {
+                "score": 8,
+                "note": "Clear, syllabus-relevant practice with a single source-supported answer."
+              },
+              "2": {
+                "score": 8,
+                "note": "Fits the syllabus coverage of cash flow statement preparation."
+              },
+              "3": {
+                "score": 9,
+                "note": "Directly tests applying the cash-use test to an investing and financing transaction."
+              },
+              "4": {
+                "score": 8,
+                "note": "Concise four-option conceptual MCQ in the attached paper style."
+              },
+              "5": {
+                "score": 8,
+                "note": "Appropriately easy relative to the attached authenticated easy conceptual questions."
+              },
+              "6": {
+                "score": 9,
+                "note": "Brief stem and quick rule application; estimated 20–30 seconds versus the supplied 72-second average."
+              },
+              "8": {
+                "score": 10,
+                "note": "The explicit no-cash condition and source rule leave A as the unique answer."
+              },
+              "9": {
+                "score": 8,
+                "note": "C raises the financing classification, but the non-cash exclusion resolves it; B and D are less competitive."
+              },
+              "10": {
+                "score": 10,
+                "note": "The stem explicitly supplies the decisive condition that no cash or cash equivalent changes hands."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical work is required."
+              },
+              "12": {
+                "score": 9,
+                "note": "The cash versus non-cash boundary is explicit in the stem."
+              },
+              "15": {
+                "score": null,
+                "note": "There is no passage."
+              },
+              "16": {
+                "score": 8,
+                "note": "The options cover the correct treatment and the main potential misclassifications."
+              },
+              "17": {
+                "score": 9,
+                "note": "The wording is clear and unambiguous."
+              },
+              "18": {
+                "score": 6,
+                "note": "C is a plausible classification error; B and D are comparatively easy to eliminate."
+              },
+              "19": {
+                "score": 7,
+                "note": "Distinct from the attached exemplars in topic and scenario; this comparison does not establish bank-wide novelty."
+              },
+              "20": {
+                "score": 10,
+                "note": "The tested treatment and example are directly supported by the supplied NCERT excerpt."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "ef70492ee07fb479e3f40f70d3473582edd2304ce98c3adf99acc5736cba838c"
+          },
+          {
+            "candidate_id": "f-234e398c6040b350",
+            "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E2.1",
+              "E3.1",
+              "E3.2"
+            ],
+            "issues": [],
+            "solved_key": "A",
+            "derivation": "According to AS-3 / NCERT Class XII Accountancy (leac206), investing and financing transactions that do not involve the movement of cash or cash equivalents are non-cash transactions. The acquisition of machinery by issuing equity shares is specifically cited as a non-cash transaction that must be excluded from the cash flow statement and disclosed elsewhere in the financial statements.",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "NCERT explicit text confirms that investing and financing transactions not involving cash/cash equivalents (such as acquisition of machinery by issue of shares) must be excluded from the cash flow statement and disclosed elsewhere in the financial statements."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "Since no cash or cash equivalent was paid or received, recording a cash investing outflow and operating inflow violates AS-3 guidelines on non-cash transactions."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E3.1"
+                ],
+                "reason": "Financing cash inflows represent actual cash proceeds from share issue; non-cash share consideration cannot be reported as a cash inflow."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1",
+                  "E2.1"
+                ],
+                "reason": "Machinery is a long-term fixed asset, not a highly liquid short-term investment readily convertible to known amounts of cash (cash equivalent)."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "Tests a direct, standard AS-3 textbook rule on non-cash transactions with a clear unambiguous distractor set.",
+              "comparison_basis": "authenticated_exemplar"
+            },
+            "scores": {
+              "1": {
+                "score": 9,
+                "note": "Fully aligned with CUET UG syllabus and standard exam presentation."
+              },
+              "2": {
+                "score": 10,
+                "note": "Explicitly included under Cash Flow Statement (AS-3) in Unit V."
+              },
+              "3": {
+                "score": 9,
+                "note": "Directly evaluates the cash-use test for investing and financing transactions."
+              },
+              "4": {
+                "score": 9,
+                "note": "Follows standard multiple-choice question format seen in CUET Accountancy papers."
+              },
+              "5": {
+                "score": 9,
+                "note": "Appropriate easy/direct calibration typical of recall/conceptual questions in CUET."
+              },
+              "6": {
+                "score": 9,
+                "note": "Concise stem and options; easily solvable within 30-40 seconds."
+              },
+              "8": {
+                "score": 10,
+                "note": "Option A is uniquely correct under AS-3 / NCERT."
+              },
+              "9": {
+                "score": 10,
+                "note": "All four choices are distinct and mutually exclusive."
+              },
+              "10": {
+                "score": 10,
+                "note": "No unstated assumptions required beyond standard AS-3 framework."
+              },
+              "11": {
+                "score": null,
+                "note": "Purely conceptual question; no numerical calculation involved."
+              },
+              "12": {
+                "score": 10,
+                "note": "Explicitly specifies that no cash or cash equivalent changes hands, eliminating edge cases."
+              },
+              "15": {
+                "score": null,
+                "note": "Standalone MCQ without reading passage."
+              },
+              "16": {
+                "score": 10,
+                "note": "Complete prompt with all necessary facts provided."
+              },
+              "17": {
+                "score": 9,
+                "note": "Crisp and unambiguous phrasing."
+              },
+              "18": {
+                "score": 9,
+                "note": "Distractors represent common conceptual misunderstandings among students."
+              },
+              "19": {
+                "score": 8,
+                "note": "Standard textbook application framed effectively."
+              },
+              "20": {
+                "score": 10,
+                "note": "Matches NCERT text extraction verbatim in substance."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "ff552000ae8a98b798a75a83fbc655e3ad28547dfdee76d484080833fee14a26"
+          }
+        ],
+        "sha256": "a82235c89f9c11678a695025cfb9392adfd859c0af330eff7eb244e7b090750d"
+      },
+      "policy": "cuet-scorecard-routing-v716",
+      "quality_score": 8.6,
+      "display_score": 8.6,
+      "criteria": [
+        {
+          "id": "1",
+          "parameter": "overall_cuet_readiness",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Clear, syllabus-relevant practice with a single source-supported answer.",
+            "Fully aligned with CUET UG syllabus and standard exam presentation."
+          ]
+        },
+        {
+          "id": "2",
+          "parameter": "syllabus_entitlement",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Fits the syllabus coverage of cash flow statement preparation.",
+            "Explicitly included under Cash Flow Statement (AS-3) in Unit V."
+          ]
+        },
+        {
+          "id": "3",
+          "parameter": "learning_objective",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Directly tests applying the cash-use test to an investing and financing transaction.",
+            "Directly evaluates the cash-use test for investing and financing transactions."
+          ]
+        },
+        {
+          "id": "4",
+          "parameter": "cuet_format_style",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Concise four-option conceptual MCQ in the attached paper style.",
+            "Follows standard multiple-choice question format seen in CUET Accountancy papers."
+          ]
+        },
+        {
+          "id": "5",
+          "parameter": "difficulty_calibration",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Appropriately easy relative to the attached authenticated easy conceptual questions.",
+            "Appropriate easy/direct calibration typical of recall/conceptual questions in CUET."
+          ]
+        },
+        {
+          "id": "6",
+          "parameter": "time_reading_suitability",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Brief stem and quick rule application; estimated 20–30 seconds versus the supplied 72-second average.",
+            "Concise stem and options; easily solvable within 30-40 seconds."
+          ]
+        },
+        {
+          "id": "7",
+          "parameter": "answer_accuracy",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both hidden-key independent solutions match the author key."
+          ]
+        },
+        {
+          "id": "8",
+          "parameter": "unique_answer",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The explicit no-cash condition and source rule leave A as the unique answer.",
+            "Option A is uniquely correct under AS-3 / NCERT."
+          ]
+        },
+        {
+          "id": "9",
+          "parameter": "option_separation",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "C raises the financing classification, but the non-cash exclusion resolves it; B and D are less competitive.",
+            "All four choices are distinct and mutually exclusive."
+          ]
+        },
+        {
+          "id": "10",
+          "parameter": "decisive_assumptions",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The stem explicitly supplies the decisive condition that no cash or cash equivalent changes hands.",
+            "No unstated assumptions required beyond standard AS-3 framework."
+          ]
+        },
+        {
+          "id": "11",
+          "parameter": "numerical_accuracy_method",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "No numerical work is required.",
+            "Purely conceptual question; no numerical calculation involved."
+          ]
+        },
+        {
+          "id": "12",
+          "parameter": "boundary_cases",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "The cash versus non-cash boundary is explicit in the stem.",
+            "Explicitly specifies that no cash or cash equivalent changes hands, eliminating edge cases."
+          ]
+        },
+        {
+          "id": "13",
+          "parameter": "explanation_correctness",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Correctly states the treatment for this non-cash machinery acquisition."
+          ]
+        },
+        {
+          "id": "14",
+          "parameter": "explanation_source_support",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both the exclusion and disclosure elsewhere are directly supported by E1.1."
+          ]
+        },
+        {
+          "id": "15",
+          "parameter": "passage_answerability",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "There is no passage.",
+            "Standalone MCQ without reading passage."
+          ]
+        },
+        {
+          "id": "16",
+          "parameter": "completeness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The options cover the correct treatment and the main potential misclassifications.",
+            "Complete prompt with all necessary facts provided."
+          ]
+        },
+        {
+          "id": "17",
+          "parameter": "language_clarity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The wording is clear and unambiguous.",
+            "Crisp and unambiguous phrasing.",
+            "Clear and concise; it directly answers the treatment asked."
+          ]
+        },
+        {
+          "id": "18",
+          "parameter": "distractor_plausibility",
+          "score": 7.5,
+          "applicable": true,
+          "notes": [
+            "C is a plausible classification error; B and D are comparatively easy to eliminate.",
+            "Distractors represent common conceptual misunderstandings among students."
+          ]
+        },
+        {
+          "id": "19",
+          "parameter": "semantic_novelty",
+          "score": 7.5,
+          "applicable": true,
+          "notes": [
+            "Distinct from the attached exemplars in topic and scenario; this comparison does not establish bank-wide novelty.",
+            "Standard textbook application framed effectively."
+          ]
+        },
+        {
+          "id": "20",
+          "parameter": "source_fidelity",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The tested treatment and example are directly supported by the supplied NCERT excerpt.",
+            "Matches NCERT text extraction verbatim in substance.",
+            "Faithfully preserves the excerpt’s rule and scope."
+          ]
+        }
+      ],
+      "reported_mean": 9.11111111111111,
+      "composite_basis": [
+        "3",
+        "4",
+        "6",
+        "17",
+        "18"
+      ],
+      "route_band": "nta_eligible",
+      "modes": {
+        "practice": true,
+        "nta": true
+      },
+      "outcome": "eligible",
+      "reasons": [],
+      "difficulty": {
+        "passed": true,
+        "version": "cuet-demand-bands-v713",
+        "level": "easy",
+        "agreement": true,
+        "observations": [
+          {
+            "stage": "blind_solution",
+            "provider": "openai",
+            "assessment": {
+              "level": "easy",
+              "reason": "A direct application of an explicitly stated cash-use rule to the example in the source. Its demand is comparable to the attached easy conceptual exemplars. Estimated response time: about 20–30 seconds.",
+              "comparison_basis": "authenticated_exemplar"
+            }
+          },
+          {
+            "stage": "independent_evaluation",
+            "provider": "gemini",
+            "assessment": {
+              "level": "easy",
+              "reason": "Tests a direct, standard AS-3 textbook rule on non-cash transactions with a clear unambiguous distractor set.",
+              "comparison_basis": "authenticated_exemplar"
+            }
+          }
+        ],
+        "purpose": "warmup",
+        "nta_policy": "preferred_medium_then_easy"
+      },
+      "advisory_issues": [],
+      "question": {
+        "id": "f-234e398c6040b350",
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "concept_id": "accountancy:noncash-financing-investing-exclusion",
+        "body": "A company acquires machinery by issuing its own equity shares directly to the seller; no cash or cash equivalent changes hands. How should this transaction be treated in the cash flow statement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Exclude it from the cash flow statement and disclose it elsewhere in the financial statements."
+          },
+          {
+            "key": "B",
+            "text": "Record a cash investing outflow and an equal operating inflow."
+          },
+          {
+            "key": "C",
+            "text": "Record a financing cash inflow because shares were issued, even though no cash was received."
+          },
+          {
+            "key": "D",
+            "text": "Treat the machinery as a cash equivalent."
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Investing and financing transactions that do not use cash or cash equivalents are excluded from the cash flow statement and disclosed elsewhere.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-4578af8d21f01777",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p4-c0-g4-s0",
+            "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+          },
+          {
+            "id": "ncertcol-leac206-v1",
+            "version": 1,
+            "locator": "p5-c0-g4-s0",
+            "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Apply the cash-use test for investing and financing transactions.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac206-v1",
+          "adaptation_family": "fam-4578af8d21f01777",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        },
+        "evidence": {
+          "record": {
+            "candidate_id": "f-234e398c6040b350",
+            "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+            "state": "eligible",
+            "policy_version": "cuet-llm-v3",
+            "verifier_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "scorecard_policy": "cuet-scorecard-routing-v716",
+            "topology": "dual_blind",
+            "source_registry_version": 58,
+            "sources": [
+              {
+                "id": "ncertcol-leac206-v1",
+                "version": 1,
+                "locator": "p7-c0-g4-s0",
+                "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+              },
+              {
+                "id": "ncertcol-leac206-v1",
+                "version": 1,
+                "locator": "p4-c0-g4-s0",
+                "support_hash": "35acd4f37aacd48c3a57d32a82c17225dd23e1dfa32b187ba8a7ced55e7539e4"
+              },
+              {
+                "id": "ncertcol-leac206-v1",
+                "version": 1,
+                "locator": "p5-c0-g4-s0",
+                "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+              }
+            ],
+            "family_id": "fam-4578af8d21f01777",
+            "family_version": 1,
+            "route": "conceptual",
+            "question_type": "conceptual_mcq",
+            "passage_group": null,
+            "provenance": {
+              "kind": "original_practice",
+              "anchor_id": "ncertcol-leac206-v1",
+              "adaptation_family": "fam-4578af8d21f01777",
+              "adaptation_type": "source-grounded-original-practice",
+              "syllabus_version": "cuet-2026-provisional-for-2027",
+              "pattern_version": "cuet-2024-authenticated-bookA-v1",
+              "source_pack_id": "cuet2024-accountancy-bookA",
+              "source_pack_version": 13
+            },
+            "author_target_difficulty": "medium",
+            "difficulty_target_match": false,
+            "verified_at": "2026-10-09T23:21:54.790Z",
+            "expires_at": "2026-11-08T23:21:54.790Z",
+            "reports": [
+              {
+                "candidate_id": "f-234e398c6040b350",
+                "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E2.1",
+                  "E3.1"
+                ],
+                "issues": [],
+                "solved_key": "A",
+                "derivation": "The machinery is acquired by issuing shares, and the stem expressly rules out any cash or cash-equivalent exchange. The supplied rule excludes investing and financing transactions that do not use cash or cash equivalents from the cash flow statement and says to disclose them elsewhere in the financial statements. Therefore A is correct. The fact that issuing shares is ordinarily a financing activity does not make this non-cash transaction a financing cash flow.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The source explicitly gives machinery acquired by issuing equity shares as a non-cash transaction to exclude from the cash flow statement and disclose elsewhere."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E2.1"
+                    ],
+                    "reason": "The source says a transaction requiring no cash or cash equivalents is excluded; the purchase of a long-term asset does not create the stated cash investing outflow or an operating inflow."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E3.1"
+                    ],
+                    "reason": "Share issuance relates to financing, but the source describes cash proceeds from share issues as financing cash flows and separately excludes this exact non-cash share-for-machinery transaction."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E2.1"
+                    ],
+                    "reason": "The source treats machinery acquired by shares as a non-cash asset acquisition, not as a cash equivalent; it is excluded from the cash flow statement."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "A direct application of an explicitly stated cash-use rule to the example in the source. Its demand is comparable to the attached easy conceptual exemplars. Estimated response time: about 20–30 seconds.",
+                  "comparison_basis": "authenticated_exemplar"
+                },
+                "scores": {
+                  "1": {
+                    "score": 8,
+                    "note": "Clear, syllabus-relevant practice with a single source-supported answer."
+                  },
+                  "2": {
+                    "score": 8,
+                    "note": "Fits the syllabus coverage of cash flow statement preparation."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "Directly tests applying the cash-use test to an investing and financing transaction."
+                  },
+                  "4": {
+                    "score": 8,
+                    "note": "Concise four-option conceptual MCQ in the attached paper style."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "Appropriately easy relative to the attached authenticated easy conceptual questions."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Brief stem and quick rule application; estimated 20–30 seconds versus the supplied 72-second average."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "The explicit no-cash condition and source rule leave A as the unique answer."
+                  },
+                  "9": {
+                    "score": 8,
+                    "note": "C raises the financing classification, but the non-cash exclusion resolves it; B and D are less competitive."
+                  },
+                  "10": {
+                    "score": 10,
+                    "note": "The stem explicitly supplies the decisive condition that no cash or cash equivalent changes hands."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "No numerical work is required."
+                  },
+                  "12": {
+                    "score": 9,
+                    "note": "The cash versus non-cash boundary is explicit in the stem."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "There is no passage."
+                  },
+                  "16": {
+                    "score": 8,
+                    "note": "The options cover the correct treatment and the main potential misclassifications."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The wording is clear and unambiguous."
+                  },
+                  "18": {
+                    "score": 6,
+                    "note": "C is a plausible classification error; B and D are comparatively easy to eliminate."
+                  },
+                  "19": {
+                    "score": 7,
+                    "note": "Distinct from the attached exemplars in topic and scenario; this comparison does not establish bank-wide novelty."
+                  },
+                  "20": {
+                    "score": 10,
+                    "note": "The tested treatment and example are directly supported by the supplied NCERT excerpt."
+                  }
+                },
+                "provider": "openai",
+                "model": "gpt-6-luna",
+                "effort": "high",
+                "stage": "blind_solution",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "ef70492ee07fb479e3f40f70d3473582edd2304ce98c3adf99acc5736cba838c"
+              },
+              {
+                "candidate_id": "f-234e398c6040b350",
+                "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E2.1",
+                  "E3.1",
+                  "E3.2"
+                ],
+                "issues": [],
+                "solved_key": "A",
+                "derivation": "According to AS-3 / NCERT Class XII Accountancy (leac206), investing and financing transactions that do not involve the movement of cash or cash equivalents are non-cash transactions. The acquisition of machinery by issuing equity shares is specifically cited as a non-cash transaction that must be excluded from the cash flow statement and disclosed elsewhere in the financial statements.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "NCERT explicit text confirms that investing and financing transactions not involving cash/cash equivalents (such as acquisition of machinery by issue of shares) must be excluded from the cash flow statement and disclosed elsewhere in the financial statements."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "Since no cash or cash equivalent was paid or received, recording a cash investing outflow and operating inflow violates AS-3 guidelines on non-cash transactions."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E3.1"
+                    ],
+                    "reason": "Financing cash inflows represent actual cash proceeds from share issue; non-cash share consideration cannot be reported as a cash inflow."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1",
+                      "E2.1"
+                    ],
+                    "reason": "Machinery is a long-term fixed asset, not a highly liquid short-term investment readily convertible to known amounts of cash (cash equivalent)."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "Tests a direct, standard AS-3 textbook rule on non-cash transactions with a clear unambiguous distractor set.",
+                  "comparison_basis": "authenticated_exemplar"
+                },
+                "scores": {
+                  "1": {
+                    "score": 9,
+                    "note": "Fully aligned with CUET UG syllabus and standard exam presentation."
+                  },
+                  "2": {
+                    "score": 10,
+                    "note": "Explicitly included under Cash Flow Statement (AS-3) in Unit V."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "Directly evaluates the cash-use test for investing and financing transactions."
+                  },
+                  "4": {
+                    "score": 9,
+                    "note": "Follows standard multiple-choice question format seen in CUET Accountancy papers."
+                  },
+                  "5": {
+                    "score": 9,
+                    "note": "Appropriate easy/direct calibration typical of recall/conceptual questions in CUET."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Concise stem and options; easily solvable within 30-40 seconds."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "Option A is uniquely correct under AS-3 / NCERT."
+                  },
+                  "9": {
+                    "score": 10,
+                    "note": "All four choices are distinct and mutually exclusive."
+                  },
+                  "10": {
+                    "score": 10,
+                    "note": "No unstated assumptions required beyond standard AS-3 framework."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "Purely conceptual question; no numerical calculation involved."
+                  },
+                  "12": {
+                    "score": 10,
+                    "note": "Explicitly specifies that no cash or cash equivalent changes hands, eliminating edge cases."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Standalone MCQ without reading passage."
+                  },
+                  "16": {
+                    "score": 10,
+                    "note": "Complete prompt with all necessary facts provided."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "Crisp and unambiguous phrasing."
+                  },
+                  "18": {
+                    "score": 9,
+                    "note": "Distractors represent common conceptual misunderstandings among students."
+                  },
+                  "19": {
+                    "score": 8,
+                    "note": "Standard textbook application framed effectively."
+                  },
+                  "20": {
+                    "score": 10,
+                    "note": "Matches NCERT text extraction verbatim in substance."
+                  }
+                },
+                "provider": "gemini",
+                "model": "gemini-3.8-flash",
+                "effort": "medium",
+                "stage": "independent_evaluation",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "ff552000ae8a98b798a75a83fbc655e3ad28547dfdee76d484080833fee14a26"
+              }
+            ],
+            "audit": {
+              "candidate_id": "f-234e398c6040b350",
+              "content_hash": "e01b05088f2b33f73c5ec7f35bfda93a91eb771e1115c809643885dcd00f1696",
+              "answer_set": [
+                "A"
+              ],
+              "source_ids": [
+                "E1.1",
+                "E2.1",
+                "E3.1"
+              ],
+              "issues": [],
+              "explanation_status": "supported",
+              "options_status": "supported",
+              "claims": [
+                {
+                  "claim": "Investing and financing transactions that do not use cash or cash equivalents are excluded from the cash flow statement and disclosed elsewhere.",
+                  "basis": "excerpt",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1"
+                  ],
+                  "reason": "The excerpt states this rule and specifically gives machinery acquired by issuing equity shares as an example."
+                }
+              ],
+              "scores": {
+                "13": {
+                  "score": 10,
+                  "note": "Correctly states the treatment for this non-cash machinery acquisition."
+                },
+                "14": {
+                  "score": 10,
+                  "note": "Both the exclusion and disclosure elsewhere are directly supported by E1.1."
+                },
+                "17": {
+                  "score": 9,
+                  "note": "Clear and concise; it directly answers the treatment asked."
+                },
+                "20": {
+                  "score": 10,
+                  "note": "Faithfully preserves the excerpt’s rule and scope."
+                }
+              },
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "stage": "explanation_support",
+              "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+              "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+              "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+              "request_key": "6268e9d0fb5a8b535f31fde86688f1124978652a27b9c8fa0410342d5339d68b"
+            },
+            "local_checks": {
+              "structure": true,
+              "presentation": true,
+              "provenance": true,
+              "syllabus_registry": true,
+              "source_integrity": true,
+              "novelty": true,
+              "numeric_required": false
+            },
+            "decision": {
+              "state": "eligible",
+              "policy": "cuet-scorecard-routing-v716",
+              "academic_sound": true,
+              "quality_score": 8.6,
+              "display_score": 8.6,
+              "criteria": [
+                {
+                  "id": "1",
+                  "parameter": "overall_cuet_readiness",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Clear, syllabus-relevant practice with a single source-supported answer.",
+                    "Fully aligned with CUET UG syllabus and standard exam presentation."
+                  ]
+                },
+                {
+                  "id": "2",
+                  "parameter": "syllabus_entitlement",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Fits the syllabus coverage of cash flow statement preparation.",
+                    "Explicitly included under Cash Flow Statement (AS-3) in Unit V."
+                  ]
+                },
+                {
+                  "id": "3",
+                  "parameter": "learning_objective",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Directly tests applying the cash-use test to an investing and financing transaction.",
+                    "Directly evaluates the cash-use test for investing and financing transactions."
+                  ]
+                },
+                {
+                  "id": "4",
+                  "parameter": "cuet_format_style",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Concise four-option conceptual MCQ in the attached paper style.",
+                    "Follows standard multiple-choice question format seen in CUET Accountancy papers."
+                  ]
+                },
+                {
+                  "id": "5",
+                  "parameter": "difficulty_calibration",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Appropriately easy relative to the attached authenticated easy conceptual questions.",
+                    "Appropriate easy/direct calibration typical of recall/conceptual questions in CUET."
+                  ]
+                },
+                {
+                  "id": "6",
+                  "parameter": "time_reading_suitability",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Brief stem and quick rule application; estimated 20–30 seconds versus the supplied 72-second average.",
+                    "Concise stem and options; easily solvable within 30-40 seconds."
+                  ]
+                },
+                {
+                  "id": "7",
+                  "parameter": "answer_accuracy",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both hidden-key independent solutions match the author key."
+                  ]
+                },
+                {
+                  "id": "8",
+                  "parameter": "unique_answer",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The explicit no-cash condition and source rule leave A as the unique answer.",
+                    "Option A is uniquely correct under AS-3 / NCERT."
+                  ]
+                },
+                {
+                  "id": "9",
+                  "parameter": "option_separation",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "C raises the financing classification, but the non-cash exclusion resolves it; B and D are less competitive.",
+                    "All four choices are distinct and mutually exclusive."
+                  ]
+                },
+                {
+                  "id": "10",
+                  "parameter": "decisive_assumptions",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The stem explicitly supplies the decisive condition that no cash or cash equivalent changes hands.",
+                    "No unstated assumptions required beyond standard AS-3 framework."
+                  ]
+                },
+                {
+                  "id": "11",
+                  "parameter": "numerical_accuracy_method",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "No numerical work is required.",
+                    "Purely conceptual question; no numerical calculation involved."
+                  ]
+                },
+                {
+                  "id": "12",
+                  "parameter": "boundary_cases",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "The cash versus non-cash boundary is explicit in the stem.",
+                    "Explicitly specifies that no cash or cash equivalent changes hands, eliminating edge cases."
+                  ]
+                },
+                {
+                  "id": "13",
+                  "parameter": "explanation_correctness",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Correctly states the treatment for this non-cash machinery acquisition."
+                  ]
+                },
+                {
+                  "id": "14",
+                  "parameter": "explanation_source_support",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both the exclusion and disclosure elsewhere are directly supported by E1.1."
+                  ]
+                },
+                {
+                  "id": "15",
+                  "parameter": "passage_answerability",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "There is no passage.",
+                    "Standalone MCQ without reading passage."
+                  ]
+                },
+                {
+                  "id": "16",
+                  "parameter": "completeness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The options cover the correct treatment and the main potential misclassifications.",
+                    "Complete prompt with all necessary facts provided."
+                  ]
+                },
+                {
+                  "id": "17",
+                  "parameter": "language_clarity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The wording is clear and unambiguous.",
+                    "Crisp and unambiguous phrasing.",
+                    "Clear and concise; it directly answers the treatment asked."
+                  ]
+                },
+                {
+                  "id": "18",
+                  "parameter": "distractor_plausibility",
+                  "score": 7.5,
+                  "applicable": true,
+                  "notes": [
+                    "C is a plausible classification error; B and D are comparatively easy to eliminate.",
+                    "Distractors represent common conceptual misunderstandings among students."
+                  ]
+                },
+                {
+                  "id": "19",
+                  "parameter": "semantic_novelty",
+                  "score": 7.5,
+                  "applicable": true,
+                  "notes": [
+                    "Distinct from the attached exemplars in topic and scenario; this comparison does not establish bank-wide novelty.",
+                    "Standard textbook application framed effectively."
+                  ]
+                },
+                {
+                  "id": "20",
+                  "parameter": "source_fidelity",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The tested treatment and example are directly supported by the supplied NCERT excerpt.",
+                    "Matches NCERT text extraction verbatim in substance.",
+                    "Faithfully preserves the excerpt’s rule and scope."
+                  ]
+                }
+              ],
+              "reported_mean": 9.11111111111111,
+              "composite_basis": [
+                "3",
+                "4",
+                "6",
+                "17",
+                "18"
+              ],
+              "route_band": "nta_eligible",
+              "modes": {
+                "practice": true,
+                "nta": true
+              },
+              "outcome": "eligible",
+              "reasons": [],
+              "difficulty": {
+                "passed": true,
+                "version": "cuet-demand-bands-v713",
+                "level": "easy",
+                "agreement": true,
+                "observations": [
+                  {
+                    "stage": "blind_solution",
+                    "provider": "openai",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "A direct application of an explicitly stated cash-use rule to the example in the source. Its demand is comparable to the attached easy conceptual exemplars. Estimated response time: about 20–30 seconds.",
+                      "comparison_basis": "authenticated_exemplar"
+                    }
+                  },
+                  {
+                    "stage": "independent_evaluation",
+                    "provider": "gemini",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "Tests a direct, standard AS-3 textbook rule on non-cash transactions with a clear unambiguous distractor set.",
+                      "comparison_basis": "authenticated_exemplar"
+                    }
+                  }
+                ],
+                "purpose": "warmup",
+                "nta_policy": "preferred_medium_then_easy"
+              },
+              "advisory_issues": []
+            }
+          },
+          "signature": "3c1b51834fb1fe5ed29a83adb52497cb21c9a3f20868968061688e5e22ddf3bc"
+        }
+      }
+    },
+    "f-c3a378b4d2de5478": {
+      "state": "eligible",
+      "candidate_hash": "6925999a51049c148585eaa54639bb0e701dcaba7d331af4fee14a413ab7ca77",
+      "pending_batch_id": "25fa239e56fd2e268f128fa3ec5fc8c471156fe2550483f658ff275fa837b12a",
+      "error": "provider_batch_pending",
+      "academic_sound": true,
+      "blind_frozen": {
+        "candidate_id": "f-c3a378b4d2de5478",
+        "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+        "reports": [
+          {
+            "candidate_id": "f-c3a378b4d2de5478",
+            "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2",
+              "E1.3",
+              "E1.4"
+            ],
+            "issues": [
+              {
+                "category": "craft_suggestion",
+                "detail": "The item closely reworks the supplied NCERT wheat-and-bread example, changing mainly the figures. A different production context or a further application could improve semantic novelty while preserving the objective."
+              }
+            ],
+            "solved_key": "A",
+            "derivation": "Count the farmers’ full wheat output as ₹150. Bakers’ value added is ₹240 − ₹60 = ₹180, since the purchased wheat is an intermediate input and should not be counted twice. Total value counted is ₹150 + ₹180 = ₹330 (A). The supplied NCERT excerpt explains this same subtraction for wheat used in bread production (E1.2–E1.4).",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.2",
+                  "E1.3",
+                  "E1.4"
+                ],
+                "reason": "₹150 + (₹240 − ₹60) = ₹330; the intermediate wheat is subtracted from the bakers’ output before adding value contributions."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.2",
+                  "E1.3",
+                  "E1.4"
+                ],
+                "reason": "₹390 adds the farmers’ and bakers’ gross outputs, counting the ₹60 intermediate wheat again in the bread value."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.2",
+                  "E1.3"
+                ],
+                "reason": "₹240 is only the bakers’ gross output; it omits the farmers’ contribution and does not remove the intermediate input."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.3"
+                ],
+                "reason": "₹150 counts the farmers’ output but omits the bakers’ ₹180 value added."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "supported",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A direct value-added calculation with all relevant figures stated. No authenticated CUET style comparator was supplied; difficulty is assessed heuristically.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 8,
+                "note": "Accurate, clear, syllabus-relevant practice; the main craft limitation is close reuse of the supplied NCERT example."
+              },
+              "2": {
+                "score": 9,
+                "note": "Directly tests the syllabus-listed product/value-added method."
+              },
+              "3": {
+                "score": 9,
+                "note": "The student must subtract intermediate value and aggregate value added."
+              },
+              "4": {
+                "score": 8,
+                "note": "Clear four-option MCQ format; no authenticated CUET comparator was available for closer style calibration."
+              },
+              "5": {
+                "score": 8,
+                "note": "The easy, direct demand is appropriate for checking this core calculation."
+              },
+              "6": {
+                "score": 9,
+                "note": "Likely takes about 20–30 seconds, well within the supplied 2026 baseline average of 72 seconds per question; that baseline is provisional for 2027."
+              },
+              "8": {
+                "score": 9,
+                "note": "Only ₹330 correctly counts farmers’ output plus bakers’ value added."
+              },
+              "9": {
+                "score": 9,
+                "note": "The alternatives distinguish gross-output addition from counting only one sector’s output."
+              },
+              "10": {
+                "score": 9,
+                "note": "Production values, the intermediate input, and the no-other-input condition are stated."
+              },
+              "11": {
+                "score": 9,
+                "note": "The arithmetic is straightforward and correct: ₹150 + (₹240 − ₹60) = ₹330."
+              },
+              "12": {
+                "score": 8,
+                "note": "No rounding or threshold case arises; the stated input is clearly included in the bakers’ production."
+              },
+              "15": {
+                "score": null,
+                "note": "Not a passage-based question."
+              },
+              "16": {
+                "score": 9,
+                "note": "The information needed to compute total value added is supplied."
+              },
+              "17": {
+                "score": 9,
+                "note": "The stem is concise and understandable."
+              },
+              "18": {
+                "score": 8,
+                "note": "The options include plausible gross-output and single-sector totals, though the calculation is simple."
+              },
+              "19": {
+                "score": 4,
+                "note": "Relative to the supplied NCERT anchor, the wheat-and-bakers setup and calculation are very similar, with mainly the figures changed; this makes no claim about the wider question bank."
+              },
+              "20": {
+                "score": 9,
+                "note": "The item faithfully applies the supplied NCERT explanation of subtracting the wheat intermediate input from bread output."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "high",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "3c5c0fa2165a81aad5d85ef1e89c674a220515c80177ea6a4687d6b491ff957e"
+          },
+          {
+            "candidate_id": "f-c3a378b4d2de5478",
+            "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E1.2",
+              "E1.3",
+              "E1.4"
+            ],
+            "issues": [],
+            "solved_key": "A",
+            "derivation": "Under the product (value-added) method, total value added is calculated as the sum of gross value added by all producers to avoid double counting. Value added by farmers = Value of output (₹150) - Intermediate consumption (₹0) = ₹150. Value added by bakers = Value of output (₹240) - Intermediate consumption (₹60) = ₹180. Therefore, Total Value Added = ₹150 + ₹180 = ₹330 (which also equals final goods: unsold/final wheat ₹90 + bread ₹240 = ₹330).",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2",
+                  "E1.3",
+                  "E1.4"
+                ],
+                "reason": "Correctly reflects total net value added across both sectors: ₹150 (farmers) + (₹240 - ₹60) (bakers) = ₹330."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "calculation",
+                "source_ids": [
+                  "E1.2",
+                  "E1.3"
+                ],
+                "reason": "₹390 is the simple sum of total outputs (₹150 + ₹240), which commits the error of double counting the ₹60 worth of wheat."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "stem",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "₹240 is merely the value of output of bread, ignoring the final value of the wheat not used by bakers."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "stem",
+                "source_ids": [
+                  "E1.1",
+                  "E1.2"
+                ],
+                "reason": "₹150 is solely the value of wheat produced by the farmers, omitting the value added by bakers."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "supported",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "Direct adaptation of the standard two-sector numerical example presented in NCERT Introductory Macroeconomics, requiring simple arithmetic to avoid double counting.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 9,
+                "note": "Fully aligned with standard CUET testing of value-added calculation and the concept of double counting."
+              },
+              "2": {
+                "score": 10,
+                "note": "Directly covered under Unit I: Methods of calculating National Income (Value Added / Product method)."
+              },
+              "3": {
+                "score": 9,
+                "note": "Precisely assesses the stated learning objective of applying value added and avoiding double counting."
+              },
+              "4": {
+                "score": 9,
+                "note": "Standard CUET single-correct multiple-choice format with concise context."
+              },
+              "5": {
+                "score": 9,
+                "note": "Appropriate straightforward numerical difficulty for a 1-minute question in CUET UG Economics."
+              },
+              "6": {
+                "score": 9,
+                "note": "Easily readable and solvable well within the 72-second allocation."
+              },
+              "8": {
+                "score": 10,
+                "note": "Uniquely solvable to ₹330 with unambiguous arithmetic."
+              },
+              "9": {
+                "score": 9,
+                "note": "Options represent classic conceptual errors (gross aggregation vs individual sector output)."
+              },
+              "10": {
+                "score": 9,
+                "note": "Explicitly specifies no other intermediate inputs in the stem."
+              },
+              "11": {
+                "score": 10,
+                "note": "Arithmetic is exact and verified."
+              },
+              "12": {
+                "score": 9,
+                "note": "Correctly accounts for the remaining final output of wheat (150 - 60 = 90)."
+              },
+              "15": {
+                "score": null,
+                "note": "Standalone conceptual MCQ; no passage present."
+              },
+              "16": {
+                "score": 10,
+                "note": "All necessary parameters are stated in the stem."
+              },
+              "17": {
+                "score": 9,
+                "note": "Clear, concise, and standard economic formulation."
+              },
+              "18": {
+                "score": 9,
+                "note": "Distractors target common student misconceptions, particularly simple gross addition."
+              },
+              "19": {
+                "score": 8,
+                "note": "A fresh numerical variation of the canonical NCERT textbook example."
+              },
+              "20": {
+                "score": 10,
+                "note": "Direct fidelity to NCERT Macroeconomics chapter on National Income Accounting."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "68d291d6668b9245486bdcfb64ceb2474fcd495f2db98a0a4ac3edca18158e91"
+          }
+        ],
+        "sha256": "3509766e75bbfaad6c084bf22604dde6f0cbf047666413342f372c75e9b6a586"
+      },
+      "policy": "cuet-scorecard-routing-v716",
+      "quality_score": 8.8,
+      "display_score": 8.8,
+      "criteria": [
+        {
+          "id": "1",
+          "parameter": "overall_cuet_readiness",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Accurate, clear, syllabus-relevant practice; the main craft limitation is close reuse of the supplied NCERT example.",
+            "Fully aligned with standard CUET testing of value-added calculation and the concept of double counting."
+          ]
+        },
+        {
+          "id": "2",
+          "parameter": "syllabus_entitlement",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "Directly tests the syllabus-listed product/value-added method.",
+            "Directly covered under Unit I: Methods of calculating National Income (Value Added / Product method)."
+          ]
+        },
+        {
+          "id": "3",
+          "parameter": "learning_objective",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The student must subtract intermediate value and aggregate value added.",
+            "Precisely assesses the stated learning objective of applying value added and avoiding double counting."
+          ]
+        },
+        {
+          "id": "4",
+          "parameter": "cuet_format_style",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Clear four-option MCQ format; no authenticated CUET comparator was available for closer style calibration.",
+            "Standard CUET single-correct multiple-choice format with concise context."
+          ]
+        },
+        {
+          "id": "5",
+          "parameter": "difficulty_calibration",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The easy, direct demand is appropriate for checking this core calculation.",
+            "Appropriate straightforward numerical difficulty for a 1-minute question in CUET UG Economics."
+          ]
+        },
+        {
+          "id": "6",
+          "parameter": "time_reading_suitability",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Likely takes about 20–30 seconds, well within the supplied 2026 baseline average of 72 seconds per question; that baseline is provisional for 2027.",
+            "Easily readable and solvable well within the 72-second allocation."
+          ]
+        },
+        {
+          "id": "7",
+          "parameter": "answer_accuracy",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both hidden-key independent solutions match the author key."
+          ]
+        },
+        {
+          "id": "8",
+          "parameter": "unique_answer",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "Only ₹330 correctly counts farmers’ output plus bakers’ value added.",
+            "Uniquely solvable to ₹330 with unambiguous arithmetic."
+          ]
+        },
+        {
+          "id": "9",
+          "parameter": "option_separation",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The alternatives distinguish gross-output addition from counting only one sector’s output.",
+            "Options represent classic conceptual errors (gross aggregation vs individual sector output)."
+          ]
+        },
+        {
+          "id": "10",
+          "parameter": "decisive_assumptions",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Production values, the intermediate input, and the no-other-input condition are stated.",
+            "Explicitly specifies no other intermediate inputs in the stem."
+          ]
+        },
+        {
+          "id": "11",
+          "parameter": "numerical_accuracy_method",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "The arithmetic is straightforward and correct: ₹150 + (₹240 − ₹60) = ₹330.",
+            "Arithmetic is exact and verified."
+          ]
+        },
+        {
+          "id": "12",
+          "parameter": "boundary_cases",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "No rounding or threshold case arises; the stated input is clearly included in the bakers’ production.",
+            "Correctly accounts for the remaining final output of wheat (150 - 60 = 90)."
+          ]
+        },
+        {
+          "id": "13",
+          "parameter": "explanation_correctness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The explanation gives the correct value-added calculation and establishes the answer."
+          ]
+        },
+        {
+          "id": "14",
+          "parameter": "explanation_source_support",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Its method is directly supported by the supplied explanation of subtracting purchased wheat to avoid double counting."
+          ]
+        },
+        {
+          "id": "15",
+          "parameter": "passage_answerability",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "Not a passage-based question.",
+            "Standalone conceptual MCQ; no passage present."
+          ]
+        },
+        {
+          "id": "16",
+          "parameter": "completeness",
+          "score": 9.5,
+          "applicable": true,
+          "notes": [
+            "The information needed to compute total value added is supplied.",
+            "All necessary parameters are stated in the stem."
+          ]
+        },
+        {
+          "id": "17",
+          "parameter": "language_clarity",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The stem is concise and understandable.",
+            "Clear, concise, and standard economic formulation.",
+            "Concise and easy to follow; the arithmetic is explicit."
+          ]
+        },
+        {
+          "id": "18",
+          "parameter": "distractor_plausibility",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "The options include plausible gross-output and single-sector totals, though the calculation is simple.",
+            "Distractors target common student misconceptions, particularly simple gross addition."
+          ]
+        },
+        {
+          "id": "19",
+          "parameter": "semantic_novelty",
+          "score": 6,
+          "applicable": true,
+          "notes": [
+            "Relative to the supplied NCERT anchor, the wheat-and-bakers setup and calculation are very similar, with mainly the figures changed; this makes no claim about the wider question bank.",
+            "A fresh numerical variation of the canonical NCERT textbook example."
+          ]
+        },
+        {
+          "id": "20",
+          "parameter": "source_fidelity",
+          "score": 9.333333333333334,
+          "applicable": true,
+          "notes": [
+            "The item faithfully applies the supplied NCERT explanation of subtracting the wheat intermediate input from bread output.",
+            "Direct fidelity to NCERT Macroeconomics chapter on National Income Accounting.",
+            "Faithfully applies the excerpt’s rule without extending it beyond the scenario."
+          ]
+        }
+      ],
+      "reported_mean": 8.885964912280702,
+      "composite_basis": [
+        "3",
+        "4",
+        "6",
+        "17",
+        "18"
+      ],
+      "route_band": "nta_eligible",
+      "modes": {
+        "practice": true,
+        "nta": true
+      },
+      "outcome": "eligible",
+      "reasons": [],
+      "difficulty": {
+        "passed": true,
+        "version": "cuet-demand-bands-v713",
+        "level": "easy",
+        "agreement": true,
+        "observations": [
+          {
+            "stage": "blind_solution",
+            "provider": "openai",
+            "assessment": {
+              "level": "easy",
+              "reason": "A direct value-added calculation with all relevant figures stated. No authenticated CUET style comparator was supplied; difficulty is assessed heuristically.",
+              "comparison_basis": "heuristic"
+            }
+          },
+          {
+            "stage": "independent_evaluation",
+            "provider": "gemini",
+            "assessment": {
+              "level": "easy",
+              "reason": "Direct adaptation of the standard two-sector numerical example presented in NCERT Introductory Macroeconomics, requiring simple arithmetic to avoid double counting.",
+              "comparison_basis": "heuristic"
+            }
+          }
+        ],
+        "purpose": "warmup",
+        "nta_policy": "preferred_medium_then_easy"
+      },
+      "advisory_issues": [
+        {
+          "category": "craft_suggestion",
+          "detail": "The item closely reworks the supplied NCERT wheat-and-bread example, changing mainly the figures. A different production context or a further application could improve semantic novelty while preserving the objective.",
+          "stage": "blind_solution"
+        },
+        {
+          "category": "craft_suggestion",
+          "detail": "The item closely follows the supplied NCERT wheat-and-bread example, with the same producer roles and calculation structure but changed figures. A different production context could make the practice more varied while retaining the objective.",
+          "stage": "explanation_support"
+        }
+      ],
+      "question": {
+        "id": "f-c3a378b4d2de5478",
+        "subject": "economics",
+        "chapter": "National Income & Related Aggregates",
+        "concept_id": "economics:product-method-double-counting",
+        "body": "Farmers produce wheat worth ₹150. Bakers buy ₹60 of that wheat and use it to make bread worth ₹240; assume no other intermediate inputs. What total value is counted by the product method when intermediate value is not counted twice?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹330"
+          },
+          {
+            "key": "B",
+            "text": "₹390"
+          },
+          {
+            "key": "C",
+            "text": "₹240"
+          },
+          {
+            "key": "D",
+            "text": "₹150"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Count the farmers’ ₹150 output and the bakers’ value added of ₹240 − ₹60 = ₹180. Total value added is ₹330.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam-8dd4bf91c335ae28",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec102-v1",
+            "version": 1,
+            "locator": "p9-c0-g0-s0",
+            "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+          "objective": "Apply the value-added method and avoid counting an intermediate input twice.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec102-v1",
+          "adaptation_family": "fam-8dd4bf91c335ae28",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        },
+        "evidence": {
+          "record": {
+            "candidate_id": "f-c3a378b4d2de5478",
+            "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+            "state": "eligible",
+            "policy_version": "cuet-llm-v3",
+            "verifier_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "scorecard_policy": "cuet-scorecard-routing-v716",
+            "topology": "dual_blind",
+            "source_registry_version": 58,
+            "sources": [
+              {
+                "id": "ncertcol-leec102-v1",
+                "version": 1,
+                "locator": "p9-c0-g0-s0",
+                "support_hash": "d8d20ada1f76c06e8df081a8453c9fab014ac93c4828925bad4869d7e18c1ce1"
+              }
+            ],
+            "family_id": "fam-8dd4bf91c335ae28",
+            "family_version": 1,
+            "route": "conceptual",
+            "question_type": "conceptual_mcq",
+            "passage_group": null,
+            "provenance": {
+              "kind": "original_practice",
+              "anchor_id": "ncertcol-leec102-v1",
+              "adaptation_family": "fam-8dd4bf91c335ae28",
+              "adaptation_type": "source-grounded-original-practice",
+              "syllabus_version": "cuet-2026-provisional-for-2027",
+              "pattern_version": "cuet-2024-authenticated-bookA-v1",
+              "source_pack_id": "cuet2024-economics-bookA",
+              "source_pack_version": 12
+            },
+            "author_target_difficulty": "medium",
+            "difficulty_target_match": false,
+            "verified_at": "2026-10-09T23:23:05.642Z",
+            "expires_at": "2026-11-08T23:23:05.642Z",
+            "reports": [
+              {
+                "candidate_id": "f-c3a378b4d2de5478",
+                "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E1.2",
+                  "E1.3",
+                  "E1.4"
+                ],
+                "issues": [
+                  {
+                    "category": "craft_suggestion",
+                    "detail": "The item closely reworks the supplied NCERT wheat-and-bread example, changing mainly the figures. A different production context or a further application could improve semantic novelty while preserving the objective."
+                  }
+                ],
+                "solved_key": "A",
+                "derivation": "Count the farmers’ full wheat output as ₹150. Bakers’ value added is ₹240 − ₹60 = ₹180, since the purchased wheat is an intermediate input and should not be counted twice. Total value counted is ₹150 + ₹180 = ₹330 (A). The supplied NCERT excerpt explains this same subtraction for wheat used in bread production (E1.2–E1.4).",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.2",
+                      "E1.3",
+                      "E1.4"
+                    ],
+                    "reason": "₹150 + (₹240 − ₹60) = ₹330; the intermediate wheat is subtracted from the bakers’ output before adding value contributions."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.2",
+                      "E1.3",
+                      "E1.4"
+                    ],
+                    "reason": "₹390 adds the farmers’ and bakers’ gross outputs, counting the ₹60 intermediate wheat again in the bread value."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.2",
+                      "E1.3"
+                    ],
+                    "reason": "₹240 is only the bakers’ gross output; it omits the farmers’ contribution and does not remove the intermediate input."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.3"
+                    ],
+                    "reason": "₹150 counts the farmers’ output but omits the bakers’ ₹180 value added."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "supported",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "A direct value-added calculation with all relevant figures stated. No authenticated CUET style comparator was supplied; difficulty is assessed heuristically.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 8,
+                    "note": "Accurate, clear, syllabus-relevant practice; the main craft limitation is close reuse of the supplied NCERT example."
+                  },
+                  "2": {
+                    "score": 9,
+                    "note": "Directly tests the syllabus-listed product/value-added method."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "The student must subtract intermediate value and aggregate value added."
+                  },
+                  "4": {
+                    "score": 8,
+                    "note": "Clear four-option MCQ format; no authenticated CUET comparator was available for closer style calibration."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "The easy, direct demand is appropriate for checking this core calculation."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Likely takes about 20–30 seconds, well within the supplied 2026 baseline average of 72 seconds per question; that baseline is provisional for 2027."
+                  },
+                  "8": {
+                    "score": 9,
+                    "note": "Only ₹330 correctly counts farmers’ output plus bakers’ value added."
+                  },
+                  "9": {
+                    "score": 9,
+                    "note": "The alternatives distinguish gross-output addition from counting only one sector’s output."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "Production values, the intermediate input, and the no-other-input condition are stated."
+                  },
+                  "11": {
+                    "score": 9,
+                    "note": "The arithmetic is straightforward and correct: ₹150 + (₹240 − ₹60) = ₹330."
+                  },
+                  "12": {
+                    "score": 8,
+                    "note": "No rounding or threshold case arises; the stated input is clearly included in the bakers’ production."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Not a passage-based question."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "The information needed to compute total value added is supplied."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The stem is concise and understandable."
+                  },
+                  "18": {
+                    "score": 8,
+                    "note": "The options include plausible gross-output and single-sector totals, though the calculation is simple."
+                  },
+                  "19": {
+                    "score": 4,
+                    "note": "Relative to the supplied NCERT anchor, the wheat-and-bakers setup and calculation are very similar, with mainly the figures changed; this makes no claim about the wider question bank."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "The item faithfully applies the supplied NCERT explanation of subtracting the wheat intermediate input from bread output."
+                  }
+                },
+                "provider": "openai",
+                "model": "gpt-6-luna",
+                "effort": "high",
+                "stage": "blind_solution",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "3c5c0fa2165a81aad5d85ef1e89c674a220515c80177ea6a4687d6b491ff957e"
+              },
+              {
+                "candidate_id": "f-c3a378b4d2de5478",
+                "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E1.2",
+                  "E1.3",
+                  "E1.4"
+                ],
+                "issues": [],
+                "solved_key": "A",
+                "derivation": "Under the product (value-added) method, total value added is calculated as the sum of gross value added by all producers to avoid double counting. Value added by farmers = Value of output (₹150) - Intermediate consumption (₹0) = ₹150. Value added by bakers = Value of output (₹240) - Intermediate consumption (₹60) = ₹180. Therefore, Total Value Added = ₹150 + ₹180 = ₹330 (which also equals final goods: unsold/final wheat ₹90 + bread ₹240 = ₹330).",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.1",
+                      "E1.2",
+                      "E1.3",
+                      "E1.4"
+                    ],
+                    "reason": "Correctly reflects total net value added across both sectors: ₹150 (farmers) + (₹240 - ₹60) (bakers) = ₹330."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "calculation",
+                    "source_ids": [
+                      "E1.2",
+                      "E1.3"
+                    ],
+                    "reason": "₹390 is the simple sum of total outputs (₹150 + ₹240), which commits the error of double counting the ₹60 worth of wheat."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "stem",
+                    "source_ids": [
+                      "E1.1",
+                      "E1.2"
+                    ],
+                    "reason": "₹240 is merely the value of output of bread, ignoring the final value of the wheat not used by bakers."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "stem",
+                    "source_ids": [
+                      "E1.1",
+                      "E1.2"
+                    ],
+                    "reason": "₹150 is solely the value of wheat produced by the farmers, omitting the value added by bakers."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "supported",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "Direct adaptation of the standard two-sector numerical example presented in NCERT Introductory Macroeconomics, requiring simple arithmetic to avoid double counting.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 9,
+                    "note": "Fully aligned with standard CUET testing of value-added calculation and the concept of double counting."
+                  },
+                  "2": {
+                    "score": 10,
+                    "note": "Directly covered under Unit I: Methods of calculating National Income (Value Added / Product method)."
+                  },
+                  "3": {
+                    "score": 9,
+                    "note": "Precisely assesses the stated learning objective of applying value added and avoiding double counting."
+                  },
+                  "4": {
+                    "score": 9,
+                    "note": "Standard CUET single-correct multiple-choice format with concise context."
+                  },
+                  "5": {
+                    "score": 9,
+                    "note": "Appropriate straightforward numerical difficulty for a 1-minute question in CUET UG Economics."
+                  },
+                  "6": {
+                    "score": 9,
+                    "note": "Easily readable and solvable well within the 72-second allocation."
+                  },
+                  "8": {
+                    "score": 10,
+                    "note": "Uniquely solvable to ₹330 with unambiguous arithmetic."
+                  },
+                  "9": {
+                    "score": 9,
+                    "note": "Options represent classic conceptual errors (gross aggregation vs individual sector output)."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "Explicitly specifies no other intermediate inputs in the stem."
+                  },
+                  "11": {
+                    "score": 10,
+                    "note": "Arithmetic is exact and verified."
+                  },
+                  "12": {
+                    "score": 9,
+                    "note": "Correctly accounts for the remaining final output of wheat (150 - 60 = 90)."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Standalone conceptual MCQ; no passage present."
+                  },
+                  "16": {
+                    "score": 10,
+                    "note": "All necessary parameters are stated in the stem."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "Clear, concise, and standard economic formulation."
+                  },
+                  "18": {
+                    "score": 9,
+                    "note": "Distractors target common student misconceptions, particularly simple gross addition."
+                  },
+                  "19": {
+                    "score": 8,
+                    "note": "A fresh numerical variation of the canonical NCERT textbook example."
+                  },
+                  "20": {
+                    "score": 10,
+                    "note": "Direct fidelity to NCERT Macroeconomics chapter on National Income Accounting."
+                  }
+                },
+                "provider": "gemini",
+                "model": "gemini-3.8-flash",
+                "effort": "medium",
+                "stage": "independent_evaluation",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "68d291d6668b9245486bdcfb64ceb2474fcd495f2db98a0a4ac3edca18158e91"
+              }
+            ],
+            "audit": {
+              "candidate_id": "f-c3a378b4d2de5478",
+              "content_hash": "231b7ef42585b15f63a7f483aaa4e7b93cce0dd083f46ebe3095ff4f9e01254d",
+              "answer_set": [
+                "A"
+              ],
+              "source_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3",
+                "E1.4"
+              ],
+              "issues": [
+                {
+                  "category": "craft_suggestion",
+                  "detail": "The item closely follows the supplied NCERT wheat-and-bread example, with the same producer roles and calculation structure but changed figures. A different production context could make the practice more varied while retaining the objective."
+                }
+              ],
+              "explanation_status": "supported",
+              "options_status": "supported",
+              "claims": [
+                {
+                  "claim": "The farmers’ ₹150 output is counted as their contribution.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1",
+                    "E1.3"
+                  ],
+                  "reason": "The stem gives the farmers’ output and rules out other intermediate inputs; the excerpt says the farmers’ full output is their contribution when they require no inputs."
+                },
+                {
+                  "claim": "The bakers’ value added is ₹240 − ₹60 = ₹180.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.2",
+                    "E1.3"
+                  ],
+                  "reason": "The stem supplies the bread output and wheat input; the excerpt says to subtract purchased wheat from the bakers’ output."
+                },
+                {
+                  "claim": "Total value counted is ₹150 + ₹180 = ₹330, so A is correct.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1",
+                    "E1.3"
+                  ],
+                  "reason": "This sums the producers’ contributions under the product/value-added method."
+                },
+                {
+                  "claim": "B, ₹390, adds gross outputs and counts the ₹60 wheat input twice.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.2",
+                    "E1.3",
+                    "E1.4"
+                  ],
+                  "reason": "The excerpt identifies adding producers’ gross outputs as the double-counting error and explains that the wheat is counted in both farm output and bread output."
+                },
+                {
+                  "claim": "C, ₹240, counts only the bakers’ gross output and omits the farmers’ contribution.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1",
+                    "E1.3"
+                  ],
+                  "reason": "The product method aggregates production contributions; the excerpt says the farmers’ full output contributes when there are no intermediate inputs."
+                },
+                {
+                  "claim": "D, ₹150, omits the bakers’ ₹180 value added.",
+                  "basis": "calculation",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.3"
+                  ],
+                  "reason": "The excerpt’s rule subtracts purchased inputs from bakers’ output to obtain their net contribution."
+                }
+              ],
+              "scores": {
+                "13": {
+                  "score": 9,
+                  "note": "The explanation gives the correct value-added calculation and establishes the answer."
+                },
+                "14": {
+                  "score": 9,
+                  "note": "Its method is directly supported by the supplied explanation of subtracting purchased wheat to avoid double counting."
+                },
+                "17": {
+                  "score": 9,
+                  "note": "Concise and easy to follow; the arithmetic is explicit."
+                },
+                "20": {
+                  "score": 9,
+                  "note": "Faithfully applies the excerpt’s rule without extending it beyond the scenario."
+                }
+              },
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "stage": "explanation_support",
+              "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+              "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+              "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+              "request_key": "5e76a30c9eb25419e4baa8f9ad97d406bc3dc7e7469e78f6958772c541459019"
+            },
+            "local_checks": {
+              "structure": true,
+              "presentation": true,
+              "provenance": true,
+              "syllabus_registry": true,
+              "source_integrity": true,
+              "novelty": true,
+              "numeric_required": false
+            },
+            "decision": {
+              "state": "eligible",
+              "policy": "cuet-scorecard-routing-v716",
+              "academic_sound": true,
+              "quality_score": 8.8,
+              "display_score": 8.8,
+              "criteria": [
+                {
+                  "id": "1",
+                  "parameter": "overall_cuet_readiness",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Accurate, clear, syllabus-relevant practice; the main craft limitation is close reuse of the supplied NCERT example.",
+                    "Fully aligned with standard CUET testing of value-added calculation and the concept of double counting."
+                  ]
+                },
+                {
+                  "id": "2",
+                  "parameter": "syllabus_entitlement",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "Directly tests the syllabus-listed product/value-added method.",
+                    "Directly covered under Unit I: Methods of calculating National Income (Value Added / Product method)."
+                  ]
+                },
+                {
+                  "id": "3",
+                  "parameter": "learning_objective",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The student must subtract intermediate value and aggregate value added.",
+                    "Precisely assesses the stated learning objective of applying value added and avoiding double counting."
+                  ]
+                },
+                {
+                  "id": "4",
+                  "parameter": "cuet_format_style",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Clear four-option MCQ format; no authenticated CUET comparator was available for closer style calibration.",
+                    "Standard CUET single-correct multiple-choice format with concise context."
+                  ]
+                },
+                {
+                  "id": "5",
+                  "parameter": "difficulty_calibration",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The easy, direct demand is appropriate for checking this core calculation.",
+                    "Appropriate straightforward numerical difficulty for a 1-minute question in CUET UG Economics."
+                  ]
+                },
+                {
+                  "id": "6",
+                  "parameter": "time_reading_suitability",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Likely takes about 20–30 seconds, well within the supplied 2026 baseline average of 72 seconds per question; that baseline is provisional for 2027.",
+                    "Easily readable and solvable well within the 72-second allocation."
+                  ]
+                },
+                {
+                  "id": "7",
+                  "parameter": "answer_accuracy",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both hidden-key independent solutions match the author key."
+                  ]
+                },
+                {
+                  "id": "8",
+                  "parameter": "unique_answer",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "Only ₹330 correctly counts farmers’ output plus bakers’ value added.",
+                    "Uniquely solvable to ₹330 with unambiguous arithmetic."
+                  ]
+                },
+                {
+                  "id": "9",
+                  "parameter": "option_separation",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The alternatives distinguish gross-output addition from counting only one sector’s output.",
+                    "Options represent classic conceptual errors (gross aggregation vs individual sector output)."
+                  ]
+                },
+                {
+                  "id": "10",
+                  "parameter": "decisive_assumptions",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Production values, the intermediate input, and the no-other-input condition are stated.",
+                    "Explicitly specifies no other intermediate inputs in the stem."
+                  ]
+                },
+                {
+                  "id": "11",
+                  "parameter": "numerical_accuracy_method",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "The arithmetic is straightforward and correct: ₹150 + (₹240 − ₹60) = ₹330.",
+                    "Arithmetic is exact and verified."
+                  ]
+                },
+                {
+                  "id": "12",
+                  "parameter": "boundary_cases",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "No rounding or threshold case arises; the stated input is clearly included in the bakers’ production.",
+                    "Correctly accounts for the remaining final output of wheat (150 - 60 = 90)."
+                  ]
+                },
+                {
+                  "id": "13",
+                  "parameter": "explanation_correctness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The explanation gives the correct value-added calculation and establishes the answer."
+                  ]
+                },
+                {
+                  "id": "14",
+                  "parameter": "explanation_source_support",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Its method is directly supported by the supplied explanation of subtracting purchased wheat to avoid double counting."
+                  ]
+                },
+                {
+                  "id": "15",
+                  "parameter": "passage_answerability",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "Not a passage-based question.",
+                    "Standalone conceptual MCQ; no passage present."
+                  ]
+                },
+                {
+                  "id": "16",
+                  "parameter": "completeness",
+                  "score": 9.5,
+                  "applicable": true,
+                  "notes": [
+                    "The information needed to compute total value added is supplied.",
+                    "All necessary parameters are stated in the stem."
+                  ]
+                },
+                {
+                  "id": "17",
+                  "parameter": "language_clarity",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The stem is concise and understandable.",
+                    "Clear, concise, and standard economic formulation.",
+                    "Concise and easy to follow; the arithmetic is explicit."
+                  ]
+                },
+                {
+                  "id": "18",
+                  "parameter": "distractor_plausibility",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "The options include plausible gross-output and single-sector totals, though the calculation is simple.",
+                    "Distractors target common student misconceptions, particularly simple gross addition."
+                  ]
+                },
+                {
+                  "id": "19",
+                  "parameter": "semantic_novelty",
+                  "score": 6,
+                  "applicable": true,
+                  "notes": [
+                    "Relative to the supplied NCERT anchor, the wheat-and-bakers setup and calculation are very similar, with mainly the figures changed; this makes no claim about the wider question bank.",
+                    "A fresh numerical variation of the canonical NCERT textbook example."
+                  ]
+                },
+                {
+                  "id": "20",
+                  "parameter": "source_fidelity",
+                  "score": 9.333333333333334,
+                  "applicable": true,
+                  "notes": [
+                    "The item faithfully applies the supplied NCERT explanation of subtracting the wheat intermediate input from bread output.",
+                    "Direct fidelity to NCERT Macroeconomics chapter on National Income Accounting.",
+                    "Faithfully applies the excerpt’s rule without extending it beyond the scenario."
+                  ]
+                }
+              ],
+              "reported_mean": 8.885964912280702,
+              "composite_basis": [
+                "3",
+                "4",
+                "6",
+                "17",
+                "18"
+              ],
+              "route_band": "nta_eligible",
+              "modes": {
+                "practice": true,
+                "nta": true
+              },
+              "outcome": "eligible",
+              "reasons": [],
+              "difficulty": {
+                "passed": true,
+                "version": "cuet-demand-bands-v713",
+                "level": "easy",
+                "agreement": true,
+                "observations": [
+                  {
+                    "stage": "blind_solution",
+                    "provider": "openai",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "A direct value-added calculation with all relevant figures stated. No authenticated CUET style comparator was supplied; difficulty is assessed heuristically.",
+                      "comparison_basis": "heuristic"
+                    }
+                  },
+                  {
+                    "stage": "independent_evaluation",
+                    "provider": "gemini",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "Direct adaptation of the standard two-sector numerical example presented in NCERT Introductory Macroeconomics, requiring simple arithmetic to avoid double counting.",
+                      "comparison_basis": "heuristic"
+                    }
+                  }
+                ],
+                "purpose": "warmup",
+                "nta_policy": "preferred_medium_then_easy"
+              },
+              "advisory_issues": [
+                {
+                  "category": "craft_suggestion",
+                  "detail": "The item closely reworks the supplied NCERT wheat-and-bread example, changing mainly the figures. A different production context or a further application could improve semantic novelty while preserving the objective.",
+                  "stage": "blind_solution"
+                },
+                {
+                  "category": "craft_suggestion",
+                  "detail": "The item closely follows the supplied NCERT wheat-and-bread example, with the same producer roles and calculation structure but changed figures. A different production context could make the practice more varied while retaining the objective.",
+                  "stage": "explanation_support"
+                }
+              ]
+            }
+          },
+          "signature": "aaee9491eba5410acf7cde49c3800eb59178c8cee22dc312859996691a0a7981"
+        }
+      }
+    },
+    "f-a7899d6bca12a82b": {
+      "state": "eligible",
+      "candidate_hash": "1cfa688159a8844cb8725de2e213ff639a0edde103ad460cc6e81a18a50d4671",
+      "pending_batch_id": "02cbc0743ebd8158f1fae728eb582294baad06135684fc7561d6b2d8d2698eeb",
+      "error": "provider_batch_pending",
+      "academic_sound": true,
+      "blind_frozen": {
+        "candidate_id": "f-a7899d6bca12a82b",
+        "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+        "reports": [
+          {
+            "candidate_id": "f-a7899d6bca12a82b",
+            "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E2.1",
+              "E3.1",
+              "E4.1"
+            ],
+            "issues": [],
+            "solved_key": "A",
+            "derivation": "The reader has been replaced by a newer system, no longer works with current files, and is no longer used. Those clues fit “obsolete,” defined as no longer used because something new has been invented (E1.1). The other options refer to care in work, hostility, or logical organization, none of which fits the device in this context.",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "The stated replacement by a newer system and the reader’s disuse fit the supplied definition of “obsolete.”"
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E2.1"
+                ],
+                "reason": "“Diligent” describes care and effort in work or duties, not the reader’s obsolescence."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E3.1"
+                ],
+                "reason": "“Hostile” means aggressive or unfriendly; the context gives no such feature."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E4.1"
+                ],
+                "reason": "“Coherent” describes something logical and well organized or easy to understand, not a reader that has been replaced and is no longer used."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "supported",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "A short, direct context makes the target word’s fit clear; this is a basic vocabulary selection task within the supplied syllabus.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 7,
+                "note": "Clear, usable practice for a straightforward CUET vocabulary item."
+              },
+              "2": {
+                "score": 8,
+                "note": "Directly tests choosing the correct word, a listed verbal-ability topic."
+              },
+              "3": {
+                "score": 8,
+                "note": "The context gives relevant clues for selecting the target lexical sense."
+              },
+              "4": {
+                "score": 8,
+                "note": "Four ordered options and a concise sentence-completion format suit the task."
+              },
+              "5": {
+                "score": 8,
+                "note": "The easy level is appropriate for a direct word-in-context question."
+              },
+              "6": {
+                "score": 8,
+                "note": "The brief stem is suitable for a short vocabulary item within the stated average time."
+              },
+              "8": {
+                "score": 9,
+                "note": "Only “obsolete” fits the stated replacement and disuse."
+              },
+              "9": {
+                "score": 7,
+                "note": "The choices have distinct meanings, though several are not especially close semantic distractors."
+              },
+              "10": {
+                "score": 9,
+                "note": "The stem supplies the replacement and disuse clues needed to choose the word."
+              },
+              "11": {
+                "score": null,
+                "note": "No numerical calculation is involved."
+              },
+              "12": {
+                "score": 8,
+                "note": "The given clues make the intended distinction clear without a material borderline case."
+              },
+              "15": {
+                "score": null,
+                "note": "This is not a passage-comprehension item."
+              },
+              "16": {
+                "score": 9,
+                "note": "The stem and four options provide the information needed to answer."
+              },
+              "17": {
+                "score": 9,
+                "note": "The wording is concise and clear."
+              },
+              "18": {
+                "score": 6,
+                "note": "The options are distinguishable, but the personality- and organization-related distractors are relatively distant from the device context."
+              },
+              "19": {
+                "score": null,
+                "note": "No authenticated calibration exemplars or comparator anchors were supplied for a novelty comparison."
+              },
+              "20": {
+                "score": 8,
+                "note": "The supplied definition supports the target word’s contextual use; the other supplied definitions support distinguishing the alternatives."
+              }
+            },
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "effort": "medium",
+            "stage": "blind_solution",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "2fc57dd18c9d12ea1fdebc1f9b75ca2a632ee3bb5696e1a4128f1ba825600421"
+          },
+          {
+            "candidate_id": "f-a7899d6bca12a82b",
+            "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+            "answer_set": [
+              "A"
+            ],
+            "source_ids": [
+              "E1.1",
+              "E2.1",
+              "E3.1",
+              "E4.1"
+            ],
+            "issues": [],
+            "solved_key": "A",
+            "derivation": "The context explains that the old storage reader was replaced by a newer system, no longer works with current files, and staff ceased using it. By definition, something that is 'no longer used because something new has been invented' is 'obsolete'. Therefore, 'obsolete' (Option A) is the exact and unique fit.",
+            "options": [
+              {
+                "option": "A",
+                "status": "defensible",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E1.1"
+                ],
+                "reason": "'Obsolete' means no longer used because something new has been invented, which perfectly describes the replaced and unused device."
+              },
+              {
+                "option": "B",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E2.1"
+                ],
+                "reason": "'Diligent' describes a person showing care and effort in work or duties, not an inanimate out-of-date device."
+              },
+              {
+                "option": "C",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E3.1"
+                ],
+                "reason": "'Hostile' means aggressive or unfriendly, which does not fit an outdated electronic reader."
+              },
+              {
+                "option": "D",
+                "status": "not_answer",
+                "basis": "excerpt",
+                "source_ids": [
+                  "E4.1"
+                ],
+                "reason": "'Coherent' means logical, well-organized, and clear, which does not convey that the machine is out of date and disused."
+              }
+            ],
+            "academic": {
+              "syllabus_entitlement": "supported",
+              "source_support": "supported",
+              "decisive_assumptions": "supported",
+              "numerical_accuracy": "not_applicable",
+              "boundary_cases": "not_applicable",
+              "passage_answerability": "not_applicable",
+              "completeness": "supported",
+              "format_valid": "supported",
+              "presentation_readable": "supported"
+            },
+            "difficulty_assessment": {
+              "level": "easy",
+              "reason": "Direct contextual vocabulary question with clear clues and distinctly separated distractors.",
+              "comparison_basis": "heuristic"
+            },
+            "scores": {
+              "1": {
+                "score": 8,
+                "note": "Standard, well-crafted vocabulary question aligned with CUET verbal ability format."
+              },
+              "2": {
+                "score": 9,
+                "note": "Directly falls under Choosing the Correct Word / Vocabulary in the CUET English syllabus."
+              },
+              "3": {
+                "score": 8.5,
+                "note": "Accurately tests contextual vocabulary comprehension."
+              },
+              "4": {
+                "score": 8.5,
+                "note": "Standard 4-option fill-in-the-blank format typical of CUET."
+              },
+              "5": {
+                "score": 8,
+                "note": "Straightforward difficulty calibration appropriate for an accessible question in the test."
+              },
+              "6": {
+                "score": 8.5,
+                "note": "Concise text that can easily be read and solved well within baseline time limits."
+              },
+              "8": {
+                "score": 9,
+                "note": "Unambiguously points to Option A as the only defensible answer."
+              },
+              "9": {
+                "score": 9,
+                "note": "Distractors belong to entirely different semantic domains, avoiding overlap."
+              },
+              "10": {
+                "score": 9,
+                "note": "No unstated decisive assumptions required."
+              },
+              "11": {
+                "score": null,
+                "note": "Non-numerical question."
+              },
+              "12": {
+                "score": null,
+                "note": "No mathematical boundary conditions applicable."
+              },
+              "15": {
+                "score": null,
+                "note": "Standalone sentence-completion item, not passage-based."
+              },
+              "16": {
+                "score": 9,
+                "note": "Prompt provides complete contextual clues necessary to select the answer."
+              },
+              "17": {
+                "score": 8.5,
+                "note": "Sentence phrasing is clear, natural, and grammatical."
+              },
+              "18": {
+                "score": 7.5,
+                "note": "Distractors are common words, though obviously mismatched to an inanimate technological device."
+              },
+              "19": {
+                "score": 8,
+                "note": "Original context created for testing the target vocabulary item."
+              },
+              "20": {
+                "score": 9,
+                "note": "Definition matches authoritative dictionary references exactly."
+              }
+            },
+            "provider": "gemini",
+            "model": "gemini-3.8-flash",
+            "effort": "medium",
+            "stage": "independent_evaluation",
+            "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "request_key": "70763c9ff3f3cf9ad2be45b8902b11d59ee8fceff9ace4a67ed514525131dd1b"
+          }
+        ],
+        "sha256": "1e54aaf61d64e466625f486daf31d45874c36ab0ab95e7941c9e2475012b7577"
+      },
+      "policy": "cuet-scorecard-routing-v716",
+      "quality_score": 8.066666666666666,
+      "display_score": 8.07,
+      "criteria": [
+        {
+          "id": "1",
+          "parameter": "overall_cuet_readiness",
+          "score": 7.5,
+          "applicable": true,
+          "notes": [
+            "Clear, usable practice for a straightforward CUET vocabulary item.",
+            "Standard, well-crafted vocabulary question aligned with CUET verbal ability format."
+          ]
+        },
+        {
+          "id": "2",
+          "parameter": "syllabus_entitlement",
+          "score": 8.5,
+          "applicable": true,
+          "notes": [
+            "Directly tests choosing the correct word, a listed verbal-ability topic.",
+            "Directly falls under Choosing the Correct Word / Vocabulary in the CUET English syllabus."
+          ]
+        },
+        {
+          "id": "3",
+          "parameter": "learning_objective",
+          "score": 8.25,
+          "applicable": true,
+          "notes": [
+            "The context gives relevant clues for selecting the target lexical sense.",
+            "Accurately tests contextual vocabulary comprehension."
+          ]
+        },
+        {
+          "id": "4",
+          "parameter": "cuet_format_style",
+          "score": 8.25,
+          "applicable": true,
+          "notes": [
+            "Four ordered options and a concise sentence-completion format suit the task.",
+            "Standard 4-option fill-in-the-blank format typical of CUET."
+          ]
+        },
+        {
+          "id": "5",
+          "parameter": "difficulty_calibration",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The easy level is appropriate for a direct word-in-context question.",
+            "Straightforward difficulty calibration appropriate for an accessible question in the test."
+          ]
+        },
+        {
+          "id": "6",
+          "parameter": "time_reading_suitability",
+          "score": 8.25,
+          "applicable": true,
+          "notes": [
+            "The brief stem is suitable for a short vocabulary item within the stated average time.",
+            "Concise text that can easily be read and solved well within baseline time limits."
+          ]
+        },
+        {
+          "id": "7",
+          "parameter": "answer_accuracy",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "Both hidden-key independent solutions match the author key."
+          ]
+        },
+        {
+          "id": "8",
+          "parameter": "unique_answer",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "Only “obsolete” fits the stated replacement and disuse.",
+            "Unambiguously points to Option A as the only defensible answer."
+          ]
+        },
+        {
+          "id": "9",
+          "parameter": "option_separation",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The choices have distinct meanings, though several are not especially close semantic distractors.",
+            "Distractors belong to entirely different semantic domains, avoiding overlap."
+          ]
+        },
+        {
+          "id": "10",
+          "parameter": "decisive_assumptions",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The stem supplies the replacement and disuse clues needed to choose the word.",
+            "No unstated decisive assumptions required."
+          ]
+        },
+        {
+          "id": "11",
+          "parameter": "numerical_accuracy_method",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "No numerical calculation is involved.",
+            "Non-numerical question."
+          ]
+        },
+        {
+          "id": "12",
+          "parameter": "boundary_cases",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "The given clues make the intended distinction clear without a material borderline case.",
+            "No mathematical boundary conditions applicable."
+          ]
+        },
+        {
+          "id": "13",
+          "parameter": "explanation_correctness",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The explanation accurately links the supplied definition to the replacement and disuse described in the stem."
+          ]
+        },
+        {
+          "id": "14",
+          "parameter": "explanation_source_support",
+          "score": 10,
+          "applicable": true,
+          "notes": [
+            "The explanation's definition is directly supported by E1.1, and its contextual facts are stated in the stem."
+          ]
+        },
+        {
+          "id": "15",
+          "parameter": "passage_answerability",
+          "score": null,
+          "applicable": false,
+          "notes": [
+            "This is not a passage-comprehension item.",
+            "Standalone sentence-completion item, not passage-based."
+          ]
+        },
+        {
+          "id": "16",
+          "parameter": "completeness",
+          "score": 9,
+          "applicable": true,
+          "notes": [
+            "The stem and four options provide the information needed to answer.",
+            "Prompt provides complete contextual clues necessary to select the answer."
+          ]
+        },
+        {
+          "id": "17",
+          "parameter": "language_clarity",
+          "score": 8.833333333333334,
+          "applicable": true,
+          "notes": [
+            "The wording is concise and clear.",
+            "Sentence phrasing is clear, natural, and grammatical.",
+            "Clear, concise wording. Estimated response time is about 15–25 seconds; this is an estimate, not a measurement."
+          ]
+        },
+        {
+          "id": "18",
+          "parameter": "distractor_plausibility",
+          "score": 6.75,
+          "applicable": true,
+          "notes": [
+            "The options are distinguishable, but the personality- and organization-related distractors are relatively distant from the device context.",
+            "Distractors are common words, though obviously mismatched to an inanimate technological device."
+          ]
+        },
+        {
+          "id": "19",
+          "parameter": "semantic_novelty",
+          "score": 8,
+          "applicable": true,
+          "notes": [
+            "No authenticated calibration exemplars or comparator anchors were supplied for a novelty comparison.",
+            "Original context created for testing the target vocabulary item."
+          ]
+        },
+        {
+          "id": "20",
+          "parameter": "source_fidelity",
+          "score": 8.666666666666666,
+          "applicable": true,
+          "notes": [
+            "The supplied definition supports the target word’s contextual use; the other supplied definitions support distinguishing the alternatives.",
+            "Definition matches authoritative dictionary references exactly.",
+            "Faithful to the supplied definition excerpt. The record provides the reference text but does not establish independent source authentication."
+          ]
+        }
+      ],
+      "reported_mean": 8.555555555555555,
+      "composite_basis": [
+        "3",
+        "4",
+        "6",
+        "17",
+        "18"
+      ],
+      "route_band": "nta_eligible",
+      "modes": {
+        "practice": true,
+        "nta": true
+      },
+      "outcome": "eligible",
+      "reasons": [],
+      "difficulty": {
+        "passed": true,
+        "version": "cuet-demand-bands-v713",
+        "level": "easy",
+        "agreement": true,
+        "observations": [
+          {
+            "stage": "blind_solution",
+            "provider": "openai",
+            "assessment": {
+              "level": "easy",
+              "reason": "A short, direct context makes the target word’s fit clear; this is a basic vocabulary selection task within the supplied syllabus.",
+              "comparison_basis": "heuristic"
+            }
+          },
+          {
+            "stage": "independent_evaluation",
+            "provider": "gemini",
+            "assessment": {
+              "level": "easy",
+              "reason": "Direct contextual vocabulary question with clear clues and distinctly separated distractors.",
+              "comparison_basis": "heuristic"
+            }
+          }
+        ],
+        "purpose": "warmup",
+        "nta_policy": "preferred_medium_then_easy"
+      },
+      "advisory_issues": [],
+      "question": {
+        "id": "f-a7899d6bca12a82b",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:contextual-word-choice-obsolete",
+        "body": "The archive replaced its old storage reader with a newer system. The reader no longer works with current files, and staff stopped using it after the replacement arrived. The device is now _____.",
+        "options": [
+          {
+            "key": "A",
+            "text": "obsolete"
+          },
+          {
+            "key": "B",
+            "text": "diligent"
+          },
+          {
+            "key": "C",
+            "text": "hostile"
+          },
+          {
+            "key": "D",
+            "text": "coherent"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Obsolete describes something no longer used because something new has been invented; the old reader was replaced and is no longer used.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam-74f0b79789fa2eb6",
+        "source_refs": [
+          {
+            "id": "oxford-quality-obsolete",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+          },
+          {
+            "id": "oxford-quality-coherent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "obsolete"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-obsolete",
+          "adaptation_family": "fam-74f0b79789fa2eb6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        },
+        "evidence": {
+          "record": {
+            "candidate_id": "f-a7899d6bca12a82b",
+            "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+            "state": "eligible",
+            "policy_version": "cuet-llm-v3",
+            "verifier_version": "cuet-fit-validator-v7.16-report-policy",
+            "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+            "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+            "scorecard_policy": "cuet-scorecard-routing-v716",
+            "topology": "dual_blind",
+            "source_registry_version": 58,
+            "sources": [
+              {
+                "id": "oxford-quality-obsolete",
+                "version": 1,
+                "locator": "definition",
+                "support_hash": "ff224fd428d59ba8adc05484558669dbb7df6d2007fb1eff4315c973b53cebea"
+              },
+              {
+                "id": "oxford-quality-diligent",
+                "version": 1,
+                "locator": "definition",
+                "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703"
+              },
+              {
+                "id": "oxford-quality-hostile",
+                "version": 1,
+                "locator": "definition",
+                "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913"
+              },
+              {
+                "id": "oxford-quality-coherent",
+                "version": 1,
+                "locator": "definition",
+                "support_hash": "c08512ac303051b2d966a80ff63eef84bf0b19f42712d530850be87886d7e327"
+              }
+            ],
+            "family_id": "fam-74f0b79789fa2eb6",
+            "family_version": 1,
+            "route": "conceptual",
+            "question_type": "correct_word_usage",
+            "passage_group": null,
+            "provenance": {
+              "kind": "original_practice",
+              "anchor_id": "oxford-quality-obsolete",
+              "adaptation_family": "fam-74f0b79789fa2eb6",
+              "adaptation_type": "source-grounded-original-practice",
+              "syllabus_version": "cuet-2026-provisional-for-2027",
+              "pattern_version": "cuet-2024-authenticated-bookA-v1",
+              "source_pack_id": "cuet2024-english-bookA",
+              "source_pack_version": 12
+            },
+            "author_target_difficulty": "easy",
+            "difficulty_target_match": true,
+            "verified_at": "2026-10-09T23:23:04.451Z",
+            "expires_at": "2026-11-08T23:23:04.451Z",
+            "reports": [
+              {
+                "candidate_id": "f-a7899d6bca12a82b",
+                "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E2.1",
+                  "E3.1",
+                  "E4.1"
+                ],
+                "issues": [],
+                "solved_key": "A",
+                "derivation": "The reader has been replaced by a newer system, no longer works with current files, and is no longer used. Those clues fit “obsolete,” defined as no longer used because something new has been invented (E1.1). The other options refer to care in work, hostility, or logical organization, none of which fits the device in this context.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "The stated replacement by a newer system and the reader’s disuse fit the supplied definition of “obsolete.”"
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E2.1"
+                    ],
+                    "reason": "“Diligent” describes care and effort in work or duties, not the reader’s obsolescence."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E3.1"
+                    ],
+                    "reason": "“Hostile” means aggressive or unfriendly; the context gives no such feature."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E4.1"
+                    ],
+                    "reason": "“Coherent” describes something logical and well organized or easy to understand, not a reader that has been replaced and is no longer used."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "supported",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "A short, direct context makes the target word’s fit clear; this is a basic vocabulary selection task within the supplied syllabus.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 7,
+                    "note": "Clear, usable practice for a straightforward CUET vocabulary item."
+                  },
+                  "2": {
+                    "score": 8,
+                    "note": "Directly tests choosing the correct word, a listed verbal-ability topic."
+                  },
+                  "3": {
+                    "score": 8,
+                    "note": "The context gives relevant clues for selecting the target lexical sense."
+                  },
+                  "4": {
+                    "score": 8,
+                    "note": "Four ordered options and a concise sentence-completion format suit the task."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "The easy level is appropriate for a direct word-in-context question."
+                  },
+                  "6": {
+                    "score": 8,
+                    "note": "The brief stem is suitable for a short vocabulary item within the stated average time."
+                  },
+                  "8": {
+                    "score": 9,
+                    "note": "Only “obsolete” fits the stated replacement and disuse."
+                  },
+                  "9": {
+                    "score": 7,
+                    "note": "The choices have distinct meanings, though several are not especially close semantic distractors."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "The stem supplies the replacement and disuse clues needed to choose the word."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "No numerical calculation is involved."
+                  },
+                  "12": {
+                    "score": 8,
+                    "note": "The given clues make the intended distinction clear without a material borderline case."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "This is not a passage-comprehension item."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "The stem and four options provide the information needed to answer."
+                  },
+                  "17": {
+                    "score": 9,
+                    "note": "The wording is concise and clear."
+                  },
+                  "18": {
+                    "score": 6,
+                    "note": "The options are distinguishable, but the personality- and organization-related distractors are relatively distant from the device context."
+                  },
+                  "19": {
+                    "score": null,
+                    "note": "No authenticated calibration exemplars or comparator anchors were supplied for a novelty comparison."
+                  },
+                  "20": {
+                    "score": 8,
+                    "note": "The supplied definition supports the target word’s contextual use; the other supplied definitions support distinguishing the alternatives."
+                  }
+                },
+                "provider": "openai",
+                "model": "gpt-6-luna",
+                "effort": "medium",
+                "stage": "blind_solution",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "2fc57dd18c9d12ea1fdebc1f9b75ca2a632ee3bb5696e1a4128f1ba825600421"
+              },
+              {
+                "candidate_id": "f-a7899d6bca12a82b",
+                "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+                "answer_set": [
+                  "A"
+                ],
+                "source_ids": [
+                  "E1.1",
+                  "E2.1",
+                  "E3.1",
+                  "E4.1"
+                ],
+                "issues": [],
+                "solved_key": "A",
+                "derivation": "The context explains that the old storage reader was replaced by a newer system, no longer works with current files, and staff ceased using it. By definition, something that is 'no longer used because something new has been invented' is 'obsolete'. Therefore, 'obsolete' (Option A) is the exact and unique fit.",
+                "options": [
+                  {
+                    "option": "A",
+                    "status": "defensible",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E1.1"
+                    ],
+                    "reason": "'Obsolete' means no longer used because something new has been invented, which perfectly describes the replaced and unused device."
+                  },
+                  {
+                    "option": "B",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E2.1"
+                    ],
+                    "reason": "'Diligent' describes a person showing care and effort in work or duties, not an inanimate out-of-date device."
+                  },
+                  {
+                    "option": "C",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E3.1"
+                    ],
+                    "reason": "'Hostile' means aggressive or unfriendly, which does not fit an outdated electronic reader."
+                  },
+                  {
+                    "option": "D",
+                    "status": "not_answer",
+                    "basis": "excerpt",
+                    "source_ids": [
+                      "E4.1"
+                    ],
+                    "reason": "'Coherent' means logical, well-organized, and clear, which does not convey that the machine is out of date and disused."
+                  }
+                ],
+                "academic": {
+                  "syllabus_entitlement": "supported",
+                  "source_support": "supported",
+                  "decisive_assumptions": "supported",
+                  "numerical_accuracy": "not_applicable",
+                  "boundary_cases": "not_applicable",
+                  "passage_answerability": "not_applicable",
+                  "completeness": "supported",
+                  "format_valid": "supported",
+                  "presentation_readable": "supported"
+                },
+                "difficulty_assessment": {
+                  "level": "easy",
+                  "reason": "Direct contextual vocabulary question with clear clues and distinctly separated distractors.",
+                  "comparison_basis": "heuristic"
+                },
+                "scores": {
+                  "1": {
+                    "score": 8,
+                    "note": "Standard, well-crafted vocabulary question aligned with CUET verbal ability format."
+                  },
+                  "2": {
+                    "score": 9,
+                    "note": "Directly falls under Choosing the Correct Word / Vocabulary in the CUET English syllabus."
+                  },
+                  "3": {
+                    "score": 8.5,
+                    "note": "Accurately tests contextual vocabulary comprehension."
+                  },
+                  "4": {
+                    "score": 8.5,
+                    "note": "Standard 4-option fill-in-the-blank format typical of CUET."
+                  },
+                  "5": {
+                    "score": 8,
+                    "note": "Straightforward difficulty calibration appropriate for an accessible question in the test."
+                  },
+                  "6": {
+                    "score": 8.5,
+                    "note": "Concise text that can easily be read and solved well within baseline time limits."
+                  },
+                  "8": {
+                    "score": 9,
+                    "note": "Unambiguously points to Option A as the only defensible answer."
+                  },
+                  "9": {
+                    "score": 9,
+                    "note": "Distractors belong to entirely different semantic domains, avoiding overlap."
+                  },
+                  "10": {
+                    "score": 9,
+                    "note": "No unstated decisive assumptions required."
+                  },
+                  "11": {
+                    "score": null,
+                    "note": "Non-numerical question."
+                  },
+                  "12": {
+                    "score": null,
+                    "note": "No mathematical boundary conditions applicable."
+                  },
+                  "15": {
+                    "score": null,
+                    "note": "Standalone sentence-completion item, not passage-based."
+                  },
+                  "16": {
+                    "score": 9,
+                    "note": "Prompt provides complete contextual clues necessary to select the answer."
+                  },
+                  "17": {
+                    "score": 8.5,
+                    "note": "Sentence phrasing is clear, natural, and grammatical."
+                  },
+                  "18": {
+                    "score": 7.5,
+                    "note": "Distractors are common words, though obviously mismatched to an inanimate technological device."
+                  },
+                  "19": {
+                    "score": 8,
+                    "note": "Original context created for testing the target vocabulary item."
+                  },
+                  "20": {
+                    "score": 9,
+                    "note": "Definition matches authoritative dictionary references exactly."
+                  }
+                },
+                "provider": "gemini",
+                "model": "gemini-3.8-flash",
+                "effort": "medium",
+                "stage": "independent_evaluation",
+                "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+                "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+                "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+                "request_key": "70763c9ff3f3cf9ad2be45b8902b11d59ee8fceff9ace4a67ed514525131dd1b"
+              }
+            ],
+            "audit": {
+              "candidate_id": "f-a7899d6bca12a82b",
+              "content_hash": "79724b05807e54de6d94bef4413a4576d0367c949c2fff282b33da013d2a71eb",
+              "answer_set": [
+                "A"
+              ],
+              "source_ids": [
+                "E1.1",
+                "E2.1",
+                "E3.1",
+                "E4.1"
+              ],
+              "issues": [],
+              "explanation_status": "supported",
+              "options_status": "supported",
+              "claims": [
+                {
+                  "claim": "“Obsolete” describes something no longer used because something new has been invented.",
+                  "basis": "excerpt",
+                  "status": "supported",
+                  "source_ids": [
+                    "E1.1"
+                  ],
+                  "reason": "This matches the supplied definition; the stem says the reader was replaced by a newer system and staff stopped using it."
+                },
+                {
+                  "claim": "The old reader was replaced and is no longer used.",
+                  "basis": "stem",
+                  "status": "supported",
+                  "source_ids": [],
+                  "reason": "Both facts are stated directly in the question."
+                },
+                {
+                  "claim": "“Diligent” means showing care and effort in work or duties.",
+                  "basis": "excerpt",
+                  "status": "supported",
+                  "source_ids": [
+                    "E2.1"
+                  ],
+                  "reason": "This is the supplied definition; the context instead describes the reader’s replacement and disuse."
+                },
+                {
+                  "claim": "“Hostile” means aggressive or unfriendly and ready to argue or fight.",
+                  "basis": "excerpt",
+                  "status": "supported",
+                  "source_ids": [
+                    "E3.1"
+                  ],
+                  "reason": "This is the supplied definition; the context does not describe those qualities."
+                },
+                {
+                  "claim": "“Coherent” means logical and well organized, or easy to understand and clear.",
+                  "basis": "excerpt",
+                  "status": "supported",
+                  "source_ids": [
+                    "E4.1"
+                  ],
+                  "reason": "This is the supplied definition; the context describes the reader’s replacement and disuse instead."
+                }
+              ],
+              "scores": {
+                "13": {
+                  "score": 10,
+                  "note": "The explanation accurately links the supplied definition to the replacement and disuse described in the stem."
+                },
+                "14": {
+                  "score": 10,
+                  "note": "The explanation's definition is directly supported by E1.1, and its contextual facts are stated in the stem."
+                },
+                "17": {
+                  "score": 9,
+                  "note": "Clear, concise wording. Estimated response time is about 15–25 seconds; this is an estimate, not a measurement."
+                },
+                "20": {
+                  "score": 9,
+                  "note": "Faithful to the supplied definition excerpt. The record provides the reference text but does not establish independent source authentication."
+                }
+              },
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "stage": "explanation_support",
+              "prompt_version": "cuet-fit-validator-v7.16-report-policy",
+              "validation_contract_hash": "ab04f5fc226391780d4ac468aa3c92da9941a4d5cb59fb8ce1c0f005c28d4f60",
+              "evaluation_prompt": "dff3d3c873be5352c8415f5d484089666f4df64d169b2cfbf582e95f0f699265",
+              "request_key": "ed36e61b64942326487cdc6c35fa78c37513e187dbe1217d9a371068fef68087"
+            },
+            "local_checks": {
+              "structure": true,
+              "presentation": true,
+              "provenance": true,
+              "syllabus_registry": true,
+              "source_integrity": true,
+              "novelty": true,
+              "numeric_required": false
+            },
+            "decision": {
+              "state": "eligible",
+              "policy": "cuet-scorecard-routing-v716",
+              "academic_sound": true,
+              "quality_score": 8.066666666666666,
+              "display_score": 8.07,
+              "criteria": [
+                {
+                  "id": "1",
+                  "parameter": "overall_cuet_readiness",
+                  "score": 7.5,
+                  "applicable": true,
+                  "notes": [
+                    "Clear, usable practice for a straightforward CUET vocabulary item.",
+                    "Standard, well-crafted vocabulary question aligned with CUET verbal ability format."
+                  ]
+                },
+                {
+                  "id": "2",
+                  "parameter": "syllabus_entitlement",
+                  "score": 8.5,
+                  "applicable": true,
+                  "notes": [
+                    "Directly tests choosing the correct word, a listed verbal-ability topic.",
+                    "Directly falls under Choosing the Correct Word / Vocabulary in the CUET English syllabus."
+                  ]
+                },
+                {
+                  "id": "3",
+                  "parameter": "learning_objective",
+                  "score": 8.25,
+                  "applicable": true,
+                  "notes": [
+                    "The context gives relevant clues for selecting the target lexical sense.",
+                    "Accurately tests contextual vocabulary comprehension."
+                  ]
+                },
+                {
+                  "id": "4",
+                  "parameter": "cuet_format_style",
+                  "score": 8.25,
+                  "applicable": true,
+                  "notes": [
+                    "Four ordered options and a concise sentence-completion format suit the task.",
+                    "Standard 4-option fill-in-the-blank format typical of CUET."
+                  ]
+                },
+                {
+                  "id": "5",
+                  "parameter": "difficulty_calibration",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The easy level is appropriate for a direct word-in-context question.",
+                    "Straightforward difficulty calibration appropriate for an accessible question in the test."
+                  ]
+                },
+                {
+                  "id": "6",
+                  "parameter": "time_reading_suitability",
+                  "score": 8.25,
+                  "applicable": true,
+                  "notes": [
+                    "The brief stem is suitable for a short vocabulary item within the stated average time.",
+                    "Concise text that can easily be read and solved well within baseline time limits."
+                  ]
+                },
+                {
+                  "id": "7",
+                  "parameter": "answer_accuracy",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "Both hidden-key independent solutions match the author key."
+                  ]
+                },
+                {
+                  "id": "8",
+                  "parameter": "unique_answer",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "Only “obsolete” fits the stated replacement and disuse.",
+                    "Unambiguously points to Option A as the only defensible answer."
+                  ]
+                },
+                {
+                  "id": "9",
+                  "parameter": "option_separation",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The choices have distinct meanings, though several are not especially close semantic distractors.",
+                    "Distractors belong to entirely different semantic domains, avoiding overlap."
+                  ]
+                },
+                {
+                  "id": "10",
+                  "parameter": "decisive_assumptions",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The stem supplies the replacement and disuse clues needed to choose the word.",
+                    "No unstated decisive assumptions required."
+                  ]
+                },
+                {
+                  "id": "11",
+                  "parameter": "numerical_accuracy_method",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "No numerical calculation is involved.",
+                    "Non-numerical question."
+                  ]
+                },
+                {
+                  "id": "12",
+                  "parameter": "boundary_cases",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "The given clues make the intended distinction clear without a material borderline case.",
+                    "No mathematical boundary conditions applicable."
+                  ]
+                },
+                {
+                  "id": "13",
+                  "parameter": "explanation_correctness",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The explanation accurately links the supplied definition to the replacement and disuse described in the stem."
+                  ]
+                },
+                {
+                  "id": "14",
+                  "parameter": "explanation_source_support",
+                  "score": 10,
+                  "applicable": true,
+                  "notes": [
+                    "The explanation's definition is directly supported by E1.1, and its contextual facts are stated in the stem."
+                  ]
+                },
+                {
+                  "id": "15",
+                  "parameter": "passage_answerability",
+                  "score": null,
+                  "applicable": false,
+                  "notes": [
+                    "This is not a passage-comprehension item.",
+                    "Standalone sentence-completion item, not passage-based."
+                  ]
+                },
+                {
+                  "id": "16",
+                  "parameter": "completeness",
+                  "score": 9,
+                  "applicable": true,
+                  "notes": [
+                    "The stem and four options provide the information needed to answer.",
+                    "Prompt provides complete contextual clues necessary to select the answer."
+                  ]
+                },
+                {
+                  "id": "17",
+                  "parameter": "language_clarity",
+                  "score": 8.833333333333334,
+                  "applicable": true,
+                  "notes": [
+                    "The wording is concise and clear.",
+                    "Sentence phrasing is clear, natural, and grammatical.",
+                    "Clear, concise wording. Estimated response time is about 15–25 seconds; this is an estimate, not a measurement."
+                  ]
+                },
+                {
+                  "id": "18",
+                  "parameter": "distractor_plausibility",
+                  "score": 6.75,
+                  "applicable": true,
+                  "notes": [
+                    "The options are distinguishable, but the personality- and organization-related distractors are relatively distant from the device context.",
+                    "Distractors are common words, though obviously mismatched to an inanimate technological device."
+                  ]
+                },
+                {
+                  "id": "19",
+                  "parameter": "semantic_novelty",
+                  "score": 8,
+                  "applicable": true,
+                  "notes": [
+                    "No authenticated calibration exemplars or comparator anchors were supplied for a novelty comparison.",
+                    "Original context created for testing the target vocabulary item."
+                  ]
+                },
+                {
+                  "id": "20",
+                  "parameter": "source_fidelity",
+                  "score": 8.666666666666666,
+                  "applicable": true,
+                  "notes": [
+                    "The supplied definition supports the target word’s contextual use; the other supplied definitions support distinguishing the alternatives.",
+                    "Definition matches authoritative dictionary references exactly.",
+                    "Faithful to the supplied definition excerpt. The record provides the reference text but does not establish independent source authentication."
+                  ]
+                }
+              ],
+              "reported_mean": 8.555555555555555,
+              "composite_basis": [
+                "3",
+                "4",
+                "6",
+                "17",
+                "18"
+              ],
+              "route_band": "nta_eligible",
+              "modes": {
+                "practice": true,
+                "nta": true
+              },
+              "outcome": "eligible",
+              "reasons": [],
+              "difficulty": {
+                "passed": true,
+                "version": "cuet-demand-bands-v713",
+                "level": "easy",
+                "agreement": true,
+                "observations": [
+                  {
+                    "stage": "blind_solution",
+                    "provider": "openai",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "A short, direct context makes the target word’s fit clear; this is a basic vocabulary selection task within the supplied syllabus.",
+                      "comparison_basis": "heuristic"
+                    }
+                  },
+                  {
+                    "stage": "independent_evaluation",
+                    "provider": "gemini",
+                    "assessment": {
+                      "level": "easy",
+                      "reason": "Direct contextual vocabulary question with clear clues and distinctly separated distractors.",
+                      "comparison_basis": "heuristic"
+                    }
+                  }
+                ],
+                "purpose": "warmup",
+                "nta_policy": "preferred_medium_then_easy"
+              },
+              "advisory_issues": []
+            }
+          },
+          "signature": "f193b63b7b19abe68c4cfc47f09b0164313b14fec16a89fff2a10d601dac4655"
+        }
+      }
+    }
+  },
+  "runs": [],
+  "created_at": "2026-10-09T23:15:08.090Z",
+  "updated_at": "2026-10-09T23:23:05.780Z"
+}

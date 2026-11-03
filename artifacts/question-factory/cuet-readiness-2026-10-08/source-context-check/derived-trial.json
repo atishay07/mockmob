@@ -1,0 +1,261 @@
+{
+  "at": "2026-10-07T23:35:50.501Z",
+  "contract": "ncert-teaching-context-vnext-2",
+  "derived": 38,
+  "unresolved": [
+    {
+      "id": "ncert-leec105-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    },
+    {
+      "id": "ncert-lebs104-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    }
+  ],
+  "teaching_spans": 841,
+  "original_sources_preserved": true,
+  "global_registry_writes": 0,
+  "provider_calls": 0,
+  "reports": [
+    {
+      "id": "ncert-leac204",
+      "state": "derived",
+      "parent_facts": 2,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac201",
+      "state": "derived",
+      "parent_facts": 22,
+      "teaching_spans": 27
+    },
+    {
+      "id": "ncert-leac205",
+      "state": "derived",
+      "parent_facts": 3,
+      "teaching_spans": 5
+    },
+    {
+      "id": "ncert-lebs102",
+      "state": "derived",
+      "parent_facts": 8,
+      "teaching_spans": 7
+    },
+    {
+      "id": "ncert-lebs104",
+      "state": "derived",
+      "parent_facts": 9,
+      "teaching_spans": 8
+    },
+    {
+      "id": "ncert-lebs105",
+      "state": "derived",
+      "parent_facts": 6,
+      "teaching_spans": 1
+    },
+    {
+      "id": "ncert-leec104",
+      "state": "derived",
+      "parent_facts": 19,
+      "teaching_spans": 25
+    },
+    {
+      "id": "ncert-leec102",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-leec103",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-keec101",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 6
+    },
+    {
+      "id": "ncert-lebs108",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac101",
+      "state": "derived",
+      "parent_facts": 18,
+      "teaching_spans": 24
+    },
+    {
+      "id": "ncert-lebs101",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-lebs201",
+      "state": "derived",
+      "parent_facts": 5,
+      "teaching_spans": 5
+    },
+    {
+      "id": "ncert-leec105",
+      "state": "derived",
+      "parent_facts": 10,
+      "teaching_spans": 13
+    },
+    {
+      "id": "ncert-leec106",
+      "state": "derived",
+      "parent_facts": 12,
+      "teaching_spans": 15
+    },
+    {
+      "id": "ncert-leac104",
+      "state": "derived",
+      "parent_facts": 7,
+      "teaching_spans": 7
+    },
+    {
+      "id": "ncert-lebs202",
+      "state": "derived",
+      "parent_facts": 7,
+      "teaching_spans": 6
+    },
+    {
+      "id": "ncert-lebs103",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac102",
+      "state": "derived",
+      "parent_facts": 9,
+      "teaching_spans": 17
+    },
+    {
+      "id": "ncert-leac103",
+      "state": "derived",
+      "parent_facts": 2,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac202",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 8
+    },
+    {
+      "id": "ncert-leac206",
+      "state": "derived",
+      "parent_facts": 10,
+      "teaching_spans": 17
+    },
+    {
+      "id": "ncert-lebs106",
+      "state": "derived",
+      "parent_facts": 52,
+      "teaching_spans": 50
+    },
+    {
+      "id": "ncert-lebs203",
+      "state": "derived",
+      "parent_facts": 25,
+      "teaching_spans": 25
+    },
+    {
+      "id": "ncert-leec201",
+      "state": "derived",
+      "parent_facts": 13,
+      "teaching_spans": 20
+    },
+    {
+      "id": "ncert-leec202",
+      "state": "derived",
+      "parent_facts": 51,
+      "teaching_spans": 71
+    },
+    {
+      "id": "ncert-leec203",
+      "state": "derived",
+      "parent_facts": 30,
+      "teaching_spans": 47
+    },
+    {
+      "id": "ncert-leec204",
+      "state": "derived",
+      "parent_facts": 32,
+      "teaching_spans": 58
+    },
+    {
+      "id": "ncert-leec205",
+      "state": "derived",
+      "parent_facts": 33,
+      "teaching_spans": 41
+    },
+    {
+      "id": "ncert-keec102",
+      "state": "derived",
+      "parent_facts": 33,
+      "teaching_spans": 38
+    },
+    {
+      "id": "ncert-keec103",
+      "state": "derived",
+      "parent_facts": 34,
+      "teaching_spans": 39
+    },
+    {
+      "id": "ncert-keec104",
+      "state": "derived",
+      "parent_facts": 26,
+      "teaching_spans": 41
+    },
+    {
+      "id": "ncert-keec105",
+      "state": "derived",
+      "parent_facts": 29,
+      "teaching_spans": 37
+    },
+    {
+      "id": "ncert-keec106",
+      "state": "derived",
+      "parent_facts": 35,
+      "teaching_spans": 47
+    },
+    {
+      "id": "ncert-keec107",
+      "state": "derived",
+      "parent_facts": 28,
+      "teaching_spans": 36
+    },
+    {
+      "id": "ncert-keec108",
+      "state": "derived",
+      "parent_facts": 28,
+      "teaching_spans": 35
+    },
+    {
+      "id": "ncert-leec105-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    },
+    {
+      "id": "ncert-lebs104-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    },
+    {
+      "id": "ncert-lebs107",
+      "state": "derived",
+      "parent_facts": 6,
+      "teaching_spans": 7
+    }
+  ]
+}

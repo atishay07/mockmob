@@ -10,6 +10,8 @@ import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { PricingCard } from '@/components/ui/PricingCard';
 import { RazorpayPaymentButton } from '@/components/billing/RazorpayPaymentButton';
+import { PrepOSCreditPurchaseButton } from '@/components/billing/PrepOSCreditPurchaseButton';
+import { AI_CREDIT_PACKS, AI_FREE_MONTHLY_CREDITS, AI_PRO_INCLUDED_MONTHLY_CREDITS, aiCommerceOpen } from '@/services/credits/aiCreditWallet';
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
@@ -102,29 +104,6 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
       ['Smart Practice — adaptive', false, 'Unlimited'],
       ['NTA Mode — CUET exam simulation', false, 'Unlimited'],
     ],
-  },
-];
-
-const AI_PACKS = [
-  {
-    name: 'AI Boost',
-    price: '₹10',
-    credits: '50 AI credits',
-    desc: 'New purchases paused. Existing credit balances are preserved.',
-  },
-  {
-    name: 'Prep Pack',
-    price: '₹20',
-    credits: '150 AI credits',
-    desc: 'Shared learning plans and core recovery do not require paid model calls.',
-  },
-  {
-    name: 'Power Pack',
-    price: '₹50',
-    credits: '400 AI credits',
-    desc: 'Paid AI remains gated on durable spending and wallet checks.',
-    popular: true,
-    flag: 'Most credits per rupee',
   },
 ];
 
@@ -276,9 +255,21 @@ export default async function PricingPage() {
               PrepOS reads your own practice record and shows your next step, your leaks and your weekly report. The basics are free for everyone and use no credits. Pro adds every ranked chapter, pace and changed-answer detail.
             </p>
             <p className="mm-body">
-              Optional model replies use a separate PrepOS wallet: 10 credits a month on Free and 50 on Pro, never mixed with practice credits.
-              Those replies are switched off while spending checks finish, so no credits are being used, and purchased credits you already hold are preserved.
+              AI replies, Mistake Repair and AI Rival use a separate PrepOS wallet, never mixed with practice credits.
+              Free includes {AI_FREE_MONTHLY_CREDITS} credits a month and Pro includes {AI_PRO_INCLUDED_MONTHLY_CREDITS}. Need more? Top up any time. Top-up credits never expire and are spent after your monthly credits.
             </p>
+            {aiCommerceOpen() ? (
+              <ul className="mm-packs" aria-label="PrepOS credit top-ups">
+                {AI_CREDIT_PACKS.map((pack) => (
+                  <li key={pack.key} className="mm-pack" data-featured={pack.featured ? 'true' : 'false'}>
+                    <p className="mm-pack__name">{pack.shortLabel}{pack.featured ? <span>Best value</span> : null}</p>
+                    <p className="mm-pack__price mm-measure">₹{pack.amountInr}</p>
+                    <p className="mm-pack__credits">{pack.credits} credits <small>₹{(pack.amountInr / pack.credits).toFixed(2)} each</small></p>
+                    <PrepOSCreditPurchaseButton pack={pack} />
+                  </li>
+                ))}
+              </ul>
+            ) : null}
             <p style={{ marginTop: '1rem' }}>
               <Link href="/pricing/prepos" className="mm-btn mm-btn--secondary">See your PrepOS wallet</Link>
             </p>

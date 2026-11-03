@@ -1,0 +1,284 @@
+{
+ "subject": "english",
+ "items": [
+  {
+   "local_id": "eng-b1",
+   "chapter": "Narrative Passage",
+   "body": "What did Nila do as soon as she noticed that the lamp flickered whenever its cable moved?",
+   "passage_text": "In a fictional village workshop, Nila noticed that a lamp flickered whenever its cable moved. She switched off the power and asked the technician to inspect it. After replacing the damaged cable, the technician tested the lamp. Nila then carried the working lamp to the community hall. She told the organiser that noticing the fault had delayed the delivery but prevented them from using a damaged cable.",
+   "options": [
+    {
+     "key": "A",
+     "text": "She carried it straight to the community hall"
+    },
+    {
+     "key": "B",
+     "text": "She replaced the damaged cable herself"
+    },
+    {
+     "key": "C",
+     "text": "She switched off the power and asked the technician to inspect it"
+    },
+    {
+     "key": "D",
+     "text": "She told the organiser the delivery would be early"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F7",
+     "chapter": "Narrative Passage",
+     "text": "In a fictional village workshop, Nila noticed that a lamp flickered whenever its cable moved. She switched off the power and asked the technician to inspect it. After replacing the damaged cable, the technician tested the lamp. Nila then carried the working lamp to the community hall. She told the organiser that noticing the fault had delayed the delivery but prevented them from using a damaged cable."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b2",
+   "chapter": "Narrative Passage",
+   "body": "Which statement best explains the grandfather's remark, \"A promise includes care\"?",
+   "passage_text": "Mira had promised to bring her grandfather’s repaired radio home before sunset. At the workshop she found that the repairer had finished the electrical work, but the wooden case still needed to dry. “It will play,” he said, “but carrying it now may spoil the finish.” Mira looked at the dark clouds and then at the road to her village. She could reach home in time if she left immediately. Instead, she telephoned her grandfather and explained the delay. “A promise includes care,” he replied. She sat beside the workshop window until the case was ready. On the journey home the rain began, and she covered the radio with her coat. When she arrived, her grandfather switched it on. Neither of them mentioned the missed sunset; they listened quietly to the music.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Keeping a promise to bring the radio home includes protecting it, even if that means arriving late"
+    },
+    {
+     "key": "B",
+     "text": "Keeping a promise means reaching home before sunset whatever condition the radio is in"
+    },
+    {
+     "key": "C",
+     "text": "Mira should have asked the repairer to leave the electrical work unfinished"
+    },
+    {
+     "key": "D",
+     "text": "Mira should not have told him about the delay"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F5",
+     "chapter": "Narrative Passage",
+     "text": "Mira had promised to bring her grandfather’s repaired radio home before sunset. At the workshop she found that the repairer had finished the electrical work, but the wooden case still needed to dry. “It will play,” he said, “but carrying it now may spoil the finish.” Mira looked at the dark clouds and then at the road to her village. She could reach home in time if she left immediately. Instead, she telephoned her grandfather and explained the delay. “A promise includes care,” he replied. She sat beside the workshop window until the case was ready. On the journey home the rain began, and she covered the radio with her coat. When she arrived, her grandfather switched it on. Neither of them mentioned the missed sunset; they listened quietly to the music."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b3",
+   "chapter": "Literary Passage",
+   "body": "What contrast does the tea seller notice for the first time at the end of the passage?",
+   "passage_text": "The station clock had stopped at ten past four. Each morning, travellers looked up, checked their watches and continued towards the platform. The tea seller never corrected the clock; it was beyond his reach. One afternoon, a child asked whether the trains had stopped too. He pointed to a train sliding past the far platform. Its windows caught the sun one after another. The child watched until it disappeared, then looked back at the clock. For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving.",
+   "options": [
+    {
+     "key": "A",
+     "text": "The trains had stopped running, just like the station clock"
+    },
+    {
+     "key": "B",
+     "text": "Travellers trusted the station clock more than their own watches"
+    },
+    {
+     "key": "C",
+     "text": "The clock was within his reach but he chose not to correct it"
+    },
+    {
+     "key": "D",
+     "text": "The still clock hands stood above a station where almost everything was moving"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F10",
+     "chapter": "Literary Passage",
+     "text": "The station clock had stopped at ten past four. Each morning, travellers looked up, checked their watches and continued towards the platform. The tea seller never corrected the clock; it was beyond his reach. One afternoon, a child asked whether the trains had stopped too. He pointed to a train sliding past the far platform. Its windows caught the sun one after another. The child watched until it disappeared, then looked back at the clock. For the first time that day, the tea seller noticed the contrast himself: the hands stood still above a place where almost everything was moving."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b4",
+   "chapter": "Factual Passage",
+   "body": "According to the passage, what were students required to do each Friday during the trial?",
+   "passage_text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Borrow two new books and grade the librarian's records"
+    },
+    {
+     "key": "B",
+     "text": "Return at least one book and write a short note about it"
+    },
+    {
+     "key": "C",
+     "text": "Return both books and discuss the notes with the librarian"
+    },
+    {
+     "key": "D",
+     "text": "Write a graded note on every book borrowed that week"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F1",
+     "chapter": "Factual Passage",
+     "text": "In a fictional school library, a trial reading programme ran for four weeks. Students could borrow two books at a time. Each Friday they returned at least one book and wrote a short note about it. The librarian recorded the number of books returned, but did not grade the notes. At the end of the trial, the borrowing records showed an increase in returns during the second and third weeks, followed by a small decrease in the fourth. The librarian said the records showed when books were returned, rather than how carefully they had been read. She proposed discussing a few notes with students before deciding whether to continue the programme. The proposal therefore combined a numerical record with evidence about the students’ experience."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b5",
+   "chapter": "Narrative Passage",
+   "body": "Why did Kabir put back the travel diary?",
+   "passage_text": "In a fictional bookshop, Kabir chose a travel diary because he liked its cover. Before paying, he opened it and found that most pages contained blank tables for recording expenses. He put it back and chose a collection of travellers’ stories instead. On the way home, he told his sister that the first book would have been useful for planning a trip, but he wanted something to read that evening.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Most of its pages were blank tables for recording expenses"
+    },
+    {
+     "key": "B",
+     "text": "He wanted something to read that evening"
+    },
+    {
+     "key": "C",
+     "text": "He no longer liked the look of its cover"
+    },
+    {
+     "key": "D",
+     "text": "His sister had told him it was too expensive"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F8",
+     "chapter": "Narrative Passage",
+     "text": "In a fictional bookshop, Kabir chose a travel diary because he liked its cover. Before paying, he opened it and found that most pages contained blank tables for recording expenses. He put it back and chose a collection of travellers’ stories instead. On the way home, he told his sister that the first book would have been useful for planning a trip, but he wanted something to read that evening."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b6",
+   "chapter": "Narrative Passage",
+   "body": "At what time did the repeated demonstration begin at the observatory?",
+   "passage_text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work.",
+   "options": [
+    {
+     "key": "A",
+     "text": "1 p.m."
+    },
+    {
+     "key": "B",
+     "text": "12 noon"
+    },
+    {
+     "key": "C",
+     "text": "3 p.m."
+    },
+    {
+     "key": "D",
+     "text": "2 p.m."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F6",
+     "chapter": "Narrative Passage",
+     "text": "Asha’s class planned a visit to the old observatory. The first bus was cancelled because its driver was ill. The teacher booked another bus and moved the departure from eight o’clock to nine. Asha complained that they would miss the morning demonstration. The observatory manager agreed to repeat it in the afternoon, but asked the class to spend the morning examining the exhibition instead. When Asha returned, she said the unexpected change had given her more time to study the models before seeing them work."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b7",
+   "chapter": "Factual Passage",
+   "body": "Why did the report recommend comparing cups used per student before crediting the lending scheme for the larger fall in the second week?",
+   "passage_text": "In this fictional report, a school canteen tested two ways of reducing disposable cups. During the first week, a sign asked students to bring their own cups. During the second, the canteen also lent washable cups against a refundable deposit. Disposable-cup use fell in both weeks, with a larger fall in the second. However, attendance was lower during the second week because one class was away. The report therefore recommended comparing cups used per student before attributing the larger fall to the lending scheme. It also recorded that most borrowed cups were returned. The trial suggested a possible benefit, while leaving the size of that benefit uncertain.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Most borrowed cups were never returned, so the figures were unreliable"
+    },
+    {
+     "key": "B",
+     "text": "Disposable-cup use had not fallen at all during the first week"
+    },
+    {
+     "key": "C",
+     "text": "Lower attendance in the second week could by itself have reduced total cup use"
+    },
+    {
+     "key": "D",
+     "text": "The washable cups were issued without any refundable deposit"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F2",
+     "chapter": "Factual Passage",
+     "text": "In this fictional report, a school canteen tested two ways of reducing disposable cups. During the first week, a sign asked students to bring their own cups. During the second, the canteen also lent washable cups against a refundable deposit. Disposable-cup use fell in both weeks, with a larger fall in the second. However, attendance was lower during the second week because one class was away. The report therefore recommended comparing cups used per student before attributing the larger fall to the lending scheme. It also recorded that most borrowed cups were returned. The trial suggested a possible benefit, while leaving the size of that benefit uncertain."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b8",
+   "chapter": "Factual Passage",
+   "body": "According to the passage, why could the first trial not separate the effect of lettering from other influences?",
+   "passage_text": "In a fictional exhibition, visitors received either a printed map or a map containing the same information with larger lettering. Volunteers recorded how often each group asked for directions. Those receiving the larger lettering asked less often. The organisers noted that volunteers had handed out the maps on different days, when different galleries were open. They proposed a second trial in which both versions would be distributed on the same day. Meanwhile, both maps remained available. The first trial provided a reason to investigate readability, but it could not separate the effect of lettering from differences between the days.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both map versions were given out on the same day"
+    },
+    {
+     "key": "B",
+     "text": "Volunteers did not record how often each group asked for directions"
+    },
+    {
+     "key": "C",
+     "text": "Maps were handed out on different days, when different galleries were open"
+    },
+    {
+     "key": "D",
+     "text": "Visitors who received larger lettering asked for directions more often"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F4",
+     "chapter": "Factual Passage",
+     "text": "In a fictional exhibition, visitors received either a printed map or a map containing the same information with larger lettering. Volunteers recorded how often each group asked for directions. Those receiving the larger lettering asked less often. The organisers noted that volunteers had handed out the maps on different days, when different galleries were open. They proposed a second trial in which both versions would be distributed on the same day. Meanwhile, both maps remained available. The first trial provided a reason to investigate readability, but it could not separate the effect of lettering from differences between the days."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b9",
+   "chapter": "Factual Passage",
+   "body": "In the passage, the phrase \"a scarce facility\" most nearly refers to something that is",
+   "passage_text": "A fictional neighbourhood reading room introduced a reservation system for its single discussion table. Groups could book thirty-minute slots, but no group could book consecutive slots. Unreserved time remained available to any visitor. After a month, more groups had used the table, although some regular visitors complained that they could no longer hold long meetings there. The committee kept the reservation rule and offered a separate room for meetings lasting more than thirty minutes. Its decision aimed to share access to a scarce facility while accommodating a different need elsewhere. The report did not suggest that short meetings were inherently better than long ones.",
+   "options": [
+    {
+     "key": "A",
+     "text": "available in large numbers, so any group can use it whenever it wishes"
+    },
+    {
+     "key": "B",
+     "text": "limited in supply, so access to it has to be shared among users"
+    },
+    {
+     "key": "C",
+     "text": "kept for meetings longer than thirty minutes only"
+    },
+    {
+     "key": "D",
+     "text": "open only to regular visitors of the reading room"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Factual Passage",
+     "text": "A fictional neighbourhood reading room introduced a reservation system for its single discussion table. Groups could book thirty-minute slots, but no group could book consecutive slots. Unreserved time remained available to any visitor. After a month, more groups had used the table, although some regular visitors complained that they could no longer hold long meetings there. The committee kept the reservation rule and offered a separate room for meetings lasting more than thirty minutes. Its decision aimed to share access to a scarce facility while accommodating a different need elsewhere. The report did not suggest that short meetings were inherently better than long ones."
+    }
+   ]
+  }
+ ]
+}

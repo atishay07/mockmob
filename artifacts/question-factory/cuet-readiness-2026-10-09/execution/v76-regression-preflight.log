@@ -1,0 +1,17 @@
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs:72
+  if (bytes > inputLimitTokens) throw new Error('input_request_size_bound_exceeded');
+                                      ^
+
+Error: input_request_size_bound_exceeded
+    at inspectBlindCaptureV73 (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs:72:39)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/runFreshCuetReadinessV76.mjs:67:183)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV76.mjs:64:31)
+    at Object.generate (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV74.mjs:48:31)
+    at completeJSON (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryTransport.mjs:440:43)
+    at Object.evaluation [as __evaluation] (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV73.mjs:130:42)
+    at adapters.__evaluation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV74.mjs:58:68)
+    at adapters.__evaluation (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV76.mjs:73:68)
+    at preflight (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/runFreshCuetReadinessV76.mjs:69:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.15.0

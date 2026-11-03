@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13511,
+ "request_bytes": 30908,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710b-regression-on-q1-run-v79q1-english-v2\",\n  \"content_hash\": \"601f6a2a5bcdb7feaa9a3f2276607671d39bbb96aeb71374bfeabaaa4ff3766e\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The passage explicitly states that attendance was lower during the second week because one class was away, leading the report to recommend comparing cups used per student before attributing the larger fall to the lending scheme.\",\n    \"Therefore, lower attendance by itself could account for fewer total cups being used, which directly supports Option C.\"\n  ],\n  \"syllabus_chapter\": \"Factual Passage\",\n  \"syllabus_topic\": \"Reading Comprehension - Inference and Direct Detail\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Attendance was lower during the second week because one class was away.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The unreturned cups compromised the count of disposable cup reduction.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"A drop was only observed in the second week, requiring normalized comparison.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Free provision of cups caused tracking errors in cup usage.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests reading comprehension and drawing inference from a factual passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option multiple-choice reading comprehension item.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct comprehension of a short passage within standard CUET UG reading demand.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors directly contradict explicit statements in the passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Most borrowed cups were never returned\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"It also recorded that most borrowed cups were returned.\",\n      \"reason\": \"The passage explicitly notes that most borrowed cups were returned.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"had not fallen at all during the first week\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Disposable-cup use fell in both weeks, with a larger fall in the second.\",\n      \"reason\": \"The passage states disposable-cup use fell in both weeks.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"However, attendance was lower during the second week because one class was away. The report therefore recommended comparing cups used per student before attributing the larger fall to the lending scheme.\",\n      \"reason\": \"Lower attendance alone could explain the fall in total cups used.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"without any refundable deposit\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"During the second, the canteen also lent washable cups against a refundable deposit.\",\n      \"reason\": \"Washable cups were lent against a refundable deposit.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EvMICvAIAWkUfRN9D8Dz0XiaKvsEj75KF9dRNGkdcFATMiPhWhOTAooFdqBMDs5fXYc+BToFl/UZK6mitP8j8xwXyTH3Pt8oiN4A3QF7bc71+simKbkELQQhU612M8mOUH74qqOhcJR9k4KXz2YuhsOA0UcqiAQNruXDnzkpzE0MtK7/cihYo/BpJaGYVH6Xk1PJAmaUAEC51WrfjN33QhwJ70JCFMl9N+eIVhyYJvaGBoEl6mG3Ymkwgr8h3aWHd0Ac25GKvsV2yF9aWib667zYzCZkkPztil6a2MrwsXUkJJzOIDxkPVzSTICcPD6nXrPm4IRyVliqWvfvoE/t1UuDmQrhuL2Jo78QWQWzu/USN/OmDaNLEemRDwJlK0arMsid+RzqnG7qSNlnANtC0iBvVwmnkHTSAyipVJkeIeoE/7OoxtFtyoNX0D6QM+KeJYf4OP0P3RtizRGz4tE3pddoTWuGKD20sPI/uW2mCMgLINuAImHBj7Fck4tcxbZURLd8nJ1fmgMadlfw0SGAv4Ga6ozr/RFfqZpr/QUMT17TbHK/L9frO/C2C61MLcd43q3tqJn0/ULeXFHTLaxAW8yY0K7fNWfkue2E7tXpYXB3o6W9+2RF8vwGNYhAAmhaFsJR27rgWnXSFleUf9Gi9wJ6jGahxeXgBxAKxhUiaahpfXIhCAJAta3SI9mU3gos2cyzswcdAdzvk3r1xhillJww6fqD762eCqSsmFhfCxIftfXczLbF02d4070yw7JVxvuDwVNIJLbnyDFHVV/6BrUsJlxnI0JdicTDEC17fT2z4GpphPd5efhcO0ebCzqSsetCzUyqLxemhB7Hxh3x2PlqHV18qPePe7SFzWcxPGcSwZlndd5MXxizH1OhIE+jHpf7GoHZBLc8rVQIulbnXDaijlenzIJFBABoogrQUqWO3hhy+BeAoXPIZFSU7wLhhBgAtapy/LYK1K6DPhMOgWARourkZyF7vM3z88bMOyyC4QV8KGTTVboh9WIKFV4uogJ840yd7KjOtjfz3zQ+zckDiulb7rJBn8vTmer7uL99oX2/QBvP3PtDrZ1LFqJvGbJMCQaPDQMcSCpxQ6xy5onF/h5BrrZkxpo1ln1iVaReUqtylX1KfLRXikqA6US2T47MquzgEtJNu8xboBpmhaGotC1A3r4wKVo4jET4p+Nzsue9CPyYCXfGVrYglMgSplhlon5RjodQomxdiOXJTV+MEAncw3Anv7mm+tgWT1ny+TZI4jfEFQaW9ohy0f5sdJ19Mg6uvi7M2iXVHRoO0RtENj7TyUKUb61ucsAqeNavM09FHvTf6A5AtNg1fLaxrYudYy+qIuYdppFhXANgQM6NzyDwyUHz2PuFjkDj/8WXJNZETPsq6VKorFlqjiolvVT4zYPCqT0IV8n34eNYvrQtGL6NxInQJJUmwm/rZLPkuUvyoY0m/px3i32kdOz7O7Rl+5q4CR9mgWL/074sM5QJAmourytBQZ7aaF1w5uZR34BBETQ="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5202,
+   "candidatesTokenCount": 1316,
+   "totalTokenCount": 6726,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5202
+    }
+   ],
+   "thoughtsTokenCount": 208,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "D_bIau38MpHFjuMP7cKNmQc"
+ }
+}

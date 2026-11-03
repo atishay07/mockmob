@@ -1,0 +1,85 @@
+[
+  {
+    "path": "/pricing",
+    "width": 1440,
+    "checked": 93,
+    "fails": [],
+    "skipped": 2,
+    "theme": "dark"
+  },
+  {
+    "path": "/cuet-cutoff-calculator",
+    "width": 1440,
+    "checked": 508,
+    "fails": [],
+    "skipped": 28,
+    "theme": "dark"
+  },
+  {
+    "path": "/preview/arena?view=dashboard&plan=pro",
+    "width": 1440,
+    "checked": 9,
+    "fails": [],
+    "skipped": 5,
+    "theme": "dark"
+  },
+  {
+    "path": "/preview/arena?view=result&plan=pro",
+    "width": 1440,
+    "checked": 103,
+    "fails": [],
+    "skipped": 55,
+    "theme": "dark"
+  },
+  {
+    "path": "/preview/arena?view=radar&plan=pro",
+    "width": 1440,
+    "checked": 24,
+    "fails": [],
+    "skipped": 43,
+    "theme": "dark"
+  },
+  {
+    "path": "/preview/arena?view=prepos&plan=pro",
+    "width": 1440,
+    "checked": 24,
+    "fails": [],
+    "skipped": 17,
+    "theme": "dark"
+  },
+  {
+    "checked": 93,
+    "fails": [],
+    "skipped": 2,
+    "theme": "light",
+    "label": "light-/pricing"
+  },
+  {
+    "checked": 512,
+    "fails": [
+      {
+        "background": {
+          "a": 1,
+          "b": 240,
+          "g": 245,
+          "r": 244
+        },
+        "cls": "dot",
+        "color": "rgb(157, 180, 0)",
+        "font": "20px",
+        "ratio": 2.14,
+        "text": "."
+      }
+    ],
+    "skipped": 24,
+    "theme": "light",
+    "label": "light-/cuet-cutoff-calculator"
+  },
+  {
+    "checked": 107,
+    "fails": [],
+    "skipped": 51,
+    "theme": "light",
+    "label": "light-/preview/arena?view=result&plan=pro"
+  }
+]

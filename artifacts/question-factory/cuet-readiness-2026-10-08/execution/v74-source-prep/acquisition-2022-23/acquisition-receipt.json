@@ -1,0 +1,60 @@
+{
+  "schema": "v74-cbse-2022-23-question-only-acquisition-v1",
+  "acquired_at_utc": "2026-10-08T13:37:52Z",
+  "completed_text_extraction_at_utc": "2026-10-08T13:38:35Z",
+  "source_family": "CBSE Class XII SQP 2022-23",
+  "provenance_label": "source_keyed_non_cuet",
+  "official_index_url": "https://cbseacademic.nic.in/sqp_classxii_2022-23.html",
+  "marking_scheme_or_key_downloaded": false,
+  "provider_calls": 0,
+  "exclusion_manifest_sha256_at_acquisition": "fe929d9d206b12334c8b126e07bf4df43645de968e361a0c46b0ae7674b07e5d",
+  "pre_acquisition_binding": {
+    "frozen_at": "2026-10-08T13:36:37.333Z",
+    "verifier_version": "cuet-fit-validator-v7.4",
+    "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "prompt_hash": "7683aa3e5de157e85178f2086ac47c8c6dc5ec7f01ffce3f76d6c575b018c44b"
+  },
+  "files": [
+    {
+      "file": "Accountancy-SQP.pdf",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+      "bytes": 760900,
+      "sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+      "text_file": "Accountancy-SQP.txt",
+      "text_bytes": 28837,
+      "text_sha256": "3c5af677deb8dd40bb0f47f86c43da7a199ef996470fa098ae70c9e66e176ab1"
+    },
+    {
+      "file": "BusinessStudies-SQP.pdf",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+      "bytes": 499226,
+      "sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+      "text_file": "BusinessStudies-SQP.txt",
+      "text_bytes": 15549,
+      "text_sha256": "64ad14a78a4ac2bdb6d6c08817d9d021960b997fd76cb2bbe2ca58771eacf767"
+    },
+    {
+      "file": "Economics-SQP.pdf",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+      "bytes": 820878,
+      "sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+      "text_file": "Economics-SQP.txt",
+      "text_bytes": 17200,
+      "text_sha256": "f1725e452d1b77ca27d381ba3e03ae17a9475d2f7819d911d9fa614c1ed9b732"
+    },
+    {
+      "file": "EnglishCore-SQP.pdf",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+      "bytes": 901292,
+      "sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+      "text_file": "EnglishCore-SQP.txt",
+      "text_bytes": 28591,
+      "text_sha256": "99fd3e700e4633d8d92625d629d115bc63d046d2b58dbbc46a8b68f32b4e1a4c"
+    }
+  ],
+  "integrity_notes": [
+    "PDFs were obtained through the four SQP links on the official index; no marking-scheme link was opened or fetched.",
+    "Hashes identify exact local bytes; independent reviewers must verify the question text against the cited page before solving.",
+    "Text extraction is local and uses the acquired question-only PDFs; it is not a key or an answer derivation."
+  ]
+}

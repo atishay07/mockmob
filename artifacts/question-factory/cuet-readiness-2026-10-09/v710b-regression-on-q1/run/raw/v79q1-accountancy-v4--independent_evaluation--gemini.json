@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13871,
+ "request_bytes": 32020,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710b-regression-on-q1-run-v79q1-accountancy-v4\",\n  \"content_hash\": \"3265c4f308603d74741872d0c80524d6573cc784170f6d5b52a5cb0d933765ea\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E1.2\"],\n  \"reasons\": [\n    \"Average profit = (Rs 30,000 + Rs 36,000 + Rs 42,000) / 3 = Rs 1,08,000 / 3 = Rs 36,000.\",\n    \"Value of Goodwill = Average Profit × Number of years' purchase = Rs 36,000 × 4 = Rs 1,44,000.\"\n  ],\n  \"syllabus_chapter\": \"Goodwill Valuation\",\n  \"syllabus_topic\": \"Methods of valuation: Average profit method\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Past three years profits are Rs 30,000, Rs 36,000, and Rs 42,000.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Number of years' purchase is 4.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Goodwill is calculated as Average Profit multiplied by the number of years' purchase.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Goodwill equals the simple average profit of the three past years without multiplying by the number of years' purchase.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Goodwill equals the aggregate three-year profits rather than being calculated from the average and purchase years multiplier.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Goodwill equals the total profits of the three years multiplied by 4 years' purchase instead of using the average.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests valuation of goodwill using the average profits method.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard concise numerical MCQ matching CUET Accountancy questions.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Two-step calculation well within Class XII NCERT examination standard.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors mirror common student mistakes like omitting multiplication or forgetting to divide.\"\n      }\n    },\n    \"reasoning_steps\": 2,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"The profits of a firm for the last three years were Rs 30,000, Rs 36,000 and Rs 42,000. Goodwill is to be valued at 4 years' purchase of the average profits of these three years.\",\n      \"reason\": \"Average profit is Rs 36,000; multiplied by 4 years' purchase gives Rs 1,44,000.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 36,000\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Goodwill is to be valued at 4 years' purchase of the average profits of these three years.\",\n      \"reason\": \"Rs 36,000 is merely the average profit before multiplying by 4 years' purchase.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 1,08,000\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Goodwill is to be valued at 4 years' purchase of the average profits of these three years.\",\n      \"reason\": \"Rs 1,08,000 is the total profit of three years, not the goodwill.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 4,32,000\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Goodwill is to be valued at 4 years' purchase of the average profits of these three years.\",\n      \"reason\": \"Rs 4,32,000 is total profit multiplied by 4, failing to take the average.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EuAECt0EAWkUfRN5mCe1V926o8UdWykCyOkRYGgJy2SJZIeWGYvROdls/CCgHIdy0jve1tG6YnwiAaYcdvtdZiDZusR+TNYnStR0QX234x5cbeehhgXvRrhEqXeODA4stWm32nvVJV9b7b2adUH0lUu7k6ozyVwPQgzEOGEBueWbvUow+eH+JHTJm9tuaVPNNbCVkrcBjs5U26CQUAONfFeNbECe71mbTv03+pMUYkus8keZ2Suffq91eAdAZDXG/fGDZdwLFoCSSbuB1KUX7vBunz8YXOWOf4+IlTPvd7gqBww719JLNunk7zmnwqNAjM7FZICvOH/++w1vEAZI8SkSCxcRxS0RVQVKbCIOELeN7whAOrW5PFYFWsbicSqPYqDtchJL2H9C+zsEC3UIv9IlnwzG/5D/I5LjY3JvmQCzZ957WXwqAg6brCOSbLvXQuxuJBp9KzXfEPbcN0Y2pqQSu3e8jTtIhJL7Bb6Q/8diqrGJy5mZ99r/81f6iB5nYS5SmGPLpIcLqd/kWoE6sy6LLtxSC8aDuixS1k/vCFPucPzxVPJ1lw96QLSC5WnhIZQ39K1069CDPu/p8gDjSLbTNQa/7t699YVAHyCpBZSPHEBdeQj9XMSNGMtjiStcR7rUADhEqjAren4idftz6AH4xdjW5tKr7osMsmNY05pSrl65TZm16TJJaLqhVkEUrocpqwJTjjJRYpMqNxi4vkS+Kq2CoOAc5JPmGFpy+Nz4CRFTkQc5zQH+kb4KiNpzPh9C2Kp2/XPqJhaOPYxaO1l/UHPLwqVtfY9JM13okSQLlJU="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5439,
+   "candidatesTokenCount": 1619,
+   "totalTokenCount": 7287,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5439
+    }
+   ],
+   "thoughtsTokenCount": 229,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "HPPIap7qKb2mjuMPzaTz8Q0"
+ }
+}

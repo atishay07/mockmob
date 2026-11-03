@@ -1,0 +1,46 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=review&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=review&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: review, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 (selected) review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 container
+			30 text Review
+		31 heading Review what mattered., Value: 1
+			32 text Review what mattered.
+		33 text Open a session to read the explanation for every question you missed or left blank. Reading an explanation is review, not proof you have fixed it.
+		34 container Loading your record
+		35 container Mobi, your study companion
+			36 text Opening your saved record.
+			37 text Your sessions and checks will appear here.
+	38 container Quick study navigation
+		39 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		40 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		41 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		42 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		43 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=review&plan=pro

@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-07T22:34:31.912Z",
+  "hashes": {
+    "frozen": "70bd1f1275e6b7287fd02f2f2c605db40835464fc3b528c9f50e1efe52b180ea",
+    "overlay": "fae23536b871e57938718a4d94df2aba0e9f75f29c6edad74e6ae52ff86dbd5a",
+    "blind_packet": "7ab2ed5d683e965a85321540d21f06fc2abfa65ed967ea5629277f8bee81764d",
+    "blind_sources": "a5bc8156bec72c3e728451ae1acbc015c7f36e3d621710343ba7b5a62f406e59"
+  },
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.2",
+    "prompt_hash": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "captures": 256,
+  "expected": 256,
+  "answers_hidden": true,
+  "maximum_body_bytes": 29130,
+  "over_bound": [],
+  "paid_calls": 0
+}

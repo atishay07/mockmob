@@ -1,0 +1,422 @@
+[
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 360,
+  "h": 760,
+  "theme": "dark",
+  "errors": [],
+  "vw": 360,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 641,
+   "dockTop": 695,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 320,
+  "h": 700,
+  "theme": "light",
+  "errors": [],
+  "vw": 320,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 581,
+   "dockTop": 635,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 360,
+  "h": 760,
+  "theme": "light",
+  "errors": [],
+  "vw": 360,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 641,
+   "dockTop": 695,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 320,
+  "h": 700,
+  "theme": "dark",
+  "errors": [],
+  "vw": 320,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 581,
+   "dockTop": 635,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 390,
+  "h": 844,
+  "theme": "dark",
+  "errors": [],
+  "vw": 390,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 725,
+   "dockTop": 779,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 768,
+  "h": 1024,
+  "theme": "dark",
+  "errors": [],
+  "vw": 768,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 815,
+   "dockTop": 959,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 768,
+  "h": 1024,
+  "theme": "light",
+  "errors": [],
+  "vw": 768,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 815,
+   "dockTop": 959,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 390,
+  "h": 844,
+  "theme": "light",
+  "errors": [],
+  "vw": 390,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 725,
+   "dockTop": 779,
+   "occluded": false,
+   "lastName": "BUTTON:Save & Next"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 820,
+  "h": 1180,
+  "theme": "dark",
+  "errors": [],
+  "vw": 820,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 815,
+   "dockTop": 1115,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 820,
+  "h": 1180,
+  "theme": "light",
+  "errors": [],
+  "vw": 820,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 815,
+   "dockTop": 1115,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1024,
+  "h": 768,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1024,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 637,
+   "dockTop": 768,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1024,
+  "h": 768,
+  "theme": "light",
+  "errors": [],
+  "vw": 1024,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 637,
+   "dockTop": 768,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1440,
+  "h": 900,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1440,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 769,
+   "dockTop": 900,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1280,
+  "h": 860,
+  "theme": "light",
+  "errors": [],
+  "vw": 1280,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 729,
+   "dockTop": 860,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1440,
+  "h": 900,
+  "theme": "light",
+  "errors": [],
+  "vw": 1440,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 769,
+   "dockTop": 900,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1280,
+  "h": 860,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1280,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 729,
+   "dockTop": 860,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1920,
+  "h": 1080,
+  "theme": "dark",
+  "errors": [],
+  "vw": 1920,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 949,
+   "dockTop": 1080,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 1920,
+  "h": 1080,
+  "theme": "light",
+  "errors": [],
+  "vw": 1920,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 0,
+  "end": {
+   "lastBottom": 949,
+   "dockTop": 1080,
+   "occluded": false,
+   "lastName": "BUTTON:SUBMIT TEST"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 844,
+  "h": 390,
+  "theme": "light",
+  "errors": [],
+  "vw": 844,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 271,
+   "dockTop": 325,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ },
+ {
+  "route": "/preview/arena?view=test&plan=pro&subject=accountancy&mode=nta&count=50&interface=nta&generationKey=preview-generation-key-0002",
+  "w": 844,
+  "h": 390,
+  "theme": "dark",
+  "errors": [],
+  "vw": 844,
+  "docOverflow": 0,
+  "escape": [],
+  "escapeCount": 0,
+  "small": [],
+  "smallCount": 0,
+  "textClip": [],
+  "dockH": 65,
+  "end": {
+   "lastBottom": 271,
+   "dockTop": 325,
+   "occluded": false,
+   "lastName": "BUTTON:Mark for Review & Ne"
+  }
+ }
+]

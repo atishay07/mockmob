@@ -1,0 +1,31 @@
+
+> mockmob@0.1.0 test:du
+> node --test data/tests/du_eligibility.test.mjs data/tests/du_combos.test.mjs
+
+✔ every ranked combination is honest: its counts are exactly what the DU evaluator says (37.0861ms)
+✔ a target no pooled subject can reach is reported as missed, with the nearest rule (0.7456ms)
+✔ larger combinations are only listed when they unlock more, and the paper limit holds (5.89ms)
+✔ dataset: counts and integrity (1.3521ms)
+✔ dataset: a cutoff row matches the PDF exactly (2.0671ms)
+✔ commerce subjects: eligible for B.Com. (Hons.) and B.Com., not for Economics (needs Mathematics) (0.7301ms)
+✔ adding Mathematics unlocks Economics; Business Economics also needs the General Aptitude Test (8.3969ms)
+✔ science: PCM + a language is eligible for Physics; domains alone are not (language is also required) (0.1668ms)
+✔ language-specific rules: Hindi and Sanskrit Honours (0.2549ms)
+✔ GAT combinations (0.1723ms)
+✔ nothing selected evaluates to nobody eligible (0.1405ms)
+✔ every combination is satisfiable by some selection (no dead rules) (1.3494ms)
+✔ cutoffs: a reserved-category candidate may clear on the UR cutoff (0.2924ms)
+✔ seatStatus reports the first round a score clears (0.3158ms)
+✔ the source links shown on the page are exactly the ones the dataset was built from (0.1542ms)
+✔ commerce student with Informatics Practices: B.Sc. (Hons.) Computer Science needs Mathematics (per the Bulletin) (0.2171ms)
+✔ Computer Science and Informatics Practices are one subject for every rule that names it (0.1411ms)
+✔ explainCombinations reports each Bulletin combination with what is missing (0.3235ms)
+✔ subject search understands the names students actually use (1.0541ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 133.5966

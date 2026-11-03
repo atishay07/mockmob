@@ -1,0 +1,80 @@
+{"at":"2026-10-09T23:32:40.561Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:32:47.435Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:33:47.772Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:28.525Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:28.526Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:28.526Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:59.834Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:59.834Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:34:59.835Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:35:31.150Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:35:31.150Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:35:31.150Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:02.501Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:02.501Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:02.501Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:34.166Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:34.166Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:36:34.168Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:05.826Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:05.826Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:05.826Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:37.260Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:37.261Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:37:37.261Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:38:08.577Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:38:08.577Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:38:08.578Z","id":"19263984b97e3387247b71373fd7341f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:38:41.067Z","id":"19263984b97e3387247b71373fd7341f","state":"quarantined","outcome":"academic_quarantine","score":null,"reasons":["independent_key_mismatch:blind_solution","not_one_defensible_answer:blind_solution","unresolved_or_defensible_rival:blind_solution:C","unresolved_or_defensible_rival:blind_solution:D"]}
+{"at":"2026-10-09T23:39:03.255Z","id":"d3bd0d5de4fe0b0c9f0181b686104166","state":"eligible","outcome":"eligible","score":8.4,"reasons":[]}
+{"at":"2026-10-09T23:39:41.814Z","id":"26c91c0149fe73ba3c15d10a348d5d77","state":"eligible","outcome":"eligible","score":8.4,"reasons":[]}
+{"at":"2026-10-09T23:39:41.959Z","wave":1,"eligible":2,"n":3}
+{
+  "id": "cuet-v716-authoring-diag-r2",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 3,
+  "terminal": 3,
+  "approved": 2,
+  "approved_nta": 2,
+  "approved_practice_only": 0,
+  "by_outcome": {
+    "eligible": 2,
+    "academic_quarantine": 1
+  },
+  "by_subject": {
+    "accountancy": {
+      "approved": 1,
+      "n": 1
+    },
+    "business_studies": {
+      "approved": 0,
+      "n": 0
+    },
+    "economics": {
+      "approved": 0,
+      "n": 0
+    },
+    "english": {
+      "approved": 1,
+      "n": 2
+    }
+  },
+  "waves": [
+    {
+      "wave": 1,
+      "eligible": 2,
+      "terminal": 3,
+      "n": 3
+    }
+  ],
+  "stop_rule": "two consecutive completed waves under 40% eligible stop the campaign (not reachable with one wave)",
+  "stopped": null,
+  "settled_usd": 0.020125,
+  "held_usd": 0,
+  "receipt_complete": true,
+  "cost_per_approved_usd": 0.0100625,
+  "cost_per_10000_approved_usd": 100.625,
+  "cost_basis": "All settled campaign spend (authoring, reasoning, blind solves, independent evaluation, audits, completion retries, failures) divided by approved; holds excluded only when zero.",
+  "publication": "never"
+}
+exit=0

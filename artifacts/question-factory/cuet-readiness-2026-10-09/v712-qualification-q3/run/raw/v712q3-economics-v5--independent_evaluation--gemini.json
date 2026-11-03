@@ -1,0 +1,48 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 15644,
+ "request_bytes": 33163,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v712-v712-qualification-q3-run-v712q3-economics-v5\",\n  \"content_hash\": \"60ef479a857522943ee69eb2dabe3b1ac0e422c350b707c0e4759ad724d5df78\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"NCERT keec106 explicitly presents this exact scenario to define and illustrate disguised unemployment.\",\n    \"More workers are engaged than needed for cultivation, meaning excess workers represent disguised unemployment rather than open or seasonal unemployment.\"\n  ],\n  \"syllabus_chapter\": \"Employment\",\n  \"syllabus_topic\": \"Types of unemployment: disguised, seasonal, open\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Farm requires only two workers plus the farmer, but engages five workers and family members year-round.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Extra workers are unemployed because their marginal product is zero.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Agriculture is seasonal in nature so the farm workers experience seasonal joblessness.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Since all persons are physically engaged in farm work, there is full employment.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"strained\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly tests core concept of disguised unemployment in Indian agriculture.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard NCERT-derived application MCQ matching CUET exam style.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard Class XII Economics comprehension and application demand.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors effectively test confusion between open, seasonal, and disguised unemployment.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Suppose a farmer has four acres of land and he actually needs only two workers and himself to carry out various operations on his farm in a year, but if he employs five workers and his family members such as his wife and children, this situation is known as disguised unemployment.\",\n      \"reason\": \"Directly aligns with NCERT illustration and definition of disguised unemployment.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Open unemployment, because the extra persons have no work at all and are seeking jobs\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"everyone on the farm works throughout the year.\",\n      \"reason\": \"Workers are actively engaged on the farm rather than visibly without work.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Seasonal unemployment, because farm work is available only in some months of the year\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"carry out its operations through the year. He employs five workers along with his wife and children, and everyone on the farm works throughout the year.\",\n      \"reason\": \"The stem explicitly specifies that operations and work continue throughout the entire year.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Full employment, because every person on the farm is working\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Economists call unemployment prevailing in Indian farms as disguised unemployment.\",\n      \"reason\": \"Excess labour on the farm represents disguised unemployment, not genuine full employment.\"\n    }\n  ]\n}",
+       "thoughtSignature": "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"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0,
+    "citationMetadata": {
+     "citationSources": [
+      {
+       "startIndex": 3136,
+       "endIndex": 3388,
+       "uri": "https://www.studyadda.com/notes/upsc/economics/employment-and-infrastructure/ncert-extracts-employment-growth-information-and-other-issues/10344",
+       "license": ""
+      }
+     ]
+    }
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5598,
+   "candidatesTokenCount": 1357,
+   "totalTokenCount": 7295,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5598
+    }
+   ],
+   "thoughtsTokenCount": 340,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "OxvJaquoJsva4-EP6cyI0AQ"
+ }
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "v74-source-construction-teaching-supplement-v1",
+  "at": "2026-10-08T15:48:10.187Z",
+  "question_packet_sha256": "65a1679f4a85b4c3ecba64dbe034c0cb91b4f9b5852bbdbcbbe3d4d3a55b5905",
+  "contains_proposed_answers": false,
+  "items": [
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 8,
+          "quote_start": 2294,
+          "quote_end": 2408,
+          "quote": "iii) Technological Environment: Technological environment includes forces relating to scie ntific improvements and",
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "reason": "The original selected quote contains the right-column continuation. This separately located literal definition supplies the left-column beginning without silently joining geometric columns."
+    }
+  ],
+  "publication": false,
+  "paid_calls": 0
+}

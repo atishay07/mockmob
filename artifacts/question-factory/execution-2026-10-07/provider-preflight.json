@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-06T20:35:11.057Z",
+  "read_only": true,
+  "paid_generation_requests": 0,
+  "api_generation_spend_usd": 0,
+  "openai": {
+    "model": "gpt-6-luna",
+    "model_access": {
+      "http_status": 200,
+      "accessible": true,
+      "error_code": null,
+      "error_type": null
+    },
+    "batch_list_access": {
+      "http_status": 200,
+      "accessible": true,
+      "error_code": null,
+      "error_type": null
+    }
+  },
+  "gemini": {
+    "model": "gemini-3.8-flash",
+    "model_access": {
+      "http_status": 200,
+      "accessible": true,
+      "error_code": null,
+      "error_type": null
+    },
+    "generation_methods": [
+      "generateContent",
+      "countTokens",
+      "createCachedContent",
+      "batchGenerateContent"
+    ],
+    "batch_list_access": {
+      "http_status": 200,
+      "accessible": true,
+      "error_code": null,
+      "error_type": null
+    }
+  },
+  "database": {
+    "factory_control": {
+      "http_status": 404,
+      "accessible": false,
+      "error_code": null,
+      "error_type": null
+    }
+  },
+  "limitations": [
+    "Model lookup and batch-list access do not prove successful submission, quota, billing or completion.",
+    "The database check is read-only; no schema migration or control changes."
+  ]
+}

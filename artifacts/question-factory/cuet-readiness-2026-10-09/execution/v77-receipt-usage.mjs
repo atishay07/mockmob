@@ -1,0 +1,3 @@
+import{DatabaseSync}from'node:sqlite';const db=new DatabaseSync('data/pipeline-budget.sqlite',{readOnly:true});
+const rows=db.prepare("SELECT p.id,p.provider,p.state,p.response_json,r.state budget_state,r.actual,r.receipt_json FROM provider_requests p JOIN requests r ON r.id=p.reservation_id WHERE json_extract(p.request_json,'$.config.candidate_id') LIKE 'v77-qualification-2026-10-09-%' AND p.state='complete'").all();
+for(const r of rows){const s=JSON.parse(r.response_json||'{}'),receipt=JSON.parse(r.receipt_json||'{}');console.log(JSON.stringify({key:r.id,provider:r.provider,response_fields:Object.keys(s),status:s.status,usage:s.usage,usage_metadata:s.usageMetadata,tier:s.service_tier,incomplete:s.incomplete_details,actual_usd:r.actual/1e6,receipt}));}db.close();

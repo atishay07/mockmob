@@ -1,0 +1,99 @@
+{
+  "commit": "f70e385909ff454f10bf83e60d96a6883bb31c17",
+  "deployment": "https://vercel.com/atishay07s-projects/mockmob/6VA6xyZTYuXB87urHXQLAgeusbAx",
+  "checks": [
+    {
+      "lead": "Take a timed session. Review missed answers. Choose your next step.",
+      "mains": 1,
+      "overflow": -10,
+      "picker": true,
+      "route": "/",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "chosen": "1",
+      "controls": [
+        {
+          "height": 44,
+          "label": "Previous feature",
+          "width": 44
+        },
+        {
+          "height": 44,
+          "label": "Next feature",
+          "width": 44
+        },
+        {
+          "height": 44,
+          "label": "Play the tour",
+          "width": 44
+        }
+      ],
+      "inactiveSlides": 7,
+      "mains": 1,
+      "overflow": 0,
+      "playLabel": "Play the tour",
+      "route": "/",
+      "theme": "light",
+      "visibleSlides": 1,
+      "width": 390
+    },
+    {
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "dark",
+      "width": 320
+    },
+    {
+      "lead": "Take a timed session. Review missed answers. Choose your next step.",
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "dark",
+      "width": 1440
+    },
+    {
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "light",
+      "width": 1440
+    },
+    {
+      "focus": "search",
+      "font": "16px",
+      "mains": 1,
+      "overflow": 0,
+      "route": "/cuet-cutoff-calculator",
+      "search": "",
+      "theme": "light",
+      "width": 390
+    },
+    {
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "light",
+      "width": 320
+    },
+    {
+      "mains": 1,
+      "overflow": 0,
+      "route": "/",
+      "theme": "dark",
+      "width": 390
+    }
+  ],
+  "sampleFeedback": "Correct CANDID/Frank feedback observed",
+  "calculator": "ArrowRight UR to OBC-NCL, one tab stop; clear search empties and returns focus; phone input 16px",
+  "paidActions": false
+}

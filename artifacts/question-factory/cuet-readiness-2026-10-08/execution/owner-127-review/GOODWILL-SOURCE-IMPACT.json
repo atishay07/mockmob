@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-08T15:04:36.451Z",
+  "source": "ncert-leac102",
+  "faulty_printed_page": 64,
+  "correct_worked_page": 66,
+  "registered_spans": [
+    "span-8a1d40054567",
+    "span-a50bfa9f5679"
+  ],
+  "referencing_cases": [
+    {
+      "id": "ac76f1ab2669f4bcaaaea5de000b45ba",
+      "content_hash": "7930143084cb2619d5b1ec6d67f0c9c7ef1c05805daf04d95c968cd95e01e273",
+      "reassessment": "eligible"
+    },
+    {
+      "id": "26e013938707cad0ddca6fab9c51ebce",
+      "content_hash": "4a382e2ad0c13b3d1d35a03766ab6e0a896cbb2cb2c31d9cde0afc331c9a6b57",
+      "reassessment": "eligible"
+    },
+    {
+      "id": "b5df7177ed911c47b68418405ff1dedb",
+      "content_hash": "8ef9a39e58ed72d07e1ba50e9574b9e0fe977876c7901c80542bfe19702ee3eb",
+      "reassessment": "quarantined"
+    },
+    {
+      "id": "f6fb9e300d41be6c1c7dcf7d53de2cde",
+      "content_hash": "cbedcd7fd72c862d584963b951cd933d33e58dc94bf1b8ea468ad955268ed008",
+      "reassessment": "eligible"
+    },
+    {
+      "id": "495c4536f5869a65e46ae8a6d92010c8",
+      "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+      "reassessment": "quarantined"
+    },
+    {
+      "id": "816315078cbe65feab3e2b9aaf52b8bb",
+      "content_hash": "dc3f0075a4daf28e1af6778acaa241345497016cb777223bd2f71f629e1c6d9b",
+      "reassessment": "eligible"
+    },
+    {
+      "id": "20e278c61e343db83349eded6916c255",
+      "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+      "reassessment": "quarantined"
+    },
+    {
+      "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+      "content_hash": "957acb47af29542fd5379aed71e428d46470cccf47a95dc185e89d6846587178",
+      "reassessment": "quarantined"
+    },
+    {
+      "id": "f639cd2aa78712420d9f804401e05f20",
+      "content_hash": "fcca1ddef5762f4faeca1fe6282bb6af30037e995320d9a617834fd2e541ca12",
+      "reassessment": "quarantined"
+    },
+    {
+      "id": "d7410c574d1b3dd93cdb55fab63e8812",
+      "content_hash": "bb07f3bfa2b52608154093f30e20c5b1a8e122f460278eef1bf479fa41addc92",
+      "reassessment": "eligible"
+    },
+    {
+      "id": "c98f9ea42e2d955bc12ae6e97f8cb537",
+      "content_hash": "fe0f1729311fe401090f5ac68fa58f6950b91b95a2e29f0f14c5a06dcf54fe25",
+      "reassessment": "eligible"
+    }
+  ],
+  "reference_count": 11,
+  "identified_question_copying_faulty_entry": [
+    "5bde762f1a36a3a7d894f0aa45f655e9"
+  ],
+  "other10_references_do_not_by_themselves_establish_question_faults": true,
+  "proposed_change": "Register a new page66 worked-journal excerpt for future receipts; resolve the contradictory source lines without overwriting the frozen registry or invalidating unrelated valid rules.",
+  "applied": false,
+  "production_writes": 0
+}

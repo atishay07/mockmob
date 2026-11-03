@@ -1,0 +1,54 @@
+{
+ "adjudicated_at": "2026-10-09T13:04:44.809Z",
+ "by": "root (Claude Opus) after V7.9 freeze 0f7a9d8a",
+ "include": [
+  "accountancy-v1",
+  "accountancy-v2",
+  "accountancy-v3",
+  "accountancy-v4",
+  "accountancy-v5",
+  "accountancy-d1",
+  "accountancy-d2",
+  "accountancy-d3",
+  "accountancy-d4",
+  "business_studies-v1",
+  "business_studies-v2",
+  "business_studies-v3",
+  "business_studies-v4",
+  "business_studies-v5",
+  "business_studies-d1",
+  "business_studies-d2",
+  "business_studies-d3",
+  "business_studies-d4",
+  "economics-v1",
+  "economics-v2",
+  "economics-v3",
+  "economics-v4",
+  "economics-d1",
+  "economics-d2",
+  "economics-d4",
+  "english-v1",
+  "english-v2",
+  "english-v3",
+  "english-v4",
+  "english-v5",
+  "english-d1",
+  "english-d2",
+  "english-d3",
+  "english-d4"
+ ],
+ "exclusions": [
+  {
+   "local_id": "economics-v5",
+   "reason": "Construction defect found by independent blind custody before study freeze: discrete MC schedule makes profit equal at 4 and 5 units (P=MC at the 5th unit), so option C is also defensible. Excluded, not relabelled."
+  },
+  {
+   "local_id": "economics-d3",
+   "reason": "Defect label not upheld at root adjudication: the two-sector simple multiplier (k=1/(1-MPC)) is the standard CUET/NCERT model for this stem, so a validator accepting key B would be academically correct. Excluded so an unsound label cannot manufacture a false accept or a false pass."
+  }
+ ],
+ "notes": {
+  "accountancy-v2": "Blind custody agreed (B, single); flagged only because the reviewer wrote a None note in missing_decisive_condition. F6 states the Table F 10% arrears rule. Kept valid.",
+  "unsupported_explanation defects": "accountancy-d3, business_studies-d3, english-d3 verified by root: each explanation asserts a fact absent from (or contradicted by) its excerpt/passage."
+ }
+}

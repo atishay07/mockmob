@@ -1,0 +1,66 @@
+{
+  "date_ist": "2026-10-06",
+  "paid_model_requests": 0,
+  "registered_anchors": 0,
+  "official_2023_key": {
+    "url": "https://nta.ac.in/Download/ExamPaper/Paper_20240219165704.pdf",
+    "http_status": 200,
+    "sha256": "e796bba2505c288119b5a66c8cb4c5bf5ddbd0b45330b71382fc9f970bc0ac4f",
+    "pages": 1761,
+    "state": "acquired_not_a_complete_source_pack"
+  },
+  "english_mirror": {
+    "url": "https://cdn-images.prepp.in/public/image/CUET_2023_Eng_Question_Paper_PDF_cb40af11540c66a0e433fb371d4cd4cc.pdf",
+    "http_status": 200,
+    "sha256": "c43700a8013221670efc42b57a77878b5a5b03c2c3ce57c954e64855750ba913",
+    "pages": 39,
+    "extractable_text_characters": 0,
+    "visually_inspected_pages": [
+      1,
+      2,
+      3
+    ],
+    "observations": [
+      "Combined English and General Test paper",
+      "English section contains 50 questions, 40 to attempt",
+      "Paper question IDs 6323865326 and 6323865327 are visible on pages 2 and 3",
+      "Neither sampled ID was found in the complete extracted official 2023 key"
+    ],
+    "state": "not_authenticated_do_not_register",
+    "limitations": [
+      "Unmatched IDs do not alone prove the mirror is fabricated",
+      "Complete image extraction, exact key mapping and an accepted provenance chain are still missing",
+      "Reuse permission has not been recorded"
+    ]
+  },
+  "other_sources": [
+    {
+      "source": "NDLI public paper catalogue",
+      "state": "document_access_returned_401_no_bypass"
+    },
+    {
+      "source": "Prepp 2025 Accountancy and Business Studies PDFs",
+      "state": "excluded_from_authentic_source_inventory",
+      "reason": "Incomplete reconstructed questions without official IDs"
+    }
+  ],
+  "publication_permission": "owner_attested_without_licence_document",
+  "additional_official_keys": [
+    {
+      "id": "nta-omr-final-key-2024",
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20240725154536.pdf",
+      "status": 200,
+      "sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "state": "pending_paper_mapping",
+      "permission_status": "owner_attested"
+    },
+    {
+      "id": "nta-cbt-final-key-2024",
+      "url": "https://www.nta.ac.in/Download/Notice/Notice_20240725154523.pdf",
+      "status": 200,
+      "sha256": "30214b88f8cf6487de6342d495e25460ddb60b81d6e3f6a0c39824645e561b97",
+      "state": "pending_paper_mapping",
+      "permission_status": "owner_attested"
+    }
+  ]
+}

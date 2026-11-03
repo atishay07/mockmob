@@ -1,0 +1,284 @@
+{
+  "schema": "owner-one-off-independent-solution-v1",
+  "subject": "accountancy",
+  "batch": "accountancy-01",
+  "input_path": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/owner-127-review/accountancy-01.blind.json",
+  "input_sha256": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+  "input_offset": 0,
+  "input_denominator": 36,
+  "independent_solutions_saved_at": "2026-10-08T14:11:14.521Z",
+  "comparison_opened": false,
+  "notice": "Solved blind from stems/options/supplied source excerpts before comparison review. This is a diagnostic review, not release approval.",
+  "items": [
+    {
+      "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+      "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "C",
+      "derivation_or_rule": "Firm A expenditure/revenue: 8/10=80%, 12/16=75%. Firm B: 14/20=70%, 18/24=75%. Each year uses that same year revenue, as stem says. A falls, B rises.",
+      "answer_check": "80%, 75%; 70%, 75%",
+      "source": {
+        "key": "ncert-leac204:1:pdf-page-12",
+        "locator": null,
+        "excerpt_quote": "“items of expenditure are shown as a percentage of the revenue from operations.”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Distractor A gives profit shares; B swaps incorrect values; D crosses year bases. One defensible option.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "c6f1c8305a2882ca83281c8f223f09e1",
+      "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "A",
+      "derivation_or_rule": "Cash ₹4,20,000 less outside creditors ₹1,20,000 leaves ₹3,00,000 for partner advances. Total partner loans ₹4,00,000, so M receives 1.2/4 × 3.0 lakh = ₹0.90 lakh. No unpaid expenses/contributions; priority stated.",
+      "answer_check": "₹90,000",
+      "source": {
+        "key": "ncert-leac104:1:pdf-page-4",
+        "locator": null,
+        "excerpt_quote": "“paying each partner proportionately what is due to him/her from the firm for advances”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Alternatives test priority and pro-rata arithmetic; no second answer.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "f99d38d2b710dac30b73fa792426f074",
+      "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "D",
+      "derivation_or_rule": "For death, deceased partner claim includes profit/loss, interest on capital and (if applicable) interest on drawings from last balance sheet to date of death. Those dates are 30 June and 31 October.",
+      "answer_check": "30 June to 31 October",
+      "source": {
+        "key": "ncert-leac103:1:span-ce862e7dfa8c",
+        "locator": null,
+        "excerpt_quote": "“from the date of the last Balance Sheet to the date of his death”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "A-C fall outside the stated interval. Simple recall is valid CUET practice.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "37a8e9413523b30482b6b1577d627f72",
+      "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "C",
+      "derivation_or_rule": "Classify each issue and redemption amount against nominal ₹1,000: A par/par; B premium/par; C par/premium; D discount/premium. This is option C.",
+      "answer_check": "A→I, B→IV, C→III, D→II",
+      "source": {
+        "key": "ncert-leac202:1:span-b92b17a10903",
+        "locator": null,
+        "excerpt_quote": "“Issued at par and redeemable at par”; “issued at a premium and redeemable at par”; “issued at par and redeemable at a premium”; “issued at a discount and redeemable at a premium.”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "All four pairings are fixed by the definitions supplied in the stem and source.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "774fae6c1244e20f676a2f110fcb1c31",
+      "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "C",
+      "derivation_or_rule": "The source says aggregate net flows are shown as net increase/decrease; add that to opening cash equivalents to get closing balance. Option C.",
+      "answer_check": "Beginning cash + aggregate net increase/decrease from all three activities",
+      "source": {
+        "key": "ncert-leac206:1:span-11e51ff37121",
+        "locator": null,
+        "excerpt_quote": "“to which the amount of cash and cash equivalent at the beginning is added”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "A reverses the sign, B omits opening balance, D omits investing/financing.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "5d5cbe3a6d01bd317032694801215f21",
+      "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "D",
+      "derivation_or_rule": "Source expressly says financial statement analysis helps judge concentration of economic power and provides basis for governmental actions including licensing, controls and fixing prices. C negates that. Option D.",
+      "answer_check": "Statements A and B",
+      "source": {
+        "key": "ncert-leac204:1:pdf-page-4",
+        "locator": null,
+        "excerpt_quote": "“an economist can judge the extent of concentration of economic power”; “basis for many governmental actions relating to licensing, controls, fixing of prices”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Clear source-matched statement selection, single answer.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+      "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "B",
+      "derivation_or_rule": "Invited 2,00,000, applied 1,90,000; applications are 10,000 fewer than offered. NCERT defines under-subscription as applications below the offered quantity.",
+      "answer_check": "Under-subscription",
+      "source": {
+        "key": "ncert-leac201:1:pdf-page-30",
+        "locator": null,
+        "excerpt_quote": "“number of shares applied for is less than the number for which applications have been invited”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Pro-rata allotment is not entailed by fewer applications; straightforward recall is legitimate.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+      "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "B",
+      "derivation_or_rule": "Old shares (4/10,3/10,2/10,1/10), new (2/10,2/10,3/10,3/10). A sacrifices 2/10, B 1/10 => 2:1. C gains 1/10, D 2/10 => 1:2. Option B.",
+      "answer_check": "A:B sacrifices 2:1; C:D gains 1:2",
+      "source": {
+        "key": "ncert-leac102:1:span-88acd5a861b0",
+        "locator": null,
+        "excerpt_quote": "“gain of additional share ... while others ... loss of a part thereof”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Other options reverse or misstate one/both ratios. Fractions sum consistently to 1 in each ratio.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "67fe249b34753b62b0c637326975e001",
+      "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "A",
+      "derivation_or_rule": "12,00,000/1,50,000=8; 18,00,000/1,50,000=12. The stem adds low-margin quick sales to realise cash, which blocks the blanket inference that greater turnover here proves greater profit. A makes the limited supported claim.",
+      "answer_check": "Year 1 8×; Year 2 12×; turnover rises, profitability not proven",
+      "source": {
+        "key": "ncert-leac205:1:pdf-page-20",
+        "locator": null,
+        "excerpt_quote": "“Inventory Turnover Ratio = Cost of Revenue from Operations / Average Inventory”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "B overclaims profitability; C reverses ratios; D subtracts instead of dividing. Because the case explicitly gives low-margin sales, A is well-constructed and answerable.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    },
+    {
+      "id": "4115a8da29d5db85791e1ebac2a51510",
+      "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+      "blinded_input_hash": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7",
+      "independently_solved_at": "2026-10-08T14:11:14.521Z",
+      "defensible_option": "B",
+      "derivation_or_rule": "Fixed capital method: additional capital goes in Capital Account (B); profit/drawings go through Current Account (A); then confirm its resulting credit balance (C); then present capital and credit current account on liabilities side (D).",
+      "answer_check": "B, A, C, D",
+      "source": {
+        "key": "ncert-leac101:1:quality-v4-5f1d4244dc0b",
+        "locator": null,
+        "excerpt_quote": "“All items like share of profit or loss ... drawings ... are recorded in a separate account, called Partner’s Current Account.”",
+        "source_excerpt_hash": null
+      },
+      "option_challenge": "Source supports the posting distinction; stem supplies the credit balance for classification. Steps are uniquely ordered.",
+      "criteria": {
+        "correctness": true,
+        "source_support": true,
+        "answer_uniqueness": true,
+        "missing_case_assumption": false,
+        "syllabus_or_course_fit": "supported by supplied NCERT Class XI/XII accountancy source; no unavailable syllabus branch assumed",
+        "presentation_or_schema": "options distinct and interpretable",
+        "craft": "valid; easy recall is not a defect"
+      },
+      "disposition": "retain_unchanged",
+      "failure_codes": []
+    }
+  ]
+}

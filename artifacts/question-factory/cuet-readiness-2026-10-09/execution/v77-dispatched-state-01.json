@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-09T08:07:12.662Z",
+  "read_only": true,
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.517892,
+    "remaining_usd": 14.35459,
+    "unresolved": 37
+  },
+  "scope": {
+    "provider_requests": 1,
+    "complete": 0,
+    "settled_usd": 0,
+    "held_usd": 0.01,
+    "pending": [
+      {
+        "id": "51bacde7977f7b5288f31f2922bee8f0aa2ece406ae086e4a09e2368da571461",
+        "provider": "openai",
+        "state": "dispatching",
+        "candidate": "v77-qualification-2026-10-09-v77f-ad344a8b5f2d",
+        "stage": "blind_solution",
+        "budget_state": "reserved",
+        "actual": null,
+        "reserved": 10000
+      }
+    ]
+  },
+  "owner": {
+    "pid": 36876,
+    "nonce": "4b665d61-e63b-4df1-a91f-6d5cea4e56c7",
+    "started_at": "2026-10-09T08:06:06.808Z"
+  },
+  "studies": {
+    "fresh": {
+      "denominator": 28,
+      "terminal": 0,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [],
+      "errors": [],
+      "evaluated_case_ids": [],
+      "blind_judgments": 0
+    },
+    "regression": {
+      "denominator": 13,
+      "terminal": 0,
+      "eligible_valid": 0,
+      "eligible_invalid": [],
+      "quarantined_valid": [],
+      "errors": [],
+      "evaluated_case_ids": [],
+      "blind_judgments": 0
+    }
+  }
+}

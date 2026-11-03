@@ -1,0 +1,199 @@
+{
+  "schema": "mockmob-private-c-source-overlay-v1",
+  "created_at": "2026-10-08",
+  "purpose": "Private C-only teaching reference overlay; no global registry mutation or unrestricted republication.",
+  "document": {
+    "source_id": "ncert-leac203",
+    "printed_title": "Financial Statements of a Company",
+    "edition": "Reprint 2026-27",
+    "pdf_page_count": 27,
+    "visual_review": {
+      "status": "visually_checked",
+      "checked_at": "2026-10-08",
+      "pdf_pages_1based": [
+        1,
+        2,
+        3,
+        4,
+        10,
+        11,
+        12,
+        13,
+        21,
+        22,
+        23,
+        24
+      ],
+      "printed_pages": [
+        144,
+        145,
+        146,
+        147,
+        153,
+        154,
+        155,
+        156,
+        164,
+        165,
+        166,
+        167
+      ],
+      "page_text_sha256": {
+        "1": "e32e848a70ea4b616ecc3ee0d3593504d48efa163b1a1e9e3b7edee3823dadad",
+        "2": "38446092bd16826fb40ca8de8b9456e7487a9dc4c9666dc07d2ef89f56a053d8",
+        "3": "e7d683e566dc565b66e523cafad0ff9a39f994005808511ef5c856e6cedf329a",
+        "4": "a7eee77e9eb1e729dc43937cc3cf4a3b603bf2cb73fbdda3390d6acba6cd7c39",
+        "10": "540a83157c1031eb3a0856177836e08f0754ca6f8c8d9e2e92cd4594065c270e",
+        "11": "8767ff65536bebf7dfc66fa7d56269cd40e070457a092e61e3d3c51ec2e75075",
+        "12": "21c597c515919061767d844fd8b18709cc115ef8c20f28919a44e511e150dcca",
+        "13": "7bfc93c4f3cc88d1edbe6e920f3cad637a1aba4db6aa5d905cb6f0078efd30ea",
+        "21": "76f6b9880647290aa865da2cb36b883c5591df97922a4347a3d5e4c993f9c271",
+        "22": "ff30134989825a423a8cb49588474468d639d34700aaa13827b3cf96df461eb2",
+        "23": "d54a129e2ee86a890fb4e737ad497bc913ae571abc92b5c2623857570e3a102c",
+        "24": "a893db3951cbe44db56c7f065dbdfcf1f1ad07227d9c31d836538bfa0d4f231a"
+      }
+    }
+  },
+  "cache_sha256": {
+    "pdf": "c39c34b6445eef09159ccbf3a7b14163edb5b203c6b37411bbf92317304ac82c",
+    "extraction": "c6fc29c2b31e9f5bdff0542eb1a649083f71ef58d9097f9b092059b5dd0a8ad6",
+    "pages_json": "f87b6e0433f7a7d09fa69735c022ecaa8f6a9300648f32dc882aa318bae9fdd9"
+  },
+  "fact_page_map": {
+    "unit-v-meaning": 1,
+    "unit-v-decision-objective": 3,
+    "unit-v-cash-flow-objective": 3,
+    "unit-v-statement-types": 4,
+    "unit-v-balance-sheet-meaning": 23,
+    "unit-v-profit-loss-meaning": 24,
+    "unit-v-current-classification-period": 10,
+    "unit-v-current-classification-trading": 10,
+    "unit-v-current-classification-cash": 10,
+    "unit-v-noncurrent-residual": 10,
+    "unit-v-borrowing-long-term": 11,
+    "unit-v-borrowing-short-term": 11,
+    "unit-v-fixed-assets-classification": 13,
+    "unit-v-investment-classification": 13,
+    "unit-v-inventory-classification": 13,
+    "unit-v-historical-cost-limitation": 22,
+    "unit-v-asset-realisation-limitation": 22,
+    "unit-v-aggregate-information-limitation": 23,
+    "unit-v-qualitative-information-limitation": 23
+  },
+  "extraction_repairs": [
+    {
+      "pdf_page_1based": 4,
+      "from": "prepard",
+      "to": "prepared",
+      "reason": "Visually confirmed against printed page 147."
+    },
+    {
+      "from": "\\uF097",
+      "to": "•",
+      "reason": "Canonicalized the visually confirmed list bullet glyph for readable extracted text."
+    }
+  ],
+  "source": {
+    "id": "ncert-leac203",
+    "title": "Financial Statements of a Company",
+    "kind": "reference",
+    "url": "https://ncert.nic.in/textbook/pdf/leac203.pdf",
+    "file": "artifacts/question-factory/cuet-readiness-2026-10-08/c-source-overlay/leac203.pdf",
+    "identity_sha256": "c39c34b6445eef09159ccbf3a7b14163edb5b203c6b37411bbf92317304ac82c",
+    "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-08/c-source-overlay/leac203.extraction.txt",
+    "extraction_sha256": "c6fc29c2b31e9f5bdff0542eb1a649083f71ef58d9097f9b092059b5dd0a8ad6",
+    "extraction_checked": true,
+    "version": 1,
+    "reuse_permitted": true,
+    "permission": {
+      "basis": "Brief attributed excerpts from official NCERT used for local educational validation; no unrestricted republication claim",
+      "reference": "https://ncert.nic.in/textbook/pdf/leac203.pdf",
+      "inherited_basis_from": "ncert-leac201"
+    },
+    "facts": {
+      "unit-v-meaning": {
+        "text": "Financial statements are the basic and formal annual reports through which the corporate management communicates financial information to its owners and various other external parties which include investors, tax authorities, government, employees, etc. These refer to: the balance sheet (position statement) as at the end of accounting period, the statement of profit and loss of a company and the cash flow statement."
+      },
+      "unit-v-decision-objective": {
+        "text": "Financial statements are the basic sources of information to the shareholders and other external parties for understanding the profitability and financial position of any business concern. They provide information about the results of the business concern during a specified period of time in terms of assets and liabilities, which provide the basis for taking decisions. Thus, the primary objective of financial statements is to assist the users in their decision-making."
+      },
+      "unit-v-cash-flow-objective": {
+        "text": "To provide information about cash flows: They are to provide information useful to investors and creditors for predicting, comparing and evaluating, potential cash flows in terms of amount, timing and related uncertainties."
+      },
+      "unit-v-statement-types": {
+        "text": "The financial statements generally include two statements: balance sheet and statement of profit and loss which are required for external reporting and also for internal needs of the management like planning, decision-making and control. Apart from these, there is also a need to know about movements of funds and changes in the financial position of the company. For this purpose, a cash flow statement is prepared."
+      },
+      "unit-v-balance-sheet-meaning": {
+        "text": "The balance sheet shows all the assets owned by the concern, all the obligations or liabilities payable to outsiders or creditors and claims of the owners on a particular date. It is one of the important statements depicting the financial position or status or strength of an undertaking."
+      },
+      "unit-v-profit-loss-meaning": {
+        "text": "The Statement of profit and loss is prepared for a specific period to determine the operational results of an undertaking. It is a statement of revenue earned and the expenses incurred for earning the revenue. It is a performance report showing the changes in income, expenses, profits and losses as a result of business operations during the year between two balance sheet dates."
+      },
+      "unit-v-current-classification-period": {
+        "text": "• is expected to be realised/settled within twelve months or,"
+      },
+      "unit-v-current-classification-trading": {
+        "text": "• if it is held primarily for trading or,"
+      },
+      "unit-v-current-classification-cash": {
+        "text": "• is cash and cash equivalent or,"
+      },
+      "unit-v-noncurrent-residual": {
+        "text": "Other assets and liabilities are non-current."
+      },
+      "unit-v-borrowing-long-term": {
+        "text": "(i) Loans which are repayable in more than twelve months/operating cycle are classified as long-term borrowings on the face of balance sheet."
+      },
+      "unit-v-borrowing-short-term": {
+        "text": "(ii) Loans repayable on demand or whose original tenure is not more than twelve months/operating cycle are classified as short-term borrowings on the face of balance sheet."
+      },
+      "unit-v-fixed-assets-classification": {
+        "text": "Both tangible and intangible assets are non-current. This may also be noted if the useful life of the asset is less than 12 months, it will still fall under non-current."
+      },
+      "unit-v-investment-classification": {
+        "text": "Investments expected to realise within twelve months are considered as current investments under current assets. Others are classified as non-current investments under non-current assets."
+      },
+      "unit-v-inventory-classification": {
+        "text": "All inventories are always treated as current."
+      },
+      "unit-v-historical-cost-limitation": {
+        "text": "Financial statements are prepared on the basis of historical cost. Since the purchasing power of money is changing, the values of assets and liabilities shown in financial statement do not reflect current market situation."
+      },
+      "unit-v-asset-realisation-limitation": {
+        "text": "Some of the assets may not realise the stated values, if the liquidation is forced on the company. Assets shown in the balance sheet reflect merely unexpired or unamortised cost."
+      },
+      "unit-v-aggregate-information-limitation": {
+        "text": "Financial statements show aggregate information but not detailed information."
+      },
+      "unit-v-qualitative-information-limitation": {
+        "text": "Financial statements contain only monetary information but not qualitative information like industrial relations, industrial climate, labour relations, quality of work, etc."
+      }
+    },
+    "supports": {
+      "unit-v-meaning": "87233e1f0f84112c98a8d1937482a4e66cb788559e336937a638eaffa38dcb83",
+      "unit-v-decision-objective": "9fb1e4383deaa9300dd04347a6964477271cfedbfdaf3034369a51047e268b65",
+      "unit-v-cash-flow-objective": "f81fb493e463c90014fdcfb20f4ac886a7088e6c5f3c46685060598fca0b0e19",
+      "unit-v-statement-types": "9499c7605debf7e80fb0d2761c9d0263d0aa5d302acb5d2eb8ff78a60414b5a2",
+      "unit-v-balance-sheet-meaning": "92cd995bf08e4a460e305b8e39b898116861198bc370db399be9d79435199300",
+      "unit-v-profit-loss-meaning": "2d21a13480047b831b5d9ec4bea084d20fd69744c4e03af69ccd33683a3aec8f",
+      "unit-v-current-classification-period": "fbf23cef2368d13d5d333f19b4540f614666a9844cd317e180a1ceace7f5ed3f",
+      "unit-v-current-classification-trading": "a58454aa3b0b623e9d405d5a5822806c6a17cbea9e3c70cca83727cd35cc5b79",
+      "unit-v-current-classification-cash": "898609598f281ab0be0f4ac9981d9ee67269ccc6c32efe34b77c105672c2e727",
+      "unit-v-noncurrent-residual": "0cb5a3e121bc93a93348bc3103628e21323092e842338ea1d7d3a36a8515c57f",
+      "unit-v-borrowing-long-term": "e51b9318e8b0d255192a188aba55d7fcdf42bf0069bb82f251b7b8e0360e62a0",
+      "unit-v-borrowing-short-term": "37c89fd0cd875e66755e0770d4a13f339c803f0e71e56fb927ec087a8faab6ce",
+      "unit-v-fixed-assets-classification": "84bf83c7134275f6d2ff571118bf216cf0b70c236ff11f5270119cd75e8f7899",
+      "unit-v-investment-classification": "6d30f446ee3ea00d508d5b74ff68cd920778526b619c397048be03287bbace04",
+      "unit-v-inventory-classification": "266abd8bc345b46386d8e386bcdc1ae33487e5db4427959bfab775677d7b4971",
+      "unit-v-historical-cost-limitation": "80e52aab1e7c1a68e97b2232c2e612aaa2d65e339f00525ff62c221dc638f249",
+      "unit-v-asset-realisation-limitation": "ed16fe6327e7582f6cae555c7888e4d0e974685d81c82e938bf56c279fe30011",
+      "unit-v-aggregate-information-limitation": "bdf61b16beabd94d467b2efc30e2acc791e0b272e29cd18d539397bc636b5635",
+      "unit-v-qualitative-information-limitation": "5ab72c95656af9c382a0e1753dbd762d89bf37ee10d526e0ffc569e41bd0bcdb"
+    },
+    "chapters": [
+      "Financial Statements of Company"
+    ],
+    "state": "active",
+    "source_pack_id": "original-accountancy-reference-v1"
+  }
+}

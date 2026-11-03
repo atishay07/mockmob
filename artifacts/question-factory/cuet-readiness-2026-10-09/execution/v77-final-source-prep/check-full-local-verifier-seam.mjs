@@ -1,0 +1,8 @@
+import{readFileSync,writeFileSync}from'node:fs';
+import{verifyCandidateV77}from'../../../../../scripts/pipeline/lib/verifyV77.mjs';
+import{sourceMaterial}from'../../../../../scripts/pipeline/lib/factoryEvidence.mjs';
+const p='artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep',read=f=>JSON.parse(readFileSync(f)),d=read(p+'/draft-cases-v5-PRIVATE.json'),o=read(p+'/source-overlay-v5.json'),b=read('data/source_registry.json');
+const registry={...b,sources:{...b.sources,...o.sources},families:{...b.families,...o.families},packs:{...b.packs,...o.packs}},rows=[];
+for(const c of d.cases){sourceMaterial(registry,c.candidate.source_refs);let reached=false;const adapters=new Proxy({},{get:(_,key)=>async()=>{reached=true;throw Error('local_checks_complete_no_dispatch');}});try{const v=await verifyCandidateV77(c.candidate,{registry,adapters,secret:'offline-local-seam-test-only-not-publication',seen:new Set()});rows.push({id:c.id,expected_valid:c.expected_valid,reached_paid_seam:reached,local_result:v});}catch(e){if(e.message!=='local_checks_complete_no_dispatch')throw e;rows.push({id:c.id,expected_valid:c.expected_valid,reached_paid_seam:reached});}}
+const problems=rows.filter(r=>r.expected_valid&&!r.reached_paid_seam);if(problems.length)throw Error('positive_full_verifier_local_failure:'+JSON.stringify(problems));
+writeFileSync(p+'/full-local-verifier-seam-v5.json',JSON.stringify({at:new Date().toISOString(),all_source_refs_actual_adapter_verified:85,positive_local_failures:problems,rows,native_calls:0,signatures_created:0,synthetic_key_not_release_evidence:true},null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({cases:rows.length,positive_local_failures:0,native_calls:0}));

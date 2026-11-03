@@ -1,0 +1,12 @@
+file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV73.mjs:98
+    if (!selection.allowed) throw new Error(selection.status);
+                                  ^
+
+Error: authenticated_anchor_required
+    at context (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV73.mjs:98:35)
+    at Object.evaluation [as __evaluation] (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/lib/factoryEvidenceV73.mjs:117:19)
+    at preflight (file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/runFreshCuetReadinessV73.mjs:66:22)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/scripts/pipeline/tools/runFreshCuetReadinessV73.mjs:73:26
+
+Node.js v24.15.0

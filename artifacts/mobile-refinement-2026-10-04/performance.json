@@ -1,0 +1,42 @@
+[
+  {
+    "mode": "glass",
+    "run": 1,
+    "lcp": 1808,
+    "cls": 0,
+    "guide": "local",
+    "frameP95": 18.19999999999891,
+    "over33ms": 3,
+    "sampled": 282
+  },
+  {
+    "mode": "glass",
+    "run": 2,
+    "lcp": 3532,
+    "cls": 0,
+    "guide": "local",
+    "frameP95": 12.200000000000728,
+    "over33ms": 0,
+    "sampled": 341
+  },
+  {
+    "mode": "opaque",
+    "run": 1,
+    "lcp": 1604,
+    "cls": 0,
+    "guide": "local",
+    "frameP95": 12.200000000000728,
+    "over33ms": 1,
+    "sampled": 345
+  },
+  {
+    "mode": "opaque",
+    "run": 2,
+    "lcp": 1620,
+    "cls": 0,
+    "guide": "local",
+    "frameP95": 12.200000000000728,
+    "over33ms": 1,
+    "sampled": 348
+  }
+]

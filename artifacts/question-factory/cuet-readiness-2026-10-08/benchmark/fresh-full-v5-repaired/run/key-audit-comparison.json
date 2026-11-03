@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-07T22:48:44.326Z",
+  "independent_first_pass_sha256": "b7078c3c70c1a2556c8d9e112f29118d2994895283dd7d410b1c302ae807e5d6",
+  "records": 64,
+  "problems": [
+    {
+      "id": "fresh-v5r-economics-money-banking-3",
+      "proposed": "C",
+      "independent": {
+        "status": "judged",
+        "provider": "anthropic",
+        "model": "claude-haiku-5-5",
+        "candidate_id": "fresh-v5r-economics-money-banking-3",
+        "content_hash": "0c28aaff6991c8982e9dfd50847e47ade84fdd79660451a632dd42bfc15a7e49",
+        "solved_key": "abstain",
+        "unique": false,
+        "source_supported": true,
+        "proof": "The NCERT excerpt supports the matches: central bank issues the currency (A-IV); commercial banks accept deposits and lend part of them (B-III); currency issued by the central bank as a basis for credit creation is reserve money (C-I); the spread is the difference between lending and deposit interest rates (D-II). This gives A-IV, B-III, C-I, D-II. Checking the options: A gives A-II, B-I, C-IV, D-III (wrong); B gives A-III, B-IV, C-I, D-II (A and B wrong, C and D correct); C gives A-IV, B-III, C-II, D-I (A and B correct, C and D wrong); D gives A-I, B-II, C-III, D-IV (wrong). No option matches the supported mapping, so no single key can be selected.",
+        "uncertainties": [
+          "The printed answer options do not include the source-supported matching, so the question appears to have no correct option as printed.",
+          "Possible typographical error in the option list or List-II labels; abstaining rather than guessing a closest option."
+        ]
+      }
+    }
+  ],
+  "ready_for_validation": false,
+  "limitation": "Blinded model/source agreement is an independent checking strategy, not perfect-accuracy or CUET-style proof."
+}

@@ -1,0 +1,666 @@
+{
+ "schema": "cuet-v716-explanation-audit-packet-v1",
+ "study_id": "cuet-v716-qualification-fresh32b",
+ "part": 1,
+ "items": [
+  {
+   "opaque_id": "q716-1b7941239ab42546",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": "To secure its debentures, a company creates a charge on all its assets other than those already assigned to secured creditors, instead of on any one specific asset. What kind of charge has the company created?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "No charge, because the debentures are unsecured"
+    },
+    {
+     "key": "B",
+     "text": "A floating charge"
+    },
+    {
+     "key": "C",
+     "text": "A charge only on its inventories"
+    },
+    {
+     "key": "D",
+     "text": "A fixed charge"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p2-c0-g4-s0",
+     "text": "2.3.1 From the Point of view of Security\n(a) Secured Debentures: Secured debentures refer to those debentures\nwhere a charge is created on the assets of the company for the purpose\nof payment in case of default. The charge may be fixed or floating. A\nfixed charge is created on a specific asset whereas a floating charge is"
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g1-s0",
+     "text": "on the general assets of the company. The fixed charge is created\nagainst those assets which are held by a company for use in operations\nnot meant for sale whereas floating charge involves all assets excluding\nthose assigned to the secured creditors.\n(b) Unsecured Debentures: Unsecured debentures do not have a specific\ncharge on the assets of the company. However, a floating charge may\nbe created on these debentures by default. Normally, these kinds of\ndebentures are not issued."
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "A fixed charge is created on a specific asset held for use in operations, whereas a floating charge covers all the assets excluding those assigned to the secured creditors. A charge on the company's general assets is therefore a floating charge. The debentures are not unsecured, because a charge has been created, and the charge is not limited to inventories."
+  },
+  {
+   "opaque_id": "q716-5960dc1d428e5a7d",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "question": "Currency notes and coins are legal tender. Why are demand deposits not legal tender?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Demand deposits have intrinsic value like a gold coin."
+    },
+    {
+     "key": "B",
+     "text": "Demand deposits are issued only by the Reserve Bank of India."
+    },
+    {
+     "key": "C",
+     "text": "Demand deposits cannot be held in current accounts."
+    },
+    {
+     "key": "D",
+     "text": "Cheques drawn on demand deposits can be refused as a mode of payment."
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p13-c0-g0-s0",
+     "text": "giving the person purchasing power equal to the value printed on the note.\nThe same is also true of coins. Currency notes and coins are therefore\ncalled fiat money. They do not have intrinsic value like a gold or silver\ncoin. They are also called legal tenders as they cannot be refused by any\ncitizen of the country for settlement of any kind of transaction. Cheques\ndrawn on savings or current accounts, however, can be refused by anyone\nas a mode of payment. Hence, demand deposits are not legal tenders."
+    }
+   ],
+   "stated_key": "D",
+   "explanation": "Legal tenders cannot be refused by any citizen for settlement of a transaction. Cheques drawn on savings or current accounts, however, can be refused by anyone as a mode of payment, so demand deposits are not legal tender. Demand deposits are held in savings and current accounts with banks, and they do not have intrinsic value."
+  },
+  {
+   "opaque_id": "q716-eaec14d465f3d626",
+   "subject": "economics",
+   "chapter": "Government Budget & the Economy",
+   "question": "When the government incurs a revenue deficit, what does it imply?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "The government's stock of debt is falling."
+    },
+    {
+     "key": "B",
+     "text": "The government needs to borrow only to finance its investment."
+    },
+    {
+     "key": "C",
+     "text": "The government is dissaving and using the savings of other sectors to finance part of its consumption expenditure."
+    },
+    {
+     "key": "D",
+     "text": "The government's revenue receipts exceed its revenue expenditure."
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p6-c0-g1-s0",
+     "text": "5.2.1 Measures of Government Deficit\nWhen a government spends more than it collects by way of revenue, it\nincurs a budget deficit6. There are various measures that capture\ngovernment deficit and they have their own implications for the economy.\nRevenue Deficit: The revenue deficit refers to the excess of government’s\nrevenue expenditure over revenue receipts\nRevenue deficit = Revenue expenditure – Revenue receipts"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p6-c0-g3-s0",
+     "text": "Item 3 in Table 5.1 shows that revenue deficit in (2024–25) (P.A.) is\n2.6 per cent of GDP. The revenue deficit includes only such transactions\nthat affect the current income and expenditure of the government. When\nthe government incurs a revenue deficit, it implies that the government\nis dissaving and is using up the savings of the other sectors of the\neconomy to finance a part of its consumption expenditure. This situation\nmeans that the government will have to borrow not only to finance its\ninvestment but also its consumption requirements. This will lead to a\nbuild up of stock of debt and interest liabilities and force the government,"
+    }
+   ],
+   "stated_key": "C",
+   "explanation": "A revenue deficit is the excess of revenue expenditure over revenue receipts. It implies that the government is dissaving and using up the savings of other sectors to finance part of its consumption expenditure, so it must borrow not only for investment but also for consumption, which builds up its stock of debt."
+  },
+  {
+   "opaque_id": "q716-f2ed02807efdcda6",
+   "subject": "english",
+   "chapter": "Factual Passage",
+   "question": "How many volunteers had failed to update the noticeboard before the committee added the confirmation step?",
+   "passage": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Two"
+    },
+    {
+     "key": "B",
+     "text": "Three"
+    },
+    {
+     "key": "C",
+     "text": "Four"
+    },
+    {
+     "key": "D",
+     "text": "One"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+     "locator": "stimulus",
+     "text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "The passage refers to two missed sessions in which the board had not been changed, so two volunteers had failed to update it."
+  },
+  {
+   "opaque_id": "q716-0cbcb918cd562ba3",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "question": "In a company, the marketing manager tells a salesperson that she may offer a customer a 10% discount, while at the same time the finance manager instructs her not to allow any discount. Which principle of management is violated in this situation?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Unity of command"
+    },
+    {
+     "key": "B",
+     "text": "Subordination of individual interest to general interest"
+    },
+    {
+     "key": "C",
+     "text": "Discipline"
+    },
+    {
+     "key": "D",
+     "text": "Unity of direction"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p27-c1-g1-s0",
+     "text": "orders from two superiors at the\nsame time the principle of unity\nof command is violated. The\nprinciple of unity of command\nstates that each participant in\na formal organisation should\nreceive orders from and be\nresponsible to only one superior.\nFayol gave a lot of importance to\nthis principle. He felt that if this\nprinciple is violated “authority\nis undermined, discipline is\nin jeopardy, order disturbed\nand stability threatened”. The\nprinciple resembles military\norganisation. Dual subordination\nshould be avoided. This is to\nprevent confusion regarding\ntasks to be done. Suppose a\nsales person is asked to clinch\na deal with a buyer and is\nallowed to give 10% discount\nby the marketing manager. But\nfinance department tells her/\nhim not to offer more than 5%\ndiscount. Now there is no unity\nof command. This can be avoided\nif there is coordination between\nvarious departments.\n(v) Unity of Direction: All the\nunits of an organisation should\nbe moving towards the same\nobjectives through coordinated\nand focussed efforts. Each group\nof activities having the same\nobjective must have one head\nand one plan. This ensures"
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p27-c0-g1-s0",
+     "text": "` 50 crores. Now the company gives\npower to the manager to offer a credit\nperiod of only 40 days. This shows\nthat there is an imbalance in authority\nand responsibility. In this case the\nmanager use authority of offering\ncredit period of 60 days in the interest\nof the company. Discuss in your Class\nas to ‘why’ and ‘why not’\n(iii) Discipline: Discipline is the\nobedience to organisational rules\nand employment agreement which\nare necessary for the working of\nthe organisation. According to\nFayol, discipline requires good\nsuperiors at all levels, clear and\nfair agreements and judicious\napplication of penalties.\nSuppose management and\nlabour union have entered into\nan agreement whereby workers\nhave agreed to put in extra hours\nwithout any additional payment\nto revive the company out of\nloss. In return the management\nhas promised to increase wages\nof the workers when this mission\nis accomplished. Here discipline\nwhen applied would mean that\nthe workers and management\nboth honour their commitments\nwithout any prejudice towards\none another.\n(iv) Unity of Command: According\nto Fayol there should be one and\nonly one boss for every individual\nemployee. If an employee gets"
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p28-c0-g1-s0",
+     "text": "unity of action and coordination.\nFor example, if a company is\nmanufacturing motorcycles as\nwell as cars then it should have\ntwo separate divisions for both\nof them. Each division should\nhave its own incharge, plans\nand execution resources. On no\naccount should the working of\ntwo divisions overlap. Now let\nus differentiate between the two\nprinciples of unity of command\nand unity of direction.\n(vi) Subordination of Individual\nInterest to General Interest:\nThe interests of an organisation\nshould take priority over the\ninterests of any one individual\nemployee according to Fayol.\nEvery worker has some\nindividual interest for working in\na company. The company has got\nits own objectives. For example,\nthe company would want to"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Unity of command states that each participant in a formal organisation should receive orders from, and be responsible to, only one superior; it is violated when a person receives orders from two superiors at the same time, as the salesperson does here. Discipline concerns obedience to organisational rules and agreements, subordination of individual interest concerns giving the organisation's interests priority over an individual's, and unity of direction concerns separate divisions with their own head and plan for each group of activities."
+  },
+  {
+   "opaque_id": "q716-7ad4731e3fa8a7f1",
+   "subject": "business_studies",
+   "chapter": "Directing",
+   "question": "Which of the following is NOT one of the four elements of directing?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Motivation"
+    },
+    {
+     "key": "B",
+     "text": "Staffing"
+    },
+    {
+     "key": "C",
+     "text": "Communication"
+    },
+    {
+     "key": "D",
+     "text": "Supervision"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs107-v1",
+     "locator": "p5-c1-g1-s0",
+     "text": "the profits to the managers for their\ncontribution to inhance profits of the\ncompany, and (iv) A manager inspires\nhis/her employees by playing a lead\nrole in performing a work.\nAll these examples and many\nother activities related to directing\nmay broadly be grouped into four\ncategories which are the elements of\ndirecting. These are:\n(i) Supervision\n(ii) Motivation\n(iii) Leadership\n(iv) Communication\nTo know more about directing, these\nelements are discussed in detail."
+    },
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p2-c0-g2-s2",
+     "text": "After planning and selection of the\norganisation structure, the next step\nin the management process is to fill\nthe various posts provided in the\norganisation. This is termed as the\nmanagement of staffing function. In\nthe simplest terms, staffing is ‘putting\npeople to jobs’. It begins with workforce\nplanning and includes different other\nfunction like recruitment, selection,\ntraining, development, promotion,\ncompensation and performance\nappraisal of work force. In other\nwords, staffing is that part of the\nprocess of management which is\nconcerned with obtaining, utilising\nand maintaining a satisfactory and\nsatisfied work force. Today, staffing\nmay involve any combination of\nemployees including daily wagers,\nconsultants and contract employees.\nStaffing recognises the importance"
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "The four elements of directing are supervision, motivation, leadership and communication. Staffing, which is concerned with filling the posts in the organisation, is a separate function of management and not an element of directing."
+  },
+  {
+   "opaque_id": "q716-f6bef8adb2477abf",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "Even after losing the first two matches, the captain kept telling her team that they would win the tournament. She was ______ about their chances.",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "tedious"
+    },
+    {
+     "key": "B",
+     "text": "discreet"
+    },
+    {
+     "key": "C",
+     "text": "sceptical"
+    },
+    {
+     "key": "D",
+     "text": "optimistic"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-optimistic",
+     "locator": "definition",
+     "text": "expecting good things to happen or something to be successful; showing this feeling"
+    },
+    {
+     "source_id": "oxford-quality-sceptical",
+     "locator": "definition",
+     "text": "having doubts that a claim or statement is true or that something will happen"
+    },
+    {
+     "source_id": "oxford-quality-tedious",
+     "locator": "definition",
+     "text": "lasting or taking too long and not interesting"
+    },
+    {
+     "source_id": "oxford-quality-discreet",
+     "locator": "definition",
+     "text": "careful in what you say or do, in order to keep something secret"
+    }
+   ],
+   "stated_key": "C",
+   "explanation": "Sceptical means expecting good things to happen, which matches a captain who believes the team will win, so option C is correct."
+  },
+  {
+   "opaque_id": "q716-5793cf6e53b31bd7",
+   "subject": "accountancy",
+   "chapter": "Debentures",
+   "question": "A company issues debentures without giving any undertaking to repay the money borrowed during its lifetime; they are repayable only on the winding up of the company or after a very long period. Such debentures are called:",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Redeemable debentures"
+    },
+    {
+     "key": "B",
+     "text": "Secured debentures"
+    },
+    {
+     "key": "C",
+     "text": "Convertible debentures"
+    },
+    {
+     "key": "D",
+     "text": "Irredeemable debentures"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g2-s0",
+     "text": "2.3.2 From the Point of view of Tenure\n(a) Redeemable Debentures: Redeemable debentures are those which\nare payable on the expiry of the specific period either in lump sum\nor in Instalments during the life time of the company. Debentures\ncan be redeemed either at par or at premium.\n(b) Irredeemable Debentures: Irredeemable debentures are also known\nas Perpetual Debentures because the company does not give any\nundertaking for the repayment of money borrowed by issuing such\ndebentures. These debentures are repayable on the winding-up of a\ncompany or on the expiry of a long period."
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p3-c0-g3-s0",
+     "text": "2.3.3 From the Point of view of Convertibility\n(a) Convertible Debentures: Debentures which are convertible into equity\nshares or in any other security either at the option of the company or\nthe debentureholders are called convertible debentures. These\ndebentures are either fully convertible or partly convertible.\n(b) Non-Convertible Debentures: The debentures which cannot be\nconverted into shares or in any other securities are called non-\nconvertible debentures. Most debentures issued by companies fall in\nthis category."
+    },
+    {
+     "source_id": "ncertcol-leac202-v1",
+     "locator": "p2-c0-g4-s0",
+     "text": "2.3.1 From the Point of view of Security\n(a) Secured Debentures: Secured debentures refer to those debentures\nwhere a charge is created on the assets of the company for the purpose\nof payment in case of default. The charge may be fixed or floating. A\nfixed charge is created on a specific asset whereas a floating charge is"
+    }
+   ],
+   "stated_key": "D",
+   "explanation": "Irredeemable (perpetual) debentures carry no undertaking for repayment of the money borrowed and are repayable on winding up or after a long period. Redeemable debentures are payable on the expiry of a specific period, convertible debentures can be converted into shares or other securities, and secured debentures are those on which a charge is created on the company's assets."
+  },
+  {
+   "opaque_id": "q716-0cb57ffa675aafac",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "While calculating the quick (acid-test) ratio, which of the following current assets is excluded from quick assets?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Cash and cash equivalents"
+    },
+    {
+     "key": "B",
+     "text": "Prepaid expenses"
+    },
+    {
+     "key": "C",
+     "text": "Trade receivables"
+    },
+    {
+     "key": "D",
+     "text": "Bills receivable"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p8-c0-g4-s2",
+     "text": "Current Liabilities\nThe quick assets are defined as those assets which are quickly convertible\ninto cash. While calculating quick assets we exclude the inventories at the end\nand other current assets such as prepaid expenses, advance tax, etc., from the\ncurrent assets. Because of exclusion of non-liquid current assets it is considered\nbetter than current ratio as a measure of liquidity position of the business. It is\ncalculated to serve as a supplementary check on liquidity position of the business\nand is therefore, also known as ‘Acid-Test Ratio’."
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g3-s2",
+     "text": "Current Liabilities\nCurrent assets include current investments, inventories, trade receivables\n(debtors and bills receivables), cash and cash equivalents, short-term loans and\nadvances and other current assets such as prepaid expenses, advance tax and\naccrued income, etc.\nCurrent liabilities include short-term borrowings, trade payables (creditors\nand bills payables), other current liabilities and short-term provisions."
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Quick assets are those quickly convertible into cash; inventories and other current assets such as prepaid expenses and advance tax are excluded from them. Trade receivables (which include bills receivable) and cash and cash equivalents remain part of quick assets."
+  },
+  {
+   "opaque_id": "q716-455a5bf939b6e1fc",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "question": "P and Q are partners sharing profits in the ratio 3 : 2. They admit R as a new partner, and the new profit sharing ratio of P, Q and R is 2 : 2 : 1. What is the sacrificing ratio of P and Q?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "1 : 0 (only P sacrifices)"
+    },
+    {
+     "key": "B",
+     "text": "1 : 1"
+    },
+    {
+     "key": "C",
+     "text": "2 : 3"
+    },
+    {
+     "key": "D",
+     "text": "3 : 2"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac102-v1",
+     "locator": "p5-c0-g5-s0",
+     "text": "2.4 Sacrificing Ratio\nThe ratio in which the old partners agree to sacrifice their share of profit in\nfavour of the incoming partner is called sacrificing ratio. The sacrifice by a partner\nis equal to :"
+    },
+    {
+     "source_id": "ncertcol-leac102-v1",
+     "locator": "p6-c0-g1-s0",
+     "text": "As stated earlier, the new partner is required to compensate the old partner’s\nfor their loss of share in the super profits of the firm for which he brings in an\nadditional amount as premium for goodwill. This amount is shared by the\nexisting partners in the ratio in which they forgo their shares in favour of the\nnew partner which is called sacrificing ratio.\nThe ratio is normally clearly given as agreed among the partners which could\nbe the old ratio, equal sacrifice, or a specified ratio. The difficulty arises where\nthe ratio in which the new partner acquires his share from the old partners is\nnot specified. Instead, the new profit sharing ratio is given. In such a situation,\nthe sacrificing ratio is to be worked out by deducting each partner’s new share\nfrom his old share. Look at the illustrations 6 to 8 and see how sacrificing ratio\nis calculated in such a situation."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "When the new ratio is given, each partner's sacrifice is old share minus new share. P: 3/5 − 2/5 = 1/5. Q: 2/5 − 2/5 = 0. Only P gives up a share to R, so the sacrificing ratio of P and Q is 1 : 0. A ratio of 3 : 2 would apply only if both had sacrificed in their old ratio, which the given new ratio does not show."
+  },
+  {
+   "opaque_id": "q716-4132c3318d5a384e",
+   "subject": "economics",
+   "chapter": "Government Budget & the Economy",
+   "question": "Which of the following is a capital receipt of the government?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Proceeds from the sale of its shares in public sector undertakings"
+    },
+    {
+     "key": "B",
+     "text": "Goods and services tax collected"
+    },
+    {
+     "key": "C",
+     "text": "Dividends received from public sector undertakings"
+    },
+    {
+     "key": "D",
+     "text": "Income tax collected from individuals"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p3-c0-g1-s22",
+     "text": "Capital Receipts: The government also receives money by way of loans or\nfrom the sale of its assets. Loans will have to be returned to the agencies from\nwhich they have been borrowed. Thus they create liability. Sale of government\nassets, like sale of shares in Public Sector Undertakings (PSUs) which is referred"
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p4-c0-g5-s0",
+     "text": "to as PSU disinvestment, reduce the total amount of financial assets of the\ngovernment. All those receipts of the government which create liability or reduce\nfinancial assets are termed as capital receipts. When government takes fresh\nloans it will mean that in future these loans will have to be returned and interest\nwill have to be paid on these loans. Similarly, when government sells an asset,\nthen it means that in future its earnings from that asset, will disappear. Thus,\nthese receipts can be debt creating or non-debt creating."
+    },
+    {
+     "source_id": "ncertcol-leec105-v1",
+     "locator": "p7-c0-g2-s0",
+     "text": "Non-debt creating capital receipts are those receipts which are not borrowings\nand, therefore, do not give rise to debt. Examples are recovery of loans and the\nproceeds from the sale of PSUs. From Table 5.1 we can see that non-debt creating\ncapital receipts equals 9.4 per cent of GDP, obtained by subtracting, borrowing\nand other liabilities from total capital receipts [1+4(a)+4(b)]. The fiscal deficit,\ntherefore turn out to be 5.6 per cent of GDP. The fiscal deficit will have to be\nfinanced through borrowing. Thus, it indicates the total borrowing requirements\nof the government from all sources. From the financing side"
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Capital receipts are receipts that either create a liability or reduce the government's financial assets. Selling shares in PSUs (disinvestment) reduces its financial assets, so it is a capital receipt. Taxes collected and dividends received neither create a liability nor reduce the government's financial assets, so they are not capital receipts."
+  },
+  {
+   "opaque_id": "q716-fab2648348aafe3d",
+   "subject": "business_studies",
+   "chapter": "Staffing",
+   "question": "Which of the following is included in the staffing function of management?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Setting the organisation's objectives"
+    },
+    {
+     "key": "B",
+     "text": "Recruitment"
+    },
+    {
+     "key": "C",
+     "text": "Training"
+    },
+    {
+     "key": "D",
+     "text": "Performance appraisal"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs106-v1",
+     "locator": "p2-c0-g2-s2",
+     "text": "After planning and selection of the\norganisation structure, the next step\nin the management process is to fill\nthe various posts provided in the\norganisation. This is termed as the\nmanagement of staffing function. In\nthe simplest terms, staffing is ‘putting\npeople to jobs’. It begins with workforce\nplanning and includes different other\nfunction like recruitment, selection,\ntraining, development, promotion,\ncompensation and performance\nappraisal of work force. In other\nwords, staffing is that part of the\nprocess of management which is\nconcerned with obtaining, utilising\nand maintaining a satisfactory and\nsatisfied work force. Today, staffing\nmay involve any combination of\nemployees including daily wagers,\nconsultants and contract employees.\nStaffing recognises the importance"
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Staffing begins with workforce planning and includes recruitment, so option B is correct."
+  },
+  {
+   "opaque_id": "q716-37419460874166a4",
+   "subject": "english",
+   "chapter": "Vocabulary",
+   "question": "Choose the word most nearly OPPOSITE in meaning to INDIFFERENT as used in the sentence: 'Rahul was indifferent to the new science club and never asked a single question about it.'",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "plausible"
+    },
+    {
+     "key": "B",
+     "text": "inquisitive"
+    },
+    {
+     "key": "C",
+     "text": "frugal"
+    },
+    {
+     "key": "D",
+     "text": "transient"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "oxford-quality-indifferent",
+     "locator": "definition",
+     "text": "having or showing no interest in somebody/something"
+    },
+    {
+     "source_id": "oxford-quality-inquisitive",
+     "locator": "definition",
+     "text": "very interested in learning about many different things"
+    },
+    {
+     "source_id": "oxford-quality-transient",
+     "locator": "definition",
+     "text": "continuing for only a short time"
+    },
+    {
+     "source_id": "oxford-quality-frugal",
+     "locator": "definition",
+     "text": "using only as much money or food as is necessary"
+    },
+    {
+     "source_id": "oxford-quality-plausible",
+     "locator": "definition",
+     "text": "(of an excuse or explanation) reasonable and likely to be true"
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Indifferent means having or showing no interest in something. Inquisitive means very interested in learning about many different things, so it is the opposite. Transient (lasting a short time), frugal (using only what is necessary) and plausible (reasonable and likely to be true) are unrelated to interest."
+  },
+  {
+   "opaque_id": "q716-fc60d251db352449",
+   "subject": "accountancy",
+   "chapter": "Accounting Ratios",
+   "question": "The following information is taken from a company's balance sheet: Inventories ₹60,000; Trade receivables ₹40,000; Prepaid expenses ₹5,000; Cash and cash equivalents ₹15,000; Trade payables ₹70,000; Short-term borrowings (bank overdraft) ₹10,000. What is the company's current ratio?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "1.5 : 1"
+    },
+    {
+     "key": "B",
+     "text": "1.71 : 1"
+    },
+    {
+     "key": "C",
+     "text": "1.44 : 1"
+    },
+    {
+     "key": "D",
+     "text": "0.69 : 1"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g3-s2",
+     "text": "Current Liabilities\nCurrent assets include current investments, inventories, trade receivables\n(debtors and bills receivables), cash and cash equivalents, short-term loans and\nadvances and other current assets such as prepaid expenses, advance tax and\naccrued income, etc.\nCurrent liabilities include short-term borrowings, trade payables (creditors\nand bills payables), other current liabilities and short-term provisions."
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p10-c0-g1-s0",
+     "text": "Verification :\nCurrent Ratio = Current assets : Current liabilities\n= Rs. 56,000 : Rs. 16,000\n= 3.5 : 1\nQuick Ratio = Quick assets : Current liabilities\n= Rs. 32,000 : Rs. 16,000\n= 2 : 1"
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p7-c0-g4-s0",
+     "text": "Illustration 1\nCalulate Current Ratio from the following information:\nParticulars (Rs.)\nInventories 50,000\nTrade receivables 50,000\nAdvance tax 4,000\nCash and cash equivalents 30,000\nTrade payables 1,00,000\nShort-term borrowings (bank overdraft) 4,000"
+    },
+    {
+     "source_id": "ncertcol-leac205-v1",
+     "locator": "p8-c0-g4-s2",
+     "text": "Current Liabilities\nThe quick assets are defined as those assets which are quickly convertible\ninto cash. While calculating quick assets we exclude the inventories at the end\nand other current assets such as prepaid expenses, advance tax, etc., from the\ncurrent assets. Because of exclusion of non-liquid current assets it is considered\nbetter than current ratio as a measure of liquidity position of the business. It is\ncalculated to serve as a supplementary check on liquidity position of the business\nand is therefore, also known as ‘Acid-Test Ratio’."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Current assets = Inventories + Trade receivables + Prepaid expenses + Cash and cash equivalents = ₹60,000 + ₹40,000 + ₹5,000 + ₹15,000 = ₹1,20,000. Current liabilities = Trade payables + Short-term borrowings (bank overdraft) = ₹70,000 + ₹10,000 = ₹80,000. Current ratio = Current assets : Current liabilities = ₹1,20,000 : ₹80,000 = 1.5 : 1. Leaving out the bank overdraft gives 1.71 : 1, leaving out prepaid expenses gives 1.44 : 1, and 0.69 : 1 is the quick ratio (₹55,000 : ₹80,000), not the current ratio."
+  },
+  {
+   "opaque_id": "q716-049cb25601d5d391",
+   "subject": "economics",
+   "chapter": "Money & Banking",
+   "question": "In an economy with a single bank, the bank must keep 20 per cent of its deposits as cash reserves. It starts with a fresh cash deposit of ₹100, and every loan it gives comes back to it as a deposit. What is the maximum total amount of deposits the bank can have?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "₹500"
+    },
+    {
+     "key": "B",
+     "text": "₹120"
+    },
+    {
+     "key": "C",
+     "text": "₹180"
+    },
+    {
+     "key": "D",
+     "text": "₹2,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p5-c0-g7-s26",
+     "text": "Apart from the CRR, banks are also required to keep some reserves\nin liquid form in the short term. This ratio is called Statutory Liquidity\nRatio or SLR.\nIn our fictional example, suppose CRR = 20 per cent, then with deposits of Rs\n100, our bank will need to keep Rs 20 (20 per cent of 100) as cash reserves. Only\nthe remaining amount of deposits, i.e., Rs 80 (100 – 20 = 80) can be used to give\nloans. The statutory requirement of the reserve ratio acts as a limit to the amount\nof credit that banks can create.\nWe can understand this by going back to our fictional example of an economy\nwith one bank. Let us assume that our bank starts with a deposit of Rs 100\nmade by Leela. The reserve ratio is 20 per cent. Thus our bank has Rs 80 (100 – 20)"
+    },
+    {
+     "source_id": "ncertcol-leec103-v1",
+     "locator": "p6-c0-g0-s0",
+     "text": "to lend and the bank lends out Rs 80 to Jaspal Kaur, which shows up in the\nbank’s deposits in the next round as liabilities, making a total of Rs 180 as\ndeposits. Now our bank is required to keep 20 per cent of 180 i.e. Rs 36 as cash\nreserves. Recall that our bank had started with Rs 100 as cash. Since it is\nrequired to keep only Rs 36 as reserves, it can lend Rs 64 again (100 – 36 = 64).\nThe bank lends out Rs 64 to Junaid. This in turn shows up in the bank as\ndeposits. The process keeps repeating itself till all the required reserves become\nRs 100. The required reserves will be Rs 100 only when the total deposits become\nRs 500. This is because for deposits of Rs 500, cash reserves would have to be\nRs 100 (20 per cent of 500 = 100). The process is illustrated in Table 3.2."
+    }
+   ],
+   "stated_key": "A",
+   "explanation": "Lending continues until the required reserves equal the ₹100 of cash the bank holds. Required reserves are 20 per cent of deposits, so 0.20 × Total deposits = ₹100 and Total deposits = ₹500 (a money multiplier of 1/0.20 = 5). ₹180 is only the total after the first loan of ₹80 returns as a deposit, ₹120 simply adds 20 to the first deposit, and ₹2,000 wrongly multiplies ₹100 by 20."
+  },
+  {
+   "opaque_id": "q716-c48aba09fb24df8d",
+   "subject": "business_studies",
+   "chapter": "Principles of Management",
+   "question": "Under scientific management, what does simplification aim at?",
+   "passage": null,
+   "options": [
+    {
+     "key": "A",
+     "text": "Studying the movements involved in performing a job"
+    },
+    {
+     "key": "B",
+     "text": "Eliminating superfluous varieties, sizes and dimensions of products"
+    },
+    {
+     "key": "C",
+     "text": "Devising new varieties in place of the existing ones"
+    },
+    {
+     "key": "D",
+     "text": "Determining the rest intervals needed by workers"
+    }
+   ],
+   "excerpts": [
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p20-c0-g1-s0",
+     "text": "(i) To reduce a given line or\nproduct to fixed types, sizes and\ncharacteristics.\n(ii) To establish interchange ability\nof manufactured parts and\nproducts.\n(iii) To establish standards of exce­\nllence and quality in materials.\n(iv) To establish standards of perfor­\nmance of men and machines.\nSimplification aims at eliminating\nsuperfluous varieties, sizes and dim­\nensions while standardisation implies\ndevising new varieties instead of the\nexisting ones. Simplification aims at\neliminating unnecessary diversity of\nproducts. It results in savings of cost of\nlabour, machines and tools. It implies\nreduced inventories, fuller utilisation of\nequipment and increasing turnover.\nMost large companies like Nokia,\nToyota and Microsoft, etc. have\nsuccessfully implemented standardi­\nsation and simplification. This is\nevident from their large share in their\nrespective markets."
+    },
+    {
+     "source_id": "ncertcol-lebs102-v1",
+     "locator": "p21-c1-g1-s0",
+     "text": "rest intervals will help one to regain\nstamina and work again with the same\ncapacity. This will result in increased\nproductivity. Fatigue study seeks to\ndetermine the amount and frequency\nof rest intervals in completing a task.\nFor example, normally in a plant,\nwork takes place in three shifts of\neight hours each. Even in a single\nshift a worker has to be given some\nrest interval to take her/his lunch\netc. If the work involves heavy manual\nlabour then small pauses have to be\nfrequently given to the worker so that\nshe/he can recharge her/his energy\nlevel for optimum contribution.\nThere can be many causes for\nfatigue like long working hours,\ndoing unsuitable work, having\nuncordial relations with the boss or\nbad working conditions etc. Such\nhindrances in good performance\nshould be removed."
+    }
+   ],
+   "stated_key": "B",
+   "explanation": "Simplification means devising new varieties of a product to replace the existing ones; in doing so it removes the old superfluous sizes and dimensions, so option B is correct. Determining rest intervals is fatigue study."
+  }
+ ]
+}

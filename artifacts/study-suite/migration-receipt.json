@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-04T16:36:42.884Z",
+  "project": "isrxrxzjocewrdureyhp",
+  "method": "owner-authorized signed-in Supabase SQL editor",
+  "migrations": [
+    "20261001105920_score_recovery_foundations.sql",
+    "20261002120000_connected_learning.sql",
+    "20261004154217_connected_study_suite.sql"
+  ],
+  "result": "Study schema applied; existing questions, attempts, credits and entitlements preserved",
+  "invariants": "one repeatable-read transaction; rollback on invariant mismatch",
+  "migrationHistory": "manual SQL editor apply; CLI history not reconciled"
+}

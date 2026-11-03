@@ -1,0 +1,116 @@
+{
+  "at": "2026-10-08T20:07:21.242Z",
+  "id": "v75-fresh-cbse2022-2026-10-09",
+  "denominator": 27,
+  "valid_roots": 13,
+  "controlled_defects": 14,
+  "terminal_topology": 27,
+  "eligible_valid": 8,
+  "controlled_false_accepts": [
+    "v75f-825e60a00f"
+  ],
+  "by_subject": {
+    "accountancy": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 1
+    },
+    "business_studies": {
+      "expected": 3,
+      "terminal": 3,
+      "eligible": 3
+    },
+    "economics": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 2
+    },
+    "english": {
+      "expected": 2,
+      "terminal": 2,
+      "eligible": 2
+    }
+  },
+  "provider_outcomes": {
+    "openai": {
+      "denominator": 27,
+      "counts": {
+        "judged": 27,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 13,
+      "positive_judged": 13,
+      "positive_comparison_complete": true
+    },
+    "gemini": {
+      "denominator": 27,
+      "counts": {
+        "judged": 27,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 13,
+      "positive_judged": 13,
+      "positive_comparison_complete": true
+    },
+    "anthropic": {
+      "denominator": 27,
+      "counts": {
+        "judged": 26,
+        "error": 1,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": false,
+      "positive_denominator": 13,
+      "positive_judged": 13,
+      "positive_comparison_complete": true
+    }
+  },
+  "provider_errors": 1,
+  "provider_stage_errors": [
+    {
+      "id": "v75f-349175e27e",
+      "stage": "blinded_evaluation",
+      "provider": "anthropic",
+      "status": "error",
+      "error": "fetch failed"
+    }
+  ],
+  "stage_errors": [
+    {
+      "id": "v75f-349175e27e",
+      "stage": "blinded_evaluation",
+      "provider": "anthropic",
+      "status": "error",
+      "error": "fetch failed"
+    }
+  ],
+  "execution_finished": true,
+  "release_evidence_complete": false,
+  "haiku": {
+    "role": "Fresh blinded key and CUET-fit comparison only; never substituted into publication topology.",
+    "comparison_applicable": true,
+    "valid_denominator": 13,
+    "observed": 13,
+    "comparison_complete": false,
+    "source_supported_unique_key_matches": 11,
+    "cuet_fit_passes": 10
+  },
+  "settled_usd": 0.522978,
+  "held_usd": 0.008596,
+  "gross_usd": 0.531574,
+  "receipt_complete": false,
+  "publication_writes": 0,
+  "release": false,
+  "provenance_notice": "Fresh benchmark cases are original or adapted practice derived from their cited sources; source papers are not authenticated CUET PYQs.",
+  "limitation": "Official source keys and blinded checks are measured evidence; correlated papers/paired controls and model agreement do not establish perfect accuracy."
+}

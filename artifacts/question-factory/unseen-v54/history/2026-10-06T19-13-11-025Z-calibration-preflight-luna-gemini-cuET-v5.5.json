@@ -1,0 +1,16 @@
+{
+  "version": "cuet-llm-v3",
+  "verifier_version": "luna-gemini-cuET-v5.5",
+  "source_registry_version": 54,
+  "at": "2026-10-06T19:13:11.023Z",
+  "state": "paused",
+  "reason": "benchmark_fixture_preflight_failed",
+  "failure": "valid_calibration_current_passage_limit_required",
+  "benchmark": {
+    "state": "regression_only",
+    "unseen_at_freeze": false
+  },
+  "routes": {},
+  "observations": [],
+  "cost_usd": 0
+}

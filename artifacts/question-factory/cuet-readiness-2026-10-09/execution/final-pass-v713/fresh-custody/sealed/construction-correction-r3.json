@@ -1,0 +1,1027 @@
+{
+  "schema": "cuet-v713-construction-correction-r3-v1",
+  "study_id": "cuet-v713-fresh-final",
+  "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "author_id": "/root/fresh_construction_r3",
+  "created_at": "2026-10-09T19:02:51Z",
+  "original_authored_r2_sha256": "9ffddb8b42a098f6a411dbd6934a23a988796db945bb873434e2f5f35e7ec223",
+  "authored_r3_sha256": "c1930133120d37aa1a367db90e0403e95036a9d00dfe21261587ab6264d0bff9",
+  "native_model_evaluation_informed_construction": false,
+  "native_evaluation_status": "No native model evaluation has occurred; R3 was authored from registered source fact kits, frozen source-only difficulty assessments, and independent R2 custody findings.",
+  "preserved": {
+    "fixture_ids": true,
+    "group_labels": true,
+    "item_count": 36,
+    "started_at": "2026-10-09T18:38:53.873Z",
+    "freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "expected_valid_labels": true
+  },
+  "replacement_count": 5,
+  "changed_id_count": 28,
+  "id_diffs": [
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-c797dd7934bbaf7c",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-155f31f2eda73df9",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-f84de07c56f68390",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-80c4d9b3dc5ee51a",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-234e398c6040b350",
+      "expected_valid": true
+    },
+    {
+      "source_slot": "accountancy/A2",
+      "id": "f-2c7dfe572963691f",
+      "changed_fields": {
+        "candidate.explanation": {
+          "to": "The source lists operating, investing and financing activities as the three categories. Options A, B and C each answer the single-choice stem, so the item has multiple defensible answers.",
+          "from": "Cash proceeds from disposal of a fixed asset are an investing inflow."
+        },
+        "candidate.family_id": {
+          "to": "fam-44857c30b22c4588",
+          "from": "fam-1752e39dc1259134"
+        },
+        "candidate.provenance": {
+          "to": {
+            "adaptation_family": "fam-44857c30b22c4588",
+            "kind": "original_practice",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "anchor_id": "ncertcol-leac206-v1",
+            "source_pack_version": 13,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "adaptation_type": "source-grounded-original-practice"
+          },
+          "from": {
+            "kind": "original_practice",
+            "anchor_id": "ncertcol-leac206-v1",
+            "adaptation_family": "fam-1752e39dc1259134",
+            "adaptation_type": "source-grounded-original-practice",
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "source_pack_version": 13
+          }
+        },
+        "candidate.learning_objective": {
+          "to": {
+            "target_term": "",
+            "objective": "Distinguish the three standard activity headings used to classify cash flows",
+            "syllabus_unit": "Unit V: Analysis of Financial Statements"
+          },
+          "from": {
+            "syllabus_unit": "Unit V: Analysis of Financial Statements",
+            "objective": "Recognise cash inflows classified as investing activities.",
+            "target_term": ""
+          }
+        },
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        },
+        "candidate.concept_id": {
+          "to": "accountancy:cash-flow-activity-headings-multiple-answer",
+          "from": "accountancy:investing-cash-inflows"
+        },
+        "candidate.source_refs": {
+          "to": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p3-c0-g3-s0",
+              "support_hash": "6f03ea6646eba5c754f2311c304f0cd9aba9327e6cd22bf9fda8199ab8aab229"
+            }
+          ],
+          "from": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p5-c0-g3-s0",
+              "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+            },
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p5-c0-g4-s0",
+              "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+            },
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p4-c0-g2-s0",
+              "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+            }
+          ]
+        },
+        "candidate.options": {
+          "to": [
+            {
+              "key": "A",
+              "text": "Operating activities"
+            },
+            {
+              "key": "B",
+              "text": "Investing activities"
+            },
+            {
+              "key": "C",
+              "text": "Financing activities"
+            },
+            {
+              "key": "D",
+              "text": "Marketing activities"
+            }
+          ],
+          "from": [
+            {
+              "key": "A",
+              "text": "Cash proceeds from selling an old fixed asset"
+            },
+            {
+              "key": "B",
+              "text": "Cash dividend received from an investment in another enterprise"
+            },
+            {
+              "key": "C",
+              "text": "Cash interest received on a loan made to a third party"
+            },
+            {
+              "key": "D",
+              "text": "Cash proceeds from issuing equity shares"
+            }
+          ]
+        },
+        "defect_category": {
+          "to": "multiple_defensible_answers",
+          "from": "multiple_defensible_answers"
+        },
+        "candidate.body": {
+          "to": "Which one of the following is a standard activity heading used to classify cash flows in a cash flow statement?",
+          "from": "Which one of the following is an investing cash inflow?"
+        },
+        "defect_evidence": {
+          "to": "The registered excerpt explicitly names operating, investing and financing as the three categories. Options A, B and C are all correct responses to a single-choice prompt.",
+          "from": "The source explicitly classifies disposal of fixed assets, dividend received from investments, and interest received on loans/advances as investing cash inflows. Options A, B, and C are all supported answers to a single-choice stem."
+        }
+      },
+      "reason": "Replaced with a distinct task grounded in an active registered source fact; the fixed expected_valid and group labels were retained.",
+      "native_evaluation_informed": false,
+      "expected_valid": false,
+      "group": "controlled_defect"
+    },
+    {
+      "source_slot": "accountancy/A7",
+      "id": "f-90b386844e029292",
+      "changed_fields": {
+        "candidate.explanation": {
+          "to": "The excerpt says separate financing disclosure is useful for predicting claims on future cash flows by providers of capital and borrowings. The keyed option instead describes a different activity and is not the stated reason.",
+          "from": "Cash proceeds from issuing shares change owners’ capital and are classified as financing activities."
+        },
+        "candidate.family_id": {
+          "to": "fam-7dd8d7ca724a4c48",
+          "from": "fam-3c6845793ea6e7ec"
+        },
+        "candidate.provenance": {
+          "to": {
+            "adaptation_family": "fam-7dd8d7ca724a4c48",
+            "kind": "original_practice",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "anchor_id": "ncertcol-leac206-v1",
+            "source_pack_version": 13,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "adaptation_type": "source-grounded-original-practice"
+          },
+          "from": {
+            "kind": "original_practice",
+            "anchor_id": "ncertcol-leac206-v1",
+            "adaptation_family": "fam-3c6845793ea6e7ec",
+            "adaptation_type": "source-grounded-original-practice",
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "source_pack_version": 13
+          }
+        },
+        "candidate.learning_objective": {
+          "to": {
+            "target_term": "",
+            "objective": "Explain why separate disclosure of financing cash flows is useful to users",
+            "syllabus_unit": "Unit V: Analysis of Financial Statements"
+          },
+          "from": {
+            "syllabus_unit": "Unit V: Analysis of Financial Statements",
+            "objective": "Classify cash proceeds from a share issue.",
+            "target_term": ""
+          }
+        },
+        "candidate.concept_id": {
+          "to": "accountancy:financing-disclosure-purpose",
+          "from": "accountancy:financing-cash-inflow-key-integrity"
+        },
+        "candidate.source_refs": {
+          "to": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p5-c0-g4-s0",
+              "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+            }
+          ],
+          "from": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p5-c0-g4-s0",
+              "support_hash": "a671fc08c8790782e0ef9a084c5db518e279adc5d738a4a0aecb0adcfbde6ab5"
+            },
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p5-c0-g3-s0",
+              "support_hash": "6ef8a52783ebc29b9be457d3658147cfd9681b614fcc3d9d5342206ced86cd0e"
+            },
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p4-c0-g2-s0",
+              "support_hash": "e02f516e99e81e18a2b091f9f712282d4815a8bfa8f89fef8c8d8862e35b9293"
+            }
+          ]
+        },
+        "candidate.options": {
+          "to": [
+            {
+              "key": "A",
+              "text": "It helps users predict claims on future cash flows by providers of funds."
+            },
+            {
+              "key": "B",
+              "text": "It lets users determine the amount of cash generated by sales of goods."
+            },
+            {
+              "key": "C",
+              "text": "It identifies whether the enterprise acquired long-term assets."
+            },
+            {
+              "key": "D",
+              "text": "It measures the timing and certainty of all operating receipts."
+            }
+          ],
+          "from": [
+            {
+              "key": "A",
+              "text": "Cash proceeds from issuing shares"
+            },
+            {
+              "key": "B",
+              "text": "Cash proceeds from selling a fixed asset"
+            },
+            {
+              "key": "C",
+              "text": "Cash receipts from sales of goods"
+            },
+            {
+              "key": "D",
+              "text": "Cash payments to suppliers for goods"
+            }
+          ]
+        },
+        "candidate.correct_answer": {
+          "to": "C",
+          "from": "B"
+        },
+        "defect_category": {
+          "to": "incorrect_answer_key",
+          "from": "incorrect_answer_key"
+        },
+        "candidate.body": {
+          "to": "Why does the chapter say separate disclosure of cash flows from financing activities is useful?",
+          "from": "Which transaction is a financing cash inflow for a company?"
+        },
+        "defect_evidence": {
+          "to": "Option A is uniquely supported by the source. The supplied key C is not the stated purpose of separate financing disclosure.",
+          "from": "Option A is the uniquely supported financing cash inflow. The key points to option B, which the source classifies as an investing cash inflow."
+        }
+      },
+      "reason": "Replaced with a distinct task grounded in an active registered source fact; the fixed expected_valid and group labels were retained.",
+      "native_evaluation_informed": false,
+      "expected_valid": false,
+      "group": "controlled_defect"
+    },
+    {
+      "source_slot": "accountancy/A9",
+      "id": "f-184a13bcc63cf86c",
+      "changed_fields": {
+        "candidate.explanation": {
+          "to": "The excerpt states that the indirect method starts with net profit or loss before taxation and extraordinary items, then adjusts it. Option B describes the direct method, so it is not the correct answer.",
+          "from": "Because no cash is used, the acquisition is excluded from the cash flow statement; non-cash transactions are never disclosed anywhere in the financial statements."
+        },
+        "candidate.family_id": {
+          "to": "fam-7f11b5b1ea5940a1",
+          "from": "fam-4ccb1555e63401b2"
+        },
+        "candidate.provenance": {
+          "to": {
+            "adaptation_family": "fam-7f11b5b1ea5940a1",
+            "kind": "original_practice",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "anchor_id": "ncertcol-leac206-v1",
+            "source_pack_version": 13,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "adaptation_type": "source-grounded-original-practice"
+          },
+          "from": {
+            "kind": "original_practice",
+            "anchor_id": "ncertcol-leac206-v1",
+            "adaptation_family": "fam-4ccb1555e63401b2",
+            "adaptation_type": "source-grounded-original-practice",
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-accountancy-bookA",
+            "source_pack_version": 13
+          }
+        },
+        "candidate.learning_objective": {
+          "to": {
+            "target_term": "",
+            "objective": "Identify the starting point used by the indirect method for operating cash flows",
+            "syllabus_unit": "Unit V: Analysis of Financial Statements"
+          },
+          "from": {
+            "syllabus_unit": "Unit V: Analysis of Financial Statements",
+            "objective": "Apply the stated treatment of non-cash investing and financing transactions.",
+            "target_term": ""
+          }
+        },
+        "candidate.concept_id": {
+          "to": "accountancy:indirect-method-starting-point",
+          "from": "accountancy:noncash-transaction-disclosure-explanation"
+        },
+        "candidate.source_refs": {
+          "to": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p9-c0-g1-s0",
+              "support_hash": "a98316b1b4cd83ad704cdebce58322c121dce5637dec4225860f8ce31a9e0d53"
+            }
+          ],
+          "from": [
+            {
+              "id": "ncertcol-leac206-v1",
+              "version": 1,
+              "locator": "p7-c0-g4-s0",
+              "support_hash": "d342c4a5b29405b88d1062e08b8108926674eac79c50e86b1cc261e6d702f69d"
+            }
+          ]
+        },
+        "candidate.options": {
+          "to": [
+            {
+              "key": "A",
+              "text": "Net profit or loss before taxation and extraordinary items from the statement of profit and loss."
+            },
+            {
+              "key": "B",
+              "text": "Major classes of gross cash receipts and gross cash payments."
+            },
+            {
+              "key": "C",
+              "text": "Cash proceeds from issuing equity shares."
+            },
+            {
+              "key": "D",
+              "text": "Cash receipts from sales of goods and rendering services."
+            }
+          ],
+          "from": [
+            {
+              "key": "A",
+              "text": "It is excluded from the cash flow statement and disclosed elsewhere in the financial statements."
+            },
+            {
+              "key": "B",
+              "text": "It is reported as a cash investing outflow."
+            },
+            {
+              "key": "C",
+              "text": "It is reported as an operating cash receipt."
+            },
+            {
+              "key": "D",
+              "text": "It is reported as a cash financing outflow."
+            }
+          ]
+        },
+        "candidate.correct_answer": {
+          "to": "B",
+          "from": "A"
+        },
+        "defect_category": {
+          "to": "incorrect_answer_key",
+          "from": "unsupported_explanation_claim"
+        },
+        "candidate.body": {
+          "to": "According to the excerpt, what is the starting point under the indirect method for ascertaining cash flows from operating activities?",
+          "from": "Machinery is acquired by issuing equity shares, with no cash or cash equivalents used. Which statement best describes its treatment?"
+        },
+        "defect_evidence": {
+          "to": "Option A is uniquely supported as the indirect-method starting point. The keyed option B is the excerpt description of the direct method.",
+          "from": "The source supports option A but explicitly says such transactions should be disclosed elsewhere in the financial statements. The explanation’s added claim that they are never disclosed anywhere is contradicted."
+        }
+      },
+      "reason": "Replaced with a distinct task grounded in an active registered source fact; the fixed expected_valid and group labels were retained.",
+      "native_evaluation_informed": false,
+      "expected_valid": false,
+      "group": "controlled_defect"
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "controlled_defect",
+      "changed_fields": {},
+      "id": "f-5b234a758a448dc8",
+      "expected_valid": false
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-793e37a7f34732b6",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-77e94cc5395b2677",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-d9454913816921de",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-cb416cf89196c0bf",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-6eda2239b5467db1",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-46825bc2c14ef05c",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "source_slot": "business_studies/B3",
+      "id": "f-245cd38b73b4511b",
+      "changed_fields": {
+        "candidate.learning_objective": {
+          "to": {
+            "target_term": "",
+            "objective": "Distinguish one-time plans from plans used for recurring activities",
+            "syllabus_unit": "Unit IV: Planning"
+          },
+          "from": {
+            "syllabus_unit": "Unit XI: Marketing",
+            "objective": "Recognise the stated role and outcomes of customer-support services.",
+            "target_term": ""
+          }
+        },
+        "candidate.correct_answer": {
+          "to": "B",
+          "from": "A"
+        },
+        "candidate.family_id": {
+          "to": "fam-39948ef3ce834e4a",
+          "from": "fam-b52e9f7708b75285"
+        },
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        },
+        "candidate.chapter": {
+          "to": "Planning",
+          "from": "Marketing Management"
+        },
+        "candidate.body": {
+          "to": "A firm needs a plan for an event that will occur once and is not expected to recur. Which plan type best fits that purpose?",
+          "from": "Which outcome does the source associate with customer-support services?"
+        },
+        "candidate.source_refs": {
+          "to": [
+            {
+              "id": "ncertcol-lebs104-v1",
+              "version": 1,
+              "locator": "p11-c1-g1-s0",
+              "support_hash": "c0c5d568586a1297252760af304d97703345478d5383788475b04a8b62526a29"
+            }
+          ],
+          "from": [
+            {
+              "id": "ncertcol-lebs202-v1",
+              "version": 1,
+              "locator": "p12-c0-g0-s6",
+              "support_hash": "e588bbab2ace274d0d43bd85ce7a3657c08ebd2d3ba3c344b704fd3bfcd48dcd"
+            }
+          ]
+        },
+        "candidate.explanation": {
+          "to": "The excerpt defines a single-use plan as one developed for a one-time event or project not likely to be repeated. Standing plans support activities that occur regularly, so the keyed option conflicts with the stated scenario.",
+          "from": "Customer-support services aim at maximum customer satisfaction."
+        },
+        "candidate.provenance": {
+          "to": {
+            "adaptation_family": "fam-39948ef3ce834e4a",
+            "kind": "original_practice",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "anchor_id": "ncertcol-lebs104-v1",
+            "source_pack_version": 11,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "adaptation_type": "source-grounded-original-practice"
+          },
+          "from": {
+            "kind": "original_practice",
+            "anchor_id": "ncertcol-lebs202-v1",
+            "adaptation_family": "fam-b52e9f7708b75285",
+            "adaptation_type": "source-grounded-original-practice",
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-business_studies-bookA",
+            "source_pack_version": 11
+          }
+        },
+        "candidate.concept_id": {
+          "to": "business_studies:single-use-vs-standing-plan-key",
+          "from": "business_studies:customer-support-services-outcome"
+        },
+        "defect_category": {
+          "to": "incorrect_answer_key",
+          "from": "multiple_defensible_answers"
+        },
+        "candidate.options": {
+          "to": [
+            {
+              "key": "A",
+              "text": "A single-use plan"
+            },
+            {
+              "key": "B",
+              "text": "A standing plan"
+            },
+            {
+              "key": "C",
+              "text": "A policy for routine decisions"
+            },
+            {
+              "key": "D",
+              "text": "A recurring procedure"
+            }
+          ],
+          "from": [
+            {
+              "key": "A",
+              "text": "They aim to provide maximum customer satisfaction."
+            },
+            {
+              "key": "B",
+              "text": "They can bring repeat sales and develop brand loyalty."
+            },
+            {
+              "key": "C",
+              "text": "They reduce the need to respond to customer complaints."
+            },
+            {
+              "key": "D",
+              "text": "They replace decisions about price and distribution."
+            }
+          ]
+        },
+        "defect_evidence": {
+          "to": "Option A is uniquely supported because the scenario describes a one-time, non-recurring event. The keyed option B denotes a plan for activities that occur regularly.",
+          "from": "The source says customer support services aim at maximum satisfaction and are effective in bringing repeat sales and developing brand loyalty. Both A and B answer the single-choice stem."
+        }
+      },
+      "reason": "Replaced with a distinct task grounded in an active registered source fact; the fixed expected_valid and group labels were retained.",
+      "native_evaluation_informed": false,
+      "expected_valid": false,
+      "group": "controlled_defect"
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-2ce95d51cba0d537",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-6077c08612302c6d",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-9395f51e189443a6",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-1b75678e8ba8214c",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-c3a378b4d2de5478",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-3e5f9ea9839935c1",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-07957bcf309f84ab",
+      "expected_valid": true
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-db88f4c129bb9ecb",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-10586873a94495b4",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "controlled_defect",
+      "changed_fields": {},
+      "id": "f-2b0c7cb80a5b0ff1",
+      "expected_valid": false
+    },
+    {
+      "source_slot": "economics/E7",
+      "id": "f-d95fe16105eb4952",
+      "changed_fields": {
+        "candidate.explanation": {
+          "to": "The source warns that nominal GDP can rise because prices rise even when production volume is unchanged, and real GDP compares output at constant prices. With prices unchanged, Year 2 has the greater volume; with Year 2 prices 50% above Year 1 prices, the implied Year 2 volume at Year 1 prices is ₹80 billion, below the Year 1 figure of ₹100 billion. The printed nominal totals alone therefore support different answers.",
+          "from": "First add net production taxes to reach ₹208 crore at basic prices, then add net product taxes to reach ₹220 crore at market prices."
+        },
+        "candidate.family_id": {
+          "to": "fam-4b032eb943894a7b",
+          "from": "fam-9f3fc54f5e45cabe"
+        },
+        "candidate.provenance": {
+          "to": {
+            "adaptation_family": "fam-4b032eb943894a7b",
+            "kind": "original_practice",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-economics-bookA",
+            "anchor_id": "ncertcol-leec102-v1",
+            "source_pack_version": 12,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "adaptation_type": "source-grounded-original-practice"
+          },
+          "from": {
+            "kind": "original_practice",
+            "anchor_id": "ncertcol-leec102-v1",
+            "adaptation_family": "fam-9f3fc54f5e45cabe",
+            "adaptation_type": "source-grounded-original-practice",
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "cuet2024-economics-bookA",
+            "source_pack_version": 12
+          }
+        },
+        "candidate.learning_objective": {
+          "to": {
+            "target_term": "",
+            "objective": "Compare output volume across years using a common price basis",
+            "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting"
+          },
+          "from": {
+            "syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+            "objective": "Apply the conversion from GVA at factor cost through basic prices to market prices.",
+            "target_term": ""
+          }
+        },
+        "candidate.concept_id": {
+          "to": "economics:real-output-comparison-needs-price-basis",
+          "from": "economics:gva-market-price-key-integrity"
+        },
+        "candidate.source_refs": {
+          "to": [
+            {
+              "id": "ncertcol-leec102-v1",
+              "version": 1,
+              "locator": "p21-c0-g1-s0",
+              "support_hash": "1e101fb345f0a04f4f224be81858104c88b2e2a4afd794c6c4d5ded8c2464344"
+            }
+          ],
+          "from": [
+            {
+              "id": "ncertcol-leec102-v1",
+              "version": 1,
+              "locator": "p16-c0-g5-s23",
+              "support_hash": "f89c6fef782e30ce0e10cf8972e488a480fa109b63655d87a20e2ec62b82aa8b"
+            }
+          ]
+        },
+        "candidate.options": {
+          "to": [
+            {
+              "key": "A",
+              "text": "Year 1"
+            },
+            {
+              "key": "B",
+              "text": "Year 2"
+            },
+            {
+              "key": "C",
+              "text": "The production volume was equal in both years."
+            },
+            {
+              "key": "D",
+              "text": "Year 1 and Year 2 must have had equal prices."
+            }
+          ],
+          "from": [
+            {
+              "key": "A",
+              "text": "₹220 crore"
+            },
+            {
+              "key": "B",
+              "text": "₹208 crore"
+            },
+            {
+              "key": "C",
+              "text": "₹212 crore"
+            },
+            {
+              "key": "D",
+              "text": "₹200 crore"
+            }
+          ]
+        },
+        "candidate.correct_answer": {
+          "to": "A",
+          "from": "B"
+        },
+        "defect_category": {
+          "to": "multiple_defensible_answers",
+          "from": "incorrect_answer_key"
+        },
+        "candidate.body": {
+          "to": "A country reports nominal GDP of ₹100 billion in Year 1 and ₹120 billion in Year 2. Which year had the greater volume of production?",
+          "from": "GVA at factor cost is ₹200 crore, net production taxes are ₹8 crore, and net product taxes are ₹12 crore. What is GVA at market prices?"
+        },
+        "defect_evidence": {
+          "to": "The printed nominal totals omit price information. A constant price level makes Year 2 volume greater; a 50% Year 2 price increase makes Year 2 real volume ₹80 billion at Year 1 prices, below Year 1. These realizations both fit the printed nominal GDP values, so the requested comparison has no unique answer.",
+          "from": "The calculation and explanation establish option A (₹220 crore) as the unique correct answer, but the answer key marks option B (₹208 crore)."
+        }
+      },
+      "reason": "Replaced with a distinct task grounded in an active registered source fact; the fixed expected_valid and group labels were retained.",
+      "native_evaluation_informed": false,
+      "expected_valid": false,
+      "group": "controlled_defect"
+    },
+    {
+      "reason": "No R3 field correction was needed; the original content and difficulty label already match the frozen source-only assessment.",
+      "group": "authored_valid",
+      "changed_fields": {},
+      "id": "f-a537d870af8cd07f",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-538b04e18ffd75ea",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-ab86b54ef0601f16",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-958b02eadb40ed70",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "authored_valid",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-a7899d6bca12a82b",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": true
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-8b58fde354fa4d4d",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-844a877a73613f48",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-7a98463c79d8af56",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    },
+    {
+      "group": "controlled_defect",
+      "changed_fields": {
+        "candidate.difficulty": {
+          "to": "easy",
+          "from": "medium"
+        }
+      },
+      "id": "f-6bdb69ae95a734ea",
+      "reason": "Applied the already frozen independent source-only difficulty assessment; content and expected-valid label retained.",
+      "expected_valid": false
+    }
+  ]
+}

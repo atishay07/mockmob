@@ -1,0 +1,77 @@
+v79q1-accountancy-v3 VALID  -> eligible 
+v79q1-accountancy-d2 DEFECT -> quarantined failed:source_support
+v79q1-accountancy-v4 VALID  -> eligible 
+v79q1-accountancy-v5 VALID  -> eligible 
+v79q1-accountancy-d1 DEFECT -> quarantined blind_key_contradiction
+v79q1-accountancy-v2 VALID  -> eligible 
+v79q1-accountancy-v1 VALID  -> quarantined failed:explanation_support
+v79q1-accountancy-d4 DEFECT -> quarantined blind_key_contradiction
+v79q1-business_studies-v1 VALID  -> quarantined failed:explanation_support
+v79q1-accountancy-d3 DEFECT -> quarantined failed:explanation_support
+v79q1-business_studies-v4 VALID  -> eligible 
+v79q1-business_studies-v3 VALID  -> quarantined failed:source_support
+v79q1-business_studies-v2 VALID  -> eligible 
+v79q1-business_studies-v5 VALID  -> eligible 
+v79q1-business_studies-d1 DEFECT -> quarantined blind_key_contradiction
+v79q1-economics-v2 VALID  -> quarantined failed:explanation_support
+v79q1-business_studies-d3 DEFECT -> quarantined failed:source_support
+v79q1-business_studies-d2 DEFECT -> quarantined failed:source_support
+v79q1-economics-d4 DEFECT -> quarantined failed:source_support
+v79q1-economics-v1 VALID  -> quarantined failed:explanation_support
+v79q1-economics-d1 DEFECT -> quarantined blind_key_contradiction
+v79q1-economics-v3 VALID  -> eligible 
+v79q1-business_studies-d4 DEFECT -> quarantined failed:source_support
+v79q1-economics-v4 VALID  -> quarantined failed:explanation_support
+v79q1-economics-d2 DEFECT -> quarantined failed:source_support
+v79q1-english-v4 VALID  -> quarantined failed:explanation_support
+v79q1-english-v2 VALID  -> eligible 
+v79q1-english-d1 DEFECT -> quarantined blind_key_contradiction
+v79q1-english-d2 DEFECT -> quarantined failed:source_support
+v79q1-english-v1 VALID  -> eligible 
+v79q1-english-v5 VALID  -> quarantined failed:explanation_support
+v79q1-english-d3 DEFECT -> quarantined failed:explanation_support
+v79q1-english-d4 DEFECT -> quarantined failed:source_support
+v79q1-english-v3 VALID  -> quarantined failed:explanation_support
+{
+ "kind": "v710_fresh_qualification_study",
+ "terminal": 34,
+ "of": 34,
+ "valid_eligible": "10/19",
+ "defects_accepted": "0/15",
+ "errors": [],
+ "valid_failures": [
+  "v79q1-accountancy-v1:failed:explanation_support",
+  "v79q1-business_studies-v1:failed:explanation_support",
+  "v79q1-business_studies-v3:failed:source_support",
+  "v79q1-economics-v2:failed:explanation_support",
+  "v79q1-economics-v1:failed:explanation_support",
+  "v79q1-economics-v4:failed:explanation_support",
+  "v79q1-english-v4:failed:explanation_support",
+  "v79q1-english-v5:failed:explanation_support",
+  "v79q1-english-v3:failed:explanation_support"
+ ],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.328682,
+  "held_usd": 0,
+  "requests": 91,
+  "receipt_complete": true,
+  "at": "2026-10-09T14:18:03.736Z"
+ }
+}
+{
+ "decision": {
+  "pass": false,
+  "pooled_valid_survival": 0.5263157894736842,
+  "per_subject_valid_survival": {
+   "accountancy": 0.8,
+   "business_studies": 0.6,
+   "economics": 0.25,
+   "english": 0.4
+  },
+  "accepted_defects": [],
+  "unfinished_defects": [],
+  "unfinished_valid": [],
+  "assessed_at": "2026-10-09T14:18:03.740Z"
+ }
+}

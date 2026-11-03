@@ -1,0 +1,42 @@
+✔ removing an earlier option preserves the actual answer while relabelling (1.5739ms)
+✔ blank correct options cannot be submitted after filtering (0.2786ms)
+✔ quarantine is held, unknown states never pretend to be live (0.1568ms)
+✔ raw page boundary advances even when every row is quarantined (1.8751ms)
+✔ feed bounds reject non-numeric and oversized windows (0.2599ms)
+✔ vote-driven reordering cannot duplicate a question already on screen (0.2667ms)
+✔ chapter selectors accept grouped and flat API contracts (0.3416ms)
+✔ feedback abstains on missing key and distinguishes revealing from an answer (1.1316ms)
+✔ fresh non-NTA mocks rank newest rows before older high-score rows (1.9246ms)
+✔ usage pushes already-attempted rows behind unseen rows (1.0367ms)
+✔ picker preserves difficulty targets while keeping newest rows within each level (0.4845ms)
+✔ selection usage metadata records latest-window and revisit counts (2.8059ms)
+✔ new ₹299 plan is versioned, gated, and never inherits a historical offer (1.1737ms)
+✔ paid-through date prefers Razorpay invoice billing end (2.4488ms)
+✔ paid-through date falls back to a bounded paid period (0.1812ms)
+✔ effective premium survives cancellation inside paid-through window (0.2152ms)
+✔ paid evidence requires a captured payment record (0.1578ms)
+✔ discounted creator payments can validate below nominal amount (0.2966ms)
+✔ discounted payments can validate from Razorpay subscription offer metadata (0.7656ms)
+✔ one-time access discounts require a Razorpay offer id on the payment record (0.186ms)
+✔ refund revocation audit only blocks matching payment identifiers (0.4302ms)
+✔ CUET 2027 Pro checkout is a live one-time Rs 99 access plan (0.3467ms)
+✔ CUET 2026 plan stays resolvable for old orders but is closed to new checkout (0.1748ms)
+✔ legacy monthly plan is not live for new checkout (0.1337ms)
+✔ fast forward and reverse jumps select the final ordered station (1.1348ms)
+✔ hysteresis prevents bouncing at a boundary and gaps retain a station (0.1965ms)
+✔ Tonight metadata follows the shared 10/20/30 plan and the IST day (3.2672ms)
+✔ Tonight is recorded only from a scored matching-day attempt; review is separate (0.3119ms)
+✔ milestones exclude device scoring, blocked content and invalidated delayed checks (0.2452ms)
+✔ mistake replay uses missed and skipped chapters, excludes all past IDs and families (0.3234ms)
+✔ offline restore keeps the original session and deadline, with bounded pending upload (0.1899ms)
+✔ sign out removes only that account’s session drafts (0.181ms)
+✔ cancellation uses cycle-end in the installed SDK and never treats rejection text as success (0.7314ms)
+✔ service worker intercepts only public assets and navigation, never account APIs or POSTs (1.0604ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 34
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 295.6284

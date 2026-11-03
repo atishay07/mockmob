@@ -1,0 +1,5 @@
+# Authored source identities: clarification before evaluation
+
+The independent extraction audit found that the four original English stimuli in the failed local registry shared an incorrect identity digest. The earlier source-integration addendum's statement that every identity digest would remain unchanged is therefore corrected narrowly for these four authored records. Their exact passage text, reference locators, support hashes, permissions, source versions, questions, keys, labels and explanations remain unchanged.
+
+The additive V5 overlay records each authored passage's actual SHA256, independently verified against its saved exact bytes. Official NCERT and CUET document identities remain unchanged. The source attestation and freshness supplement disclose and bind the correction. Do not edit any previous registry or incomplete registration. Native validators have never seen these cases; the same fixed 41-case qualification and its USD4/USD50 caps remain in force. This is source identity repair before evaluation, not new qualification evidence or another paid benchmark.

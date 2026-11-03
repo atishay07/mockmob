@@ -1,0 +1,124 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=rival&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=rival&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: rival, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 (selected) rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 text DAILY PRESSURE LOOP PREPOS CREDITS : — FREE DAILY : --
+		30 text MockMob / Shadow Benchmark
+		31 heading Check your pace against a practice rival., Value: 1
+			32 text Check your pace against a practice rival.
+		33 text A short timed challenge comparing pace, accuracy and skipped questions. Your rival is a simulated benchmark, not a student or a CUET rank prediction.
+		34 text Recommended benchmark today
+		35 heading Daily Benchmark, Value: 2
+			36 text Daily Benchmark
+		37 text A short daily pressure check. Good for proving you can execute today without taking a full mock.
+		38 button Start challenge
+		39 checkbox Value: 1, FREE DAILY Daily Benchmark A short daily pressure check. Good for proving you can execute today without taking a full mock. ACCURACY 78% PACE 55s Strength: balanced score target
+			40 text FREE DAILY
+			41 heading Daily Benchmark, Value: 2
+				42 text Daily Benchmark
+			43 text A short daily pressure check. Good for proving you can execute today without taking a full mock.
+			44 text ACCURACY
+			45 text 78%
+			46 text PACE
+			47 text 55s
+			48 container
+				49 text Strength:  balanced score target
+		50 checkbox Value: 0, PAID BASIC Speed Benchmark Tests pacing. Useful when you know the material but lose marks by running out of time. ACCURACY 70% PACE 32s Strength: pace under pressure
+			51 text PAID BASIC
+			52 heading Speed Benchmark, Value: 2
+				53 text Speed Benchmark
+			54 text Tests pacing. Useful when you know the material but lose marks by running out of time.
+			55 text ACCURACY
+			56 text 70%
+			57 text PACE
+			58 text 32s
+			59 container
+				60 text Strength:  pace under pressure
+		61 checkbox Value: 0, PAID BASIC Accuracy Benchmark Tests precision. Useful when careless errors are pulling down otherwise good attempts. ACCURACY 92% PACE 78s Strength: precision
+			62 text PAID BASIC
+			63 heading Accuracy Benchmark, Value: 2
+				64 text Accuracy Benchmark
+			65 text Tests precision. Useful when careless errors are pulling down otherwise good attempts.
+			66 text ACCURACY
+			67 text 92%
+			68 text PACE
+			69 text 78s
+			70 container
+				71 text Strength:  precision
+		72 checkbox Value: 0, 1 AI CR Weakness Benchmark Targets weak chapters from your MockMob history. Use when Radar shows repeated leaks. ACCURACY 82% PACE 52s Strength: your weakest available topics
+			73 text 1 AI CR
+			74 heading Weakness Benchmark, Value: 2
+				75 text Weakness Benchmark
+			76 text Targets weak chapters from your MockMob history. Use when Radar shows repeated leaks.
+			77 text ACCURACY
+			78 text 82%
+			79 text PACE
+			80 text 52s
+			81 container
+				82 text Strength:  your weakest available topics
+		83 checkbox Value: 0, 2 AI CR DU Target Benchmark A premium benchmark for your target college or course path. Use only after a few mocks. ACCURACY 90% PACE 48s Strength: high accuracy target
+			84 text 2 AI CR
+			85 heading DU Target Benchmark, Value: 2
+				86 text DU Target Benchmark
+			87 text A premium benchmark for your target college or course path. Use only after a few mocks.
+			88 text ACCURACY
+			89 text 90%
+			90 text PACE
+			91 text 48s
+			92 container
+				93 text Strength:  high accuracy target
+		94 checkbox Value: 0, 3 AI CR Composite Benchmark The hardest composite benchmark. Use after basic rivals feel too easy. ACCURACY 93% PACE 46s Strength: high pace and high accuracy
+			95 text 3 AI CR
+			96 heading Composite Benchmark, Value: 2
+				97 text Composite Benchmark
+			98 text The hardest composite benchmark. Use after basic rivals feel too easy.
+			99 text ACCURACY
+			100 text 93%
+			101 text PACE
+			102 text 46s
+			103 container
+				104 text Strength:  high pace and high accuracy
+		105 text Benchmark setup
+		106 checkbox Accountancy, Value: 1
+		107 checkbox Economics, Value: 0
+		108 checkbox Business Studies, Value: 0
+		109 checkbox English, Value: 0
+		110 text QUESTIONS
+		111 checkbox 5, Value: 0
+		112 checkbox 10, Value: 1
+		113 checkbox 15, Value: 0
+		114 checkbox 20, Value: 0
+		115 button Start Daily Benchmark
+	116 container Quick study navigation
+		117 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		118 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		119 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		120 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		121 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=rival&plan=pro

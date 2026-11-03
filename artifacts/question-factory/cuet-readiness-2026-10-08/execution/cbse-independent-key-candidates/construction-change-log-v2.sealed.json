@@ -1,0 +1,131 @@
+{
+  "schema": "cbse-v2-construction-change-log-sealed-v1",
+  "input_bindings": {
+    "questions-blinded.json": {
+      "sha256": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "path": "questions-blinded.json"
+    },
+    "cbse-blind-key-review-v1.json": {
+      "sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+      "path": "cbse-blind-key-review-v1.json"
+    },
+    "answer-key-custody.json": {
+      "sha256": "f88511edf5114a76f8f283de709c2d3f0451276982743ae4c574f6a758e103e0",
+      "path": "answer-key-custody.json"
+    },
+    "cbse-blind-key-comparison-v1.json": {
+      "sha256": "29544fbf115aca5d3d63950e5b40cf2d26994f8e80be1c300e2ce0eb838d0e93",
+      "path": "cbse-blind-key-comparison-v1.json"
+    }
+  },
+  "changes": [
+    {
+      "item_id": "cbse26-bs-q08",
+      "field": "options",
+      "before": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer."
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing."
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose."
+        },
+        {
+          "label": "D",
+          "text": "A person who buys any goods or avails services for a consideration, which has been paid or promised, or partly paid and partly promised, or under any scheme of deferred payment."
+        }
+      ],
+      "after": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer."
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing."
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose."
+        },
+        {
+          "label": "D",
+          "text": "A person who buys goods or avails services for consideration, including an approved user of goods or beneficiary of services; resale or commercial-purpose use is excluded, except goods used exclusively to earn a livelihood through self-employment."
+        }
+      ],
+      "rationale": "Complete the consideration condition with statutory approval/beneficiary and commercial-purpose qualifications.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "field": "question",
+      "before": "Read the statements carefully. Statement 1: M1 measure of money supply constitutes currency and demand deposits held by the public. Statement 2: Demand deposits are those deposits with commercial banks that can be withdrawn on demand by depositors. Choose the correct option.",
+      "after": "Read the statements carefully. Statement 1: Under the Class XII NCERT narrow-money definition, M1 is currency held by the public plus net demand deposits held with commercial banks. Statement 2: Demand deposits are those deposits with commercial banks that can be withdrawn on demand by depositors. Choose the correct option.",
+      "rationale": "Pin the intended M1 convention to the current course definition so the answer is not dependent on a broader statistical series.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "field": "question",
+      "before": "The Government of India in its Union Budget 2026-27 has decided to exempt fish caught by Indian fishing vessels operating in the Exclusive Economic Zone (EEZ) and on the High Seas from duty. Identify the objective behind the initiative taken by the Government of India as stated above. (Choose the correct option)",
+      "after": "In a hypothetical example, the government uses budget funds to provide roads, a public good that cannot be provided to all users through market exchange. Which objective/function of the government budget does this illustrate? (Choose the correct option)",
+      "rationale": "Replace unstated real-world policy intent with a hypothetical that matches the official NCERT allocation-function example of roads/public goods.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "field": "question",
+      "before": "Which of the following statements best captures the functional role of the ‘radiant’ as described in the passage? (paragraph 3)",
+      "after": "Which of the following statements best captures the functional role of the “radiant” as described in the passage?",
+      "rationale": "Remove the paragraph locator because the adaptation moved the decisive sentence to a different numbered paragraph.",
+      "targeted_edit_count_for_item": 1
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "field": "options",
+      "before": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in payment behaviour among different user groups"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices"
+        }
+      ],
+      "after": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in everyday payment habits across India"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices"
+        }
+      ],
+      "rationale": "Remove the unsupported “different user groups” modifier and match the purpose stated by the adapted opening.",
+      "targeted_edit_count_for_item": 1
+    }
+  ]
+}

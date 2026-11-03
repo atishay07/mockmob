@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 12857,
+ "request_bytes": 33806,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-2d806114710e\",\n  \"content_hash\": \"afc863c6f6212e1e30832f3ee427d2eb3498569774798d7d1564ca91bc896548\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\"],\n  \"reasons\": [\n    \"NCERT Microeconomics Chapter 2 explains that the utility an individual derives from a commodity can change with changes in place and time.\",\n    \"The room heater example directly illustrates that utility varies across locations (Ladakh vs. Chennai) and seasons (winter vs. summer).\"\n  ],\n  \"syllabus_chapter\": \"Introduction & Theory of Consumer Behaviour\",\n  \"syllabus_topic\": \"Consumer's Equilibrium through Utility Approach\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Utility derived by an individual from a commodity varies with place and time.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Utility for a given person is an invariant, fixed psychological property regardless of location or season.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Differences in utility are exclusively driven by variations in the market price of the heater.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Operating in different climates fundamentally alters the physical definition and identity of the commodity itself.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests the core introductory concept of utility under the Theory of Consumer Behaviour.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-stem conceptual multiple-choice question typical of CUET UG Economics.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Standard Class 12 NCERT conceptual recall aligned with CUET exemplars.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target common misconceptions regarding consumer utility and commodity definition.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-economics-bookA-q1\",\n      \"cuet2024-economics-bookA-q4\",\n      \"cuet2024-economics-bookA-q6\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"utility that one individual gets from the commodity can change with change in place and time.\",\n      \"reason\": \"Directly matches textbook principle that utility varies with place and time.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Utility is always identical for the same person\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"utility that one individual gets from the commodity can change with change in place and time.\",\n      \"reason\": \"Textbook affirms that utility changes rather than remaining identical.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Utility depends only on the product’s price\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"utility from the use of a room heater will depend upon whether the individual is in Ladakh or Chennai (place) or whether it is summer or winter (time).\",\n      \"reason\": \"Utility depends on need, place, and time, not solely on price.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"The heater has become a different commodity\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A room heater gives the same person different utility in Chennai in summer and Ladakh in winter.\",\n      \"reason\": \"The stem specifies the same physical commodity is being evaluated.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EpkJCpYJAWkUfROR5W++tZpiyHJPfYsW0KRGUhnPUNVvt/wC6F0wlwTZ6aEk4JuHR5v42lvNhK8q0Z5PIVXFfYiCf/ZwtAwLu6+3oeDcEYoo1GnatotLtOSEOLquTG+25a8mIdLL3w8ZfBK1WOZP5GlVNTFBn08NsHwACJDz3/y6f8aKPcI/tEOoTw51A4uYiWB3A+Ii6G6/ZNJ8O6vC2YOxoSZrmQDbwFDFgJKerAmt7P6U1B3lrZ6w7m0v9elRtO8UPgzw4FChhyAMJG15dSK+ITuWjhN4FvKIjCQMZUkXYLA9I7NWjlmLsnNHHmZdPQtFNyPd1Kz2h23iD9goEhlBxRmFgxCy0KJJTFlgPXXZgohYyq96eNOArmeAR1+rR+tp6pex30KRnGAiERYtm8Z5eiJMkCFJFmGW0ciG604WSeYSEp4+mcbfhNt7tNeWaDoa5a69QMKV5siU5TKg457DXJN6myAdQyh8D7m6QQd0eovMzX4PmFX8vMtk4vd7jBj4N6qfZyIt7B94OvTqRcZ54pQFfMn5tpHbaC0jGb0VloVS1/mr/lHgZn8GAK4iSNh54T+Kifta1l6OYXLVctiTjAmRHZhC0/BsTBZtRrveTvaWgFmYKizUBDbOj7q0Z4DBxdGp1kiaQC1jR57um7TrdaKXeHrbWb3IOTQPdt0TFw1b2gQzyamKFON7xBMLOPsNd1b6jOb2M03HcQ3iP1UJpyxvlL75uQ+Nrgfzu6c64SQZuXXnXOG+vaCOhaxqxBqJaw0uWy2fXgrk2ZCdDq60su+uTJES6lrNrDxvqrkYG0nNbBb0w9SzcS281ExFcR0PmCG6u892HSvJkoatQF9fUkg6xCwxJzD5MQeRFbsECJz/djDGNTOxiMKDpJhS68LZ93DCf41k+alOqfHz1ecYY9imaqqcAFTW25LG4cONg20kQ5yaa2C5cH3UzWRP+2aHsDWZ21NDyPGaLlRs2Ze9YkYW4PztTkpuireDORsa5o9S7kcgUBNKfJOtp9gZsHdjW4hNy8yagEq/iWmsFQOBYqSJvaxDz6Kw/h4RDPMn14G0rWw5PTyTbiEjzRaWDlyVZttRKovd4fSC2rlHBpruSosMQFYRLQKqYA7dAad6KuVr4MO55QebrbsH6breoLUPzrWlx9gEcYDDx4feqvvglrTswrmv00ENRO0CR9EZgqmtECaECQHz2SNyeFHy3AaYHqSsgGmgMG9ylneXdkGn4pXJSofg3rAW7xpxFfxkV4ILMDz/rzVxpIMJX3Tss7D4WZ0IbRvrjuvoYUr1sBkuGxu6WzTaYjpkfgVfCBlfQbOVeZ3DBmH6G44HGLNTgpdCt+rgL9Y7lMPnJMgdHW0pSDv5IWaSxF1gHk4s9Tlf3utPX5Sn8G4JZUiUGP63vMLCtMNgSgiPHhSVcYevDXPx2epbwd/hrxGcYgWLjzB89Zo7J6NZJvBKWmkkZ3a/a6U5py4bz8nOuusIho4Ts6aAS3Kzhlmsr/VKScNDTY71WKyfNkWy/B+MwGRthda388pQuokJ3mX5LIA0/E8iVb6tI7Ny8OKpDck/Fw=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5998,
+   "candidatesTokenCount": 1420,
+   "totalTokenCount": 7653,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5998
+    }
+   ],
+   "thoughtsTokenCount": 235,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "dMbIauuJHaj-juMPzv_zyA8"
+ }
+}

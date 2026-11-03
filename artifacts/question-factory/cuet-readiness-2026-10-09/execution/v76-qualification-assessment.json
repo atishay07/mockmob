@@ -1,0 +1,958 @@
+{
+  "at": "2026-10-08T22:11:07.758Z",
+  "qualification": {
+    "state": "paused",
+    "topology": "dual_blind",
+    "policy": {
+      "policy": "cuet-fit-release-v2",
+      "fresh_false_accepts_max": 0,
+      "regression_false_accepts_max": 0,
+      "valid_survival_min": 0.85,
+      "per_subject_valid_survival_min": 0.7
+    },
+    "problems": [
+      "regression_defect_false_accepts_1"
+    ],
+    "metrics": {
+      "fresh_false_accepts": [],
+      "regression_false_accepts": [
+        "v75f-825e60a00f"
+      ],
+      "valid_survival": 0.85,
+      "valid_by_subject": {
+        "accountancy": {
+          "n": 5,
+          "ok": 5
+        },
+        "business_studies": {
+          "n": 5,
+          "ok": 4
+        },
+        "economics": {
+          "n": 5,
+          "ok": 4
+        },
+        "english": {
+          "n": 5,
+          "ok": 4
+        }
+      },
+      "fresh_defects": 12,
+      "regression_defects": 9,
+      "valid_items": 20
+    }
+  },
+  "release_authorized": false,
+  "receipt_complete": true,
+  "requests": 118,
+  "settled_usd": 0.6499799999999999,
+  "held_usd": 0,
+  "cost_by_provider": {
+    "openai": {
+      "requests": 74,
+      "settled_usd": 0.185242
+    },
+    "gemini": {
+      "requests": 44,
+      "settled_usd": 0.4647380000000001
+    }
+  },
+  "cost_by_stage": {
+    "blind_solution": {
+      "requests": 47,
+      "settled_usd": 0.15591699999999997
+    },
+    "independent_evaluation": {
+      "requests": 44,
+      "settled_usd": 0.4647380000000001
+    },
+    "explanation_support": {
+      "requests": 27,
+      "settled_usd": 0.029324999999999997
+    }
+  },
+  "served_tiers": {
+    "default": {
+      "requests": 74,
+      "settled_usd": 0.185242
+    },
+    "null": {
+      "requests": 44,
+      "settled_usd": 0.4647380000000001
+    }
+  },
+  "completion_retry_requests": 11,
+  "completion_retries": [
+    {
+      "id": "7c5aa6ec107c100594196b6790da2f6780e8ffe2e055ce4125b2165121c5486a",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.002856,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5459,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5456
+        },
+        "output_tokens": 5602,
+        "output_tokens_details": {
+          "reasoning_tokens": 4660
+        },
+        "total_tokens": 11061
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5459,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5456
+          },
+          "output_tokens": 5602,
+          "output_tokens_details": {
+            "reasoning_tokens": 4660
+          },
+          "total_tokens": 11061
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-3d2cef0c02",
+        "idempotency_key": "7c5aa6ec107c100594196b6790da2f6780e8ffe2e055ce4125b2165121c5486a",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_0d79a013a52b7215016ac8078be28087d195bdf7312b6112cf"
+      }
+    },
+    {
+      "id": "b7cbdf9a2397c3354d46dbeefa6a7b51510286cdd4f4fd788d66027dd04377b3",
+      "provider": "gemini",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "independent_evaluation",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-972dd21c21",
+      "output_ceiling": 9000,
+      "provider_response_status": "STOP",
+      "served_tier": null,
+      "configured_mode": "realtime",
+      "settled_usd": 0.015014,
+      "held_usd": 0,
+      "usage": {
+        "promptTokenCount": 4738,
+        "candidatesTokenCount": 1173,
+        "totalTokenCount": 7794,
+        "cachedContentTokenCount": 2776,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 4738
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 2776
+          }
+        ],
+        "thoughtsTokenCount": 1883,
+        "serviceTier": "standard"
+      },
+      "receipt": {
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "promptTokenCount": 4738,
+          "candidatesTokenCount": 1173,
+          "totalTokenCount": 7794,
+          "cachedContentTokenCount": 2776,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 4738
+            }
+          ],
+          "cacheTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2776
+            }
+          ],
+          "thoughtsTokenCount": 1883,
+          "serviceTier": "standard"
+        },
+        "searches": 0,
+        "stage": "independent_evaluation",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-972dd21c21",
+        "idempotency_key": "b7cbdf9a2397c3354d46dbeefa6a7b51510286cdd4f4fd788d66027dd04377b3",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "generativelanguage.googleapis.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.75,
+          "output_per_million": 3.75,
+          "batch": {
+            "input_per_million": 0.375,
+            "output_per_million": 1.875
+          }
+        },
+        "provider_request_id": "awjIasSALZjnqfkPzqSZ0Qg"
+      }
+    },
+    {
+      "id": "1e77577304d4bcc1f84db8211a68cba1411f08824cf08e341189b4b21425eb52",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-f4c6fb6af3",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.004021,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5312,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5309
+        },
+        "output_tokens": 7935,
+        "output_tokens_details": {
+          "reasoning_tokens": 7042
+        },
+        "total_tokens": 13247
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5312,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5309
+          },
+          "output_tokens": 7935,
+          "output_tokens_details": {
+            "reasoning_tokens": 7042
+          },
+          "total_tokens": 13247
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-fresh-bounded-input:v76f-f4c6fb6af3",
+        "idempotency_key": "1e77577304d4bcc1f84db8211a68cba1411f08824cf08e341189b4b21425eb52",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_06247195e0dbf989016ac808d8d45887d1ba99fd9f4c4579e6"
+      }
+    },
+    {
+      "id": "70f706aaab2fbca0e264853e6d3ddbd5723ab14cab89d91522b14a3f5583e02e",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.003006,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5306,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5303
+        },
+        "output_tokens": 5904,
+        "output_tokens_details": {
+          "reasoning_tokens": 5096
+        },
+        "total_tokens": 11210
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5306,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5303
+          },
+          "output_tokens": 5904,
+          "output_tokens_details": {
+            "reasoning_tokens": 5096
+          },
+          "total_tokens": 11210
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+        "idempotency_key": "70f706aaab2fbca0e264853e6d3ddbd5723ab14cab89d91522b14a3f5583e02e",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_095f4090b3f08736016ac80997da5887d197dac6351a0f7e02"
+      }
+    },
+    {
+      "id": "8d10635478388f37459a345e90510c02657bf9ceb7ac2fc6451a2b7fa856eb7c",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.003097,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5033,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5030
+        },
+        "output_tokens": 6091,
+        "output_tokens_details": {
+          "reasoning_tokens": 5178
+        },
+        "total_tokens": 11124
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5033,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5030
+          },
+          "output_tokens": 6091,
+          "output_tokens_details": {
+            "reasoning_tokens": 5178
+          },
+          "total_tokens": 11124
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+        "idempotency_key": "8d10635478388f37459a345e90510c02657bf9ceb7ac2fc6451a2b7fa856eb7c",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_0633dfb85d413413016ac809a0f13487d1826334d1fc2e2d14"
+      }
+    },
+    {
+      "id": "e82f16e56d2eaca1bcf39efeeb9d26286e7ee14b0bb9a716b72ce04a48acca67",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "explanation_support",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+      "output_ceiling": 10000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.002535,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 2533,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 2530
+        },
+        "output_tokens": 5017,
+        "output_tokens_details": {
+          "reasoning_tokens": 4479
+        },
+        "total_tokens": 7550
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 2533,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 2530
+          },
+          "output_tokens": 5017,
+          "output_tokens_details": {
+            "reasoning_tokens": 4479
+          },
+          "total_tokens": 7550
+        },
+        "searches": 0,
+        "stage": "explanation_support",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04",
+        "idempotency_key": "e82f16e56d2eaca1bcf39efeeb9d26286e7ee14b0bb9a716b72ce04a48acca67",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_0e30788c287d7f9b016ac80a05189c87d189abc5bdc20a61ac"
+      }
+    },
+    {
+      "id": "0a3d8069ae3dbcf5b8699d88c0129868b8047ac957852aa815901bafa993ecb6",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "explanation_support",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+      "output_ceiling": 10000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.001706,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 2212,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 2209
+        },
+        "output_tokens": 3367,
+        "output_tokens_details": {
+          "reasoning_tokens": 3106
+        },
+        "total_tokens": 5579
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 2212,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 2209
+          },
+          "output_tokens": 3367,
+          "output_tokens_details": {
+            "reasoning_tokens": 3106
+          },
+          "total_tokens": 5579
+        },
+        "searches": 0,
+        "stage": "explanation_support",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q02",
+        "idempotency_key": "0a3d8069ae3dbcf5b8699d88c0129868b8047ac957852aa815901bafa993ecb6",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_0cc4810a1cb95296016ac80a174de087d1a6cfc1ac94bc195d"
+      }
+    },
+    {
+      "id": "8f6cc61c355d14f95cba80c22b808fc6d545e60858f342df2c0992fbe2df0b47",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.004269,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5304,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5301
+        },
+        "output_tokens": 8430,
+        "output_tokens_details": {
+          "reasoning_tokens": 7150
+        },
+        "total_tokens": 13734
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5304,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5301
+          },
+          "output_tokens": 8430,
+          "output_tokens_details": {
+            "reasoning_tokens": 7150
+          },
+          "total_tokens": 13734
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+        "idempotency_key": "8f6cc61c355d14f95cba80c22b808fc6d545e60858f342df2c0992fbe2df0b47",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_019bedb7af424259016ac80a81669087d1a060f69df85ad4b2"
+      }
+    },
+    {
+      "id": "e76cfadcaf22692fae7e33aebaf22c1b9d4332154d53229fab04dafab37a7721",
+      "provider": "openai",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "blind_solution",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q06--numerical_fault",
+      "output_ceiling": 15000,
+      "provider_response_status": "completed",
+      "served_tier": "default",
+      "configured_mode": "realtime",
+      "settled_usd": 0.004491,
+      "held_usd": 0,
+      "usage": {
+        "input_tokens": 5433,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 5430
+        },
+        "output_tokens": 8871,
+        "output_tokens_details": {
+          "reasoning_tokens": 7621
+        },
+        "total_tokens": 14304
+      },
+      "receipt": {
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "input_tokens": 5433,
+          "input_tokens_details": {
+            "cache_write_tokens": 0,
+            "cached_tokens": 5430
+          },
+          "output_tokens": 8871,
+          "output_tokens_details": {
+            "reasoning_tokens": 7621
+          },
+          "total_tokens": 14304
+        },
+        "searches": 0,
+        "stage": "blind_solution",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-eco-q06--numerical_fault",
+        "idempotency_key": "e76cfadcaf22692fae7e33aebaf22c1b9d4332154d53229fab04dafab37a7721",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "api.openai.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.1,
+          "output_per_million": 0.5,
+          "batch": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          },
+          "cached_input_per_million": 0.01,
+          "cache_write_per_million": 0.125,
+          "flex": {
+            "input_per_million": 0.05,
+            "output_per_million": 0.25,
+            "cached_input_per_million": 0.005,
+            "cache_write_per_million": 0.0625
+          }
+        },
+        "provider_request_id": "resp_06b2b1971ef92e64016ac80a8e7c8087d1ad2455948fa3c55b"
+      }
+    },
+    {
+      "id": "28f73c59e4edbccc5613c8e9158a46c58f1d8ad30c7eac1e6d3877d7297da686",
+      "provider": "gemini",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "independent_evaluation",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02--overlapping_options",
+      "output_ceiling": 9000,
+      "provider_response_status": "STOP",
+      "served_tier": null,
+      "configured_mode": "realtime",
+      "settled_usd": 0.01438,
+      "held_usd": 0,
+      "usage": {
+        "promptTokenCount": 5213,
+        "candidatesTokenCount": 1228,
+        "totalTokenCount": 8005,
+        "cachedContentTokenCount": 2874,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 5213
+          }
+        ],
+        "cacheTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 2874
+          }
+        ],
+        "thoughtsTokenCount": 1564,
+        "serviceTier": "standard"
+      },
+      "receipt": {
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "promptTokenCount": 5213,
+          "candidatesTokenCount": 1228,
+          "totalTokenCount": 8005,
+          "cachedContentTokenCount": 2874,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 5213
+            }
+          ],
+          "cacheTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 2874
+            }
+          ],
+          "thoughtsTokenCount": 1564,
+          "serviceTier": "standard"
+        },
+        "searches": 0,
+        "stage": "independent_evaluation",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-bs-q02--overlapping_options",
+        "idempotency_key": "28f73c59e4edbccc5613c8e9158a46c58f1d8ad30c7eac1e6d3877d7297da686",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "generativelanguage.googleapis.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.75,
+          "output_per_million": 3.75,
+          "batch": {
+            "input_per_million": 0.375,
+            "output_per_million": 1.875
+          }
+        },
+        "provider_request_id": "nArIaqqpB-X94-EPovLb4Q0"
+      }
+    },
+    {
+      "id": "88df6b5637752a511ee39b2b9454a4cb71ee39d92553a0ca76182d6f15e3b9fb",
+      "provider": "gemini",
+      "state": "complete",
+      "budget_state": "settled",
+      "stage": "independent_evaluation",
+      "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+      "output_ceiling": 9000,
+      "provider_response_status": "STOP",
+      "served_tier": null,
+      "configured_mode": "realtime",
+      "settled_usd": 0.025639,
+      "held_usd": 0,
+      "usage": {
+        "promptTokenCount": 4695,
+        "candidatesTokenCount": 1178,
+        "totalTokenCount": 10593,
+        "promptTokensDetails": [
+          {
+            "modality": "TEXT",
+            "tokenCount": 4695
+          }
+        ],
+        "thoughtsTokenCount": 4720,
+        "serviceTier": "standard"
+      },
+      "receipt": {
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "cache_rate_reconciliation": null,
+        "execution_mode": "realtime",
+        "usage": {
+          "promptTokenCount": 4695,
+          "candidatesTokenCount": 1178,
+          "totalTokenCount": 10593,
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 4695
+            }
+          ],
+          "thoughtsTokenCount": 4720,
+          "serviceTier": "standard"
+        },
+        "searches": 0,
+        "stage": "independent_evaluation",
+        "purpose": "calibration",
+        "candidate_id": "v76-qualification-2026-10-09-regression-bounded-input:cbse24-ac-q04--missing_provision_amount",
+        "idempotency_key": "88df6b5637752a511ee39b2b9454a4cb71ee39d92553a0ca76182d6f15e3b9fb",
+        "source_url": "https://developers.openai.com/api/docs/pricing",
+        "rates": {
+          "provider_host": "generativelanguage.googleapis.com",
+          "max_input_tokens": 35000,
+          "input_per_million": 0.75,
+          "output_per_million": 3.75,
+          "batch": {
+            "input_per_million": 0.375,
+            "output_per_million": 1.875
+          }
+        },
+        "provider_request_id": "7ArIatDsJ67VqfkP5N-ImAs"
+      }
+    }
+  ],
+  "bound_correction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-cost-bound-correction.json",
+  "frozen_contract_checks": [
+    {
+      "path": "scripts/pipeline/lib/contractV76.mjs",
+      "expected": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97",
+      "current": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/preparationValueV76.mjs",
+      "expected": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4",
+      "current": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/originalAuthorPolicyV76.mjs",
+      "expected": "27ea271b6a47dbd6a2f2672c423acca27777026581d9ca1205f86b1a9c5a30eb",
+      "current": "27ea271b6a47dbd6a2f2672c423acca27777026581d9ca1205f86b1a9c5a30eb",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryEvidenceV76.mjs",
+      "expected": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+      "current": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/verifyV76.mjs",
+      "expected": "66ad1cd5b6da9b71dc9305779379214a101daf39655d55bafb5d1c1132e38af9",
+      "current": "66ad1cd5b6da9b71dc9305779379214a101daf39655d55bafb5d1c1132e38af9",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/releaseEvidenceV76.mjs",
+      "expected": "7e84580947ccf9fdf1c9b64ff7bc9b32ba15594f523f0dceaa227e5ffe0fd130",
+      "current": "7e84580947ccf9fdf1c9b64ff7bc9b32ba15594f523f0dceaa227e5ffe0fd130",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/factoryProfileV76.mjs",
+      "expected": "b5e06863a95aea3180eeea628c1e27519df2a4f0aa58c1dd21fb48b175bcb4e8",
+      "current": "b5e06863a95aea3180eeea628c1e27519df2a4f0aa58c1dd21fb48b175bcb4e8",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs",
+      "expected": "0141d237275dfc4ccfdfd85d9ef494764a0201b7d10ad4c6b7a67cf02417b932",
+      "current": "0141d237275dfc4ccfdfd85d9ef494764a0201b7d10ad4c6b7a67cf02417b932",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/tools/runFreshCuetReadinessV76.mjs",
+      "expected": "d4819ae23fa47a53244e5532371db62cf290c232b23ef9a02312c1031e69e59a",
+      "current": "d4819ae23fa47a53244e5532371db62cf290c232b23ef9a02312c1031e69e59a",
+      "match": true
+    },
+    {
+      "path": "scripts/pipeline/tools/runFreshCuetReadinessV76BoundedInput.mjs",
+      "expected": "8ede9299a9714a16c24f76fa4874199fe335f6a0cd426c68a541cabacd2193d9",
+      "current": "8ede9299a9714a16c24f76fa4874199fe335f6a0cd426c68a541cabacd2193d9",
+      "match": true
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/v76-transport-input-reservation.json",
+      "expected": "dc3c93b5e8e96b5cc280b094340e0edb0f50f7937fe194e5aea532a473805dbb",
+      "current": "dc3c93b5e8e96b5cc280b094340e0edb0f50f7937fe194e5aea532a473805dbb",
+      "match": true
+    }
+  ],
+  "input_hashes": {
+    "fresh": {
+      "frozen": "cce1e6d69779f68e14f066fca8415e5a9763c73ad051317a2a46ee1477c3cbfd",
+      "results": "3592993e5a17a3fbb8570e92646734a9e01fc4d6de55255c96c33c37ec68f8ae",
+      "summary": "8caac342acb7ec4a594a86e7d291347f198dc463e63b0a388a7fcb86571b2e99",
+      "plan": "51f3c9e759bd0594e7cf4afa0b4d11900475b0015f02302ac4f3a50f7a88a739"
+    },
+    "regression": {
+      "frozen": "25afff09b19005cce29eb1027fd33257304830aa0e105f175e095e1f9be8b898",
+      "results": "437b5ca4e304795e08fa72dd4a221f4e6e99493eea398f1c6ebf0b2ef77f1ff1",
+      "summary": "6b9a01ca80b267171ed3e464f9e75df95923ff83da88051d62e641526ba62841",
+      "plan": "0c6ace4b131f8ce204b54b0bc226cf196ccd763bbea980585e55e53d7cc40f0a"
+    }
+  },
+  "publication_writes": 0,
+  "pilot_dispatch_permitted": false,
+  "limitation": "Observed compact qualification is correlated; no perfect accuracy or production readiness claim. Preserve all registered labels/results including contested regression label."
+}

@@ -1,0 +1,1459 @@
+{
+  "schema": "source-keyed-cuet-practice-construction-v4",
+  "at": "2026-10-08T10:27:15.263Z",
+  "pre_acquisition_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "source_manifest_sha256": "2eddf9ea5e131cbc499da17a33b1e7587316778f1a9ebc022bc343aea8775969",
+  "raw_denominator": 32,
+  "raw_per_subject": 8,
+  "source_kind": "CBSE sample-paper-derived practice references; not CUET PYQs",
+  "contains_proposed_answers": false,
+  "contains_explanations": false,
+  "stimuli": [
+    {
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted",
+      "text": "(1) A room is filled with people whose faces glow in the light of their smartphones. Moments drift away like autumn leaves in the wind. Notifications repeatedly interrupt conversations and draw fingers towards screens.\n\n(2) When phones are out of reach, people feel anxious and incomplete. The writer compares this feeling to a phantom limb: an absent digital device seems like a missing part of oneself. Fear of missing out drives repeated checking.\n\n(3) Thumbs move like skilled pianists, but the true rhythm of life remains unheard amid the dissonance of digital noise. Constant connectivity creates a hunch on shoulders, a physical sign of the burden of information overload. Minds stay alert for the next like, share or comment.\n\n(4) Despite efforts to stay connected, people become increasingly isolated among digital faces. Genuine connections are fleeting amid the constant clamour for attention. The search for digital validation sacrifices meaningful moments and shared experiences.\n\n(5) The writer urges readers to value presence and engagement in moments that matter. What defines people is the depth of their connections and the richness of their experiences, rather than their number of likes or followers.",
+      "words": 190,
+      "adaptation": "Short paraphrase preserving the source passage’s digital-dependence, bodily-burden and connection themes, with original paragraph numbers retained.",
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "789d110215d601d1a53b335a915ee35968db679bd88299a81ac43d3c1bb1dda3",
+          "quote_start": 791,
+          "quote_end": 2678,
+          "quote": "In a room filled with people, each face illuminated by the soft glow of the ir smartphones, moments drift away like autumn leaves in the wind. The constant hum of notifications fills the air, punctuating conversations like an incessant drumbeat. Every vibration or ping sends fingers flying to screens, a response ingrained by years of digital conditioning. The once - reliable tick -tock of analog timepieces has been overshadowed by the constant flicker of notifications on the wrist watch, blurring the boundaries between the virtual and the real. (2) Anxiety gnaws at the edges of cons ciousness when the phone is out of reach, a phantom limb syndrome that leaves us feeling incomplete without our digital appendage. The fear of missing out permeates every moment spent away from the screen, driving us to constantly check for updates and notifications. (3) Thumbs move with the speed and precision of skillful pianists, tapping out messages and scrolling through feeds with practiced ease. Yet amidst the flurry of activity, the true rhythm of life remains unheard, drowned out by the dissonance of digital noise. The weight of constant connectivity forms a hunch upon our shoulders, a physical manifestation of the burden we carry in an age of information overload. Our minds are perpetually on high alert, scanning for the next wave of excitement that comes with each like, share, or comment. (4) And yet, for all our efforts to stay connected, we find ourselves increasingly isolated in a sea of digital faces. Genuine connections are fleeting, drowned out by the constant clamour for attention. In the pursuit of digital validation, we sacrifice the wealth of lived experience, trading meaningful moments for fleeting glimpses of connection. The true essence of life lies not in the pixels on a screen, but in the depth of human connection and the richness of shared experiences",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        },
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 0,
+          "quote_end": 343,
+          "quote": "2 (5) As we navigate this brave new world of constant connectivity, let us not forget the value of presence and the beauty of being fully engaged in the moments that matter most. For in the end, it is not the number of likes or follower s that defines us, but the depth of our connections and the richness of our experiences that truly matter.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse24-ac-q01",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "source_question_no": "01",
+      "body": "Amar, Akbar and Anthony share profits and losses equally. Anthony is guaranteed a profit share of at least ₹60,000 per year; any deficiency is borne equally by Amar and Akbar. For one full year, the firm incurs a loss of ₹1,80,000. What total amount is debited to Amar’s capital account for the loss allocation and guarantee adjustment?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,20,000"
+        },
+        {
+          "key": "C",
+          "text": "₹90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹80,000"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "f7e390a0d58346b03ffbca21a9447aa4a65e6c2fb029c9b6a7b3034982eb9214",
+          "quote_start": 1001,
+          "quote_end": 1390,
+          "quote": "Anthony a partner was being guaranteed that his share of profits will not be less than ₹ 60,000 p.a. Deficiency, if any was to be borne by other partners A mar and Akbar equally. For the year ended 31st March, 2024 the firm incurred loss of ₹ 1,80,000. What amount will be debited to Amar’s Capital Account in total at the end of the year? A. ₹ 60,000 B. ₹ 1,20,000 C. ₹ 90,000 D. ₹ 80,000",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Made the otherwise unspecified profit/loss ratio explicitly equal; retained all amounts, the annual period and the deficiency agreement.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-ac-q02",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "source_question_no": "02",
+      "body": "Assertion (A): Partners’ current accounts are opened when their capitals are fluctuating. Reason (R): Under fixed capitals, transactions other than changes in capital are recorded through partners’ current accounts. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "f7e390a0d58346b03ffbca21a9447aa4a65e6c2fb029c9b6a7b3034982eb9214",
+          "quote_start": 1396,
+          "quote_end": 1794,
+          "quote": "Assertion: Partner’s current accounts are opened when their capital are fluctuating. Reasoning: In case of Fixed capitals all the transactions other than Capital are done through Current account of the partner. A. Both A and R are true and R is the correct explanation of A. B. Both A and R are true but R is not the correct explanation of A. C. A is true but R is false D. A is false but R is true",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-ac-q03",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "source_question_no": "03",
+      "body": "Forfeiture of shares leads to a reduction of which capital?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Authorised capital"
+        },
+        {
+          "key": "B",
+          "text": "Issued capital"
+        },
+        {
+          "key": "C",
+          "text": "Subscribed capital"
+        },
+        {
+          "key": "D",
+          "text": "Called-up capital"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "f7e390a0d58346b03ffbca21a9447aa4a65e6c2fb029c9b6a7b3034982eb9214",
+          "quote_start": 1800,
+          "quote_end": 1919,
+          "quote": "Forfeiture of shares leads to reduction of _________________Capital. A. Authorised B. Issued C. Subscribed D. Called up",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-ac-q04",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "source_question_no": "04",
+      "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of ₹20,000. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+        },
+        {
+          "key": "B",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+        },
+        {
+          "key": "C",
+          "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+        },
+        {
+          "key": "D",
+          "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "9358087ff1c5f129a9c435a59c938b0e11596cc2d9c236f4bc8bd4d0c046fd76",
+          "quote_start": 397,
+          "quote_end": 1107,
+          "quote": "At the time of admission of new partner Vasu, Old partners Paresh and Prabhav had debtors of ₹ 6,20,000 and a provision for doubtful debts (PDD) of ₹ 20,000 in their books. As per terms of admission, assets were revalued, and it was found that debtors worth ₹ 15,000 had turned bad and hence should be written off. Which journal entry reflects the correct accounting treatment of the above situation? A. Bad Debts A/c Dr. To Debtors A/c Prov for D. debts A/c Dr. To Bad Debts A/c 15,000 15,000 15,000 15,000 B. Bad Debts A/c Dr. To Debtors A/c Revaluation A/c Dr. To Prov for doubt debtsA/c 15,000 15,000 15,000 15,000 C. Revaluation A/c Dr. To Debtors A/c 15,000 15,000 D. Bad Debts A/c Dr. To Revaluation A/c",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-ac-q05",
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation",
+      "source_question_no": "05",
+      "body": "A firm’s profit after retaining ₹15,000 in reserve is ₹75,000. Its tangible assets are ₹10,00,000 and outside liabilities are ₹3,00,000. Goodwill under capitalisation of average profit is ₹50,000. What is the normal rate of return?",
+      "options": [
+        {
+          "key": "A",
+          "text": "10%"
+        },
+        {
+          "key": "B",
+          "text": "5%"
+        },
+        {
+          "key": "C",
+          "text": "12%"
+        },
+        {
+          "key": "D",
+          "text": "8%"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "9358087ff1c5f129a9c435a59c938b0e11596cc2d9c236f4bc8bd4d0c046fd76",
+          "quote_start": 1651,
+          "quote_end": 1980,
+          "quote": "The profit earned by a firm after retaining ₹ 15,000 to its reserve was ₹ 75,000. The firm had total tangible assets worth ₹ 10,00,000 and outside liabilities ₹ 3,00,000. The value of the goodwill as per capitalization of average profit method was valued as ₹ 50,000. Determine the rate of Normal Rate of Return. A. 10 % B. 5 % 1",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        },
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "4e588a5d45d17307fbc8c9a50accbe8cd876fba3058fe5fc483f014a6279d3d7",
+          "quote_start": 0,
+          "quote_end": 12,
+          "quote": "C. 12 % D. 8",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-ac-q06",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "source_question_no": "06",
+      "body": "Mohit applies for 900 shares. The ratio of shares applied for to shares allotted is 3:2. He pays application money of ₹3 per applied share but does not pay allotment money of ₹5 per allotted share. The first and final call of ₹2 has not been made. His shares are forfeited. In the entry Share Capital A/c Dr X; To Share Forfeiture A/c Y; To Share Allotment A/c Z, what are X, Y and Z?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹6,000; ₹2,700; ₹3,300"
+        },
+        {
+          "key": "B",
+          "text": "₹4,800; ₹2,700; ₹2,100"
+        },
+        {
+          "key": "C",
+          "text": "₹4,800; ₹1,800; ₹3,000"
+        },
+        {
+          "key": "D",
+          "text": "₹6,000; ₹1,800; ₹4,200"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "4e588a5d45d17307fbc8c9a50accbe8cd876fba3058fe5fc483f014a6279d3d7",
+          "quote_start": 18,
+          "quote_end": 501,
+          "quote": "Mohit had applied for 900 shares, and was allotted in the ratio 3 : 2. He had paid application money of ₹ 3 per share and couldn’t pay allotment money of ₹ 5 per share. First and Final call of ₹ 2 per share was not yet made by the company. His shares were forfeited. The following entry will be passed Share Capital A/c Dr. X To Share Forfeited A/c Y To Share Allotment A/c Z Here X, Y and Z are: A. ₹ 6,000; ₹ 2,700; ₹ 3,300 B. ₹ 4,800; ₹ 2,700; ₹ 2,100 C. ₹ 4,800; ₹ 1,800; ₹ 3,000",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Clarified which quantities form the printed 3:2 application/allotment ratio; retained the payment and unmade-call statuses.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-ac-q07",
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "source_question_no": "07",
+      "body": "On 1 April 2019, a company borrows ₹80,00,000 secured by land and buildings and additionally issues 40,000 12% debentures of ₹100 as collateral security. It defaults on repayment of the loan principal on 31 March 2024. On 1 April 2024 the bank takes over and sells the land and buildings for ₹70,00,000. It sells debentures in the market on 1 May 2024 for the balance. From which date does interest on the debentures become payable by the company?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1 April 2019"
+        },
+        {
+          "key": "B",
+          "text": "31 March 2024"
+        },
+        {
+          "key": "C",
+          "text": "1 April 2024"
+        },
+        {
+          "key": "D",
+          "text": "1 May 2024"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "4e588a5d45d17307fbc8c9a50accbe8cd876fba3058fe5fc483f014a6279d3d7",
+          "quote_start": 805,
+          "quote_end": 1423,
+          "quote": "On 1st April 2019 a company took a loan of ₹80,00,000 on security of land and building. This loan was further secured by issue of 40,000, 12% Debentures of ₹100 each as collateral security. On 31st Ma rch 2024 the company defaulted on repayment of the principal amount of this loan consequently on 1 st April 2024 the land and building were taken over and sold by the bank for ₹70,00,000. For the balance amount debentures were sold in the market on 1st May 2024. From which date would the interest on debentures become payable by the company? A. 1st April 2019. B. 31st March 2024. C. 1st April 2024. D. 1st May 2024.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-ac-q08",
+      "subject": "accountancy",
+      "chapter": "Dissolution of Partnership",
+      "source_question_no": "08",
+      "body": "Rama, a partner, takes over machinery with a book value of ₹50,000 in full settlement of her loan of ₹60,000. The machinery has already been transferred to Realisation Account. What is the effect of the settlement entry on Realisation Account?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Credit of ₹60,000"
+        },
+        {
+          "key": "B",
+          "text": "Credit of ₹10,000"
+        },
+        {
+          "key": "C",
+          "text": "Credit of ₹50,000"
+        },
+        {
+          "key": "D",
+          "text": "No effect"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-accountancy-sqp",
+          "pdf_sha256": "2c96dc4af5c7d95ef6bbf41da2b69608321ccf382fc0c23a87f251fd92b2fc22",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\accountancy-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "4e588a5d45d17307fbc8c9a50accbe8cd876fba3058fe5fc483f014a6279d3d7",
+          "quote_start": 1429,
+          "quote_end": 1814,
+          "quote": "Rama, a partner took over Machinery of ₹ 50,000 in full settlement of her Loan of ₹ 60,000. Machinery was already transferred to Realisation Account. How it will effect the Realisation Account? A. Realisation Account will be credited by ₹ 60,000 B. Realisation Account will be credited by ₹ 10,000 C. Realisation Account will be credited by ₹ 50,000 D. No effect on Realisation Account",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q01",
+      "subject": "business_studies",
+      "chapter": "Nature & Significance of Management",
+      "source_question_no": "01",
+      "body": "A production manager notices that factory workers are not performing well because physical conditions are poor. He conducts an experiment by improving ventilation and water facilities, and observes reduced worker fatigue. Which nature of management is highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Management as a science"
+        },
+        {
+          "key": "B",
+          "text": "Management as a profession"
+        },
+        {
+          "key": "C",
+          "text": "Management as an art"
+        },
+        {
+          "key": "D",
+          "text": "Both a science and an art"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "ff7d50f3a20a1eb3dc4c59f15f1c9deb8419bd3aa8822a51af93d257ba9be00c",
+          "quote_start": 457,
+          "quote_end": 1082,
+          "quote": "The newly appointed Production Manager of Saheb Ltd., a firm manufacturing toys, Mr Ahrawat noticed that the workers in the factory were not giving their best as the physical conditions in the factory were not good. He conducted an experiment to see the effect of improvement in the physi cal conditions in the factory on the performance of the workers, by providing adequate ventilation and water facilities. He observed that the fatigue level of the workers reduced. The nature of management being highlighted in the above case is: A. Management as science B. Management as profession C. Management as art D. Both A. and C.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "source_question_no": "02",
+      "body": "A museum marketing manager divides event work into graphic design, registration enquiries and bill payments, but gives each team member responsibility for an entire event rather than allocating these tasks. She holds regular feedback meetings, yet task quality suffers. Next season she allocates the tasks according to each member’s skills and competencies. Which organising step was previously not performed properly and is now performed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Identification and division of work"
+        },
+        {
+          "key": "B",
+          "text": "Establishing reporting relationships"
+        },
+        {
+          "key": "C",
+          "text": "Departmentalisation"
+        },
+        {
+          "key": "D",
+          "text": "Assignment of duties"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "ff7d50f3a20a1eb3dc4c59f15f1c9deb8419bd3aa8822a51af93d257ba9be00c",
+          "quote_start": 1088,
+          "quote_end": 2269,
+          "quote": "Jasmine Ahluwalia is the manager of an artefacts museum's marketing team, responsible for promoting exhibitions and events. In the previous season, she defined the total work of managing the events into graphic designing, registration inquiries, bill payments, etc, in order to facilitate specialisation. However, instead of allocating work, she had assigned each team member the full responsibility of managing the promotion of an en tire event. In spite of holding regular team meetings to take feedback, Jasmine found problems throughout the events season in the quality of graphic design, registration inquiry, bill payments, etc,. For the upcoming events season, Jasmine has decided to divide these responsibilities on the basis of her observation of the areas in which the individual team members have excelled in the previous season and allocate the roles based on their skills and competencies. Identify the step in the organising process which was not properly performed in the previous season but has been duly performed for the upcoming season. A. Identification and division of work B. Establishing reporting relationships C. Departmentalisation D. Assignment of duties",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q03",
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "source_question_no": "03",
+      "body": "Assertion (A): Financial planning helps a company tackle uncertainty about the availability and timing of funds. Reason (R): Capital structure is the mix of owners’ funds and borrowed funds. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A is false, but R is true."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are false."
+        },
+        {
+          "key": "C",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "D",
+          "text": "Both A and R are true, and R correctly explains A."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "8e965c91597f9fa98ac6b5ca6815dfe25f7de24e67c0d46ee4885ff67744f856",
+          "quote_start": 2,
+          "quote_end": 564,
+          "quote": "Assertion(A): Financial Planning aims at enabling the company to tackle the uncertainty in respect of the availability and timing of the funds. Reason(R): Capital structure refers to the mix between owners’ and borrowed funds Alternatives : A. Both Assertion (A) is false and Reason (R) are true. B. Both Assertion (A) and Reason (R) are false. C. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of the Assertion. D. Both Assertion (A) and Reason (R) are true, and Reason (R) is the correct explanation of the Assertion.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Normalised the malformed printed first alternative while preserving its false-A/true-R meaning.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-bs-q04",
+      "subject": "business_studies",
+      "chapter": "Financial Markets",
+      "source_question_no": "04",
+      "body": "Statement I: The secondary market directly promotes capital formation. Statement II: The capital market deals in medium- and long-term securities such as equity shares and debentures. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "B",
+          "text": "Both statements are false."
+        },
+        {
+          "key": "C",
+          "text": "Statement I is true, but Statement II is false."
+        },
+        {
+          "key": "D",
+          "text": "Statement II is true, but Statement I is false."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "8e965c91597f9fa98ac6b5ca6815dfe25f7de24e67c0d46ee4885ff67744f856",
+          "quote_start": 609,
+          "quote_end": 1029,
+          "quote": "Statement I: Secondary Market directly promotes capital formation. Statement lI: Capital market deals in medium and long term securities such as equity shares and debentures. In the light of given statements, choose the correct alternative from the following: A. Both the statements are true. B. Both the statements are false. C. Statement I is true, Statement II is false. D. Statement II is true, Statement I is false.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q05",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "source_question_no": "05",
+      "body": "Which is a benefit of using external sources of recruitment?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Competitive spirit among existing staff"
+        },
+        {
+          "key": "B",
+          "text": "Reduction in employee turnover"
+        },
+        {
+          "key": "C",
+          "text": "Increased employee satisfaction"
+        },
+        {
+          "key": "D",
+          "text": "A sense of security among existing employees"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "8e965c91597f9fa98ac6b5ca6815dfe25f7de24e67c0d46ee4885ff67744f856",
+          "quote_start": 1035,
+          "quote_end": 1313,
+          "quote": "Choose the statement that correctly highlights the benefit of using external sources of recruitment. A. Competitive spirit among the existing staff B. Reduction in employees turnover C. Helps in increasing employees satisfaction D. Develops a sense of security amongst employees",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q06",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "source_question_no": "06",
+      "body": "An automobile manufacturer offers easy finance at a low interest rate, increasing demand for its products. It also installs new software to coordinate its branches. Which business-environment components are highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Political and economic"
+        },
+        {
+          "key": "B",
+          "text": "Economic and social"
+        },
+        {
+          "key": "C",
+          "text": "Technological and legal"
+        },
+        {
+          "key": "D",
+          "text": "Economic and technological"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "8e965c91597f9fa98ac6b5ca6815dfe25f7de24e67c0d46ee4885ff67744f856",
+          "quote_start": 1319,
+          "quote_end": 1967,
+          "quote": "Goodwill Enterprises is a large-scale automobile manufacturer, who fulfills the needs of both industrial users and consumers. The company is providing easy finance facilities at a low rate of interest, which has considerably increased the demand for the product. The company has installed a new branch management software to efficiently manage and coordinate activities across their multiple branches and locations. Identify the components of the business environment from the above case study. A. Political and economic environment B. Economic and social environment C. Technological and legal environment D. Economic and technological environment",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-bs-q07",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "source_question_no": "07",
+      "body": "A consumer looks for appropriate standard quality marks when buying products. Which consumer responsibility is being fulfilled?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Assert yourself to obtain a fair deal"
+        },
+        {
+          "key": "B",
+          "text": "Obtain a proper receipt"
+        },
+        {
+          "key": "C",
+          "text": "Buy only standardised products"
+        },
+        {
+          "key": "D",
+          "text": "Be honest in your dealings"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "1e6644d32af0d4f4d33856b63e3c63c3f1a4fed10d9b0276e1e30ac81e0694e1",
+          "quote_start": 284,
+          "quote_end": 587,
+          "quote": "When a consumer looks for FPO mark while purchasing a bottle of jam or hallmark when purchasing jewellery, which consumer responsibility has he kept in mind: A. Assert yourself to ensure that you get a fair deal B. Getting a proper receipt C. Buy only standardised products D. Be honest in your dealings",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Generalised the legacy FPO/hallmark examples so this tests the responsibility without claiming that an old product mark is a current statutory requirement.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-bs-q08",
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "source_question_no": "08",
+      "body": "Assertion (A): Controlling can prevent deviations. Reason (R): Controlling helps minimise deviations by taking actions and decisions that reduce their recurrence. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-business_studies-sqp",
+          "pdf_sha256": "be341e021be11170415419b7be6638d834341f58f19516a4606a71fa2a5595d9",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\business_studies-sqp.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "1e6644d32af0d4f4d33856b63e3c63c3f1a4fed10d9b0276e1e30ac81e0694e1",
+          "quote_start": 709,
+          "quote_end": 1167,
+          "quote": "ASSERTION (A): Controlling can prevent deviations. REASON (R): Controlling helps in minimising deviations by taking actions and decisions that reduce their recurrence. A. Both Assertion (A) and Reason (R) are true and Reason is the correct explanation of Assertion. B. Both Assertion(A) and Reason (R) are true and Reason is not the correct explanation of Assertion. C. Assertion (A) is true, Reason (R) is false. D. Assertion(A) is false, Reason(R) is true.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q01",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "source_question_no": "01",
+      "body": "Assertion (A): The government can reduce a deflationary gap by purchasing government securities in the open market. Reason (R): The central bank purchases government securities in the open market to increase commercial banks’ lending capacity. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both A and R are true, and R correctly explains A."
+        },
+        {
+          "key": "B",
+          "text": "Both A and R are true, but R does not correctly explain A."
+        },
+        {
+          "key": "C",
+          "text": "A is true, but R is false."
+        },
+        {
+          "key": "D",
+          "text": "A is false, but R is true."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "26f136e9567e92d9da65d75b94112a2ace828d5bfe544e901870edbb5de4b037",
+          "quote_start": 762,
+          "quote_end": 1342,
+          "quote": "Assertion (A) : The government can reduce the deflationary gap by purchasing government securities in the open market. Reason (R): The Central Bank purchases government securities in the open market to increase the lending capacity of commercial banks. Options: A. Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A). B. Both Assertion (A) and Reason (R) are true, but Reason (R) is not the correct explanation of Assertion (A). C. Assertion (A) is true, but Reason (R) is false. D. Assertion (A) is false, but Reason (R) is true.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q02",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "source_question_no": "02",
+      "body": "In a hypothetical budget policy, the government supplies free food grains to households with low incomes. Which budgetary objective is most directly illustrated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reallocation of resources"
+        },
+        {
+          "key": "B",
+          "text": "Economic stability"
+        },
+        {
+          "key": "C",
+          "text": "Redistribution of income"
+        },
+        {
+          "key": "D",
+          "text": "Economic instability"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "26f136e9567e92d9da65d75b94112a2ace828d5bfe544e901870edbb5de4b037",
+          "quote_start": 1349,
+          "quote_end": 1919,
+          "quote": "The Cabinet led by Prime Minister has decided that the Central Government will provide free food grains to 81.35 crore (approx.) beneficiaries under the Pradhan Mantri Garib Kalyan Anna Yojana (PMGKAY) for a period of five years with effect from 1st January, 2024.” Source: https://pib.gov.in/PressReleaseIframePage.aspx?PRID=1980689 Based on the aforesaid statement, identify the budgetary objective the government is trying to achieve and choose the correct option: A. Reallocation of resources B. Economic stability C. Redistribution of income D. Economic instability",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Replaced the dated real-program quotation with an explicitly hypothetical transfer to low-income households; retained the four budget-objective alternatives.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-eco-q03",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "source_question_no": "03",
+      "body": "What must be added to Gross Value Added at basic prices to obtain Gross Value Added at market prices?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Product taxes"
+        },
+        {
+          "key": "B",
+          "text": "Net product taxes"
+        },
+        {
+          "key": "C",
+          "text": "Production taxes"
+        },
+        {
+          "key": "D",
+          "text": "Net production taxes"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "26f136e9567e92d9da65d75b94112a2ace828d5bfe544e901870edbb5de4b037",
+          "quote_start": 1925,
+          "quote_end": 2188,
+          "quote": "To arrive at the value of Gross Value Added at Market Price (GVAMP) ______ must be added to Gross Value Added (GVA) at Basic Prices. (Choose the correct option to fill up the blank) A. Product Taxes B. Net Product Taxes C. Production Taxes D. Net Production Taxes",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q04",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "source_question_no": "04",
+      "body": "Under which exchange-rate system do market forces automatically adjust a surplus or deficit in the Balance of Payments?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fixed"
+        },
+        {
+          "key": "B",
+          "text": "Flexible"
+        },
+        {
+          "key": "C",
+          "text": "Managed floating"
+        },
+        {
+          "key": "D",
+          "text": "Dirty floating"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "26f136e9567e92d9da65d75b94112a2ace828d5bfe544e901870edbb5de4b037",
+          "quote_start": 2194,
+          "quote_end": 2379,
+          "quote": "Under the _______ exchange rate system, market forces automatically adjust the surplus and deficit in the Balance of Payments account. (Choose the correct option to fill up the blank) 1",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        },
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "4042942c19fb39249b004a12b308efc984030457633a58e1e112f2bd08979947",
+          "quote_start": 0,
+          "quote_end": 99,
+          "quote": "2 Aggregate Expenditure Aggregate demand A. fixed B. flexible C. managed floating D. dirty floating",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q05",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "source_question_no": "05",
+      "body": "In the Keynesian income–expenditure diagram, the reference line is a straight line through the origin drawn at what angle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "25°"
+        },
+        {
+          "key": "B",
+          "text": "45°"
+        },
+        {
+          "key": "C",
+          "text": "55°"
+        },
+        {
+          "key": "D",
+          "text": "75°"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "4042942c19fb39249b004a12b308efc984030457633a58e1e112f2bd08979947",
+          "quote_start": 334,
+          "quote_end": 529,
+          "quote": "Under the Keynesian theory, ‘Reference Line’ is a straight line passing through the origin drawn at an angle of _____. (Choose the correct option to fill up the blank) A. 250 B. 450 C. 550 D. 750",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q06",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "source_question_no": "06",
+      "body": "For a hypothetical budget, total receipts other than borrowings are ₹27.2 lakh crore and total expenditure is ₹45 lakh crore. Which deficit equals ₹17.8 lakh crore?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Revenue deficit"
+        },
+        {
+          "key": "B",
+          "text": "Fiscal deficit"
+        },
+        {
+          "key": "C",
+          "text": "Budgetary deficit"
+        },
+        {
+          "key": "D",
+          "text": "Primary deficit"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "4042942c19fb39249b004a12b308efc984030457633a58e1e112f2bd08979947",
+          "quote_start": 537,
+          "quote_end": 901,
+          "quote": "As per the data presented in the Union Budget 2023-24, the total receipts of the government other than borrowings and the total expenditure are estimated at ₹ 27.2 lakh crore and ₹ 45 lakh crore respectively. The value of the ________ deficit would be ₹ 17.8 lakh crore. (Choose the correct option to fill up the blank) A. revenue B. fiscal C. budgetary D. primary",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Removed the dated Union Budget attribution while retaining all figures as explicit hypothetical data.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-eco-q07",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "source_question_no": "07",
+      "body": "Statement 1: The maximum value of marginal propensity to consume can be one. Statement 2: As income rises, the increase in consumption is always proportionately greater than the increase in income. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true, but Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false, but Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "4042942c19fb39249b004a12b308efc984030457633a58e1e112f2bd08979947",
+          "quote_start": 948,
+          "quote_end": 1449,
+          "quote": "Statement 1: The maximum value of Marginal Propensity to Consume (MPC) can be unity. Statement 2: As the income of an economy increases, the proportionate increase in the level of consumption is always more than the increase in the level of income. In light of the given statements, choose the correct option from the following: A. Statement 1 is true and Statement 2 is false. B. Statement 1 is false and Statement 2 is true. C. Both Statements 1 and 2 are true. D. Both Statements 1 and 2 are false.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "cbse24-eco-q08",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "source_question_no": "08",
+      "body": "In the NCERT two-sector model with autonomous investment, aggregate demand is the sum of which components?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Autonomous consumption, induced consumption and induced investment"
+        },
+        {
+          "key": "B",
+          "text": "Autonomous consumption, autonomous investment and induced investment"
+        },
+        {
+          "key": "C",
+          "text": "Autonomous consumption and autonomous investment"
+        },
+        {
+          "key": "D",
+          "text": "Autonomous consumption, induced consumption and autonomous investment"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-economics-sqp",
+          "pdf_sha256": "48e6913d31873dd7dc3bb2aa06539c04ccc9348298dceca034eba4c45952949b",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\economics-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "4042942c19fb39249b004a12b308efc984030457633a58e1e112f2bd08979947",
+          "quote_start": 1455,
+          "quote_end": 1848,
+          "quote": "In a two-sector economy, Aggregate Demand can be determined by adding ______. (Choose the correct option to fill up the blank) A. Autonomous Consumption, Induced Consumption and Induced Investment B. Autonomous Consumption, Autonomous Investment and Induced Investment C. Autonomous Consumption and Autonomous Investment D. Autonomous Consumption, Induced Consumption and Autonomous Investment",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Named the NCERT autonomous-investment model explicitly; it cannot be silently supplied as a missing case assumption.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "cbse24-eng-q01",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-I",
+      "body": "According to paragraph 1, what do smartphone notifications do to the people in the room?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Repeatedly draw their attention away from conversations"
+        },
+        {
+          "key": "B",
+          "text": "Help them listen more closely to others"
+        },
+        {
+          "key": "C",
+          "text": "Make their time pass more slowly"
+        },
+        {
+          "key": "D",
+          "text": "Prevent them from looking at screens"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 446,
+          "quote_end": 542,
+          "quote": "According to paragraph 1, what effect do smartphone notifications have on the people in the room",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q02",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-II",
+      "body": "What does the image of moments drifting like autumn leaves suggest?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Time remains fixed while people use their phones"
+        },
+        {
+          "key": "B",
+          "text": "Moments pass fleetingly while attention is elsewhere"
+        },
+        {
+          "key": "C",
+          "text": "Notifications follow a carefully controlled seasonal schedule"
+        },
+        {
+          "key": "D",
+          "text": "People deliberately preserve every passing moment"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 550,
+          "quote_end": 675,
+          "quote": "How does the author use the metaphor of 'autumn leaves in the wind' to interpret the passing of time in the setting described",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q03",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-III",
+      "body": "The comparison of an absent phone to a phantom limb chiefly points to which concern?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Psychological dependence on technology for a sense of completeness"
+        },
+        {
+          "key": "B",
+          "text": "Physical damage to arms caused by holding a phone"
+        },
+        {
+          "key": "C",
+          "text": "The expense of replacing lost digital devices"
+        },
+        {
+          "key": "D",
+          "text": "An inability to read the time without a smartwatch"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 734,
+          "quote_end": 1338,
+          "quote": "The phrase ‘a phantom limb syndrome that leaves us feeling incomplete without our digital appendage’ suggests that just as an amputee might feel pain in a limb they no longer have, individuals can feel a sense of loss or incompleteness when they are separated from their digital devices. Choose the correct response from the two options to complete the sentence. The concern this analogy points towards is about ______________. A. a deep (psychological) dependence on technology for a sense of wholeness or connection B. excessive physical damage that can be caused due to constant use of digital devices",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q04",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-IV",
+      "body": "Which benefit of setting aside specific hours without checking devices is best suggested by paragraph 2?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Reducing the compulsion to keep checking updates"
+        },
+        {
+          "key": "B",
+          "text": "Guaranteeing that no important message ever arrives"
+        },
+        {
+          "key": "C",
+          "text": "Increasing the number of likes on every post"
+        },
+        {
+          "key": "D",
+          "text": "Removing the need for any human conversation"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 1344,
+          "quote_end": 1520,
+          "quote": "Complete the following suitably with ONE advantage, with reference to paragraph 2. Designating specific hours each day to intentionally avoid checking digital devi ces can help",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q05",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-V",
+      "body": "Why does the writer call digital noise “dissonance” in paragraph 3?",
+      "options": [
+        {
+          "key": "A",
+          "text": "It creates a jarring and chaotic environment that disrupts focus."
+        },
+        {
+          "key": "B",
+          "text": "It contributes to a sense of overload, overwhelming the senses."
+        },
+        {
+          "key": "C",
+          "text": "It interferes with engagement in meaningful aspects of life."
+        },
+        {
+          "key": "D",
+          "text": "It induces stress by interrupting with regular updates about the device."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 1545,
+          "quote_end": 1921,
+          "quote": "Why does the writer refer to digital noise as 'dissonance' in paragraph 3? Because- A. It creates a jarring and chaotic environment that disrupts focus. B. It contributes to a sense of overload, overwhelming the senses. C. It interferes with our ability to engage with meaningful aspects of our life. D. It induces stress by interrupting with regular updates about the device.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q06",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-VI",
+      "body": "Which detail in paragraph 3 most directly gives a bodily sign of constant digital engagement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Thumbs moving like skilled pianists"
+        },
+        {
+          "key": "B",
+          "text": "Waiting for another like or comment"
+        },
+        {
+          "key": "C",
+          "text": "A hunch on shoulders caused by the burden of connectivity"
+        },
+        {
+          "key": "D",
+          "text": "The true rhythm of life remaining unheard"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 1928,
+          "quote_end": 2096,
+          "quote": "Provide ONE textual evidence with reference to paragraph 3, to prove the following: The need to be perpetually engaged with digital notifications manifests in the body.",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q07",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-VII",
+      "body": "In paragraphs 3–4, what does the unheard “true rhythm of life” chiefly refer to?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Meaningful human connections and lived experiences"
+        },
+        {
+          "key": "B",
+          "text": "The speed at which thumbs type messages"
+        },
+        {
+          "key": "C",
+          "text": "The mechanical vibration of a phone"
+        },
+        {
+          "key": "D",
+          "text": "The count of likes and shares on a screen"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 2104,
+          "quote_end": 2264,
+          "quote": "In the line, ‘Yet amidst the flurry of activity, the true rhythm of life remains unheard…,’ what does the phrase 'true rhythm of life’ refer to? (Paragraphs 3-4",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    },
+    {
+      "item_id": "cbse24-eng-q08",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "source_question_no": "1-VIII",
+      "body": "Complete the analogy using a word from paragraph 4: whisper : quietly :: ______ : loudly.",
+      "options": [
+        {
+          "key": "A",
+          "text": "validation"
+        },
+        {
+          "key": "B",
+          "text": "fleeting"
+        },
+        {
+          "key": "C",
+          "text": "essence"
+        },
+        {
+          "key": "D",
+          "text": "clamour"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-2024-25-english-sqp",
+          "pdf_sha256": "9ad1d0a1f07b0552f2158320c4fe91396a8d9d635a2b49543dcd486c8bc9e2ca",
+          "pdf_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\papers\\english-sqp.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "f37ad4ff310aec21b17340e10305c6fdcbd3c4b99df81ba060f714e61b036b39",
+          "quote_start": 2273,
+          "quote_end": 2407,
+          "quote": "Complete the analogy with ONE word from paragraph 4. whisper: quietly: _______: loudly A. validation B. fleeting C. essence D. clamour",
+          "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_reference_not_CUET_PYQ",
+      "adaptation_note": "Converted the selected source comprehension task into a four-option practice item against one shortened, explicitly adapted stimulus. No authentic CUET/PYQ label.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "cbse24-english-digital-connectivity-adapted"
+    }
+  ],
+  "exclusions": [
+    {
+      "subject": "economics",
+      "question": "14",
+      "reason": "Earlier worked-definition paragraph was inspected during regression source construction; excluded before acquisition."
+    }
+  ],
+  "repairs_after_construction": 0,
+  "paid_evaluation_started": false,
+  "release": false,
+  "publication": false,
+  "limitations": [
+    "Source construction necessarily reads the cases; initial independent solvers receive this question-only view with no official keys.",
+    "Every one of the 32 raw cases remains in construction reports even if later withheld.",
+    "Adapted English answers require independent rederivation; printed source keys alone are insufficient.",
+    "Reference papers and passage-linked items are correlated, not independent source-family samples."
+  ]
+}

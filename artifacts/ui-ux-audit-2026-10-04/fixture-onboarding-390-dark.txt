@@ -1,0 +1,53 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=onboarding&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=onboarding&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: onboarding, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 (selected) onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+	27 container
+		28 text Your practice subjects
+	29 heading What’s on your CUET list?, Value: 1
+		30 text What’s on your CUET list?
+	31 text Select up to 5 CUET UG subjects you want to practise. Only subjects with available practice are listed.
+	32 checkbox Accountancy 2 chapters, Value: 1
+		33 image
+		34 text Accountancy
+		35 text 2 chapters
+	36 checkbox Economics 2 chapters, Value: 1
+		37 image
+		38 text Economics
+		39 text 2 chapters
+	40 checkbox Business Studies 2 chapters, Value: 1
+		41 image
+		42 text Business Studies
+		43 text 2 chapters
+	44 checkbox English 2 chapters, Value: 1
+		45 image
+		46 text English
+		47 text 2 chapters
+	48 container
+		49 text Selected  4  / 5 subjects
+		50 button Save subjects and start
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=onboarding&plan=pro

@@ -1,0 +1,15 @@
+{
+  "target": "https://onwkqxmjqjrhfbjjdydu.supabase.co",
+  "at": "2026-10-07T03:35:19.707Z",
+  "identities": {
+    "admin": {
+      "id": "96330b7e-fa68-43f1-85cc-9123aee471dc",
+      "role": "admin"
+    },
+    "student": {
+      "id": "b818f105-3dfc-4f5f-bcef-9219f61852a8",
+      "role": "student"
+    }
+  },
+  "emails_sent": 0
+}

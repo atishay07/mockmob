@@ -1,0 +1,49 @@
+
+> mockmob@0.1.0 test:factory
+> node --test scripts/pipeline/tests/questionFactory.test.mjs
+
+✔ preflight makes only credential-isolated GETs and classifies invalid keys without exposing them (24.6926ms)
+✔ raw Gemini operation response settles nested inline output without resubmission and rejects unidentified records (193.7978ms)
+✔ cost report separates settled reasoning-inclusive usage, pending holds and preparation (98.4255ms)
+✔ cheaper models are calibration-only and cannot reuse another model response (113.0558ms)
+✔ mirrored papers require complete independent copies and the exact official booklet key (13.9479ms)
+✔ new ledger uses the owner ceiling but paid calls require historical reconciliation (68.0828ms)
+✔ Responses reserves tools and all reasoning usage; missing usage blocks the next call (88.5769ms)
+✔ OpenAI accepted batch survives restart and settles once without another submission (110.2685ms)
+✔ Gemini native transport counts thinking tokens and batches only one independent evaluation (91.9369ms)
+✔ unknown batch acceptance is held unresolved and is never resubmitted (86.7774ms)
+✔ process leases prevent two workers using the same ledger (103.9328ms)
+✔ local pilot reconciles accepted batches while missing source gates prevent generation or site access (107.6656ms)
+✔ local passage quarantine propagates through persisted jobs before any publication (99.5254ms)
+✔ a pending repair resumes the same input after restart without acquiring another attempt (83.9006ms)
+✔ selected evidence is exact source text; unknown IDs cannot acquire evidence (0.7388ms)
+✔ only the explanation audit receives authenticated original key provenance (110.7909ms)
+✔ LLM policy uses one Gemini call, checks numeric boundaries, hides keys and invalidates provenance edits (111.0795ms)
+✔ screening omission stays incomplete; a changed key cannot reuse a clean legacy receipt (1.9436ms)
+✔ numerical questions inside passages retain numerical and boundary checks (90.6261ms)
+✔ abstention and nonverbatim academic quotes quarantine the item without stopping its batch (170.8738ms)
+✔ subscription environment strips API credentials and provider overrides (0.309ms)
+✔ verified evidence precedence survives usage ranking and family caps (0.5856ms)
+✔ source registration refuses missing paper/key authentication and permission (1.7261ms)
+✔ migration dry run protects RLS, permanent worker binding, idempotent publication and stale screening (1879.5204ms)
+✔ subscription guard refuses API login, purchased or unknown credits and exhausted included limits (0.6119ms)
+✔ terminal batch record mismatch blocks spending and cannot trigger a duplicate submission (67.5396ms)
+✔ uncertain accepted batch can be attached only after provider identity matches the saved file (72.0072ms)
+✔ budget exhaustion stops before dispatch and retired models cannot route through the factory (51.7874ms)
+✔ new factory queues originals first, balances backed chapters and never splits passage groups (88.8052ms)
+✔ passage publication requires every authenticated child and identical passage content (0.3606ms)
+✔ calibration measures blind answers independently of survival and fails closed on empty or claimed releases (0.6119ms)
+✔ authenticated calibration splits bind real items and reserve whole passage units (1.4847ms)
+✔ factory queue cannot consume reserved calibration or unsupported source-only anchors (0.2644ms)
+✔ pending Luna calibration does not prevent independent Gemini dispatch (3.2352ms)
+✔ dispute versions normalize public snapshots and change with passage, key and explanation edits (0.4356ms)
+✔ verified questions fill a difficulty shortage before screened legacy questions (0.8051ms)
+✔ authenticated source pack maps official option IDs to the final-key row and retires superseded evidence (22.7056ms)
+ℹ tests 37
+ℹ suites 0
+ℹ pass 37
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4184.9412

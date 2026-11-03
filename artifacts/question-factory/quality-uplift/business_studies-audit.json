@@ -1,0 +1,1002 @@
+{
+  "schema_version": 1,
+  "subject": "business_studies",
+  "state": "complete_independent_content_audit",
+  "audited_at_utc": "2026-10-06T09:07:55.035Z",
+  "scope": "All 11 supplied passing items and all five Just Foodie members, audited against actual CUET2026 syllabus and checked NCERT excerpts; no publication, database or registry mutation.",
+  "blind_protocol": {
+    "answers_saved_before_key_file_opened": true,
+    "blind_solved_at_utc": "2026-10-06T09:03:42.8741205Z",
+    "initial_saved_file": "artifacts/question-factory/quality-uplift/business_studies-audit.json",
+    "initial_answers": [
+      {
+        "id": "7d475953-f798-4712-bac8-57c55b4467c2",
+        "content_hash": "9937e9623f4a481aee30c6c353d3fa494eac59eee9debf36053d9c5d8360cbad",
+        "solved_key": "B",
+        "blind_reason": "A binding administrative order belongs to legal environment; the unissued party proposal is political context but is not the current requirement."
+      },
+      {
+        "id": "33f9d62d-cce7-4f57-9958-47bf3993fdd8",
+        "content_hash": "11e9c75c6da3b71e6c1ce24bf9a673a8966e6abdb7ccedb5b385853aef43b5ab",
+        "solved_key": "A",
+        "blind_reason": "A court judgment directing this business requires compliance; all alternatives wrongly make it advisory, peer-dependent, or optional."
+      },
+      {
+        "id": "274369ee-db68-467e-8eea-93cae22519da",
+        "content_hash": "a49771eba280350e6c62bec419d67cafb4c0eb8e2ee3866d6a1d37b1689d4178",
+        "solved_key": "B",
+        "blind_reason": "The causal chain connects health awareness, demand, retailers and production: inter-relatedness."
+      },
+      {
+        "id": "3c5f2a8f-d3e1-4b3d-8d0f-ba79f30199a4",
+        "content_hash": "458e4facb4f11c0521913d1002eb8b9c06c5dbcfa0836e68e837cf76c8dc0f67",
+        "solved_key": "A",
+        "blind_reason": "The connected rebate, demand, production and supplier-capacity feedback illustrates inter-relatedness most specifically."
+      },
+      {
+        "id": "ac792d56-4a6b-487a-8b89-9c1f791e25bd",
+        "content_hash": "a46a5d68e872f9f575b2dbb078b755b656fe93ea3c94551c7ef7769ea0bb3bb8",
+        "solved_key": "C",
+        "blind_reason": "The court order directly illustrates legal environment."
+      },
+      {
+        "id": "d1e66d7a-cb5c-4613-ae0b-7a6ab8f50a76",
+        "content_hash": "e378d6fffc8f452f164eff2c61b0b8477efa2620f6dda75f1ccbb50fdc721728",
+        "solved_key": "B",
+        "blind_reason": "A statute is legal environment; population ratios, political system and public debt belong to other dimensions."
+      },
+      {
+        "id": "e1b7a2de-7fc1-425d-803e-2a29a2687254",
+        "content_hash": "31e26dec06774031500ac081f9a5a5fd40ea3d33ff402a67c30f3a5dd2583539",
+        "solved_key": "D",
+        "blind_reason": "Own outlets plus grocery stores concern place/distribution: physical distribution."
+      },
+      {
+        "id": "2b0a5325-8293-4f7e-8525-8a84fdfc92b6",
+        "content_hash": "79f37b429bb79f4a77e568888e1f4df83d51c1267297d718ac2b99233fd9d0d6",
+        "solved_key": "C",
+        "blind_reason": "The combined gifts, cash backs and occasion discounts are incentives to increase sales: promotion mix. Discount alone can be a price decision, but the whole promotional cluster supports promotion uniquely."
+      },
+      {
+        "id": "351a0920-d3fd-42a0-8604-eabc2887fcb9",
+        "content_hash": "ef6c78f424243308a2633407985f93336552bb1ef64579a5c7d61665e292fa0c",
+        "solved_key": "B",
+        "blind_reason": "The cluster of incentives is sales promotion rather than advertising, personal selling or publicity."
+      },
+      {
+        "id": "49e8d294-ec2f-4387-8c5e-b5972cbe2ba7",
+        "content_hash": "60d632588b2865ccb8183b483978207dcdabf344aa7a97386f0d90ec465fb0ab",
+        "solved_key": "A",
+        "blind_reason": "Taste, quality and packing are product attributes and product decisions."
+      },
+      {
+        "id": "cb17d0fd-9331-4276-9058-0b801e0c7dc1",
+        "content_hash": "8fd43dcb802963e31a3aa06b9d451136f751681b6044dc337ed36104d3537154",
+        "solved_key": "B",
+        "blind_reason": "The amount charged relative to competitors is price."
+      }
+    ],
+    "key_comparison_only_after_save": true
+  },
+  "summary": {
+    "reviewed": 11,
+    "approve": 11,
+    "suspect": 0,
+    "incomplete": 0,
+    "key_matches": 11,
+    "key_mismatches": 0,
+    "chapters": 2,
+    "precise_concept_groups": 7,
+    "wrong_key_or_nonunique_best_answer_found": false,
+    "perfection_guaranteed": false,
+    "verdict_meaning": "approve means no academic defect found in this supplied content after independent solving and source review. It does not publish an item or certify 2027 exam rules, live UI presentation, psychometric quality or learning gains."
+  },
+  "source_checks": {
+    "official_2026_syllabus_live_opened": true,
+    "official_2026_syllabus_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+    "local_pdf_and_extraction_hashes_match_registry": true,
+    "ncert_lebs103": {
+      "local_pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+      "local_extraction_sha256": "8c4a0fcc53f114fc74c68d73c840fbe74ffd6fdf5ec12c08e823c044c94db2e4",
+      "live_open": "Failed twice; used hash-verified local official NCERT PDF/extraction and supplied page facts.",
+      "edition_note": "Supplied Chapter 3 pages show 2022 printing; do not treat its historical list of laws as current legal-status evidence."
+    },
+    "ncert_lebs202": {
+      "local_pdf_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+      "local_extraction_sha256": "0ab86ea86109356e9b968983670dcfb35127f85be0d6c080931b0e0ade9cce16",
+      "live_open": "Official PDF opened; definitions of Price and Sales promotion checked.",
+      "edition_note": "Reprint 2026–27."
+    },
+    "historical_keys_or_model_agreement_used_as_unique_answer_proof": false
+  },
+  "passage_group": {
+    "name": "Just Foodie",
+    "count": 5,
+    "complete_historical_group": true,
+    "anchors_in_historical_order": [
+      "cuet2024-business_studies-bookA-q41",
+      "cuet2024-business_studies-bookA-q42",
+      "cuet2024-business_studies-bookA-q43",
+      "cuet2024-business_studies-bookA-q44",
+      "cuet2024-business_studies-bookA-q45"
+    ],
+    "identical_complete_passage_attached_to_all_members": true,
+    "passage_hash": "db192e12db3cffbcbcbfcd8b3197ad7262b4adaa8fb30bc34bf45fe070e37ba3",
+    "entailment": "Every quoted target sentence is present; answers classify the named actions rather than inferring success causes.",
+    "discount_context_audit": "NCERT treats discounts both as pricing decisions and as promotional techniques. q44 targets the combined free-gift/cashback/occasion-discount cluster explicitly intended to increase sales; Promotion is the single best contextual answer. q45 separately targets Sales promotion. No defect inferred from the isolated word discounts.",
+    "rendering_requirement": "Keep the passage attached when presenting q41's above-case reference or any passage member individually; actual rendered UI is unverified."
+  },
+  "current_law_note": {
+    "item_id": "d1e66d7a-cb5c-4613-ae0b-7a6ab8f50a76",
+    "severity": "nonblocking_historical_explanation_qualification",
+    "finding": "The original legal-environment example remains the unique answer, but the Trade Unions Act should be presented as historical NCERT/PYQ wording. Official sources say the Industrial Relations Code, 2020 amalgamated the Act and became effective 21 November 2025.",
+    "sources": [
+      {
+        "title": "PIB: four labour codes effective 21 November 2025",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2192463&lang=1&reg=3"
+      },
+      {
+        "title": "PIB: Industrial Relations Code amalgamates Trade Unions Act",
+        "url": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2192524&lang=1&reg=3"
+      }
+    ]
+  },
+  "cross_item_recommendations": [
+    "Consolidate the three synonymous legal-environment concept IDs and map null concept IDs through the controlled taxonomy; existing chapter labels themselves are correct.",
+    "For q43, attach direct NCERT pdf-page-14 price support instead of relying on a four-P overview and an exercise prompt.",
+    "For q44, attach NCERT pdf-page-36 alongside pdf-page-15 for explicit free-gift/discount sales-promotion support.",
+    "Record the inter-relatedness mapping as a subtopic inferred under Business Environment meaning; the actual 2026 syllabus does not separately list features.",
+    "These 11 items cluster in two chapters and seven concept groups; their passing status does not establish full-subject coverage or calibrated difficulty."
+  ],
+  "limitations": [
+    "2027 syllabus and examination rules remain provisional.",
+    "No actual student UI rendering, mobile interaction, timed-paper assembly, exposure balance or psychometric discrimination was tested.",
+    "No claim of perfect correctness, observed score recovery, source reuse permission or unrestricted historical-paper republication is made.",
+    "This audit makes no behavior edits, paid calls, credential reads, publication actions, database changes or registry mutations."
+  ],
+  "questions": [
+    {
+      "id": "7d475953-f798-4712-bac8-57c55b4467c2",
+      "content_hash": "9937e9623f4a481aee30c6c353d3fa494eac59eee9debf36053d9c5d8360cbad",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The stem isolates the issued administrative order from the unissued political proposal. Only Legal environment classifies the current requirement.",
+        "Accurately distinguishes current legal requirement from political proposal. No external allergen statute is required: this is a stated hypothetical."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The stem isolates the issued administrative order from the unissued political proposal. Only Legal environment classifies the current requirement."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Political environment is an intentional plausible distractor, resolved by the proposal/order distinction; social and economic do not classify the binding order."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone scenario includes the government order and proposal status; no passage is needed.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Accurately distinguishes current legal requirement from political proposal. No external allergen statute is required: this is a stated hypothetical."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / administrative orders",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_dimensions_legal_environment",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT includes government administrative orders and court judgments in legal environment.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-12",
+          "support": "NCERT illustrates legally required warnings and contrasts political-party ideas.",
+          "attached_to_item": true,
+          "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+        }
+      ],
+      "nonblocking_notes": [],
+      "initial_blind_reason": "A binding administrative order belongs to legal environment; the unissued party proposal is political context but is not the current requirement."
+    },
+    {
+      "id": "33f9d62d-cce7-4f57-9958-47bf3993fdd8",
+      "content_hash": "11e9c75c6da3b71e6c1ce24bf9a673a8966e6abdb7ccedb5b385853aef43b5ab",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Only compliance follows the expressly directed court judgment; every alternative makes compliance optional or contingent without any fact supporting that.",
+        "Matches NCERT's duty to obey law and classification of court judgments. It does not require discussing hypothetical stays or appeals absent from the stem."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Only compliance follows the expressly directed court judgment; every alternative makes compliance optional or contingent without any fact supporting that."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "The advisory-statute, peer-compliance, and preferred-policy alternatives are false. Distractors are easy, so this is low difficulty, not a deep legal-reasoning item."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained; no unstated jurisdictional rule is needed for the classroom scenario.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Matches NCERT's duty to obey law and classification of court judgments. It does not require discussing hypothetical stays or appeals absent from the stem."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / compliance with court judgments",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_legal_environment",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT expressly includes court judgments and states management must obey the law.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        }
+      ],
+      "nonblocking_notes": [
+        "question_type is better recorded as application/legal-compliance than pure concept_identification; the task asks what to do, not to name a dimension."
+      ],
+      "initial_blind_reason": "A court judgment directing this business requires compliance; all alternatives wrongly make it advisory, peer-dependent, or optional."
+    },
+    {
+      "id": "274369ee-db68-467e-8eea-93cae22519da",
+      "content_hash": "a49771eba280350e6c62bec419d67cafb4c0eb8e2ee3866d6a1d37b1689d4178",
+      "anchor": "cuet2024-business_studies-bookA-q8",
+      "kind": "pyq_adapted",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The connected health-awareness → demand → stocking → production chain most specifically illustrates inter-relatedness. No uncertainty or locality-based comparison is stated.",
+        "Correctly traces the stated influences and identifies their relationship; no empirical claim about observed marks or actual firms is introduced."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The connected health-awareness → demand → stocking → production chain most specifically illustrates inter-relatedness. No uncertainty or locality-based comparison is stated."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Totality describes the aggregation of external forces; uncertainty describes prediction difficulty; relativity describes variation across places. None identifies the connected effects as precisely."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone application supplies the entire causal chain.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly traces the stated influences and identifies their relationship; no empirical claim about observed marks or actual firms is introduced."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Meaning/characteristics of business environment: inter-relatedness",
+        "recommended_concept_label": "business_environment_interrelatedness",
+        "current_concept_id": "business_environment_interrelatedness",
+        "exact_syllabus_scope": "Business Environment – meaning and importance (NCERT-grounded meaning/characteristics interpretation; features not separately named).",
+        "scope_match": "within_broad_meaning_scope_with_inferred_subtopic",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-3",
+          "support": "NCERT characterizes business-environment elements as interconnected and uses increased health awareness and health-product demand as an example.",
+          "attached_to_item": true,
+          "support_hash": "fd63b704455c9ba83dd0a6ce54f8cbdfdf65177bc81e2948aa834a24b9a8ffe5"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-21",
+          "support": "NCERT exercise asks for an example of numerous interrelated environmental factors.",
+          "attached_to_item": true,
+          "support_hash": "b9f9620f46c0c4372c1b896c5e3b632dfb64bd6492b41972192b2411b26717d2"
+        }
+      ],
+      "nonblocking_notes": [
+        "2026 Unit III does not separately name features/inter-relatedness. Map under its meaning bullet using NCERT Chapter 3 as the pedagogical interpretation; do not describe this subtopic as verbatim syllabus text."
+      ],
+      "initial_blind_reason": "The causal chain connects health awareness, demand, retailers and production: inter-relatedness."
+    },
+    {
+      "id": "3c5f2a8f-d3e1-4b3d-8d0f-ba79f30199a4",
+      "content_hash": "458e4facb4f11c0521913d1002eb8b9c06c5dbcfa0836e68e837cf76c8dc0f67",
+      "anchor": "cuet2024-business_studies-bookA-q8",
+      "kind": "pyq_adapted",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The interacting rebate, demand, producers, suppliers and return effect identify inter-relatedness as the best answer. Dynamic nature is broadly present in change, but the stem's causal feedback makes it less specific.",
+        "Correctly separates mutual influence from generic ongoing change and prediction difficulty. The rebate is a hypothetical premise, not a sourced factual claim about an actual policy."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The interacting rebate, demand, producers, suppliers and return effect identify inter-relatedness as the best answer. Dynamic nature is broadly present in change, but the stem's causal feedback makes it less specific."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Dynamic nature is plausible but loses to the explicit connected influences. Uncertainty is unsupported; totality does not explain causal feedback."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone scenario is complete and requires no numerical knowledge of rebates or batteries.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly separates mutual influence from generic ongoing change and prediction difficulty. The rebate is a hypothetical premise, not a sourced factual claim about an actual policy."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Meaning/characteristics of business environment: inter-relatedness",
+        "recommended_concept_label": "business_environment_interrelatedness",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Business Environment – meaning and importance (NCERT-grounded meaning/characteristics interpretation; features not separately named).",
+        "scope_match": "within_broad_meaning_scope_with_inferred_subtopic",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-3",
+          "support": "NCERT distinguishes inter-relatedness from dynamic nature and uncertainty.",
+          "attached_to_item": true,
+          "support_hash": "fd63b704455c9ba83dd0a6ce54f8cbdfdf65177bc81e2948aa834a24b9a8ffe5"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-21",
+          "support": "NCERT supports application examples of interrelated environmental factors.",
+          "attached_to_item": true,
+          "support_hash": "b9f9620f46c0c4372c1b896c5e3b632dfb64bd6492b41972192b2411b26717d2"
+        }
+      ],
+      "nonblocking_notes": [
+        "2026 Unit III does not separately name features/inter-relatedness. Map under its meaning bullet as an NCERT-grounded interpretation.",
+        "concept_id is null; add the interrelatedness concept label through the normal controlled mapping process."
+      ],
+      "initial_blind_reason": "The connected rebate, demand, production and supplier-capacity feedback illustrates inter-relatedness most specifically."
+    },
+    {
+      "id": "ac792d56-4a6b-487a-8b89-9c1f791e25bd",
+      "content_hash": "a46a5d68e872f9f575b2dbb078b755b656fe93ea3c94551c7ef7769ea0bb3bb8",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The express court order and compliance directly indicate legal environment; the act of changing a product label does not turn the trigger into a technological or social dimension.",
+        "Correctly links court orders to legal environment without inventing a specific consumer law."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The express court order and compliance directly indicate legal environment; the act of changing a product label does not turn the trigger into a technological or social dimension."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Economic, social and technological conditions are distinct. A misleading label could relate to consumer protection, but the stem asks the directly reflected environment dimension."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained scenario.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly links court orders to legal environment without inventing a specific consumer law."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / court orders",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_dimensions_legal",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT includes court judgments and orders issued by authorities in the legal environment.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        }
+      ],
+      "nonblocking_notes": [],
+      "initial_blind_reason": "The court order directly illustrates legal environment."
+    },
+    {
+      "id": "d1e66d7a-cb5c-4613-ae0b-7a6ab8f50a76",
+      "content_hash": "e378d6fffc8f452f164eff2c61b0b8477efa2620f6dda75f1ccbb50fdc721728",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The named Act is the sole legislation option; birth/death ratio, prevailing political system and public debt map to other environmental dimensions.",
+        "Correct for the historical NCERT/PYQ classification. The phrase relevant legal enactments should be qualified as the historical textbook example, rather than a claim that the old Act remains the operative current law."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The named Act is the sole legislation option; birth/death ratio, prevailing political system and public debt map to other environmental dimensions."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "The three distractors clearly test social, political and economic dimensions, respectively."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained authentic PYQ. Preserve the source wording and 2024 provenance; singular Trade Union Act is historical exam wording.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correct for the historical NCERT/PYQ classification. The phrase relevant legal enactments should be qualified as the historical textbook example, rather than a claim that the old Act remains the operative current law."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / legislation",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-12",
+          "support": "The supplied historical NCERT excerpt lists the Trade Union Act, 1926 among legislative examples.",
+          "attached_to_item": true,
+          "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT distinguishes social birth/death rates and political environment from legal legislation.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q7",
+          "support": "The historical paper fixes the original stem and four ordered choices; its historical key is not used as proof of current legal status.",
+          "attached_to_item": true,
+          "support_hash": "ec159009e556e860b4e8a84c69a9e9142216142b2363e7af703fa54078f6ca24"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to legal-environment dimensions.",
+        "Nonblocking historical/current-law note: official PIB states the Industrial Relations Code, 2020 became effective on 21 November 2025 and amalgamated the Trade Unions Act, 1926. This does not change the unique legislation-versus-other-dimensions answer."
+      ],
+      "initial_blind_reason": "A statute is legal environment; population ratios, political system and public debt belong to other dimensions."
+    },
+    {
+      "id": "e1b7a2de-7fc1-425d-803e-2a29a2687254",
+      "content_hash": "31e26dec06774031500ac081f9a5a5fd40ea3d33ff402a67c30f3a5dd2583539",
+      "anchor": "cuet2024-business_studies-bookA-q41",
+      "kind": "authentic_pyq",
+      "solved_key": "D",
+      "supplied_key": "D",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The quoted availability-at-right-place/time statement and additional grocery-store channel identify physical distribution.",
+        "Correctly treats retailers as intermediaries and connects distribution to Place. This follows NCERT's broader Place treatment that includes channel selection."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The quoted availability-at-right-place/time statement and additional grocery-store channel identify physical distribution."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Product characteristics, price, and promotion are separately described elsewhere in the passage. The question targets the quoted channel decision."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The phrase above case is fully resolved by the attached nonempty passage. Retain that passage in the student-facing group or repeat it with this item.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly treats retailers as intermediaries and connects distribution to Place. This follows NCERT's broader Place treatment that includes channel selection."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Place / physical distribution / channels of distribution",
+        "recommended_concept_label": "marketing_mix_place_physical_distribution",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Physical distribution / Channels of distribution.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT defines Place/Physical Distribution to include availability and choice of intermediaries.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "passage-db192e12db3c",
+          "support": "The complete passage explicitly states own outlets plus grocery-store sales.",
+          "attached_to_item": true,
+          "support_hash": "db192e12db3cffbcbcbfcd8b3197ad7262b4adaa8fb30bc34bf45fe070e37ba3"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q41",
+          "support": "Historical stem quotes the relevant distribution sentence.",
+          "attached_to_item": true,
+          "support_hash": "ba4a5f326337b23c2f9cd56a1d041c4edf98d728a7c305bf64a2f07d8fa70ee0"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Place/physical-distribution channels.",
+        "The additional supplied pdf-page-30 locator is mostly warehouse/promotion context; pdf-page-15 is the direct support."
+      ],
+      "initial_blind_reason": "Own outlets plus grocery stores concern place/distribution: physical distribution."
+    },
+    {
+      "id": "2b0a5325-8293-4f7e-8525-8a84fdfc92b6",
+      "content_hash": "79f37b429bb79f4a77e568888e1f4df83d51c1267297d718ac2b99233fd9d0d6",
+      "anchor": "cuet2024-business_studies-bookA-q44",
+      "kind": "authentic_pyq",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The entire quoted cluster is given to increase sales: free gifts, cashbacks and occasion discounts. Promotion mix uniquely captures the combined action; Price mix captures only a possible reading of the discounts fragment.",
+        "The repaired explanation expressly explains why discounts are promotional in this context. It avoids the false generalization that every discount always belongs only to Promotion."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The entire quoted cluster is given to increase sales: free gifts, cashbacks and occasion discounts. Promotion mix uniquely captures the combined action; Price mix captures only a possible reading of the discounts fragment."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Price mix is a legitimate trap because discounts can be pricing decisions, but the full promotional cluster and purpose resolve it. Product and physical distribution do not fit the quoted incentives."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Quoted actions and their sales objective are self-contained even without the rest of the passage; complete passage is also supplied.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "The repaired explanation expressly explains why discounts are promotional in this context. It avoids the false generalization that every discount always belongs only to Promotion."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Promotion / promotional incentives",
+        "recommended_concept_label": "marketing_mix_promotion",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Promotion / promotion mix / sales promotion.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT places sales-promotion techniques, including price discounts, under Promotion.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-36",
+          "support": "Direct definition/examples support short-term sales incentives and free gifts. This locator is available in the same blind bundle via q45 but is not currently attached to q44.",
+          "attached_to_item": false,
+          "support_hash": null
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q44",
+          "support": "Historical stem retains the entire incentive cluster, rather than isolating discounts.",
+          "attached_to_item": true,
+          "support_hash": "33fe88cf44a8da4b672f3514cccd94c5bac3b3446ba82a355544829810886522"
+        }
+      ],
+      "nonblocking_notes": [
+        "No ambiguity defect found after considering the whole statement; do not quarantine merely because discounts can also enter Price decisions.",
+        "concept_id is null; map to Promotion mix. Prefer adding pdf-page-36 to the evidence set; current pdf-page-13 is a four-P overview."
+      ],
+      "initial_blind_reason": "The combined gifts, cash backs and occasion discounts are incentives to increase sales: promotion mix. Discount alone can be a price decision, but the whole promotional cluster supports promotion uniquely."
+    },
+    {
+      "id": "351a0920-d3fd-42a0-8604-eabc2887fcb9",
+      "content_hash": "ef6c78f424243308a2633407985f93336552bb1ef64579a5c7d61665e292fa0c",
+      "anchor": "cuet2024-business_studies-bookA-q45",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Gifts, cashbacks and occasional discounts are incentive offers; among the listed tools, only Sales promotion fits.",
+        "NCERT supports the short-term-incentive account. In this passage the occasion-based offers justify the interpretation; no invented duration or amount is required."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Gifts, cashbacks and occasional discounts are incentive offers; among the listed tools, only Sales promotion fits."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Advertisement, personal selling and publicity describe communication methods not stated in the quote; none supplies these incentives as its defining tool."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The exact incentive cluster is quoted in the stem and complete passage is attached.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "NCERT supports the short-term-incentive account. In this passage the occasion-based offers justify the interpretation; no invented duration or amount is required."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Promotion mix: Sales promotion",
+        "recommended_concept_label": "marketing_promotion_mix_sales_promotion",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Promotion / promotion mix / sales promotion.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-36",
+          "support": "NCERT directly defines sales promotion and lists cash discounts and free gift offers.",
+          "attached_to_item": true,
+          "support_hash": "2ccbedcab0a8e805870ebf7c275f1a7cc5ec71d3bb35f328383b9c2e3e53d59f"
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT identifies sales promotion as a Promotion tool.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q45",
+          "support": "Historical item asks for the tool of the promotion mix.",
+          "attached_to_item": true,
+          "support_hash": "464ffb5276ee9a26231b4a36c21ecdc8e96d871f11d0880912dab8e23450ec54"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to the specific Sales-promotion tool rather than only the parent Promotion concept."
+      ],
+      "initial_blind_reason": "The cluster of incentives is sales promotion rather than advertising, personal selling or publicity."
+    },
+    {
+      "id": "49e8d294-ec2f-4387-8c5e-b5972cbe2ba7",
+      "content_hash": "60d632588b2865ccb8183b483978207dcdabf344aa7a97386f0d90ec465fb0ab",
+      "anchor": "cuet2024-business_studies-bookA-q42",
+      "kind": "authentic_pyq",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Taste, quality and packing describe attributes/product decisions. The stem has no promotional packaging message or pricing/distribution act that would support another listed mix.",
+        "Correctly identifies product attributes and packaging as Product decisions."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Taste, quality and packing describe attributes/product decisions. The stem has no promotional packaging message or pricing/distribution act that would support another listed mix."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Price, promotion and physical distribution are distinct mix elements; packaging may aid promotion in other scenarios but this statement is about care of product features."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The complete quoted sentence is self-contained and the shared passage is attached.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly identifies product attributes and packaging as Product decisions."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Product / product quality and packaging decisions",
+        "recommended_concept_label": "marketing_mix_product_quality_packaging",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Product / packaging.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-14",
+          "support": "NCERT directly places features, quality and packaging among product decisions.",
+          "attached_to_item": true,
+          "support_hash": "d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q42",
+          "support": "Historical item quotes the quality/packing statement.",
+          "attached_to_item": true,
+          "support_hash": "e1aa248dae8dd89daa8302f029b0b2ddb1042dc924b827d453f5063ba64d93db"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Product quality/packaging.",
+        "The extra supplied pdf-page-28 locator is physical-distribution context; pdf-page-14 is the direct supporting locator."
+      ],
+      "initial_blind_reason": "Taste, quality and packing are product attributes and product decisions."
+    },
+    {
+      "id": "cb17d0fd-9331-4276-9058-0b801e0c7dc1",
+      "content_hash": "8fd43dcb802963e31a3aa06b9d451136f751681b6044dc337ed36104d3537154",
+      "anchor": "cuet2024-business_studies-bookA-q43",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The quote directly concerns the amount charged relative to competitors. The passage's earlier quality explanation does not change the element named by this price statement.",
+        "Correct and concise, with no assertion that high pricing inevitably raises share or guarantees success."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The quote directly concerns the amount charged relative to competitors. The passage's earlier quality explanation does not change the element named by this price statement."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Product is the reason a higher price is possible, not the element directly named. Promotion and physical distribution are separately illustrated by other statements."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The price sentence is complete, and antecedent they is resolved by the attached shared passage.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correct and concise, with no assertion that high pricing inevitably raises share or guarantees success."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Price / pricing decision relative to competitors",
+        "recommended_concept_label": "marketing_mix_price",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Price / factors influencing pricing.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-14",
+          "support": "Direct NCERT definition places the amount customers pay and price-setting decisions under Price; this locator is available elsewhere in the blind bundle but not currently attached to q43.",
+          "attached_to_item": false,
+          "support_hash": null
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q43",
+          "support": "The historical item quotes the higher-price sentence.",
+          "attached_to_item": true,
+          "support_hash": "c0ec936fd9dafb4faf4b5f398db1f8c346ec7aa545376d28f6c1662cebaad8ae"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Price.",
+        "Current pdf-page-13 only lists the four Ps and pdf-page-46 is an exercise prompt. Replace/supplement them with pdf-page-14 for direct explanation support; this audit independently checked that page."
+      ],
+      "initial_blind_reason": "The amount charged relative to competitors is price."
+    }
+  ]
+}

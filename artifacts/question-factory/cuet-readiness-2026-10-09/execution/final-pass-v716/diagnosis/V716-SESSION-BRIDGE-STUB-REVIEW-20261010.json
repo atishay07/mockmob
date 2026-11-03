@@ -1,0 +1,44 @@
+{
+  "ledger_mutations": 0,
+  "provider_calls": 0,
+  "schema": "v716-session-bridge-stub-review-v1",
+  "source_review": {
+    "provider_recovery": "guard preserves queued/uncertain requests and refuses blind redispatch",
+    "stop_drain": "close refuses while operations are active",
+    "publication": "explicit adapter required, only local/staging targets, atomic passage-unit constraint, receipt-only recovery path reviewed; current tests exercise withheld path only",
+    "author_identity": "author helper derives candidate identity from registered author job body and persists generated candidate hash",
+    "registration_binding": "V716 contract, prompt, registry, pricing, campaign, runner, engine and full-body preflight hashes checked before network"
+  },
+  "observed_at": "2026-10-09T22:28:40.8201271Z",
+  "status": "focused_offline_checks_passed",
+  "database_access": 0,
+  "files": [
+    "scripts/pipeline/lib/campaignSessionV716.mjs",
+    "scripts/pipeline/lib/publicationBridgeV716.mjs",
+    "scripts/pipeline/tests/v716SessionPublicationBridge.smoke.test.mjs"
+  ],
+  "checks": {
+    "passed": 8,
+    "failed": 0,
+    "coverage": [
+      "guard candidate scoping",
+      "accepted queued Gemini request remains pending and is not resent",
+      "unresolved realtime request is not resent",
+      "session registration/preflight rejection before network/ledger",
+      "network preflight precedes ledger creation",
+      "authorOriginal session path adapts the actual registered body to the V716 prompt",
+      "scoped flush uses registered candidate IDs and request bound",
+      "in-flight operation blocks close",
+      "unregistered author body is rejected before transport",
+      "eligible novelty state persists across restart and blocks duplicate before provider calls",
+      "publication without signed evidence is withheld without writer invocation",
+      "production publication target rejected"
+    ],
+    "suite": "node --test scripts/pipeline/tests/v716SessionPublicationBridge.smoke.test.mjs"
+  },
+  "limitations": [
+    "No real ledger, provider network, or database accessed.",
+    "Positive signed-row publication write/idempotency/read-receipt branch not exercised.",
+    "Synthetic fixtures establish software seam behavior only; no academic qualification or production readiness claim."
+  ]
+}

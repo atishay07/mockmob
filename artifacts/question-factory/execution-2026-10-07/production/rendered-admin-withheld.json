@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-07T13:45:33.845Z",
+  "deployment_id": "GtocadTUYiy4UXaA2qcE5bso9WGD",
+  "source_commit": "f1e140038f6e7f014a66b77955eb38f0db78a4c4",
+  "rendered_admin": true,
+  "new_usable": 0,
+  "historical_publication_records": 579,
+  "current_unavailable": 579,
+  "student_availability_verified": false,
+  "server_admin_response": {
+    "request_id": "bwrqr-1791380191516-d01eae46c6c4",
+    "status": 200,
+    "function_seconds": 29.69,
+    "response_seconds": 30.5
+  },
+  "scope": "Current actual rendered production admin; wrong or missing evidence remains unavailable. Production control cost snapshot is dated and differs from current local ledger.",
+  "screenshot": "artifacts/question-factory/execution-2026-10-07/production/rendered-admin-withheld.jpg"
+}

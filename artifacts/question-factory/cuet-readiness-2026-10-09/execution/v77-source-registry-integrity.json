@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-08T22:41:03.459Z",
+  "read_only": true,
+  "path": "data/source_registry.json",
+  "binding": "artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v76-qualification-2026-10-09-fresh-bounded-input/run/execution-plan.json",
+  "expected": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+  "actual": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+  "matches": true
+}

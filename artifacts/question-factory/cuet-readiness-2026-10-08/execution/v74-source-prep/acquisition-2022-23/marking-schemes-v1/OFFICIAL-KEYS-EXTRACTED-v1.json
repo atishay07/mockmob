@@ -1,0 +1,141 @@
+{
+  "schema": "cbse-2022-23-ms-extraction-v1",
+  "extracted_at": "2026-10-08T19:06:49Z",
+  "extractor": "Claude Haiku subagent",
+  "files": {
+    "Accountancy-MS.pdf": "a3ff016d287f2872608b135e1d8ee8d01fd32d75d22d72e44211b28975dd44e1",
+    "BusinessStudies-MS.pdf": "1fd3af225e65defe9cc0dc9a3d5dfd575c7418160f77c66236ee1f52cc46d63f",
+    "Economics-MS.pdf": "5829d940472bdc489c1bbf7aefa4a48f9eb3090b0abebb347b1f79a871c7a180",
+    "EnglishCore-MS.pdf": "5ae1f5f2795a83bb6916875a18610e4540ef083a20fb5ba7f37b817bc33de5d8"
+  },
+  "answers": [
+    {
+      "subject": "accountancy",
+      "question": "27",
+      "official_option": "(c)",
+      "official_text": "Postulates",
+      "quote": "27. c) Postulates 1",
+      "notes": "Part B, Option-I. The scheme also prints an 'Or' alternative for Q27: 'c) Only (ii) and (iii) are correct'. The alternative is not labelled with the option it belongs to; it is recorded here verbatim, not resolved."
+    },
+    {
+      "subject": "accountancy",
+      "question": "28",
+      "official_option": "(b)",
+      "official_text": "3 times",
+      "quote": "28. b) 3 times 1",
+      "notes": ""
+    },
+    {
+      "subject": "accountancy",
+      "question": "29",
+      "official_option": "(d)",
+      "official_text": "Subtracted under Operating Activities as Extraordinary Item and Inflow under Investing Activities also",
+      "quote": "29. d) Subtracted under Operating Activities as Extraordinary Item and Inflow under Investing 1 / Activities also",
+      "notes": "The scheme also prints an 'Or' alternative for Q29: 'c) Added 1,30,000 under Operating Activities as Loss on Issue of Debentures written off and Inflow of 18,00,000 under Financing Activities.' Recorded verbatim, not resolved."
+    },
+    {
+      "subject": "accountancy",
+      "question": "30",
+      "official_option": "(b)",
+      "official_text": "1,02,000",
+      "quote": "30. b)  1,02,000 1",
+      "notes": ""
+    },
+    {
+      "subject": "business-studies",
+      "question": "1",
+      "official_option": "(b)",
+      "official_text": "Departmentalization",
+      "quote": "b) Departmentalization 1",
+      "notes": "Answer appears in the 'Answers' table on page 1; question number taken from the trailing marks/number column of the sheet."
+    },
+    {
+      "subject": "business-studies",
+      "question": "2",
+      "official_option": "(a)",
+      "official_text": "Uncertainty",
+      "quote": "a) Uncertainty 2",
+      "notes": "Answer appears in the 'Answers' table on page 1; question number taken from the trailing marks/number column of the sheet."
+    },
+    {
+      "subject": "business-studies",
+      "question": "3",
+      "official_option": "(d)",
+      "official_text": "Heads do not get training for top management positions.",
+      "quote": "d) Heads do not get training for top management positions. 3",
+      "notes": "Answer appears in the 'Answers' table on page 1; question number taken from the trailing marks/number column of the sheet."
+    },
+    {
+      "subject": "business-studies",
+      "question": "4",
+      "official_option": "(a)",
+      "official_text": "Technological and Social",
+      "quote": "a) Technological and Social 4",
+      "notes": "Answer appears in the 'Answers' table on page 1; question number taken from the trailing marks/number column of the sheet."
+    },
+    {
+      "subject": "economics",
+      "question": "1",
+      "official_option": "(c)",
+      "official_text": "Both statements 1 and 2 are true",
+      "quote": "1 c) Both statements 1 and 2 are true 1",
+      "notes": ""
+    },
+    {
+      "subject": "economics",
+      "question": "3",
+      "official_option": "(a)",
+      "official_text": "Commercial Banks",
+      "quote": "3 a) Commercial Banks 1",
+      "notes": ""
+    },
+    {
+      "subject": "economics",
+      "question": "4",
+      "official_option": "(c)",
+      "official_text": "Both statements 1 and 2 are true",
+      "quote": "4 c) Both statements 1 and 2 are true 1",
+      "notes": ""
+    },
+    {
+      "subject": "economics",
+      "question": "5",
+      "official_option": "(d)",
+      "official_text": "Both statements 1 and 2 are false",
+      "quote": "5 d) Both statements 1 and 2 are false 1",
+      "notes": "The scheme also prints an 'OR' alternative directly after Q5: 'c) Output, Disposition' (1 mark). Recorded verbatim, not resolved."
+    },
+    {
+      "subject": "english-core",
+      "question": "1(i)",
+      "official_option": "C",
+      "official_text": "are not owned by anyone.",
+      "quote": "C. are not owned by anyone. Guidance Award 1 mark for the correct answer.",
+      "notes": "Section A Reading, passage I. Lettered MCQ option C."
+    },
+    {
+      "subject": "english-core",
+      "question": "1(iv)",
+      "official_option": "B",
+      "official_text": "monumental",
+      "quote": "B. monumental Award 1 mark for the correct answer.",
+      "notes": "Section A Reading, passage I. Lettered MCQ option B."
+    },
+    {
+      "subject": "english-core",
+      "question": "1(v)",
+      "official_option": "C",
+      "official_text": "Most ghost nets provide nutrition to marine animals, upon disintegration.",
+      "quote": "C. Most ghost nets provide nutrition to marine animals, upon disintegration. Award 1 mark for the correct answer.",
+      "notes": "Section A Reading, passage I. Question is an EXCEPT item; key is option C. Lettered MCQ option C."
+    },
+    {
+      "subject": "english-core",
+      "question": "1(ix)",
+      "official_option": "A",
+      "official_text": "practical",
+      "quote": "A. practical Award maximum 1 mark for the complete correct answer",
+      "notes": "Section A Reading, passage I. Lettered MCQ option A."
+    }
+  ]
+}

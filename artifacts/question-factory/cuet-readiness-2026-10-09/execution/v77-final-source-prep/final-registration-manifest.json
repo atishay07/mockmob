@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-09T07:42:08.043Z",
+  "study_dirs": {
+    "fresh": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh",
+    "regression": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression"
+  },
+  "study_ids": [
+    "v77-qualification-2026-10-09-final-fresh",
+    "v77-qualification-2026-10-09-final-regression"
+  ],
+  "denominator": 41,
+  "native_calls": 0,
+  "bindings": {
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh/frozen.json": "5d37ea7710d4dce9ddebe857f4ce8e0e767c5cdad899bd0063eabcd908deed57",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh/independent-key-custody.json": "179d239f2bf637e2921e119134efdbddd482b3a4777e20c329afbaa0af826a83",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh/scratch-registry-overlay.json": "5fc02070c0c9b6c3974330bb6531cc15654516ea2ba95e9a8fe492911f9208fa",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh/case-freshness-review.json": "b530494b94505eacf03a8d1d9f29c79964726b4d86b5749455b38c5142ff209b",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression/frozen.json": "a3c3e1bec723e1fd1ceb7732f6b1515b4c920cddd53ae004c6fe28fc6e76e525",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression/independent-key-custody.json": "77465d0bff14d3f9f4baa88b9eb95399bd9c88bfeeb8702d8193112dfaae6de9",
+    "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression/scratch-registry-overlay.json": "f2311256462600159e2796f37ce249e65c4cb0a045db99de504513645247f75c"
+  }
+}

@@ -1,0 +1,60 @@
+2026-10-06T18:10:27.952Z eslint:cli CLI args: [ '--debug', 'src/app/preview/question-factory/page.jsx' ]
+2026-10-06T18:10:27.954Z eslint:cli Using flat config? true
+2026-10-06T18:10:27.956Z eslint:cli Running on files
+2026-10-06T18:10:27.957Z eslint:eslint Using config loader LegacyConfigLoader
+2026-10-06T18:10:27.957Z eslint:eslint Using file patterns: src/app/preview/question-factory/page.jsx
+2026-10-06T18:10:27.957Z eslint:eslint Deleting cache file at C:\Users\atish\Desktop\mockmob copy\mockmob copy\.eslintcache
+2026-10-06T18:10:27.958Z eslint:config-loader Calculating config for file C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:27.958Z eslint:config-loader Searching for eslint.config.js
+2026-10-06T18:10:27.959Z eslint:config-loader [Legacy]: Calculating config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:27.959Z eslint:config-loader [Legacy]: Using config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs and base path C:\Users\atish\Desktop\mockmob copy\mockmob copy
+2026-10-06T18:10:27.959Z eslint:config-loader Calculating config array from config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs and base path C:\Users\atish\Desktop\mockmob copy\mockmob copy
+2026-10-06T18:10:27.960Z eslint:config-loader Loading config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs
+2026-10-06T18:10:27.960Z eslint:config-loader Loading config from C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs
+2026-10-06T18:10:27.960Z eslint:config-loader Config file URL is file:///C:/Users/atish/Desktop/mockmob%20copy/mockmob%20copy/eslint.config.mjs
+2026-10-06T18:10:29.092Z eslint:rules Loading rule 'consistent-return' (remaining=291)
+2026-10-06T18:10:29.107Z eslint:rules Loading rule 'dot-notation' (remaining=290)
+2026-10-06T18:10:29.113Z eslint:rules Loading rule 'init-declarations' (remaining=289)
+2026-10-06T18:10:29.115Z eslint:rules Loading rule 'max-params' (remaining=288)
+2026-10-06T18:10:29.137Z eslint:rules Loading rule 'no-dupe-class-members' (remaining=287)
+2026-10-06T18:10:29.141Z eslint:rules Loading rule 'no-empty-function' (remaining=286)
+2026-10-06T18:10:29.157Z eslint:rules Loading rule 'no-invalid-this' (remaining=285)
+2026-10-06T18:10:29.159Z eslint:rules Loading rule 'no-loop-func' (remaining=284)
+2026-10-06T18:10:29.160Z eslint:rules Loading rule 'no-loss-of-precision' (remaining=283)
+2026-10-06T18:10:29.161Z eslint:rules Loading rule 'no-magic-numbers' (remaining=282)
+2026-10-06T18:10:29.181Z eslint:rules Loading rule 'no-restricted-imports' (remaining=281)
+2026-10-06T18:10:29.235Z eslint:rules Loading rule 'no-unused-expressions' (remaining=280)
+2026-10-06T18:10:29.241Z eslint:rules Loading rule 'no-useless-constructor' (remaining=279)
+2026-10-06T18:10:29.252Z eslint:rules Loading rule 'prefer-destructuring' (remaining=278)
+2026-10-06T18:10:29.754Z eslint:config-loader Config file C:\Users\atish\Desktop\mockmob copy\mockmob copy\eslint.config.mjs is not empty
+2026-10-06T18:10:29.755Z eslint:eslint 1 file(s) found in 1798 ms
+2026-10-06T18:10:29.755Z eslint:eslint Linting in single-thread mode.
+2026-10-06T18:10:29.755Z eslint:config-loader Looking up cached config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:29.756Z eslint:config-loader [Legacy]: Looking up cached config for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory
+2026-10-06T18:10:29.775Z eslint:eslint-helpers File "C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx" read in 1 ms
+2026-10-06T18:10:29.775Z eslint:linter Linting code for C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx (pass 1)
+2026-10-06T18:10:29.775Z eslint:linter Verify
+2026-10-06T18:10:29.775Z eslint:linter With flat config: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:29.776Z eslint:languages:js Parsing: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:29.920Z eslint:languages:js Parsing successful: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:29.920Z eslint:languages:js Scope analysis: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+2026-10-06T18:10:29.920Z eslint:languages:js Scope analysis successful: C:\Users\atish\Desktop\mockmob copy\mockmob copy\src\app\preview\question-factory\page.jsx
+
+<--- Last few GCs --->
+
+[42800:0000021DB9160000]    29799 ms: Scavenge (interleaved) 4067.9 (4085.7) -> 4058.4 (4087.7) MB, pooled: 0 MB, 13.47 / 0.00 ms  (average mu = 0.297, current mu = 0.252) allocation failure; 
+[42800:0000021DB9160000]    30505 ms: Mark-Compact (reduce) 4058.8 (4087.7) -> 4058.5 (4061.5) MB, pooled: 0 MB, 582.11 / 0.00 ms  (+ 20.9 ms in 5 steps since start of marking, biggest step 5.1 ms, walltime since start of marking 606 ms) (average mu = 0.2
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF7DAB6403F node::OnFatalError+1343
+ 2: 00007FF7DB7AFAA7 v8::Function::NewInstance+423
+ 3: 00007FF7DB5B04D7 v8::base::AddressSpaceReservation::AddressSpaceReservation+322071
+ 4: 00007FF7DB5B41E4 v8::base::AddressSpaceReservation::AddressSpaceReservation+337700
+ 5: 00007FF7DB5C313C v8::internal::StrongRootAllocatorBase::deallocate_impl+16604
+ 6: 00007FF7DB5C297B v8::internal::StrongRootAllocatorBase::deallocate_impl+14619
+ 7: 00007FF7DCA4A2AD v8::base::UnsignedDivisionByConstant<unsigned __int64>+2794653
+ 8: 00007FF7DB5ADFA0 v8::base::AddressSpaceReservation::AddressSpaceReservation+312544
+ 9: 00007FF7DB631CD9 v8::Unlocker::~Unlocker+9273
+10: 00007FF7DB1A6698 v8::String::Utf8Value::~Utf8Value+143384
+11: 0000021DF17B75FA 

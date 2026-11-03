@@ -1,0 +1,87 @@
+--- PHYSICAL PDF PAGE 1 ---
+ 
+ 
+For the Year 2026 
+ 
+  
+Accountancy / Book 
+Keeping – 301                     
+Syllabus for CUET 
+(UG)
+ 
+ 
+
+--- PHYSICAL PDF PAGE 2 ---
+ 
+1 | P a g e   
+Unit I:  Accounting for Partnership  
+• Nature of Partnership Firm:  Partnership deed (meaning, importance).  
+• Accounts of Partnership:  Fixed v/s Fluctuating capital, Division of profit among partners, 
+Profit and Loss Appropriation account, guarantee of profit to a partner, past adjustments. 
+ 
+Unit II:  Reconstitution of a Partnership firm 
+• Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining 
+ratio.  
+• Accounting for Revaluation of Assets and reassessment of Liabilities and Distribution of 
+reserves and accumulated profits.  
+• Goodwill: Nature, Factors affecting and Methods of valuation: Average profit, Super profit 
+and Capitalisation methods.  
+• Admission of a Partner: Effect of admission of partner, Change in profit sharing ratio, 
+Accounting treatment for goodwill, Revaluation of assets and reassessment of liabilities , 
+Reserves adjustment/distribution of (accumulated profits) and adjustment of capitals.  
+• Retirement/Death of a Partner: Change in profit sharing ratio, Accounting treatment of 
+goodwill, Revaluation of assets and reassessment of liabilities, Adjustment of Accumulated 
+profits (Reserves) , Preparation of deceased partner’s  capital account and his executor’s 
+account, Preparation of Loan Account. 
+ 
+Unit III:  Dissolution of Partnership Firm  
+• Meaning, Settlement of accounts: Preparation of Realisation Account and related Accounts 
+(excluding piecemeal distribution, sale to a company and insolvency of a Partner). 
+  
+Unit IV:  Company Accounts: Accounting for Share and Debenture Capital 
+• Features and type of companies. 
+• Share Capital: Meaning, Nature and Types 
+• Accounting for Share Capital: Issue and Allotment of Equity and Preference Shares; Over 
+subscription and Under subscription; Issue at par  and premium; Calls in advance, Calls in 
+arrears, Issue of shares for consideration other than cash.  
+• Accounting treatment of Forfeiture of Shares and Re-issue of forfeited shares.  
+• Presentation of shares capital and Debentures in company’s balance sheet. 
+• Issue of Debenture – At par, premium and discount; Issue of debentures for consideration 
+other than cash.  Issue of debentures with terms of redemption, Debenture as collateral 
+security- concept, Interest on debentures, writing off discount/Loss on issues of debenture. 
+ 
+ 
+ 
+ 
+ 
+
+--- PHYSICAL PDF PAGE 3 ---
+ 
+2 | P a g e   
+ 
+ 
+Unit V:  Analysis of Financial Statements  
+• Financial Statements of a Company : Preparation of simple financial statements of a 
+company in the prescribed form with major headings and sub headings. 
+• Financial Analysis: Meaning, Significance, Purpose and Limitations.  
+• Tools for Financial Analysis: Comparative statements, Common size statements.  
+• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, 
+Activity Ratio, Profitability Ratio. 
+• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to 
+depreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-
+current assets (as per revised standard issued by ICAI).  
+ 
+Optional to Unit V 
+ 
+Unit V:  Computerised Accounting System  
+• Overview of Concept and Types of Computerised Accounting System (CAS). 
+• Features of a Computerised Accounting System, Advantages, limitations 
+• Structure of a Computerised Accounting System:  chart of accounts, Codification and 
+Hierarchy of account heads. 
+• Accounting information system (AIS).  
+• Accounting Applications of Electronic Spreadsheet. 
+• Features offered by Electronic Spreadsheet. Applications of Electronic Spreadsheet in 
+generating accounting information, preparing reports using pivot Table, common errors in 
+spreadsheet, depreciation schedule, loan repayment schedule, payroll accounting.  
+• Graphs and Charts in electronic spreadsheet for Business Data. 
+ 

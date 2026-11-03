@@ -1,0 +1,108 @@
+{
+  "schema": "cuet-v713-official-syllabus-slices-v1",
+  "study_id": "cuet-readiness-v713-fresh-pass",
+  "provenance": "Exact excerpts from registered CUET (UG) 2026 syllabus extractions; each section is independently byte-bound to the registered extraction and its official PDF identity.",
+  "subjects": {
+    "accountancy": {
+      "source_ref": {
+        "id": "cuet2026-accountancy-syllabus",
+        "version": 1,
+        "locator": "full-syllabus",
+        "support_hash": "023199b5b56881bbe2164dbc82dde230a6700226a2013b2e566cab2edf9e3a82"
+      },
+      "source": {
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227522720880.pdf",
+        "official_index_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+        "pdf_file": "data/question-factory-runtime/source-foundation/accountancy-syllabus-2026.pdf",
+        "pdf_identity_sha256": "f67df11b2ba878944061e63169e075819a525535edb184508a093c230b9b72e7",
+        "extraction_file": "data/question-factory-runtime/source-foundation/accountancy-syllabus-2026.txt",
+        "extraction_sha256": "f95adb89329a68c4f7b0be5d8cb658a5a9f744b697a836a7ec521468f69114a4",
+        "extraction_checked": true
+      },
+      "sections": [
+        {
+          "id": "unit-v-cash-flow",
+          "slice_sha256": "a9010b6509d19907cfdf4ce64bbeb4f13112b869f554c4e3f833e068d38a4d5c",
+          "text": "Unit V:  Analysis of Financial Statements  \r\n• Financial Statements of a Company : Preparation of simple financial statements of a \r\ncompany in the prescribed form with major headings and sub headings. \r\n• Financial Analysis: Meaning, Significance, Purpose and Limitations.  \r\n• Tools for Financial Analysis: Comparative statements, Common size statements.  \r\n• Accounting Ratios: Meaning and Objectives and types:   Liquidity Ratio, Solvency Ratio, \r\nActivity Ratio, Profitability Ratio. \r\n• Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to \r\ndepreciation, amortization, dividend and tax, purchase and profit or loss  on sale of non-\r\ncurrent assets (as per revised standard issued by ICAI)."
+        }
+      ]
+    },
+    "business_studies": {
+      "source_ref": {
+        "id": "cuet2026-business_studies-syllabus",
+        "version": 1,
+        "locator": "full-syllabus",
+        "support_hash": "99e497fcccc92bd25e03f0f91da16e5af9c7c6a136842820a5308d4ec71beedb"
+      },
+      "source": {
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+        "official_index_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+        "pdf_file": "data/question-factory-runtime/source-foundation/business_studies-syllabus-2026.pdf",
+        "pdf_identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+        "extraction_file": "data/question-factory-runtime/source-foundation/business_studies-syllabus-2026.txt",
+        "extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+        "extraction_checked": true
+      },
+      "sections": [
+        {
+          "id": "unit-iv-planning",
+          "slice_sha256": "fd6f8e7e5f66e377b497f2d8712cad8d5f81ff6e67026cf817a0eb430879990d",
+          "text": "Unit IV:  Planning \r\n• Meaning, features, importance, limitations. \r\n• Planning process. \r\n• Types of Plans – Objectives, Strategy, Policy, Procedure, Method, Rule, Budget, Programme."
+        },
+        {
+          "id": "unit-xi-marketing",
+          "slice_sha256": "045ef27794e0bed0d4fd0d38352d6895d9b6dcc9b3c026a1b105abaa2731fb67",
+          "text": "Unit XI:  Marketing \r\n• Marketing – meaning, functions, role and philosophies. \r\n• Distinction between marketing and selling. \r\n• Marketing mix – concept and elements: \r\n– Product – nature, classification, branding, labeling and packaging \r\n– Physical distribution: meaning, role; Components, Channels of distribution, – meaning, \r\ntypes, factors determining choice of channels. \r\n– Promotion – meaning and role, promotion mix, Advertising, Personal selling sales \r\npromotion and public relation, Role of Advertising, objections to Advertising. \r\n– Price: factors influencing pricing. \r\n\r\nPAGE 4"
+        }
+      ]
+    },
+    "economics": {
+      "source_ref": {
+        "id": "cuet2026-economics-syllabus",
+        "version": 1,
+        "locator": "full-syllabus",
+        "support_hash": "738e7eba87fc659c5133e2db18a832b1061290b216e749529487ec6bd89daae3"
+      },
+      "source": {
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf",
+        "official_index_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+        "pdf_file": "data/question-factory-runtime/source-foundation/economics-syllabus-2026.pdf",
+        "pdf_identity_sha256": "ab689c62b27cb17419e04419f8749c8ff1ce8796c19402c8765a719b509c815d",
+        "extraction_file": "data/question-factory-runtime/source-foundation/economics-syllabus-2026.txt",
+        "extraction_sha256": "effd60c3152b3cad6fdbfc28636c15ff8b590885df7b73da658bcdbf3fa0d865",
+        "extraction_checked": true
+      },
+      "sections": [
+        {
+          "id": "course-ii-unit-i-national-income",
+          "slice_sha256": "be233b3fd7f91f6e17f76f1a139d2e8bbdf19f5941fa49b7419bd8c1be516e4c",
+          "text": "Unit I: Introduction and National Income Accounting \r\n\r\nPAGE 3\r\n \r\n2 | P a g e   \r\n What is macroeconomics? \r\n Basic concepts in macroeconomics:  \r\n Circular flow of income; Methods of calculating National Income - Value \r\nAdded or Product method, Expenditure method, Income method \r\n Aggregates related to National Income: \r\nFactor Cost, Basic Prices and Market Price. \r\nGDP and Welfare"
+        }
+      ]
+    },
+    "english": {
+      "source_ref": {
+        "id": "cuet2026-english-syllabus",
+        "version": 1,
+        "locator": "full-syllabus",
+        "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+      },
+      "source": {
+        "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227980877010.pdf",
+        "official_index_url": "https://cuet.nta.nic.in/cuetug-2026-syllabus/",
+        "pdf_file": "data/question-factory-runtime/source-foundation/english-syllabus-2026.pdf",
+        "pdf_identity_sha256": "a4f55dadbd9a0111c72ec0cf74732bbe1e35ef4b71d0f49526a35bf8e9e1a41d",
+        "extraction_file": "data/question-factory-runtime/source-foundation/english-syllabus-2026.txt",
+        "extraction_sha256": "12ae62bd561349ccf1873913a35d1e5eb4e49e394bb7c3ef2fe75f6e6e6af3f5",
+        "extraction_checked": true
+      },
+      "sections": [
+        {
+          "id": "reading-and-verbal-ability",
+          "slice_sha256": "82cffe71e5836545de6e33dab64c69e05de0e1cf6892c74fee8d198baa74cc41",
+          "text": "Questions from the Language Section will be from the following topics but are not limited to: \r\n \r\n1. Reading Comprehension: \r\n \r\nThere will be three types of passages (maximum 300 words): \r\na. Factual \r\nb. Narrative \r\nc. Literary \r\n \r\n \r\n2. Verbal Ability \r\n \r\na. Rearranging the parts \r\nb. Match the following \r\nc. Choosing the correct word \r\nd. Synonyms and Antonyms"
+        }
+      ]
+    }
+  }
+}

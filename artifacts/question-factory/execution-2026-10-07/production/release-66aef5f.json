@@ -1,0 +1,11 @@
+{
+  "checked_at": "2026-10-07T08:18:41.925744+00:00",
+  "deployment": "F3f968ahD8Ds6JJW6HbaUzvykbCj",
+  "commit": "66aef5f7909cc4ec6d2ecd4c526c4295c9af8378",
+  "status": "Ready",
+  "environment": "Production",
+  "duration_seconds": 50,
+  "domain": "www.mockmob.in",
+  "verified_via": "Actual Vercel deployment overview and deployment list in the signed-in browser",
+  "student_retrieval_claim": false
+}

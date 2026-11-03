@@ -1,0 +1,31 @@
+v77f-c519f01371f2 DEFECT -> quarantined blind_key_contradiction
+v77f-1ed13162f85d VALID  -> quarantined failed:explanation_support
+v77f-dfcca21b749e VALID  -> quarantined failed:explanation_support
+v77f-4c09b80e91ce VALID  -> quarantined failed:explanation_support
+v77f-a99cc144f9e5 VALID  -> eligible 
+cbse24-eng-q01--wrong_key DEFECT -> quarantined blind_key_contradiction
+v77f-2ca94e8b4e72 DEFECT -> quarantined failed:explanation_support
+v77f-56f266269b74 DEFECT -> quarantined failed:source_support
+cbse24-eng-q01 VALID  -> quarantined failed:explanation_support
+{
+ "kind": "v79_native_regression_probe_not_qualification",
+ "terminal": 9,
+ "of": 41,
+ "valid_eligible": "1/5",
+ "defects_accepted": "0/4",
+ "errors": [],
+ "valid_failures": [
+  "v77f-1ed13162f85d:failed:explanation_support",
+  "v77f-dfcca21b749e:failed:explanation_support",
+  "v77f-4c09b80e91ce:failed:explanation_support",
+  "cbse24-eng-q01:failed:explanation_support"
+ ],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.093336,
+  "held_usd": 0,
+  "requests": 21,
+  "receipt_complete": true,
+  "at": "2026-10-09T12:10:15.480Z"
+ }
+}

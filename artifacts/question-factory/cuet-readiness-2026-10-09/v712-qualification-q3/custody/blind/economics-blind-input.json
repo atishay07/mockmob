@@ -1,0 +1,289 @@
+{
+ "subject": "economics",
+ "items": [
+  {
+   "local_id": "eco-b1",
+   "chapter": "Money & Banking",
+   "body": "An economy uses money balance worth Rs 150 to make transactions worth Rs 600 per month. The velocity of circulation of money is:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "0.25"
+    },
+    {
+     "key": "B",
+     "text": "3"
+    },
+    {
+     "key": "C",
+     "text": "4"
+    },
+    {
+     "key": "D",
+     "text": "5"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F19",
+     "chapter": "Money & Banking",
+     "text": "where, T is the total value of (nominal) transactions in the economy\nover unit period and k is a positive fraction.\nThe two-person economy described above can be looked at from another\nangle. You may perhaps find it surprising that the economy uses money\nbalance worth only Rs 100 for making transactions worth Rs 200 per month.\nThe answer to this riddle is simple – each rupee is changing hands twice a\nmonth. On the first day, it is being transferred from the employer’s pocket\nto that of the worker and sometime during the month, it is passing from the\nworker’s hand to the employer’s. The number of times a unit of money\nchanges hands during the unit period is called the velocity of circulation\nof money. In the above example, it is 2, inverse of half – the ratio of money\nbalance and the value of transactions. Thus, in general, we may rewrite\nequation (3.1) in the following form\n1"
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b2",
+   "chapter": "Balance of Payments",
+   "body": "Government spending on domestic goods rises in an open economy where a proportion of the induced increase in consumption is spent on imported goods. Compared with a closed economy in which all induced consumption is spent on domestic goods, the autonomous expenditure multiplier in this open economy is:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Larger, because imported goods add to domestic income at each round"
+    },
+    {
+     "key": "B",
+     "text": "Unchanged, because only the change in autonomous expenditure matters"
+    },
+    {
+     "key": "C",
+     "text": "Smaller, because the induced effect on demand for domestic goods is smaller"
+    },
+    {
+     "key": "D",
+     "text": "Smaller or larger depending on the size of the government spending"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F25",
+     "chapter": "Balance of Payments",
+     "text": "up of the economy can be explained with reference to our previous discussion of\nthe multiplier process (Chapter 4). A change in autonomous expenditures, for\ninstance a change in government spending, will have a direct effect on income and\nan induced effect on consumption with a further effect on income. With an mpc\ngreater than zero, a proportion of the induced effect on consumption will be a demand\nfor foreign, not domestic goods. Therefore, the induced effect on demand for domestic\ngoods, and hence on domestic income, will be smaller. The increase in imports per\nunit of income constitutes an additional leakage from the circular flow of domestic\nincome at each round of the multiplier process and reduces the value of the\nautonomous expenditure multiplier."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b3",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "body": "A person invests Rs 2,00,000 in her family business. The alternatives she could have chosen were: keeping the money in a house-safe (zero return), depositing it in bank-1 at 10 per cent interest per year, or depositing it in bank-2 at 5 per cent interest per year. She can use the money in only one of these ways. The opportunity cost per year of investing in the family business is:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 20,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs 10,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs 30,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs 0"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F33",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "text": "this money, you can either keep it in the house-safe which will give you zero\nreturn or you can deposit it in either bank-1 or bank-2 in which case you get\nan interest at the rate of 10 per cent or 5 per cent respectively. So the maximum\nbenefit that you may get from other alternative activities is the interest from\nthe bank-1. But this opportunity will no longer be there once you invest the\nmoney in your family business. The opportunity cost of investing the money\nin your family business is therefore the amount of forgone interest from the\nbank-1."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b4",
+   "chapter": "Balance of Payments",
+   "body": "Government spending rises by Rs 100 crore and the mpc is 0.8. By how much does equilibrium income rise?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 100 crore"
+    },
+    {
+     "key": "B",
+     "text": "Rs 400 crore"
+    },
+    {
+     "key": "C",
+     "text": "Rs 500 crore"
+    },
+    {
+     "key": "D",
+     "text": "Rs 80 crore"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F25",
+     "chapter": "Balance of Payments",
+     "text": "up of the economy can be explained with reference to our previous discussion of\nthe multiplier process (Chapter 4). A change in autonomous expenditures, for\ninstance a change in government spending, will have a direct effect on income and\nan induced effect on consumption with a further effect on income. With an mpc\ngreater than zero, a proportion of the induced effect on consumption will be a demand\nfor foreign, not domestic goods. Therefore, the induced effect on demand for domestic\ngoods, and hence on domestic income, will be smaller. The increase in imports per\nunit of income constitutes an additional leakage from the circular flow of domestic\nincome at each round of the multiplier process and reduces the value of the\nautonomous expenditure multiplier."
+    },
+    {
+     "ref": "F23",
+     "chapter": "Government Budget & the Economy",
+     "text": "where YD = disposable income.\nWe note that taxes lower disposable income and consumption. For instance,\nif one earns Rs 1 lakh and has to pay Rs 10,000 in taxes, she has the same\ndisposable income as someone who earns Rs 90,000 but pays no taxes. The\ndefinition of aggregate demand augmented to include the government will be\n—\nAD = C + c(Y – T + TR ) + I + G (5.2)"
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b5",
+   "chapter": "Theory of Firms under Perfect Competition",
+   "body": "A wheat farmer in a perfectly competitive market is a price-taking firm and sells every unit at the market price of Rs 40 per quintal. If she sells one more quintal, her marginal revenue from that extra quintal is:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Less than Rs 40, because she must lower the price to sell the extra quintal"
+    },
+    {
+     "key": "B",
+     "text": "Rs 0, because the extra quintal is sold at the same price as the earlier ones"
+    },
+    {
+     "key": "C",
+     "text": "Rs 40, because the extra unit is sold at the market price"
+    },
+    {
+     "key": "D",
+     "text": "Rs 40 multiplied by her total output, because all units are sold at that price"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F34",
+     "chapter": "Theory of Firms under Perfect Competition",
+     "text": "= p\nThus, for the perfectly competitive firm, MR=AR=p\nIn other words, for a price-taking firm, marginal revenue equals the market\nprice.\nSetting the algebra aside, the intuition for this result is quite simple. When a\nfirm increases its output by one unit, this extra unit is sold at the market price.\nHence, the firm’s increase in total revenue from the one-unit output expansion –\nthat is, MR – is precisely the market price."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b6",
+   "chapter": "Production & Costs",
+   "body": "At an output of 4 units, a firm has a total fixed cost of Rs 80 and a total variable cost of Rs 120. Using SAC = AVC + AFC, what is the short run average cost (SAC) at 4 units?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs 30"
+    },
+    {
+     "key": "B",
+     "text": "Rs 50"
+    },
+    {
+     "key": "C",
+     "text": "Rs 200"
+    },
+    {
+     "key": "D",
+     "text": "Rs 20"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F32",
+     "chapter": "Production & Costs",
+     "text": "Clearly,\nSAC = AVC + AFC (3.10)\nIn Table 3.3, we get the AFC-column by dividing the values of the second\ncolumn by the corresponding values of the first column. Similarly, we get the\nAVC-column by dividing the values of the third column by the corresponding\nvalues of the first column. At zero level of output, both AFC and AVC are\nundefined. For the first unit of output, AFC is Rs 20 and AVC is Rs 10. Adding\nthem, we get the SAC equal to Rs 30.\nThe short run marginal cost (SMC) is defined as the change in total cost\nper unit of change in output"
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b7",
+   "chapter": "Employment",
+   "body": "A farmer's four-acre farm needs only two workers and himself to carry out its operations through the year. He employs five workers along with his wife and children, and everyone on the farm works throughout the year. This situation is best described as:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Disguised unemployment, because more persons are employed than the farm actually needs"
+    },
+    {
+     "key": "B",
+     "text": "Open unemployment, because the extra persons have no work at all and are seeking jobs"
+    },
+    {
+     "key": "C",
+     "text": "Seasonal unemployment, because farm work is available only in some months of the year"
+    },
+    {
+     "key": "D",
+     "text": "Full employment, because every person on the farm is working"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F11",
+     "chapter": "Employment",
+     "text": "described in the first\nparagraph of this section is called open\nunemployment. Economists call\nunemployment prevailing in Indian farms\nas disguised unemployment. What is\ndisguised unemployment? Suppose a\nfarmer has four acres of land and he\nactually needs only two workers and\nhimself to carry out various operations\non his farm in a year, but if he employs\nfive workers and his family members\nsuch as his wife and children, this\nsituation is known as disguised\nunemployment. One study conducted in\nthe late 1950s showed about one-third\nof agriculture workers in India as\ndisguisedly unemployed.\nYou may have noticed that many\npeople migrate to an urban area, pick\nup a job and stay there for some time,\nbut come back to their home villages\nas soon as the rainy season begins.\nWhy do they do so? This is because\nwork in agriculture is seasonal; there\nare no employment opportunities in the\nvillage for all months in the year. When\nthere is no work to do on farms, people\ngo to urban areas and look for jobs."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b8",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "The price of a complementary good of coffee rises, other things remaining the same. The demand curve for coffee will:",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Shift rightward"
+    },
+    {
+     "key": "B",
+     "text": "Shift leftward"
+    },
+    {
+     "key": "C",
+     "text": "Remain unchanged, with only a movement along the same curve"
+    },
+    {
+     "key": "D",
+     "text": "Become perfectly elastic"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F29",
+     "chapter": "Introduction & Theory of Consumer Behaviour",
+     "text": "hence, there is a shift in the demand curve. If there is an increase in the price of\na substitute good, the demand curve shifts rightward. On the other hand, if\nthere is an increase in the price of a complementary good, the demand curve\nshifts leftward.\nThe demand curve can also shift due to a change in the tastes and preferences\nof the consumer. If the consumer’s preferences change in favour of a good, the\ndemand curve for such a good shifts rightward. On the other hand, the demand\ncurve shifts leftward due to an unfavourable change in the preferences of the\nconsumer. The demand curve for ice-creams, for example, is likely to shift\nrightward in the summer because of preference for ice-creams goes up in\nsummer. Revelation of the fact that cold-drinks might be injurious to health can\nadversely affect preferences for cold-drinks. This is likely to result in a leftward\nshift in the demand curve for cold-drinks."
+    }
+   ]
+  },
+  {
+   "local_id": "eco-b9",
+   "chapter": "Production & Costs",
+   "body": "In a production process all inputs are doubled and output rises to 2.5 times its earlier level. Which statement is correct?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "The production function exhibits increasing returns to scale"
+    },
+    {
+     "key": "B",
+     "text": "Output has increased by a larger proportion than inputs"
+    },
+    {
+     "key": "C",
+     "text": "The production function exhibits constant returns to scale"
+    },
+    {
+     "key": "D",
+     "text": "The production function exhibits decreasing returns to scale"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F31",
+     "chapter": "Production & Costs",
+     "text": "Decreasing Returns to Scale (DRS) holds when a proportional increase in\nall inputs results in an increase in output by a smaller proportion.\nFor example, suppose in a production process, all inputs get doubled.\nAs a result, if the output gets doubled, the production function exhibits CRS.\nIf output is less than doubled, then DRS holds, and if it is more than doubled,\nthen IRS holds."
+    }
+   ]
+  }
+ ]
+}

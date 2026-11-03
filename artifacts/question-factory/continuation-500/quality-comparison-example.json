@@ -1,0 +1,515 @@
+{
+  "snapshot_count": 662,
+  "selection": "Minimum saved overall rating, then minimum sum of per-criterion lower craft ratings; tied items ordered by ID. No new model evaluation.",
+  "lowest": {
+    "id": "0f662d12bdd206b0d260c7d41f50892f",
+    "overall": 7,
+    "craftSum": 14
+  },
+  "examples": [
+    {
+      "id": "0f662d12bdd206b0d260c7d41f50892f",
+      "subject": "english",
+      "chapter": "Correct Word Usage",
+      "difficulty": "medium",
+      "body": "Choose the sentence in which \"elated\" is used correctly.",
+      "options": [
+        "After hearing that her application had been rejected, Asha felt elated, although she was disappointed and not happy or excited about the result.",
+        "After hearing that the routine timetable would remain unchanged, Bilal felt elated, although he was indifferent and not happy or excited about the announcement.",
+        "While waiting through a long, dull queue, Charu felt elated, although she was bored and not happy or excited about the wait.",
+        "After hearing that he had won the scholarship, Dev felt elated because he was very happy and excited about the good news."
+      ],
+      "correct_answer": "D",
+      "explanation": "“Elated” means very happy and excited because something good has happened or will happen. D describes Dev’s happy, excited reaction to winning a scholarship; A–C explicitly describe reactions that are not happy and excited.",
+      "evidence_quotes": [
+        "very happy and excited because of something good that has happened or will happen"
+      ],
+      "source_refs": [
+        {
+          "id": "oxford-quality-elated",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+        },
+        {
+          "id": "oxford-quality-indifferent",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+        },
+        {
+          "id": "oxford-quality-tedious",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+        },
+        {
+          "id": "oxford-quality-inevitable",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b"
+        }
+      ],
+      "judgments": {
+        "luna": {
+          "candidate_id": "0f662d12bdd206b0d260c7d41f50892f",
+          "content_hash": "c711e771d54e8bf18f13da41f0faddbed8ccce8330a800a24f62c4622b0df2a5",
+          "solved_key": "D",
+          "single_defensible_answer": true,
+          "missing_assumptions": false,
+          "source_support": true,
+          "exam_fit": true,
+          "numeric_solution": true,
+          "boundary_cases": true,
+          "passage_integrity": true,
+          "passage_answerability": true,
+          "meaningfully_distinct": true,
+          "evidence_ids": [
+            "E1.1"
+          ],
+          "reasons": [
+            "Oxford defines “elated” as very happy and excited because of something good. D describes Dev as very happy and excited after winning a scholarship, so it fits.",
+            "A describes disappointment, B indifference, and C boredom; each contradicts the meaning of “elated.”",
+            "Quality score 7/10"
+          ],
+          "quality_notes": [
+            "Very easy; the negative emotional descriptions make A–C easy to eliminate.",
+            "Distractors are repetitive and implausible, while D nearly restates the definition."
+          ],
+          "syllabus_chapter": "Correct Word Usage",
+          "syllabus_topic": "Choosing the correct word: contextual meaning and use of “elated”.",
+          "syllabus_entitlement": true,
+          "presentation_ready": true,
+          "question_type_match": true,
+          "defects": [],
+          "item_quality_score": 7,
+          "decisive_principle_in_excerpts": true,
+          "answer_conditions": [
+            {
+              "condition": "Asha's application was rejected and she felt disappointed, not happy or excited about the result.",
+              "status": "explicit"
+            },
+            {
+              "condition": "The timetable remained unchanged and Bilal was indifferent, not happy or excited about the announcement.",
+              "status": "explicit"
+            },
+            {
+              "condition": "Charu was waiting through a long, dull queue and felt bored, not happy or excited about the wait.",
+              "status": "explicit"
+            },
+            {
+              "condition": "Dev won the scholarship and felt very happy and excited about the good news.",
+              "status": "explicit"
+            }
+          ],
+          "craft_scores": {
+            "language_clarity": 8,
+            "distractor_plausibility": 2,
+            "difficulty_suitability": 4
+          },
+          "supporting_spans": [
+            {
+              "source_id": "oxford-quality-elated",
+              "locator": "definition",
+              "quote": "very happy and excited because of something good that has happened or will happen",
+              "start": 0,
+              "end": 81
+            }
+          ],
+          "evidence_selection_valid": true,
+          "reference_quotes_valid": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "effort": "high",
+          "prompt_version": "luna-gemini-cuET-v6.2",
+          "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+          "policy_version": "cuet-llm-v3",
+          "chapter_mapping": {
+            "ok": true
+          },
+          "polish_gate": true,
+          "passed": true,
+          "luna_samples": [
+            {
+              "solved_key": "D",
+              "passed": true
+            }
+          ],
+          "source_refs": [
+            {
+              "id": "oxford-quality-elated",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+            },
+            {
+              "id": "oxford-quality-indifferent",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+            },
+            {
+              "id": "oxford-quality-tedious",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+            },
+            {
+              "id": "oxford-quality-inevitable",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b"
+            }
+          ],
+          "stage": "presentation_quality",
+          "evidence_hash": "d223ecc3aa8c6d840ec6dacd5a319ca46ebcd934a61b837e30741e56e4663953"
+        },
+        "gemini": {
+          "candidate_id": "0f662d12bdd206b0d260c7d41f50892f",
+          "content_hash": "c711e771d54e8bf18f13da41f0faddbed8ccce8330a800a24f62c4622b0df2a5",
+          "solved_key": "D",
+          "single_defensible_answer": true,
+          "missing_assumptions": false,
+          "source_support": true,
+          "exam_fit": true,
+          "numeric_solution": false,
+          "boundary_cases": true,
+          "passage_integrity": true,
+          "passage_answerability": true,
+          "meaningfully_distinct": true,
+          "evidence_ids": [
+            "E1.1"
+          ],
+          "reasons": [
+            "'Elated' means very happy and excited because of something good that has happened.",
+            "Option D correctly uses 'elated' in the context of winning a scholarship and feeling very happy and excited.",
+            "Options A, B, and C contradict the meaning of 'elated' within their respective clauses.",
+            "Quality score 7/10"
+          ],
+          "quality_notes": [
+            "Distractors are somewhat artificial and telegraph the definition by explicitly negating it in the second clause.",
+            "Simple and unambiguous vocabulary question suitable for CUET English Verbal Ability."
+          ],
+          "syllabus_chapter": "Correct Word Usage",
+          "syllabus_topic": "Choosing the correct word",
+          "syllabus_entitlement": true,
+          "presentation_ready": true,
+          "question_type_match": true,
+          "defects": [],
+          "item_quality_score": 7,
+          "decisive_principle_in_excerpts": true,
+          "answer_conditions": [
+            {
+              "condition": "The definition of 'elated' is very happy and excited due to good news or success.",
+              "status": "explicit"
+            }
+          ],
+          "craft_scores": {
+            "language_clarity": 9,
+            "distractor_plausibility": 6,
+            "difficulty_suitability": 7
+          },
+          "supporting_spans": [
+            {
+              "source_id": "oxford-quality-elated",
+              "locator": "definition",
+              "quote": "very happy and excited because of something good that has happened or will happen",
+              "start": 0,
+              "end": 81
+            }
+          ],
+          "evidence_selection_valid": true,
+          "reference_quotes_valid": true,
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "effort": "medium",
+          "prompt_version": "luna-gemini-cuET-v6.2",
+          "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+          "policy_version": "cuet-llm-v3",
+          "chapter_mapping": {
+            "ok": true,
+            "covered": [
+              "Vocabulary",
+              "Correct Word Usage",
+              "Match the Following",
+              "Para Jumbles"
+            ],
+            "source_mapped": true,
+            "reason": null
+          },
+          "polish_gate": true,
+          "passed": true,
+          "source_refs": [
+            {
+              "id": "oxford-quality-elated",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+            },
+            {
+              "id": "oxford-quality-indifferent",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+            },
+            {
+              "id": "oxford-quality-tedious",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+            },
+            {
+              "id": "oxford-quality-inevitable",
+              "version": 1,
+              "locator": "definition",
+              "support_hash": "14c375eda4958b10e2a7f5bbb9978f743c9e734255072376bd21f663c2a6140b"
+            }
+          ],
+          "stage": "independent_evaluation",
+          "evidence_hash": "8ec3205c86902cb105b85dd1fdd26a5638c500c74a2ea84e0190a056b3153663"
+        }
+      }
+    },
+    {
+      "id": "3ca6f8a34eb42aeb67ce5a4842f16da9",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "difficulty": "hard",
+      "body": "For this question, a complainant may be one or more consumers, a voluntary consumer association, the Central or a State Government, the Central Authority, a legal heir or legal representative, or a parent or legal representative in the case of a minor. A complaint is an allegation in writing by a complainant seeking relief concerning a restrictive trade practice, a defect in goods, deficiency in services, overcharging, or goods or services injurious to life and safety. Which case satisfies both definitions?",
+      "options": [
+        "A consumer orally alleges a defect in goods and asks for a replacement.",
+        "A voluntary consumer association writes that a repair service was deficient but seeks no relief.",
+        "A bystander who is none of the listed complainant categories writes an allegation of overcharging and asks for a refund.",
+        "A voluntary consumer association writes an allegation of overcharging and seeks relief."
+      ],
+      "correct_answer": "D",
+      "explanation": "A voluntary consumer association is a listed complainant, and option D describes an allegation made in writing that concerns overcharging and seeks relief. Option A is oral, option B does not seek relief, and option C is made by someone outside the listed complainant categories.",
+      "evidence_quotes": [
+        "Complaint: Any allegation in writing made by the complainant for obtaining relief w.r.t restrictive trade practice, defect in goods or deficiency in services provided, overcharging of price or offer of goods or service injurious to life and safety.",
+        "Complainant: means one or more consumers, or any voluntary consumer association, central or state government or the central authority or a legal heir or legal representative or a parent or legal representative in case of a minor."
+      ],
+      "source_refs": [
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p11-c0",
+          "support_hash": "c6ce6760f83787db88f0ccc056db2acd2f20b0140169f0780180a199aa2bfb5c"
+        },
+        {
+          "id": "ncert-lebs203",
+          "version": 1,
+          "locator": "p6-c0",
+          "support_hash": "f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa"
+        }
+      ],
+      "judgments": {
+        "luna": {
+          "candidate_id": "3ca6f8a34eb42aeb67ce5a4842f16da9",
+          "content_hash": "6991b6d58f609c188eef70f67cf1f64c056788cc5ba59ba3085e1a1cbb2ba2d6",
+          "solved_key": "D",
+          "single_defensible_answer": true,
+          "missing_assumptions": false,
+          "source_support": true,
+          "exam_fit": true,
+          "numeric_solution": true,
+          "boundary_cases": true,
+          "passage_integrity": true,
+          "passage_answerability": true,
+          "meaningfully_distinct": true,
+          "evidence_ids": [
+            "E2.1",
+            "E2.2"
+          ],
+          "reasons": [
+            "D qualifies: a voluntary consumer association is an eligible complainant; its written allegation concerns overcharging and seeks relief.",
+            "A fails because the allegation is oral, not in writing. B fails because it seeks no relief. C fails because the bystander is outside the listed complainant categories.",
+            "The excerpts state both the complaint and complainant definitions; no unstated case condition or numerical calculation is needed.",
+            "Quality score 9/10"
+          ],
+          "quality_notes": [
+            "Direct definition-application question at an appropriate introductory level.",
+            "Each distractor clearly omits a different required condition."
+          ],
+          "syllabus_chapter": "Consumer Protection",
+          "syllabus_topic": "Consumer Protection Act, 2019: meaning of complaint and complainant; who can file a complaint",
+          "syllabus_entitlement": true,
+          "presentation_ready": true,
+          "question_type_match": true,
+          "defects": [],
+          "item_quality_score": 9,
+          "decisive_principle_in_excerpts": true,
+          "answer_conditions": [
+            {
+              "condition": "The complainant is a voluntary consumer association",
+              "status": "explicit"
+            },
+            {
+              "condition": "The allegation is made in writing",
+              "status": "explicit"
+            },
+            {
+              "condition": "The allegation concerns overcharging",
+              "status": "explicit"
+            },
+            {
+              "condition": "The association seeks relief",
+              "status": "explicit"
+            }
+          ],
+          "craft_scores": {
+            "language_clarity": 10,
+            "distractor_plausibility": 8,
+            "difficulty_suitability": 8
+          },
+          "supporting_spans": [
+            {
+              "source_id": "ncert-lebs203",
+              "locator": "p6-c0",
+              "quote": "BUSINESS STUDIES 294 Protection against malpractices and exploitation services for resale or commercial consumer rIghts purpose is nottreated as a consumer and is outside the scope of Consumer The Consumer Protection Act 2019 Protection Act 2019. provides for six rights of consumers. Terms & Definitions 1. Complaint: Any allegation in writing made by the complainant for obtaining relief w.r.t restrictive trade practice, defect in goods or deficiency in services provided, overcharging of price or offer of goods or service injurious to life and safety. 2. Complainant: means one or more consumers, or any voluntary consumer association, central",
+              "start": 0,
+              "end": 648
+            },
+            {
+              "source_id": "ncert-lebs203",
+              "locator": "p6-c0",
+              "quote": " or state government or the central authority or a legal heir or legal representative or a parent or legal representative in case of a minor. 3. Spurious goods: Goods that are falsely claimed to be genuine. 4. Unfair trade practice: A trade practice for the purpose of promoting sale, use or supply of any goods or service falsely represents its quality, standard, quantity, composition, style or model. Reprint 2026-27 Ch_11.indd 294 10-08-2022 10:03:34",
+              "start": 648,
+              "end": 1102
+            }
+          ],
+          "evidence_selection_valid": true,
+          "reference_quotes_valid": true,
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "effort": "high",
+          "prompt_version": "luna-gemini-cuET-v6.2",
+          "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+          "policy_version": "cuet-llm-v3",
+          "chapter_mapping": {
+            "ok": true
+          },
+          "polish_gate": true,
+          "passed": true,
+          "luna_samples": [
+            {
+              "solved_key": "D",
+              "passed": true
+            }
+          ],
+          "source_refs": [
+            {
+              "id": "ncert-lebs203",
+              "version": 1,
+              "locator": "p11-c0",
+              "support_hash": "c6ce6760f83787db88f0ccc056db2acd2f20b0140169f0780180a199aa2bfb5c"
+            },
+            {
+              "id": "ncert-lebs203",
+              "version": 1,
+              "locator": "p6-c0",
+              "support_hash": "f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa"
+            }
+          ],
+          "stage": "presentation_quality",
+          "evidence_hash": "eb71319c81fcc37741342729709e2f2a3fa6429e5ae841e76470bebb71975809"
+        },
+        "gemini": {
+          "candidate_id": "3ca6f8a34eb42aeb67ce5a4842f16da9",
+          "content_hash": "6991b6d58f609c188eef70f67cf1f64c056788cc5ba59ba3085e1a1cbb2ba2d6",
+          "solved_key": "D",
+          "single_defensible_answer": true,
+          "missing_assumptions": false,
+          "source_support": true,
+          "exam_fit": true,
+          "numeric_solution": false,
+          "boundary_cases": true,
+          "passage_integrity": true,
+          "passage_answerability": true,
+          "meaningfully_distinct": true,
+          "evidence_ids": [
+            "E2.1",
+            "E2.2"
+          ],
+          "reasons": [
+            "Under the Consumer Protection Act, 2019 definitions given in the stem and NCERT (p. 294), a 'complaint' must be in writing, made by a complainant, alleging a specified wrong (such as overcharging, defect, or deficiency), and must seek relief.",
+            "Option A fails because the allegation is made orally instead of in writing.",
+            "Option B fails because the association does not seek any relief.",
+            "Option C fails because a bystander who does not fall into any listed complainant category cannot make a statutory complaint.",
+            "Option D fulfills all conditions: a voluntary consumer association is a recognized complainant, it is in writing, alleges overcharging, and seeks relief.",
+            "Quality score 9/10"
+          ],
+          "quality_notes": [],
+          "syllabus_chapter": "Consumer Protection",
+          "syllabus_topic": "The Consumer Protection Act, 2019 - Terms and Definitions",
+          "syllabus_entitlement": true,
+          "presentation_ready": true,
+          "question_type_match": true,
+          "defects": [],
+          "item_quality_score": 9,
+          "decisive_principle_in_excerpts": true,
+          "answer_conditions": [
+            {
+              "condition": "Definitions of 'complainant' and 'complaint' are evaluated conjunctively as stated in the stem and NCERT.",
+              "status": "explicit"
+            }
+          ],
+          "craft_scores": {
+            "language_clarity": 10,
+            "distractor_plausibility": 9,
+            "difficulty_suitability": 9
+          },
+          "supporting_spans": [
+            {
+              "source_id": "ncert-lebs203",
+              "locator": "p6-c0",
+              "quote": "BUSINESS STUDIES 294 Protection against malpractices and exploitation services for resale or commercial consumer rIghts purpose is nottreated as a consumer and is outside the scope of Consumer The Consumer Protection Act 2019 Protection Act 2019. provides for six rights of consumers. Terms & Definitions 1. Complaint: Any allegation in writing made by the complainant for obtaining relief w.r.t restrictive trade practice, defect in goods or deficiency in services provided, overcharging of price or offer of goods or service injurious to life and safety. 2. Complainant: means one or more consumers, or any voluntary consumer association, central",
+              "start": 0,
+              "end": 648
+            },
+            {
+              "source_id": "ncert-lebs203",
+              "locator": "p6-c0",
+              "quote": " or state government or the central authority or a legal heir or legal representative or a parent or legal representative in case of a minor. 3. Spurious goods: Goods that are falsely claimed to be genuine. 4. Unfair trade practice: A trade practice for the purpose of promoting sale, use or supply of any goods or service falsely represents its quality, standard, quantity, composition, style or model. Reprint 2026-27 Ch_11.indd 294 10-08-2022 10:03:34",
+              "start": 648,
+              "end": 1102
+            }
+          ],
+          "evidence_selection_valid": true,
+          "reference_quotes_valid": true,
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "effort": "medium",
+          "prompt_version": "luna-gemini-cuET-v6.2",
+          "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+          "policy_version": "cuet-llm-v3",
+          "chapter_mapping": {
+            "ok": true,
+            "covered": [
+              "Consumer Protection"
+            ],
+            "source_mapped": true,
+            "reason": null
+          },
+          "polish_gate": true,
+          "passed": true,
+          "source_refs": [
+            {
+              "id": "ncert-lebs203",
+              "version": 1,
+              "locator": "p11-c0",
+              "support_hash": "c6ce6760f83787db88f0ccc056db2acd2f20b0140169f0780180a199aa2bfb5c"
+            },
+            {
+              "id": "ncert-lebs203",
+              "version": 1,
+              "locator": "p6-c0",
+              "support_hash": "f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa"
+            }
+          ],
+          "stage": "independent_evaluation",
+          "evidence_hash": "c655a92d4324b73ecc760bfbe56dd058977c44d0f46180946f7ffcb6176204d0"
+        }
+      }
+    }
+  ]
+}

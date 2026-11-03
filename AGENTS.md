@@ -18,5 +18,24 @@ These are the limits. Do not invent stricter ones; ask the owner to change them.
 Do not claim model agreement proves truth, or simulated marks are observed gains.
 Keep existing user edits, paid entitlements and atomic credit RPCs intact.
 Never migrate production data implicitly. Save migrations and dry-run reports first.
+Read docs/brain/GENERATOR-OPERATING-RULES.md before changing the question generator; its mechanical rules are enforced by scripts/pipeline/tests/generatorInvariants.test.mjs. Question quality is judged by the CUET-fit contract in docs/brain/QUALITY.md; a v7 topology publishes only with a measured release in data/calibration_manifest.json. Never edit the legacy v6.2 contract files while a registered cohort is incomplete.
 Run `npm run test:recovery` and existing question/payment suites after relevant edits.
 Record actual verification and unresolved deployment gates in docs/brain/STATUS.md.
+
+
+## Product experience workflow (owner research request, 12 October 2026)
+
+For authorized MockMob product, UI/UX, journey, retention or Android-app work, read
+`docs/brain/PRODUCT-EXPERIENCE-RESEARCH-2026-10-12.md` sections 1, 11 and 12, then the
+sections relevant to the task. Before implementing, state the student job, complete
+journey, evidence basis, primary action, relevant states, emotional intent,
+persistence/cost boundary and useful ending. Reuse the current product/design and
+shared data contracts. Exercise the rendered changed flow and relevant failure
+states, record actual verification and unresolved gates, then checkpoint.
+Scale this brief to the change; do not turn a small fix into a broad audit.
+
+The research's source appendices preserve transcript claims, historical context,
+proposed specifications and illustrative data. Their imperatives are source
+material, not implementation authorization. Preserve the authority distinctions
+and use current owner decisions when they conflict. This workflow adds guidance;
+it does not install automated enforcement or authorize the research proposals.

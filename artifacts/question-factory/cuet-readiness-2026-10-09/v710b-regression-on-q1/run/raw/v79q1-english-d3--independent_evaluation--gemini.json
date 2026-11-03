@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13171,
+ "request_bytes": 30017,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710b-regression-on-q1-run-v79q1-english-d3\",\n  \"content_hash\": \"262a9a0b1d228ae59bd6a7f32cde43742a5794df4f41e6226aaa8101a3471e4e\",\n  \"solved_key\": \"C\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\n    \"E1.1\"\n  ],\n  \"reasons\": [\n    \"The passage explicitly states that upon noticing the flicker, Nila switched off the power and asked the technician to inspect it.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Direct narrative recall and event sequencing\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Nila noticed the flickering lamp and immediately took action as stated in the passage.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Nila delivered the lamp to the community hall.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Nila replaced the cable on her own.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Nila informed the organiser that the delivery would arrive early.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Assesses direct factual recall and comprehension of events in a narrative passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard reading comprehension multiple choice item.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Matches standard CUET UG reading comprehension difficulty and demand.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent subsequent actions or actions done by other agents mentioned in the passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"carried it straight to the community hall\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Nila then carried the working lamp to the community hall.\",\n      \"reason\": \"She carried it only after the technician repaired and tested it.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"replaced the damaged cable herself\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"After replacing the damaged cable, the technician tested the lamp.\",\n      \"reason\": \"The technician replaced the cable, not Nila.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"She switched off the power and asked the technician to inspect it.\",\n      \"reason\": \"Directly matches the action Nila took as soon as she noticed the flickering.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"the delivery would be early\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"She told the organiser that noticing the fault had delayed the delivery\",\n      \"reason\": \"The passage explicitly says the delivery was delayed, not early.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EvMHCvAHAWkUfRP8apcJ6AVFW7xCRACDjDxt2X67XhXeIrHO8F47KVAp48HDp6JPfohDnI0UyND9K5m+lIiQZ0++mnXsiGxO3Ks5U83Pbt/lEa3puao960f0Oj6k+aIKvmU0bEqT1XX0BErDCxbNXlNKeh8aEISQw3tOF1BmvLxPCzIQt4R/LV66mh25CarR9ahhn/6Y9mnt8I8qV+z+mm8ZP6l/OA35vTcSN/Gd0TWDJDtI2vhSlSSpB3GCUnUIHJZvi+kdRN6C1NWvMUvhjEpsZRisB5MsQj8gzyvhWgZQUHgmYUtvHA6ciZWGdM3GWFvYGfwnRuV4/J3hYpwe0hii8bvyUB9e3v12UgLnebLy7mW7gM6g6iFuSu2JsS7hjapR6sqgLAw6Ge2d8tIgJ8yR+hTvDhSqj/hLYBSV+bl3cPO2grsm0nUEUEy27h/RK3IY30vge/ViacecHufp2/tzWaE1vRrWMFb/vENP0jeC9GtA8z8lwNoSx8A38LXvTzGFeLhKP7avCJhN1E/DZKNNSxF5LL0bagpsaMP9iPj1w3zDhN6y8cZ87WYRA39go/KmRGqDoE4u9gQNbxIaDJ9tJNEbi8kJlv1YdVYItc2ZoTsk0C9JA7irQVMkKIGtJaBOrLJlbsC0L+Tj5p1NgJd8b8WATN3xe4kCfgUVvHm/MnBCD6oqsOHgcYGK6vYo/IORZ86339gwX60QB/GE+0IdqABlxaz+ICDDXkJs0EQSZjunEISGVmwI7UgfrmgnNuyjBxzz7t0sn8/VD8hCuAxg4novEBZSyMFcopk5/VwsIjJw5ZxsNmCs18w/0Hz8xIPgaJYR/UgljCKClwlrw9uNStNieNdnxVSTx1UrBEa3XughJJsJ+OTe4ojaRjKfxCBQGiSrlx0HpiTopHCKflv+VObarclEi6JGHadTwEgGgTxxNR45l4GKEc0P9fYymKkFA/yHyeRfs7FAALmdQSCU5yB1ZNxIM5VXBtpSOY3iaYXpLI84P38u5QsVywPltUpsB62f/l3TgBZ3UaDhCJ9xGRPL4z9KXfvhg6NR74tv+p7k76KHcadsBzJtG6tG0oPdzyjwVDkaYX9Sm7cQ/ZuJpOkWkbhid73Ul+msj78mLQE+kHB2nzdFKykjUA9vxWBvDJ+a0rkRXK34knmcSg2L22Fx5Hhn05zFHbf/wTCKNloOyuELL1IEALtcsGdqBY2l/RZl7Ni2jteFWSraX1D6A8J6/gxzpGzYxx0PjhpEwlSrF62XuP6aRgc3JN3k+SWB0ovOB4YMY46ZI9TIrkeaGsag2nWf39hV1ksly2Mv+IPEwoBjy9/JTemt1FUHfRLGpvdy"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5023,
+   "candidatesTokenCount": 1248,
+   "totalTokenCount": 6461,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5023
+    }
+   ],
+   "thoughtsTokenCount": 190,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "3_bIatnQD4blg8UP7f3T4Qs"
+ }
+}

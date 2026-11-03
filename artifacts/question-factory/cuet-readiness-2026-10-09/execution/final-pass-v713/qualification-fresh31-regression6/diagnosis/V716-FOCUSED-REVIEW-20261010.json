@@ -1,0 +1,50 @@
+{
+  "review": "v716-scorecard-and-selection-offline-review",
+  "captured_at": "2026-10-10",
+  "provider_calls": 0,
+  "academic_evidence": false,
+  "test_runs": [
+    {
+      "description": "focused V716 policy/selector suite before signed-row NTA integration case",
+      "tests": 17,
+      "passed": 17,
+      "failed": 0
+    },
+    {
+      "description": "focused V716 suite including signed-row NTA tier ordering and truncation behavior",
+      "tests": 18,
+      "passed": 18,
+      "failed": 0,
+      "test_file": "scripts/pipeline/tests/v716ScorecardPolicy.test.mjs",
+      "test_file_sha256": "3e71f5da5aaf04a41fe737002122623453bc5d365ed8793548d2f3c8a321f0e1"
+    }
+  ],
+  "body_sizing": {
+    "artifact": "v716-body-size-diagnostic.json",
+    "artifact_sha256": "bddb06f1f32561a17babe13b45243d8b42244006e0ddc5566789d4e8d7558e60",
+    "capture_helper": "scripts/pipeline/tools/captureV716BodySizeDiagnostic.mjs",
+    "capture_helper_sha256": "166c217d7447d314e059af414441cc7f70987315befeb84b861889ba489b0e97",
+    "requests": 222,
+    "maximum_request_bytes": 26692,
+    "input_limit_bytes": 33024,
+    "over_limit_count": 0,
+    "synthetic_only": true,
+    "paid_calls": 0,
+    "academic_evidence": false
+  },
+  "covered": [
+    "craft-score thresholds and N/A handling",
+    "mandatory answer, source, audit, and difficulty checks",
+    "malformed report error versus valid academic quarantine",
+    "no explanation audit dispatch after malformed blind reports",
+    "signed current-release and forged-signature/score checks",
+    "easy/medium/hard band filtering",
+    "Medium then Easy before Hard fallback on complete inventory",
+    "Hard suppression when inventory is not declared complete",
+    "incomplete atomic passage-group exclusion"
+  ],
+  "limits": [
+    "No qualification, publication, or production-readiness conclusion.",
+    "No body recapture after this diagnostic; pending contract/session modules may change future request hashes."
+  ]
+}

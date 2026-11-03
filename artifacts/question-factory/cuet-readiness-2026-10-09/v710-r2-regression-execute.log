@@ -1,0 +1,25 @@
+v77f-59b58a25bbb3 DEFECT -> quarantined failed:source_support
+v77f-e9ef75026c19 DEFECT -> quarantined failed:source_support
+v77f-98a231fa15fa DEFECT -> quarantined failed:source_support
+v77f-2ca94e8b4e72 DEFECT -> quarantined failed:explanation_support
+cbse24-bs-q02--overlapping_options DEFECT -> quarantined failed:source_support
+cbse24-eco-q02--unsupported_explanation DEFECT -> quarantined failed:explanation_support
+known-bank-ea0352db044b73bb7158800c58be188d DEFECT -> quarantined failed:source_support
+v75f-825e60a00f DEFECT -> quarantined option_resolution_freeze_failed:independent_evaluation
+{
+ "kind": "v710_native_regression_probe_not_qualification",
+ "terminal": 8,
+ "of": 41,
+ "valid_eligible": "0/0",
+ "defects_accepted": "0/8",
+ "errors": [],
+ "valid_failures": [],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.067857,
+  "held_usd": 0,
+  "requests": 16,
+  "receipt_complete": true,
+  "at": "2026-10-09T14:12:34.656Z"
+ }
+}

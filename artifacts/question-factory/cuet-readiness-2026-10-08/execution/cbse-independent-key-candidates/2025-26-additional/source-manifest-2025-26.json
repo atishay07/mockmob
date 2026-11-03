@@ -1,0 +1,94 @@
+{
+  "schema": "cbse-2025-26-source-manifest-v1",
+  "acquisition_date": "2026-10-08",
+  "index_url": "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html",
+  "reuse_rights": "No explicit redistribution license was verified. Retain PDFs and question excerpts for private audit only; do not redistribute source papers or present derived cases as official CUET questions.",
+  "english_passage_clustering": "Eight English candidates derive from two adapted passage roots (four items each), not eight independent passage roots.",
+  "source_authentication": "Official CBSE Academic website index links directly to these SQP and marking-scheme PDFs.",
+  "papers": [
+    {
+      "subject": "accountancy",
+      "role": "paper",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Accountancy-SQP.pdf",
+      "local_file": "papers\\accountancy-sqp.pdf",
+      "sha256": "9f776a0262d251fe985c52ab11c606ad9fade7974813a3009050e2da1601f9fe",
+      "bytes": 468099,
+      "pages": 10
+    },
+    {
+      "subject": "accountancy",
+      "role": "official_key",
+      "source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Accountancy-MS.pdf",
+      "local_file": "marking-schemes\\accountancy-ms.pdf",
+      "sha256": "fae1ef1c7ca93f202c51ccfbd41e5a750db2cc51dacb3a2e8d2eba933751523d",
+      "bytes": 508216,
+      "pages": 11
+    },
+    {
+      "subject": "business_studies",
+      "role": "paper",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-SQP.pdf",
+      "local_file": "papers\\business-studies-sqp.pdf",
+      "sha256": "02b3c47a92aca7d949308d2fc40f1158f1bf7c9e860ba342b971e072508f9e36",
+      "bytes": 212831,
+      "pages": 14
+    },
+    {
+      "subject": "business_studies",
+      "role": "official_key",
+      "source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/BusinessStudies-MS.pdf",
+      "local_file": "marking-schemes\\business-studies-ms.pdf",
+      "sha256": "2e7e184395c5560c6da61cf4d2bc142c56493d267ebc2e484db13247354c2e31",
+      "bytes": 215040,
+      "pages": 16
+    },
+    {
+      "subject": "economics",
+      "role": "paper",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Economics-SQP.pdf",
+      "local_file": "papers\\economics-sqp.pdf",
+      "sha256": "c7f92f63e17d1fcef8c3e6efb52e354d6576cb5d35e0c857d62c41a88fa68048",
+      "bytes": 496173,
+      "pages": 9
+    },
+    {
+      "subject": "economics",
+      "role": "official_key",
+      "source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/Economics-MS.pdf",
+      "local_file": "marking-schemes\\economics-ms.pdf",
+      "sha256": "7c9288af74f347cf23767cee0f0e46a2380a291258e0ed0cd2d73335e2cb4714",
+      "bytes": 207572,
+      "pages": 6
+    },
+    {
+      "subject": "english_core",
+      "role": "paper",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-SQP.pdf",
+      "local_file": "papers\\english-core-sqp.pdf",
+      "sha256": "5073910a394c2d54d04a5dc61d6f07e927d4f13f8e8cea1e19528d1c5f7c10eb",
+      "bytes": 407976,
+      "pages": 15
+    },
+    {
+      "subject": "english_core",
+      "role": "official_key",
+      "source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/EnglishCore-MS.pdf",
+      "local_file": "marking-schemes\\english-core-ms.pdf",
+      "sha256": "436f67450804ef96339e2c6d2346914b9f361a309e8d2e9485eb975ef9e52158",
+      "bytes": 513930,
+      "pages": 10
+    }
+  ],
+  "syllabus_scope": "Use the separate official CUET 2026 subject syllabus records in the baseline registry as the current available syllabus proxy; 2027 syllabus entitlement has not been verified here.",
+  "registered_source_collision_audit": "Metadata-only scan of the existing source registry found no records for these four 2025-26 CBSE SQP/marking-scheme source families before candidate construction.",
+  "candidate_item_count": 32,
+  "candidate_status": "not independently reviewed, not benchmark positives, not release eligible"
+}

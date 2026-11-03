@@ -1,0 +1,1459 @@
+{
+  "at": "2026-10-08T06:05:57.339Z",
+  "mode": "applied_local_quarantine",
+  "decisions": [
+    {
+      "id": "386dca46542a02901d2837324bf0b69e",
+      "verifier": "cuet-fit-validator-v7.2",
+      "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+      "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+      "state": "quarantined",
+      "reasons": [
+        "independent_validation_incomplete_unresolved_provider_request"
+      ],
+      "failed_stage": "blind_solution",
+      "result": {
+        "state": "quarantined",
+        "independent_validation_complete": false,
+        "academic_defect_proven": false,
+        "provider_usage_resolved": false,
+        "reasons": [
+          "independent_validation_incomplete_unresolved_provider_request"
+        ],
+        "conservative_holds": [
+          {
+            "request_key": "6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+            "reservation_id": "6c5fc270-35d4-4339-85dd-eb374261dfcb",
+            "provider": "openai",
+            "stage": "blind_solution",
+            "maximum_micro": 11628,
+            "provider_request_id": "unconfirmed-client-key:6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+            "receipt_resolved": false
+          }
+        ],
+        "external_dependency": "The provider response and usage receipt were lost before a retrievable response ID was received. Resolve the original client request with provider billing/support; never resend it."
+      },
+      "new_evidence": null,
+      "unresolved_requests": [
+        {
+          "request_key": "6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+          "reservation_id": "6c5fc270-35d4-4339-85dd-eb374261dfcb",
+          "provider": "openai",
+          "stage": "blind_solution",
+          "maximum_micro": 11628,
+          "provider_request_id": "unconfirmed-client-key:6dbeb8fc421f4a38a7f2308f10a0fb746000bfc875f821a15247aca926478aec",
+          "receipt_resolved": false
+        }
+      ],
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "body": "For one period, an economy has GVA at factor cost of ₹8,00,000. It pays production taxes of ₹70,000 and product taxes of ₹50,000, and receives production subsidies of ₹10,000 and product subsidies of ₹20,000. These are the only production taxes, product taxes and subsidies for the period.\n\nConsider the following statements:\n(A) Net production taxes are ₹60,000.\n(B) GVA at basic prices is ₹8,60,000.\n(C) Net product taxes are ₹30,000.\n(D) GDP at market prices is ₹8,80,000.\n\nChoose the correct answer from the options given below:",
+      "options": [
+        "(A), (B) and (D) only",
+        "(A), (B) and (C) only",
+        "(A), (C) and (D) only",
+        "(B), (C) and (D) only"
+      ],
+      "key": "B",
+      "explanation": "Net production taxes are ₹70,000 − ₹10,000 = ₹60,000, so GVA at basic prices is ₹8,00,000 + ₹60,000 = ₹8,60,000. Net product taxes are ₹50,000 − ₹20,000 = ₹30,000, so GDP at market prices is ₹8,60,000 + ₹30,000 = ₹8,90,000. Thus statements (A), (B) and (C) are correct, while (D) is not.",
+      "passage_text": null,
+      "source_refs": [
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+          "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "id": "ncert-leec102",
+          "locator": "pdf-page-16",
+          "text": "24 2424 2424Introductory Macroeconomics 4 In this example, we have left out factor payments in the form of rent and interest. But this will not make any difference to the basic result, because after paying wages the remainder of value added by a firm will be distributed between rent, interest and profits (together called operating surplus). Table 2.3: Distributions of factor incomes of firms A and B Firm A Firm B Wages 20 60 Profits 30 90 Recall that GDP by income method = sum total of factor incomes, which is equal to total wages received (workers of A and B) and total profits earned (by A and B), which is equal4 to 80 + 120 = 200. 2.2.4 Factor Cost, Basic Prices and Market Prices In India, the most highlighted measure of national income has been the GDP at factor cost. The Central Statistics Office (CSO) of the Government of India has been reporting the GDP at factor cost and at market prices. In its revision in January 2015 the CSO replaced GDP at factor cost with the GVA at basic prices, and the GDP at market prices, which is now called only GDP, is now the most highlighted measure. The idea of GVA has already been discussed: it is the value of total output produced in the economy less the value of intermediate consumption (the output which is used in production of output further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc. Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+          "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+          "publisher": "NCERT",
+          "title": null,
+          "kind": "reference"
+        },
+        {
+          "id": "ncert-leec102",
+          "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+          "text": "The ratio of nominal to real GDP is a well known index of prices. This is called GDP Deflator.",
+          "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+          "publisher": "NCERT",
+          "title": null,
+          "kind": "reference"
+        }
+      ],
+      "original_evidence": {
+        "record": {
+          "candidate_id": "386dca46542a02901d2837324bf0b69e",
+          "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+          "state": "eligible",
+          "route": "numerical",
+          "family_id": "original:386dca46542a02901d2837324bf0b69e",
+          "family_version": 1,
+          "sources": [
+            {
+              "id": "ncert-leec102",
+              "version": 1,
+              "locator": "pdf-page-16",
+              "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+            },
+            {
+              "id": "ncert-leec102",
+              "version": 1,
+              "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+              "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+            }
+          ],
+          "policy_version": "cuet-llm-v3",
+          "provenance": {
+            "kind": "original_practice",
+            "anchor_id": null,
+            "adaptation_family": "original:386dca46542a02901d2837324bf0b69e",
+            "adaptation_type": null,
+            "syllabus_version": "cuet-2026-provisional-for-2027",
+            "pattern_version": "cuet-2024-authenticated-bookA-v1",
+            "source_pack_id": "original-economics-reference-v1",
+            "source_pack_version": 1
+          },
+          "numeric_required": true,
+          "question_type": "statement_selection",
+          "verifier_version": "luna-gemini-cuET-v6.2",
+          "verified_at": "2026-10-07T06:34:41.106Z",
+          "expires_at": "2026-11-06T06:34:41.106Z",
+          "solved_key": "B",
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "5274c43e00137542a6de756d35e088a323e75f4566bc482faa8af419cbf39e8b",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "evidence_hash": "97003ec98d1dfe5bcad593b53f89d59fe86501d09ebe043aeba1ccdbe8eea23c"
+            },
+            "source_support": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "presentation_quality": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "presentation_quality",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "numeric_solution": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "numeric_solution",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "llm_boundary_cases": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "llm_boundary_cases",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "blind_solution": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "blind_solution",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "alternatives": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "alternatives",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            },
+            "independent_evaluation": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = Production taxes (₹70,000) - Production subsidies (₹10,000) = ₹60,000, making statement (A) correct.",
+                "GVA at basic prices = GVA at factor cost (₹8,00,000) + Net production taxes (₹60,000) = ₹8,60,000, making statement (B) correct.",
+                "Net product taxes = Product taxes (₹50,000) - Product subsidies (₹20,000) = ₹30,000, making statement (C) correct.",
+                "GDP at market prices (GVA at market prices) = GVA at basic prices (₹8,60,000) + Net product taxes (₹30,000) = ₹8,90,000 (not ₹8,80,000), making statement (D) incorrect.",
+                "Therefore, statements (A), (B) and (C) only are correct, which corresponds uniquely to Option B.",
+                "Quality score 9/10"
+              ],
+              "quality_notes": [
+                "Clean, highly syllabus-aligned multi-step calculation based on the CSO revision definitions introduced in NCERT Macroeconomics Chapter 2.",
+                "Distractor sets are balanced combinations."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to National Income: Factor Cost, Basic Prices and Market Price",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 9,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "No other production taxes, product taxes, or subsidies exist",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 10,
+                "distractor_plausibility": 9,
+                "difficulty_suitability": 9
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "gemini",
+              "model": "gemini-3.8-flash",
+              "effort": "medium",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "National Income & Related Aggregates"
+                ],
+                "source_mapped": true,
+                "reason": null
+              },
+              "polish_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "independent_evaluation",
+              "evidence_hash": "f0e3bde466e895750da70cc6fde0e7a4e7fe52568ac8e9186ba008d7a107b8a1"
+            },
+            "explanation_support": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "claims": [
+                {
+                  "claim": "Net production taxes are production taxes less production subsidies.",
+                  "basis": "excerpt"
+                },
+                {
+                  "claim": "₹70,000 − ₹10,000 = ₹60,000.",
+                  "basis": "arithmetic"
+                },
+                {
+                  "claim": "GVA at basic prices is GVA at factor cost plus net production taxes.",
+                  "basis": "excerpt"
+                },
+                {
+                  "claim": "₹8,00,000 + ₹60,000 = ₹8,60,000.",
+                  "basis": "arithmetic"
+                },
+                {
+                  "claim": "Net product taxes are product taxes less product subsidies.",
+                  "basis": "excerpt"
+                },
+                {
+                  "claim": "₹50,000 − ₹20,000 = ₹30,000.",
+                  "basis": "arithmetic"
+                },
+                {
+                  "claim": "GDP at market prices is obtained by adding net product taxes to GVA at basic prices.",
+                  "basis": "excerpt"
+                },
+                {
+                  "claim": "₹8,60,000 + ₹30,000 = ₹8,90,000.",
+                  "basis": "arithmetic"
+                },
+                {
+                  "claim": "Statements (A), (B) and (C) are correct.",
+                  "basis": "arithmetic"
+                },
+                {
+                  "claim": "Statement (D), which gives GDP at market prices as ₹8,80,000, is not correct.",
+                  "basis": "arithmetic"
+                }
+              ],
+              "passed": true,
+              "reasons": [
+                "The tax definitions and price-conversion relations are supported by the excerpt, and the calculations show GDP at market prices is ₹8,90,000, not ₹8,80,000."
+              ],
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "audit_samples": [
+                true
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "explanation_support",
+              "evidence_hash": "6e15a2412c24a73682578fe9ab59a32546bee4342c500bb6dbcc81f5ba4c06ce"
+            },
+            "exam_fit": {
+              "candidate_id": "386dca46542a02901d2837324bf0b69e",
+              "content_hash": "759fa4d4f52b2e7e72b5f4248c38ffed4009c85e221a1a8813b2837fba284726",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "missing_assumptions": false,
+              "source_support": true,
+              "exam_fit": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.3",
+                "E1.4",
+                "E1.5"
+              ],
+              "reasons": [
+                "Net production taxes = ₹70,000 − ₹10,000 = ₹60,000, so (A) is true.",
+                "GVA at basic prices = ₹8,00,000 + ₹60,000 = ₹8,60,000, so (B) is true.",
+                "Net product taxes = ₹50,000 − ₹20,000 = ₹30,000, so (C) is true.",
+                "GDP at market prices = ₹8,60,000 + ₹30,000 = ₹8,90,000, not ₹8,80,000; (D) is false. Thus option B is the only correct combination.",
+                "Quality score 8/10"
+              ],
+              "quality_notes": [
+                "The arithmetic is straightforward and appropriate for a direct national-income aggregates question.",
+                "Some statement combinations are readily eliminated once the single incorrect amount is found; distractor strength is moderate."
+              ],
+              "syllabus_chapter": "National Income & Related Aggregates",
+              "syllabus_topic": "Aggregates related to national income: factor cost, basic prices and market prices; net production taxes and net product taxes.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "defects": [],
+              "item_quality_score": 8,
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "GVA at factor cost is ₹8,00,000 for the period.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Production taxes are ₹70,000 and production subsidies are ₹10,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "Product taxes are ₹50,000 and product subsidies are ₹20,000.",
+                  "status": "explicit"
+                },
+                {
+                  "condition": "These are the only production taxes, product taxes and subsidies for the period.",
+                  "status": "explicit"
+                }
+              ],
+              "craft_scores": {
+                "language_clarity": 9,
+                "distractor_plausibility": 6,
+                "difficulty_suitability": 8
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " further, and not used in final consumption). Here we discuss the concept of basic prices. The distinction between factor cost, basic prices and market prices is based on the distinction between net production taxes (production taxes less production subsidies) and net product taxes (product taxes less product subsidies). Production taxes and subsidies are paid or received in relation to production and are independent of the volume of production such as land revenues, stamp and registration fee. Product taxes and subsidies, on the other hand, are paid or received per unit or product, e.g., excise tax, service tax, export and import duties etc.",
+                  "start": 1296,
+                  "end": 1946
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies). Therefore in order to arrive at market prices we have to add product taxes (less product subsidies) to the basic prices. As stated above, now the CSO releases GVA at basic prices. Thus, it includes the net production taxes but not net product taxes. In order to arrive at the GDP (at market",
+                  "start": 1946,
+                  "end": 2595
+                },
+                {
+                  "source_id": "ncert-leec102",
+                  "locator": "pdf-page-16",
+                  "quote": " prices) we need to add net pr oduct taxes to GV A at basic prices. Thus, GVA at factor costs + Net production taxes = GVA at basic prices GVA at basic prices + Net product taxes = GVA at market prices Table 2.5 at the end of the chapter gives the figures for GDP (at market prices) and GVA at basic prices, while T able 2.6 gives the composition of GDP fr om expenditure side. Reprint 2026-27",
+                  "start": 2595,
+                  "end": 2988
+                }
+              ],
+              "evidence_selection_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "luna-gemini-cuET-v6.2",
+              "evaluation_prompt": "48b741fe149c5ece81b44d447cc5f457cf7205d14c2a0819b45fc0e12abb7da0",
+              "policy_version": "cuet-llm-v3",
+              "chapter_mapping": {
+                "ok": true
+              },
+              "polish_gate": true,
+              "passed": true,
+              "luna_samples": [
+                {
+                  "solved_key": "B",
+                  "passed": true
+                }
+              ],
+              "source_refs": [
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "pdf-page-16",
+                  "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+                },
+                {
+                  "id": "ncert-leec102",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+                  "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+                }
+              ],
+              "stage": "exam_fit",
+              "evidence_hash": "93328a64ac42126b2e284516981e550751e39be717f07960c951db51a67e0fbd"
+            }
+          },
+          "criteria": [
+            {
+              "id": "syllabus_entitlement",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "source_support",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "independently_solved_key",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "one_correct_answer",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "option_non_overlap",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "decisive_assumptions",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "numerical_accuracy",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "boundary_cases",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "explanation_correctness",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "explanation_support",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "passage_answerability",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": false
+            },
+            {
+              "id": "completeness",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "cuet_format",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "language_clarity",
+              "kind": "craft",
+              "score": 9,
+              "basis": "Lower of the two independent craft judgments; score does not prove accuracy"
+            },
+            {
+              "id": "distractor_plausibility",
+              "kind": "craft",
+              "score": 6,
+              "basis": "Lower of the two independent craft judgments; score does not prove accuracy"
+            },
+            {
+              "id": "difficulty_suitability",
+              "kind": "craft",
+              "score": 8,
+              "basis": "Lower of the two independent craft judgments; score does not prove accuracy"
+            },
+            {
+              "id": "novelty",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "presentation",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            },
+            {
+              "id": "source_provenance_integrity",
+              "kind": "mandatory",
+              "passed": true,
+              "applicable": true
+            }
+          ]
+        },
+        "signature": "24aadfbd0873fde695f0bfa5a4e1edf8830989ef3a6b69629fcbf730498f57e5"
+      },
+      "at": "2026-10-08T06:05:57.336Z"
+    }
+  ],
+  "provider_calls": 0,
+  "ledger_writes": 0,
+  "publication_writes": 0,
+  "production_writes": 0,
+  "native_usage_resolved": false
+}

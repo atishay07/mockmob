@@ -1,0 +1,3257 @@
+{
+  "schema": "cbse-option-claim-support-audit-v2",
+  "status": "draft_not_frozen_no_release_positive_certified",
+  "created_on": "2026-10-08",
+  "candidate_count": 64,
+  "construction_denominator": 64,
+  "source_claim": "CBSE Class XII SQP-derived candidates, not authentic CUET PYQs. Eight paper families total (2025-26 and 2026-27 x four subjects); candidates share paper/topic roots and English passage roots. They are not 64 independent question families.",
+  "input_hashes": {
+    "support_v1": "41ce44424c0d1b5010a024ae837914903121fb9ab98ea1300b1ba7830cfd73de",
+    "q26_v1": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+    "q26_v2": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+    "q25_v1": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+    "q25_v2": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55"
+  },
+  "review_reports": [
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\cbse-blind-key-review-v1.json",
+      "sha256": "a36aa1be90fd66521c50196785d2c0ad9057d9f32cf0513a339af7a330604c61",
+      "input_sha256": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\cbse-blind-key-review-v2.json",
+      "sha256": "a35f1403b35d4e0ff4e4240bdb9d0fe6423edad8a77d87573f1e80e83859630d",
+      "input_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\2025-26-additional\\cbse-blind-key-review-2025-26-additional-v1.json",
+      "sha256": "c39acde155b8b721895bf8c7d986fe3e985fd0974220b0ec50d278a2634c0fac",
+      "input_sha256": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\2025-26-additional\\cbse-blind-key-review-2025-26-v2-changed.json",
+      "sha256": "bcb131b3fb889b1e59e85393bfaef8b6ee21a990e4cb3d8c7d0b794198e91073",
+      "input_sha256": "ff5dc820f19924b3952c0e3b298f4b08a86a0836298610957806cc03b4688b8a"
+    }
+  ],
+  "content_identical_q26_items_v1_to_v2": [
+    "cbse26-ac-q03",
+    "cbse26-ac-q04",
+    "cbse26-ac-q08",
+    "cbse26-ac-q10",
+    "cbse26-ac-q12",
+    "cbse26-ac-q14",
+    "cbse26-ac-q15",
+    "cbse26-ac-q16",
+    "cbse26-bs-q01",
+    "cbse26-bs-q02",
+    "cbse26-bs-q03",
+    "cbse26-bs-q05",
+    "cbse26-bs-q06",
+    "cbse26-bs-q11",
+    "cbse26-bs-q15",
+    "cbse26-eco-q01",
+    "cbse26-eco-q03",
+    "cbse26-eco-q04",
+    "cbse26-eco-q08",
+    "cbse26-eco-q09",
+    "cbse26-eco-q19",
+    "cbse26-eng-q1-viii",
+    "cbse26-eng-q1-x",
+    "cbse26-eng-q2-iii",
+    "cbse26-eng-q2-iv",
+    "cbse26-eng-q2-vi",
+    "cbse26-eng-q2-vii"
+  ],
+  "content_changed_q26_items_v1_to_v2": [
+    "cbse26-bs-q08",
+    "cbse26-eco-q02",
+    "cbse26-eco-q05",
+    "cbse26-eng-q1-iv",
+    "cbse26-eng-q2-i"
+  ],
+  "counts": {
+    "items": 64,
+    "options": 254,
+    "current_authoritative_source_gaps": 10,
+    "blind_reports_with_abstention": 1,
+    "fully_supported_option_claims_certified": 0,
+    "items_certified_correct_within_syllabus_and_fully_supported": 0,
+    "closed_construction_gaps_pending_gold_or_option_audit": 2,
+    "quarantined_failed_repairs": 1
+  },
+  "limitations": [
+    "A focused NCERT excerpt is not proof that every option or rationale is supported.",
+    "The 2026 syllabus is the latest locally bound official proxy; target-year 2027 entitlement is not verified.",
+    "English cases are answerable only from their exact adapted passages; no general NCERT fact source substitutes for a passage check.",
+    "Official CBSE marking schemes remain in custody only and are not present in this artifact or any blind-review context.",
+    "This audit deliberately does not classify an official key as truth; a source-backed independent key comparison is still required.",
+    "No construction item is removed from the denominator; unresolved cases remain quarantined, not graded as academic failures.",
+    "The four older-construction flags for Acc Q3 / English Q1-III are updated by v2 source-backed repairs and blind re-solves; neither item is certified correct until official-key custody reconciliation and claim-by-claim source audit.",
+    "Business Studies Q10 is quarantined after its single option adaptation failed the independent blind re-solve; no second repair was made."
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "b0da05d0484770b693953e13521e2500775e624a88c59bd24561715a166ff627",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q03",
+        "verified-cbse26-ac-q03-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both (A) and (R) are true and (R) is correct explanation to (A).",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Both (A) and (R) are true but (R) is not correct explanation of (A).",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "(A) is false but (R) is correct.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "(A) is correct but (R) is false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "6586d3412f9f57f2bc0702404778d5d84e9884868061a6842f79055cdd7612ca",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q04",
+        "additional-cbse26-ac-q04-2",
+        "verified-cbse26-ac-q04-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹20,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹24,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹21,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "₹17,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "subject": "accountancy",
+      "topic_family": "partnership_reconstitution",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "105d4cb8354eb81c9970e092b073879ca27de5381bf1b5c12cd71d2be7e6180f",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "partial_general_revaluation_support_specific_investment_fluctuation_reserve_treatment_unverified",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q08",
+        "additional-cbse26-ac-q08-2",
+        "verified-cbse26-ac-q08-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: partial_general_revaluation_support_specific_investment_fluctuation_reserve_treatment_unverified",
+      "options": [
+        {
+          "label": "A",
+          "text": "Credited ₹10,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "Debited ₹10,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "Credited ₹5,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "No effect on revaluation A/c",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "subject": "accountancy",
+      "topic_family": "partnership_reconstitution",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "9c96c7f48c9c31eb0358ae7daab3d2c644ff23214dcf7537507b6c142d294341",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q10"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹14,00,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹15,00,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹12,00,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "₹16,00,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_business_purchase",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "59e39e5e8bcd442da5e5d1e4a240b729c2cda439123cace3bfb033ca8fee8475",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q12"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Goodwill ₹50,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Capital Reserve ₹50,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Goodwill ₹1,50,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Capital Reserve ₹1,50,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "subject": "accountancy",
+      "topic_family": "dissolution",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "84f4e551c646414902f2db83be7f5d85b3b8dae301c2c0edaeee36e107d8d518",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q14"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹55,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹45,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹70,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "₹40,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "f02823bd13d792997dce44555955aa8e4f21688504d63cc79c971463b16f7630",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q15",
+        "additional-cbse26-ac-q15-2",
+        "verified-cbse26-ac-q15-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹50,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹44,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹56,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Nil",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "subject": "accountancy",
+      "topic_family": "dissolution",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "ed1ca6917fbe6cd643570688ed61b433194d034ba13d752dcc53c38b89a8803a",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-ac-q16"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "D only",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "A, B and C",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "D and E",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "B, D and E",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "subject": "business_studies",
+      "topic_family": "management_and_organisation",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "061f9aa543efb7f70d0bff9ae71a409148dffe18f0e319d5e0be1ae0e3d395e8",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q01"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ensuring the quality of output of workers.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Confirming that safety standards are maintained in the organisation.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Analysing the business environment and its implications for the survival of the firm.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Minimising the wastage of materials.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "subject": "business_studies",
+      "topic_family": "management_principles",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "a0118c890b1e971b17a0a2ca5ffb9c92df6a5da7ef9155116fb973bddae429af",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q02",
+        "verified-cbse26-bs-q02-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Motion Study",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Differential Piece Wage System",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Standardisation and Simplification of work",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Fatigue Study",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "subject": "business_studies",
+      "topic_family": "management_and_organisation",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "b0eb02902f0eca8cc703a5aad48cc9a9812a4cbb9545ede833dc7c858aa7ce6d",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q03"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Functional Structure",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Span of management",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Divisional Structure",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Informal organisation",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "subject": "business_studies",
+      "topic_family": "business_environment",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "875f65412e019253064d5ab1029ae1dd07171901968a978a4e987c25aac79cbf",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q05",
+        "verified-cbse26-bs-q05-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "It helps in tapping useful resources.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "It helps the firm to identify threats and early warning signals.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "It helps in assisting in planning and policy formulation",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "It enables the firm to identify opportunities and get the first mover advantage.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "subject": "business_studies",
+      "topic_family": "controlling",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "c178eca230ace95c2afd5637fa6df86ceb284bb33f1928acd12a6314424243d8",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q06",
+        "additional-cbse26-bs-q06-2",
+        "verified-cbse26-bs-q06-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Controlling completes one cycle of management process and improves planning in the next cycle.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Controlling is the function of management that initiates action by people in the organisation.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Controlling involves only looking back and not looking ahead.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Standards in the controlling process must be set in quantitative terms only.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "subject": "business_studies",
+      "topic_family": "consumer_protection",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "d992c17d9da2784c8e3f1479ca2b197fa169ad859b6736c49049bb8abc39355c",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld",
+      "evidence_span_ids": [],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld",
+      "options": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "D",
+          "text": "A person who buys goods or avails services for consideration, including an approved user of goods or beneficiary of services; resale or commercial-purpose use is excluded, except goods used exclusively to earn a livelihood through self-employment.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "official Consumer Protection Act section 2(7) source located in India Code search; local source bytes/hash/page extraction still missing, so remain withheld"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "subject": "business_studies",
+      "topic_family": "consumer_protection",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "90a63252959d22ddac51121183a0344411c7f5ac6e61f84c8142e811e51e4476",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld",
+      "evidence_span_ids": [
+        "ncert-cbse26-bs-q11-1",
+        "ncert-cbse26-bs-q11-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld",
+      "options": [
+        {
+          "label": "A",
+          "text": "Central Consumer Protection Authority",
+          "independent_solve_selected": true,
+          "current_support_disposition": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "B",
+          "text": "Non-Governmental Organisations",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "C",
+          "text": "Supreme Court",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld"
+        },
+        {
+          "label": "D",
+          "text": "Consumer affairs Ministry",
+          "independent_solve_selected": false,
+          "current_support_disposition": "official Consumer Protection Act sections 10/18 source located in India Code search; item asks CCPA authority/function (dark-pattern wording is context only); local source bytes/hash/page extraction still missing, so remain withheld"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "subject": "business_studies",
+      "topic_family": "business_finance",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "ad97f4691e44b5bc14c5111458600da6ce94bb2f155daee95ba073f17622f519",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-bs-q15"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Capital structure",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Financial control",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Investment",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Financial planning",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "12920c447dc65db80a0810a583f8e656f5419684e4028492c3a78904aaf9e3f2",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q01",
+        "additional-cbse26-eco-q01-2",
+        "verified-cbse26-eco-q01-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i) and (ii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "(ii) and (iv)",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "(i) and (iv)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "subject": "economics",
+      "topic_family": "money_and_banking",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "95c051ba33d30a613aeaec1b63c57e552337a7f051e94cd862eeb10b0d2adb0d",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q02"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "subject": "economics",
+      "topic_family": "balance_of_payments_forex",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "97487bc7387647e23339cbad73875733ffabeaef284a731baf77676f9546c443",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "partial_exchange_rate_effect_support_full_sequence_explanation_needs_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q03"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: partial_exchange_rate_effect_support_full_sequence_explanation_needs_claim_audit",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i), (ii), (iii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "(ii), (i), (iii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "(iii), (i), (ii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "(iii), (ii), (i)",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "5b0b27f4978e35eb0020bf8d6aa7ab218b15ccb7aabc4d9398f492122b6b075a",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q04"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "10,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "12,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "13,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "15,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "e5a06a8b8fa728de79d3b9be62e0b442eea026e8c6b1bfa0445992325fdc188a",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q05"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Allocation Function",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Distribution Function",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Stabilisation Function",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Disposition Function",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "subject": "economics",
+      "topic_family": "balance_of_payments_forex",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "1ad0c1fa4b29c6d140e9be0b7e101898b01244c11d10fdf312cd7430959ccc65",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q08",
+        "additional-cbse26-eco-q08-2",
+        "verified-cbse26-eco-q08-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "debit, current",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "credit, current",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "debit, capital",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "credit, capital",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "subject": "economics",
+      "topic_family": "money_and_banking",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "6aab8d86acd10c18ed73e42c1ba25eec270fc7bfeb3d22f0398d7ccf1f691989",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q09",
+        "additional-cbse26-eco-q09-2",
+        "verified-cbse26-eco-q09-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Store of value and medium of exchange",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Measure of value and standard of deferred payments",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Medium of exchange and standard of deferred payments",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Measure of value and store of value",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "subject": "economics",
+      "topic_family": "indian_economic_development_employment",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "088efe548f68cd0917edefbdc0caf8bfe15765dd68cf513912c61c8fed6b5c75",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "6ed00751446dafa0a406e038c342e7bb2262dfb7c79437def3f3e0d3f3f761f3",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse26-eco-q19",
+        "verified-cbse26-eco-q19-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "(p)-ii, (q)-i, (r)-iii",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "(p)-iii, (q)-ii, (r)-i",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "(p)-i, (q)-iii, (r)-ii",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "(p)-iii, (q)-i, (r)-ii",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "subject": "english_core",
+      "topic_family": "factual_passage_inference",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "cda4c1fbdd541580e23837723865935a94e66eb364a7aaacde3cbcfb8f23ebb0",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_hash": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q1-iv"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "It is the physical location where cosmic debris is created.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "It serves as visual guide for observers to locate the shower.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "It determines the speed fragments enter the atmosphere.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "It represents the exact area where all meteors disappear",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "subject": "english_core",
+      "topic_family": "factual_passage_tone",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "f8763ffc091a6a4b80808abaee00440a7c5a8f1e21ab33ff21e9952f893a273d",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_hash": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q1-viii"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "persuasive and promotional, encouraging mass participation",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "explanatory and informative, aimed at scientific understanding",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "speculative and argumentative, questioning existing theories",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "celebratory and emotional, highlighting wonder over facts",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "subject": "english_core",
+      "topic_family": "factual_passage_main_idea",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "f8ae415b7fbce852110126775dca382dd9349e067a3f448ab791e22749de6f7e",
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "stimulus_hash": "d929874d8a421dc848695436e49ea885a8280979de8c6d04cf81a8c7f4b32024",
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q1-x"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "technical process of how asteroids shed cosmic debris",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "impact of light pollution on modern scientific learning",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "historical evolution of astronomy since the nineteenth century",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "scientific explanation and practical observation of Geminids",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "subject": "english_core",
+      "topic_family": "case_passage_purpose",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "19f578574cfd12927077fc7d41c5c1ade4a0dae9ea367a1246c8adeb6a57c646",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_hash": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q2-i"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in everyday payment habits across India",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "subject": "english_core",
+      "topic_family": "case_passage_data_trend",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "d00f10381220e9996dca144c99c2cefd53945588d7419095bc2df711fe5320d9",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_hash": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q2-iii"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both the number of transactions and the total value of transactions increase steadily over the four years.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "The number of transactions increases, but the total value of transactions decreases year after year.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "The total value of transactions increases, but the number of transactions stays almost unchanged.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "Both the number of transactions and the total value of transactions decrease after an initial increase.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "subject": "english_core",
+      "topic_family": "case_passage_inference",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "96648c6cb4a7f115c8e5b474d70403cf50ab013e4175c42b3c40f44b534fbdba",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_hash": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q2-iv"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "Dependence on organised commercial establishments",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "Widespread adoption across formal and informal settings",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "Usage limited to digitally advanced urban spaces",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "Usage restricted to specific consumer groups",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "subject": "english_core",
+      "topic_family": "case_passage_except_information",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "abd4561425d20f23af81ad5f259fdd51a1208763be657addf92df0b94c6cf8bb",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_hash": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q2-vi"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "The growth pattern of UPI transactions over time",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "The changing public attitude towards digital payments",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "The policy framework governing digital payment systems",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "The effect of UPI adoption on small businesses",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "subject": "english_core",
+      "topic_family": "verbal_ability_correct_word",
+      "candidate_version": "2026-27-v2",
+      "question_hash": "491fa56aa7d0394f7fd89b60323d95d0fd288a1de121939304fe743f1b689a94",
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "stimulus_hash": "81ac8142421b72f5c951fab794fe4e332e43e66e03c76404625a2ff13ebd4cf7",
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse26-eng-q2-vii"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "inclusive",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "exclusive",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "marginal",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_fluctuating_capital",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "650a01deb35388ccf518f0b48cf516b79a86aab6564548faae44bd3a895d3f85",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q1-OR-or",
+        "verified-cbse25-26-acc-q1-OR-or-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both A and R are correct, and R is the correct explanation of A.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Both A and R are correct, but R is not the correct explanation of A.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "A is correct, but R is incorrect.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Both A and R are incorrect.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_guarantee",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "fa5d200225d064e7bc27d3e9e6edc004c0a499852ac2a8acc43dc97d881ab745",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [
+        "Guarantee wording could be clearer about its application in a loss year; the standard guarantee-deficiency treatment yields option D."
+      ],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "A ₹30,000 and B ₹30,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "A ₹43,750 and B ₹26,250",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "A ₹42,500 and B ₹42,500",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "A ₹35,000 and B ₹35,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_forfeiture_reissue",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "f09a2057fbf3f17e32e144e2daba66c8a37d9a819e234840d941fcb601f3cead",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "repair closed: payment schedule restored from source; key reconciliation remains pending",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "Source-restored v2 from exact official paper payment schedule; independent reviewer solved the repaired item. Keep pending official-key custody comparison and option/distractor support audit.",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹16,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "B",
+          "text": "₹12,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "C",
+          "text": "₹8,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "D",
+          "text": "₹18,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q6",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_goodwill_superprofit",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "eb16e502d85796941955ce89cb30f8d33ac6cdf8c917cfd8ba0a40d8df90cb9c",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q6"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹10,00,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹3,00,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹18,00,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Nil",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_change_in_ratio",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "39171edb285a98e900fc7f132912d1b6fd9bd20b4409eb5944ea47a260c14ca3",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "key_or_wording_dispute_preserved_not_positive",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q8",
+        "additional-cbse25-26-acc-q8-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: key_or_wording_dispute_preserved_not_positive",
+      "options": [
+        {
+          "label": "A",
+          "text": "4:1",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "7:1",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "71:29",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "3:1",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_dissolution_expenses",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "06995b98abcf7116df6640a4b2e65ce749e40499381e8ff6b1da42cb7018e26c",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [
+        "The agreement could explicitly state whether Y's payment is reimbursable; standard treatment of firm expenses paid by a partner includes them in Realisation."
+      ],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q9"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹20,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹35,000",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹5,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "₹15,000",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_debenture_redemption",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "30f9151a74d0e2088de57288519fd45e1a027f06fb7381ae20e3c735e599a057",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q14"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹9,00,000; Non-Current Liabilities",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "₹9,00,000; Current Liabilities",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "₹6,00,000; Non-Current Liabilities",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "₹6,00,000; Current Liabilities",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_reserve_claim",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "25e761051ab596e3a03357561523b2bb94b3a493545fc3e64e173787095cfddf",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "unresolved_workmen_compensation_reserve_claim_treatment_source_needed",
+      "evidence_span_ids": [
+        "focus-cbse25-26-acc-q16"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: unresolved_workmen_compensation_reserve_claim_treatment_source_needed",
+      "options": [
+        {
+          "label": "A",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the old ratio.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the new ratio.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "Provide ₹50,000 claim from the reserve and credit the remaining ₹30,000 to Revaluation Account.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "Provide ₹50,000 claim from the reserve and carry the remaining ₹30,000 forward without treatment.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "subject": "business_studies",
+      "topic_family": "management_continuous_process",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "ef9f67b21baa92684b796e75c06c611e8a5eb2e275c939052caad3c6afe99518",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q1"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Management is a dynamic function",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Management is a continuous process",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Management is an intangible force",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Management is goal oriented",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "subject": "business_studies",
+      "topic_family": "principles_of_management_fayol",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "b0e14d4d640a147ff7c6c7b8399cb49e5a063edbe539b0a9914f1c05fa075f77",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q2",
+        "additional-cbse25-26-bs-q2-2",
+        "verified-cbse25-26-bs-q2-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Universal applicability",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Flexible",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Mainly behavioral",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Formed by practice and experimentation",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q3",
+      "subject": "business_studies",
+      "topic_family": "motivation_maslow",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "b09ecdbcae7acf758bcf66db6850a03a11a397e5eaa0a01618ea1572a8f4424c",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both Assertion and Reason are true.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Both Assertion and Reason are false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Both are true, but Reason is not the correct explanation of Assertion.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Both are true, and Reason is the correct explanation of Assertion.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "subject": "business_studies",
+      "topic_family": "staffing_compensation",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "ba075e1e573a477b54bd3ffc723f9f33a26924ec0c083e93fbd87b1137876330",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focused-cbse25-26-bs-q5"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Time-based direct financial payment",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Indirect financial payment",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Time-based pay plus incentives",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Performance-based direct financial payment",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "subject": "business_studies",
+      "topic_family": "marketing_mix_product",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "9c41a5359778619e00b78cdf341d9f692093fca28d781f9b5a79b7fa100d0824",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q7",
+        "additional-cbse25-26-bs-q7-2",
+        "verified-cbse25-26-bs-q7-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Promotion",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Place",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Product",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Price",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "subject": "business_studies",
+      "topic_family": "communication_process_sequence",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "28ac680320de57a6b4b3422ab0451a81b3818b0f7c5999c45f3cfa85ba40282e",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": null,
+      "blind_abstain": true,
+      "blind_report_input_hash": null,
+      "blind_flags": [
+        "Abstain: none of the printed options matches the standard sequence, including the disclosed adapted option."
+      ],
+      "support_v1_status": "quarantined after failed single repair",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q10"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "quarantine: the sole adapted option failed blind re-solve; reviewer abstained because no listed option matches standard sequence. No further repair within this construction.",
+      "options": [
+        {
+          "label": "A",
+          "text": "iii, i, vii, ii, v, iv, vi",
+          "independent_solve_selected": false,
+          "current_support_disposition": "quarantine: blind reviewer abstained after the only allowed option repair; do not select as valid positive"
+        },
+        {
+          "label": "B",
+          "text": "iii, ii, vii, i, v, iv, vi",
+          "independent_solve_selected": false,
+          "current_support_disposition": "quarantine: blind reviewer abstained after the only allowed option repair; do not select as valid positive"
+        },
+        {
+          "label": "C",
+          "text": "ii, iii, vii, vi, iv, v, i",
+          "independent_solve_selected": false,
+          "current_support_disposition": "quarantine: blind reviewer abstained after the only allowed option repair; do not select as valid positive"
+        },
+        {
+          "label": "D",
+          "text": "ii, i, vii, iii, v, iv, vi",
+          "independent_solve_selected": false,
+          "current_support_disposition": "quarantine: blind reviewer abstained after the only allowed option repair; do not select as valid positive"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "subject": "business_studies",
+      "topic_family": "planning_dynamic_environment",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "852f0d0ca0eda7af6aef0b24116c72d8578134a3be73da3bfe36236f434aea69",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "repair closed: original CBSE scenario/options restored; key reconciliation remains pending",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q14"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "Source-restored v2 with exact official scenario/options; independent reviewer solved the repaired item. Keep pending official-key custody comparison and option/distractor support audit.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Planning leads to rigidity.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "B",
+          "text": "Planning may not work in a dynamic environment.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "C",
+          "text": "Planning does not guarantee success.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        },
+        {
+          "label": "D",
+          "text": "Planning reduces creativity.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "exact official question-paper source is bound; full option/distractor proof and official-key custody reconciliation are still pending"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "subject": "business_studies",
+      "topic_family": "staffing_training_development",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "2ed596297cfd6fbc9cd8b4956ff273d472e48c65ea6f930b7fc1460621260c5d",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-bs-q15"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Placement and orientation",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Recruitment",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Training and development",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Performance appraisal",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "subject": "economics",
+      "topic_family": "macro_consumption_saving_break_even",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "15100aa6771d4de61fa888b76f16d24d8742c1a50cd13b9c50b41ac8d2ccd12d",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "unresolved_break_even_condition_or_saving_zero_excerpt_needed",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q1-VI-vi"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: unresolved_break_even_condition_or_saving_zero_excerpt_needed",
+      "options": [
+        {
+          "label": "A",
+          "text": "Slope of Consumption Curve = 0",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "Average Propensity to Consume = 0",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "Slope of Saving Curve = 1",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "Average Propensity to Consume = 1",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "subject": "economics",
+      "topic_family": "macro_national_income_gdp_deflator",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "df8a3fea37d791606de12cce7ff7145139480b3b7eaf3dfad28f41502cc7bfab",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q2"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "295.36",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "58.85",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "169.92",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "173.82",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "subject": "economics",
+      "topic_family": "macro_circular_flow_factor_market",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "e55aecc0a16d5fd471615e75b31c45cf4a7551c2ef46bb95b749d6be4cae5da3",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q5-VI-vi",
+        "additional-cbse25-26-eco-q5-VI-vi-2"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Factor",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Goods",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Stock",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Financial",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "subject": "economics",
+      "topic_family": "macro_deflationary_gap",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "094045772c8a55930fb3cd56cc3a4aeb3ae4519701585a96d50088f13dd38469",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "key_or_wording_dispute_preserved_not_positive",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q6"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: key_or_wording_dispute_preserved_not_positive",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ex-ante aggregate demand",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "Ex-post aggregate demand",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "Ex-ante aggregate supply",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "Ex-post aggregate supply",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "subject": "economics",
+      "topic_family": "macro_final_goods",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "5996eaa5f5faa12cf432ef426d675f8632948437e866c3f4e73fda35de8561ad",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [
+        "The phrase 'during their consumption' is broad; key C assumes the standard distinction between production use and household consumption."
+      ],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focused-cbse25-26-eco-q7"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true.",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false.",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "subject": "economics",
+      "topic_family": "ied_reforms_financial_sector",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "45a3f98ca7ecce12d51bd7785a739dcd27bfb85b9b0c0779a7d03bd3adb62e0c",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "unresolved_mutual_fund_classification_source_needed",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q18"
+      ],
+      "syllabus_status": "in_unit_inferred",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "withhold: unresolved_mutual_fund_classification_source_needed",
+      "options": [
+        {
+          "label": "A",
+          "text": "Industrial",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "B",
+          "text": "Financial",
+          "independent_solve_selected": true,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "C",
+          "text": "Tax",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        },
+        {
+          "label": "D",
+          "text": "Foreign Trade",
+          "independent_solve_selected": false,
+          "current_support_disposition": "withhold: item has a material unresolved authoritative-source gap"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "subject": "economics",
+      "topic_family": "ied_indian_economy_pre_independence",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "2dc290c6b2343a44b6e2663f4daf813a81bbc0790b4d315a816ea7d7dd2b8d76",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q19",
+        "additional-cbse25-26-eco-q19-2",
+        "verified-cbse25-26-eco-q19-3"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "China",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "Ceylon (Sri Lanka)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "Britain",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "Persia (Iran)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "subject": "economics",
+      "topic_family": "ied_human_capital",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "c46227c516ee646e301c0e642118bf0759a7b7e14cf791a23a9ac634c5aaa14a",
+      "stimulus_id": null,
+      "stimulus_hash": null,
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "focused_decisive_excerpt_found_pending_option_claim_audit",
+      "evidence_span_ids": [
+        "focus-cbse25-26-eco-q20"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "focused source anchor exists; option-by-option claim audit and official-key reconciliation are still required",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i) only",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "B",
+          "text": "(i) and (ii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)",
+          "independent_solve_selected": false,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        },
+        {
+          "label": "D",
+          "text": "(i), (ii) and (iii)",
+          "independent_solve_selected": true,
+          "current_support_disposition": "focused teaching excerpt is bound, but this option and every distractor rationale have not been separately verified"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "subject": "english_core",
+      "topic_family": "reading_literary_inference",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "3a2c177ba8ffb9abf4588212ee29f0beeeb01b38459eb72d47104e18c95e3227",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_hash": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "repair closed: unsupported author-added sentence removed; key reconciliation remains pending",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q1-III"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "Shared adapted passage was corrected once; reviewer solved revised item. Keep pending official-key custody comparison and full adapted-passage answerability audit.",
+      "options": [
+        {
+          "label": "A",
+          "text": "The harsh setting near the sea",
+          "independent_solve_selected": false,
+          "current_support_disposition": "revised adapted passage is bound and a blind re-solve exists; official-key comparison and option-by-option passage entailment remain pending"
+        },
+        {
+          "label": "B",
+          "text": "The man’s threatening behaviour",
+          "independent_solve_selected": false,
+          "current_support_disposition": "revised adapted passage is bound and a blind re-solve exists; official-key comparison and option-by-option passage entailment remain pending"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s helpless fear",
+          "independent_solve_selected": false,
+          "current_support_disposition": "revised adapted passage is bound and a blind re-solve exists; official-key comparison and option-by-option passage entailment remain pending"
+        },
+        {
+          "label": "D",
+          "text": "Pip’s knowledge of the surrounding area",
+          "independent_solve_selected": true,
+          "current_support_disposition": "revised adapted passage is bound and a blind re-solve exists; official-key comparison and option-by-option passage entailment remain pending"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "subject": "english_core",
+      "topic_family": "reading_tone_speech_act",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "8c142907a07e765899cde9f20efc4ac85c32e10da54adac5af855b1bea4bb5e1",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_hash": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q1-IV"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "caution",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "B",
+          "text": "threat",
+          "independent_solve_selected": true,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "C",
+          "text": "prediction",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "D",
+          "text": "announcement",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "76557a1d3e4588b51ecc7d13d1f863b5959bfb38cbb0c923f799633e4d2ef3c6",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_hash": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "blind_solved_key": "C",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q1-VI"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "Speak louder",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "B",
+          "text": "Open his mouth wide",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "C",
+          "text": "Answer the question",
+          "independent_solve_selected": true,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "subject": "english_core",
+      "topic_family": "reading_main_idea",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "a5d5dd76c7a2782542bc568e51cfaa84fc042102a66f18de072fdd7e5e9969f1",
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "stimulus_hash": "90bd5c140a2b3f0af954cd22fc950e341ab0f50adaf606c3d08492a126d62bbe",
+      "blind_solved_key": "A",
+      "blind_abstain": false,
+      "blind_report_input_hash": null,
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q1-X"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pip’s encounter with a frightening man who demands information",
+          "independent_solve_selected": true,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "B",
+          "text": "the harshness of Pip’s environment and the fear it creates",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s struggle to understand the man’s intentions and stay calm",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        },
+        {
+          "label": "D",
+          "text": "the importance of family relationships in Pip’s life",
+          "independent_solve_selected": false,
+          "current_support_disposition": "fresh blind re-solve completed after shared passage repair; still requires official-key custody and passage-answerability audit"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "subject": "english_core",
+      "topic_family": "reading_purpose_and_scope",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "7813ae099b6a09d9a9582143dce460969a8a65bf46137c1d0e13f28cbf874aed",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_hash": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q2-I"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "To compare job popularity in rural and urban areas",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "To explore career aspirations and the factors influencing them",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "To analyse the success rate of start-ups and family businesses",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "To assess salary expectations of young professionals",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-II",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "1c07b98cb92335c5cf901a53f69995318520b71d1d232807b87866d7faf47e1a",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_hash": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q2-II"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "accurate",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "representative",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "specific",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "d63e77aa96e6ad0e555c1157770754e406f034b2a6762b8c3fc6168d5cefa672",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_hash": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "blind_solved_key": "D",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [
+        "Question phrase is absent verbatim from the adapted passage; its meaning is supported by the sentence about difficulty finding experienced guides."
+      ],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q2-VI"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "Lack of money to hire mentors",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "Absence of training programmes in semi-urban areas",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "Reluctance to seek advice from strangers",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "Difficulty finding experienced professionals to guide career paths",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VIII",
+      "subject": "english_core",
+      "topic_family": "reading_scope_and_exclusion",
+      "candidate_version": "2025-26-v2",
+      "question_hash": "f43376bf063caf16fbd156335df6b1c2c0c6f6618d228c617376817c4a19d589",
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "stimulus_hash": "e84b51ccf1e0c0aa938b7483e36e7c4e77d3893f7f46ed9587fbdab978ac4f79",
+      "blind_solved_key": "B",
+      "blind_abstain": false,
+      "blind_report_input_hash": "0d45747f859be1be33916bb6025f2e8cad07bb60498dce5ff797ea8352fa88e0",
+      "blind_flags": [
+        "B is explicitly deferred to later studies; E could be read as asking for detailed data-collection procedures, which are not supplied. The survey design itself is stated, supporting B as the intended unique key."
+      ],
+      "support_v1_status": "passage_bound_only_pending_independent_key_check",
+      "evidence_span_ids": [
+        "passage-cbse25-26-eng-q2-VIII"
+      ],
+      "syllabus_status": "explicit",
+      "syllabus_year": 2026,
+      "official_key_reconciliation": "not performed by this custody agent; do not infer from CBSE-derived source or blind solve",
+      "option_claim_audit": "incomplete: every option and every distractor/explanation claim requires a separate evidence check",
+      "item_disposition": "passage_bound_only_pending full answerability/key custody; not independently supported by external academic source",
+      "options": [
+        {
+          "label": "A",
+          "text": "The survey’s purpose",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "B",
+          "text": "The impact of gender on career preferences",
+          "independent_solve_selected": true,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "C",
+          "text": "Regional and demographic variations",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "D",
+          "text": "Challenges reported by respondents",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        },
+        {
+          "label": "E",
+          "text": "The methodology used for data collection",
+          "independent_solve_selected": false,
+          "current_support_disposition": "candidate-passage-only; answerability requires direct reading of this exact adapted passage"
+        }
+      ],
+      "denominator_included": true
+    }
+  ]
+}

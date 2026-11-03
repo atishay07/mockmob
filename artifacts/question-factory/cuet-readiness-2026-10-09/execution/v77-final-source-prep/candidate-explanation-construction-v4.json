@@ -1,0 +1,549 @@
+{
+  "at": "2026-10-09T07:35:29.297Z",
+  "before_evaluation": true,
+  "parent_sha256": "77b2380a6f72e358677d4a1c3940cdac9f178f8b9860ea56e66a88715bded369",
+  "final_draft_sha256": "722bd0b8baff9329748afc1d83240df099a914b135d64c5829693dd5db94a8bc",
+  "blind_question_fields_unchanged": true,
+  "expected_valid_labels_and_keys_unchanged": true,
+  "changes": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Evaluate investment facts against cash-flow classification criteria.",
+        "target_term": "cash-flow classification criteria",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Evaluate investment facts against cash-flow classification criteria.",
+        "target_term": "cash-flow classification criteria"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify receipts using the business activity described.",
+        "target_term": "cash-flow activity categories",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify receipts using the business activity described.",
+        "target_term": "cash-flow activity categories"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Interpret the purpose of activity groupings in a financial statement.",
+        "target_term": "statement objectives",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Interpret the purpose of activity groupings in a financial statement.",
+        "target_term": "statement objectives"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify payments for long-term resources using stated cash-flow categories.",
+        "target_term": "cash-flow categories",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify payments for long-term resources using stated cash-flow categories.",
+        "target_term": "cash-flow categories"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a management function from described organisational activities.",
+        "target_term": "management functions",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a management function from described organisational activities.",
+        "target_term": "management functions"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a staffing activity from employee-learning needs.",
+        "target_term": "employee learning activities",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a staffing activity from employee-learning needs.",
+        "target_term": "employee learning activities"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "field": "candidate.explanation",
+      "before": "The source explicitly describes training as upgrading knowledge and skills and preparing employees for higher responsibility.",
+      "after": "Instruction that increases an existing employee’s job skills is training, included in training and development. The source defines training as increasing employees’ aptitudes, skills and abilities to perform specific jobs.",
+      "basis": "Remove independently identified unsupported positive explanation claim."
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Calculate change in total utility over an additional unit.",
+        "target_term": "utility calculation",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Calculate change in total utility over an additional unit.",
+        "target_term": "utility calculation"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Distinguish approaches to modelling consumer preferences.",
+        "target_term": "consumer preference models",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Distinguish approaches to modelling consumer preferences.",
+        "target_term": "consumer preference models"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Interpret consumer preferences represented by an indifference curve.",
+        "target_term": "preference representations",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Interpret consumer preferences represented by an indifference curve.",
+        "target_term": "preference representations"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Apply utility concepts to a described consumer choice.",
+        "target_term": "utility concepts",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Apply utility concepts to a described consumer choice.",
+        "target_term": "utility concepts"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a word’s contextual meaning from narrative details.",
+        "target_term": "contextual vocabulary",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a word’s contextual meaning from narrative details.",
+        "target_term": "ledger"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a character’s purpose from narrative details.",
+        "target_term": "narrative comprehension",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a character’s purpose from narrative details.",
+        "target_term": "narrative comprehension"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Retrieve a specific event and reason from a narrative.",
+        "target_term": "narrative comprehension",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Retrieve a specific event and reason from a narrative.",
+        "target_term": "narrative comprehension"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Interpret the main purpose of a narrative from its details.",
+        "target_term": "narrative comprehension",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Interpret the main purpose of a narrative from its details.",
+        "target_term": "narrative comprehension"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify cash flows using the business events described.",
+        "target_term": "cash-flow activity categories",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Classify cash flows using the business events described.",
+        "target_term": "cash-flow activity categories"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "field": "candidate.explanation",
+      "before": "The proposed key reverses the textbook’s explicit customer-receipt and fixed-asset-sale classifications.",
+      "after": "Customer receipts are investing cash inflows, while proceeds from disposal of a fixed asset are operating cash inflows. Therefore B gives the two classifications.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Apply investment criteria to a described financial instrument.",
+        "target_term": "investment criteria",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Apply investment criteria to a described financial instrument.",
+        "target_term": "investment criteria"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "field": "candidate.explanation",
+      "before": "The question omits the investment’s maturity from acquisition; the decisive three-month test cannot be applied.",
+      "after": "The stated ready convertibility is sufficient for the investment to be a cash equivalent, so A is correct.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Calculate net cash using stated receipts and payments.",
+        "target_term": "net cash calculation",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Analysis of Financial Statements",
+        "objective": "Calculate net cash using stated receipts and payments.",
+        "target_term": "net cash calculation"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "field": "candidate.explanation",
+      "before": "The explanation claims 12,000 − 4,500 = 8,500; the arithmetic is incorrect.",
+      "after": "Net operating cash is customer receipts less supplier payments: ₹12,000 − ₹4,500 = ₹8,500. The net amount is therefore ₹8,500.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a management function from described organisational activities.",
+        "target_term": "management functions",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify a management function from described organisational activities.",
+        "target_term": "management functions"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "field": "candidate.explanation",
+      "before": "The proposed key says marketing even though the listed sequence is described as staffing.",
+      "after": "Finding the required people, recruiting, selecting and placing them is marketing, so C is correct.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Consumer Protection",
+        "objective": "Apply consumer-rights distinctions to a customer scenario.",
+        "target_term": "consumer rights"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "field": "candidate.explanation",
+      "before": "Both the right to be heard and the right to seek redressal are supported by the scenario; the single-answer stem asks for one without distinguishing the requested relief.",
+      "after": "The complaint invokes the right to be heard, so A is the single correct answer. Seeking relief after loss does not invoke another consumer right in this scenario.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify an advanced causal-estimation method.",
+        "target_term": "causal-estimation methods",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Staffing",
+        "objective": "Identify an advanced causal-estimation method.",
+        "target_term": "causal-estimation methods"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "field": "candidate.explanation",
+      "before": "The target method is outside the official CUET Business Studies syllabus and is not part of the NCERT staffing learning objective.",
+      "after": "The description uniquely identifies causal forest estimation, so A is the correct named method.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "field": "category",
+      "before": "outside_syllabus",
+      "after": "unsupported_source_and_objective_mismatch",
+      "basis": "Independent audit: underdetermined named method and missing decisive source support; avoid categorical syllabus exclusion. Boolean invalid label unchanged."
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Calculate change in total utility over an additional unit.",
+        "target_term": "utility calculation",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Calculate change in total utility over an additional unit.",
+        "target_term": "utility calculation"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "field": "candidate.explanation",
+      "before": "The proposed key gives −2, but the change is 30 − 28 = 2.",
+      "after": "Marginal utility is the previous total utility minus the new total utility: 28 − 30 = −2. Therefore C is correct.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Apply a consumer-behaviour rule to a stated consumption pattern.",
+        "target_term": "consumer-behaviour rules",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Apply a consumer-behaviour rule to a stated consumption pattern.",
+        "target_term": "consumer-behaviour rules"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "field": "candidate.explanation",
+      "before": "The law states diminishing marginal utility while holding consumption of other commodities constant; the stem leaves that decisive condition unspecified, so more than one listed pattern may occur without it.",
+      "after": "Marginal utility must decline whenever consumption of the good increases, regardless of changes in consumption of other commodities. Therefore B follows.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Distinguish approaches to modelling consumer preferences.",
+        "target_term": "consumer preference models",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Introductory Microeconomics",
+        "objective": "Distinguish approaches to modelling consumer preferences.",
+        "target_term": "consumer preference models"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "field": "candidate.explanation",
+      "before": "The proposed key names cardinal utility, whereas ranking without numerical measurement is ordinal utility analysis.",
+      "after": "Ranking bundles without numerical measurement is cardinal utility analysis, so A is correct.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Retrieve a specific detail from a narrative passage.",
+        "target_term": "narrative comprehension",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Retrieve a specific detail from a narrative passage.",
+        "target_term": "narrative comprehension"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a word’s contextual meaning from narrative details.",
+        "target_term": "contextual vocabulary",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Infer a word’s contextual meaning from narrative details.",
+        "target_term": "fresh"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "field": "candidate.explanation",
+      "before": "The passage says Dev wrote the date at the top that morning. The explanation also claims “fresh” means the board was newly painted, which the passage never says.",
+      "after": "Fresh means recently written, so A is correct. Dev had newly painted the board that morning, which explains why the date was fresh.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "field": "learning_objective",
+      "before": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Identify verb mood in a clause.",
+        "target_term": "verb mood",
+        "why_answer_requires_it": "The candidate assesses the skill described by its objective through the task presented in the stem."
+      },
+      "after": {
+        "syllabus_unit": "Narrative Passage",
+        "objective": "Identify verb mood in a clause.",
+        "target_term": "verb mood"
+      },
+      "basis": "Use frozen neutral blind metadata and its two already tested lexical targets."
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "field": "candidate.explanation",
+      "before": "This item tests formal grammar terminology rather than the registered Reading Comprehension: Narrative Passage objective.",
+      "after": "A uses the base form be after recommended that; this is the mandative subjunctive. The other clauses do not use that construction.",
+      "basis": "Before evaluation, replace constructor defect commentary with an actual candidate explanation containing the independently established defect. No label, key, stem, option or source changes."
+    }
+  ]
+}

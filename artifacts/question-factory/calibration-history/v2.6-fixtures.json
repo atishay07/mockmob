@@ -1,0 +1,3501 @@
+{
+  "version": "official-cuET-calibration-fixtures-v1",
+  "split_policy": "authenticated_item_and_passage_disjoint_v1",
+  "state": "prepared_not_released",
+  "development": [
+    {
+      "id": "calibration-cuet2024-english-bookA-q1",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-english-bookA-q1",
+        "official_question_id": "1",
+        "body": "Re-arrange the following phrases in the right sequence to form a meaningful sentence. (A) for seven hours but was hardly (B) because of the absence of any motivation (C) able to decide who the murderer was (D) she worked on the case Choose the correct answer from the options given below :",
+        "options": [
+          "(A), (C), (D), (B).",
+          "(D), (A), (C), (B).",
+          "(D), (C), (B), (A).",
+          "(A), (B), (C), (D)."
+        ],
+        "chapter": "Para Jumbles",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "para_jumble",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q1",
+        "key_locator": "pdf-page-28",
+        "key_quote": "1 2 46 3 1 3 46 3,4 1 3 46 1 1 1 46 Drop",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q1",
+            "support_hash": "be6d19b0c6b8daef691984b9333c4d8ca5073f2ea54c9b1648f147581a249996"
+          },
+          {
+            "id": "cuet2024-english-bookA-q1-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "d8089428635e2bb0531c9f0cf415d0939108ff4fa5f50ceaddf311de839f4aef"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The source item gives D “she worked on the case” as the only fragment that can supply an independent subject and verb. The British Council clause rule supports that structural start; A continues the predicate with duration and contrast, C completes “was hardly able to decide,” and B gives the reason. Together they form option 2. This is a supported construction, but not a claim that the reference alone proves unique ordering.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q1",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-english-bookA-q1",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q1",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:2e2699171186ddbfd6f8a9f00c624986d791742c0a05ff68af924791ac32f94e",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q2",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-english-bookA-q2",
+        "official_question_id": "2",
+        "body": "Fill in the blank with the correct option. The candidate assured the interviewers that the dip in her grades during her second semester was an ___________ since she had always been a top scorer in the first semester.",
+        "options": [
+          "anomaly",
+          "allay",
+          "adage",
+          "abatement"
+        ],
+        "chapter": "Vocabulary",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "vocabulary_in_context",
+        "correct_answer": "A",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q2",
+        "key_locator": "pdf-page-28",
+        "key_quote": "2 1 47 1 2 2 47 1,3 2 2 47 4 2 2 47 4",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q2",
+            "support_hash": "af51872cc4ee3f20b047009e7c28bb415e6d13baaa4d8fb3a542fe26f8809645"
+          },
+          {
+            "id": "cuet2024-english-bookA-q2-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "0f49341b7436e6160421df47eaeca412d565a60872bcbdff1dda6b5c04aa0263"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The item contrasts one semester’s dip with a consistent top-scorer record. Oxford defines anomaly as something different from normal or expected; in that context, option 1 fits the stem and the Book A key.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q2",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-english-bookA-q2",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q2",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q2",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:d12e6b2c0c1a646fae44c6de23ef4a426c03ed73c57108a55738969e4bccb722",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "A"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q10",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q10",
+        "official_question_id": "10",
+        "body": "Which one of the following are correct in connection with the Common Size Statement ? (A) Expressed as a percentage on revenue from operation (B) Horizontal analysis (C) Vertical analysis (D) Expressed as a percentage on total assets Choose the correct answer from the options given below :",
+        "options": [
+          "(A), (B) and (D) only",
+          "(A), (B) and (C) only",
+          "(A), (C) and (D) only",
+          "(B), (C) and (D) only"
+        ],
+        "chapter": "Comparative & Common Size Statements",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "statement_based",
+        "correct_answer": "C",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q10",
+        "key_locator": "pdf-page-118",
+        "key_quote": "10 3 10 3 10 3 10 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q10",
+            "support_hash": "6eb7cb715eaf4d2f893597c5678a38694cc1605c3b4e39a6c11e41a95cf1542b"
+          },
+          {
+            "id": "ncert-leac204",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431"
+          },
+          {
+            "id": "ncert-leac204",
+            "version": 1,
+            "locator": "pdf-page-12",
+            "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Common-size analysis uses a vertical common base: revenue from operations for a profit-and-loss statement and total assets for a balance sheet. Thus A, C and D are true; horizontal analysis is comparative analysis, so B is false.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q10",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q10",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q10",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q10",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:c27fe66dbc5b10b255b616c541b9b0c95e4c90a4e123472dcfc62563bf089b37",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q1",
+      "split": "development",
+      "category": "valid_easy",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q1",
+        "official_question_id": "1",
+        "body": "Identify the Principle of Management where Taylor pioneered the introduction of method of scientific inquiry into the domain of management practice.",
+        "options": [
+          "Science, not rule of thumb",
+          "Harmony not discord",
+          "Cooperation, not individualism",
+          "Development of each and every person to the greatest efficiency and prosperity"
+        ],
+        "chapter": "Principles of Management",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "direct_recall",
+        "correct_answer": "A",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q1",
+        "key_locator": "pdf-page-104",
+        "key_quote": "1 1 46 4 1 4 46 4 1 3 46 2 1 2 46 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q1",
+            "support_hash": "fbd30a0b4040c9ac67dbb6302974910536abccc1b5aa8e4316b1d0e5ebd98bb1"
+          },
+          {
+            "id": "ncert-lebs102",
+            "version": 1,
+            "locator": "pdf-page-15",
+            "support_hash": "13af7861b458ce41d410ed993fc703ac49afc8568e800c2c7e2d315577ba04e3"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Taylor’s scientific-inquiry principle is named in the cited section as “Science not Rule of Thumb,” option A. Official key: 1.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q1",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q1",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q1",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:496dbf0b727a6a523530e4628415cf4b1386f6e616aa7f97d02e55574e49471c",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "A"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q9",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q9",
+        "official_question_id": "9",
+        "body": "Identify the correct sequence of steps under the Planning function : (A) Setting objectives (B) Identifying alternative courses of action (C) Developing premises (D) Evaluating alternative courses of action Choose the correct answer from the options given below :",
+        "options": [
+          "(A), (B), (C), (D)",
+          "(A), (C), (B), (D)",
+          "(B), (A), (D), (C)",
+          "(C), (B), (D), (A)"
+        ],
+        "chapter": "Planning",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "sequence",
+        "correct_answer": "B",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q9",
+        "key_locator": "pdf-page-104",
+        "key_quote": "9 2 9 3 9 1 9 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q9",
+            "support_hash": "6c471c82315480aac50437122703a1fa4d7029899ac48e57612e3b78d88e9d1f"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-10",
+            "support_hash": "fd09d86f869324b74bed9ae4d126491a1a195fa7ff701d67c6b71696470ffa8e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Planning develops premises before identifying alternatives, then evaluates them. A, C, B, D is option B. Official key: 2.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q9",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q9",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q9",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q9",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:76aac5d27018a00157f840466dfdabe9cc43ecbf71300a49ce708b706d66128c",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q2",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q2",
+        "official_question_id": "2",
+        "body": "If the value of Investment Multiplier is 5 and the increased income is ₹ 800 crore in an economy, then find the value of change in the investment in the economy.",
+        "options": [
+          "₹ 4000 crore",
+          "₹ 120 crore",
+          "₹ 400 crore",
+          "₹ 160 crore"
+        ],
+        "chapter": "Income Determination",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "correct_answer": "D",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q2",
+        "key_locator": "pdf-page-42",
+        "key_quote": "2 4 47 3 2 2 47 4 2 4 47 3 2 2 47 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q2",
+            "support_hash": "623ee470f2e81aa01823f008f7064de78d50d9d3329b54623a3771c3725b1bbe"
+          },
+          {
+            "id": "ncert-leec104",
+            "version": 1,
+            "locator": "pdf-page-10",
+            "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The multiplier is ΔY/ΔI. Given 5 and income change ₹800 crore, investment change is 800/5 = ₹160 crore, option D. Official key: 4.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q2",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q2",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q2",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q2",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:754db826e215c2d41751e989f25f1e5af68401a6b8a346dbd6fbda181b1c2a30",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q46",
+      "split": "development",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q46",
+        "official_question_id": "46",
+        "body": "The value of Nominal GDP is $ 1100 and the value of Real GDP is $ 1000. Find the value of GDP deflator.",
+        "options": [
+          "0.9",
+          "1.1",
+          "1",
+          "0.8"
+        ],
+        "chapter": "National Income & Related Aggregates",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "correct_answer": "B",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q46",
+        "key_locator": "pdf-page-42",
+        "key_quote": "1 2 46 2 1 1 46 3 1 2 46 2 1 2 46 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q46",
+            "support_hash": "0608c0ed52a9b2fda288e969aaae309f7ee5ddd07b49cca3a0e52efab729a491"
+          },
+          {
+            "id": "ncert-leec102",
+            "version": 1,
+            "locator": "pdf-page-21",
+            "support_hash": "cb26e2d930e9de5155018c15abf9330b9b96d0221fe348198eabc00b2f6c6e39"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "GDP deflator is nominal GDP divided by real GDP: 1100/1000 = 1.1, option B. Official key: 2.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q46",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q46",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q46",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q46",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:eb07de75dfeec048b4b7db06d0339781b4c4af778aeb92a52619b4f129293c55",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    }
+  ],
+  "held_out": [
+    {
+      "id": "calibration-cuet2024-english-bookA-q4",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-english-bookA-q4",
+        "official_question_id": "4",
+        "body": "Fill in the blank with the correct option. A small ___________________ between two children ended up as a group fight.",
+        "options": [
+          "altercation",
+          "match",
+          "contest",
+          "race"
+        ],
+        "chapter": "Vocabulary",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "vocabulary_in_context",
+        "correct_answer": "A",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q4",
+        "key_locator": "pdf-page-28",
+        "key_quote": "4 1 49 4 4 Drop 49 3 4 2 49 1 4 3 49 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q4",
+            "support_hash": "6ff6852524c06d1743be91d73ff74306f16de55e8c78a3dc64b1a8b333fa9f94"
+          },
+          {
+            "id": "cuet2024-english-bookA-q4-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b7f5e5293c03f3aa7034dd65586f304b52388946e9b900d8ce46cd226e1c260f"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The stem describes a dispute between two children that escalates into a group fight. Oxford defines altercation as a noisy argument or disagreement, matching option 1 and the surrounding context.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q4",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-english-bookA-q4",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q4",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q4",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:88436e9b1164a99509d05977df5811c646bb28f83af035347f61d50d87e67b4d",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "A"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q11",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-english-bookA-q11",
+        "official_question_id": "11",
+        "body": "Fill in the blank with the correct option. The President finally had to ____________ the demands of the public for his resignation.",
+        "options": [
+          "ignore",
+          "initiate",
+          "accede to",
+          "condone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "C",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q11",
+        "key_locator": "pdf-page-28",
+        "key_quote": "11 3 11 2 11 2 11 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q11",
+            "support_hash": "2ad1c166789a0294c6357c67d13279adc559472c5c6dc0e2cd7d61b74448d6da"
+          },
+          {
+            "id": "cuet2024-english-bookA-q11-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "7f16f621b2ab724264224293e4c8e4c16b6a195e21b25a74dd0a39ef1cc83a2c"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence needs a verb phrase meaning agreeing to the public’s resignation demand. Oxford defines accede (to a request/proposal) as agreeing and gives the usage example “He acceded to demands for his resignation.” This supports option 3, “accede to.”",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q11",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-english-bookA-q11",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q11",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q11",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:4481b5e957b3c04b76a7dd0ce08c87960947c02d896ae454c3a14ca3bb5c556d",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-english-bookA-q45",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-english-bookA-q45",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "knew, go",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q15",
+      "split": "held_out",
+      "category": "valid_difficult",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q15",
+        "official_question_id": "15",
+        "body": "400 shares of ₹ 50 each issued at par were forfeited for non-payment of final call of ₹ 10 per share. These shares were reissued at ₹ 45 per share as fully paid-up. The amount transferred to capital reserve is :",
+        "options": [
+          "₹ 15,000",
+          "₹ 14,000",
+          "₹ 16,000",
+          "₹ 13,000"
+        ],
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_one_step",
+        "correct_answer": "B",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q15",
+        "key_locator": "pdf-page-118",
+        "key_quote": "15 2 15 2 15 2 15 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q15",
+            "support_hash": "aca1e0348a16ac68bac6424cd10317d873c2a7ddb6802848ed0a191d4e558553"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-49",
+            "support_hash": "4095f31cdbae69074f53b5f28e567b9b24a28a6990800daa73161ab16a5773a1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Amount received before the final call is ₹50 − ₹10 = ₹40 per share, or ₹16,000 total. Reissue at ₹45 creates a ₹5-per-share discount (₹2,000). The residual ₹14,000 is transferred to Capital Reserve; key position 2 maps to option B.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q15",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q15",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q15",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q15",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:c43b5a259f671618b8a6d4e71eb95a0b790b0bbd442f03eaa4e4d6fad817942b",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q41",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q41",
+        "official_question_id": "41",
+        "body": "Calculate Trade Receivables Turnover Ratio.",
+        "options": [
+          "8.18 times",
+          "8.23 : 1",
+          "8.18%",
+          "8.81 : 1"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "numerical_one_step",
+        "correct_answer": "A",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q41",
+        "key_locator": "pdf-page-118",
+        "key_quote": "41 1 41 1 41 1 41 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q41",
+            "support_hash": "0f6ba52b2ea6ccc6341d1a3a31be39760ff10be2d71bbe57d368df3b48996b6d"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 0,
+        "explanation": "With only closing receivables figures supplied, use debtors plus bills receivable: ₹8,75,000 ÷ (₹59,000 + ₹48,000) = 8.18 times. The official key marks position 1, option A.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q41",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q41",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q41",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q41",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "A"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q42",
+      "split": "held_out",
+      "category": "valid_easy",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q42",
+        "official_question_id": "42",
+        "body": "Calculate Average Collection Period.",
+        "options": [
+          "30 days",
+          "60 days",
+          "45 days",
+          "15 days"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "numerical_one_step",
+        "correct_answer": "C",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q42",
+        "key_locator": "pdf-page-118",
+        "key_quote": "42 3 42 3 42 3 42 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q42",
+            "support_hash": "d2f81b3c4b772251a91c82ddce2754c24ca7c7765e7d7f06bfbd902774ff22f0"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 1,
+        "explanation": "Average collection period is 365 ÷ 8.18 ≈ 45 days. The official key marks position 3, option C.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q42",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q42",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q42",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q42",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q43",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q43",
+        "official_question_id": "43",
+        "body": "Calculate Trade Payables Turnover Ratio.",
+        "options": [
+          "29.6 times",
+          "2.96 times",
+          "29.6%",
+          "2.69 : 1"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "numerical_one_step",
+        "correct_answer": "B",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q43",
+        "key_locator": "pdf-page-118",
+        "key_quote": "43 2 43 2 43 2 43 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q43",
+            "support_hash": "5f26e719a58c10a159057241ca7b89347f3640151169a28bf40501c1a6dfcbe1"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 2,
+        "explanation": "Trade payable turnover is purchases ÷ (creditors + bills payable): ₹4,20,000 ÷ (₹90,000 + ₹52,000) ≈ 2.96 times. The official key marks position 2, option B.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q43",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q43",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q43",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q43",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q44",
+      "split": "held_out",
+      "category": "valid_easy",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q44",
+        "official_question_id": "44",
+        "body": "Calculate Average Payment Period.",
+        "options": [
+          "123 days",
+          "121 days",
+          "132 days",
+          "133 days"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "numerical_one_step",
+        "correct_answer": "A",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q44",
+        "key_locator": "pdf-page-118",
+        "key_quote": "44 1 44 1 44 1 44 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q44",
+            "support_hash": "bbc366b860843a1624799e5c96c53f73839b086d07eca9f48034bdc629766bb3"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 3,
+        "explanation": "Average payment period is 365 ÷ 2.96 ≈ 123 days. The official key marks position 1, option A.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q44",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q44",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q44",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q44",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "A"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-accountancy-bookA-q45",
+      "split": "held_out",
+      "category": "valid_easy",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-accountancy-bookA-q45",
+        "official_question_id": "45",
+        "body": "Trade Receivables Turnover Ratio and Trade Payables Turnover Ratio are categorised as :",
+        "options": [
+          "Liquidity Ratio",
+          "Solvency Ratio",
+          "Activity Ratio",
+          "Profitability Ratio Read the following carefully and answer the next five questions : G, K and B were partners running a partnership for last 10 years, sharing profit and loss in the ratio of 5 : 3 : 2. Post Covid, their firm was affected badly and started incurring losses. On 31st March, 2023 they all decided to dissolve the firm due to continuous losses. Their capital balances were ₹ 4,00,000, ₹ 3,00,000 and ₹ 2,00,000 respectively. Firm had liabilities ₹ 80,000, Cash balance ₹ 40,000, other Sundry Assets ₹ 8,50,000 and P&L A/c constituted the rest. Assets realised at 80% and liabilities were paid in full. There was unrecorded liability of ₹ 50,000 which was settled at ₹ 40,000. Realisation expenses amounted to ₹ 30,000, being paid by G on behalf of the firm."
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "correct_answer": "C",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-118",
+        "key_quote": "45 3 45 3 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "69311898c3e07dc1a9d28bd293945fe73c9c091d1418edebf4b022df2bd3ddd7"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 4,
+        "explanation": "Trade receivables and trade payables turnover measures are activity (turnover) ratios. The official key marks position 3, option C.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q45",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-accountancy-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q45",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q45",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q25",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q25",
+        "official_question_id": "25",
+        "body": "Identify the correct sequence of Organising function of management. (A) Establishing authority and reporting relationships (B) Departmentalisation (C) Identification and division of work (D) Assignment of duties Choose the correct answer from the options given below :",
+        "options": [
+          "(A), (B), (C), (D)",
+          "(A), (C), (B), (D)",
+          "(B), (A), (D), (C)",
+          "(C), (B), (D), (A)"
+        ],
+        "chapter": "Organising",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "sequence",
+        "correct_answer": "D",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q25",
+        "key_locator": "pdf-page-104",
+        "key_quote": "25 4 25 4 25 1 25 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q25",
+            "support_hash": "143dc39ade11ee47002978ad1d9b382d443e0fa01d68d970f506ba9ee4d54ac8"
+          },
+          {
+            "id": "ncert-lebs105",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "NCERT lists work division, departmentalisation, assignment of duties, then reporting relationships. C, B, D, A is option D. Official key: 4.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q25",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q25",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q25",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q25",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:ddc19b91e57cf65ed8509b6d5a35968941ae336999e991c59c167c848fc43d94",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q46",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q46",
+        "official_question_id": "46",
+        "body": "Identify the function of management highlighted in the above case.",
+        "options": [
+          "Organising",
+          "Staffing",
+          "Directing",
+          "Planning"
+        ],
+        "chapter": "Planning",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "correct_answer": "D",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q46",
+        "key_locator": "pdf-page-104",
+        "key_quote": "1 1 46 4 1 4 46 4 1 3 46 2 1 2 46 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q46",
+            "support_hash": "6dcd89ce732091ae58d85fa85e69ef98233f4acb3e20cc30568615de9f41bc5b"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "passage-238360745cb2",
+            "support_hash": "238360745cb28139dc7d496436d1789f455aff23fe4e46dbfd61f719911d91a6"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-3",
+            "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "A Maharatna Company, Indian Oil Indian Oil is India’s largest commercial organisation. It is the top ranked Indian company in the Fortune ‘Global 500’ listings (2017). Indian Oil’s vision is driven by a group of dynamic leaders, who have made it a name to reckon with. With an over 34,000 strong workforce, a Maharatna Company, Indian Oil has been helping to meet India’s energy demands and reaching petroleum products in every part of India for over five decades.  It plans to increase its business operations all around the world.  The company plans to invest ₹ 20,000 crore in 2017 – 18 acquisitions and plans to expand overseas. The company is always believed to be ahead of the demand. Last year too, IOC had invested close to ₹ 20,000 crore, including around ₹ 16,000 crore in various Indian projects and on acquisition for upstream in Russia.  The company believed that if the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.  Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed. Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals.  It helps in avoiding confusion and misunderstanding. Manager can look into the future and make a choice from amongst various alternative courses of action.",
+        "passage_group_id": "cuet2024-business_studies-bookA-passage-238360745cb2",
+        "order_index": 0,
+        "explanation": "The case concerns setting future goals and planned action, identifying planning. Official key: 4 (D).",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q46",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q46",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q46",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q46",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:5a2821a30de28fabb05dd1900a97dd09c9bd59ab3671dc9e38612d7a70d3b2c7",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q47",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q47",
+        "official_question_id": "47",
+        "body": "\"If the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.\" Identify the significance of managerial function highlighted in this statement.",
+        "options": [
+          "Facilitates decision making",
+          "Reduces overlapping and wasteful activities",
+          "Reduces risks of uncertainty",
+          "Provides direction"
+        ],
+        "chapter": "Planning",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "concept_identification",
+        "correct_answer": "D",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q47",
+        "key_locator": "pdf-page-104",
+        "key_quote": "2 4 47 4 2 3 47 2 2 3 47 3 2 3 47 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q47",
+            "support_hash": "6c1b262d9605ddc4bcf2172d522f41634614ae45c2ec2f2f6df4d45e51c3c423"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "passage-238360745cb2",
+            "support_hash": "238360745cb28139dc7d496436d1789f455aff23fe4e46dbfd61f719911d91a6"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-3",
+            "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "A Maharatna Company, Indian Oil Indian Oil is India’s largest commercial organisation. It is the top ranked Indian company in the Fortune ‘Global 500’ listings (2017). Indian Oil’s vision is driven by a group of dynamic leaders, who have made it a name to reckon with. With an over 34,000 strong workforce, a Maharatna Company, Indian Oil has been helping to meet India’s energy demands and reaching petroleum products in every part of India for over five decades.  It plans to increase its business operations all around the world.  The company plans to invest ₹ 20,000 crore in 2017 – 18 acquisitions and plans to expand overseas. The company is always believed to be ahead of the demand. Last year too, IOC had invested close to ₹ 20,000 crore, including around ₹ 16,000 crore in various Indian projects and on acquisition for upstream in Russia.  The company believed that if the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.  Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed. Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals.  It helps in avoiding confusion and misunderstanding. Manager can look into the future and make a choice from amongst various alternative courses of action.",
+        "passage_group_id": "cuet2024-business_studies-bookA-passage-238360745cb2",
+        "order_index": 1,
+        "explanation": "Defined goals make employees aware of required work. NCERT identifies direction as a planning benefit. Official key: 4 (D).",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q47",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q47",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q47",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q47",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:5a2821a30de28fabb05dd1900a97dd09c9bd59ab3671dc9e38612d7a70d3b2c7",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q48",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q48",
+        "official_question_id": "48",
+        "body": "\"Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed.\" Identify the significance of managerial function highlighted in this statement.",
+        "options": [
+          "Provides direction",
+          "Reduces risks of uncertainty",
+          "Reduces overlapping and wasteful activities",
+          "Facilitates decision making"
+        ],
+        "chapter": "Planning",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "concept_identification",
+        "correct_answer": "B",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q48",
+        "key_locator": "pdf-page-104",
+        "key_quote": "3 3 48 2 3 2 48 2 3 3 48 2 3 4 48 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q48",
+            "support_hash": "93fd598e7b2f0075a1d8680c16f3a0c0db9c93fde21c76cf6f5abb3a3dd7dd71"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "passage-238360745cb2",
+            "support_hash": "238360745cb28139dc7d496436d1789f455aff23fe4e46dbfd61f719911d91a6"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "1c793170cb325e82c5a6aba39c259fb457e3ffda0296c2b64b0170f55b860112"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "A Maharatna Company, Indian Oil Indian Oil is India’s largest commercial organisation. It is the top ranked Indian company in the Fortune ‘Global 500’ listings (2017). Indian Oil’s vision is driven by a group of dynamic leaders, who have made it a name to reckon with. With an over 34,000 strong workforce, a Maharatna Company, Indian Oil has been helping to meet India’s energy demands and reaching petroleum products in every part of India for over five decades.  It plans to increase its business operations all around the world.  The company plans to invest ₹ 20,000 crore in 2017 – 18 acquisitions and plans to expand overseas. The company is always believed to be ahead of the demand. Last year too, IOC had invested close to ₹ 20,000 crore, including around ₹ 16,000 crore in various Indian projects and on acquisition for upstream in Russia.  The company believed that if the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.  Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed. Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals.  It helps in avoiding confusion and misunderstanding. Manager can look into the future and make a choice from amongst various alternative courses of action.",
+        "passage_group_id": "cuet2024-business_studies-bookA-passage-238360745cb2",
+        "order_index": 2,
+        "explanation": "Anticipating changes and preparing responses reduces uncertainty, a planning benefit in NCERT. Official key: 2 (B).",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q48",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q48",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q48",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q48",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:5a2821a30de28fabb05dd1900a97dd09c9bd59ab3671dc9e38612d7a70d3b2c7",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q49",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q49",
+        "official_question_id": "49",
+        "body": "\"Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals. It helps in avoiding confusion and misunderstanding.\" Identify the significance of managerial function highlighted in this statement.",
+        "options": [
+          "Facilitates decision making",
+          "Reduces risks of uncertainty",
+          "Provides direction",
+          "Reduces overlapping and wasteful activities"
+        ],
+        "chapter": "Planning",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "concept_identification",
+        "correct_answer": "D",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q49",
+        "key_locator": "pdf-page-104",
+        "key_quote": "4 3 49 4 4 4 49 1 4 1 49 4 4 1 49 4",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q49",
+            "support_hash": "8b87a0053a0e1d866e67b5fea72fe3fd9d66d2f4c1bdabf8335be08509278a25"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "passage-238360745cb2",
+            "support_hash": "238360745cb28139dc7d496436d1789f455aff23fe4e46dbfd61f719911d91a6"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "1c793170cb325e82c5a6aba39c259fb457e3ffda0296c2b64b0170f55b860112"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "A Maharatna Company, Indian Oil Indian Oil is India’s largest commercial organisation. It is the top ranked Indian company in the Fortune ‘Global 500’ listings (2017). Indian Oil’s vision is driven by a group of dynamic leaders, who have made it a name to reckon with. With an over 34,000 strong workforce, a Maharatna Company, Indian Oil has been helping to meet India’s energy demands and reaching petroleum products in every part of India for over five decades.  It plans to increase its business operations all around the world.  The company plans to invest ₹ 20,000 crore in 2017 – 18 acquisitions and plans to expand overseas. The company is always believed to be ahead of the demand. Last year too, IOC had invested close to ₹ 20,000 crore, including around ₹ 16,000 crore in various Indian projects and on acquisition for upstream in Russia.  The company believed that if the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.  Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed. Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals.  It helps in avoiding confusion and misunderstanding. Manager can look into the future and make a choice from amongst various alternative courses of action.",
+        "passage_group_id": "cuet2024-business_studies-bookA-passage-238360745cb2",
+        "order_index": 3,
+        "explanation": "The statement concerns coordination across divisions and avoiding confusion. NCERT discusses planning coordination and reducing wasteful overlap. Official key: 4 (D).",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q49",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q49",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q49",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q49",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:5a2821a30de28fabb05dd1900a97dd09c9bd59ab3671dc9e38612d7a70d3b2c7",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-business_studies-bookA-q50",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-business_studies-bookA-q50",
+        "official_question_id": "50",
+        "body": "\"Manager can look into the future and make a choice from amongst various alternative courses of action.\" Identify the significance of managerial function highlighted in this statement.",
+        "options": [
+          "Provides direction",
+          "Reduces risks of uncertainty",
+          "Reduces overlapping and wasteful activities",
+          "Facilitates decision making"
+        ],
+        "chapter": "Planning",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "concept_identification",
+        "correct_answer": "D",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "final_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "paper_locator": "q50",
+        "key_locator": "pdf-page-104",
+        "key_quote": "5 Drop 50 4 5 1 50 3 5 3 50 3 5 4 50 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 1,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :305 - Business Studies (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "q50",
+            "support_hash": "e4dce58b39754968c0b2a80b7fd7af6a7b12f5b6dcaee3b824ecf30eef8009d4"
+          },
+          {
+            "id": "cuet2024-business_studies-bookA-paper",
+            "version": 1,
+            "locator": "passage-238360745cb2",
+            "support_hash": "238360745cb28139dc7d496436d1789f455aff23fe4e46dbfd61f719911d91a6"
+          },
+          {
+            "id": "ncert-lebs104",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "1c793170cb325e82c5a6aba39c259fb457e3ffda0296c2b64b0170f55b860112"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "A Maharatna Company, Indian Oil Indian Oil is India’s largest commercial organisation. It is the top ranked Indian company in the Fortune ‘Global 500’ listings (2017). Indian Oil’s vision is driven by a group of dynamic leaders, who have made it a name to reckon with. With an over 34,000 strong workforce, a Maharatna Company, Indian Oil has been helping to meet India’s energy demands and reaching petroleum products in every part of India for over five decades.  It plans to increase its business operations all around the world.  The company plans to invest ₹ 20,000 crore in 2017 – 18 acquisitions and plans to expand overseas. The company is always believed to be ahead of the demand. Last year too, IOC had invested close to ₹ 20,000 crore, including around ₹ 16,000 crore in various Indian projects and on acquisition for upstream in Russia.  The company believed that if the goals are well defined, employees are aware of what the organisation has to do and what they must do to achieve those goals.  Changes or events cannot be eliminated, but they can be anticipated and managerial responses to them can be developed. Policy formation serves as the basis of coordinating the activities and efforts of different divisions, departments and individuals.  It helps in avoiding confusion and misunderstanding. Manager can look into the future and make a choice from amongst various alternative courses of action.",
+        "passage_group_id": "cuet2024-business_studies-bookA-passage-238360745cb2",
+        "order_index": 4,
+        "explanation": "Choosing among alternative courses is a decision; NCERT’s planning process includes evaluating and selecting alternatives. Official key: 4 (D).",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "business_studies",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-business_studies-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-business_studies-bookA-q50",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-business_studies-bookA-q50",
+          "adaptation_family": "pyq:cuet2024-business_studies-bookA-q50",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-business_studies-bookA-q50",
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "source_unit_id": "cuet-item-v1:5a2821a30de28fabb05dd1900a97dd09c9bd59ab3671dc9e38612d7a70d3b2c7",
+        "key_locator": "pdf-page-104",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q6",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q6",
+        "official_question_id": "6",
+        "body": "Which of the following is not a function of Central Bank ?",
+        "options": [
+          "It controls the money supply in the economy through different rates.",
+          "It acts as a banker to the government.",
+          "It accepts deposits and give loans to people.",
+          "It issues the currency of the country."
+        ],
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "direct_recall",
+        "correct_answer": "C",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q6",
+        "key_locator": "pdf-page-42",
+        "key_quote": "6 3 6 2 6 3 6 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q6",
+            "support_hash": "f7296b8725214e88ad5d435cf0a4c9a1c8495d4a6b40f56bee741b5adb41349f"
+          },
+          {
+            "id": "ncert-leec103",
+            "version": 1,
+            "locator": "pdf-page-3",
+            "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "NCERT distinguishes central-bank functions from commercial-bank activity. Commercial banks accept deposits and lend, so option C is not a central-bank function. Official key: 3.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q6",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q6",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q6",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q6",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:4d8e5c4ca34ff26c14bc13599dd75128e75f91a9647b4b39f93a05ed8505f120",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q33",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q33",
+        "official_question_id": "33",
+        "body": "Before the British rule, India was well known for which manufacturing industries’ products ?",
+        "options": [
+          "Cotton and Silk or Khadi textiles",
+          "Cotton and Engineering products",
+          "Cotton and Silk textiles, metal and precious stones, etc",
+          "Engineering goods and precious metals"
+        ],
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "passage_comprehension",
+        "correct_answer": "C",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q33",
+        "key_locator": "pdf-page-42",
+        "key_quote": "33 3 33 2 33 3 33 4",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q33",
+            "support_hash": "d9f092dd77f5948d39a380b1b10de3dc19d4da27557bebce4762719645612e7a"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "passage-2744a9366531",
+            "support_hash": "2744a9366531e814bdbf4f836470d1272f49adb0972f0f85f918c48cdc71d673"
+          },
+          {
+            "id": "ncert-keec101",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+        "passage_group_id": "cuet2024-economics-bookA-passage-2744a9366531",
+        "order_index": 0,
+        "explanation": "NCERT describes precolonial strengths in textiles, metal, and precious-stone work, supporting option C. Official key: 3.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q33",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q33",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q33",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q33",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78ffd8d656c2a27572a5b52bd9cc5cbcb20dbcb1f9b89d568f9ea14391c11b06",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q34",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q34",
+        "official_question_id": "34",
+        "body": "What kind of interests was the colonial government concerned with in the economic policy for Indian industries ?",
+        "options": [
+          "To promote the handicraft industries of India",
+          "Promote and protect small scale industries of India",
+          "Protect and promote the economic interests of Indian industry along with their home country",
+          "Provide protection and promotion of the economic interests of their home country"
+        ],
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "passage_comprehension",
+        "correct_answer": "D",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q34",
+        "key_locator": "pdf-page-42",
+        "key_quote": "34 4 34 2 34 2 34 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q34",
+            "support_hash": "4cdf0ebe464b8ac9d5740a9032885fb7671b470e58b2b3a48ad14dec95f5b858"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "passage-2744a9366531",
+            "support_hash": "2744a9366531e814bdbf4f836470d1272f49adb0972f0f85f918c48cdc71d673"
+          },
+          {
+            "id": "ncert-keec101",
+            "version": 1,
+            "locator": "pdf-page-5",
+            "support_hash": "9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+        "passage_group_id": "cuet2024-economics-bookA-passage-2744a9366531",
+        "order_index": 1,
+        "explanation": "NCERT says colonial policy chiefly promoted the home country’s interests, matching option D. Official key: 4.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q34",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q34",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q34",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q34",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78ffd8d656c2a27572a5b52bd9cc5cbcb20dbcb1f9b89d568f9ea14391c11b06",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q35",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q35",
+        "official_question_id": "35",
+        "body": "Choose the economists who estimated India's National Income and Per Capita Income.",
+        "options": [
+          "Dadabhai Naoroji, William Digby, Bernier, V.K.R.V. Rao and R.C. Desai",
+          "Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai",
+          "Dadabhai Naoroji, Jagdish Bhagwati, V.K.R.V. Rao and R.C. Desai",
+          "Dadabhai Naoroji, Findlay Shrirras and V.K.R.V. Rao"
+        ],
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "passage_comprehension",
+        "correct_answer": "B",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q35",
+        "key_locator": "pdf-page-42",
+        "key_quote": "35 2 35 3 35 1 35 4",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q35",
+            "support_hash": "6f75be534ecbe31d3147d8c95ee1c9a58fc97f1214455615e716febba0357120"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "passage-2744a9366531",
+            "support_hash": "2744a9366531e814bdbf4f836470d1272f49adb0972f0f85f918c48cdc71d673"
+          },
+          {
+            "id": "ncert-keec101",
+            "version": 1,
+            "locator": "pdf-page-5",
+            "support_hash": "9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+        "passage_group_id": "cuet2024-economics-bookA-passage-2744a9366531",
+        "order_index": 2,
+        "explanation": "NCERT names Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao, and R.C. Desai as estimators, option B. Official key: 2.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q35",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q35",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q35",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q35",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78ffd8d656c2a27572a5b52bd9cc5cbcb20dbcb1f9b89d568f9ea14391c11b06",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "B"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q36",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q36",
+        "official_question_id": "36",
+        "body": "What was the country’s growth of aggregate real output during the first half of the 20th century ?",
+        "options": [
+          "The country’s growth of aggregate real output was less than two percent coupled with a meagre one percent growth in per capita output per year.",
+          "The country’s growth of aggregate real output was less than two percent coupled with a meagre one and a half percent growth in per capita output per year.",
+          "The country’s growth of aggregate real output was less than two and a half percent coupled with a meagre half percent growth in per capita output per year.",
+          "The country’s growth of aggregate real output was less than two percent coupled with a meagre half percent growth in per capita output per year."
+        ],
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "passage_comprehension",
+        "correct_answer": "D",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q36",
+        "key_locator": "pdf-page-42",
+        "key_quote": "36 4 36 2 36 3 36 4",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q36",
+            "support_hash": "422c39a9a9526d1ea5722c963395c003005061b7324ed19d3b13f818d003501f"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "passage-2744a9366531",
+            "support_hash": "2744a9366531e814bdbf4f836470d1272f49adb0972f0f85f918c48cdc71d673"
+          },
+          {
+            "id": "ncert-keec101",
+            "version": 1,
+            "locator": "pdf-page-5",
+            "support_hash": "9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+        "passage_group_id": "cuet2024-economics-bookA-passage-2744a9366531",
+        "order_index": 3,
+        "explanation": "NCERT gives aggregate output growth below two per cent and per-capita growth about half a per cent yearly, option D. Official key: 4.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q36",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q36",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q36",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q36",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78ffd8d656c2a27572a5b52bd9cc5cbcb20dbcb1f9b89d568f9ea14391c11b06",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "D"
+      }
+    },
+    {
+      "id": "calibration-cuet2024-economics-bookA-q37",
+      "split": "held_out",
+      "category": "valid_medium",
+      "valid": true,
+      "question": {
+        "id": "calibration-cuet2024-economics-bookA-q37",
+        "official_question_id": "37",
+        "body": "According to the passage, which of the following statement was true about Indian industries’ products ?",
+        "options": [
+          "Indian products were of inferior quality and cheap in the worldwide market.",
+          "Indian products were promoted by the colonial government and competed with other countries’ markets also.",
+          "Indian products enjoyed a worldwide market based on quality of material used and the high standard of craftsmanship.",
+          "Indian products’ raw material for primary goods was imported from the other countries and it helped to increase export."
+        ],
+        "chapter": "Indian Economy on the Eve of Independence",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "passage_comprehension",
+        "correct_answer": "C",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "final_key_source_id": "cuet2024-economics-bookA-final-key",
+        "paper_locator": "q37",
+        "key_locator": "pdf-page-42",
+        "key_quote": "37 3 37 3 37 2 37 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 16.05.2024 Subject :309 - Economics / Business Economics (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "q37",
+            "support_hash": "912f198498760a96d83e58f29bd67a483150348b07ee3d57622413e9b91a182d"
+          },
+          {
+            "id": "cuet2024-economics-bookA-paper",
+            "version": 1,
+            "locator": "passage-2744a9366531",
+            "support_hash": "2744a9366531e814bdbf4f836470d1272f49adb0972f0f85f918c48cdc71d673"
+          },
+          {
+            "id": "ncert-keec101",
+            "version": 1,
+            "locator": "pdf-page-4",
+            "support_hash": "0dadf2039f44a64e9755d4de10a84c6120e333dd995a8fd8df8db41c31040ad5"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "India had an independent economy before the advent of the British rule. Though agriculture was the main source of livelihood for most people, yet, the country’s economy was characterised by various kinds of manufacturing activities. India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India. The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into a supplier of raw materials and consumer of finished industrial products from Britain. Obviously, the colonial government never made any sincere attempt to estimate India’s national and per capita income. Some individual attempts which were made to measure such incomes yielded conflicting and inconsistent results. Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant. However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+        "passage_group_id": "cuet2024-economics-bookA-passage-2744a9366531",
+        "order_index": 4,
+        "explanation": "NCERT says Indian products had a worldwide market due to material quality and craftsmanship, matching option C. Official key: 3.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "economics",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-economics-bookA-q37",
+        "provenance": {
+          "kind": "authentic_pyq",
+          "anchor_id": "cuet2024-economics-bookA-q37",
+          "adaptation_family": "pyq:cuet2024-economics-bookA-q37",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 2,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-economics-bookA-q37",
+        "source_id": "cuet2024-economics-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78ffd8d656c2a27572a5b52bd9cc5cbcb20dbcb1f9b89d568f9ea14391c11b06",
+        "key_locator": "pdf-page-42",
+        "independently_keyed": true,
+        "final_answer": "C"
+      }
+    },
+    {
+      "id": "fault-wrong_key-conceptual",
+      "split": "held_out",
+      "category": "wrong_key",
+      "valid": false,
+      "question": {
+        "id": "fault-wrong_key-conceptual",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "knew, go",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "C",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "Proposed key intentionally differs from unchanged officially keyed content."
+      }
+    },
+    {
+      "id": "fault-wrong_key-numerical",
+      "split": "held_out",
+      "category": "wrong_key",
+      "valid": false,
+      "question": {
+        "id": "fault-wrong_key-numerical",
+        "official_question_id": "15",
+        "body": "400 shares of ₹ 50 each issued at par were forfeited for non-payment of final call of ₹ 10 per share. These shares were reissued at ₹ 45 per share as fully paid-up. The amount transferred to capital reserve is :",
+        "options": [
+          "₹ 15,000",
+          "₹ 14,000",
+          "₹ 16,000",
+          "₹ 13,000"
+        ],
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_one_step",
+        "correct_answer": "C",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q15",
+        "key_locator": "pdf-page-118",
+        "key_quote": "15 2 15 2 15 2 15 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q15",
+            "support_hash": "aca1e0348a16ac68bac6424cd10317d873c2a7ddb6802848ed0a191d4e558553"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-49",
+            "support_hash": "4095f31cdbae69074f53b5f28e567b9b24a28a6990800daa73161ab16a5773a1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Amount received before the final call is ₹50 − ₹10 = ₹40 per share, or ₹16,000 total. Reissue at ₹45 creates a ₹5-per-share discount (₹2,000). The residual ₹14,000 is transferred to Capital Reserve; key position 2 maps to option B.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q15",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-accountancy-bookA-q15",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q15",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q15",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:c43b5a259f671618b8a6d4e71eb95a0b790b0bbd442f03eaa4e4d6fad817942b",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-accountancy-bookA-q15",
+        "reason": "Proposed key intentionally differs from unchanged officially keyed content."
+      }
+    },
+    {
+      "id": "fault-wrong_key-passage",
+      "split": "held_out",
+      "category": "wrong_key",
+      "valid": false,
+      "question": {
+        "id": "fault-wrong_key-passage",
+        "official_question_id": "41",
+        "body": "Calculate Trade Receivables Turnover Ratio.",
+        "options": [
+          "8.18 times",
+          "8.23 : 1",
+          "8.18%",
+          "8.81 : 1"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "numerical_one_step",
+        "correct_answer": "B",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q41",
+        "key_locator": "pdf-page-118",
+        "key_quote": "41 1 41 1 41 1 41 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q41",
+            "support_hash": "0f6ba52b2ea6ccc6341d1a3a31be39760ff10be2d71bbe57d368df3b48996b6d"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "Read the following information carefully and answer the next five questions : Particulars ₹ Revenue from Operations 8,75,000 Creditors 90,000 Bills Receivable 48,000 Bills Payable 52,000 Purchases 4,20,000 Trade Debtors 59,000",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 0,
+        "explanation": "With only closing receivables figures supplied, use debtors plus bills receivable: ₹8,75,000 ÷ (₹59,000 + ₹48,000) = 8.18 times. The official key marks position 1, option A.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q41",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-accountancy-bookA-q41",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q41",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q41",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "A"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-accountancy-bookA-q41",
+        "reason": "Proposed key intentionally differs from unchanged officially keyed content."
+      }
+    },
+    {
+      "id": "fault-multiple_correct",
+      "split": "held_out",
+      "category": "multiple_correct",
+      "valid": false,
+      "question": {
+        "id": "fault-multiple_correct",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "had known, have visited.",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "Two distinct option strings supply the same grammatically correct pair; punctuation does not remove ambiguity."
+      }
+    },
+    {
+      "id": "fault-missing_assumptions",
+      "split": "held_out",
+      "category": "missing_assumptions",
+      "valid": false,
+      "question": {
+        "id": "fault-missing_assumptions",
+        "official_question_id": "15",
+        "body": "A company forfeited equity shares and reissued them at a discount as fully paid-up. What amount is transferred to capital reserve?",
+        "options": [
+          "₹ 15,000",
+          "₹ 14,000",
+          "₹ 16,000",
+          "₹ 13,000"
+        ],
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_one_step",
+        "correct_answer": "B",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q15",
+        "key_locator": "pdf-page-118",
+        "key_quote": "15 2 15 2 15 2 15 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q15",
+            "support_hash": "aca1e0348a16ac68bac6424cd10317d873c2a7ddb6802848ed0a191d4e558553"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-49",
+            "support_hash": "4095f31cdbae69074f53b5f28e567b9b24a28a6990800daa73161ab16a5773a1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Amount received before the final call is ₹50 − ₹10 = ₹40 per share, or ₹16,000 total. Reissue at ₹45 creates a ₹5-per-share discount (₹2,000). The residual ₹14,000 is transferred to Capital Reserve; key position 2 maps to option B.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q15",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-accountancy-bookA-q15",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q15",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q15",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:c43b5a259f671618b8a6d4e71eb95a0b790b0bbd442f03eaa4e4d6fad817942b",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-accountancy-bookA-q15",
+        "reason": "Share count, face value, amount paid and reissue price are missing; source examples cannot supply candidate facts."
+      }
+    },
+    {
+      "id": "fault-out_of_syllabus",
+      "split": "held_out",
+      "category": "out_of_syllabus",
+      "valid": false,
+      "question": {
+        "id": "fault-out_of_syllabus",
+        "official_question_id": "45",
+        "body": "Which particle mediates the strong interaction in quantum chromodynamics?",
+        "options": [
+          "Gluon",
+          "Photon",
+          "Graviton",
+          "W boson"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "A",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Gluons mediate the strong interaction.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "Physics content is outside the English syllabus despite retaining a valid chapter identifier."
+      }
+    },
+    {
+      "id": "fault-false_citation",
+      "split": "held_out",
+      "category": "false_citation",
+      "valid": false,
+      "question": {
+        "id": "fault-false_citation",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "knew, go",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "invented-source-hash"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "A reference receipt deliberately fails its actual source-content hash."
+      }
+    },
+    {
+      "id": "fault-unsupported_explanation",
+      "split": "held_out",
+      "category": "unsupported_explanation",
+      "valid": false,
+      "question": {
+        "id": "fault-unsupported_explanation",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "knew, go",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Option B is correct because a new English grammar rule requires every conditional sentence to use the future perfect tense.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "The explanation asserts a false unsupported rule rather than the retrieved third-conditional rule."
+      }
+    },
+    {
+      "id": "fault-orphan_passage",
+      "split": "held_out",
+      "category": "orphan_passage",
+      "valid": false,
+      "question": {
+        "id": "fault-orphan_passage",
+        "official_question_id": "41",
+        "body": "Calculate Trade Receivables Turnover Ratio.",
+        "options": [
+          "8.18 times",
+          "8.23 : 1",
+          "8.18%",
+          "8.81 : 1"
+        ],
+        "chapter": "Accounting Ratios",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "numerical_one_step",
+        "correct_answer": "A",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q41",
+        "key_locator": "pdf-page-118",
+        "key_quote": "41 1 41 1 41 1 41 1",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q41",
+            "support_hash": "0f6ba52b2ea6ccc6341d1a3a31be39760ff10be2d71bbe57d368df3b48996b6d"
+          },
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "passage-20675dca57ff",
+            "support_hash": "20675dca57ffa16e67104a30f28a1c2a9143ce57010412c62ba7407f7d8905be"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-20",
+            "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-26",
+            "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+          },
+          {
+            "id": "ncert-leac205",
+            "version": 1,
+            "locator": "pdf-page-27",
+            "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "passage_group_id": "cuet2024-accountancy-bookA-passage-20675dca57ff",
+        "order_index": 0,
+        "explanation": "With only closing receivables figures supplied, use debtors plus bills receivable: ₹8,75,000 ÷ (₹59,000 + ₹48,000) = 8.18 times. The official key marks position 1, option A.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q41",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-accountancy-bookA-q41",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q41",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q41",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:576557296e4ba31398c561089aae45c132d5bc4063c1ed44b3baa0045ff8bb6f",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "A"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-accountancy-bookA-q41",
+        "reason": "The passage question is detached from its required stimulus."
+      }
+    },
+    {
+      "id": "fault-cosmetic_duplicate",
+      "split": "held_out",
+      "category": "cosmetic_duplicate",
+      "valid": false,
+      "question": {
+        "id": "fault-cosmetic_duplicate",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "know, had gone",
+          "knew, go",
+          "had known, have visited",
+          "have known, be going"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "C",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "pyq_adapted",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": "option_reshuffle"
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "An option reshuffle of the authenticated anchor is not new inventory."
+      }
+    },
+    {
+      "id": "fault-option_collision",
+      "split": "held_out",
+      "category": "option_collision",
+      "valid": false,
+      "question": {
+        "id": "fault-option_collision",
+        "official_question_id": "45",
+        "body": "Choose the appropriate word pair to complete the sentence : I didn’t know Rahul was in the hospital. If I __________, I would __________ him.",
+        "options": [
+          "had known, have visited",
+          "had known, have visited",
+          "have known, be going",
+          "know, had gone"
+        ],
+        "chapter": "Correct Word Usage",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "word_usage",
+        "correct_answer": "B",
+        "source_id": "cuet2024-english-bookA-paper",
+        "final_key_source_id": "cuet2024-english-bookA-final-key",
+        "paper_locator": "q45",
+        "key_locator": "pdf-page-28",
+        "key_quote": "45 2 45 2 45 3 45 3",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.No Key Book : A | Q.No Key Book : A | Q.No Key Book : B | Q.No Key Book : B | Q.No Key Book : C | Q.No Key Book : C | Q.No Key Book : D | Q.No Key Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "NATIONAL TESTING AGENCY CUET (UG) 2024 : Final Answer Keys Exam Date : 15.05.2024 Subject :101 - English (English)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-english-bookA-paper",
+            "version": 1,
+            "locator": "q45",
+            "support_hash": "09fc751e75fde5d24aff0d7558e85592bf04067e6e1f300ce8f5088e58424c96"
+          },
+          {
+            "id": "cuet2024-english-bookA-q45-reference",
+            "version": 1,
+            "locator": "checked-excerpt",
+            "support_hash": "b0b8eed5c5d60b52f6f7cbd2bf81e16895a1b273ab97a7113e03f73949fb190e"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "The sentence describes a counterfactual past condition and past result. British Council’s third-conditional form is If + past perfect followed by would have + past participle; option 2 (“had known, have visited”) supplies that structure.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "english",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-english-bookA-q45",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-english-bookA-q45",
+          "adaptation_family": "pyq:cuet2024-english-bookA-q45",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-english-bookA-q45",
+        "source_id": "cuet2024-english-bookA-paper",
+        "source_unit_id": "cuet-item-v1:78e7f3406e8d12a7abfeccca221c145b740891dfd76b7cadbdf9c882d4288307",
+        "key_locator": "pdf-page-28",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-english-bookA-q45",
+        "reason": "Two option strings are exactly identical."
+      }
+    },
+    {
+      "id": "fault-solver_boundary",
+      "split": "held_out",
+      "category": "solver_boundary",
+      "valid": false,
+      "question": {
+        "id": "fault-solver_boundary",
+        "official_question_id": "15",
+        "body": "400 shares of ₹ 50 each issued at par were forfeited for non-payment of final call of ₹ 10 per share. These shares were reissued at ₹ 5 per share as fully paid-up. The amount transferred to capital reserve is :",
+        "options": [
+          "₹ 15,000",
+          "₹ 14,000",
+          "₹ 16,000",
+          "₹ 13,000"
+        ],
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "difficulty": "hard",
+        "question_type": "numerical_one_step",
+        "correct_answer": "B",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "final_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "paper_locator": "q15",
+        "key_locator": "pdf-page-118",
+        "key_quote": "15 2 15 2 15 2 15 2",
+        "key_format": "omr_section",
+        "omr_booklet": "A",
+        "key_column": 0,
+        "key_table_header_quote": "Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Q.NoKey Book : A Book : A Book : B Book : B Book : C Book : C Book : D Book : D",
+        "final_key_matched": true,
+        "authentication": {
+          "independently_matched": true,
+          "basis": "Complete separately published paper copies and exact official final OMR key section",
+          "option_order_checked": true,
+          "key_context_quote": "Exam Date : 17.05.2024 Subject :301 - Accountancy / Book Keeping (Assamese)"
+        },
+        "source_refs": [
+          {
+            "id": "cuet2024-accountancy-bookA-paper",
+            "version": 1,
+            "locator": "q15",
+            "support_hash": "aca1e0348a16ac68bac6424cd10317d873c2a7ddb6802848ed0a191d4e558553"
+          },
+          {
+            "id": "ncert-leac201",
+            "version": 1,
+            "locator": "pdf-page-49",
+            "support_hash": "4095f31cdbae69074f53b5f28e567b9b24a28a6990800daa73161ab16a5773a1"
+          }
+        ],
+        "generation_ready": true,
+        "source_support_state": "reference_curated_pending_blind_validation",
+        "passage_text": "",
+        "explanation": "Amount received before the final call is ₹50 − ₹10 = ₹40 per share, or ₹16,000 total. Reissue at ₹45 creates a ₹5-per-share discount (₹2,000). The residual ₹14,000 is transferred to Capital Reserve; key position 2 maps to option B.",
+        "explanation_source_matched": true,
+        "year": 2024,
+        "subject": "accountancy",
+        "source_kind": "authentic_pyq",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 1,
+        "family_id": "pyq:cuet2024-accountancy-bookA-q15",
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "cuet2024-accountancy-bookA-q15",
+          "adaptation_family": "pyq:cuet2024-accountancy-bookA-q15",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 3,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "adaptation_type": null
+        }
+      },
+      "provenance": {
+        "anchor_id": "cuet2024-accountancy-bookA-q15",
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "source_unit_id": "cuet-item-v1:c43b5a259f671618b8a6d4e71eb95a0b790b0bbd442f03eaa4e4d6fad817942b",
+        "key_locator": "pdf-page-118",
+        "independently_keyed": true,
+        "final_answer": "B"
+      },
+      "injection": {
+        "controlled_negative_fixture": true,
+        "baseline_anchor": "cuet2024-accountancy-bookA-q15",
+        "reason": "Reissue discount exceeds the amount forfeited per share, producing an inadmissible fully paid-up reissue and no valid capital-reserve answer."
+      }
+    }
+  ],
+  "limitations": [
+    "Same authenticated 2024 paper per subject; distinct questions and complete stimulus families across splits, not independent papers.",
+    "Official key is external baseline, not proof of conceptual truth.",
+    "Difficulty is a curator estimate.",
+    "Faults are labelled mutations of authentic baselines; quarantine can result from local or academic gates. They are not an independent real-paper accuracy sample."
+  ]
+}

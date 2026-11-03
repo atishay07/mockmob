@@ -1,0 +1,95 @@
+{
+  "schema": "receipt-only-gemini-error-output-evidence-v3",
+  "created_at": "2026-10-10T06:03:06.358Z",
+  "remote_status_file": "artifacts/question-factory/execution-2026-10-07/provider-status.json",
+  "remote_status_sha256": "3987571cf475b91d7baac610106de0c686ce6f1c8382e40b22e79bd227227142",
+  "remote_status": {
+    "http_status": 200,
+    "state": "BATCH_STATE_SUCCEEDED",
+    "request_count": 64,
+    "successful": 60,
+    "failed": 4
+  },
+  "rows": [
+    {
+      "request_key_sha256": "5dfb795a5d7cdf1dbd8aa4b95900fb7a1a8341049a5abc155770dc8b6c004de0",
+      "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "provider_batch_status": "BATCH_STATE_SUCCEEDED",
+      "reservation_state": "unresolved",
+      "reserved_micro": 19788,
+      "actual_micro": null,
+      "receipt_error_code": 14,
+      "receipt_error_message": "The service is currently unavailable.",
+      "item_error_code": 14,
+      "item_error_message": "The service is currently unavailable.",
+      "response_present": false,
+      "usage_present": false,
+      "provider_record_sha256": "24e5dd8c94105611942a9848bf08a7977ff495f65803e92a8416d840a966954a"
+    },
+    {
+      "request_key_sha256": "41086b55e0a9e30893de931f6c31a68cbbebfd34e114897ece0ee30d81609d87",
+      "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "provider_batch_status": "BATCH_STATE_SUCCEEDED",
+      "reservation_state": "unresolved",
+      "reserved_micro": 19788,
+      "actual_micro": null,
+      "receipt_error_code": 14,
+      "receipt_error_message": "The service is currently unavailable.",
+      "item_error_code": 14,
+      "item_error_message": "The service is currently unavailable.",
+      "response_present": false,
+      "usage_present": false,
+      "provider_record_sha256": "d4cef65e5ec1e353fe8bd2b4218c6a39c74b9c59b686147d67de11a1b89bec07"
+    },
+    {
+      "request_key_sha256": "c0c1ef024a745b3d7344d6669cc3b22c0bce261a9ff74902436e62db760b7a10",
+      "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "provider_batch_status": "BATCH_STATE_SUCCEEDED",
+      "reservation_state": "unresolved",
+      "reserved_micro": 19788,
+      "actual_micro": null,
+      "receipt_error_code": 14,
+      "receipt_error_message": "The service is currently unavailable.",
+      "item_error_code": 14,
+      "item_error_message": "The service is currently unavailable.",
+      "response_present": false,
+      "usage_present": false,
+      "provider_record_sha256": "1d457e967874b5259c9c80725ec328a319d69e2ac48f719f6a2e915fe6aa58ec"
+    },
+    {
+      "request_key_sha256": "5d22140c813a14a0a885bd3b10febbd23ca59daf1735ab7e95cea142f091b0f2",
+      "provider_batch_id": "batches/2mmft6uwaqppq9n1pzsni0iq1jccncktq1o7",
+      "provider_batch_status": "BATCH_STATE_SUCCEEDED",
+      "reservation_state": "unresolved",
+      "reserved_micro": 19788,
+      "actual_micro": null,
+      "receipt_error_code": 14,
+      "receipt_error_message": "The service is currently unavailable.",
+      "item_error_code": 14,
+      "item_error_message": "The service is currently unavailable.",
+      "response_present": false,
+      "usage_present": false,
+      "provider_record_sha256": "6032497d30de7be99b8baef8bda1aed6d2cefe269d9a8199a5bae194b1121fdd"
+    }
+  ],
+  "remaining_old_batch_hold_usd": 0.079152,
+  "global_request_state_counts": [
+    {
+      "state": "settled",
+      "n": 14993,
+      "reserved": 204795654,
+      "actual": 39139769
+    },
+    {
+      "state": "unresolved",
+      "n": 65,
+      "reserved": 821324,
+      "actual": null
+    }
+  ],
+  "accounting_effect": "All four per-item records report provider code 14 (service unavailable), with no response or billable usage metadata. Full receipts remain in the native ledger; each maximum hold remains unresolved. No resubmission or new reservation.",
+  "supersedes_artifacts": [
+    "legacy-gemini-batch-receipt-recovery-r1.json",
+    "legacy-gemini-batch-receipt-recovery-r2.json"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 11441,
+ "request_bytes": 33863,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-r5-regression-2026-10-09-v77f-4c09b80e91ce\",\n  \"content_hash\": \"d78f241e6972667e2b255a924c01b5df8c04a81d6fab3609ce548998bb610690\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E3.1\"],\n  \"reasons\": [\n    \"In the passage, Mira moves the box and 'entered the move in a ledger', meaning she recorded the action in a record book.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Vocabulary in Context\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": false,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"The passage describes entering a move in a ledger, indicating recording information.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"The stem refers to storing maps, but the passage distinguishes 'map boxes' from 'ledger'.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The passage mentions reading-room windows, but a ledger is an item in which an entry is made.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"A donor is mentioned in the passage, but Mira enters box movements in a ledger, not donor receipts.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests contextual vocabulary in reading comprehension.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard CUET English vocabulary-in-context MCQ.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct contextual inference aligned with CUET 2024 passage items.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors use other elements from the passage (map boxes, windows, donor).\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\"cuet2024-english-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"Entering an event in a ledger denotes writing it in a record book.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A box used to store maps\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"The passage refers to 'map boxes' separately from entering the move in a ledger.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A window covering\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books.\",\n      \"reason\": \"The passage discusses windows, but entering a move in a ledger is an act of record-keeping.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"A donor’s receipt\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger.\",\n      \"reason\": \"The ledger is used to log the relocation of damp map boxes, not donor receipts.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EmkKZwFpFH0TauH+CnKQr4IDExZIzhv5znSKqqaTNpb5TahUm2RuJ97mS/wx+vhS31IzbdC2jUWuAmkgNT7KWsuA7mO0CS4rakeIb1Ws5TIqym2Yrg+QazSGBcPs5NHtJaqNliNS7GwFMAk="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6255,
+   "candidatesTokenCount": 1369,
+   "totalTokenCount": 7624,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6255
+    }
+   ],
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "SeHIasKSFPXHjuMPx5S7mAU"
+ }
+}

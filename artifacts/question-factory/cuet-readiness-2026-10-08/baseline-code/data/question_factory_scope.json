@@ -1,0 +1,13 @@
+{
+  "baseline": "CUET UG 2026, provisional for 2027; four options, +5 correct, -1 incorrect, 0 unanswered, 50 questions, 60 minutes, 250 maximum raw marks",
+  "sources": {
+    "bulletin": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2026/01/202601031633478370.pdf",
+    "index": "https://cuet.nta.nic.in/cuetug-2026-syllabus/"
+  },
+  "subjects": {
+    "english": {"chapters": ["Factual Passage","Narrative Passage","Literary Passage","Para Jumbles","Match the Following","Vocabulary","Correct Word Usage"]},
+    "accountancy": {"chapters": ["Partnership Fundamentals","Profit & Loss Appropriation Account","Change in Profit Sharing Ratio","Goodwill Valuation","Admission of Partner","Retirement & Death of Partner","Dissolution of Partnership Firm","Share Capital","Debentures","Financial Statements of Company","Analysis of Financial Statements","Comparative & Common Size Statements","Accounting Ratios","Cash Flow Statement","Computerized Accounting System"], "optional_sections": ["Analysis of Financial Statements and Computerized Accounting are alternative Unit V branches; maintain explicit branch selection."]},
+    "business_studies": {"chapters": ["Nature & Significance of Management","Principles of Management","Business Environment","Planning","Organising","Staffing","Directing","Controlling","Financial Management","Financial Markets","Marketing Management","Consumer Protection"],"syllabus_url":"https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf"},
+    "economics": {"chapters": ["Introduction & Theory of Consumer Behaviour","Production & Costs","Theory of Firms under Perfect Competition","Market Equilibrium & Simple Applications","National Income & Related Aggregates","Money & Banking","Income Determination","Government Budget & the Economy","Balance of Payments","Indian Economy on the Eve of Independence","Indian Economic Development 1950–1990","Economic Reforms Since 1991","Human Capital Formation","Rural Development","Employment","Environment & Sustainable Development","Development Experiences of India"],"syllabus_url":"https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/202512271366341541.pdf"}
+  }
+}

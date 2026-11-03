@@ -1,0 +1,391 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "english",
+  "offset": 10,
+  "total": 17,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "mockmob-original-stimulus-diverse-d5b819342a779eafd29d:1:stimulus:55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71": {
+      "id": "mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71",
+      "text": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-d5b819342a779eafd29d",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "0e83481a664384bf53796a9bf7d5bc3c6a5555045d769c4797e50a6ad0d2b6ba"
+    },
+    "mockmob-original-stimulus-diverse-474baeae3e7118e5d696:1:stimulus:228f37c6b99bceb5f777469158f0bf51ae731bc58d0b05b83c3bdfbdf7e3406d": {
+      "id": "mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "228f37c6b99bceb5f777469158f0bf51ae731bc58d0b05b83c3bdfbdf7e3406d",
+      "text": "In a fictional class, the teacher first asked pupils to propose titles for a shared story. She collected their proposals and read the full list aloud. Only then did the class vote on the listed titles. After the votes had been counted, she wrote the selected title on the story's cover. This account establishes what happened without claiming that a vote is always the best way to choose a title.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "45b5fbb82f19560a75758372dc87bb00da88ebc88a029b5835d47d13c8b61c71"
+    },
+    "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11:1:stimulus:917b0bbf6103e224c68c5f54c9c150eadba4fc80eb43b7d05401b1d20f739e21": {
+      "id": "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "917b0bbf6103e224c68c5f54c9c150eadba4fc80eb43b7d05401b1d20f739e21",
+      "text": "In this fictional account, Jaya noticed that a plant's label had become unreadable. She checked the plant's identity in the garden's own planting record. Having found the recorded name, she wrote it on a new label. She then replaced the unreadable label with the new one. The sequence establishes the order of her actions without making an outside claim about the plant itself.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b56d71bcca201c0041b9c85540d6df7cd981686f01c71b7bda4bfe2adf284fe0"
+    },
+    "oxford-quality-hostile:1:definition:a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913": {
+      "id": "oxford-quality-hostile",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+      "text": "aggressive or unfriendly and ready to argue or fight",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/hostile",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "2a579f6ac437924065f8aeb9ed77ff679067a0d118193114f14fab678f3106ac"
+    },
+    "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703": {
+      "id": "oxford-quality-diligent",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+      "text": "showing care and effort in your work or duties",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/diligent",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "679a434f60ecf9549e5f9127327e1f5716f20dfd02965bebed3e08796848f4db"
+    },
+    "oxford-quality-ambiguous:1:definition:180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8": {
+      "id": "oxford-quality-ambiguous",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+      "text": "that can be understood in more than one way; having different meanings",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/ambiguous",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "b139829d3f3bba1c0efd3bf7767dbab50739d2c8f612cd6362cea370a23dd39e"
+    },
+    "oxford-quality-impartial:1:definition:3aea27cc09ebc5742af0491851291e042ee63beb8962c7fa8fb7a9a30d997f93": {
+      "id": "oxford-quality-impartial",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3aea27cc09ebc5742af0491851291e042ee63beb8962c7fa8fb7a9a30d997f93",
+      "text": "not supporting one person or group more than another",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/impartial",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "3cd1d54996d480153e34669d7061fe4bcc20257dc9d8339eff05fd470a70b1c8"
+    },
+    "oxford-quality-sceptical:1:definition:80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf": {
+      "id": "oxford-quality-sceptical",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf",
+      "text": "having doubts that a claim or statement is true or that something will happen",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sceptical",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "5f691494e19cc00610b5af30299eca4c3034c26ecf9250db06a78b96ce2d27d1"
+    },
+    "oxford-quality-inquisitive:1:definition:4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c": {
+      "id": "oxford-quality-inquisitive",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+      "text": "very interested in learning about many different things",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/inquisitive",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "08dac78797ea1ab40131d5fe724ce1f11ef79bd87c4555291b4f0c48cedd4e0a"
+    },
+    "oxford-quality-sporadic:1:definition:a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12": {
+      "id": "oxford-quality-sporadic",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12",
+      "text": "happening only occasionally or at intervals that are not regular",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/sporadic",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "22b01d12c7552af7fc399ad41dea584f9ca9c1d15bf210bd62e3f0fac2b6bd86"
+    },
+    "oxford-quality-tedious:1:definition:ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81": {
+      "id": "oxford-quality-tedious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81",
+      "text": "lasting or taking too long and not interesting",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/tedious",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "55877cfb35d40c21a5fe51e75b6f639ef1c3517db6da21176533780da20ef946"
+    },
+    "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f:1:stimulus:471f4627f60fd619c43eeb876b3b0211e2697610f28d9c9dd9482635a2a3a4e9": {
+      "id": "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "471f4627f60fd619c43eeb876b3b0211e2697610f28d9c9dd9482635a2a3a4e9",
+      "text": "In a fictional class project, Tara first measured the width of the display board. Using that measurement, she cut a sheet of paper to fit it. She then attached the cut sheet to the board and let the adhesive dry. Only after it had dried did she arrange the photographs on the covered board. The account describes that sequence explicitly; it does not prescribe a universal method of preparing every display.",
+      "url": "local://mockmob/original-stimuli/mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f",
+      "publisher": "mockmob",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "9e3faab0de9d83c7149543e1249676f07ab11fa5e56c080e9cedb8491170c425"
+    },
+    "oxford-quality-vigilant:1:definition:8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d": {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d",
+      "text": "very careful to notice any signs of danger or trouble",
+      "url": "https://www.oxfordlearnersdictionaries.com/definition/english/vigilant",
+      "publisher": "www.oxfordlearnersdictionaries.com",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "80bcc81994d24be2ce1e2f17f1c51e4cb87af74c252bce25ae177383bf90e72b"
+    }
+  },
+  "cases": [
+    {
+      "id": "7c93ba5270b262b8aba33c51780d0ea0",
+      "content_hash": "685d0f2a63177434df93a7d69ee1810983c81d21b9e2a87654e82d75337266ef",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Literary Passage",
+        "topic": "Literary Passage: test a distinct supported detail, inference or textual relationship in this original fictional stimulus.",
+        "difficulty": "easy",
+        "format": "reading_comprehension",
+        "question_type": "reading_comprehension",
+        "passage_group_id": "original-passage-cd55b65c95234040105a",
+        "order_index": 1
+      },
+      "question": {
+        "stem": "What choice do the children make after the neighbour questions whether the new game must reproduce the old one?",
+        "options": [
+          "They stop drawing because their memories conflict.",
+          "They use the first child's remembered layout.",
+          "They create a changed layout instead of copying the old one.",
+          "They recreate the old arrangement exactly from memory."
+        ],
+        "passage": "Rain had washed the chalk game from the lane. The children arrived with fresh chalk and began drawing again. One child remembered the old squares as longer; another insisted that the turning square had been on the left. They argued until a passing neighbour asked whether the new game had to reproduce the old one. After a moment, they drew a wider turning square in the middle. Their feet soon covered the fresh lines with pale dust. From her doorway, the neighbour could no longer tell which marks belonged to yesterday and which belonged to the game they had just invented."
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-d5b819342a779eafd29d:1:stimulus:55ed0f7353e48f1bf6a4498e4c879f9cbe2717f92325a0750c28472f3805cd71"
+      ]
+    },
+    {
+      "id": "90c24807e1a72c192a3c7d75ee9ed454",
+      "content_hash": "59c6171542492703db77e220665c09b5258b6f97a575f6299d97f14b1f217c89",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following four sentences from a fictional account to form a coherent paragraph.\n(A) After the votes were counted, the teacher wrote the chosen title on the story's cover.\n(B) The teacher began by asking pupils to suggest titles for their shared story.\n(C) After recounting those events, the account makes no claim that voting is always the best way to choose a title.\n(D) She gathered the proposed titles and read the full list aloud; only then did the class vote on titles on that list.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "B-A-D-C",
+          "D-B-A-C",
+          "B-D-C-A",
+          "B-D-A-C"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-474baeae3e7118e5d696:1:stimulus:228f37c6b99bceb5f777469158f0bf51ae731bc58d0b05b83c3bdfbdf7e3406d"
+      ]
+    },
+    {
+      "id": "0247258de456a670df19039e3a2c4dfa",
+      "content_hash": "b233229cf7119be146e977c16b4e38f58801fd07c0a567b63284bfa27cfb002a",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Arrange the following four sentences in chronological order.\n(A) Having found the recorded name, Jaya wrote it on a new label.\n(B) Jaya noticed that a plant's label had become unreadable.\n(C) She then replaced the unreadable label with the new one.\n(D) She checked the plant's identity in the garden's own planting record.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "B-A-D-C",
+          "B-D-C-A",
+          "D-B-A-C",
+          "B-D-A-C"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11:1:stimulus:917b0bbf6103e224c68c5f54c9c150eadba4fc80eb43b7d05401b1d20f739e21"
+      ]
+    },
+    {
+      "id": "3936d671d69dce13796bfd5d39217eaa",
+      "content_hash": "950d5ee2936fe1dd62cfe82c9be9b63c4e3368ac8840dbed80ee2cf15f383058",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "topic": "Correct Word Usage: test \"hostile\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "medium",
+        "format": "correct_word_usage",
+        "question_type": "correct_word_usage",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Choose the word that best completes the sentence.\nDuring a disagreement about a team deadline, Arjun shouted insults, threatened to start a fight, and refused to discuss the issue calmly. His response was _____.",
+        "options": [
+          "diligent",
+          "ambiguous",
+          "impartial",
+          "hostile"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-hostile:1:definition:a7d344f9a6152d97ad8b721090e9626a743a00c53985e9c8cc26a6fa18859913",
+        "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+        "oxford-quality-ambiguous:1:definition:180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+        "oxford-quality-impartial:1:definition:3aea27cc09ebc5742af0491851291e042ee63beb8962c7fa8fb7a9a30d997f93"
+      ]
+    },
+    {
+      "id": "99de722eb49ebfa10306bd2d9dd3e88d",
+      "content_hash": "7458b37d3fec5fd0f90ad1a4486dcf71e38dd0f1d60e2ea9980446172432c45e",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "topic": "Vocabulary: test \"sceptical\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "hard",
+        "format": "antonym",
+        "question_type": "antonym",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A report claims that a ferry will arrive by noon. Priya asks questions about the forecast, but she is described as “sceptical” because she doubts that the claim is true. Later, she accepts the claim as true. Which word best expresses an attitude opposite to her initial attitude?",
+        "options": [
+          "inquisitive",
+          "convinced",
+          "sporadic",
+          "tedious"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-sceptical:1:definition:80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf",
+        "oxford-quality-inquisitive:1:definition:4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+        "oxford-quality-sporadic:1:definition:a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12",
+        "oxford-quality-tedious:1:definition:ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+      ]
+    },
+    {
+      "id": "11a1cd0da911c0091e9884629edb5165",
+      "content_hash": "b8bf618a0093c0ac843377b6ff2f4ec52d4ce560542ff38c973221457087d542",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Para Jumbles",
+        "topic": "Para Jumbles: write four complete sentences from this supplied original fictional account and ask for their unique coherent order. Keep temporal or referential dependencies explicit; all four sentences and data must be visible in the stem.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "The following four sentences form a paragraph about one fictional class-project account. Arrange them in a coherent order.\n(A) This qualification limits the claim to the particular project described.\n(B) The account describes Tara’s actions in a fictional class project.\n(C) It presents those actions in an explicit sequence.\n(D) It does not prescribe that sequence as a universal method for preparing every display.\nChoose the correct sequence from the options given below:",
+        "options": [
+          "(B)-(C)-(D)-(A)",
+          "(C)-(B)-(D)-(A)",
+          "(B)-(D)-(C)-(A)",
+          "(B)-(C)-(A)-(D)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "mockmob-original-stimulus-diverse-5afeb19df7f2ee965e1f:1:stimulus:471f4627f60fd619c43eeb876b3b0211e2697610f28d9c9dd9482635a2a3a4e9"
+      ]
+    },
+    {
+      "id": "246b07ecc64527cc6bb4f40f5c47d6b6",
+      "content_hash": "54b83420a526d74313b873f5b48300186ee562054e9fa84c29f508f22a36b890",
+      "metadata": {
+        "subject": "english",
+        "chapter": "Correct Word Usage",
+        "topic": "Correct Word Usage: test \"diligent\" in the supplied dictionary sense; use a short context where it disambiguates the answer.",
+        "difficulty": "medium",
+        "format": "correct_word_usage",
+        "question_type": "correct_word_usage",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Choose the word that best completes the sentence.\nThe clerk was ____ in carrying out her assigned audit duties: she carefully checked each entry and put effort into completing every required correction.",
+        "options": [
+          "inquisitive",
+          "vigilant",
+          "diligent",
+          "ambiguous"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "oxford-quality-diligent:1:definition:36a098cacad1c4f29028a92896a8261719f1161680628fef43493838e4e1a703",
+        "oxford-quality-inquisitive:1:definition:4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c",
+        "oxford-quality-ambiguous:1:definition:180f13362b3fb45146abf2ed0beab60de2aba076489e76158b40f7f5dbb3e5e8",
+        "oxford-quality-vigilant:1:definition:8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+      ]
+    }
+  ]
+}

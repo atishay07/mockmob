@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-07T13:07:33.522Z",
+  "project": "mockmob",
+  "required_variable": "CUET_EVIDENCE_SIGNING_KEY",
+  "source": "Vercel project environment search across all environments, all types and all variables",
+  "observed_result": "No Results Found",
+  "configured": false,
+  "credential_values_read": false,
+  "production_configuration_changed": false,
+  "screenshot": "artifacts/question-factory/execution-2026-10-07/production/signing-key-not-configured.jpg",
+  "required_action": "Owner must save the existing signing value as a Production secret in the already prepared form."
+}

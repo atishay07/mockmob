@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 13809,
+ "request_bytes": 34453,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-r1-regression-2026-10-09-v77f-2ca94e8b4e72\",\n  \"content_hash\": \"941969e6f7d7ba46a9c937b60ae8574c605dd50b207fec7a5343f00fb1e7ac64\",\n  \"solved_key\": \"A\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E3.1\"],\n  \"reasons\": [\n    \"In the passage, Dev copies the operator's schedule in chalk 'each morning'. Pointing to the 'fresh date written at the top' indicates that the date was newly or recently inscribed that morning to signify today's updated schedule.\",\n    \"Option A directly captures this contextual meaning ('Recently written'), whereas physical coolness, unfamiliarity, or rain damage do not describe the date.\"\n  ],\n  \"syllabus_chapter\": \"Narrative Passage\",\n  \"syllabus_topic\": \"Reading Comprehension: Vocabulary in Context\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"skill_from_stem\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Dev copies the schedule in chalk each morning and points to the fresh date written at the top to explain the current day's change.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": false,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"B\",\n      \"strongest_reading\": \"Read 'fresh' in its sensory sense of being cool or crisp to physical touch.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Interpret 'fresh' as novel or novelly seen by the visitor rather than newly updated.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"strained\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Confuse the fresh date with the printed timetable that had been washed away by rain.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests contextual vocabulary inference within a narrative reading comprehension passage.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard 4-option contextual vocabulary question matching authentic CUET RC items.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Calibrated with typical CUET Class 12 English reading comprehension vocabulary items like cuet2024-english-bookA-q21.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target alternative dictionary definitions or details from other parts of the passage.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"comprehension\",\n    \"exemplar_ids_compared\": [\"cuet2024-english-bookA-q21\"]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"he copied the operator’s new schedule in chalk each morning.\",\n      \"reason\": \"Because Dev writes the board each morning, the fresh date is recently written.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Cool to the touch\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.\",\n      \"reason\": \"The passage refers to a date written on a board, not physical temperature.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Unfamiliar to the visitor\",\n      \"premise_source\": \"passage_scope\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.\",\n      \"reason\": \"Fresh describes recency of writing, not the visitor's subjective familiarity.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Damaged by rain\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning.\",\n      \"reason\": \"The old timetable was washed away; the chalk date is newly inscribed, not rain-damaged.\"\n    }\n  ]\n}",
+       "thoughtSignature": "Ep0KCpoKAWkUfRPEPIGcqWVPa6TZJLtpq9MW6mjm5n1OjzGS3NHdlvDIucmPLnzFC1VZnyJwKBBHyHv8ldIndUY4R4LtMWfgkH9Ml0lidsIi8hnuQ65yzCVKiDnNlV4P+RUexZ1gY5Qebsw4LaHmmzvBu6BH/KiKlqdNaRI8v5aRrjFcdSVu286lN4bbl2lzH22PsBxAhyEPVac90Js70UX1cltG0mGOs1OcE8YxtPVk7w42/0toxBcdPDpDMU83lpPhRwtqgPZsSEwh5/7hr5qmiyax7zIeJiuearvIlWSHNY+ctEYiSFfuRABn7cGrfin08a4IeYlNlts4UlO4n4bmPtb6+oqvw9mhRcJRBEyUx66nAbiMEGA9xoFKB4v5FbInlCBrQ795zvVEPbPYiW7uWZHSzbFXomZRddwUy9We21/UQXhgtbw6lBS5b6Z2dixoVvRs9KBx8NvnO0/aqnzaxYQ4tcsi+m5IO44s+XzBt/Vwzvitp5BFMTb0clOTMxNwM7j7sHBDg2gdm5Nm3UwJc8zpoZiVGqT69/Ffb9WMekFXK0g11o+WLeBmX7bk047IznH/VfwnyN831mf3QynN2T5L4vpN+Pxse+vDvcvzoGOkJ7ljnYFo0eC2CgL9cVdYuHS5j/UGj89g0DtP9BAkwRNisf3sFdGyqJfmlOPJdaZUUO8+hXM+js7+HjOcdtvkpcdM/Knd43gWjlRZheFdmSUqPmDAVbJGKKUXlolJJHkcaTGB6NLuQVs1e8sFhn6bd71EXDZBi0aQ/QE6ZZSUvNmiO8RsJhiLc4uCuUzQ18VHqpiZJivtWY9TToAx/9a+SMRK9OesDRASCX7AYoHuH3q6VpCMRG+BmVAnrB6bB4p9p9Rst4yPodI1GJjFTMm9Y3gYCcZ1ZlrbyAlM9msdWrxNaL1lQoxFL4RU1CkVnkk7Y5/EEDfUdEn/ZCQzOktGPEF/1I2brvSo0Bo9cZEotyAi3xzb+e0ammT0xL7zXBSmKWffIuKSjETbNnppGQTIMIPavLsJ6nvzLrSbYO94/veBnWXz5wBep1bfNAtruMkuZRRO0qAojx8X5hEZWL//xGsLTu578+8fqYl5fi7TplofedO08uvVzguNf+G//PjDtXdMEcd++FQFLfn7QAoeoKg9GWHTjRzHkjlqsrR9dykwAY+3nkiRyFZDXdtdJKkXM5c9Ip0McEWqC3X9Q6iISasTYKcZcETjLYzAqSpjRqKN4scCqQMPfSo2hA1jPBy27epJmYQ7MK+EZJ+OztodIkBHEKK2qRHfG3tTfJfzx56GRTy+Mgs2Qwk5Vr6snKRf0qYFY2IGf4SzAWQrhzLfSdW1N00jD+dwSuqvAigJEWPLVkgAFUe5x+X+mdbm6YywyZwGVACkYyv2avjICo2w84NKCzNb8tqqny++e+J7UOnuEfw1u1Oyce+n4Jua254e87LAQTZE5qx/HAHEy64lfyE7xwqa/Vm7s244E+3ZXoaL2+J0LxNzd2F08OM22SVS85AUP+u7/zCsyliway2NBAmSXAX+WwgC8GbAYtmTGguYJyV7al/463xGvZ57Ms8xNWanLXxlpxwQ9fWmRMy34FEjFofoyvQXrJeF0/e4rL8ZJwBSXzFLz/y7H2sw1rTIvOYmifPj2cfjWMhy8yPRg5nlInQNY+FGDwHjrDAjPd9a9u3VmQkw7HkpTHWkbM6q1vQyhe/ZNNvEqDUleXeleh4JBE1ILHiC+zZzeQ=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6372,
+   "candidatesTokenCount": 1429,
+   "totalTokenCount": 8081,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6372
+    }
+   ],
+   "thoughtsTokenCount": 280,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "ae_IaqXxIqzRjuMPheuL2QY"
+ }
+}

@@ -1,0 +1,1268 @@
+{
+  "study_id": "cuet-official-key-limited-readiness-v1-2026-10-08",
+  "freeze_hash": "f46f148ebd5b45ba340ebcb824e1101c3fcf00ce3e80d7ef0872819f17de00a3",
+  "started_at": "2026-10-07T20:38:12.022Z",
+  "cap_usd": 6,
+  "providers": [
+    "openai",
+    "gemini",
+    "anthropic"
+  ],
+  "provider_models": [
+    "openai:gpt-6-luna",
+    "gemini:gemini-3.8-flash",
+    "anthropic:claude-haiku-5-5"
+  ],
+  "study_committed_usd": 0,
+  "state": "terminal_errors",
+  "selected_partition": "limited_heldout",
+  "requested_count": null,
+  "expected_results": [
+    {
+      "result_id": "control-option_overlap-cuet2024-business_studies-bookA-q13:openai:gpt-6-luna",
+      "case_id": "control-option_overlap-cuet2024-business_studies-bookA-q13",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "option_overlap",
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "control-option_overlap-cuet2024-business_studies-bookA-q13:gemini:gemini-3.8-flash",
+      "case_id": "control-option_overlap-cuet2024-business_studies-bookA-q13",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "option_overlap",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "control-option_overlap-cuet2024-business_studies-bookA-q13:anthropic:claude-haiku-5-5",
+      "case_id": "control-option_overlap-cuet2024-business_studies-bookA-q13",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "option_overlap",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "control-option_overlap-cuet2024-economics-bookA-q10:openai:gpt-6-luna",
+      "case_id": "control-option_overlap-cuet2024-economics-bookA-q10",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "option_overlap",
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "control-option_overlap-cuet2024-economics-bookA-q10:gemini:gemini-3.8-flash",
+      "case_id": "control-option_overlap-cuet2024-economics-bookA-q10",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "option_overlap",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "control-option_overlap-cuet2024-economics-bookA-q10:anthropic:claude-haiku-5-5",
+      "case_id": "control-option_overlap-cuet2024-economics-bookA-q10",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "option_overlap",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-business_studies-bookA-q14:openai:gpt-6-luna",
+      "case_id": "control-wrong_key-cuet2024-business_studies-bookA-q14",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "wrong_key",
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-business_studies-bookA-q14:gemini:gemini-3.8-flash",
+      "case_id": "control-wrong_key-cuet2024-business_studies-bookA-q14",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "wrong_key",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-business_studies-bookA-q14:anthropic:claude-haiku-5-5",
+      "case_id": "control-wrong_key-cuet2024-business_studies-bookA-q14",
+      "case_type": "authored_control",
+      "subject": "business_studies",
+      "control_kind": "wrong_key",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-economics-bookA-q11:openai:gpt-6-luna",
+      "case_id": "control-wrong_key-cuet2024-economics-bookA-q11",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "wrong_key",
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-economics-bookA-q11:gemini:gemini-3.8-flash",
+      "case_id": "control-wrong_key-cuet2024-economics-bookA-q11",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "wrong_key",
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "control-wrong_key-cuet2024-economics-bookA-q11:anthropic:claude-haiku-5-5",
+      "case_id": "control-wrong_key-cuet2024-economics-bookA-q11",
+      "case_type": "authored_control",
+      "subject": "economics",
+      "control_kind": "wrong_key",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q13",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q14",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q15",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q19",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q28",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q29",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q30",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q36",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q37",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q38",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q40",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q41",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q42",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q44",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q6",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-business_studies-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "business_studies",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q10:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q10",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q10:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q10",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q10:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q10",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q11:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q11",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q11:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q11",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q11:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q11",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q16:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q16",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q16:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q16",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q16:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q16",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q17:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q17",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q17:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q17",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q17:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q17",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q22:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q22",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q22:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q22",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q22:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q22",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q23:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q23:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q23:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q23",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q24:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q24:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q24:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q24",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q25:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q25",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q25:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q25",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q25:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q25",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q26:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q26:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q26:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q26",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q27:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q27:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q27:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q27",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q3:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q3",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q3:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q3",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q3:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q3",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q43:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q43:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q43:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q43",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q45:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q45:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q45:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q45",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q47:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q47",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q47:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q47",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q47:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q47",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q49:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q49",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q49:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q49",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q49:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q49",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q5:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q5",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q5:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q5",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q5:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q5",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q7:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q7:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q7:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q7",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q8:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q8:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q8:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q8",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q9:openai:gpt-6-luna",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q9",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "openai",
+      "model": "gpt-6-luna"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q9:gemini:gemini-3.8-flash",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q9",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "gemini",
+      "model": "gemini-3.8-flash"
+    },
+    {
+      "result_id": "v4-limited_heldout-cuet2024-economics-bookA-q9:anthropic:claude-haiku-5-5",
+      "case_id": "v4-limited_heldout-cuet2024-economics-bookA-q9",
+      "case_type": "authentic_pyq",
+      "subject": "economics",
+      "control_kind": null,
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5"
+    }
+  ],
+  "pending_usage_receipts": 0,
+  "error_count": 41,
+  "missing_count": 0,
+  "finished_at": "2026-10-07T21:52:15.380Z"
+}

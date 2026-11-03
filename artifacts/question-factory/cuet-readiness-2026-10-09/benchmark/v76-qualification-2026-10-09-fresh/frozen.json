@@ -1,0 +1,2690 @@
+{
+  "id": "v76-qualification-2026-10-09-fresh",
+  "created_at": "2026-10-08T21:02:19.547Z",
+  "fixtures": [
+    {
+      "id": "v76f-e0932269d0",
+      "tag": "share-final-call",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-e0932269d0",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept_id": null,
+        "body": "A company issues equity shares with a face value of ₹10 at a premium of 40% of face value. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3"
+          },
+          {
+            "key": "B",
+            "text": "₹4"
+          },
+          {
+            "key": "C",
+            "text": "₹1"
+          },
+          {
+            "key": "D",
+            "text": "₹14"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-e0932269d0",
+        "source_refs": [
+          {
+            "id": "v76s-6d1b7733806ef2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be"
+          },
+          {
+            "id": "v76s-acea30f1971048",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-e0932269d0",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-6d1b7733806ef2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be"
+          },
+          {
+            "id": "v76s-acea30f1971048",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "tag": "prorata-applications",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-b2a54a1da6",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept_id": null,
+        "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+        "options": [
+          {
+            "key": "A",
+            "text": "40"
+          },
+          {
+            "key": "B",
+            "text": "44"
+          },
+          {
+            "key": "C",
+            "text": "48"
+          },
+          {
+            "key": "D",
+            "text": "52"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The allotted-to-applied ratio is 2,000:2,400, or 5:6. An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 48 shares.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-b2a54a1da6",
+        "source_refs": [
+          {
+            "id": "v76s-5d15ae1f40fc11",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-b2a54a1da6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-5d15ae1f40fc11",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q3",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "tag": "partner-guarantee",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-b43f3aebb6",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,000"
+          },
+          {
+            "key": "B",
+            "text": "₹4,000"
+          },
+          {
+            "key": "C",
+            "text": "₹8,000"
+          },
+          {
+            "key": "D",
+            "text": "₹2,000"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "G’s ordinary share is 2/8 × ₹3,12,000 = ₹78,000. This is ₹2,000 below the ₹80,000 guarantee. The agreement assigns that deficiency to E, so E bears ₹2,000.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-b43f3aebb6",
+        "source_refs": [
+          {
+            "id": "v76s-a949188b3a7854",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-b43f3aebb6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-a949188b3a7854",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q9",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "tag": "midmonth-drawings",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-e6f3811e7b",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "A partnership deed charges simple interest on drawings at 8% per annum. A partner withdraws the same amount in the middle of each of the twelve months of a full accounting year. Total interest on these drawings for the year is ₹4,800. What is the amount of each monthly withdrawal?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹10,000"
+          },
+          {
+            "key": "B",
+            "text": "₹5,000"
+          },
+          {
+            "key": "C",
+            "text": "₹15,000"
+          },
+          {
+            "key": "D",
+            "text": "₹20,000"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Equal mid-month withdrawals have an average outstanding period of six months. If each withdrawal is x, total drawings are 12x. Interest is 12x × 8/100 × 6/12 = 0.48x. Setting this equal to ₹4,800 gives x = ₹10,000.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-e6f3811e7b",
+        "source_refs": [
+          {
+            "id": "v76s-c1094fe215c415",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "acc30acd03108e5a1692489d551b93cc98895d225fec3117ecf924200b2bceab"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Use the average period for equal monthly drawings to recover the monthly amount from interest.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-e6f3811e7b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-c1094fe215c415",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "acc30acd03108e5a1692489d551b93cc98895d225fec3117ecf924200b2bceab"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q24",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-10a1826742",
+      "tag": "fayol-mutual-commitments",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-10a1826742",
+        "subject": "business_studies",
+        "chapter": "Principles of Management",
+        "concept_id": null,
+        "body": "Workers agree to work additional hours to help revive a firm. Management promises a wage increase after the revival. Both sides honour their commitments without prejudice. Which Fayol principle is illustrated by this mutual observance of their agreement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Division of work"
+          },
+          {
+            "key": "B",
+            "text": "Unity of direction"
+          },
+          {
+            "key": "C",
+            "text": "Discipline"
+          },
+          {
+            "key": "D",
+            "text": "Unity of command"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Fayol’s discipline concerns obedience to organisational rules and employment agreements. The decisive feature here is that workers and management honour their mutual commitments. Division of work concerns specialisation; unity of direction concerns one head and one plan for activities sharing an objective; unity of command concerns receiving orders from one superior.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-10a1826742",
+        "source_refs": [
+          {
+            "id": "v76s-87d44285dea4ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5ce8883a69ee1925b645c113d0e1280ab717b05841988ac6e8149ae489aa1f1c"
+          },
+          {
+            "id": "v76s-fe899efe69ba71",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "d2f8810859f0b98ecf3b2899045aea567789ccb9f3834bc16b75168b66d1edc5"
+          },
+          {
+            "id": "v76s-2f42089dcd1b43",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "79d49f1dd1200e3cbc99a3ab70de54c457505aa767b8bb2d9826089c60b3fbeb"
+          },
+          {
+            "id": "v76s-ddf508df450a19",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "251ee667a5b086020d585f73523ded30c0a41aeaaf54862d9a2eb0156b88f6a8"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Principles of Management",
+          "objective": "Distinguish a Fayol principle using the decisive feature of a workplace agreement.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-10a1826742",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-87d44285dea4ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "5ce8883a69ee1925b645c113d0e1280ab717b05841988ac6e8149ae489aa1f1c"
+          },
+          {
+            "id": "v76s-fe899efe69ba71",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "d2f8810859f0b98ecf3b2899045aea567789ccb9f3834bc16b75168b66d1edc5"
+          },
+          {
+            "id": "v76s-2f42089dcd1b43",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "79d49f1dd1200e3cbc99a3ab70de54c457505aa767b8bb2d9826089c60b3fbeb"
+          },
+          {
+            "id": "v76s-ddf508df450a19",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "251ee667a5b086020d585f73523ded30c0a41aeaaf54862d9a2eb0156b88f6a8"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q5",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "tag": "planning-primary",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-3f144fd374",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": null,
+        "body": "What does the statement “planning is a primary function of management” mean?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Planning is undertaken at all management levels"
+          },
+          {
+            "key": "B",
+            "text": "Plans are prepared repeatedly for successive periods"
+          },
+          {
+            "key": "C",
+            "text": "Plans focus on predetermined organisational goals"
+          },
+          {
+            "key": "D",
+            "text": "Planning precedes and provides a basis for the other managerial functions"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Primacy means that planning precedes the other managerial functions and provides their framework. Planning at all levels describes pervasiveness, successive periods describe continuity, and predetermined goals describe the focus on objectives.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-3f144fd374",
+        "source_refs": [
+          {
+            "id": "v76s-874bdc90b70999",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d"
+          },
+          {
+            "id": "v76s-868e1d8356ca08",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish primacy from the other features of planning.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-3f144fd374",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-874bdc90b70999",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d"
+          },
+          {
+            "id": "v76s-868e1d8356ca08",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q12",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "tag": "marketing-channel-choice",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-0a26fac46f",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": null,
+        "body": "A producer is deciding which wholesalers and retailers will carry its goods to customers. Under which marketing function does the choice of these marketing intermediaries fall?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Promotion"
+          },
+          {
+            "key": "B",
+            "text": "Physical distribution"
+          },
+          {
+            "key": "C",
+            "text": "Transportation"
+          },
+          {
+            "key": "D",
+            "text": "Gathering and analysing market information"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Physical distribution includes decisions about distribution channels and marketing intermediaries. The specified decision is which wholesalers and retailers to use. Transportation concerns moving goods, promotion concerns communicating product merits, and gathering market information concerns information for marketing decisions.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-0a26fac46f",
+        "source_refs": [
+          {
+            "id": "v76s-1df3d2a1a5b00e",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "31ec310380145ba7b291dbc6ba3e4866c495db69f7d24a74f431dc39a698cb54"
+          },
+          {
+            "id": "v76s-792292a64da9ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "37d53ea0da52140d621dc69496c7b84d0763266ba11abfae2b074c4cc926047b"
+          },
+          {
+            "id": "v76s-6dd88b7799a3ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b7ed65bbc72da97c74c1c7c10405290254504eff27d36673cbd1f463f308ae2"
+          },
+          {
+            "id": "v76s-14f5310a351ea2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "81aa1306ecf9f25eaa426aa097b2f37f1c8f80c336e6a2c98666b122f920d348"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Classify a distribution-channel decision among marketing functions.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-0a26fac46f",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-1df3d2a1a5b00e",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "31ec310380145ba7b291dbc6ba3e4866c495db69f7d24a74f431dc39a698cb54"
+          },
+          {
+            "id": "v76s-792292a64da9ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "37d53ea0da52140d621dc69496c7b84d0763266ba11abfae2b074c4cc926047b"
+          },
+          {
+            "id": "v76s-6dd88b7799a3ca",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b7ed65bbc72da97c74c1c7c10405290254504eff27d36673cbd1f463f308ae2"
+          },
+          {
+            "id": "v76s-14f5310a351ea2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "81aa1306ecf9f25eaa426aa097b2f37f1c8f80c336e6a2c98666b122f920d348"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q13",
+      "construction_repairs_used": 1,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "tag": "compulsory-warning",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-5628fb9f74",
+        "subject": "business_studies",
+        "chapter": "Business Environment",
+        "concept_id": null,
+        "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Legal environment"
+          },
+          {
+            "key": "B",
+            "text": "Social environment"
+          },
+          {
+            "key": "C",
+            "text": "Technological environment"
+          },
+          {
+            "key": "D",
+            "text": "Economic environment"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The stem identifies a compulsory regulation governing an advertisement. The legal environment includes legislation and administrative orders that enterprises must obey. That legal requirement is the feature being classified.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-5628fb9f74",
+        "source_refs": [
+          {
+            "id": "v76s-4b6323d1fbcecd",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit III: Business Environment",
+          "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-5628fb9f74",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-4b6323d1fbcecd",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q18",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "tag": "required-cash-reserve",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-7ac5631def",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": null,
+        "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Statutory liquidity ratio"
+          },
+          {
+            "key": "B",
+            "text": "Bank rate"
+          },
+          {
+            "key": "C",
+            "text": "Repo rate"
+          },
+          {
+            "key": "D",
+            "text": "Cash reserve ratio"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The cash reserve ratio is the prescribed percentage of deposits to be held as cash reserves. The statutory liquidity ratio concerns additional liquid reserves, while bank rate and repo rate are interest rates rather than deposit-reserve percentages.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-7ac5631def",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-7ac5631def",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q6",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "tag": "managed-floating",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-3d2cef0c02",
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "concept_id": null,
+        "body": "An exchange rate responds to market demand and supply, but the central bank sometimes buys or sells foreign currency to moderate its movements. Which exchange-rate system does this combination describe?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Gold standard"
+          },
+          {
+            "key": "B",
+            "text": "Managed floating"
+          },
+          {
+            "key": "C",
+            "text": "Fixed exchange rate"
+          },
+          {
+            "key": "D",
+            "text": "Completely flexible exchange rate"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Managed floating combines market-driven exchange-rate movement with central-bank intervention to moderate it. A completely flexible system has no such intervention, while a fixed system sets an official rate. The combination in the stem is the defining feature of managed floating.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-3d2cef0c02",
+        "source_refs": [
+          {
+            "id": "v76s-8d02a647372f48",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "4edc35f4c4a874eaa3c5c9a4d039c2bfd8daf5b46ecba2dd698f3274fdac3985"
+          },
+          {
+            "id": "v76s-2f8f7b48e6edb1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1953b3525b7b404128b33078bfe329b74cfccfea1582c61d3c72903a069847d1"
+          },
+          {
+            "id": "v76s-5c6954165ace3c",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f623f9394f604e27205985b5d4e4c1a4041b32bc80d110a551f6e6b417f968e0"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Balance of Payments",
+          "objective": "Classify an exchange-rate system from market determination and the stated central-bank intervention.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-3d2cef0c02",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-8d02a647372f48",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "4edc35f4c4a874eaa3c5c9a4d039c2bfd8daf5b46ecba2dd698f3274fdac3985"
+          },
+          {
+            "id": "v76s-2f8f7b48e6edb1",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "1953b3525b7b404128b33078bfe329b74cfccfea1582c61d3c72903a069847d1"
+          },
+          {
+            "id": "v76s-5c6954165ace3c",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f623f9394f604e27205985b5d4e4c1a4041b32bc80d110a551f6e6b417f968e0"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q7",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "tag": "public-goods-features",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-d42ab3b35b",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+        "options": [
+          {
+            "key": "A",
+            "text": "I is true and II is false"
+          },
+          {
+            "key": "B",
+            "text": "Both I and II are true"
+          },
+          {
+            "key": "C",
+            "text": "Both I and II are false"
+          },
+          {
+            "key": "D",
+            "text": "I is false and II is true"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Public goods are collectively consumed, so I is true. Their defining features are non-rivalry and non-excludability, which contradict II. Therefore I is true and II is false.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_combination",
+        "passage_text": "",
+        "family_id": "v76-fam-d42ab3b35b",
+        "source_refs": [
+          {
+            "id": "v76s-8710ca0bf43c94",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Government Budget and the Economy",
+          "objective": "Apply the defining consumption and exclusion properties of public goods.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-d42ab3b35b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-8710ca0bf43c94",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q8",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "tag": "occupational-structure",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-5fe8e07cac",
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "concept_id": null,
+        "body": "In a description of the Indian economy, what does “occupational structure” refer to?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The total size of the labour force"
+          },
+          {
+            "key": "B",
+            "text": "The total population of the country"
+          },
+          {
+            "key": "C",
+            "text": "The distribution of working people among industries and economic sectors"
+          },
+          {
+            "key": "D",
+            "text": "The tasks performed within an individual job"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Occupational structure describes the distribution of working people across industries and sectors. It is a distribution among sectors, rather than a total count of people or a description of one worker’s tasks.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-5fe8e07cac",
+        "source_refs": [
+          {
+            "id": "v76s-f3f35d090a16fc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "33c719444c5a48f2e6eb9827649a960e95f31a777a7d14d8b291465bd41fb9b8"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Indian Economic Development",
+          "objective": "Interpret the sectoral workforce concept used to describe an economy.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-5fe8e07cac",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76s-f3f35d090a16fc",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "33c719444c5a48f2e6eb9827649a960e95f31a777a7d14d8b291465bd41fb9b8"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q12",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-461c8da728",
+      "tag": "jibhi-initial-motive",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-461c8da728",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": null,
+        "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The 2008 government scheme had already guaranteed business success"
+          },
+          {
+            "key": "B",
+            "text": "Tourism in Srinagar had stopped because of the pandemic"
+          },
+          {
+            "key": "C",
+            "text": "The family had already built many concrete hotels in Jibhi"
+          },
+          {
+            "key": "D",
+            "text": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Paragraph 1 links Srinagar’s landscape to memories of Jibhi and contrasts Srinagar’s many tourists with Jibhi’s anonymity. That comparison prompted the narrator’s return. The 2008 scheme and the pandemic occur later; paragraph 2 describes converting a traditional family house.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-461c8da728",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-461c8da728",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-initial-motive",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-71ed304404",
+      "tag": "jibhi-context-vocabulary",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-71ed304404",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": null,
+        "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+        "options": [
+          {
+            "key": "A",
+            "text": "crowded with visitors from across the world"
+          },
+          {
+            "key": "B",
+            "text": "not widely known to potential visitors"
+          },
+          {
+            "key": "C",
+            "text": "closed to visitors by an official prohibition"
+          },
+          {
+            "key": "D",
+            "text": "already transformed into a concrete town"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "vocabulary",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-71ed304404",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+          "target_term": "clouded in anonymity",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-71ed304404",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "B",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-context-vocabulary",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "tag": "jibhi-house-change",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-d1489a9ae6",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": null,
+        "body": "Which description best matches the narrator’s approach to creating the first guesthouse?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Retain the traditional house’s character while adding windows for sunlight"
+          },
+          {
+            "key": "B",
+            "text": "Replace the house with a large concrete town development"
+          },
+          {
+            "key": "C",
+            "text": "Keep the house entirely unaltered, including its windows"
+          },
+          {
+            "key": "D",
+            "text": "Convert an Army building after tourism had already stopped"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Paragraph 2 states that the traditional house kept its original character and gained windows for sunlight. This supports retention with a limited change, rather than wholesale replacement or no alteration. The project began before the pandemic stoppage described later.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-d1489a9ae6",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Identify a description consistent with both clauses of a passage detail.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-d1489a9ae6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-house-change",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "tag": "jibhi-balanced-attitude",
+      "expected_valid": true,
+      "category": "valid",
+      "group": "authored_valid",
+      "candidate": {
+        "id": "v76f-154e50ff60",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": null,
+        "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Tourism has brought no worthwhile learning or relationships"
+          },
+          {
+            "key": "B",
+            "text": "Every increase in tourism should be welcomed regardless of its effects"
+          },
+          {
+            "key": "C",
+            "text": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection"
+          },
+          {
+            "key": "D",
+            "text": "The village must permanently abandon tourism because the first venture failed"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Paragraph 4 describes learning, friendships and pride in establishing tourism. Paragraph 3 describes pressure on nature and the opportunity to seek sustainable solutions. Together they support a positive but reflective attitude towards growth.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-154e50ff60",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-154e50ff60",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "Coordinator independent derivation frozen before the second reviewer or official marking scheme is opened.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-balanced-attitude",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "tag": "guarantee-wrong-key",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-5ef78612af",
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "concept_id": null,
+        "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,000"
+          },
+          {
+            "key": "B",
+            "text": "₹4,000"
+          },
+          {
+            "key": "C",
+            "text": "₹8,000"
+          },
+          {
+            "key": "D",
+            "text": "₹2,000"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "G’s ordinary share is 2/8 × ₹3,12,000 = ₹78,000. This is ₹2,000 below the ₹80,000 guarantee. The agreement assigns that deficiency to E, so E bears ₹2,000.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-b43f3aebb6",
+        "source_refs": [
+          {
+            "id": "v76s-a949188b3a7854",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-b43f3aebb6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "The independently derived deficiency is ₹2,000 (D); the proposed key has been changed to B only.",
+        "source_refs": [
+          {
+            "id": "v76s-a949188b3a7854",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q9",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-b43f3aebb6",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "tag": "missing-premium-rate",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-dcb4ca9b28",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept_id": null,
+        "body": "A company issues equity shares with a face value of ₹10 at a premium whose rate is not stated. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹3"
+          },
+          {
+            "key": "B",
+            "text": "₹4"
+          },
+          {
+            "key": "C",
+            "text": "₹1"
+          },
+          {
+            "key": "D",
+            "text": "₹14"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-e0932269d0",
+        "source_refs": [
+          {
+            "id": "v76s-6d1b7733806ef2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be"
+          },
+          {
+            "id": "v76s-acea30f1971048",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-e0932269d0",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "The issue premium is absent; several final-call amounts are possible. No supplied normative example supplies this case-specific rate.",
+        "source_refs": [
+          {
+            "id": "v76s-6d1b7733806ef2",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be"
+          },
+          {
+            "id": "v76s-acea30f1971048",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749"
+          }
+        ],
+        "inherited_root_key": "B",
+        "defensible_keys": [],
+        "answer_accuracy_applicable": false
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q2",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-e0932269d0",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "tag": "prorata-arithmetic-fault",
+      "expected_valid": false,
+      "category": "numerical_fault",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-2b8bd9ddd4",
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "concept_id": null,
+        "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+        "options": [
+          {
+            "key": "A",
+            "text": "40"
+          },
+          {
+            "key": "B",
+            "text": "44"
+          },
+          {
+            "key": "C",
+            "text": "48"
+          },
+          {
+            "key": "D",
+            "text": "52"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The allotted-to-applied ratio is 2,000:2,400, or 5:6. An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 44 shares.",
+        "route": "numerical",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-b2a54a1da6",
+        "source_refs": [
+          {
+            "id": "v76s-5d15ae1f40fc11",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+          "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-b2a54a1da6",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-accountancy",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "The retained formula is correct, but 40 × 6/5 equals 48, not the explanation’s 44.",
+        "source_refs": [
+          {
+            "id": "v76s-5d15ae1f40fc11",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-accountancy-q3",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-b2a54a1da6",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "tag": "primary-full-alternative",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-972dd21c21",
+        "subject": "business_studies",
+        "chapter": "Planning",
+        "concept_id": null,
+        "body": "What does the statement “planning is a primary function of management” mean?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Planning is undertaken at all management levels"
+          },
+          {
+            "key": "B",
+            "text": "Planning lays down the framework within which the other managerial functions are performed"
+          },
+          {
+            "key": "C",
+            "text": "Plans focus on predetermined organisational goals"
+          },
+          {
+            "key": "D",
+            "text": "Planning precedes and provides a basis for the other managerial functions"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Primacy means that planning precedes the other managerial functions and provides their framework. Planning at all levels describes pervasiveness, successive periods describe continuity, and predetermined goals describe the focus on objectives.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-3f144fd374",
+        "source_refs": [
+          {
+            "id": "v76s-874bdc90b70999",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d"
+          },
+          {
+            "id": "v76s-868e1d8356ca08",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit IV: Planning",
+          "objective": "Distinguish primacy from the other features of planning.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-3f144fd374",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "Both B and D are full, directly supported descriptions of planning’s primacy.",
+        "source_refs": [
+          {
+            "id": "v76s-874bdc90b70999",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d"
+          },
+          {
+            "id": "v76s-868e1d8356ca08",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7"
+          }
+        ],
+        "inherited_root_key": "D",
+        "defensible_keys": [
+          "B",
+          "D"
+        ],
+        "answer_accuracy_applicable": false
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q12",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-3f144fd374",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "tag": "regulation-invented-date",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-8a965d2fc3",
+        "subject": "business_studies",
+        "chapter": "Business Environment",
+        "concept_id": null,
+        "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Legal environment"
+          },
+          {
+            "key": "B",
+            "text": "Social environment"
+          },
+          {
+            "key": "C",
+            "text": "Technological environment"
+          },
+          {
+            "key": "D",
+            "text": "Economic environment"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The stem identifies a compulsory regulation governing an advertisement. The legal environment includes legislation and administrative orders that enterprises must obey. That legal requirement is the feature being classified. This exact advertising regulation was enacted in 1998.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-5628fb9f74",
+        "source_refs": [
+          {
+            "id": "v76s-4b6323d1fbcecd",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit III: Business Environment",
+          "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-5628fb9f74",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The year and identity of this rule are not supplied; the explanation invents a decisive factual claim.",
+        "source_refs": [
+          {
+            "id": "v76s-4b6323d1fbcecd",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q18",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-5628fb9f74",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "tag": "pure-derivative-objective",
+      "expected_valid": false,
+      "category": "out_of_syllabus",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-6c0c03dcf8",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": null,
+        "body": "For the mathematical function f(x) = x³, use the supplied rule f′(x) = 3x². What is f′(2)?",
+        "options": [
+          {
+            "key": "A",
+            "text": "8"
+          },
+          {
+            "key": "B",
+            "text": "6"
+          },
+          {
+            "key": "C",
+            "text": "12"
+          },
+          {
+            "key": "D",
+            "text": "3"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Substituting x = 2 in the supplied rule gives f′(2) = 3 × 2² = 12.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-0a26fac46f",
+        "source_refs": [
+          {
+            "id": "v76-original-math-premise",
+            "version": 1,
+            "locator": "premise",
+            "support_hash": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing",
+          "objective": "Evaluate a derivative using a supplied mathematical rule.",
+          "target_term": "",
+          "why_answer_requires_it": "The task uses the supplied rule."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-0a26fac46f",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-business_studies",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "The supplied rule gives the unique numerical answer C, but a pure derivative objective is not a Business Studies syllabus objective.",
+        "source_refs": [
+          {
+            "id": "v76-original-math-premise",
+            "version": 1,
+            "locator": "premise",
+            "support_hash": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-business_studies-q13",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-0a26fac46f",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "tag": "cash-reserve-wrong-key",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-59f949e91e",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": null,
+        "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Statutory liquidity ratio"
+          },
+          {
+            "key": "B",
+            "text": "Bank rate"
+          },
+          {
+            "key": "C",
+            "text": "Repo rate"
+          },
+          {
+            "key": "D",
+            "text": "Cash reserve ratio"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The cash reserve ratio is the prescribed percentage of deposits to be held as cash reserves. The statutory liquidity ratio concerns additional liquid reserves, while bank rate and repo rate are interest rates rather than deposit-reserve percentages.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "single_choice",
+        "passage_text": "",
+        "family_id": "v76-fam-7ac5631def",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-7ac5631def",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "The description establishes CRR (D); only the proposed key is changed to A.",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q6",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-7ac5631def",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "tag": "money-model-missing-ratio",
+      "expected_valid": false,
+      "category": "missing_decisive_assumption",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-cbcd129073",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": null,
+        "body": "In a simple banking model with no cash leakage or excess reserves, total deposits equal initial cash reserves divided by the required reserve ratio. Initial cash reserves are ₹200. The required reserve ratio for this case is not stated. What total deposits can these reserves support?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹1,000"
+          },
+          {
+            "key": "B",
+            "text": "₹2,000"
+          },
+          {
+            "key": "C",
+            "text": "₹4,000"
+          },
+          {
+            "key": "D",
+            "text": "₹5,000"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The deposits are ₹1,000 because ₹200 divided by a reserve ratio of 0.20 is ₹1,000.",
+        "route": "numerical",
+        "difficulty": "easy",
+        "question_type": "numerical_calculation",
+        "passage_text": "",
+        "family_id": "v76-fam-7ac5631def",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Money and Banking",
+          "objective": "Apply the simple reserve-based deposit model.",
+          "target_term": "",
+          "why_answer_requires_it": "The required ratio determines deposits."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-7ac5631def",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "The formula and reserve amount are supplied but the case-specific ratio is missing. The explanation silently imports 20%.",
+        "source_refs": [
+          {
+            "id": "v76s-683baa9b074343",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f"
+          },
+          {
+            "id": "v76s-35f832d5aadae0",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6"
+          },
+          {
+            "id": "v76s-95141e43c82969",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476"
+          }
+        ],
+        "inherited_root_key": "D",
+        "defensible_keys": [],
+        "answer_accuracy_applicable": false
+      },
+      "source_item_id": "cbse-2021-22-economics-q6",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-7ac5631def",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "tag": "public-goods-false-explanation",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-060c149e8f",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": null,
+        "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+        "options": [
+          {
+            "key": "A",
+            "text": "I is true and II is false"
+          },
+          {
+            "key": "B",
+            "text": "Both I and II are true"
+          },
+          {
+            "key": "C",
+            "text": "Both I and II are false"
+          },
+          {
+            "key": "D",
+            "text": "I is false and II is true"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Public goods are collectively consumed, so I is true. Their defining features are non-rivalry and non-excludability, which contradict II. Therefore I is true and II is false. Non-rivalry means that one person’s benefit reduces the benefit available to another person.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "statement_combination",
+        "passage_text": "",
+        "family_id": "v76-fam-d42ab3b35b",
+        "source_refs": [
+          {
+            "id": "v76s-8710ca0bf43c94",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Government Budget and the Economy",
+          "objective": "Apply the defining consumption and exclusion properties of public goods.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-d42ab3b35b",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-economics",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "A",
+        "basis": "The extra explanation clause contradicts the decisive definition of non-rivalry.",
+        "source_refs": [
+          {
+            "id": "v76s-8710ca0bf43c94",
+            "version": 1,
+            "locator": "decisive-excerpt",
+            "support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711"
+          }
+        ]
+      },
+      "source_item_id": "cbse-2021-22-economics-q8",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-d42ab3b35b",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "tag": "jibhi-wrong-key",
+      "expected_valid": false,
+      "category": "wrong_key",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-f4c6fb6af3",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": null,
+        "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The 2008 government scheme had already guaranteed business success"
+          },
+          {
+            "key": "B",
+            "text": "Tourism in Srinagar had stopped because of the pandemic"
+          },
+          {
+            "key": "C",
+            "text": "The family had already built many concrete hotels in Jibhi"
+          },
+          {
+            "key": "D",
+            "text": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Paragraph 1 links Srinagar’s landscape to memories of Jibhi and contrasts Srinagar’s many tourists with Jibhi’s anonymity. That comparison prompted the narrator’s return. The 2008 scheme and the pandemic occur later; paragraph 2 describes converting a traditional family house.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-461c8da728",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-461c8da728",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "D",
+        "basis": "The 2008 scheme occurred after the 1992 guesthouse; the established initial-motive key D is changed to A only.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-initial-motive",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-461c8da728",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "tag": "anonymity-second-full-answer",
+      "expected_valid": false,
+      "category": "multiple_correct",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-706de08f5d",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": null,
+        "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+        "options": [
+          {
+            "key": "A",
+            "text": "crowded with visitors from across the world"
+          },
+          {
+            "key": "B",
+            "text": "not widely known to potential visitors"
+          },
+          {
+            "key": "C",
+            "text": "little known beyond the local area"
+          },
+          {
+            "key": "D",
+            "text": "already transformed into a concrete town"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "vocabulary",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-71ed304404",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+          "target_term": "clouded in anonymity",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-71ed304404",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": null,
+        "basis": "B and C both express the contextual meaning of anonymity, with complete defensible alternatives.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "inherited_root_key": "B",
+        "defensible_keys": [
+          "B",
+          "C"
+        ],
+        "answer_accuracy_applicable": false
+      },
+      "source_item_id": "original-jibhi-jibhi-context-vocabulary",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-71ed304404",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    },
+    {
+      "id": "v76f-10e903f685",
+      "tag": "jibhi-invented-growth-rate",
+      "expected_valid": false,
+      "category": "unsupported_explanation",
+      "group": "controlled_defect",
+      "candidate": {
+        "id": "v76f-10e903f685",
+        "subject": "english",
+        "chapter": "Narrative Passage",
+        "concept_id": null,
+        "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Tourism has brought no worthwhile learning or relationships"
+          },
+          {
+            "key": "B",
+            "text": "Every increase in tourism should be welcomed regardless of its effects"
+          },
+          {
+            "key": "C",
+            "text": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection"
+          },
+          {
+            "key": "D",
+            "text": "The village must permanently abandon tourism because the first venture failed"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Paragraph 4 describes learning, friendships and pride in establishing tourism. Paragraph 3 describes pressure on nature and the opportunity to seek sustainable solutions. Together they support a positive but reflective attitude towards growth. The passage establishes that visitor numbers doubled every year from 1992 to 2008.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+        "family_id": "v76-fam-154e50ff60",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Reading Comprehension",
+          "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+          "target_term": "",
+          "why_answer_requires_it": "The question requires the stated skill applied to the supplied facts."
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": null,
+          "adaptation_family": "v76-fam-154e50ff60",
+          "adaptation_type": null,
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "v76-fresh-pack-english",
+          "source_pack_version": 1
+        }
+      },
+      "oracle": {
+        "key": "C",
+        "basis": "The passage establishes growth, but gives no yearly visitor counts or doubling rule.",
+        "source_refs": [
+          {
+            "id": "v76-original-adapted-jibhi",
+            "version": 1,
+            "locator": "supplied-stimulus",
+            "support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08"
+          }
+        ]
+      },
+      "source_item_id": "original-jibhi-jibhi-balanced-attitude",
+      "construction_repairs_used": 0,
+      "maximum_additional_repairs": 0,
+      "root_id": "v76f-154e50ff60",
+      "source_custody": {
+        "independent_derivations_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+        "explanation_label_audit_sha256": "96ed2ef6727bf752c4ceded9f013f5671f9aa4ff275587ba89d82a3f1a0f00ed",
+        "root_source_hash_audit_sha256": "cbe3d5e01470349f737ea0eb50887eb3f08ad950bdfdf680d94c9ba155b61aba",
+        "official_comparison_file": "official-key-comparison-final.json",
+        "construction_only": true
+      }
+    }
+  ],
+  "payload_hash": "ae1db0736ab19b0aacd25f6febfd4ed5dc2203585d2fb0f3e51f98bbd1e04d9f",
+  "denominator": 28,
+  "valid_roots": 16,
+  "controlled_defects": 12,
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.6",
+    "prompt_hash": "9e84c690509fbf97a8228d9ea1f904f1a5e64d36435aeba859a0edc30c00c672",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "1efe51bb4ccab33314f7fa91c1c7d1964e7b11e34ae453246ada1e67b08b33ec",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "verifier_version": "cuet-fit-validator-v7.6",
+  "release_eligibility": {
+    "scope": "full_cuet_release",
+    "classification": "fresh",
+    "approved_before_evaluation": true,
+    "previously_read": false,
+    "tuned_on": false,
+    "preregistration_id": "v76-qualification-2026-10-09-fresh"
+  },
+  "construction_disclosure": {
+    "contract_frozen_before_case_construction": true,
+    "contract_freeze_sha256": "67495e13688cc4f31f3814a390dbf5c045a2a5cb7ef3c4aea545adf4f6e286ea",
+    "source_family": "Previously unregistered CBSE 2021-22 Term I; fresh native-validator evidence only, independently inspected source/key custody before evaluation.",
+    "native_evaluation_exposed": false,
+    "all_cases_retained": true,
+    "construction_history": [
+      {
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/draft-cases-v1-PRIVATE.json",
+        "sha256": "1e9a39506c8e54dd676bf24dd9671d0094eda032dc3b8a1010ca1d8da5c4b52c"
+      },
+      {
+        "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/draft-cases-v2-PRIVATE.json",
+        "sha256": "9cf3db761c0771baeacb3c7ff4dfe0ed12e1b86db90fab38684706d0d1567448"
+      }
+    ],
+    "pre_evaluation_corrections": "Canonical chapter/unit and passage-route metadata; restored physical-distribution heading; extraction metadata corrected. All 28 bodies/options/proposed keys and expected-valid labels unchanged between v1/v2. The out-of-syllabus mathematical oracle was corrected from inherited parent placeholder B to independently derived C before registration; its invalid label stayed false. The construction-edits-v2 field expected_valid_unchanged:false on that case is a descriptive typo.",
+    "oracle_scope": "Missing-input and multiple-answer keys are null; inherited representatives retained separately. Invalid categories/labels are evaluated as registered, never excluded.",
+    "paid_calls_before_registration": 0,
+    "publication": "never"
+  }
+}

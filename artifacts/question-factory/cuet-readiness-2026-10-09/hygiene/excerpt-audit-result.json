@@ -1,0 +1,172 @@
+{
+ "items": [
+  {
+   "id": "S1",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none (print itself shows 'However,principles' glued; text mirrors the page)"
+  },
+  {
+   "id": "S2",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S3",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S4",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S5",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": false,
+   "problems": "Letter-spaced justified words split by spaces: 'R e s o u r c e s : B u s i n e s s', 'A\nb u s i n e s s h a s s o c i a l', 'w o u l d i n v i t e g o v e r n m e n t'"
+  },
+  {
+   "id": "S6",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": false,
+   "problems": "Letter-spaced heading split by spaces: '2 . S c a l e o f O p e r a t i o n s :'"
+  },
+  {
+   "id": "S7",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": false,
+   "problems": "Printed words split by spurious spaces: 'prod ucing', 'exa mple', 'adva nces', 'electro nics', 'inform ation', 'man ufacturing', 'com panies', 'desti nations', 'conti nuing', 'medic ine', 'biotechn ology', 'fou ntain'; glued 'die seland' (printed 'dieseland')"
+  },
+  {
+   "id": "S8",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S9",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none (print itself shows 'servicesincluding' glued; text mirrors the page)"
+  },
+  {
+   "id": "S10",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S11",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S12",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S13",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S14",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S15",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S16",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S17",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S18",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S19",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S20",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S21",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S22",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S23",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  },
+  {
+   "id": "S24",
+   "verbatim": true,
+   "reading_order_ok": true,
+   "word_spacing_ok": true,
+   "problems": "none"
+  }
+ ]
+}

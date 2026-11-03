@@ -1,0 +1,16 @@
+✔ removing an earlier option preserves the actual answer while relabelling (1.9572ms)
+✔ blank correct options cannot be submitted after filtering (0.2538ms)
+✔ quarantine is held, unknown states never pretend to be live (0.139ms)
+✔ raw page boundary advances even when every row is quarantined (1.1411ms)
+✔ feed bounds reject non-numeric and oversized windows (0.1655ms)
+✔ vote-driven reordering cannot duplicate a question already on screen (0.1706ms)
+✔ chapter selectors accept grouped and flat API contracts (0.1917ms)
+✔ feedback abstains on missing key and distinguishes revealing from an answer (0.9731ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 101.0609

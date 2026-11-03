@@ -1,0 +1,60 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 14680,
+ "request_bytes": 32597,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79q1-run-v79q1-accountancy-v2\",\n  \"content_hash\": \"9685844e16b164ffd340d2db34673fb3e6e5f7a4c9a8b268f8c3169b06c5230d\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.2\", \"E2.1\"],\n  \"reasons\": [\n    \"Under Table F of the Companies Act, 2013, the maximum rate of interest chargeable on calls in arrears when Articles are silent is 10% p.a.\",\n    \"Interest payable = Rs 4,000 * 10% * (6 / 12) = Rs 200.\"\n  ],\n  \"syllabus_chapter\": \"Share Capital\",\n  \"syllabus_topic\": \"Calls in Arrears and Table F interest rate\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Calls in arrears amount is Rs 4,000 and delay is 6 months\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Table F maximum rate of interest on calls in arrears is 10% p.a.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.2\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Applies the Table F rate for calls in advance (12% p.a.) for 6 months instead of calls in arrears.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Calculates interest at 10% p.a. for a whole year without prorating for the 6-month period.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Calculates interest at the 12% calls-in-advance rate for a full year without prorating for 6 months.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly assesses Table F interest on calls in arrears, a specified topic in Unit IV.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-scenario numerical MCQ in CUET Accountancy.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Straightforward two-step calculation testing knowledge of Table F percentage.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target the common confusion with calls in advance (12%) and omission of time prorating.\"\n      }\n    },\n    \"reasoning_steps\": 2,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 240\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.2\",\n      \"premise_quote\": \"If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof.\",\n      \"reason\": \"10% p.a. on Rs 4,000 for 6 months yields Rs 200, not Rs 240.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.2\",\n      \"premise_quote\": \"If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof.\",\n      \"reason\": \"Rs 4,000 at 10% p.a. for 6 months equals exactly Rs 200.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 400\",\n      \"premise_source\": \"stem\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"A shareholder failed to pay a call of Rs 4,000 on the due date and paid it after 6 months.\",\n      \"reason\": \"Rs 400 represents a full year of interest rather than 6 months.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 480\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.2\",\n      \"premise_quote\": \"If the articles are silent in this regard, the rule contained in Table F shall be applicable which states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof.\",\n      \"reason\": \"Rs 480 applies an incorrect 12% rate for an unprorated full year.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EpULCpILAWkUfRMOWTnulmfN0M49QXnHwmdWpr2uGSLVCfPjzaafZf4uiqIho0wQ+9JS1xQqa9bUw+lV8IYW5Xo1U5SQCeQHfLJ/WWIKU6rX0N/DHPy9si4xJk8scqnHZuUBwl/E6LDpjj/HGl39RaNdLR+R395vmJA/d87+pVpSss+n3DEljwklLV4W1z4GTn6OGrIpeaH5u6pA/ZBMi3HVWL2A3rjfQbnmcobIhJc5Dw+RAMczY1zK9tQ1QxA0w7qqhkqHWD7atxCDT76N56LSE/jwGQpGcjzHZaZtwE6BSbuSmCC7kJg2ie2/tk8tkn173/QixKEDt6qEGxem/ph0q5aXvxh9Uihmk3j5jlayxo7UEgzAbBg5RZtVzC10Zs9QalFnxYCQl2B/daPOani5p/mcpsJiv2/mrueVheH29yj9LBxySEv1JK8s4jXUl3UcxBaRiA7MymGSzbvLParvTNM4HcY6wSf6AJHJNa3Lh0iW0vHOmf30Xw6bh/Tb9x7Y6cbULhtParZrixYgwJkpp0bplWIoaN90wnxWJ4hsTV156OKmO0m5LqDlh09jvxxGQQ+1aRt3A2j7CYYR9yaFyRdIlwT9FOf70zM4Ni4Zh7O6OFeqPKja2pJWRqEb5qDvxkpuYiwuB+N+wcuQ38T436DEzCUnhwiCQYmnCDmVvTltZtMPrFtyt5bkLIfFkG9p9IxthwD/NScZpZCgyGMhbmQShFcGi9E0rV3r99tyczrkxxjmiSFRLXGYMd9Xd/zIwtVJOqFDrl6M+Pr6bRjOWwes1rqq6ZHtr647Wm6LR8s8I98oJm2TopBIcmWQm5hNuUE9JPFSww/O9kzMbp23IyImmscHZykOE0Y7EWzRjWt0eZJ8jBZNH8KYfma/GM9JC5PR1H1bvVTSghEWOvKDYc790NDmH9kb5wVO8LMIpUZKU6e9vOYf04Q3KtZzSBcZ2li+y1fHhu2WlEAPPpGltft3QIMog7iUaxjyem/7CZ0vV43taY8uyGL3id9DhFrl9AxzJdMulNhkhhC/TVnsHTiVoEYxugK/+hRdn6Ij1/qLFwYspOfaScdtFZkiWXDBvx+PoveWbgM4azDelYhphlCBa8bUEd++ZE1H4mwHyJ/ulk0EwIKWQVqd0C3PI3W6rwLajaBgwFWAD7jWRKJEH+oC0slQ3dD8+agZkRI7XEIjf7vnlKrpqc+Gk6oBH1kf25V2gmUOB3LxB5qk/c46KpKzUXXG9CELtQ/sswp5APVcCuqPDnGOBj93Q4S9BbFO9EefAJ2OEa2c5egyRod5VfG2rJ3t1DqiW6ZD1upXla3M8XMuR6SvVLw1tdJM6jklHVr9ZKZTuKyij11wnz/qQUGH00NUna3ip2I2ZbV0rf5mFCB91/12FoNSKWxo/P+dB4KYSep20JYRpslmHbc3pQjYZNKo9QACqK2TAAeXW19APp1QtgAah97W329aSK+76WCzFsMg4IlMmXyPTPmLhUXzFvQoLDPpnZdq7vBWyH/AoBUVfJ9kCN1XtQ1v+N8geuTv+d7ClaPW4eRLttWQA2FIAx39bGihdRmzCW8sAxm6ESEIe2194+nXYIAW1Sghh/gaF3fU9Dp2up9oYYCEL+6rkHp/+mpwblY+zuonK3d+VM9logjBPkdTFCQMFOdwriMipIVxyFUws89TsH0ttBRJmQeXxw5Ht05SAJhnzLoH1WFSoeLrZaIGXfCgo1C+3YLjYvypvOnWTmunCGW+6BWb/PtvXm064aDf/BXPKHB2jXBYzJhoo5ZtCDlMmu6wA7aNaGmAvyJx2Z3GM6uvilMsn0j8sa0iKZPs86OQi9ckazoFsGg9WG+BY5DmXkxPpMkmhLns0np2nbhf0LT6f5KuGA2FyzwoUpweYBKkiZT8oxGBXQ=="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0,
+    "citationMetadata": {
+     "citationSources": [
+      {
+       "startIndex": 3301,
+       "endIndex": 3568,
+       "uri": "https://philoid.com/ncert/chapter/leac201",
+       "license": ""
+      },
+      {
+       "startIndex": 3869,
+       "endIndex": 4136,
+       "uri": "https://philoid.com/ncert/chapter/leac201",
+       "license": ""
+      },
+      {
+       "startIndex": 4794,
+       "endIndex": 5061,
+       "uri": "https://philoid.com/ncert/chapter/leac201",
+       "license": ""
+      }
+     ]
+    }
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5660,
+   "candidatesTokenCount": 1647,
+   "totalTokenCount": 7725,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5660
+    }
+   ],
+   "thoughtsTokenCount": 418,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "oOfIav34J5bRg8UPjaSzKQ"
+ }
+}

@@ -1,0 +1,77 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=prepos&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=prepos&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: prepos, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 (selected) prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+		24 button Preview assistant drawer
+	25 container
+		26 link Description: MockMob ., Value: localhost:3010/
+		27 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		28 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	29 container
+		30 container
+			31 text PrepOS
+		32 heading Make tonight's next step clear., Value: 1
+			33 text Make tonight's next step clear.
+		34 text The same next action as Today, with the reasoning from your recorded practice.
+		35 text PrepOS
+		36 text Your practice record. One useful next move.
+		37 container PrepOS sections
+			38 checkbox Next step, Value: 1
+			39 checkbox Your record, Value: 0
+			40 checkbox Ask, Value: 0
+			41 checkbox Tools and wallet, Value: 0
+		42 container Mobi, your study companion
+			43 text Read it. Then decide.
+			44 text Your sessions tell the story. Choose one useful step.
+		45 container Your next step
+			46 heading Preview, here is your next step., Value: 2
+				47 text Preview , here is your next step.
+			48 container Time you have
+				49 text Time you have
+				50 checkbox 10 minutes, Value: 1
+				51 checkbox 20 minutes, Value: 0
+				52 checkbox 30 minutes, Value: 0
+			53 heading Start 10 practice questions, Value: 3
+			54 heading WHY THIS STEP, Value: 4
+			55 button Start 10 practice questions
+				56 image
+			57 button Review your mistakes
+			58 button Choose another subject
+			59 container Why this step
+				60 text FROM YOUR RECORDED PRACTICE
+				61 button Inspect your record
+					62 text Inspect your record
+					63 image
+				64 heading Partnership Fundamentals is where the most marks are open, Value: 3
+			65 text Want to understand the choice?
+			66 button Ask about your record
+				67 text Ask about your record
+				68 image
+	69 container Quick study navigation
+		70 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		71 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		72 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		73 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		74 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=prepos&plan=pro

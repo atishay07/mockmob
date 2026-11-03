@@ -1,0 +1,52 @@
+[
+  {
+    "start": "https://mockmob.in/",
+    "chain": [
+      {
+        "url": "https://mockmob.in/",
+        "status": 307,
+        "location": "https://www.mockmob.in/"
+      },
+      {
+        "url": "https://www.mockmob.in/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "finalUrl": "https://www.mockmob.in/",
+    "status": 200,
+    "newTour": true,
+    "newSample": true,
+    "bytes": 213240
+  },
+  {
+    "start": "https://www.mockmob.in/",
+    "chain": [
+      {
+        "url": "https://www.mockmob.in/",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "finalUrl": "https://www.mockmob.in/",
+    "status": 200,
+    "newTour": true,
+    "newSample": true,
+    "bytes": 213240
+  },
+  {
+    "start": "https://www.mockmob.in/cuet-cutoff-calculator",
+    "chain": [
+      {
+        "url": "https://www.mockmob.in/cuet-cutoff-calculator",
+        "status": 200,
+        "location": null
+      }
+    ],
+    "finalUrl": "https://www.mockmob.in/cuet-cutoff-calculator",
+    "status": 200,
+    "newTour": false,
+    "newSample": false,
+    "bytes": 55399
+  }
+]

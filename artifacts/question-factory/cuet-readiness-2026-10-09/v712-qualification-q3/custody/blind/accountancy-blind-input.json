@@ -1,0 +1,289 @@
+{
+ "subject": "accountancy",
+ "items": [
+  {
+   "local_id": "acc-b1",
+   "chapter": "Financial Statements of Company",
+   "body": "Using the criteria for the current/non-current distinction in a company's balance sheet, which of the following is classified as current?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "An asset expected to be realised within twelve months"
+    },
+    {
+     "key": "B",
+     "text": "An asset that is not involved in the operating cycle and is expected to be realised after more than twelve months"
+    },
+    {
+     "key": "C",
+     "text": "A liability that the entity has an unconditional right to defer settling for at least 12 months after the reporting period"
+    },
+    {
+     "key": "D",
+     "text": "Cash and cash equivalent"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F27",
+     "chapter": "Financial Statements of Company",
+     "text": "criteria for defining current assets and liabilities has been clearly spelled out\nwith non-current assets and liabilities being the residual items.\nCurrent/Non-current distinction\nAn item is classified as current:\n if it is involved in entity’s operating cycle or,\n is expected to be realised/settled within twelve months or,\n if it is held primarily for trading or,\n is cash and cash equivalent or,\n if entity does not have on unconditional rights to defer settlement of\nliability for atleast 12 months after the reporting period,\n Other assets and liabilities are non-current.\nIllustration 2\nShow the following items in the balance sheet of Amba Ltd. as on March 31,\n2017: Rs.\n8% Debentures 10,00,000\nEquity share capital 50,00,000\nSecurities premium 20,000\nPreliminary expenses 40,000\nStatement of Profit & Loss (cr.) 1,50,000\nLoose tools 20,000\nBank balance 60,000\nCash in hand 38,000\nSolution:\nBooks of Amba Ltd.\n*Balance Sheet as at March 31, 2017"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b2",
+   "chapter": "Debentures",
+   "body": "A company earned no profit in a year. Which statement about its obligations towards debentureholders is correct?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Interest on debentures is a charge on profits and is to be paid even if there is no profit"
+    },
+    {
+     "key": "B",
+     "text": "Interest on debentures is an appropriation of profits and need not be paid when there is no profit"
+    },
+    {
+     "key": "C",
+     "text": "Interest on debentures varies from year to year with the profits of the company"
+    },
+    {
+     "key": "D",
+     "text": "Interest on debentures is payable only if debentureholders exercise voting rights"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F25",
+     "chapter": "Debentures",
+     "text": "2.2 Distinction between Shares and Debentures\nOwnership: A ‘share’ represents ownership of the company whereas a debenture\nis only acknowledgement of Debt. A share is a part of the owned capital whereas\na debenture is a part of borrowed capital.\nReturn: The return on shares is known as dividend while the return on\ndebentures is called interest. The rate of return on shares may vary from year to\nyear depending upon the profits of the company but the rate of interest on\ndebentures is prefixed. The payment of dividend is an appropriation of profits,\nwhereas the payment of interest is a charge on profits and is to be paid even if\nthere is no profit.\nRepayment: Normally, the amount of shares is not returned during the life of\nthe company, whereas, generally, the debentures are issued for a specified period\nand repayable on the expiry of that period.\nVoting Rights: Shareholders enjoy voting rights whereas debentureholders do\nnot normally enjoy any voting right.\nSecurity : Shares are not secured by any charge whereas the debentures are\ngenerally secured and carry a fixed or floating charge over the assets of the\ncompany.\nConvertibility: Shares cannot be converted into debentures whereas debentures\ncan be converted into shares if the terms of issue so provide, and in that case\nthese are known as convertible debentures."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b3",
+   "chapter": "Accounting Ratios",
+   "body": "The earnings per share of a company is Rs. 12 and the market price of its share is Rs. 96. Using P/E Ratio = Market Price of a share / Earnings per share, what is the price earning ratio?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "6"
+    },
+    {
+     "key": "B",
+     "text": "8"
+    },
+    {
+     "key": "C",
+     "text": "12"
+    },
+    {
+     "key": "D",
+     "text": "0.125"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F33",
+     "chapter": "Accounting Ratios",
+     "text": "5.9.10 Price / Earning Ratio\nThe ratio is computed as –\nP/E Ratio = Market Price of a share/earnings per share\nFor example, if the EPS of X Ltd. is Rs. 10 and market price is Rs. 100, the price\nearning ratio will be 10 (100/10). It reflects investors expectation about the growth\nin the firm’s earnings and reasonableness of the market price of its shares. P/E\nRatio vary from industy to industry and company to company in the same industry\ndepending upon investors perception of their future."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b4",
+   "chapter": "Goodwill Valuation",
+   "body": "A firm has capital employed of Rs. 3,00,000 and the normal rate of return is 10%. Its average profit is Rs. 45,000. Using the capitalisation of super profit method, with Normal Profit = Capital Employed x Normal Rate/100 and Goodwill = Super Profit x 100/Normal Rate of Return, what is the value of goodwill?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 15,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 4,50,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 30,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 1,50,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F8",
+     "chapter": "Change in Profit Sharing Ratio",
+     "text": "Super Profit=Average Profit – Normal profit = Rs. 12,000 – Rs. 8,000\n= Rs. 4,000\n \nGoodwill=Super Profit 3 = Rs. 4,000 3 = Rs. 12,000\n\n3. Normal Profit= Rs. 2,00,000 10/100 = Rs. 20,000\nSuper Profit = Average Profit – Normal Profit = Rs. 30,000 – Rs. 20,000\n= Rs. 10,000\n\nGoodwill=Super Profit 100/Normal Rate of Return\n\n= 10,000 100/10 = Rs. 1,00,000."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b5",
+   "chapter": "Admission of Partner",
+   "body": "A and B share profits in the ratio 2:1. C is admitted for 1/4 share of profits and brings in Rs. 20,000 as his capital. The remaining 3/4 share is divided between A and B in their old ratio 2:1. After all adjustments, the capitals of A and B are Rs. 45,000 and Rs. 15,000, and it is agreed that the capitals of the partners will be in proportion to their new profit shares, the total capital of the new firm being Rs. 80,000. What adjustment is needed in B's capital?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "B withdraws Rs. 5,000"
+    },
+    {
+     "key": "B",
+     "text": "B brings in Rs. 20,000"
+    },
+    {
+     "key": "C",
+     "text": "B brings in Rs. 5,000"
+    },
+    {
+     "key": "D",
+     "text": "No adjustment is needed"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F5",
+     "chapter": "Admission of Partner",
+     "text": "Illustration 25\nA and B are partners sharing profits in the ratio of 2:1. C is admitted into the\nfirm for 1/4 share of profits. C brings in Rs. 20,000 in respect of his capital. The\ncapitals of old partners A and B, after all adjustments relating to goodwill,\nrevaluation of assets and liabilities, etc., are Rs. 45,000 and Rs. 15,000\nrespectively. It is agreed that partners’ capitals should be according to the new\nprofit sharing ratio."
+    },
+    {
+     "ref": "F10",
+     "chapter": "Goodwill Valuation",
+     "text": "Sometimes, the total capital of the firm may clearly be specified and it is\nagreed that the capital of each partner should be proportionate to his share in\nprofits. In such a situation each partner’s capital (including the new partner’s\ncapital to be brought by him) is calculated on the basis of his share in profits.\nBy bringing in additional amount or withdrawal of excess amount, the final\ncapital of each partner can be brought up to the required level.\nIt may be noted that subject to agreement among the partners, surplus or\ndeficiency in each old partners’ capital accounts can also be taken care of simply\nby transfer to their respective current accounts. (See Illustration 26)"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b6",
+   "chapter": "Dissolution of Partnership Firm",
+   "body": "Two of the three partners of a firm agree by mutual consent to change the profit sharing ratio and continue the business. Which statement correctly describes what happens on this dissolution of partnership?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "The business of the firm is closed and its books of account are closed"
+    },
+    {
+     "key": "B",
+     "text": "Assets and liabilities are revalued and a new balance sheet is drawn"
+    },
+    {
+     "key": "C",
+     "text": "The firm can be dissolved only by the court's order"
+    },
+    {
+     "key": "D",
+     "text": "The economic relationship between the partners comes to an end"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F18",
+     "chapter": "Dissolution of Partnership Firm",
+     "text": "Distinction between Dissolution of Partnership and Dissolution of Firm\nBasis Dissolution of Partnership Dissolution of Firm\n1. Termination of The business is not The business of the firm is\nbusiness terminated. closed.\n2. Settlement of Assets and liabilities are Assets are sold and\nassets and revalued and new balance liabilities are paid-off.\nliabilities sheet is drawn.\n3. Court’s Court does not intervene A firm can be dissolved by\nintervention because partnership is the court’s order.\ndissolved by mutual\nagreement.\n4. Economic Economic relationship Economic relationship\nrelationship between the partners between the partners\ncontinues though in comes to an end.\na changed form.\n5. Closure of books Does not require because The books of account are\nthe business is not closed.\nterminated."
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b7",
+   "chapter": "Share Capital",
+   "body": "A company forfeits 100 shares of Rs. 10 each, issued at par, for non-payment of calls. Rs. 8 per share had been called up and Rs. 6 per share had been received. With what amount will Share Capital Account be debited on forfeiture?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 600"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 1,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 800"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 200"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F21",
+     "chapter": "Share Capital",
+     "text": "1.7 Forfeiture of Shares\nIt may happen that some shareholders fail to pay one or more instalments,\nviz. allotment money and/or call money. In such circumstances, the company\ncan forfeit their shares, i.e. cancel their allotment and treat the amount already\nreceived thereon as forfeited to the company within the framework of the\nprovisions in its articles. These provisions are usually based on Table F\nwhich authorise the directors to forefeit the shares for non-payment of calls\nmade. For this purpose, they have to strictly follow the procedure laid down\nin this regard. Following is the accounting treatment of shares issued at par,\npremium or at a discount. When shares are forefeited all entries relating to\nthe shares forfeited except those relating to premium, already recorded in\nthe accounting records must be reversed. Accordingly, share capital account\nis debited with the amount called-up in respect of shares are forfeited and\ncrediting the respective unpaid calls accounts’s or calls in arrears account\nwith the amount already received. Thus, the journal entry will be as follows:"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b8",
+   "chapter": "Partnership Fundamentals",
+   "body": "At the end of the year, the Profit and Loss Account of a partnership firm shows a credit balance (net profit). Which journal entry transfers this balance to the Profit and Loss Appropriation Account?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Profit and Loss Appropriation A/c Dr. To Profit and Loss A/c"
+    },
+    {
+     "key": "B",
+     "text": "Profit and Loss A/c Dr. To Profit and Loss Appropriation A/c"
+    },
+    {
+     "key": "C",
+     "text": "Profit and Loss A/c Dr. To Interest on Capital A/c"
+    },
+    {
+     "key": "D",
+     "text": "Profit and Loss Appropriation A/c Dr. To Partners' Capital A/c"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F1",
+     "chapter": "Partnership Fundamentals",
+     "text": "1.5.1 Profit and Loss Appropriation Account\nProfit and Loss Appropriation Account is merely an extension of the Profit and\nLoss Account of the firm. It shows how the profits are appropriated or distributed\namong the partners. All adjustments in respect of partner’s salary, partner’s\ncommission, interest on capital, interest on drawings, etc. are made through\nthis account. It starts with the net profit/net loss as per Profit and Loss Account.\nThe journal entries for preparation of Profit and Loss Appropriation Account\nand making various adjustments through it are given as follows:\nJournal Entries\n1. Transfer of the balance of Profit and Loss Account to Profit and Loss Appropriation\nAccount:\n(a) If Profit and Loss Account shows a credit balance (net profit):\nProfit and Loss A/c Dr.\nTo Profit and Loss Appropriation A/c\n(b) If Profit and Loss Account shows a debit balance (net loss)\nProfit and Loss Appropriation A/c Dr.\nTo Profit and Loss A/c\n2. Interest on Capital:\n(a) For Allowing interest on capital:\nInterest on Capital A/c Dr.\nTo Partner’s Capital/Current A/cs (individually)\n(b) For transferring interest on capital to Profit and Loss Appropriation Account:\nProfit and Loss Appropriation A/c Dr.\nTo Interest on Capital A/c\n3. Interest on Drawings:\n(a) For charging interest on drawings to partners’ capital accounts:\nPartners Capital/Current A/c’s (individually) Dr.\nTo Interest on Drawings A/c\n(b) For transferring interest on drawings to Profit and Loss Appropriation Account:\nInterest on Drawings A/c Dr.\nTo Profit and Loss Appropriation A/c"
+    }
+   ]
+  },
+  {
+   "local_id": "acc-b9",
+   "chapter": "Profit & Loss Appropriation Account",
+   "body": "P and Q are partners who admit R with a guarantee that R's share of profit will not be less than Rs. 30,000. The guarantee is given by P and Q, who will bear any shortfall in the ratio 3:2. The firm's profit for the year is Rs. 1,50,000 and the profit sharing ratio of P, Q and R is 3:2:1. What amount of profit will P finally get?",
+   "passage_text": "",
+   "options": [
+    {
+     "key": "A",
+     "text": "Rs. 72,000"
+    },
+    {
+     "key": "B",
+     "text": "Rs. 75,000"
+    },
+    {
+     "key": "C",
+     "text": "Rs. 73,000"
+    },
+    {
+     "key": "D",
+     "text": "Rs. 70,000"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Profit & Loss Appropriation Account",
+     "text": "1.6 Guarantee of Profit to a Partner\nSometimes a partner is admitted into the firm with a guarantee of certain\nminimum amount by way of his share of profits of the firm. Such assurance\nmay be given by all the old partners in a certain ratio or by any of the old\npartners, individually to the new partner. The minimum guaranteed amount\nshall be paid to such new partner when his share of profit as per the profit\nsharing ratio is less than the guarnteed amount. For example, Madhulika and\nRakshita, who are partners in a firm decide to admit Kanishka into their firm,\ngiving her the guarantee of a minimum of Rs.25,000 as her share in firm’s profits.\nThe firm earned a profit of Rs.1,20,000 during the year and the agreed profit\nsharing ratio between the partners is decided as 2:3:1. As per this ratio,\nMadhulika’s share in profit comes to Rs.40,000 (2/6 of Rs. 1,20,000); Rakshita,\nRs. 60,000 (3/6 of Rs. 1,20,000) and Kanishka Rs. 20,000 (1/6 of Rs. 1,20,000).\nThe share of Kanishka works out to be Rs.5,000 short of the guaranteed amount.\nThis shall be borne by the guaranteeing partners Madhulika and Rakshita in"
+    }
+   ]
+  }
+ ]
+}

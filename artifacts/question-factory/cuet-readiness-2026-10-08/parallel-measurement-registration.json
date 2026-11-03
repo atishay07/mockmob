@@ -1,0 +1,32 @@
+{
+  "format": "parallel-measurement-registration-v1",
+  "purpose": "Infrastructure-only A/B execution binding; no academic evidence or release authority.",
+  "arms": {
+    "baseline": {
+      "campaign_id": "cuet-readiness-baseline-100-2026-10-08",
+      "campaign_sha256": "6d364a5922a85fada571a358c8e4ddbe5b1b1e681600d5cff3a7f195474a3dca",
+      "candidate_count": 100,
+      "candidate_ids_sha256_sorted_json": "7869d7a55bc1c3aae5af0f81b91c3c3e252ad6efeb9d4e22f276d16f488b8764",
+      "verification_profile_sha256": "ae88bb2d71210f26b0c5c15161d87157f827a45ece9553155cdc866cd75ce827"
+    },
+    "improved": {
+      "campaign_id": "cuet-readiness-improved-100-2026-10-08",
+      "campaign_sha256": "61e75aef1b7981e14b1ac2a9cbba242094b30eb1d93169a83309414a87ce4684",
+      "candidate_count": 100,
+      "candidate_ids_sha256_sorted_json": "a0f24ff3c4bb168b27851dd778250abce8ca218a90eda879d1cffe76ac7d11e9",
+      "verification_profile_sha256": "a56b314975c5d1d19ed9f87535dc21a8ecd2135535bccd0ec34b799378ec8db3"
+    }
+  },
+  "worker_mode": ["worker", "--realtime-all", "--staging", "--measurement-only", "--parallel-measurement"],
+  "worker_script_sha256": "6b14cc907cb9176f1088fae9b2965bc63fac6cdcc4d0911eb6b30b3dbb7cda4c",
+  "factory_store_sha256": "1db704f0e3feb1bf9c3818ea55d3499907cbe5d9ff623f1bddeafd2e287f5d05",
+  "measurement_lease_helper_sha256": "a16b43f53d5642b3349eccd3dd65b5b5de2bcc9eb4516871061cfba550bd7176",
+  "publish": false,
+  "provider_batch_queue_must_be_empty": true,
+  "maximum_wave_iterations": 30,
+  "cooperative_stop_file_prefix": "STOP_AFTER_WAVE-",
+  "stop_behavior": "finish all awaited work in the current wave; retain receipts and jobs; never kill the worker",
+  "same_campaign_concurrency": "forbidden",
+  "cross_campaign_candidate_overlap": "forbidden",
+  "academic_contract_identity": "unchanged; identities remain in the frozen campaign and verification profile files"
+}

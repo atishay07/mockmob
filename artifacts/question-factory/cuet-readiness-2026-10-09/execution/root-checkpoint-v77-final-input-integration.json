@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-09T07:48:01.238Z",
+  "qualified": false,
+  "native_v77_requests": 0,
+  "lifetime": {
+    "settled_usd": 35.127518,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.36459,
+    "unresolved": 37,
+    "requests": 13925
+  },
+  "verified_tests": {
+    "factory": 718,
+    "recovery": 40,
+    "payment_question_student_budget": 40,
+    "receipt_recovery": 4
+  },
+  "application_build": "passed",
+  "fresh_case_custody": "28 final answer/label states independently agree;16 positive explanations supported;12 actual negative controls have decisive defects",
+  "fixed_denominator": 41,
+  "unchanged_regression": 13,
+  "scope_stop_cap_usd": 4,
+  "lifetime_ceiling_usd": 50,
+  "failed_offline_registration": {
+    "ids": [
+      "v77-qualification-2026-10-09-final-fresh",
+      "v77-qualification-2026-10-09-final-regression"
+    ],
+    "state": "preserved; no native requests; actual adapter preflight failed before full capture because constructor registry omitted extraction_checked",
+    "changed": false
+  },
+  "binder": "Original frozen helper has two undefined object shorthands. Additive bind-authorization-v3.mjs fixes only explicit computed-value references, independently reviewed with real final inputs.",
+  "next": "Independently attest actual source extraction identity/text; additive input registration of SAME41 fixed cases under verified overlay. Preserve previous registrations/authorization untouched. Actual full-body preflight, process/provider state check, then one bounded final execution. No new paid benchmark on failure.",
+  "pilot_executed": false,
+  "production_writes": 0
+}

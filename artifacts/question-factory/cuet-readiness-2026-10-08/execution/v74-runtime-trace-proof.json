@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-08T14:19:06.341Z",
+  "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+  "checks": [
+    {
+      "trace": ".next/server/app/api/questions/feed/route.js.nft.json",
+      "academic_files_expected": 25,
+      "academic_files_found": 25
+    },
+    {
+      "trace": ".next/server/app/api/admin/question-factory/route.js.nft.json",
+      "academic_files_expected": 25,
+      "academic_files_found": 25
+    }
+  ],
+  "publication_release": false
+}

@@ -1,0 +1,97 @@
+{
+  "contract": "evidence-content-idea-inspection-v3",
+  "content_hash": "b50f9dab21f079c5c8d28574829c1ee77126e0a874cd4f8deb51795501465185",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 78,
+  "answer_positions": {
+    "A": 21,
+    "B": 20,
+    "C": 16,
+    "D": 21
+  },
+  "answer_positions_by_format": {
+    "synonym": {
+      "A": 3,
+      "C": 1
+    },
+    "sequence_ordering": {
+      "B": 4,
+      "A": 3,
+      "D": 1,
+      "C": 3
+    },
+    "matching": {
+      "C": 4,
+      "B": 2,
+      "D": 5,
+      "A": 3
+    },
+    "correct_word_usage": {
+      "A": 1,
+      "C": 1,
+      "D": 2
+    },
+    "antonym": {
+      "D": 2,
+      "A": 1
+    },
+    "reading_comprehension": {
+      "B": 1,
+      "C": 1
+    },
+    "statement_selection": {
+      "D": 4,
+      "C": 1,
+      "A": 1,
+      "B": 1
+    },
+    "case_application": {
+      "A": 2,
+      "C": 3,
+      "B": 7,
+      "D": 1
+    },
+    "numerical_calculation": {
+      "A": 3,
+      "B": 1,
+      "D": 2
+    },
+    "conceptual_mcq": {
+      "D": 4,
+      "B": 3,
+      "A": 4,
+      "C": 1
+    },
+    "direct_mcq": {
+      "C": 1,
+      "B": 1
+    }
+  },
+  "formats": {
+    "synonym": 4,
+    "sequence_ordering": 11,
+    "matching": 14,
+    "correct_word_usage": 4,
+    "antonym": 3,
+    "reading_comprehension": 2,
+    "statement_selection": 7,
+    "case_application": 13,
+    "numerical_calculation": 6,
+    "conceptual_mcq": 12,
+    "direct_mcq": 2
+  },
+  "difficulty": {
+    "medium": 38,
+    "easy": 29,
+    "hard": 11
+  },
+  "longest_same_answer_run": 2,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 413,
+  "inventory_ids_hash": "fafc91f57e226497f527ef292cffa2f839bdb6c5702bdea111e2fae2adf4394b",
+  "at": "2026-10-07T10:03:48.752Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

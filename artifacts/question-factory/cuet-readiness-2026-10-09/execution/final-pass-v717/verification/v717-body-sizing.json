@@ -1,0 +1,60 @@
+{
+  "test": "V717 actual adapter/retry request sizing; no provider calls",
+  "historical_fixture": "V716 qualification-fresh32b stored blind report fields",
+  "historical_fields_sha256": "581c0a7ec72046d8076febff9527f0a1d3a25e15897f5380767ab2cdc6ad241b",
+  "historical_group_bytes": 2053,
+  "requests": [
+    {
+      "provider": "openai",
+      "stage": "blind_solution",
+      "key": "1a09b6c00daec1a03b29db8f2edcfa858c3db1c237ccec37aafd413f94f3ed32",
+      "request_bytes": 16839,
+      "output_cap": 16000,
+      "body_sha256": "44e5e1216e53b70529b56d8ed64265c2cf974a2cc9055f7d4b0abd95340bd21d"
+    },
+    {
+      "provider": "openai",
+      "stage": "blind_solution",
+      "key": "0bd15ee85b1a3ba29336e91f837b6146d4042811ea595b2efba751604386f779",
+      "request_bytes": 16839,
+      "output_cap": 32000,
+      "body_sha256": "7bdff031946893ba1fb60b4655ca7b75c98e17d954ee03f39a335f948e26431f"
+    },
+    {
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "key": "016230f2dfa4eecb48039d3df1c10b800bbcb5a349b15881e3f44f84586ea1fb",
+      "request_bytes": 16840,
+      "output_cap": 6000,
+      "body_sha256": "434cff1c669eff5e27a7e440cb12ecca6617df42decd0fae94d307d5589bf9ed"
+    },
+    {
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "key": "37ffb62fc74f15284c02dbb90f8b8d04f3dce6e7f19fc31d0b5bd8654301fea9",
+      "request_bytes": 16841,
+      "output_cap": 12000,
+      "body_sha256": "9aecc29ccde333096bcbf141cda4767fe46b42927e9ef1960577c32283877a62"
+    },
+    {
+      "provider": "openai",
+      "stage": "explanation_support",
+      "key": "228a71b14959d8fbdd9e1ffb18f24fdbec0ca80611cdf6ae4f240df2c8062011",
+      "request_bytes": 17179,
+      "output_cap": 8000,
+      "body_sha256": "7318b5d9b299d076c94d11b2e7a0c5fb876a098b4c665474e16c55e3626df50a"
+    },
+    {
+      "provider": "openai",
+      "stage": "explanation_support",
+      "key": "1ecda983f41314c6862149792672e05ae4c1acfcefd2b8c9cee729618ec061c2",
+      "request_bytes": 17180,
+      "output_cap": 16000,
+      "body_sha256": "a116dcb28378fda014a8cd3495eeee3f06ba2e233fc9e80d38a70f619dd4a54b"
+    }
+  ],
+  "max_request_bytes": 17180,
+  "hard_bound_bytes": 33024,
+  "headroom_bytes": 15844,
+  "pass": true
+}

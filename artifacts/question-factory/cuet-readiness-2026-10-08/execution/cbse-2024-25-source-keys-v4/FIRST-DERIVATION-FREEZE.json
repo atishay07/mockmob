@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-08T10:58:11.348Z",
+  "raw_denominator": 32,
+  "packet_sha256": "0333f66f886c7f1aefd7521f2ac1b039df1db7f91198dc19677c650e50e1bfb1",
+  "review_packet_sha256": "e1cd69636842d1f86f8d35a2fed08fa66e51d0da9c67ccbdb3d1ca0f89c2bdfe",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.3",
+    "prompt_hash": "692eb667a50524201ba8b0c5755cdc19440ab8936792da742f29df1f27dda203",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "c04befc1bc40555c424bb84f3508e7cf181498fc742eb08ec04a90aaad533311",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "first_derivations": [
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\english-source-derivation-v2.json",
+      "sha256": "91c1bbcc92e216f8dc43213ebd84226740a035ba326f6e6038cc0db37e89fc31"
+    },
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\accountancy-source-derivation-v1.json",
+      "sha256": "e3247b8f89370900b0ae36e3ed49fc6ae90a535b035bf897488d0c68ad5ec9fa"
+    },
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\business-source-derivation-v1.json",
+      "sha256": "8a8ef6658f0562ff15b024a416115806a33e0c8fde1b42692fdda64c86963e42"
+    },
+    {
+      "path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-2024-25-source-keys-v4\\source-support\\economics-source-derivation-v1.json",
+      "sha256": "2d991933b41fad5a6f0b604b9f5a201d1a4ec96a79444d14a3fd8dceb95b9844"
+    }
+  ],
+  "source_key_positive_candidates": 26,
+  "withheld": 6,
+  "official_candidate_keys_read": false,
+  "independent_second_review_complete": false,
+  "CUET_fit_evaluation_complete": false,
+  "release": false,
+  "publication": false
+}

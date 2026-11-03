@@ -1,0 +1,109 @@
+{
+  "at": "2026-10-09T08:08:11.454Z",
+  "state": "final bounded native qualification running; unqualified",
+  "snapshot": {
+    "at": "2026-10-09T08:07:12.662Z",
+    "read_only": true,
+    "lifetime": {
+      "settled_usd": 35.127518,
+      "held_usd": 0.517892,
+      "remaining_usd": 14.35459,
+      "unresolved": 37
+    },
+    "scope": {
+      "provider_requests": 1,
+      "complete": 0,
+      "settled_usd": 0,
+      "held_usd": 0.01,
+      "pending": [
+        {
+          "id": "51bacde7977f7b5288f31f2922bee8f0aa2ece406ae086e4a09e2368da571461",
+          "provider": "openai",
+          "state": "dispatching",
+          "candidate": "v77-qualification-2026-10-09-v77f-ad344a8b5f2d",
+          "stage": "blind_solution",
+          "budget_state": "reserved",
+          "actual": null,
+          "reserved": 10000
+        }
+      ]
+    },
+    "owner": {
+      "pid": 36876,
+      "nonce": "4b665d61-e63b-4df1-a91f-6d5cea4e56c7",
+      "started_at": "2026-10-09T08:06:06.808Z"
+    },
+    "studies": {
+      "fresh": {
+        "denominator": 28,
+        "terminal": 0,
+        "eligible_valid": 0,
+        "eligible_invalid": [],
+        "quarantined_valid": [],
+        "errors": [],
+        "evaluated_case_ids": [],
+        "blind_judgments": 0
+      },
+      "regression": {
+        "denominator": 13,
+        "terminal": 0,
+        "eligible_valid": 0,
+        "eligible_invalid": [],
+        "quarantined_valid": [],
+        "errors": [],
+        "evaluated_case_ids": [],
+        "blind_judgments": 0
+      }
+    }
+  },
+  "execution_session": 87709,
+  "execution_log": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-native-execution.log",
+  "owner": {
+    "pid": 36876,
+    "nonce": "4b665d61-e63b-4df1-a91f-6d5cea4e56c7",
+    "started_at": "2026-10-09T08:06:06.808Z"
+  },
+  "studies": [
+    {
+      "role": "fresh",
+      "dir": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-fresh-integrated",
+      "id": "v77-qualification-2026-10-09-final-fresh-integrated",
+      "payload_hash": "902a0ffe05ec17d243e1c5762820680fe3e3d169cb2e2a808992b5fdce55b035",
+      "frozen_sha256": "b9ffeb44daa0b83ac4f7cab6fadcad290c97c8b4df1f387778c366683806950c",
+      "preflight": {
+        "blind": 56,
+        "audit": 28,
+        "maximum_bytes": 39659,
+        "answers_hidden": true,
+        "sizing_mock_only": true
+      }
+    },
+    {
+      "role": "regression",
+      "dir": "artifacts/question-factory/cuet-readiness-2026-10-09/v77-qualification/v77-qualification-2026-10-09-final-regression-integrated",
+      "id": "v77-qualification-2026-10-09-final-regression-integrated",
+      "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+      "frozen_sha256": "6a179539474b980b907b31a5068a5dcfc30913610d2f1eaa9c0a912060b38293",
+      "preflight": {
+        "blind": 26,
+        "audit": 13,
+        "maximum_bytes": 36437,
+        "answers_hidden": true,
+        "sizing_mock_only": true
+      }
+    }
+  ],
+  "authorization": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-execution-authorization.json",
+  "authorization_sha256": "4082ad7c1e97b6eab640e151bca7741e681cad8492aee4687148c778831e29d1",
+  "actual_runner": "scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs",
+  "actual_runner_sha256": "de8053442c8de5461281245eb06fe69f3c46c6c380b4dd1cd8e0784f354ff233",
+  "supplemental_freeze": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/offline-preflight-correction-freeze.json",
+  "independent_review": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/offline-preflight-correction-review.json",
+  "receipt_recovery_tool": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/recoverV77Receipts.mjs",
+  "known_broken_recovery_action": "Do not invoke original or integrated runner recover; undefined completedCache remains preserved.",
+  "fixed_total": 41,
+  "stop_cap_usd": 4,
+  "lifetime_cap_usd": 50,
+  "no_replacement_study_after_failure": true,
+  "next": "Inspect actual owner/process/provider state and saved progress; never start duplicate runner, kill worker or resubmit accepted/unknown IDs. Let current fixed study finish/drain. Use only exact completed-settled receipt recovery if needed. Assess all41 with actual receipts, diagnose failures. Pilot/staging only complete genuine pass; production only explicit final approval."
+}

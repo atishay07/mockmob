@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-06T08:14:05.420Z",
+  "generated": 100,
+  "eligible": 48,
+  "quarantined": 52,
+  "eligible_export_count": 48,
+  "publication_dry_run_rows": 48,
+  "suites": {
+    "factory": {
+      "tests": 42,
+      "failures": 0
+    },
+    "recovery": {
+      "tests": 35,
+      "failures": 0
+    },
+    "question_payment": {
+      "tests": 26,
+      "failures": 0
+    },
+    "nta": {
+      "tests": 22,
+      "failures": 0
+    }
+  },
+  "total_tests": 125,
+  "lint": "passed",
+  "production_build": "passed",
+  "calibration": {
+    "state": "released",
+    "blind_official_keys": "16/16 each",
+    "known_bad_quarantined": "12/12"
+  },
+  "restart": {
+    "at": "2026-10-06T08:03:22.159Z",
+    "before": {
+      "requests": 815,
+      "settled_micro": 1419007,
+      "unresolved": 0
+    },
+    "after": {
+      "requests": 815,
+      "settled_micro": 1419007,
+      "unresolved": 0
+    },
+    "new_requests": 0,
+    "additional_cost_usd": 0,
+    "passed": true
+  },
+  "dashboard": {
+    "at": "2026-10-06T08:13:28.345Z",
+    "status": 200,
+    "hasDashboard": true,
+    "hasCommission": true,
+    "hasFinalCounts": true,
+    "bytes": 1510671,
+    "scope": "HTTP/server-rendered route check only; browser interactions not verified"
+  },
+  "budget": {
+    "accounted_micro": 1419007,
+    "unresolved": 0,
+    "held_micro": 0
+  },
+  "production_changes": 0,
+  "remaining_gates": [
+    "Broader supported sources and better variant yield",
+    "Live test of future repair headroom and difficult-item generation",
+    "Authenticated staging admin/worker/atomic publication",
+    "Explicit production migration approval and deployment"
+  ]
+}

@@ -1,0 +1,71 @@
+v77f-662880a2c5fb VALID  -> quarantined failed:explanation_support
+v77f-3546cbf8ea19 VALID  -> quarantined failed:explanation_support
+v77f-a20de9004938 VALID  -> quarantined failed:explanation_support
+v77f-ea8f75b17d74 VALID  -> eligible 
+v77f-073bdc31e03c VALID  -> eligible 
+v77f-9a31e9a4c29b VALID  -> eligible 
+v77f-b123137834cc VALID  -> quarantined failed:explanation_support
+v77f-4c09b80e91ce VALID  -> eligible 
+v77f-2105354e5de1 VALID  -> quarantined failed:source_support
+v77f-a99cc144f9e5 VALID  -> eligible 
+v77f-2d806114710e VALID  -> eligible 
+v77f-466fab2284fd VALID  -> quarantined failed:source_support
+v77f-dfcca21b749e VALID  -> eligible 
+v77f-c6d21440345d VALID  -> quarantined failed:explanation_support
+v77f-1db3dc389725 DEFECT -> quarantined blind_key_contradiction
+v77f-59b58a25bbb3 DEFECT -> quarantined failed:source_support
+v77f-ad344a8b5f2d VALID  -> quarantined failed:explanation_support
+v77f-e77493e30567 DEFECT -> quarantined failed:explanation_support
+v77f-84e9ba57542c DEFECT -> quarantined blind_key_contradiction
+v77f-63d002be451c DEFECT -> quarantined blind_key_contradiction
+v77f-1ed13162f85d VALID  -> eligible 
+v77f-c519f01371f2 DEFECT -> quarantined blind_key_contradiction
+v77f-fcf957a734d5 DEFECT -> quarantined blind_key_contradiction
+v77f-56f266269b74 DEFECT -> quarantined failed:source_support
+v77f-3e505228c987 DEFECT -> quarantined failed:source_support
+v77f-98a231fa15fa DEFECT -> quarantined failed:source_support
+v77f-2ca94e8b4e72 DEFECT -> quarantined failed:source_support
+cbse24-eng-q01--wrong_key DEFECT -> quarantined blind_key_contradiction
+cbse24-eng-q01 VALID  -> quarantined failed:explanation_support
+v77f-e9ef75026c19 DEFECT -> quarantined failed:source_support
+cbse24-bs-q02--overlapping_options DEFECT -> quarantined failed:source_support
+cbse24-bs-q02 VALID  -> quarantined failed:explanation_support
+cbse24-ac-q04 VALID  -> quarantined failed:explanation_support
+cbse24-ac-q04--missing_provision_amount DEFECT -> quarantined failed:source_support
+cbse24-eco-q04--out_of_syllabus DEFECT -> quarantined failed:source_support
+cbse24-eco-q02 VALID  -> quarantined failed:explanation_support
+known-bank-5bde762f1a36a3a7d894f0aa45f655e9 DEFECT -> quarantined failed:syllabus_mapping
+cbse24-eco-q06--numerical_fault DEFECT -> quarantined failed:source_support
+cbse24-eco-q02--unsupported_explanation DEFECT -> quarantined option_resolution_freeze_failed:independent_evaluation
+known-bank-ea0352db044b73bb7158800c58be188d DEFECT -> quarantined failed:source_support
+v75f-825e60a00f DEFECT -> quarantined failed:source_support
+{
+ "kind": "v79_native_regression_probe_not_qualification",
+ "terminal": 41,
+ "of": 41,
+ "valid_eligible": "8/20",
+ "defects_accepted": "0/21",
+ "errors": [],
+ "valid_failures": [
+  "v77f-662880a2c5fb:failed:explanation_support",
+  "v77f-3546cbf8ea19:failed:explanation_support",
+  "v77f-a20de9004938:failed:explanation_support",
+  "v77f-b123137834cc:failed:explanation_support",
+  "v77f-2105354e5de1:failed:source_support",
+  "v77f-466fab2284fd:failed:source_support",
+  "v77f-c6d21440345d:failed:explanation_support",
+  "v77f-ad344a8b5f2d:failed:explanation_support",
+  "cbse24-eng-q01:failed:explanation_support",
+  "cbse24-bs-q02:failed:explanation_support",
+  "cbse24-ac-q04:failed:explanation_support",
+  "cbse24-eco-q02:failed:explanation_support"
+ ],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.377872,
+  "held_usd": 0,
+  "requests": 90,
+  "receipt_complete": true,
+  "at": "2026-10-09T13:03:15.074Z"
+ }
+}

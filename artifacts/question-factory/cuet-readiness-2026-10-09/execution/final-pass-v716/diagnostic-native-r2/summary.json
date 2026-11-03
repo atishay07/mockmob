@@ -1,0 +1,91 @@
+{
+  "id": "cuet-v716-diagnostic-r2",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 3,
+  "terminal": 3,
+  "valid_total": 3,
+  "valid_eligible": 3,
+  "valid_by_subject": {
+    "accountancy": {
+      "ok": 1,
+      "n": 1
+    },
+    "business_studies": {
+      "ok": 0,
+      "n": 0
+    },
+    "economics": {
+      "ok": 1,
+      "n": 1
+    },
+    "english": {
+      "ok": 1,
+      "n": 1
+    }
+  },
+  "controlled_defects": 0,
+  "controlled_false_accepts": [],
+  "review_incomplete": [],
+  "unfinished": [],
+  "decision_rule": "Diagnostic only: complete blind+independent+explanation-audit path and actual cost on three inspected valid R3 regression cases. Not qualification or release evidence.",
+  "decision": "diagnostic_only",
+  "settled_usd": 0.018903,
+  "held_usd": 0,
+  "receipt_complete": true,
+  "cases": [
+    {
+      "id": "f-234e398c6040b350",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.6,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.8,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "eligible",
+      "outcome": "eligible",
+      "academic_sound": true,
+      "quality_score": 8.066666666666666,
+      "route_band": "nta_eligible",
+      "difficulty": "easy",
+      "blind_keys": [
+        "A",
+        "A"
+      ],
+      "reasons": []
+    }
+  ],
+  "publication": "never",
+  "release_record": false
+}

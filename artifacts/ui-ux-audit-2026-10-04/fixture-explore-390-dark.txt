@@ -1,0 +1,73 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=explore&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=explore&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: explore, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 today
+				13 review
+				14 progress
+				15 recovery
+				16 (selected) explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 container
+			30 text Explore · untimed practice
+		31 heading One question. One useful step., Value: 1
+			32 text One question. One useful step.
+		33 text Try it, check the reasoning, save what needs another go. This is practice, separate from your timed mock score.
+		34 container Filter practice questions
+			35 container
+				36 text Subject
+				37 pop up button (disabled, collapsed, settable) Subject, Value: Loading subjects…, Secondary Actions: Expand
+					38 menu
+						39 (disabled) Loading subjects…
+			40 container
+				41 text Chapter
+				42 pop up button (disabled, collapsed, settable) Chapter, Value: All chapters, Secondary Actions: Expand
+					43 menu
+						44 (disabled) All chapters
+			45 container
+				46 text Difficulty
+				47 pop up button (collapsed, settable) Difficulty, Value: All levels, Secondary Actions: Expand
+					48 menu
+						49 (selected) All levels
+						50 Easy
+						51 Medium
+						52 Hard
+		53 heading your subject, Value: 2
+			54 text your subject
+		55 text 0 questions loaded
+		56 container Make practice count
+			57 text Tonight’s rule
+			58 heading Answer first. Then ask why., Value: 2
+				59 text Answer first.
+				60 text Then ask why.
+			61 text A wrong answer with a clear reason is worth coming back to. Keep those questions close.
+			62 link Description: Open saved questions, Value: localhost:3010/saved
+			63 link Description: Review your timed sessions, Value: localhost:3010/review
+			64 text Community votes help organise the feed. They do not certify an answer.
+	65 container Quick study navigation
+		66 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		67 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		68 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		69 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		70 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=explore&plan=pro

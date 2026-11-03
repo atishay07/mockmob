@@ -1,0 +1,546 @@
+{
+  "at": "2026-10-06T10:20:15.065Z",
+  "dry_run": false,
+  "anchors": [
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q24",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Organising"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q26",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Organising"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q27",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Organising"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q40",
+      "references": 2,
+      "original_ready": true,
+      "chapter": "Organising"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q37",
+      "references": 7,
+      "original_ready": true,
+      "chapter": "Nature & Significance of Management"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q36",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Nature & Significance of Management"
+    },
+    {
+      "anchor_id": "cuet2024-business_studies-bookA-q38",
+      "references": 2,
+      "original_ready": false,
+      "chapter": "Nature & Significance of Management"
+    },
+    {
+      "anchor_id": "cuet2024-economics-bookA-q22",
+      "references": 3,
+      "original_ready": true,
+      "chapter": "Income Determination"
+    },
+    {
+      "anchor_id": "cuet2024-economics-bookA-q27",
+      "references": 5,
+      "original_ready": true,
+      "chapter": "Government Budget & the Economy"
+    },
+    {
+      "anchor_id": "cuet2024-economics-bookA-q11",
+      "references": 4,
+      "original_ready": false,
+      "chapter": "Balance of Payments"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "references": 6,
+      "original_ready": true,
+      "chapter": "Financial Statements of Company"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q14",
+      "references": 5,
+      "original_ready": true,
+      "chapter": "Share Capital"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q17",
+      "references": 4,
+      "original_ready": false,
+      "chapter": "Share Capital"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q20",
+      "references": 3,
+      "original_ready": false,
+      "chapter": "Share Capital"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q5",
+      "references": 7,
+      "original_ready": true,
+      "chapter": "Partnership Fundamentals"
+    },
+    {
+      "anchor_id": "cuet2024-accountancy-bookA-q7",
+      "references": 8,
+      "original_ready": false,
+      "chapter": "Profit & Loss Appropriation Account"
+    }
+  ],
+  "spans": [
+    {
+      "ref": {
+        "id": "ncert-lebs105",
+        "version": 1,
+        "locator": "quality-v4-910ff72d0f84",
+        "support_hash": "910ff72d0f84081c6f55452a5e0ac69f1ad89c2c1d2507c93946bf83f09da4a6"
+      },
+      "characters": 3148,
+      "head": "Elements of Delegation According to Louis Allen, delegation is the entrustment of responsi",
+      "tail": "ve delegation the authority granted must be commensurate with the assigned responsibility."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs105",
+        "version": 1,
+        "locator": "quality-v4-b1bc338a616f",
+        "support_hash": "b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54"
+      },
+      "characters": 348,
+      "head": "(v) Basis of management hier­ archy: Delegation of autho rity establishes superior­subordi",
+      "tail": "egated authority also decides the power that each job position enjoys in the organisation."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs105",
+        "version": 1,
+        "locator": "quality-v4-c8d4ce1fa39d",
+        "support_hash": "c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72"
+      },
+      "characters": 1446,
+      "head": "The formal organisation can be better understood by a study of its features which are as f",
+      "tail": "viour of employees can be fairly pre­ dicted since there are specific rules to guide them."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs105",
+        "version": 1,
+        "locator": "quality-v4-e5d85ed5309a",
+        "support_hash": "e5d85ed5309a24b0a75d75c1f65e78fef8f97b481018b01f3f33ec3da8e13b5b"
+      },
+      "characters": 1466,
+      "head": "Formal and informal organisation: A Comparative view Basis Formal organisation Informal or",
+      "tail": "employees reactions towards plans and policies can be tested through the informal network."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs105",
+        "version": 1,
+        "locator": "quality-v4-18f392ccae68",
+        "support_hash": "18f392ccae68fe2be54e48ec3e1e216ded6f2c47b3e592a4414a77fe954a1d1f"
+      },
+      "characters": 1617,
+      "head": "Thus, a functional structure is an organisational design that groups similar or related jo",
+      "tail": "ination as information has to be exchanged across functionally differentiated departments."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-6ecbeb2308f3",
+        "support_hash": "6ecbeb2308f319fdc08190f57c0eb448494ffb9a3cd84369616ae1471f12f5e3"
+      },
+      "characters": 495,
+      "head": "(i) Management is a goal-oriented process: An organisation has a set of basic goals which ",
+      "tail": "es the efforts of different individuals in the organisation towards achieving these goals."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-12f33385e060",
+        "support_hash": "12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140"
+      },
+      "characters": 405,
+      "head": "(ii) Management is all pervasive: The activities involved in managing an enterprise are co",
+      "tail": "te different. This difference is due to the differences in culture, tradition and history."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-80cbe19c5a06",
+        "support_hash": "80cbe19c5a06c77897fd44d8ab57a880d05c23c9b1f3628bfe18192db3211a5a"
+      },
+      "characters": 265,
+      "head": "(iv) Management is a continuous process: The process of manage- ment is a series of contin",
+      "tail": "d controlling). These functions are simultaneously performed by all managers all the time."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-9fc81b5f6682",
+        "support_hash": "9fc81b5f6682a9b6093ca7df7fe7f0ecc6b23cec6dd9892023f6156a94d59512"
+      },
+      "characters": 373,
+      "head": "(v) Management is a group activity: An organisation is a collection of diverse individuals",
+      "tail": "goal. This requires team work and coordination of individual effort in a common direction."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-a6fbf530d291",
+        "support_hash": "a6fbf530d29134be11c9c0cd1024420769c1c21ed64a251de29c5e173f7557d3"
+      },
+      "characters": 367,
+      "head": "(vi) Management is a dynamic function: Management is a dynamic function and has to adapt i",
+      "tail": "n organisation must change itself and its goals according to the needs of the environment."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-ed90283b33f1",
+        "support_hash": "ed90283b33f171c31e8fdd8b88dbcba60f3f1a60efcfbfa3e17f5786d03e647d"
+      },
+      "characters": 343,
+      "head": "(vii) Management is an intangible force: Management is an intangi - ble force that cannot ",
+      "tail": "ng to plans, employees are happy and satisfied, and there is orderliness instead of chaos."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-1cf5c10664d2",
+        "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+      },
+      "characters": 985,
+      "head": "The m ain objective of any organisation should be to utilise human and material resources ",
+      "tail": "n in the industry, management must exploit fully the growth potential of the organisation."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-864b5b8ea540",
+        "support_hash": "864b5b8ea540e93a10418c17f94ea1dc4fd609c642c76043f07cd4be61fb9843"
+      },
+      "characters": 1203,
+      "head": "(ii) Social objectives: It involves the creation of benefit for society. As a part of soci",
+      "tail": "o reconcile personal goals with organisational objectives for harmony in the organisation."
+    },
+    {
+      "ref": {
+        "id": "ncert-lebs101",
+        "version": 1,
+        "locator": "quality-v4-99eb9fc192b1",
+        "support_hash": "99eb9fc192b1fca28ebf5b105d83fba2ff2aa4c829cf38a98bd31c22016bcecb"
+      },
+      "characters": 2733,
+      "head": "(i) Top Management: They consist of the senior-most executives of the or ganisation by wha",
+      "tail": "tput is maintained, wastage of materials is minimised and safety standards are maintained."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v4-87826f6f5d78",
+        "support_hash": "87826f6f5d7828da4ac250ee6f3ac1f26b6d3aba6dbb74772c7d530ead2cd4e4"
+      },
+      "characters": 1061,
+      "head": "These terms, however, can be used with a different connotation. Consumption may denote not",
+      "tail": "the variables – consumption, investment or output of final goods – their ex ante measures."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v4-bafcd98a2d67",
+        "support_hash": "bafcd98a2d67eee129985a925af92a8411b390fbd488958cf473d61bb2828189"
+      },
+      "characters": 337,
+      "head": "The inventory investment can take place due to two reasons: (i) the firm decides to keep s",
+      "tail": "s to add to/run down existing inventories (this is called unplanned inventory investment)."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v4-7bca1f78c90d",
+        "support_hash": "7bca1f78c90d1fa1cab14053a43b3707539050f01111209347192cd8c74bd757"
+      },
+      "characters": 277,
+      "head": "(Article 112) to present before the Parliament a statement of estimated receipts and expen",
+      "tail": " This ‘Annual Financial Statement’ constitutes the main budget document of the government."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v4-28dc3b745963",
+        "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+      },
+      "characters": 1010,
+      "head": "Capital Receipts: The government also receives money by way of loans or from the sale of i",
+      "tail": "vernment which create liability or reduce financial assets are termed as capital receipts."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v4-2be5c35ed9fe",
+        "support_hash": "2be5c35ed9fe5e2987891790c4dc00558742dd35399e5442cf055c843e81740f"
+      },
+      "characters": 359,
+      "head": "There are expenditures of the government which result in creation of physical or financial",
+      "tail": "y the central government to state and union territory governments, PSUs and other parties."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v4-b66ef79f1ac6",
+        "support_hash": "b66ef79f1ac68b863747b0f1b1a8b9667af2aa93380f47e17315166b44edeba5"
+      },
+      "characters": 195,
+      "head": "where, NX is net exports (exports – imports). A positive NX (with exports greater than imp",
+      "tail": " trade surplus and a negative NX (with imports exceeding exports) implies a trade deficit."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v4-ead0c0a1a3fa",
+        "support_hash": "ead0c0a1a3faec022da85464525c91173f7f465d380a8a0152fa643b31e43327"
+      },
+      "characters": 1619,
+      "head": "Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate ",
+      "tail": "xchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v4-5ab2bf0c23ef",
+        "support_hash": "5ab2bf0c23efe0fb86dfb42b117161e84d0fa7f70ca3e21e1b4576571774c121"
+      },
+      "characters": 550,
+      "head": "6.2.4 Managed Floating Without any formal international agreement, the world has moved on ",
+      "tail": " actions are appropriate. Official reserve transactions are, therefore, not equal to zero."
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v4-d09cfca4e846",
+        "support_hash": "d09cfca4e846a204d77806776058b98151b18430ed6d2806659a57aaee591417"
+      },
+      "characters": 221,
+      "head": "Errors and Omissions It is difficult to record all international transactions accurately. ",
+      "tail": "rt from the current and capital accounts) called errors and omissions which reflects this."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-8e561daf0013",
+        "support_hash": "8e561daf0013f31052cdf3defacece2565ea821ed660dd8a92f7f9fd8debedfa"
+      },
+      "characters": 1765,
+      "head": "1.3 Share Capital of a Company A company, being an artificial person, cannot generate its ",
+      "tail": "nissued capital’. Unissued capital may be offered for public subscription at a later date."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-2497dc78d958",
+        "support_hash": "2497dc78d958be2d4210c2e353aba7a6d8beb08c254ab502ea84ae4a3970100b"
+      },
+      "characters": 1414,
+      "head": "1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due d",
+      "tail": "ent of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-195c75b54b52",
+        "support_hash": "195c75b54b52a5aee0e99c2905972469b50ed4779a614fa84c7bd855508898c6"
+      },
+      "characters": 1715,
+      "head": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amoun",
+      "tail": "d application money should be returned within 130 days of the date of issue of prospectus."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-a89ab4257cc3",
+        "support_hash": "a89ab4257cc30ccc7c4ca2b7ac03d09743dc3b419c6dd7dfced1cb6f6e2a6de0"
+      },
+      "characters": 1764,
+      "head": "1.6.3 Over Subscription There are instances when applications for more shares of a company",
+      "tail": "nk A/c Dr. To Share Application A/c (Money received on application for 25,000 shares @ Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-f7aa34da4f0a",
+        "support_hash": "f7aa34da4f0ac06c55962a655eb6e9efb505f23fa75e0fca34ecc1dc199804d1"
+      },
+      "characters": 1474,
+      "head": "1.6.4 Under Subscription Under subscription is a situation where number of shares applied ",
+      "tail": "y and Liabilities’ of the company’s balance sheet under the head ‘Reserves and Surpluses’."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-1578db490356",
+        "support_hash": "1578db490356f659a71208d4f6a15c4dd641ce14c7e9ed2ee58b0372922c9988"
+      },
+      "characters": 1636,
+      "head": "1.7 Forfeiture of Shares It may happen that some shareholders fail to pay one or more inst",
+      "tail": "eited shares must be reversed except the entry relating to share premium received, if any."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-2cec3d6b3d07",
+        "support_hash": "2cec3d6b3d078a45c159f00147ef54fe6f98ea0e9eb0fdf35ed54e20063fd1d5"
+      },
+      "characters": 1799,
+      "head": "1.7.1 Reissue of Forfeited Shares The directors can either cancel or re-issue the forefeit",
+      "tail": "he whole balance of share forfeiture account cannot be transferred to the capital reserve."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v4-2497dc78d958",
+        "support_hash": "2497dc78d958be2d4210c2e353aba7a6d8beb08c254ab502ea84ae4a3970100b"
+      },
+      "characters": 1414,
+      "head": "1.6.1 Calls in Arrears It may happen that shareholders do not pay the call amount on due d",
+      "tail": "ent of calls in arrears together with interest, the entry will be as follows: Bank A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-168ad6e0001c",
+        "support_hash": "168ad6e0001c998efe03ec02412a3031ca4ca13b087117c22f527ba741a04934"
+      },
+      "characters": 892,
+      "head": "1.2 Partnership Deed Partnership comes into existence as a result of agreement among the p",
+      "tail": "r the provisions of the ‘Stamp Act’ and preferably registered with the Registrar of Firms."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-63927dc5d1aa",
+        "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+      },
+      "characters": 1773,
+      "head": "1.2.1 Provisions of Partnership Act Relevant for Accounting The important provisions affec",
+      "tail": "y to the firm, all profit made by him/her in that business. Test your Understanding – I 1."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-5f1d4244dc0b",
+        "support_hash": "5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9"
+      },
+      "characters": 1707,
+      "head": "1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of t",
+      "tail": "ties side, if they have credit balance and on the assets side, if they have debit balance."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-2981d89b7e0e",
+        "support_hash": "2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e"
+      },
+      "characters": 1665,
+      "head": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts The main points of differ",
+      "tail": "terest on capital, salary to partners, and commission to partners are required to be made."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-58bcdd89a054",
+        "support_hash": "58bcdd89a0542ac62ad323e6d7aee0e952952c318ebdbd5af167115ad0f2dda3"
+      },
+      "characters": 1733,
+      "head": "1.5.1 Profit and Loss Appropriation Account Profit and Loss Appropriation Account is merel",
+      "tail": " (a) For Allowing partner’s salary to partner’s capital account: Salary to Partner A/c Dr."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-4f456816afcf",
+        "support_hash": "4f456816afcf7e1663432f12e81bd0f488fe8760b51be426ccdce501d7186d56"
+      },
+      "characters": 1789,
+      "head": "1.5.2 Interest on Capital No interest is allowed on partners’ capitals unless it is expres",
+      "tail": "r 6 6 8Rs. 2,00,000 Rs. 1,00,000100 100 12              = Rs. 12,000 + Rs."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-557e0eacf2d2",
+        "support_hash": "557e0eacf2d2c48f3244daca3887af7b63c442347eab0aaca671eadf84c4955d"
+      },
+      "characters": 1715,
+      "head": "1.5.3 Interest on Drawings The partnership agreement may also provide for charging of inte",
+      "tail": "od = No. of months of 1 drawings + No. of month of last drawings 2 = 12+1 2 = 16 2 months."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-45047abeb583",
+        "support_hash": "45047abeb583fb678b4b67956f8792288f8b305c44acc65aa6896baf8e3cb3b8"
+      },
+      "characters": 1766,
+      "head": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a ",
+      "tail": " gives the guarantee, the whole amount of deficiency (Rs.5,000) will be borne by her only."
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v4-4386d49f5b11",
+        "support_hash": "4386d49f5b116db256aa5e37d2fe29ab472a9f1cc3bb18f637cc5c8d7d686792"
+      },
+      "characters": 1663,
+      "head": "1.7 Past Adjustments Sometimes a few omissions or errors in the recording of transactions ",
+      "tail": "sion, the whole amount of profit as per Profit and Loss Account (without adjustment of Rs."
+    }
+  ],
+  "registry_version": 45,
+  "production_changes": 0
+}

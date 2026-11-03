@@ -19,9 +19,14 @@ export function chapterGroups(data) {
 }
 
 export function questionFeedback(question, selectedKey) {
-  const options = Array.isArray(question.options) ? question.options : [];
+  const options = feedOptions(question.options);
   const correct = question.correct_answer == null ? null : options.find((option) => option.key != null && String(option.key) === String(question.correct_answer));
   if (!correct) return { state: 'unavailable', correctKey: null };
   if (selectedKey == null) return { state: 'revealed', correctKey: correct.key };
   return { state: String(selectedKey) === String(correct.key) ? 'correct' : 'incorrect', correctKey: correct.key };
+}
+
+export function feedOptions(raw) {
+  const rows=Array.isArray(raw)?raw:Object.entries(raw||{}).map(([key,text])=>({key,text}));
+  return rows.map((option,index)=>typeof option==='string'?{key:'ABCD'[index],text:option}:{...option,key:option?.key??'ABCD'[index],text:String(option?.text??option?.label??option?.value??'')});
 }

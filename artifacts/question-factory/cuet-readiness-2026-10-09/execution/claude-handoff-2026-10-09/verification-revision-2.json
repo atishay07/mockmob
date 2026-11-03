@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-09T10:01:00.007Z",
+  "revision": 2,
+  "reason": "Direct owner authorization for comprehensive final pass supersedes prior paid-scope restriction.",
+  "checked_links": 24,
+  "checked_frozen_bindings": 69,
+  "original_document_revisions_preserved": true,
+  "files": {
+    "CLAUDE-HANDOFF-2026-10-09.md": "053f73a102f49e8546af882f358b6d87538406bb82558099e564485b4426f7a5",
+    "CLAUDE-START-PROMPT-2026-10-09.md": "776040ea01a33578bf78e3eab3f2c621a32a768f52c145e2022422210f5e04ca"
+  },
+  "lifetime_ceiling_usd": 50,
+  "provider_calls": 0,
+  "ledger_writes": 0,
+  "note": "Authorization updated; generator qualification status remains unproven."
+}

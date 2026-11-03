@@ -1,0 +1,748 @@
+{
+  "sources": {
+    "fresh-full-v5-en-passage-1": {
+      "id": "fresh-full-v5-en-passage-1",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://fresh-full-v5/fresh-full-v5-en-passage-1",
+      "title": "Original benchmark passage",
+      "identity_sha256": "16d6b58325768edc5e547d4808e4a5780c2da4028ed756c281ae3ac39f4da49c",
+      "extraction_sha256": "16d6b58325768edc5e547d4808e4a5780c2da4028ed756c281ae3ac39f4da49c",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original passage written for this benchmark",
+        "reference": "fresh-full-v5/build.mjs"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches."
+        }
+      },
+      "supports": {
+        "stimulus": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+      },
+      "source_pack_id": "fresh-full-v5-english-overlay"
+    },
+    "fresh-full-v5-en-passage-2": {
+      "id": "fresh-full-v5-en-passage-2",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Narrative Passage"
+      ],
+      "url": "local://fresh-full-v5/fresh-full-v5-en-passage-2",
+      "title": "Original benchmark passage",
+      "identity_sha256": "68c60db18ba538b108ab48d4d192b2826e7210b040520e4ccb8ee7fdaac52d06",
+      "extraction_sha256": "68c60db18ba538b108ab48d4d192b2826e7210b040520e4ccb8ee7fdaac52d06",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original passage written for this benchmark",
+        "reference": "fresh-full-v5/build.mjs"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind."
+        }
+      },
+      "supports": {
+        "stimulus": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+      },
+      "source_pack_id": "fresh-full-v5-english-overlay"
+    },
+    "fresh-full-v5-en-passage-3": {
+      "id": "fresh-full-v5-en-passage-3",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Literary Passage"
+      ],
+      "url": "local://fresh-full-v5/fresh-full-v5-en-passage-3",
+      "title": "Original benchmark passage",
+      "identity_sha256": "9c6656cd558686744b4cd57b8b1d294d9bef39485359a8341e0eab9b79c544e8",
+      "extraction_sha256": "9c6656cd558686744b4cd57b8b1d294d9bef39485359a8341e0eab9b79c544e8",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original passage written for this benchmark",
+        "reference": "fresh-full-v5/build.mjs"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark."
+        }
+      },
+      "supports": {
+        "stimulus": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+      },
+      "source_pack_id": "fresh-full-v5-english-overlay"
+    },
+    "fresh-full-v5-en-passage-4": {
+      "id": "fresh-full-v5-en-passage-4",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "chapters": [
+        "Factual Passage"
+      ],
+      "url": "local://fresh-full-v5/fresh-full-v5-en-passage-4",
+      "title": "Original benchmark passage",
+      "identity_sha256": "68662f098ad0cc78ce939297d2c0da5d2c26283e4bc2a77540b6f8beb1f8f7fe",
+      "extraction_sha256": "68662f098ad0cc78ce939297d2c0da5d2c26283e4bc2a77540b6f8beb1f8f7fe",
+      "extraction_checked": true,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original passage written for this benchmark",
+        "reference": "fresh-full-v5/build.mjs"
+      },
+      "facts": {
+        "stimulus": {
+          "text": "A student group compared three labels for its seed collection. One showed only the plant name, another added the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle."
+        }
+      },
+      "supports": {
+        "stimulus": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+      },
+      "source_pack_id": "fresh-full-v5-english-overlay"
+    }
+  },
+  "packs": {
+    "fresh-full-v5-accountancy-overlay": {
+      "id": "fresh-full-v5-accountancy-overlay",
+      "subject": "accountancy",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T00:00:00.000Z",
+      "document_ids": [
+        "ncert-leac101",
+        "ncert-leac102",
+        "ncert-leac201",
+        "ncert-leac205"
+      ]
+    },
+    "fresh-full-v5-business_studies-overlay": {
+      "id": "fresh-full-v5-business_studies-overlay",
+      "subject": "business_studies",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T00:00:00.000Z",
+      "document_ids": [
+        "ncert-lebs104-focused-v1",
+        "ncert-lebs105",
+        "ncert-lebs107",
+        "ncert-lebs202"
+      ]
+    },
+    "fresh-full-v5-economics-overlay": {
+      "id": "fresh-full-v5-economics-overlay",
+      "subject": "economics",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T00:00:00.000Z",
+      "document_ids": [
+        "ncert-leec103",
+        "ncert-leec104",
+        "ncert-leec105-focused-v1",
+        "ncert-leec106"
+      ]
+    },
+    "fresh-full-v5-english-overlay": {
+      "id": "fresh-full-v5-english-overlay",
+      "subject": "english",
+      "version": 1,
+      "state": "active",
+      "registered_at": "2026-10-08T00:00:00.000Z",
+      "document_ids": [
+        "fresh-full-v5-en-passage-1",
+        "fresh-full-v5-en-passage-2",
+        "fresh-full-v5-en-passage-3",
+        "fresh-full-v5-en-passage-4"
+      ]
+    }
+  },
+  "families": {
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-change-in-profit-sharing-ratio-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-change-in-profit-sharing-ratio-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-change-in-profit-sharing-ratio-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-change-in-profit-sharing-ratio-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-share-capital-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-share-capital-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-share-capital-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-share-capital-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-organising-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-organising-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-organising-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-organising-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-directing-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-directing-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-directing-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-directing-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-income-determination-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-income-determination-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-income-determination-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-income-determination-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-government-budget-the-economy-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-government-budget-the-economy-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-government-budget-the-economy-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-government-budget-the-economy-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-2-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-2-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-2-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-2-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-3-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-3-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-3-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-3-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-1--defect-wrong_key-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-3--defect-overlapping_options-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-change-in-profit-sharing-ratio-1--defect-unsupported_explanation-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-2--defect-missing_assumptions-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-share-capital-1--defect-out_of_syllabus-5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-partnership-fundamentals-2--defect-numeric_fault-6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-1--defect-wrong_key-7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-accountancy-accounting-ratios-3--defect-overlapping_options-8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-accountancy-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-1--defect-wrong_key-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-3--defect-overlapping_options-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-organising-1--defect-unsupported_explanation-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-planning-2--defect-missing_assumptions-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-directing-1--defect-out_of_syllabus-5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-2--defect-numeric_fault-6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-1--defect-wrong_key-7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-business_studies-marketing-management-3--defect-overlapping_options-8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-business_studies-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-1--defect-wrong_key-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-3--defect-overlapping_options-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-income-determination-1--defect-unsupported_explanation-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-2--defect-missing_assumptions-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-government-budget-the-economy-1--defect-out_of_syllabus-5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-money-banking-2--defect-numeric_fault-6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-1--defect-wrong_key-7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-economics-balance-of-payments-3--defect-overlapping_options-8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-economics-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-1--defect-wrong_key-1": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-3--defect-overlapping_options-2": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-2-1--defect-unsupported_explanation-3": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-1-2--defect-missing_assumptions-4": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-3-1--defect-out_of_syllabus-5": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-4--defect-numeric_fault-6": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-1--defect-wrong_key-7": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    },
+    "fresh-full-v5-family-fresh-v5-english-4-3--defect-overlapping_options-8": {
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "fresh-full-v5-english-overlay",
+      "kind": "original_practice"
+    }
+  }
+}

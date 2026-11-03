@@ -1,0 +1,162 @@
+{
+  "schema": "mockmob-native-r3-valid-failure-diagnosis-correction-v1",
+  "created_at_utc": "2026-10-09T21:40:20.805Z",
+  "created_at_local": "2026-10-10, 03:10:20",
+  "supersedes": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/diagnosis/NATIVE-VALID-FAILURE-DIAGNOSIS-20261010T030607+0530.json",
+    "sha256": "6c1a4ca75810532d301f31224d41d7e73d279bb86f6ec74fa65da3131dad668f",
+    "correction": "The original diagnosis summary overgeneralized that all 11 academically supported controls had passing four-row matrices. It is corrected below; per-provider raw rows remain preserved in the original detailed artifact."
+  },
+  "evidence": {
+    "state_snapshot_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/diagnosis/NATIVE-R3-STATE-SNAPSHOT-20261009T213607Z.json",
+    "state_snapshot_sha256": "890416e8aef473add2ba1bd1b868e051b2095d143cfbe76b2f99a02c35906e5d",
+    "frozen_sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37",
+    "registry_sha256": "0cd90b86dab2816c1e276f6a8bc23d340e608c1f2274f45685c7f17cd68b3730",
+    "verifier_source": "scripts/pipeline/lib/optionResolutionV712.mjs"
+  },
+  "corrected_overall": {
+    "selected_terminal_frozen_valid_after_first10": 12,
+    "eleven_academically_supported_controls": true,
+    "luna_challenge_shape_failure_count": 11,
+    "luna_low_fit_score_count": 10,
+    "academically_supported_controls_with_both_provider_matrices_passing": 9,
+    "academically_supported_controls_with_luna_matrix_pass_but_gemini_matrix_binding_failure": 2,
+    "construction_or_label_problem_count": 1,
+    "all_terminal_cases_failed_at": "source_support",
+    "explanation_audits_executed": 0,
+    "no_outcomes_or_frozen_labels_changed": true
+  },
+  "case_corrections": [
+    {
+      "fixture_id": "f-3e5f9ea9839935c1",
+      "validity": "frozen expected_valid=true; content is academically valid on this evidence.",
+      "provider_facts": {
+        "openai": {
+          "solved_key": "A",
+          "option_challenges": [
+            "A",
+            "B",
+            "C"
+          ],
+          "chosen_answer_included": true,
+          "omitted_nonchosen": [
+            "D"
+          ],
+          "cuet_fit_score": 10,
+          "option_resolution_passed": true
+        },
+        "gemini": {
+          "solved_key": "A",
+          "option_challenges": [
+            "B",
+            "C",
+            "D"
+          ],
+          "cuet_fit_score": 10,
+          "option_resolution_passed": false,
+          "option_resolution_reason": "v712_excerpt_quote_unbound:A",
+          "disputed_premise_quote": "This method is referred to as the expenditure method. In the farmer-\\nbaker example that we have described before, the aggregate value of the output\\nin the economy by expenditure method will be calculated in the following way.\\nIn this method we add the final expenditures that each firm makes."
+        }
+      },
+      "registered_excerpt": "An alternative way to calculate the GDP is by looking at the demand side of the products. This method is referred to as the expenditure method. In the farmer-\\nbaker example that we have described before, the aggregate value of the output in the economy by expenditure method will be calculated in the following way. In this method we add the final expenditures that each firm makes.",
+      "decisive_check": {
+        "raw_registered_text_includes_provider_quote": true,
+        "containsAnchoredV712_result": false,
+        "finding": "The exact registered quote includes a line-ending hyphen followed by newline in “farmer-\\\\nbaker”. The local quote matcher normalizes the source line-break hyphen to a sentinel but normalizes the quote to a hyphen plus space, so its matcher rejects a verbatim quote. This is a deterministic quote-normalization defect in the binder path, not source absence, academic construction, or transport."
+      },
+      "classification": "Representation-check implementation defect for Gemini, plus Luna challenge-array prompt/schema failure. No explanation audit ran."
+    },
+    {
+      "fixture_id": "f-07957bcf309f84ab",
+      "validity": "frozen expected_valid=true; the stated conversion and answer are supported.",
+      "provider_facts": {
+        "openai": {
+          "solved_key": "A",
+          "option_challenges": [
+            "A",
+            "B",
+            "C"
+          ],
+          "chosen_answer_included": true,
+          "omitted_nonchosen": [
+            "D"
+          ],
+          "cuet_fit_score": 5,
+          "option_resolution_passed": true
+        },
+        "gemini": {
+          "solved_key": "A",
+          "option_challenges": [
+            "B",
+            "C",
+            "D"
+          ],
+          "cuet_fit_score": 10,
+          "option_resolution_passed": false,
+          "option_resolution_reason": "v712_stem_premise_with_evidence_id:A",
+          "option_a_row": {
+            "premise_source": "arithmetic",
+            "evidence_id": "E1.1",
+            "premise_quote": "GVA at basic prices + Net product taxes = GVA at\\nmarket prices"
+          }
+        }
+      },
+      "registered_excerpt": "GVA at factor costs + Net production taxes = GVA at\\nbasic prices\\nGVA at basic prices + Net product taxes = GVA at\\nmarket prices",
+      "decisive_check": {
+        "finding": "The provider gives the right calculation and cites the registered formula, but labels the premise “arithmetic” while also supplying source evidence ID E1.1. The existing validator routes arithmetic to its stem-premise branch, which rejects any evidence ID. This is a response source-type/schema mismatch, not an incorrect calculation, missing source, or transport failure. To bind this formula row, the response must classify the decisive formula as excerpt-backed (or use an arithmetic-only stem premise without an ID)."
+      },
+      "classification": "Representation mismatch in Gemini matrix plus Luna challenge-array prompt/schema and fit-rating failures. No explanation audit ran."
+    }
+  ],
+  "dataset_construction_review": {
+    "fixture_id": "f-958b02eadb40ed70",
+    "frozen_expected_valid": true,
+    "unchanged_label_required": true,
+    "body": "A field survey covered twelve locations, but the notebook contained observations from only two; several pages had no entries at all. The recorded observations were _____.",
+    "source_excerpts": {
+      "sparse": "only present in small amounts or numbers and often spread over a large area",
+      "meticulous": "paying careful attention to every detail"
+    },
+    "actual_judgments": {
+      "openai": {
+        "key": "A",
+        "multiple_correct_options_defect": true,
+        "missing_condition": "Whether the observations recorded at the two locations were made with careful attention to detail.",
+        "option_resolution": "A supported; B/C/D unresolved."
+      },
+      "gemini": {
+        "key": "A",
+        "option_resolution": "A supported; B/C/D contradicted.",
+        "concern": "The number of locations with entries does not establish whether the entries themselves were made with care."
+      }
+    },
+    "diagnosis": "This fixture does not distinguish quantity/distribution (sparse) from recording care (meticulous); both properties can hold for the same entries. Luna’s unresolved-rival rejection is academically justified. Gemini’s contradiction of meticulous is unsupported by the stated facts. This is a construction/label issue despite the frozen positive label; the label/outcome remains unchanged and the item remains in the denominator.",
+    "explanation_audit_executed": false
+  },
+  "remaining_nonterminal": {
+    "error": [
+      {
+        "fixture_id": "f-cb416cf89196c0bf",
+        "frozen_expected_valid": true,
+        "classification": "provider_output_incomplete; no academic rejection; explanation audit not run"
+      }
+    ],
+    "pending": [
+      {
+        "fixture_id": "f-a7899d6bca12a82b",
+        "frozen_expected_valid": true,
+        "classification": "unfinished; unknown"
+      }
+    ],
+    "regression_v75": [
+      {
+        "fixture_id": "v75f-825e60a00f",
+        "snapshot_state": "validating",
+        "inspected": false,
+        "classification": "no native terminal outcome available; unknown"
+      }
+    ]
+  },
+  "corrected_cross_case_conclusion": "For the 11 academically supported controls, Luna/OpenAI’s challenge array consistently contains the selected answer A and omits nonchosen option D; its four-row option-resolution matrix passes in all 11. Gemini matrices pass in 9 and are rejected for the two distinct evidence-binding representations documented above. Luna’s CUET-fit is below the gate in 10/11; the remaining control scores 10. Thus the widespread Luna pattern is explained by challenge-schema/prompt semantics and omitted canonical CUET-fit anchors; two additional Gemini rows show independent representation-level failures. No source or transport failure was established for these 11. The single English construction/label defect is separate. All selected cases stopped before explanation_support; no explanation-defect audit was executed.",
+  "qualification_status": "Diagnostic regression evidence only. This does not modify native results, labels, denominator, contract, or qualification status."
+}

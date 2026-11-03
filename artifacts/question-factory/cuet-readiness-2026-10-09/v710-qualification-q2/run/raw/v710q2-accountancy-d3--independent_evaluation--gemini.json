@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 16118,
+ "request_bytes": 32159,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-qualification-q2-run-v710q2-accountancy-d3\",\n  \"content_hash\": \"f534a01bd911fe8e4d9c2a3a2aeee7c227a459b8ccfa4e744d689fc7e5ef3b16\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E1.2\"],\n  \"reasons\": [\n    \"According to NCERT rules on dissolution, accumulated profits like General Reserve are directly transferred to partners' capital accounts in their profit-sharing ratio (2:1).\",\n    \"30,000 divided in 2:1 gives P Rs. 20,000 and Q Rs. 10,000.\"\n  ],\n  \"syllabus_chapter\": \"Dissolution of Partnership Firm\",\n  \"syllabus_topic\": \"Settlement of accounts - Transfer of reserves\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"General Reserve is transferred to partners' capital accounts in their profit-sharing ratio.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\", \"E1.2\"]\n    },\n    {\n      \"condition\": \"P and Q share profits in the ratio 2 : 1 and General Reserve is Rs. 30,000.\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"The ratio 2:1 is inverted to 1:2 giving P Rs. 10,000 and Q Rs. 20,000.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"General Reserve is divided equally between partners regardless of the profit-sharing ratio.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"General Reserve is treated as a third-party liability and transferred to Realisation Account.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests standard accounting treatment of reserves upon dissolution of a partnership firm.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard single-choice numerical calculation question typical of CUET UG Accountancy.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Basic one-step ratio distribution application directly at Class XII NCERT level.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target common errors: inverted ratio, equal distribution, or routing via Realisation A/c.\"\n      }\n    },\n    \"reasoning_steps\": 2,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"P's Capital Rs. 10,000 and Q's Capital Rs. 20,000\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"P and Q share profits in the ratio 2 : 1. On dissolution of the firm, the balance sheet shows a General Reserve of Rs. 30,000.\",\n      \"reason\": \"Dividing 30,000 in 2:1 yields 20,000 for P and 10,000 for Q, not 10,000 and 20,000.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"For transfer of accumulated pr ofits in the for m of general r eserve to partners’ capital accounts in their profit sharing ratio: General Reserve A/c Dr. To\",\n      \"reason\": \"Transferred in profit-sharing ratio 2:1, giving P Rs. 20,000 and Q Rs. 10,000.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"P's Capital Rs. 15,000 and Q's Capital Rs. 15,000\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"P and Q share profits in the ratio 2 : 1. On dissolution of the firm, the balance sheet shows a General Reserve of Rs. 30,000.\",\n      \"reason\": \"The profit-sharing ratio is 2:1, so the reserve is not divided equally.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Credit Realisation A/c with Rs. 30,000\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"For transfer of accumulated pr ofits in the for m of general r eserve to partners’ capital accounts in their profit sharing ratio: General Reserve A/c Dr. To\",\n      \"reason\": \"General Reserve is transferred to Partners' Capital A/c, not Realisation A/c.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EsoICscIAWkUfRPb66cZyoPYO8TNXmJSFmyQsSApy7jsEgG/MdJNDBx/75FYxlse9yn09OIgw3wKRB9TsIIeFxtDQNPbRxMaoZFLUgqqtezIKyua4BU/OZdgpN5Fbw+HFpNhfl8zFP/8EfEdaKNVZQu3szOC1kOnUtEmnSB+C4OFXMkcChitu/AWEe20OopBkDJLsetAO2/RtOC1KOk5U9rdIiozNFGC/LLnBTTTD5lTha3o433jL529hFJDEnCdkpIZqk/33aPvTA1168/63GVBQBy5BMb0En9lDuiJ9/VDP4NNM9PoZfWehbVGuJAVNnkCNidEAyIUr1JNWu8F6ZVlTl5qtgebNKxu6x5FLT3fjGNFdsPDtUOehmzNEwMl+ZRIXDz7t+On8kr7uFKGh0ktZHk5D0UAaKK2JKmvfkXwDfOY1yR0IFNeSq5r605RwREpG9JhsGaWmXOZiPqW+54t3bviE8cApOUYueEFdYymt3juzK7hFwY5DNojILANfQOXQIywcD+NfD4sM5YPtuk4t59inr+8L54Gc+qUc+xrHX3YrPAgpGm+EtUuyxn12ZZf8wladYUJB4fta1Rt9v8y1aT5sUMP/x8kSZNlbjmbXuoROWYM2gDyYOOLJoDe0uXA9uCbe+se/Pp4pQGTgW2P0ub4xum3SKzy/4vSduVb1EMtL9AG6xu2T3CKk2uJ9W6aDdAxOAOhsxAhnQKhbdHhB2qrMrCbj3OzBJzundHrWNihl2sGFLP5itTBRAXgHf5Wm2GyRXNxvMHDrpfq9OayAvLCV0cFX1Qj63orakKYrKHakFXnsiRO4bdLK5R96kjxaQ4hsNZcRrlH+vqQk9JwhEGp61wqi1v/QNkBksYLXyuIJkGyVsucJXLCtY5BfVY9Qr+G2xN466DjHuuhuGiU7kBN8rD0yFgCfdpT+8InfEiHeU/oQssMNBD/jPNZT9ZT0q45RUBQR+cp3fkzRFQ5vO53fnYQKpt46Bzp9VaG5tddM9J0MfOvl/AU82otAtWIQfwMFyaFPEHXITx/bMpWVfJN9rVOFrj59/1ZRiQJyUFdyXVBDFjBunQDqOekKUacdiBh61gLX2yXVJOGhO8VQpbMHXXBNklf5zHFK3o3YoWuUOO2FczV0fQFlFAAKPH15l5ZZTG6U4I/b+JjOkitMgrLtgip+LmZGbUgGGLvZVeBKxLgFWQyNIOCviMivwPpUH/9yLxC/t6mrGCxG2Qq6WgxFAfWHF56eqF2STcnuE2GdmHVb1pBudnTA8fN6gjyEsPXDb48gJWkOfGKGRCJI8mEH/RjhtZ+28r7WS8HaR71asiFqUSvInGcEy8SAifRO//IRXLHk8BZdI+pRTb1IPcE9422N89gh6Axb8QQKgwSrRrjtcUAS4ejd1R4ZMDecddD1HlMUZ16/Y9pAZIFSx3lFCVV5mrxoZnDb38clAEqzDgRNQHvVaeH"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5557,
+   "candidatesTokenCount": 1655,
+   "totalTokenCount": 7583,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5557
+    }
+   ],
+   "thoughtsTokenCount": 371,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "J_nIaqX6Ab7njuMP1dWk4Qw"
+ }
+}

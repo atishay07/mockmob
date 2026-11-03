@@ -1,0 +1,13 @@
+{
+  "checked_at": "2026-10-07T08:23:36.006129+00:00",
+  "deployment": "G67SUuD8q7nSdbDRFH5R2qkxRj1G",
+  "commit": "2e50d719cf86e83dc6fc8fbab5fcfaef5f45f8a8",
+  "status": "Ready",
+  "latest": true,
+  "environment": "Production",
+  "duration_seconds": 50,
+  "domain": "www.mockmob.in",
+  "verified_via": "Actual signed-in Vercel deployment overview in browser",
+  "new_factory_student_retrieval_claim": false,
+  "staging_practice_checks": "artifacts/question-factory/continuation-500/practice-launch-checks.json"
+}

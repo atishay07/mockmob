@@ -1,0 +1,98 @@
+{
+  "at": "2026-10-08T11:38:16.808Z",
+  "parent_frozen_sha256": "330e56bb2a6afdaff5f286fa46f0c8b013e49f1a4b41250f29e02d300eb91e6d",
+  "raw_reference_denominator": 32,
+  "complete_fixture_denominator": 42,
+  "academic_paid_fixtures": 41,
+  "local_mechanical_fixtures": 1,
+  "candidate": {
+    "id": "cbse24-ac-q04--false_authentic_pyq_claim",
+    "group": "controlled_defect",
+    "category": "false_authentic_pyq_claim",
+    "expected_valid": false,
+    "candidate": {
+      "id": "cbse24-ac-q04--false_authentic_pyq_claim",
+      "subject": "accountancy",
+      "chapter": "Admission of Partner",
+      "concept_id": null,
+      "body": "On Vasu’s admission, Paresh and Prabhav have debtors of ₹6,20,000 and an existing provision for doubtful debts of ₹20,000. Debtors worth ₹15,000 have turned bad and must be written off. Which entries correctly record this write-off?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Provision for Doubtful Debts A/c Dr ₹15,000; To Bad Debts A/c ₹15,000."
+        },
+        {
+          "key": "B",
+          "text": "Bad Debts A/c Dr ₹15,000; To Debtors A/c ₹15,000. Then Revaluation A/c Dr ₹15,000; To Provision for Doubtful Debts A/c ₹15,000."
+        },
+        {
+          "key": "C",
+          "text": "Revaluation A/c Dr ₹15,000; To Debtors A/c ₹15,000."
+        },
+        {
+          "key": "D",
+          "text": "Bad Debts A/c Dr ₹15,000; To Revaluation A/c ₹15,000."
+        }
+      ],
+      "correct_answer": "A",
+      "explanation": "The existing 20000 provision covers the 15000 write-off. Debit Bad Debts and credit Debtors; then debit the provision and credit Bad Debts. Remaining provision is 5000 and net debtor value stays 600000; no new revaluation loss is invented. A: Matches the write-off and its adjustment against the existing provision. B: Creates or increases a provision through Revaluation instead of consuming the existing provision. C: Charges a new revaluation loss while leaving the covering provision unadjusted. D: Does not credit debtors and improperly credits Revaluation.",
+      "route": "conceptual",
+      "difficulty": "medium",
+      "question_type": "case_application",
+      "passage_text": "",
+      "family_id": "fresh-v73-family-cbse24-ac-q04",
+      "source_refs": [
+        {
+          "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+        },
+        {
+          "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+        }
+      ],
+      "provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cbse-2024-not-a-cuet-pyq",
+        "adaptation_family": "fresh-v73-family-cbse24-ac-q04",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "fresh-v73-source-accountancy",
+        "source_pack_version": 1
+      }
+    },
+    "oracle": {
+      "key": "A",
+      "correct_key_of_base": "A",
+      "basis": "A CBSE-reference practice adaptation cannot claim an authenticated CUET PYQ anchor.",
+      "source_refs": [
+        {
+          "id": "fresh-v73-cbse24-ac-q04-excerpt-1",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "b720f75957194282cfc33100847bf0030c92ca611af5b8accda5943064cf5128"
+        },
+        {
+          "id": "fresh-v73-cbse24-ac-q04-excerpt-2",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "a9913e93ac3763bb99607b204c96a7069f882a7c5a5ab314eaeed5f7d97c09a2"
+        }
+      ]
+    },
+    "derived_from": "cbse24-ac-q04",
+    "construction_repairs_used": 0,
+    "maximum_additional_repairs": 0
+  },
+  "expected_state": "rejected_before_dispatch",
+  "observed_guard_error": "fresh_practice_cannot_claim_authentic_pyq",
+  "paid_calls": 0,
+  "publication_writes": 0,
+  "model_accuracy_claim": false,
+  "release": false
+}

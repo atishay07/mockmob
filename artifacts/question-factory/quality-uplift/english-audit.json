@@ -1,0 +1,227 @@
+{
+  "subject": "english",
+  "method": "Root independently solved supplied blind stems before comparing the separate keys; direct excerpt and presentation review.",
+  "counts": {
+    "questions": 5,
+    "answer_matches": 5,
+    "approve": 2,
+    "suspect": 3,
+    "incomplete": 0
+  },
+  "questions": [
+    {
+      "id": "24281d99-3989-401c-8119-f06de936e756",
+      "content_hash": "4a0b71819ecdb981fa164f9eb5cfb1efe70c6cb063c28976916e53fed9b3e2eb",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct ANTONYM for sullen from the options given below.",
+      "options": [
+        "morose",
+        "reticent",
+        "timid",
+        "genial"
+      ],
+      "passage": "",
+      "question_type": "antonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "c3c68e301906dcc02f653de4b3c28cc25f428af157374c0c29bcefbf7f2e5960"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-fec22fec900f",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "6861f56f1d68882d0c77320c6d0ed74e031673ed53f1bf5eded26928f2309af5"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "e895d8290e10c6c1a44f0f74d1b12a3e5d05037a2acd701382d3bf5e2a2bdf3a"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q49",
+      "solved_key": "D",
+      "verdict": "approve",
+      "reasons": [
+        "Sullen contrasts with genial; supplied primary definitions support the antonym."
+      ],
+      "recorded_key": "D",
+      "answer_match": true
+    },
+    {
+      "id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "content_hash": "1f7aca4672f837feb0d225fbc42d3597d3f6c2206bbf69328ebdf81529fe4e73",
+      "chapter": "Vocabulary",
+      "body": "Identify the option closest in meaning to the underlined word : The movie star’s biography is a glossy, sycophantic portrayal.",
+      "options": [
+        "cowardly",
+        "domineering",
+        "flattering",
+        "insolent"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q46",
+          "support_hash": "d164f096352ccebcf374c70b8c387432c2ab44ec612fe03cd5a2998b0a972c2a"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2326f94598e9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "aedaa3786a674f100b9dab328cc8958180156bfcdd0949e43a93b79526e0ec73"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "ad0aefd7999f76c544cbdcaab975de70bc66f92f17b0bc75227c202fc7a090a3"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q46",
+      "solved_key": "C",
+      "verdict": "suspect",
+      "reasons": [
+        "Sycophantic means flattering in context, but the underlined target is not marked in the extracted stem. Specify the target or restore faithful presentation before use."
+      ],
+      "recorded_key": "C",
+      "answer_match": true
+    },
+    {
+      "id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "content_hash": "bba46fd077b57f64075c66fbf9245418be4c2af248b7aaa212b0c3c45c70fbb4",
+      "chapter": "Vocabulary",
+      "body": "At a community event, Leena greeted newcomers with a warm smile, chatted cheerfully, and made them feel welcome. Which word best describes her manner?",
+      "options": [
+        "morose",
+        "reticent",
+        "timid",
+        "genial"
+      ],
+      "passage": "",
+      "question_type": "antonym in context",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "c3c68e301906dcc02f653de4b3c28cc25f428af157374c0c29bcefbf7f2e5960"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-fec22fec900f",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "6861f56f1d68882d0c77320c6d0ed74e031673ed53f1bf5eded26928f2309af5"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "e895d8290e10c6c1a44f0f74d1b12a3e5d05037a2acd701382d3bf5e2a2bdf3a"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-english-bookA-q49",
+      "solved_key": "D",
+      "verdict": "suspect",
+      "reasons": [
+        "Genial fits the description. The antonym-in-context label does not describe this choosing-a-word task. Definitions of the three distractors are not directly supported by the supplied excerpts."
+      ],
+      "recorded_key": "D",
+      "answer_match": true
+    },
+    {
+      "id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "content_hash": "836070680a3d09429bddc726bcd2cedce817ec861e133cf06de675eec22e1cb3",
+      "chapter": "Vocabulary",
+      "body": "Identify the option closest in meaning to the underlined word: Her <u>ingratiating</u> remarks seemed designed to win the director’s approval.",
+      "options": [
+        "Designed to win favour",
+        "Intended to express disapproval",
+        "Marked by complete impartiality",
+        "Showing little interest"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q46",
+          "support_hash": "d164f096352ccebcf374c70b8c387432c2ab44ec612fe03cd5a2998b0a972c2a"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2326f94598e9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "aedaa3786a674f100b9dab328cc8958180156bfcdd0949e43a93b79526e0ec73"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "ad0aefd7999f76c544cbdcaab975de70bc66f92f17b0bc75227c202fc7a090a3"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-english-bookA-q46",
+      "solved_key": "A",
+      "verdict": "suspect",
+      "reasons": [
+        "Intended meaning of ingratiating is correct. Raw HTML is exposed in the stem and the supplied definitions cover sycophantic/flatter, not the changed target ingratiating."
+      ],
+      "recorded_key": "A",
+      "answer_match": true
+    },
+    {
+      "id": "81e67374-a170-407d-9bc2-d3cdfd2fe884",
+      "content_hash": "22fd3f82e37059e59aa5c3da2c8bedbd52057ff0439df68720d3b9cad1c6c5d8",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct SYNONYM for redoubtable from the options given below.",
+      "options": [
+        "flimsy",
+        "perplexing",
+        "formidable",
+        "voluble"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q48",
+          "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+        },
+        {
+          "id": "cuet2024-english-bookA-q48-capture-5b560b67fcda",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "13748735091262ef67a89d3325b951153a2bca72a774a10dcc3aa78f5930dce5"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q48",
+      "solved_key": "C",
+      "verdict": "approve",
+      "reasons": [
+        "Redoubtable matches formidable; the primary definition supports the target sense."
+      ],
+      "recorded_key": "C",
+      "answer_match": true
+    }
+  ]
+}

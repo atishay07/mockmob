@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-04T17:52:29.644Z",
+  "commit": "a6a61cc276d9df36b43e4760c08df0dfe83802a3",
+  "state": "passed",
+  "rows": [
+    {
+      "url": "https://mockmob.in/",
+      "chain": [
+        {
+          "url": "https://mockmob.in/",
+          "status": 307,
+          "location": "https://www.mockmob.in/"
+        },
+        {
+          "url": "https://www.mockmob.in/",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "finalStatus": 200
+    },
+    {
+      "url": "https://www.mockmob.in/",
+      "chain": [
+        {
+          "url": "https://www.mockmob.in/",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "finalStatus": 200
+    },
+    {
+      "url": "https://www.mockmob.in/learn",
+      "chain": [
+        {
+          "url": "https://www.mockmob.in/learn",
+          "status": 200,
+          "location": null
+        }
+      ],
+      "finalStatus": 200
+    },
+    {
+      "url": "https://www.mockmob.in/api/study/catalog",
+      "chain": [
+        {
+          "url": "https://www.mockmob.in/api/study/catalog",
+          "status": 401,
+          "location": null
+        }
+      ],
+      "finalStatus": 401
+    },
+    {
+      "url": "https://www.mockmob.in/preview/study",
+      "chain": [
+        {
+          "url": "https://www.mockmob.in/preview/study",
+          "status": 404,
+          "location": null
+        }
+      ],
+      "finalStatus": 404
+    }
+  ],
+  "scope": "Anonymous HTTP smoke; authenticated UI checked separately"
+}

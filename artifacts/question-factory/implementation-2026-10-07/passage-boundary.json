@@ -1,0 +1,14 @@
+{
+  "max_english_words": 300,
+  "excluded_from_generation": [
+    "cuet2024-english-bookA-q17",
+    "cuet2024-english-bookA-q18",
+    "cuet2024-english-bookA-q19",
+    "cuet2024-english-bookA-q20",
+    "cuet2024-english-bookA-q21",
+    "cuet2024-english-bookA-q22"
+  ],
+  "registry_version": 54,
+  "verifier": "luna-gemini-cuET-v5.5",
+  "previous_evaluation_preserved": true
+}

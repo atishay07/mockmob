@@ -1,0 +1,647 @@
+C:/Users/atish/Desktop/mockmob copy/mockmob copy
+ M .gitignore
+ M AGENTS.md
+ M data/answer_integrity.js
+ M data/calibration_manifest.json
+ M data/capabilities.js
+ M data/content_evidence.js
+ M data/db.js
+ M data/evidence_registry.js
+ M data/explore_feed.js
+ M data/mock_question_selector.js
+ M data/pipeline-prices.json
+ M data/practice_availability.js
+ M data/practice_library.js
+ M data/practice_ticket.js
+ M data/repair_presentation.mjs
+ M data/source_registry.json
+ M data/tests/answer_integrity.test.mjs
+ M data/tests/explore_feed.test.mjs
+ M data/tests/mistake_repair.test.mjs
+ M data/tests/prepos_wallet.test.mjs
+ M docs/brain/QUALITY.md
+ M docs/brain/README.md
+ M docs/brain/STATUS.md
+ M logs/audit/route_failures/english__vocabulary.json
+ M logs/audit/route_samples/english__vocabulary/publish_results.json
+ M logs/audit/route_samples/english__vocabulary/published_samples.json
+ M logs/audit/route_samples/english__vocabulary/rejected_samples.json
+ M logs/audit/route_samples/english__vocabulary/route_scorecard.json
+ M logs/audit/route_samples/english__vocabulary/selfcheck_results.json
+ M logs/audit/route_samples/english__vocabulary/validator_results.json
+ M logs/model_tests/kimi_vs_deepseek/latest.json
+ M logs/model_tests/kimi_vs_deepseek/latest.md
+ M next.config.mjs
+ M package-lock.json
+ M package.json
+ M scripts/learning/ai-live-smoke.mjs
+ M scripts/learning/mistake-repair-live-eval.mjs
+ M scripts/learning/prepos-readiness.mjs
+ M scripts/pipeline/autonomous/worker.mjs
+ M scripts/pipeline/controller.mjs
+ M scripts/pipeline/lib/budgetLedger.mjs
+ M scripts/pipeline/lib/evidencePipeline.mjs
+ M scripts/pipeline/lib/offlineBatchFactory.mjs
+ M scripts/pipeline/lib/variants.mjs
+ M scripts/pipeline/tests/deepseekConfig.test.mjs
+ M scripts/pipeline/tests/passageNormalizer.test.mjs
+ M scripts/pipeline/tests/recoverySafety.test.mjs
+ M scripts/pipeline/tests/routeFailureAnalyzer.test.mjs
+ M scripts/pipeline/tests/selfCheck.test.mjs
+ M scripts/pipeline/validate-existing.mjs
+ M src/app/(app)/AppLayoutClient.jsx
+ M src/app/(app)/dashboard/DashboardPageClient.jsx
+ M src/app/(app)/explore/explore.css
+ M src/app/(app)/layout.js
+ M src/app/(app)/result/[id]/ResultPageClient.jsx
+ M src/app/(app)/test/TestPageClient.jsx
+ M src/app/admin/AdminDashboardClient.jsx
+ M src/app/api/questions/feed/route.js
+ M src/app/api/recovery/replay/route.js
+ M src/app/preview/arena/ArenaPreviewClient.jsx
+ M src/app/pricing/page.js
+ M src/app/pricing/prepos/page.js
+ M src/components/LearningNextAction.jsx
+ M src/components/RecoveryOverview.jsx
+ M src/components/ScoreRecoveryLab.jsx
+ M src/components/ai/AssistantLauncherGate.jsx
+ M src/components/feed/QuestionCard.jsx
+ M src/components/landing/ProductScreens.jsx
+ M src/components/recovery/MistakeRepair.jsx
+ M src/components/ui/Glyph.jsx
+ M src/lib/arenaNavigation.js
+ M src/lib/moderation/ai.js
+ M src/lib/server/learning.js
+ M src/lib/server/recoverySessions.js
+ M src/services/ai/getStudentAIContext.js
+ M src/services/ai/providers.js
+ M src/services/recovery/mistakeRepair.js
+?? .gitattributes
+?? .impeccable/critique/
+?? artifacts/ai-night-2026-10-04/
+?? artifacts/differentiator-2026-10-04/
+?? artifacts/homepage/
+?? artifacts/keyreview-browser-check.mjs
+?? artifacts/keyreview-release/
+?? artifacts/mobile-audit-2026-10-04/
+?? artifacts/mobile-refinement-2026-10-04/
+?? artifacts/question-factory/
+?? artifacts/recovery/
+?? artifacts/refinement-2026-10-02b/
+?? artifacts/round3/
+?? artifacts/round4/
+?? artifacts/round5-completion/
+?? artifacts/round5/
+?? artifacts/round6/
+?? artifacts/study-suite/
+?? artifacts/tour-refinement-2026-10-04/
+?? artifacts/ui-ux-audit-2026-10-04/
+?? artifacts/ui-ux-implementation-2026-10-04/
+?? artifacts/ui-ux-release-2026-10-04/
+?? data/calibration_manifest.json.before-storage-fix.json
+?? data/canonical_json.mjs
+?? data/cuet_fit_evidence.mjs
+?? data/cuet_fit_rubric.mjs
+?? data/cuet_v73_runtime_binding.json
+?? data/cuet_v74_runtime_binding.json
+?? data/exam_integrity.mjs
+?? data/factory_current_validation.mjs
+?? data/factory_inventory.mjs
+?? data/factory_phase_budget.mjs
+?? data/factory_runtime_evidence.mjs
+?? data/question_content_version.mjs
+?? data/question_factory_criteria.mjs
+?? data/question_factory_policy.mjs
+?? data/question_factory_scope.json
+?? data/question_factory_sources.json
+?? data/question_presentation.mjs
+?? data/study/
+?? data/study_content.js
+?? data/study_engine.js
+?? data/study_scheduler.mjs
+?? data/tests/evidence_snapshot.test.mjs
+?? data/tests/exam_integrity_review.test.mjs
+?? data/tests/factory_current_validation.test.mjs
+?? data/tests/factory_inventory.test.mjs
+?? data/tests/factory_phase_budget.test.mjs
+?? data/tests/practice_availability.test.mjs
+?? data/tests/practice_ticket.test.mjs
+?? data/tests/study_database.test.mjs
+?? data/tests/study_engine.test.mjs
+?? data/tests/v73_runtime_contract.test.mjs
+?? data/tests/v74_runtime_contract.test.mjs
+?? data/v73_runtime_contract.mjs
+?? data/v73_runtime_evidence.mjs
+?? data/v74_runtime_contract.mjs
+?? docs/brain/GENERATOR-CURRENT-BLOCKERS-2026-10-08.md
+?? docs/brain/GENERATOR-OPERATING-RULES.md
+?? docs/brain/QUESTION-FACTORY-RUNBOOK.md
+?? docs/brain/QUESTION-FACTORY.md
+?? docs/brain/STUDY-SUITE-2026-10-04.md
+?? docs/brain/reports/STUDY-SUITE-COMPLETION-AUDIT-2026-10-05.md
+?? logs/offline_batches/mockmob-offline-import-1rUZej/
+?? logs/offline_batches/mockmob-offline-import-3Ngi2G/
+?? logs/offline_batches/mockmob-offline-import-4DAMzU/
+?? logs/offline_batches/mockmob-offline-import-4phENd/
+?? logs/offline_batches/mockmob-offline-import-5oKqn5/
+?? logs/offline_batches/mockmob-offline-import-68OfZU/
+?? logs/offline_batches/mockmob-offline-import-7h3teY/
+?? logs/offline_batches/mockmob-offline-import-7oQh9k/
+?? logs/offline_batches/mockmob-offline-import-AS1UVL/
+?? logs/offline_batches/mockmob-offline-import-Au05xi/
+?? logs/offline_batches/mockmob-offline-import-C2zpAg/
+?? logs/offline_batches/mockmob-offline-import-Crm9b8/
+?? logs/offline_batches/mockmob-offline-import-DTDzIn/
+?? logs/offline_batches/mockmob-offline-import-E74PWU/
+?? logs/offline_batches/mockmob-offline-import-E91ARB/
+?? logs/offline_batches/mockmob-offline-import-FBwetP/
+?? logs/offline_batches/mockmob-offline-import-G3qrnZ/
+?? logs/offline_batches/mockmob-offline-import-IjWAtm/
+?? logs/offline_batches/mockmob-offline-import-KaSn3a/
+?? logs/offline_batches/mockmob-offline-import-KdL2p6/
+?? logs/offline_batches/mockmob-offline-import-M4H43t/
+?? logs/offline_batches/mockmob-offline-import-MJ9XJo/
+?? logs/offline_batches/mockmob-offline-import-MdpBC4/
+?? logs/offline_batches/mockmob-offline-import-N2OAtL/
+?? logs/offline_batches/mockmob-offline-import-O0DzRI/
+?? logs/offline_batches/mockmob-offline-import-PwjBuQ/
+?? logs/offline_batches/mockmob-offline-import-QiIIHF/
+?? logs/offline_batches/mockmob-offline-import-RBxqmV/
+?? logs/offline_batches/mockmob-offline-import-RE70WH/
+?? logs/offline_batches/mockmob-offline-import-V2uG2f/
+?? logs/offline_batches/mockmob-offline-import-ViPIFB/
+?? logs/offline_batches/mockmob-offline-import-XmMmoE/
+?? logs/offline_batches/mockmob-offline-import-ZFd5Vs/
+?? logs/offline_batches/mockmob-offline-import-ZxNiu8/
+?? logs/offline_batches/mockmob-offline-import-a5R9yV/
+?? logs/offline_batches/mockmob-offline-import-ajs48K/
+?? logs/offline_batches/mockmob-offline-import-bgCWTW/
+?? logs/offline_batches/mockmob-offline-import-diKUE9/
+?? logs/offline_batches/mockmob-offline-import-eHPAIZ/
+?? logs/offline_batches/mockmob-offline-import-fDoSAN/
+?? logs/offline_batches/mockmob-offline-import-ga2hsI/
+?? logs/offline_batches/mockmob-offline-import-gdAlZZ/
+?? logs/offline_batches/mockmob-offline-import-is1hGH/
+?? logs/offline_batches/mockmob-offline-import-izKnzl/
+?? logs/offline_batches/mockmob-offline-import-jHaNf8/
+?? logs/offline_batches/mockmob-offline-import-kyhl5J/
+?? logs/offline_batches/mockmob-offline-import-n45WfP/
+?? logs/offline_batches/mockmob-offline-import-oM0Jce/
+?? logs/offline_batches/mockmob-offline-import-of9Omh/
+?? logs/offline_batches/mockmob-offline-import-r3UJVM/
+?? logs/offline_batches/mockmob-offline-import-s9mRpF/
+?? logs/offline_batches/mockmob-offline-import-t35tT3/
+?? logs/offline_batches/mockmob-offline-import-t5yuxF/
+?? logs/offline_batches/mockmob-offline-import-tvdJro/
+?? logs/offline_batches/mockmob-offline-import-vrtzQU/
+?? logs/offline_batches/mockmob-offline-import-y7BKcw/
+?? logs/offline_batches/mockmob-offline-write-0cic3U/
+?? logs/offline_batches/mockmob-offline-write-4bo8JL/
+?? logs/offline_batches/mockmob-offline-write-7aauOe/
+?? logs/offline_batches/mockmob-offline-write-7fxSFu/
+?? logs/offline_batches/mockmob-offline-write-7xwMFP/
+?? logs/offline_batches/mockmob-offline-write-8eOFJG/
+?? logs/offline_batches/mockmob-offline-write-92oqrI/
+?? logs/offline_batches/mockmob-offline-write-A5H0Y9/
+?? logs/offline_batches/mockmob-offline-write-AFxzc6/
+?? logs/offline_batches/mockmob-offline-write-AOWrke/
+?? logs/offline_batches/mockmob-offline-write-ByUXNb/
+?? logs/offline_batches/mockmob-offline-write-FCjH3a/
+?? logs/offline_batches/mockmob-offline-write-FayzHl/
+?? logs/offline_batches/mockmob-offline-write-FukxP3/
+?? logs/offline_batches/mockmob-offline-write-H2GsAU/
+?? logs/offline_batches/mockmob-offline-write-ISoHrF/
+?? logs/offline_batches/mockmob-offline-write-IljgXi/
+?? logs/offline_batches/mockmob-offline-write-Jc4umR/
+?? logs/offline_batches/mockmob-offline-write-JfVHXr/
+?? logs/offline_batches/mockmob-offline-write-LNK3mK/
+?? logs/offline_batches/mockmob-offline-write-M8jaZa/
+?? logs/offline_batches/mockmob-offline-write-MFAPyP/
+?? logs/offline_batches/mockmob-offline-write-MmRZwv/
+?? logs/offline_batches/mockmob-offline-write-Myiiil/
+?? logs/offline_batches/mockmob-offline-write-NZok7N/
+?? logs/offline_batches/mockmob-offline-write-P37m07/
+?? logs/offline_batches/mockmob-offline-write-SAXu4h/
+?? logs/offline_batches/mockmob-offline-write-TE48Nb/
+?? logs/offline_batches/mockmob-offline-write-UGfhjw/
+?? logs/offline_batches/mockmob-offline-write-UN3CUB/
+?? logs/offline_batches/mockmob-offline-write-UWA6Gx/
+?? logs/offline_batches/mockmob-offline-write-UWf0ix/
+?? logs/offline_batches/mockmob-offline-write-YnBCdY/
+?? logs/offline_batches/mockmob-offline-write-Z5TWxN/
+?? logs/offline_batches/mockmob-offline-write-ZZdnpS/
+?? logs/offline_batches/mockmob-offline-write-cxPOLp/
+?? logs/offline_batches/mockmob-offline-write-ePYH83/
+?? logs/offline_batches/mockmob-offline-write-enDzKx/
+?? logs/offline_batches/mockmob-offline-write-g0cTuD/
+?? logs/offline_batches/mockmob-offline-write-gzf44w/
+?? logs/offline_batches/mockmob-offline-write-hhUKF0/
+?? logs/offline_batches/mockmob-offline-write-kYxu9L/
+?? logs/offline_batches/mockmob-offline-write-ksU9sm/
+?? logs/offline_batches/mockmob-offline-write-lEZAnW/
+?? logs/offline_batches/mockmob-offline-write-mEe6jw/
+?? logs/offline_batches/mockmob-offline-write-oFSbHf/
+?? logs/offline_batches/mockmob-offline-write-oMstYE/
+?? logs/offline_batches/mockmob-offline-write-oUaPwh/
+?? logs/offline_batches/mockmob-offline-write-qEtQzF/
+?? logs/offline_batches/mockmob-offline-write-rj2vFa/
+?? logs/offline_batches/mockmob-offline-write-sALD7Z/
+?? logs/offline_batches/mockmob-offline-write-sbMnlr/
+?? logs/offline_batches/mockmob-offline-write-siXAhZ/
+?? logs/offline_batches/mockmob-offline-write-vWog6E/
+?? logs/offline_batches/mockmob-offline-write-yNTX85/
+?? logs/offline_batches/mockmob-offline-write-z5HfA9/
+?? scripts/learning/build-study-import.mjs
+?? scripts/learning/build-study-pilot.mjs
+?? scripts/learning/prepare-study-release.mjs
+?? scripts/learning/study-current-project-smoke.mjs
+?? scripts/learning/study-ratio-source-check.mjs
+?? scripts/learning/study-schema-dry-run.mjs
+?? scripts/learning/validate-study-pilot.mjs
+?? scripts/payments/
+?? scripts/pipeline/factory.mjs
+?? scripts/pipeline/lib/CUET-EXEMPLAR-POLICY-VNEXT.md
+?? scripts/pipeline/lib/atomicArtifact.mjs
+?? scripts/pipeline/lib/authorIntegrityV7.mjs
+?? scripts/pipeline/lib/bankSnapshot.mjs
+?? scripts/pipeline/lib/bankWorkerRecoveryGuard.mjs
+?? scripts/pipeline/lib/batchInspection.mjs
+?? scripts/pipeline/lib/benchmarkFixtureEnvelope.mjs
+?? scripts/pipeline/lib/boundedStorage.mjs
+?? scripts/pipeline/lib/briefDiversity.mjs
+?? scripts/pipeline/lib/campaignController.mjs
+?? scripts/pipeline/lib/campaignExecutionV7.mjs
+?? scripts/pipeline/lib/campaignMeasurementLeaseVNext.mjs
+?? scripts/pipeline/lib/campaignReceipts.mjs
+?? scripts/pipeline/lib/candidateCRegistration.mjs
+?? scripts/pipeline/lib/candidateCSupervisor.mjs
+?? scripts/pipeline/lib/candidateFormatVNext.mjs
+?? scripts/pipeline/lib/candidateTransportProfileVNext.mjs
+?? scripts/pipeline/lib/cohort010Recovery.mjs
+?? scripts/pipeline/lib/cohortAccounting.mjs
+?? scripts/pipeline/lib/cohortEconomics.mjs
+?? scripts/pipeline/lib/cohortScheduling.mjs
+?? scripts/pipeline/lib/compactBenchmark.mjs
+?? scripts/pipeline/lib/completedComparisonInspection.mjs
+?? scripts/pipeline/lib/constrainedAuthoring.mjs
+?? scripts/pipeline/lib/contractV7.mjs
+?? scripts/pipeline/lib/contractV73.mjs
+?? scripts/pipeline/lib/contractV74.mjs
+?? scripts/pipeline/lib/contractV75.mjs
+?? scripts/pipeline/lib/contractV76.mjs
+?? scripts/pipeline/lib/contractV77.mjs
+?? scripts/pipeline/lib/contractV78.mjs
+?? scripts/pipeline/lib/cuetExemplarPolicyVNext.mjs
+?? scripts/pipeline/lib/cuetFit.mjs
+?? scripts/pipeline/lib/cuetFitBenchmark.mjs
+?? scripts/pipeline/lib/cuetFitPublicationV76.mjs
+?? scripts/pipeline/lib/cuetPilotV75Deps.mjs
+?? scripts/pipeline/lib/cuetPilotV75Export.mjs
+?? scripts/pipeline/lib/cuetPilotV75Plan.mjs
+?? scripts/pipeline/lib/cuetPilotV75Run.mjs
+?? scripts/pipeline/lib/cuetReadinessStagingSnapshotVNext.mjs
+?? scripts/pipeline/lib/cuetReassessmentExport.mjs
+?? scripts/pipeline/lib/currentCuetCalibrationGateVNext.mjs
+?? scripts/pipeline/lib/factoryAcceptance.mjs
+?? scripts/pipeline/lib/factoryBenchmark.mjs
+?? scripts/pipeline/lib/factoryBlueprints.mjs
+?? scripts/pipeline/lib/factoryCalibration.mjs
+?? scripts/pipeline/lib/factoryCore.mjs
+?? scripts/pipeline/lib/factoryCosts.mjs
+?? scripts/pipeline/lib/factoryEvidence.mjs
+?? scripts/pipeline/lib/factoryEvidenceV7.mjs
+?? scripts/pipeline/lib/factoryEvidenceV73.mjs
+?? scripts/pipeline/lib/factoryEvidenceV74.mjs
+?? scripts/pipeline/lib/factoryEvidenceV75.mjs
+?? scripts/pipeline/lib/factoryEvidenceV76.mjs
+?? scripts/pipeline/lib/factoryEvidenceV77.mjs
+?? scripts/pipeline/lib/factoryEvidenceV78.mjs
+?? scripts/pipeline/lib/factoryFailure.mjs
+?? scripts/pipeline/lib/factoryNetworkLaunchPreflight.mjs
+?? scripts/pipeline/lib/factoryProfileV73.mjs
+?? scripts/pipeline/lib/factoryProfileV74.mjs
+?? scripts/pipeline/lib/factoryProfileV75.mjs
+?? scripts/pipeline/lib/factoryProfileV76.mjs
+?? scripts/pipeline/lib/factoryQueue.mjs
+?? scripts/pipeline/lib/factoryStore.mjs
+?? scripts/pipeline/lib/factoryTransport.mjs
+?? scripts/pipeline/lib/focusedBriefsV7.mjs
+?? scripts/pipeline/lib/focusedCoverage.mjs
+?? scripts/pipeline/lib/focusedSources.mjs
+?? scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs
+?? scripts/pipeline/lib/freshCuetReadinessV76Guards.mjs
+?? scripts/pipeline/lib/freshCuetReadinessV77Guards.mjs
+?? scripts/pipeline/lib/generationIntegrity.mjs
+?? scripts/pipeline/lib/ideaAllocation.mjs
+?? scripts/pipeline/lib/ideaAllocationV76.mjs
+?? scripts/pipeline/lib/localFactoryPilot.mjs
+?? scripts/pipeline/lib/manualSourceAuditSupport.mjs
+?? scripts/pipeline/lib/measurementInspectionVNext.mjs
+?? scripts/pipeline/lib/mirroredPaperEvidence.mjs
+?? scripts/pipeline/lib/officialTopics.mjs
+?? scripts/pipeline/lib/optionResolutionAuditV77.mjs
+?? scripts/pipeline/lib/optionResolutionAuditV78.mjs
+?? scripts/pipeline/lib/optionResolutionV77.mjs
+?? scripts/pipeline/lib/optionResolutionV78.mjs
+?? scripts/pipeline/lib/originalAuthorPolicyV74.mjs
+?? scripts/pipeline/lib/originalAuthorPolicyV75.mjs
+?? scripts/pipeline/lib/originalAuthorPolicyV76.mjs
+?? scripts/pipeline/lib/parallelMeasurementRegistrationVNext.mjs
+?? scripts/pipeline/lib/premiseBindingV78.mjs
+?? scripts/pipeline/lib/preparationValueV75.mjs
+?? scripts/pipeline/lib/preparationValueV76.mjs
+?? scripts/pipeline/lib/profiledFactoryQueueV73.mjs
+?? scripts/pipeline/lib/progressAwareCContinuation.mjs
+?? scripts/pipeline/lib/publishTimeInspection.mjs
+?? scripts/pipeline/lib/reassessmentWithholdingStagingVNext.mjs
+?? scripts/pipeline/lib/releaseEvidenceV7.mjs
+?? scripts/pipeline/lib/releaseEvidenceV73.mjs
+?? scripts/pipeline/lib/releaseEvidenceV74.mjs
+?? scripts/pipeline/lib/releaseEvidenceV75.mjs
+?? scripts/pipeline/lib/releaseEvidenceV76.mjs
+?? scripts/pipeline/lib/releaseEvidenceV77.mjs
+?? scripts/pipeline/lib/savedRequestBody.mjs
+?? scripts/pipeline/lib/savedRequestMaximumRecoveryV7.mjs
+?? scripts/pipeline/lib/scopedAccounting.mjs
+?? scripts/pipeline/lib/sourceContextIntegrityVNext.mjs
+?? scripts/pipeline/lib/sourcePacks.mjs
+?? scripts/pipeline/lib/subscriptionScreening.mjs
+?? scripts/pipeline/lib/temporaryOwnerBudgetGuard.mjs
+?? scripts/pipeline/lib/topicCoverage.mjs
+?? scripts/pipeline/lib/unresolvedReassessment.mjs
+?? scripts/pipeline/lib/verifyV7.mjs
+?? scripts/pipeline/lib/verifyV73.mjs
+?? scripts/pipeline/lib/verifyV74.mjs
+?? scripts/pipeline/lib/verifyV75.mjs
+?? scripts/pipeline/lib/verifyV76.mjs
+?? scripts/pipeline/lib/verifyV77.mjs
+?? scripts/pipeline/lib/verifyV78.mjs
+?? scripts/pipeline/tests/anthropicFailureHolds.test.mjs
+?? scripts/pipeline/tests/atomicArtifact.test.mjs
+?? scripts/pipeline/tests/authorFormatC.test.mjs
+?? scripts/pipeline/tests/bankWorkerRecoveryGuard.test.mjs
+?? scripts/pipeline/tests/batchFailureReceipts.test.mjs
+?? scripts/pipeline/tests/batchInspection.test.mjs
+?? scripts/pipeline/tests/benchmarkFixtureEnvelope.test.mjs
+?? scripts/pipeline/tests/boundedStorage.test.mjs
+?? scripts/pipeline/tests/briefDiversity.test.mjs
+?? scripts/pipeline/tests/budgetContinuation.test.mjs
+?? scripts/pipeline/tests/campaignController.test.mjs
+?? scripts/pipeline/tests/campaignExecutionV7.test.mjs
+?? scripts/pipeline/tests/campaignMeasurementLeaseVNext.test.mjs
+?? scripts/pipeline/tests/campaignReceipts.test.mjs
+?? scripts/pipeline/tests/candidateCRegistration.test.mjs
+?? scripts/pipeline/tests/candidateCSupervisor.test.mjs
+?? scripts/pipeline/tests/candidateFormatVNext.test.mjs
+?? scripts/pipeline/tests/candidateTransportProfileC.test.mjs
+?? scripts/pipeline/tests/candidateTransportProfileVNext.test.mjs
+?? scripts/pipeline/tests/cohort010Recovery.test.mjs
+?? scripts/pipeline/tests/cohortAccounting.test.mjs
+?? scripts/pipeline/tests/cohortEconomics.test.mjs
+?? scripts/pipeline/tests/cohortScheduling.test.mjs
+?? scripts/pipeline/tests/completedComparisonInspection.test.mjs
+?? scripts/pipeline/tests/constrainedAuthoring.test.mjs
+?? scripts/pipeline/tests/contractV75.test.mjs
+?? scripts/pipeline/tests/contractV76.test.mjs
+?? scripts/pipeline/tests/creditExhaustion.test.mjs
+?? scripts/pipeline/tests/cuetExemplarPolicyVNext.test.mjs
+?? scripts/pipeline/tests/cuetFitPublicationRouteV76.test.mjs
+?? scripts/pipeline/tests/cuetFitPublicationV76.test.mjs
+?? scripts/pipeline/tests/cuetFitV7.test.mjs
+?? scripts/pipeline/tests/cuetPilotV75.test.mjs
+?? scripts/pipeline/tests/cuetReadinessStagingSnapshotVNext.test.mjs
+?? scripts/pipeline/tests/cuetReassessmentExport.test.mjs
+?? scripts/pipeline/tests/currentCuetCalibrationGateVNext.test.mjs
+?? scripts/pipeline/tests/evidenceStorage.test.mjs
+?? scripts/pipeline/tests/factoryAcceptance.test.mjs
+?? scripts/pipeline/tests/factoryBenchmark.test.mjs
+?? scripts/pipeline/tests/factoryEvidenceV73.test.mjs
+?? scripts/pipeline/tests/factoryFailure.test.mjs
+?? scripts/pipeline/tests/factoryNetworkLaunchPreflight.test.mjs
+?? scripts/pipeline/tests/factoryProfileV73.test.mjs
+?? scripts/pipeline/tests/factoryProfileV76.test.mjs
+?? scripts/pipeline/tests/factoryTransportScopedFlush.test.mjs
+?? scripts/pipeline/tests/focusedSources.test.mjs
+?? scripts/pipeline/tests/freshCuetReadinessV73Guards.test.mjs
+?? scripts/pipeline/tests/freshCuetReadinessV76Guards.test.mjs
+?? scripts/pipeline/tests/freshCuetReadinessV77Guards.test.mjs
+?? scripts/pipeline/tests/generationIntegrity.test.mjs
+?? scripts/pipeline/tests/generatorInvariants.test.mjs
+?? scripts/pipeline/tests/ideaAllocationV76.test.mjs
+?? scripts/pipeline/tests/manualSourceAuditSupport.test.mjs
+?? scripts/pipeline/tests/measurementInspectionVNext.test.mjs
+?? scripts/pipeline/tests/officialTopics.test.mjs
+?? scripts/pipeline/tests/optionResolutionV77.test.mjs
+?? scripts/pipeline/tests/optionResolutionV78.exportedRegression.test.mjs
+?? scripts/pipeline/tests/optionResolutionV78.test.mjs
+?? scripts/pipeline/tests/originalAuthorPolicyV74.test.mjs
+?? scripts/pipeline/tests/originalAuthorPolicyV76.test.mjs
+?? scripts/pipeline/tests/preparationValueV75.test.mjs
+?? scripts/pipeline/tests/preparationValueV76.test.mjs
+?? scripts/pipeline/tests/profiledFactoryQueueV73.test.mjs
+?? scripts/pipeline/tests/profiledFactoryQueueV74.test.mjs
+?? scripts/pipeline/tests/progressAwareCContinuation.test.mjs
+?? scripts/pipeline/tests/publishTimeInspection.test.mjs
+?? scripts/pipeline/tests/questionFactory.test.mjs
+?? scripts/pipeline/tests/reassessmentWithholdingStagingVNext.test.mjs
+?? scripts/pipeline/tests/releaseEvidenceV7.test.mjs
+?? scripts/pipeline/tests/releaseEvidenceV76.test.mjs
+?? scripts/pipeline/tests/savedReceiptReuse.test.mjs
+?? scripts/pipeline/tests/savedRequestMaximumRecoveryV7.test.mjs
+?? scripts/pipeline/tests/scopedAccounting.test.mjs
+?? scripts/pipeline/tests/sourceContextIntegrityVNext.test.mjs
+?? scripts/pipeline/tests/temporaryOwnerBudgetGuard.test.mjs
+?? scripts/pipeline/tests/unresolvedReassessment.test.mjs
+?? scripts/pipeline/tests/v74PromptContract.test.mjs
+?? scripts/pipeline/tests/v78Integration.test.mjs
+?? scripts/pipeline/tests/v78MissingBindingsIndependent.test.mjs
+?? scripts/pipeline/tools/acceptedBatchStatus.mjs
+?? scripts/pipeline/tools/acquireFreshCbse2024Sources.py
+?? scripts/pipeline/tools/acquireFreshOfficialKeysV4.py
+?? scripts/pipeline/tools/amendStorageContract.mjs
+?? scripts/pipeline/tools/amendUnsentEnglishBriefs.mjs
+?? scripts/pipeline/tools/analyzeBankCuetFit.mjs
+?? scripts/pipeline/tools/analyzeCuetFitHistory.mjs
+?? scripts/pipeline/tools/analyzeCuetFitStudy.mjs
+?? scripts/pipeline/tools/applyCompletedComparisonInspection.mjs
+?? scripts/pipeline/tools/archiveValidationContract.mjs
+?? scripts/pipeline/tools/auditCohort010Recovery.mjs
+?? scripts/pipeline/tools/auditSourceFoundation.mjs
+?? scripts/pipeline/tools/benchmarkGemini.mjs
+?? scripts/pipeline/tools/bindStorageSerializationContract.mjs
+?? scripts/pipeline/tools/buildCuetFitBenchmark.mjs
+?? scripts/pipeline/tools/buildFreshAccountingSourceAuditV4.mjs
+?? scripts/pipeline/tools/buildFreshBusinessSourceAuditV4.mjs
+?? scripts/pipeline/tools/buildFreshEconomicsSourceAuditV4.mjs
+?? scripts/pipeline/tools/buildFreshEnglishSourceAuditV4.mjs
+?? scripts/pipeline/tools/buildManualAccountingSourceAudit.mjs
+?? scripts/pipeline/tools/buildManualBusinessSourceAudit.mjs
+?? scripts/pipeline/tools/buildManualEconomicsSourceAudit.mjs
+?? scripts/pipeline/tools/buildManualEnglishSourceAudit.mjs
+?? scripts/pipeline/tools/cacheBenchmarkLogicalSources.py
+?? scripts/pipeline/tools/checkContinuationRetrieval.mjs
+?? scripts/pipeline/tools/checkCuetReadinessDashboard.mjs
+?? scripts/pipeline/tools/checkFactoryRestart.mjs
+?? scripts/pipeline/tools/checkFocusedInputs.mjs
+?? scripts/pipeline/tools/checkProductionEvidence.mjs
+?? scripts/pipeline/tools/checkProductionLibrary.mjs
+?? scripts/pipeline/tools/checkPublishedStaging.mjs
+?? scripts/pipeline/tools/checkStagingApplication.mjs
+?? scripts/pipeline/tools/checkStagingAtomicity.mjs
+?? scripts/pipeline/tools/checkStagingPracticeLaunch.mjs
+?? scripts/pipeline/tools/clearEndedMeasurementOwnerCap.mjs
+?? scripts/pipeline/tools/commissionFactory.mjs
+?? scripts/pipeline/tools/compareEfforts.mjs
+?? scripts/pipeline/tools/compareFreshOfficialKeysV4.mjs
+?? scripts/pipeline/tools/compareFrozenOfficialSourceKeys.mjs
+?? scripts/pipeline/tools/compareProviders.mjs
+?? scripts/pipeline/tools/compileOwner127Review.mjs
+?? scripts/pipeline/tools/configureFactoryLocal.mjs
+?? scripts/pipeline/tools/constructFreshCbse2022V74BlindPacket.mjs
+?? scripts/pipeline/tools/constructFreshCbse2024BlindPacket.mjs
+?? scripts/pipeline/tools/continueCoverageCohorts.mjs
+?? scripts/pipeline/tools/continueCuetFitCampaignC.mjs
+?? scripts/pipeline/tools/correctAnchorChapter.mjs
+?? scripts/pipeline/tools/cuetFitBenchmarkItems.mjs
+?? scripts/pipeline/tools/cuetFitBenchmarkItemsV2.mjs
+?? scripts/pipeline/tools/cuetFitBenchmarkItemsV3.mjs
+?? scripts/pipeline/tools/cuetFitFactory.mjs
+?? scripts/pipeline/tools/diffEfforts.mjs
+?? scripts/pipeline/tools/drainReassessmentOwner6916.mjs
+?? scripts/pipeline/tools/dualEffortMatrix.mjs
+?? scripts/pipeline/tools/exportCohortForAudit.mjs
+?? scripts/pipeline/tools/exportCompletedComparisonInspection.mjs
+?? scripts/pipeline/tools/exportContinuation.mjs
+?? scripts/pipeline/tools/exportCuetReassessment.mjs
+?? scripts/pipeline/tools/exportOriginalCandidates.mjs
+?? scripts/pipeline/tools/extractColumnReference.py
+?? scripts/pipeline/tools/extractOfficialKeys.py
+?? scripts/pipeline/tools/extractReferencePdf.py
+?? scripts/pipeline/tools/factoryAcceptanceReport.mjs
+?? scripts/pipeline/tools/factoryProviderProbe.mjs
+?? scripts/pipeline/tools/finalPassBatchProbe.mjs
+?? scripts/pipeline/tools/finalizeUnresolvedReassessment.mjs
+?? scripts/pipeline/tools/finishArchivedValidation.mjs
+?? scripts/pipeline/tools/focusedFactory.mjs
+?? scripts/pipeline/tools/focusedProviderStatus.mjs
+?? scripts/pipeline/tools/freezeContractV75.mjs
+?? scripts/pipeline/tools/freezeContractV76.mjs
+?? scripts/pipeline/tools/freezeContractV77Local.mjs
+?? scripts/pipeline/tools/freezeFactoryBenchmark.mjs
+?? scripts/pipeline/tools/freezeFreshSecondReviewsV4.mjs
+?? scripts/pipeline/tools/freezeFreshSourceBenchmarkV73.mjs
+?? scripts/pipeline/tools/freezeManualSourceKeyCustody.mjs
+?? scripts/pipeline/tools/freezeSourceAuditedCuetBenchmark.mjs
+?? scripts/pipeline/tools/freezeV74KnownCriticalRegression.mjs
+?? scripts/pipeline/tools/freezeV74PrerequisiteDiagnostic.mjs
+?? scripts/pipeline/tools/freezeV75QualificationSets.mjs
+?? scripts/pipeline/tools/inputBoundPreflight.mjs
+?? scripts/pipeline/tools/inspectCuetFitEvaluation.mjs
+?? scripts/pipeline/tools/inspectSavedDiagnosticIncomplete.mjs
+?? scripts/pipeline/tools/inspectV77OfflineCapture.mjs
+?? scripts/pipeline/tools/ledgerSummary.mjs
+?? scripts/pipeline/tools/orderingDuplicateDiagnostic.mjs
+?? scripts/pipeline/tools/ownerPublicationSnapshot.mjs
+?? scripts/pipeline/tools/peekSource.mjs
+?? scripts/pipeline/tools/preparationValueDiagnosticV75.mjs
+?? scripts/pipeline/tools/prepareAuthenticatedPacks.mjs
+?? scripts/pipeline/tools/prepareBenchmarkEnvelopeResume.mjs
+?? scripts/pipeline/tools/prepareCalibration.mjs
+?? scripts/pipeline/tools/prepareCalibrationFaults.mjs
+?? scripts/pipeline/tools/prepareCoverageCampaign.mjs
+?? scripts/pipeline/tools/prepareCuetFitCampaign.mjs
+?? scripts/pipeline/tools/prepareCuetFitCampaignC.mjs
+?? scripts/pipeline/tools/prepareCuetPilotV75.mjs
+?? scripts/pipeline/tools/prepareFactoryStaging.mjs
+?? scripts/pipeline/tools/prepareFocusedFactory.mjs
+?? scripts/pipeline/tools/prepareFocusedV61.mjs
+?? scripts/pipeline/tools/prepareFocusedV62.mjs
+?? scripts/pipeline/tools/prepareFreshCalibrationV4.mjs
+?? scripts/pipeline/tools/prepareFreshCommissioning.mjs
+?? scripts/pipeline/tools/prepareFreshSourceReviewPacketV4.mjs
+?? scripts/pipeline/tools/prepareGenerationReferences.mjs
+?? scripts/pipeline/tools/prepareOwner127Review.mjs
+?? scripts/pipeline/tools/prepareProductionFactory.mjs
+?? scripts/pipeline/tools/prepareQualityUplift.mjs
+?? scripts/pipeline/tools/prepareQualityV4.mjs
+?? scripts/pipeline/tools/prepareStagingIdentity.mjs
+?? scripts/pipeline/tools/probeFlexTier.mjs
+?? scripts/pipeline/tools/probeProviderCredit.mjs
+?? scripts/pipeline/tools/productionArtifactServer.mjs
+?? scripts/pipeline/tools/providerPreflight.mjs
+?? scripts/pipeline/tools/publishCuetFitCampaignV76.mjs
+?? scripts/pipeline/tools/publishProductionCohort.mjs
+?? scripts/pipeline/tools/qualityCampaign.mjs
+?? scripts/pipeline/tools/reassessApprovals.mjs
+?? scripts/pipeline/tools/reassessCuetReadiness.mjs
+?? scripts/pipeline/tools/recoverCohort010Authoring.mjs
+?? scripts/pipeline/tools/recoverSavedRequestMaximumHoldsV7.mjs
+?? scripts/pipeline/tools/refreshOfficialCuetStudyAccounting.mjs
+?? scripts/pipeline/tools/refreshReassessedCoverageVNext.mjs
+?? scripts/pipeline/tools/registerBriefSources.mjs
+?? scripts/pipeline/tools/registerDirectingReference.mjs
+?? scripts/pipeline/tools/registerMarketReferences.mjs
+?? scripts/pipeline/tools/registerOriginalStimuliOverlay.mjs
+?? scripts/pipeline/tools/registerReferenceSpans.mjs
+?? scripts/pipeline/tools/releaseCuetFitTopology.mjs
+?? scripts/pipeline/tools/repairStagingEvidenceStorage.mjs
+?? scripts/pipeline/tools/reportCampaign.mjs
+?? scripts/pipeline/tools/reportCommissioning.mjs
+?? scripts/pipeline/tools/reportFinalPass.mjs
+?? scripts/pipeline/tools/reportQualityAudit.mjs
+?? scripts/pipeline/tools/reportQualityStatus.mjs
+?? scripts/pipeline/tools/reportSavedReadinessCosts.mjs
+?? scripts/pipeline/tools/retainProviderHold.mjs
+?? scripts/pipeline/tools/runCuetFitStudy.mjs
+?? scripts/pipeline/tools/runCuetPilotV75.mjs
+?? scripts/pipeline/tools/runCuetReadinessComparison.mjs
+?? scripts/pipeline/tools/runCuetReadinessDiagnostic.mjs
+?? scripts/pipeline/tools/runFactoryWithNetworkPreflight.mjs
+?? scripts/pipeline/tools/runFreshCuetReadiness.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV73.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV74.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV75.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV76.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV76BoundedInput.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV77.mjs
+?? scripts/pipeline/tools/runFreshCuetReadinessV77Integrated.mjs
+?? scripts/pipeline/tools/runOfficialCuetReadinessStudy.mjs
+?? scripts/pipeline/tools/runParallelMeasurementB.mjs
+?? scripts/pipeline/tools/splitMechanicalFreshControlV73.mjs
+?? scripts/pipeline/tools/stagingArtifactServer.mjs
+?? scripts/pipeline/tools/stagingLocalApp.mjs
+?? scripts/pipeline/tools/strengthenFrozenTerminology.mjs
+?? scripts/pipeline/tools/subscriptionReview.mjs
+?? scripts/pipeline/tools/syncCuetReadinessStagingSnapshotVNext.mjs
+?? scripts/pipeline/tools/syncProductionFactorySnapshot.mjs
+?? scripts/pipeline/tools/verifyContractCheckout.mjs
+?? scripts/pipeline/tools/verifyReassessmentStagingVNext.mjs
+?? scripts/pipeline/tools/watchCuetReassessmentRecovery.mjs
+?? scripts/pipeline/tools/withholdCuetReassessmentStagingVNext.mjs
+?? scripts/pipeline/tools/withholdPublishedDuplicates.mjs
+?? scripts/pipeline/tools/writeContinuationReport.mjs
+?? scripts/pipeline/tools/writeCuetReadinessStatus.mjs
+?? scripts/pipeline/tools/writeExecutionReport.mjs
+?? scripts/pipeline/tools/writeV74RuntimeBinding.mjs
+?? src/app/(app)/learn/
+?? src/app/(app)/study/
+?? src/app/admin/question-factory/
+?? src/app/api/admin/question-factory/
+?? src/app/api/study/
+?? src/app/preview/question-factory/
+?? src/app/preview/study/
+?? src/components/admin/
+?? src/components/arena/ExamIntegrityGuard.jsx
+?? src/components/arena/exam-integrity.css
+?? src/components/recovery/KeyReviewLog.jsx
+?? src/components/recovery/KeyReviewNotice.jsx
+?? src/components/recovery/key-review.css
+?? src/components/study/
+?? src/lib/server/questionFactory.js
+?? src/lib/server/questionFactoryPreview.js
+?? src/lib/server/study.js
+?? src/lib/server/studyExposure.js
+?? supabase/migrations/20261004154217_connected_study_suite.sql
+?? supabase/migrations/20261004172214_study_review_backlog.sql
+?? supabase/migrations/20261005185759_question_factory.sql
+?? tmp/

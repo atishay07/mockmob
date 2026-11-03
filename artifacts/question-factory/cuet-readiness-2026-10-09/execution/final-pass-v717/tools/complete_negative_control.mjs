@@ -1,0 +1,15 @@
+import { readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+const base = 'artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/';
+const parent = readFileSync(base + 'sealed/authored-custody-r1.json');
+const authored = JSON.parse(parent);
+const item = authored.items.find(item => item.slot === 'B_D3');
+if (item.expected_valid !== false || item.defect_class !== 'false_explanation') throw Error('wrong_target_control');
+const original_explanation = item.candidate.explanation;
+item.candidate.explanation = 'Loan-agreement restrictions never affect dividend declarations, so management may ignore those terms when deciding whether to declare a dividend. Option D is correct.';
+item.provenance = { ...item.provenance, pre_registration_explanation_revision: 'Original declared negative accidentally had a fully supported explanation. Independently detected before registration. Restore the intended source-contradictory explanation while preserving all blind question fields, original key, negative label, denominator and original records.' };
+authored.created_at = new Date().toISOString();
+authored.parent_custody_revision_sha256 = createHash('sha256').update(parent).digest('hex');
+writeFileSync(base + 'sealed/authored-custody-r2.json', JSON.stringify(authored, null, 2) + '\n', { flag: 'wx' });
+writeFileSync(base + 'sealed/NEGATIVE-CONTROL-CONSTRUCTION-CORRECTION.json', JSON.stringify({ created_at: authored.created_at, slot: item.slot, id: item.id, original_explanation, revised_explanation: item.candidate.explanation, blind_fields_unchanged: true, prior_independent_answer_frozen: true, native_calls: 0, registered: false, labels_changed: false }, null, 2) + '\n', { flag: 'wx' });
+console.log(JSON.stringify({ path: base + 'sealed/authored-custody-r2.json', sha256: createHash('sha256').update(readFileSync(base + 'sealed/authored-custody-r2.json')).digest('hex'), native_calls: 0 }));

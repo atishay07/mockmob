@@ -1,0 +1,311 @@
+[
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "hero",
+    "active": "hero",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "lab",
+    "active": "lab",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "compass",
+    "active": "compass",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "eligibility",
+    "active": "eligibility",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "demo",
+    "active": "demo",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "pricing",
+    "active": "pricing",
+    "visible": false,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": 1,
+    "requested": "close",
+    "active": "close",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "close",
+    "active": "close",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "pricing",
+    "active": "pricing",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "demo",
+    "active": "demo",
+    "visible": false,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "eligibility",
+    "active": "demo",
+    "visible": false,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "compass",
+    "active": "compass",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "lab",
+    "active": "lab",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "direction": -1,
+    "requested": "hero",
+    "active": "hero",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 390,
+    "reducedMotion": true,
+    "staticPerches": 7
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "hero",
+    "active": "hero",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "lab",
+    "active": "lab",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "compass",
+    "active": "compass",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "eligibility",
+    "active": "eligibility",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "demo",
+    "active": "demo",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "pricing",
+    "active": "pricing",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": 1,
+    "requested": "close",
+    "active": "close",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "close",
+    "active": "close",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "pricing",
+    "active": "pricing",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "demo",
+    "active": "demo",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "eligibility",
+    "active": "eligibility",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "compass",
+    "active": "compass",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "lab",
+    "active": "lab",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "direction": -1,
+    "requested": "hero",
+    "active": "hero",
+    "visible": true,
+    "collisions": [],
+    "overflow": 0
+  },
+  {
+    "width": 1280,
+    "reducedMotion": true,
+    "staticPerches": 7
+  },
+  {
+    "width": 390,
+    "view": "today",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "width": 390,
+    "view": "result",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "width": 390,
+    "view": "progress",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "width": 1280,
+    "view": "today",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "width": 1280,
+    "view": "result",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "width": 1280,
+    "view": "progress",
+    "text200": true,
+    "overflow": 0,
+    "fixture": true
+  },
+  {
+    "iosInstallHelp": true,
+    "touchTarget44": true,
+    "emulation": true
+  }
+]

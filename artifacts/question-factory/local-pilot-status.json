@@ -1,0 +1,248 @@
+{
+  "at": "2026-10-06T06:07:06.138Z",
+  "mode": "local_commissioning",
+  "production_changes": 0,
+  "counts": {
+    "total": 0,
+    "by_subject": {}
+  },
+  "blocker": "academic_calibration_not_released",
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 331053,
+    "requests": 232,
+    "unresolved": 0
+  },
+  "costs": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0.000016,
+        "held_usd": 0,
+        "input_tokens": 109,
+        "output_tokens": 40,
+        "reasoning_tokens": 25,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 72,
+        "open_requests": 0,
+        "settled_usd": 0.03915499999999999,
+        "held_usd": 0,
+        "input_tokens": 188420,
+        "output_tokens": 118818,
+        "reasoning_tokens": 90747,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 67,
+        "open_requests": 0,
+        "settled_usd": 0.17981200000000008,
+        "held_usd": 0,
+        "input_tokens": 178544,
+        "output_tokens": 60173,
+        "reasoning_tokens": 34588,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.049103999999999995,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 50794,
+        "reasoning_tokens": 37688,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.050195,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 29591,
+        "reasoning_tokens": 17042,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "explanation_support",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 22,
+        "open_requests": 3,
+        "settled_usd": 0.007387,
+        "held_usd": 0.004587,
+        "input_tokens": 76705,
+        "output_tokens": 14167,
+        "reasoning_tokens": 6487,
+        "usage_missing_requests": 0
+      }
+    ]
+  },
+  "sources": [
+    {
+      "subject": "english",
+      "authenticated_anchors": 30,
+      "active_packs": 1,
+      "chapters": [
+        "Para Jumbles",
+        "Vocabulary",
+        "Match the Following",
+        "Correct Word Usage",
+        "Narrative Passage"
+      ],
+      "missing_chapters": [
+        "Factual Passage",
+        "Literary Passage"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 9,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "accountancy",
+      "authenticated_anchors": 45,
+      "active_packs": 1,
+      "chapters": [
+        "Financial Statements of Company",
+        "Admission of Partner",
+        "Partnership Fundamentals",
+        "Analysis of Financial Statements",
+        "Profit & Loss Appropriation Account",
+        "Cash Flow Statement",
+        "Comparative & Common Size Statements",
+        "Goodwill Valuation",
+        "Share Capital",
+        "Debentures",
+        "Retirement & Death of Partner",
+        "Computerized Accounting System",
+        "Change in Profit Sharing Ratio",
+        "Accounting Ratios",
+        "Dissolution of Partnership",
+        "Dissolution of Partnership Firm"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 4,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "business_studies",
+      "authenticated_anchors": 48,
+      "active_packs": 1,
+      "chapters": [
+        "Principles of Management",
+        "Business Environment",
+        "Planning",
+        "Staffing",
+        "Directing",
+        "Controlling",
+        "Financial Markets",
+        "Consumer Protection",
+        "Organising",
+        "Entrepreneurship Development",
+        "Financial Management",
+        "Nature & Significance of Management",
+        "Marketing Management"
+      ],
+      "missing_chapters": [],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 3,
+      "ready": true,
+      "reason": ""
+    },
+    {
+      "subject": "economics",
+      "authenticated_anchors": 50,
+      "active_packs": 1,
+      "chapters": [
+        "Income Determination",
+        "Money & Banking",
+        "Government Budget & the Economy",
+        "Balance of Payments",
+        "Employment",
+        "Indian Economic Development 1950–1990",
+        "Environment & Sustainable Development",
+        "Human Capital Formation",
+        "Infrastructure",
+        "Economic Reforms Since 1991",
+        "Development Experiences of India",
+        "Rural Development",
+        "National Income & Related Aggregates",
+        "Indian Economy on the Eve of Independence",
+        "Market Equilibrium & Simple Applications",
+        "Introduction & Theory of Consumer Behaviour"
+      ],
+      "missing_chapters": [
+        "Production & Costs",
+        "Theory of Firms under Perfect Competition"
+      ],
+      "syllabus_version": "cuet-2026-provisional-for-2027",
+      "generation_anchors": 3,
+      "ready": true,
+      "reason": ""
+    }
+  ],
+  "cost_per_eligible_usd": null,
+  "forecast_usd": null,
+  "pilot": {
+    "target": 800,
+    "total": 0,
+    "eligible": 0,
+    "complete": false
+  },
+  "jobs": {},
+  "rejection_reasons": {},
+  "publication_gate": "staging_and_explicit_production_migration_required",
+  "snapshot_scope": "Read-only ledger and commissioning receipts; no pilot dispatch",
+  "calibration": {
+    "state": "paused",
+    "pending": 25,
+    "known_valid_rejections": 4
+  }
+}

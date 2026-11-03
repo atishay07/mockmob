@@ -1,0 +1,144 @@
+Browser tab: 1, Title: "CUET Subject Combination Planner for DU | MockMob", URL: "http://localhost:3010/cuet-subject-combination".
+1 AXWebArea CUET Subject Combination Planner for DU | MockMob, URL: localhost:3010/cuet-subject-combination
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container main-content
+			7 container
+				8 text New · Combo Planner
+				9 heading Pick the CUET subjects that open the most DU doors. Before you fill the form., Value: 1
+					10 text Pick the CUET subjects that open the most DU doors. Before you fill the form.
+				11 text Choose the programmes you want and the subjects you could take. We check every possible combination against DU’s published subject rules and show the ones that get you there.
+				12 content list
+					13 text Free, no signup
+					14 text Every combination checked, not guessed
+					15 text DU UG Bulletin 2026-27 rules
+			16 container
+				17 container 1 Where do you want to go?
+					18 heading 1 Where do you want to go?, Value: 2, ID: cp-s1
+						19 text 1 Where do you want to go?
+					20 container
+						21 text Pick up to  6  DU programmes.  0  chosen.
+					22 checkbox B.Com. (Hons.), Value: 0
+					23 checkbox B.A. (Hons.) Economics, Value: 0
+					24 checkbox B.A. (Hons.) English, Value: 0
+					25 checkbox B.A. (Hons.) Political Science, Value: 0
+					26 checkbox B.A. (Hons.) Psychology, Value: 0
+					27 checkbox B.A. (Programme), Value: 0
+					28 container
+						29 text Search DU programmes
+						30 search text field (settable) Search DU programmes
+				31 container 2 Which subjects could you take?
+					32 heading 2 Which subjects could you take?, Value: 2, ID: cp-s2
+						33 text Which subjects could you take?
+					34 container
+						35 text Tick every subject you studied or could prepare, up to  12 .  0  ticked. We find the best  5  for your goals.
+					36 container Quick start
+						37 text QUICK START
+						38 button Commerce, Help: English, Accountancy, Business Studies, Economics
+						39 button Commerce + Maths, Help: Adds Mathematics, which Economics and BMS need
+						40 button Science (PCM), Help: Physics, Chemistry, Mathematics
+						41 button Science (PCB), Help: Physics, Chemistry, Biology
+						42 button Humanities, Help: History, Political Science, Economics
+					43 heading Languages, Value: 3
+						44 text Languages
+					45 checkbox Assamese, Value: 0
+					46 checkbox Bengali, Value: 0
+					47 checkbox English, Value: 0
+					48 checkbox Gujarati, Value: 0
+					49 checkbox Hindi, Value: 0
+					50 checkbox Kannada, Value: 0
+					51 checkbox Malayalam, Value: 0
+					52 checkbox Marathi, Value: 0
+					53 checkbox Odia, Value: 0
+					54 checkbox Punjabi, Value: 0
+					55 checkbox Sanskrit, Value: 0
+					56 checkbox Tamil, Value: 0
+					57 checkbox Telugu, Value: 0
+					58 checkbox Urdu, Value: 0
+					59 heading Domain subjects, Value: 3
+						60 text Domain subjects
+					61 checkbox Accountancy / Book Keeping, Value: 0
+					62 checkbox Agriculture, Value: 0
+					63 checkbox Anthropology, Value: 0
+					64 checkbox Biology / Biological Studies / Biotechnology / Biochemistry, Value: 0
+					65 checkbox Business Studies, Value: 0
+					66 checkbox Chemistry, Value: 0
+					67 checkbox Computer Science / Informatics Practices, Value: 0
+					68 checkbox Economics / Business Economics, Value: 0
+					69 checkbox Environmental Studies / Environmental Science, Value: 0
+					70 checkbox Fine Arts / Visual Arts / Commercial Arts, Value: 0
+					71 checkbox Geography / Geology, Value: 0
+					72 checkbox History, Value: 0
+					73 checkbox Home Science, Value: 0
+					74 checkbox Knowledge Tradition and Practices in India, Value: 0
+					75 checkbox Mass Media / Mass Communication, Value: 0
+					76 checkbox Mathematics / Applied Mathematics, Value: 0
+					77 checkbox Performing Arts (Dance, Drama, Music), Value: 0
+					78 checkbox Physical Education (Yoga, Sports), Value: 0
+					79 checkbox Physics, Value: 0
+					80 checkbox Political Science, Value: 0
+					81 checkbox Psychology, Value: 0
+					82 checkbox Sociology, Value: 0
+					83 checkbox General Aptitude Test, Value: 0
+					84 container Papers on your CUET form
+						85 text Papers on your form
+						86 checkbox 3, Value: 0
+						87 checkbox 4, Value: 0
+						88 checkbox 5, Value: 1
+						89 text CUET UG 2026 allowed up to 5. 2027 rules are provisional.
+				90 container 3 Your best combinations
+					91 heading 3 Your best combinations, Value: 2, ID: cp-s3
+						92 text 3 Your best combinations
+					93 text Tick a few subjects, or use a quick start, to see combinations.
+					94 text Checked against the University of Delhi UG Bulletin 2026-27 subject rules. Subject eligibility is not admission: your score, category and seats decide that. Confirm the 2027 Bulletin before you register.
+			95 container Questions students ask
+				96 heading Questions students ask, Value: 2, ID: cp-faq
+					97 text Questions students ask
+				98 button (collapsed) How many subjects can I choose in CUET?, Secondary Actions: Expand
+					99 text How many subjects can I choose in CUET?
+				100 button (collapsed) How does the planner choose the best combination?, Secondary Actions: Expand
+					101 text How does the planner choose the best combination?
+				102 button (collapsed) Does meeting the subject rules mean I will get admission?, Secondary Actions: Expand
+					103 text Does meeting the subject rules mean I will get admission?
+				104 button (collapsed) Is it free?, Secondary Actions: Expand
+					105 text Is it free?
+				106 container
+					107 text MockMob is an independent exam preparation platform and is not affiliated with the University of Delhi or NTA. Confirm the 2027 bulletins before you register. 
+					108 link Description: DU cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+		109 link Description: MockMob ., Value: localhost:3010/
+		110 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		111 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		112 heading PRACTICE, Value: 3
+			113 text PRACTICE
+		114 content list
+			115 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			116 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			117 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			118 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			119 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			120 link Description: Features, Value: localhost:3010/features
+			121 link Description: Pricing, Value: localhost:3010/pricing
+		122 heading SUBJECTS, Value: 3
+			123 text SUBJECTS
+		124 content list
+			125 link Description: English, Value: localhost:3010/cuet/english
+			126 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			127 link Description: Economics, Value: localhost:3010/cuet/economics
+			128 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			129 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		130 heading COMPANY, Value: 3
+			131 text COMPANY
+		132 content list
+			133 link Description: About, Value: localhost:3010/about
+			134 link Description: Contact, Value: localhost:3010/contact
+			135 link Description: Privacy, Value: localhost:3010/privacy
+			136 link Description: Terms, Value: localhost:3010/terms
+			137 link Description: Refunds, Value: localhost:3010/refunds
+		138 container
+			139 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		140 text Free. No signup.
+		141 link Description: Try a CUET question, Value: localhost:3010/#try-practice
+
+The focused UI element is 1 AXWebArea CUET Subject Combination Planner for DU | MockMob, URL: localhost:3010/cuet-subject-combination

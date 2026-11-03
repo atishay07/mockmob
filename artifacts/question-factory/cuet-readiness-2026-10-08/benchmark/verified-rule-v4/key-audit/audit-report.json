@@ -1,0 +1,112 @@
+{
+  "schema": "cuet-v4-independent-key-audit-report-v1",
+  "review_mode": "blind-first-pass-then-programmatic-unblind",
+  "status": "diagnostic_audit_complete",
+  "blind_record": {
+    "file": "independent-keys.json",
+    "case_count": 40,
+    "unique_case_ids": 40,
+    "sha256": "beff179bcb383a73b78bc1373e112e5517bf730bc325776a2cad1da23b174e13"
+  },
+  "packet": {
+    "file": "blind-review-packet.json",
+    "sha256": "d35d7d990eef0279a34186ccab4d0ef15f5c973acad313d755f0a3b08c4e9913",
+    "fixture_payload_sha256": "e08c13c8e0ad13b3ed61639f0b881c1b197fe3e5bff95f37208c155deac26de0",
+    "selected_valid_roots": 40
+  },
+  "comparison": {
+    "valid_root_count": 40,
+    "independent_record_count": 40,
+    "oracle_agreements": 40,
+    "oracle_mismatches": [],
+    "proposed_key_agreements": 40,
+    "proposed_key_mismatches": [],
+    "author_proposed_oracle_disagreements": []
+  },
+  "structural_integrity": {
+    "verify_script": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/verified-rule-v4/verify.mjs",
+    "result": "PASS",
+    "checked_payload_and_freeze_hashes": true,
+    "checked_source_and_syllabus_bindings": true,
+    "checked_exact_syllabus_clause_presence": true,
+    "checked_defect_mechanics": true,
+    "checked_numeric_derivations": true,
+    "controlled_defect_counts": {
+      "wrong_key": 40,
+      "overlapping_options": 40,
+      "missing_decisive_condition": 1,
+      "unsupported_explanation": 40,
+      "syllabus_mismatch": 3,
+      "numeric_error": 30
+    }
+  },
+  "disputes": [
+    {
+      "case_id": "accountancy-AC-05-valid",
+      "type": "source_condition_wording",
+      "severity": "contested_wording",
+      "independent_decision": "key_A_is_intended_but_wording_remains_disputed",
+      "detail": "Exact stem: “Under the cited rule, when is interest charged on partners’ drawings?” Option A says “When the deed mentions it.” The cited text states: “No interest is to be charged on the drawings made by the partners, if there is no mention in the Deed.” This supports that a deed mention is necessary for charging (no mention => no charge), and makes A the intended unique option. It does not expressly establish the converse (mention => charge). Read “when” as an only-if condition and A is defensible; read it as a sufficient condition and the excerpt is incomplete. Preserve as disputed wording; do not alter the frozen label."
+    },
+    {
+      "case_id": "business_studies-BS-06-valid",
+      "type": "author_certificate_clause_mismatch",
+      "severity": "metadata_issue_question_in_syllabus",
+      "independent_decision": "question_is_entitled_under_full_unit_VI",
+      "detail": "Cached official full syllabus Unit VI includes “Steps in staffing process.” The source chapter defines orientation within Placement and Orientation, a step in that process, so the question is syllabus-entitled. The certificate’s displayed exact clause “Selection – meaning and process” is too narrow/irrelevant for this item; the question is not out of syllabus."
+    },
+    {
+      "case_id": "business_studies-BS-07-valid",
+      "type": "author_certificate_clause_mismatch",
+      "severity": "metadata_issue_question_in_syllabus",
+      "independent_decision": "question_is_explicitly_entitled_under_full_unit_VI",
+      "detail": "Cached official full syllabus Unit VI explicitly includes “Recruitment – meaning, process and sources, Merits and demerits of internal and external sources of recruitment.” The question about transfers and promotions as internal recruitment sources is directly entitled. The certificate’s displayed exact clause “Selection – meaning and process” is wrong for this item; the question is not out of syllabus."
+    }
+  ],
+  "scope_and_limits": {
+    "classification": "diagnostic only",
+    "valid_roots": 40,
+    "valid_roots_per_subject": 10,
+    "release_valid_roots_per_subject": 5,
+    "shared_source_families": [
+      "Accountancy items use one NCERT partnership-basics document",
+      "Business Studies items use one NCERT staffing chapter"
+    ],
+    "english_source_note": "English questions use the benchmark-authored passage itself as the displayed stimulus/source excerpt.",
+    "no_paid_provider_calls": true,
+    "agreement_is_not_truth": true,
+    "not_a_statistical_release_claim": true
+  },
+  "certificate_resolution": {
+    "source_id": "cuet2026-business_studies-syllabus",
+    "official_source_identity_sha256": "96009374e4605c5ebddd9299dd4fe71bfb82b64a0a2c23dbf2de5bd89c66c58b",
+    "official_source_extraction_sha256": "28db3d1fbd32bbcec67413ee49cee0bb027b13a9158d98492101ec21dcdff3f2",
+    "full_unit_VI_quotes": [
+      "Steps in staffing process.",
+      "Recruitment – meaning, process and sources, Merits and demerits of internal and external sources of recruitment."
+    ],
+    "frozen_questions_or_labels_changed": false
+  },
+  "first_pass_key_position_frequency": [
+    12,
+    12,
+    8,
+    8
+  ],
+  "first_pass_key_position_order": [
+    "A",
+    "B",
+    "C",
+    "D"
+  ],
+  "independence_resolution": {
+    "content_validity_contested_roots": [
+      "AC-05"
+    ],
+    "valid_content_with_wrong_or_partial_certificate_clause": [
+      "BS-06",
+      "BS-07"
+    ],
+    "independent_first_pass_keys_unchanged": true
+  }
+}

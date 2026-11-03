@@ -1,0 +1,46 @@
+{
+  "denominator": 96,
+  "valid": 64,
+  "defects": 32,
+  "by_subject": {
+    "accountancy": {
+      "valid": 16,
+      "defects": 8
+    },
+    "business_studies": {
+      "valid": 16,
+      "defects": 8
+    },
+    "economics": {
+      "valid": 16,
+      "defects": 8
+    },
+    "english": {
+      "valid": 16,
+      "defects": 8
+    }
+  },
+  "positions": {
+    "A": 16,
+    "B": 16,
+    "C": 16,
+    "D": 16
+  },
+  "formats": [
+    "conceptual_mcq",
+    "numerical_calculation",
+    "statement_mcq",
+    "numerical_mcq",
+    "direct_recall",
+    "matching",
+    "case_application",
+    "ordering_mcq",
+    "passage_direct",
+    "passage_statement",
+    "passage_inference",
+    "passage_detail",
+    "passage_order",
+    "passage_vocabulary_in_context",
+    "passage_numerical"
+  ]
+}

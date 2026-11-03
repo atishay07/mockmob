@@ -1,0 +1,11 @@
+{
+  "schema": "v713-offline-qualification-capture-correction-r2",
+  "created_at": "2026-10-09T18:51:43.444Z",
+  "original_contract_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+  "original_helper": "scripts/pipeline/tools/captureQualificationV713Preflight.mjs",
+  "original_helper_sha256": "31469a1c45b628ac0f75de3165ec1ca2df43a38bee1e4dbeff7115e770cff963",
+  "additive_helper": "scripts/pipeline/tools/captureQualificationV713PreflightR2.mjs",
+  "additive_helper_sha256": "bca836d8543129c35f0de474679cda57011c6a07b43ea70a986623c3643b8bfc",
+  "purpose": "Offline request-body capture only. No provider calls, academic evidence, case authorship, benchmark result, registration mutation, or contract/prompt change.",
+  "reason": "The frozen helper throws after its malformed base response. Inherited evaluation stores its cache only after a parseable retry, so the throw prevents offline preflight from capturing the actual completion retry. R2 returns a schema-shaped synthetic sizing-only retry to warm a process-local cache, while retaining both full request bodies, keys, and output caps in the preflight; synthetic responses are not exported as academic evidence."
+}

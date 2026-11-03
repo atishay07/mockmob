@@ -1,0 +1,90 @@
+Browser tab: 1, Title: "CUET English Mock Test & Chapter-Wise Practice | MockMob", URL: "http://localhost:3010/cuet/english".
+1 AXWebArea CUET English Mock Test & Chapter-Wise Practice | MockMob, URL: localhost:3010/cuet/english
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container
+			7 container Breadcrumb
+				8 link Description: Home, Value: localhost:3010/
+				9 text CUET English
+			10 heading CUET English Mock Tests & Practice, Value: 1
+				11 text CUET English Mock Tests & Practice
+			12 text CUET English rewards pace above everything: long reading comprehension sets, vocabulary calls you either know in two seconds or lose a minute to, and grammar traps built for second-guessing. Practising it untimed hides exactly the weakness the exam exposes.
+			13 heading How to structure CUET English practice, Value: 2
+				14 text How to structure CUET English practice
+			15 text Reading comprehension carries the heaviest weight, so anchor every practice block around at least one full RC passage under time. Track seconds per question, not just accuracy: most English scores leak on pace, not knowledge.
+			16 text Vocabulary and grammar respond to short daily drills far better than weekend marathons. Ten questions a day across synonyms, antonyms, idioms, and error-spotting compounds into exam-grade recall within weeks.
+			17 heading CUET English syllabus chapters, Value: 2
+				18 text CUET English syllabus chapters
+			19 text This list follows the subject syllabus. Available MockMob questions and their practice coverage can vary with current inventory.
+			20 content list
+				21 text Factual Passage
+				22 text Narrative Passage
+				23 text Literary Passage
+				24 text Para Jumbles
+				25 text Match the Following
+				26 text Vocabulary
+				27 text Correct Word Usage
+			28 heading Practise CUET English on MockMob, Value: 2
+				29 text Practise CUET English on MockMob
+			30 text Where practice is available, use a timed drill and review your attempt history to choose what to revisit. Access follows current inventory and plan rules. MockMob NTA Mode uses original practice content; CUET UG 2027 rules remain provisional until NTA publishes its bulletin.
+			31 link Description: Start a free English mock, Value: localhost:3010/signup
+			32 link Description: CUET 2027 exam guide, Value: localhost:3010/cuet-2027
+			33 link Description: See Pro pricing, Value: localhost:3010/pricing
+			34 heading More CUET subject practice, Value: 2
+				35 text More CUET subject practice
+			36 text Explore the published subject guides below. Confirm the final 2027 paper choices with NTA and check programme requirements with the university:
+			37 link Description: CUET Accountancy, Value: localhost:3010/cuet/accountancy
+			38 link Description: CUET Economics, Value: localhost:3010/cuet/economics
+			39 link Description: CUET Business Studies, Value: localhost:3010/cuet/business-studies
+			40 link Description: CUET History, Value: localhost:3010/cuet/history
+			41 link Description: CUET Political Science, Value: localhost:3010/cuet/political-science
+			42 heading Frequently asked questions, Value: 2
+				43 text Frequently asked questions
+			44 button (collapsed) How many questions does CUET English have?, Secondary Actions: Expand
+				45 text How many questions does CUET English have?
+			46 button (collapsed) Is reading comprehension the most important CUET English topic?, Secondary Actions: Expand
+				47 text Is reading comprehension the most important CUET English topic?
+			48 button (collapsed) Can I practise CUET English free on MockMob?, Secondary Actions: Expand
+				49 text Can I practise CUET English free on MockMob?
+			50 heading Reading about it is not practice., Value: 2
+				51 text Reading about it is not practice.
+			52 text Create a free account and sit a timed mock on this syllabus tonight. No card, and the first drill on the home page needs no signup at all.
+			53 link Description: Start a free mock, Value: localhost:3010/signup
+			54 link Description: See what Pro unlocks, Value: localhost:3010/pricing
+		55 link Description: MockMob ., Value: localhost:3010/
+		56 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		57 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		58 heading PRACTICE, Value: 3
+			59 text PRACTICE
+		60 content list
+			61 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			62 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			63 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			64 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			65 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			66 link Description: Features, Value: localhost:3010/features
+			67 link Description: Pricing, Value: localhost:3010/pricing
+		68 heading SUBJECTS, Value: 3
+			69 text SUBJECTS
+		70 content list
+			71 link Description: English, Value: localhost:3010/cuet/english
+			72 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			73 link Description: Economics, Value: localhost:3010/cuet/economics
+			74 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			75 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		76 heading COMPANY, Value: 3
+			77 text COMPANY
+		78 content list
+			79 link Description: About, Value: localhost:3010/about
+			80 link Description: Contact, Value: localhost:3010/contact
+			81 link Description: Privacy, Value: localhost:3010/privacy
+			82 link Description: Terms, Value: localhost:3010/terms
+			83 link Description: Refunds, Value: localhost:3010/refunds
+		84 container
+			85 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+		86 text Practise this syllabus tonight.
+		87 link Description: Start free, Value: localhost:3010/signup
+
+The focused UI element is 1 AXWebArea CUET English Mock Test & Chapter-Wise Practice | MockMob, URL: localhost:3010/cuet/english

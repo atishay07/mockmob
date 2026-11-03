@@ -1,0 +1,255 @@
+{
+  "schema": "manual-independent-blind-review-v1",
+  "subject": "economics",
+  "batch": "economics-04",
+  "batch_offset": 30,
+  "batch_total": 53,
+  "case_count": 10,
+  "blind_packet_sha256": "c7c2471dadd4493589464833b17d43d9c2fac27484183f41aabe2e502e9ec19e",
+  "created_at_utc": "2026-10-08T14:13:46+00:00",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "method": "Independent blind solution using only packet-provided question material and registered excerpts. For the reforms-order and national-income-statistics questions, the answer is not supported by the packet excerpts and is explicitly marked as an evidence gap.",
+  "cases": [
+    {
+      "id": "a79e5e82cbf1f836af8fb5c7428f666e",
+      "content_hash": "01b1b7043f5e616bef2aab2f6a0942b752ddc5253da37d0d56ebce19defde3ed",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Human Capital Formation",
+        "topic": "Human Capital Formation: focus on this supplied section: w it which they value. Human capital has affected her/his treats human beings as a means to (i) job security an end; the end being the increase in productivity. In this view, any (. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Change = 5,040−4,800=240 units; 240/4,800×100=5% increase. Because the stem attributes the change to investment and output rose, the stated “unproductive if no output enhancement” condition is not met.",
+      "source_evidence": {
+        "id": "ncert-keec104",
+        "locator": "p10-c1933",
+        "support_hash": "9acfdd3397fa020c0fb99b98d062234354f645ce8094d165f6fe0d0b741d1fa7",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "investment in education and health is unproductive if it does not enhance output of goods and services.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "7c9d79eb923e3c7cd31062b712f4f196",
+      "content_hash": "990adef3bceec4b579d699d3f86f1104d6754c6972c6421a449fab0c0165fe5c",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 4 INDIAN ECONOMIC DEVELOPMENT 1.1 I NTRODUCTION The primary objective of this book, Indian Economic Development , is to familiarise you with the basic features of the Indian econom. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "By the stem’s temporal constraints: pre-colonial independent manufacturing A, colonial rule begins B, transformation during rule C, then independence D: A-B-C-D.",
+      "source_evidence": {
+        "id": "ncert-keec101",
+        "locator": "quality-v3-pdf-page-5-a5e92497b0",
+        "support_hash": "a5e92497b0c4a083ddfd82d1faf897fb497600dc298066f228c5d5e4c7d35345",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Such policies brought about a fundamental change ... transforming the country into supplier of raw materials and consumer of finished industrial products from Britain.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "b8d36fa96d30fc861cc80117e7b4b15d",
+      "content_hash": "dcf77ee09cf81b32fc199e1d1e809745ffe00002db3cab0a9c4de596c5b597b3",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Income Determination",
+        "topic": "Income Determination: focus on this supplied section: 62 6262 6262Introductory Macroeconomics income from this extra production on consumption items – thereby creating further excess demand in the next round. Let us register the chang. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "Case I multiplier = 84/21=4, so 1−c=1/4 and c=.75. Case II c=.80; multiplier=1/.20=5. Output increase=5×₹18 lakh=₹90 lakh.",
+      "source_evidence": {
+        "id": "ncert-leec104",
+        "locator": "pdf-page-10",
+        "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The last column measures the increments in the value of the output of final goods (and hence the income of the economy) in each round.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "dcfd6f830603113f3ee7e5b4e151d092",
+      "content_hash": "549d7204ead4abeb9b1cc96fa61bcdbd6a1feaeb565262a4a5952153d0572913",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: Control Board) has identified seventeen allow all future generations to have a categories of industries (large potential average quality of life that is and medium scale) as signif. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "Three-month regeneration is 32×3=96 lakh litres. Existing users take 43, leaving 53 for the proposed project; the 58-lakh request exceeds this by 5 lakh.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p5-c1879",
+        "support_hash": null,
+        "registered_active_in_blind_packet": false,
+        "short_exact_quote": "increased demand for environmental resources and services but their supply is limited due to overuse",
+        "evidence_status": "source_excerpt_not_found"
+      }
+    },
+    {
+      "id": "625a65a8ebc2b5d43ffecf1736ec00f9",
+      "content_hash": "65989e08387553fe5a36147c943f1a9c972a4f366edc34f8bec63dc5be9412b8",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: Recap Ø With the unfolding of the globalisation process, developing countries are keen to understand the developmental processes pursued by their neighbours as they face competitio. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "From standard chronology: China began economic reforms in 1978, Pakistan in 1988, India in 1991; earliest to latest is China, Pakistan, India (C). The packet excerpt only establishes comparative study, not the dates; chronology needs better source support.",
+      "source_evidence": {
+        "id": "ncert-keec108",
+        "locator": "p16-c0",
+        "support_hash": "6a2f70c75c3f1353d4abc7ab610f73ed09be259eb0b29869f3f6d4dc5e56bb25",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "developing countries are keen to understand the developmental processes pursued by their neighbours",
+        "evidence_status": "source_gap_for_decisive_historical_dates_or_statistics"
+      }
+    },
+    {
+      "id": "dc4db76608580950806f4e934a9a1cb0",
+      "content_hash": "822175870f65b68a8643e8bd5a237e6ff6cc35e95d53b216b58cf5b9acf9de0f",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Environment & Sustainable Development",
+        "topic": "Environment & Sustainable Development: focus on this supplied section: 3. Prepare a chart on the causes and remedies of soil erosion in India. 4. How does population explosion contribute to the environmental crisis? Debate in the classroom. 5. The nat. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "B",
+      "reasoning": "The passage’s example asks whether a paper mill’s employment can justify depriving residents of daily forest needs. The supported response is to assess deprivation alongside employment; job count or allocation alone does not settle acceptability.",
+      "source_evidence": {
+        "id": "ncert-keec107",
+        "locator": "p7-c1694",
+        "support_hash": "6cd9a8161512a6654a3f0870f8a369ac926efb4139af7fce78d93b8df29a7e9a",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Even if a paper mill employs 10,000 workers ... but if they deprive the daily needs of a million people, is it acceptable?",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "331811df731779f1411fea83fa7f8db6",
+      "content_hash": "276d8e6a9215203b4a02534ad7cf2094720dd27d0887c7c97eadb12375197ee6",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Development Experiences of India",
+        "topic": "Development Experiences of India: focus on this supplied section: tial phase, reforms were initiated in incomes. Where do they stand today agriculture, foreign trade and in comparison to one another? Before investment sectors. In agriculture, for. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "The land is allocated for use, not ownership. Retained income is ₹1,20,000−₹18,000=₹1,02,000.",
+      "source_evidence": {
+        "id": "ncert-keec108",
+        "locator": "p5-c1900",
+        "support_hash": "af7be2af3900afa4d1b7f5a9c0e800135ff3109a462c79568780ce9ac2c27176",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "commune lands were divided into small plots, which were allocated (for use not ownership) to individual",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "68cfc94f40e75cdcd1d6f596ea45cf91",
+      "content_hash": "836e174dab09183f90dd66cf79cec1c08dbf0f1c1fcb47a0a44561a252ac782b",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Economic Reforms Since 1991",
+        "topic": "Economic Reforms Since 1991: focus on this supplied section: In order to protect domestic of tariff rates and (iii) removal of industries, India was following a regime licensing procedures for imports. of quantitative restrictions on Import . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "A",
+      "reasoning": "The excerpt directly states tight import controls and high tariffs reduced efficiency and manufacturing competitiveness, contributing to slower growth.",
+      "source_evidence": {
+        "id": "ncert-keec103",
+        "locator": "p8-c0",
+        "support_hash": "8b03dcebb6f453208b7b405800327d3a5ff96e3920b16d837b0a077c8c6bd055",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "These policies reduced efficiency and manufacturing competitiveness, leading to slower growth of the manufacturing sector.",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    },
+    {
+      "id": "c8a1c42c391a251f2d76b33be6319236",
+      "content_hash": "d623881f9db2fc9a5939846a46d9c0c0753cb7b09ea0e285e1ae7d3bd07cc890",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Indian Economy on the Eve of Independence",
+        "topic": "Indian Economy on the Eve of Independence: focus on this supplied section: 5INDIAN ECONOMY ON THE EVE OF INDEPENDENCE The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic i. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "D",
+      "reasoning": "Aggregate output growth is less than 2% (II); per-capita annual growth is half a percent (IV); no sincere official attempt (III); V.K.R.V. Rao (I). Thus A-II,B-IV,C-III,D-I, option D. Supplied excerpts do not substantiate these four facts, so source support is presently missing.",
+      "source_evidence": {
+        "id": "ncert-keec101",
+        "locator": "pdf-page-5",
+        "support_hash": "9dcde441ec11a2cf500230e1b43b9b8c3641ffdbd14aa439c37305053bc439e1",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country",
+        "evidence_status": "source_gap_for_decisive_historical_dates_or_statistics"
+      }
+    },
+    {
+      "id": "d31f7aa7ec197f4394d79c13d65c0973",
+      "content_hash": "f1e8904b9e9c8362f5d9116b0c042cbc623a46f9aa1d4eeeb12ff4eb3668e702",
+      "metadata": {
+        "subject": "economics",
+        "chapter": "Rural Development",
+        "topic": "Rural Development: focus on this supplied section: ers are assured of a fair price earnings, absence of mobility of labour and income from the supply of milk to to other sectors and a high rate of urban markets. As pointed out earl. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "independent_answer": "C",
+      "reasoning": "The source says Gujarat’s cooperative implementation is a success emulated by many states, while the separate major milk-producing list does not identify which emulated it. Do not infer that the two groups are identical or that every listed state has the same system.",
+      "source_evidence": {
+        "id": "ncert-keec105",
+        "locator": "p10-c1762",
+        "support_hash": "4fe228f343c50e08a504261dd2666c1cf1e97cdbb3e3490b6b3a13160d6fc176",
+        "registered_active_in_blind_packet": true,
+        "short_exact_quote": "Gujarat state is held as a success story in the efficient implementation of milk cooperatives which has been emulated",
+        "evidence_status": "excerpt_directly_supports_answer"
+      }
+    }
+  ]
+}

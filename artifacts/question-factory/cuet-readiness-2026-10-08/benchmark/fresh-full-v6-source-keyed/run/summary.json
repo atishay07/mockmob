@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-07T23:36:54.847Z",
+  "id": "fresh-full-v6-source-keyed-2026-10-08",
+  "denominator": 96,
+  "valid_roots": 64,
+  "controlled_defects": 32,
+  "terminal_topology": 96,
+  "eligible_valid": 52,
+  "controlled_false_accepts": [],
+  "provider_errors": 0,
+  "topology_errors": [],
+  "execution_finished": true,
+  "release_evidence_complete": true,
+  "settled_usd": 1.168724,
+  "held_usd": 0.026384,
+  "gross_usd": 1.195108,
+  "receipt_complete": false,
+  "publication_writes": 0,
+  "release": false
+}

@@ -1,0 +1,58 @@
+Browser tab: 1, Title: "CUET Mock Tests & Practice Questions | MockMob", URL: "http://localhost:3010/preview/arena?view=today&plan=pro".
+1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=today&plan=pro
+	2 container
+		3 text Development preview Illustrative data ·  pro  ·  ready . No real saves, scores, credits or billing. View
+		4 pop up button (collapsed, settable) View, Value: today, Secondary Actions: Expand
+			5 menu
+				6 dashboard
+				7 test
+				8 prepos
+				9 compass
+				10 radar
+				11 saved
+				12 (selected) today
+				13 review
+				14 progress
+				15 recovery
+				16 explore
+				17 ranks
+				18 profile
+				19 upload
+				20 my-uploads
+				21 result
+				22 rival
+				23 onboarding
+	24 container
+		25 link Description: MockMob ., Value: localhost:3010/
+		26 link Description: Practice credits: unlimited with Pro, Value: localhost:3010/pricing
+		27 button (collapsed) Description: Open navigation menu, Secondary Actions: Expand
+	28 container
+		29 container
+			30 text Today
+		31 heading Preview, here is your next useful step., Value: 1
+			32 text Preview, here is your next useful step.
+		33 text Choose how much time you have. The plan comes from your practice record and the content available right now.
+		34 container Your next step
+			35 container Mobi, your study companion
+				36 text Your next step is ready.
+				37 text Choose the time you have. Start with the step below.
+			38 text Tonight’s plan
+			39 container Time for practice
+				40 text Time for practice
+				41 container Time for practice
+					42 checkbox 10 min, Value: 1
+					43 checkbox 20 min, Value: 0
+					44 checkbox 30 min, Value: 0
+			45 heading Start 10 practice questions, Value: 2
+			46 link Description: Start 10 practice questions, Value: localhost:3010/dashboard?mode=quick&count=10&tonightKey=tonight-plan-_R_2jslritpeqqlb_&tonightMinutes=10
+			47 link Description: Review your mistakes, Value: localhost:3010/review
+			48 link Description: Choose another subject, Value: localhost:3010/dashboard
+		49 text 2027 exam specifications remain provisional until officially confirmed. Existing access and credits are preserved.
+	50 container Quick study navigation
+		51 link Description: Today, Value: localhost:3010/preview/arena?view=today&plan=pro&data=ready
+		52 link Description: Practice, Value: localhost:3010/preview/arena?view=dashboard&plan=pro&data=ready
+		53 link Description: Explore, Value: localhost:3010/preview/arena?view=explore&plan=pro&data=ready
+		54 link Description: Review, Value: localhost:3010/preview/arena?view=review&plan=pro&data=ready
+		55 button (collapsed) More, Secondary Actions: Expand
+
+The focused UI element is 1 AXWebArea CUET Mock Tests & Practice Questions | MockMob, URL: localhost:3010/preview/arena?view=today&plan=pro

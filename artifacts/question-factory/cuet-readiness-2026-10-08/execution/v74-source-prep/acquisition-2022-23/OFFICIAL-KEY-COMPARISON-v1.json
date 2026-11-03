@@ -1,0 +1,222 @@
+{
+  "schema": "v74-official-key-comparison-v1",
+  "at": "2026-10-08T19:08:01.832Z",
+  "custody_record_sha256": "8584967b0fee5c7f00d4908d7f3e70b37ed9c080f3494c7f64357425a0093bcc",
+  "marking_schemes": {
+    "Accountancy-MS.pdf": "a3ff016d287f2872608b135e1d8ee8d01fd32d75d22d72e44211b28975dd44e1",
+    "BusinessStudies-MS.pdf": "1fd3af225e65defe9cc0dc9a3d5dfd575c7418160f77c66236ee1f52cc46d63f",
+    "Economics-MS.pdf": "5829d940472bdc489c1bbf7aefa4a48f9eb3090b0abebb347b1f79a871c7a180",
+    "EnglishCore-MS.pdf": "5ae1f5f2795a83bb6916875a18610e4540ef083a20fb5ba7f37b817bc33de5d8"
+  },
+  "extraction": "marking-schemes-v1/OFFICIAL-KEYS-EXTRACTED-v1.json (Claude Haiku subagent; option letters mapped to packet options by printed letter and text)",
+  "comparison_rule": "Written in V75-QUALIFICATION-PLAN.md before comparison: disagreement -> held_reference_conflict (denominator, excluded from survival); reviewer-held items stay natural defects.",
+  "agreed_items": 14,
+  "official_agrees": 13,
+  "official_disagrees": [
+    "v74-cbse22-en-q1-i"
+  ],
+  "roles": {
+    "valid_positive": 13,
+    "natural_defect_multiple_defensible": 2,
+    "held_reference_conflict": 1
+  },
+  "items": [
+    {
+      "item_id": "v74-cbse22-acc-q27",
+      "subject": "accountancy",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-acc-q28",
+      "subject": "accountancy",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-acc-q29",
+      "subject": "accountancy",
+      "first": "D",
+      "second": "D",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "D",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-acc-q30",
+      "subject": "accountancy",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-bs-q01",
+      "subject": "business_studies",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-bs-q02",
+      "subject": "business_studies",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-bs-q03",
+      "subject": "business_studies",
+      "first": "held",
+      "second": "D",
+      "status": "held_ambiguous_or_disagreeing",
+      "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+      "official_key_mapped_to_packet": "D",
+      "official_agrees": null,
+      "qualification_role": "natural_defect_multiple_defensible",
+      "note": "Official D; both reviewers found B overlapping the functional-structure disadvantage (functional empires) in the supplied NCERT excerpt. Retained as natural multiple-defensible defect per the plan written before comparison."
+    },
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "subject": "business_studies",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-econ-q01",
+      "subject": "economics",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-econ-q03",
+      "subject": "economics",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-econ-q04",
+      "subject": "economics",
+      "first": "C",
+      "second": "C",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "C",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-econ-q05",
+      "subject": "economics",
+      "first": "D",
+      "second": "D",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "D",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-i",
+      "subject": "english",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "C",
+      "official_agrees": false,
+      "qualification_role": "held_reference_conflict",
+      "note": "Both independent derivations chose B on the adapted 230-word passage; the official key C relies on the original passage. The adaptation appears to omit the decisive ownership statement, so the adapted item lacks support for C. Held, never forced to a key."
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-iv",
+      "subject": "english",
+      "first": "B",
+      "second": "B",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "B",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-v",
+      "subject": "english",
+      "first": "held",
+      "second": "abstain",
+      "status": "held_ambiguous_or_disagreeing",
+      "hold_basis": "multiple_exceptions_preserved_no_silent_replacement | second: Two defensible options (A and C) are both contradicted by paragraph 3, so the EXCEPT item has no unique key.; Whether A or C was intended is not determinable from the stimulus alone.",
+      "official_key_mapped_to_packet": "C",
+      "official_agrees": null,
+      "qualification_role": "natural_defect_multiple_defensible",
+      "note": "Official C on the original passage; on the adapted passage both reviewers found two exceptions (A and C). Retained as natural defect."
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-ix",
+      "subject": "english",
+      "first": "A",
+      "second": "A",
+      "status": "two_independent_derivations_agree",
+      "hold_basis": null,
+      "official_key_mapped_to_packet": "A",
+      "official_agrees": true,
+      "qualification_role": "valid_positive",
+      "note": ""
+    }
+  ],
+  "caveats": [
+    "Marking schemes print OR alternatives for Accountancy Q27/Q29 and Economics Q5; the main-question key was used.",
+    "Business Studies keys read from a page-1 answer table with jumbled layout text (slightly less certain).",
+    "TLS certificate verification was disabled for the download (local curl CA issue); identity rests on the recorded sha256 and the official URL."
+  ]
+}

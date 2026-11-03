@@ -1,0 +1,192 @@
+Browser tab: 1, Title: "DU Eligibility & Cutoff Calculator for CUET | MockMob", URL: "http://localhost:3010/cuet-cutoff-calculator".
+1 AXWebArea DU Eligibility & Cutoff Calculator for CUET | MockMob, URL: localhost:3010/cuet-cutoff-calculator
+	2 container
+		3 link Description: MockMob ., Value: localhost:3010/
+		4 switch Description: Dark mode, Help: Switch to light mode, Value: 1
+		5 button (collapsed) Description: Open menu, Secondary Actions: Expand
+		6 container main-content
+			7 container
+				8 heading Which DU courses can you get? Check eligibility and published 2026 cutoffs., Value: 1
+					9 text Which DU courses can you get? Check eligibility and published 2026 cutoffs.
+				10 text Pick your CUET subjects. See every Delhi University programme you can apply to, then open any one for the previous year’s college-wise cutoffs in your category.
+				11 content list
+					12 text Free, no signup
+					13 text DU’s official 2026 documents
+					14 text Every cutoff checked against the source
+			15 container
+				16 container Your CUET subjects
+					17 heading Your CUET subjects, Value: 2, ID: du-side-title
+						18 text Your CUET subjects
+					19 container
+						20 text 0  selected
+					21 container Quick start
+						22 text QUICK START
+						23 button Commerce, Help: English, Accountancy, Business Studies, Economics
+						24 button Commerce + Maths, Help: Adds Mathematics, which Economics and BMS need
+						25 button Science (PCM), Help: Physics, Chemistry, Mathematics
+						26 button Science (PCB), Help: Physics, Chemistry, Biology
+						27 button Humanities, Help: History, Political Science, Economics
+					28 container
+						29 text Find your subject
+						30 search text field (settable) Find your subject
+					31 container Language List A · at least one
+						32 container
+							33 text Language List A · at least one
+						34 checkbox Assamese, Value: 0
+						35 checkbox Bengali, Value: 0
+						36 checkbox English, Value: 0
+						37 checkbox Gujarati, Value: 0
+						38 checkbox Hindi, Value: 0
+						39 checkbox Kannada, Value: 0
+						40 checkbox Malayalam, Value: 0
+						41 checkbox Marathi, Value: 0
+						42 checkbox Odia, Value: 0
+						43 checkbox Punjabi, Value: 0
+						44 checkbox Sanskrit, Value: 0
+						45 checkbox Tamil, Value: 0
+						46 checkbox Telugu, Value: 0
+						47 checkbox Urdu, Value: 0
+					48 container Domain subjects List B
+						49 container
+							50 text Domain subjects List B
+						51 checkbox Accountancy / Book Keeping, Value: 0
+						52 checkbox Agriculture, Value: 0
+						53 checkbox Anthropology, Value: 0
+						54 checkbox Biology / Biological Studies / Biotechnology / Biochemistry, Value: 0
+						55 checkbox Business Studies, Value: 0
+						56 checkbox Chemistry, Value: 0
+						57 checkbox Computer Science / Informatics Practices, Value: 0
+						58 checkbox Economics / Business Economics, Value: 0
+						59 checkbox Environmental Studies / Environmental Science, Value: 0
+						60 checkbox Fine Arts / Visual Arts / Commercial Arts, Value: 0
+						61 checkbox Geography / Geology, Value: 0
+						62 checkbox History, Value: 0
+						63 checkbox Home Science, Value: 0
+						64 checkbox Knowledge Tradition and Practices in India, Value: 0
+						65 checkbox Mass Media / Mass Communication, Value: 0
+						66 checkbox Mathematics / Applied Mathematics, Value: 0
+						67 checkbox Performing Arts (Dance, Drama, Music), Value: 0
+						68 checkbox Physical Education (Yoga, Sports), Value: 0
+						69 checkbox Physics, Value: 0
+						70 checkbox Political Science, Value: 0
+						71 checkbox Psychology, Value: 0
+						72 checkbox Sociology, Value: 0
+						73 text Subjects named together count as one. Informatics Practices is the same CUET subject as Computer Science.
+					74 container General test needed by some programmes
+						75 container
+							76 text General test needed by some programmes
+						77 checkbox General Aptitude Test, Value: 0
+					78 heading Category and score optional, Value: 3
+						79 text Category and score  optional
+					80 text Category
+					81 Category
+						82 radio button UR, Value: 1
+						83 radio button OBC-NCL, Value: 0
+						84 radio button SC, Value: 0
+						85 radio button ST, Value: 0
+						86 radio button EWS, Value: 0
+					87 container
+						88 text Other quota
+						89 pop up button (collapsed, settable) Other quota, Value: Other quota (Sikh, PwBD, KM, SGC, orphan), Secondary Actions: Expand
+							90 menu
+								91 (selected) Other quota (Sikh, PwBD, KM, SGC, orphan)
+								92 Sikh minority
+								93 PwBD
+								94 Kashmiri migrant
+								95 Single girl child
+								96 Orphan (female)
+								97 Orphan (male)
+					98 container
+						99 text Your programme-specific CUET score
+						100 text field (settable) Your programme-specific CUET score DU shows this per programme on your CSAS dashboard after results. Before results, enter a target. DU’s 2026 lists run up to 958.7.
+						101 container du-score-help
+							102 text DU shows this per programme on your CSAS dashboard after results. Before results, enter a target. DU’s 2026 lists run up to  958.7 .
+				103 container results
+					104 heading Your DU programmes appear here, Value: 2
+						105 text Your DU programmes appear here
+					106 text Pick your subjects, or use a quick start. The list updates as you tick.
+				107 container Cutoffs are only half the plan.
+					108 heading Cutoffs are only half the plan., Value: 2, ID: du-cta-title
+						109 text Cutoffs are only half the plan.
+					110 text A cutoff tells you the target. MockMob’s Radar tells you which chapters stand between you and it: practise your subjects, finish a mock, and Radar maps every miss back to a chapter.
+					111 link Description: Start a free mock, Value: localhost:3010/signup
+					112 link Description: See how Radar works, Value: localhost:3010/features
+			113 container How to read this
+				114 heading How to read this, Value: 2, ID: du-how
+					115 text How to read this
+				116 text A cutoff is the lowest score DU allocated a seat at, in one round. These records describe 2026. They do not predict a future allocation or promise a seat.
+				117 content list
+					118 container
+						119 heading Eligibility is exact, Value: 3
+							120 text Eligibility is exact
+						121 text Each programme lists the subject combinations DU accepts. You are eligible if any combination fits the subjects you tick. Taking extra subjects never hurts.
+					122 container
+						123 heading Cutoffs come in three rounds, Value: 3
+							124 text Cutoffs come in three rounds
+						125 text Round I is usually the highest. Rounds II and III show how far cutoffs fell as seats stayed vacant. Round III scores are independent of the earlier rounds.
+					126 container
+						127 heading Plan from the range, not one number, Value: 3
+							128 text Plan from the range, not one number
+						129 text A seat you would have cleared in Round I is a strong sign. A seat you clear only in Round III is a reach that depends on vacancies.
+			130 container Built from DU’s own documents
+				131 heading Built from DU’s own documents, Value: 2, ID: du-sources
+					132 text Built from DU’s own documents
+				133 text We extracted the published tables, then checked every score against the source files. If DU corrects a list, the source documents win.
+				134 content list
+					135 link Description: UG Bulletin of Information 2026-27 Programme-specific eligibility, Value: du.ac.in/uploads/2026/06012026_BOI_UG_2026_27_compressed.pdf
+					136 link Description: First round of allocation: minimum allocation scores Round I cutoffs, Value: admission.uod.ac.in/userfiles/17072026-CutOff_UG_Round_One_compressed.pdf
+					137 link Description: Second round of allocation: minimum allocation scores Round II cutoffs, Value: admission.uod.ac.in/userfiles/downloads/2026/25072026_CutOff_UG_Round_Two_compressed.pdf
+					138 link Description: Third round of allocation: minimum allocation scores Round III cutoffs, Value: admission.uod.ac.in/userfiles/downloads/2026/09082026_Minimum_Allocation_Score_RoundThree.pdf
+			139 container Questions students ask
+				140 heading Questions students ask, Value: 2, ID: du-faq
+					141 text Questions students ask
+				142 button (collapsed) Is the DU eligibility and cutoff calculator free?, Secondary Actions: Expand
+					143 text Is the DU eligibility and cutoff calculator free?
+				144 button (collapsed) Where do the eligibility rules and cutoffs come from?, Secondary Actions: Expand
+					145 text Where do the eligibility rules and cutoffs come from?
+				146 button (collapsed) Will the 2027 cutoffs be the same as these?, Secondary Actions: Expand
+					147 text Will the 2027 cutoffs be the same as these?
+				148 button (collapsed) What score should I enter?, Secondary Actions: Expand
+					149 text What score should I enter?
+				150 button (collapsed) Why does a reserved-category candidate see the lower of two cutoffs?, Secondary Actions: Expand
+					151 text Why does a reserved-category candidate see the lower of two cutoffs?
+				152 button (collapsed) What does "considered only if seats remain" mean?, Secondary Actions: Expand
+					153 text What does "considered only if seats remain" mean?
+				154 button (collapsed) Does MockMob guarantee admission?, Secondary Actions: Expand
+					155 text Does MockMob guarantee admission?
+				156 container
+					157 text MockMob is an independent exam preparation platform and is not affiliated with the University of Delhi or NTA. Read the official documents before you decide. 
+					158 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		159 link Description: MockMob ., Value: localhost:3010/
+		160 text Discover where marks slip away, practise a specific change, and check it on fresh material. Recovery is being prepared for English, Accountancy, Business Studies and Economics.
+		161 link Description: Follow @mockmob.in, Value: instagram.com/mockmob.in/
+		162 heading PRACTICE, Value: 3
+			163 text PRACTICE
+		164 content list
+			165 link Description: DU eligibility & cutoff calculator, Value: localhost:3010/cuet-cutoff-calculator
+			166 link Description: CUET subject combination planner, Value: localhost:3010/cuet-subject-combination
+			167 link Description: Free CUET mock test, Value: localhost:3010/cuet-mock-test-free
+			168 link Description: Previous year questions, Value: localhost:3010/cuet-previous-year-questions
+			169 link Description: Online practice tests, Value: localhost:3010/cuet-practice-tests-online
+			170 link Description: Features, Value: localhost:3010/features
+			171 link Description: Pricing, Value: localhost:3010/pricing
+		172 heading SUBJECTS, Value: 3
+			173 text SUBJECTS
+		174 content list
+			175 link Description: English, Value: localhost:3010/cuet/english
+			176 link Description: Accountancy, Value: localhost:3010/cuet/accountancy
+			177 link Description: Economics, Value: localhost:3010/cuet/economics
+			178 link Description: Business Studies, Value: localhost:3010/cuet/business-studies
+			179 link Description: CUET 2027 guide, Value: localhost:3010/cuet-2027
+		180 heading COMPANY, Value: 3
+			181 text COMPANY
+		182 content list
+			183 link Description: About, Value: localhost:3010/about
+			184 link Description: Contact, Value: localhost:3010/contact
+			185 link Description: Privacy, Value: localhost:3010/privacy
+			186 link Description: Terms, Value: localhost:3010/terms
+			187 link Description: Refunds, Value: localhost:3010/refunds
+		188 container
+			189 text ©  2026  MockMob. MockMob is an independent exam preparation platform and is not affiliated with NTA, Delhi University, or any official examining body. CUET is a trademark of its respective owner.
+
+The focused UI element is 1 AXWebArea DU Eligibility & Cutoff Calculator for CUET | MockMob, URL: localhost:3010/cuet-cutoff-calculator

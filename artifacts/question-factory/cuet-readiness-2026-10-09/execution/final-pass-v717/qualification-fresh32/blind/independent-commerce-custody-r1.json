@@ -1,0 +1,119 @@
+{
+  "schema": "mockmob-independent-blind-commerce-custody-v1",
+  "study_id": "cuet-v717-one-bounded-qualification",
+  "custody_round": "commerce-custody-r1",
+  "created_by": "final_verification_recovery",
+  "source_packet": {
+    "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/blind/packet-custody-r1.json",
+    "sha256": "52fdb60ea16ff764e647c6e4987824e30b00274d917ad330f67f8dc466897dbe",
+    "source_registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+    "parent_packet_sha256": "b42c8a491a8c78ee1b2abb5f96c01eec488938b7a4c201ec20fc85def3ab6530"
+  },
+  "method": "Independent solve from each newly added blind question, its printed options, packet-provided source excerpts, and official syllabus excerpt only. No sealed author artifact, answer map, or prior solution was opened.",
+  "items": [
+    {
+      "opaque_id": "q717-4a082f0b51de029bb76828b2",
+      "subject": "accountancy",
+      "answerability": "uniquely_answerable",
+      "answer_set": ["A"],
+      "calculation": "Common-size expense share = expense / revenue × 100. P: 600/800 × 100 = 75%. Q: 160/200 × 100 = 80%. P has the lower expense share.",
+      "source_support": [
+        {"source_id": "ncertcol-leac204-v1", "version": 1, "locator": "p4-c0-g2-s0", "support": "Common-size statements express each item as a percentage of a common item and allow inter-firm comparisons."},
+        {"source_id": "ncertcol-leac204-v1", "version": 1, "locator": "p12-c0-g2-s0", "support": "For a profit-and-loss common-size statement, expenditure items are percentages of revenue from operations."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-accountancy-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Unit V: Analysis of Financial Statements", "topic": "Tools for Financial Analysis: Common size statements."},
+      "option_review": {
+        "A": "Correct: P is 75% and Q is 80%, so P has the lower share.",
+        "B": "Incorrect: compares absolute rupee expenses (₹600 versus ₹160) rather than shares of revenue; Q's share is actually higher.",
+        "C": "Incorrect: reverses the two calculated percentages and the resulting comparison.",
+        "D": "Incorrect: being below revenue does not make the shares equal; they are 75% and 80%."
+      }
+    },
+    {
+      "opaque_id": "q717-e584ab5fb5543a34e09e6cec",
+      "subject": "accountancy",
+      "answerability": "not_uniquely_answerable_missing_revenue_denominator",
+      "answer_set": [],
+      "calculation": "The required percentage is ₹100 lakh / revenue from operations × 100. Revenue from operations is not given, so no unique percentage follows. Each listed percentage could arise under a different revenue denominator.",
+      "source_support": [
+        {"source_id": "ncertcol-leac204-v1", "version": 1, "locator": "p12-c0-g2-s0", "support": "Expenditure is expressed as a percentage of revenue from operations; the base is required to calculate the percentage."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-accountancy-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Unit V: Analysis of Financial Statements", "topic": "Common size statements."},
+      "option_review": {
+        "A": "80% is not determined; it would require revenue of ₹125 lakh.",
+        "B": "125% is not determined; it would require revenue of ₹80 lakh.",
+        "C": "100% is not determined; it would require revenue of ₹100 lakh.",
+        "D": "20% is not determined; it would require revenue of ₹500 lakh."
+      }
+    },
+    {
+      "opaque_id": "q717-9ac63f86dadab0ed3f237782",
+      "subject": "accountancy",
+      "answerability": "uniquely_answerable",
+      "answer_set": ["C"],
+      "calculation": "Cost-of-goods-sold share = 150/200 × 100 = 75% of revenue.",
+      "source_support": [
+        {"source_id": "ncertcol-leac204-v1", "version": 1, "locator": "p12-c0-g2-s0", "support": "Profit-and-loss expenditure items are expressed as a percentage of revenue from operations."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-accountancy-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Unit V: Analysis of Financial Statements", "topic": "Common size statements."},
+      "option_review": {
+        "A": "Incorrect: 25% is the remainder share (₹200−₹150) / ₹200, not cost of goods sold.",
+        "B": "Incorrect: 133.33% reverses the ratio (₹200/₹150) and is not the expense share of revenue.",
+        "C": "Correct: ₹150/₹200 × 100 = 75%.",
+        "D": "Incorrect: 50% does not follow from the given cost and revenue figures."
+      }
+    },
+    {
+      "opaque_id": "q717-6901065455b2e85d5839fb5c",
+      "subject": "economics",
+      "answerability": "uniquely_answerable",
+      "answer_set": ["B"],
+      "calculation": "Marginal cost for the increase from 3 to 4 units = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+      "source_support": [
+        {"source_id": "ncertcol-leec203-v1", "version": 1, "locator": "p9-c0-g0-s23", "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-economics-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Course I, Unit II: Production and Costs", "topic": "Short-run cost curves, including marginal costs."},
+      "option_review": {
+        "A": "Incorrect: ₹4 is not the change in total cost; total cost rises by ₹5 for one additional unit.",
+        "B": "Correct: the total-cost increase is ₹5 over one unit of output.",
+        "C": "Incorrect: ₹6 does not equal the observed cost difference.",
+        "D": "Incorrect: ₹8 does not equal the observed cost difference."
+      }
+    },
+    {
+      "opaque_id": "q717-de1089f449002fb3f7ee64c0",
+      "subject": "economics",
+      "answerability": "uniquely_answerable",
+      "answer_set": ["B"],
+      "calculation": "Short-run marginal cost = change in total cost / change in output = (₹49−₹44)/(4−3) = ₹5 per unit.",
+      "source_support": [
+        {"source_id": "ncertcol-leec203-v1", "version": 1, "locator": "p9-c0-g0-s23", "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-economics-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Course I, Unit II: Production and Costs", "topic": "Short-run cost curves, including marginal costs."},
+      "option_review": {
+        "A": "Incorrect: ₹6 is not the change in total cost over the one-unit output increase.",
+        "B": "Correct: ₹5/1 unit = ₹5 per unit.",
+        "C": "Incorrect: ₹8 is not supported by the stated totals.",
+        "D": "Incorrect: ₹10 is not supported by the stated totals."
+      }
+    },
+    {
+      "opaque_id": "q717-6920a1ed5fb5a21c884c8425",
+      "subject": "economics",
+      "answerability": "uniquely_answerable",
+      "answer_set": ["D"],
+      "calculation": "Total cost = fixed cost + variable cost. TC rises from ₹20+₹60=₹80 to ₹20+₹75=₹95. For one additional unit, SMC = (₹95−₹80)/(9−8) = ₹15 per unit; equivalently, fixed cost is unchanged so the ₹15 increase in variable cost is the total-cost increase.",
+      "source_support": [
+        {"source_id": "ncertcol-leec203-v1", "version": 1, "locator": "p9-c0-g0-s0", "support": "The excerpt states TC = TVC + TFC and explains that fixed cost stays constant while variable cost changes with output."},
+        {"source_id": "ncertcol-leec203-v1", "version": 1, "locator": "p9-c0-g0-s23", "support": "The excerpt defines short-run marginal cost as change in total cost per unit change in output."}
+      ],
+      "syllabus_support": {"source_id": "cuet2026-economics-syllabus", "version": 1, "locator": "full-syllabus", "unit": "Course I, Unit II: Production and Costs", "topic": "Fixed and variable costs; total and marginal costs."},
+      "option_review": {
+        "A": "Incorrect: ₹8.33 is close to an average variable-cost calculation (₹75/9), not marginal cost.",
+        "B": "Incorrect: ₹10.55 does not equal the ₹15 increase in total cost for one extra unit.",
+        "C": "Incorrect: ₹13 does not equal the ₹15 increase in variable/total cost for one extra unit.",
+        "D": "Correct: with fixed cost unchanged, total cost rises by ₹15 for the one-unit output increase."
+      }
+    }
+  ]
+}

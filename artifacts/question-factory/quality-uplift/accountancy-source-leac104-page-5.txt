@@ -1,0 +1,46 @@
+160 Accountancy – Partnership Accounts
+Inability of a Partner to Contribute Towards Deficiency
+In the context of settlement of accounts among the partners there is still another
+important aspect to be noted, i.e., when a partner is unable to contribute towards
+the deficiency of his capital account (the account finally showing a debit balance),
+he/she is said to be insolvent, and the sum not recoverable is treated as capital loss
+for the firm. In the absence of any agreement, to the contrary, such a capital loss is
+to be borne by the remaining solvent partners in accordance with the principle laid
+down in Garner vs. Murray case, which states that the solvent partners have to bear
+such loss in the ratio of their capitals as on the date of dissolution. However, the
+accounting treatment relating to dissolution of partnership on account of insolvency
+of partners is not being taken up at this stage.
+4.4 Accounting Treatment
+When the firm is dissolved, its books of account are to be closed and the profit or
+loss arising on realisation of its assets and discharge of liabilities is to be
+computed. For this purpose, a Realisation Account is prepared to ascertain the
+net effect (profit or loss) of realisation of assets and payment of liabilities which
+may be is transferred to partner’s capital accounts in their profit sharing ratio.
+Hence, all assets (other than cash in hand bank balance and fictitious assets, if
+any), and all external liabilities are transferred to this account. It also records
+the sale of assets, and payment of liabilities and realisation expenses. The balance
+in this account is termed as profit or loss on realisation which is transferred to
+partners’ capital accounts in the profit sharing ratio (see figure 4.1).
+Dr. Realisation Account Cr.
+Particulars Amount Particulars Amount
+(Rs.) (Rs.)
+Intangible Assets xxx Bank Loan Mortgage xxx
+Land and Building xxx Sundry creditors xxx
+Plant and Machinery xxx Bills payables xxx
+Furniture and Fittings xxx Bank overdraft xxx
+Loan to other parties xxx Outstanding expenses xxx
+Bills receivables xxx Provision for doubtful debts xxx
+Sundry debtors xxx Cash/Bank (sale of assets) xxx
+Cash/Bank xxx Partner’s capital account xxx
+(payment of liabilities) (assets taken by the partner)
+Cash/Bank xxx Loss (transferred to partners xxx
+(payment of unrecorded liabilities) capital accounts)
+Partner’s capital account xxx Loss (transferred to partners xxx
+Investments xxx Investment Fluctuation Fund xxx
+(liability assumed by the partner)
+Profit (transferred to partners’ xxx
+capital account’s in their profit
+sharing ratio)
+Total xxxxx Total xxxxx
+Fig. 4.1: Format of Realisation Account
+Reprint 2026-27

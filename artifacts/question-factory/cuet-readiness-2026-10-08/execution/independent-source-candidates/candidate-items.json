@@ -1,0 +1,118 @@
+{
+  "schema": "ncert-cuet-candidate-items-v1",
+  "status": "candidate_only_not_pypq_not_release_benchmark",
+  "as_of": "2026-10-08",
+  "candidate_count": 4,
+  "distinct_subject_chapter_families": 4,
+  "publisher_correlation": "All four source families are NCERT; subject/chapter roots are distinct, but publisher and curriculum dependence remain.",
+  "official_nta_question_ids": null,
+  "official_nta_final_keys": null,
+  "items": [
+    {
+      "candidate_id": "ncert-en-flamingo-last-lesson-001",
+      "subject": "english",
+      "source_family_id": "ncert-flamingo-the-last-lesson",
+      "status": "authored_ncert_derived_candidate",
+      "format": "reading_comprehension_literary_excerpt",
+      "passage": "The order has come from Berlin to teach only German in the schools of Alsace and Lorraine.",
+      "stem": "According to this sentence, which change was ordered for the schools in Alsace and Lorraine?",
+      "options": [
+        "French would remain the only language taught.",
+        "German would become the only language taught.",
+        "Both languages would stop being taught.",
+        "Students could choose any language to study."
+      ],
+      "answer": "B",
+      "support": {
+        "source_id": "ncert-english-flamingo-chapter-1",
+        "pdf_page": 4,
+        "printed_page": 3,
+        "decisive_evidence": "The excerpt states that only German is to be taught in the schools named.",
+        "verbatim_words_in_candidate": 17
+      },
+      "syllabus": {
+        "source_id": "cuet2026-english-syllabus",
+        "pdf_page": 2,
+        "clause": "Reading Comprehension: literary passages, maximum 300 words."
+      }
+    },
+    {
+      "candidate_id": "ncert-ac-share-capital-001",
+      "subject": "accountancy",
+      "source_family_id": "ncert-company-accounts-accounting-for-share-capital",
+      "status": "authored_ncert_derived_candidate",
+      "format": "single_correct_definition",
+      "stem": "Which term describes the portion of issued capital that the public has actually subscribed?",
+      "options": [
+        "Authorised capital",
+        "Unissued capital",
+        "Subscribed capital",
+        "Reserve capital"
+      ],
+      "answer": "C",
+      "support": {
+        "source_id": "ncert-accountancy-share-capital",
+        "pdf_page": 4,
+        "printed_page": 3,
+        "decisive_evidence": "NCERT defines subscribed capital as issued capital actually subscribed by the public."
+      },
+      "syllabus": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "pdf_page": 2,
+        "clause": "Unit IV: Company Accounts; share capital meaning, nature and types."
+      }
+    },
+    {
+      "candidate_id": "ncert-bs-financial-management-001",
+      "subject": "business_studies",
+      "source_family_id": "ncert-business-studies-financial-management",
+      "status": "authored_ncert_derived_candidate",
+      "format": "single_correct_concept_application",
+      "stem": "A firm compares available finance sources by cost and risk, then plans how to use the funds. Which function is it carrying out?",
+      "options": [
+        "Financial management",
+        "Staffing",
+        "Consumer protection",
+        "Marketing management"
+      ],
+      "answer": "A",
+      "support": {
+        "source_id": "ncert-business-studies-financial-management",
+        "pdf_page": 2,
+        "printed_page": 216,
+        "decisive_evidence": "The chapter defines financial management as optimal procurement and usage of finance, including comparing sources by cost and risk."
+      },
+      "syllabus": {
+        "source_id": "cuet2026-business-studies-syllabus",
+        "pdf_page": 3,
+        "clause": "Unit IX: Business Finance; role and objectives of financial management."
+      }
+    },
+    {
+      "candidate_id": "ncert-eco-consumer-behaviour-001",
+      "subject": "economics",
+      "source_family_id": "ncert-introductory-microeconomics-theory-of-consumer-behaviour",
+      "status": "authored_ncert_derived_candidate",
+      "format": "single_correct_calculation",
+      "stem": "A consumer's total utility rises from 40 units after 6 units of a good to 46 units after 7 units. What is the marginal utility of the seventh unit?",
+      "options": [
+        "6 units",
+        "7 units",
+        "40 units",
+        "46 units"
+      ],
+      "answer": "A",
+      "support": {
+        "source_id": "ncert-economics-consumer-behaviour",
+        "pdf_page": 2,
+        "printed_page": 12,
+        "decisive_evidence": "NCERT defines marginal utility as the change in total utility from one additional unit; 46 minus 40 equals 6."
+      },
+      "syllabus": {
+        "source_id": "cuet2026-economics-syllabus",
+        "pdf_page": 2,
+        "clause": "Course I, Unit I: Theory of Consumer Behaviour; consumer equilibrium through the utility approach."
+      }
+    }
+  ]
+}

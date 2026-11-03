@@ -1,0 +1,456 @@
+{
+  "schema": "cuet-v716-custody-draft-v1",
+  "study_id": "cuet-v716-qualification-fresh32",
+  "created_at": "2026-10-09T23:41:00.144Z",
+  "answers": [
+    {
+      "id": "q716-7286a44eed219103",
+      "slot": "A-V1",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "numerical_calculation"
+    },
+    {
+      "id": "q716-b53cea3e0401ccc1",
+      "slot": "A-V2",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-6319d65f98b136b7",
+      "slot": "A-V3",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "numerical_calculation"
+    },
+    {
+      "id": "q716-3078e5276ec18262",
+      "slot": "A-V4",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-0edecc628592c4c3",
+      "slot": "A-V5",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-d999a73813a57736",
+      "slot": "A-D1",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The source defines convertible debentures as those convertible into equity shares at the option of the company or holders; the stated key B is wrong and A is the unique correct answer.",
+      "author_key": "B",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-41a5ba31b7007fe4",
+      "slot": "A-D2",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "The source states that a very high current ratio implies heavy investment in current assets AND reflects under-utilisation or improper utilisation of resources; options A and B are both supported.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A",
+        "B"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-c1ebec0b53c5617b",
+      "slot": "A-D3",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "missing_decisive_input",
+      "defect_note": "The bank overdraft is a current liability but its amount is not given, so the current ratio cannot be determined; the stated key silently ignores it.",
+      "author_key": "A",
+      "author_answer_set": [],
+      "difficulty_target": "medium",
+      "format": "numerical_calculation"
+    },
+    {
+      "id": "q716-0da84afefc27dcfd",
+      "slot": "B-V1",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "case_application"
+    },
+    {
+      "id": "q716-7320e59d81b3e6e7",
+      "slot": "B-V2",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-34123195144154b0",
+      "slot": "B-V3",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "case_application"
+    },
+    {
+      "id": "q716-9b309de910fc3845",
+      "slot": "B-V4",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-13dcf725d8969532",
+      "slot": "B-V5",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-93226fa3de41466e",
+      "slot": "B-D1",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The source says fatigue study determines the amount and frequency of rest intervals; the stated key (time study) is wrong and A is the unique correct answer.",
+      "author_key": "B",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-2c87a162ebc301e0",
+      "slot": "B-D2",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "Staffing includes recruitment, selection, training, development, promotion, compensation and performance appraisal; options A, B and C are all correct.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A",
+        "B",
+        "C"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-96ff7667bd852397",
+      "slot": "B-D3",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Key A is correct, but the explanation asserts that simplification means devising new varieties to replace existing ones, which the source attributes to standardisation; the explanation contains a false factual claim.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-cbe7dd6425cb3ace",
+      "slot": "E-V1",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "numerical_calculation"
+    },
+    {
+      "id": "q716-04aea33c4d2a846d",
+      "slot": "E-V2",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-d1401024236aa304",
+      "slot": "E-V3",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-2ee1130ff212ce34",
+      "slot": "E-V4",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-5a14df53180354c9",
+      "slot": "E-V5",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-3d499f79180e651d",
+      "slot": "E-D1",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "The source states that purchase of an asset abroad (an Indian buying a UK car company) is a debit item on the capital account; the stated key (credit) is wrong.",
+      "author_key": "B",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-6a96d3c67101cbde",
+      "slot": "E-D2",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "Buying bonds in the open market increases reserves and money supply (stated), and reducing the reserve requirement loosens the stated limit on credit creation; options A and B both increase the money supply.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A",
+        "B"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-421ad73ddf433acb",
+      "slot": "E-D3",
+      "subject": "economics",
+      "expected_valid": false,
+      "defect_class": "false_explanation",
+      "defect_note": "Key A is correct, but the explanation claims fiscal deficit always equals revenue deficit plus interest payments; the source gives Fiscal Deficit = Revenue Deficit + Capital Expenditure − non-debt creating capital receipts.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "conceptual_mcq"
+    },
+    {
+      "id": "q716-991cb7c6dbb6efd6",
+      "slot": "L-V1",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "correct_word_usage"
+    },
+    {
+      "id": "q716-fd722cfbd8c04b99",
+      "slot": "L-V2",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "correct_word_usage"
+    },
+    {
+      "id": "q716-0f8ded1235a6ce7d",
+      "slot": "L-V3",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "antonym"
+    },
+    {
+      "id": "q716-4346b32ee9ec6815",
+      "slot": "L-V4",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "medium",
+      "format": "reading_comprehension"
+    },
+    {
+      "id": "q716-f9ea653682a3e8d8",
+      "slot": "L-V5",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "defect_note": null,
+      "author_key": "A",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "reading_comprehension"
+    },
+    {
+      "id": "q716-39142710b9ecfa5a",
+      "slot": "L-D1",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "wrong_key",
+      "defect_note": "Expecting to win despite losses matches optimistic (expecting good things to happen); the stated key sceptical (having doubts) is the opposite.",
+      "author_key": "B",
+      "author_answer_set": [
+        "A"
+      ],
+      "difficulty_target": "easy",
+      "format": "correct_word_usage"
+    },
+    {
+      "id": "q716-a661a3aec1570fe8",
+      "slot": "L-D2",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "multiple_defensible_answers",
+      "defect_note": "The context gives both brevity (transient: continuing for only a short time) and irregular intervals (sporadic); options A and B both fit.",
+      "author_key": "A",
+      "author_answer_set": [
+        "A",
+        "B"
+      ],
+      "difficulty_target": "medium",
+      "format": "correct_word_usage"
+    },
+    {
+      "id": "q716-9b213151e481b4c6",
+      "slot": "L-D3",
+      "subject": "english",
+      "expected_valid": false,
+      "defect_class": "passage_not_answerable",
+      "defect_note": "The passage mentions two missed sessions, not the number of volunteers who failed to update the board; no option is stated or implied, so the item is unanswerable from the passage.",
+      "author_key": "A",
+      "author_answer_set": [],
+      "difficulty_target": "medium",
+      "format": "reading_comprehension"
+    }
+  ]
+}

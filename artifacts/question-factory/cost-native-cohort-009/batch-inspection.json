@@ -1,0 +1,99 @@
+{
+  "contract": "evidence-content-idea-inspection-v3",
+  "content_hash": "fb943d58693f4b36a45210684082e6a69b4aa0e9d68b15aa063ab93939dcdf7c",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 87,
+  "answer_positions": {
+    "B": 21,
+    "C": 20,
+    "A": 26,
+    "D": 20
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "B": 2,
+      "A": 1,
+      "D": 1,
+      "C": 1
+    },
+    "synonym": {
+      "C": 3,
+      "A": 1
+    },
+    "sequence_ordering": {
+      "A": 5,
+      "D": 5,
+      "B": 2,
+      "C": 1
+    },
+    "matching": {
+      "D": 5,
+      "B": 5,
+      "A": 3,
+      "C": 2
+    },
+    "correct_word_usage": {
+      "C": 2,
+      "A": 1,
+      "D": 1
+    },
+    "antonym": {
+      "B": 1,
+      "D": 1,
+      "A": 1
+    },
+    "conceptual_mcq": {
+      "C": 4,
+      "B": 3,
+      "A": 3,
+      "D": 1
+    },
+    "numerical_calculation": {
+      "B": 1,
+      "A": 3,
+      "C": 1
+    },
+    "case_application": {
+      "A": 7,
+      "D": 3,
+      "C": 2,
+      "B": 2
+    },
+    "statement_selection": {
+      "C": 4,
+      "B": 3,
+      "D": 3,
+      "A": 1
+    },
+    "direct_mcq": {
+      "B": 2
+    }
+  },
+  "formats": {
+    "reading_comprehension": 5,
+    "synonym": 4,
+    "sequence_ordering": 13,
+    "matching": 15,
+    "correct_word_usage": 4,
+    "antonym": 3,
+    "conceptual_mcq": 11,
+    "numerical_calculation": 5,
+    "case_application": 14,
+    "statement_selection": 11,
+    "direct_mcq": 2
+  },
+  "difficulty": {
+    "easy": 35,
+    "medium": 41,
+    "hard": 11
+  },
+  "longest_same_answer_run": 4,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 575,
+  "inventory_ids_hash": "340262759e75c53f20feece774a448865799450de9862fc70400e969e38f1344",
+  "at": "2026-10-07T14:58:15.548Z",
+  "review_requirement": "Automatic evidence and duplicate guards; uncertainty is withheld. No routine human approval."
+}

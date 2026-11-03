@@ -1,0 +1,101 @@
+{
+  "at": "2026-10-08T13:21:24.131Z",
+  "complete": true,
+  "positive_ids": [
+    "cbse24-ac-q04",
+    "cbse24-bs-q02",
+    "cbse24-eco-q02",
+    "cbse24-eng-q01"
+  ],
+  "problems": [],
+  "lineage": {
+    "source_directory": "artifacts/question-factory/cuet-readiness-2026-10-08/benchmark/fresh-official-source-v73-model",
+    "frozen_sha256": "7ace15768d1d1987aab2212e1bd9d08a78e1292bf23ca33d79976c9d92d2f8e7",
+    "custody_sha256": "5cf6b02c4a0b9612c322c7f39e0832d6b82feca43fee44d771b073301d91a29c",
+    "candidate_text_options_explanations_keys_changed": false,
+    "historical_results_used_to_choose_diagnostic": true
+  },
+  "source_key_records": [
+    {
+      "id": "cbse24-ac-q04",
+      "subject": "accountancy",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf",
+        "pdf_sha256": "692ac702d37bfd56a6457a914a3f1e13af49fc1d2c2e7cf097574bc8b4866614",
+        "cache_sha256": "c9f5177358b19c9d7f6d1ebd706325caf53b90c3001b115e1b7a8d276b194269",
+        "physical_pdf_page": 1,
+        "quote_start": 269,
+        "quote_end": 358,
+        "quote": "4. A - Bad Debts A/c Dr. To Debtors A/c Prov. for Doubtful Debts A/c Dr. To Bad Debts A/c"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "first_source_key": "D",
+      "independent_second_key": "D",
+      "official_comparison_key": "D",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf",
+        "pdf_sha256": "d468070d2d8d6cc601ef9ca3521eb81e87641b0cb9fe3cd83e89ff6c2ce006ff",
+        "cache_sha256": "c933bade9ad6fd9914d3e8b18b178662a6867ede73c2fc40b0371c3921dc8a29",
+        "physical_pdf_page": 1,
+        "quote_start": 109,
+        "quote_end": 135,
+        "quote": "2. D. Assignment of duties"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "subject": "economics",
+      "first_source_key": "C",
+      "independent_second_key": "C",
+      "official_comparison_key": "C",
+      "official_key_type": "official_letter_for_selected_source_variant",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf",
+        "pdf_sha256": "ddbaff22e999cb58da5e82d57afd3a02cfd2a8b905317737cf26798503ee9826",
+        "cache_sha256": "a8e0946372941c5405789603a6a614b95581f12f1f49943d021bef1c609da364",
+        "physical_pdf_page": 1,
+        "quote_start": 149,
+        "quote_end": 179,
+        "quote": "2. C. Redistribution of income"
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": null
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "subject": "english",
+      "first_source_key": "A",
+      "independent_second_key": "A",
+      "official_comparison_key": "A",
+      "official_key_type": "official_value_point_mapped_to_preexisting_adapted_options",
+      "official_source": {
+        "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf",
+        "pdf_sha256": "b89a4f169346c8265d6e7fc0524524312b71c1ffa3936f48bff34af778ba6486",
+        "cache_sha256": "a6284823b90425d3aa263a0fa113a1e2d145b2fbfc78923793ca66f2ca37bdc5",
+        "physical_pdf_page": 1,
+        "quote_start": 783,
+        "quote_end": 837,
+        "quote": "I They lead to instant interruptions in conversations."
+      },
+      "positive_control_eligible": true,
+      "withhold_reasons": [],
+      "disclosure": "Some source answers are descriptive value points, mapped semantically to the already frozen MCQ adaptation; not claimed as an official CUET answer key."
+    }
+  ],
+  "new_independent_keys_established": false
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "cuet-bank-reassessment-export-v1",
+  "captured_at": "2026-10-08T06:07:12.928Z",
+  "run": {
+    "status": "complete",
+    "complete": true,
+    "denominator": 662,
+    "terminal": 662,
+    "eligible": 536,
+    "quarantined": 126,
+    "pending": 0,
+    "latest_result_rows": 670,
+    "unique_result_ids": 662,
+    "provider_errors": 0,
+    "mismatched_or_stale": 0,
+    "trailing_partial_jsonl_line_ignored": false,
+    "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+    "verifier": "cuet-fit-validator-v7.2",
+    "topology": "dual_blind",
+    "publication": "never",
+    "status_note": "All denominator entries have matching terminal results under this frozen contract."
+  },
+  "scoped_cost": {
+    "settled_micro": 6267641,
+    "held_micro": 11628,
+    "committed_micro": 6279269,
+    "request_count": 1956,
+    "receipt_complete": false,
+    "cost_reconciled": true,
+    "unattributed_request_count": 0
+  },
+  "withholding_plan": {
+    "mode": "dry_run_only",
+    "atomic_passage_groups": true,
+    "decisions": 643,
+    "would_withhold_items": 127
+  },
+  "output_directory": "artifacts/question-factory/cuet-readiness-2026-10-08/execution/reassessment/snapshot-20261008T060712941Z",
+  "side_effects": {
+    "database_writes": 0,
+    "publication_writes": 0,
+    "provider_calls": 0
+  }
+}

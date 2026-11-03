@@ -1,0 +1,52 @@
+# Cost accountability — 2026-10-08
+
+Snapshot: 2026-10-08T13:47:33.837Z, read-only SQLite transaction on `data/pipeline-budget.sqlite` (`DatabaseSync` with `readOnly:true`; no `BudgetLedger` constructor). One row per reservation in `requests`; provider request/batch metadata was joined by reservation ID for attribution, never summed independently. All values USD; ledger stores microUSD.
+
+## Lifetime and mutually exclusive attribution
+
+| Category (by saved receipt/request purpose) | Reservations | Settled | Held | Gross committed |
+|---|---:|---:|---:|---:|
+| Actual content campaigns (`purpose=candidate`) | 6,511 | $11.124490 | $0.338128 | $11.462618 |
+| Bank reassessment (`purpose=reassessment`) | 2,443 | $6.764994 | $0.084742 | $6.849736 |
+| Validator/benchmark/calibration/model comparison (`purpose=calibration`) | 4,557 | $15.745154 | $0.049576 | $15.794730 |
+| Provider probes/recovery | 6 | $0.000839 | $0 | $0.000839 |
+| Provider failures/unattributed (3 requests with unknown purpose/stage, including unsettled holds) | 2 | $0.003858 | $0.011096 | $0.014954 |
+| Historical aggregate owner estimate, no amount recorded | 1 | $0 | $0 | $0 |
+| **Total** | **13,520** | **$33.639335** | **$0.483542** | **$34.122877** |
+
+The lifetime cap is $50.000000; remaining committed headroom is **$15.877123**. Held is conservative reservation exposure, not an invoice. Provider usage receipts are recorded; no provider invoice was obtained. Requests states: 13,484 settled, 4 submitted, 32 unresolved; unsettled holds are included once as `max(reserved, actual)`. The category totals reconcile exactly to the lifetime sum.
+
+Attribution is purpose-level from saved `receipt_json` and provider request `request_json.config`; candidate/content rows are exact `purpose=candidate`, and reassessment rows carry `purpose=reassessment` and `reassessment:` candidate IDs. Calibration is a quality-testing cost, not production content. Historical sentinel is zero and is an owner estimate, not invoice-audited prior spend. The 3 unknown-purpose requests account for $0.003858 settled + $0.011096 held; they are not silently allocated.
+
+Largest recorded cost drivers: calibration independent evaluation $10.783041 settled; candidate independent evaluation $5.278995 settled + $0.245726 held; reassessment independent evaluation $4.808685 settled; calibration blind solution $3.934456 settled + $0.023192 held; candidate blind solution $2.750843 settled + $0.081774 held. The existing readiness report's 70/100 improved stage breakdown also shows the main model cost concentration in Gemini evaluation and Luna blind solving; reasoning tokens are a subset of output and are not extra billed tokens.
+
+## Campaign outcome versus release
+
+Saved campaign reports are measurement-only with `publication_policy=never`, `newly_published=0`; eligible means machine-eligible only, not production-ready. Baseline: 100 denominator, 66 eligible, 34 rejected, 0 pending; gross $1.227996 ($1.216368 settled + $0.011628 held), report timestamp 2026-10-08T08:22:25.945Z. Improved: 100 denominator, 70 eligible, 30 rejected, 0 pending; gross $1.341445 ($1.177385 settled + $0.164060 held), timestamp 08:22:28.014Z. Cost per eligible for improved is $0.0191635; conditional same-mix/same-yield gross for 10,000 machine-eligible items is **$191.635**. This is a conditional extrapolation, not a production forecast or approval to exceed the $50 lifetime cap.
+
+C (latest saved `batch-report.json`, 2026-10-08T13:34:54.216Z): 100 denominator, 53 eligible, 9 rejected, 38 pending; $0.540745 settled + $0.083288 held = $0.624033 observed gross so far. Not terminal; do not annualize or forecast final cost. `newly_published=0`, measurement only. All three campaigns remain withheld from publication under their explicit policy; eligible does not equal released. Legacy publication artifacts are separate and were not inferred as released merely from staging/approved records; a complete exact historical production count requires reconciling every production publication artifact against the current calibration manifest.
+
+## Waste and limits of inference
+
+No spend is classified as waste merely because it was testing. Ledger request rows are reservation-level; they do not consistently record attempt/retry lineage, accepted provider IDs, or whether a completed call was a revalidation after repair. Therefore avoidable duplicated spend cannot be proven or safely priced from this snapshot. Failed/unresolved/open attempts remain in committed totals where applicable. Do not equate request count, provider batch count, or idempotency key count with paid duplicate calls. Exact known unclassified amount is $0.014954 gross; no further attribution is claimed.
+
+Evidence: `data/pipeline-budget.sqlite`; `artifacts/question-factory/cuet-readiness-baseline-100-2026-10-08/batch-report.json`; `artifacts/question-factory/cuet-readiness-improved-100-2026-10-08/batch-report.json`; `artifacts/question-factory/cuet-readiness-cost-source-c-100-2026-10-08/batch-report.json`; attribution rules in `scripts/pipeline/tools/reportSavedReadinessCosts.mjs`.
+## Current registry-state cross-check (read-only)
+
+At the same read-only snapshot, `factory_candidates` contains 1,446 records: **662 `published`**, 297 `eligible` (machine-eligible but not yet published), 450 `quarantined`, 25 `waiting`, 4 `waiting_validation`, 6 `generated`, and 2 `repaired`. Thus 662 is the current database published-state count; 297 eligible records remain unpublished, and 487 records are in quarantine or other nonterminal pre-publication states. These are global registry states, not the three 100-item v7 measurement campaigns, which each have `newly_published=0` and explicit `publication_policy=never`. The released manifest remains v6.2/v3, not these v7 cohorts.
+
+Saved historical production publication artifacts report newly inserted counts across cost-native-cohort-002..009 totaling 534; `execution-2026-10-07` and `cost-native-cohort-007` report 50 and 78 previously published, so those are not additive. Receipt-array lengths are lower than approved counts for some cohorts; use the current registry state count above as authoritative for current published-state quantity, not the naive sum of approval/publication exports. Production retrieval verification is explicitly false in the inspected 006/007 artifacts.
+
+## Addendum — exact cohort/request and live ledger refresh (2026-10-08T14:18Z)
+
+The earlier 13:47 snapshot is retained above as a historical read. A fresh read-only transaction at **2026-10-08T14:18:32.614Z** observes 13,566 reservations: $33.716553 settled + $0.469282 held = **$34.185835 committed**, leaving **$15.814165** under the $50 cap. Categories below prefer each receipt's purpose and use saved provider request config only when the receipt lacks it; one `requests` row is counted once. Calibration: 4,557 rows, $15.745154 settled + $0.049576 held = $15.794730; candidate/content: 6,557 rows, $11.201708 + $0.323868 = $11.525576; reassessment: 2,443 rows, $6.764994 + $0.084742 = $6.849736; probes: 6 rows, $0.000839; unknown: 3 rows, $0.003858 + $0.011096 = $0.014954. These sum exactly to lifetime. The non-content categories total **$22.660259** and are calibration/reassessment/probe/unattributed activity, not automatically waste.
+
+Exact candidate-ID joins from saved provider request bodies/receipt `candidate_id` to `factory_candidates` state map 5,492 candidate-purpose requests to current candidate records; 1,065 candidate-purpose requests totaling $1.914865 settled have no exact current candidate-record match and remain unallocated. The mapped rows total $9.286843 settled + $0.323868 held; the current rows on the 662 published candidate IDs account for **$4.730036 settled across 3,083 requests**, with no held balance. This is direct candidate-purpose generation/validation spend for those IDs; it excludes calibration/reassessment and must not be called full production-ready cost. The 613 matched non-published candidate records have $4.556807 settled + $0.323868 held (= $4.880675); this group includes eligibility, quarantine and in-progress states.
+
+For the exact production cohort IDs (the 50-item `execution-2026-10-07` plus `cost-native-cohort-002` through `-009`), the 662 records currently published/retrieved map to $4.730036 settled. Their complete direct candidate-purpose campaign cost, including 238 quarantined records, is $5.644987 settled: published-ID subset $4.730036 plus quarantined-ID subset $0.914951. Campaign measurement excludes other purpose categories and cannot be interpreted as marginal publish cost. These cohort exports also show 534 newly inserted records; the 78 in cohort 007 were already published. Do not add cohort approval counts to the current published database count.
+
+The 100-item `cost-native-cohort-010` has 76 eligible, 18 quarantined and 6 generated candidate records at this snapshot, with $0.709292 direct candidate-purpose gross. A/B saved campaign totals still reconcile exactly: baseline $1.227996 (66 eligible/34 rejected), improved $1.341445 (70/30). All are separate from release: v7 A/B/C remain measurement-only, with zero new publications. Parent's separate read-only production check (13:54:05Z) reports 662 retrieved records and 666 publication receipts, including four currently invisible receipts; it also reports the older library/feed separately. This report does not independently re-query production.
+
+### Open Haiku holds and avoidable waste
+
+Four unresolved Anthropic Haiku `independent_key_audit` realtime reservations are each $0.006596, total **$0.026384 held** (not settled): `034735e3-1725-4df8-a6dd-914b36cfd603` for `fresh-v5r-accountancy-partnership-fundamentals-3`; `b1d8d812-2eda-4c93-a6fd-8748276be7e5` for `fresh-v5r-english-4-1`; `e023de82-1524-4421-97ac-ef0439530453` for `fresh-v5r-english-4-3`; `48b9b60e-f56e-411f-9d27-57cd4004ec8d` for `fresh-v5r-english-4-4`. Their ledger and provider-request states are unresolved and no accepted Anthropic request ID is recorded. The saved rows prove held exposure, not provider acceptance, cancellation, actual charge, or a duplicate. Without accepted-ID/terminal-failure evidence, **$0 avoidable settled waste is proven**; the $0.026384 is the exact open exposure potentially releasable only after authoritative terminal evidence and normal ledger reconciliation. Other retry/revalidation waste remains unquantified because attempt lineage is not persisted consistently.

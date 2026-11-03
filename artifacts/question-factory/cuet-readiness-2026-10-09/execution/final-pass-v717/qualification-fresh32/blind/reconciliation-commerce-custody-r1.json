@@ -1,0 +1,17 @@
+{
+  "schema": "cuet-v717-commerce-reconciliation-custody-r1",
+  "created_at_utc": "2026-10-10T05:39:01.7343092Z",
+  "explanation_audit": "explanation-commerce-custody-r1.json",
+  "audit_sha256": "357d45ed4fb9511073afbebd5560d9c84e99054baa0e1c07f148a8895d8250a2",
+  "cases": 6,
+  "positive_controls_supported": 2,
+  "negative_labels_confirmed": 4,
+  "academic_blockers": 0,
+  "provenance_observation": "All six revised items retain prior locators in provenance.source_refs. Candidate.sources and actual packet excerpts are correct and independently verified in the audit.",
+  "root_clarification_after_audit_freeze": "Root confirms tools/seal_fresh32.mjs constructs authoritative runtime source_refs only from item.candidate.sources with actual source.version and supports[locator]. item.provenance.source_refs is historical trace data preserved intentionally.",
+  "clarification_basis": "Trusted root message; this reviewer did not broaden the academic audit to inspect runtime code.",
+  "disposition": "Metadata observation classified as historical provenance. No additional case version or academic blocker needed on that basis. Authoritative runtime refs must continue to match corrected candidate.sources.",
+  "originals_preserved": true,
+  "no_runtime_or_label_edits": true,
+  "no_provider_calls": true
+}

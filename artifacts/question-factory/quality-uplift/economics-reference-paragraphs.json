@@ -1,0 +1,290 @@
+[
+  {
+    "ref": "exante",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-2",
+    "section": "4.1, planned and actual aggregates",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "We call the planned values of the variables – consumption, investment or output of final goods – their ex ante measures. In simple words, ex-ante depicts what has been planned, and ex-post depicts what has actually happened.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "consumption",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-2",
+    "section": "4.1.1 Consumption",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "two_sector",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-4",
+    "section": "4.2 Determination of Income in Two-Sector Model",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "In an economy without a government, the ex ante aggregate demand for final goods is the sum total of the ex ante consumption expenditure and ex ante investment expenditure on such goods, viz. AD = C + I.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "multiplier",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-10",
+    "section": "4.3.3, definition preceding equation 4.5",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "The ratio of the total increment in equilibrium value of final goods output to the initial increment in autonomous expenditure is called the investment multiplier of the economy.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "rounds",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-9",
+    "section": "4.3.3, successive-round consumption mechanism",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "When income increases by 10, consumption expenditure goes up by (0.8)10, since people spend 0.8 (= mpc) fraction of their additional income on consumption.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "thrift",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-11",
+    "section": "Paradox of Thrift, opening paragraph",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "If all the people of the economy increase the proportion of income they save (i.e. if the mps of the economy increases) the total value of savings in the economy will not increase – it will either decline or remain unchanged.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "deficient",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-12",
+    "section": "4.4 Some More Concepts",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "If it is less than the full employment of output, it is due to the fact that demand is not enough to employ all factors of production. This situation is called the situation of deficient demand .",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "effective",
+    "source_id": "ncert-leec104",
+    "locator": "pdf-page-13",
+    "section": "Summary, fixed-price and interest-rate assumptions",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec104.pdf",
+    "exact_excerpt": "For simplicity we assume a constant final goods price and constant rate of interest over short run to determine the level of aggregate demand for final goods in the economy. We also assume that the aggregate supply is perfectly elastic at this price. Under such circumstances, aggregate output is determined solely by the level of aggregate demand. This is known as effective demand principle.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "rbi",
+    "source_id": "ncert-leec103",
+    "locator": "pdf-page-3",
+    "section": "3.2.2 Supply of Money, Central Bank",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+    "exact_excerpt": "Central bank has several important functions. It issues the currency of the country. It controls money supply of the country through various methods, like bank rate, open market operations and variations in reserve ratios. It acts as a banker to the government. It is the custodian of the foreign exchange reserves of the economy.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "reserves",
+    "source_id": "ncert-leec103",
+    "locator": "pdf-page-7",
+    "section": "3.3 Money Creation, 20 percent reserve example",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+    "exact_excerpt": "Since the bank is only expected to keep 20 per cent of its deposits as reserves, thus, reserves of Rs 100 (20per cent of 500 = 100) can support the deposits of Rs 500.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "omo",
+    "source_id": "ncert-leec103",
+    "locator": "pdf-page-7",
+    "section": "3.4 Policy Tools, OMO purchase and sale",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+    "exact_excerpt": "When RBI buys a Government bond in the open market, it pays for it by giving a cheque. This cheque increases the total amount of reserves in the economy and thus increases the money supply. Selling of a bond by RBI (to private individuals or institutions) leads to reduction in quantity of reserves and hence the money supply.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "bankrate",
+    "source_id": "ncert-leec103",
+    "locator": "pdf-page-8",
+    "section": "3.4 Policy Tools, Bank Rate paragraph",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+    "exact_excerpt": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "repo",
+    "source_id": "ncert-leec103",
+    "locator": "pdf-page-8",
+    "section": "3.4 Policy Tools, repo/reverse-repo paragraph",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+    "exact_excerpt": "However, there is another type of operation in which when the central bank buys the security, this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "capital",
+    "source_id": "ncert-leec105",
+    "locator": "pdf-page-4",
+    "section": "5.1.2 Capital Receipts, definition",
+    "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+    "exact_excerpt": "All those receipts of the government which create liability or reduce financial assets are termed as capital receipts.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "tax",
+    "source_id": "ncert-leec105",
+    "locator": "pdf-page-3",
+    "section": "5.1.2 Revenue Receipts",
+    "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+    "exact_excerpt": "Revenue Receipts: Revenue receipts are those receipts that do not lead to a claim on the government. They are therefore termed non-redeemable. They are divided into tax and non-tax revenues.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "policybudget",
+    "source_id": "ncert-leec105",
+    "locator": "pdf-page-5",
+    "section": "5.1.3, historical budget policy role paragraph",
+    "url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+    "exact_excerpt": "The budget is not merely a statement of receipts and expenditures. Since Independence, with the launching of the Five-Year Plans, it has also become a significant national policy statement.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "forex",
+    "source_id": "ncert-leec106",
+    "locator": "pdf-page-8",
+    "section": "6.2.2 Flexible Exchange Rate",
+    "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+    "exact_excerpt": "This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate .",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "appreciation",
+    "source_id": "ncert-leec106",
+    "locator": "pdf-page-8",
+    "section": "6.2.2, domestic-currency appreciation definition",
+    "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+    "exact_excerpt": "Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars).",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "devaluation",
+    "source_id": "ncert-leec106",
+    "locator": "pdf-page-10",
+    "section": "6.2.2, Devaluation and Revaluation definitions",
+    "url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+    "exact_excerpt": "In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "circular",
+    "source_id": "ncert-leec102",
+    "locator": "pdf-page-7",
+    "section": "2.2 Circular Flow, no-leakage equality",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+    "exact_excerpt": "There is no leakage from the system – there is no difference between the amount that the firms had distributed in the form of factor payments (which is the sum total of remunerations earned by the four factors of production) and the aggregate consumption expenditure that they receive as sales revenue.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "stock",
+    "source_id": "ncert-leec102",
+    "locator": "pdf-page-4",
+    "section": "2.1, stock and flow distinction",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+    "exact_excerpt": "Stocks are defined at a particular point of time. However we can measure a change in stock over a specific period of time like how many machines wer e added this year . Such changes in stocks are thus flows, which can be measured over specific time periods.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "prices",
+    "source_id": "ncert-leec102",
+    "locator": "pdf-page-16",
+    "section": "2.2.4 Factor Cost, Basic Prices and Market Prices",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+    "exact_excerpt": "Factor cost includes only the payment to factors of production, it does not include any tax. In order to arrive at the market prices, we have to add to the factor cost the total indirect taxes less total subsidies. The basic prices lie in between: they include the production taxes (less production subsidies) but not product taxes (less product subsidies).",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "deflator",
+    "source_id": "ncert-leec102",
+    "locator": "pdf-page-21",
+    "section": "2.4 Nominal and Real GDP, deflator definition",
+    "url": "https://www.ncert.nic.in/textbook/pdf/leec102.pdf",
+    "exact_excerpt": "The ratio of nominal to real GDP is a well known index of prices. This is called GDP Deflator.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "handicraft",
+    "source_id": "ncert-keec101",
+    "locator": "pdf-page-4",
+    "section": "1.2 Low Level of Economic Development under Colonial Rule",
+    "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+    "exact_excerpt": "India was particularly well known for its handicraft industries in the fields of cotton and silk textiles, metal and precious stone works etc. These products enjoyed a worldwide market based on the reputation of the fine quality of material used and the high standards of craftsmanship seen in all imports from India (See Box 1.1).",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "colonial",
+    "source_id": "ncert-keec101",
+    "locator": "pdf-page-5",
+    "section": "1.2, colonial priorities and structural transformation",
+    "url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+    "exact_excerpt": "The economic policies pursued by the colonial government in India were concerned more with the protection and promotion of the economic interests of their home country than with the development of the Indian economy. Such policies brought about a fundamental change in the structure of the Indian economy — transforming the country into supplier of raw materials and consumer of finished industrial products from Britain.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "estimators",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-2744a9366531",
+    "section": "Supplied Indian Economy passage, estimator sentence; NCERT keec101 pdf-page-5 corroborates with OCR spacing differences",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "Among the notable estimators — Dadabhai Naoroji, William Digby, Findlay Shirras, V.K.R.V. Rao and R.C. Desai — it was Rao, whose estimates during the colonial period were considered very significant.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "growth",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-2744a9366531",
+    "section": "Supplied Indian Economy passage, growth sentence; NCERT keec101 pdf-page-5 corroborates",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "However, most studies did find that the country’s growth of aggregate real output during the first half of the twentieth century was less than two per cent coupled with a meagre half per cent growth in per capita output per year.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "compost",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-71bc57e685a8",
+    "section": "Supplied Biocomposting passage, return to organic waste",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "Farmers, in large numbers all over the country, have again started using compost made from organic wastes of different types.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "worms",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-71bc57e685a8",
+    "section": "Supplied Biocomposting passage, comparative speed",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "Earthworms can convert organic matter into compost faster than the normal composting process.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "civic",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-71bc57e685a8",
+    "section": "Supplied Biocomposting passage, civic benefit",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "Indirectly, the civic authorities are benefitted too as they have to dispose reduced quantity of waste.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "cattle",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-71bc57e685a8",
+    "section": "Supplied Biocomposting passage, qualified cattle purpose",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "In certain parts of the country, cattle are maintained only because they produce dung which is an important fertilizer and soil conditioner.",
+    "exact_excerpt_verified_in_registered_fact": true
+  },
+  {
+    "ref": "water",
+    "source_id": "cuet2024-economics-bookA-paper",
+    "locator": "passage-71bc57e685a8",
+    "section": "Supplied Biocomposting passage, adverse effects",
+    "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+    "exact_excerpt": "The result is that large tracts of productive land have been adversely affected, water bodies including ground water system have suffered due to chemical contamination and demand for irrigation has been going up year after year.",
+    "exact_excerpt_verified_in_registered_fact": true
+  }
+]

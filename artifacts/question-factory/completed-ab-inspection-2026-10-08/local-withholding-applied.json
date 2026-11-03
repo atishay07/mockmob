@@ -1,0 +1,58 @@
+{
+  "at": "2026-10-08T08:22:02.067Z",
+  "proof_sha256": "f63401d479faaf0c9c2436b1ca9f977819c20c523fc94ce0ed8a6631525da23b",
+  "changes": [
+    {
+      "id": "061c41b294d42afb3804959aabe68d23",
+      "arm": "baseline",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "69c08375f5218d8cc766ab0172bc7d95"
+    },
+    {
+      "id": "e0100ebc2f74bb784e349d850f42ad42",
+      "arm": "baseline",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "43d1832c48e9bcab1d5ee03e93eabbfc"
+    },
+    {
+      "id": "1f97308edbcc2672d28bbf4fdac57bd0",
+      "arm": "baseline",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "08c9dff7d4a536b90a7b7ad46e092703"
+    },
+    {
+      "id": "6fadc0e5c18699d7c8e3bfbbf2196aee",
+      "arm": "baseline",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "995205f96f49073b44b66043f1cb1c72"
+    },
+    {
+      "id": "2d8f8e36c2ab7d375afc81d9f52c6216",
+      "arm": "improved",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "69c08375f5218d8cc766ab0172bc7d95"
+    },
+    {
+      "id": "6fbbf2147680b974d26d3996990e4749",
+      "arm": "improved",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "08c9dff7d4a536b90a7b7ad46e092703"
+    },
+    {
+      "id": "03434a21719037f64bf0f9722435d3da",
+      "arm": "improved",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "43d1832c48e9bcab1d5ee03e93eabbfc"
+    },
+    {
+      "id": "3b0c25291b13fd8d5464af2379802f0c",
+      "arm": "improved",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "995205f96f49073b44b66043f1cb1c72"
+    }
+  ],
+  "provider_calls": 0,
+  "staging_writes": 0,
+  "production_writes": 0,
+  "cost_changes": 0
+}

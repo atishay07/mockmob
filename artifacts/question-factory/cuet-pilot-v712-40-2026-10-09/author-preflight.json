@@ -1,0 +1,367 @@
+{
+  "at": "2026-10-09T17:03:39.940Z",
+  "captures": [
+    {
+      "id": "6c5c2777b7bd5c64e0eb9ac80ef4d1ee",
+      "provider": "openai",
+      "bytes": 18465,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "reading_comprehension"
+    },
+    {
+      "id": "61c7b9abca6c29e84fe1f333ed5b9920",
+      "provider": "openai",
+      "bytes": 25350,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "numerical_calculation"
+    },
+    {
+      "id": "e72f96a39d411d96f9174d6a479b96e7",
+      "provider": "openai",
+      "bytes": 24619,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "d4c3fd2212899f6f5ece15478b881142",
+      "provider": "openai",
+      "bytes": 24255,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "1b74d78aba08b44a916955de7fe79ef7",
+      "provider": "openai",
+      "bytes": 19345,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "antonym"
+    },
+    {
+      "id": "bb2ab9f42a30c379212f509e2f0582a2",
+      "provider": "openai",
+      "bytes": 24828,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "b5b1264e21803f31f0933264840539a2",
+      "provider": "openai",
+      "bytes": 25379,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "matching"
+    },
+    {
+      "id": "c931bf54c71aa673bd40ca77df0c245c",
+      "provider": "openai",
+      "bytes": 22625,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "case_application"
+    },
+    {
+      "id": "87f3c625ccd021285e7d9b14526f74ca",
+      "provider": "openai",
+      "bytes": 18277,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "reading_comprehension"
+    },
+    {
+      "id": "be5edf533d6f3a0716a229563a6471f9",
+      "provider": "openai",
+      "bytes": 22198,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "statement_selection"
+    },
+    {
+      "id": "c0b51ee0c2b9532363925fea727fd67a",
+      "provider": "openai",
+      "bytes": 25383,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "sequence_ordering"
+    },
+    {
+      "id": "50eedb25069139ffcc5a5560cb2085c0",
+      "provider": "openai",
+      "bytes": 25603,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "numerical_calculation"
+    },
+    {
+      "id": "3129d0f8b9269267a1b02b9027517e11",
+      "provider": "openai",
+      "bytes": 18680,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "correct_word_usage"
+    },
+    {
+      "id": "a22c86f5afc4987f7b894381fe60eb7e",
+      "provider": "openai",
+      "bytes": 24684,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "case_application"
+    },
+    {
+      "id": "914c1d25bd1c1a672d17bf08f797a9a3",
+      "provider": "openai",
+      "bytes": 24460,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "statement_selection"
+    },
+    {
+      "id": "a1220006c8b621cb93e9b2ff24de93f7",
+      "provider": "openai",
+      "bytes": 22604,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "matching"
+    },
+    {
+      "id": "a63c4ffc713499e1e9e0286712d4ce4d",
+      "provider": "openai",
+      "bytes": 18318,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "reading_comprehension"
+    },
+    {
+      "id": "f5b9b2a484fad3eba3203b085e2aebe7",
+      "provider": "openai",
+      "bytes": 23761,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "matching"
+    },
+    {
+      "id": "b9e1f7d735d6eb328ce24ff4fa16d3e3",
+      "provider": "openai",
+      "bytes": 25579,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "case_application"
+    },
+    {
+      "id": "27cea2ead32ff0039da383f195e5e7d7",
+      "provider": "openai",
+      "bytes": 24925,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "statement_selection"
+    },
+    {
+      "id": "4caa299c8db37ff9442447742b520fef",
+      "provider": "openai",
+      "bytes": 18835,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "correct_word_usage"
+    },
+    {
+      "id": "7ec43cc3d486dd26d4ac30c3b621a665",
+      "provider": "openai",
+      "bytes": 24685,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "sequence_ordering"
+    },
+    {
+      "id": "1885b1d0a0bdce29446c81eb37788da3",
+      "provider": "openai",
+      "bytes": 24355,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "ac7d5d5e692a6eab663764736afe2544",
+      "provider": "openai",
+      "bytes": 24410,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "sequence_ordering"
+    },
+    {
+      "id": "c7c8ec63dbbbcacefee958bf5523c964",
+      "provider": "openai",
+      "bytes": 17263,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "reading_comprehension"
+    },
+    {
+      "id": "c1b832fffa8fb6c7a2625c1a626af0c8",
+      "provider": "openai",
+      "bytes": 21993,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "numerical_calculation"
+    },
+    {
+      "id": "1335417a2ce8f9d4f1162e86ddfa9cbe",
+      "provider": "openai",
+      "bytes": 23454,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "0fa79d89c35d75d9270093780cfdaff3",
+      "provider": "openai",
+      "bytes": 22671,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "639eaa0593f179807c5a02fa8d81f62d",
+      "provider": "openai",
+      "bytes": 19098,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "synonym"
+    },
+    {
+      "id": "f619af6f76cb19a904a6125e819a2930",
+      "provider": "openai",
+      "bytes": 23308,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "60f0a1973890b25a3758158200ae4f85",
+      "provider": "openai",
+      "bytes": 24328,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "2107b6249ebb0a969e2544f92a052c33",
+      "provider": "openai",
+      "bytes": 22912,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "case_application"
+    },
+    {
+      "id": "da091242ed948976c52bc6cf83670a4b",
+      "provider": "openai",
+      "bytes": 17956,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "reading_comprehension"
+    },
+    {
+      "id": "5b51439af3d516d2e4414cabe43da6a4",
+      "provider": "openai",
+      "bytes": 24378,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "statement_selection"
+    },
+    {
+      "id": "b3542e3d6ced8b4021b6fceaeffc6c8b",
+      "provider": "openai",
+      "bytes": 26186,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "4f94767d92f2698d572fef19fd51e25a",
+      "provider": "openai",
+      "bytes": 23040,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "70da30896596a3607202dfb6389ee027",
+      "provider": "openai",
+      "bytes": 19283,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "synonym"
+    },
+    {
+      "id": "01e2b3197b6578ada701c4614803ca78",
+      "provider": "openai",
+      "bytes": 24131,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "case_application"
+    },
+    {
+      "id": "f858efb82cc60af470a33afb32879a96",
+      "provider": "openai",
+      "bytes": 22770,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    },
+    {
+      "id": "3883d391e8a552d8144c566e728719a6",
+      "provider": "openai",
+      "bytes": 27712,
+      "output_cap": 6500,
+      "has_support": true,
+      "has_learning_objective_schema": true,
+      "requested_format": "conceptual_mcq"
+    }
+  ],
+  "author_policy": "original-practice-decisive-distractors-v79",
+  "paid_calls": 0
+}

@@ -1,0 +1,29 @@
+
+> mockmob@0.1.0 test:recovery
+> node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs
+
+✔ server snapshot scores answers; a correct-to-wrong change loses six marks (1.6176ms)
+✔ missing event answers cannot invent score effects (0.5645ms)
+✔ unknown questions, duplicate sequence, out-of-bounds answer and future events fail (0.9849ms)
+✔ repeats, assisted answers and same-family variants cannot demonstrate improvement (0.2592ms)
+✔ practice submission survives a clock-skewed event log but never an invalid answer (0.3552ms)
+✔ attempt provenance separates server practice, recovery sessions and browser-scored history (0.1364ms)
+✔ migration enforces owner access, atomic charge and exactly-once score/progress (1794.3684ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (121.1313ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (106.8594ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.6351ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (148.3324ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (235.7463ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (78.3772ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (4.5821ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (0.9985ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (1.6472ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.2151ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2019.9744

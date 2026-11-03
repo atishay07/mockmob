@@ -1,0 +1,77 @@
+[
+  {
+    "id": "fab8e8b9-af16-4d92-8b96-0363050eea8b",
+    "key": "B",
+    "explanation": "Oversubscription occurs when a company receives applications for more shares than it has offered for subscription. Therefore, the number of shares applied for is more than the number of shares issued, making option B correct."
+  },
+  {
+    "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+    "key": "B",
+    "explanation": "On forfeiture, Share Capital is debited with the called-up amount (A–IV). Share Forfeiture is credited with the amount received towards share capital (B–III), while Calls-in-Arrears is credited with the unpaid amount (C–II). If the securities premium has not been received, Securities Premium is debited for that unpaid amount (D–I). Therefore, the correct answer is option B."
+  },
+  {
+    "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+    "key": "C",
+    "explanation": "A company may accept calls in advance when its Articles of Association authorise it. Therefore, option C is correct."
+  },
+  {
+    "id": "ffbf2eaa-257a-4930-bf2d-6bd6d54aad1c",
+    "key": "A",
+    "explanation": "The forward preparation sequence is Trading Account, Profit and Loss Account, Profit and Loss Appropriation Account, and then Balance Sheet. Tracing backwards from the Balance Sheet, the other accounts are therefore Profit and Loss Appropriation Account, Profit and Loss Account, and Trading Account: (A), (B), (C)."
+  },
+  {
+    "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+    "key": "B",
+    "explanation": "Calls in arrears are amounts already called but not received, so (A) matches (III). Calls in advance are received before being called, so (B) matches (I). Reserve capital is uncalled capital callable only on winding up, so (C) matches (IV). Subscribed but not fully paid share capital matches (II)."
+  },
+  {
+    "id": "e539e791-5e64-48ad-be13-53df6e25a079",
+    "key": "B",
+    "explanation": "Under the fixed capital method, a partner’s share of profit and salary are recorded in the Partner’s Current Account. Additional capital introduced and capital withdrawn under the agreement are recorded in the Partner’s Capital Account, since these are changes to the fixed capital."
+  },
+  {
+    "id": "b05f3b4d-275f-4c20-903f-80b9eefc4d33",
+    "key": "A",
+    "explanation": "Applications exceed the number offered by 9,000. Therefore, shares offered = 54,000 − 9,000 = 45,000. Since applications are greater than the number offered, the issue is oversubscribed."
+  },
+  {
+    "id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+    "key": "A",
+    "explanation": "Under the fixed capital method, items such as interest on capital and share of profit are credited to the Partner’s Current Account, while drawings are debited to it. Additional capital introduced is credited to the Partner’s Capital Account."
+  },
+  {
+    "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+    "key": "B",
+    "explanation": "The Share Forfeiture Account is credited with the amount received towards share capital; the premium received is excluded. The amount received towards share capital per share was ₹10 − ₹3 = ₹7. Therefore, the number of shares forfeited was ₹4,200 ÷ ₹7 = 600."
+  },
+  {
+    "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+    "key": "D",
+    "explanation": "Calls in arrears are amounts called on shares but not received, while calls in advance are received before they are due. Securities premium is the amount received above the nominal value of shares. Reserve capital is called at the time of winding up. Thus, the correct matching is (A)–(II), (B)–(IV), (C)–(I), and (D)–(III)."
+  },
+  {
+    "id": "5ec3ec4d-fe39-4608-a3a0-4c02f53707e3",
+    "key": "A",
+    "explanation": "The authenticated question establishes the order Trading Account → Profit and Loss Account → Profit and Loss Appropriation Account → Balance Sheet. The NCERT excerpt states that partners’ shares of profit are recorded in their capital accounts or, under the fixed capital method, current accounts, and that these accounts are presented in the Balance Sheet. Thus, the partners’ accounts follow the Appropriation Account and precede the Balance Sheet, making option (A) correct."
+  },
+  {
+    "id": "6ff08f7a-b79b-4290-83a6-007f7b4df498",
+    "key": "B",
+    "explanation": "The amount received before a call is made is credited to Calls in Advance Account, while Bank Account is debited for the money received."
+  },
+  {
+    "id": "3d547d56-6873-4057-85d8-8a627eed611d",
+    "key": "C",
+    "explanation": "Oversubscription occurs when applications exceed the number of shares offered; undersubscription occurs when applications are fewer. Here, the numbers are equal, so the issue is fully subscribed. The number of applications does not establish whether shares were issued at a premium."
+  },
+  {
+    "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+    "key": "A",
+    "explanation": "The residual profit is transferred by debiting the Profit and Loss Appropriation Account and crediting the partners’ accounts in their profit-sharing proportions. Since the partners share equally, each receives ₹60,000. Under the fixed capital method, this credit is recorded in each partner’s Current Account, not Capital Account."
+  },
+  {
+    "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+    "key": "B",
+    "explanation": "An amount called but not received is unpaid calls, also called calls in arrears. An amount paid in excess of what is due on allotment or calls is calls in advance, for which a separate account is maintained. The premium on shares is credited to Securities Premium Reserve. Uncalled capital reserved to be called only on winding up is reserve capital. Thus, the matching is (A)–(III), (B)–(I), (C)–(IV), (D)–(II)."
+  }
+]

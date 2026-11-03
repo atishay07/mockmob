@@ -1,0 +1,948 @@
+{
+  "schema": "cbse-sqp-objective-candidate-questions-2025-26-v2",
+  "version": "v2",
+  "candidate_question_count": 32,
+  "subject_counts": {
+    "accountancy": 8,
+    "business_studies": 8,
+    "economics": 8,
+    "english_core": 8
+  },
+  "answers_removed": true,
+  "source_type": "CBSE Class XII 2025-26 sample-paper-derived candidates; not CUET PYQs",
+  "status": "construction_candidates_only; targeted repairs disclosed; changed items await independent answer-blind re-solve; all32 remain in denominator",
+  "not_release_eligible": true,
+  "source_correlation": "Eight roots per subject from one 2025-26 CBSE SQP family per subject; this adds four paper families to the separate 2026-27 four-family collection. Within-subject concepts and English passage questions remain correlated.",
+  "rights_note": "Private research custody. Source PDFs remain unmodified and private. This fixture contains selected/transcribed question material and disclosed paraphrases; do not redistribute the full source papers or mark this as a CUET PYQ bank.",
+  "stimuli": [
+    {
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "source_locator": "printed pages 1-2, Q1 literary passage (448 words)",
+      "adaptation": "Private paraphrase for a concise candidate stimulus; one unsupported added claim about Pip’s local knowledge/ability to escape was removed. Question meanings and answer support must be rederived from this version. Not the original CBSE passage.",
+      "word_count": 77,
+      "text": "At dusk, Pip is alone in a marsh churchyard near the sea. A rough, frightened-looking man with an iron on his leg seizes him and turns him so Pip must look up helplessly. The man asks about a file and food, then orders Pip to bring both the next morning. Pip is cold, wet, shaking and afraid. The man demands, ‘Tell us your name! Quick! Give it mouth!’ He warns, ‘Keep still, or I’ll make you pay!’"
+    },
+    {
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "source_locator": "printed pages 4-5, Q2 informational passage (348 words)",
+      "adaptation": "Private paraphrase shortened for reading-length fit; question meanings and answer support must be rederived from this version. Not the original CBSE passage.",
+      "word_count": 97,
+      "text": "A survey of 2,000 college students and young professionals examined career aspirations and the influences behind them. Participants represented different genders, economic backgrounds, education levels and career stages so the findings would reflect a broad range of views. Respondents considered corporate jobs, public-service careers, start-ups and family businesses. Corporate work appealed to those seeking stability and structured growth; start-ups and family businesses attracted people valuing autonomy. Preferences varied by region. Participants also reported difficulty finding experienced people to guide career choices. The researchers suggested that later studies could examine gender, emerging industries and technology’s effects on work."
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_fluctuating_capital",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "1-OR",
+      "paper_page": 1,
+      "question": "Assertion (A): A Fluctuating Capital Account can show a debit balance. Reason (R): Losses and drawings can be more than the capital balance. Choose the correct option.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both A and R are correct, and R is the correct explanation of A."
+        },
+        {
+          "label": "B",
+          "text": "Both A and R are correct, but R is not the correct explanation of A."
+        },
+        {
+          "label": "C",
+          "text": "A is correct, but R is incorrect."
+        },
+        {
+          "label": "D",
+          "text": "Both A and R are incorrect."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_guarantee",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "2",
+      "paper_page": 1,
+      "question": "On 1 July 2024, A, B and C entered a partnership sharing profits and losses 5:3:2. C was guaranteed at least ₹60,000 p.a.; any deficiency was to be borne equally by A and B. The firm incurred a loss of ₹1,25,000 for the year ended 31 March 2025. How much deficiency will A and B bear?",
+      "options": [
+        {
+          "label": "A",
+          "text": "A ₹30,000 and B ₹30,000"
+        },
+        {
+          "label": "B",
+          "text": "A ₹43,750 and B ₹26,250"
+        },
+        {
+          "label": "C",
+          "text": "A ₹42,500 and B ₹42,500"
+        },
+        {
+          "label": "D",
+          "text": "A ₹35,000 and B ₹35,000"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_forfeiture_reissue",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "3",
+      "paper_page": 2,
+      "question": "Pali Limited offered 2,00,000 shares of ₹10 each at a premium of ₹2 per share. Applications were received for 1,95,000 shares, which were duly allotted. The amount was payable as ₹3 on application (including ₹1 premium), ₹6 on allotment (including ₹1 premium), and the balance on call. Manoj, holding 6,000 shares, failed to pay allotment money and his shares were immediately forfeited. Out of the forfeited shares, 4,000 shares were re-issued at ₹11 per share as fully paid up. What is the amount of Capital Reserve?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹16,000"
+        },
+        {
+          "label": "B",
+          "text": "₹12,000"
+        },
+        {
+          "label": "C",
+          "text": "₹8,000"
+        },
+        {
+          "label": "D",
+          "text": "₹18,000"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Restored the one omitted payment-schedule detail from the original question paper; options retained as transcribed. CBSE SQP-derived, not a CUET PYQ."
+    },
+    {
+      "item_id": "cbse25-26-acc-q6",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_goodwill_superprofit",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "6",
+      "paper_page": 2,
+      "question": "Jai and Veeru shared profits 5:3, had capitals ₹10,00,000 and ₹8,00,000, and reserves ₹7,00,000. Normal return was 10%. Average profit was ₹2,30,000 after adjusting a machinery fire loss of ₹2,00,000 against an admitted insurance claim of ₹1,50,000. Find goodwill by capitalisation of super profits.",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹10,00,000"
+        },
+        {
+          "label": "B",
+          "text": "₹3,00,000"
+        },
+        {
+          "label": "C",
+          "text": "₹18,00,000"
+        },
+        {
+          "label": "D",
+          "text": "Nil"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_change_in_ratio",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "8",
+      "paper_page": 2,
+      "question": "A, B and C shared profits 7:2:1. B died. A took over 1/20 of B’s share and C took over the remainder. Find the new profit-sharing ratio.",
+      "options": [
+        {
+          "label": "A",
+          "text": "4:1"
+        },
+        {
+          "label": "B",
+          "text": "7:1"
+        },
+        {
+          "label": "C",
+          "text": "71:29"
+        },
+        {
+          "label": "D",
+          "text": "3:1"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_dissolution_expenses",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "9",
+      "paper_page": 3,
+      "question": "X, a partner, was assigned the dissolution process and allowed remuneration of ₹15,000. Actual realisation expenses of ₹20,000 were paid by partner Y. By how much is the Realisation Account debited?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹20,000"
+        },
+        {
+          "label": "B",
+          "text": "₹35,000"
+        },
+        {
+          "label": "C",
+          "text": "₹5,000"
+        },
+        {
+          "label": "D",
+          "text": "₹15,000"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_debenture_redemption",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "14",
+      "paper_page": 3,
+      "question": "Floater Ltd. issued 60,000 debentures of ₹100 each at a 5% discount, redeemable at a 10% premium after five years. What balance will the Premium on Redemption of Debentures account have and how is it treated in the first year?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹9,00,000; Non-Current Liabilities"
+        },
+        {
+          "label": "B",
+          "text": "₹9,00,000; Current Liabilities"
+        },
+        {
+          "label": "C",
+          "text": "₹6,00,000; Non-Current Liabilities"
+        },
+        {
+          "label": "D",
+          "text": "₹6,00,000; Current Liabilities"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "subject": "accountancy",
+      "topic_family": "partnership_accounts_reserve_claim",
+      "source_id": "cbse-2025-26-accountancy-sqp",
+      "question_no": "16",
+      "paper_page": 4,
+      "question": "John and Sourabh shared profits equally and decided to share future profits 3:2. A manager’s workmen compensation claim was ₹50,000 and the firm had a Workmen Compensation Reserve of ₹80,000. Which treatment is correct on reconstitution?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the old ratio."
+        },
+        {
+          "label": "B",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the new ratio."
+        },
+        {
+          "label": "C",
+          "text": "Provide ₹50,000 claim from the reserve and credit the remaining ₹30,000 to Revaluation Account."
+        },
+        {
+          "label": "D",
+          "text": "Provide ₹50,000 claim from the reserve and carry the remaining ₹30,000 forward without treatment."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "subject": "business_studies",
+      "topic_family": "management_continuous_process",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "1",
+      "paper_page": 1,
+      "question": "Project managers set targets and strategies, assign roles, motivate team members, celebrate achievements and take feedback. Various functions are performed simultaneously by all managers all the time. Which characteristic of management is illustrated?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Management is a dynamic function"
+        },
+        {
+          "label": "B",
+          "text": "Management is a continuous process"
+        },
+        {
+          "label": "C",
+          "text": "Management is an intangible force"
+        },
+        {
+          "label": "D",
+          "text": "Management is goal oriented"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "subject": "business_studies",
+      "topic_family": "principles_of_management_fayol",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "2",
+      "paper_page": 2,
+      "question": "Henri Fayol’s principle of discipline, emphasizing obedience to organisational rules and employment agreements, is evolved out of managers’ experience and collective wisdom. Which nature of principles of management is reflected?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Universal applicability"
+        },
+        {
+          "label": "B",
+          "text": "Flexible"
+        },
+        {
+          "label": "C",
+          "text": "Mainly behavioral"
+        },
+        {
+          "label": "D",
+          "text": "Formed by practice and experimentation"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q3",
+      "subject": "business_studies",
+      "topic_family": "motivation_maslow",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "3",
+      "paper_page": 2,
+      "question": "Assertion: Maslow’s need hierarchy theory of motivation is widely recognised and appreciated yet criticised. Reason: Although it focuses on needs as a basis of motivation and helps explain motivation, its propositions are questioned on their classification and hierarchy. Choose the correct alternative.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both Assertion and Reason are true."
+        },
+        {
+          "label": "B",
+          "text": "Both Assertion and Reason are false."
+        },
+        {
+          "label": "C",
+          "text": "Both are true, but Reason is not the correct explanation of Assertion."
+        },
+        {
+          "label": "D",
+          "text": "Both are true, and Reason is the correct explanation of Assertion."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "subject": "business_studies",
+      "topic_family": "staffing_compensation",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "5",
+      "paper_page": 3,
+      "question": "Manu Priya receives an annual salary of ₹8 lakh and is offered company shares at a set price below their market price. Which method is used to calculate her compensation?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Time-based direct financial payment"
+        },
+        {
+          "label": "B",
+          "text": "Indirect financial payment"
+        },
+        {
+          "label": "C",
+          "text": "Time-based pay plus incentives"
+        },
+        {
+          "label": "D",
+          "text": "Performance-based direct financial payment"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "subject": "business_studies",
+      "topic_family": "marketing_mix_product",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "7",
+      "paper_page": 4,
+      "question": "Which element of the marketing mix includes deciding the features, quality, packaging, labelling and branding of goods or services offered for sale?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Promotion"
+        },
+        {
+          "label": "B",
+          "text": "Place"
+        },
+        {
+          "label": "C",
+          "text": "Product"
+        },
+        {
+          "label": "D",
+          "text": "Price"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "subject": "business_studies",
+      "topic_family": "communication_process_sequence",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "10",
+      "paper_page": 6,
+      "question": "Arrange the communication-process elements in the correct sequence: (i) Media; (ii) Message; (iii) Sender; (iv) Decoding; (v) Receiver; (vi) Feedback; (vii) Encoding.",
+      "options": [
+        {
+          "label": "A",
+          "text": "iii, i, vii, ii, v, iv, vi"
+        },
+        {
+          "label": "B",
+          "text": "iii, ii, vii, i, v, iv, vi"
+        },
+        {
+          "label": "C",
+          "text": "ii, iii, vii, vi, iv, v, i"
+        },
+        {
+          "label": "D",
+          "text": "ii, i, vii, iii, v, iv, vi"
+        }
+      ],
+      "source_status": "CBSE_SQP_stem_with_one_disclosed_option_adaptation_not_CUET_PYQ",
+      "construction_note": "One answer choice was corrected as an explicitly disclosed construction adaptation because none of the printed choices represents the communication sequence supported by the current NCERT text. The stem is from the CBSE SQP; the adapted option is not the original CBSE choice and does not inherit its key."
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "subject": "business_studies",
+      "topic_family": "planning_dynamic_environment",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "14",
+      "paper_page": 8,
+      "question": "Mr Gun Amroha, the General Manager of Welworth Textiles, scans the business environment and adapts the organisation to changes taking place in different dimensions of the business environment. However, it is still difficult for him to accurately assess future trends. Identify the limitation of planning related to the above.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Planning leads to rigidity."
+        },
+        {
+          "label": "B",
+          "text": "Planning may not work in a dynamic environment."
+        },
+        {
+          "label": "C",
+          "text": "Planning does not guarantee success."
+        },
+        {
+          "label": "D",
+          "text": "Planning reduces creativity."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Replaced the generic, incorrect v1 transcription with the original scenario and exact option wording from the CBSE SQP. CBSE SQP-derived, not a CUET PYQ."
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "subject": "business_studies",
+      "topic_family": "staffing_training_development",
+      "source_id": "cbse-2025-26-business-studies-sqp",
+      "question_no": "15",
+      "paper_page": 8,
+      "question": "Which staffing step offers career advancement by facilitating employee learning and helps attract and retain talented people?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Placement and orientation"
+        },
+        {
+          "label": "B",
+          "text": "Recruitment"
+        },
+        {
+          "label": "C",
+          "text": "Training and development"
+        },
+        {
+          "label": "D",
+          "text": "Performance appraisal"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "subject": "economics",
+      "topic_family": "macro_consumption_saving_break_even",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "1-VI",
+      "paper_page": 1,
+      "question": "For candidates using the visually impaired alternative in lieu of Q1: Identify what is true at the break-even level of income.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Slope of Consumption Curve = 0"
+        },
+        {
+          "label": "B",
+          "text": "Average Propensity to Consume = 0"
+        },
+        {
+          "label": "C",
+          "text": "Slope of Saving Curve = 1"
+        },
+        {
+          "label": "D",
+          "text": "Average Propensity to Consume = 1"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "official_alternate_form": "visually_impaired_candidate_alternative"
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "subject": "economics",
+      "topic_family": "macro_national_income_gdp_deflator",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "2",
+      "paper_page": 1,
+      "question": "Real GDP is ₹173.82 lakh crore and corresponding nominal GDP is ₹295.36 lakh crore. What is the GDP deflator?",
+      "options": [
+        {
+          "label": "A",
+          "text": "295.36"
+        },
+        {
+          "label": "B",
+          "text": "58.85"
+        },
+        {
+          "label": "C",
+          "text": "169.92"
+        },
+        {
+          "label": "D",
+          "text": "173.82"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "subject": "economics",
+      "topic_family": "macro_circular_flow_factor_market",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "5-VI",
+      "paper_page": 2,
+      "question": "For candidates using the visually impaired alternative in lieu of Q5: Factor services flow from households to firms and factor payments flow from firms to households. This represents which market?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Factor"
+        },
+        {
+          "label": "B",
+          "text": "Goods"
+        },
+        {
+          "label": "C",
+          "text": "Stock"
+        },
+        {
+          "label": "D",
+          "text": "Financial"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "official_alternate_form": "visually_impaired_candidate_alternative"
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "subject": "economics",
+      "topic_family": "macro_deflationary_gap",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "6",
+      "paper_page": 2,
+      "question": "A deflationary gap is the amount by which which measure falls short of aggregate supply at full employment?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ex-ante aggregate demand"
+        },
+        {
+          "label": "B",
+          "text": "Ex-post aggregate demand"
+        },
+        {
+          "label": "C",
+          "text": "Ex-ante aggregate supply"
+        },
+        {
+          "label": "D",
+          "text": "Ex-post aggregate supply"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "subject": "economics",
+      "topic_family": "macro_final_goods",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "7",
+      "paper_page": 2,
+      "question": "Read the statements: Statement 1: Final goods do not undergo any further transformation at the hands of any producer. Statement 2: Final goods may get transformed during their consumption by the ultimate purchaser. Choose the correct option.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true."
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "subject": "economics",
+      "topic_family": "ied_reforms_financial_sector",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "18",
+      "paper_page": 5,
+      "question": "The 1991 economic reforms included measures related to mutual funds. These are classified under which reform area?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Industrial"
+        },
+        {
+          "label": "B",
+          "text": "Financial"
+        },
+        {
+          "label": "C",
+          "text": "Tax"
+        },
+        {
+          "label": "D",
+          "text": "Foreign Trade"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "subject": "economics",
+      "topic_family": "ied_indian_economy_pre_independence",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "19",
+      "paper_page": 5,
+      "question": "Which country maintained a monopoly over India’s exports and imports during British rule, while trade with a few other countries was permitted?",
+      "options": [
+        {
+          "label": "A",
+          "text": "China"
+        },
+        {
+          "label": "B",
+          "text": "Ceylon (Sri Lanka)"
+        },
+        {
+          "label": "C",
+          "text": "Britain"
+        },
+        {
+          "label": "D",
+          "text": "Persia (Iran)"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "subject": "economics",
+      "topic_family": "ied_human_capital",
+      "source_id": "cbse-2025-26-economics-sqp",
+      "question_no": "20",
+      "paper_page": 5,
+      "question": "Human capital is described as: (i) intangible in nature; (ii) imperfectly mobile; (iii) inseparable from its owner. Choose the correct option.",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i) only"
+        },
+        {
+          "label": "B",
+          "text": "(i) and (ii)"
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)"
+        },
+        {
+          "label": "D",
+          "text": "(i), (ii) and (iii)"
+        }
+      ],
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "subject": "english_core",
+      "topic_family": "reading_literary_inference",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-III",
+      "paper_page": 2,
+      "question": "The writer emphasises Pip’s vulnerability in all of the following ways EXCEPT:",
+      "options": [
+        {
+          "label": "A",
+          "text": "The harsh setting near the sea"
+        },
+        {
+          "label": "B",
+          "text": "The man’s threatening behaviour"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s helpless fear"
+        },
+        {
+          "label": "D",
+          "text": "Pip’s knowledge of the surrounding area"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "subject": "english_core",
+      "topic_family": "reading_tone_speech_act",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-IV",
+      "paper_page": 2,
+      "question": "The man’s words ‘Keep still, or I’ll make you pay!’ are best described as a:",
+      "options": [
+        {
+          "label": "A",
+          "text": "caution"
+        },
+        {
+          "label": "B",
+          "text": "threat"
+        },
+        {
+          "label": "C",
+          "text": "prediction"
+        },
+        {
+          "label": "D",
+          "text": "announcement"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-VI",
+      "paper_page": 3,
+      "question": "In the man’s demand, ‘Give it mouth!’, what does he want Pip to do?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Speak louder"
+        },
+        {
+          "label": "B",
+          "text": "Open his mouth wide"
+        },
+        {
+          "label": "C",
+          "text": "Answer the question"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "subject": "english_core",
+      "topic_family": "reading_main_idea",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "1-X",
+      "paper_page": 3,
+      "question": "Complete the statement with the most suitable option. The main idea of the text is:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Pip’s encounter with a frightening man who demands information"
+        },
+        {
+          "label": "B",
+          "text": "the harshness of Pip’s environment and the fear it creates"
+        },
+        {
+          "label": "C",
+          "text": "Pip’s struggle to understand the man’s intentions and stay calm"
+        },
+        {
+          "label": "D",
+          "text": "the importance of family relationships in Pip’s life"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage1-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "construction_note": "Question/options retained; shared adapted passage revised once to remove an unsupported assertion. Fresh blind solve required because stimulus changed."
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "subject": "english_core",
+      "topic_family": "reading_purpose_and_scope",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "2-I",
+      "paper_page": 5,
+      "question": "What was the main purpose of the survey conducted among 2,000 college students and young professionals?",
+      "options": [
+        {
+          "label": "A",
+          "text": "To compare job popularity in rural and urban areas"
+        },
+        {
+          "label": "B",
+          "text": "To explore career aspirations and the factors influencing them"
+        },
+        {
+          "label": "C",
+          "text": "To analyse the success rate of start-ups and family businesses"
+        },
+        {
+          "label": "D",
+          "text": "To assess salary expectations of young professionals"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-II",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "2-II",
+      "paper_page": 5,
+      "question": "The study included varied participant backgrounds so its findings would be ________. Choose the best word.",
+      "options": [
+        {
+          "label": "A",
+          "text": "accurate"
+        },
+        {
+          "label": "B",
+          "text": "representative"
+        },
+        {
+          "label": "C",
+          "text": "specific"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ",
+      "option_labels_normalized_by_custody": true
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "subject": "english_core",
+      "topic_family": "reading_vocabulary_in_context",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "2-VI",
+      "paper_page": 6,
+      "question": "In the passage, ‘limited mentorship opportunities’ means:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Lack of money to hire mentors"
+        },
+        {
+          "label": "B",
+          "text": "Absence of training programmes in semi-urban areas"
+        },
+        {
+          "label": "C",
+          "text": "Reluctance to seek advice from strangers"
+        },
+        {
+          "label": "D",
+          "text": "Difficulty finding experienced professionals to guide career paths"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VIII",
+      "subject": "english_core",
+      "topic_family": "reading_scope_and_exclusion",
+      "source_id": "cbse-2025-26-english-core-sqp",
+      "question_no": "2-VIII",
+      "paper_page": 6,
+      "question": "Which topic is NOT addressed in the study as described?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The survey’s purpose"
+        },
+        {
+          "label": "B",
+          "text": "The impact of gender on career preferences"
+        },
+        {
+          "label": "C",
+          "text": "Regional and demographic variations"
+        },
+        {
+          "label": "D",
+          "text": "Challenges reported by respondents"
+        },
+        {
+          "label": "E",
+          "text": "The methodology used for data collection"
+        }
+      ],
+      "stimulus_id": "cbse25-26-eng-passage2-adapted",
+      "source_status": "CBSE_sample_paper_candidate_not_CUET_PYQ"
+    }
+  ],
+  "construction_repairs": "At most one targeted construction repair per affected item. One shared stimulus repair affects four English items. One option repair to BS Q10 is a disclosed adaptation because no original option is textbook-correct."
+}

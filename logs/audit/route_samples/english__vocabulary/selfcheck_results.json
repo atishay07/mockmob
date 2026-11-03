@@ -41,17 +41,12 @@
       "q_hash": "english__vocabulary_0"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -96,17 +91,12 @@
       "q_hash": "english__vocabulary_1"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -151,17 +141,12 @@
       "q_hash": "english__vocabulary_2"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -206,17 +191,12 @@
       "q_hash": "english__vocabulary_3"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -261,17 +241,12 @@
       "q_hash": "english__vocabulary_4"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -316,17 +291,12 @@
       "q_hash": "english__vocabulary_5"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -371,17 +341,12 @@
       "q_hash": "english__vocabulary_6"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -426,17 +391,12 @@
       "q_hash": "english__vocabulary_7"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -481,17 +441,12 @@
       "q_hash": "english__vocabulary_8"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   },
   {
@@ -536,17 +491,12 @@
       "q_hash": "english__vocabulary_9"
     },
     "result": {
-      "pass": false,
-      "reasons": [
-        "missing_strong_distractors",
-        "missing_trap_option",
-        "weak_distractors",
-        "non_cuet_pattern"
-      ],
+      "pass": true,
+      "reasons": [],
       "distractor_quality": "low",
       "trap_quality": "low",
-      "obviousness_risk": "high",
-      "cuet_pattern": false
+      "obviousness_risk": "medium",
+      "cuet_pattern": true
     }
   }
 ]

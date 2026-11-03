@@ -1,0 +1,2415 @@
+{
+  "benchmark_id": "fresh-full-v5-2026-10-08",
+  "scope": "valid_roots_only",
+  "contains_answers": false,
+  "contains_explanations": false,
+  "contains_labels": false,
+  "items": [
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-1",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "Which description is supported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Two or more persons establish a business and share profits"
+        },
+        {
+          "key": "B",
+          "text": "A company issues shares to creditors"
+        },
+        {
+          "key": "C",
+          "text": "One person operates a corporation"
+        },
+        {
+          "key": "D",
+          "text": "Partners receive a fixed dividend"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-2",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "The deed is silent; a partner loan is ₹20,000 for one full year. Using the stated default rate, interest due is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,200"
+        },
+        {
+          "key": "B",
+          "text": "₹2,000"
+        },
+        {
+          "key": "C",
+          "text": "₹2,400"
+        },
+        {
+          "key": "D",
+          "text": "₹12,000"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-3",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "Match: (A) multiple persons (B) business (C) profit.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A—partners; B—establish; C—share"
+        },
+        {
+          "key": "B",
+          "text": "A—creditors; B—lend; C—interest"
+        },
+        {
+          "key": "C",
+          "text": "A—directors; B—issue; C—capital"
+        },
+        {
+          "key": "D",
+          "text": "A—one owner; B—public issue; C—dividend"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-partnership-fundamentals-4",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "(1) The excerpt describes two or more persons. (2) It includes sharing profits. Which are supported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both 1 and 2"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-1",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "body": "From whom does an incoming partner acquire a profit share?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The old partners"
+        },
+        {
+          "key": "B",
+          "text": "The creditors"
+        },
+        {
+          "key": "C",
+          "text": "The registrar"
+        },
+        {
+          "key": "D",
+          "text": "The customers"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-2",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "body": "A and B share 3:2. A newcomer receives 1/5 from them in their old ratio. Their respective sacrifices are:",
+      "options": [
+        {
+          "key": "A",
+          "text": "3/25 and 2/25"
+        },
+        {
+          "key": "B",
+          "text": "1/5 and 1/5"
+        },
+        {
+          "key": "C",
+          "text": "2/25 and 3/25"
+        },
+        {
+          "key": "D",
+          "text": "3/5 and 2/5"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-3",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "body": "Match admission with its stated effect.",
+      "options": [
+        {
+          "key": "A",
+          "text": "A—old partners gain; share—from creditors"
+        },
+        {
+          "key": "B",
+          "text": "A—new partner joins; share—from old partners"
+        },
+        {
+          "key": "C",
+          "text": "A—firm dissolves; share—from customers"
+        },
+        {
+          "key": "D",
+          "text": "A—shares issue; share—from reserves"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-change-in-profit-sharing-ratio-4",
+      "subject": "accountancy",
+      "chapter": "Change in Profit Sharing Ratio",
+      "body": "(1) The new share comes from existing partners. (2) Existing partners sacrifice a share for the newcomer.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both 1 and 2"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac102",
+          "version": 1,
+          "locator": "span-72d2f4711e2e",
+          "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-1",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "Which defines authorised capital?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Capital authorised for issue by the Memorandum"
+        },
+        {
+          "key": "B",
+          "text": "Capital actually received on calls"
+        },
+        {
+          "key": "C",
+          "text": "Money refunded to applicants"
+        },
+        {
+          "key": "D",
+          "text": "Profit transferred to reserve"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-2",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "Authorised capital is ₹12 lakh and ₹9 lakh has been issued. Maximum additional issue without changing it?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1 lakh"
+        },
+        {
+          "key": "B",
+          "text": "₹2 lakh"
+        },
+        {
+          "key": "C",
+          "text": "₹3 lakh"
+        },
+        {
+          "key": "D",
+          "text": "₹21 lakh"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-3",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "Match the term with the evidence: authorised capital.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Amount paid up"
+        },
+        {
+          "key": "B",
+          "text": "Maximum authorised issue specified by Memorandum"
+        },
+        {
+          "key": "C",
+          "text": "Bank balance"
+        },
+        {
+          "key": "D",
+          "text": "Unissued profit"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-share-capital-4",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "(1) A company may raise more than the amount in its Memorandum. (2) Authorised capital concerns the amount it may issue.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "6a573f2884f68e3a810daf5107d4fb0c8789649f1ebd2eb40b3c0e77518064de"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-1",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "body": "The example converts receivables turnover into which measure?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Average collection period"
+        },
+        {
+          "key": "B",
+          "text": "Current ratio"
+        },
+        {
+          "key": "C",
+          "text": "Debt-equity ratio"
+        },
+        {
+          "key": "D",
+          "text": "Inventory value"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-2",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "body": "Trade receivables turnover is 5 times. Using the cited 365-day convention, collection period is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "5 days"
+        },
+        {
+          "key": "B",
+          "text": "73 days"
+        },
+        {
+          "key": "C",
+          "text": "365 days"
+        },
+        {
+          "key": "D",
+          "text": "1,825 days"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-3",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "body": "Match 365 ÷ trade receivables turnover ratio to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Average collection period"
+        },
+        {
+          "key": "B",
+          "text": "Gross profit ratio"
+        },
+        {
+          "key": "C",
+          "text": "Working capital"
+        },
+        {
+          "key": "D",
+          "text": "Current assets"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-accountancy-accounting-ratios-4",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "body": "(1) At turnover 10, the formula gives 36.5 days. (2) The formula multiplies 365 by turnover.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leac205",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-1",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A one-time event unlikely to recur uses a:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Single-use plan"
+        },
+        {
+          "key": "B",
+          "text": "Standing plan"
+        },
+        {
+          "key": "C",
+          "text": "Organisation chart"
+        },
+        {
+          "key": "D",
+          "text": "Chain of command"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-2",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "A college plans one seminar on one day. Which plan type fits the cited example?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Single-use plan"
+        },
+        {
+          "key": "B",
+          "text": "Standing plan"
+        },
+        {
+          "key": "C",
+          "text": "Permanent structure"
+        },
+        {
+          "key": "D",
+          "text": "No plan"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "case_application",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-3",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "Match single-use plan with its use.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Repeated routine"
+        },
+        {
+          "key": "B",
+          "text": "One-time non-recurring event or project"
+        },
+        {
+          "key": "C",
+          "text": "Permanent authority relationship"
+        },
+        {
+          "key": "D",
+          "text": "Daily supervision"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-planning-4",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "(1) A one-time seminar may use a single-use plan. (2) Such plans are expected to recur routinely.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs104-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "beff4d77932f1c157186de42734078f7ba6ab0c14328a56d5edf5fa76b5bf27b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-1",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Which is part of the source definition of organising?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Grouping activities and establishing authority relationships"
+        },
+        {
+          "key": "B",
+          "text": "Issuing currency"
+        },
+        {
+          "key": "C",
+          "text": "Preparing a cash flow statement"
+        },
+        {
+          "key": "D",
+          "text": "Setting exchange rates"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-2",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "How many steps are listed in the cited process?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Two"
+        },
+        {
+          "key": "B",
+          "text": "Three"
+        },
+        {
+          "key": "C",
+          "text": "Four"
+        },
+        {
+          "key": "D",
+          "text": "Five"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "counting_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-3",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "Departmentalisation and assignment of duties occur in which positions?",
+      "options": [
+        {
+          "key": "A",
+          "text": "1st and 2nd"
+        },
+        {
+          "key": "B",
+          "text": "2nd and 3rd"
+        },
+        {
+          "key": "C",
+          "text": "3rd and 4th"
+        },
+        {
+          "key": "D",
+          "text": "4th and 1st"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-organising-4",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "After identification and division of work, select the remaining order.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Duties → departmentalisation → reporting"
+        },
+        {
+          "key": "B",
+          "text": "Departmentalisation → duties → reporting"
+        },
+        {
+          "key": "C",
+          "text": "Reporting → duties → departmentalisation"
+        },
+        {
+          "key": "D",
+          "text": "Departmentalisation → reporting → duties"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "ordering_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs105",
+          "version": 1,
+          "locator": "pdf-page-27",
+          "support_hash": "ee412666e935a962e275ce287cee3ab2fef58205fb515e6344e43876f3c8b288"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-1",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "body": "Which description best matches directing?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Instructing, guiding, counselling, motivating and leading toward objectives"
+        },
+        {
+          "key": "B",
+          "text": "Only recording transactions"
+        },
+        {
+          "key": "C",
+          "text": "Only issuing shares"
+        },
+        {
+          "key": "D",
+          "text": "Classifying receipts"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-2",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "body": "How many action words are listed in the first description?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Three"
+        },
+        {
+          "key": "B",
+          "text": "Four"
+        },
+        {
+          "key": "C",
+          "text": "Five"
+        },
+        {
+          "key": "D",
+          "text": "Six"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "counting_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-3",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "body": "Match: directing is more than communication; directing links to:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Organisational objectives"
+        },
+        {
+          "key": "B",
+          "text": "Only bank deposits"
+        },
+        {
+          "key": "C",
+          "text": "Share forfeiture"
+        },
+        {
+          "key": "D",
+          "text": "Foreign trade"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-directing-4",
+      "subject": "business_studies",
+      "chapter": "Directing",
+      "body": "(1) Motivation and leadership are included. (2) Directing is limited to communication alone.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs107",
+          "version": 1,
+          "locator": "normative-a72a9103340a296e",
+          "support_hash": "a72a9103340a296ed5d25b6b0ec099eba170354ea50b3a0035094d5c51a5edf9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-1",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "Which element covers making products available to target customers?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Place"
+        },
+        {
+          "key": "B",
+          "text": "Product"
+        },
+        {
+          "key": "C",
+          "text": "Promotion"
+        },
+        {
+          "key": "D",
+          "text": "Packaging"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-2",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "A firm selects 3 dealers in each of 4 regions. How many dealer-region placements?",
+      "options": [
+        {
+          "key": "A",
+          "text": "7"
+        },
+        {
+          "key": "B",
+          "text": "12"
+        },
+        {
+          "key": "C",
+          "text": "16"
+        },
+        {
+          "key": "D",
+          "text": "34"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-3",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "Selecting intermediaries to reach buyers is a decision about:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Place"
+        },
+        {
+          "key": "B",
+          "text": "Promotion"
+        },
+        {
+          "key": "C",
+          "text": "Product"
+        },
+        {
+          "key": "D",
+          "text": "Price"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-business_studies-marketing-management-4",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "(1) Place decisions can include selecting dealers. (2) The excerpt defines place as setting price.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-lebs202",
+          "version": 1,
+          "locator": "pdf-page-15",
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-1",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "Which pair comprises money in the excerpt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Cash and bank deposits"
+        },
+        {
+          "key": "B",
+          "text": "Shares and debentures"
+        },
+        {
+          "key": "C",
+          "text": "Taxes and subsidies"
+        },
+        {
+          "key": "D",
+          "text": "Exports and imports"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-2",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "A household holds ₹4,000 cash and ₹6,000 in deposits. Total under the excerpt’s description?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹2,000"
+        },
+        {
+          "key": "B",
+          "text": "₹6,000"
+        },
+        {
+          "key": "C",
+          "text": "₹10,000"
+        },
+        {
+          "key": "D",
+          "text": "₹24,000"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-3",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "Which institutions are named in the money-creation system?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Central bank and commercial banking system"
+        },
+        {
+          "key": "B",
+          "text": "Only firms"
+        },
+        {
+          "key": "C",
+          "text": "Only households"
+        },
+        {
+          "key": "D",
+          "text": "Stock exchange and insurers"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-money-banking-4",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "(1) Deposits are included in money. (2) The described system includes commercial banks.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-1",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "What does the cited table’s last column measure?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Output increments of final goods and hence income each round"
+        },
+        {
+          "key": "B",
+          "text": "Only tax receipts"
+        },
+        {
+          "key": "C",
+          "text": "Only imports"
+        },
+        {
+          "key": "D",
+          "text": "Currency stock"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-2",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "In a two-sector model MPC is 0.8. Using k = 1/(1−MPC), k equals:",
+      "options": [
+        {
+          "key": "A",
+          "text": "2"
+        },
+        {
+          "key": "B",
+          "text": "4"
+        },
+        {
+          "key": "C",
+          "text": "5"
+        },
+        {
+          "key": "D",
+          "text": "8"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-3",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "Match the source’s relationship: final-goods output increment and income increment.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Equal in value in the stated account"
+        },
+        {
+          "key": "B",
+          "text": "Unrelated"
+        },
+        {
+          "key": "C",
+          "text": "Only imports count"
+        },
+        {
+          "key": "D",
+          "text": "Only taxes count"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-income-determination-4",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "body": "(1) The cited passage links final-goods output with income. (2) It defines the last column as tax revenue.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-1",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "How is primary deficit calculated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Fiscal deficit minus interest payments"
+        },
+        {
+          "key": "B",
+          "text": "Fiscal deficit plus interest payments"
+        },
+        {
+          "key": "C",
+          "text": "Revenue receipts minus capital receipts"
+        },
+        {
+          "key": "D",
+          "text": "Exports minus imports"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-2",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "Fiscal deficit is ₹90 crore and interest payments are ₹25 crore. Primary deficit?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹65 crore"
+        },
+        {
+          "key": "B",
+          "text": "₹90 crore"
+        },
+        {
+          "key": "C",
+          "text": "₹115 crore"
+        },
+        {
+          "key": "D",
+          "text": "₹3,600 crore"
+        }
+      ],
+      "route": "numerical",
+      "question_type": "numerical_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-3",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "The stated focus of primary deficit is:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Present fiscal imbalances"
+        },
+        {
+          "key": "B",
+          "text": "Dealer selection"
+        },
+        {
+          "key": "C",
+          "text": "Cash only"
+        },
+        {
+          "key": "D",
+          "text": "Exports only"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-government-budget-the-economy-4",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "(1) Interest payments are subtracted from fiscal deficit. (2) The result is primary deficit.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec105-focused-v1",
+          "version": 1,
+          "locator": "definition",
+          "support_hash": "9917a2cd03a2ec33c2bc8fcf487bb52b917b22dcb46079940523bee9cb2f73a5"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-1",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "What determines a flexible exchange rate according to the excerpt?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Market demand and supply"
+        },
+        {
+          "key": "B",
+          "text": "A fixed legal ratio only"
+        },
+        {
+          "key": "C",
+          "text": "Company share capital"
+        },
+        {
+          "key": "D",
+          "text": "Tax receipts only"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "direct_recall",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-2",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Demand for foreign currency rises while supply is unchanged. What follows from the cited principle?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The market-determined rate can change"
+        },
+        {
+          "key": "B",
+          "text": "The rate must remain fixed"
+        },
+        {
+          "key": "C",
+          "text": "The current account becomes zero"
+        },
+        {
+          "key": "D",
+          "text": "No market effect is possible"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "case_application",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-3",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Flexible exchange rate is also called:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Floating exchange rate"
+        },
+        {
+          "key": "B",
+          "text": "Primary deficit"
+        },
+        {
+          "key": "C",
+          "text": "Authorised capital"
+        },
+        {
+          "key": "D",
+          "text": "Single-use plan"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "matching",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-economics-balance-of-payments-4",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "(1) Demand and supply determine the rate. (2) Flexible rate is also called floating rate.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Only 1"
+        },
+        {
+          "key": "B",
+          "text": "Only 2"
+        },
+        {
+          "key": "C",
+          "text": "Both"
+        },
+        {
+          "key": "D",
+          "text": "Neither"
+        }
+      ],
+      "route": "conceptual",
+      "question_type": "statement_mcq",
+      "difficulty": "medium",
+      "passage_text": "",
+      "source_refs": [
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-1",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Which measure did the library use?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Late returns per one hundred loans"
+        },
+        {
+          "key": "B",
+          "text": "Raw readers"
+        },
+        {
+          "key": "C",
+          "text": "Staff per branch"
+        },
+        {
+          "key": "D",
+          "text": "Reminders printed"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_direct",
+      "difficulty": "medium",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-2",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Which result is supported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Both branches had fewer late returns per hundred loans at the end"
+        },
+        {
+          "key": "B",
+          "text": "Only exit notice improved"
+        },
+        {
+          "key": "C",
+          "text": "Branches served equal readers"
+        },
+        {
+          "key": "D",
+          "text": "Readers were randomly assigned"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_statement",
+      "difficulty": "medium",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-3",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Why avoid raw totals?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Branches served different reader counts"
+        },
+        {
+          "key": "B",
+          "text": "No late returns were recorded"
+        },
+        {
+          "key": "C",
+          "text": "One branch had no loans"
+        },
+        {
+          "key": "D",
+          "text": "Trial lasted one day"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_inference",
+      "difficulty": "medium",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-1-4",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Which limitation was reported?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Readers were not randomly assigned"
+        },
+        {
+          "key": "B",
+          "text": "No returns were recorded"
+        },
+        {
+          "key": "C",
+          "text": "No comparison measure was used"
+        },
+        {
+          "key": "D",
+          "text": "Only one method was tested"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_detail",
+      "difficulty": "medium",
+      "passage_text": "A district library tested two ways to remind readers about book returns. At one branch, a notice was placed beside the exit. At another, readers received a printed reminder at checkout. Over four weeks, staff recorded late returns, but the branches served different numbers of readers. The library compared late returns per one hundred loans rather than raw totals. The exit-notice branch moved from 14 to 10 late returns per hundred loans; the checkout-reminder branch moved from 12 to 9. The staff report described a decline at both sites and noted that readers were not randomly assigned to branches.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-1",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "581a20ad80b452dbc68538ab13eaf48cd8fee6d8e656e2fc449372083f54efcd"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-1",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What remained on while the speaker was silent?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Indicator light"
+        },
+        {
+          "key": "B",
+          "text": "Notebook"
+        },
+        {
+          "key": "C",
+          "text": "Volume control"
+        },
+        {
+          "key": "D",
+          "text": "School bell"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_detail",
+      "difficulty": "medium",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-2",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What was the order of checks?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Power lead, volume control, speaker wire"
+        },
+        {
+          "key": "B",
+          "text": "Speaker wire, power lead, volume control"
+        },
+        {
+          "key": "C",
+          "text": "Volume control, speaker wire, power lead"
+        },
+        {
+          "key": "D",
+          "text": "Power lead, speaker wire, volume control"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_order",
+      "difficulty": "medium",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-3",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Why record the sequence?",
+      "options": [
+        {
+          "key": "A",
+          "text": "So the next student could repeat checks"
+        },
+        {
+          "key": "B",
+          "text": "To record the radio price"
+        },
+        {
+          "key": "C",
+          "text": "To replace the technician"
+        },
+        {
+          "key": "D",
+          "text": "To show repair was impossible"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_inference",
+      "difficulty": "medium",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-2-4",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What does “leave behind” refer to?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The notebook entry"
+        },
+        {
+          "key": "B",
+          "text": "The broken radio"
+        },
+        {
+          "key": "C",
+          "text": "The loose wire"
+        },
+        {
+          "key": "D",
+          "text": "A room key"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_vocabulary_in_context",
+      "difficulty": "medium",
+      "passage_text": "When the school radio stopped working, Kavya carried it to the repair room. She noted that the indicator light remained on while the speaker was silent. The technician asked her to test one connection at a time: first the power lead, then the volume control, and finally the speaker wire. The loose speaker wire was the cause. Kavya tightened it and tested the radio again. She added the sequence to the room’s repair notebook so the next student could repeat the checks. The radio worked, but the notebook became the part she was most pleased to leave behind.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-2",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "6057d0336ebabec2a21e7565fa7eb36e76217c29f71966f13ea5092ef739cb75"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-1",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Where was the chair first placed?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Beneath the neem tree"
+        },
+        {
+          "key": "B",
+          "text": "In the corridor"
+        },
+        {
+          "key": "C",
+          "text": "By the cups"
+        },
+        {
+          "key": "D",
+          "text": "At the gate"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_detail",
+      "difficulty": "medium",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-2",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "What does “voices had travelled indoors” mean?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The gathering continued inside"
+        },
+        {
+          "key": "B",
+          "text": "The song stopped"
+        },
+        {
+          "key": "C",
+          "text": "The chairs disappeared"
+        },
+        {
+          "key": "D",
+          "text": "The tree moved indoors"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_inference",
+      "difficulty": "medium",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-3",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "Select the reported sequence.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Chair outside; wind lifts leaves; chair inside; child follows song"
+        },
+        {
+          "key": "B",
+          "text": "Child follows song; chair outside; cups removed"
+        },
+        {
+          "key": "C",
+          "text": "Wind lifts leaves; song stops; child leaves"
+        },
+        {
+          "key": "D",
+          "text": "Invitation folded; tree moved; gathering begins"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_order",
+      "difficulty": "medium",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-3-4",
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "body": "“Threaded with the clink of cups” suggests:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Song and cup sounds were heard together"
+        },
+        {
+          "key": "B",
+          "text": "Cups were made of thread"
+        },
+        {
+          "key": "C",
+          "text": "Song was replaced by silence"
+        },
+        {
+          "key": "D",
+          "text": "Child was outside"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_vocabulary_in_context",
+      "difficulty": "medium",
+      "passage_text": "At dusk, the courtyard filled with the sound of chairs being moved. The caretaker placed one beneath the neem tree, then carried it inside when the wind lifted the first dry leaves. A child asked why the gathering had to end. He pointed to the open windows: the voices had not vanished; they had travelled indoors. From the corridor came the same song, softer now, threaded with the clink of cups. The child folded the paper invitation in her pocket and followed the sound. Outside, the tree kept its quiet place in the dark.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-3",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "98dd357480d1be88f66e2f1ba5319bb05a2d0d58095036d3deef975d2c277b98"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-1",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Which label passed most checks?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Name and sowing date"
+        },
+        {
+          "key": "B",
+          "text": "Date only"
+        },
+        {
+          "key": "C",
+          "text": "Plant name only"
+        },
+        {
+          "key": "D",
+          "text": "Seed log alone"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_detail",
+      "difficulty": "medium",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another added the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-2",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "What did the group choose next?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Combined label"
+        },
+        {
+          "key": "B",
+          "text": "Date-only label"
+        },
+        {
+          "key": "C",
+          "text": "Name-only label"
+        },
+        {
+          "key": "D",
+          "text": "No labels"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_detail",
+      "difficulty": "medium",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another added the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-3",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "Which limitation did the group mention?",
+      "options": [
+        {
+          "key": "A",
+          "text": "One collection and one month"
+        },
+        {
+          "key": "B",
+          "text": "No labels tested"
+        },
+        {
+          "key": "C",
+          "text": "Several years of data"
+        },
+        {
+          "key": "D",
+          "text": "Every seed collection"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_statement",
+      "difficulty": "medium",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another added the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    },
+    {
+      "id": "fresh-v5-english-4-4",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "body": "How many more checks did the combined label pass than the name-only label?",
+      "options": [
+        {
+          "key": "A",
+          "text": "3"
+        },
+        {
+          "key": "B",
+          "text": "7"
+        },
+        {
+          "key": "C",
+          "text": "11"
+        },
+        {
+          "key": "D",
+          "text": "18"
+        }
+      ],
+      "route": "passage",
+      "question_type": "passage_numerical",
+      "difficulty": "medium",
+      "passage_text": "A student group compared three labels for its seed collection. One showed only the plant name, another added the sowing date, and a third recorded both. During the next month, members checked whether each label helped identify the correct tray without opening the seed log. The combined label succeeded in 18 of 20 checks, the date-only label in 11, and the name-only label in 15. The group cautioned that the small trial covered only its own collection and one month. It chose the combined label for the next planting cycle.",
+      "source_refs": [
+        {
+          "id": "fresh-full-v5-en-passage-4",
+          "version": 1,
+          "locator": "stimulus",
+          "support_hash": "f37a895d56b347c257b76902969d49e1de29228d2e4d83a7a7b3a4f901ede86f"
+        },
+        {
+          "id": "cuet2026-english-syllabus",
+          "version": 1,
+          "locator": "full-syllabus",
+          "support_hash": "4b33dfb10138a55381789dd1ddbe8e7fdd14e38527eb7b5c81a4e76712865496"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+
+> mockmob@0.1.0 test:recovery
+> node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs data/tests/recovery_pathway_candidate.test.mjs data/tests/session_recovery.test.mjs data/tests/practice_ticket.test.mjs
+
+✔ a full paper with large verification records fits submission while retaining the exact authenticated snapshot (37.7606ms)
+✔ existing p1 tickets remain readable and practice request identities do not change (1.1291ms)
+✔ tampering, version substitution, wrong owner, wrong secret and expiry remain rejected (26.7369ms)
+✔ snapshot and decompression bounds reject oversized data (82.875ms)
+✔ server snapshot scores answers; a correct-to-wrong change loses six marks (1.7633ms)
+✔ missing event answers cannot invent score effects (1.1274ms)
+✔ unknown questions, duplicate sequence, out-of-bounds answer and future events fail (1.6506ms)
+✔ repeats, assisted answers and same-family variants cannot demonstrate improvement (0.4471ms)
+✔ practice submission survives a clock-skewed event log but never an invalid answer (0.5954ms)
+✔ attempt provenance separates server practice, recovery sessions and browser-scored history (0.2376ms)
+✔ migration enforces owner access, atomic charge and exactly-once score/progress (5065.5599ms)
+✔ candidate passes software consistency and the committed build is current (13.76ms)
+✔ candidate is never served: manifest, release gates and claim ladder stay closed (0.3697ms)
+✔ validator catches corrupted keys, matrices, families, text and derivations (25.6104ms)
+✔ simulators reproduce the textbook cases independently of authored text (0.2085ms)
+✔ each misconception is supported by two families, routed to its repair, then checked fresh on schedule (10.3227ms)
+✔ a secure learner gets no gap label and a short path; repair activity never counts as evidence (0.4012ms)
+✔ conflicting probe evidence abstains and falls back to the general repair (0.2995ms)
+✔ repeat exposure: seen families block a start, failed checks consume families, exhaustion blocks claims (2.0036ms)
+✔ interruption: a stale or duplicated submission after progress is rejected, never double-counted (0.5214ms)
+✔ public views never expose keys, matrices, claims or future checks (0.5796ms)
+✔ shared plan explains a due check with record facts and a rule, and stays deterministic (232.9836ms)
+✔ validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes (8.085ms)
+✔ storage: retries create one episode and one allowance; corrections invalidate claims (5722.7982ms)
+✔ marks gap is exact: 6 per wrong answer, 5 per blank, and adds up to the maximum (3.1321ms)
+✔ chapters are ranked by the marks they cost, and only chapters that cost marks appear (1.5557ms)
+✔ dwell time comes from the device timeline and is credited to the active question (0.3563ms)
+✔ observations are factual: a right answer changed to wrong, fast wrong picks, and a concentrated chapter (1.2925ms)
+✔ inconsistent or missing device events never produce behaviour claims, but marks still work (0.4007ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (111.107ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (123.9236ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.8559ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (136.173ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (591.7664ms)
+✔ partial usage on a bounded non-settled hold preserves cap headroom across recovery and concurrent reservations (826.964ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (215.548ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (2.516ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (2.9316ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (2.3105ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.2779ms)
+ℹ tests 40
+ℹ suites 0
+ℹ pass 40
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6329.6474

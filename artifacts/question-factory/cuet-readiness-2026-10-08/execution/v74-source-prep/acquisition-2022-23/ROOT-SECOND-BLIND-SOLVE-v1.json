@@ -1,0 +1,134 @@
+{
+  "schema": "v74-source-construction-second-blind-solve-v1",
+  "reviewer": "Claude Sonnet subagent (independent second reviewer)",
+  "created_at": "2026-10-09T00:00:00Z",
+  "question_packet_file": "questions-blinded-v1.json",
+  "official_marking_scheme_seen": false,
+  "other_reviewer_answers_seen": false,
+  "prior_model_judgments_seen": false,
+  "web_used": false,
+  "raw_denominator": 16,
+  "items": [
+    {
+      "item_id": "v74-cbse22-acc-q27",
+      "solved_key": "C",
+      "confidence": "high",
+      "reasoning": "NCERT Financial Statements chapter names the basic assumptions (going concern, money measurement, realisation) 'postulates'. Accounting standards and the Companies Act are rules, not the underlying assumptions.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-acc-q28",
+      "solved_key": "B",
+      "confidence": "high",
+      "reasoning": "PBT = 12,00,000 x 100/60 = 20,00,000. Interest = 10% x 1,00,00,000 = 10,00,000. EBIT = 30,00,000. ICR = 30,00,000 / 10,00,000 = 3 times.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-acc-q29",
+      "solved_key": "D",
+      "confidence": "medium",
+      "reasoning": "The theft insurance claim is an extraordinary gain already in net profit, so it is deducted when adjusting net profit to operating profit. Its cash effect is received against a fixed asset, so it is shown as an investing inflow. The other options pair incoherent add-and-subtract or outflow treatments.",
+      "issues": [
+        "Option D's wording ('subtract ... and record an investing inflow') is slightly loose; the dual treatment depends on the NCERT convention for extraordinary items, which the stem does not state."
+      ]
+    },
+    {
+      "item_id": "v74-cbse22-acc-q30",
+      "solved_key": "B",
+      "confidence": "high",
+      "reasoning": "Book value of the equipment sold = opening 3,00,000 + purchases 30,000 - depreciation 40,000 - closing 2,00,000 = 90,000. Sale proceeds = 90,000 + profit 12,000 = 1,02,000.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-bs-q01",
+      "solved_key": "B",
+      "confidence": "high",
+      "reasoning": "The organising steps run: identification and division of work, departmentalisation, assignment of duties, establishing reporting relationships. Departmentalisation follows the first step.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-bs-q02",
+      "solved_key": "A",
+      "confidence": "high",
+      "reasoning": "Difficulty predicting the future because changes are too frequent is the definition of uncertainty as a feature of the business environment.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-bs-q03",
+      "solved_key": "D",
+      "confidence": "medium",
+      "reasoning": "Production/purchase/marketing/accounts/personnel is a functional structure. Of the options, only D is a listed functional-structure disadvantage (functional heads lack all-round training for top posts). C is an advantage, and A and B are NCERT's divisional-structure disadvantages.",
+      "issues": [
+        "Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost."
+      ]
+    },
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "solved_key": "A",
+      "confidence": "high",
+      "reasoning": "Increasing participation of women in the workforce is a social-environment factor. Use of accounting software is a technological-environment factor. Together they give technological and social.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-econ-q01",
+      "solved_key": "C",
+      "confidence": "high",
+      "reasoning": "C = C-bar + cY is an upward-sloping straight line when MPC is constant and between 0 and 1. With autonomous investment, AD = C + I-bar is a vertical shift of the consumption line, so both have slope c and are parallel. Both statements are true.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-econ-q03",
+      "solved_key": "A",
+      "confidence": "high",
+      "reasoning": "Commercial banks accept public deposits and lend them out. RBI does not take deposits from the public. LIC collects premiums, and the government is not a deposit-taking institution.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-econ-q04",
+      "solved_key": "C",
+      "confidence": "high",
+      "reasoning": "Export of services (including financial services) earns foreign exchange and is a credit in the current account. FDI into India is a sale of assets to foreigners and an inflow, so it is a credit in the capital account. Both are true.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-econ-q05",
+      "solved_key": "D",
+      "confidence": "high",
+      "reasoning": "Net investment is a flow (a change in capital stock over a period) and capital is a stock. Both statements invert this, so both are false.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-i",
+      "solved_key": "B",
+      "confidence": "medium",
+      "reasoning": "Paragraph 1 says that although fishers no longer use it, the net keeps working and trapping marine life. That abandoned-yet-active quality is the 'ghostly' trait, matching B. Options A, C and D are not the naming rationale.",
+      "issues": [
+        "The adapted paragraph 1 does not explicitly state why the nets are called 'ghost' nets (the source's 'aren't supernatural' framing was removed), so the answer rests on inference from 'keeps working'. A and D are true statements but not the naming reason."
+      ]
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-iv",
+      "solved_key": "B",
+      "confidence": "high",
+      "reasoning": "Negligible means small and not important. Monumental (very big or very great), used in paragraph 2, is the opposite. Unimpressive is a near-synonym, and exposing and threat are unrelated.",
+      "issues": []
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-v",
+      "solved_key": "abstain",
+      "confidence": "low",
+      "reasoning": "This is an EXCEPT item, so the answer must be the one statement the passage does not support. Paragraph 3 says nets last for centuries and only become smaller plastic pieces (contradicting A, 'a few years to completely disintegrate'). It also says microplastics are mistaken for food and harm animals (contradicting C, 'provide nutrition'). B and D are supported.",
+      "issues": [
+        "Two defensible options (A and C) are both contradicted by paragraph 3, so the EXCEPT item has no unique key.",
+        "Whether A or C was intended is not determinable from the stimulus alone."
+      ]
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-ix",
+      "solved_key": "A",
+      "confidence": "high",
+      "reasoning": "Paragraph 5 gives workable measures (traceable ownership with fines, refundable deposits, sonar reflectors, sustainable gear). Practical, meaning able to be done successfully, fits best. Presentable, popular and prejudiced do not.",
+      "issues": []
+    }
+  ]
+}

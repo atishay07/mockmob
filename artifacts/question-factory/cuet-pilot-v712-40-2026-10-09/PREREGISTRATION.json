@@ -1,0 +1,1339 @@
+{
+  "contract": "cuet-pilot-v712-measurement-v1",
+  "pilot_id": "cuet-pilot-v712-40-2026-10-09",
+  "preregistered_at": "2026-10-09T17:03:39.940Z",
+  "purpose": "One measurement-only pilot of the V7.12 validator (compact option resolution) on 40 candidates. It publishes nothing and releases nothing.",
+  "denominator": 40,
+  "per_subject": 10,
+  "subjects": [
+    "english",
+    "accountancy",
+    "business_studies",
+    "economics"
+  ],
+  "accountancy_branch": "financial_analysis",
+  "accountancy_branch_note": "The alternative Unit IV branches stay separate: only the common units and this branch are planned.",
+  "measurement_only": true,
+  "publication_policy": "never",
+  "topology": "dual_blind",
+  "validation_roles": {
+    "blind_solve": "gpt-6-luna (answer hidden)",
+    "independent_evaluation": "gemini-3.8-flash (answer hidden)",
+    "explanation_audit": "gpt-6-luna",
+    "efforts_by_subject_and_format": {
+      "english:reading_comprehension": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:numerical_calculation": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "business_studies:conceptual_mcq": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:conceptual_mcq": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "english:antonym": {
+        "blind": "medium",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:conceptual_mcq": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "business_studies:matching": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:case_application": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:statement_selection": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "business_studies:sequence_ordering": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:numerical_calculation": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "english:correct_word_usage": {
+        "blind": "medium",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:case_application": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "business_studies:statement_selection": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:matching": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:matching": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "business_studies:case_application": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:statement_selection": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "accountancy:sequence_ordering": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "economics:sequence_ordering": {
+        "blind": "high",
+        "explanation": "high",
+        "gemini": "medium"
+      },
+      "english:synonym": {
+        "blind": "medium",
+        "explanation": "high",
+        "gemini": "medium"
+      }
+    }
+  },
+  "authoring": {
+    "policy": "original-practice-decisive-distractors-v79",
+    "parent_policy": "original-practice-source-complete-objective-v76",
+    "learning_objective_required": true,
+    "format_contract": "registered-cuet-brief-format-c1",
+    "quote_contract": "original-exact-quote-selection-v3",
+    "addendum": "author-addendum-v7.1"
+  },
+  "contract_binding": {
+    "verifier_version": "cuet-fit-validator-v7.12-compact-resolution",
+    "validation_contract_hash": "1107c72a94dd5a8f408fb41e75d57f37f885d693aa268dd0ca149bf2d2d2f899",
+    "prompt_hash": "d1ce42dd009d376004c1cbb9791a42e9eb0652ed55ef04c3d7b7ec03e0656d9c",
+    "author_policy": "original-practice-decisive-distractors-v79",
+    "bound_at_registration": true,
+    "rule": "Execution refuses unless validationContractV712() equals validation_contract_hash and the prompt hash is unchanged."
+  },
+  "release_status_at_registration": {
+    "releases_in_manifest": [],
+    "v712_release_available": false,
+    "note": "No V7.12 release is assumed or required: this tool is measurement-only and cannot publish even if a release is added later."
+  },
+  "format_difficulty_plan": {
+    "format_plan": "CUET_FORMAT_PLAN (focusedBriefsV7) for accountancy, business_studies and economics, largest-remainder expansion to 10 per subject",
+    "english_format_plan": {
+      "reading_comprehension": 5,
+      "correct_word_usage": 2,
+      "synonym": 2,
+      "antonym": 1
+    },
+    "english_rule": "No matching and no ordering items (stock exhausted). Reading comprehension on distinct registered passages (no passage groups); correct word usage, synonym and antonym only where the planner found an unconsumed registered source, otherwise the brief was replaced at preparation time.",
+    "realized_english_mix": {
+      "formats": {
+        "reading_comprehension": 5,
+        "antonym": 1,
+        "correct_word_usage": 2,
+        "synonym": 2
+      },
+      "chapters": {
+        "Narrative Passage": 3,
+        "Vocabulary": 3,
+        "Correct Word Usage": 2,
+        "Literary Passage": 1,
+        "Factual Passage": 1
+      },
+      "reading_passages": 5,
+      "distinct_passages": 5,
+      "matching": 0,
+      "ordering": 0
+    },
+    "difficulty_plan": "CUET_DIFFICULTY_PLAN expansion to 10 per subject (no hard briefs are planned at this size)",
+    "summary": {
+      "denominator": 40,
+      "by_subject": {
+        "english": {
+          "briefs": 10,
+          "formats": {
+            "reading_comprehension": 5,
+            "antonym": 1,
+            "correct_word_usage": 2,
+            "synonym": 2
+          },
+          "difficulties": {
+            "easy": 3,
+            "medium": 7
+          },
+          "chapters": {
+            "Narrative Passage": 3,
+            "Vocabulary": 3,
+            "Correct Word Usage": 2,
+            "Literary Passage": 1,
+            "Factual Passage": 1
+          },
+          "requested_answer_positions": {
+            "C": 2,
+            "B": 3,
+            "A": 3,
+            "D": 2
+          },
+          "ordering_briefs": 0,
+          "passage_briefs": 5
+        },
+        "accountancy": {
+          "briefs": 10,
+          "formats": {
+            "numerical_calculation": 2,
+            "conceptual_mcq": 2,
+            "statement_selection": 2,
+            "case_application": 2,
+            "matching": 1,
+            "sequence_ordering": 1
+          },
+          "difficulties": {
+            "easy": 3,
+            "medium": 7
+          },
+          "chapters": {
+            "Financial Statements of Company": 3,
+            "Profit & Loss Appropriation Account": 2,
+            "Partnership Fundamentals": 2,
+            "Accounting Ratios": 1,
+            "Goodwill Valuation": 1,
+            "Debentures": 1
+          },
+          "requested_answer_positions": {
+            "C": 3,
+            "B": 2,
+            "D": 3,
+            "A": 2
+          },
+          "ordering_briefs": 1,
+          "passage_briefs": 0
+        },
+        "business_studies": {
+          "briefs": 10,
+          "formats": {
+            "conceptual_mcq": 6,
+            "matching": 1,
+            "sequence_ordering": 1,
+            "statement_selection": 1,
+            "case_application": 1
+          },
+          "difficulties": {
+            "easy": 3,
+            "medium": 7
+          },
+          "chapters": {
+            "Controlling": 4,
+            "Financial Management": 2,
+            "Business Environment": 2,
+            "Staffing": 1,
+            "Consumer Protection": 1
+          },
+          "requested_answer_positions": {
+            "A": 2,
+            "C": 3,
+            "B": 3,
+            "D": 2
+          },
+          "ordering_briefs": 1,
+          "passage_briefs": 0
+        },
+        "economics": {
+          "briefs": 10,
+          "formats": {
+            "conceptual_mcq": 4,
+            "case_application": 2,
+            "numerical_calculation": 1,
+            "matching": 1,
+            "statement_selection": 1,
+            "sequence_ordering": 1
+          },
+          "difficulties": {
+            "easy": 3,
+            "medium": 7
+          },
+          "chapters": {
+            "Employment": 2,
+            "Indian Economic Development 1950–1990": 2,
+            "Government Budget & the Economy": 1,
+            "Development Experiences of India": 1,
+            "Theory of Firms under Perfect Competition": 1,
+            "Human Capital Formation": 2,
+            "Environment & Sustainable Development": 1
+          },
+          "requested_answer_positions": {
+            "C": 2,
+            "D": 3,
+            "B": 2,
+            "A": 3
+          },
+          "ordering_briefs": 1,
+          "passage_briefs": 0
+        }
+      },
+      "english_mix": {
+        "formats": {
+          "reading_comprehension": 5,
+          "antonym": 1,
+          "correct_word_usage": 2,
+          "synonym": 2
+        },
+        "chapters": {
+          "Narrative Passage": 3,
+          "Vocabulary": 3,
+          "Correct Word Usage": 2,
+          "Literary Passage": 1,
+          "Factual Passage": 1
+        },
+        "reading_passages": 5,
+        "distinct_passages": 5,
+        "matching": 0,
+        "ordering": 0
+      },
+      "requested_answer_positions": {
+        "C": 10,
+        "A": 10,
+        "B": 10,
+        "D": 10
+      },
+      "wave_subjects": [
+        {
+          "english": 3,
+          "accountancy": 3,
+          "business_studies": 2,
+          "economics": 2
+        },
+        {
+          "business_studies": 3,
+          "economics": 3,
+          "english": 2,
+          "accountancy": 2
+        },
+        {
+          "english": 3,
+          "accountancy": 3,
+          "business_studies": 2,
+          "economics": 2
+        },
+        {
+          "business_studies": 3,
+          "economics": 3,
+          "english": 2,
+          "accountancy": 2
+        }
+      ]
+    }
+  },
+  "briefs": [
+    {
+      "number": 1,
+      "id": "6c5c2777b7bd5c64e0eb9ac80ef4d1ee",
+      "wave": 1,
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "format": "reading_comprehension",
+      "difficulty": "easy",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "mockmob-original-stimulus-diverse-510f9bbd4bc64432d387/stimulus"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 2,
+      "id": "61c7b9abca6c29e84fe1f333ed5b9920",
+      "wave": 1,
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "format": "numerical_calculation",
+      "difficulty": "easy",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac203-v1/p22-c0-g2-s0",
+        "ncertcol-leac203-v1/p2-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 3,
+      "id": "e72f96a39d411d96f9174d6a479b96e7",
+      "wave": 1,
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "format": "conceptual_mcq",
+      "difficulty": "easy",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs108-v1/p5-c0-g1-s0",
+        "ncertcol-lebs108-v1/p4-c1-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 4,
+      "id": "d4c3fd2212899f6f5ece15478b881142",
+      "wave": 1,
+      "subject": "economics",
+      "chapter": "Employment",
+      "format": "conceptual_mcq",
+      "difficulty": "easy",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec106-v1/p19-c0-g0-s0",
+        "ncertcol-keec106-v1/p18-c1-g0-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 5,
+      "id": "1b74d78aba08b44a916955de7fe79ef7",
+      "wave": 1,
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "format": "antonym",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "oxford-quality-plausible/definition",
+        "oxford-quality-optimistic/definition",
+        "oxford-quality-indifferent/definition",
+        "oxford-quality-sporadic/definition"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 6,
+      "id": "bb2ab9f42a30c379212f509e2f0582a2",
+      "wave": 1,
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac203-v1/p24-c0-g0-s1",
+        "ncertcol-leac203-v1/p21-c0-g3-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 7,
+      "id": "b5b1264e21803f31f0933264840539a2",
+      "wave": 1,
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "format": "matching",
+      "difficulty": "medium",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs108-v1/p5-c1-g1-s0",
+        "ncertcol-lebs108-v1/p6-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 8,
+      "id": "c931bf54c71aa673bd40ca77df0c245c",
+      "wave": 1,
+      "subject": "economics",
+      "chapter": "Employment",
+      "format": "case_application",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec106-v1/p1-c0-g2-s0",
+        "ncertcol-keec106-v1/p12-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 9,
+      "id": "87f3c625ccd021285e7d9b14526f74ca",
+      "wave": 1,
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "format": "reading_comprehension",
+      "difficulty": "easy",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "mockmob-original-stimulus-diverse-2217e25a7820dee25623/stimulus"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 10,
+      "id": "be5edf533d6f3a0716a229563a6471f9",
+      "wave": 1,
+      "subject": "accountancy",
+      "chapter": "Profit & Loss Appropriation Account",
+      "format": "statement_selection",
+      "difficulty": "easy",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac101-v1/p4-c0-g1-s0",
+        "ncertcol-leac101-v1/p1-c1-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 11,
+      "id": "c0b51ee0c2b9532363925fea727fd67a",
+      "wave": 2,
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "format": "sequence_ordering",
+      "difficulty": "easy",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs201-v1/p24-c0-g3-s0",
+        "ncertcol-lebs201-v1/p4-c1-g3-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 12,
+      "id": "50eedb25069139ffcc5a5560cb2085c0",
+      "wave": 2,
+      "subject": "economics",
+      "chapter": "Indian Economic Development 1950–1990",
+      "format": "numerical_calculation",
+      "difficulty": "easy",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec102-v1/p13-c0-g0-s0",
+        "ncertcol-keec102-v1/p1-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 13,
+      "id": "3129d0f8b9269267a1b02b9027517e11",
+      "wave": 2,
+      "subject": "english",
+      "chapter": "Correct Word Usage",
+      "format": "correct_word_usage",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "oxford-quality-inquisitive/definition",
+        "oxford-quality-inevitable/definition",
+        "oxford-quality-impartial/definition",
+        "oxford-quality-benevolent/definition"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 14,
+      "id": "a22c86f5afc4987f7b894381fe60eb7e",
+      "wave": 2,
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "format": "case_application",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac101-v1/p1-c0-g2-s0",
+        "ncertcol-leac101-v1/p35-c0-g3-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 15,
+      "id": "914c1d25bd1c1a672d17bf08f797a9a3",
+      "wave": 2,
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "format": "statement_selection",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs103-v1/p20-c0-g1-s0",
+        "ncertcol-lebs103-v1/p19-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 16,
+      "id": "a1220006c8b621cb93e9b2ff24de93f7",
+      "wave": 2,
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "format": "matching",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-leec105-v1/p16-c0-g2-s0",
+        "ncertcol-leec105-v1/p3-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 17,
+      "id": "a63c4ffc713499e1e9e0286712d4ce4d",
+      "wave": 2,
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "format": "reading_comprehension",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "mockmob-original-stimulus-diverse-417811c0a74bd16691b0/stimulus"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 18,
+      "id": "f5b9b2a484fad3eba3203b085e2aebe7",
+      "wave": 2,
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "format": "matching",
+      "difficulty": "easy",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac203-v1/p6-c0-g1-s0",
+        "ncertcol-leac203-v1/p13-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 19,
+      "id": "b9e1f7d735d6eb328ce24ff4fa16d3e3",
+      "wave": 2,
+      "subject": "business_studies",
+      "chapter": "Financial Management",
+      "format": "case_application",
+      "difficulty": "easy",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs201-v1/p19-c1-g2-s0",
+        "ncertcol-lebs201-v1/p20-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 20,
+      "id": "27cea2ead32ff0039da383f195e5e7d7",
+      "wave": 2,
+      "subject": "economics",
+      "chapter": "Development Experiences of India",
+      "format": "statement_selection",
+      "difficulty": "easy",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec108-v1/p16-c0-g0-s0",
+        "ncertcol-keec108-v1/p14-c0-g0-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 21,
+      "id": "4caa299c8db37ff9442447742b520fef",
+      "wave": 3,
+      "subject": "english",
+      "chapter": "Correct Word Usage",
+      "format": "correct_word_usage",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "oxford-quality-frugal/definition",
+        "oxford-quality-benevolent/definition",
+        "oxford-quality-sceptical/definition",
+        "oxford-quality-ambiguous/definition"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 22,
+      "id": "7ec43cc3d486dd26d4ac30c3b621a665",
+      "wave": 3,
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "format": "sequence_ordering",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac205-v1/p1-c1-g1-s0",
+        "ncertcol-leac205-v1/p6-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 23,
+      "id": "1885b1d0a0bdce29446c81eb37788da3",
+      "wave": 3,
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs108-v1/p2-c0-g2-s0",
+        "ncertcol-lebs108-v1/p6-c1-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 24,
+      "id": "ac7d5d5e692a6eab663764736afe2544",
+      "wave": 3,
+      "subject": "economics",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "format": "sequence_ordering",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-leec204-v1/p9-c0-g5-s25",
+        "ncertcol-leec204-v1/p1-c0-g3-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 25,
+      "id": "c7c8ec63dbbbcacefee958bf5523c964",
+      "wave": 3,
+      "subject": "english",
+      "chapter": "Literary Passage",
+      "format": "reading_comprehension",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "mockmob-original-stimulus-diverse-9997ffdb62dabf8aacf5/stimulus"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 26,
+      "id": "c1b832fffa8fb6c7a2625c1a626af0c8",
+      "wave": 3,
+      "subject": "accountancy",
+      "chapter": "Profit & Loss Appropriation Account",
+      "format": "numerical_calculation",
+      "difficulty": "medium",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac101-v1/p36-c0-g1-s0",
+        "ncertcol-leac101-v1/p5-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 27,
+      "id": "1335417a2ce8f9d4f1162e86ddfa9cbe",
+      "wave": 3,
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs106-v1/p1-c1-g2-s1",
+        "ncertcol-lebs106-v1/p2-c0-g2-s2"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 28,
+      "id": "0fa79d89c35d75d9270093780cfdaff3",
+      "wave": 3,
+      "subject": "economics",
+      "chapter": "Human Capital Formation",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec104-v1/p2-c0-g3-s0",
+        "ncertcol-keec104-v1/p15-c1-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 29,
+      "id": "639eaa0593f179807c5a02fa8d81f62d",
+      "wave": 3,
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "format": "synonym",
+      "difficulty": "easy",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "oxford-quality-conspicuous/definition",
+        "oxford-quality-transient/definition",
+        "oxford-quality-prudent/definition",
+        "oxford-quality-discreet/definition"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 30,
+      "id": "f619af6f76cb19a904a6125e819a2930",
+      "wave": 3,
+      "subject": "accountancy",
+      "chapter": "Goodwill Valuation",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac103-v1/p1-c1-g1-s0",
+        "ncertcol-leac103-v1/p8-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 31,
+      "id": "60f0a1973890b25a3758158200ae4f85",
+      "wave": 4,
+      "subject": "business_studies",
+      "chapter": "Controlling",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs108-v1/p9-c0-g1-s0",
+        "ncertcol-lebs108-v1/p8-c0-g2-s1"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 32,
+      "id": "2107b6249ebb0a969e2544f92a052c33",
+      "wave": 4,
+      "subject": "economics",
+      "chapter": "Environment & Sustainable Development",
+      "format": "case_application",
+      "difficulty": "medium",
+      "requested_answer_position": "B",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec107-v1/p15-c0-g1-s0",
+        "ncertcol-keec107-v1/p10-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 33,
+      "id": "da091242ed948976c52bc6cf83670a4b",
+      "wave": 4,
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "format": "reading_comprehension",
+      "difficulty": "medium",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c/stimulus"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 34,
+      "id": "5b51439af3d516d2e4414cabe43da6a4",
+      "wave": 4,
+      "subject": "accountancy",
+      "chapter": "Debentures",
+      "format": "statement_selection",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac202-v1/p4-c0-g5-s0",
+        "ncertcol-leac202-v1/p1-c0-g1-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 35,
+      "id": "b3542e3d6ced8b4021b6fceaeffc6c8b",
+      "wave": 4,
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs203-v1/p14-c0-g4-s0",
+        "ncertcol-lebs203-v1/p2-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 36,
+      "id": "4f94767d92f2698d572fef19fd51e25a",
+      "wave": 4,
+      "subject": "economics",
+      "chapter": "Human Capital Formation",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec104-v1/p8-c1-g1-s0",
+        "ncertcol-keec104-v1/p4-c0-g2-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 37,
+      "id": "70da30896596a3607202dfb6389ee027",
+      "wave": 4,
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "format": "synonym",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-english-reference-v1",
+      "source_refs": [
+        "oxford-quality-reluctant/definition",
+        "oxford-quality-assertive/definition",
+        "oxford-quality-versatile/definition",
+        "oxford-quality-candid/definition"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 38,
+      "id": "01e2b3197b6578ada701c4614803ca78",
+      "wave": 4,
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "format": "case_application",
+      "difficulty": "medium",
+      "requested_answer_position": "C",
+      "source_pack_id": "original-accountancy-reference-v1",
+      "source_refs": [
+        "ncertcol-leac101-v1/p32-c0-g2-s0",
+        "ncertcol-leac101-v1/p12-c0-g3-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 39,
+      "id": "f858efb82cc60af470a33afb32879a96",
+      "wave": 4,
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "D",
+      "source_pack_id": "original-business_studies-reference-v1",
+      "source_refs": [
+        "ncertcol-lebs103-v1/p19-c0-g3-s1",
+        "ncertcol-lebs103-v1/p4-c0-g2-s4"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    },
+    {
+      "number": 40,
+      "id": "3883d391e8a552d8144c566e728719a6",
+      "wave": 4,
+      "subject": "economics",
+      "chapter": "Indian Economic Development 1950–1990",
+      "format": "conceptual_mcq",
+      "difficulty": "medium",
+      "requested_answer_position": "A",
+      "source_pack_id": "original-economics-reference-v1",
+      "source_refs": [
+        "ncertcol-keec102-v1/p5-c0-g1-s0",
+        "ncertcol-keec102-v1/p4-c0-g0-s0"
+      ],
+      "passage_group_id": null,
+      "replaces_gap": null
+    }
+  ],
+  "source_packs": [
+    "original-english-reference-v1",
+    "original-accountancy-reference-v1",
+    "original-business_studies-reference-v1",
+    "original-economics-reference-v1"
+  ],
+  "gaps_at_preparation": [],
+  "gap_rule": "A brief that returns an idea gap (or no permitted source) is recorded here and replaced only at preparation time by the next coverage-gap brief for the same subject whose chapter/format route is not itself gapped. Never after registration.",
+  "waves": {
+    "size": 10,
+    "weak_yield_below": 0.4,
+    "consecutive_weak_waves_stop": 2,
+    "yield_definition": "machine-eligible candidates / terminal candidates of the wave, after free duplicate and passage-group closure",
+    "avoidance": "Each wave sees the approved items of earlier waves; a job seals its avoidance list before its first authoring request."
+  },
+  "maximum_repairs_per_candidate": 1,
+  "repair_rules": "One targeted repair, only after a failed gate, a preparation-value blocking finding or a key contradiction; preparation-value blocking at authoring consumes the repair or quarantines. Then exactly one full revalidation.",
+  "no_regeneration": true,
+  "no_replacement_after_registration": true,
+  "stop_rules": [
+    "two consecutive complete waves under 40% yield: remaining candidates stay untouched",
+    "3 consecutive candidates lost to provider/transport errors",
+    "campaign cap, lifetime ceiling, pricing or credit exhaustion (candidates retained, same keys reusable after top-up)",
+    "SIGINT/SIGTERM, a STOP_AFTER_REQUEST file in the pilot directory, or data/question-factory-runtime/STOP_V712_PILOT: in-flight work drains, nothing is killed"
+  ],
+  "uncertain_keys": "A request key that was accepted but has no settled receipt is never resubmitted; the candidate is quarantined and the conservative maximum hold stays committed.",
+  "decision_rules": {
+    "publication": "never",
+    "release_claim": "none",
+    "reported_measures": [
+      "machine-eligible yield overall and per subject",
+      "yield after batch inspection against the usable inventory",
+      "preparation-value blocking rate and repair success",
+      "learning-objective presence",
+      "format fidelity and variety",
+      "difficulty labels versus reasoning steps",
+      "answer-position patterns overall, per subject and per passage group",
+      "gross cost per candidate and per approved item"
+    ],
+    "interpretation": "A measured yield and defect profile on 40 candidates. It does not establish accuracy or a release, and no threshold beyond the stop rules above is preregistered here."
+  },
+  "cap_usd": 3,
+  "cost": {
+    "basis": "Every request reserved at the full input bound (max_input_tokens) and the stage output cap at standard realtime rates (Flex is billed lower and settles lower), each request with its single bounded continuation retry; one author call, one validation, one repair, one revalidation per candidate.",
+    "stages": {
+      "author": {
+        "provider": "openai",
+        "first_micro": 7378,
+        "continuation_retry_micro": 10628
+      },
+      "blind_solution": {
+        "provider": "openai",
+        "first_micro": 12128,
+        "continuation_retry_micro": 20128
+      },
+      "independent_evaluation": {
+        "provider": "gemini",
+        "first_micro": 47268,
+        "continuation_retry_micro": 69768
+      },
+      "explanation_support": {
+        "provider": "openai",
+        "first_micro": 8128,
+        "continuation_retry_micro": 12128
+      },
+      "repair": {
+        "provider": "openai",
+        "first_micro": 8628,
+        "continuation_retry_micro": 13128
+      }
+    },
+    "maximum_requests_per_candidate": {
+      "author": 2,
+      "first_validation": 6,
+      "repair": 2,
+      "revalidation": 6,
+      "total": 16
+    },
+    "validation_maximum_micro": 169548,
+    "per_candidate_maximum_micro": 378858,
+    "per_candidate_maximum_usd": 0.378858,
+    "denominator": 40,
+    "pilot_maximum_micro": 15154320,
+    "pilot_maximum_usd": 15.15432
+  },
+  "transport_profile": {
+    "name": "cuet-pilot-v75-luna-realtime-flex-gemini-realtime-wave10-v1",
+    "waves": 10,
+    "providers": {
+      "openai": {
+        "model": "gpt-6-luna",
+        "mode": "realtime",
+        "flex": "preferred_with_standard_fallback"
+      },
+      "gemini": {
+        "model": "gemini-3.8-flash",
+        "mode": "realtime"
+      }
+    },
+    "luna_flex_stages": [
+      "authoring",
+      "blind_solution",
+      "explanation_support",
+      "repair"
+    ],
+    "tools": "disabled",
+    "concurrency": 4,
+    "fetch": "longFetch (no headers/body timeout; transport AbortSignal is the only deadline)",
+    "realtime_stages": [
+      "authoring",
+      "blind_solution",
+      "independent_evaluation",
+      "explanation_support",
+      "repair"
+    ],
+    "flex_stages": [
+      "authoring",
+      "blind_solution",
+      "explanation_support",
+      "repair"
+    ]
+  },
+  "inputs": {
+    "campaign_sha256": "8cfe1e8b2d742eac3c32921762d820181e247b05467caaaa5a9cce0b4d425fe0",
+    "registry_sha256": "00b44a6b00f93f6462b6db77297eadac41b5d5a04c1479dfd776a60adb7e6241",
+    "registry_overlay_sha256": "9591f50138bf3037e76f9f4c141c61a0575df1ecdef75efcc407aa03769bc144",
+    "coverage_sha256": "972a01f17f64a7c6a4c83765075f734ad9f54c3437da054bb131a2dc808d91c8",
+    "author_preflight_sha256": "acb12120606827a1b77a70c1f02141f526829544bd751ad6e8cb6899185f9391",
+    "inventory_hashes": {
+      "reassessment_profile_sha256": "b484e5f60b39b45c7af8cc4093965e65c2691e3975ac3c62a76913933a5240fa",
+      "reassessment_results_sha256": "4b30cb6b15189996d8774a79a88cc0d716faf9771bcf55847be7126e6480551d",
+      "campaigns": {
+        "artifacts/question-factory/cuet-readiness-baseline-100-2026-10-08": "da496b2f0bedde3b3a418d71e9368d047926433106283ddfb3109776aa277b8e",
+        "artifacts/question-factory/cuet-readiness-improved-100-2026-10-08": "1aab8e2773f888a9dddc702097401c4adb4be8d47c2c3cf18f38a41ccbe7973f",
+        "artifacts/question-factory/cuet-readiness-cost-source-c-100-2026-10-08": "4b06df8aab6c503dc293d6d4c8e47cc0039d396ff1ecfa840c3f98b8f84cf582"
+      }
+    },
+    "inventory_source": "offline_inventory_file",
+    "inventory_basis": "Offline inventory: 536 reassessed bank questions with exact terminal eligible reassessment (complete passage units) plus 220 eligible measurement candidates of campaigns A/B/C. No network, staging or production access; recovery family holds and the staging withholding journal are not reapplied offline.",
+    "v75_pilot_attempts": null,
+    "pricing_binding": {
+      "gpt_6_luna": {
+        "provider_host": "api.openai.com",
+        "max_input_tokens": 33024,
+        "input_per_million": 0.1,
+        "output_per_million": 0.5,
+        "batch": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        },
+        "cached_input_per_million": 0.01,
+        "cache_write_per_million": 0.125,
+        "flex": {
+          "input_per_million": 0.05,
+          "output_per_million": 0.25,
+          "cached_input_per_million": 0.005,
+          "cache_write_per_million": 0.0625
+        }
+      },
+      "gemini_3_8_flash": {
+        "provider_host": "generativelanguage.googleapis.com",
+        "max_input_tokens": 33024,
+        "input_per_million": 0.75,
+        "output_per_million": 3.75,
+        "batch": {
+          "input_per_million": 0.375,
+          "output_per_million": 1.875
+        }
+      }
+    },
+    "prices_expire_at": "2026-10-12T21:37:55.116Z",
+    "ledger_before": {
+      "limit_micro": 50000000,
+      "committed_micro": 39098298,
+      "requests": 14761,
+      "unresolved": 46
+    }
+  },
+  "dependency_hashes": {
+    "scripts/pipeline/lib/factoryTransport.mjs": "40df58fccc18ad9ddfb7e589bba6aab1a899cff1f8cdf68514a31a7a91fc1be8",
+    "scripts/pipeline/lib/longFetch.mjs": "2e4fd19f2dddb787afacde3da2ed8664f58841b8b64ec07651816beeaade3c19",
+    "scripts/pipeline/lib/budgetLedger.mjs": "4942d10e062b70bdf18320c1bef9559d56273a1c9152fb122744f18960597f41",
+    "scripts/pipeline/lib/campaignExecutionV7.mjs": "489f302f60cc2e40a2c19c90f50aa3d2c1b8f15b53ea2aa9fc388129abf84f16",
+    "scripts/pipeline/lib/scopedAccounting.mjs": "c8f25c99a307c4aacc98a9a82762d0bbbf8851133364d4065f5d2b72996564fb",
+    "scripts/pipeline/lib/savedRequestBody.mjs": "fcf41aecc948b0680be524d3bc582c7b1992f4f72c4838f405039926fcfddf5c",
+    "scripts/pipeline/lib/atomicArtifact.mjs": "b1fd0508f098738595bc55837c9ae59e771a6d8c4186ff02ff0750b7694ac1c2",
+    "scripts/pipeline/lib/batchInspection.mjs": "f7ed805af9baab1ce6683cfeaab0a48440a9f035f225186b6faa205aa2dc2210",
+    "scripts/pipeline/lib/briefDiversity.mjs": "13f50074dc20f9e6e9e3bee2e3466dd9d1312f23d4d7a83398d4ee5797b0b294",
+    "scripts/pipeline/lib/ideaAllocation.mjs": "821e8615c72319c367927dcdb98c7fa0e4c4f088dfbcfd595e386eedc177547f",
+    "scripts/pipeline/lib/ideaAllocationV76.mjs": "27ffba9095ea8b7218edbdc5f7f2c8661b65f3eb8bcdae8f858823a2c2f43d2a",
+    "scripts/pipeline/lib/focusedBriefsV7.mjs": "1a967ce51235d5a07b15451ef015e733ac53d3276f48dc58d89dba55e893bb5a",
+    "scripts/pipeline/lib/candidateFormatVNext.mjs": "66deea3bcbee31686ce11194fa7c98baee1d4ddcbe2797278dd7b6e48c961ddf",
+    "scripts/pipeline/lib/authorIntegrityV7.mjs": "8269431822204d977cb4d26690fe9c99682afc713ad4e475f1d8be11ddc27f27",
+    "scripts/pipeline/lib/constrainedAuthoring.mjs": "a3585c127764cbd91d0750ea56d0466d5d39f97f79782bd8fe3ec6f4c25d0bde",
+    "scripts/pipeline/lib/factoryCore.mjs": "f73222b3aff0d231642e71c77c88a6c6bf4a799161f403ec48c05763a39ba773",
+    "scripts/pipeline/lib/factoryEvidence.mjs": "f7293f8aba90c7bffc5a806dd98cbdb7e43819807680a5868f134e4e5f6fd3b7",
+    "scripts/pipeline/lib/factoryEvidenceV7.mjs": "875636e32df77ca62470d69fbe016df4c8484b9b3d66ad314d26168ba277ee98",
+    "scripts/pipeline/lib/factoryEvidenceV73.mjs": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+    "scripts/pipeline/lib/factoryEvidenceV74.mjs": "7e1ba75a7c5f6460ec722cab3403b2c21cd057e3b0616dfa60374b4d69c78f91",
+    "scripts/pipeline/lib/factoryEvidenceV75.mjs": "ff4df76e882505a4d6d08ebf755c73212cd4bdb8b77a94f9bc8f11fc03b4bc7b",
+    "scripts/pipeline/lib/factoryEvidenceV76.mjs": "b691405c0095342ef224d3ea985d3f57c0676e6ce41957542ede96e860bcf6ba",
+    "scripts/pipeline/lib/factoryEvidenceV712.mjs": "ee148d5cbac3bff24cb5730c3c38056f99aa3841ade8b712f98ddf967a16300e",
+    "scripts/pipeline/lib/contractV7.mjs": "46eccb7c0ada3679c44eb7fac0fa1e9de7fe2f60b98d90e3f566f678bbf67ed0",
+    "scripts/pipeline/lib/contractV73.mjs": "6c632c342f4d2cf011c7ee1ba478303d48104c73358527922df3106c38c83db4",
+    "scripts/pipeline/lib/contractV74.mjs": "c99486eae474dff1ad68718b5a46b8579c74faa80357c8691ede8620c270c05b",
+    "scripts/pipeline/lib/contractV75.mjs": "6e4ee9b80fe3ce521692f84bd6a0ec9d4b3ce10493bdd58fa06f0e25073d3994",
+    "scripts/pipeline/lib/contractV76.mjs": "3cf67ba3817a2bbe158288973e51206943e9c06494221d66d619fd514e5eaa97",
+    "scripts/pipeline/lib/contractV77.mjs": "27f3edca3db993df3e9e03ba6c554bb9a18220924071431fb3082339b9876703",
+    "scripts/pipeline/lib/contractV78.mjs": "809ccfb78e901921512ee4272bd5ff2fea73ac8acaaa952f527dd18581023a50",
+    "scripts/pipeline/lib/contractV712.mjs": "9a881db43d46945c0a90d68e24dbe1ac65d04fc689c0a4b255070d95de71324a",
+    "scripts/pipeline/lib/optionResolutionV712.mjs": "33046aab75093c9a8548552753ecaacf0db04e1378379dad3a2f6c0db48e0745",
+    "scripts/pipeline/lib/premiseBindingV78.mjs": "88735861cf248c6d399a679e0b059a89c2d0a39a3aea9c29004d80d9e051f696",
+    "scripts/pipeline/lib/verifyV75.mjs": "459f14e23f3c6d1ba76278174464287a17e3d4d9daf09208011d1ba51b4c056f",
+    "scripts/pipeline/lib/verifyV712.mjs": "5b6dfa1ac16ef2113170101aafb27e5afc581b481e33c0c403a7ff7b67c29163",
+    "scripts/pipeline/lib/preparationValueV75.mjs": "118f81e6b436fc34346496fac99629b36b7d352568548b29e1f41c878e6f0977",
+    "scripts/pipeline/lib/preparationValueV76.mjs": "2c6e2f6da2476a5ab87d5428784564974edfc9e6042eb9d97220c7bba0d3dff4",
+    "scripts/pipeline/lib/originalAuthorPolicyV74.mjs": "6eccb64a815ffae581bf9c89793485f2d57179ae6b4d0f5b77242faccedd6a42",
+    "scripts/pipeline/lib/originalAuthorPolicyV75.mjs": "8aab789d46c3d96fff0c4361e0a91184beb0b9be1e0c5cfbad0143163f9f1890",
+    "scripts/pipeline/lib/originalAuthorPolicyV76.mjs": "27ea271b6a47dbd6a2f2672c423acca27777026581d9ca1205f86b1a9c5a30eb",
+    "scripts/pipeline/lib/originalAuthorPolicyV79.mjs": "fddbcc16aa108d02bcc4df73caa688c2a2b5373ae7d6e7dc535eeecfbd2f92d2",
+    "scripts/pipeline/lib/factoryStore.mjs": "1db704f0e3feb1bf9c3818ea55d3499907cbe5d9ff623f1bddeafd2e287f5d05",
+    "scripts/pipeline/lib/factoryFailure.mjs": "5fa5d47383cd329e5aef525493f849ca17bc4f7b7863f317e60908775ee37040",
+    "scripts/pipeline/lib/measurementInspectionVNext.mjs": "59609217adcf596628c9503d5dea5422f0ee9c3df4d76b3b2e73afb953f115c9",
+    "scripts/pipeline/lib/freshCuetReadinessV73Guards.mjs": "c003c070dbc3363147914432e06fe4d99d55c9667152c60cde97043911577317",
+    "scripts/pipeline/lib/candidateCRegistration.mjs": "93856e8cee90e99c229c240603e898f9c7656a925d7b0391f3c0227f96d70a45",
+    "scripts/pipeline/lib/sourceContextIntegrityVNext.mjs": "abf17350797372438f9d1d98420f182ae01099cd81486c7caf8fa2e1d552c140",
+    "scripts/pipeline/lib/topicCoverage.mjs": "ed804658a60d4f1c87c3a089b99dcbac2725daff7ebb1e35536ebae160554c6c",
+    "scripts/pipeline/lib/focusedCoverage.mjs": "9d1e94710909258cab0775a2cacdb6c45f2224b7b53504ab3fea9076a1d2d296",
+    "scripts/pipeline/lib/factoryNetworkLaunchPreflight.mjs": "7f7f6b2f9076464ea0ba700f3f4d7a49c241d130375c6745616b78e1e856f189",
+    "scripts/pipeline/lib/cuetPilotV75Deps.mjs": "5b0f6460f28fb03bdf738b774b0bcb30c4e538fa72f209c3e9966e92aa76f1c9",
+    "scripts/pipeline/lib/cuetPilotV712Deps.mjs": "aef508efcdf07f11d4ffedf9e8a82b6049cedc5cbb7011d4fa61379b8645e603",
+    "scripts/pipeline/lib/cuetPilotV75Run.mjs": "5fbc340285ae8233fbda9a05c8051ca951ac02e54fdb525c2769b4cdee489a18",
+    "artifacts/question-factory/cuet-readiness-2026-10-08/c-draft/scripts/pipeline/lib/authorFormatC.mjs": "c84998f448365af431e1a4c8bc21146ee368d60252843a1b574831700ca25abe",
+    "data/cuet_fit_evidence.mjs": "7f203bed864975b4ed1f4b74c3805ebb361b36073fd54f164a1b8906bd61bd36",
+    "data/question_factory_policy.mjs": "1bb59fec29eb01342836a6933823d39e3fa63f5963c2b76280ba5b5a41bb7ce3",
+    "data/source_registry.json": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+    "data/question-factory-runtime/original-stimuli-overlay-2026-10-09.json": "1ec41748a7a436afe584d737284d4fe8ae8140e04c15be03cb3cd8342dd7118b",
+    "artifacts/question-factory/cuet-readiness-2026-10-08/c-source-overlay/leac203.private-source.json": "6a84d2403c9e93a5d3f726f5acfc3a9c0059115ba2a89544c90596e5374f2e25",
+    "scripts/pipeline/lib/questionScopeV712.mjs": "637d05f6349969ed35bd1eb5f41e1b8c484713e9c212ea2caae37881a46b5562",
+    "scripts/pipeline/lib/ncertColumnsRegistryV1.mjs": "ccc197baa93236790200b0f3e944d795dfb5c8d5941c29505b356ef41b00f141",
+    "data/question-factory-runtime/source-registry-ncert-columns-v2.json": "574c7b4e9230c7a70ea94eefd03cd7e641e13569b5310af660332bdc10dcf25e",
+    "scripts/pipeline/tools/prepareCuetPilotV712m.mjs": "38b35525faeef419017b7a629a6f6d22c3aeb1e6498501a7b96e4099b56562e4"
+  },
+  "tooling_hashes": {
+    "scripts/pipeline/tools/prepareCuetPilotV712.mjs": "1612a0ca86fa4e0ea36a9f446caec78506eb71335653a54092781b59c3ec61f7",
+    "scripts/pipeline/tools/runCuetPilotV712.mjs": "53b42c8e6590d3d8b4dc26c620e275a9c7189463022a7c51b55b10b5c41f82f8",
+    "scripts/pipeline/lib/cuetPilotV712Plan.mjs": "0358cf76c33ca4ed1a33a52a8dc7749185c455bc48e5a94197f9980f877d8388",
+    "scripts/pipeline/lib/cuetPilotV712Export.mjs": "6b39fc4cb4a05fd9960800df1370ee03dd194b5a8e5d69431cc8fc86d9b0bec9"
+  },
+  "owner_authorization": {
+    "date": "2026-10-10",
+    "scope": "measurement-only pilot without qualification; publication never; no release or staging publication",
+    "qualification_status": "V7.12 unqualified: fresh q1 53%, q2 70%, q3 70% valid survival vs 85% rule; 0/47 controlled defects accepted"
+  },
+  "ncert_columns_overlay": {
+    "path": "data/question-factory-runtime/source-registry-ncert-columns-v2.json",
+    "sha256": "574c7b4e9230c7a70ea94eefd03cd7e641e13569b5310af660332bdc10dcf25e"
+  },
+  "allocations": {
+    "allocator": "idea-allocation-v76 (durable reserve-before-registration)",
+    "path": "data/question-factory-runtime/idea-allocations-v76.json",
+    "legacy_path": "data/question-factory-runtime/idea-allocations.json",
+    "matching_reuse_policy": "deny_overlap",
+    "ordering_ideas": [
+      {
+        "job_id": "c0b51ee0c2b9532363925fea727fd67a",
+        "subject": "business_studies",
+        "key": "ordering:ncertcol-lebs201-v1:1:p24-c0-g3-s0:a29b9200bdd8089b90ad8b7029a38c2738cb4f6e65aecc47bad5698b1a6b3edf|ncertcol-lebs201-v1:1:p4-c1-g3-s0:8c5747043b3b0c34bf7214281250fee379d7381acd3bad4a9c1a71355ca8dfd0"
+      },
+      {
+        "job_id": "7ec43cc3d486dd26d4ac30c3b621a665",
+        "subject": "accountancy",
+        "key": "ordering:ncertcol-leac205-v1:1:p1-c1-g1-s0:ead1d12ea97d3c932ed97d8c4221a34a091ab4bf71ed475471833c6dc3955e6c|ncertcol-leac205-v1:1:p6-c0-g1-s0:a26dcd5beaebec00eaabd37a218f96ceaf6e5033d35c49363523f12bb86dddbe"
+      },
+      {
+        "job_id": "ac7d5d5e692a6eab663764736afe2544",
+        "subject": "economics",
+        "key": "ordering:ncertcol-leec204-v1:1:p1-c0-g3-s0:b80956baf92faafb5e42ab6f90b99ac3057fdaf18bb945dcd260e8e18ceb34c6|ncertcol-leec204-v1:1:p9-c0-g5-s25:37f7f6e58a3cea8de80872b5e24ccdf1c8e63c43a18fabd0ba6acd8171edeb26"
+      }
+    ],
+    "allocator_context": {
+      "inventory_rows_considered": 756,
+      "inventory_rows_without_exact_refs": 0,
+      "attempt_rows_considered": 300,
+      "attempt_rows_without_exact_refs": 0
+    }
+  },
+  "limitations": [
+    "Measurement of a validator, not a release.",
+    "Model agreement and ratings are not truth.",
+    "No provider invoice; costs are usage receipts at recorded rates plus conservative holds."
+  ]
+}

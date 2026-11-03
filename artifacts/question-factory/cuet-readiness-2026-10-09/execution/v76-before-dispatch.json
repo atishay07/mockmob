@@ -1,0 +1,524 @@
+{
+  "at": "2026-10-08T21:03:12.161Z",
+  "read_only_database": true,
+  "lifetime": {
+    "settled_usd": 34.477538,
+    "held_usd": 0.507892,
+    "remaining_usd": 15.01457,
+    "unresolved": 37,
+    "requests": 13807
+  },
+  "v75_requests": [
+    {
+      "id": "f490ed5cdf5de2e85d51408fd7edd3eae84f5d804ebb0bce6f4d5d4356c99adf",
+      "state": "complete",
+      "reservation_id": "a9e9e013-a6e6-44f7-9e53-b8ffa06eaed4"
+    },
+    {
+      "id": "cf7dd86c56901cf666e56798249f2af231de1f338d682ec3bd55352981951065",
+      "state": "complete",
+      "reservation_id": "3a15e191-8e18-4cf1-b219-2c37fe4fd3a4"
+    },
+    {
+      "id": "61c3c83bf4294ff9f5ee17d383e27ede78a83cfd75990824b1da498bff4a8b2b",
+      "state": "complete",
+      "reservation_id": "f91fc95c-de35-4138-a125-1a9b46f8dc87"
+    },
+    {
+      "id": "a323e7a3bda30f0b78a27f50b48b1f25c386bf4d86432972a7beb89db340e6e5",
+      "state": "complete",
+      "reservation_id": "16e1aa38-0332-413e-bb3e-4b05820a726c"
+    },
+    {
+      "id": "4adb9dde69ac485d6d2621c108e1ef7af4bd2f05839c67d769007978cb2d1cd6",
+      "state": "complete",
+      "reservation_id": "b52133a4-b5b2-4a08-8a08-cc7828113330"
+    },
+    {
+      "id": "f0ec0a71581fe2c59a48d6cd286c2f53c1e4c419320b484c3116b201474fe817",
+      "state": "complete",
+      "reservation_id": "91c0edc2-196a-40af-a003-763f76b1836c"
+    },
+    {
+      "id": "6e4a3480e29cf6f1d9a336d2636a196a111bbbb638ecef1efd1c0843aba67b81",
+      "state": "complete",
+      "reservation_id": "4cfa2545-8093-4e6f-9795-fbc141af9a2d"
+    },
+    {
+      "id": "49c0e807d36c986a71e1ab3d4e36d8107eb512f72f4750da90722fe887879dae",
+      "state": "complete",
+      "reservation_id": "c49a62cf-a856-4322-a86b-e4126171c68e"
+    },
+    {
+      "id": "f9508919526e2239453cb8dcf28e1957f4c7ad71da52cf6f180adef11d4b9697",
+      "state": "complete",
+      "reservation_id": "f8faa961-5517-4982-a5bc-d6c6472c5db0"
+    },
+    {
+      "id": "fa13e698b06ec9ad06af6ccf82528d71397c9d6bca51172ededf1a4ba71d26f1",
+      "state": "complete",
+      "reservation_id": "5f597c73-6a50-4856-8ac7-4b2688de7254"
+    },
+    {
+      "id": "b6ccae8ed76c662706c4dbe08a06c69c4dc0dc1aad52c776258aeb23cb3bb2f1",
+      "state": "complete",
+      "reservation_id": "52bde14b-41af-4304-ac6e-89f2f0bbf832"
+    },
+    {
+      "id": "cf573c82f286c1cf89bb692c32ea0c296cb10ceb3f94a56b71e218c44d368e61",
+      "state": "complete",
+      "reservation_id": "e4003742-e041-494e-aac8-60098a48122a"
+    },
+    {
+      "id": "b9f5ae95580e0b40d2cf7befb109452146f7026433ebafb08d6228d0c5fec1d7",
+      "state": "complete",
+      "reservation_id": "6ccab075-4710-4bdd-8022-382108e60498"
+    },
+    {
+      "id": "e5b4b9a3d7df91cd9bec9875f40241f107477bea9bafeb891a5f2951df1f70f0",
+      "state": "complete",
+      "reservation_id": "a2de0e55-0012-4dc7-9e22-d90ef0d8d8b8"
+    },
+    {
+      "id": "b1348a7858b28c01555baa7b7d9f916acce8e5fa6e6b7de87f6c2d5c27123495",
+      "state": "complete",
+      "reservation_id": "16bd20aa-0522-4697-979b-b04036959ef8"
+    },
+    {
+      "id": "6bf37b73611c4d84fdf12a5700bb9c552ec8cafa01ece354634ac1d76a283154",
+      "state": "complete",
+      "reservation_id": "9c2219ee-2966-458a-b790-846b278b1cba"
+    },
+    {
+      "id": "67a9653a33293b2fb5b47217c9e6bca7c4e27f4c165f4ceeb103670e935ef581",
+      "state": "complete",
+      "reservation_id": "fcc0470f-6d3a-4a34-aba3-0612839d9028"
+    },
+    {
+      "id": "e4c444f300f118ca1586d9adb06a62943666b428a1e9551992510befb166a825",
+      "state": "complete",
+      "reservation_id": "fae947d3-1e3c-4164-9398-b4ae882438ff"
+    },
+    {
+      "id": "f56a73914192a104b555cd79fe78a2d1e19b4d9270bfe4054aff4e2cd2803aef",
+      "state": "complete",
+      "reservation_id": "2e8b3afb-e449-4243-b78e-8e60e9d66b43"
+    },
+    {
+      "id": "ec9dca873af9f37edb90a5bc5024dc2bbeccca95e518d207b5253891e360f675",
+      "state": "complete",
+      "reservation_id": "71f123da-6f2f-42a7-b709-e290a05f0c13"
+    },
+    {
+      "id": "1a7231511231542d70cdac2ef7f10518900283cbfad109b22b14652c600e5468",
+      "state": "complete",
+      "reservation_id": "7eeb1cc1-adff-441e-a56d-3a65cf6f33f5"
+    },
+    {
+      "id": "79c4f0cb09942ea6ae82f3ce5e8f6ab34a376e5ccf3265db0ac144aaab53e9f8",
+      "state": "complete",
+      "reservation_id": "e87f39c7-5349-4fbf-a75c-a891e94bfa7d"
+    },
+    {
+      "id": "261728d278a11fc639d3c9d7269ae4b07c7c32a4ff0a052cf895babe473e7173",
+      "state": "complete",
+      "reservation_id": "29c21270-6de9-4010-8807-b6cc880f0edf"
+    },
+    {
+      "id": "aa2d0727801d21c0c120f3ea28ab006b939dfe705550ec4d1a783a91717b834e",
+      "state": "complete",
+      "reservation_id": "5de2cfe2-e304-4fe9-9218-560bd7636652"
+    },
+    {
+      "id": "26ac22baa4b3a45bd4140e9b79d2529cf7b48fbf5a28352ee80d41e300a8a1e7",
+      "state": "complete",
+      "reservation_id": "71ad0fb3-5d52-4989-9625-7420877e5f2a"
+    },
+    {
+      "id": "a862037a0fd6f0885afc53b6702fee323e48d2292854cde2af8bb532ace6047c",
+      "state": "complete",
+      "reservation_id": "187aef93-7e29-45b0-87d1-9f218dc4a309"
+    },
+    {
+      "id": "2bc7cf40a3ff06087ead004c052379838b428faf2ba073532b4f2176bebef654",
+      "state": "unresolved",
+      "reservation_id": "1235a9c2-694d-4547-99c5-e23d5e97c0cc"
+    },
+    {
+      "id": "88cfd857733772cd7e202136ea461d59395616edbf123e4767aecfae27b15b0b",
+      "state": "complete",
+      "reservation_id": "2c5f3582-38b0-44f0-8def-b75cfa9afbf1"
+    },
+    {
+      "id": "1eec01b25c6bc61c31d9de8accc7bb0156f6d964eaec2f69afee723e2a0711f3",
+      "state": "complete",
+      "reservation_id": "26c33042-f399-4346-8540-cb52eaf668b5"
+    },
+    {
+      "id": "bf63fbe0cadb8fbd583c6d69f30a8c493bd11b2041516e5fad9ebe56cee24d4f",
+      "state": "complete",
+      "reservation_id": "4a73918d-0a08-44e8-a0fb-3fc7239e8a21"
+    },
+    {
+      "id": "b3b4bdb4d71a379aeb9b953fd7c20c0869c9b99404efddfa5a7b2a7924f4ce72",
+      "state": "complete",
+      "reservation_id": "d4c2cee2-83b2-4297-9780-165e1ecd873a"
+    },
+    {
+      "id": "52f56ab76c6470ee773c67b38a79a1361372bbb17fd638a43e649ddc6d6d2366",
+      "state": "complete",
+      "reservation_id": "eb9ebd04-1c17-4d1c-b8bc-92202150b0d3"
+    },
+    {
+      "id": "192881ef05cc1b4d3deb9a4c121d4cc261fbd9b248cf7ba8979c1a66a8f5c7db",
+      "state": "complete",
+      "reservation_id": "46a3e30b-387e-40e1-8e62-ba0db8ff9c32"
+    },
+    {
+      "id": "43f3cd3ba524cf77ba74a18f08b1f097e29360326af2485700959526b877b390",
+      "state": "complete",
+      "reservation_id": "5929df18-fab8-4deb-9e31-7435da3e8ad5"
+    },
+    {
+      "id": "0f056cee906c3cb65e274b6793f782993534ab6fc8cbfc1cceaebec8c10cb4df",
+      "state": "complete",
+      "reservation_id": "a75320a4-4796-40f1-8c79-1c5fb263154f"
+    },
+    {
+      "id": "01b0eab23b7182aae62c1a6058f24186a0ef0b7d85ae172755c7834b47ed4e01",
+      "state": "complete",
+      "reservation_id": "9e592c47-7a44-4cd5-a7f3-862678801e98"
+    },
+    {
+      "id": "aebf69a5be991ded8aacc7a7441454ae00101028c8dc17f8b116e53a317d9163",
+      "state": "complete",
+      "reservation_id": "bc861ad7-d72a-4696-8c99-571202927752"
+    },
+    {
+      "id": "f8b0f32d55c1a168f6081ad8c2a723ca595f698c47c2295c0e8a54780f399312",
+      "state": "complete",
+      "reservation_id": "583dd6c5-769a-44e9-aee0-c5d0d5927754"
+    },
+    {
+      "id": "a93e8bdfd2c232b6cae83ed7f1aad2d857b12e42e85eba6fa50a3de862fc131f",
+      "state": "complete",
+      "reservation_id": "7eb72861-e093-4d3d-9758-e391c0e5cb31"
+    },
+    {
+      "id": "c3f7e87402be5fd04511cb0acfaf302697f6136c0bd170cd82ab6ab28fe7ab80",
+      "state": "complete",
+      "reservation_id": "957347ab-fb5b-446b-9ab3-2eafad328e29"
+    },
+    {
+      "id": "009ac8955eb9198f1ad281fa99f2d9482638b13134d90c3613d14e33950ee690",
+      "state": "complete",
+      "reservation_id": "2e65d51d-fb00-4fa8-8a56-2929337df239"
+    },
+    {
+      "id": "370191c70c813d7fac45c763dca19463874667d75729b15adb11a8227e36b94d",
+      "state": "complete",
+      "reservation_id": "e6a5f836-54d7-4e8b-a3cf-3e9ebb40f00e"
+    },
+    {
+      "id": "d9935298c3898272a48ce51633dfaaa5a8a048a674a79f7845dad9dbe6aa112b",
+      "state": "complete",
+      "reservation_id": "044fb64f-925b-4a30-a25a-8b7096740bee"
+    },
+    {
+      "id": "70db442984a7c3a5e5a5025468478e7a1c2930f2211874579f4b5223b5e25c3f",
+      "state": "complete",
+      "reservation_id": "f8e81ccd-315a-4a70-91da-48cc6a528fc6"
+    },
+    {
+      "id": "019b6eb5d671f97cf623609c82d0ed07bf66ce9204fcb76a0a1b91f8b3ed630b",
+      "state": "complete",
+      "reservation_id": "f485b33b-7475-4153-be38-fed90cd87e2c"
+    },
+    {
+      "id": "f8d20477fb7d2254a111ee4875a6cb75e9be95d249f76805f454b37cd6c6792a",
+      "state": "complete",
+      "reservation_id": "042d8488-58fc-4267-a6a5-6071a2502fa3"
+    },
+    {
+      "id": "e141024827ecec31b95dab1fdaa92410f9467ffc06c668c0db88a413ab00a1b1",
+      "state": "complete",
+      "reservation_id": "bcb41804-12dd-4365-9975-647e47a467df"
+    },
+    {
+      "id": "48a9848f004114159cd717ceda994793cd09102736ddef9f3bc1b236986e90a1",
+      "state": "complete",
+      "reservation_id": "d2317cab-79e4-4e14-a0cd-19f7ef6c9438"
+    },
+    {
+      "id": "903a33b7f33666375cea3abef596d1df68a04922124bee2064e37f92036c4e0a",
+      "state": "complete",
+      "reservation_id": "e7f8a5c5-2f03-40af-8e91-ab0a7fba0582"
+    },
+    {
+      "id": "4e77933934311b6c7edb117e207489f695c0ed3c06cf7cc030aaa7a7215fe8a1",
+      "state": "complete",
+      "reservation_id": "de028eec-0b6a-4acd-bbcd-5071407bab36"
+    },
+    {
+      "id": "7347e9036f04efbdc2e7a13db2becccb9967c70b8fb0f94980f636a2d46f5792",
+      "state": "complete",
+      "reservation_id": "8a18ae2b-f21f-49b7-9f65-fabbf54b8960"
+    },
+    {
+      "id": "58ec0679a88b6923cb88a49307e02ccb7bd455211ed3a141a6833dcfe36f46cc",
+      "state": "complete",
+      "reservation_id": "617d18e8-7764-4053-98b2-a2477d518e87"
+    },
+    {
+      "id": "6ab271c34f7b2b760c26df972f09a8b39bfac16a661d889f7f4fa44b81455887",
+      "state": "complete",
+      "reservation_id": "e1e321e5-6e0a-4ea1-8467-28bc68d8a5b9"
+    },
+    {
+      "id": "642c3ba22f7fbd5be47d8c8cafcc15afa7d2af69b9172496785830907985c59e",
+      "state": "complete",
+      "reservation_id": "c74ba87e-9815-45ec-a2e4-36fb5ed9267b"
+    },
+    {
+      "id": "db6ce4b95ab5aacdb06fea84c79e5c65140a6a814fbbc16d066dc0e6b64e1311",
+      "state": "complete",
+      "reservation_id": "3b7b7d1a-3c4f-4cbf-9a97-57636488704a"
+    },
+    {
+      "id": "41bc97431a504644fdc254f8c1ab8ad395e6787442c06910fc84ca1e2e77b933",
+      "state": "complete",
+      "reservation_id": "c9285cb9-8c74-4542-9a45-4747afe5e0d7"
+    },
+    {
+      "id": "759868b1e6600268769350d9d73da3103eb8f01a830ab5885ead78ee1bf45809",
+      "state": "complete",
+      "reservation_id": "0a04414e-ab62-425f-a5f1-713cc6b5c722"
+    },
+    {
+      "id": "3ae256c4c1da864008a3d85294951ad21c6485cf3173ac38ff86fedfe5914d33",
+      "state": "complete",
+      "reservation_id": "4a97610b-1d79-4154-8266-34ee949aebb7"
+    },
+    {
+      "id": "b05af9034d0f2f063d12f3466ae0137ff395b4e6265abb2c323f707c948c26f7",
+      "state": "complete",
+      "reservation_id": "b431238d-7d6f-4acc-bfc3-10c7820b9d24"
+    },
+    {
+      "id": "e48848c29258f778366593933204baf4c00d284889b9225468266b6d3534c5c9",
+      "state": "complete",
+      "reservation_id": "d99fa7fe-a9cc-4d08-96e6-85e4484aa232"
+    },
+    {
+      "id": "ac0c08d2bdd322e3589be75192cef96ae5812548c4556f75e39ec25fffb467c4",
+      "state": "complete",
+      "reservation_id": "29e59ab0-c4bc-4860-8236-5ae0903f633d"
+    },
+    {
+      "id": "bb88f4292cd0852a77308e3fa34ef52e37ed4f139baefb38f5dbdb095821f680",
+      "state": "complete",
+      "reservation_id": "cdf8e9a4-9cf9-4202-b339-d1bfd558cf87"
+    },
+    {
+      "id": "5c7e7025dbc812735dfb7afa5457c2ea96d523b427647658e21d8675941b5cfc",
+      "state": "complete",
+      "reservation_id": "fd12b09c-8841-4e5b-803b-72f80e8b5cbf"
+    },
+    {
+      "id": "2f9ba42944842211b09b5a954e13ea4074f70a15c1a32582d14dc319519551cb",
+      "state": "complete",
+      "reservation_id": "0eb36fb4-b153-41ea-b967-9b8f32b0ce36"
+    },
+    {
+      "id": "74d7c0d723b5a9284879e6c72dde233f9e01314dd80c8723cb41704374c7530f",
+      "state": "complete",
+      "reservation_id": "d9e55b4d-9cd1-4598-85f4-21ff93a3e693"
+    },
+    {
+      "id": "47e537244d47ea4dcf5e2ef2f28c3797d0e989e4a168f1c5f6d4c823f0b506fb",
+      "state": "complete",
+      "reservation_id": "8ef823f1-df84-46d2-9f8e-b3ec10fc9638"
+    },
+    {
+      "id": "abbd1d835bdef04d4db164dbf8aa046cd2254fe3ef68288b616fb9a6b5e2f7c8",
+      "state": "complete",
+      "reservation_id": "1f1930fb-2675-42f4-a4dc-11131db7e34e"
+    },
+    {
+      "id": "ccd0bfbdf48733d1d07e2d861ca2e11eea49c3004c815c4e181e1edfcdebd47e",
+      "state": "complete",
+      "reservation_id": "948c4438-af68-45fd-8128-60b767712d22"
+    },
+    {
+      "id": "1fa1ee1190ac1042210afbe487b466839193f51a159df4ebb2c93ad83b6c67da",
+      "state": "complete",
+      "reservation_id": "cdd77c2c-303d-4273-b441-cc8272f14ec5"
+    },
+    {
+      "id": "b89843ec5605083ff740a08cedac565a6ae4ea6e02b57ed4a6ca9e331124ac2a",
+      "state": "complete",
+      "reservation_id": "4d728766-6c8b-485c-89f3-43a0ad7ca72c"
+    },
+    {
+      "id": "077e3661d30a81e3c7869741f8c7feb2beca7dd88738f254ff3ffa30749653ed",
+      "state": "complete",
+      "reservation_id": "68309965-e31d-4a8b-a72e-28b2e93e0af9"
+    },
+    {
+      "id": "38d12bf42b7bd087a4e80acf8ffa27a924a711f4dd4a3f7db5e449c4fba9fa36",
+      "state": "complete",
+      "reservation_id": "5c234f54-8041-4a72-9f15-21e565ed09cc"
+    },
+    {
+      "id": "bac9c50dddc21dea16e4cc025f83cf793ebe52baa24b5bed97ddf5f1d8fa040a",
+      "state": "complete",
+      "reservation_id": "0302bbf3-902e-4bad-a579-07441f64c4f6"
+    },
+    {
+      "id": "22fd4511c257a49664a16f17c3fb36656c7f57667f043017472173b75c1899c9",
+      "state": "complete",
+      "reservation_id": "fc3f159e-a9e4-4628-8075-330c4779cf10"
+    },
+    {
+      "id": "7b2f2f14c8354fd240fb4f51c4bc666f1006735054a2d99d685238a13ffaef83",
+      "state": "complete",
+      "reservation_id": "dda11f5c-de7a-4723-bce5-65e51172bdff"
+    },
+    {
+      "id": "c8bb5af778aa33fad5bf0f560868f3e9008c508e66255073b7a2ef5407f1ceab",
+      "state": "complete",
+      "reservation_id": "0895250b-4f25-44b2-9d92-473a2268cbfc"
+    },
+    {
+      "id": "b5c806a073067dbfff73ac524882ae89e3acf33c26162b45a037352e79c6c37b",
+      "state": "complete",
+      "reservation_id": "ae6d4787-9618-47ea-9ede-b5719406051d"
+    },
+    {
+      "id": "be5f6050e7bf3f09faa5181a0d84345804c27c8e461edda016904931e49305f2",
+      "state": "complete",
+      "reservation_id": "5d761975-c183-41fc-96e7-7605dcff76df"
+    },
+    {
+      "id": "8fe9d442a5fd6f0646fa131b301b4acfd00cef09ade25b90a0392f2870900056",
+      "state": "complete",
+      "reservation_id": "b89547be-184e-4b7a-b4b0-da762e3910ed"
+    },
+    {
+      "id": "e7d32af0a18f4bdceb66084855d0153e85c6e4b7acce5a1ffd46a0c5fb07d467",
+      "state": "complete",
+      "reservation_id": "de14dd27-1992-4b9d-9aa4-802e0b0314e9"
+    },
+    {
+      "id": "eceeda5129b5d1d3ea806b832f49cf32d792e1ad595cc0a476ae57e4f2f8b042",
+      "state": "complete",
+      "reservation_id": "b047b35b-03dc-45b4-aea8-17050d137349"
+    },
+    {
+      "id": "5e20d4b6d2692be38d9be5e193aacb06ea822b4f4e923e739337632348f0f689",
+      "state": "complete",
+      "reservation_id": "8d95ad2f-a678-4e18-8398-898f5f2bab8a"
+    },
+    {
+      "id": "ddb8af1440e3ed1adcf6787bab938750798d14e812a57c3b4cfa33cd9954c718",
+      "state": "complete",
+      "reservation_id": "415ff399-34d7-44ac-a4ac-ce3d2eb69339"
+    },
+    {
+      "id": "8a9b284ddd04f3fd6235cbe7e34127db917ef43641f0e15110864a6a3d190a4e",
+      "state": "complete",
+      "reservation_id": "43cf9db6-9c1d-4250-ad3e-eb87bb1eb95b"
+    },
+    {
+      "id": "327ab63e12469984abe683a4889b6b06fb41bbcde654f261f8c55d7052d86622",
+      "state": "complete",
+      "reservation_id": "95e2d179-f5b6-45ca-b142-9fcbabbbfa39"
+    },
+    {
+      "id": "644ae8494b6cdb5ff7581b77f26f02d958e3cdd14948e3d69f9d4c71be522173",
+      "state": "complete",
+      "reservation_id": "aa244986-42f3-413b-bf1e-8277dc0444fc"
+    },
+    {
+      "id": "3b182694729d57269ed37a0367fe446a44fb2ce993952584b01c8ab608105d72",
+      "state": "complete",
+      "reservation_id": "b15bf122-8f2d-48c4-b409-580d27a669c2"
+    },
+    {
+      "id": "b087c6548380042f47e04ad6907e697f7e7754a6581a7018401dcecdac07b479",
+      "state": "complete",
+      "reservation_id": "8184bd2a-2a94-4ac2-90a2-24f69ba8b7cd"
+    },
+    {
+      "id": "975b9756ecf1cd8b8be8bc0f6e3ca0f3d94eb21b75a5bce2b9a42543b2b91094",
+      "state": "complete",
+      "reservation_id": "d328b955-d0ef-458f-947d-69e7dd484349"
+    },
+    {
+      "id": "f8ed660e58567b3b5587a3246ee1fcb7b569ecb6c6a14db3cd8b660caa4bc2f1",
+      "state": "complete",
+      "reservation_id": "742c96eb-c044-47bb-8a99-c6e2fa0bd39f"
+    },
+    {
+      "id": "e49715fdc2f710cef64aa27bab7ff96f4bf6e5fd2a9664cf4f57ca3bbf622031",
+      "state": "complete",
+      "reservation_id": "55d37215-6ee7-4ce6-b284-12a952fa1eb6"
+    },
+    {
+      "id": "7211acd3bd5f620421cf4736cc08180b874669328e15d644a3af84ccb027bbeb",
+      "state": "complete",
+      "reservation_id": "daec45e2-9c4f-444f-8134-67dfa73f51e1"
+    },
+    {
+      "id": "4be7ab40e5f33bedcc417fad7c2c174d6d03f7c86f050c299e298ebba9dfa80a",
+      "state": "complete",
+      "reservation_id": "1709ed29-3bc6-4050-9d5d-6a5506abf96b"
+    },
+    {
+      "id": "62c5bf3c644a493bce11c1bacfb99eae8540325241ef70b8f0ef3ed3d9afaf55",
+      "state": "complete",
+      "reservation_id": "0f6446dd-ea14-4f95-9f1c-e3143da91e2b"
+    },
+    {
+      "id": "a1db85a9e4d36d02ad80dbdd7a05bc4ac634f976fa4a8a39a9b0db8f8165d19f",
+      "state": "complete",
+      "reservation_id": "d1e150ae-9dee-411f-b7b4-24d4f3456768"
+    },
+    {
+      "id": "52d462cfba923c3ccc1329d6ff006875779b10afc6f0bbba27b2213f9f8ddfc8",
+      "state": "complete",
+      "reservation_id": "64cbd482-0307-46d2-9d84-b8b511ddc791"
+    },
+    {
+      "id": "1ffd9b615a69a40fce0f6bd5938e8b8c15e3e0b3614dfaf905841b379733ee07",
+      "state": "complete",
+      "reservation_id": "bc8a85dd-254b-4006-bde4-8f3c7e530069"
+    },
+    {
+      "id": "c80821e78685a79bca30b02ec14473f9e9fc48dcda9e63f34be1dd239f77095d",
+      "state": "complete",
+      "reservation_id": "ebc5de49-59d1-42f6-b572-ecd6cdadfeed"
+    },
+    {
+      "id": "004df235ebe8bd1fcf45f0d58e3e5f44423acaf985969bb6d20454e3e2059fc3",
+      "state": "complete",
+      "reservation_id": "c397e592-6301-4898-9e3d-7407ad8ef5e3"
+    },
+    {
+      "id": "6e372082e978252ba0a384fba050879c3a8fa149d6d5aa595448aa4c119ff1fd",
+      "state": "complete",
+      "reservation_id": "283e7ae1-4702-4bde-9c91-963a253a8912"
+    }
+  ],
+  "v76_requests": [],
+  "lease_present": false,
+  "pricing": {
+    "expires_at": "2026-10-12T21:37:55.116Z",
+    "valid": true
+  },
+  "credentials_present": {
+    "openai": true,
+    "gemini": true
+  },
+  "freeze_sha256": "67495e13688cc4f31f3814a390dbf5c045a2a5cb7ef3c4aea545adf4f6e286ea"
+}

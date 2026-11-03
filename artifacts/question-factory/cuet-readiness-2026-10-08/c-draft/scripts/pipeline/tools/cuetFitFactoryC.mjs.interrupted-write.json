@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-08T06:08:43.192Z",
+  "bytes": 27849,
+  "zero_bytes": 27849,
+  "sha256": "86bb9daed318674bf53e970149979bb9daa838658bbba1f25bc0b7da088851ed",
+  "registered": false,
+  "paid_requests": 0,
+  "restoration_basis": "Intact frozen root worker plus previously specified isolated C transport, format, repair and code-binding changes"
+}

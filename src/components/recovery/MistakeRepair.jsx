@@ -4,7 +4,8 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Wrench, Check, ArrowRight } from 'lucide-react';
-import { REPAIR_OUTCOMES, hasExplanation, repairRetryPolicy } from '@/../data/repair_presentation.mjs';
+import { REPAIR_OUTCOMES, hasExplanation, repairRetryPolicy, isKeyReview } from '@/../data/repair_presentation.mjs';
+import KeyReviewNotice from './KeyReviewNotice';
 import './mistake-repair.css';
 
 const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40).padEnd(16, '0');
@@ -35,6 +36,18 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
         return;
       }
       if (!res.ok || !body?.ok) {
+        // Already being re-checked (earlier, or after a reload): same acknowledgement, no retry.
+        if (isKeyReview(null, body?.error)) {
+          setState({ status: 'held_for_recheck', ...body, ok: true });
+          onSettled?.(questionId, 'held_for_recheck');
+          return;
+        }
+        // Already being re-checked (earlier today, or after a reload): same acknowledgement, no retry.
+        if (isKeyReview(null, body?.error)) {
+          setState({ status: 'held_for_recheck', ...body, ok: true });
+          onSettled?.(questionId, 'held_for_recheck');
+          return;
+        }
         // A released attempt cannot be reused; the next try starts a fresh request.
         const retry = repairRetryPolicy(res.status, body?.error);
         if (retry.resetRequest) requestId.current = null;
@@ -94,10 +107,13 @@ export default function MistakeRepair({ attemptId, questionId, chosen, answer, a
       </div>
     );
   }
-  if (state.status === 'held_for_recheck' || state.status === 'not_explained') {
+  if (state.status === 'held_for_recheck') {
+    return <KeyReviewNotice chosenLetter={chosen} keyLetter={answer} dispute={state.dispute} message={state.message} next={nextButton} practiceHref={state.practiceHref} />;
+  }
+  if (state.status === 'not_explained') {
     return (
       <div className="mr mr--panel" role="status" data-tone="warn">
-        <b className="mr-title">{state.status === 'held_for_recheck' ? 'Held for review' : 'No repair for this one'}</b>
+        <b className="mr-title">No repair for this one</b>
         <p className="mr-note">{state.message}</p>
         <div className="mr-foot">
           {nextButton}

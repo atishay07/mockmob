@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 14203,
+ "request_bytes": 34827,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v79-regression-2026-10-09-v77f-073bdc31e03c\",\n  \"content_hash\": \"3b8ec010b5920b506204102e40fdb650910438566f9c96cd4e907f609b3ebe4e\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": false,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.1\", \"E2.1\", \"E3.1\", \"E5.1\"],\n  \"reasons\": [\n    \"A delivery van acquired for use over several years is a fixed asset (property, plant and equipment).\",\n    \"Cash payments to acquire fixed assets are explicitly classified as cash outflows from investing activities in AS-3 / NCERT.\"\n  ],\n  \"syllabus_chapter\": \"Cash Flow Statement\",\n  \"syllabus_topic\": \"Classification of Cash Flows - Investing Activities\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Cash payments to acquire fixed assets represent cash outflows from investing activities.\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.1\", \"E5.1\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Delivery of goods is part of operations, so vehicle purchase might be viewed as operating.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"The asset provides long-term service and might be funded by long-term capital.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Fixed assets appear on the balance sheet, so only revenue cash flows are shown.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Tests classification of cash flows into operating, investing, and financing activities under Cash Flow Statement.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard concise multiple-choice question format typical of CUET UG Accountancy.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Direct conceptual application fully in line with Class 12 NCERT curriculum and CUET PYQs.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors represent common misunderstandings regarding operating use or balance sheet non-cash myths.\"\n      }\n    },\n    \"reasoning_steps\": 1,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"recall\",\n    \"exemplar_ids_compared\": [\n      \"cuet2024-accountancy-bookA-q19\",\n      \"cuet2024-accountancy-bookA-q21\",\n      \"cuet2024-accountancy-bookA-q25\"\n    ]\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Operating\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E2.1\",\n      \"premise_quote\": \"these activities are not investing or financing activities.\",\n      \"reason\": \"Acquiring a fixed asset is an investing activity, not an operating activity.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.1\",\n      \"premise_quote\": \"Cash payments to acquire fixed assets including intangibles and capitalised research and development.\",\n      \"reason\": \"Payment to acquire a delivery van is a cash payment to acquire a fixed asset.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Financing\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E3.1\",\n      \"premise_quote\": \"financing activities relate to long-term funds or capital of an enterprise, e.g., cash proceeds from issue of equity shares, debentures\",\n      \"reason\": \"Financing activities relate to capital and borrowings, not the acquisition of fixed assets.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"It is excluded because the van is a fixed asset\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E5.1\",\n      \"premise_quote\": \"Examples of cash flows arising from investing activities are: Cash Outflows from investing activities  Cash payments to acquire fixed assets\",\n      \"reason\": \"Cash payment for fixed assets is explicitly included under investing cash outflows.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EssHCsgHAWkUfRP0hP5foTPqbqPXsEEqVDv/ZvOg2udNs+hYXQj73Mw3yaLQSVshkzhWxId7wKuKb7xTPCNwSuJDTEgHhfcEA3dsT62IIJLxGGvurXWGygKUBQYGNOIUXlS3FqDT5IfkH8A9NvB0NwyujCcMiVIctcgMfFW2qzz3UbHIzdENUJYw/Rjc8Ehh8IBX+xbFL1qt8aulBY9tAS6vfXXaNZ6xxjJ42QTvleBxj1pDPJp0wnlUZtRfK/tK9pqezMTi8WKe1J8JGCPuhk2CyC8aPFiU6DXbbkP+uZzy8m4EJNAGnVZfhBtBn4gMbNxq1DvWJIPUL9ZRlVh6XivLBRkIoxuNFbDejXJw4YoNI4Lz4xg0FshzKUrd5qh7M0AEZDz/SJRIT9VYOH1Z8E7WbqOo0V+t1eYDkNMtgDvbdFp7lYKPCdSZKfdxLxrSUHOJijjwKqO5buP8fSxHThSGLeZbFQNcKa8gpghDYRz7sC4vanRgfstLo690PXBK42yb1t8KcRrzkIF9SJpkSOyMWe43HwTsX76ecDO387QTrIfagWVtys4DfNuvzyR58q2/x7919TAgtgnk3V2GH/zHZ6Mzd9uxAnLBEGI4tyz3OHiXE8jpQMKvtD47QfES5g8uOSNOaQwlwoJw3q6LViHRy5ilneUV/r9xgJfcGhSV4kmmFp+v/vdJF5CTAOyeru3rbE1mSumTlBmUWHl4CnNLMPKUinj0jjaCuSipzvjvv0Lf9VdHRkfFCcef9/EYJe6CIyT2cRttpk3ORRf7spLXGQq70wR13SMVKkvR+WTA7QMH4sawUNREI6N4hw76oZyhU07QOwjCmaBjzQCnS8V8Vt8NwmYiI5FSwEbQKV6QwbbpHt3If2l5X4i6reBQnDx31PY9qW/wdI8sIOnV7PcewmTNr67eNiLxbwbyhQ6o/sYF0hOtCWlXQirFNYV3CKTNJ4W4KLRXcIJ6h/DmR2irPcqgTOhewXVvOQeCBff9RZoDfCDMwbD2YgvHpTox5Z5KiaQDEEGgzPCaQwL1bMZ57CfpBqe7fjzkN6UjZdt5a1iMKxHRSNWVgdYmRXk1reDsy+77yKvfvzcNUc24GRveZX8KLQnpkgHgaePvtwpSDk3TPnflxhw2I8bcMyric0QbG54jo2lhtTFgP1ZD9h8K4c5dvmlrLCN31ASwMHQa03hv66EeLI5bpUeaGcSHprAg+UnPR9kDHbPU2bR70u0j8cshyb+2ncQGY9q2v2kcDVOC62AjdPtSnJRw3H0+Z8fah+NFojN6g5eG88c="
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 6387,
+   "candidatesTokenCount": 1442,
+   "totalTokenCount": 8015,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 6387
+    }
+   ],
+   "thoughtsTokenCount": 186,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "7cLIarqkOIrV4-EPweSeyQw"
+ }
+}

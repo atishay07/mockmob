@@ -1,0 +1,19 @@
+✔ unreleased measurement needs explicit staging and is permanently nonpublishing (2.1078ms)
+✔ measurement does not release or downgrade registered production campaigns (0.3263ms)
+✔ phase cap counts holds and reserves conservative next-call maximum (0.5953ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (123.706ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (211.0295ms)
+✔ partial usage on a bounded non-settled hold preserves cap headroom across recovery and concurrent reservations (169.4151ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (89.5312ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (1.1993ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.3513ms)
+✔ native dispatch attribution counts exact receipts, malformed legacy tags, holds and unrelated concurrent calls (168.0434ms)
+✔ provider body identity never returns undefined as an attributed candidate (0.1912ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 800.4759

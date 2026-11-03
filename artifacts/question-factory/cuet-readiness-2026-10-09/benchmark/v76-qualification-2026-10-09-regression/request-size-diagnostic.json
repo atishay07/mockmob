@@ -1,0 +1,136 @@
+{
+  "at": "2026-10-08T21:04:15.863Z",
+  "paid_calls": 0,
+  "captures": [
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "openai",
+      "bytes": 27318
+    },
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "gemini",
+      "bytes": 27320
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "openai",
+      "bytes": 30784
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "gemini",
+      "bytes": 30786
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "openai",
+      "bytes": 26798
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "gemini",
+      "bytes": 26800
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "openai",
+      "bytes": 27272
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "gemini",
+      "bytes": 27274
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "openai",
+      "bytes": 27294
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "gemini",
+      "bytes": 27296
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "openai",
+      "bytes": 30850
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "gemini",
+      "bytes": 30852
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "openai",
+      "bytes": 27394
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "gemini",
+      "bytes": 27396
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "openai",
+      "bytes": 28186
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "gemini",
+      "bytes": 28188
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "openai",
+      "bytes": 26848
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "gemini",
+      "bytes": 26850
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "openai",
+      "bytes": 26656
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "gemini",
+      "bytes": 26658
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "openai",
+      "bytes": 32814
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "gemini",
+      "bytes": 32816
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "openai",
+      "bytes": 29827
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "gemini",
+      "bytes": 29829
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "provider": "openai",
+      "bytes": 33895
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "provider": "gemini",
+      "bytes": 33897
+    }
+  ]
+}

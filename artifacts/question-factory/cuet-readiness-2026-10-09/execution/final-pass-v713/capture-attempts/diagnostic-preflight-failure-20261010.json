@@ -1,0 +1,15 @@
+{
+  "recorded_at": "2026-10-09T18:39:06.897Z",
+  "helper": "scripts/pipeline/tools/captureFinalGeneratorV713Preflight.mjs",
+  "helper_sha256": "003a5b3c8cd8099544637eb248a474194f9f1d5d370d97562d15d2443daa4fc3",
+  "outcome": "failed_closed_before_preflight_write",
+  "error": "preflight_expected_base_and_actual_retry:6c5c2777b7bd5c64e0eb9ac80ef4d1ee:v713-explanation_support:3",
+  "diagnostic": {
+    "expected_requests_for_explanation_support": 2,
+    "observed": 3,
+    "likely_uncached_independent_evaluation_replays": true
+  },
+  "paid_calls": 0,
+  "provider_reservations": 0,
+  "source_or_registration_modified": false
+}

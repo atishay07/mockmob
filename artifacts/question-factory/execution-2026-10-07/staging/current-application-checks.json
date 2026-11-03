@@ -1,0 +1,75 @@
+{
+  "at": "2026-10-07T03:35:10.423Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "passed": true,
+  "checks": [
+    {
+      "name": "anonymous admin access rejected",
+      "status": 401,
+      "error": "unauthenticated"
+    },
+    {
+      "name": "student admin access rejected",
+      "status": 404,
+      "error": "not_admin"
+    },
+    {
+      "name": "signed-in admin overview",
+      "status": 200,
+      "error": null
+    },
+    {
+      "name": "cross-origin control rejected",
+      "status": 403,
+      "error": "same_origin_required"
+    },
+    {
+      "name": "signed-in pause",
+      "status": 200,
+      "error": null
+    },
+    {
+      "name": "pause idempotency",
+      "status": 200,
+      "error": null
+    },
+    {
+      "name": "signed-in resume after fresh calibration",
+      "status": 200,
+      "error": null
+    },
+    {
+      "name": "student cannot claim service worker",
+      "passed": true
+    },
+    {
+      "name": "student retrieval english",
+      "status": 200,
+      "error": null,
+      "question_count": 10
+    },
+    {
+      "name": "student retrieval accountancy",
+      "status": 200,
+      "error": null,
+      "question_count": 19
+    },
+    {
+      "name": "student retrieval business_studies",
+      "status": 200,
+      "error": null,
+      "question_count": 12
+    },
+    {
+      "name": "student retrieval economics",
+      "status": 200,
+      "error": null,
+      "question_count": 9
+    }
+  ],
+  "registered_jobs": 100,
+  "student_ai_monthly_cap": 25,
+  "paid_provider_calls": 0,
+  "emails_sent": 0,
+  "production_writes": 0
+}

@@ -1,0 +1,369 @@
+{
+  "at": "2026-10-08T22:18:59.146Z",
+  "paid_calls": 0,
+  "price_expires_at": "2026-10-12T21:37:55.116Z",
+  "source": "Actual frozen V76 request builders; maximum FULL input/output reservations at registered rates, including cache-write bound AND existing exactly-one billed output-completion retry with doubled output ceiling; realized Flex discounts are not assumed. Audit builder uses synthetic empty cached solutions: its displayed bytes are not the final audit input size. Real audits remain guarded by full input/output reservations.",
+  "supersedes": "v2 captured duplicate blind evaluations and omitted audit requests; v3 omitted existing billed completion retries. All historical estimates are preserved. This post-result correction is not retroactive preregistration.",
+  "cases": 13,
+  "maximum_stage_reservations_usd": {
+    "blind_solution": 0.02,
+    "independent_evaluation": 0.103125,
+    "explanation_support": 0.01625
+  },
+  "initial_requests_bound_usd": 0.755625,
+  "all_stages_with_retries_bound_usd": 1.811875,
+  "maximum_request_bytes": 33897,
+  "captures": [
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27318,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27320,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-ac-q04",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11123,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 30784,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 30786,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-bs-q02",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10602,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26798,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26800,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eco-q02",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10413,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27272,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27274,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eng-q01",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11147,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27294,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27296,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eng-q01--wrong_key",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11169,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 30850,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 30852,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-bs-q02--overlapping_options",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10668,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 27394,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 27396,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-ac-q04--missing_provision_amount",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 11199,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 28186,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 28188,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eco-q06--numerical_fault",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10416,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26848,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26850,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eco-q02--unsupported_explanation",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 10544,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 26656,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 26658,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "cbse24-eco-q04--out_of_syllabus",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 9873,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 32814,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 32816,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "known-bank-5bde762f1a36a3a7d894f0aa45f655e9",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 16362,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 29827,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 29829,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "known-bank-ea0352db044b73bb7158800c58be188d",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 13117,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "provider": "openai",
+      "stage": "blind_solution",
+      "utf8_bytes": 33895,
+      "maximum_output_tokens": 7500,
+      "maximum_reserved_micro": 8125,
+      "single_billed_completion_retry_maximum_micro": 11875
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "provider": "gemini",
+      "stage": "independent_evaluation",
+      "utf8_bytes": 33897,
+      "maximum_output_tokens": 4500,
+      "maximum_reserved_micro": 43125,
+      "single_billed_completion_retry_maximum_micro": 60000
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "provider": "openai",
+      "stage": "explanation_support",
+      "utf8_bytes": 13544,
+      "maximum_output_tokens": 5000,
+      "maximum_reserved_micro": 6875,
+      "single_billed_completion_retry_maximum_micro": 9375
+    }
+  ]
+}

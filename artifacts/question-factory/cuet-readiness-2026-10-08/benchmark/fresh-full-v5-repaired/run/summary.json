@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-07T22:48:44.648Z",
+  "id": "fresh-full-v5-repaired-2026-10-08",
+  "denominator": 96,
+  "valid_roots": 64,
+  "controlled_defects": 32,
+  "terminal_topology": 0,
+  "eligible_valid": 0,
+  "controlled_false_accepts": [],
+  "provider_errors": 0,
+  "topology_errors": [],
+  "execution_finished": false,
+  "release_evidence_complete": false,
+  "settled_usd": 0.02531,
+  "held_usd": 0.026384,
+  "gross_usd": 0.051694,
+  "receipt_complete": false,
+  "publication_writes": 0,
+  "release": false
+}

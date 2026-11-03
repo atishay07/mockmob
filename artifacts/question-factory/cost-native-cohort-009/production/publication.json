@@ -1,0 +1,436 @@
+{
+  "at": "2026-10-07T15:01:27.515Z",
+  "project_ref": "isrxrxzjocewrdureyhp",
+  "cohort": "artifacts/question-factory/cost-native-cohort-009",
+  "approved_unique": 87,
+  "newly_inserted": 87,
+  "previously_published": 0,
+  "publication_receipts": [
+    {
+      "id": "fbb5b5887c59bdde2a603b20bea37d5c",
+      "receipt": "original-passage-249ea78da59fc5fa63d1",
+      "at": "2026-10-07T15:01:02.985Z"
+    },
+    {
+      "id": "43d1832c48e9bcab1d5ee03e93eabbfc",
+      "receipt": "43d1832c48e9bcab1d5ee03e93eabbfc",
+      "at": "2026-10-07T15:01:03.247Z"
+    },
+    {
+      "id": "c159d74b4d72ea24a97a9398294284fc",
+      "receipt": "c159d74b4d72ea24a97a9398294284fc",
+      "at": "2026-10-07T15:01:03.512Z"
+    },
+    {
+      "id": "2e7ee67a5644cd51b1ece61d2af07979",
+      "receipt": "2e7ee67a5644cd51b1ece61d2af07979",
+      "at": "2026-10-07T15:01:03.771Z"
+    },
+    {
+      "id": "2a67d3c5dc869a05a9fc4434c149c4b9",
+      "receipt": "2a67d3c5dc869a05a9fc4434c149c4b9",
+      "at": "2026-10-07T15:01:04.024Z"
+    },
+    {
+      "id": "2c9a16eb863b2309b1735321aa43d938",
+      "receipt": "2c9a16eb863b2309b1735321aa43d938",
+      "at": "2026-10-07T15:01:04.319Z"
+    },
+    {
+      "id": "5e8cee853565283c6a372d7287dead96",
+      "receipt": "5e8cee853565283c6a372d7287dead96",
+      "at": "2026-10-07T15:01:04.580Z"
+    },
+    {
+      "id": "a65094cc32d7797098bdfa33fc8ab015",
+      "receipt": "a65094cc32d7797098bdfa33fc8ab015",
+      "at": "2026-10-07T15:01:04.819Z"
+    },
+    {
+      "id": "d2d9953661b99ad9dac4afd2af59a90d",
+      "receipt": "d2d9953661b99ad9dac4afd2af59a90d",
+      "at": "2026-10-07T15:01:05.072Z"
+    },
+    {
+      "id": "68c3b1ca776a23d1ba4fb2dc449fa6a7",
+      "receipt": "68c3b1ca776a23d1ba4fb2dc449fa6a7",
+      "at": "2026-10-07T15:01:05.330Z"
+    },
+    {
+      "id": "ac33be6bfb6236cb41ff36ffab60c6a8",
+      "receipt": "ac33be6bfb6236cb41ff36ffab60c6a8",
+      "at": "2026-10-07T15:01:05.575Z"
+    },
+    {
+      "id": "302d8d707e481216910d656ad853463b",
+      "receipt": "302d8d707e481216910d656ad853463b",
+      "at": "2026-10-07T15:01:05.834Z"
+    },
+    {
+      "id": "11a1cd0da911c0091e9884629edb5165",
+      "receipt": "11a1cd0da911c0091e9884629edb5165",
+      "at": "2026-10-07T15:01:06.081Z"
+    },
+    {
+      "id": "8d1800f4b20e731395d48361f6c4842e",
+      "receipt": "8d1800f4b20e731395d48361f6c4842e",
+      "at": "2026-10-07T15:01:06.354Z"
+    },
+    {
+      "id": "246b07ecc64527cc6bb4f40f5c47d6b6",
+      "receipt": "246b07ecc64527cc6bb4f40f5c47d6b6",
+      "at": "2026-10-07T15:01:06.620Z"
+    },
+    {
+      "id": "841d7cfaa48c0eedf1f6b093489b1542",
+      "receipt": "841d7cfaa48c0eedf1f6b093489b1542",
+      "at": "2026-10-07T15:01:06.875Z"
+    },
+    {
+      "id": "3840664fceb9afc9c36309542c0ab16f",
+      "receipt": "3840664fceb9afc9c36309542c0ab16f",
+      "at": "2026-10-07T15:01:07.124Z"
+    },
+    {
+      "id": "d717500da583078e515b5b1a457366fd",
+      "receipt": "d717500da583078e515b5b1a457366fd",
+      "at": "2026-10-07T15:01:07.377Z"
+    },
+    {
+      "id": "0f662d12bdd206b0d260c7d41f50892f",
+      "receipt": "0f662d12bdd206b0d260c7d41f50892f",
+      "at": "2026-10-07T15:01:07.624Z"
+    },
+    {
+      "id": "27d9c1bbed193a6cdfb58172422bde4e",
+      "receipt": "27d9c1bbed193a6cdfb58172422bde4e",
+      "at": "2026-10-07T15:01:07.891Z"
+    },
+    {
+      "id": "a09dc9b7d73b7cd0831d1ff2586793c3",
+      "receipt": "a09dc9b7d73b7cd0831d1ff2586793c3",
+      "at": "2026-10-07T15:01:08.140Z"
+    },
+    {
+      "id": "6314a93c1f302347c03562d66b15f2d3",
+      "receipt": "6314a93c1f302347c03562d66b15f2d3",
+      "at": "2026-10-07T15:01:08.531Z"
+    },
+    {
+      "id": "a9b529d47e88daf86f04fd5eeb317015",
+      "receipt": "a9b529d47e88daf86f04fd5eeb317015",
+      "at": "2026-10-07T15:01:08.793Z"
+    },
+    {
+      "id": "012e105dd550c2448e3e3d5364b83bd9",
+      "receipt": "012e105dd550c2448e3e3d5364b83bd9",
+      "at": "2026-10-07T15:01:09.088Z"
+    },
+    {
+      "id": "bdaab4d57192e82d8905bcfedc1179ba",
+      "receipt": "bdaab4d57192e82d8905bcfedc1179ba",
+      "at": "2026-10-07T15:01:09.336Z"
+    },
+    {
+      "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "receipt": "341d2ffb9c69a0f0bef64c9eea5e2706",
+      "at": "2026-10-07T15:01:09.612Z"
+    },
+    {
+      "id": "ae253e2c74d85c7ca58b6c8be1807189",
+      "receipt": "ae253e2c74d85c7ca58b6c8be1807189",
+      "at": "2026-10-07T15:01:09.895Z"
+    },
+    {
+      "id": "99519ad997494b32a08ca17d0c48315b",
+      "receipt": "99519ad997494b32a08ca17d0c48315b",
+      "at": "2026-10-07T15:01:10.154Z"
+    },
+    {
+      "id": "34290716ce452501a80ebac2b51e9a2e",
+      "receipt": "34290716ce452501a80ebac2b51e9a2e",
+      "at": "2026-10-07T15:01:10.433Z"
+    },
+    {
+      "id": "1daaddc92c0285704924e8448eafbb35",
+      "receipt": "1daaddc92c0285704924e8448eafbb35",
+      "at": "2026-10-07T15:01:10.679Z"
+    },
+    {
+      "id": "0282ab544a312eaf839c21d2feeb915f",
+      "receipt": "0282ab544a312eaf839c21d2feeb915f",
+      "at": "2026-10-07T15:01:10.945Z"
+    },
+    {
+      "id": "8efd0113e531609d22cd8d0ed84efab6",
+      "receipt": "8efd0113e531609d22cd8d0ed84efab6",
+      "at": "2026-10-07T15:01:11.199Z"
+    },
+    {
+      "id": "e4c4ed87fff0daa17cdf749948a2f75f",
+      "receipt": "e4c4ed87fff0daa17cdf749948a2f75f",
+      "at": "2026-10-07T15:01:11.448Z"
+    },
+    {
+      "id": "9fc3c1a4b5550b6c6fbabbb5243369d9",
+      "receipt": "9fc3c1a4b5550b6c6fbabbb5243369d9",
+      "at": "2026-10-07T15:01:11.753Z"
+    },
+    {
+      "id": "34213425ce9d3f37be68c4d58bf0344a",
+      "receipt": "34213425ce9d3f37be68c4d58bf0344a",
+      "at": "2026-10-07T15:01:11.991Z"
+    },
+    {
+      "id": "1b6f75f8c3aff60a5dbde12dd68bddbd",
+      "receipt": "1b6f75f8c3aff60a5dbde12dd68bddbd",
+      "at": "2026-10-07T15:01:12.250Z"
+    },
+    {
+      "id": "c98ce6fb23fd56c60d1c9cfa53252e3c",
+      "receipt": "c98ce6fb23fd56c60d1c9cfa53252e3c",
+      "at": "2026-10-07T15:01:12.511Z"
+    },
+    {
+      "id": "c98f9ea42e2d955bc12ae6e97f8cb537",
+      "receipt": "c98f9ea42e2d955bc12ae6e97f8cb537",
+      "at": "2026-10-07T15:01:12.780Z"
+    },
+    {
+      "id": "c1efc9c1860a86dad435030d3ff9eb00",
+      "receipt": "c1efc9c1860a86dad435030d3ff9eb00",
+      "at": "2026-10-07T15:01:13.039Z"
+    },
+    {
+      "id": "adafe219ad9e208659aa51e4bac76d27",
+      "receipt": "adafe219ad9e208659aa51e4bac76d27",
+      "at": "2026-10-07T15:01:13.289Z"
+    },
+    {
+      "id": "39de78985f53d2fe54712af903c62173",
+      "receipt": "39de78985f53d2fe54712af903c62173",
+      "at": "2026-10-07T15:01:13.553Z"
+    },
+    {
+      "id": "251bc7fd6f8435645205895462340198",
+      "receipt": "251bc7fd6f8435645205895462340198",
+      "at": "2026-10-07T15:01:13.812Z"
+    },
+    {
+      "id": "6786ea9fe689d8be6d065bd84f478f75",
+      "receipt": "6786ea9fe689d8be6d065bd84f478f75",
+      "at": "2026-10-07T15:01:14.077Z"
+    },
+    {
+      "id": "363ebd22a65b13d4f8acbf88e7d5cf84",
+      "receipt": "363ebd22a65b13d4f8acbf88e7d5cf84",
+      "at": "2026-10-07T15:01:14.330Z"
+    },
+    {
+      "id": "7c12fbed684c0a6043ba94fc55303270",
+      "receipt": "7c12fbed684c0a6043ba94fc55303270",
+      "at": "2026-10-07T15:01:14.597Z"
+    },
+    {
+      "id": "b83fde0bf273e92c0790a2bbe9f86f1a",
+      "receipt": "b83fde0bf273e92c0790a2bbe9f86f1a",
+      "at": "2026-10-07T15:01:14.959Z"
+    },
+    {
+      "id": "e2a961b449db8c3c96c30377c26adcfb",
+      "receipt": "e2a961b449db8c3c96c30377c26adcfb",
+      "at": "2026-10-07T15:01:15.333Z"
+    },
+    {
+      "id": "7c95644eaf337d180a08bf064264b36f",
+      "receipt": "7c95644eaf337d180a08bf064264b36f",
+      "at": "2026-10-07T15:01:15.577Z"
+    },
+    {
+      "id": "e32ac036ae3abedf9227a091547d6403",
+      "receipt": "e32ac036ae3abedf9227a091547d6403",
+      "at": "2026-10-07T15:01:15.833Z"
+    },
+    {
+      "id": "0e246f1fa8b92cea8ee25770a06348cc",
+      "receipt": "0e246f1fa8b92cea8ee25770a06348cc",
+      "at": "2026-10-07T15:01:16.107Z"
+    },
+    {
+      "id": "9c3ef452b9eefb394c82a073bc9032b9",
+      "receipt": "9c3ef452b9eefb394c82a073bc9032b9",
+      "at": "2026-10-07T15:01:16.371Z"
+    },
+    {
+      "id": "3fc5b39b68a109ff9e820611fd315549",
+      "receipt": "3fc5b39b68a109ff9e820611fd315549",
+      "at": "2026-10-07T15:01:16.619Z"
+    },
+    {
+      "id": "fdebdbcc51b915e219e73a8cab6bfb31",
+      "receipt": "fdebdbcc51b915e219e73a8cab6bfb31",
+      "at": "2026-10-07T15:01:16.886Z"
+    },
+    {
+      "id": "adcfb9eb0d527f6ac32dd43065b253b1",
+      "receipt": "adcfb9eb0d527f6ac32dd43065b253b1",
+      "at": "2026-10-07T15:01:17.142Z"
+    },
+    {
+      "id": "f6b5ee4fdc779565b56c28ac568798e6",
+      "receipt": "f6b5ee4fdc779565b56c28ac568798e6",
+      "at": "2026-10-07T15:01:17.406Z"
+    },
+    {
+      "id": "cf89da48f2392c7c1f489c0a5add08cf",
+      "receipt": "cf89da48f2392c7c1f489c0a5add08cf",
+      "at": "2026-10-07T15:01:17.666Z"
+    },
+    {
+      "id": "f3e8e74061bf6e5cfc408edc3e934bb6",
+      "receipt": "f3e8e74061bf6e5cfc408edc3e934bb6",
+      "at": "2026-10-07T15:01:17.915Z"
+    },
+    {
+      "id": "55cd9b7ce67f3002fb6c53fb37f6c2d1",
+      "receipt": "55cd9b7ce67f3002fb6c53fb37f6c2d1",
+      "at": "2026-10-07T15:01:18.278Z"
+    },
+    {
+      "id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "receipt": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "at": "2026-10-07T15:01:18.662Z"
+    },
+    {
+      "id": "bec4af483a95c48127929f9b6bdd281b",
+      "receipt": "bec4af483a95c48127929f9b6bdd281b",
+      "at": "2026-10-07T15:01:18.922Z"
+    },
+    {
+      "id": "864f95c5082df34b7069a666787820bb",
+      "receipt": "864f95c5082df34b7069a666787820bb",
+      "at": "2026-10-07T15:01:19.205Z"
+    },
+    {
+      "id": "3fbbd0f9ae9ab64ad3c12726f135e796",
+      "receipt": "3fbbd0f9ae9ab64ad3c12726f135e796",
+      "at": "2026-10-07T15:01:19.479Z"
+    },
+    {
+      "id": "bed8bc8e230728ca27bed266b6112698",
+      "receipt": "bed8bc8e230728ca27bed266b6112698",
+      "at": "2026-10-07T15:01:19.725Z"
+    },
+    {
+      "id": "0f44c14e933747834e111aca3949b18a",
+      "receipt": "0f44c14e933747834e111aca3949b18a",
+      "at": "2026-10-07T15:01:19.967Z"
+    },
+    {
+      "id": "263331945731754a620248a2d4cb6d7a",
+      "receipt": "263331945731754a620248a2d4cb6d7a",
+      "at": "2026-10-07T15:01:20.229Z"
+    },
+    {
+      "id": "2d345252964b37f132c390dffd0986e1",
+      "receipt": "2d345252964b37f132c390dffd0986e1",
+      "at": "2026-10-07T15:01:20.481Z"
+    },
+    {
+      "id": "1a1da7cdf9a901c9d7d93dbdbf9d365b",
+      "receipt": "1a1da7cdf9a901c9d7d93dbdbf9d365b",
+      "at": "2026-10-07T15:01:20.735Z"
+    },
+    {
+      "id": "ceb78659a116438dd3c1483edb323f71",
+      "receipt": "ceb78659a116438dd3c1483edb323f71",
+      "at": "2026-10-07T15:01:20.996Z"
+    },
+    {
+      "id": "c31b413968295cd43207f8cae79a60bb",
+      "receipt": "c31b413968295cd43207f8cae79a60bb",
+      "at": "2026-10-07T15:01:21.251Z"
+    },
+    {
+      "id": "74bee44cf60bb259dda6590b3cf1ffdf",
+      "receipt": "74bee44cf60bb259dda6590b3cf1ffdf",
+      "at": "2026-10-07T15:01:21.520Z"
+    },
+    {
+      "id": "79d2ed5cf53f4e123c8ed1f83f3b9971",
+      "receipt": "79d2ed5cf53f4e123c8ed1f83f3b9971",
+      "at": "2026-10-07T15:01:21.867Z"
+    },
+    {
+      "id": "5b3d948c2f39b3bc132f271f00f28290",
+      "receipt": "5b3d948c2f39b3bc132f271f00f28290",
+      "at": "2026-10-07T15:01:22.135Z"
+    },
+    {
+      "id": "feb840a6e49b6592386adcc5fd2bf8a2",
+      "receipt": "feb840a6e49b6592386adcc5fd2bf8a2",
+      "at": "2026-10-07T15:01:22.399Z"
+    },
+    {
+      "id": "1d169b91bb1212eaace41647147933e2",
+      "receipt": "1d169b91bb1212eaace41647147933e2",
+      "at": "2026-10-07T15:01:22.661Z"
+    },
+    {
+      "id": "022715ffbd5f9ddc00637221a98a8363",
+      "receipt": "022715ffbd5f9ddc00637221a98a8363",
+      "at": "2026-10-07T15:01:22.915Z"
+    },
+    {
+      "id": "887948b76a30543c0dd9aec79ae1ed3d",
+      "receipt": "887948b76a30543c0dd9aec79ae1ed3d",
+      "at": "2026-10-07T15:01:23.172Z"
+    },
+    {
+      "id": "d217b7904660205b8aa4836a99eca029",
+      "receipt": "d217b7904660205b8aa4836a99eca029",
+      "at": "2026-10-07T15:01:23.428Z"
+    },
+    {
+      "id": "10c2dc43e1708dd77ce8a2096c2b3a53",
+      "receipt": "10c2dc43e1708dd77ce8a2096c2b3a53",
+      "at": "2026-10-07T15:01:23.698Z"
+    },
+    {
+      "id": "7e7fd38d335993753a03453ae8d818f7",
+      "receipt": "7e7fd38d335993753a03453ae8d818f7",
+      "at": "2026-10-07T15:01:23.940Z"
+    },
+    {
+      "id": "e8d49de7cf3dc444a48142a263886517",
+      "receipt": "e8d49de7cf3dc444a48142a263886517",
+      "at": "2026-10-07T15:01:24.292Z"
+    },
+    {
+      "id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+      "receipt": "bc294a9b39cfc830dd3077ae0b6f23ee",
+      "at": "2026-10-07T15:01:24.555Z"
+    },
+    {
+      "id": "296c159a29a991573e77266004038898",
+      "receipt": "296c159a29a991573e77266004038898",
+      "at": "2026-10-07T15:01:24.817Z"
+    },
+    {
+      "id": "72cee0436dddd6f3eb028de629edfcd6",
+      "receipt": "72cee0436dddd6f3eb028de629edfcd6",
+      "at": "2026-10-07T15:01:25.079Z"
+    }
+  ],
+  "current_stored_evidence_valid": true,
+  "publication_accounting": {
+    "ready": true,
+    "settled": true,
+    "bounded_terminal_failure_holds": [],
+    "blocked_requests": [],
+    "basis": "Only terminal failed requests for quarantined items can retain proven maximum holds while unaffected approved items publish. Every hold stays committed and unsettled."
+  },
+  "cost_settled": true,
+  "student_retrieval_verified": false,
+  "paid_model_calls": 0
+}

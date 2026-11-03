@@ -1,0 +1,962 @@
+{
+  "schema": "cbse-sqp-objective-candidate-questions-v2",
+  "version": "v2",
+  "candidate_question_count": 32,
+  "subject_counts": {
+    "accountancy": 8,
+    "business_studies": 8,
+    "economics": 8,
+    "english_core": 8
+  },
+  "answers_removed": true,
+  "source_type": "CBSE Class XII sample-paper-derived candidates; not CUET PYQs",
+  "not_release_eligible": true,
+  "source_correlation": "Eight question roots per subject come from one CBSE SQP family per subject. Questions within a passage/case are additionally clustered. These are not 32 independent examination families.",
+  "stimuli": [
+    {
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "source_id": "cbse-2026-27-english-core-sqp",
+      "source_question": "Q1, printed pages 1-3; source text is 417 words",
+      "status": "adapted_paraphrase_pending_independent_gold_rederivation",
+      "word_count": 100,
+      "text": "1. Each December, Earth crosses a debris stream associated with asteroid 3200 Phaethon, producing the Geminids. Their activity is high and occurs predictably.\n2. The meteors appear to radiate from Gemini, although they can be seen across the sky. This apparent origin, called the radiant, helps identify the shower.\n3. The radiant rises higher after midnight, improving the chances of sightings. Telescopes and binoculars are not needed; clouds, atmospheric clarity, moonlight, and light pollution affect visibility.\n4. Historical records since the mid-nineteenth century show that Geminid activity has increased steadily. The meteors’ moderate speed is associated with bright, longer-lasting streaks."
+    },
+    {
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "source_id": "cbse-2026-27-english-core-sqp",
+      "source_question": "Q2, printed pages 3-4; source text is 333 words",
+      "status": "adapted_paraphrase_pending_independent_gold_rederivation",
+      "word_count": 100,
+      "text": "1. A study tracked changes in everyday payment habits through UPI data for four Octobers.\n2. Transaction counts rose from 4.21 billion in October 2021 to 7.30 billion in 2022, 11.40 billion in 2023, and 16.58 billion in 2024.\n3. Transaction value also rose: ₹7.71 lakh crore in 2021, ₹12.11 lakh crore in 2022, ₹17.15 lakh crore in 2023, and ₹23.49 lakh crore in 2024.\n4. UPI use extended to shops, homes, workplaces, and small roadside vendors, for purchases and services. The paper describes users as more confident in digital payments and notes effects on small businesses and cash use."
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "3",
+      "paper_page": 2,
+      "question": "(A) Assertion: Issue price more than face value received on issue of shares is credited to securities premium account but not to statement of profit and loss. (R) Reason: In case of forfeiture of shares, securities premium not received is debited. Choose the correct option from the following:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both (A) and (R) are true and (R) is correct explanation to (A)."
+        },
+        {
+          "label": "B",
+          "text": "Both (A) and (R) are true but (R) is not correct explanation of (A)."
+        },
+        {
+          "label": "C",
+          "text": "(A) is false but (R) is correct."
+        },
+        {
+          "label": "D",
+          "text": "(A) is correct but (R) is false."
+        }
+      ],
+      "type": "assertion_reason"
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "4",
+      "paper_page": 2,
+      "question": "A Ltd. invited applications for 50,000 shares of ₹10 each at par. Applications were received for 80,000 shares. Shares were allotted on a pro-rata basis to applicants of 60,000 shares. If application money was ₹3 per share and allotment money was ₹4 per share, how much amount will be received on allotment from an applicant who applied for 6,000 shares?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹20,000"
+        },
+        {
+          "label": "B",
+          "text": "₹24,000"
+        },
+        {
+          "label": "C",
+          "text": "₹21,000"
+        },
+        {
+          "label": "D",
+          "text": "₹17,000"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "subject": "accountancy",
+      "topic_family": "partnership_reconstitution",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "8",
+      "paper_page": 3,
+      "question": "L and M were partners sharing profits in the ratio of 5:3. They admitted N as a new partner and on the date of admission, firm had Investments of ₹3,00,000 and Investment Fluctuation Reserve of ₹40,000. On the same date; M took over 40% of investments at ₹1,10,000; the remaining investments were revalued at ₹1,50,000. Identify the effect on the Revaluation Account.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Credited ₹10,000"
+        },
+        {
+          "label": "B",
+          "text": "Debited ₹10,000"
+        },
+        {
+          "label": "C",
+          "text": "Credited ₹5,000"
+        },
+        {
+          "label": "D",
+          "text": "No effect on revaluation A/c"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "subject": "accountancy",
+      "topic_family": "partnership_reconstitution",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "10",
+      "paper_page": 3,
+      "question": "Machinery was appearing in the books at ₹12,00,000. It was found to be undervalued by 20%. At what amount will the machinery be shown in the Balance Sheet of the reconstituted firm?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹14,00,000"
+        },
+        {
+          "label": "B",
+          "text": "₹15,00,000"
+        },
+        {
+          "label": "C",
+          "text": "₹12,00,000"
+        },
+        {
+          "label": "D",
+          "text": "₹16,00,000"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_business_purchase",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "12",
+      "paper_page": 3,
+      "question": "Aarav Ltd. acquired the business of Mehul Ltd. as per the following agreement: Assets of ₹20,00,000 were taken over at ₹18,00,000; liabilities of ₹2,80,000 were taken over at ₹2,50,000. The purchase consideration was discharged by issuing 12,000 equity shares of ₹100 each at a premium of 25% and ₹1,00,000 through bank draft. The amount of Goodwill/Capital Reserve arising on acquisition will be:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Goodwill ₹50,000"
+        },
+        {
+          "label": "B",
+          "text": "Capital Reserve ₹50,000"
+        },
+        {
+          "label": "C",
+          "text": "Goodwill ₹1,50,000"
+        },
+        {
+          "label": "D",
+          "text": "Capital Reserve ₹1,50,000"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "subject": "accountancy",
+      "topic_family": "dissolution",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "14",
+      "paper_page": 4,
+      "question": "A, B, and C are partners sharing profits in the ratio of 5:3:2. On dissolution, a creditor of ₹40,000 accepts ₹30,000 in full settlement. Another creditor of ₹15,000 is paid in full. What amount will be transferred to the Realisation Account to close the creditors account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹55,000"
+        },
+        {
+          "label": "B",
+          "text": "₹45,000"
+        },
+        {
+          "label": "C",
+          "text": "₹70,000"
+        },
+        {
+          "label": "D",
+          "text": "₹40,000"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "subject": "accountancy",
+      "topic_family": "company_accounts_share_capital",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "15",
+      "paper_page": 4,
+      "question": "Ritika Ltd. issued 1,000 equity shares of ₹80 each at a premium of ₹10 per share. Application and allotment money of ₹50 (including ₹6 premium) per share was called, and the entire amount was duly received. What amount will be reflected in Subscribed but not fully paid-up capital?",
+      "options": [
+        {
+          "label": "A",
+          "text": "₹50,000"
+        },
+        {
+          "label": "B",
+          "text": "₹44,000"
+        },
+        {
+          "label": "C",
+          "text": "₹56,000"
+        },
+        {
+          "label": "D",
+          "text": "Nil"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "subject": "accountancy",
+      "topic_family": "dissolution",
+      "paper_source_id": "cbse-2026-27-accountancy-sqp",
+      "question_no": "16",
+      "paper_page": 4,
+      "question": "Which of the following items is not transferred to the Realisation Account at the time of dissolution of a firm? A. Goodwill appearing in the books. B. Employees Provident Fund. C. Provision for doubtful debts. D. General reserve. E. Debit Bank Balance.",
+      "options": [
+        {
+          "label": "A",
+          "text": "D only"
+        },
+        {
+          "label": "B",
+          "text": "A, B and C"
+        },
+        {
+          "label": "C",
+          "text": "D and E"
+        },
+        {
+          "label": "D",
+          "text": "B, D and E"
+        }
+      ],
+      "type": "multiple_statement_single_correct"
+    },
+    {
+      "item_id": "cbse26-bs-q01",
+      "subject": "business_studies",
+      "topic_family": "management_and_organisation",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "1",
+      "paper_page": 1,
+      "question": "Ms Pratima Bhanot is working as Quality Control Supervisor in a company. Identify the function that she will not be performing at the level at which she is working:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Ensuring the quality of output of workers."
+        },
+        {
+          "label": "B",
+          "text": "Confirming that safety standards are maintained in the organisation."
+        },
+        {
+          "label": "C",
+          "text": "Analysing the business environment and its implications for the survival of the firm."
+        },
+        {
+          "label": "D",
+          "text": "Minimising the wastage of materials."
+        }
+      ],
+      "type": "single_correct_concept"
+    },
+    {
+      "item_id": "cbse26-bs-q02",
+      "subject": "business_studies",
+      "topic_family": "management_principles",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "2",
+      "paper_page": 2,
+      "question": "Name the technique of Scientific Management that relates the compensation system to the efficiency of workers.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Motion Study"
+        },
+        {
+          "label": "B",
+          "text": "Differential Piece Wage System"
+        },
+        {
+          "label": "C",
+          "text": "Standardisation and Simplification of work"
+        },
+        {
+          "label": "D",
+          "text": "Fatigue Study"
+        }
+      ],
+      "type": "single_correct_concept"
+    },
+    {
+      "item_id": "cbse26-bs-q03",
+      "subject": "business_studies",
+      "topic_family": "management_and_organisation",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "3",
+      "paper_page": 2,
+      "question": "Raja is the Managing Director of Shraddha Ltd.,a firm manufacturing Environment Friendly products. As the firm grows in size he has decided to pay attention to the organisation structure. Which of the following organization structures should he choose in order to make managerial development easier, by providing autonomy and the chance to perform multiple functions?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Functional Structure"
+        },
+        {
+          "label": "B",
+          "text": "Span of management"
+        },
+        {
+          "label": "C",
+          "text": "Divisional Structure"
+        },
+        {
+          "label": "D",
+          "text": "Informal organisation"
+        }
+      ],
+      "type": "single_correct_concept"
+    },
+    {
+      "item_id": "cbse26-bs-q05",
+      "subject": "business_studies",
+      "topic_family": "business_environment",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "5",
+      "paper_page": 3,
+      "question": "Dash n Dip’ was established in 2022 as one of the first fast-food chains in India introducing the concept of family-style restaurants. However, within two years, the business started losing customers to multinational food chains and eventually had to shut down its operations. The owner of the restaurant, Ms Kamya Kulkarni realized that she had been unable to identify, understand, evaluate and respond to the external environmental trends like changes in customer’s preferences and increasing competition. This had resulted in hindering the firm’s performance. Identify the importance of understanding the business environment highlighted in the above case.",
+      "options": [
+        {
+          "label": "A",
+          "text": "It helps in tapping useful resources."
+        },
+        {
+          "label": "B",
+          "text": "It helps the firm to identify threats and early warning signals."
+        },
+        {
+          "label": "C",
+          "text": "It helps in assisting in planning and policy formulation"
+        },
+        {
+          "label": "D",
+          "text": "It enables the firm to identify opportunities and get the first mover advantage."
+        }
+      ],
+      "type": "single_correct_application"
+    },
+    {
+      "item_id": "cbse26-bs-q06",
+      "subject": "business_studies",
+      "topic_family": "controlling",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "6",
+      "paper_page": 3,
+      "question": "Choose the correct statement about the controlling function of management:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Controlling completes one cycle of management process and improves planning in the next cycle."
+        },
+        {
+          "label": "B",
+          "text": "Controlling is the function of management that initiates action by people in the organisation."
+        },
+        {
+          "label": "C",
+          "text": "Controlling involves only looking back and not looking ahead."
+        },
+        {
+          "label": "D",
+          "text": "Standards in the controlling process must be set in quantitative terms only."
+        }
+      ],
+      "type": "single_correct_concept"
+    },
+    {
+      "item_id": "cbse26-bs-q08",
+      "subject": "business_studies",
+      "topic_family": "consumer_protection",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "8",
+      "paper_page": 4,
+      "question": "Who is a consumer under the Consumer Protection Act, 2019?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It includes any user of such goods or beneficiary of services if such use is made with the disapproval of the buyer."
+        },
+        {
+          "label": "B",
+          "text": "It applies to online transactions only which are made through electronic means or by teleshopping or direct selling or multilevel marketing."
+        },
+        {
+          "label": "C",
+          "text": "Any person who obtains goods or avails services for resale or commercial purpose."
+        },
+        {
+          "label": "D",
+          "text": "A person who buys goods or avails services for consideration, including an approved user of goods or beneficiary of services; resale or commercial-purpose use is excluded, except goods used exclusively to earn a livelihood through self-employment."
+        }
+      ],
+      "type": "single_correct_definition"
+    },
+    {
+      "item_id": "cbse26-bs-q11",
+      "subject": "business_studies",
+      "topic_family": "consumer_protection",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "11",
+      "paper_page": 6,
+      "question": "The Consumers Affairs Minister met with the representatives from various E-Commerce firms on the subject of “dark patterns”, warning them that app designs that are intended to deceive and nudge users to spend more or compromise their privacy are considered unfair trade practices. Which authority under the Consumer Protection Act, 2019 would regulate matters relating to violation of rights of consumers, unfair trade practices and take necessary action?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Central Consumer Protection Authority"
+        },
+        {
+          "label": "B",
+          "text": "Non-Governmental Organisations"
+        },
+        {
+          "label": "C",
+          "text": "Supreme Court"
+        },
+        {
+          "label": "D",
+          "text": "Consumer affairs Ministry"
+        }
+      ],
+      "type": "single_correct_concept"
+    },
+    {
+      "item_id": "cbse26-bs-q15",
+      "subject": "business_studies",
+      "topic_family": "business_finance",
+      "paper_source_id": "cbse-2026-27-business-studies-sqp",
+      "question_no": "15",
+      "paper_page": 8,
+      "question": "Astrio Ltd. is a fast-growing company engaged in manufacturing consumer goods. The management noticed that despite good demand for its products, the company often faced delays in certain activities, while at other times money remained unused for long periods. To address this issue, the finance department decided to prepare a comprehensive plan before undertaking future activities. The company carefully assessed its upcoming business requirements and tried to determine how much money would be needed for different activities and at what stage these requirements would arise. At the same time, the management examined various ways through which funds could be arranged so that financial requirements could be met without disruption. Identify the concept discussed in the above lines.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Capital structure"
+        },
+        {
+          "label": "B",
+          "text": "Financial control"
+        },
+        {
+          "label": "C",
+          "text": "Investment"
+        },
+        {
+          "label": "D",
+          "text": "Financial planning"
+        }
+      ],
+      "type": "single_correct_application"
+    },
+    {
+      "item_id": "cbse26-eco-q01",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "1",
+      "paper_page": 1,
+      "question": "Identify, which of the following expenditure falls under the category of capital expenditure. (Choose the correct option) (i) Payment of salaries to central government employees. (ii) Construction of new national highways under Bharatmala Pariyojana. (iii) Interest payment by the government on past loans from World Bank. (iv)Expenditure on installation of the Kavach automatic train protection system.",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i) and (ii)"
+        },
+        {
+          "label": "B",
+          "text": "(ii) and (iv)"
+        },
+        {
+          "label": "C",
+          "text": "(ii) and (iii)"
+        },
+        {
+          "label": "D",
+          "text": "(i) and (iv)"
+        }
+      ],
+      "type": "multiple_statement_single_correct"
+    },
+    {
+      "item_id": "cbse26-eco-q02",
+      "subject": "economics",
+      "topic_family": "money_and_banking",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "2",
+      "paper_page": 1,
+      "question": "Read the statements carefully. Statement 1: Under the Class XII NCERT narrow-money definition, M1 is currency held by the public plus net demand deposits held with commercial banks. Statement 2: Demand deposits are those deposits with commercial banks that can be withdrawn on demand by depositors. Choose the correct option.",
+      "options": [
+        {
+          "label": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "label": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "label": "C",
+          "text": "Both Statements 1 and 2 are true."
+        },
+        {
+          "label": "D",
+          "text": "Both Statements 1 and 2 are false."
+        }
+      ],
+      "type": "multiple_statement_single_correct"
+    },
+    {
+      "item_id": "cbse26-eco-q03",
+      "subject": "economics",
+      "topic_family": "balance_of_payments_forex",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "3",
+      "paper_page": 1,
+      "question": "Ceteris paribus, a rise in the price of foreign currency sets off a chain of effects in the foreign exchange market of an economy. Identify, which of the following sequence explains this process. (i) National Income will rise. (ii) Demand for foreign currency will fall. (iii) Imported goods become costlier. (Choose the correct option)",
+      "options": [
+        {
+          "label": "A",
+          "text": "(i), (ii), (iii)"
+        },
+        {
+          "label": "B",
+          "text": "(ii), (i), (iii)"
+        },
+        {
+          "label": "C",
+          "text": "(iii), (i), (ii)"
+        },
+        {
+          "label": "D",
+          "text": "(iii), (ii), (i)"
+        }
+      ],
+      "type": "sequence_single_correct"
+    },
+    {
+      "item_id": "cbse26-eco-q04",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "4",
+      "paper_page": 1,
+      "question": "Suppose, for a given year, the fiscal deficit of an economy is estimated at ₹5,000 crore. The total government expenditure is ₹18,000 crore, while non-tax revenue and capital receipts (excluding borrowings) together amount to ₹3,000 crore. (Choose the correct option to fill up the blank) The tax revenue of the government is ₹ ________ crore.",
+      "options": [
+        {
+          "label": "A",
+          "text": "10,000"
+        },
+        {
+          "label": "B",
+          "text": "12,000"
+        },
+        {
+          "label": "C",
+          "text": "13,000"
+        },
+        {
+          "label": "D",
+          "text": "15,000"
+        }
+      ],
+      "type": "single_correct_calculation"
+    },
+    {
+      "item_id": "cbse26-eco-q05",
+      "subject": "economics",
+      "topic_family": "government_budget",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "5",
+      "paper_page": 2,
+      "question": "In a hypothetical example, the government uses budget funds to provide roads, a public good that cannot be provided to all users through market exchange. Which objective/function of the government budget does this illustrate? (Choose the correct option)",
+      "options": [
+        {
+          "label": "A",
+          "text": "Allocation Function"
+        },
+        {
+          "label": "B",
+          "text": "Distribution Function"
+        },
+        {
+          "label": "C",
+          "text": "Stabilisation Function"
+        },
+        {
+          "label": "D",
+          "text": "Disposition Function"
+        }
+      ],
+      "type": "single_correct_concept_application"
+    },
+    {
+      "item_id": "cbse26-eco-q08",
+      "subject": "economics",
+      "topic_family": "balance_of_payments_forex",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "8",
+      "paper_page": 3,
+      "question": "An Indian art gallery sells an antique Madhubani painting to a buyer in France for 4,000 euros. This transaction will be recorded on which side and in which account of the Balance of Payments Account?",
+      "options": [
+        {
+          "label": "A",
+          "text": "debit, current"
+        },
+        {
+          "label": "B",
+          "text": "credit, current"
+        },
+        {
+          "label": "C",
+          "text": "debit, capital"
+        },
+        {
+          "label": "D",
+          "text": "credit, capital"
+        }
+      ],
+      "type": "single_correct_application"
+    },
+    {
+      "item_id": "cbse26-eco-q09",
+      "subject": "economics",
+      "topic_family": "money_and_banking",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "9",
+      "paper_page": 3,
+      "question": "Shraddha Kapur initially lived in a barter-based system where exchanging goods was difficult due to practical problems. After the introduction of money, she could easily buy goods using currency and repay her loan in fixed instalments over time. The functions of money highlighted are:",
+      "options": [
+        {
+          "label": "A",
+          "text": "Store of value and medium of exchange"
+        },
+        {
+          "label": "B",
+          "text": "Measure of value and standard of deferred payments"
+        },
+        {
+          "label": "C",
+          "text": "Medium of exchange and standard of deferred payments"
+        },
+        {
+          "label": "D",
+          "text": "Measure of value and store of value"
+        }
+      ],
+      "type": "single_correct_application"
+    },
+    {
+      "item_id": "cbse26-eco-q19",
+      "subject": "economics",
+      "topic_family": "indian_economic_development_employment",
+      "paper_source_id": "cbse-2026-27-economics-sqp",
+      "question_no": "19",
+      "paper_page": 5,
+      "question": "Match the set of type of employment given in Column I with corresponding example given in Column II and choose the correct option: Column I: (p) Self-employed; (q) Regular salaried employees; (r) Casual wage labourers. Column II: (i) An engineer working with ONGC; (ii) A construction worker; (iii) Photographer running own studio.",
+      "options": [
+        {
+          "label": "A",
+          "text": "(p)-ii, (q)-i, (r)-iii"
+        },
+        {
+          "label": "B",
+          "text": "(p)-iii, (q)-ii, (r)-i"
+        },
+        {
+          "label": "C",
+          "text": "(p)-i, (q)-iii, (r)-ii"
+        },
+        {
+          "label": "D",
+          "text": "(p)-iii, (q)-i, (r)-ii"
+        }
+      ],
+      "type": "matching_single_correct"
+    },
+    {
+      "item_id": "cbse26-eng-q1-iv",
+      "subject": "english_core",
+      "topic_family": "factual_passage_inference",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "1-IV",
+      "paper_pages": [
+        2
+      ],
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "question": "Which of the following statements best captures the functional role of the “radiant” as described in the passage?",
+      "options": [
+        {
+          "label": "A",
+          "text": "It is the physical location where cosmic debris is created."
+        },
+        {
+          "label": "B",
+          "text": "It serves as visual guide for observers to locate the shower."
+        },
+        {
+          "label": "C",
+          "text": "It determines the speed fragments enter the atmosphere."
+        },
+        {
+          "label": "D",
+          "text": "It represents the exact area where all meteors disappear"
+        }
+      ],
+      "type": "single_correct_inference",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q1-viii",
+      "subject": "english_core",
+      "topic_family": "factual_passage_tone",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "1-VIII",
+      "paper_pages": [
+        2,
+        3
+      ],
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "question": "The writer’s tone throughout the passage can best be described as ______.",
+      "options": [
+        {
+          "label": "A",
+          "text": "persuasive and promotional, encouraging mass participation"
+        },
+        {
+          "label": "B",
+          "text": "explanatory and informative, aimed at scientific understanding"
+        },
+        {
+          "label": "C",
+          "text": "speculative and argumentative, questioning existing theories"
+        },
+        {
+          "label": "D",
+          "text": "celebratory and emotional, highlighting wonder over facts"
+        }
+      ],
+      "type": "single_correct_tone",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q1-x",
+      "subject": "english_core",
+      "topic_family": "factual_passage_main_idea",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "1-X",
+      "paper_pages": [
+        2,
+        3
+      ],
+      "stimulus_id": "cbse-eng-q1-excerpt-adapted",
+      "question": "Complete the following with the most suitable option. The main idea of the passage is the ______.",
+      "options": [
+        {
+          "label": "A",
+          "text": "technical process of how asteroids shed cosmic debris"
+        },
+        {
+          "label": "B",
+          "text": "impact of light pollution on modern scientific learning"
+        },
+        {
+          "label": "C",
+          "text": "historical evolution of astronomy since the nineteenth century"
+        },
+        {
+          "label": "D",
+          "text": "scientific explanation and practical observation of Geminids"
+        }
+      ],
+      "type": "single_correct_main_idea",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q2-i",
+      "subject": "english_core",
+      "topic_family": "case_passage_purpose",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "2-I",
+      "paper_pages": [
+        4
+      ],
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "question": "What was the purpose of tracking the four-year growth of India’s Unified Payments Interface (UPI)? (paragraph 1)",
+      "options": [
+        {
+          "label": "A",
+          "text": "To analyse the technical infrastructure supporting digital banking systems"
+        },
+        {
+          "label": "B",
+          "text": "To understand changes in everyday payment habits across India"
+        },
+        {
+          "label": "C",
+          "text": "To determine the number of vendors using smartphone-based payments"
+        },
+        {
+          "label": "D",
+          "text": "To compare patterns of digital transactions with traditional cash practices"
+        }
+      ],
+      "type": "single_correct_comprehension",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iii",
+      "subject": "english_core",
+      "topic_family": "case_passage_data_trend",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "2-III",
+      "paper_pages": [
+        4
+      ],
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "question": "Which of the following statements best describes the overall pattern with reference to paragraph 3?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Both the number of transactions and the total value of transactions increase steadily over the four years."
+        },
+        {
+          "label": "B",
+          "text": "The number of transactions increases, but the total value of transactions decreases year after year."
+        },
+        {
+          "label": "C",
+          "text": "The total value of transactions increases, but the number of transactions stays almost unchanged."
+        },
+        {
+          "label": "D",
+          "text": "Both the number of transactions and the total value of transactions decrease after an initial increase."
+        }
+      ],
+      "type": "single_correct_data_interpretation",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q2-iv",
+      "subject": "english_core",
+      "topic_family": "case_passage_inference",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "2-IV",
+      "paper_pages": [
+        4
+      ],
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "question": "Paragraph 4 mentions that UPI is used in ‘shops, homes, workplaces, and even small roadside vendors’. What does this suggest about the nature of UPI adoption?",
+      "options": [
+        {
+          "label": "A",
+          "text": "Dependence on organised commercial establishments"
+        },
+        {
+          "label": "B",
+          "text": "Widespread adoption across formal and informal settings"
+        },
+        {
+          "label": "C",
+          "text": "Usage limited to digitally advanced urban spaces"
+        },
+        {
+          "label": "D",
+          "text": "Usage restricted to specific consumer groups"
+        }
+      ],
+      "type": "single_correct_inference",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vi",
+      "subject": "english_core",
+      "topic_family": "case_passage_except_information",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "2-VI",
+      "paper_pages": [
+        4
+      ],
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "question": "Which of the following aspects is NOT directly discussed in the passage?",
+      "options": [
+        {
+          "label": "A",
+          "text": "The growth pattern of UPI transactions over time"
+        },
+        {
+          "label": "B",
+          "text": "The changing public attitude towards digital payments"
+        },
+        {
+          "label": "C",
+          "text": "The policy framework governing digital payment systems"
+        },
+        {
+          "label": "D",
+          "text": "The effect of UPI adoption on small businesses"
+        }
+      ],
+      "type": "single_correct_comprehension",
+      "source_item_status": "original_stem_options_with_adapted_stimulus"
+    },
+    {
+      "item_id": "cbse26-eng-q2-vii",
+      "subject": "english_core",
+      "topic_family": "verbal_ability_correct_word",
+      "paper_source_id": "cbse-2026-27-english-core-sqp",
+      "question_no": "2-VII",
+      "paper_pages": [
+        4,
+        5
+      ],
+      "stimulus_id": "cbse-eng-q2-excerpt-adapted",
+      "question": "Fill in the blank with the correct option from those given in brackets. UPI’s usage by small roadside vendors primarily suggests that digital payment systems in India have become ________.",
+      "options": [
+        {
+          "label": "A",
+          "text": "inclusive"
+        },
+        {
+          "label": "B",
+          "text": "exclusive"
+        },
+        {
+          "label": "C",
+          "text": "marginal"
+        }
+      ],
+      "type": "single_correct_vocabulary",
+      "source_item_status": "original_stem_options_with_adapted_stimulus_three_options"
+    }
+  ]
+}

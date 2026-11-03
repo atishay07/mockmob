@@ -1,0 +1,7 @@
+{
+  "schema": "cuet-v4-audit-hashes-v1",
+  "fixture_payload_sha256": "e08c13c8e0ad13b3ed61639f0b881c1b197fe3e5bff95f37208c155deac26de0",
+  "blind_packet_sha256": "d35d7d990eef0279a34186ccab4d0ef15f5c973acad313d755f0a3b08c4e9913",
+  "independent_first_pass_sha256": "beff179bcb383a73b78bc1373e112e5517bf730bc325776a2cad1da23b174e13",
+  "audit_report_sha256": "f165b602069a87ba550e929a6bbbea502468ac264af1c0c55ccdaa78e2c09323"
+}

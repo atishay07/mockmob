@@ -1,0 +1,196 @@
+[
+  {
+    "width": 320,
+    "view": "dashboard",
+    "geometry": [
+      {
+        "cls": "pr-summary",
+        "height": 390,
+        "width": 290,
+        "top": 100,
+        "display": "grid",
+        "grid": "315px 39px",
+        "opacity": "1",
+        "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1CostIncluded with"
+      },
+      {
+        "cls": "pr-summary__reason",
+        "height": 39,
+        "width": 260,
+        "top": 438,
+        "display": "block",
+        "grid": "none",
+        "opacity": "1",
+        "text": "Included with your Pro access (valid until 31 Jul 2027)."
+      },
+      {
+        "cls": "btn-volt md pr-summary__cta",
+        "height": 47,
+        "width": 200,
+        "top": 245,
+        "display": "flex",
+        "grid": "none",
+        "opacity": "1",
+        "text": "Start Quick Practice"
+      }
+    ]
+  },
+  {
+    "width": 320,
+    "menuOpened": "true",
+    "menuClosed": true
+  },
+  {
+    "width": 320,
+    "view": "result",
+    "geometry": [
+      {
+        "cls": "srl-step",
+        "height": 1490,
+        "width": 252,
+        "top": 100,
+        "display": "grid",
+        "grid": "1470.41px",
+        "opacity": "1",
+        "text": "1FindWhich chapters cost you, and whyAdmission of a Partner3 wrong, 1 blank of 4−23 marksAccounting "
+      },
+      {
+        "cls": "srl-chapters",
+        "height": 312,
+        "width": 214,
+        "top": 165,
+        "display": "grid",
+        "grid": "112px 94px 94px",
+        "opacity": "1",
+        "text": "Admission of a Partner3 wrong, 1 blank of 4−23 marksAccounting Equation2 wrong of 3−12 marksPartners"
+      },
+      {
+        "cls": "srl-obs",
+        "height": 1084,
+        "width": 214,
+        "top": 487,
+        "display": "grid",
+        "grid": "255.719px 313.859px 216.078px 274.359px",
+        "opacity": "1",
+        "text": "Changed answersYou changed a right answer to wrong2 changes this session: −6 from the ones that hurt"
+      },
+      {
+        "cls": "srl-step",
+        "height": 674,
+        "width": 252,
+        "top": 1591,
+        "display": "grid",
+        "grid": "653.797px",
+        "opacity": "1",
+        "text": "2RepairFix each wrong answer, one at a timeEach repair shows why your answer felt right, where it br"
+      },
+      {
+        "cls": "srl-step",
+        "height": 275,
+        "width": 252,
+        "top": 2264,
+        "display": "grid",
+        "grid": "275.125px",
+        "opacity": "1",
+        "text": "3ProveShow it stuck, on questions you haven’t seenWe don’t have five unseen, verified questions for "
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "view": "dashboard",
+    "geometry": [
+      {
+        "cls": "pr-summary",
+        "height": 102,
+        "width": 360,
+        "top": 100,
+        "display": "grid",
+        "grid": "46.5px 19.5px",
+        "opacity": "1",
+        "text": "Your sessionSubjectAccountancyModeQuick PracticeQuestions10Time10 minMarking+5 / −1CostIncluded with"
+      },
+      {
+        "cls": "pr-summary__reason",
+        "height": 20,
+        "width": 330,
+        "top": 170,
+        "display": "block",
+        "grid": "none",
+        "opacity": "1",
+        "text": "Included with your Pro access (valid until 31 Jul 2027)."
+      },
+      {
+        "cls": "btn-volt md pr-summary__cta",
+        "height": 47,
+        "width": 200,
+        "top": 110,
+        "display": "flex",
+        "grid": "none",
+        "opacity": "1",
+        "text": "Start Quick Practice"
+      }
+    ]
+  },
+  {
+    "width": 390,
+    "menuOpened": "true",
+    "menuClosed": true
+  },
+  {
+    "width": 390,
+    "view": "result",
+    "geometry": [
+      {
+        "cls": "srl-step",
+        "height": 1247,
+        "width": 322,
+        "top": 100,
+        "display": "grid",
+        "grid": "1227.09px",
+        "opacity": "1",
+        "text": "1FindWhich chapters cost you, and whyAdmission of a Partner3 wrong, 1 blank of 4−23 marksAccounting "
+      },
+      {
+        "cls": "srl-chapters",
+        "height": 231,
+        "width": 284,
+        "top": 142,
+        "display": "grid",
+        "grid": "73px 73px 73px",
+        "opacity": "1",
+        "text": "Admission of a Partner3 wrong, 1 blank of 4−23 marksAccounting Equation2 wrong of 3−12 marksPartners"
+      },
+      {
+        "cls": "srl-obs",
+        "height": 944,
+        "width": 284,
+        "top": 383,
+        "display": "grid",
+        "grid": "195.078px 274.219px 216.078px 234.719px",
+        "opacity": "1",
+        "text": "Changed answersYou changed a right answer to wrong2 changes this session: −6 from the ones that hurt"
+      },
+      {
+        "cls": "srl-step",
+        "height": 610,
+        "width": 322,
+        "top": 1347,
+        "display": "grid",
+        "grid": "589.828px",
+        "opacity": "1",
+        "text": "2RepairFix each wrong answer, one at a timeEach repair shows why your answer felt right, where it br"
+      },
+      {
+        "cls": "srl-step",
+        "height": 208,
+        "width": 322,
+        "top": 1957,
+        "display": "grid",
+        "grid": "207.953px",
+        "opacity": "1",
+        "text": "3ProveShow it stuck, on questions you haven’t seenWe don’t have five unseen, verified questions for "
+      }
+    ]
+  }
+]

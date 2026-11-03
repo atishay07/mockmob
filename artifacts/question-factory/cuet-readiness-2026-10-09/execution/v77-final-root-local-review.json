@@ -1,0 +1,87 @@
+{
+  "at": "2026-10-09T08:53:50.276Z",
+  "reviewer": "root independent local review",
+  "status": "focused regression correction verified locally; NOT a qualified runtime or release",
+  "root_tests": {
+    "command": "node --test artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposalV3.test.mjs artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/rootIndependentProposalV3.test.mjs",
+    "passed": 20,
+    "failed": 0,
+    "synthetic_audit_format_only": true,
+    "no_paid_calls": true
+  },
+  "prior_root_v2_tests": {
+    "passed": 19,
+    "failed": 0
+  },
+  "bindings": [
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV2.mjs",
+      "sha256": "7cc840850cd6823cda70d657497692a552f637eaecaad1035e613c53ca0519a6"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV2.test.mjs",
+      "sha256": "493db0601b9d922c8c390b0c9c57f1283cac422f8962b2ada51341c618fb3ed1"
+    },
+    {
+      "path": "scripts\\pipeline\\lib\\optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposalV2-freeze.json",
+      "sha256": "a68e3cab4e8affd735dc55a13235d5f3f53cd3271a2e6cb925c53fb91201e612"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV3.mjs",
+      "sha256": "4ad6bcf353cb114ec14ac99aba11bdfa61198fa0f6e47849b372071c863baf1f"
+    },
+    {
+      "path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\regression-proposal\\optionResolutionStructuralProposalV3.test.mjs",
+      "sha256": "0e1fbf6eec6951bd425679fd2912fbf102eebe184ac3068f1add8a5631301cb2"
+    },
+    {
+      "path": "scripts\\pipeline\\lib\\optionResolutionV77.mjs",
+      "sha256": "50bf87bb1fa981699f375ce247d778b53af144d410179d91a6a70b1a04452332"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposalV3-freeze.json",
+      "sha256": "3377d19d341fb3a7363f029e3bc3d054dd11ba24a164d607f55a126574bc4efc"
+    }
+  ],
+  "independent_root_test_sha256": "9e0a25e129976b33ac19f809c647fce6972ab45dec44f2813cdd186767e5cc6b",
+  "native_evidence": {
+    "registered": 41,
+    "terminal": 5,
+    "unfinished": 36,
+    "provider_requests": 14,
+    "settled_usd": 0.084744,
+    "held_usd": 0,
+    "qualified": false
+  },
+  "preservation": {
+    "protected_bindings": 228,
+    "distinct_historical_paths": 61,
+    "mismatches": 0,
+    "current_v77_core_and_transport": "verified"
+  },
+  "implemented_correction": [
+    "Separate exact source/stem premises from paraphrased explanatory context",
+    "Whitespace-only source line-wrap normalization with word boundaries",
+    "Explicit provenance resolves repeated source/stem/option strings",
+    "Printed-option givens are hypothetical arithmetic inputs, not academic proof",
+    "Every material clause and whole option bound to separate audit; no blanket status laundering",
+    "Malformed records, fabricated quotations, changed values, omissions, source-silence contradictions and unresolved alternatives fail closed"
+  ],
+  "limits": [
+    "No runtime or publication imports; publication_eligible and dispatch_eligible remain false",
+    "Positive semantic audit objects in these tests are synthetic; reviewer independence and truth are not established by a boolean or hash",
+    "Prototype arithmetic case covers sourced rule plus explicit input; general stem-only arithmetic must retain its existing valid behavior when designing any next runtime contract",
+    "All inspected cases are regression evidence; fresh independent qualification is still required",
+    "No further paid qualification under the final-attempt scope; pilot/current-profile live staging blocked"
+  ],
+  "next_steps": [
+    "Preserve frozen failed/incomplete qualification and all receipts",
+    "Before any future runtime integration select an unused verifier version, retain all inherited mandatory gates and freeze the complete contract",
+    "New paid qualification requires changed human scope; never reuse these inspected cases as fresh",
+    "Only a genuinely qualified current profile may run the fixed pilot and staging proof; production still needs final approval"
+  ]
+}

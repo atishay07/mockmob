@@ -1,0 +1,30 @@
+.studio { margin: auto; max-width: 1140px; padding: 28px 24px 110px; color: var(--text-primary); }
+.studio > p,.studio header p,.studio aside p,.studio-focus > p { color: var(--text-muted); font-size: 14px; line-height: 1.65; max-width: 60ch; }
+.studio h1 { font-family: var(--font-display); font-size: clamp(32px,5vw,54px); letter-spacing: -.04em; line-height: 1.1; margin: 12px 0; }
+.studio h2 { font-family: var(--font-display); font-size: 24px; line-height: 1.3; margin: 16px 0 20px; overflow-wrap: anywhere; }
+.studio small { color: var(--text-muted); font-size: 12px; }
+.studio button:not(.proto-picker-item),.studio select { min-height: 44px; border-radius: 8px; border: 1px solid var(--a-line); color: var(--text-primary); background: var(--a-raised); padding: 10px 14px; cursor: pointer; }
+.studio button:not(.proto-picker-item):disabled { cursor: default; }
+.studio button:not(.proto-picker-item):focus-visible,.studio select:focus-visible { outline: 2px solid var(--a-select); outline-offset: 3px; }
+.studio-filters { display: flex; flex-wrap: wrap; gap: 16px; margin: 24px 0; padding: 20px 0; border-block: 1px solid var(--a-line); }
+.studio-filters label { display: grid; flex: 1; gap: 8px; min-width: 120px; font-size: 13px; }
+.studio-question { border-block-end: 1px solid var(--a-line); padding: 24px 0; }
+.studio-options { display: grid; gap: 10px; }
+.studio-options button { display: flex; gap: 18px; text-align: left; align-items: center; }
+.studio-options button[data-correct=true] { border-color: #6c9429; }
+.studio-options button[data-wrong=true] { border-color: #c76f5c; }
+.studio-feedback { border-left: 1px solid var(--a-select); padding: 10px 16px; margin-top: 16px; font-size: 14px; line-height: 1.6; }
+.studio-question footer { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.studio-desk { display: grid; grid-template-columns: minmax(0,1fr) 260px; gap: 64px; }
+.studio-desk aside { align-self: start; padding-block: 28px; border-top: 1px solid var(--a-line); }
+.studio-desk .studio-action { margin: 20px 0; }
+.studio-focus { max-width: 680px; margin: 40px auto; }
+.studio-focus__position,.studio-focus > nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.studio-focus__position { padding-bottom: 16px; border-bottom: 1px solid var(--a-line); }
+.studio-focus > nav { margin-top: 24px; }
+.studio-chapters { display: grid; grid-template-columns: 260px minmax(0,1fr); gap: 48px; }
+.studio-chapters nav { display: grid; gap: 16px; align-content: start; }
+.studio-chapters nav button { display: grid; text-align: left; gap: 12px; padding: 22px; }
+.studio-chapters nav button[aria-pressed=true] { border-color: var(--a-select); }
+.studio-chapters nav button span { font-size: 12px; color: var(--text-muted); }
+@media (max-width:760px) { .studio { padding-inline: 16px; } .studio-desk,.studio-chapters { grid-template-columns: minmax(0,1fr); gap: 24px; } .studio-desk aside { order: -1; } .studio-chapters nav { grid-template-columns: repeat(2,minmax(0,1fr)); } .studio-chapters nav button { padding: 14px; } }

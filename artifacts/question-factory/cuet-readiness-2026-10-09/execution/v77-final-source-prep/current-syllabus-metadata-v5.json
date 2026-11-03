@@ -1,0 +1,204 @@
+{
+  "at": "2026-10-09T07:38:30.834Z",
+  "parent_sha256": "722bd0b8baff9329748afc1d83240df099a914b135d64c5829693dd5db94a8bc",
+  "final_sha256": "4cc5b410c858e9023976d69d7795ad889bbd66963bd726ee269de9251abdfdda",
+  "question_key_explanation_source_and_label_unchanged": true,
+  "changes": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-c6d21440345d",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-a20de9004938",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-9a31e9a4c29b",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-ea8f75b17d74",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-b123137834cc",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-466fab2284fd",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-2d806114710e",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-4c09b80e91ce",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-a99cc144f9e5",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-1ed13162f85d",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-dfcca21b749e",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-84e9ba57542c",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-59b58a25bbb3",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-e77493e30567",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-1db3dc389725",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-e9ef75026c19",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-3e505228c987",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-63d002be451c",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-98a231fa15fa",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-fcf957a734d5",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-c519f01371f2",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-2ca94e8b4e72",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    },
+    {
+      "id": "v77f-56f266269b74",
+      "field": "candidate.provenance.syllabus_version",
+      "before": "cuet-2026",
+      "after": "cuet-2026-provisional-for-2027",
+      "basis": "Same independently reviewed official 2026 syllabus; bind the existing current profile that explicitly requires 2027 revalidation."
+    }
+  ]
+}

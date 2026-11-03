@@ -1,0 +1,1581 @@
+{
+  "at": "2026-10-08T20:48:30.270Z",
+  "previous_packet_sha256": "412405f9820c81b0cb55442f7ea533346932d628101993db1f27cab6cda412ae",
+  "amendment_disclosure": [
+    {
+      "id": "v76f-0a26fac46f",
+      "kind": "decisive_source_restoration"
+    },
+    {
+      "id": "v76f-e0932269d0",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      }
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      }
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      }
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      }
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Marketing",
+        "route": "conceptual",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "after": {
+        "chapter": "Marketing Management",
+        "route": "conceptual",
+        "syllabus_unit": "Unit XI: Marketing"
+      }
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      }
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Government Budget and the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "after": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      }
+    },
+    {
+      "id": "v76f-461c8da728",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-71ed304404",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Partnership",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      },
+      "after": {
+        "chapter": "Partnership Fundamentals",
+        "route": "numerical",
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms"
+      }
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      }
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit III: Accounting for Shares and Debentures"
+      },
+      "after": {
+        "chapter": "Share Capital",
+        "route": "numerical",
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital"
+      }
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Marketing",
+        "route": "numerical",
+        "syllabus_unit": "Unit XI: Marketing"
+      },
+      "after": {
+        "chapter": "Marketing Management",
+        "route": "numerical",
+        "syllabus_unit": "Unit XI: Marketing"
+      }
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "conceptual",
+        "syllabus_unit": "Money and Banking"
+      }
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Money and Banking",
+        "route": "numerical",
+        "syllabus_unit": "Money and Banking"
+      },
+      "after": {
+        "chapter": "Money & Banking",
+        "route": "numerical",
+        "syllabus_unit": "Money and Banking"
+      }
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Government Budget and the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      },
+      "after": {
+        "chapter": "Government Budget & the Economy",
+        "route": "conceptual",
+        "syllabus_unit": "Government Budget and the Economy"
+      }
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Vocabulary",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    },
+    {
+      "id": "v76f-10e903f685",
+      "kind": "canonical_metadata_and_mandatory_passage_route",
+      "before": {
+        "chapter": "Reading Comprehension",
+        "route": "conceptual",
+        "syllabus_unit": "Reading Comprehension"
+      },
+      "after": {
+        "chapter": "Narrative Passage",
+        "route": "passage",
+        "syllabus_unit": "Reading Comprehension"
+      }
+    }
+  ],
+  "answers_hidden": true,
+  "cases": [
+    {
+      "id": "v76f-e0932269d0",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A company issues equity shares with a face value of ₹10 at a premium of 40% of face value. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹3"
+        },
+        {
+          "key": "B",
+          "text": "₹4"
+        },
+        {
+          "key": "C",
+          "text": "₹1"
+        },
+        {
+          "key": "D",
+          "text": "₹14"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+        "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        },
+        {
+          "id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        }
+      ]
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+      "options": [
+        {
+          "key": "A",
+          "text": "40"
+        },
+        {
+          "key": "B",
+          "text": "44"
+        },
+        {
+          "key": "C",
+          "text": "48"
+        },
+        {
+          "key": "D",
+          "text": "52"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+        "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        }
+      ]
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,000"
+        },
+        {
+          "key": "B",
+          "text": "₹4,000"
+        },
+        {
+          "key": "C",
+          "text": "₹8,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,000"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+        "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+        }
+      ]
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "A partnership deed charges simple interest on drawings at 8% per annum. A partner withdraws the same amount in the middle of each of the twelve months of a full accounting year. Total interest on these drawings for the year is ₹4,800. What is the amount of each monthly withdrawal?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹10,000"
+        },
+        {
+          "key": "B",
+          "text": "₹5,000"
+        },
+        {
+          "key": "C",
+          "text": "₹15,000"
+        },
+        {
+          "key": "D",
+          "text": "₹20,000"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+        "objective": "Use the average period for equal monthly drawings to recover the monthly amount from interest.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-c1094fe215c415",
+          "locator": "decisive-excerpt",
+          "quote": "When Fixed Amounts was Withdrawn Every Month Many a time, a fixed amount of money is withdrawn by the partners, at equal time interval, say each month or each quarter. While calculating the time period, attention must be paid to whether the fixed amount was withdrawn at the beginning (first day) of the month, middle of the month or at the end (last day) of the month. If withdrawn on the first day of every month, interest on total amount will be calculated for 6½ months; if withdrawn at the end at every month, it will be calculated for 5½ months, and if withdrawn during the middle of the month, it will be calculated for 6 months. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+        }
+      ]
+    },
+    {
+      "id": "v76f-10a1826742",
+      "subject": "business_studies",
+      "chapter": "Principles of Management",
+      "body": "Workers agree to work additional hours to help revive a firm. Management promises a wage increase after the revival. Both sides honour their commitments without prejudice. Which Fayol principle is illustrated by this mutual observance of their agreement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Division of work"
+        },
+        {
+          "key": "B",
+          "text": "Unity of direction"
+        },
+        {
+          "key": "C",
+          "text": "Discipline"
+        },
+        {
+          "key": "D",
+          "text": "Unity of command"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit II: Principles of Management",
+        "objective": "Distinguish a Fayol principle using the decisive feature of a workplace agreement.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-87d44285dea4ca",
+          "locator": "decisive-excerpt",
+          "quote": "(iii) Discipline: Discipline is the obedience to organisational rules and employment agreement which are necessary for the working of the organisation. According to Fayol, discipline requires good superiors at all levels, clear and fair agreements and judicious application of penalties. Suppose management and labour union have entered into an agreement whereby workers have agreed to put in extra hours without any additional payment to revive the company out of loss. In return the management has promised to increase wages of the workers when this mission is accomplished. Here discipline when applied would mean that the workers and management both honour their commitments without any prejudice towards one another. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050"
+        },
+        {
+          "id": "v76s-fe899efe69ba71",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Unity of Command: According to Fayol there should be one and only one boss for every individual employee. If an employee gets orders from two superiors at the same time the principle of unity of command is violated. The principle of unity of command states that each participant in a formal organisation should receive orders from and be responsible to only one superior. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050"
+        },
+        {
+          "id": "v76s-2f42089dcd1b43",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Unity of Direction: All the units of an organisation should be moving towards the same objectives through coordinated and focussed efforts. Each group of activities having the same objective must have one head and one plan. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050"
+        },
+        {
+          "id": "v76s-ddf508df450a19",
+          "locator": "decisive-excerpt",
+          "quote": "Division of Work: Work is divided into small tasks/ jobs. A trained specialist who is competent is required to perform each job. Thus, division of work leads to specialisation. According to Fayol, “The intent of division of work is to produce more and better work for the same effort. Specialisation is the most efficient way to use human effort.” ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs102.pdf",
+          "identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050"
+        }
+      ]
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "What does the statement “planning is a primary function of management” mean?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planning is undertaken at all management levels"
+        },
+        {
+          "key": "B",
+          "text": "Plans are prepared repeatedly for successive periods"
+        },
+        {
+          "key": "C",
+          "text": "Plans focus on predetermined organisational goals"
+        },
+        {
+          "key": "D",
+          "text": "Planning precedes and provides a basis for the other managerial functions"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Planning",
+        "objective": "Distinguish primacy from the other features of planning.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82"
+        },
+        {
+          "id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82"
+        }
+      ]
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "A producer is deciding which wholesalers and retailers will carry its goods to customers. Under which marketing function does the choice of these marketing intermediaries fall?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Promotion"
+        },
+        {
+          "key": "B",
+          "text": "Physical distribution"
+        },
+        {
+          "key": "C",
+          "text": "Transportation"
+        },
+        {
+          "key": "D",
+          "text": "Gathering and analysing market information"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit XI: Marketing",
+        "objective": "Classify a distribution-channel decision among marketing functions.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-1df3d2a1a5b00e",
+          "locator": "decisive-excerpt",
+          "quote": "10. Physical Distribution: Managing physical distribution is another very important function in the marketing of goods and services. The two major decision areas under this function include (a) decision regarding channels of distribution or the marketing intermediaries (like whole salers, retailers) to be used and (b) physical movement of the product from where it is produced to a place where it is required by the customers for their consumption or use. The important decision areas under physical distribution include managing inventory (levels of stock of goods), storage and warehousing and transportation of goods from one place to the other. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+        },
+        {
+          "id": "v76s-792292a64da9ca",
+          "locator": "decisive-excerpt",
+          "quote": "11. transportation: Transportation involves physical movement of goods from one place to the other. As generally the users of products, particularly consumer products are wide spread and geographically separated from the place these are produced, it is necessary to move them to the place where it is needed for consumption or use, For example, tea produced in Assam has to be transported not only within the state but to other far off places like Tamil Nadu, Punjab, Jammu and kashmir and Haryana, rajasthan, where it is consumed. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+        },
+        {
+          "id": "v76s-6dd88b7799a3ca",
+          "locator": "decisive-excerpt",
+          "quote": "9. Promotion: Promotion of products and services involves informing the customers about the firm’s product, its features, etc., and persuading them to purchase these products. The four important methods of promotion include advertising, Personal Selling, Publicity and Sales Promotion. A marketer has to take several crucial, decisions in respect of promotion of the products and services such as deciding the promotion budget, the promotion mix, i.e., the combination of the promotional tools that will be use, the promotion budget, etc. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+        },
+        {
+          "id": "v76s-14f5310a351ea2",
+          "locator": "decisive-excerpt",
+          "quote": "1. g athering and analysing Market information: One of the important functions of a marketer is to gather and analyse market information. This is necessary to identify the needs of the customers and take various decisions for the successful marketing of the products and services. This is important for making an analysis of the available opportunities and threats as well as strengths and weaknesses of the organisation and help in deciding what opportunities can best be pursued by it. For example, rapid growth is predicted in several areas in the Indian economy, say in the use of the Internet, market for cell phones and several other areas. Which of these areas a particular organisation should enter, or in which area should it expand, requires a careful scanning of the strengths and weaknesses of the organisation, which is done with the help of careful market analysis. With the growth of computers, a new trend has emerged in the collection of market information. More and more companies are using interactive sites on the internet, to gather customer views and opinions, before taking important business decisions. One of the popular TV News Channel (in Hindi) seeks viewers choice (through SMS) on which of the given four or five main news stories Ch_10.indd 251 10-08-2022 10:04:27 Reprint 2026-27\nBUSINe SS STUDIe S 252 of the day would be broadcasted as detailed story at the prime time, to ensure that the viewers get to listen to the story of their own choice. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54"
+        }
+      ]
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Legal environment"
+        },
+        {
+          "key": "B",
+          "text": "Social environment"
+        },
+        {
+          "key": "C",
+          "text": "Technological environment"
+        },
+        {
+          "key": "D",
+          "text": "Economic environment"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit III: Business Environment",
+        "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064"
+        }
+      ]
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statutory liquidity ratio"
+        },
+        {
+          "key": "B",
+          "text": "Bank rate"
+        },
+        {
+          "key": "C",
+          "text": "Repo rate"
+        },
+        {
+          "key": "D",
+          "text": "Cash reserve ratio"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Money and Banking",
+        "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        }
+      ]
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "An exchange rate responds to market demand and supply, but the central bank sometimes buys or sells foreign currency to moderate its movements. Which exchange-rate system does this combination describe?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Gold standard"
+        },
+        {
+          "key": "B",
+          "text": "Managed floating"
+        },
+        {
+          "key": "C",
+          "text": "Fixed exchange rate"
+        },
+        {
+          "key": "D",
+          "text": "Completely flexible exchange rate"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Balance of Payments",
+        "objective": "Classify an exchange-rate system from market determination and the stated central-bank intervention.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-8d02a647372f48",
+          "locator": "decisive-excerpt",
+          "quote": "Managed Floating Without any formal international agreement, the world has moved on to what can be best described as a managed floating exchange rate system. It is a mixture of a flexible exchange rate system (the float part) and a fixed rate system (the managed part). Under this system, also called dirty floating, central banks intervene to buy and sell foreign currencies in an attempt to moderate exchange rate movements whenever they feel that such actions are appropriate. Official reserve transactions are, therefore, not equal to zero. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2"
+        },
+        {
+          "id": "v76s-2f8f7b48e6edb1",
+          "locator": "decisive-excerpt",
+          "quote": "Flexible Exchange Rate This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate . As depicted in Fig. 6.1, the exchange rate is determined where the demand curve intersects with the supply curve, i.e., at point e on the Y – axis. Point q on the x – axis determines the quantity of US Dollars that have been demanded and supplied on e exchange rate. In a completely flexible system, the Central banks do not intervene in the foreign exchange market. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2"
+        },
+        {
+          "id": "v76s-5c6954165ace3c",
+          "locator": "decisive-excerpt",
+          "quote": "Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2"
+        }
+      ]
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "I is true and II is false"
+        },
+        {
+          "key": "B",
+          "text": "Both I and II are true"
+        },
+        {
+          "key": "C",
+          "text": "Both I and II are false"
+        },
+        {
+          "key": "D",
+          "text": "I is false and II is true"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "statement_combination",
+      "learning_objective": {
+        "syllabus_unit": "Government Budget and the Economy",
+        "objective": "Apply the defining consumption and exclusion properties of public goods.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+        }
+      ]
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "subject": "economics",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "body": "In a description of the Indian economy, what does “occupational structure” refer to?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The total size of the labour force"
+        },
+        {
+          "key": "B",
+          "text": "The total population of the country"
+        },
+        {
+          "key": "C",
+          "text": "The distribution of working people among industries and economic sectors"
+        },
+        {
+          "key": "D",
+          "text": "The tasks performed within an individual job"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Indian Economic Development",
+        "objective": "Interpret the sectoral workforce concept used to describe an economy.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-f3f35d090a16fc",
+          "locator": "decisive-excerpt",
+          "quote": "During the colonial period, the occupational structure of India, i.e., distribution of working persons across different industries and sectors, showed little sign of change. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/keec101.pdf",
+          "identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1"
+        }
+      ]
+    },
+    {
+      "id": "v76f-461c8da728",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The 2008 government scheme had already guaranteed business success"
+        },
+        {
+          "key": "B",
+          "text": "Tourism in Srinagar had stopped because of the pandemic"
+        },
+        {
+          "key": "C",
+          "text": "The family had already built many concrete hotels in Jibhi"
+        },
+        {
+          "key": "D",
+          "text": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "reading_comprehension",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-71ed304404",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+      "options": [
+        {
+          "key": "A",
+          "text": "crowded with visitors from across the world"
+        },
+        {
+          "key": "B",
+          "text": "not widely known to potential visitors"
+        },
+        {
+          "key": "C",
+          "text": "closed to visitors by an official prohibition"
+        },
+        {
+          "key": "D",
+          "text": "already transformed into a concrete town"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "vocabulary",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+        "target_term": "clouded in anonymity"
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Which description best matches the narrator’s approach to creating the first guesthouse?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Retain the traditional house’s character while adding windows for sunlight"
+        },
+        {
+          "key": "B",
+          "text": "Replace the house with a large concrete town development"
+        },
+        {
+          "key": "C",
+          "text": "Keep the house entirely unaltered, including its windows"
+        },
+        {
+          "key": "D",
+          "text": "Convert an Army building after tourism had already stopped"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "reading_comprehension",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Identify a description consistent with both clauses of a passage detail.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tourism has brought no worthwhile learning or relationships"
+        },
+        {
+          "key": "B",
+          "text": "Every increase in tourism should be welcomed regardless of its effects"
+        },
+        {
+          "key": "C",
+          "text": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection"
+        },
+        {
+          "key": "D",
+          "text": "The village must permanently abandon tourism because the first venture failed"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "reading_comprehension",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "subject": "accountancy",
+      "chapter": "Partnership Fundamentals",
+      "body": "E, F and G share divisible profits in the ratio 3:3:2. The partnership agreement guarantees G at least ₹80,000 as the annual share of profit, with any deficiency borne personally by E. Divisible profit for the year is ₹3,12,000, before applying the guarantee. What deficiency must E bear?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,000"
+        },
+        {
+          "key": "B",
+          "text": "₹4,000"
+        },
+        {
+          "key": "C",
+          "text": "₹8,000"
+        },
+        {
+          "key": "D",
+          "text": "₹2,000"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+        "objective": "Calculate and allocate a guaranteed profit deficiency using the stated profit ratio and guarantor.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+        }
+      ]
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A company issues equity shares with a face value of ₹10 at a premium whose rate is not stated. Per share, ₹3 is payable on application, ₹5 on allotment and ₹2 on the first call. The entire remaining issue price is payable on the second and final call. What is that final call per share?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹3"
+        },
+        {
+          "key": "B",
+          "text": "₹4"
+        },
+        {
+          "key": "C",
+          "text": "₹1"
+        },
+        {
+          "key": "D",
+          "text": "₹14"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+        "objective": "Calculate the remaining instalment of an issue price from face value, percentage premium and earlier instalments.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        },
+        {
+          "id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        }
+      ]
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "subject": "accountancy",
+      "chapter": "Share Capital",
+      "body": "A company offers 2,000 shares. Of the applications received, applicants for 2,400 shares are allotted those 2,000 shares on a uniform pro-rata basis. An applicant is allotted 40 shares under this scheme. For how many shares did the applicant apply?",
+      "options": [
+        {
+          "key": "A",
+          "text": "40"
+        },
+        {
+          "key": "B",
+          "text": "44"
+        },
+        {
+          "key": "C",
+          "text": "48"
+        },
+        {
+          "key": "D",
+          "text": "52"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+        "objective": "Apply the proportional allotment ratio to distinguish shares applied for from shares allotted.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+          "identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+        }
+      ]
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "subject": "business_studies",
+      "chapter": "Planning",
+      "body": "What does the statement “planning is a primary function of management” mean?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Planning is undertaken at all management levels"
+        },
+        {
+          "key": "B",
+          "text": "Planning lays down the framework within which the other managerial functions are performed"
+        },
+        {
+          "key": "C",
+          "text": "Plans focus on predetermined organisational goals"
+        },
+        {
+          "key": "D",
+          "text": "Planning precedes and provides a basis for the other managerial functions"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit IV: Planning",
+        "objective": "Distinguish primacy from the other features of planning.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82"
+        },
+        {
+          "id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/lebs104.pdf",
+          "identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82"
+        }
+      ]
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "body": "A regulation requires an advertiser of infant food to display the warning “Not recommended for infants under four months”. Which dimension of the business environment is directly reflected in this compulsory advertising requirement?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Legal environment"
+        },
+        {
+          "key": "B",
+          "text": "Social environment"
+        },
+        {
+          "key": "C",
+          "text": "Technological environment"
+        },
+        {
+          "key": "D",
+          "text": "Economic environment"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Unit III: Business Environment",
+        "objective": "Identify the environmental dimension directly responsible for a compulsory business requirement.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064"
+        }
+      ]
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "subject": "business_studies",
+      "chapter": "Marketing Management",
+      "body": "For the mathematical function f(x) = x³, use the supplied rule f′(x) = 3x². What is f′(2)?",
+      "options": [
+        {
+          "key": "A",
+          "text": "8"
+        },
+        {
+          "key": "B",
+          "text": "6"
+        },
+        {
+          "key": "C",
+          "text": "12"
+        },
+        {
+          "key": "D",
+          "text": "3"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Unit XI: Marketing",
+        "objective": "Evaluate a derivative using a supplied mathematical rule.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-math-premise",
+          "locator": "premise",
+          "quote": "In this self-contained mathematical exercise, f(x) = x³ and the supplied differentiation rule is f′(x) = 3x².",
+          "source_url": "local:original-stimulus",
+          "identity_sha256": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3"
+        }
+      ]
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "The central bank legally prescribes the percentage of bank deposits that must be kept as cash reserves to limit over-lending. Which monetary-policy ratio is being described?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statutory liquidity ratio"
+        },
+        {
+          "key": "B",
+          "text": "Bank rate"
+        },
+        {
+          "key": "C",
+          "text": "Repo rate"
+        },
+        {
+          "key": "D",
+          "text": "Cash reserve ratio"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "single_choice",
+      "learning_objective": {
+        "syllabus_unit": "Money and Banking",
+        "objective": "Distinguish the deposit cash-reserve requirement from liquidity requirements and lending rates.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        }
+      ]
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "In a simple banking model with no cash leakage or excess reserves, total deposits equal initial cash reserves divided by the required reserve ratio. Initial cash reserves are ₹200. The required reserve ratio for this case is not stated. What total deposits can these reserves support?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,000"
+        },
+        {
+          "key": "B",
+          "text": "₹2,000"
+        },
+        {
+          "key": "C",
+          "text": "₹4,000"
+        },
+        {
+          "key": "D",
+          "text": "₹5,000"
+        }
+      ],
+      "passage_text": "",
+      "route": "numerical",
+      "question_type": "numerical_calculation",
+      "learning_objective": {
+        "syllabus_unit": "Money and Banking",
+        "objective": "Apply the simple reserve-based deposit model.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        },
+        {
+          "id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_url": "https://www.ncert.nic.in/textbook/pdf/leec103.pdf",
+          "identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f"
+        }
+      ]
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "subject": "economics",
+      "chapter": "Government Budget & the Economy",
+      "body": "Consider these statements about public goods.\n(I) They are collectively consumed.\n(II) They are excludable and rivalrous.\nWhich assessment is correct?",
+      "options": [
+        {
+          "key": "A",
+          "text": "I is true and II is false"
+        },
+        {
+          "key": "B",
+          "text": "Both I and II are true"
+        },
+        {
+          "key": "C",
+          "text": "Both I and II are false"
+        },
+        {
+          "key": "D",
+          "text": "I is false and II is true"
+        }
+      ],
+      "passage_text": "",
+      "route": "conceptual",
+      "question_type": "statement_combination",
+      "learning_objective": {
+        "syllabus_unit": "Government Budget and the Economy",
+        "objective": "Apply the defining consumption and exclusion properties of public goods.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_url": "https://ncert.nic.in/textbook/pdf/leec105.pdf",
+          "identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149"
+        }
+      ]
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "What most directly prompted the narrator to leave the Army and return to Jibhi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "The 2008 government scheme had already guaranteed business success"
+        },
+        {
+          "key": "B",
+          "text": "Tourism in Srinagar had stopped because of the pandemic"
+        },
+        {
+          "key": "C",
+          "text": "The family had already built many concrete hotels in Jibhi"
+        },
+        {
+          "key": "D",
+          "text": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "reading_comprehension",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Infer a narrator’s initial motivation from a contrast and the sequence of events.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "subject": "english",
+      "chapter": "Vocabulary",
+      "body": "In paragraph 1, “clouded in anonymity” most nearly means that Jibhi was:",
+      "options": [
+        {
+          "key": "A",
+          "text": "crowded with visitors from across the world"
+        },
+        {
+          "key": "B",
+          "text": "not widely known to potential visitors"
+        },
+        {
+          "key": "C",
+          "text": "little known beyond the local area"
+        },
+        {
+          "key": "D",
+          "text": "already transformed into a concrete town"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "vocabulary",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Infer the contextual meaning of a phrase through the passage’s contrast.",
+        "target_term": "clouded in anonymity"
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    },
+    {
+      "id": "v76f-10e903f685",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "body": "Which inference best captures the narrator’s overall attitude towards tourism in Jibhi?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Tourism has brought no worthwhile learning or relationships"
+        },
+        {
+          "key": "B",
+          "text": "Every increase in tourism should be welcomed regardless of its effects"
+        },
+        {
+          "key": "C",
+          "text": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection"
+        },
+        {
+          "key": "D",
+          "text": "The village must permanently abandon tourism because the first venture failed"
+        }
+      ],
+      "passage_text": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+      "route": "passage",
+      "question_type": "reading_comprehension",
+      "learning_objective": {
+        "syllabus_unit": "Reading Comprehension",
+        "objective": "Synthesize benefits and concerns across a passage to infer a balanced attitude.",
+        "target_term": ""
+      },
+      "sources": [
+        {
+          "id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/EnglishCore-SQP.pdf",
+          "identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75"
+        }
+      ]
+    }
+  ]
+}

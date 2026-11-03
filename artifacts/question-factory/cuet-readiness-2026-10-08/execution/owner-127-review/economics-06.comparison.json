@@ -1,0 +1,1035 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "022715ffbd5f9ddc00637221a98a8363",
+      "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+      "key": "C",
+      "explanation": "The reported contamination is followed by efforts to bring in better methods of pest control. The account then identifies pesticides based on plant products as one such step and describes chemicals isolated from neem as a specific example. The sequence is therefore 1-2-3-4.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "022715ffbd5f9ddc00637221a98a8363",
+          "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "022715ffbd5f9ddc00637221a98a8363",
+              "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "3951e477b388c3c6a35edaf1828aa90e35568a9600116c17205116d798ac0f2e",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "022715ffbd5f9ddc00637221a98a8363",
+              "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+              "evidence_hash": "acdf1c7009d71b0ec5a566126a9a1523fd358fddafa8c8a1a3043e1ebfafa6a7"
+            },
+            "source_support": {
+              "candidate_id": "022715ffbd5f9ddc00637221a98a8363",
+              "content_hash": "5667b936f18159b617da0b873086e1796e273ff08f094e7ba5b5c654b5a784d2",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "The source presents the sequence as contamination, efforts to improve pest control, plant-based pesticides as one such step, and then chemicals isolated from neem being used (E1.1, E1.2). Thus the order is 1-2-3-4, option C."
+              ],
+              "syllabus_chapter": "Environment & Sustainable Development",
+              "syllabus_topic": "Strategies for sustainable development: plant-based pest control and neem-derived pesticides",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Milk, meat and fish contamination is the reported problem.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Improved pest-control efforts follow as a response to the contamination problem.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Plant-based pesticides are one step in those pest-control efforts.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Neem-derived pest-controlling chemicals are the specific plant-based response.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat pest-control efforts as already underway before the contamination finding.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Read the plant-based pesticide step as preceding the broader effort to introduce better pest-control methods.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat neem-derived chemicals as used before plant-based pesticides are identified as a broader step.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The ordering closely follows the source’s explanatory progression, making the item relatively direct."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Plant-based pest control is a recognized strategy within the syllabus topic of strategies for sustainable development."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A four-option sequence-ordering MCQ is workable, with a format variation from the supplied recall and passage-comprehension exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct sequence-recall task is within the range of the supplied easy direct-recall and passage-comprehension exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The alternatives test ordering of the problem, general response, and specific plant-based response."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q14",
+                  "cuet2024-economics-bookA-q28",
+                  "cuet2024-economics-bookA-q29"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec107",
+                  "locator": "p14-c1876",
+                  "quote": "r were polluted with the environment. In the initial stages pesticides. Even milk, meat and fishes of development, the demand for were found to be contaminated. environmental resources was less than To meet this challenge, efforts are that of supply. Now the world is on to bring in better methods of pest faced with increased demand for control. One such step is the use of environmental resources but their pesticides based on plant products. supply is limited due to overuse and Neem trees are proving to be quite misuse. Sustainable development aims useful. Several types of pest controlling at promoting the kind of development chemicals have",
+                  "start": 0,
+                  "end": 647
+                },
+                {
+                  "source_id": "ncert-keec107",
+                  "locator": "p14-c1876",
+                  "quote": " been isolated from neem that minimises environmental problems and these are being used. Mixed and meets the needs of the present cropping and growing different crops generation without compromising the in consecutive years on the same land ability of the future generation to meet have also helped farmers. their own needs. 128 INDIAN ECONOMIC DEVELOPMENT Reprint 2026-27",
+                  "start": 647,
+                  "end": 1019
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 89,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 89,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 89
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Environment & Sustainable Development"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Environment & Sustainable Development"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec107",
+                  "version": 1,
+                  "locator": "p14-c1876",
+                  "support_hash": "f9e2b06899ba68b688ef7d0e7f25dfc9802dfc5ea72253f1e654abdb408eb2bf"
+                },
+                {
+                  "id": "ncert-keec107",
+                  "version": 1,
+                  "locator": "p4-c1868",
+                  "support_hash": "c435754e5869b85c69dda1d288af59f22f1946d2d00293aa92f05bd54b962a40"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "6e69267dccce40d204b7b26e730c7a9463f7c4841aaeb0eeb90f778b27eb3e30"
+            }
+          },
+          "failure_details": [
+            "The source presents the sequence as contamination, efforts to improve pest control, plant-based pesticides as one such step, and then chemicals isolated from neem being used (E1.1, E1.2). Thus the order is 1-2-3-4, option C."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T00:12:00.551Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "022715ffbd5f9ddc00637221a98a8363"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "022715ffbd5f9ddc00637221a98a8363"
+        ],
+        "would_withhold_ids": [
+          "022715ffbd5f9ddc00637221a98a8363"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+      "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+      "key": "B",
+      "explanation": "The price rises from $0.0131 to $0.0135 per ₹1. Under a flexible exchange-rate regime, an increase in the price of domestic currency (rupees) in foreign currency (dollars) is appreciation. The other listed prices are lower than or equal to the initial price.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+          "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+              "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "03b93d61621c765e70e67913fffa098e879fadacbbe59031533f19d8323cbd6b",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+              "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+              "evidence_hash": "e3f9ffc8526074d69ac7c76f82855eaf3f13a86226d06ae564671ee7ac14d6a7"
+            },
+            "source_support": {
+              "candidate_id": "bc294a9b39cfc830dd3077ae0b6f23ee",
+              "content_hash": "0f589179bb76b60519387585fd952c785ec0ebbd0429c84baab03ff3ca940bd8",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "E1.1 defines appreciation under a flexible exchange rate as an increase in the price of domestic currency in terms of foreign currency. Here $0.0135 is greater than $0.0131, so B indicates appreciation; $0.0131 is unchanged and the other quotes are lower."
+              ],
+              "syllabus_chapter": "Balance of Payments",
+              "syllabus_topic": "Flexible exchange rates; appreciation of domestic currency quoted in terms of foreign currency.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The exchange-rate regime is flexible.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The initial price of ₹1 is $0.0131.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The quote expresses the price of one rupee in dollars.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In a flexible exchange-rate regime, an increase in the domestic currency's price in foreign currency indicates appreciation.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "Among the listed later prices, only $0.0135 is greater than $0.0131.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the quote were rupees per dollar rather than dollars per rupee, a lower value might indicate rupee appreciation.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If an unchanged quote were treated as evidence of appreciation despite the comparison with the initial price.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If the quote were rupees per dollar rather than dollars per rupee, a lower value might indicate rupee appreciation.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core syllabus concept of appreciation under a flexible exchange-rate regime."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A clear four-option, single-answer objective item in a standard direct-MCQ format."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A one-step application within the recall and application range represented by the authenticated economics examples."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The values include an increase, no change and decreases, so the choice tests understanding of the direction of appreciation."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q24",
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q9"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leec106",
+                  "locator": "quality-v3-pdf-page-8-262565cae8",
+                  "quote": "Similarly, in a flexible exchange rate regime, when the price of domestic currency (rupees) in terms of foreign currency (dollars) increases, it is called Appreciation of the domestic currency (rupees) in terms of foreign currency (dollars).",
+                  "start": 0,
+                  "end": 241
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 38,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 38,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 38
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Balance of Payments"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Balance of Payments"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leec106",
+                  "version": 1,
+                  "locator": "quality-v3-pdf-page-8-262565cae8",
+                  "support_hash": "262565cae8b7d68397a32693ecd02c3a9c583757032fcb48ebb3e82cf6102b46"
+                },
+                {
+                  "id": "ncert-leec106",
+                  "version": 1,
+                  "locator": "quality-v4-ead0c0a1a3fa",
+                  "support_hash": "ead0c0a1a3faec022da85464525c91173f7f465d380a8a0152fa643b31e43327"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "1e74df0e78c46ec03998e38051a630b0188b8056ed95ebe24363dab4d7a55be7"
+            }
+          },
+          "failure_details": [
+            "E1.1 defines appreciation under a flexible exchange rate as an increase in the price of domestic currency in terms of foreign currency. Here $0.0135 is greater than $0.0131, so B indicates appreciation; $0.0131 is unchanged and the other quotes are lower."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T00:12:44.581Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "bc294a9b39cfc830dd3077ae0b6f23ee"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "bc294a9b39cfc830dd3077ae0b6f23ee"
+        ],
+        "would_withhold_ids": [
+          "bc294a9b39cfc830dd3077ae0b6f23ee"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "296c159a29a991573e77266004038898",
+      "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+      "key": "C",
+      "explanation": "Both services create private and social benefits, many households cannot afford basic access, and expenditure on these services has substantial long-term effects that are not easily reversed. These stated conditions support public intervention in both sectors, which is already operating in the district.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "296c159a29a991573e77266004038898",
+          "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "296c159a29a991573e77266004038898",
+              "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "5c88266ac979228c423776b937d69e2fce6d414fa6ffd154d1132aaff40851f2",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "296c159a29a991573e77266004038898",
+              "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+              "evidence_hash": "a8050c758961d767fc4b9e64642f7cb635c7ce1437f224d44a7955dfa1f423cc"
+            },
+            "source_support": {
+              "candidate_id": "296c159a29a991573e77266004038898",
+              "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.1",
+                "E2.2"
+              ],
+              "reasons": [
+                "The stem supplies the relevant district facts: both sectors have private and public provision, the services create private and social benefits, many households cannot afford access, and the effects are long-term and hard to reverse.",
+                "The excerpts link private and social benefits to the coexistence of public and private institutions, and conclude that government intervention is essential in light of affordability constraints and the lasting effects of education and health expenditure. Option C applies that rationale to both sectors.",
+                "A, B and D each contradict an explicit fact in the stem.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Human Capital Formation",
+              "syllabus_topic": "Role of human capital in economic development; education and health services and the rationale for government intervention",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Public intervention is already operating in both sectors, so the recommendation is to continue it.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Education and health-care services in the district create both private and social benefits.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Many households cannot afford basic access to either service.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Expenditure on both services has substantial long-term effects that are not easily reversed.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The supplied textbook rationale supports government intervention in education and health given the social benefits, affordability constraints and lasting effects.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.1",
+                    "E2.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Existing private providers could be relied on instead of public intervention, if their presence alone were treated as sufficient.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Public intervention could be limited to education if health care created no social benefits.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Public intervention could be withdrawn if the expenditure effects were readily reversible.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Option C closely restates the stem and is longer than the distractors, which makes the answer easier to spot."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognized application of human-capital material on education and health, though intervention is not named in the syllabus unit description."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective application question; the supplied CUET economics examples are direct-recall items."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "A short application of a textbook rationale; somewhat more applied than the supplied direct-recall exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The correct option repeats the stem's facts, while each distractor contradicts an explicit fact."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q15",
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p11-c1783",
+                  "quote": ". Technical Education (AICTE) facilitate Do you know who takes care of institutions which come under the education and health in India? Before education sector. Similarly, the we take up the analysis of the education ministries of health at the union and sector in India, we will look into the state level, departments of health and need for government intervention in various organisations like National education and health sectors. We do Medical Commission and Indian understand that education and health Council for Medical Research (ICMR) care services create both private and facilitate institutions which come under social benefits and this is",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p11-c1783",
+                  "quote": " the reason the health sector. for the existence of both private and In a developing country like India, public institutions in the education and with a large section of the population health service markets. Expenditures living below the poverty line, many on education and health make people cannot afford to access basic substantial long-term impact and they education and health care facilities. cannot be easily reversed; hence, Moreover, a substantial section government intervention is essential. For of India’s population cannot afford HUMAN CAPITAL FORMATION IN INDIA 67 Reprint 2026-27",
+                  "start": 650,
+                  "end": 1245
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 83,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 128,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 128
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Human Capital Formation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Human Capital Formation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p8-c1761",
+                  "support_hash": "48b47a7476bacadd336a320fe417343742b16217c031bd4f0e1e52a79e32bd12"
+                },
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p11-c1783",
+                  "support_hash": "3478f1513cb94bd93c9ec8f9018f43741804542a6c7e32ed2aca85dcf2e97a0c"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "1336eee1acb4621a88f807bf66fc884378ffebb8fea2bde1e6e8dccebed6a0c5"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "296c159a29a991573e77266004038898",
+              "content_hash": "251a392ead0acad9341ff705e8637a780716447d6b2be9dcdd09614e4eee37cd",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.1",
+                "E2.2"
+              ],
+              "reasons": [
+                "The stem supplies the relevant district facts: both sectors have private and public provision, the services create private and social benefits, many households cannot afford access, and the effects are long-term and hard to reverse.",
+                "The excerpts link private and social benefits to the coexistence of public and private institutions, and conclude that government intervention is essential in light of affordability constraints and the lasting effects of education and health expenditure. Option C applies that rationale to both sectors.",
+                "A, B and D each contradict an explicit fact in the stem.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Human Capital Formation",
+              "syllabus_topic": "Role of human capital in economic development; education and health services and the rationale for government intervention",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Public intervention is already operating in both sectors, so the recommendation is to continue it.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Education and health-care services in the district create both private and social benefits.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Many households cannot afford basic access to either service.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Expenditure on both services has substantial long-term effects that are not easily reversed.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The supplied textbook rationale supports government intervention in education and health given the social benefits, affordability constraints and lasting effects.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.1",
+                    "E2.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Existing private providers could be relied on instead of public intervention, if their presence alone were treated as sufficient.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Public intervention could be limited to education if health care created no social benefits.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Public intervention could be withdrawn if the expenditure effects were readily reversible.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "Option C closely restates the stem and is longer than the distractors, which makes the answer easier to spot."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognized application of human-capital material on education and health, though intervention is not named in the syllabus unit description."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective application question; the supplied CUET economics examples are direct-recall items."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "A short application of a textbook rationale; somewhat more applied than the supplied direct-recall exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The correct option repeats the stem's facts, while each distractor contradicts an explicit fact."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-economics-bookA-q15",
+                  "cuet2024-economics-bookA-q1",
+                  "cuet2024-economics-bookA-q12"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p11-c1783",
+                  "quote": ". Technical Education (AICTE) facilitate Do you know who takes care of institutions which come under the education and health in India? Before education sector. Similarly, the we take up the analysis of the education ministries of health at the union and sector in India, we will look into the state level, departments of health and need for government intervention in various organisations like National education and health sectors. We do Medical Commission and Indian understand that education and health Council for Medical Research (ICMR) care services create both private and facilitate institutions which come under social benefits and this is",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-keec104",
+                  "locator": "p11-c1783",
+                  "quote": " the reason the health sector. for the existence of both private and In a developing country like India, public institutions in the education and with a large section of the population health service markets. Expenditures living below the poverty line, many on education and health make people cannot afford to access basic substantial long-term impact and they education and health care facilities. cannot be easily reversed; hence, Moreover, a substantial section government intervention is essential. For of India’s population cannot afford HUMAN CAPITAL FORMATION IN INDIA 67 Reprint 2026-27",
+                  "start": 650,
+                  "end": 1245
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 83,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 128,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 128
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Human Capital Formation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Human Capital Formation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p8-c1761",
+                  "support_hash": "48b47a7476bacadd336a320fe417343742b16217c031bd4f0e1e52a79e32bd12"
+                },
+                {
+                  "id": "ncert-keec104",
+                  "version": 1,
+                  "locator": "p11-c1783",
+                  "support_hash": "3478f1513cb94bd93c9ec8f9018f43741804542a6c7e32ed2aca85dcf2e97a0c"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "778027d68b8efe3f6c8033f9fe3cb322e8827436f7f908bd850a9d462be6a470"
+            }
+          },
+          "failure_details": [
+            "The stem supplies the relevant district facts: both sectors have private and public provision, the services create private and social benefits, many households cannot afford access, and the effects are long-term and hard to reverse.",
+            "The excerpts link private and social benefits to the coexistence of public and private institutions, and conclude that government intervention is essential in light of affordability constraints and the lasting effects of education and health expenditure. Option C applies that rationale to both sectors.",
+            "A, B and D each contradict an explicit fact in the stem.",
+            "cuet_fit_score_6_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T00:13:46.634Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "296c159a29a991573e77266004038898"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "296c159a29a991573e77266004038898"
+        ],
+        "would_withhold_ids": [
+          "296c159a29a991573e77266004038898"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

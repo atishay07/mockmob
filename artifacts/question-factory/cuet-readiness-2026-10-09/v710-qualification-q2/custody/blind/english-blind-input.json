@@ -1,0 +1,284 @@
+{
+ "subject": "english",
+ "items": [
+  {
+   "local_id": "eng-b1",
+   "chapter": "Narrative Passage",
+   "body": "What did Nisha notice when she played the melody more quickly than the rest of the group?",
+   "passage_text": "At a rehearsal, Nisha played a melody more quickly than the rest of the group. She thought the faster pace made it exciting. Their conductor asked everyone to listen while one drummer kept a steady beat. Nisha noticed that the flute's quieter phrases disappeared when she rushed. During the next attempt, she waited for the drummer's beat and heard the phrases clearly. Afterwards, a classmate praised the performance. Nisha said that she had changed very few notes. What she had changed was the space she gave the other players. She kept her faster version for a solo rehearsal later.",
+   "options": [
+    {
+     "key": "A",
+     "text": "The drummer lost the steady beat and stopped playing."
+    },
+    {
+     "key": "B",
+     "text": "The flute's quieter phrases disappeared."
+    },
+    {
+     "key": "C",
+     "text": "The conductor asked her to leave the rehearsal."
+    },
+    {
+     "key": "D",
+     "text": "The other players began to play at her pace."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F10",
+     "chapter": "Narrative Passage",
+     "text": "At a rehearsal, Nisha played a melody more quickly than the rest of the group. She thought the faster pace made it exciting. Their conductor asked everyone to listen while one drummer kept a steady beat. Nisha noticed that the flute's quieter phrases disappeared when she rushed. During the next attempt, she waited for the drummer's beat and heard the phrases clearly. Afterwards, a classmate praised the performance. Nisha said that she had changed very few notes. What she had changed was the space she gave the other players. She kept her faster version for a solo rehearsal later."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b2",
+   "chapter": "Factual Passage",
+   "body": "Why did the archive record visitors' memories separately as possible identifications?",
+   "passage_text": "A fictional archive asked volunteers to describe old photographs. A description was stored as confirmed only when a dated label or an accompanying document identified its subject. Memories offered by visitors were recorded separately as possible identifications. Several visitors initially disliked this distinction because they were confident about their recollections. The archivist explained that preserving a recollection did not require presenting it as established fact. Later, a letter confirmed one visitor's identification, and that record was updated. The system allowed information to be reconsidered without discarding the history of how it had first been reported.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A memory alone lacked a dated label or document, so it could be kept without being presented as established fact."
+    },
+    {
+     "key": "B",
+     "text": "The archive discarded any memory that was not supported by a dated label or an accompanying document."
+    },
+    {
+     "key": "C",
+     "text": "Confirmation required the visitor to feel confident about the recollection being offered."
+    },
+    {
+     "key": "D",
+     "text": "A letter had to confirm every identification before the archive could record it."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F2",
+     "chapter": "Factual Passage",
+     "text": "A fictional archive asked volunteers to describe old photographs. A description was stored as confirmed only when a dated label or an accompanying document identified its subject. Memories offered by visitors were recorded separately as possible identifications. Several visitors initially disliked this distinction because they were confident about their recollections. The archivist explained that preserving a recollection did not require presenting it as established fact. Later, a letter confirmed one visitor's identification, and that record was updated. The system allowed information to be reconsidered without discarding the history of how it had first been reported."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b3",
+   "chapter": "Factual Passage",
+   "body": "What did the committee's confirmation step address?",
+   "passage_text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help.",
+   "options": [
+    {
+     "key": "A",
+     "text": "It added an extra watering session for every volunteer on the roster."
+    },
+    {
+     "key": "B",
+     "text": "It was meant to correct volunteers who were unwilling to help."
+    },
+    {
+     "key": "C",
+     "text": "It made the board record who held a slot after a replacement had been arranged."
+    },
+    {
+     "key": "D",
+     "text": "It ended the practice of asking absent volunteers to arrange replacements."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F4",
+     "chapter": "Factual Passage",
+     "text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b4",
+   "chapter": "Factual Passage",
+   "body": "According to the passage, why did the repair club buy a charging cable and switches instead of a new drill?",
+   "passage_text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload.",
+   "options": [
+    {
+     "key": "A",
+     "text": "The inventory check showed that the existing drill could not be repaired at all."
+    },
+    {
+     "key": "B",
+     "text": "The existing drill lacked only a charging cable, and waiting repairs needed inexpensive switches."
+    },
+    {
+     "key": "C",
+     "text": "The minutes stated that buying new equipment is always wasteful for a club."
+    },
+    {
+     "key": "D",
+     "text": "The members agreed never to reconsider the purchase of a new drill."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F1",
+     "chapter": "Factual Passage",
+     "text": "A fictional repair club allocated its weekly budget to tools and replacement parts. Members initially proposed buying a new drill. The inventory check then showed that an existing drill worked but lacked a charging cable, while several repairs were waiting for inexpensive switches. The club bought the cable and switches instead. This allowed it to resume the waiting repairs without exhausting the budget. The minutes explained that the decision concerned the club's immediate needs; they did not claim that buying new equipment was always wasteful. Members agreed to reconsider the drill purchase if the repaired equipment could no longer handle their workload."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b5",
+   "chapter": "Factual Passage",
+   "body": "According to the passage, which visitor could register for the advanced pottery workshop?",
+   "passage_text": "A fictional community centre offered a beginner's pottery workshop and a more advanced workshop. Registration for the advanced session required completion of the beginner's session or a short demonstration of equivalent skills. An experienced visitor who had never attended the centre passed the demonstration and joined the advanced group. Another visitor chose the beginner's session after finding the demonstration difficult. The organiser explained that the alternative routes recognised prior experience while checking readiness for the work. Attending a particular earlier course was one way to qualify, rather than the only acceptable evidence of the relevant skills.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A visitor who had completed the beginner's session"
+    },
+    {
+     "key": "B",
+     "text": "A visitor who had never attended the centre but passed the short demonstration"
+    },
+    {
+     "key": "C",
+     "text": "A visitor who had not attended the centre and found the demonstration difficult"
+    },
+    {
+     "key": "D",
+     "text": "A visitor who had skipped both the beginner's session and the demonstration"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F5",
+     "chapter": "Factual Passage",
+     "text": "A fictional community centre offered a beginner's pottery workshop and a more advanced workshop. Registration for the advanced session required completion of the beginner's session or a short demonstration of equivalent skills. An experienced visitor who had never attended the centre passed the demonstration and joined the advanced group. Another visitor chose the beginner's session after finding the demonstration difficult. The organiser explained that the alternative routes recognised prior experience while checking readiness for the work. Attending a particular earlier course was one way to qualify, rather than the only acceptable evidence of the relevant skills."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b6",
+   "chapter": "Narrative Passage",
+   "body": "What colour did Kabir plan to paint the strip of wall above the lowered shelf?",
+   "passage_text": "Kabir built a shelf for his younger sister's books. He carefully measured the wall and made the shelf fit its empty space. When he invited her to use it, she struggled to reach the upper level. Kabir first suggested that she stand on a stool, then stopped when she asked why a shelf intended for her had to be so high. He removed the brackets and lowered the shelf. A strip of unpainted wall remained above it. He decided to leave the painting until the weekend. That evening, his sister arranged her books without help, and Kabir was pleased despite the unfinished wall.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Pale yellow"
+    },
+    {
+     "key": "B",
+     "text": "White"
+    },
+    {
+     "key": "C",
+     "text": "Light green"
+    },
+    {
+     "key": "D",
+     "text": "Sky blue"
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F9",
+     "chapter": "Narrative Passage",
+     "text": "Kabir built a shelf for his younger sister's books. He carefully measured the wall and made the shelf fit its empty space. When he invited her to use it, she struggled to reach the upper level. Kabir first suggested that she stand on a stool, then stopped when she asked why a shelf intended for her had to be so high. He removed the brackets and lowered the shelf. A strip of unpainted wall remained above it. He decided to leave the painting until the weekend. That evening, his sister arranged her books without help, and Kabir was pleased despite the unfinished wall."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b7",
+   "chapter": "Factual Passage",
+   "body": "Which inference about pupils whose classes ended early is best supported by the passage?",
+   "passage_text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey.",
+   "options": [
+    {
+     "key": "A",
+     "text": "They had no other departure available, because the earlier departure on every route was removed."
+    },
+    {
+     "key": "B",
+     "text": "They were promised shorter waits than before, because the notice favoured all finishing times equally."
+    },
+    {
+     "key": "C",
+     "text": "They gained a faster journey, because the notice presented the later departure as quicker."
+    },
+    {
+     "key": "D",
+     "text": "They waited longer for the shifted departure but could choose the earlier departure kept on another route."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F3",
+     "chapter": "Factual Passage",
+     "text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b8",
+   "chapter": "Narrative Passage",
+   "body": "What did the guide do after she noticed that some visitors still asked for directions?",
+   "passage_text": "In a fictional museum, a guide found that visitors often missed a small map beside the entrance. She first moved the map to a board at eye level. A week later, she watched visitors and noticed that some still asked for directions. She then added coloured arrows leading from the board to the main galleries. On the next busy morning, fewer visitors asked where the galleries were.",
+   "options": [
+    {
+     "key": "A",
+     "text": "She moved the small map to a board at eye level."
+    },
+    {
+     "key": "B",
+     "text": "She added coloured arrows leading from the board to the main galleries."
+    },
+    {
+     "key": "C",
+     "text": "She removed the map from beside the entrance."
+    },
+    {
+     "key": "D",
+     "text": "She waited for the next busy morning before changing anything."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F7",
+     "chapter": "Narrative Passage",
+     "text": "In a fictional museum, a guide found that visitors often missed a small map beside the entrance. She first moved the map to a board at eye level. A week later, she watched visitors and noticed that some still asked for directions. She then added coloured arrows leading from the board to the main galleries. On the next busy morning, fewer visitors asked where the galleries were."
+    }
+   ]
+  },
+  {
+   "local_id": "eng-b9",
+   "chapter": "Narrative Passage",
+   "body": "Why did Mira decide to keep observing before calling the brown bird a regular visitor?",
+   "passage_text": "In a fictional school, Mira volunteered to record birds visiting the courtyard. She initially wrote down only their colours. Her teacher suggested noting the time and behaviour as well. After a week, Mira compared her notes and saw that the same brown bird arrived just before lunch on four days. She decided to keep observing before calling it a regular visitor, because the week had been unusually quiet.",
+   "options": [
+    {
+     "key": "A",
+     "text": "The brown bird had arrived before lunch on only one day."
+    },
+    {
+     "key": "B",
+     "text": "The week of observation had been unusually quiet."
+    },
+    {
+     "key": "C",
+     "text": "Her teacher had told her not to note the time of arrival."
+    },
+    {
+     "key": "D",
+     "text": "She had still recorded only the colours of the birds."
+    }
+   ],
+   "excerpts": [
+    {
+     "ref": "F6",
+     "chapter": "Narrative Passage",
+     "text": "In a fictional school, Mira volunteered to record birds visiting the courtyard. She initially wrote down only their colours. Her teacher suggested noting the time and behaviour as well. After a week, Mira compared her notes and saw that the same brown bird arrived just before lunch on four days. She decided to keep observing before calling it a regular visitor, because the week had been unusually quiet."
+    }
+   ]
+  }
+ ]
+}

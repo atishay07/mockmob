@@ -1,0 +1,1935 @@
+{
+  "title": "Saved CUET readiness A/B campaign analysis",
+  "generated_at": "2026-10-07T21:37:32.562Z",
+  "source_scope": {
+    "A": "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08",
+    "B": "artifacts\\question-factory\\cuet-readiness-improved-100-2026-10-08",
+    "uses_only_saved_campaign_outputs": true,
+    "excluded": [
+      "diagnostic heldout fixtures",
+      "live ledger/database",
+      "provider calls"
+    ],
+    "input_sha256": {
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\campaign.json": "6d364a5922a85fada571a358c8e4ddbe5b1b1e681600d5cff3a7f195474a3dca",
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\batch-report.json": "957f1369991d780779164bc6df92edf40bda85487d867b4ec22e5e810a70b837",
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\all-candidates.json": "9c8373c4f66cd57a71fad6642cfa5ec66b449cd99d13a128850d9ac949c7427c",
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\approved.json": "f2beb22a3608e5128a5bd40abf31daec8847ca24b4e23e6726dce59940e69163",
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\rejected.json": "f16e5e0740ea0b4a13b405474853931886d32e3e8e86abe5e823aacf1f58ea08",
+      "artifacts\\question-factory\\cuet-readiness-baseline-100-2026-10-08\\receipts.json": "f117e1bd7329f7a1e56df88beee3157ea20f03a2b7ef1102c5b5b4cfc4c4247e",
+      "artifacts\\question-factory\\cuet-readiness-improved-100-2026-10-08\\campaign.json": "61e75aef1b7981e14b1ac2a9cbba242094b30eb1d93169a83309414a87ce4684"
+    }
+  },
+  "comparison_status": {
+    "A": {
+      "arm": "baseline",
+      "campaign_id": "cuet-readiness-baseline-100-2026-10-08",
+      "completeness": "partial",
+      "as_of": "2026-10-07T21:36:43.798Z",
+      "denominator": 100,
+      "denominator_retained": true
+    },
+    "B": {
+      "id": "cuet-readiness-improved-100-2026-10-08",
+      "arm": "improved",
+      "denominator": 100,
+      "preregistered_at": "2026-10-07T20:17:10.802Z",
+      "verifier": "cuet-fit-validator-v7.2",
+      "evidence_outputs_present": false,
+      "status": "unstarted_incomplete_no_candidate_results_or_receipts_saved",
+      "metrics": null,
+      "cost_usd": null,
+      "forecast_usd": null
+    },
+    "paired_comparison_allowed": false,
+    "forecast_usd": null,
+    "forecast_reason": "B has no saved candidate/results/receipt outputs and A remains pending; no forecast is supported until B completes with reconciled receipts."
+  },
+  "baseline_A": {
+    "planned_denominator": 100,
+    "jobs_by_state": {
+      "eligible": 37,
+      "generated": 7,
+      "quarantined": 10,
+      "queued": 43,
+      "repaired": 3
+    },
+    "validation_result_states": {
+      "eligible": 37,
+      "missing_result": 50,
+      "quarantined": 13
+    },
+    "machine_eligible_unique": 37,
+    "machine_eligible_rate_over_all_100_pct": 37,
+    "rejected_file_count": 10,
+    "pending_from_saved_report": 53,
+    "eligible_ids_match_approved_export": true,
+    "unique_eligible_by_id": 37,
+    "unique_eligible_by_exact_content": 37,
+    "unique_eligible_by_family": 37,
+    "per_subject": {
+      "english": {
+        "denominator": 25,
+        "job_states": {
+          "eligible": 11,
+          "generated": 2,
+          "quarantined": 2,
+          "queued": 10
+        },
+        "result_states": {
+          "eligible": 11,
+          "missing_result": 12,
+          "quarantined": 2
+        },
+        "candidates_produced": 15,
+        "machine_eligible_unique": 11,
+        "eligibility_per_denominator_pct": 44,
+        "pending_jobs": 12,
+        "current_cost_usd": 0.178596,
+        "planned_formats": {
+          "antonym": 4,
+          "correct_word_usage": 4,
+          "matching": 4,
+          "reading_comprehension": 5,
+          "sequence_ordering": 4,
+          "synonym": 4
+        },
+        "eligible_formats": {
+          "antonym": 1,
+          "conceptual_mcq": 1,
+          "correct_word_usage": 2,
+          "direct vocabulary application MCQ": 1,
+          "reading_comprehension": 3,
+          "sequence_ordering": 1,
+          "synonym": 2
+        },
+        "planned_difficulty": {
+          "easy": 9,
+          "hard": 4,
+          "medium": 12
+        },
+        "eligible_difficulty": {
+          "easy": 4,
+          "hard": 2,
+          "medium": 5
+        },
+        "eligible_answer_positions": {
+          "A": 3,
+          "B": 4,
+          "C": 1,
+          "D": 3
+        }
+      },
+      "accountancy": {
+        "denominator": 25,
+        "job_states": {
+          "eligible": 8,
+          "generated": 1,
+          "quarantined": 3,
+          "queued": 11,
+          "repaired": 2
+        },
+        "result_states": {
+          "eligible": 8,
+          "missing_result": 12,
+          "quarantined": 5
+        },
+        "candidates_produced": 14,
+        "machine_eligible_unique": 8,
+        "eligibility_per_denominator_pct": 32,
+        "pending_jobs": 14,
+        "current_cost_usd": 0.147346,
+        "planned_formats": {
+          "case_application": 4,
+          "conceptual_mcq": 5,
+          "matching": 4,
+          "numerical_calculation": 4,
+          "sequence_ordering": 4,
+          "statement_selection": 4
+        },
+        "eligible_formats": {
+          "case_application": 1,
+          "conceptual_mcq": 2,
+          "matching": 1,
+          "numerical_calculation": 3,
+          "statement_selection": 1
+        },
+        "planned_difficulty": {
+          "easy": 9,
+          "hard": 4,
+          "medium": 12
+        },
+        "eligible_difficulty": {
+          "easy": 5,
+          "medium": 3
+        },
+        "eligible_answer_positions": {
+          "A": 5,
+          "C": 1,
+          "D": 2
+        }
+      },
+      "business_studies": {
+        "denominator": 25,
+        "job_states": {
+          "eligible": 11,
+          "generated": 2,
+          "quarantined": 1,
+          "queued": 11
+        },
+        "result_states": {
+          "eligible": 11,
+          "missing_result": 13,
+          "quarantined": 1
+        },
+        "candidates_produced": 14,
+        "machine_eligible_unique": 11,
+        "eligibility_per_denominator_pct": 44,
+        "pending_jobs": 13,
+        "current_cost_usd": 0.137554,
+        "planned_formats": {
+          "case_application": 5,
+          "conceptual_mcq": 5,
+          "matching": 5,
+          "sequence_ordering": 5,
+          "statement_selection": 5
+        },
+        "eligible_formats": {
+          "case_application": 3,
+          "conceptual_mcq": 3,
+          "matching": 2,
+          "sequence_ordering": 2,
+          "statement_selection": 1
+        },
+        "planned_difficulty": {
+          "easy": 9,
+          "hard": 4,
+          "medium": 12
+        },
+        "eligible_difficulty": {
+          "easy": 4,
+          "hard": 2,
+          "medium": 5
+        },
+        "eligible_answer_positions": {
+          "A": 3,
+          "B": 2,
+          "C": 3,
+          "D": 3
+        }
+      },
+      "economics": {
+        "denominator": 25,
+        "job_states": {
+          "eligible": 7,
+          "generated": 2,
+          "quarantined": 4,
+          "queued": 11,
+          "repaired": 1
+        },
+        "result_states": {
+          "eligible": 7,
+          "missing_result": 13,
+          "quarantined": 5
+        },
+        "candidates_produced": 14,
+        "machine_eligible_unique": 7,
+        "eligibility_per_denominator_pct": 28,
+        "pending_jobs": 14,
+        "current_cost_usd": 0.163027,
+        "planned_formats": {
+          "case_application": 4,
+          "conceptual_mcq": 5,
+          "matching": 4,
+          "numerical_calculation": 4,
+          "sequence_ordering": 4,
+          "statement_selection": 4
+        },
+        "eligible_formats": {
+          "conceptual_mcq": 1,
+          "matching": 1,
+          "numerical_calculation": 2,
+          "sequence_ordering": 2,
+          "statement_selection": 1
+        },
+        "planned_difficulty": {
+          "easy": 9,
+          "hard": 4,
+          "medium": 12
+        },
+        "eligible_difficulty": {
+          "easy": 2,
+          "medium": 5
+        },
+        "eligible_answer_positions": {
+          "A": 2,
+          "B": 1,
+          "C": 2,
+          "D": 2
+        }
+      }
+    },
+    "planned_format_distribution_100": {
+      "antonym": 4,
+      "case_application": 13,
+      "conceptual_mcq": 15,
+      "correct_word_usage": 4,
+      "matching": 17,
+      "numerical_calculation": 8,
+      "reading_comprehension": 5,
+      "sequence_ordering": 17,
+      "statement_selection": 13,
+      "synonym": 4
+    },
+    "eligible_format_distribution": {
+      "antonym": 1,
+      "case_application": 4,
+      "conceptual_mcq": 7,
+      "correct_word_usage": 2,
+      "direct vocabulary application MCQ": 1,
+      "matching": 4,
+      "numerical_calculation": 5,
+      "reading_comprehension": 3,
+      "sequence_ordering": 5,
+      "statement_selection": 3,
+      "synonym": 2
+    },
+    "planned_difficulty_distribution_100": {
+      "easy": 36,
+      "hard": 16,
+      "medium": 48
+    },
+    "eligible_difficulty_distribution": {
+      "easy": 15,
+      "hard": 4,
+      "medium": 18
+    },
+    "planned_answer_position_distribution_100": {
+      "A": 28,
+      "B": 24,
+      "C": 24,
+      "D": 24
+    },
+    "eligible_answer_position_distribution": {
+      "A": 13,
+      "B": 7,
+      "C": 7,
+      "D": 10
+    },
+    "support_length_summary_produced_candidates": {
+      "candidates_with_source_material": 57,
+      "excerpt_count": 122,
+      "candidate_total_words": {
+        "median": 531,
+        "p90": 689,
+        "max": 784
+      },
+      "candidate_total_chars": {
+        "median": 3342,
+        "p90": 4112.4,
+        "max": 4373
+      },
+      "excerpt_words": {
+        "median": 234.5,
+        "p90": 438,
+        "max": 658
+      }
+    },
+    "support_length_by_subject": {
+      "english": {
+        "candidates_with_source_material": 15,
+        "excerpt_count": 42,
+        "candidate_total_words": {
+          "median": 43,
+          "p90": 105.2,
+          "max": 108
+        },
+        "candidate_total_chars": {
+          "median": 263,
+          "p90": 633,
+          "max": 665
+        },
+        "excerpt_words": {
+          "median": 11,
+          "p90": 65.3,
+          "max": 108
+        }
+      },
+      "accountancy": {
+        "candidates_with_source_material": 14,
+        "excerpt_count": 24,
+        "candidate_total_words": {
+          "median": 603,
+          "p90": 690.5,
+          "max": 784
+        },
+        "candidate_total_chars": {
+          "median": 3538.5,
+          "p90": 4013.4,
+          "max": 4264
+        },
+        "excerpt_words": {
+          "median": 314,
+          "p90": 428.1,
+          "max": 530
+        }
+      },
+      "business_studies": {
+        "candidates_with_source_material": 14,
+        "excerpt_count": 28,
+        "candidate_total_words": {
+          "median": 575.5,
+          "p90": 667.1,
+          "max": 683
+        },
+        "candidate_total_chars": {
+          "median": 3754,
+          "p90": 4289.1,
+          "max": 4373
+        },
+        "excerpt_words": {
+          "median": 242,
+          "p90": 434.6,
+          "max": 495
+        }
+      },
+      "economics": {
+        "candidates_with_source_material": 14,
+        "excerpt_count": 28,
+        "candidate_total_words": {
+          "median": 619,
+          "p90": 760.1,
+          "max": 781
+        },
+        "candidate_total_chars": {
+          "median": 3490.5,
+          "p90": 4123.5,
+          "max": 4187
+        },
+        "excerpt_words": {
+          "median": 352,
+          "p90": 576.5,
+          "max": 658
+        }
+      }
+    },
+    "support_length_candidate_detail": [
+      {
+        "id": "330f3eb7571b494ce6f6321158184960",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+            "locator": "stimulus",
+            "chars": 665,
+            "words": 108
+          }
+        ],
+        "total_chars": 665,
+        "total_words": 108
+      },
+      {
+        "id": "94f2003fcfd34bc2f38ea58cf24bacf2",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-2cec3d6b3d07",
+            "chars": 1799,
+            "words": 314
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-195c75b54b52",
+            "chars": 1715,
+            "words": 285
+          }
+        ],
+        "total_chars": 3514,
+        "total_words": 599
+      },
+      {
+        "id": "71de76b066e7cdda1d45f3924882c643",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-910ff72d0f84",
+            "chars": 3148,
+            "words": 495
+          },
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-b1bc338a616f",
+            "chars": 348,
+            "words": 55
+          }
+        ],
+        "total_chars": 3496,
+        "total_words": 550
+      },
+      {
+        "id": "749b7f8058e3557c04d01be6ffbee224",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec102",
+            "locator": "quality-v3-pdf-page-16-aa3fba62bc",
+            "chars": 357,
+            "words": 60
+          },
+          {
+            "id": "ncert-leec102",
+            "locator": "pdf-page-22",
+            "chars": 3445,
+            "words": 658
+          }
+        ],
+        "total_chars": 3802,
+        "total_words": 718
+      },
+      {
+        "id": "061c41b294d42afb3804959aabe68d23",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-reluctant",
+            "locator": "definition",
+            "chars": 66,
+            "words": 12
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "locator": "definition",
+            "chars": 52,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-benevolent",
+            "locator": "definition",
+            "chars": 26,
+            "words": 4
+          },
+          {
+            "id": "oxford-quality-plausible",
+            "locator": "definition",
+            "chars": 62,
+            "words": 11
+          }
+        ],
+        "total_chars": 206,
+        "total_words": 36
+      },
+      {
+        "id": "9dc522ed9ede0474488a0690297caa0b",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-8e561daf0013",
+            "chars": 1765,
+            "words": 286
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-18",
+            "chars": 2092,
+            "words": 387
+          }
+        ],
+        "total_chars": 3857,
+        "total_words": 673
+      },
+      {
+        "id": "e270197505aaa3ace2c4cf10623927a6",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-12",
+            "chars": 2653,
+            "words": 431
+          },
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-1",
+            "chars": 1522,
+            "words": 240
+          }
+        ],
+        "total_chars": 4175,
+        "total_words": 671
+      },
+      {
+        "id": "44c1c94cf0611675cf998dc8e26d645f",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec103",
+            "locator": "pdf-page-3",
+            "chars": 3484,
+            "words": 628
+          },
+          {
+            "id": "ncert-leec103",
+            "locator": "quality-v3-pdf-page-3-63bb58005d",
+            "chars": 330,
+            "words": 54
+          }
+        ],
+        "total_chars": 3814,
+        "total_words": 682
+      },
+      {
+        "id": "044d2ebc96f774e3dbe9396b5704b51f",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-b7449defcb67f33e8f15",
+            "locator": "stimulus",
+            "chars": 372,
+            "words": 59
+          }
+        ],
+        "total_chars": 372,
+        "total_words": 59
+      },
+      {
+        "id": "68dfeb4533d487bea9238a375795c38e",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-65",
+            "chars": 2128,
+            "words": 362
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-1578db490356",
+            "chars": 1636,
+            "words": 268
+          }
+        ],
+        "total_chars": 3764,
+        "total_words": 630
+      },
+      {
+        "id": "be766fde7b94898b8a08176e26b8e698",
+        "subject": "business_studies",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-10",
+            "chars": 2574,
+            "words": 418
+          },
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-1",
+            "chars": 1522,
+            "words": 240
+          }
+        ],
+        "total_chars": 4096,
+        "total_words": 658
+      },
+      {
+        "id": "a3882245b572e40b73be54c4ba312d68",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec205",
+            "locator": "p15-c0",
+            "chars": 1954,
+            "words": 352
+          },
+          {
+            "id": "ncert-leec205",
+            "locator": "p16-c1921",
+            "chars": 890,
+            "words": 149
+          }
+        ],
+        "total_chars": 2844,
+        "total_words": 501
+      },
+      {
+        "id": "23aad86aa8b8d827643ad917fe717cba",
+        "subject": "english",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "oxford-quality-authentic",
+            "locator": "definition",
+            "chars": 63,
+            "words": 14
+          },
+          {
+            "id": "oxford-quality-sporadic",
+            "locator": "definition",
+            "chars": 64,
+            "words": 10
+          },
+          {
+            "id": "oxford-quality-inevitable",
+            "locator": "definition",
+            "chars": 32,
+            "words": 6
+          },
+          {
+            "id": "oxford-quality-ambiguous",
+            "locator": "definition",
+            "chars": 70,
+            "words": 12
+          }
+        ],
+        "total_chars": 229,
+        "total_words": 42
+      },
+      {
+        "id": "6a36cd09ebd9dd30606310b808c0bc18",
+        "subject": "accountancy",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-55",
+            "chars": 2174,
+            "words": 405
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-49",
+            "chars": 2090,
+            "words": 379
+          }
+        ],
+        "total_chars": 4264,
+        "total_words": 784
+      },
+      {
+        "id": "a075e24de6c4dfef8cb39fe920dbc9f9",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs105",
+            "locator": "pdf-page-27",
+            "chars": 2159,
+            "words": 287
+          },
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-18f392ccae68",
+            "chars": 1617,
+            "words": 244
+          }
+        ],
+        "total_chars": 3776,
+        "total_words": 531
+      },
+      {
+        "id": "755adc63884c7f6c14a79e7d0fa543e3",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec103",
+            "locator": "pdf-page-7",
+            "chars": 3204,
+            "words": 563
+          },
+          {
+            "id": "ncert-leec103",
+            "locator": "quality-v3-pdf-page-7-d838c7ed2c",
+            "chars": 326,
+            "words": 58
+          }
+        ],
+        "total_chars": 3530,
+        "total_words": 621
+      },
+      {
+        "id": "c06865acee9ae1c94f5987215099ea76",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-arrogant",
+            "locator": "definition",
+            "chars": 76,
+            "words": 12
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "locator": "definition",
+            "chars": 52,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-plausible",
+            "locator": "definition",
+            "chars": 62,
+            "words": 11
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "locator": "definition",
+            "chars": 46,
+            "words": 9
+          }
+        ],
+        "total_chars": 236,
+        "total_words": 41
+      },
+      {
+        "id": "0fbee7aba7a3aeec5fe59d6cc0442c23",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac204",
+            "locator": "pdf-page-12",
+            "chars": 2018,
+            "words": 358
+          }
+        ],
+        "total_chars": 2018,
+        "total_words": 358
+      },
+      {
+        "id": "d452c4c655203973272c0444dab4709c",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs107",
+            "locator": "normative-a72a9103340a296e",
+            "chars": 1640,
+            "words": 238
+          },
+          {
+            "id": "ncert-lebs107",
+            "locator": "normative-34f28c2e46790f5a",
+            "chars": 1642,
+            "words": 234
+          }
+        ],
+        "total_chars": 3282,
+        "total_words": 472
+      },
+      {
+        "id": "01808f07cb97beb042857c9bd2111746",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec202",
+            "locator": "p1-c0",
+            "chars": 2097,
+            "words": 352
+          },
+          {
+            "id": "ncert-leec202",
+            "locator": "p16-c0",
+            "chars": 2090,
+            "words": 399
+          }
+        ],
+        "total_chars": 4187,
+        "total_words": 751
+      },
+      {
+        "id": "bd92ec3eb46e46c653ab9be3adfdc489",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-gregarious",
+            "locator": "definition",
+            "chars": 30,
+            "words": 6
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "locator": "definition",
+            "chars": 52,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-elated",
+            "locator": "definition",
+            "chars": 81,
+            "words": 14
+          },
+          {
+            "id": "oxford-quality-conscientious",
+            "locator": "definition",
+            "chars": 48,
+            "words": 8
+          }
+        ],
+        "total_chars": 211,
+        "total_words": 37
+      },
+      {
+        "id": "24478e3ccf5ba41341afdb30db201f4a",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac204",
+            "locator": "pdf-page-4",
+            "chars": 2758,
+            "words": 438
+          }
+        ],
+        "total_chars": 2758,
+        "total_words": 438
+      },
+      {
+        "id": "4c4557ce13fb10efb37813424e719b3f",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-910ff72d0f84",
+            "chars": 3148,
+            "words": 495
+          },
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-b1bc338a616f",
+            "chars": 348,
+            "words": 55
+          }
+        ],
+        "total_chars": 3496,
+        "total_words": 550
+      },
+      {
+        "id": "6a83819c35e721b7bd45b902158dcefc",
+        "subject": "economics",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leec102",
+            "locator": "quality-v3-pdf-page-7-ec2810240f",
+            "chars": 302,
+            "words": 50
+          },
+          {
+            "id": "ncert-leec102",
+            "locator": "pdf-page-7",
+            "chars": 3149,
+            "words": 547
+          }
+        ],
+        "total_chars": 3451,
+        "total_words": 597
+      },
+      {
+        "id": "7b6ba6db959c37e110f83c9d4925fb49",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-82f403d58e9dcb6ec291",
+            "locator": "stimulus",
+            "chars": 665,
+            "words": 108
+          }
+        ],
+        "total_chars": 665,
+        "total_words": 108
+      },
+      {
+        "id": "cde3a9b12cd0dc56944a86445a116cb4",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-4",
+            "chars": 3063,
+            "words": 530
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v3-pdf-page-39-a14adf94f3",
+            "chars": 960,
+            "words": 168
+          }
+        ],
+        "total_chars": 4023,
+        "total_words": 698
+      },
+      {
+        "id": "144a618261337310e1052e4152e9f249",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-2",
+            "chars": 2210,
+            "words": 374
+          },
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-1",
+            "chars": 1522,
+            "words": 240
+          }
+        ],
+        "total_chars": 3732,
+        "total_words": 614
+      },
+      {
+        "id": "0ebfd4f94f7e63de4b2a4bbf82f2a700",
+        "subject": "economics",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-keec101",
+            "locator": "pdf-page-4",
+            "chars": 2655,
+            "words": 454
+          },
+          {
+            "id": "ncert-keec101",
+            "locator": "quality-v3-pdf-page-5-a5e92497b0",
+            "chars": 421,
+            "words": 64
+          }
+        ],
+        "total_chars": 3076,
+        "total_words": 518
+      },
+      {
+        "id": "e0100ebc2f74bb784e349d850f42ad42",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-obsolete",
+            "locator": "definition",
+            "chars": 54,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-versatile",
+            "locator": "definition",
+            "chars": 46,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-assertive",
+            "locator": "definition",
+            "chars": 87,
+            "words": 13
+          },
+          {
+            "id": "oxford-quality-concise",
+            "locator": "definition",
+            "chars": 76,
+            "words": 12
+          }
+        ],
+        "total_chars": 263,
+        "total_words": 43
+      },
+      {
+        "id": "ab6cb57ba324e914f1f7fc6e94e52684",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-a89ab4257cc3",
+            "chars": 1764,
+            "words": 293
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-2cec3d6b3d07",
+            "chars": 1799,
+            "words": 314
+          }
+        ],
+        "total_chars": 3563,
+        "total_words": 607
+      },
+      {
+        "id": "66b0b3141c9c1e488822199dc5966f06",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs101",
+            "locator": "quality-v4-99eb9fc192b1",
+            "chars": 2733,
+            "words": 422
+          },
+          {
+            "id": "ncert-lebs101",
+            "locator": "quality-v4-864b5b8ea540",
+            "chars": 1203,
+            "words": 179
+          }
+        ],
+        "total_chars": 3936,
+        "total_words": 601
+      },
+      {
+        "id": "9d3b4dd78eb5875bd164c0c1064f62b5",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-keec103",
+            "locator": "p8-c0",
+            "chars": 1823,
+            "words": 296
+          },
+          {
+            "id": "ncert-keec103",
+            "locator": "p20-c0",
+            "chars": 1519,
+            "words": 230
+          }
+        ],
+        "total_chars": 3342,
+        "total_words": 526
+      },
+      {
+        "id": "efe588a9ccafba0c25aef183f47bc628",
+        "subject": "english",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-474baeae3e7118e5d696",
+            "locator": "stimulus",
+            "chars": 396,
+            "words": 71
+          }
+        ],
+        "total_chars": 396,
+        "total_words": 71
+      },
+      {
+        "id": "c3dde363f322c5ceff6260e8f4898286",
+        "subject": "accountancy",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leac204",
+            "locator": "pdf-page-12",
+            "chars": 2018,
+            "words": 358
+          }
+        ],
+        "total_chars": 2018,
+        "total_words": 358
+      },
+      {
+        "id": "63ec7de783d4f275ffb17d1fcdb3c15c",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-4",
+            "chars": 2428,
+            "words": 372
+          },
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-1",
+            "chars": 1522,
+            "words": 240
+          }
+        ],
+        "total_chars": 3950,
+        "total_words": 612
+      },
+      {
+        "id": "246f81216813889572d889c9da9897f1",
+        "subject": "economics",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leec203",
+            "locator": "p10-c0",
+            "chars": 2050,
+            "words": 465
+          },
+          {
+            "id": "ncert-leec203",
+            "locator": "p14-c1884",
+            "chars": 768,
+            "words": 152
+          }
+        ],
+        "total_chars": 2818,
+        "total_words": 617
+      },
+      {
+        "id": "97545bad8e54d6f1e0bd3afedcae103c",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-authentic",
+            "locator": "definition",
+            "chars": 63,
+            "words": 14
+          },
+          {
+            "id": "oxford-quality-sporadic",
+            "locator": "definition",
+            "chars": 64,
+            "words": 10
+          },
+          {
+            "id": "oxford-quality-impartial",
+            "locator": "definition",
+            "chars": 52,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-inevitable",
+            "locator": "definition",
+            "chars": 32,
+            "words": 6
+          }
+        ],
+        "total_chars": 211,
+        "total_words": 39
+      },
+      {
+        "id": "6986fc4a07471636cb8cc327fe92d83c",
+        "subject": "accountancy",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leac102",
+            "locator": "span-88acd5a861b0",
+            "chars": 1596,
+            "words": 288
+          },
+          {
+            "id": "ncert-leac102",
+            "locator": "span-2c978c97c40a",
+            "chars": 1751,
+            "words": 304
+          }
+        ],
+        "total_chars": 3347,
+        "total_words": 592
+      },
+      {
+        "id": "db781050a0192ae425ff04eb077179fa",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs107",
+            "locator": "normative-250304b312427790",
+            "chars": 1590,
+            "words": 235
+          },
+          {
+            "id": "ncert-lebs107",
+            "locator": "normative-902f04a68ca971b6",
+            "chars": 1644,
+            "words": 265
+          }
+        ],
+        "total_chars": 3234,
+        "total_words": 500
+      },
+      {
+        "id": "0fb20d23ce35cb1294855bd0f0cd990d",
+        "subject": "economics",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leec204",
+            "locator": "p16-c0",
+            "chars": 2026,
+            "words": 388
+          },
+          {
+            "id": "ncert-leec204",
+            "locator": "p5-c0",
+            "chars": 2066,
+            "words": 393
+          }
+        ],
+        "total_chars": 4092,
+        "total_words": 781
+      },
+      {
+        "id": "987d8e45e32890d86ea8ce4affb0d5e3",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-plausible",
+            "locator": "definition",
+            "chars": 62,
+            "words": 11
+          },
+          {
+            "id": "oxford-quality-diligent",
+            "locator": "definition",
+            "chars": 46,
+            "words": 9
+          },
+          {
+            "id": "oxford-quality-optimistic",
+            "locator": "definition",
+            "chars": 83,
+            "words": 13
+          },
+          {
+            "id": "oxford-quality-hostile",
+            "locator": "definition",
+            "chars": 52,
+            "words": 9
+          }
+        ],
+        "total_chars": 243,
+        "total_words": 42
+      },
+      {
+        "id": "22d536d2fa149741bcc12847474b28cd",
+        "subject": "accountancy",
+        "result_state": "quarantined",
+        "job_state": "quarantined",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-8e561daf0013",
+            "chars": 1765,
+            "words": 286
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-24",
+            "chars": 2226,
+            "words": 378
+          }
+        ],
+        "total_chars": 3991,
+        "total_words": 664
+      },
+      {
+        "id": "5b488cc7f55559c585e69ab821e08ac2",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-e5d85ed5309a",
+            "chars": 1466,
+            "words": 221
+          },
+          {
+            "id": "ncert-lebs105",
+            "locator": "quality-v4-18f392ccae68",
+            "chars": 1617,
+            "words": 244
+          }
+        ],
+        "total_chars": 3083,
+        "total_words": 465
+      },
+      {
+        "id": "17f2bef6446f2d347ba1d458b8db4374",
+        "subject": "economics",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-leec202",
+            "locator": "p24-c0",
+            "chars": 2096,
+            "words": 381
+          },
+          {
+            "id": "ncert-leec202",
+            "locator": "p22-c0",
+            "chars": 2041,
+            "words": 383
+          }
+        ],
+        "total_chars": 4137,
+        "total_words": 764
+      },
+      {
+        "id": "44dd59f15c38efb3ac76a601d97c7bb1",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "oxford-quality-conscientious",
+            "locator": "definition",
+            "chars": 48,
+            "words": 8
+          },
+          {
+            "id": "oxford-quality-indifferent",
+            "locator": "definition",
+            "chars": 51,
+            "words": 8
+          },
+          {
+            "id": "oxford-quality-elated",
+            "locator": "definition",
+            "chars": 81,
+            "words": 14
+          },
+          {
+            "id": "oxford-quality-optimistic",
+            "locator": "definition",
+            "chars": 83,
+            "words": 13
+          }
+        ],
+        "total_chars": 263,
+        "total_words": 43
+      },
+      {
+        "id": "fccaf7eb335a48c312cdf407b32787df",
+        "subject": "accountancy",
+        "result_state": "quarantined",
+        "job_state": "repaired",
+        "refs": [
+          {
+            "id": "ncert-leac204",
+            "locator": "pdf-page-4",
+            "chars": 2758,
+            "words": 438
+          }
+        ],
+        "total_chars": 2758,
+        "total_words": 438
+      },
+      {
+        "id": "1ff7c937850b6d331750e23f06dff1cd",
+        "subject": "business_studies",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "ncert-lebs102",
+            "locator": "pdf-page-35",
+            "chars": 2397,
+            "words": 330
+          },
+          {
+            "id": "ncert-lebs102",
+            "locator": "pdf-page-28",
+            "chars": 1976,
+            "words": 318
+          }
+        ],
+        "total_chars": 4373,
+        "total_words": 648
+      },
+      {
+        "id": "d7f9c564d439a2f1079a9616e32cc18f",
+        "subject": "economics",
+        "result_state": "quarantined",
+        "job_state": "repaired",
+        "refs": [
+          {
+            "id": "ncert-leec103",
+            "locator": "pdf-page-8",
+            "chars": 3417,
+            "words": 608
+          },
+          {
+            "id": "ncert-leec103",
+            "locator": "quality-v3-pdf-page-8-66d989857f",
+            "chars": 375,
+            "words": 66
+          }
+        ],
+        "total_chars": 3792,
+        "total_words": 674
+      },
+      {
+        "id": "ecbccf020c8b96fef4565ea905457167",
+        "subject": "english",
+        "result_state": "eligible",
+        "job_state": "eligible",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-4787dc2aae27c45d836c",
+            "locator": "stimulus",
+            "chars": 585,
+            "words": 101
+          }
+        ],
+        "total_chars": 585,
+        "total_words": 101
+      },
+      {
+        "id": "8385bdc3b5d2349a2eeb8d8a90b98abc",
+        "subject": "accountancy",
+        "result_state": "quarantined",
+        "job_state": "repaired",
+        "refs": [
+          {
+            "id": "ncert-leac102",
+            "locator": "span-88acd5a861b0",
+            "chars": 1596,
+            "words": 288
+          },
+          {
+            "id": "ncert-leac102",
+            "locator": "span-2c978c97c40a",
+            "chars": 1751,
+            "words": 304
+          }
+        ],
+        "total_chars": 3347,
+        "total_words": 592
+      },
+      {
+        "id": "8afd7c624784c5316a50fbb193a15f8c",
+        "subject": "business_studies",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "ncert-lebs101",
+            "locator": "quality-v4-1cf5c10664d2",
+            "chars": 985,
+            "words": 166
+          },
+          {
+            "id": "ncert-lebs101",
+            "locator": "quality-v4-a6fbf530d291",
+            "chars": 367,
+            "words": 57
+          }
+        ],
+        "total_chars": 1352,
+        "total_words": 223
+      },
+      {
+        "id": "62a331af5c818b37ab06601089e31aee",
+        "subject": "economics",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "ncert-keec101",
+            "locator": "pdf-page-4",
+            "chars": 2655,
+            "words": 454
+          },
+          {
+            "id": "ncert-keec101",
+            "locator": "quality-v3-pdf-page-5-a5e92497b0",
+            "chars": 421,
+            "words": 64
+          }
+        ],
+        "total_chars": 3076,
+        "total_words": 518
+      },
+      {
+        "id": "1f97308edbcc2672d28bbf4fdac57bd0",
+        "subject": "english",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "oxford-quality-discreet",
+            "locator": "definition",
+            "chars": 64,
+            "words": 13
+          },
+          {
+            "id": "oxford-quality-gregarious",
+            "locator": "definition",
+            "chars": 30,
+            "words": 6
+          },
+          {
+            "id": "oxford-quality-reluctant",
+            "locator": "definition",
+            "chars": 66,
+            "words": 12
+          },
+          {
+            "id": "oxford-quality-candid",
+            "locator": "definition",
+            "chars": 67,
+            "words": 11
+          }
+        ],
+        "total_chars": 227,
+        "total_words": 42
+      },
+      {
+        "id": "e718497aa6f48d8c5b268fad22e3df5f",
+        "subject": "accountancy",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "ncert-leac201",
+            "locator": "pdf-page-65",
+            "chars": 2128,
+            "words": 362
+          },
+          {
+            "id": "ncert-leac201",
+            "locator": "quality-v4-1578db490356",
+            "chars": 1636,
+            "words": 268
+          }
+        ],
+        "total_chars": 3764,
+        "total_words": 630
+      },
+      {
+        "id": "670dfa9c706d433e799b58b1ce8c653b",
+        "subject": "business_studies",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-13",
+            "chars": 2816,
+            "words": 443
+          },
+          {
+            "id": "ncert-lebs104",
+            "locator": "pdf-page-1",
+            "chars": 1522,
+            "words": 240
+          }
+        ],
+        "total_chars": 4338,
+        "total_words": 683
+      },
+      {
+        "id": "8736ddca1bf44cfd906452a31277adf7",
+        "subject": "economics",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "ncert-keec103",
+            "locator": "p16-c0",
+            "chars": 2035,
+            "words": 321
+          },
+          {
+            "id": "ncert-keec103",
+            "locator": "p7-c1872",
+            "chars": 1121,
+            "words": 175
+          }
+        ],
+        "total_chars": 3156,
+        "total_words": 496
+      },
+      {
+        "id": "a5107c0a786cd966a99668eeba3aaaf4",
+        "subject": "english",
+        "result_state": null,
+        "job_state": "generated",
+        "refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-c0e210aa54205cf80a11",
+            "locator": "stimulus",
+            "chars": 377,
+            "words": 66
+          }
+        ],
+        "total_chars": 377,
+        "total_words": 66
+      }
+    ],
+    "exact_duplicate_groups_among_produced_candidates": [],
+    "near_idea_pairs_among_produced_candidates": [],
+    "near_idea_pair_threshold": "same subject and body-token Jaccard >= 0.48, or shared concept/family; deterministic triage only, not a semantic duplicate verdict",
+    "shared_passage_groups": [
+      {
+        "group_id": "original-passage-3a3e89358b7611f2f96f",
+        "ids": [
+          "330f3eb7571b494ce6f6321158184960",
+          "7b6ba6db959c37e110f83c9d4925fb49"
+        ]
+      }
+    ],
+    "duplicate_risk_summary": {
+      "produced_candidates_screened": 57,
+      "exact_duplicate_groups": 0,
+      "near_idea_pairs_flagged": 0,
+      "shared_passage_groups": 1,
+      "limitation": "The exact and token-similarity checks are triage signals, not proof of semantic distinctness. Shared passages are expected and reported separately."
+    },
+    "failure_reasons_all_100": {
+      "author_failure:author_presentation_lint:option_label_prefix": 14,
+      "failure_detail:A is an original and not a copy, so it meets the definition (I). B is verified as a copy, so it fails because it is a copy (II). C is genuine and not a copy but differs from the recording claimed, so it fails because it is not what is claimed (III). D lacks enough verification to decide (IV).": 1,
+      "failure_detail:A–C each contain at least one correct subclaim, although only D is a fully correct description. Under the supplied review rule, the partly correct distractors are a blocking defect.": 1,
+      "failure_detail:An outright purchase without an agreement to resell is a permanent injection. A purchase with an agreed resale is a repo and temporarily injects money; a sale with an agreed repurchase is a reverse repo and temporarily withdraws money. Thus D is correct.": 1,
+      "failure_detail:B (D-E-A-C-B) follows the sequence in the supplied NCERT excerpt: the company needs capital, collects it from persons, identifies them as shareholders, explains why separate accounts are impractical, then gives the common account treatment.": 1,
+      "failure_detail:Condition implied_decisive: A must precede C because A identifies E's persons as shareholders before C refers to the number of shareholders.": 1,
+      "failure_detail:cuet_fit_reading_load_143_above_authenticated_pyq_maximum_132": 1,
+      "failure_detail:cuet_fit_reading_load_144_above_authenticated_pyq_maximum_132": 1,
+      "failure_detail:cuet_fit_reading_load_153_above_authenticated_pyq_maximum_132": 1,
+      "failure_detail:cuet_fit_reading_load_161_above_authenticated_pyq_maximum_132": 1,
+      "failure_detail:cuet_fit_reading_load_184_above_authenticated_pyq_maximum_132": 1,
+      "failure_detail:Defect: missing_decisive_assumption: option A is correct if After E introduces contributors, C can state the account problem; A can then identify those same contributors as shareholders, and B follows C.": 1,
+      "failure_detail:Defect: multiple_correct_options: Option A (D-E-C-A-B) meets all explicit ordering links. The stem does not require A to precede C, so B is the source-matching intended order but not uniquely defensible.": 1,
+      "failure_detail:Defect: multiple_correct_options: Options A–C contain correct subclaims (A has the correct P and Q changes; B and C correctly state R remains at 1/5), although their complete descriptions are false. The review rule treats partly true distractors as blocking.": 1,
+      "failure_detail:Firm P's listed factor payments total ₹3,20,000; Firm Q's total ₹2,80,000. Aggregate income is ₹6,00,000.": 1,
+      "failure_detail:However, A (D-E-C-A-B) also satisfies every ordering link stated in the stem: D precedes E, E precedes A, and C precedes B. C can state the account problem before A identifies the contributors as shareholders, so the stem does not uniquely require A before C.": 1,
+      "failure_detail:NCERT states that comparative figures require the same accounting principles, and that deviations should be mentioned in a footnote (E1.3).": 1,
+      "failure_detail:No numerical calculation is required.": 1,
+      "failure_detail:Old shares are P=5/10, Q=3/10, R=2/10. New shares are P=4/10, Q=4/10, R=2/10. Thus P falls by 1/10, Q rises by 1/10, and R remains 1/5: D.": 1,
+      "failure_detail:Sales revenue and factor payments are two views of the same circular flow, so adding both double-counts the income. The records are complete and the totals are internally consistent.": 1,
+      "failure_detail:Short-run marginal cost is the change in total cost divided by the change in output. Here, (₹80 − ₹67) ÷ (8 − 7) = ₹13 per unit.": 1,
+      "failure_detail:Step 1 is to list rupee figures for Year 1 and Year 2 (II). The profit-and-loss base is revenue from operations (IV), and the balance-sheet base is total assets or total liabilities (III). Step 3 is to calculate each item as a percentage of its total (I). This gives option C.": 1,
+      "failure_detail:The ratios each total 10, so the stated normalization gives R the same share under both ratios.": 1,
+      "failure_detail:The source supports calculating marginal cost as the change in total cost divided by the change in output; the stated output levels are consecutive.": 1,
+      "failure_detail:The stem defines authentic as real, matching what is claimed, and not a copy.": 1,
+      "failure_detail:The stem specifies the transaction directions, the reversal agreements, their completion, and that no other operation affects money.": 1,
+      "failure_detail:The supplied NCERT excerpt states this procedure and identifies the two statement bases.": 1,
+      "failure_detail:This gives A-I, B-II, C-III, D-IV: option C.": 1,
+      "failure_detail:Year 1–Year 2 uses the same principles, so that pair meets the condition. Year 2–Year 3 includes a changed principle, so it does not; the stated footnote appropriately discloses the deviation. Thus B is the only correct option.": 1,
+      "verifier:failed:numeric_solution": 1,
+      "verifier:failed:source_support": 4,
+      "verifier:failed:syllabus_mapping": 3,
+      "verifier:option_label_prefix": 3,
+      "verifier:orphan_passage": 1,
+      "verifier:repair_abstained": 1
+    },
+    "failed_stage_counts": {
+      "syllabus_mapping": 3,
+      "source_support": 4,
+      "numeric_solution": 1
+    },
+    "scoped_cost": {
+      "basis": "saved A receipts only; IDs checked against preregistered request_ids_before and count/settled/held reconcile to saved batch cost; actual/reserved fields are micro-USD; provider receipts are not invoices. Lifetime request delta is a global snapshot and is excluded from scoped request attribution.",
+      "requests": 257,
+      "settled_micro_usd": 626523,
+      "settled_usd": 0.626523,
+      "held_micro_usd": 0,
+      "held_usd": 0,
+      "gross_settled_plus_held_usd": 0.626523,
+      "cap_usd": 4,
+      "stage_model": [
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "request_count": 41,
+          "settled_count": 41,
+          "unsettled_count": 0,
+          "reserved_micro": 1718862,
+          "settled_micro": 384684,
+          "held_micro": 0,
+          "input_tokens": 172981,
+          "output_tokens": 41401,
+          "reasoning_tokens": 26581,
+          "usage_missing": 0,
+          "reserved_usd": 1.718862,
+          "settled_usd": 0.384684,
+          "held_usd": 0,
+          "share_of_settled_pct": 61.4
+        },
+        {
+          "stage": "blind_solution",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "request_count": 81,
+          "settled_count": 81,
+          "unsettled_count": 0,
+          "reserved_micro": 673826,
+          "settled_micro": 126093,
+          "held_micro": 0,
+          "input_tokens": 374779,
+          "output_tokens": 373258,
+          "reasoning_tokens": 307718,
+          "usage_missing": 6,
+          "reserved_usd": 0.673826,
+          "settled_usd": 0.126093,
+          "held_usd": 0,
+          "share_of_settled_pct": 20.13
+        },
+        {
+          "stage": "authoring",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "request_count": 68,
+          "settled_count": 68,
+          "unsettled_count": 0,
+          "reserved_micro": 529514,
+          "settled_micro": 87462,
+          "held_micro": 0,
+          "input_tokens": 253321,
+          "output_tokens": 285726,
+          "reasoning_tokens": 253554,
+          "usage_missing": 2,
+          "reserved_usd": 0.529514,
+          "settled_usd": 0.087462,
+          "held_usd": 0,
+          "share_of_settled_pct": 13.96
+        },
+        {
+          "stage": "repair",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "request_count": 25,
+          "settled_count": 25,
+          "unsettled_count": 0,
+          "reserved_micro": 215188,
+          "settled_micro": 15003,
+          "held_micro": 0,
+          "input_tokens": 68519,
+          "output_tokens": 41581,
+          "reasoning_tokens": 35019,
+          "usage_missing": 1,
+          "reserved_usd": 0.215188,
+          "settled_usd": 0.015003,
+          "held_usd": 0,
+          "share_of_settled_pct": 2.39
+        },
+        {
+          "stage": "explanation_support",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "request_count": 42,
+          "settled_count": 42,
+          "unsettled_count": 0,
+          "reserved_micro": 277384,
+          "settled_micro": 13281,
+          "held_micro": 0,
+          "input_tokens": 99541,
+          "output_tokens": 24439,
+          "reasoning_tokens": 16864,
+          "usage_missing": 3,
+          "reserved_usd": 0.277384,
+          "settled_usd": 0.013281,
+          "held_usd": 0,
+          "share_of_settled_pct": 2.12
+        }
+      ],
+      "request_coverage": {
+        "saved_receipt_rows": 257,
+        "distinct_receipt_ids": 257,
+        "receipt_ids_preexisting_before_campaign": 0,
+        "scoped_requests": 257,
+        "saved_campaign_cost_request_count": 257,
+        "campaign_start_request_count": 9341,
+        "campaign_end_lifetime_snapshot_requests": 10255,
+        "lifetime_snapshot_delta": 914,
+        "matches_scoped_receipts": true,
+        "lifetime_delta_is_campaign_scoped": false
+      },
+      "reconciles_batch_report_settled_and_held": true
+    },
+    "recorded_summary_fields": {
+      "complete": false,
+      "approved_unique": 37,
+      "rejected": 10,
+      "pending": 53,
+      "provider_processing_complete": false,
+      "cost_per_approved_usd": null,
+      "conditional_10000_forecast_usd": null,
+      "conditional_lifetime_to_10000_usd": null,
+      "invoice_status": "Provider response usage receipts; no provider invoice obtained. Held usage is not settled."
+    },
+    "avoidable_cost_signals": [
+      {
+        "signal": "Open-item denominator",
+        "evidence": "60/100 are pending and provider processing is incomplete; the current eligible-per-spend ratio is descriptive only.",
+        "action": "Do not forecast or rank arms until both batches and all receipts are complete."
+      },
+      {
+        "signal": "Repair and retry pressure",
+        "evidence": "24 candidate records have a repair_count; per-stage receipts are listed above.",
+        "action": "Compare incremental repair spend and post-repair eligibility against no-repair cases in the next preregistered run."
+      },
+      {
+        "signal": "Repeated text-lint failures",
+        "evidence": "Failure reasons include author_failure:author_presentation_lint:option_label_prefix=14, verifier:option_label_prefix=3.",
+        "action": "If frequent, improve author instructions or run local formatting checks before expensive validation; retain all attempts in the denominator."
+      }
+    ]
+  },
+  "next_iteration_notes": [
+    "Keep 25 planned cases per subject or preregister a stratified allocation before dispatch; compare within-subject observed and pending counts rather than treating pooled partial yield as an arm effect.",
+    "Report candidate yield, unique machine eligibility, repair rate, stage/provider cost, and source-support length by subject and format only after completion; do not tune using the release/heldout benchmark.",
+    "Use the stage-model table to inspect high-cost stages; any simplification must be measured on a new preregistered cohort with unchanged hard CUET-fit gates."
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "at": "2026-10-07T09:41:39.042Z",
+  "environment_loaded": true,
+  "prior_unconfigured_probe_invalid": true,
+  "contract": "evidence-content-idea-inspection-v2",
+  "content_hash": "28d72651a160a7c36757eee758ecdd1a6cb7731c0d5e50c0f0a9f1870de97d9a",
+  "decisions": [
+    {
+      "id": "d7fec04a9cccc34986926c92bbebf61d",
+      "reason": "duplicate_idea_conservative",
+      "duplicate_of": "f6014d82652aa9d90c149cb515fd98fb"
+    },
+    {
+      "id": "f1698e180d606e19672b97a2fb05d811",
+      "reason": "duplicate_idea_conservative",
+      "duplicate_of": "f6014d82652aa9d90c149cb515fd98fb"
+    }
+  ],
+  "duplicate_pairs": [
+    {
+      "a": "f6014d82652aa9d90c149cb515fd98fb",
+      "b": "d7fec04a9cccc34986926c92bbebf61d",
+      "similarity": 0.6923076923076923,
+      "concept": "factual_passage_explicit_condition_for_reconsideration"
+    },
+    {
+      "a": "f6014d82652aa9d90c149cb515fd98fb",
+      "b": "f1698e180d606e19672b97a2fb05d811",
+      "similarity": 0.5,
+      "concept": "factual_passage_explicit_condition_for_reconsideration"
+    },
+    {
+      "a": "d7fec04a9cccc34986926c92bbebf61d",
+      "b": "f1698e180d606e19672b97a2fb05d811",
+      "similarity": 0.5384615384615384,
+      "concept": "factual_passage_stated_condition_for_reconsideration"
+    }
+  ],
+  "denominator": 495,
+  "approved": 493,
+  "answer_positions": {
+    "A": 148,
+    "C": 117,
+    "B": 117,
+    "D": 111
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "A": 9,
+      "C": 6,
+      "B": 7,
+      "D": 6
+    },
+    "synonym": {
+      "C": 6,
+      "B": 5,
+      "A": 9,
+      "D": 4
+    },
+    "matching": {
+      "C": 23,
+      "D": 17,
+      "B": 19,
+      "A": 26
+    },
+    "correct_word_usage": {
+      "C": 5,
+      "A": 7,
+      "B": 3,
+      "D": 5
+    },
+    "antonym": {
+      "D": 8,
+      "B": 3,
+      "C": 4,
+      "A": 2
+    },
+    "sequence_ordering": {
+      "D": 19,
+      "C": 19,
+      "B": 20,
+      "A": 14
+    },
+    "conceptual_mcq": {
+      "A": 26,
+      "B": 20,
+      "D": 12,
+      "C": 15
+    },
+    "numerical_calculation": {
+      "B": 6,
+      "A": 15,
+      "C": 6,
+      "D": 4
+    },
+    "case_application": {
+      "C": 19,
+      "A": 16,
+      "D": 16,
+      "B": 20
+    },
+    "statement_selection": {
+      "C": 13,
+      "B": 12,
+      "D": 16,
+      "A": 14
+    },
+    "contextual vocabulary": {
+      "B": 1
+    },
+    "vocabulary_meaning": {
+      "D": 1
+    },
+    "direct_mcq": {
+      "A": 8,
+      "D": 2,
+      "C": 1,
+      "B": 1
+    },
+    "meaning in context": {
+      "A": 1
+    },
+    "direct MCQ": {
+      "A": 1
+    },
+    "vocabulary_in_context": {
+      "D": 1
+    }
+  },
+  "formats": {
+    "reading_comprehension": 28,
+    "synonym": 24,
+    "matching": 85,
+    "correct_word_usage": 20,
+    "antonym": 17,
+    "sequence_ordering": 72,
+    "conceptual_mcq": 73,
+    "numerical_calculation": 31,
+    "case_application": 71,
+    "statement_selection": 55,
+    "contextual vocabulary": 1,
+    "vocabulary_meaning": 1,
+    "direct_mcq": 12,
+    "meaning in context": 1,
+    "direct MCQ": 1,
+    "vocabulary_in_context": 1
+  },
+  "difficulty": {
+    "easy": 191,
+    "medium": 227,
+    "hard": 75
+  },
+  "longest_same_answer_run": 5,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": false
+}

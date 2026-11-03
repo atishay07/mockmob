@@ -1,0 +1,79 @@
+{
+  "at": "2026-10-06T05:42:58.722Z",
+  "production_changes": 0,
+  "api_spend_usd": 0,
+  "questions_identity_checked": 200,
+  "subjects": [
+    {
+      "subject": "english",
+      "sidecar": "data/question-factory-runtime/english-auth-work/corroboration.json",
+      "sidecar_sha256": "778d6a0138668ccedd786b38b4c292e7c374523259ac7f47ecc89ed4ec750f1c",
+      "paper_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 28,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 43,
+      "excluded_key_count": 7,
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "accountancy",
+      "sidecar": "data/question-factory-runtime/accountancy-auth-work/mirror-corroboration-sidecar.json",
+      "sidecar_sha256": "b881b302e4107f4bb083d0787e835ad542630c1d4f4065813f9f1ec0de9edb8f",
+      "paper_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 118,
+      "booklet": "A",
+      "key_language": "Assamese",
+      "question_count": 50,
+      "single_answer_count": 49,
+      "excluded_key_count": 1,
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "business_studies",
+      "sidecar": "data/question-factory-runtime/business-economics-auth-work/business-studies/corroboration.json",
+      "sidecar_sha256": "663475f3e16d38891656ea5c20134900e0aaaef02439afdfc959e08f261a9a81",
+      "paper_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 104,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 48,
+      "excluded_key_count": 2,
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    },
+    {
+      "subject": "economics",
+      "sidecar": "data/question-factory-runtime/business-economics-auth-work/economics/corroboration.json",
+      "sidecar_sha256": "0b4e055762973cdd8257fe1885b774b4ab1c77679641ad2d8c7fe498e78d1a7e",
+      "paper_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+      "key_sha256": "a4d60292d743f13412b1637e3f0bb6317e3643ea9d70fe0018e1d1e3f14e3145",
+      "key_page": 42,
+      "booklet": "A",
+      "key_language": "English",
+      "question_count": 50,
+      "single_answer_count": 50,
+      "excluded_key_count": 0,
+      "state": "paper_and_key_identity_checked",
+      "academic_validation": false,
+      "publication_evidence": false
+    }
+  ],
+  "remaining_gates": [
+    "anchor_level_reference_contexts",
+    "source_pack_registration",
+    "officially_keyed_calibration",
+    "800_candidate_pilot",
+    "staging_and_production_release"
+  ]
+}

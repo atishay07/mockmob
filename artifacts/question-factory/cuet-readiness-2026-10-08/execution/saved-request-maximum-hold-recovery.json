@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-08T06:12:06.576Z",
+  "owner_pid": 35812,
+  "requests": [
+    {
+      "reservation_id": "fed280b0-17a0-48c7-9af5-350476c7da7d",
+      "maximum_micro": 11628
+    },
+    {
+      "reservation_id": "e16dbb42-ed3a-4027-8462-0ee8ff7299ce",
+      "maximum_micro": 41643
+    }
+  ],
+  "total_maximum_micro": 53271,
+  "proof_only": true,
+  "settled": false,
+  "resubmitted": false,
+  "request_rows_changed": 0,
+  "preserved_existing_holds": 27,
+  "global_limit_micro": 50000000
+}

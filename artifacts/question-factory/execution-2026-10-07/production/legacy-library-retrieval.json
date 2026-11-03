@@ -1,0 +1,70 @@
+{
+  "at": "2026-10-07T07:51:14.584Z",
+  "base": "https://www.mockmob.in",
+  "passed": true,
+  "checks": [
+    {
+      "subject": "english",
+      "returned": 5,
+      "ids": [
+        "d8602438-3f30-40e2-a0cf-f9d2a56b47e2",
+        "2b1b2e18-dbfa-4880-955e-db8de1061d4b",
+        "97d3fb5a-b045-4529-a90e-954b2999c3e0",
+        "674b5799-1310-46bb-a668-e526bd31cceb",
+        "c13f9a2e-f5d8-4e2c-8c96-b8b1ce0656e1"
+      ],
+      "evidence_tiers": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "subject": "accountancy",
+      "returned": 3,
+      "ids": [
+        "01dbaa4a-b7f1-4e25-b7e9-94f89a1406b5",
+        "668b1c48-2fcb-485e-b07e-0543b1c2cd8d",
+        "33c88991-106b-43a1-9ac4-91bb47213407"
+      ],
+      "evidence_tiers": [
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "subject": "business_studies",
+      "returned": 4,
+      "ids": [
+        "850a83fa-f993-4eef-a84f-df3f18b0b13f",
+        "36112636-9945-4abc-bcd7-c70e7179244c",
+        "dc2ba09e-2d61-4697-9de3-b4dc1e11a813",
+        "16d6ec8a-71ed-4d03-b784-0b9cf419eeb5"
+      ],
+      "evidence_tiers": [
+        null,
+        null,
+        null,
+        null
+      ]
+    },
+    {
+      "subject": "economics",
+      "returned": 2,
+      "ids": [
+        "eeae7e81-a045-4d46-8b8a-99f64416e8d0",
+        "5c20d146-427c-45fb-b929-8096853839b8"
+      ],
+      "evidence_tiers": [
+        null,
+        null
+      ]
+    }
+  ],
+  "scope": "Existing library compatibility only; this does not certify legacy academic quality or prove new factory availability.",
+  "paid_provider_calls": 0,
+  "production_writes": 0
+}

@@ -1,0 +1,280 @@
+{
+  "id": "cost-native-cohort-008",
+  "denominator": 100,
+  "complete": true,
+  "approved_unique": 84,
+  "rejected": 16,
+  "pending": 0,
+  "newly_published": 84,
+  "cost": {
+    "settled_usd": 0.731546,
+    "held_usd": 0,
+    "gross_usd": 0.731546,
+    "requests": 466,
+    "unresolved": 0
+  },
+  "publication_accounting": {
+    "ready": true,
+    "settled": true,
+    "bounded_terminal_failure_holds": [],
+    "blocked_requests": [],
+    "basis": "Only terminal failed requests for quarantined items can retain proven maximum holds while unaffected approved items publish. Every hold stays committed and unsettled."
+  },
+  "provider_processing_complete": true,
+  "gross_campaign_with_benchmark": {
+    "settled_usd": 0.731546,
+    "held_usd": 0,
+    "gross_usd": 0.731546,
+    "requests": 466,
+    "unresolved": 0
+  },
+  "cost_per_approved_usd": 0.008708880952380952,
+  "conditional_10000_forecast_usd": 87.08880952380952,
+  "forecast_basis": "Gross batch cost includes rejected candidates, repair, all validator and reasoning usage; benchmark preparation is separately additive. Conditional on unchanged mix and yield, not a promise.",
+  "conditional_lifetime_to_10000_usd": 100.21031552380953,
+  "budget_scenarios": [
+    {
+      "cap_usd": 50,
+      "authorized": true,
+      "additional_approved_affordable": 4150
+    },
+    {
+      "cap_usd": 60,
+      "authorized": false,
+      "additional_approved_affordable": 5298
+    },
+    {
+      "cap_usd": 70,
+      "authorized": false,
+      "additional_approved_affordable": 6447
+    }
+  ],
+  "lifetime": {
+    "limit_micro": 50000000,
+    "committed_micro": 13853052,
+    "requests": 6689,
+    "unresolved": 1,
+    "unbounded_unresolved": 0
+  },
+  "costs_by_stage": {
+    "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+    "stages": [
+      {
+        "stage": "historical",
+        "provider": null,
+        "model": "historical",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 1
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1,
+        "open_requests": 0,
+        "settled_usd": 0.000016,
+        "held_usd": 0,
+        "input_tokens": 109,
+        "output_tokens": 40,
+        "reasoning_tokens": 25,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "transport_probe",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 2,
+        "open_requests": 0,
+        "settled_usd": 0.000797,
+        "held_usd": 0,
+        "input_tokens": 172,
+        "output_tokens": 390,
+        "reasoning_tokens": 373,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "blind_solution",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 2159,
+        "open_requests": 0,
+        "settled_usd": 3.499292999999995,
+        "held_usd": 0,
+        "input_tokens": 7387369,
+        "output_tokens": 5670653,
+        "reasoning_tokens": 4674004,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.8-flash",
+        "settled_requests": 1301,
+        "open_requests": 84,
+        "settled_usd": 5.497388,
+        "held_usd": 1.6621919999999983,
+        "input_tokens": 4208517,
+        "output_tokens": 1263638,
+        "reasoning_tokens": 586004,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.1-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.049103999999999995,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 50794,
+        "reasoning_tokens": 37688,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "independent_evaluation",
+        "provider": "gemini",
+        "model": "gemini-3.5-flash-lite",
+        "settled_requests": 32,
+        "open_requests": 0,
+        "settled_usd": 0.050195,
+        "held_usd": 0,
+        "input_tokens": 87941,
+        "output_tokens": 29591,
+        "reasoning_tokens": 17042,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "explanation_support",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1222,
+        "open_requests": 0,
+        "settled_usd": 0.9033150000000003,
+        "held_usd": 0,
+        "input_tokens": 3672179,
+        "output_tokens": 1050190,
+        "reasoning_tokens": 798085,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "authoring",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 1262,
+        "open_requests": 110,
+        "settled_usd": 1.218170000000001,
+        "held_usd": 0.42027999999999993,
+        "input_tokens": 3274341,
+        "output_tokens": 3672980,
+        "reasoning_tokens": 3153530,
+        "usage_missing_requests": 46
+      },
+      {
+        "stage": "repair",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 424,
+        "open_requests": 0,
+        "settled_usd": 0.3981929999999999,
+        "held_usd": 0,
+        "input_tokens": 1045352,
+        "output_tokens": 584696,
+        "reasoning_tokens": 487810,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "unclassified",
+        "provider": null,
+        "model": "gpt-6-luna",
+        "settled_requests": 7,
+        "open_requests": 0,
+        "settled_usd": 0.022412,
+        "held_usd": 0,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 7
+      },
+      {
+        "stage": "blueprint",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 51,
+        "open_requests": 0,
+        "settled_usd": 0.12060100000000001,
+        "held_usd": 0,
+        "input_tokens": 114630,
+        "output_tokens": 218229,
+        "reasoning_tokens": 190375,
+        "usage_missing_requests": 0
+      },
+      {
+        "stage": "unclassified",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "settled_requests": 0,
+        "open_requests": 1,
+        "settled_usd": 0,
+        "held_usd": 0.011096,
+        "input_tokens": 0,
+        "output_tokens": 0,
+        "reasoning_tokens": 0,
+        "usage_missing_requests": 0
+      }
+    ]
+  },
+  "baseline_2026_provisional_for_2027": true,
+  "accountancy_branch": "financial_analysis",
+  "answer_positions": {
+    "B": 22,
+    "D": 20,
+    "A": 24,
+    "C": 18
+  },
+  "formats": {
+    "synonym": 4,
+    "sequence_ordering": 14,
+    "matching": 17,
+    "correct_word_usage": 4,
+    "antonym": 3,
+    "numerical_calculation": 5,
+    "statement_selection": 11,
+    "case_application": 12,
+    "conceptual_mcq": 13,
+    "direct_mcq": 1
+  },
+  "difficulty": {
+    "medium": 44,
+    "easy": 28,
+    "hard": 12
+  },
+  "duplicate_ideas_for_inspection": [
+    {
+      "a": "0e7096a92381547900257a62c54b54e8",
+      "b": "3b863b1c64e6a1ba2e0e16f1e4dc5204",
+      "similarity": 0.24324324324324326,
+      "concept": "financial_markets_primary_market_objective"
+    },
+    {
+      "a": "0e7096a92381547900257a62c54b54e8",
+      "b": "09394a53ee85fd213deb9f2865715570",
+      "similarity": 0.24324324324324326,
+      "concept": "financial_markets_primary_market_objective"
+    },
+    {
+      "a": "3b863b1c64e6a1ba2e0e16f1e4dc5204",
+      "b": "09394a53ee85fd213deb9f2865715570",
+      "similarity": 0.11428571428571428,
+      "concept": "financial_markets_primary_market_objective"
+    }
+  ],
+  "invoice_status": "Provider response usage receipts; no provider invoice obtained. Held usage is not settled.",
+  "at": "2026-10-07T10:55:00.504Z"
+}

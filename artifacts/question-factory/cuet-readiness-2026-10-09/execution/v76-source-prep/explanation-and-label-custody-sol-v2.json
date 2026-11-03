@@ -1,0 +1,2466 @@
+{
+  "schema": "v76-explanation-and-label-custody-sol-v2",
+  "reviewer": "independent-sol",
+  "frozen_at_utc": "2026-10-08T20:55:49.8010716Z",
+  "custody": {
+    "independent_derivations_frozen_before_private_disclosure": true,
+    "derivations_v2_sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+    "derivations_v2_frozen_at": "2026-10-08T20:50:16.9885311Z",
+    "private_draft_sha256": "9cf3db761c0771baeacb3c7ff4dfe0ed12e1b86db90fab38684706d0d1567448",
+    "source_overlay_sha256": "23e58f701898e96c20146ff2c3247623e6edeff8b8deefd5cc3558ba1c32f37c",
+    "official_keys_accessed": false,
+    "external_provider_calls": 0,
+    "native_paid_calls": 0,
+    "construction_files_modified": false,
+    "all_case_history_preserved": true,
+    "scope": "Construction truth-label and explanation custody only; no native evaluation outcomes inspected."
+  },
+  "summary": {
+    "total": 28,
+    "positive_controls": 16,
+    "positive_controls_confirmed": 16,
+    "positive_control_gaps": 0,
+    "positive_source_or_premise_academic_defects": 0,
+    "positive_judgment_errors": 0,
+    "invalid_controls": 12,
+    "invalid_labels_confirmed": 12,
+    "invalid_category_counts": {
+      "wrong_key": 3,
+      "multiple_correct": 2,
+      "missing_decisive_assumption": 2,
+      "numerical_fault": 1,
+      "unsupported_explanation": 3,
+      "out_of_syllabus": 1
+    },
+    "unfinished": 0,
+    "errors": 0,
+    "all_source_refs_match_overlay_support_hashes": true,
+    "all_exact_quotations_verified": true,
+    "new_blocking_construction_gaps": 0,
+    "constructive_dispatch_readiness": true,
+    "native_validator_qualification_established": false
+  },
+  "conditions": [
+    "Use actual expected_valid/category labels for validity adjudication, not stored single oracle letters on missing-input or multiple-answer cases.",
+    "Missing-premium B and missing-reserve-ratio D are inherited placeholders, not academic answers; preserve their history but exclude them from answer-accuracy truth comparisons.",
+    "Multiple-answer stored oracle letters are representatives only; full defensible sets remain B/D and B/C.",
+    "Only completed source-grounded academic judgments count as acceptance/rejection; unfinished, transport errors and invalid schemas remain separate outcomes.",
+    "Stored support hashes agree between draft and overlay; their canonical algorithm is not inspected. Raw UTF-8 quotation hashes are independently recorded separately.",
+    "All 16 valid and 12 controlled invalid labels confirmed; retain every case/version.",
+    "Construction custody does not qualify native validators or authorize a paid run by itself."
+  ],
+  "cases": [
+    {
+      "id": "v76f-e0932269d0",
+      "tag": "share-final-call",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Premium = 10 x 40/100 = 4. Issue price = 10 + 4 = 14; earlier instalments = 3 + 5 + 2 = 10; final call = 14 - 10 = 4. The percentage and all cash premises are printed; no missing allocation assumption is needed.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "B",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Premium = 10 x 40/100 = 4. Issue price = 10 + 4 = 14; earlier instalments = 3 + 5 + 2 = 10; final call = 14 - 10 = 4. The percentage and all cash premises are printed; no missing allocation assumption is needed.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹3",
+          "assessment": "3 is application money, not the remaining 4."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4",
+          "assessment": "4 equals the remaining issue price."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹1",
+          "assessment": "1 does not equal 14 minus 10."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹14",
+          "assessment": "14 is the whole issue price, not the remaining call."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Issue at par  and premium",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1980,
+          "utf16_length": 25
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "2e6abd8d5f50c42aedcbccc4d25e887c8f358c2a8ca7ac1c58507ba92ed73995",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "61477b0222d5b4bf870951b86f1feb54009608a7062dd50d970f30e7e57b4ad8",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-b2a54a1da6",
+      "tag": "prorata-applications",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The allotted-to-applied ratio is 2,000:2,400, or 5:6. An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 48 shares.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Uniform allotted/applied ratio = 2000/2400 = 5/6. An allotment of 40 requires an application of 40 x 6/5 = 48. The supplied worked source uses precisely the inverse of the allotted:applied ratio.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Uniform allotted/applied ratio = 2000/2400 = 5/6. An allotment of 40 requires an application of 40 x 6/5 = 48. The supplied worked source uses precisely the inverse of the allotted:applied ratio.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "40",
+          "assessment": "40 confuses allotted shares with applied shares."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "44",
+          "assessment": "44 does not preserve the 5:6 ratio."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "48",
+          "assessment": "48 gives 48 x 5/6 = 40 allotted shares."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "52",
+          "assessment": "52 would give 43 1/3 allotted shares, not 40."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "subscription and Under subscription; Issue at par  and premium;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1943,
+          "utf16_length": 63
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "f33ff8f77a20b7bffe6ac7936e47476bb035f3a0fa3e06664685b137349b7421",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-b43f3aebb6",
+      "tag": "partner-guarantee",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "D",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "G’s ordinary share is 2/8 × ₹3,12,000 = ₹78,000. This is ₹2,000 below the ₹80,000 guarantee. The agreement assigns that deficiency to E, so E bears ₹2,000.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. G ordinary share = 312000 x 2/(3+3+2) = 78000. Deficiency = 80000 - 78000 = 2000. The printed deed allocates the whole deficiency personally to E; E/F shares do not change the deficiency calculation.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "G ordinary share = 312000 x 2/(3+3+2) = 78000. Deficiency = 80000 - 78000 = 2000. The printed deed allocates the whole deficiency personally to E; E/F shares do not change the deficiency calculation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 improperly halves the deficiency; the deed names E alone."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 exceeds the 2000 difference."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹8,000",
+          "assessment": "8000 exceeds the 2000 difference."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 is the full guaranteed-profit shortfall borne by E."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "guarantee of profit to a partner",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 407,
+          "utf16_length": 32
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "stored_support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "96f38d524174a890048d43de384a032dfe61e38f9b6ae4244564a9a4f8b39dec",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-e6f3811e7b",
+      "tag": "midmonth-drawings",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Equal mid-month withdrawals have an average outstanding period of six months. If each withdrawal is x, total drawings are 12x. Interest is 12x × 8/100 × 6/12 = 0.48x. Setting this equal to ₹4,800 gives x = ₹10,000.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Equal mid-month drawings have a six-month average period under the supplied source. For monthly withdrawal m, interest = 12m x 0.08 x 6/12 = 0.48m. Thus m = 4800/0.48 = 10000. The stem specifies simple interest, all twelve months, and timing.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Equal mid-month drawings have a six-month average period under the supplied source. For monthly withdrawal m, interest = 12m x 0.08 x 6/12 = 0.48m. Thus m = 4800/0.48 = 10000. The stem specifies simple interest, all twelve months, and timing.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹10,000",
+          "assessment": "10000 produces interest 4800."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹5,000",
+          "assessment": "5000 produces interest 2400."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹15,000",
+          "assessment": "15000 produces interest 7200."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹20,000",
+          "assessment": "20000 produces interest 9600."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Accounts of Partnership",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 274,
+          "utf16_length": 23
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-c1094fe215c415",
+          "locator": "decisive-excerpt",
+          "quote": "When Fixed Amounts was Withdrawn Every Month Many a time, a fixed amount of money is withdrawn by the partners, at equal time interval, say each month or each quarter. While calculating the time period, attention must be paid to whether the fixed amount was withdrawn at the beginning (first day) of the month, middle of the month or at the end (last day) of the month. If withdrawn on the first day of every month, interest on total amount will be calculated for 6½ months; if withdrawn at the end at every month, it will be calculated for 5½ months, and if withdrawn during the middle of the month, it will be calculated for 6 months. ",
+          "source_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "stored_support_hash": "acc30acd03108e5a1692489d551b93cc98895d225fec3117ecf924200b2bceab",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "49d19d328335b749fb4e62e6f821ac0b57764d81e02956737ba12d44c98059e8",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-10a1826742",
+      "tag": "fayol-mutual-commitments",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Fayol’s discipline concerns obedience to organisational rules and employment agreements. The decisive feature here is that workers and management honour their mutual commitments. Division of work concerns specialisation; unity of direction concerns one head and one plan for activities sharing an objective; unity of command concerns receiving orders from one superior.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Mutual observance of an employment agreement is the decisive feature. The supplied discipline source explicitly gives the revival/extra-hours/later-wages example and explains that both sides honour their commitments without prejudice.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Mutual observance of an employment agreement is the decisive feature. The supplied discipline source explicitly gives the revival/extra-hours/later-wages example and explains that both sides honour their commitments without prejudice.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Division of work",
+          "assessment": "No division of work into specialist jobs is described."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Unity of direction",
+          "assessment": "Shared organisational goals alone do not supply the one-head/one-plan criterion; the question asks mutual agreement observance."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Discipline",
+          "assessment": "Discipline directly names obedience to the employment agreement and mutual commitments."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Unity of command",
+          "assessment": "No one-superior reporting arrangement is described."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Fayol’s principles of management.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 578,
+          "utf16_length": 33
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-87d44285dea4ca",
+          "locator": "decisive-excerpt",
+          "quote": "(iii) Discipline: Discipline is the obedience to organisational rules and employment agreement which are necessary for the working of the organisation. According to Fayol, discipline requires good superiors at all levels, clear and fair agreements and judicious application of penalties. Suppose management and labour union have entered into an agreement whereby workers have agreed to put in extra hours without any additional payment to revive the company out of loss. In return the management has promised to increase wages of the workers when this mission is accomplished. Here discipline when applied would mean that the workers and management both honour their commitments without any prejudice towards one another. ",
+          "source_identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "stored_support_hash": "5ce8883a69ee1925b645c113d0e1280ab717b05841988ac6e8149ae489aa1f1c",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "9a008b0bc6d74a0f08de50cee3d424422f69a6f2454c92bb6129e1f0d2422ade",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-fe899efe69ba71",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Unity of Command: According to Fayol there should be one and only one boss for every individual employee. If an employee gets orders from two superiors at the same time the principle of unity of command is violated. The principle of unity of command states that each participant in a formal organisation should receive orders from and be responsible to only one superior. ",
+          "source_identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "stored_support_hash": "d2f8810859f0b98ecf3b2899045aea567789ccb9f3834bc16b75168b66d1edc5",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "7782dd49193740ace09345708da3136ba9bda23d87bdf4f589e187136cea4e1e",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-2f42089dcd1b43",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Unity of Direction: All the units of an organisation should be moving towards the same objectives through coordinated and focussed efforts. Each group of activities having the same objective must have one head and one plan. ",
+          "source_identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "stored_support_hash": "79d49f1dd1200e3cbc99a3ab70de54c457505aa767b8bb2d9826089c60b3fbeb",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "c15c5448844564156e687285ecd88dc99851c76d377040d59672af88ab31d32a",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-ddf508df450a19",
+          "locator": "decisive-excerpt",
+          "quote": "Division of Work: Work is divided into small tasks/ jobs. A trained specialist who is competent is required to perform each job. Thus, division of work leads to specialisation. According to Fayol, “The intent of division of work is to produce more and better work for the same effort. Specialisation is the most efficient way to use human effort.” ",
+          "source_identity_sha256": "92c022591af2be22e0a423475da4459c9eb2bc8ff7f412827a0dbffb86f5a050",
+          "stored_support_hash": "251ee667a5b086020d585f73523ded30c0a41aeaaf54862d9a2eb0156b88f6a8",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "e29a6bc50c2e49ba5b48e053e5b05b50df3548cad6bbdcff8c47ea3a3380edc6",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-3f144fd374",
+      "tag": "planning-primary",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "D",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Primacy means that planning precedes the other managerial functions and provides their framework. Planning at all levels describes pervasiveness, successive periods describe continuity, and predetermined goals describe the focus on objectives.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The source distinguishes objectives, primacy, pervasiveness and continuity. Primacy means planning precedes and provides the base/framework for other managerial functions; D expresses both decisive clauses.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The source distinguishes objectives, primacy, pervasiveness and continuity. Primacy means planning precedes and provides the base/framework for other managerial functions; D expresses both decisive clauses.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Planning is undertaken at all management levels",
+          "assessment": "This is pervasiveness, not primacy."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Plans are prepared repeatedly for successive periods",
+          "assessment": "This is continuity, not primacy."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Plans focus on predetermined organisational goals",
+          "assessment": "This is objective orientation, not primacy."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Planning precedes and provides a basis for the other managerial functions",
+          "assessment": "Both preceding and providing a basis express the source definition of primacy."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Meaning, features, importance, limitations.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 887,
+          "utf16_length": 43
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "stored_support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "827abc75004dc552a86657de48e1a68224a4c0007c9035d039b7ef9600cdad10",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "stored_support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "6dcc9d20ab4a72e99bf93c5d945ea835a64f398940d90286d98a3d8016bc149b",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-0a26fac46f",
+      "tag": "marketing-channel-choice",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Physical distribution includes decisions about distribution channels and marketing intermediaries. The specified decision is which wholesalers and retailers to use. Transportation concerns moving goods, promotion concerns communicating product merits, and gathering market information concerns information for marketing decisions.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The restored continuous source explicitly names Physical Distribution, then states that its two decision areas include channels/marketing intermediaries such as wholesalers and retailers. Thus B follows directly. A concerns informing/persuading customers; C concerns physical movement; D concerns information gathering/analysis. The v1 unresolved-antecedent source gap is repaired without changing any question or option.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "B",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The restored continuous source explicitly names Physical Distribution, then states that its two decision areas include channels/marketing intermediaries such as wholesalers and retailers. Thus B follows directly. A concerns informing/persuading customers; C concerns physical movement; D concerns information gathering/analysis. The v1 unresolved-antecedent source gap is repaired without changing any question or option.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Promotion",
+          "assessment": "Informing/persuading customers is not intermediary selection."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Physical distribution",
+          "assessment": "Correct: the restored source explicitly assigns channels/intermediary selection to Physical Distribution."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Transportation",
+          "assessment": "The supplied source defines transportation as physical movement of goods, not choosing wholesalers/retailers."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Gathering and analysing market information",
+          "assessment": "The supplied source describes information gathering/analysis; this is not the function that directly houses the stated intermediary decision."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Physical distribution: meaning, role;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3415,
+          "utf16_length": 37
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-1df3d2a1a5b00e",
+          "locator": "decisive-excerpt",
+          "quote": "10. Physical Distribution: Managing physical distribution is another very important function in the marketing of goods and services. The two major decision areas under this function include (a) decision regarding channels of distribution or the marketing intermediaries (like whole salers, retailers) to be used and (b) physical movement of the product from where it is produced to a place where it is required by the customers for their consumption or use. The important decision areas under physical distribution include managing inventory (levels of stock of goods), storage and warehousing and transportation of goods from one place to the other. ",
+          "source_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "stored_support_hash": "31ec310380145ba7b291dbc6ba3e4866c495db69f7d24a74f431dc39a698cb54",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "07297c7ad5f82a92d78fc6a9476545232cce1d686a873f7544f19e5ed065c6f1",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-792292a64da9ca",
+          "locator": "decisive-excerpt",
+          "quote": "11. transportation: Transportation involves physical movement of goods from one place to the other. As generally the users of products, particularly consumer products are wide spread and geographically separated from the place these are produced, it is necessary to move them to the place where it is needed for consumption or use, For example, tea produced in Assam has to be transported not only within the state but to other far off places like Tamil Nadu, Punjab, Jammu and kashmir and Haryana, rajasthan, where it is consumed. ",
+          "source_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "stored_support_hash": "37d53ea0da52140d621dc69496c7b84d0763266ba11abfae2b074c4cc926047b",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "8aa9f199d0abbe505ecdfdd59bc2ca4d1bbbb05b0c8d483b6b45491e2e8bb80b",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-6dd88b7799a3ca",
+          "locator": "decisive-excerpt",
+          "quote": "9. Promotion: Promotion of products and services involves informing the customers about the firm’s product, its features, etc., and persuading them to purchase these products. The four important methods of promotion include advertising, Personal Selling, Publicity and Sales Promotion. A marketer has to take several crucial, decisions in respect of promotion of the products and services such as deciding the promotion budget, the promotion mix, i.e., the combination of the promotional tools that will be use, the promotion budget, etc. ",
+          "source_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "stored_support_hash": "8b7ed65bbc72da97c74c1c7c10405290254504eff27d36673cbd1f463f308ae2",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "336a211480f33d1aaf8159bf39e1d0293958b8c40e28c0a641a6642097521143",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-14f5310a351ea2",
+          "locator": "decisive-excerpt",
+          "quote": "1. g athering and analysing Market information: One of the important functions of a marketer is to gather and analyse market information. This is necessary to identify the needs of the customers and take various decisions for the successful marketing of the products and services. This is important for making an analysis of the available opportunities and threats as well as strengths and weaknesses of the organisation and help in deciding what opportunities can best be pursued by it. For example, rapid growth is predicted in several areas in the Indian economy, say in the use of the Internet, market for cell phones and several other areas. Which of these areas a particular organisation should enter, or in which area should it expand, requires a careful scanning of the strengths and weaknesses of the organisation, which is done with the help of careful market analysis. With the growth of computers, a new trend has emerged in the collection of market information. More and more companies are using interactive sites on the internet, to gather customer views and opinions, before taking important business decisions. One of the popular TV News Channel (in Hindi) seeks viewers choice (through SMS) on which of the given four or five main news stories Ch_10.indd 251 10-08-2022 10:04:27 Reprint 2026-27\nBUSINe SS STUDIe S 252 of the day would be broadcasted as detailed story at the prime time, to ensure that the viewers get to listen to the story of their own choice. ",
+          "source_identity_sha256": "a6948c5ba999fe551f04fa84c173c833023133d40e21a35ae42565217b2ced54",
+          "stored_support_hash": "81aa1306ecf9f25eaa426aa097b2f37f1c8f80c336e6a2c98666b122f920d348",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "ef1198c9b92f29e485eced70e917d7ea4a781418fcc387dfa016f73f75fe4901",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-5628fb9f74",
+      "tag": "compulsory-warning",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The stem identifies a compulsory regulation governing an advertisement. The legal environment includes legislation and administrative orders that enterprises must obey. That legal requirement is the feature being classified.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. A compulsory requirement imposed by a regulation is a legal-environment condition. The source explicitly includes legislation and government administrative orders and requires enterprises to obey law. The precise infant warning is a supplied scenario premise; the task does not ask the student to verify a real current regulation.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "A compulsory requirement imposed by a regulation is a legal-environment condition. The source explicitly includes legislation and government administrative orders and requires enterprises to obey law. The precise infant warning is a supplied scenario premise; the task does not ask the student to verify a real current regulation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Legal environment",
+          "assessment": "A regulation imposing a compulsory display directly reflects the legal environment."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Social environment",
+          "assessment": "Social norms may motivate laws, but the stated direct mechanism is a regulation."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Technological environment",
+          "assessment": "No technical innovation or method is specified."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Economic environment",
+          "assessment": "No economic variable such as income, inflation or interest is specified."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Dimensions of Business Environment",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 768,
+          "utf16_length": 34
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "stored_support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "1c207956197542241d8b5b4b223457cd823308ec293433df05ed1fcf10a144fc",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-7ac5631def",
+      "tag": "required-cash-reserve",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "D",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The cash reserve ratio is the prescribed percentage of deposits to be held as cash reserves. The statutory liquidity ratio concerns additional liquid reserves, while bank rate and repo rate are interest rates rather than deposit-reserve percentages.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The source calls the legal percentage of deposits retained as cash reserves to prevent over-lending CRR. It separately describes SLR as short-term liquid reserves, bank rate as a loan interest rate, and repo as a repurchase-agreement lending rate. The task does not ask where reserves are held.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The source calls the legal percentage of deposits retained as cash reserves to prevent over-lending CRR. It separately describes SLR as short-term liquid reserves, bank rate as a loan interest rate, and repo as a repurchase-agreement lending rate. The task does not ask where reserves are held.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Statutory liquidity ratio",
+          "assessment": "SLR is the separate liquid-form reserve requirement, not the named cash-reserve percentage."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Bank rate",
+          "assessment": "Bank rate is a rate on central-bank lending, not a deposit reserve percentage."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Repo rate",
+          "assessment": "Repo rate is the interest rate on lending through a repurchase agreement."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Cash reserve ratio",
+          "assessment": "CRR matches cash reserves, deposit percentage and the over-lending purpose."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Policy tools to control money supply.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2420,
+          "utf16_length": 37
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "49cb1bf8aa2ed0dddb1b2abc8d55af5fb486500a4ff3beebee25454e682e7832",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "2181950bd58c9ea566fbfee37688dfb4b83d1530baa9bfd7f08e34a843bff6b6",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "12718de814972c83ee23206f1b4e0a0bef819b9da90d545d82ade7fd8d84454e",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-3d2cef0c02",
+      "tag": "managed-floating",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Managed floating combines market-driven exchange-rate movement with central-bank intervention to moderate it. A completely flexible system has no such intervention, while a fixed system sets an official rate. The combination in the stem is the defining feature of managed floating.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Both clauses matter: the exchange rate responds to market forces and central banks intervene by buying/selling currency to moderate movement. The managed-floating source explicitly combines flexible determination with this intervention. A completely flexible system excludes intervention; fixed rates are set at a particular level.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "B",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Both clauses matter: the exchange rate responds to market forces and central banks intervene by buying/selling currency to moderate movement. The managed-floating source explicitly combines flexible determination with this intervention. A completely flexible system excludes intervention; fixed rates are set at a particular level.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Gold standard",
+          "assessment": "No gold parity or gold-conversion arrangement is described."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Managed floating",
+          "assessment": "Both market determination and moderating intervention match managed floating."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Fixed exchange rate",
+          "assessment": "The stem does not say government fixes the rate at a particular level."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Completely flexible exchange rate",
+          "assessment": "The intervention clause contradicts completely flexible exchange rates."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Managed Floating",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3424,
+          "utf16_length": 16
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-8d02a647372f48",
+          "locator": "decisive-excerpt",
+          "quote": "Managed Floating Without any formal international agreement, the world has moved on to what can be best described as a managed floating exchange rate system. It is a mixture of a flexible exchange rate system (the float part) and a fixed rate system (the managed part). Under this system, also called dirty floating, central banks intervene to buy and sell foreign currencies in an attempt to moderate exchange rate movements whenever they feel that such actions are appropriate. Official reserve transactions are, therefore, not equal to zero. ",
+          "source_identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "stored_support_hash": "4edc35f4c4a874eaa3c5c9a4d039c2bfd8daf5b46ecba2dd698f3274fdac3985",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "e1469dbaa51dad1c1c195d57fe7554939073dfaf22f252fb2a927dd03dcd4026",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-2f8f7b48e6edb1",
+          "locator": "decisive-excerpt",
+          "quote": "Flexible Exchange Rate This exchange rate is determined by the market forces of demand and supply. It is also known as Floating Exchange Rate . As depicted in Fig. 6.1, the exchange rate is determined where the demand curve intersects with the supply curve, i.e., at point e on the Y – axis. Point q on the x – axis determines the quantity of US Dollars that have been demanded and supplied on e exchange rate. In a completely flexible system, the Central banks do not intervene in the foreign exchange market. ",
+          "source_identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "stored_support_hash": "1953b3525b7b404128b33078bfe329b74cfccfea1582c61d3c72903a069847d1",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "40ed7384ec3b103760fb291be9f34e9193f2051a82913e81b324a6494e980c99",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-5c6954165ace3c",
+          "locator": "decisive-excerpt",
+          "quote": "Fixed Exchange Rates In this exchange rate system, the Government fixes the exchange rate at a particular level. In ",
+          "source_identity_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "stored_support_hash": "f623f9394f604e27205985b5d4e4c1a4041b32bc80d110a551f6e6b417f968e0",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "e247ccaf0aa228115b80386dd7d006a922a19d2f2aad762cd2c1b9f89548969f",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-d42ab3b35b",
+      "tag": "public-goods-features",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Public goods are collectively consumed, so I is true. Their defining features are non-rivalry and non-excludability, which contradict II. Therefore I is true and II is false.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The source explicitly states collective consumption, non-rivalry and non-excludability. I is true. The full conjunction II (excludable AND rivalrous) is false: both asserted properties are reversed. Therefore only A gives the correct truth pair.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The source explicitly states collective consumption, non-rivalry and non-excludability. I is true. The full conjunction II (excludable AND rivalrous) is false: both asserted properties are reversed. Therefore only A gives the correct truth pair.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "I is true and II is false",
+          "assessment": "Correct truth pair: collective consumption true, excludable-and-rivalrous false."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Both I and II are true",
+          "assessment": "II reverses both defining properties and is false."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Both I and II are false",
+          "assessment": "I is explicitly true in the source."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "I is false and II is true",
+          "assessment": "I is true and II false, the opposite of D."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Government budget - meaning, objectives and components",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2817,
+          "utf16_length": 54
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "stored_support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "7d23436d07b1006f1755647442086ca5d7d8d2275b6ae76c0191cae639903a3c",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-5fe8e07cac",
+      "tag": "occupational-structure",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Occupational structure describes the distribution of working people across industries and sectors. It is a distribution among sectors, rather than a total count of people or a description of one worker’s tasks.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The supplied source defines occupational structure as distribution of working persons across industries and sectors. C preserves the full definition; the other choices are total counts or within-job tasks.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The supplied source defines occupational structure as distribution of working persons across industries and sectors. C preserves the full definition; the other choices are total counts or within-job tasks.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The total size of the labour force",
+          "assessment": "Total labour-force size is a count, not its sectoral distribution."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "The total population of the country",
+          "assessment": "Total population includes nonworkers and gives no occupational distribution."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The distribution of working people among industries and economic sectors",
+          "assessment": "Distribution of working people across industries and sectors is the explicit definition."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The tasks performed within an individual job",
+          "assessment": "Within-job tasks do not describe the economy-wide workforce distribution."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "A brief introduction of the state of Indian economy on the eve of",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3577,
+          "utf16_length": 65
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-f3f35d090a16fc",
+          "locator": "decisive-excerpt",
+          "quote": "During the colonial period, the occupational structure of India, i.e., distribution of working persons across different industries and sectors, showed little sign of change. ",
+          "source_identity_sha256": "175f2deafc11d6d957befa4513adfeed36e8276ec9ec6d018584ee100eccdaa1",
+          "stored_support_hash": "33c719444c5a48f2e6eb9827649a960e95f31a777a7d14d8b291465bd41fb9b8",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "fd5904a78f4deec61fb2640f45181f9199e0b81925049dfd66356116dc846cf4",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-461c8da728",
+      "tag": "jibhi-initial-motive",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "D",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Paragraph 1 links Srinagar’s landscape to memories of Jibhi and contrasts Srinagar’s many tourists with Jibhi’s anonymity. That comparison prompted the narrator’s return. The 2008 scheme and the pandemic occur later; paragraph 2 describes converting a traditional family house.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Paragraph 1 links Srinagar landscapes recalling Jibhi and its tourist success versus Jibhi anonymity to returning home to start tourism. D captures both clauses. The 2008 scheme and pandemic are later events; the family only later agreed to convert the traditional house.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Paragraph 1 links Srinagar landscapes recalling Jibhi and its tourist success versus Jibhi anonymity to returning home to start tourism. D captures both clauses. The 2008 scheme and pandemic are later events; the family only later agreed to convert the traditional house.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The 2008 government scheme had already guaranteed business success",
+          "assessment": "The 2008 scheme occurs after the initial return/1992 signboard, and guaranteed success is never stated."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Tourism in Srinagar had stopped because of the pandemic",
+          "assessment": "The pandemic occurs in 2020-21 after the return; the passage says local tourism stopped and does not attribute the initial return to Srinagar pandemic tourism."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The family had already built many concrete hotels in Jibhi",
+          "assessment": "The family later agreed to one house conversion; already-built family concrete hotels are unsupported."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential",
+          "assessment": "Both recalled-home landscapes and inferred tourism opportunity are supported by paragraph 1."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Narrative",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 318,
+          "utf16_length": 9
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-71ed304404",
+      "tag": "jibhi-context-vocabulary",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "B"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. The contrast with Srinagar welcoming many tourists makes anonymity mean Jibhi was little known to potential visitors. B captures the contextual meaning. The passage gives no prohibition and places concrete growth later.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "B",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The contrast with Srinagar welcoming many tourists makes anonymity mean Jibhi was little known to potential visitors. B captures the contextual meaning. The passage gives no prohibition and places concrete growth later.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "crowded with visitors from across the world",
+          "assessment": "Crowded with international visitors reverses the contrast with Srinagar."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "not widely known to potential visitors",
+          "assessment": "Not widely known to potential visitors is the contextual sense."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "closed to visitors by an official prohibition",
+          "assessment": "An official prohibition is not stated and does not follow from anonymity."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "already transformed into a concrete town",
+          "assessment": "Concrete development belongs to later growth, not paragraph 1 anonymity."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-d1489a9ae6",
+      "tag": "jibhi-house-change",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Paragraph 2 states that the traditional house kept its original character and gained windows for sunlight. This supports retention with a limited change, rather than wholesale replacement or no alteration. The project began before the pandemic stoppage described later.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Paragraph 2 expressly says the traditional house kept its original character AND gained windows for sunlight. A preserves both details. C is partly attractive through preservation, but its full claim of entirely unaltered including windows contradicts the added windows.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Paragraph 2 expressly says the traditional house kept its original character AND gained windows for sunlight. A preserves both details. C is partly attractive through preservation, but its full claim of entirely unaltered including windows contradicts the added windows.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Retain the traditional house’s character while adding windows for sunlight",
+          "assessment": "Both retention of character and addition of windows are explicitly supported."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Replace the house with a large concrete town development",
+          "assessment": "Concrete town development is later valley change, not the first house conversion."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Keep the house entirely unaltered, including its windows",
+          "assessment": "The full conjunction fails because windows were added; partial preservation does not mean entirely unaltered."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Convert an Army building after tourism had already stopped",
+          "assessment": "The supplied passage names the family traditional house, not an Army building, and the pandemic tourism stop is later."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-154e50ff60",
+      "tag": "jibhi-balanced-attitude",
+      "group": "authored_valid",
+      "actual_expected_valid": true,
+      "actual_category": "valid",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Paragraph 4 describes learning, friendships and pride in establishing tourism. Paragraph 3 describes pressure on nature and the opportunity to seek sustainable solutions. Together they support a positive but reflective attitude towards growth.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "All explanatory clauses reviewed against the exact supplied sources and frozen proof; arithmetic, classifications, comparisons and passage inferences agree. Paragraph 4 supports learning, relationships and pride in establishing local tourism; paragraph 3 reports pressure on nature and the opportunity for reflection and sustainable solutions. Only C preserves both benefit and concern. Extreme all-or-nothing alternatives contradict at least one part.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": true,
+      "failure_classification": "none",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Paragraph 4 supports learning, relationships and pride in establishing local tourism; paragraph 3 reports pressure on nature and the opportunity for reflection and sustainable solutions. Only C preserves both benefit and concern. Extreme all-or-nothing alternatives contradict at least one part.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Tourism has brought no worthwhile learning or relationships",
+          "assessment": "No worthwhile learning/relationships contradicts paragraph 4 explicit cultural learning and returning friends."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Every increase in tourism should be welcomed regardless of its effects",
+          "assessment": "Regardless of effects contradicts nature pressure and sustainable reflection in paragraph 3."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection",
+          "assessment": "Both personal/local benefits and sustainable reflection are supported across paragraphs 3-4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The village must permanently abandon tourism because the first venture failed",
+          "assessment": "Permanent abandonment is not advocated; residents hope tourism returns and the first venture grew rather than failed."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-5ef78612af",
+      "tag": "guarantee-wrong-key",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "wrong_key",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": false,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "G’s ordinary share is 2/8 × ₹3,12,000 = ₹78,000. This is ₹2,000 below the ₹80,000 guarantee. The agreement assigns that deficiency to E, so E bears ₹2,000.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "Frozen derivation gives D=2000; proposed B prints 4000. The correct explanation conflicts with the proposed key.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "G ordinary share = 312000 x 2/(3+3+2) = 78000. Deficiency = 80000 - 78000 = 2000. The printed deed allocates the whole deficiency personally to E; E/F shares do not change the deficiency calculation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 improperly halves the deficiency; the deed names E alone."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 exceeds the 2000 difference."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹8,000",
+          "assessment": "8000 exceeds the 2000 difference."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 is the full guaranteed-profit shortfall borne by E."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "guarantee of profit to a partner",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 407,
+          "utf16_length": 32
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-a949188b3a7854",
+          "locator": "decisive-excerpt",
+          "quote": "1.6 Guarantee of Profit to a Partner Sometimes a partner is admitted into the firm with a guarantee of certain minimum amount by way of his share of profits of the firm. Such assurance may be given by all the old partners in a certain ratio or by any of the old partners, individually to the new partner . The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount. ",
+          "source_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "stored_support_hash": "00cf421f0199d42c4a4e3c59df45b0d4434345ada358cfdb829830595e848a2f",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "96f38d524174a890048d43de384a032dfe61e38f9b6ae4244564a9a4f8b39dec",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-dcb4ca9b28",
+      "tag": "missing-premium-rate",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "missing_decisive_assumption",
+      "independent_keys": [],
+      "unique_answer": false,
+      "solvable": false,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": false,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "Final call equals the unstated premium. Explanation imports 40 percent absent from this stem/source. No letter is established; oracle B is an inherited placeholder.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "The premium is 40% of ₹10 = ₹4, so the total issue price is ₹14 per share. The first three instalments total ₹3 + ₹5 + ₹2 = ₹10. The remaining final call is ₹14 − ₹10 = ₹4 per share.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 0,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "Final call equals the unstated premium. Explanation imports 40 percent absent from this stem/source. No letter is established; oracle B is an inherited placeholder."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "B",
+      "oracle_status": "inherited_placeholder_no_established_answer",
+      "oracle_is_unique_academic_truth": false,
+      "frozen_short_proof": "Earlier instalments total 3+5+2=10, equal to face value. If premium per share is p, issue price is 10+p and final call is p. The premium rate/amount is expressly unstated. A/B/C/D are each possible under premiums of 3/4/1/14 respectively, so no unique numerical call follows. Neither supplied source gives a case-specific premium.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹3",
+          "assessment": "3 is possible if premium is 3, but that premise is absent."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹4",
+          "assessment": "4 is possible if premium is 4; no 40 percent rate may be imported from a different case."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹1",
+          "assessment": "1 is possible if premium is 1, but that premise is absent."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹14",
+          "assessment": "14 is possible if premium is 14, but that premise is absent."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Issue at par  and premium",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1980,
+          "utf16_length": 25
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-6d1b7733806ef2",
+          "locator": "decisive-excerpt",
+          "quote": "1.5 Issue of Shares A salient characteristic of the capital of a company is that the amount on its shares can be gradually collected in easy instalments spread over a period of time depending upon its growing financial requirement. The first instalment is collected along with application and is thus, known as application money, the second on allotment (termed as allotment money), and the remaining instalments are termed as first call, second call and so on. The word final is suffixed to the last instalment. However, this in no way which prevents a company from calling the full amount on shares right at the time of application. ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "eae3aff32a32fe302318e91ea268f1ba613cf3d484ae19c1bc3d9dc8bd8510be",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "2e6abd8d5f50c42aedcbccc4d25e887c8f358c2a8ca7ac1c58507ba92ed73995",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-acea30f1971048",
+          "locator": "decisive-excerpt",
+          "quote": "Issue of Shares at Premium: Irrespective of the fact that shares have been issued for consideration other than cash, they can be issued either at par or at premium. The issue of shares at par implies that the shares have been issued for an amount exactly equal to their face or nominal value. In case shares are issued at a premium, i.e. at an amount more than the nominal or par value of shares, the amount of premium is credited to a separate account called ‘Securities Premium Reserve Account’, the use of which is strictly regulated by law. ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "12d5b4049dba30e8e59f99221ccdcc8112b897d258bac997f262c76e42e35749",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "61477b0222d5b4bf870951b86f1feb54009608a7062dd50d970f30e7e57b4ad8",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-2b8bd9ddd4",
+      "tag": "prorata-arithmetic-fault",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "numerical_fault",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The allotted-to-applied ratio is 2,000:2,400, or 5:6. An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 44 shares.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "The explanation asserts 40 x 6/5 = 44, but the product is 48. Proposed C=48 is correct; the explanatory calculation is false.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "An allotment of 40 shares therefore corresponds to an application for 40 × 6/5 = 44 shares.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 54,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "The explanation asserts 40 x 6/5 = 44, but the product is 48. Proposed C=48 is correct; the explanatory calculation is false."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Uniform allotted/applied ratio = 2000/2400 = 5/6. An allotment of 40 requires an application of 40 x 6/5 = 48. The supplied worked source uses precisely the inverse of the allotted:applied ratio.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "40",
+          "assessment": "40 confuses allotted shares with applied shares."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "44",
+          "assessment": "44 does not preserve the 5:6 ratio."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "48",
+          "assessment": "48 gives 48 x 5/6 = 40 allotted shares."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "52",
+          "assessment": "52 would give 43 1/3 allotted shares, not 40."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-accountancy-syllabus",
+        "locator": "full-syllabus",
+        "quote": "subscription and Under subscription; Issue at par  and premium;",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 1943,
+          "utf16_length": 63
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-5d15ae1f40fc11",
+          "locator": "decisive-excerpt",
+          "quote": "According to the ratio of pro-rata distribution (40,000 shares : 48,000 shares), for 1,600 shares to be allotted, Chitnis must have applied for 1,920 shares (1,600 shares × 6/5). ",
+          "source_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "stored_support_hash": "74dc85ce186af2e02069cfd98ec7fd26a90a977f5519ab850a2d417bdcf75a7c",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "f33ff8f77a20b7bffe6ac7936e47476bb035f3a0fa3e06664685b137349b7421",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-972dd21c21",
+      "tag": "primary-full-alternative",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "multiple_correct",
+      "independent_keys": [
+        "B",
+        "D"
+      ],
+      "unique_answer": false,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "D",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "Primacy means that planning precedes the other managerial functions and provides their framework. Planning at all levels describes pervasiveness, successive periods describe continuity, and predetermined goals describe the focus on objectives.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "Both full B (framework) and D (precedence/basis) paraphrase primacy. D is a correct member but not uniquely correct. Explanation also retains an obsolete continuity-distractor reference after B changed.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "D",
+      "oracle_status": "representative_of_multiple_defensible_answers",
+      "oracle_is_unique_academic_truth": false,
+      "frozen_short_proof": "The same supplied primacy paragraph states that all other functions operate within plans and that planning precedes/provides the basis for them. B expresses the framework meaning; D expresses precedence and basis. Both full options are true interpretations of primacy. A is pervasiveness and C objective orientation. A single-choice key cannot distinguish B and D.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Planning is undertaken at all management levels",
+          "assessment": "Pervasiveness, not primacy."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Planning lays down the framework within which the other managerial functions are performed",
+          "assessment": "Correct: operating within the planning framework is explicitly stated within the primacy paragraph."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Plans focus on predetermined organisational goals",
+          "assessment": "Objective orientation, not primacy."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Planning precedes and provides a basis for the other managerial functions",
+          "assessment": "Correct: preceding and supplying the basis is also explicitly stated within the primacy paragraph."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Meaning, features, importance, limitations.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 887,
+          "utf16_length": 43
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-874bdc90b70999",
+          "locator": "decisive-excerpt",
+          "quote": "(i) Planning focuses on achieving objectives: Organisations are set up with a general purpose in view. Specific goals are set out in the plans along with the activities to be undertaken to achieve the goals. Thus, planning is purposeful. Planning has no meaning unless it contributes to the achievement of predetermined organisational goals. (ii) Planning is a primary function of management: Planning lays down the base for other functions of management. All other managerial functions are performed within the framework of the plans drawn. Thus, planning precedes other functions. This is also referred to as the primacy of planning. The various functions of management are interrelated and equally important. However, planning provides the basis of all other functions. (iii) Planning is pervasive: Planning is requir ed at all levels of management as well as in all departments of the organisation. It is not an exclusive function of top management nor of any particular department. But the scope of planning differs at different levels and among different departments. For example, the top management undertakes planning for the organisation as a whole. Middle management does the departmental planning. At the lowest level, day ‑to‑day operational planning is done by supervisors. ",
+          "source_identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "stored_support_hash": "32ebb048f3fdabbfbef981edee1054bd177c83c577eff21e369402a51d08895d",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "827abc75004dc552a86657de48e1a68224a4c0007c9035d039b7ef9600cdad10",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-868e1d8356ca08",
+          "locator": "decisive-excerpt",
+          "quote": "(iv) Planning is continuous: Plans are prepar ed for a specific period of time, may be for a month, a quarter, or a year. At the end Ch_04.indd 95 08-08-2022 09:43:23 Reprint 2026-27\n96 Business Studies of that period there is need for a new plan to be drawn on the basis of new requirements and future conditions. Hence, planning is a continuous process. Continuity of planning is related with the planning cycle. It means that a plan is framed, it is implemented, and is followed by another plan, and so on. ",
+          "source_identity_sha256": "98696984995ac5fb70bb21ef5015f2647fa9c1dafa65b7790aa4cc0333d75c82",
+          "stored_support_hash": "8b67987f03cb54cbece611b4d4b9ce31b5223f200e88dd76543ecb9dbb8d9ab7",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "6dcc9d20ab4a72e99bf93c5d945ea835a64f398940d90286d98a3d8016bc149b",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-8a965d2fc3",
+      "tag": "regulation-invented-date",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "unsupported_explanation",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "The stem identifies a compulsory regulation governing an advertisement. The legal environment includes legislation and administrative orders that enterprises must obey. That legal requirement is the feature being classified. This exact advertising regulation was enacted in 1998.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "No enactment date/identity of this exact regulation is supplied. The appended 1998 claim is unsupported by all referenced excerpts and stem. Core A reasoning remains correct.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "This exact advertising regulation was enacted in 1998.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 225,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "No enactment date/identity of this exact regulation is supplied. The appended 1998 claim is unsupported by all referenced excerpts and stem. Core A reasoning remains correct."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "A compulsory requirement imposed by a regulation is a legal-environment condition. The source explicitly includes legislation and government administrative orders and requires enterprises to obey law. The precise infant warning is a supplied scenario premise; the task does not ask the student to verify a real current regulation.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Legal environment",
+          "assessment": "A regulation imposing a compulsory display directly reflects the legal environment."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Social environment",
+          "assessment": "Social norms may motivate laws, but the stated direct mechanism is a regulation."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Technological environment",
+          "assessment": "No technical innovation or method is specified."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Economic environment",
+          "assessment": "No economic variable such as income, inflation or interest is specified."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Dimensions of Business Environment",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 768,
+          "utf16_length": 34
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-4b6323d1fbcecd",
+          "locator": "decisive-excerpt",
+          "quote": "(v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by government authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the management of every enterprise to obey the law ",
+          "source_identity_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "stored_support_hash": "ff64e9a82d97eb7468beeeee5338715910b809a86e2d3628c27915ebdf038056",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "1c207956197542241d8b5b4b223457cd823308ec293433df05ed1fcf10a144fc",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-6c0c03dcf8",
+      "tag": "pure-derivative-objective",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "out_of_syllabus",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": false,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Substituting x = 2 in the supplied rule gives f′(2) = 3 × 2² = 12.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "C=12 and its explanation are correct, but pure derivative evaluation has no Business Studies Marketing objective. Supplied rules do not establish subject entitlement.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The supplied rule gives f-prime(2) = 3 x 2 squared = 12, uniquely C. The actual task is derivative substitution with no marketing decision, marketing data interpretation or business-finance relationship. A self-contained supplied rule makes it solvable but does not entitle mathematics to a Business Studies Marketing unit.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "8",
+          "assessment": "8 is f(2), not its derivative."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "6",
+          "assessment": "6 uses 3 x 2 instead of 3 x 2 squared."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "12",
+          "assessment": "12 equals 3 x 4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "3",
+          "assessment": "3 is the coefficient alone and ignores x=2."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-business_studies-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Unit XI:  Marketing",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 3172,
+          "utf16_length": 19
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-math-premise",
+          "locator": "premise",
+          "quote": "In this self-contained mathematical exercise, f(x) = x³ and the supplied differentiation rule is f′(x) = 3x².",
+          "source_identity_sha256": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3",
+          "stored_support_hash": "1e38cf4d4a5d67fe456287e9cbf07f1e6aedce4d5a03e8fd279fca52130a56a3",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "ea3c2f23a8860ed4fd731dd0ce51d7267dc63f5e48eae5398d0ce9e7a8548f1d",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-59f949e91e",
+      "tag": "cash-reserve-wrong-key",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "wrong_key",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": false,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "The cash reserve ratio is the prescribed percentage of deposits to be held as cash reserves. The statutory liquidity ratio concerns additional liquid reserves, while bank rate and repo rate are interest rates rather than deposit-reserve percentages.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "Frozen derivation gives D=CRR; proposed A is SLR. The correct explanatory definition conflicts with the proposed key.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The source calls the legal percentage of deposits retained as cash reserves to prevent over-lending CRR. It separately describes SLR as short-term liquid reserves, bank rate as a loan interest rate, and repo as a repurchase-agreement lending rate. The task does not ask where reserves are held.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Statutory liquidity ratio",
+          "assessment": "SLR is the separate liquid-form reserve requirement, not the named cash-reserve percentage."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Bank rate",
+          "assessment": "Bank rate is a rate on central-bank lending, not a deposit reserve percentage."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Repo rate",
+          "assessment": "Repo rate is the interest rate on lending through a repurchase agreement."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Cash reserve ratio",
+          "assessment": "CRR matches cash reserves, deposit percentage and the over-lending purpose."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Policy tools to control money supply.",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2420,
+          "utf16_length": 37
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "49cb1bf8aa2ed0dddb1b2abc8d55af5fb486500a4ff3beebee25454e682e7832",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "2181950bd58c9ea566fbfee37688dfb4b83d1530baa9bfd7f08e34a843bff6b6",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "12718de814972c83ee23206f1b4e0a0bef819b9da90d545d82ade7fd8d84454e",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-cbcd129073",
+      "tag": "money-model-missing-ratio",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "missing_decisive_assumption",
+      "independent_keys": [],
+      "unique_answer": false,
+      "solvable": false,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": false,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "The deposits are ₹1,000 because ₹200 divided by a reserve ratio of 0.20 is ₹1,000.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "Deposits=200/r and r is expressly unstated. Explanation imports 0.20. Neither proposed A nor oracle D is established. Each option fits a different possible ratio.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "The deposits are ₹1,000 because ₹200 divided by a reserve ratio of 0.20 is ₹1,000.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 0,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "Deposits=200/r and r is expressly unstated. Explanation imports 0.20. Neither proposed A nor oracle D is established. Each option fits a different possible ratio."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "D",
+      "oracle_status": "inherited_placeholder_no_established_answer",
+      "oracle_is_unique_academic_truth": false,
+      "frozen_short_proof": "Printed model: D=200/r, where r is the required reserve ratio as a fraction. r is expressly not stated. A/B/C/D correspond respectively to r=0.20/0.10/0.05/0.04, all consistent with the given data. The supplied sources define reserve ratios and lending rates but give no applicable numerical r. No option can be established as the answer.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "₹1,000",
+          "assessment": "1000 would follow only if r=20 percent, not supplied."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "₹2,000",
+          "assessment": "2000 would follow only if r=10 percent, not supplied."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "₹4,000",
+          "assessment": "4000 would follow only if r=5 percent, not supplied."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "₹5,000",
+          "assessment": "5000 would follow only if r=4 percent, not supplied."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Money Creation and Money",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2303,
+          "utf16_length": 24
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-683baa9b074343",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI decides a certain percentage of deposits which every bank must keep as reserves. This is done to ensure that no bank is ‘over lending’. This is a legal requirement and is binding on the banks. This is called the ‘Required Reserve Ratio’ or the ‘Reserve Ratio’ or ‘Cash Reserve Ratio’ (CRR). Cash Reserve Ratio (CRR) = Percentage of deposits which a bank must keep as cash reserves with the bank. Apart from the CRR, banks are also required to keep some reserves in liquid form in the short term. This ratio is called Statutory Liquidity Ratio or SLR. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "7e5dcd8e0e26a4753eec757d787a50a4061355aa20b85e7951fd0ee848c3892f",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "49cb1bf8aa2ed0dddb1b2abc8d55af5fb486500a4ff3beebee25454e682e7832",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-35f832d5aadae0",
+          "locator": "decisive-excerpt",
+          "quote": "The RBI can influence money supply by changing the rate at which it gives loans to the commercial banks. This rate is called the Bank Rate in India. By increasing the bank rate, loans taken by commercial banks become more expensive; this reduces the reserves held by the commercial bank and hence decreases money supply. A fall in the bank rate can increase the money supply. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "280a57795ef0ed9b7b42e33c24c78ca4139dad54dc2c1125d415ba3cef2b81a6",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "2181950bd58c9ea566fbfee37688dfb4b83d1530baa9bfd7f08e34a843bff6b6",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        },
+        {
+          "source_id": "v76s-95141e43c82969",
+          "locator": "decisive-excerpt",
+          "quote": "this agreement of purchase also has specification about date and price of resale of this security. This type of agreement is called a repurchase agreement or repo. The interest rate at which the money is lent in this way is called the repo rate. Similarly, instead of outright sale of securities the central bank may sell the securities through an agreement which has a specification about the date and price at which it will be repurchased. This type of agreement is called a reverse repurchase agreement or reverse repo. The rate at which the money is withdrawn in this manner is called the reverse repo rate. ",
+          "source_identity_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "stored_support_hash": "44e48b8ab94479bfb6b40c9dac7f6dc80af499c9e7448f8ff2e90003bf59a476",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "12718de814972c83ee23206f1b4e0a0bef819b9da90d545d82ade7fd8d84454e",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-060c149e8f",
+      "tag": "public-goods-false-explanation",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "unsupported_explanation",
+      "independent_keys": [
+        "A"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Public goods are collectively consumed, so I is true. Their defining features are non-rivalry and non-excludability, which contradict II. Therefore I is true and II is false. Non-rivalry means that one person’s benefit reduces the benefit available to another person.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "The appended sentence reverses non-rivalry: the source states satisfaction can increase without reducing that obtained by others. Core A truth pair is correct but the final definition is false.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "Non-rivalry means that one person’s benefit reduces the benefit available to another person.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 175,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "The appended sentence reverses non-rivalry: the source states satisfaction can increase without reducing that obtained by others. Core A truth pair is correct but the final definition is false."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "A",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "The source explicitly states collective consumption, non-rivalry and non-excludability. I is true. The full conjunction II (excludable AND rivalrous) is false: both asserted properties are reversed. Therefore only A gives the correct truth pair.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "I is true and II is false",
+          "assessment": "Correct truth pair: collective consumption true, excludable-and-rivalrous false."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Both I and II are true",
+          "assessment": "II reverses both defining properties and is false."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Both I and II are false",
+          "assessment": "I is explicitly true in the source."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "I is false and II is true",
+          "assessment": "I is true and II false, the opposite of D."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-economics-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Government budget - meaning, objectives and components",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 2817,
+          "utf16_length": 54
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76s-8710ca0bf43c94",
+          "locator": "decisive-excerpt",
+          "quote": "1. Public goods, as distinct from private goods, are collectively consumed. Two important features of public goods are – they are non-rivalrous in that one person can increase her satisfaction from the good without reducing that obtained by others and they are non-excludable, and there is no feasible way of excluding anyone from enjoying the benefits of the good. These make it difficult to collect fees for their use and private enterprise will in general not provide these goods. Hence, they must be provided by the government. ",
+          "source_identity_sha256": "2fdd11fd2063ee4d35e065773686b74714a0d9ef636a54d4440326df82146149",
+          "stored_support_hash": "f58454676fafde4a4cb03525e405fc54226e985fd821d6389957d31b379fc711",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "7d23436d07b1006f1755647442086ca5d7d8d2275b6ae76c0191cae639903a3c",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-f4c6fb6af3",
+      "tag": "jibhi-wrong-key",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "wrong_key",
+      "independent_keys": [
+        "D"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "A",
+      "proposed_key_is_member": false,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "Paragraph 1 links Srinagar’s landscape to memories of Jibhi and contrasts Srinagar’s many tourists with Jibhi’s anonymity. That comparison prompted the narrator’s return. The 2008 scheme and the pandemic occur later; paragraph 2 describes converting a traditional family house.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "Frozen derivation gives D, initial landscape/tourism comparison. Proposed A falsely gives the later 2008 scheme as an already guaranteed success; chronology defeats that full option.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "D",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Paragraph 1 links Srinagar landscapes recalling Jibhi and its tourist success versus Jibhi anonymity to returning home to start tourism. D captures both clauses. The 2008 scheme and pandemic are later events; the family only later agreed to convert the traditional house.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "The 2008 government scheme had already guaranteed business success",
+          "assessment": "The 2008 scheme occurs after the initial return/1992 signboard, and guaranteed success is never stated."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Tourism in Srinagar had stopped because of the pandemic",
+          "assessment": "The pandemic occurs in 2020-21 after the return; the passage says local tourism stopped and does not attribute the initial return to Srinagar pandemic tourism."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "The family had already built many concrete hotels in Jibhi",
+          "assessment": "The family later agreed to one house conversion; already-built family concrete hotels are unsupported."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "Srinagar’s landscapes recalled home and suggested Jibhi’s tourism potential",
+          "assessment": "Both recalled-home landscapes and inferred tourism opportunity are supported by paragraph 1."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Narrative",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 318,
+          "utf16_length": 9
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-706de08f5d",
+      "tag": "anonymity-second-full-answer",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "multiple_correct",
+      "independent_keys": [
+        "B",
+        "C"
+      ],
+      "unique_answer": false,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "B",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": false,
+      "full_explanation": "The phrase is used in contrast with Srinagar’s many tourists. In this context, anonymity means being little known. The later growth and concrete buildings appear in paragraph 3, while no official prohibition is stated.",
+      "explanation_academically_sound": true,
+      "explanation_support_review": "Full B and C both mean little known in the tourism contrast. No text excludes the local-area wording. B is one correct member; explanation cannot restore uniqueness.",
+      "defective_explanation_quote": null,
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "B",
+      "oracle_status": "representative_of_multiple_defensible_answers",
+      "oracle_is_unique_academic_truth": false,
+      "frozen_short_proof": "Anonymity in the Srinagar/Jibhi tourism contrast means being little known. B expresses not widely known to potential visitors; C expresses little known beyond the local area. Both are defensible contextual paraphrases of the same lack of wider recognition. The passage gives no geographic qualification that makes C false or decisively less appropriate. A reverses the contrast and D imports later development.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "crowded with visitors from across the world",
+          "assessment": "Reverses the tourism contrast."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "not widely known to potential visitors",
+          "assessment": "Defensible contextual meaning of anonymity."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "little known beyond the local area",
+          "assessment": "Also defensible: little known beyond the local area captures the same lack of wider recognition; no supplied wording excludes it."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "already transformed into a concrete town",
+          "assessment": "Later concrete-town growth does not describe the paragraph 1 anonymity."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    },
+    {
+      "id": "v76f-10e903f685",
+      "tag": "jibhi-invented-growth-rate",
+      "group": "controlled_defect",
+      "actual_expected_valid": false,
+      "actual_category": "unsupported_explanation",
+      "independent_keys": [
+        "C"
+      ],
+      "unique_answer": true,
+      "solvable": true,
+      "entitlement": true,
+      "proposed_key": "C",
+      "proposed_key_is_member": true,
+      "proposed_key_uniquely_supported": true,
+      "full_explanation": "Paragraph 4 describes learning, friendships and pride in establishing tourism. Paragraph 3 describes pressure on nature and the opportunity to seek sustainable solutions. Together they support a positive but reflective attitude towards growth. The passage establishes that visitor numbers doubled every year from 1992 to 2008.",
+      "explanation_academically_sound": false,
+      "explanation_support_review": "Yearly doubling is absent from the passage and cannot follow from general growth and 2008 acceleration. C and the preceding attitude reasoning remain supported.",
+      "defective_explanation_quote": {
+        "locator": "candidate.explanation",
+        "quote": "The passage establishes that visitor numbers doubled every year from 1992 to 2008.",
+        "exact_substring_verified": true,
+        "ordinal_offset": 244,
+        "appears_verbatim_in_referenced_sources": false,
+        "inference_assessment": "Yearly doubling is absent from the passage and cannot follow from general growth and 2008 acceleration. C and the preceding attitude reasoning remain supported."
+      },
+      "label_confirmed": true,
+      "candidate_academically_valid": false,
+      "failure_classification": "decisive_controlled_academic_defect",
+      "stored_oracle_key": "C",
+      "oracle_status": "matches_frozen_independent_answer",
+      "oracle_is_unique_academic_truth": true,
+      "frozen_short_proof": "Paragraph 4 supports learning, relationships and pride in establishing local tourism; paragraph 3 reports pressure on nature and the opportunity for reflection and sustainable solutions. Only C preserves both benefit and concern. Extreme all-or-nothing alternatives contradict at least one part.",
+      "all_full_options_assessed": true,
+      "option_assessments": [
+        {
+          "key": "A",
+          "full_printed_option": "Tourism has brought no worthwhile learning or relationships",
+          "assessment": "No worthwhile learning/relationships contradicts paragraph 4 explicit cultural learning and returning friends."
+        },
+        {
+          "key": "B",
+          "full_printed_option": "Every increase in tourism should be welcomed regardless of its effects",
+          "assessment": "Regardless of effects contradicts nature pressure and sustainable reflection in paragraph 3."
+        },
+        {
+          "key": "C",
+          "full_printed_option": "Tourism has brought personal and local benefits, but its growth calls for sustainable reflection",
+          "assessment": "Both personal/local benefits and sustainable reflection are supported across paragraphs 3-4."
+        },
+        {
+          "key": "D",
+          "full_printed_option": "The village must permanently abandon tourism because the first venture failed",
+          "assessment": "Permanent abandonment is not advocated; residents hope tourism returns and the first venture grew rather than failed."
+        }
+      ],
+      "syllabus_evidence": {
+        "source_id": "cuet2026-english-syllabus",
+        "locator": "full-syllabus",
+        "quote": "Reading Comprehension",
+        "exact_substring_verification": {
+          "verified": true,
+          "comparison": "ordinal",
+          "utf16_offset": 213,
+          "utf16_length": 21
+        }
+      },
+      "source_evidence": [
+        {
+          "source_id": "v76-original-adapted-jibhi",
+          "locator": "supplied-stimulus",
+          "quote": "[1] I was posted in Srinagar in the 1980s. Its mountains, rivers and meadows reminded me of my native Jibhi Valley in Himachal Pradesh. Srinagar welcomed many tourists, while Jibhi remained clouded in anonymity. I left the Indian Army and returned home to start tourism there.\n[2] My family eventually agreed to let me turn our traditional house into a guesthouse. I kept its original character and added windows for sunlight. When I put up a signboard in 1992, villagers doubted that the venture would succeed. The business grew, but tourism took years to develop in the valley.\n[3] A government homestay scheme in 2008 accelerated growth. People built homestays, villages became towns and concrete buildings multiplied. Local businesses and tourists put increasing pressure on nature. During the 2020–21 pandemic, tourism stopped. Residents returned to farming, pottery and government work schemes. They hoped tourism would return, but the pause also offered a chance to reflect and seek sustainable solutions.\n[4] Tourism introduced me to people from many countries and Indian states. I learnt about different cultures, and many visitors returned as clients and friends. I feel proud that I fulfilled my dream and helped establish tourism in my home valley, yet humbled by what the journey taught me.",
+          "source_identity_sha256": "c36c4a342c4be435e3f428608b84b5c78bbf6e991077d6662159d5c5b5a3bf75",
+          "stored_support_hash": "0f2782068bb21071d987302b3eaffcad633b93618350ede9a07e28dc66fcca08",
+          "stored_support_hash_matches_overlay": true,
+          "raw_utf8_quote_sha256": "617c3986d625c49c6305ffdfdf9518a9780c7446dffd21fbd8fc5554fb39b0d2",
+          "exact_substring_verified": true,
+          "ordinal_offset": 0,
+          "version_pack_binding_verified": true
+        }
+      ],
+      "assessment_completed": true,
+      "unfinished_or_error_is_academic_reject": false
+    }
+  ]
+}

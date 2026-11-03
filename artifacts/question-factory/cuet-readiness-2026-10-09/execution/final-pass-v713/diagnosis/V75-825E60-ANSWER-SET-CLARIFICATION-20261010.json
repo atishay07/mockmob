@@ -1,0 +1,325 @@
+{
+  "schema": "mockmob-v75-answer-set-clarification-v1",
+  "created_at": "2026-10-09T21:59:41.383Z",
+  "fixture_id": "v75f-825e60a00f",
+  "prior_label": "invalid",
+  "classification": "defective_for_single_answer_gate_due_plausible_B_D_ambiguity",
+  "scope": "Independent reading of frozen printed stem/options and exact registered excerpts; provider agreement and frozen label are recorded as historical evidence, not used as premises.",
+  "question": {
+    "body": "An automobile company divides work into production, purchase, marketing, accounts and personnel. Which of the following is a disadvantage of this organisation structure?",
+    "options": [
+      {
+        "key": "A",
+        "text": "It may lead to an increase in cost."
+      },
+      {
+        "key": "B",
+        "text": "Managers may gain power, assert independence and ignore organisational interests."
+      },
+      {
+        "key": "C",
+        "text": "It ensures that different functions get due attention."
+      },
+      {
+        "key": "D",
+        "text": "Heads do not get training for top management positions."
+      }
+    ],
+    "official_frozen_key": "D",
+    "source_kind": "original_practice",
+    "source_pack_id": "v75-fresh-cbse2022-pack-business_studies",
+    "source_pack_version": 1
+  },
+  "source_provenance": {
+    "label": "source_keyed_non_cuet",
+    "source_item_id": "v74-cbse22-bs-q03",
+    "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+    "official_source": {
+      "source_id": "cbse-sqp-2022-23-businessstudies",
+      "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+      "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+      "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+      "physical_pdf_page": 1,
+      "quote_start": 1213,
+      "quote_end": 1703,
+      "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions."
+    },
+    "first_source_key": "held",
+    "independent_second_key": "D",
+    "official_comparison_key": "D",
+    "custody_status": "held_ambiguous_or_disagreeing",
+    "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost."
+  },
+  "registered_excerpts": {
+    "v75f-s-8d877e6df3cc": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together.",
+    "v75f-s-d70b6385c98d": "(f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus",
+    "v75f-s-c66a1d325241": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+    "v75f-s-6e21e3af87ba": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager",
+    "v75f-s-5d7f6593d351": "may gain power and in a bid to assert his independence may ignore organisational interests."
+  },
+  "option_analysis": [
+    {
+      "option": "A",
+      "finding": "Not a supported disadvantage of the stated functional structure. The registered cost-duplication excerpt E4 concerns divisional structure; no functional-structure excerpt supports this increase-in-cost statement."
+    },
+    {
+      "option": "B",
+      "finding": "Plausible competing disadvantage. E2 says functional heads may form functional empires, overemphasise function objectives, and pursue departmental interests at the cost of organisational interests. E5 also gives the exact power/independence wording for divisional managers, so the category-specific reading rejects B; however, the functional E2 language gives a reasonable broad reading of the complete modal claim. It is not decisively disproved for the structure in the stem."
+    },
+    {
+      "option": "C",
+      "finding": "A functional-structure advantage, stated directly in E2, not a disadvantage."
+    },
+    {
+      "option": "D",
+      "finding": "A functional-structure disadvantage, stated directly in E3: functional heads do not get training for top-management positions because they lack experience across diverse areas."
+    }
+  ],
+  "answer_set_conclusion": "D is the official/intended textbook-category answer. B remains a plausible alternative under E2’s functional-empires and departmental-interest disadvantage. Under the study’s zero-ambiguity rule, that unresolved plausible second answer makes the item defective for a single-answer assessment; the frozen expected-invalid label is academically defensible. This is a natural ambiguity, not a proved wrong official answer. The CBSE sample-paper provenance is not CUET-PYQ evidence.",
+  "historical_construction": {
+    "defect_origin": "natural",
+    "oracle": {
+      "key": "multiple_correct_B_D",
+      "basis": "Both independent reviewers found the item contestable: the same functional-structure excerpt describes functional empires and departmental interests being pursued at the cost of organisational interests, so option B overlaps a functional-structure disadvantage while being worded like the divisional-structure one; the second reviewer also found option A defensible on a loose reading. The official key and the textbook-category key is D. Retained as a natural multiple-defensible defect (key shown is the official D).",
+      "source_refs": [
+        {
+          "id": "v75f-s-8d877e6df3cc",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "64c84a8c892ca98082ac5abb189f2a1b44bcb319ab984b35e32d3fb48739e416"
+        },
+        {
+          "id": "v75f-s-d70b6385c98d",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "9636bea278fc0d399d67bf73eb71f6f96a34f2670eb42c73227503ff08123227"
+        },
+        {
+          "id": "v75f-s-c66a1d325241",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "0d9bb7cb71bd8692109bb3290f0931f1352b99ecf19a948aeaa43ccb2c50925b"
+        },
+        {
+          "id": "v75f-s-6e21e3af87ba",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "1a643aa5ad1774fef9170699f039f9473f41a50e4b969626d166128216625e9e"
+        },
+        {
+          "id": "v75f-s-5d7f6593d351",
+          "version": 1,
+          "locator": "decisive-excerpt",
+          "support_hash": "cb2084e0e9228781b312bc3f116392e0d1f3e93d854760082e582fa04e242691"
+        }
+      ]
+    },
+    "regression_limitation": "Preserved disputed natural multiple-defensible label. Source-keyed CBSE practice, not fresh CUET evidence. No historical oracle is in provider blind views.",
+    "source_custody": {
+      "source_item_id": "v74-cbse22-bs-q03",
+      "subject": "business_studies",
+      "first_source_key": "held",
+      "independent_second_key": "D",
+      "official_comparison_key": "D",
+      "official_agrees": null,
+      "qualification_role": "natural_defect_multiple_defensible",
+      "custody_status": "held_ambiguous_or_disagreeing",
+      "hold_basis": "broad_alternative_overlap_requires_second_independent_review_before_truth_label | second: Options A and B are generic or divisional-structure disadvantages; a loose reading of A (cost increase) could be defended by some students, though it contradicts the functional-structure advantage of lower cost.",
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "physical_pdf_page": 1,
+          "quote_start": 1213,
+          "quote_end": 1703,
+          "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions."
+        }
+      ],
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "natural_defect": true
+    }
+  },
+  "current_native_outcome": {
+    "snapshot_updated_at": "2026-10-09T21:43:52.874Z",
+    "state": "quarantined",
+    "failed_stage": "source_support",
+    "failed_reasons": [
+      "failed:source_support"
+    ],
+    "gate_components": {
+      "source_support": true,
+      "conditions_ok": false,
+      "challenges_ok": true,
+      "challenge_reason": null,
+      "answer_conditions": [
+        {
+          "condition": "The listed departments are functional departments rather than product divisions.",
+          "status": "inferred_fact",
+          "alters_key_if_changed": true,
+          "convention_evidence_ids": [
+            "E1.1"
+          ]
+        }
+      ]
+    },
+    "providers": {
+      "openai": {
+        "solved_key": "D",
+        "passed": false,
+        "source_support": true,
+        "challenges_ok": true,
+        "option_challenges": [
+          {
+            "option": "A",
+            "correct_under_reading": false,
+            "reading_status": "standard_convention"
+          },
+          {
+            "option": "B",
+            "correct_under_reading": false,
+            "reading_status": "standard_convention"
+          },
+          {
+            "option": "C",
+            "correct_under_reading": false,
+            "reading_status": "contradicts_stem"
+          }
+        ],
+        "option_resolution": [
+          {
+            "option": "A",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E4.1",
+            "quote": "It may lead to increase in costs since there may be a duplication of activities across products.",
+            "false_part": "It may lead to an increase in cost."
+          },
+          {
+            "option": "B",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E5.1",
+            "quote": "may gain power and in a bid to assert his independence may ignore organisational interests.",
+            "false_part": "Managers may gain power, assert independence and ignore organisational interests."
+          },
+          {
+            "option": "C",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E2.1",
+            "quote": "It ensures that different functions get due attention.",
+            "false_part": "It ensures that different functions get due attention."
+          },
+          {
+            "option": "D",
+            "status": "supported",
+            "premise_source": "excerpt",
+            "evidence_id": "E3.1",
+            "quote": "Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+            "false_part": ""
+          }
+        ]
+      },
+      "gemini": {
+        "solved_key": "D",
+        "passed": false,
+        "source_support": true,
+        "challenges_ok": true,
+        "option_challenges": [
+          {
+            "option": "A",
+            "correct_under_reading": false,
+            "reading_status": "contradicts_stem"
+          },
+          {
+            "option": "B",
+            "correct_under_reading": false,
+            "reading_status": "contradicts_stem"
+          },
+          {
+            "option": "C",
+            "correct_under_reading": false,
+            "reading_status": "contradicts_stem"
+          }
+        ],
+        "option_resolution": [
+          {
+            "option": "A",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E4.1",
+            "quote": "It may lead to increase in costs since there may be a duplication of activities across products.",
+            "false_part": "It may lead to an increase in cost."
+          },
+          {
+            "option": "B",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E5.1",
+            "quote": "may gain power and in a bid to assert his independence may ignore organisational interests.",
+            "false_part": "Managers may gain power, assert independence and ignore organisational interests."
+          },
+          {
+            "option": "C",
+            "status": "contradicted",
+            "premise_source": "excerpt",
+            "evidence_id": "E2.1",
+            "quote": "(f) It ensures that different functions get due attention.",
+            "false_part": "It ensures that different functions get due attention."
+          },
+          {
+            "option": "D",
+            "status": "supported",
+            "premise_source": "excerpt",
+            "evidence_id": "E3.1",
+            "quote": "Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+            "false_part": ""
+          }
+        ]
+      }
+    },
+    "explanation_stage_executed": false,
+    "what_gate_did": "V713 quarantined before explanation because it treated the source-backed classification of the listed departments as an inferred answer-changing input. Its own stage reason states D is expressly listed. That unrelated condition gate prevented eligibility, but it did not detect the B/D ambiguity; both providers marked B contradicted using divisional E5 and selected D."
+  },
+  "inputs": [
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v75-fresh-cbse2022-2026-10-09/frozen.json",
+      "sha256": "29276dbb5afc0056a8735d3ede298ae07a3922d39469d709893a5de2a857f324"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v75-fresh-cbse2022-2026-10-09/run/results.json",
+      "sha256": "8450cb64333d994481387f3b5d9bd438e7b8121e3364a66e15a6ed38b08ddcb3"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v75-root-adjudication.md",
+      "sha256": "610f3364668f32a7aab077a91889ea59aa2c161745867a7554b67a0bebf828f9"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v75-diagnosis-blinded.json",
+      "sha256": "dba47ece7083be2463bba01ccf90982c2213e06cb4b2ca2500b9f6ea01703c7f"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v75-independent-derivations-luna.json",
+      "sha256": "0d183928bbd43a77aa453dc4d0cd2cc579b1af71aacaf449957bb3f3758b3e9b"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/state.json",
+      "sha256": "b4dd7867349f534da817cfc3fdc14e192064e739e8e2b3a9e86ee553a271212f"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/frozen.json",
+      "sha256": "21d81b6a6011136d54cb20e03aef130cb08c62ec059d772b7383ef74aab9fb37"
+    },
+    {
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v713/qualification-fresh31-regression6/registry.json",
+      "sha256": "0cd90b86dab2816c1e276f6a8bc23d340e608c1f2274f45685c7f17cd68b3730"
+    }
+  ],
+  "paid_calls": 0,
+  "provider_calls": 0,
+  "outcome_or_label_changed": false
+}

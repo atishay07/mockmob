@@ -1,0 +1,854 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-09T07:33:18.288Z",
+  "reviewer_independent": true,
+  "semantic_case_reuse_review": true,
+  "number_only_variants_reviewed": true,
+  "review_scope": {
+    "blind_packet_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/blind-review-packet-v3c.json",
+    "blind_packet_sha256": "b2ced5f0027f62157e11ba6b205470c0f3c6c8f21e31b068b823ea7329b26d0b",
+    "private_draft_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/draft-cases-v3b-PRIVATE.json",
+    "private_draft_sha256": "77b2380a6f72e358677d4a1c3940cdac9f178f8b9860ea56e66a88715bded369",
+    "sol_frozen_derivations_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/independent-derivations-sol-v3b.json",
+    "sol_frozen_derivations_sha256": "2bab0953398f53d610129a17e5a903793076834a9b0f26c9801c6bd7daadc008",
+    "root_frozen_derivations_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/root-derivations-v3c-PRIVATE.json",
+    "root_frozen_derivations_sha256": "934c09a377ba4d20aabf092a075043a1a6a6b4c3600aff42fb5bcfaf9215d48e",
+    "root_derivation_contents_read": false,
+    "case_count": 28,
+    "independent_answer_and_label_derivation_completed_before_reading_private_or_sol_artifacts": true
+  },
+  "bindings": {
+    "core_raw_freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+    "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb"
+  },
+  "counts": {
+    "independently_reviewed_valid": 16,
+    "independently_reviewed_invalid": 12,
+    "draft_expected_valid_labels_agree": true,
+    "independent_answer_state_agrees_with_draft_oracle_and_sol": 28,
+    "sol_numeric_key_convention": "Sol proposed_keys are one-based: 1=A, 2=B, 3=C, 4=D. Both forms are included per case."
+  },
+  "cases": [
+    {
+      "case_id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Cash-equivalent definition and maturity test support A; explanation matches.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Both receipt classifications are directly source-supported.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p2-ac_purpose",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Answer and explanation paraphrase the cited primary objective.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p5-ac_investing_purchase",
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3",
+        "v77v2src-leac206-p5-ac_investing_disposal"
+      ],
+      "independent_basis_and_explanation_audit": "Fixed-asset purchase is explicitly an investing cash outflow.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "independent_basis_and_explanation_audit": "Workforce identification/recruitment/selection/placement defines staffing.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-c6d21440345d",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-lebs106-p28-bs_training",
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "independent_basis_and_explanation_audit": "Key A is supported by the skill-update clue and training/staffing coverage. The draft explanation overstates the visible training excerpt: it does not explicitly say “preparing employees for higher responsibility.” Tighten that explanation or add an exact source before asserting every positive explanation is fully source-backed.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-a20de9004938",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "Relief for product shortfall is redressal; the stem specifically asks which right obtains relief.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-9a31e9a4c29b",
+      "subject": "business_studies",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "The cited page-8 text defines the right to be heard as opportunity to file a complaint and be heard.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-ea8f75b17d74",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Marginal utility equals 30−28=2; the source gives this exact numeric illustration.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-b123137834cc",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Ranking bundles without numerical measurement is ordinal utility.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-466fab2284fd",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p6-ec_indifference",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The source explicitly says bundles on one indifference curve are considered indifferent.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-2d806114710e",
+      "subject": "economics",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_place_time",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The source gives the same heater example varying by place and time.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-4c09b80e91ce",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The library passage uses a ledger as a written record of the move.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-a99cc144f9e5",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-library",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage records preventive steps before damage and says these reduce risk.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-1ed13162f85d",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage directly links strong current to cancellation and crossing out the line.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-dfcca21b749e",
+      "subject": "english",
+      "independent_expected_valid": true,
+      "draft_expected_valid": true,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-orchard",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage states the list makes small delays visible with time to adjust.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "valid_control"
+    },
+    {
+      "case_id": "v77f-84e9ba57542c",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-leac206-p5-ac_investing_disposal",
+        "v77v2src-leac206-p5-ac_financing",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Actual key is A; proposed B reverses customer-operating and disposal-investing classifications.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key"
+    },
+    {
+      "case_id": "v77f-59b58a25bbb3",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-leac206-p3-ac_cash",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "No determinate answer: the decisive maturity-from-acquisition and full risk/liquidity conditions are absent.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "missing_decisive_assumption"
+    },
+    {
+      "case_id": "v77f-e77493e30567",
+      "subject": "accountancy",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leac206-p4-ac_operating",
+        "v77v2src-leac206-p4-ac_operating_examples",
+        "v77v2src-syllabus_accountancy-p3"
+      ],
+      "independent_basis_and_explanation_audit": "Key A=7,500 is correct, but the candidate explanation says 12,000−4,500=8,500; numerical explanation defect.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "numerical_fault"
+    },
+    {
+      "case_id": "v77f-1db3dc389725",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "C",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs106-p2-column-right-staffing"
+      ],
+      "independent_basis_and_explanation_audit": "Actual key is A=Staffing; proposed C=Marketing is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key"
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A",
+        "B"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [
+        1,
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A",
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4",
+        "v77v3src-lebs203-p7-column-left-rights_safety",
+        "v77v3src-lebs203-p7-column-right-rights_information_choice",
+        "v77v3src-lebs203-p8-column-left-rights_heard_redressal_education"
+      ],
+      "independent_basis_and_explanation_audit": "Both complaint/hearing (A) and relief after loss (B) apply; final source excerpt contains both definitions, so evidence supports the ambiguity. Sol’s “missing redressal quote” gap is stale.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "ambiguous_multiple_correct"
+    },
+    {
+      "case_id": "v77f-3e505228c987",
+      "subject": "business_studies",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-syllabus_business_studies-p2",
+        "v77v2src-syllabus_business_studies-p4"
+      ],
+      "independent_basis_and_explanation_audit": "The stem does not determine an estimator and supplied source does not establish causal forest; invalid due underdetermined source/objective mismatch. Draft outside_syllabus taxonomy and categorical claim are too broad.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "outside_syllabus"
+    },
+    {
+      "case_id": "v77f-63d002be451c",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "C",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p2-ec_mu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Actual fifth-unit MU=30−28=2 (A); proposed C=−2 is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key"
+    },
+    {
+      "case_id": "v77f-98a231fa15fa",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": null,
+      "sol_proposed_keys_one_based": [],
+      "sol_proposed_keys_converted_to_ABCD": [],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": false,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-leec202-p3-ec_dmu",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The “must decline” conclusion requires holding other commodities/conditions constant; no such condition is stated.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "missing_decisive_assumption"
+    },
+    {
+      "case_id": "v77f-fcf957a734d5",
+      "subject": "economics",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "B"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "B",
+      "sol_proposed_keys_one_based": [
+        2
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "B"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-leec202-p4-ec_ordinal",
+        "v77v2src-syllabus_economics-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Ranking without numerical utility means ordinal (B); proposed A=cardinal is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key"
+    },
+    {
+      "case_id": "v77f-c519f01371f2",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "B",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "The passage explicitly names the second-hand movement and escapement sound (A); proposed B is wrong.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "wrong_key"
+    },
+    {
+      "case_id": "v77f-2ca94e8b4e72",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": true,
+      "source_ids": [
+        "v77v2src-english-ferry",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "Fresh date means recently written/current (A); explanation’s extra newly-painted claim is absent from passage.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "unsupported_explanation"
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "subject": "english",
+      "independent_expected_valid": false,
+      "draft_expected_valid": false,
+      "valid_label_agrees": true,
+      "independent_unique_answer_keys": [
+        "A"
+      ],
+      "draft_proposed_key": "A",
+      "draft_oracle_key": "A",
+      "sol_proposed_keys_one_based": [
+        1
+      ],
+      "sol_proposed_keys_converted_to_ABCD": [
+        "A"
+      ],
+      "answer_state_agrees_with_independent_audit": true,
+      "sol_unique_answer": true,
+      "source_evidence_sufficient_for_review": false,
+      "source_ids": [
+        "v77v2src-english-workshop",
+        "v77v2src-syllabus_english-p2",
+        "v77v2src-syllabus_english-p2"
+      ],
+      "independent_basis_and_explanation_audit": "A is the likely grammar key, but the narrative source does not support the rule. Label defect is source/route/objective mismatch; the syllabus topic list is non-exhaustive, so do not state a blanket out-of-syllabus claim.",
+      "sol_quote_integrity_issues": [],
+      "draft_defect_category": "unsupported_source_and_objective_mismatch"
+    }
+  ],
+  "material_findings": [
+    {
+      "case_id": "v77f-c6d21440345d",
+      "severity": "explanation_support_gap",
+      "finding": "The positive key A stands, but the draft explanation says the source explicitly supports preparing employees for higher responsibility. The supplied training quote only defines increased job aptitudes/skills/abilities; the syllabus lists Training and Development but does not provide this distinction. Tighten the explanation or supply an exact supporting source."
+    },
+    {
+      "case_id": "v77f-e9ef75026c19",
+      "severity": "stale_sol_gap_corrected",
+      "finding": "The final supplied page-8 excerpt explicitly includes both right to be heard and right to seek redressal. This is sufficient evidence for two correct options. Sol’s stored “missing redressal quote” gap is stale; original Sol derivation remains unchanged."
+    },
+    {
+      "case_id": "v77f-3e505228c987",
+      "severity": "defect_taxonomy",
+      "finding": "Expected invalid label is supported by underdetermination and missing source/objective support for a particular causal estimator. Replace broad outside_syllabus framing with unsupported source/objective mismatch/underdetermined method; do not assert a categorical exclusion."
+    },
+    {
+      "case_id": "v77f-56f266269b74",
+      "severity": "defect_taxonomy",
+      "finding": "Expected invalid label is supported because the source passage does not support a technical verb-mood answer and the route/question type are passage comprehension. English scope is expressly non-exhaustive; avoid a blanket out-of-syllabus assertion."
+    }
+  ],
+  "conclusion": "Independent derivation agrees with all 16 valid / 12 invalid labels and all 28 proposed key states after converting Sol’s one-based numeric keys to A/B/C/D. No key was invented. One positive explanation (v77f-c6d21440345d) overstates its exact source support; correct before claiming every positive explanation is fully source-backed. The dual-right defect (v77f-e9ef75026c19) is supported by the complete final source quote. Narrow taxonomy for the causal-method and English grammar defects; neither conclusion requires a categorical syllabus exclusion."
+}

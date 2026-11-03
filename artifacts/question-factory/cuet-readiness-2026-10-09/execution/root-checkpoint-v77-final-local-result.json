@@ -1,0 +1,74 @@
+{
+  "at": "2026-10-09 08:56:50 UTC",
+  "state": "Local post-study correction and accounting verified; generator unqualified; goal unachieved",
+  "active_requests": [],
+  "active_worker": null,
+  "native_scope": {
+    "registered_cases": 41,
+    "terminal_quarantined_valid": 5,
+    "unfinished_cases": 36,
+    "eligible_valid": 0,
+    "submitted_requests": 14,
+    "settled_requests": 14,
+    "settled_usd": 0.084744,
+    "held_usd": 0,
+    "drained_via": "existing STOP_AFTER_V77_REQUEST file",
+    "release_assessor_state": "pending incomplete evidence",
+    "mathematical_pass_rule_impossible": true
+  },
+  "lifetime": {
+    "settled_usd": 35.212262,
+    "held_usd": 0.507892,
+    "remaining_usd": 14.279846,
+    "ceiling_usd": 50,
+    "older_unresolved_records": 37,
+    "last_read_only_verification_utc": "2026-10-09T08:52:17.451Z"
+  },
+  "verification": {
+    "factory": 718,
+    "recovery": 40,
+    "payment_question_student_budgets": 40,
+    "receipt_only_recovery": 4,
+    "application_build": "passed",
+    "separate_local_proposal_tests": 20,
+    "historical_bindings": 228,
+    "historical_paths": 61,
+    "mismatches": 0,
+    "current_v77_core_transport": "unchanged and verified"
+  },
+  "current_correction": {
+    "path": "execution/v77-final-source-prep/regression-proposal/optionResolutionStructuralProposalV3.mjs",
+    "implementation_sha256": "4ad6bcf353cb114ec14ac99aba11bdfa61198fa0f6e47849b372071c863baf1f",
+    "freeze_sha256": "3377d19d341fb3a7363f029e3bc3d054dd11ba24a164d607f55a126574bc4efc",
+    "runtime_integrated": false,
+    "qualified": false,
+    "publication_eligible": false
+  },
+  "reports": [
+    "execution/V77-CURRENT-QUALITY-REPORT.md",
+    "execution/v77-current-quality-and-cost.json",
+    "execution/v77-final-root-local-review.json",
+    "execution/v77-final-mathematical-release-bound.json",
+    "execution/v77-final-export-2026-10-09/all-cases.json",
+    "execution/v77-final-export-2026-10-09/all-cases.csv",
+    "v77-qualification/execution/v77-release-assessment-reconstruction.json"
+  ],
+  "changed_file_scope": [
+    "isolated local proposal modules, tests, freeze and review artifacts",
+    "read-only diagnostics, mathematical-bound, quality, export and report-reconstruction helpers",
+    "data/question-factory-runtime/STOP_AFTER_V77_REQUEST",
+    "docs/brain/STATUS.md",
+    "docs/brain/QUALITY.md",
+    "result reports, exports and checkpoints"
+  ],
+  "exact_remaining_blockers": [
+    "Frozen V77 cannot pass registered valid-survival floors; all inspected cases are regression evidence",
+    "Final-attempt authorization permits no further paid qualification after failure",
+    "Complete next runtime contract would require an unused version and new freeze preserving all inherited mandatory checks, including valid stem-only arithmetic",
+    "Fresh independent native qualification still required for any corrected runtime release",
+    "No qualified original pilot; no defensible current cost for10000publishable questions",
+    "No current-profile live staging restart/idempotency/passage atomicity/retrieval/dispute evidence",
+    "Production deployment/publication/migration still need final explicit approval"
+  ],
+  "next_safe_step": "Read final root review/report checkpoint rather than repeat the full audit. Preserve the drain marker, receipts, frozen contracts and unfinished cases. Do not start or resume paid execution without changed human scope; do not mark the generator qualified or the goal complete."
+}

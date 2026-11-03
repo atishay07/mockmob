@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-08T14:19:17.022Z",
+  "project_ref": "onwkqxmjqjrhfbjjdydu",
+  "base": "http://localhost:3101",
+  "staging_legacy_bank_only": true,
+  "current_v7_release": false,
+  "newly_published": 0,
+  "exported_denominator": 662,
+  "provisional_passes": 536,
+  "quarantined": 126,
+  "withheld_with_group_closure": 127,
+  "withheld_in_student_feed": 0,
+  "remaining_legacy_expected": 535,
+  "remaining_legacy_retrieved": 535,
+  "student_feed_by_subject": {
+    "english": 156,
+    "accountancy": 105,
+    "business_studies": 162,
+    "economics": 112
+  },
+  "admin_status": 200,
+  "anonymous_status": 401,
+  "student_admin_status": 404,
+  "release_control_status": 409,
+  "release_control_reason": "current_cuet_calibration_required",
+  "failed_release_preserved_controls": true,
+  "student_ai_monthly_cap_usd": 25,
+  "paid_provider_calls": 0,
+  "emails_sent": 0,
+  "production_writes": 0
+}

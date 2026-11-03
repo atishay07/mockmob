@@ -1,0 +1,60 @@
+{
+  "beforeKey": {
+    "focused": "Practice",
+    "selected": "Practice"
+  },
+  "afterKey": {
+    "focused": "Practice",
+    "selected": "Practice",
+    "tabs": [
+      {
+        "controls": null,
+        "name": "Practice",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "Mistake Repair",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "Replay",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "Radar",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "PrepOS",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "DU Compass",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "Combo Planner",
+        "tabIndex": 0,
+        "w": 20
+      },
+      {
+        "controls": null,
+        "name": "Benchmarks",
+        "tabIndex": 0,
+        "w": 20
+      }
+    ]
+  }
+}

@@ -1,0 +1,1478 @@
+{
+  "at": "2026-10-08T09:27:44.238Z",
+  "role": "Independent source/calculation construction audit; this tool reads no official keys; earlier blinded-review and known discrepancy records remain separate",
+  "denominator": 16,
+  "option_claims": 64,
+  "construction_passes": 12,
+  "withheld": [
+    {
+      "id": "cbse26-ac-q08",
+      "reasons": [
+        "specific_investment_fluctuation_reserve_treatment_unsupported"
+      ]
+    },
+    {
+      "id": "cbse25-26-acc-q6",
+      "reasons": [
+        "abnormal_loss_normalisation_and_average_basis_unestablished"
+      ]
+    },
+    {
+      "id": "cbse25-26-acc-q8",
+      "reasons": [
+        "unresolved_source_key_or_fraction_wording_dispute"
+      ]
+    },
+    {
+      "id": "cbse25-26-acc-q16",
+      "reasons": [
+        "specific_workmen_compensation_reserve_claim_treatment_unsupported"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "item_id": "cbse26-ac-q03",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "f2aee7dc62fcdf7aca18cefd9d257bcfc31753aeff07b485674621a725a779e5",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Premium is credited to the securities-premium account. Unreceived premium is reversed on forfeiture. The forfeiture rule does not explain why premium is separately credited at issue.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 30,
+          "quote_start": 2055,
+          "quote_end": 2142,
+          "quote": "The premium amount is credited to a separate account called ‘Securities Premium Account",
+          "page_text_sha256": "0549968fac3681da5f88b7464cad99bd6e20c3a4ecde067d9467a2d87d36eb60",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 39,
+          "quote_start": 1313,
+          "quote_end": 1691,
+          "quote": "In case, however, if the premium amount has not been received, either wholly or partially, in respect of the shares forfeited, the Securities Premium Reserve Account will also be debited with the amount of premium not received along with the Share Capital Account at the time forfeiture. This will usually be the case when even the amount due on allotment has not been received.",
+          "page_text_sha256": "15d5b9477bcaff85233fb01edd712adc621adc50b955096ad2255405fff4e6c1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Both (A) and (R) are true and (R) is correct explanation to (A).",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The two statements are true, but the later forfeiture treatment does not explain the issue accounting.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Both (A) and (R) are true but (R) is not correct explanation of (A).",
+          "judgment": "supported_answer",
+          "reason": "Both statements are supported; their explanation relationship is false.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "(A) is false but (R) is correct.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The issue-premium statement is true.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "(A) is correct but (R) is false.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The source supports reversal of unreceived premium, so the reason is true.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q04",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "b07dbdced4a27169d926a5d32596faae62ea57e4fb80d6ecc22903771ef49483",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "derivation": "Allotment = 6000 × 50000/60000 = 5000 shares. Application paid = 6000 × 3 = 18000; required = 5000 × 3 = 15000; excess = 3000. Allotment cash due = 5000 × 4 − 3000 = 17000.",
+      "calculations": {
+        "allotted_shares": 5000,
+        "excess_application": 3000,
+        "allotment_receipt": 17000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 9,
+          "quote_start": 1755,
+          "quote_end": 1856,
+          "quote": "the excess application money must be adjusted towards the amount due on allotment from the allottees.",
+          "page_text_sha256": "fdfbde0aa5c3d77d587db63a2b2a1327239b6b0bd80be0b07ae0cb2a79b84264",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹20,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "20000 ignores adjustment of excess application money.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹24,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "24000 uses applied rather than allotted shares and ignores excess.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹21,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "21000 does not equal the amount due after the specified adjustment.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹17,000",
+          "judgment": "supported_answer",
+          "reason": "17000 is allotment due less the 3000 excess application money.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q08",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "11c84ad76334d2a77bdb5c185ddb08b9c67d5569960987621e5dfb65f24738c3",
+      "independently_derived_key": "D",
+      "unique_key_supported": false,
+      "derivation": "Taken-over and remaining investments total 110000 + 150000 = 260000, a loss of 40000 from 300000. This equals the stated reserve. The specific rule applying this reserve to reconstitution is not established by the cached general revaluation paragraph.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 30,
+          "quote_start": 1139,
+          "quote_end": 1208,
+          "quote": "In case the assets are overstated or understated, these are revalued.",
+          "page_text_sha256": "793c0a638f3f737566fc8050671418011b439de1a1c9df749b074c62acbddbef",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Credited ₹10,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "A 10000 credit is not supported by the general excerpt.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Debited ₹10,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "A 10000 debit is not supported by the general excerpt.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Credited ₹5,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "A 5000 credit is not supported by the general excerpt.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "No effect on revaluation A/c",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "No-effect is a provisional rule-based answer; the reserve-offset rule still needs authoritative support.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "specific_investment_fluctuation_reserve_treatment_unsupported"
+      ],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q10",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "b960da11c8eed8ea279711cc3936bbe25c8e2f9ac82427310cb3e737aedc0951",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "An understatement of 20% relative to correct value leaves the book amount at 80% of correct value. 1200000/0.8 = 1500000. The reconstituted statement uses correct revalued amounts.",
+      "calculations": {
+        "correct_value": 1500000,
+        "check_book_value": 1200000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 30,
+          "quote_start": 1139,
+          "quote_end": 1208,
+          "quote": "In case the assets are overstated or understated, these are revalued.",
+          "page_text_sha256": "793c0a638f3f737566fc8050671418011b439de1a1c9df749b074c62acbddbef",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 30,
+          "quote_start": 1209,
+          "quote_end": 1330,
+          "quote": "Similarly, a reassessment of the liabilities is also done so that these are brought in the books at their correct values.",
+          "page_text_sha256": "793c0a638f3f737566fc8050671418011b439de1a1c9df749b074c62acbddbef",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹14,00,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "1400000 does not leave 1200000 as 80% of correct value.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹15,00,000",
+          "judgment": "supported_answer",
+          "reason": "1500000 × 80% = 1200000.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹12,00,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Keeping 1200000 ignores the stated understatement.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹16,00,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "1600000 × 80% = 1280000, not the given book value.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": "Percentage denominator uses the ordinary meaning of an understatement relative to correct value. CUET-fit review must still examine the wording; no textbook convention about the percentage denominator is asserted.",
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q12",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "29fe7778bf35d94b8fadf7ac8bf0f66b644796ad1b4dfcb5c8c3df7487c849f5",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Agreed net assets = 1800000 − 250000 = 1550000. Consideration = 12000 × (100 × 1.25) + 100000 = 1600000. Excess consideration = 50000, debited to goodwill.",
+      "calculations": {
+        "net_assets": 1550000,
+        "consideration": 1600000,
+        "goodwill": 50000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac202.logical-pages-v5.json",
+          "cache_sha256": "37c3f086e840ad9a5e0e895ab1e5285c1e147d10bada764173bb8140abd8b64f",
+          "physical_pdf_page": 17,
+          "quote_start": 521,
+          "quote_end": 642,
+          "quote": "Since the purchase consideration is more than net assets taken over, the difference has been debited to goodwill account.",
+          "page_text_sha256": "9165f7cd2f0746356aa3df509e3e449452746ab3878f50611d90d6c67d8f248e",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac202.pdf",
+          "pdf_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Goodwill ₹50,000",
+          "judgment": "supported_answer",
+          "reason": "Excess consideration of 50000 is goodwill.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Capital Reserve ₹50,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Capital reserve would require net assets exceeding consideration; the sign is reversed.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Goodwill ₹1,50,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "150000 is not the calculated difference.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Capital Reserve ₹1,50,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both sign and amount fail the stated figures.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q14",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "dffcc5c4246cca363816a3ec547e2da34498ba3b3091b977a064159be585c5eb",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Both creditor book balances are transferred at dissolution: 40000 + 15000 = 55000. Settlement cash is 30000 + 15000 = 45000, a separate later entry.",
+      "calculations": {
+        "book_liabilities": 55000,
+        "settlement_cash": 45000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 5,
+          "quote_start": 1352,
+          "quote_end": 1494,
+          "quote": "all assets (other than cash in hand bank balance and fictitious assets, if any), and all external liabilities are transferred to this account.",
+          "page_text_sha256": "7ce698d735df238281f34b4655c8dfa86367fc0c76c01ca17a514787e979ad39",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹55,000",
+          "judgment": "supported_answer",
+          "reason": "55000 closes both creditor accounts at book amounts.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹45,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "45000 is settlement cash, not the transfer closing the creditor balances.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹70,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "70000 double-counts one balance.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹40,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "40000 omits the second creditor.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q15",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "739d7ca09ef14563a2fb8d98333a3b2abbda25fded63165b62fbb538d4249782",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Called and received face capital per share = 50 − 6 = 44. Subscribed but not fully paid-up capital = 1000 × 44 = 44000; premium is separate from face capital.",
+      "calculations": {
+        "face_capital_per_share": 44,
+        "subscribed_not_fully_paid": 44000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 4,
+          "quote_start": 1908,
+          "quote_end": 2357,
+          "quote": "Called up Capital: It is that part of the subscribed capital which has been called up on the shares, i.e., what the company has asked the shareholders to pay. The company may decide to call the entire amount or part of the face value of the shares, For example, if the face value (also called nominal value) of a share allotted is Rs. 10 and the company has called up only Rs. 7 per share, in that scenario, the called up capital is Rs. 7 per share.",
+          "page_text_sha256": "9fd6f3909ea0afc9c0b8d66a3c0b503715c7bbdc0e599c081a8c4ffe9f2ebd44",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 30,
+          "quote_start": 2055,
+          "quote_end": 2142,
+          "quote": "The premium amount is credited to a separate account called ‘Securities Premium Account",
+          "page_text_sha256": "0549968fac3681da5f88b7464cad99bd6e20c3a4ecde067d9467a2d87d36eb60",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹50,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "50000 includes received premium.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹44,000",
+          "judgment": "supported_answer",
+          "reason": "44000 includes called face capital only.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹56,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "56000 incorrectly adds premium to the money called.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Nil",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Nil ignores called face capital on shares that are not fully paid to face value.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse26-ac-q16",
+      "subject": "accountancy",
+      "candidate_file": "questions-blinded-v2.json",
+      "candidate_file_sha256": "337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f",
+      "question_view_sha256": "38d3559f4ee3da366d2a64ebf30bbed18fa8e5e59966c6c4236bc96b54aa1d91",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Book goodwill is an asset, employees’ provident fund an external liability, and the provision accompanies its related asset transfer. General reserve goes to partners’ capitals; debit bank balance is excluded from Realisation.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 5,
+          "quote_start": 1352,
+          "quote_end": 1494,
+          "quote": "all assets (other than cash in hand bank balance and fictitious assets, if any), and all external liabilities are transferred to this account.",
+          "page_text_sha256": "7ce698d735df238281f34b4655c8dfa86367fc0c76c01ca17a514787e979ad39",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 11,
+          "quote_start": 486,
+          "quote_end": 679,
+          "quote": "For transfer of accumulated pr ofits in the for m of general r eserve to partners’ capital accounts in their profit sharing ratio: General Reserve A/c Dr. To Partners’ Capital A/c (individually",
+          "page_text_sha256": "61f684697d5c1fe544e1998f87b6e902b169c59b32dd1905e4985a7ee620f1e6",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "D only",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "General reserve is excluded, but this omits the excluded debit bank balance.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "A, B and C",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "These book asset/liability/provision items are transferred, rather than the exclusions asked.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "D and E",
+          "judgment": "supported_answer",
+          "reason": "D and E are the reserve and bank exclusions.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "B, D and E",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Employees’ provident fund is an external liability, so adding B is incorrect.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "9d23ce698459a1ef52ec8c5f2a81ba2abf6153dced294bbab20c7f24d66bd337",
+      "independently_derived_key": "A",
+      "unique_key_supported": true,
+      "derivation": "Loss and drawings debit the fluctuating capital account. When total debits exceed credits, it has a debit balance; this explains the assertion.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 6,
+          "quote_start": 864,
+          "quote_end": 1208,
+          "quote": "Fluctuating Capital Method: Under the fluctuating capital method, only one account, i.e. capital account is maintained for each partner. All the adjustments such as share of profit and loss, interest on capital, drawings, interest on drawings, salary or commission to partners, etc are recorded directly in the capital accounts of the partners.",
+          "page_text_sha256": "983ebf9d6ddba6c2ed2a6d150ee4a1991bf2f6f5a8d1dbc55b37b77a1d3b39b1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 7,
+          "quote_start": 1547,
+          "quote_end": 1668,
+          "quote": "Credit balance The capital accounts The capital account always show a credit balance. may sometimes show a debit balance.",
+          "page_text_sha256": "6eb8258aa0f95b1e6736db681583fbff2af45070ac65a8d2ad93835539aff0e4",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Both A and R are correct, and R is the correct explanation of A.",
+          "judgment": "supported_answer",
+          "reason": "Both are true and the excess of debits explains the debit balance.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Both A and R are correct, but R is not the correct explanation of A.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The reason directly explains the assertion.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "A is correct, but R is incorrect.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The source and account arithmetic support the reason.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Both A and R are incorrect.",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "A debit balance is expressly permitted.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "1df7754e9362a24a2c456722ab578fcfc2322839fceda0daedc15a41dc5b1359",
+      "independently_derived_key": "D",
+      "unique_key_supported": true,
+      "derivation": "Nine months are covered. Guarantee = 60000 × 9/12 = 45000. C’s ordinary loss share = −125000 × 2/10 = −25000. Deficiency = 45000 − (−25000) = 70000; equal burden = 35000 each.",
+      "calculations": {
+        "covered_months": 9,
+        "guarantee": 45000,
+        "loss_share": -25000,
+        "deficiency": 70000,
+        "each": 35000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac101",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac101.logical-pages-v5.json",
+          "cache_sha256": "583e34088e481ee3575d424e5544ad6b20565f4933683b336ab43f75c9d15f30",
+          "physical_pdf_page": 26,
+          "quote_start": 1766,
+          "quote_end": 1921,
+          "quote": "The minimum guaranteed amount shall be paid to such new partner when his share of profit as per the profit sharing ratio is less than the guarnteed amount.",
+          "page_text_sha256": "2754b184f8dd289da5d067eb144f86aeff2b87aa3dc5659c7d2642faccab542f",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac101.pdf",
+          "pdf_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "A ₹30,000 and B ₹30,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "30000 each treats the guarantee as an unadjusted annual figure or ignores the loss share.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "A ₹43,750 and B ₹26,250",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "The partners agreed an equal burden, so an unequal split is wrong.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "A ₹42,500 and B ₹42,500",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "42500 each uses the full annual guarantee for a nine-month period.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "A ₹35,000 and B ₹35,000",
+          "judgment": "supported_answer",
+          "reason": "35000 each covers the prorated guarantee and C’s loss allocation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "94e1d4481d930ea0a094aa3355d4e16cf462809508e0a04d14b2e494238cad70",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Face capital received on application = 3 − 1 premium = 2 per share. Reissued shares are 4000, so related forfeiture credit = 4000 × 2 = 8000. Reissue at 11 fully paid to face 10 gives no reissue discount; the 1 premium is separate. Capital reserve is therefore 8000.",
+      "calculations": {
+        "face_paid_per_share": 2,
+        "reissued_forfeiture": 8000,
+        "reissue_discount": 0,
+        "capital_reserve": 8000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 37,
+          "quote_start": 1272,
+          "quote_end": 1424,
+          "quote": "cancel their allotment and treat the amount already received thereon as forfeited to the company within the framework of the provisions in its articles.",
+          "page_text_sha256": "b5d81d9c20ea3a04484cb16814f4bd6b64433bacde8e54519bc553dcc947232d",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 39,
+          "quote_start": 1102,
+          "quote_end": 1312,
+          "quote": "the securities premium account is not to be debited at the time of forfeiture if the premium has been received in respect of the forefeited shares and the amount of forfeiture shall be excluding premium amount.",
+          "page_text_sha256": "15d5b9477bcaff85233fb01edd712adc621adc50b955096ad2255405fff4e6c1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac201",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac201.logical-pages-v5.json",
+          "cache_sha256": "1976998796f638843333b14d3a699d69910388dca66cf243efd78d0db5f9cfa9",
+          "physical_pdf_page": 51,
+          "quote_start": 31,
+          "quote_end": 129,
+          "quote": "Amount of profit on reissued shares transferred to capital reserve = 4,500 (Rs. 10,500 – Rs. 6,000",
+          "page_text_sha256": "d03a7551e4969346aa3309d0607aed52becf7be213bd69c20ff4bd83369917b1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac201.pdf",
+          "pdf_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac201.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹16,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "16000 double-counts the relevant forfeited capital.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹12,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "12000 includes the amount related to unreissued shares.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹8,000",
+          "judgment": "supported_answer",
+          "reason": "8000 is the forfeiture surplus related to the 4000 shares reissued without discount.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹18,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "18000 wrongly includes amounts beyond the face capital paid on the relevant reissued shares.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q6",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "37407776028934fa08b9d7f2ab09b12a0dc22722c636cb5d8bec484b4a2c42cc",
+      "independently_derived_key": "B",
+      "unique_key_supported": false,
+      "derivation": "A provisional adjustment gives normal capital 2500000, normal profit 250000, adjusted profit 280000, super profit 30000 and goodwill 300000. The cached excerpts do not establish how the fire/insurance amounts were included in the stated average, or the precise abnormal-profit adjustment claimed.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 13,
+          "quote_start": 1284,
+          "quote_end": 1393,
+          "quote": "Firms capital includes partners capital and reserves and surplus but excludes fictitious assets and goodwill.",
+          "page_text_sha256": "f8808bc6b07cc6e6a81000b2e36557b9c90a656f58c3b916c606eb39753b1754",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 16,
+          "quote_start": 116,
+          "quote_end": 880,
+          "quote": "Capitalisation of Super Profits: Goodwill can also be ascertained by capitalising the super profit directly. Under this method there is no need to work out the capitalised value of average profits. It involves the following steps. (i) Calculate capital of the firm, which is equal to total assets (excluding goodwill and ficticious assets) minus outside liabilities . (ii) Calculate normal profits on capital employed. (iii) Calculate average profit for past years, as specified. (ii) Calculate super profits by deducting normal profits from average profits. (iii) Multiply the super profits by the required rate of return multiplier, that is, Goodwill = Super Profits × 100 Normal Rate of Return In other words, goodwill is the capitalised value of super profits.",
+          "page_text_sha256": "346d4487625ba37d162b0ffeb0161673d32d4eff93257e5bbca83616075e6f3a",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹10,00,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "1000000 does not follow from the provisional capitalisation calculation.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹3,00,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "300000 follows only from an unestablished direct 50000 adjustment to the given average.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹18,00,000",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "1800000 is partners’ capital, not this goodwill result.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Nil",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "Nil can arise if the given average is already the normalized amount; the construction must establish the averaging basis before assigning a clean oracle.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "abnormal_loss_normalisation_and_average_basis_unestablished"
+      ],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "c99bd7b2604463adceb42e44ddac22d7d7a37337fa1c92796373a168a2ac6038",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Literal current stem: B = 2/10; A acquires (1/20) × (2/10) = 1/100. New A = 7/10 + 1/100 = 71/100; C = 1/10 + 19/100 = 29/100. Ratio 71:29.",
+      "calculations": {
+        "A": 0.71,
+        "C": 0.29000000000000004
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac103.logical-pages-v5.json",
+          "cache_sha256": "4100a5033f658ee6672baccceec2237984b10eb5c3c45d4c5f269e8aab71045f",
+          "physical_pdf_page": 3,
+          "quote_start": 151,
+          "quote_end": 237,
+          "quote": "New share of Continuing Partner = Old Share + Acquired share from the Outgoing Partner",
+          "page_text_sha256": "095bc7149fb69016eb9a8d8a30eb9b63fdee96259fd22f9867d62d4e7babc6f2",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac103.pdf",
+          "pdf_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "4:1",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "4:1 is not the literal fraction calculation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "7:1",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "7:1 ignores most of the transferred outgoing share.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "71:29",
+          "judgment": "supported_answer",
+          "reason": "71:29 follows from 1/20 of B’s share as written.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "3:1",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "3:1 would follow if A acquired 1/20 of total firm profits, a different stem.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "unresolved_source_key_or_fraction_wording_dispute"
+      ],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "f7dfcb1429d53267a1d73cf6cbd16e23b2705df3e8081fd518b5ddfcfbd20477",
+      "independently_derived_key": "B",
+      "unique_key_supported": true,
+      "derivation": "Actual expenses paid by Y on the firm’s behalf debit Realisation by 20000. X’s agreed remuneration separately debits it by 15000. No agreement that X bears the expenses is stated. Total debit = 35000.",
+      "calculations": {
+        "realisation_debit": 35000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 10,
+          "quote_start": 1064,
+          "quote_end": 1179,
+          "quote": "When realisation expenses are paid by a partner on behalf of the firm: Realisation A/c Dr. To Partner’s Capital A/c",
+          "page_text_sha256": "a4696d9d2dab8f5d35d43d7887ff88f9093d90d4721005c46f375d1607da4337",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac104.logical-pages-v5.json",
+          "cache_sha256": "899c92c3233a7e0d0f96df80a44b0e36f97a97ee410d126d211d9fdd65ad3b9a",
+          "physical_pdf_page": 10,
+          "quote_start": 1579,
+          "quote_end": 1709,
+          "quote": "For agreed remuneration to such partner who agrees to undertake the dissolution work. Realisation A/c Dr. To Partner’s Capital A/c",
+          "page_text_sha256": "a4696d9d2dab8f5d35d43d7887ff88f9093d90d4721005c46f375d1607da4337",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac104.pdf",
+          "pdf_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹20,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "20000 omits X’s remuneration.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹35,000",
+          "judgment": "supported_answer",
+          "reason": "35000 includes both expenses and remuneration.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹5,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "5000 nets independent debit items instead of adding them.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹15,000",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "15000 omits firm-borne actual expenses; assigning expenses to X would require an agreement absent from the stem.",
+          "evidence_span_indexes": [
+            0,
+            1
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "3cbc4331ef8f663117c0c78bc45cb1ebbc8e47b011e87aa890f234f5ddeade06",
+      "independently_derived_key": "C",
+      "unique_key_supported": true,
+      "derivation": "Nominal debentures = 60000 × 100 = 6000000. Redemption premium = 6000000 × 10% = 600000. The 5% issue discount belongs to issue loss, not the redemption-premium liability. Redemption after five years is beyond twelve months in the first year.",
+      "calculations": {
+        "nominal": 6000000,
+        "redemption_premium": 600000,
+        "issue_discount": 300000
+      },
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac202.logical-pages-v5.json",
+          "cache_sha256": "37c3f086e840ad9a5e0e895ab1e5285c1e147d10bada764173bb8140abd8b64f",
+          "physical_pdf_page": 25,
+          "quote_start": 40,
+          "quote_end": 487,
+          "quote": "Issue at discount and redemption at premium Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) Debenture Application & Allotment A/c Dr. Loss on Issue of Debentures A/c Dr. (with discount on issue plus premium on redemption) To Debentures A/c (with nominal value of debenture) To Premium on Redemption (with premium on redemption) of Debentures A/c (Allotment of debentures at a discount and redeemable at premium",
+          "page_text_sha256": "d15ea5c36ebcf2b3d787e7efda6d734254950c7e5507f457d6d474fab82fcfc6",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac202.pdf",
+          "pdf_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac202",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac202.logical-pages-v5.json",
+          "cache_sha256": "37c3f086e840ad9a5e0e895ab1e5285c1e147d10bada764173bb8140abd8b64f",
+          "physical_pdf_page": 25,
+          "quote_start": 1393,
+          "quote_end": 1601,
+          "quote": "Premium on redemption is a liability of a company payable in future. It is a provision and is shown under the head Non-current liabilities under sub- head ‘Long-term Borrowings’ until debentures are redeemed.",
+          "page_text_sha256": "d15ea5c36ebcf2b3d787e7efda6d734254950c7e5507f457d6d474fab82fcfc6",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac202.pdf",
+          "pdf_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac203",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac203.logical-pages-v5.json",
+          "cache_sha256": "c5142c6de7259e6dfb3eb26521178a869bce36940709b6bc0b515877f10ad1c3",
+          "physical_pdf_page": 10,
+          "quote_start": 217,
+          "quote_end": 621,
+          "quote": "An item is classified as current:  if it is involved in entity’s operating cycle or,  is expected to be realised/settled within twelve months or,  if it is held primarily for trading or,  is cash and cash equivalent or,  if entity does not have on unconditional rights to defer settlement of liability for atleast 12 months after the reporting period,  Other assets and liabilities are non-current.",
+          "page_text_sha256": "4f8d923c282fc567c83e8b92060a35036b056d642c4e8248ca8d3244b4944e8f",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\c-source-overlay\\leac203.pdf",
+          "pdf_sha256": "c39c34b6445eef09159ccbf3a7b14163edb5b203c6b37411bbf92317304ac82c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac203.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "₹9,00,000; Non-Current Liabilities",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "900000 wrongly combines issue discount and redemption premium.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "B",
+          "text": "₹9,00,000; Current Liabilities",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "Both the amount and current classification fail.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "C",
+          "text": "₹6,00,000; Non-Current Liabilities",
+          "judgment": "supported_answer",
+          "reason": "600000 is the premium liability; five-year settlement makes it non-current in year one.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "label": "D",
+          "text": "₹6,00,000; Current Liabilities",
+          "judgment": "ruled_out_for_this_stem",
+          "reason": "600000 is the correct amount, but five-year settlement does not make it current in year one.",
+          "evidence_span_indexes": [
+            0,
+            1,
+            2
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "pass",
+      "construction_reasons": [],
+      "language_note": null,
+      "accountancy_branch": "financial_statement_analysis",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "subject": "accountancy",
+      "candidate_file": "2025-26-additional/questions-blinded-2025-26-v2.json",
+      "candidate_file_sha256": "b77e2090bcc1392bf5d5cab38ff355a6bedac1dda28075a9750482b7b8cf9e55",
+      "question_view_sha256": "6921433594a33c646f1a20391b00c0bf0bc64827034b14e12d775bdfa34f97f0",
+      "independently_derived_key": "A",
+      "unique_key_supported": false,
+      "derivation": "Claim and remaining reserve are 50000 and 30000. A general old-ratio distribution rule is available, but the specific claim-to-workmen-compensation-reserve treatment on reconstitution is not established by that excerpt.",
+      "calculations": null,
+      "decisive_support": [
+        {
+          "source_id": "ncert-leac102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac102.logical-pages-v5.json",
+          "cache_sha256": "8bdc7e566bd638908b9e1fd7ce83a5c1fb880d62e17a4248983f73c8051b2a86",
+          "physical_pdf_page": 29,
+          "quote_start": 1695,
+          "quote_end": 1896,
+          "quote": "The new partner is not entitled to have any share in such accumulated profits. These are distributed among the partners by transferring it to their capital current accounts in old profit sharing ratio.",
+          "page_text_sha256": "6168392115c8b72297b7e61004216e85038b1d3e483ae1ca540f110da8d73f45",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac102.pdf",
+          "pdf_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "option_claim_checks": [
+        {
+          "label": "A",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the old ratio.",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "This is the provisional treatment, but its specific claim-offset principle requires source support.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "B",
+          "text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the new ratio.",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "A new-ratio distribution contradicts the general accumulated-profit rule.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "C",
+          "text": "Provide ₹50,000 claim from the reserve and credit the remaining ₹30,000 to Revaluation Account.",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "No quoted rule supports crediting the remainder to Revaluation.",
+          "evidence_span_indexes": [
+            0
+          ]
+        },
+        {
+          "label": "D",
+          "text": "Provide ₹50,000 claim from the reserve and carry the remaining ₹30,000 forward without treatment.",
+          "judgment": "unsupported_or_uncertain",
+          "reason": "No quoted rule establishes leaving the excess reserve without adjustment.",
+          "evidence_span_indexes": [
+            0
+          ]
+        }
+      ],
+      "source_answerability_review_complete": true,
+      "construction_gate": "withheld",
+      "construction_reasons": [
+        "specific_workmen_compensation_reserve_claim_treatment_unsupported"
+      ],
+      "language_note": null,
+      "accountancy_branch": "common",
+      "official_key_comparison": "pending_post_blind_custody",
+      "CUET_fit_review": "not_evaluated",
+      "release_eligible": false
+    }
+  ],
+  "limitations": [
+    "The specific reserve treatments, unresolved source-key wording and unsupported normalization remain withheld.",
+    "A provisional key or arithmetic match does not establish an unsupported accounting rule.",
+    "No paid judge, publication, content repair or ledger mutation occurs."
+  ]
+}

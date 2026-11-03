@@ -1,0 +1,9 @@
+{
+  "reservation_id": "b43bc633-1b60-4d53-af06-cc300f7059e5",
+  "actual_usd": 0,
+  "provider_reference": "req_b37b0c8109c34cefb34d076f382353fc",
+  "basis": "OpenAI returned HTTP 429 insufficient_quota/credit_balance_exhausted before inference (no completion or usage object); the request was refused for lack of credits, so no tokens were processed or billed.",
+  "http_status": 429,
+  "code": "credit_balance_exhausted",
+  "confirmed_at": "2026-10-06T11:27:13.751Z"
+}

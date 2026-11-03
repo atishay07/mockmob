@@ -1,0 +1,3026 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "5114300ab4bc8333ce6507832947954c",
+      "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+      "key": "A",
+      "explanation": "The issue price exceeds the nominal value by ₹2,520 − ₹2,400 = ₹120. A debenture is issued at a premium when its price is more than its nominal value, so the premium is ₹120.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "5114300ab4bc8333ce6507832947954c",
+          "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5114300ab4bc8333ce6507832947954c",
+              "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "eb9334635aa8dc0bcaffcd39d5f855c3b8319a5092978b08a27f10fadfcaa05f",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "5114300ab4bc8333ce6507832947954c",
+              "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+              "evidence_hash": "e59d0164dd7bb88e89c50b37f4c2401c03a9186933bf51ca4a1623a168236992"
+            },
+            "source_support": {
+              "candidate_id": "5114300ab4bc8333ce6507832947954c",
+              "content_hash": "789b521e18af8bade49a6719d3749fa20b65d5f2c64e1d7eec38cfb2b8684d4b",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The issue price exceeds nominal value by ₹2,520 − ₹2,400 = ₹120. The supplied definition says a debenture issued above nominal value is issued at a premium, so A is correct."
+              ],
+              "syllabus_chapter": "Debentures",
+              "syllabus_topic": "Issue of debentures at par, premium and discount",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The debenture's nominal value is ₹2,400.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The issue price is ₹2,520.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "An issue price above nominal value is a premium; the premium is the excess over nominal value.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "The premium amount is ₹120, calculated as ₹2,520 minus ₹2,400.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "₹120 is the price difference, but calling it a discount reverses the comparison: the stated issue price exceeds nominal value.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Only by unusually using “premium” to mean the gross issue price of ₹2,520, rather than the excess over nominal value.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "The issue would be at par if the issue price equalled nominal value, but the stated figures differ by ₹120.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Issue at premium is explicitly named in the debentures syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A concise four-option conceptual MCQ, consistent with the authenticated accountancy examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct, easy concept application comparable to the supplied easy conceptual exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors reflect reversing premium/discount, confusing premium with total price, or overlooking the price difference."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac202",
+                  "locator": "span-2bf9ffb186bb",
+                  "quote": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+                  "start": 0,
+                  "end": 395
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 10,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 61,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 55,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 55,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 10,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Debentures"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Debentures"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-2bf9ffb186bb",
+                  "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+                },
+                {
+                  "id": "ncert-leac202",
+                  "version": 1,
+                  "locator": "span-b92b17a10903",
+                  "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "ccc14bb4a491c3c288e61c04da954410176a98fb51a3bf1fe236a17c6920b22b"
+            }
+          },
+          "failure_details": [
+            "The issue price exceeds nominal value by ₹2,520 − ₹2,400 = ₹120. The supplied definition says a debenture issued above nominal value is issued at a premium, so A is correct."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:58:48.594Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "5114300ab4bc8333ce6507832947954c"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "5114300ab4bc8333ce6507832947954c"
+        ],
+        "would_withhold_ids": [
+          "5114300ab4bc8333ce6507832947954c"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "9c305b5aa044a48c55786a3aef03d903",
+      "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+      "key": "C",
+      "explanation": "First, add the profits to get ₹1,44,000, then divide by 3 to obtain an average profit of ₹48,000. Multiplying ₹48,000 by 4 years' purchase gives goodwill of ₹1,92,000, so the correct sequence is (A)-(B)-(C)-(D).",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "9c305b5aa044a48c55786a3aef03d903",
+          "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9c305b5aa044a48c55786a3aef03d903",
+              "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "6b29e04f46127f4f0a010708e0c2ea520627c078333006e41796cac00e858ca0",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9c305b5aa044a48c55786a3aef03d903",
+              "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+              "evidence_hash": "e608cf1cca0a70fbb50751f9ba6b90836d1504fb8acfd4f34f6f1b9309b342e5"
+            },
+            "source_support": {
+              "candidate_id": "9c305b5aa044a48c55786a3aef03d903",
+              "content_hash": "fce41e2da375f471b12f2fbb9cd9241cedeeb189f9958da8b27cbfc0b319eae0",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "Add the profits: ₹36,000 + ₹48,000 + ₹60,000 = ₹1,44,000; divide by 3 to get average profit of ₹48,000; multiply by 4 years’ purchase to get goodwill of ₹1,92,000.",
+                "The supplied textbook excerpt states that under the Average Profits Method goodwill is calculated by multiplying past average profits by the agreed years’ purchase (E1.1). Thus the actions must be (A)-(B)-(C)-(D), option C."
+              ],
+              "syllabus_chapter": "Goodwill Valuation",
+              "syllabus_topic": "Goodwill valuation using the Average Profits Method",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The past-year profits are ₹36,000, ₹48,000 and ₹60,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Past average profit is to be taken as the arithmetic average.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The agreed years’ purchase is 4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "No adjustment to the figures is required.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Under the Average Profits Method, goodwill is past average profits multiplied by the agreed years’ purchase.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "The stated goodwill amount is supported by the inputs: average profit ₹48,000 multiplied by 4 equals ₹1,92,000.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the total were already available before the listed actions, division could occur first and the later addition could be treated as a repeat.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If the past average were independently known before its listed calculation, multiplication could precede the division step.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If the goodwill amount were independently known and recorded first, the multiplication could be shown later only as verification.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Average-profit valuation is a named method in the syllabus unit on goodwill valuation."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option sequence-ordering format matches the authenticated accountancy exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within the exemplar sequence-ordering range, but requires only a short calculation and straightforward ordering."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "The distractors reflect identifiable ordering errors: averaging before adding, multiplying before averaging, or recording before calculating."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-d26e7974c48b",
+                  "quote": "5.4.1 Average Profits Method Under this method, the goodwill is valued at agreed number of ‘years’ purchase of the average profits of the past few years. It is based on the assumption that a new business will not be able to earn any profits during the first few years of its operations. Hence, the person who purchases a running business must pay in the form of goodwill a sum which is equal to the profits he is likely to receive for the first few years. The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue. For example, if the past",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-d26e7974c48b",
+                  "quote": " average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs.",
+                  "start": 650,
+                  "end": 835
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 113,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 109,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 109,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Goodwill Valuation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-d26e7974c48b",
+                  "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-88acd5a861b0",
+                  "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "d1440201569ce834ccc0ca0abd3c19a1049cb6d18a6dd66c96f9fde414e6ae63"
+            }
+          },
+          "failure_details": [
+            "Add the profits: ₹36,000 + ₹48,000 + ₹60,000 = ₹1,44,000; divide by 3 to get average profit of ₹48,000; multiply by 4 years’ purchase to get goodwill of ₹1,92,000.",
+            "The supplied textbook excerpt states that under the Average Profits Method goodwill is calculated by multiplying past average profits by the agreed years’ purchase (E1.1). Thus the actions must be (A)-(B)-(C)-(D), option C."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:59:39.155Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "9c305b5aa044a48c55786a3aef03d903"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "9c305b5aa044a48c55786a3aef03d903"
+        ],
+        "would_withhold_ids": [
+          "9c305b5aa044a48c55786a3aef03d903"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "495c4536f5869a65e46ae8a6d92010c8",
+      "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+      "key": "B",
+      "explanation": "Asset increases, liability decreases and unrecorded assets are credited to the Revaluation Account; asset decreases, liability increases and unrecorded liabilities are debited. Credits total ₹34,000 and debits total ₹17,000, so the account shows a credit balance of ₹17,000. This gain is transferred to P and Q in their old ratio of 3:2, giving P ₹10,200 and Q ₹6,800.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "495c4536f5869a65e46ae8a6d92010c8",
+          "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "495c4536f5869a65e46ae8a6d92010c8",
+              "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "63edd4edba9d622f99f2aef3930bc17c3853d7a045e7ed7e200d9811dc2b4881",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "495c4536f5869a65e46ae8a6d92010c8",
+              "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+              "evidence_hash": "6d4ff18b8966e872264bee999dcc698f19ea76dd111f0bc838626ade81184c57"
+            },
+            "source_support": {
+              "candidate_id": "495c4536f5869a65e46ae8a6d92010c8",
+              "content_hash": "85eacb97cf4e8cb37a1fb55338809f44929811d7ee6191395b142d09a61dd7a4",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "The revaluation account is credited for asset increases, liability decreases and unrecorded assets; it is debited for asset decreases, liability increases and unrecorded liabilities.",
+                "Net gain = ₹20,000 − ₹8,000 + ₹2,000 − ₹5,000 + ₹12,000 − ₹4,000 = ₹17,000, so the account has a credit balance.",
+                "Transfer the credit balance to the old partners in their stated 3:2 ratio: P receives ₹10,200 and Q ₹6,800. This matches option B."
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Revaluation of assets and reassessment of liabilities; preparation and transfer of the Revaluation Account balance to old partners in their old profit-sharing ratio",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The specified asset increase, asset decrease, liability decrease, liability increase, unrecorded asset and unrecorded liability are respectively ₹20,000, ₹8,000, ₹2,000, ₹5,000, ₹12,000 and ₹4,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "These are the only revaluation items and no other adjustment affects the Revaluation Account.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "P and Q are the only old partners and share profits in the ratio 3:2.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Asset increases, liability decreases and unrecorded assets are credited to Revaluation Account; asset decreases, liability increases and unrecorded liabilities are debited.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2"
+                  ]
+                },
+                {
+                  "condition": "A credit balance is a net gain and is transferred to the old partners in their old profit-sharing ratio.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2",
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "The stated effects produce a net credit balance of ₹17,000.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the ₹4,000 unrecorded liability were excluded, the gain would be ₹21,000 and the 3:2 transfer would match this option.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If the debit-and-credit effects of every listed revaluation item were reversed, the net ₹17,000 would appear as a debit balance.",
+                  "correct_under_reading": true,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If the old partners shared equally and the net gain were ₹13,000, they would each receive a ₹6,500 credit.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Revaluation at admission and transfer of its balance to old partners are core Unit II content."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A four-option, single-answer accounting calculation in a standard objective format."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct application calculation within the range of the supplied admission and accounting-rule exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "Distractors reflect plausible sign, omission and profit-sharing-ratio errors."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q30",
+                  "cuet2024-accountancy-bookA-q31"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-2c978c97c40a",
+                  "quote": " asset and liability is transferred to this account and finally its balance is transferred to the capital accounts of the old partners in their old profit sharing ratio. In other words, the revaluation Reprint 2026-27\r\nPAGE 31\r\n78 Accountancy – Partnership Accounts account is credited with increase in the value of each asset and decrease in its liabilities because it is a gain and is debited with decrease in the value of assets and increase in its liabilities is debited to revaluation account because it is a loss. Similarly unrecorded assets are credited and unrecorded liabilities are debited to the revaluation account. If the revaluation",
+                  "start": 646,
+                  "end": 1292
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-2c978c97c40a",
+                  "quote": " account finally shows a credit balance then it indicates net gain and if there is a debit balance then it indicates net loss. Which will be transferred to the capital accounts of the old partners in old ratio. The journal entries recorded for revaluation of assets and reassessment of liabilities are as follows: (i) For increase in the value of an asset Asset A/c Dr. To Revaluation A/c (Gain) (ii) For reduction in the value of an asset Revaluation A/c Dr.",
+                  "start": 1292,
+                  "end": 1751
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 120,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 190,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 190
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-2c978c97c40a",
+                  "support_hash": "2c978c97c40aaa2f18ecb724d0ca175a1e9f501caac2b2eab4a80bf99534ab36"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-a50bfa9f5679",
+                  "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "900b2e879ce61058aff36b6121c038220a5a3af17a56b69e8fa468d7eb8add67"
+            }
+          },
+          "failure_details": [
+            "The revaluation account is credited for asset increases, liability decreases and unrecorded assets; it is debited for asset decreases, liability increases and unrecorded liabilities.",
+            "Net gain = ₹20,000 − ₹8,000 + ₹2,000 − ₹5,000 + ₹12,000 − ₹4,000 = ₹17,000, so the account has a credit balance.",
+            "Transfer the credit balance to the old partners in their stated 3:2 ratio: P receives ₹10,200 and Q ₹6,800. This matches option B."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:59:53.262Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "495c4536f5869a65e46ae8a6d92010c8"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "495c4536f5869a65e46ae8a6d92010c8"
+        ],
+        "would_withhold_ids": [
+          "495c4536f5869a65e46ae8a6d92010c8"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+      "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+      "key": "D",
+      "explanation": "B’s ratio-based share is ₹20,000 (₹50,000 × 2/5), so the deficiency is ₹2,000. Since A alone gave the guarantee, A alone bears the deficiency.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+          "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+              "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "181162f6530ef459510a963bb4871e87d3f04268c85adc2bac6333f2ce8bb79f",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+              "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+              "evidence_hash": "a402dcc6df854f6423d5d741c39baf5975b2a175db86af89ac80a23526eafa0c"
+            },
+            "source_support": {
+              "candidate_id": "94fdb333647dbf55a393f9d5a3dcfc4d",
+              "content_hash": "6a3a075e58cdb3f31d1ffdcbda70da304e51ba1066718428eb43927310815352",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E2.3"
+              ],
+              "reasons": [
+                "B's pre-guarantee share is ₹50,000 × 2/5 = ₹20,000, so the deficiency is ₹22,000 − ₹20,000 = ₹2,000.",
+                "The supplied NCERT excerpt states that when a partner alone gives the guarantee, that guarantor alone bears the deficiency; therefore A bears ₹2,000.",
+                "The deficiency is positive, and the stem supplies the profit, ratio, guaranteed amount and guarantor. No separate passage is needed."
+              ],
+              "syllabus_chapter": "Profit & Loss Appropriation Account",
+              "syllabus_topic": "Guarantee of minimum profit to a partner; calculation and allocation of the deficiency.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The total profit before the guarantee adjustment is ₹50,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The profit-sharing ratio is A:B = 3:2.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The pre-guarantee shares are calculated using that ratio.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "B's ratio-based pre-guarantee share is ₹20,000.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "B is guaranteed a minimum profit share of ₹22,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The resulting deficiency is ₹2,000.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A alone is the guarantor.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A sole guaranteeing partner alone bears the deficiency.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If B, rather than A, were designated guarantor, B would have to cover the ₹2,000 shortfall.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If A and B were jointly responsible and divided the ₹2,000 deficiency equally, each would bear ₹1,000.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If the deficiency were allocated in the 3:2 sharing ratio rather than solely to A, both would bear part of it.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Guarantee of profit is named in the supplied Unit I scope."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A direct, four-option objective MCQ in the style of the conceptual exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "A short application with arithmetic, somewhat beyond the supplied direct-recall exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "The alternatives test who bears the deficiency and whether it is shared."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q14",
+                  "cuet2024-accountancy-bookA-q45",
+                  "cuet2024-accountancy-bookA-q6"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac101",
+                  "locator": "pdf-page-36",
+                  "quote": "36 Accountancy – Partnership Accounts 6. Treatment of guarantee of minimum profit to a partner: Sometimes, a partner may be guaranteed a minimum amount by way of his share in profits. If, in any year, the shar e of pr ofits as calculated accor ding to his pr ofit sharing ratio is less than the guaranteed amount, the deficiency is made good by the guaranteeing partners’ in the agreed ratio which usually is the profit sharing ratio. If, however , such guarantee has been given by any of them, he or they alone shall bear the amount of deficiency. 7. Treatment of past adjustments: If, after the final accounts have been prepared, some omission or",
+                  "start": 0,
+                  "end": 648
+                },
+                {
+                  "source_id": "ncert-leac101",
+                  "locator": "quality-v4-2981d89b7e0e",
+                  "quote": " equally by all the partners. You know that in the case of sole partnership the profit or loss, as ascertained by the profit and loss account is transferred to the capital account of the proprietor. In case of partnership, however, certain adjustments such as interest on drawings, interest on capital, salary to partners, and commission to partners are required to be made.",
+                  "start": 1291,
+                  "end": 1665
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 87,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 82,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 82,
+                  "median_words": 32,
+                  "p95_words": 59,
+                  "observed_max_words": 59
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Partnership Fundamentals",
+                  "Profit & Loss Appropriation Account"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Profit & Loss Appropriation Account"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "pdf-page-36",
+                  "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+                },
+                {
+                  "id": "ncert-leac101",
+                  "version": 1,
+                  "locator": "quality-v4-2981d89b7e0e",
+                  "support_hash": "2981d89b7e0e47d9c2a641e6335da56c28fa8a168b85483f3ed6c3aa22cda32e"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "596de910497a059dfd184abf19d3b4e9f9d9d03ac3c305828bdc56cd422da3c2"
+            }
+          },
+          "failure_details": [
+            "B's pre-guarantee share is ₹50,000 × 2/5 = ₹20,000, so the deficiency is ₹22,000 − ₹20,000 = ₹2,000.",
+            "The supplied NCERT excerpt states that when a partner alone gives the guarantee, that guarantor alone bears the deficiency; therefore A bears ₹2,000.",
+            "The deficiency is positive, and the stem supplies the profit, ratio, guaranteed amount and guarantor. No separate passage is needed."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:11:47.255Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "94fdb333647dbf55a393f9d5a3dcfc4d"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "94fdb333647dbf55a393f9d5a3dcfc4d"
+        ],
+        "would_withhold_ids": [
+          "94fdb333647dbf55a393f9d5a3dcfc4d"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "9a3a683cde6b70963343775b8264da5a",
+      "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+      "key": "B",
+      "explanation": "The old shares are A = 7/16, B = 5/16 and C = 4/16. D’s remaining share taken from C is 3/10 − 1/10 − 1/12 = 7/60, so the new shares are A = 7/16 − 1/10 = 27/80, B = 5/16 − 1/12 = 11/48, C = 1/4 − 7/60 = 2/15, and D = 3/10. Expressed with denominator 240, these shares give the ratio 81:55:32:72.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "9a3a683cde6b70963343775b8264da5a",
+          "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9a3a683cde6b70963343775b8264da5a",
+              "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "d2244f56ca0cd5c366235264b9e395291ab90b8668ef9cfa3c64ec37e4d4b25f",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "9a3a683cde6b70963343775b8264da5a",
+              "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+              "evidence_hash": "0aad7040030f07461765a7535d7ea3b6d4b012b69186359928eef5e0fe7bb4fe"
+            },
+            "source_support": {
+              "candidate_id": "9a3a683cde6b70963343775b8264da5a",
+              "content_hash": "6cbd3059ad184faea06e3f4ecb3cd9e00edeb678421769e108ff43e4920852b1",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "The old shares are A = 7/16, B = 5/16 and C = 4/16 of profits.",
+                "C contributes the balance of D's share: 3/10 − 1/10 − 1/12 = 7/60.",
+                "The new shares are A = 7/16 − 1/10 = 27/80; B = 5/16 − 1/12 = 11/48; C = 1/4 − 7/60 = 2/15; D = 3/10.",
+                "Expressing these with denominator 240 gives 81:55:32:72, option B. The shares sum to one, and C's contribution does not exceed C's old share."
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Determining the new profit-sharing ratio when the incoming partner's share is acquired in specified amounts from the old partners",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The old partners' profit-sharing ratio is A:B:C = 7:5:4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "D receives 3/10 of total profits, acquired as 1/10 from A, 1/12 from B, and the balance from C.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "C's contribution is the balance, 7/60 of total profits.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "This proportion would require D's share to be 72/248, not the stated 3/10; the printed acquisition terms do not produce it.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "It preserves D's 3/10 share but requires old partners' remaining shares of 49/160, 35/160 and 28/160, contrary to the stated deductions.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "This ratio gives D only 3/11 of total profits, not the stated 3/10.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the core admission topic of calculating a new profit-sharing ratio."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option numerical MCQ closely matches the authenticated admission-ratio exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short ratio-and-fractions application within the range of the supplied CUET exemplar."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options require calculation; some distractors reflect possible errors in the residual shares."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q30"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-72d2f4711e2e",
+                  "quote": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in favour of the new partner. But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner. However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio. In any case, on admission of a new partner, the profit sharing",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-72d2f4711e2e",
+                  "quote": " ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner. Hence, there is a need to ascertain the new profit sharing ratio among all the partners. This depends upon how does the new partner acquires his share from the old partners for which there are many possibilities. Let us understand it with the help of the following illustrations.",
+                  "start": 649,
+                  "end": 1069
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 106,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 87,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 87
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-72d2f4711e2e",
+                  "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-3c34b723c489",
+                  "support_hash": "3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "75c70d0adc9b89ac9fb5c90f06e6975205ef32fa7c3c4d0b8187f6cc3c7805c3"
+            }
+          },
+          "failure_details": [
+            "The old shares are A = 7/16, B = 5/16 and C = 4/16 of profits.",
+            "C contributes the balance of D's share: 3/10 − 1/10 − 1/12 = 7/60.",
+            "The new shares are A = 7/16 − 1/10 = 27/80; B = 5/16 − 1/12 = 11/48; C = 1/4 − 7/60 = 2/15; D = 3/10.",
+            "Expressing these with denominator 240 gives 81:55:32:72, option B. The shares sum to one, and C's contribution does not exceed C's old share."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:12:12.062Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "9a3a683cde6b70963343775b8264da5a"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "9a3a683cde6b70963343775b8264da5a"
+        ],
+        "would_withhold_ids": [
+          "9a3a683cde6b70963343775b8264da5a"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "20e278c61e343db83349eded6916c255",
+      "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+      "key": "C",
+      "explanation": "The different values in (A) match the possibility that goodwill calculated by different methods may differ, while (B) concerns specifically deciding which method to use. Goodwill’s intangible nature makes accurate valuation difficult, and the three named approaches show that more than one method is available.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "20e278c61e343db83349eded6916c255",
+          "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "20e278c61e343db83349eded6916c255",
+              "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f68ec882752eddce3658157059a9200136d1f632d29df0cc2a2933210dfe785a",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "20e278c61e343db83349eded6916c255",
+              "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+              "evidence_hash": "c31c74225fa82016f3bf298decdd9ca31d6fbbec35cc2b1343f71102f5d21bf8"
+            },
+            "source_support": {
+              "candidate_id": "20e278c61e343db83349eded6916c255",
+              "content_hash": "aed614c010a53fdc08a67406642c30f560a3312ffc752ea104d778b6dcd76fc2",
+              "solved_key": "C",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The intended direct matches are (A)-(II), (B)-(I), (C)-(III), and (D)-(IV), so option C is the intended key. The two stated values differ by ₹30,000.",
+                "The supplied excerpt supports the principles that goodwill is difficult to value accurately, different methods may yield different goodwill values, and the method may be decided between existing and incoming partners.",
+                "However, option D also has a defensible complete matching: (A)-(IV), since the firm has used two methods, and (D)-(II), since the listed methods may yield different values. The item therefore does not establish a unique match.",
+                "Defect: multiple_correct_options: Option D is also defensible: A shows that more than one method is available, while D lists methods that may yield different goodwill values. The item does not state a rule requiring only the most direct association.",
+                "Defect: missing_decisive_assumption: option D is correct if Using two methods establishes that multiple methods are available; the listed methods may produce different values, supporting the crossed A-IV and D-II assignments.",
+                "Condition implied_decisive: The matching is intended to use only the most direct association for each case, rather than any inference supported by the case."
+              ],
+              "syllabus_chapter": "Goodwill Valuation",
+              "syllabus_topic": "Goodwill: nature and methods of valuation, including Average Profits, Super Profits and Capitalisation",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The firm obtains ₹2,40,000 and ₹2,70,000 using two different valuation methods.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The two stated amounts are unequal, supporting the inference that methods may produce different goodwill values.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The existing partners and incoming partner are considering how to settle which method will be used; the method may be specifically decided between them.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "Goodwill is an intangible asset; accurate calculation of its value is difficult.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "The firm is considering three named valuation methods, supporting that more than one method is available.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The matching is intended to use only the most direct association for each case, rather than any inference supported by the case.",
+                  "status": "implied_decisive",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "One might associate the observed method results with partner choice and the partners’ discussion with differing results, but neither swapped link follows from the stated cases.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "One might treat goodwill’s intangible nature as prompting a method choice and the partners’ discussion as reflecting valuation difficulty, but those links are unsupported.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Using two methods establishes that multiple methods are available; the listed methods may produce different values, supporting the crossed A-IV and D-II assignments.",
+                  "correct_under_reading": true,
+                  "reading_status": "standard_convention",
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "Option D is also defensible: A shows that more than one method is available, while D lists methods that may yield different goodwill values. The item does not state a rule requiring only the most direct association."
+                }
+              ],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Goodwill and its valuation methods are named core objectives in the relevant syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A four-option objective matching task is workable, though the supplied accountancy exemplars use statement-based and numerical formats."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "The conceptual matching demand is within the range of the authenticated statement-based examples."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "Some mismatches are readily rejected, but the competing complete match makes the item ambiguous."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q13",
+                  "cuet2024-accountancy-bookA-q10"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-ae361e8a3770",
+                  "quote": "2.5.4 Methods of Valuation of Goodwill Since goodwill is an intangible asset it is very difficult to accurately calculate its value. Various methods have been advocated for the valuation of goodwill of a partnership firm. Goodwill calculated by one method may differ from the goodwill Reprint 2026-27\r\nPAGE 10\r\nAdmission of a Partner 57 calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner. The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method",
+                  "start": 0,
+                  "end": 645
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 130,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 165,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 165
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [
+                "multiple_correct_options: Option D is also defensible: A shows that more than one method is available, while D lists methods that may yield different goodwill values. The item does not state a rule requiring only the most direct association.",
+                "missing_decisive_assumption: option D is correct if Using two methods establishes that multiple methods are available; the listed methods may produce different values, supporting the crossed A-IV and D-II assignments."
+              ],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Goodwill Valuation"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-ae361e8a3770",
+                  "support_hash": "ae361e8a3770854cf13482990d84db19cb70da87ef33edbef0f94efc3e385bf5"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-a50bfa9f5679",
+                  "support_hash": "a50bfa9f5679f4032cce3353246053f2376518361e11978f839a699967ff3111"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "b771ddcb7d51f6a5a31d431ac5992ac140661d9d7efe775a7f9304a3d51887ef"
+            }
+          },
+          "failure_details": [
+            "The intended direct matches are (A)-(II), (B)-(I), (C)-(III), and (D)-(IV), so option C is the intended key. The two stated values differ by ₹30,000.",
+            "The supplied excerpt supports the principles that goodwill is difficult to value accurately, different methods may yield different goodwill values, and the method may be decided between existing and incoming partners.",
+            "However, option D also has a defensible complete matching: (A)-(IV), since the firm has used two methods, and (D)-(II), since the listed methods may yield different values. The item therefore does not establish a unique match.",
+            "Defect: multiple_correct_options: Option D is also defensible: A shows that more than one method is available, while D lists methods that may yield different goodwill values. The item does not state a rule requiring only the most direct association.",
+            "Defect: missing_decisive_assumption: option D is correct if Using two methods establishes that multiple methods are available; the listed methods may produce different values, supporting the crossed A-IV and D-II assignments.",
+            "Condition implied_decisive: The matching is intended to use only the most direct association for each case, rather than any inference supported by the case."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:13:08.740Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "20e278c61e343db83349eded6916c255"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "20e278c61e343db83349eded6916c255"
+        ],
+        "would_withhold_ids": [
+          "20e278c61e343db83349eded6916c255"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "ca5dcf7b46049d36029298f5117cbdac",
+      "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+      "key": "D",
+      "explanation": "First use ₹2,40,000 as the annual base, then divide by 12 and multiply by 3 to estimate the firm’s profit for the intervening period: ₹60,000. Applying the deceased partner’s 1/4 share gives ₹15,000, so the steps are (D), (B), (C), (A).",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "ca5dcf7b46049d36029298f5117cbdac",
+          "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ca5dcf7b46049d36029298f5117cbdac",
+              "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "f4c244389a23e5cca47da0a7ef8ac0ce297260336873cf530960730784822c5b",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ca5dcf7b46049d36029298f5117cbdac",
+              "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+              "evidence_hash": "0493a13316a8b343ccc536445f3555d2cf157791185f369cbed17d29ca2f6c3e"
+            },
+            "source_support": {
+              "candidate_id": "ca5dcf7b46049d36029298f5117cbdac",
+              "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "The order is (D), (B), (C), (A): establish the annual base, find the monthly estimate, estimate the three-month profit, then apply the deceased partner’s share.",
+                "Calculation: ₹2,40,000 ÷ 12 × 3 × 1/4 = ₹15,000.",
+                "The supplied NCERT excerpt supports estimating the intervening-period profit using the preceding year’s profit and applying the deceased partner’s share.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Retirement & Death of Partner",
+              "syllabus_topic": "Estimation of a deceased partner’s share of profit for the intervening period",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The preceding year’s profit is ₹2,40,000 and is the annual profit base.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The intervening period is three months in a 12-month year.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The deceased partner’s share is 1/4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Estimate the period’s firm profit proportionately from the annual base, then apply the deceased partner’s share.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.2",
+                    "E2.3"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the three-month estimate could be completed before calculating the monthly estimate; the printed step C instead requires the estimate from B.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If the partner’s share were applied before estimating the firm’s three-month profit; step A requires that profit, which step C calculates.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If the monthly estimate could be found before establishing its annual base; step B expressly refers to the base established in D.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The step descriptions state their dependencies explicitly, so the sequence is readily inferred from the wording."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A standard application within retirement/death accounting: estimating the deceased partner’s intervening-period profit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option sequence-ordering MCQ, with more explicitly self-referential steps than the authenticated examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A straightforward sequence task within the demand of the authenticated accountancy ordering questions."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The step descriptions directly state the dependencies, allowing the order to be found with little accounting knowledge."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": " the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27\r\nPAGE 35\r\nRetirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year",
+                  "start": 647,
+                  "end": 1296
+                },
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": " ending on March 31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan decided to share profits equally. Champak’s share of profit for the period from April 1 to June 30, 2017, shall be calculated as follows: Total profit for the year ending on 31st March, 2017 = Rs.1,00,000 Champak’s share of profit : Proceeding Year’s Profit × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs.",
+                  "start": 1296,
+                  "end": 1725
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 108,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 151,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 151,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Retirement & Death of Partner",
+                  "Goodwill Valuation",
+                  "Change in Profit Sharing Ratio"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Retirement & Death of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-2aedd1bf7e9f",
+                  "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48"
+                },
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-ce862e7dfa8c",
+                  "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "2cd8b2fd9b75a0156cb3d7fa97db4f95cf92b7aa815c8dd03f30e36d8c553e5f"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "ca5dcf7b46049d36029298f5117cbdac",
+              "content_hash": "243cee1b4fee671e28ae63082a210a4b8b1bd9a29fcfc3f8cf871ab92460ec36",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2",
+                "E2.3"
+              ],
+              "reasons": [
+                "The order is (D), (B), (C), (A): establish the annual base, find the monthly estimate, estimate the three-month profit, then apply the deceased partner’s share.",
+                "Calculation: ₹2,40,000 ÷ 12 × 3 × 1/4 = ₹15,000.",
+                "The supplied NCERT excerpt supports estimating the intervening-period profit using the preceding year’s profit and applying the deceased partner’s share.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Retirement & Death of Partner",
+              "syllabus_topic": "Estimation of a deceased partner’s share of profit for the intervening period",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The preceding year’s profit is ₹2,40,000 and is the annual profit base.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The intervening period is three months in a 12-month year.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The deceased partner’s share is 1/4.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Estimate the period’s firm profit proportionately from the annual base, then apply the deceased partner’s share.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E2.2",
+                    "E2.3"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If the three-month estimate could be completed before calculating the monthly estimate; the printed step C instead requires the estimate from B.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "If the partner’s share were applied before estimating the firm’s three-month profit; step A requires that profit, which step C calculates.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If the monthly estimate could be found before establishing its annual base; step B expressly refers to the base established in D.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The step descriptions state their dependencies explicitly, so the sequence is readily inferred from the wording."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A standard application within retirement/death accounting: estimating the deceased partner’s intervening-period profit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option sequence-ordering MCQ, with more explicitly self-referential steps than the authenticated examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A straightforward sequence task within the demand of the authenticated accountancy ordering questions."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The step descriptions directly state the dependencies, allowing the order to be found with little accounting knowledge."
+                  }
+                },
+                "reasoning_steps": 3,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": " the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27\r\nPAGE 35\r\nRetirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year",
+                  "start": 647,
+                  "end": 1296
+                },
+                {
+                  "source_id": "ncert-leac103",
+                  "locator": "span-ce862e7dfa8c",
+                  "quote": " ending on March 31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan decided to share profits equally. Champak’s share of profit for the period from April 1 to June 30, 2017, shall be calculated as follows: Total profit for the year ending on 31st March, 2017 = Rs.1,00,000 Champak’s share of profit : Proceeding Year’s Profit × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs.",
+                  "start": 1296,
+                  "end": 1725
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 108,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 151,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 151,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 3,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Retirement & Death of Partner",
+                  "Goodwill Valuation",
+                  "Change in Profit Sharing Ratio"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Retirement & Death of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-2aedd1bf7e9f",
+                  "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48"
+                },
+                {
+                  "id": "ncert-leac103",
+                  "version": 1,
+                  "locator": "span-ce862e7dfa8c",
+                  "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "bfd831ec5b28fe7deeb5e51df1acbe6e8a607aa8206fcaeda2f0a12ce4121b2a"
+            }
+          },
+          "failure_details": [
+            "The order is (D), (B), (C), (A): establish the annual base, find the monthly estimate, estimate the three-month profit, then apply the deceased partner’s share.",
+            "Calculation: ₹2,40,000 ÷ 12 × 3 × 1/4 = ₹15,000.",
+            "The supplied NCERT excerpt supports estimating the intervening-period profit using the preceding year’s profit and applying the deceased partner’s share.",
+            "cuet_fit_score_6_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:12:56.281Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "ca5dcf7b46049d36029298f5117cbdac"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "ca5dcf7b46049d36029298f5117cbdac"
+        ],
+        "would_withhold_ids": [
+          "ca5dcf7b46049d36029298f5117cbdac"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "ff811eea3631a75486bfd7a8b58442be",
+      "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+      "key": "B",
+      "explanation": "For a common-size balance sheet, each asset item's percentage is calculated using the total assets for the same year as the base. Inventories are 20% of total assets in all four company-year cases; P's cash shares are 10% in both years, while Q's are 15% in Year 1 and 10% in Year 2. Thus, option B is correct.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "ff811eea3631a75486bfd7a8b58442be",
+          "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ff811eea3631a75486bfd7a8b58442be",
+              "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "ea3d7dfba0c84486fcc8ac2b8dc341ea98bd200b86e9cc893286bd23137ad321",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "ff811eea3631a75486bfd7a8b58442be",
+              "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+              "evidence_hash": "77bfbd55bdee385e15332d9eacaa164fcd030f9d0bc2056eec3c43eb1c15cf2f"
+            },
+            "source_support": {
+              "candidate_id": "ff811eea3631a75486bfd7a8b58442be",
+              "content_hash": "50f33df75f72277f42bd7e06a1f0edeae8cfe511d370080aa0ce416ac5565a55",
+              "solved_key": "B",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "For a common-size balance sheet, divide each asset by that same year's total assets (E1.2, E1.3). P: inventory is 1,60,000/8,00,000 = 20% and 2,00,000/10,00,000 = 20%; cash is 10% in both years.",
+                "Q: inventory is 4,00,000/20,00,000 = 20% and 5,00,000/25,00,000 = 20%; cash is 3,00,000/20,00,000 = 15% and 2,50,000/25,00,000 = 10%. Thus B is correct.",
+                "All same-year total-asset denominators are stated and nonzero. Revenue from operations is the base for common-size profit-and-loss items, not these balance-sheet assets.",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Comparative & Common Size Statements",
+              "syllabus_topic": "Common-size balance-sheet analysis: expressing asset items as percentages of total assets and comparing periods and companies.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Company P figures: Year 1 total assets ₹8,00,000, inventory ₹1,60,000, cash ₹80,000; Year 2 total assets ₹10,00,000, inventory ₹2,00,000, cash ₹1,00,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Company Q figures: Year 1 total assets ₹20,00,000, inventory ₹4,00,000, cash ₹3,00,000; Year 2 total assets ₹25,00,000, inventory ₹5,00,000, cash ₹2,50,000.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Use each company's total assets for the corresponding year as the denominator for its balance-sheet asset percentages.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2",
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "The resulting percentages are P inventory 20%, 20%; P cash 10%, 10%; Q inventory 20%, 20%; Q cash 15%, 10%, in Year 1 and Year 2 order.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "If Year 1 total assets were held as the denominator for both years, inventory would be 20% and then 25%; the stem instead specifies each year's total assets.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If Q's cash amounts were assigned to the opposite years, its share would rise from 10% to 15%; the printed assignments give the reverse.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "A candidate might extend the revenue base used for common-size profit-and-loss statements to balance-sheet assets, but the stem identifies these as balance-sheet items.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Common-size statements are explicitly named in the Analysis of Financial Statements syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option numerical application, with a somewhat longer data setup than the matched direct CUET examples."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Requires straightforward percentage calculations, within the common-size and one-step numerical demand shown by the exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors test denominator choice, the revenue-base misconception, and reversal of Q's cash-share trend."
+                  }
+                },
+                "reasoning_steps": 9,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q10",
+                  "cuet2024-accountancy-bookA-q11"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac204",
+                  "locator": "pdf-page-12",
+                  "quote": " the percentage of each asset to the total assets, and that of each liability to the total liabilities. Similarly, in the common size statement of profit and loss, the items of expenditure are shown as a percentage of the revenue from operations. If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time. Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements. Inter-firm comparison or comparison of the company’s position with the related industry as a whole is",
+                  "start": 647,
+                  "end": 1295
+                },
+                {
+                  "source_id": "ncert-leac204",
+                  "locator": "pdf-page-12",
+                  "quote": " possible with the help of common size statement analysis. The following procedure may be adopted for preparing the common size statements. 1. List out absolute figures in rupees at two points of time, say year 1, and year 2 (Column 2 & 4 of Exhibit 4.2). 2. Choose a common base (as 100). For example, revenue from operations may be taken as base (100) in case of statement of profit and loss and total assets or total liabilities (100) in case of balance sheet. 3. For all items of Col. 2 and 3 work out the percentage of that total. Column 4 and 5 shows these percentages in Exhibit 4.2. Common Size Statement Particulars Year Y ear Percentage",
+                  "start": 1295,
+                  "end": 1941
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 8,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 232,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 205,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 205
+                },
+                "reasoning_steps": 9,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": true,
+              "item_quality_score": 8,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Analysis of Financial Statements",
+                  "Comparative & Common Size Statements"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Comparative & Common Size Statements"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac204",
+                  "version": 1,
+                  "locator": "pdf-page-12",
+                  "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "f1369d937bda47908775339c989f335cfd967a35b9f1ddc2b5f38fc7d15b8c74"
+            }
+          },
+          "failure_details": [
+            "For a common-size balance sheet, divide each asset by that same year's total assets (E1.2, E1.3). P: inventory is 1,60,000/8,00,000 = 20% and 2,00,000/10,00,000 = 20%; cash is 10% in both years.",
+            "Q: inventory is 4,00,000/20,00,000 = 20% and 5,00,000/25,00,000 = 20%; cash is 3,00,000/20,00,000 = 15% and 2,50,000/25,00,000 = 10%. Thus B is correct.",
+            "All same-year total-asset denominators are stated and nonzero. Revenue from operations is the base for common-size profit-and-loss items, not these balance-sheet assets.",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:13:51.446Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "ff811eea3631a75486bfd7a8b58442be"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "ff811eea3631a75486bfd7a8b58442be"
+        ],
+        "would_withhold_ids": [
+          "ff811eea3631a75486bfd7a8b58442be"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "8ad2e554e891c8095bb7e5cabd4426b9",
+      "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+      "key": "D",
+      "explanation": "The accumulated profit is distributed among the old partners in their old profit-sharing ratio, and the new partner is not entitled to a share in it. P’s share is ₹1,20,000 × 3/5 = ₹72,000, and Q’s share is ₹1,20,000 × 2/5 = ₹48,000. The respective amounts are then transferred to P’s and Q’s capital/current accounts.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "8ad2e554e891c8095bb7e5cabd4426b9",
+          "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "8ad2e554e891c8095bb7e5cabd4426b9",
+              "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "02cf1a6f3c63377a1b74b34bc6ecb1e49e61804b734deaa1c80db9feaa5610c0",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "8ad2e554e891c8095bb7e5cabd4426b9",
+              "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+              "evidence_hash": "32bc84459bcb3fb341f9902d29ed8c76bdc58007c3d858f9b1b429319f966b67"
+            },
+            "source_support": {
+              "candidate_id": "8ad2e554e891c8095bb7e5cabd4426b9",
+              "content_hash": "b19cd3390112a6146908f09c1909170dbf84fc299e81a2c16527c6285c109047",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The accumulated profit is ₹1,20,000. Under the cited rule, it is distributed among the old partners in their old profit-sharing ratio and transferred to their capital/current accounts.",
+                "The ratio has 5 parts: P receives ₹1,20,000 × 3/5 = ₹72,000 and Q receives ₹1,20,000 × 2/5 = ₹48,000. Thus the steps are identify the profit, apply the old-partner ratio, calculate shares, then transfer them."
+              ],
+              "syllabus_chapter": "Admission of Partner",
+              "syllabus_topic": "Distribution of accumulated profits and reserves on admission of a partner",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The ₹1,20,000 General Reserve is accumulated profit not yet transferred to any partner's account.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "P and Q are the old partners, and their old profit-sharing ratio is 3:2.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "On admission, such accumulated profit is distributed only among the old partners in the old ratio and transferred to their capital/current accounts.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "The stated ratio and reserve amount yield shares of ₹72,000 for P and ₹48,000 for Q.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Since the amount and ratio are supplied, calculate the shares first, then formally state that distribution is limited to the old partners.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "The amount is printed in the stem, so one could calculate the shares before explicitly identifying the reserve as the profit to distribute.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat the transfer as based on an allocation determined elsewhere, with the calculation step listed afterward.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The share amounts are stated in step C, so the item chiefly tests the accounting sequence rather than independent calculation."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Distribution of accumulated profits is expressly included in the admission/reconstitution syllabus."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option sequence ordering matches the authenticated Accountancy sequence items."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application-and-ordering task within the range of the supplied sequence exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options test whether the candidate places the ratio application and calculation before transfer."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q18",
+                  "cuet2024-accountancy-bookA-q38",
+                  "cuet2024-accountancy-bookA-q40"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac102",
+                  "locator": "span-3c34b723c489",
+                  "quote": "2.6 Adjustment for Accumulated Profits and Losses Sometimes a firm may have accumulated profits not yet transferred to capital accounts of the partners. These are usually in the form of general reserve, reserve and/or Profit and Loss Account. The new partner is not entitled to have any share in such accumulated profits. These are distributed among the partners by transferring it to their capital current accounts in old profit sharing ratio. Similarly, if there are some accumulated losses in the form of a debit balance of profit and loss account and/or deferred revenue expenditure appearing in the balance sheet of the firm.",
+                  "start": 0,
+                  "end": 630
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 139,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 136,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 136,
+                  "median_words": 58,
+                  "p95_words": 74,
+                  "observed_max_words": 74
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Admission of Partner",
+                  "Change in Profit Sharing Ratio",
+                  "Goodwill Valuation"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Admission of Partner"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-3c34b723c489",
+                  "support_hash": "3c34b723c489c23ef715ef0cda6974b767313327b5e3f0611e10c686cd7a6320"
+                },
+                {
+                  "id": "ncert-leac102",
+                  "version": 1,
+                  "locator": "span-d26e7974c48b",
+                  "support_hash": "d26e7974c48b99527b34041aaa3741d540cfff32be2dc72e219168cc180bc9a0"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "0a15ac0dc224824360aa225332de00666534ace8714cff1b7a101575742d4d63"
+            }
+          },
+          "failure_details": [
+            "The accumulated profit is ₹1,20,000. Under the cited rule, it is distributed among the old partners in their old profit-sharing ratio and transferred to their capital/current accounts.",
+            "The ratio has 5 parts: P receives ₹1,20,000 × 3/5 = ₹72,000 and Q receives ₹1,20,000 × 2/5 = ₹48,000. Thus the steps are identify the profit, apply the old-partner ratio, calculate shares, then transfer them."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:28:54.428Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "8ad2e554e891c8095bb7e5cabd4426b9"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "8ad2e554e891c8095bb7e5cabd4426b9"
+        ],
+        "would_withhold_ids": [
+          "8ad2e554e891c8095bb7e5cabd4426b9"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "bb3b190778c93cefa0f07ea760f763ee",
+      "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+      "key": "A",
+      "explanation": "Aarav’s four requirements total ₹5 lakh + ₹3 lakh + ₹6 lakh + ₹4 lakh = ₹18 lakh, exactly equal to its operating cash. The stated principle treats cash from operations as an indicator of whether operations have generated sufficient cash to meet these kinds of requirements without external financing. The other companies’ requirements total ₹19 lakh, ₹21 lakh and ₹18 lakh respectively, each exceeding their operating cash.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "bb3b190778c93cefa0f07ea760f763ee",
+          "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "bb3b190778c93cefa0f07ea760f763ee",
+              "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "b60d334f1f13bf9df78b899cca4aec6cab19ef4b29f5cd2f8519bf5562b35c33",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "bb3b190778c93cefa0f07ea760f763ee",
+              "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+              "evidence_hash": "927dc5c1e483d99b2b1665103ca91e6ef8f85f135c508e1f8a576bf83a15e079"
+            },
+            "source_support": {
+              "candidate_id": "bb3b190778c93cefa0f07ea760f763ee",
+              "content_hash": "94778f6835062c0ff7a1d8f787cc04ad0d3abe6867da9bb915574173d3b6cc01",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "Total requirements are Aarav: 5+3+6+4=₹18 lakh; Bela: ₹19 lakh; Charu: ₹21 lakh; Dev: ₹18 lakh. Compared with operating cash of ₹18, ₹18, ₹20 and ₹17 lakh respectively, only Aarav can meet all requirements.",
+                "Aarav's total exactly equals its operating cash, which is sufficient to meet the requirements. The NCERT excerpt identifies operating cash as an indicator of sufficiency for maintaining operating capability, paying dividends, making investments and repaying loans without external finance (E1.3).",
+                "cuet_fit_time_suitability_below_2"
+              ],
+              "syllabus_chapter": "Cash Flow Statement",
+              "syllabus_topic": "Cash flow from operating activities and its sufficiency to meet operating-capability, dividend, investment and loan-repayment requirements",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The operating-cash amounts are Aarav ₹18 lakh, Bela ₹18 lakh, Charu ₹20 lakh and Dev ₹17 lakh.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The listed maintenance, dividend, new-investment and loan-repayment requirements are, respectively: Aarav ₹5, ₹3, ₹6 and ₹4 lakh; Bela ₹5, ₹4, ₹6 and ₹4 lakh; Charu ₹6, ₹4, ₹7 and ₹4 lakh; Dev ₹4, ₹3, ₹6 and ₹5 lakh.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Each listed requirement must be met during the period from operating cash alone; opening cash is nil, and no other relevant requirements or sources are available.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Apply the NCERT criterion that operating cash is assessed for sufficiency to maintain operating capability, pay dividends, make new investments and repay loans without recourse to external finance.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "The resulting totals are ₹18 lakh for Aarav, ₹19 lakh for Bela, ₹21 lakh for Charu and ₹18 lakh for Dev; only Aarav's total does not exceed its operating cash.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "If Bela's ₹5 lakh maintenance requirement were already included in operating cash, its other listed requirements total ₹14 lakh.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "If Charu's ₹6 lakh maintenance requirement were already included in operating cash, its other listed requirements total ₹15 lakh.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If Dev's ₹4 lakh maintenance requirement were already included in operating cash, its other listed requirements total ₹14 lakh.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The prose listing is data-dense, but the company figures and requirements remain readable."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Applies the stated cash-flow topic to assess operating-cash sufficiency."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option numerical case MCQ, with a short company-by-company data comparison."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within range, but requires more repeated arithmetic than the direct cash-flow items compared."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Near-threshold totals make accurate aggregation and comparison informative."
+                  }
+                },
+                "reasoning_steps": 5,
+                "estimated_difficulty": "medium",
+                "cognitive_level": "multi_step_reasoning",
+                "exemplar_ids_compared": [
+                  "cuet2024-accountancy-bookA-q11",
+                  "cuet2024-accountancy-bookA-q23",
+                  "cuet2024-accountancy-bookA-q32"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-leac206",
+                  "locator": "span-50f51c90ebe7",
+                  "quote": " 2026-27\r\nPAGE 4\r\n244 Accountancy : Company Accounts and Analysis of Financial Statements 6.5.1 Cash from Operating Activities Operating activities are the activities that constitute the primary or main activities of an enterprise. For example, for a company manufacturing garments, operating activities are procurement of raw material, incurrence of manufacturing expenses, sale of garments, etc. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. The amount of cash from operations’ indicates the internal solvency level of the company,",
+                  "start": 646,
+                  "end": 1294
+                },
+                {
+                  "source_id": "ncert-leac206",
+                  "locator": "span-50f51c90ebe7",
+                  "quote": " and is regarded as the key indicator of the extent to which the operations of the enterprise have generated sufficient cash flows to maintain the operating capability of the enterprise, paying dividends, making of new investments and repaying of loans without recourse to external source of financing. Cash flows from operating activities are primarily derived from the main activities of the enterprise.",
+                  "start": 1294,
+                  "end": 1699
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 3,
+                  "time_suitability": 1
+                },
+                "reasons": [
+                  "cuet_fit_time_suitability_below_2"
+                ],
+                "derived_solve_seconds": 154,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 186,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 186
+                },
+                "reasoning_steps": 5,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": true,
+              "item_quality_score": 7,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Cash Flow Statement"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Cash Flow Statement"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-leac206",
+                  "version": 1,
+                  "locator": "span-50f51c90ebe7",
+                  "support_hash": "50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081"
+                },
+                {
+                  "id": "ncert-leac206",
+                  "version": 1,
+                  "locator": "span-074c499a4fc2",
+                  "support_hash": "074c499a4fc266111d4158f905177e2b0ddaaeb4fd2e2a838afd1034167f4fd0"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "70d3d50d303f0cb49f64d73a9c47d680d94698b8f2bbf2531ad5f5be77a31d69"
+            }
+          },
+          "failure_details": [
+            "Total requirements are Aarav: 5+3+6+4=₹18 lakh; Bela: ₹19 lakh; Charu: ₹21 lakh; Dev: ₹18 lakh. Compared with operating cash of ₹18, ₹18, ₹20 and ₹17 lakh respectively, only Aarav can meet all requirements.",
+            "Aarav's total exactly equals its operating cash, which is sufficient to meet the requirements. The NCERT excerpt identifies operating cash as an indicator of sufficiency for maintaining operating capability, paying dividends, making investments and repaying loans without external finance (E1.3).",
+            "cuet_fit_time_suitability_below_2"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T23:30:34.342Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "bb3b190778c93cefa0f07ea760f763ee"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "bb3b190778c93cefa0f07ea760f763ee"
+        ],
+        "would_withhold_ids": [
+          "bb3b190778c93cefa0f07ea760f763ee"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

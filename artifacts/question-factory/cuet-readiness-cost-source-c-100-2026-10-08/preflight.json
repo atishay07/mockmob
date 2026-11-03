@@ -1,0 +1,886 @@
+{
+  "at": "2026-10-08T08:23:53.561Z",
+  "denominator": 100,
+  "author_format_contract": "registered-cuet-brief-format-c1",
+  "requested_formats": {
+    "english": {
+      "reading_comprehension": 5,
+      "sequence_ordering": 5,
+      "matching": 4,
+      "correct_word_usage": 4,
+      "synonym": 4,
+      "antonym": 3
+    },
+    "accountancy": {
+      "numerical_calculation": 6,
+      "conceptual_mcq": 5,
+      "statement_selection": 4,
+      "case_application": 4,
+      "matching": 3,
+      "sequence_ordering": 3
+    },
+    "business_studies": {
+      "conceptual_mcq": 13,
+      "matching": 3,
+      "sequence_ordering": 3,
+      "statement_selection": 3,
+      "case_application": 3
+    },
+    "economics": {
+      "conceptual_mcq": 10,
+      "case_application": 4,
+      "numerical_calculation": 3,
+      "matching": 3,
+      "statement_selection": 3,
+      "sequence_ordering": 2
+    }
+  },
+  "source_context_reports": [
+    {
+      "id": "ncert-leac204",
+      "state": "derived",
+      "parent_facts": 2,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac201",
+      "state": "derived",
+      "parent_facts": 22,
+      "teaching_spans": 27
+    },
+    {
+      "id": "ncert-leac205",
+      "state": "derived",
+      "parent_facts": 3,
+      "teaching_spans": 5
+    },
+    {
+      "id": "ncert-lebs102",
+      "state": "derived",
+      "parent_facts": 8,
+      "teaching_spans": 7
+    },
+    {
+      "id": "ncert-lebs104",
+      "state": "derived",
+      "parent_facts": 9,
+      "teaching_spans": 8
+    },
+    {
+      "id": "ncert-lebs105",
+      "state": "derived",
+      "parent_facts": 6,
+      "teaching_spans": 1
+    },
+    {
+      "id": "ncert-leec104",
+      "state": "derived",
+      "parent_facts": 19,
+      "teaching_spans": 25
+    },
+    {
+      "id": "ncert-leec102",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-leec103",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-keec101",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 6
+    },
+    {
+      "id": "ncert-lebs108",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac101",
+      "state": "derived",
+      "parent_facts": 18,
+      "teaching_spans": 24
+    },
+    {
+      "id": "ncert-lebs101",
+      "state": "derived",
+      "parent_facts": 11,
+      "teaching_spans": 14
+    },
+    {
+      "id": "ncert-lebs201",
+      "state": "derived",
+      "parent_facts": 5,
+      "teaching_spans": 5
+    },
+    {
+      "id": "ncert-leec105",
+      "state": "derived",
+      "parent_facts": 10,
+      "teaching_spans": 13
+    },
+    {
+      "id": "ncert-leec106",
+      "state": "derived",
+      "parent_facts": 12,
+      "teaching_spans": 15
+    },
+    {
+      "id": "ncert-leac104",
+      "state": "derived",
+      "parent_facts": 7,
+      "teaching_spans": 7
+    },
+    {
+      "id": "ncert-lebs202",
+      "state": "derived",
+      "parent_facts": 7,
+      "teaching_spans": 6
+    },
+    {
+      "id": "ncert-lebs103",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac102",
+      "state": "derived",
+      "parent_facts": 9,
+      "teaching_spans": 17
+    },
+    {
+      "id": "ncert-leac103",
+      "state": "derived",
+      "parent_facts": 2,
+      "teaching_spans": 4
+    },
+    {
+      "id": "ncert-leac202",
+      "state": "derived",
+      "parent_facts": 4,
+      "teaching_spans": 8
+    },
+    {
+      "id": "ncert-leac206",
+      "state": "derived",
+      "parent_facts": 10,
+      "teaching_spans": 17
+    },
+    {
+      "id": "ncert-lebs106",
+      "state": "derived",
+      "parent_facts": 52,
+      "teaching_spans": 50
+    },
+    {
+      "id": "ncert-lebs203",
+      "state": "derived",
+      "parent_facts": 25,
+      "teaching_spans": 25
+    },
+    {
+      "id": "ncert-leec201",
+      "state": "derived",
+      "parent_facts": 13,
+      "teaching_spans": 20
+    },
+    {
+      "id": "ncert-leec202",
+      "state": "derived",
+      "parent_facts": 51,
+      "teaching_spans": 71
+    },
+    {
+      "id": "ncert-leec203",
+      "state": "derived",
+      "parent_facts": 30,
+      "teaching_spans": 47
+    },
+    {
+      "id": "ncert-leec204",
+      "state": "derived",
+      "parent_facts": 32,
+      "teaching_spans": 58
+    },
+    {
+      "id": "ncert-leec205",
+      "state": "derived",
+      "parent_facts": 33,
+      "teaching_spans": 41
+    },
+    {
+      "id": "ncert-keec102",
+      "state": "derived",
+      "parent_facts": 33,
+      "teaching_spans": 38
+    },
+    {
+      "id": "ncert-keec103",
+      "state": "derived",
+      "parent_facts": 34,
+      "teaching_spans": 39
+    },
+    {
+      "id": "ncert-keec104",
+      "state": "derived",
+      "parent_facts": 26,
+      "teaching_spans": 41
+    },
+    {
+      "id": "ncert-keec105",
+      "state": "derived",
+      "parent_facts": 29,
+      "teaching_spans": 37
+    },
+    {
+      "id": "ncert-keec106",
+      "state": "derived",
+      "parent_facts": 35,
+      "teaching_spans": 47
+    },
+    {
+      "id": "ncert-keec107",
+      "state": "derived",
+      "parent_facts": 28,
+      "teaching_spans": 36
+    },
+    {
+      "id": "ncert-keec108",
+      "state": "derived",
+      "parent_facts": 28,
+      "teaching_spans": 35
+    },
+    {
+      "id": "ncert-leec105-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    },
+    {
+      "id": "ncert-lebs104-focused-v1",
+      "state": "context_unresolved",
+      "reason": "context_pages_not_registered_extraction"
+    },
+    {
+      "id": "ncert-lebs107",
+      "state": "derived",
+      "parent_facts": 6,
+      "teaching_spans": 7
+    }
+  ],
+  "prior_attempts_for_novelty": 200,
+  "planning_context_hash": "384b37f66293081099d6c6ed0eab5ccc55876bb079257a3f3e35cd7686dad46b",
+  "prior_attempts_added_to_usable_coverage": 0,
+  "input_captures": [
+    {
+      "id": "c284cb76871a532af1edb5400c3e1284",
+      "provider": "openai",
+      "bytes": 11402,
+      "has_support": true
+    },
+    {
+      "id": "673670376e118ecd20f9fa94e4610942",
+      "provider": "openai",
+      "bytes": 12187,
+      "has_support": true
+    },
+    {
+      "id": "6d238336f5b95a599abdf5856e12dbcf",
+      "provider": "openai",
+      "bytes": 16174,
+      "has_support": true
+    },
+    {
+      "id": "6297596c4867aac8bc1f023853bdd0e2",
+      "provider": "openai",
+      "bytes": 17525,
+      "has_support": true
+    },
+    {
+      "id": "e5ea85f712a867243a65f6d52495e6b6",
+      "provider": "openai",
+      "bytes": 15248,
+      "has_support": true
+    },
+    {
+      "id": "bb969c8f9b8fd93b52f3ef2eb0445648",
+      "provider": "openai",
+      "bytes": 11268,
+      "has_support": true
+    },
+    {
+      "id": "753ac5529ef8e5d705f43ec967532864",
+      "provider": "openai",
+      "bytes": 23632,
+      "has_support": true
+    },
+    {
+      "id": "3713fe4678e91c80ed427abb0002ec3c",
+      "provider": "openai",
+      "bytes": 17951,
+      "has_support": true
+    },
+    {
+      "id": "f1d2a614a08057702839bbab5cf72b1b",
+      "provider": "openai",
+      "bytes": 18612,
+      "has_support": true
+    },
+    {
+      "id": "e47679b2c01f3777ef9b29d7b124f52c",
+      "provider": "openai",
+      "bytes": 11932,
+      "has_support": true
+    },
+    {
+      "id": "21becfa473f5c0f8b609fe3769c2becc",
+      "provider": "openai",
+      "bytes": 16183,
+      "has_support": true
+    },
+    {
+      "id": "2f4ff5f5e4fc5d08cf9b1cf354368855",
+      "provider": "openai",
+      "bytes": 15917,
+      "has_support": true
+    },
+    {
+      "id": "0724c89a93b87738d4a740378558c63a",
+      "provider": "openai",
+      "bytes": 11795,
+      "has_support": true
+    },
+    {
+      "id": "3d03c6c2f27252843210c48b1c18d6fa",
+      "provider": "openai",
+      "bytes": 18908,
+      "has_support": true
+    },
+    {
+      "id": "7680b935546c23ddbcbb65e0f2b5eebc",
+      "provider": "openai",
+      "bytes": 16189,
+      "has_support": true
+    },
+    {
+      "id": "2f979f85c3e00a97b2dd686107ddae82",
+      "provider": "openai",
+      "bytes": 16266,
+      "has_support": true
+    },
+    {
+      "id": "7402449bd8394bbc450cbdba490072e3",
+      "provider": "openai",
+      "bytes": 12573,
+      "has_support": true
+    },
+    {
+      "id": "e2c78259a883aa4afa6d511e4a6ccf9e",
+      "provider": "openai",
+      "bytes": 16020,
+      "has_support": true
+    },
+    {
+      "id": "2df859ebdf1328f84c3657096b7a31d8",
+      "provider": "openai",
+      "bytes": 24154,
+      "has_support": true
+    },
+    {
+      "id": "b0c277a166cbad51b9d3842f4e3d5d89",
+      "provider": "openai",
+      "bytes": 15292,
+      "has_support": true
+    },
+    {
+      "id": "661c589656f0e40818caaa20e7d5d52c",
+      "provider": "openai",
+      "bytes": 12369,
+      "has_support": true
+    },
+    {
+      "id": "5dc30fde16aecebc786a6ee49a10a8ea",
+      "provider": "openai",
+      "bytes": 11738,
+      "has_support": true
+    },
+    {
+      "id": "fcf3f50888628dce3f5e9d71f520c161",
+      "provider": "openai",
+      "bytes": 16174,
+      "has_support": true
+    },
+    {
+      "id": "e836aa57a746f759cbe351e68e79712a",
+      "provider": "openai",
+      "bytes": 15190,
+      "has_support": true
+    },
+    {
+      "id": "a56ed0d2f5b0218a08612316bd5e8c05",
+      "provider": "openai",
+      "bytes": 11404,
+      "has_support": true
+    },
+    {
+      "id": "2117989cf445c517c742aa3cd1dacee6",
+      "provider": "openai",
+      "bytes": 18912,
+      "has_support": true
+    },
+    {
+      "id": "240477d6c49b3152dc1810c15ee6a5e6",
+      "provider": "openai",
+      "bytes": 21328,
+      "has_support": true
+    },
+    {
+      "id": "c52b526a0a28826821b511c3046cc4ac",
+      "provider": "openai",
+      "bytes": 22947,
+      "has_support": true
+    },
+    {
+      "id": "044040f06a4e27456813256be4c30ea5",
+      "provider": "openai",
+      "bytes": 15242,
+      "has_support": true
+    },
+    {
+      "id": "d692324cfb5b663b6c2969b0f46e74f6",
+      "provider": "openai",
+      "bytes": 16485,
+      "has_support": true
+    },
+    {
+      "id": "b65e80d9e8220c9ea15c85ba3575eebc",
+      "provider": "openai",
+      "bytes": 19818,
+      "has_support": true
+    },
+    {
+      "id": "ffa38e0313b19f165e377307e56d7d18",
+      "provider": "openai",
+      "bytes": 16908,
+      "has_support": true
+    },
+    {
+      "id": "bc5418931ff6d8d196146b349ab1ced9",
+      "provider": "openai",
+      "bytes": 18576,
+      "has_support": true
+    },
+    {
+      "id": "4f12fcfa9df6a225b8bc7cadb2773a7e",
+      "provider": "openai",
+      "bytes": 10970,
+      "has_support": true
+    },
+    {
+      "id": "cb555e1a09f8dfa8e77424cd9320c939",
+      "provider": "openai",
+      "bytes": 20381,
+      "has_support": true
+    },
+    {
+      "id": "6254241e62a3c7e2adbafbab3a7e06ee",
+      "provider": "openai",
+      "bytes": 18425,
+      "has_support": true
+    },
+    {
+      "id": "f82a073fce9079bf802beb18d764c1d4",
+      "provider": "openai",
+      "bytes": 11831,
+      "has_support": true
+    },
+    {
+      "id": "c47897208469cf17d7835f6fbe8c8993",
+      "provider": "openai",
+      "bytes": 18908,
+      "has_support": true
+    },
+    {
+      "id": "7bab87e33ddd1abc7652b9d1dbbb41c8",
+      "provider": "openai",
+      "bytes": 23270,
+      "has_support": true
+    },
+    {
+      "id": "5a12dbb76f08ede4c2f9fdb673e481c4",
+      "provider": "openai",
+      "bytes": 15273,
+      "has_support": true
+    },
+    {
+      "id": "383e6f7a480d4ce69cf9f1b4c2b1d32b",
+      "provider": "openai",
+      "bytes": 12531,
+      "has_support": true
+    },
+    {
+      "id": "5be248abc40866ea3f97fca3daf3bf44",
+      "provider": "openai",
+      "bytes": 17510,
+      "has_support": true
+    },
+    {
+      "id": "d8694d5d9c5c60d61ddd4c24d57fac2e",
+      "provider": "openai",
+      "bytes": 23840,
+      "has_support": true
+    },
+    {
+      "id": "a01aa861dc2def11b54783037d9adf5d",
+      "provider": "openai",
+      "bytes": 16275,
+      "has_support": true
+    },
+    {
+      "id": "5323a0d7e6b59b38655045917b9424a7",
+      "provider": "openai",
+      "bytes": 12549,
+      "has_support": true
+    },
+    {
+      "id": "acb298a348a350f621a7aa3e589a9f18",
+      "provider": "openai",
+      "bytes": 16464,
+      "has_support": true
+    },
+    {
+      "id": "500db8c42a74d5830a8a21d530789be8",
+      "provider": "openai",
+      "bytes": 18229,
+      "has_support": true
+    },
+    {
+      "id": "2a3f3be9003f1cdf348a982290534b0d",
+      "provider": "openai",
+      "bytes": 18055,
+      "has_support": true
+    },
+    {
+      "id": "c6d94c33219a3c56febfd4a8db71bbb0",
+      "provider": "openai",
+      "bytes": 11956,
+      "has_support": true
+    },
+    {
+      "id": "09530db1cc2fb7ff66150ab530a2a2c2",
+      "provider": "openai",
+      "bytes": 11240,
+      "has_support": true
+    },
+    {
+      "id": "456ca43ba63ddbe404fbc4686530fa4e",
+      "provider": "openai",
+      "bytes": 19768,
+      "has_support": true
+    },
+    {
+      "id": "f554693e981b74b7fa098c3ecbf436a2",
+      "provider": "openai",
+      "bytes": 16226,
+      "has_support": true
+    },
+    {
+      "id": "0fc6254f35c4cdd497364d8c821b42fc",
+      "provider": "openai",
+      "bytes": 15192,
+      "has_support": true
+    },
+    {
+      "id": "540027de39314952097e8243acb9a43f",
+      "provider": "openai",
+      "bytes": 17350,
+      "has_support": true
+    },
+    {
+      "id": "60c1c695bae2e9cafa51f41e352f1c39",
+      "provider": "openai",
+      "bytes": 23842,
+      "has_support": true
+    },
+    {
+      "id": "f6777d05e691a4058f852446d543e626",
+      "provider": "openai",
+      "bytes": 20286,
+      "has_support": true
+    },
+    {
+      "id": "3a3abedc793274eeacc53af31680d080",
+      "provider": "openai",
+      "bytes": 18508,
+      "has_support": true
+    },
+    {
+      "id": "b51c635c2b78826cdc6ed203a4e467cd",
+      "provider": "openai",
+      "bytes": 15252,
+      "has_support": true
+    },
+    {
+      "id": "bbc1445df90a32a6ea3e83ea44e7ae1a",
+      "provider": "openai",
+      "bytes": 16182,
+      "has_support": true
+    },
+    {
+      "id": "3660e2d5fdaea969a45d7741c9076315",
+      "provider": "openai",
+      "bytes": 22902,
+      "has_support": true
+    },
+    {
+      "id": "49d76894e47d927073232e9f069bb331",
+      "provider": "openai",
+      "bytes": 11657,
+      "has_support": true
+    },
+    {
+      "id": "c2ba40c2eb125e2dcddd7299f962f4b5",
+      "provider": "openai",
+      "bytes": 16491,
+      "has_support": true
+    },
+    {
+      "id": "6953fac69d7636581c0c9e0200055dde",
+      "provider": "openai",
+      "bytes": 23866,
+      "has_support": true
+    },
+    {
+      "id": "1e6703ddd038ad1494c6db496603ebd5",
+      "provider": "openai",
+      "bytes": 18510,
+      "has_support": true
+    },
+    {
+      "id": "d5e2d4f590c8cd7f835db9a7ac5e9ffc",
+      "provider": "openai",
+      "bytes": 12612,
+      "has_support": true
+    },
+    {
+      "id": "8193cb61bca51f4634238507e71a28af",
+      "provider": "openai",
+      "bytes": 10939,
+      "has_support": true
+    },
+    {
+      "id": "f090a5923f10f25e3a692d48ea4db0a3",
+      "provider": "openai",
+      "bytes": 23690,
+      "has_support": true
+    },
+    {
+      "id": "31f50e5123b09da55650472d1a55d36c",
+      "provider": "openai",
+      "bytes": 18360,
+      "has_support": true
+    },
+    {
+      "id": "7bb8dc018212bd5a377b4120d8b0dd3b",
+      "provider": "openai",
+      "bytes": 12606,
+      "has_support": true
+    },
+    {
+      "id": "702188afac52e5bffde6eb28f9828e73",
+      "provider": "openai",
+      "bytes": 16071,
+      "has_support": true
+    },
+    {
+      "id": "f553c23a3b43bcc22adbdc43958c004a",
+      "provider": "openai",
+      "bytes": 16087,
+      "has_support": true
+    },
+    {
+      "id": "fb6c50620b317913d7d90382258f58c1",
+      "provider": "openai",
+      "bytes": 16072,
+      "has_support": true
+    },
+    {
+      "id": "41f6b92473273d735f965b911b837acc",
+      "provider": "openai",
+      "bytes": 11404,
+      "has_support": true
+    },
+    {
+      "id": "41bdeb67f4f7ef1bed646c7637804117",
+      "provider": "openai",
+      "bytes": 18312,
+      "has_support": true
+    },
+    {
+      "id": "cb1799ebabf1e04b34ff580be2f617f6",
+      "provider": "openai",
+      "bytes": 21889,
+      "has_support": true
+    },
+    {
+      "id": "4fa359fa0c1e620f776f122f32c8b2be",
+      "provider": "openai",
+      "bytes": 13752,
+      "has_support": true
+    },
+    {
+      "id": "415691cf8a686bf4bb629eef885cb0d3",
+      "provider": "openai",
+      "bytes": 15194,
+      "has_support": true
+    },
+    {
+      "id": "2c09c6caa7f4aa229ec12240b307e8d3",
+      "provider": "openai",
+      "bytes": 16455,
+      "has_support": true
+    },
+    {
+      "id": "3162e2e03893d82440b6e1aea9a57430",
+      "provider": "openai",
+      "bytes": 16176,
+      "has_support": true
+    },
+    {
+      "id": "37bb24b9f5816045a19e54fa42845c9f",
+      "provider": "openai",
+      "bytes": 20205,
+      "has_support": true
+    },
+    {
+      "id": "4aeb5b023eb7a04f2848b10b55e2ba29",
+      "provider": "openai",
+      "bytes": 18576,
+      "has_support": true
+    },
+    {
+      "id": "71b8aa363014b705087316598583cda6",
+      "provider": "openai",
+      "bytes": 16914,
+      "has_support": true
+    },
+    {
+      "id": "0c83262e5252928c1e7e23ca3ae0c77d",
+      "provider": "openai",
+      "bytes": 24478,
+      "has_support": true
+    },
+    {
+      "id": "3f941304b1d22ed0e3c1ea77404b96b5",
+      "provider": "openai",
+      "bytes": 21819,
+      "has_support": true
+    },
+    {
+      "id": "2c0eba3f5f0456cb4a422b9b05f805c3",
+      "provider": "openai",
+      "bytes": 11797,
+      "has_support": true
+    },
+    {
+      "id": "1e8d77c5ca2b35b652cf04eff792992e",
+      "provider": "openai",
+      "bytes": 16642,
+      "has_support": true
+    },
+    {
+      "id": "e7e3b87d9ffe93fe8be56bf5f775a4a0",
+      "provider": "openai",
+      "bytes": 23840,
+      "has_support": true
+    },
+    {
+      "id": "cddd6cf8ab15ecc4736b99310a334586",
+      "provider": "openai",
+      "bytes": 18379,
+      "has_support": true
+    },
+    {
+      "id": "87f042d144668382b5ab6a2f68520d49",
+      "provider": "openai",
+      "bytes": 12524,
+      "has_support": true
+    },
+    {
+      "id": "682026f86eb3bfec565eb421ca0d80b6",
+      "provider": "openai",
+      "bytes": 16999,
+      "has_support": true
+    },
+    {
+      "id": "2eb296f0307b1a64fdf75e39ff1836ae",
+      "provider": "openai",
+      "bytes": 21214,
+      "has_support": true
+    },
+    {
+      "id": "3edd1af5e3eb6c4d844e51c09c59d1e9",
+      "provider": "openai",
+      "bytes": 20580,
+      "has_support": true
+    },
+    {
+      "id": "44d7887c3549fbfbfc6737274fb5bbf2",
+      "provider": "openai",
+      "bytes": 11956,
+      "has_support": true
+    },
+    {
+      "id": "3a2e125ee84625f5c7108c8b8bc3b945",
+      "provider": "openai",
+      "bytes": 10858,
+      "has_support": true
+    },
+    {
+      "id": "b33b185a65e915955f0dc802b4b7ed1a",
+      "provider": "openai",
+      "bytes": 20366,
+      "has_support": true
+    },
+    {
+      "id": "a6f861d05620e0cf70e442a1000151ef",
+      "provider": "openai",
+      "bytes": 19741,
+      "has_support": true
+    },
+    {
+      "id": "e0369e7bfffb802fc10648fea4fb4d13",
+      "provider": "openai",
+      "bytes": 15304,
+      "has_support": true
+    },
+    {
+      "id": "b7be101284d349b74625e1f006c7644c",
+      "provider": "openai",
+      "bytes": 20202,
+      "has_support": true
+    },
+    {
+      "id": "5464fd1a4c1e5a88e3efced0e5b12acf",
+      "provider": "openai",
+      "bytes": 19807,
+      "has_support": true
+    },
+    {
+      "id": "07b9c13a02158bb22bf3ac474201eb24",
+      "provider": "openai",
+      "bytes": 18578,
+      "has_support": true
+    }
+  ],
+  "paid_calls": 0,
+  "global_registry_writes": 0,
+  "staging_writes": 0
+}

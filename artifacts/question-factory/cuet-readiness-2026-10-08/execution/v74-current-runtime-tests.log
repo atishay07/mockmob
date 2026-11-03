@@ -1,0 +1,22 @@
+✔ admin readiness binds the current verifier rather than a released legacy state (67.1531ms)
+✔ the student publication path rejects a stale signed-contract binding before content checks (40.4283ms)
+✔ unbundled runtime binding matches the frozen metadata and expected v7.3 release binding (30.0865ms)
+✔ runtime contract detects raw parent and additive source changes (21.3087ms)
+✔ runtime contract rejects invalid metadata, missing metadata and duplicate bindings (1.6094ms)
+✔ admin readiness fails closed with bounded reasons and never maps legacy readiness to v7.3 readiness (51.3519ms)
+✔ profile binds exact v7.3 contract, source registry and current release (153.7537ms)
+✔ pinning clones only unpinned new jobs and preserves their other fields (22.3538ms)
+✔ student evidence rejects unknown v7 versions and requires the exact current v7.3 release (39.1533ms)
+✔ evaluation cache identity separates validation-contract hashes (0.4342ms)
+✔ V74 profile binds exact frozen validator/prompt/contract and current release; no release means no profile (177.0627ms)
+✔ current profiled queue routes V74 to its validator and reconstructs the same brief after restart (143.1669ms)
+✔ V73 and legacy queue routes stay isolated; unknown pins fail closed without validator fallback (0.6263ms)
+✔ no released V74 manifest blocks profile-pinned dispatch before transport calls (60.4853ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 757.0177

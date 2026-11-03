@@ -1,0 +1,555 @@
+{
+  "at": "2026-10-08T11:05:55.038Z",
+  "reviewer_model": "GPT-6",
+  "effort": "high",
+  "input_packet_sha256": "e1cd69636842d1f86f8d35a2fed08fa66e51d0da9c67ccbdb3d1ca0f89c2bdfe",
+  "official_keys_seen": false,
+  "first_solver_decisions_seen": false,
+  "validator_results_seen": false,
+  "records": [
+    {
+      "item_id": "cbse24-bs-q01",
+      "subject": "business_studies",
+      "independently_solved_key": "abstain",
+      "key_confidence": "medium",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Best single-feature reading: controlled experiment and observation indicate management as a science."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect; no professional qualification, association, or code-of-conduct feature is described."
+        },
+        {
+          "option": "C",
+          "assessment": "Possible if focus is the manager's practical application of skill, but the stem foregrounds experiment."
+        },
+        {
+          "option": "D",
+          "assessment": "Reasonably defensible: practical implementation can be art while the experiment is scientific; stem does not isolate one nature."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The stem does not isolate whether the highlighted feature is experimental method (science) or practical application (art); A and D can both fit its described actions."
+      ],
+      "independent_explanation": "Experimentation and observation are science cues, so A is the likely intended answer. Because the manager also applies a practical intervention and the stem asks broadly which nature is highlighted, D has a reasonable reading; abstain under the unique-answer gate.",
+      "calculations": null,
+      "cuet_fit_ready": false,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Four-option objective format and in-syllabus topic fit CUET, but the defensible second answer blocks readiness under the single-answer correctness gate."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q02",
+      "subject": "business_studies",
+      "independently_solved_key": "D",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: the task categories were already identified and divided; the failure was allocating work to people by competency."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: feedback meetings show communication, and no reporting-line problem is described."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: no grouping of jobs into departments is at issue."
+        },
+        {
+          "option": "D",
+          "assessment": "Correct: allocation of defined tasks to members according to skills is assignment of duties."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; supplied NCERT excerpt directly states duties are allocated to employees in accordance with skills and competencies."
+      ],
+      "independent_explanation": "The work components were defined, but the manager previously gave each person an entire event and later matched tasks to members' skills. That is assignment of duties.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Central organising objective, familiar four-option application, concise stem, and one reasoning step; estimated time is within the rubric's 150-second gate."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q03",
+      "subject": "business_studies",
+      "independently_solved_key": "C",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: assertion is true, so this combination is false."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: both statements are true."
+        },
+        {
+          "option": "C",
+          "assessment": "Correct: financial planning addresses uncertainty in availability and timing of funds; capital structure is a separate definition and does not explain that function."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: the reason does not explain the assertion."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; both propositions are supported by the supplied NCERT excerpts."
+      ],
+      "independent_explanation": "A is true by the stated function of financial planning. R is true as a definition of capital structure, but that definition has no causal or explanatory connection to financial planning's uncertainty-management function.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Core financial-management concepts in a standard assertion-reason format; short reading and one truth/explanation distinction fit the time gate."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q04",
+      "subject": "business_studies",
+      "independently_solved_key": "D",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: Statement I says directly; the excerpt assigns capital raising to the primary market and describes secondary trading of already-issued securities."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: Statement II is a standard true description of capital-market maturity, while I is false."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: reverses the truth values."
+        },
+        {
+          "option": "D",
+          "assessment": "Correct: II is true and I is false."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The supplied SEBI excerpt supports the primary/secondary-market distinction, but does not itself state the medium- and long-term maturity definition in Statement II; that exact proposition lacks a quoted source in this packet."
+      ],
+      "independent_explanation": "Secondary-market trading transfers existing securities among investors, while primary issuance raises capital. Capital markets concern medium- and long-term securities, making only Statement II true.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Recognised financial-markets distinction in a concise two-statement four-option item; one conceptual comparison fits CUET pacing."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q05",
+      "subject": "business_studies",
+      "independently_solved_key": "A",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Correct: external recruitment can induce competitive spirit among existing staff, as the supplied excerpt states."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: no support in the excerpt; external recruitment can create dissatisfaction and turnover risk rather than reduce turnover."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: the supplied excerpt describes possible dissatisfaction among current employees."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: this is associated with internal recruitment and job security, not the cited external-recruitment benefit."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; the supplied excerpt directly identifies competitive spirit as an external-recruitment advantage."
+      ],
+      "independent_explanation": "External candidates create competition for existing employees, which can motivate improved performance. The other choices describe internal-recruitment advantages or contradict the supplied discussion of external hiring.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Direct recall of a central staffing concept in a four-option single-answer format; easy recall is acceptable under the rubric."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q06",
+      "subject": "business_studies",
+      "independently_solved_key": "D",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: low-interest easy finance is economic; branch-coordination software is technological, not political."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: no social-environment force is described."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: the first event is economic, and no legal force is described."
+        },
+        {
+          "option": "D",
+          "assessment": "Correct: interest rates and consumer spending are economic; new software and operating methods are technological."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; the supplied excerpts support both the interest-rate demand channel and technology's effect on operating methods."
+      ],
+      "independent_explanation": "Low interest rates change the economic conditions affecting consumer purchases. Installing software introduces technology into how the business coordinates its operations.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Core business-environment classification with two clear cues, brief reading, and a standard objective format."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q07",
+      "subject": "business_studies",
+      "independently_solved_key": "C",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: the consumer is checking a quality mark, not asserting a claim for a fair deal."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: no purchase record or receipt is involved."
+        },
+        {
+          "option": "C",
+          "assessment": "Correct: looking for standard quality marks is the responsibility to buy standardised products."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: honest dealings concern the consumer's conduct, not product-standard checks."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; supplied NCERT excerpt gives the same responsibility and examples of standard marks."
+      ],
+      "independent_explanation": "Checking a recognised mark before buying is the stated consumer responsibility to buy standardised goods.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Direct recall of a named consumer responsibility in a concise single-answer format; appropriate easy CUET-level item."
+      ]
+    },
+    {
+      "item_id": "cbse24-bs-q08",
+      "subject": "business_studies",
+      "independently_solved_key": "A",
+      "key_confidence": "medium",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Correct under the modal can: control action can prevent recurrence of deviations; the reason gives the mechanism."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: R directly explains how controlling can prevent recurrence, even though it says minimise rather than guarantee zero deviations."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: R is true; it describes reducing recurrence through action."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect under the ordinary modal reading: controlling can prevent recurrence, though it does not ensure that every deviation will be prevented."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The assertion uses can, not always or will; its truth depends on the ordinary ability/possibility reading. The supplied excerpt supports preventing recurrence after deviations, not preventing every deviation from first occurring."
+      ],
+      "independent_explanation": "R is true and explains A when can means that corrective control action has the capacity to prevent recurrence. It would be false only under an absolute reading that controlling invariably prevents every deviation, which the stem does not say.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Short assertion-reason item on a core control function; modality is a small but reasonable reading demand."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q01",
+      "subject": "economics",
+      "independently_solved_key": "A",
+      "key_confidence": "medium",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Correct on the NCERT institutional reading: government may act through the central bank entrusted to conduct these purchases on its behalf, and the resulting reserve/money-supply increase addresses a deflationary gap."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect on that reading because the increase in reserves/money supply is precisely the mechanism that explains the claimed counter-deflationary effect."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect on the delegated-agent reading: the reason is supported by the NCERT description of central-bank purchases and reserves."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect on the delegated-agent reading: both propositions are true, with R explaining the mechanism."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "Government must mean government acting through the central bank; NCERT says OMO purchases are entrusted to the central bank on behalf of government. If the assertion means the government itself independently executes an OMO, the actor is inaccurate and D becomes plausible."
+      ],
+      "independent_explanation": "The NCERT excerpt states that the central bank buys government bonds on behalf of government and the purchase raises reserves and money supply. With government understood as acting through that agent, both A and R are true and R supplies the expansionary mechanism. The actor shorthand lowers confidence.",
+      "calculations": null,
+      "cuet_fit_ready": false,
+      "cuet_fit_uncertain": true,
+      "cuet_fit_reasons": [
+        "Money-and-banking topic and assertion-reason format fit the syllabus, but the government/central-bank actor ambiguity can change a proposition's truth and prevents a confident single key."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q02",
+      "subject": "economics",
+      "independently_solved_key": "C",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: supplying food grains to low-income households does not primarily change the allocation of productive resources."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: no aggregate-demand or price-stability mechanism is specified."
+        },
+        {
+          "option": "C",
+          "assessment": "Correct: an in-kind transfer targeted by income redistributes resources toward low-income households."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: instability is not an objective illustrated by a targeted benefit."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; the excerpt describes redistribution through transfers affecting household disposable income. Applying it to an in-kind benefit is a standard equivalent transfer reading."
+      ],
+      "independent_explanation": "Targeted free food grains transfer real purchasing power or consumption resources to low-income households, illustrating redistribution of income.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Core government-budget objective, hypothetical one-step application, and four plausible objective labels fit standard CUET format."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q03",
+      "subject": "economics",
+      "independently_solved_key": "B",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: gross product taxes omit product subsidies, which must be netted."
+        },
+        {
+          "option": "B",
+          "assessment": "Correct: add net product taxes (product taxes less product subsidies) to GVA at basic prices."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: production taxes are not product taxes and are not the stated conversion item."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: net production taxes retain the product-versus-production category error."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The supplied IES excerpt says net product tax and product subsidies; interpret this as taxes on products less subsidies on products. It does not support replacing product taxes with production taxes."
+      ],
+      "independent_explanation": "GVA at market prices equals GVA at basic prices plus product taxes minus product subsidies. Therefore the required addition is net product taxes.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Central national-income aggregate conversion, direct conceptual recall, and concise four-option presentation fit CUET pacing."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q04",
+      "subject": "economics",
+      "independently_solved_key": "B",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: under a fixed rate, authorities maintain the rate rather than letting market forces automatically adjust it."
+        },
+        {
+          "option": "B",
+          "assessment": "Correct: a flexible exchange rate moves with market forces, adjusting BoP surplus or deficit."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: managed floating includes intervention, so automatic adjustment solely through market forces is not the defining feature."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: dirty floating also allows discretionary intervention and is not the pure automatic market-adjustment system."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; supplied NCERT excerpt directly links exchange-rate movements with automatic BoP adjustment."
+      ],
+      "independent_explanation": "The flexible system allows the exchange rate to respond to market demand and supply, automatically correcting BoP imbalances in the textbook model.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Direct application of a central BoP concept in a standard objective format; brief reading and one reasoning step fit the time gate."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q05",
+      "subject": "economics",
+      "independently_solved_key": "B",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: not the reference-line angle in the standard income-expenditure diagram."
+        },
+        {
+          "option": "B",
+          "assessment": "Correct: the line through the origin where horizontal and vertical coordinates are equal has slope one and is drawn at 45 degrees."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: it would not have equal horizontal and vertical coordinates."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: it would not have equal horizontal and vertical coordinates."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The diagram's axes are on equal scales, as in the standard NCERT income-expenditure diagram; the supplied excerpt identifies the 45-degree line and its equal-coordinate property."
+      ],
+      "independent_explanation": "The reference line represents Y = aggregate supply/expenditure coordinates equal along the line. Equal x- and y-values give slope 1, corresponding to 45 degrees on equal-scale axes.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Direct recognition of a standard macroeconomic diagram convention; one short recall/application step fits the format and time gate."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q06",
+      "subject": "economics",
+      "independently_solved_key": "B",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: revenue deficit requires revenue expenditure and revenue receipts, which are not given."
+        },
+        {
+          "option": "B",
+          "assessment": "Correct: fiscal deficit = total expenditure - total receipts excluding borrowings = 45 - 27.2 = 17.8 lakh crore."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: budgetary deficit is not the specified modern definition; the stated receipts measure identifies fiscal deficit."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: primary deficit requires subtracting interest payments from fiscal deficit, and interest payments are not supplied."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "None decisive; the supplied NCERT definition matches the given operands."
+      ],
+      "independent_explanation": "45.0 - 27.2 = 17.8 lakh crore. Total receipts other than borrowings are non-borrowing receipts, so the difference is fiscal deficit.",
+      "calculations": "45.0 - 27.2 = 17.8 lakh crore",
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "One-step arithmetic using the core fiscal-deficit definition; relevant data are complete and estimated time is well below the threshold."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q07",
+      "subject": "economics",
+      "independently_solved_key": "A",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Correct: MPC can equal one; Statement 2 is false because consumption's increase cannot exceed the income increase, so it is not always proportionately greater."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: Statement 2's always claim is false."
+        },
+        {
+          "option": "D",
+          "assessment": "Incorrect: Statement 1 is true."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "Interpret proportionately greater as delta consumption / delta income greater than one. The supplied NCERT excerpt directly states the maximum MPC is one and change in consumption cannot exceed change in income."
+      ],
+      "independent_explanation": "The excerpt sets the maximum MPC at 1, so Statement 1 is true. An increase in consumption is not always proportionately greater than the increase in income; that would require MPC greater than one, so Statement 2 is false.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Tests a central income-determination relationship and interpretation of an absolute always claim in a short two-statement objective item."
+      ]
+    },
+    {
+      "item_id": "cbse24-eco-q08",
+      "subject": "economics",
+      "independently_solved_key": "D",
+      "key_confidence": "high",
+      "option_assessments": [
+        {
+          "option": "A",
+          "assessment": "Incorrect: induced investment is not in the stated simple two-sector model; investment is autonomous."
+        },
+        {
+          "option": "B",
+          "assessment": "Incorrect: induced investment is not included."
+        },
+        {
+          "option": "C",
+          "assessment": "Incorrect: omits induced consumption, which is part of household consumption when income varies."
+        },
+        {
+          "option": "D",
+          "assessment": "Correct: AD = C + I; C includes autonomous and induced consumption, and I is autonomous."
+        }
+      ],
+      "decisive_assumptions_or_source_gaps": [
+        "The stem explicitly sets the NCERT two-sector model with autonomous investment; no induced-investment term is assumed."
+      ],
+      "independent_explanation": "In the two-sector model, aggregate demand is consumption plus investment. Consumption contains autonomous and income-induced parts, while the question stipulates that investment is autonomous. Thus the three components are autonomous consumption, induced consumption, and autonomous investment.",
+      "calculations": null,
+      "cuet_fit_ready": true,
+      "cuet_fit_uncertain": false,
+      "cuet_fit_reasons": [
+        "Core two-sector aggregate-demand decomposition, short reading, and one-step conceptual application fit standard CUET objective format."
+      ]
+    }
+  ]
+}

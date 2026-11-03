@@ -1,0 +1,350 @@
+SAMPLE QUESTION PAPER (2022-23)
+ECONOMICS (030) CLASS 12
+TIME: 3 HOURS M.M. – 80
+GENERAL INSTRUCTIONS:
+1. This question paper contains two sections:
+Section A – Macro Economics
+Section B – Indian Economic Development
+2. This paper contains 20 Multiple Choice Questions type questions of 1 mark each.
+3. This paper contains 4 Short Answer Questions type questions of 3 marks each to be answered
+in 60 to 80 words.
+4. This paper contains 6 Short Answer Questions type questions of 4 marks each to be answered
+in 80 to 100 words.
+5. This paper contains 4 Long Answer Questions type questions of 6 marks each to be answered
+in 100 to 150 words.
+Q.NO. SECTION A – MACRO ECONOMICS MARKS
+1 Read the following statements carefully:
+Statement 1: The consumption curve is an upward sloping straight line curve due to the
+direct relationship between income and consumption and the assumption of constant
+Marginal Propensity to Consume.
+Statement 2: Aggregate Demand curve and Consumption curve are parallel to each other.
+In the light of the given statements, choose the correct alternative from the following:
+a) Statement 1 is true and statement 2 is false
+b) Statement 1 is false and statement 2 is true 1
+c) Both statements 1 and 2 are true
+d) Both statements 1 and 2 are false
+2 ‘Owing to the Russia-Ukraine crisis, the world is experiencing rising crude prices due to
+supply-side issues.’
+Identify the most likely impact on the Balance of Payment situation of the Indian economy
+from the following:
+a) Production of cars in India will rise.
+1
+b) Production and sale of cycles in India will rise.
+c) Inflow of US Dollars in India will rise.
+d) Outflow of US Dollars from India will rise.
+3 _________ is an institution that accept deposits for lending purposes.
+(Fill up the blank with correct alternative)
+a) Commercial Banks b) Life Insurance Corporation 1
+c) Reserve Bank of India d) Government of India
+1
+4 Read the following statements carefully:
+Statement 1: Export of financial services by India will be recorded on credit side of current
+account.
+Statement2: Foreign Direct Investments in India will be recorded on credit side of capital
+account.
+In the light of the given statements, choose the correct alternative: 1
+a) Statement 1 is true and statement 2 is false
+b) Statement 1 is false and statement 2 is true
+c) Both statements 1 and 2 are true
+d) Both statements 1 and 2 are false
+5 Read the following statements carefully:
+Statement 1 - Net investment is a stock concept.
+Statement 2 - Capital is a flow concept.
+In the light of the given statements, choose the correct alternative from the following:
+a) Statement 1 is true and statement 2 is false
+b) Statement 1 is false and statement 2 is true
+c) Both statements 1 and 2 are true 1
+d) Both statements 1 and 2 are false
+OR
+Read the following figure carefully and choose the correct pair from the alternatives given
+below:
+Alternatives:
+a) Output, Production
+b) Value added, Production
+c) Output, Disposition
+1
+d) Wealth, Development
+6 If in an economy, the value of investment multiplier is 4 and Autonomous Consumption is
+₹ 30 Crore, the relevant consumption function would be :
+2
+a) C=30+0.75 Y b) C=(-)30+0.25Y
+c) C=30-0.75Y d) C=30-0.25Y 1
+OR
+If increase in National Income is equal to increase in consumption, identity the value of
+Marginal Propensity to Save :
+a) Equal to unity b) Greater than one
+c) Less than one d) Equal to zero
+1
+7 Money supply in India may increase if, ________________(Choose the correct alternative)
+1. Reserve Bank of India(RBI) injects more money in circulation
+2. the commercial banks expand their credit operation
+3. tax rates are reduced by the Central Government
+4. Reserve Bank of India increases the Bank Rate
+Alternatives: 1
+a) 1,2 and 3 are correct
+b) 2,3 and 4 are correct
+c) 1,3 and 4 are correct
+d) 1,2 and 4 are correct
+8 Suppose, following data is presented, for an imaginary economy: (all figures in ₹ ‘000 Crore)
+Year Visible Exports Visible Imports
+2010 280 240
+2020 580 460
+Identify, which of the statement about the period 2010 to 2020 is correct?
+a) Improvement in balance of trade
+b) Increase in trade deficit
+c) Improvement in balance in invisibles items
+1
+d) Deterioration of balance of trade
+OR
+The following information is given for an imaginary country:
+Current Account Amount (in ₹’000
+Crore)
+Visible Exports 100
+Visible Imports 150
+Invisible Exports 70
+Invisible Imports 30
+Net current transfer balance 15
+3
+Balance on current account will be ____________ of ₹ ______ thousand Crore.
+a) deficit, 10 1
+b) surplus,5
+c) deficit, 5
+d) surplus, 10
+9 Read the following statement -Assertion (A) and Reason (R). Choose one of the correct 1
+alternatives given below:
+Assertion (A): Ex-post Investments represent planned Investments; whereas ex-ante
+Investments represent actual level of investments.
+Reason (R): At equilibrium level, Ex-ante Savings and Ex-ante Investments are always
+equal.
+Alternatives:
+a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation
+of Assertion (A).
+b) Both Assertion (A) and Reason (R) are true and Reason (R) is not the correct
+explanation of Assertion (A).
+c) Assertion (A) is true but Reason (R) is false.
+d) Assertion (A) is false but Reason (R) is true.
+10 Read the following statement -Assertion (A) and Reason (R). Choose one of the correct
+alternatives given below:
+Assertion (A): Saving curve makes a negative intercept on the vertical axis at zero level of
+income.
+Reason (R): Saving function refers to the functional relationship between saving and income.
+Alternatives:
+a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation
+of Assertion (A). 1
+b) Both Assertion (A) and Reason (R) are true and Reason (R) is not the correct
+explanation of Assertion (A).
+c) Assertion (A) is true but Reason (R) is false.
+d) Assertion (A) is false but Reason (R) is true.
+11 Suppose in a hypothetical economy there are only two Firms A and B, Firm A sold goods
+for ₹ 2,000 to Firm B and purchased goods for ₹ 1,000. Firm B exported goods for ₹ 2,500 3
+and had domestic sales of ₹ 1,500. Calculate Net Domestic Product at market price, if
+consumption of fixed capital is ₹ 200.
+12 Explain, how exchange rate is determined under a free market exchange rate system. 3
+OR
+Distinguish between autonomous and accommodating transactions in Balance of Payments 3
+Accounts.
+4
+13 If an economy plans to increase its income by ₹ 2,000 crore and the Marginal Propensity to
+Consume is 75%. Estimate the increase in investment required to achieve the targeted 4
+increase in income.
+14 As per the following news published in The Economic Times on 26th December, 2021:
+‘Reserve Bank of India has sold government securities worth ₹ 8,710 crore in the secondary
+market, over the last four weeks, to drain out excessive liquidity’. 4
+Identify the likely cause and the consequences behind, this type of action plan of the Reserve
+Bank.
+15 Read the following text carefully, discuss briefly the relevant function of the Central Bank,
+indicated :
+Recently, Reserve Bank of India (RBI) conducted a statutory inspection for supervisory
+evaluation against a Commercial Bank. The commercial bank was imposed with stringent
+penalties, owing to deficiencies in regulatory compliances.
+As per the Central Bank, the inspection revealed non-compliances vis-à-vis different 4
+directions issued by RBI, on the following fronts:
+i. ATM Card frauds
+ii. Ensuring integrity and quality of data
+iii. Loans to small borrowers (adapted/moderated -livemint.com)
+OR 4
+‘Reserve Ratio and Credit Creation are inversely related.’ Do you agree with the given
+statement? Justify your answer with a suitable numerical example.
+16 a) Define Gross Domestic Product (GDP) deflator and discuss its importance. 3
+b) State and discuss any two precautions to be considered while estimating national 3
+income by Expenditure Method.
+17 a) Compare the trends depicted in the figures given below:
+3
+b) Elaborate the objective of ‘allocation of resources’ in the Government budget. 3
+OR
+a) Distinguish between revenue receipts and capital receipts of the government, with 3
+suitable examples.
+b) Distinguish between direct and indirect taxes, with suitable examples. 3
+5
+SECTION B – INDIAN ECONOMIC DEVELOPMENT
+18 Identify, which of the following indicates the adverse impact of British rule in India.
+a) Introduction of communication networks in India
+b) Change in composition of India’s foreign trade
+c) Introduction of modern administrative system in India
+d) Introduction of railways in India 1
+19 __________committee was set up for the development and promotion of small scale
+industries in India. 1
+a) Karve b) Tapas Majumdar
+c) Mahalanobis d) TRYSEM
+Or
+First Industrial Policy Resolution of Independent India was announced in the year______
+(Fill in the blank with the correct alternative) 1
+a) 1947 b) 1948 c) 1951 d) 1956
+20 _________ and _____ are the reasons for the slowdown of the Pakistan economy since
+independence.
+I. political instability
+II. over-dependence on remittances from abroad
+III. stable performance of agriculture sector
+IV. growth of service sector
+Alternatives:
+a) I and II b) II and III
+c) III and IV d) I and IV 1
+OR
+‘GLF’ with respect to the People’s Republic of China referred to as ______(Choose the
+correct alternative).
+a) Giant Leap Forward b) Great Lead Forum
+c) Great Leap Forward d) Giant Lead Forum
+1
+21 Identify which of the following is a source of non-institutional credit in the rural areas of
+India.
+a) NABARD b) Regional Rural Banks
+c) Money Lenders d) Commercial Banks 1
+22 From the set of the events given in column I and corresponding facts given in Column II,
+choose the correct pair of statement:
+COLUMN I COLUMN II
+i Dual Pricing A Economic Reforms of 1991
+ii Setting up of Special Economic Zones in B To attract foreign Direct Investment
+China
+iii Commune System C Backyard based Industrial
+production units
+iv Great Proletarian Cultural Revolution D Collective Farming
+6
+Alternatives:
+a) i – A 1
+b) ii – B
+c) iii – C
+d) iv - D
+23 Read the following statements carefully.
+Statement 1: On-the-job trainings help to bridge a gap between theoretical concepts and
+practical experiences.
+Statement 2: On-the-job trainings update the employees, with the latest changes in their work
+field.
+In the light of the given statements, choose the correct alternative:
+1
+a) Statement 1 is true and statement 2 is false
+b) Statement 1 is false and statement 2 is true
+c) Both statements 1 and 2 are true
+d) Both statements 1 and 2 are false
+24 Read the following statements carefully.
+Statement 1: Both India and Pakistan initiated their economic reforms without any external
+pressures.
+Statement 2: Pakistan has successfully implemented the SEZ policy and reaped its benefits
+using the Export Promotion policy.
+In the light of the given statements, choose the correct alternative:
+1
+a) Statement 1 is true and statement 2 is false
+b) Statement 1 is false and statement 2 is true
+c) Both statements 1 and 2 are true
+d) Both statements 1 and 2 are false
+25 _______________is not a cause for environmental degradation.
+a) Waste management
+b) Deforestation
+c) Global warming 1
+d) Guarding green cover
+OR
+______ is not the strategy for Sustainable Development. (Choose the
+correct alternative)
+a) Use of bio-gas
+b) Use of solar power 1
+c) Use of thermal power
+d) Use of hydel power
+26 Read the following statement -Assertion (A) and Reason (R). Choose one of the correct
+alternatives given below:
+Assertion (A): Unemployment and poverty are inseparable twins.
+Reason(R): Unemployment is the root cause of all socio-economic evils.
+Alternatives:
+7
+a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct
+explanation of Assertion (A).
+b) Both Assertion (A) and Reason (R) are true and Reason (R) is not the correct
+explanation of Assertion (A).
+c) Assertion (A) is true but Reason (R) is false. 1
+d) Assertion (A) is false but Reason (R) is true.
+27 Read the following statement -Assertion (A) and Reason (R). Choose one of the correct
+alternatives given below:
+Assertion (A): In the late 1970s, China’s population growth rate had sharply declined.
+Reason(R): China has witnessed an increase in the proportion of elderly people owing to 1
+stringent family planning programmes.
+Alternatives:
+a) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct
+explanation of Assertion (A).
+b) Both Assertion (A) and Reason (R) are true and Reason (R) is not the correct
+explanation of Assertion (A).
+c) Assertion (A) is true but Reason (R) is false.
+d) Assertion (A) is false but Reason (R) is true.
+28 Interpret the given picture on account of current environmental challenges. 3
+Source: https://www.theenvironmentalblog.org/current-environmental-issues
+29 Defend or refute the following statement with valid explanation: 3
+‘Disguised unemployment is a common form of unemployment in rural India’
+Or
+Critically evaluate the role of rural banking system in the process of rural development in 3
+India.
+30 Compare and analyse the following information related to Imports and Exports of the three
+neighbouring nations:
+8
+Country Exports from India (in ₹ Crore) Imports to India (in ₹ Crore)
+2004- 2018-19 Annual rate of 2004-05 2018-19 Annual rate of
+05 growth (%) growth (%)
+Pakistan 2,341 14,426 3.7 427 3,476 5.1
+4
+China 25,232 1,17,289 2.6 31,892 4,92,079 10.3
+31 a) Name any one Maharatana company. 1
+b) ‘Land ceiling promotes equity.’ Support the given statement with valid explanation. 3
+OR
+Discuss briefly, how institutional reforms (land reforms) have played a significant role in
+4
+transforming Indian agriculture.
+32 State whether the following statements are true/false, with valid arguments:
+a) Human Capital and Human Development are one and the same thing 2
+b) India has a poor stock of technical manpower. 2
+33 a) Define agricultural marketing. 2
+b) Discuss briefly the importance of micro-credit programmes in rural development. 2
+c) Enlist any two problems faced by farmers in the initial years of organic farming. 2
+OR
+a) “India has failed to implement the recommendations of Education Commission of
+3
+1964 -66.” Give valid arguments in support of the given statement.
+b) ‘Casual wage work is the major source of employment in rural India ‘. Defend or
+3
+refute the given statement with valid reason.
+34 Read the following text carefully and answer the given questions on the basis of the same
+and common understanding:
+The Green Revolution in India began in the mid-1960s marking a transition from traditional
+agriculture in India to high-yielding varieties of seeds and the associated modern agricultural
+techniques. The need for introduction of Green Revolution in India arose due to a shortage
+of food-grains in the post-independent period.
+The government in the post-independent India wanted to ensure self-dependence in terms of
+food-grain production. Such efforts coincided with the development of high-yielding
+varieties of seeds of wheat developed by Dr. Norman Borlung and his associates in Mexico.
+These seeds also necessitated changes in farming techniques such as the addition of
+fertilizers, pesticides and better irrigation facilities. High yielding varieties of seeds were
+first introduced in India in the states of Punjab, Haryana and parts of western Uttar Pradesh.
+9
+In the early period of the green revolution in India, the focus was to acclimatise the new
+system with the more resource-intensive agricultural methods. The argument for introducing
+the new crop varieties was to increase agricultural production in terms of higher crop yields.
+The seeds introduced during the early period of the green revolution in Punjab were not high-
+yielding by themselves. These high yields were possible due to the seeds being highly
+responsive to certain inputs such as irrigation water and fertilizers.
+The green revolution in India, thus, necessitated a resource-intensive process whereby, those
+who could make significant capital investments could benefit, whereas, those others became
+more marginalized in regions affected by practices of the green revolution in India. On one 3
+hand, the results derived from the green revolution helped farmers to increase their yield and
+income and on the other hand, it helped the government to procure and preserve more food 3
+grains through agencies like Food Corporation of India. These food grain reserves were
+helpful in creation of buffer stocks in India, which helped in the situations of adversities.
+a) Why was Green revolution implemented and how did it benefit the farmers?
+b) Justify the following statement with valid explanation:
+‘Green revolution enabled the government to procure sufficient food grains to build
+its stocks that could be used during time of shortage’.
+10

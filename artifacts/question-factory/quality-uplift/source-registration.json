@@ -1,0 +1,292 @@
+{
+  "at": "2026-10-06T09:43:28.392Z",
+  "registry_version": 42,
+  "exact_excerpt_facts": [
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-5-14d5f49357",
+        "support_hash": "14d5f4935792b70fe247c072be17fcf4a2493560876ebe751baa5578d537eb54"
+      },
+      "characters": 267
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-9-b5237b4ec4",
+        "support_hash": "b5237b4ec47ead1fe2938db212d4bdd5ccb2fb233b498b4338ef504a63460cff"
+      },
+      "characters": 151
+    },
+    {
+      "ref": {
+        "id": "ncert-leac101",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-5-58df58a906",
+        "support_hash": "58df58a90618154e7ea61331ea0035c889352b2af75c47964848adc082dd7bbc"
+      },
+      "characters": 1028
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-18-b5a4c91410",
+        "support_hash": "b5a4c91410db7ce3bed1b67623adf7665fef51c35db7791b18fc83ae210ef2eb"
+      },
+      "characters": 681
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-24-1a64fabc87",
+        "support_hash": "1a64fabc873dd00fd09a4b6bad68d4e0e084f5a22e69eb12b7d1a236d11a7444"
+      },
+      "characters": 305
+    },
+    {
+      "ref": {
+        "id": "ncert-leac201",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-39-a14adf94f3",
+        "support_hash": "a14adf94f3fda4b0ad63212430d60179d7f7bad809632d3457a56cb34b1cac19"
+      },
+      "characters": 960
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-2-4c12ff7f8f",
+        "support_hash": "4c12ff7f8fcab5fb27f4cf2106340aaab8a074cc26a109d22394dbd59a054962"
+      },
+      "characters": 224
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-2-20681f9873",
+        "support_hash": "20681f98734e5ee3a502ca4b96731e202e1c61e14cf5bffd441bdaeef8ca942b"
+      },
+      "characters": 270
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-4-5fac2a1794",
+        "support_hash": "5fac2a17940bbfdc9cbe6c247a9550a0fb2903e455faffe5257e5898f28aae70"
+      },
+      "characters": 203
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-10-d93acd41bc",
+        "support_hash": "d93acd41bc90e0aafe245190110c1073b0cfdba3967fef2a766071011d6ff551"
+      },
+      "characters": 178
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-9-932d8a0681",
+        "support_hash": "932d8a0681b29188623296e2c256f54d39cb0dd1caa5962d59a21608c4171daf"
+      },
+      "characters": 155
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-11-cddd2ad805",
+        "support_hash": "cddd2ad8053710a8562d4bf19408bd97588a1af1824f3298d3339a6fa383be76"
+      },
+      "characters": 225
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-12-8be1fe5f06",
+        "support_hash": "8be1fe5f061752ea750ae1996042c799d5dab7dd21d6f770683f27bd3f3efc5f"
+      },
+      "characters": 195
+    },
+    {
+      "ref": {
+        "id": "ncert-leec104",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-13-d489adbc79",
+        "support_hash": "d489adbc7927564f45964a73c1c0e0587e69c30882dc32a7c7d6e1103eed0dcb"
+      },
+      "characters": 393
+    },
+    {
+      "ref": {
+        "id": "ncert-leec103",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-3-63bb58005d",
+        "support_hash": "63bb58005d63ff80e2adb01200549fa319c25f7e902dee5476569818c2576f67"
+      },
+      "characters": 330
+    },
+    {
+      "ref": {
+        "id": "ncert-leec103",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-7-d2a5125880",
+        "support_hash": "d2a51258804ad4a90cd6cccc9ca6b9cdc82c3f257b923484c5259c801ebd9fd8"
+      },
+      "characters": 167
+    },
+    {
+      "ref": {
+        "id": "ncert-leec103",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-7-d838c7ed2c",
+        "support_hash": "d838c7ed2c1ac22b8982468ca861e899f3bab82ab7891b77defb6d457f8ac943"
+      },
+      "characters": 326
+    },
+    {
+      "ref": {
+        "id": "ncert-leec103",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-8-66d989857f",
+        "support_hash": "66d989857fe081862cfcddfba866800082f6d5e8ad6d6eeb97f35482a61cf4e0"
+      },
+      "characters": 375
+    },
+    {
+      "ref": {
+        "id": "ncert-leec103",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-8-8185542866",
+        "support_hash": "81855428662c4f84fb8e475acf1393f848225c8f0f1db8fe4634e48e01395443"
+      },
+      "characters": 705
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-4-6f3d2425a7",
+        "support_hash": "6f3d2425a79d3642ab8e26d463071146405c4f1d7052d414db763f29f6b509ae"
+      },
+      "characters": 118
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-3-681bdd9372",
+        "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+      },
+      "characters": 190
+    },
+    {
+      "ref": {
+        "id": "ncert-leec105",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-5-4065fbddd1",
+        "support_hash": "4065fbddd1f2f746c2a10d7d53e01592349d549c7d08e4c629d3b6c4fad6ae01"
+      },
+      "characters": 189
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-8-687c9c8f4e",
+        "support_hash": "687c9c8f4eb46f9322e8aac9b63e19d74686339a49039d4d34235ac69d703faf"
+      },
+      "characters": 120
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-8-262565cae8",
+        "support_hash": "262565cae8b7d68397a32693ecd02c3a9c583757032fcb48ebb3e82cf6102b46"
+      },
+      "characters": 241
+    },
+    {
+      "ref": {
+        "id": "ncert-leec106",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-10-2c8bfe854e",
+        "support_hash": "2c8bfe854e92acf5972635c5bbc22bca29869683453fd99b712346a675ce896a"
+      },
+      "characters": 332
+    },
+    {
+      "ref": {
+        "id": "ncert-leec102",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-7-ec2810240f",
+        "support_hash": "ec2810240f4780ad44fb35348906ec314e6ccc48211993723b693dbc356470e5"
+      },
+      "characters": 302
+    },
+    {
+      "ref": {
+        "id": "ncert-leec102",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-4-e1afe1c201",
+        "support_hash": "e1afe1c2015a98322a380c852d97022553fc1d06dfbfcba51f94ec3b26e5a53b"
+      },
+      "characters": 257
+    },
+    {
+      "ref": {
+        "id": "ncert-leec102",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-16-aa3fba62bc",
+        "support_hash": "aa3fba62bcff1f01f31dce42a68794dadc40e4075585a2b6123ce02a24801a6f"
+      },
+      "characters": 357
+    },
+    {
+      "ref": {
+        "id": "ncert-leec102",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-21-d74bda1b3e",
+        "support_hash": "d74bda1b3efe454f2c733445a67dc714df3ca0a6ee467f9748c4f6836030180d"
+      },
+      "characters": 94
+    },
+    {
+      "ref": {
+        "id": "ncert-keec101",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-4-c8de0c519a",
+        "support_hash": "c8de0c519a47843d73dbe015b06b2d5c595b735939d4a2343aced1b2de9120b4"
+      },
+      "characters": 331
+    },
+    {
+      "ref": {
+        "id": "ncert-keec101",
+        "version": 1,
+        "locator": "quality-v3-pdf-page-5-a5e92497b0",
+        "support_hash": "a5e92497b0c4a083ddfd82d1faf897fb497600dc298066f228c5d5e4c7d35345"
+      },
+      "characters": 421
+    }
+  ],
+  "disabled_anchors": [
+    "cuet2024-economics-bookA-q9",
+    "cuet2024-economics-bookA-q24",
+    "cuet2024-economics-bookA-q49"
+  ],
+  "lexical_targets": 25,
+  "production_changes": 0
+}

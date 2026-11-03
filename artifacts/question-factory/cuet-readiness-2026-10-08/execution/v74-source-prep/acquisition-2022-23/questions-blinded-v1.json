@@ -1,0 +1,1382 @@
+{
+  "schema": "v74-cbse-2022-23-four-subject-blind-construction-v1",
+  "at": "2026-10-08T15:27:20.529Z",
+  "contract_binding": {
+    "topology": "dual_blind",
+    "verifier_version": "cuet-fit-validator-v7.4",
+    "prompt_hash": "7683aa3e5de157e85178f2086ac47c8c6dc5ec7f01ffce3f76d6c575b018c44b",
+    "cuet_fit_contract": "cuet-fit-v1.2",
+    "effort_policy": "effort-policy-v1",
+    "validation_contract_hash": "e49ee5a979a01e649b294e726264e7d3611a1d32a19f4b624be35c9bd14fd661",
+    "efforts": {
+      "blind": {
+        "default": "high",
+        "medium_when": {
+          "subject": "english",
+          "formats": [
+            "synonym",
+            "antonym",
+            "correct_word_usage",
+            "matching"
+          ]
+        }
+      },
+      "explanation": "high",
+      "gemini": "medium"
+    }
+  },
+  "raw_locator_packet_sha256": "d052f87fe57d0d4a250e803a8fbba0226a075bb09086c8830af310c322c8540e",
+  "acquisition_receipt_sha256": "943542bc54197ad4b6fcf1f5046855b4aab865efbba88651a86b4a22a53efbd9",
+  "raw_denominator": 16,
+  "raw_per_subject": 4,
+  "contains_proposed_answers": false,
+  "contains_explanations": false,
+  "paid_calls": 0,
+  "stimuli": [
+    {
+      "stimulus_id": "v74-cbse22-ghost-nets-adapted",
+      "text": "(1) A ghost net is a fishing net lost or abandoned in the ocean. Although fishers no longer use it, it keeps working, trapping marine life. Abandoned fishing gear creates a wider problem known as ghost fishing.\n\n(2) Ghost nets entangle turtles, dolphins, birds, sharks, seals and fish. They restrict movement, cause injuries and prevent mammals and birds from reaching air. Hundreds of animals can be caught in one net, making the threat monumental. Nets also break corals, exposing them to disease and blocking needed sunlight.\n\n(3) Most modern nets contain nylon or other plastics that can last for centuries. Ghost nets contribute to the Great Pacific Garbage Patch. When they break down, they become smaller plastic pieces rather than disappearing. Animals mistake these microplastics for food. Eating them can harm internal organs, prevent further feeding and expose animals to toxic chemicals.\n\n(4) Removing ghost nets requires commitment, cooperation and innovation. Conservation groups work with local fishers and governments to locate abandoned gear and remove it from the sea.\n\n(5) Preventing abandonment also matters. Conservation organisations suggest traceable ownership so people dumping nets can be fined, and refundable deposits to encourage returning or recycling nets. Sonar reflectors can help locate lost nets. Working with small-scale fisheries can develop more sustainable gear and practices. Tackling the problem from several sides, with conservation partners, fishers and supporters, can help protect the oceans.",
+      "words": 230,
+      "adaptation": "Original abridgment/paraphrase of the CBSE/WWF stimulus with paragraph numbering retained; not an authentic CUET passage.",
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "fb275fdb6b7ffa0043cae9a88f325236d5a9ec89f86458d124433e33ccf7115d",
+          "quote_start": 507,
+          "quote_end": 2976,
+          "quote": "Ghost nets aren’t supernatural, but they are legitimately scary. A ghost net is a fishing net that’s\nbeen lost or abandoned in the ocean. They are one particularly appalling part of the global ghost\nfishing problem, which includes fishing gear abandoned in the water. Any net or line left in the\n1\nocean can pose a threat to marine life. Just because a net is no longer used by fishers doesn’t\nmean it stops working. These nets continue to trap everything in their path, presenting a major\nproblem for the health of our oceans and marine life.\nGhost nets entangle sea turtles, dolphins and porpoises, birds, sharks, seals and more, apart from\ncatching fish. The nets keep animals from moving freely, cause injuries and keep mammals and\nbirds from rising to the surface for air. Since hundreds of animals can be caught in a single net,\n2\nthis threat is monumental. The ghost nets harm coral reefs too—breaking corals, exposing them\nto disease and even blocking the reefs from needed sunlight.\nGhost nets are also a major contributor to the ocean plastics’ crisis. Most modern nets are made\nof nylon or other plastic compounds that can last for centuries. According to a 2018 study in\nScientific Reports, ghost nets make up at least 46 percent of the Great Pacific Garbage Patch.\n3\nThose abandoned fishing lines and nets that do breakdown never go away; they just become\nsmaller pieces of plastic. Marine animals mistake this microplastic for food and eat it, which can\nharm internal organs, keep them from eating and expose them to toxic chemicals.\nExorcising ghost nets from our oceans will require commitment, cooperation and innovation.\nMany groups are working to remove ghost nets from the sea and are collaborating with local\nfishers and governments around the world to identify target areas and remove as many nets as\n4\npossible. In 2015, a single World Wildlife Fund for Nature (WWF)-led mission in the Baltic Sea\nhauled up 268 tons of nets, ropes and other material.\nTo stop these nets from becoming ghosts in the first place, conservation organisations advocate\nfor fishing gear that can be traced to its owner so anyone dumping nets can be fined and\nrefundable deposits on nets to encourage returning or recycling rather than littering. Tools like\nsonar reflectors that can make ghost nets easier to find and working with small-scale fisheries to\n5\ndevelop more sustainable fishing gear and practices are other suggestions. It is only by attacking\nPage 1 of 15",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        },
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "2317743968fe0b02fbaf22d6d27448caf83a01515ad6444c66a4fa683c475f07",
+          "quote_start": 0,
+          "quote_end": 138,
+          "quote": "this problem from all sides, together with conservation partners, fishers and supporters, can we\nbanish ghost nets and protect our oceans.",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ]
+    }
+  ],
+  "lexical_excerpts": [
+    {
+      "word": "monumental",
+      "official_url": "https://dictionary.cambridge.org/dictionary/english/monumental",
+      "quote": "very big or very great",
+      "quote_sha256": "3db0d6285dba953a2f3490530f6bc4da40d744c7e4f415585308788b298f03fa",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "negligible",
+      "official_url": "https://dictionary.cambridge.org/dictionary/learner-english/negligible",
+      "quote": "small and not important",
+      "quote_sha256": "03217962540b3ce0c2ae859c6bb835024e8c36fe34dda8b12d5d1f8c21be0091",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "unimpressive",
+      "official_url": "https://dictionary.cambridge.org/dictionary/english/unimpressive",
+      "quote": "not making you feel admiration or respect",
+      "quote_sha256": "e115d8b5715aeef190e4ddc2d067bde0606ee7f4e50e74f0833be4ea846ffa0e",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "exposing",
+      "official_url": "https://dictionary.cambridge.org/dictionary/english/exposing",
+      "quote": "to put someone at risk from something harmful or unpleasant",
+      "quote_sha256": "0542f1eecb77f72f2ae438830cdd8dc157d7ea3625c412536e506f94bc4c0e08",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "threat",
+      "official_url": "https://dictionary.cambridge.org/us/dictionary/english/threat",
+      "quote": "the possibility that something unwanted will happen",
+      "quote_sha256": "d41a2534e354bc9004e5c99b288c98f1db6a398e87d1732632814a7c2c40386c",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "practical",
+      "official_url": "https://dictionary.cambridge.org/dictionary/learner-english/practical",
+      "quote": "able to be done successfully",
+      "quote_sha256": "71ba78370f1c988430c47d71758b525cbbb1719162e9d929611ec48e2ce8dd24",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "presentable",
+      "official_url": "https://dictionary.cambridge.org/dictionary/english/presentable",
+      "quote": "looking suitable or good enough, especially in the way you are dressed",
+      "quote_sha256": "f99c2e751ad9b17d2527cd5404b4ebaca4c50d773daf4f1fe42e399028c9a036",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "popular",
+      "official_url": "https://dictionary.cambridge.org/dictionary/learner-english/popular",
+      "quote": "liked by many people",
+      "quote_sha256": "d07b570160bd67f4d4baaa2541d77b255344bc679671def71e3c538fbde42ec1",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    },
+    {
+      "word": "prejudiced",
+      "official_url": "https://dictionary.cambridge.org/dictionary/english/prejudiced",
+      "quote": "showing an unreasonable dislike for something or someone",
+      "quote_sha256": "d28584c0901b7101fa47ff27bc4e8c2706c0d47ebcacbca91b42de5b1455613c",
+      "publisher": "Cambridge University Press & Assessment",
+      "acquisition_method": "Primary publisher definition returned by web search; direct page retrieval returned 403 for three pages. No raw HTML is claimed.",
+      "acquired_at": "2026-10-08",
+      "permission_basis": "Short attributed lexical excerpts for local educational verification; not unrestricted dictionary republication"
+    }
+  ],
+  "items": [
+    {
+      "item_id": "v74-cbse22-acc-q27",
+      "subject": "accountancy",
+      "chapter": "Financial Statements",
+      "source_question_no": "27",
+      "body": "Financial statements are prepared on certain basic assumptions (pre-requisites). What are these assumptions called?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Provisions of the Companies Act, 2013"
+        },
+        {
+          "key": "B",
+          "text": "Accounting standards"
+        },
+        {
+          "key": "C",
+          "text": "Postulates"
+        },
+        {
+          "key": "D",
+          "text": "Basis of accounting"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pages-v1.json",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "physical_pdf_page": 10,
+          "page_text_sha256": "708eb1dc9f217443de8eb10288955e94ed51909e5f5d44b7e46d99d69fae6873",
+          "quote_start": 1882,
+          "quote_end": 2080,
+          "quote": "Financial statements are prepared on certain basic assumptions (pre-requisites) 1\nknown as___________.\na) Provision of Companies Act,2013 b) Accounting Standards\nc) Postulates d) Basis of Accounting",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leac203",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leac203.logical-pages-v5.json",
+          "cache_sha256": "c5142c6de7259e6dfb3eb26521178a869bce36940709b6bc0b515877f10ad1c3",
+          "physical_pdf_page": 2,
+          "quote_start": 2161,
+          "quote_end": 2758,
+          "quote": "3. Postulates: Financial statements are prepared on certain basic assumptions (pre-requisites) known as postulates such as going concern postulate, money measurement postulate, realisation postulate, etc. Going concern postulate assumes that the enterprise is treated as a going concern and exists for a longer period of time. So the assets are shown on historical cost basis. Money measurement postulate assumes that the value of money will remain the same in different periods. Though there is drastic change in purchasing power of money, the assets purchased at different times will be shown at",
+          "page_text_sha256": "bdbd8a91384fe7af9adf84412cf5fbec115cbc542f6758daac40e9fef559891a",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\c-source-overlay\\leac203.pdf",
+          "pdf_sha256": "c39c34b6445eef09159ccbf3a7b14163edb5b203c6b37411bbf92317304ac82c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac203.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-acc-q28",
+      "subject": "accountancy",
+      "chapter": "Accounting Ratios",
+      "source_question_no": "28",
+      "body": "For one financial year, a company has net profit after tax of ₹12,00,000, 10% debentures of ₹1,00,00,000, and a tax rate of 40%. The debentures were outstanding throughout the year and are its only interest-bearing debt. Calculate its interest coverage ratio.",
+      "options": [
+        {
+          "key": "A",
+          "text": "1.2 times"
+        },
+        {
+          "key": "B",
+          "text": "3 times"
+        },
+        {
+          "key": "C",
+          "text": "2 times"
+        },
+        {
+          "key": "D",
+          "text": "5 times"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pages-v1.json",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "40bbdf87958a22c48f9e1982e0143b91871badf82a56665e05bf38f1503785f4",
+          "quote_start": 404,
+          "quote_end": 583,
+          "quote": "From the following calculate Interest coverage ratio 1\nNet profit after tax Rs 12,00,000; 10% debentures Rs 1,00,00,000; Tax Rate 40%\na) 1.2 times b) 3 times\nc) 2 times d) 5 times",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leac205",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac205.logical-pages-v5.json",
+          "cache_sha256": "84fefa69d340b0d4fb936bd7e7c71bfd42c798a248c682d137f2b2b315899289",
+          "physical_pdf_page": 19,
+          "quote_start": 515,
+          "quote_end": 1729,
+          "quote": "5.7.5 Interest Coverage Ratio\nIt is a ratio which deals with the servicing of interest on loan. It is a measure of\nsecurity of interest payable on long-term debts. It expresses the relationship\nbetween profits available for payment of interest and the amount of interest\npayable. It is calculated as follows:\nInterest Coverage Ratio = Net Profit before Interest and Tax\nInterest on long-term debts\nSignificance: It reveals the number of times interest on long-term debts is covered\nby the profits available for interest. A higher ratio ensures safety of interest on\ndebts.\nIllustration 11\nFrom the following details, calculate interest coverage ratio:\nNet Profit after tax Rs. 60,000; 15% Long-term debt 10,00,000; and Tax rate\n40%.\nSolution:\nNet Profit after Tax = Rs. 60,000\nTax Rate = 40%\nNet Profit before tax = Net profit after tax × 100/(100 – Tax rate)\n= Rs. 60,000 × 100/(100 – 40)\n= Rs. 1,00,000\nInterest on Long-term Debt = 15% of Rs. 10,00,000 = Rs. 1,50,000\nNet profit before interest and tax = Net profit before tax + Interest\n= Rs. 1,00,000 + Rs. 1,50,000 = Rs. 2,50,000\nInterest Coverage Ratio = Net Profit before Interest and\nTax/Interest on long-term debt\n= Rs. 2,50,000/Rs. 1,50,000\n= 1.67 times.",
+          "page_text_sha256": "a1406d18b050d85a3bbc15ac3a6203335851e5da0eac3f4b03db6094ae13a38d",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac205.pdf",
+          "pdf_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac205.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Made the annual interest period and complete interest-bearing-debt scope explicit; retained every source amount, rate and option.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-acc-q29",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "source_question_no": "29",
+      "body": "Albert Co. Ltd., a non-financial company, receives an insurance claim of ₹5,00,000 for machinery lost through theft. The receipt is included in net profit. When preparing cash flows by the indirect method, how should this receipt be treated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add it under operating activities as an extraordinary item and also subtract it from operating activities."
+        },
+        {
+          "key": "B",
+          "text": "Subtract it under operating activities as an extraordinary item and also add it to operating activities."
+        },
+        {
+          "key": "C",
+          "text": "Add it under operating activities as an extraordinary item and record an investing outflow."
+        },
+        {
+          "key": "D",
+          "text": "Subtract it when adjusting operating profit for the extraordinary item and record an investing inflow."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pages-v1.json",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "40bbdf87958a22c48f9e1982e0143b91871badf82a56665e05bf38f1503785f4",
+          "quote_start": 588,
+          "quote_end": 1172,
+          "quote": "Insurance Claim received by Albert Co. Ltd. of ₹ 5,00,000 for Loss of Machinery 1\ndue to theft will be recorded in Cash Flow Statement in which of the following\nmanner?\na) Added under Operating b) Subtracted under Operating\nActivities as Extraordinary Activities as Extraordinary Item\nItem and Subtracted from and Added to Operating\nOperating Activities also. Activities also.\nc) Added under Operating d) Subtracted under Operating\nActivities as Extraordinary Activities as Extraordinary Item\nItem and Outflow under and Inflow under Investing\nInvesting Activity also. Activities also.",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leac206",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac206.logical-pages-v5.json",
+          "cache_sha256": "1f4e40bba17883f341ecebb9b2b775ab3862776f1262c332685f30f9ae1ce57a",
+          "physical_pdf_page": 7,
+          "quote_start": 83,
+          "quote_end": 517,
+          "quote": "Extraordinary items are not the regular phenomenon, e.g., loss due to theft\nor earthquake or flood. Extraordinary items are non-recurring in nature and\nhence cash flows associated with extraordinary items should be classified and\ndisclosed separately as arising from operating, investing or financing activities.\nThis is done to enable users to understand their nature and effect on the\npresent and future cash flows of an enterprise.",
+          "page_text_sha256": "edca549c72cd43ef76bd75ff180d578d16dd10e0b067e40155765d842dee6934",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac206.pdf",
+          "pdf_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac206",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac206.logical-pages-v5.json",
+          "cache_sha256": "1f4e40bba17883f341ecebb9b2b775ab3862776f1262c332685f30f9ae1ce57a",
+          "physical_pdf_page": 11,
+          "quote_start": 1160,
+          "quote_end": 1381,
+          "quote": "All other items for which the cash effects are investing or financing cash\nflows. The treatment of such items depends upon their nature. All investing\nand financing incomes are to be deducted from the amount of net profit",
+          "page_text_sha256": "99149234619cadcf154bccdc28e6c845cf5855c793b51cb320ee6d94e2b5e653",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac206.pdf",
+          "pdf_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac206",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac206.logical-pages-v5.json",
+          "cache_sha256": "1f4e40bba17883f341ecebb9b2b775ab3862776f1262c332685f30f9ae1ce57a",
+          "physical_pdf_page": 5,
+          "quote_start": 855,
+          "quote_end": 961,
+          "quote": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles.",
+          "page_text_sha256": "3d68638a4a616a96fc7f43b5c006d607ae9d262194867874904f0239cfa77762",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac206.pdf",
+          "pdf_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Specified indirect preparation, inclusion of this receipt in net profit, and the non-financial enterprise scope; retained the fixed-asset theft receipt and four classifications.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-acc-q30",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "source_question_no": "30",
+      "body": "Office equipment has a carrying amount of ₹3,00,000 on 31 March 2021 and ₹2,00,000 on 31 March 2022. During 2021–22, equipment costing ₹30,000 was purchased, depreciation of ₹40,000 was charged, and some equipment was sold at a profit of ₹12,000. These are the only changes in the equipment balance. What cash inflow arose from the sale?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,02,000"
+        },
+        {
+          "key": "C",
+          "text": "₹90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹1,12,000"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pages-v1.json",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "physical_pdf_page": 11,
+          "page_text_sha256": "40bbdf87958a22c48f9e1982e0143b91871badf82a56665e05bf38f1503785f4",
+          "quote_start": 2046,
+          "quote_end": 2124,
+          "quote": "From the following information find out the inflow of Cash by sale of Office 1",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        },
+        {
+          "source_id": "cbse-sqp-2022-23-accountancy",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pdf",
+          "pdf_sha256": "c6879d415f050f95d22f275eede2238b6d2975935f43080a9db80dd2c90229ec",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Accountancy-SQP.pages-v1.json",
+          "cache_sha256": "904e0e708af73de9539106ec1ef17f31e339e5f9a431665a52c8742a4df50f00",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+          "physical_pdf_page": 12,
+          "page_text_sha256": "d31f6dffdd6352ff781ce6a22b8f16f15e90f9b24c9d52afa1aaa2e303fd56af",
+          "quote_start": 0,
+          "quote_end": 333,
+          "quote": "equipment’s\n31st March, 2022 31st March, 2021\nOffice Equipment ₹ 2,00,000 ₹ 3,00,000\nAdditional Information:\nDepreciation for the year 2021-22 was Rs. 40,000\nPurchase of Office Equipment purchased during the year Rs. 30,000\nPart of Office Equipment sold at a profit of Rs. 12,000\na) ₹ 1,00,000 b) ₹ 1,02,000\nc) ₹ 90,000 d) ₹ 1,12,000",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leac206",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac206.logical-pages-v5.json",
+          "cache_sha256": "1f4e40bba17883f341ecebb9b2b775ab3862776f1262c332685f30f9ae1ce57a",
+          "physical_pdf_page": 19,
+          "quote_start": 124,
+          "quote_end": 476,
+          "quote": "During the year, a Machine costing Rs. 25,000 with Accumulated Depreciation of\nRs. 15,000 was sold for Rs. 13,000.\nCalculate cash flow from Investing Activities on the basis of the above\ninformation.\nSolution:\nCash Flows from Investing Activities Rs.\nSale of Machinery 13,000\nPurchase of Machinery (35,000)\nNet cash used in Investing Activities (22,000",
+          "page_text_sha256": "622035946b1473f5830ab2e23286ef4eb38f69c761c58ae744e462627ea659fa",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac206.pdf",
+          "pdf_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leac206",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\teaching-cache-v1\\ncert-leac206.logical-pages-v5.json",
+          "cache_sha256": "1f4e40bba17883f341ecebb9b2b775ab3862776f1262c332685f30f9ae1ce57a",
+          "physical_pdf_page": 19,
+          "quote_start": 493,
+          "quote_end": 824,
+          "quote": "Machinery Account\nDr. Cr.\nParticulars J.F. Amount Particulars J.F. Amount\n(Rs.) (Rs.)\nBalance b/d 50,000 Cash (proceeds\nStatement of Profit and Loss from sale of machine) 13,000\n(profit on sale of machine) 3,000 Accumulated\nCash (balancing figure:new Depreciation 15,000\nmachinery purchased) 35,000 Balance c/d 60,000\n88,000 88,000",
+          "page_text_sha256": "622035946b1473f5830ab2e23286ef4eb38f69c761c58ae744e462627ea659fa",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leac206.pdf",
+          "pdf_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Named the reported balances as carrying amounts and made the completeness of the listed asset movements explicit; retained all amounts and options.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-bs-q01",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "source_question_no": "1",
+      "body": "Rishabh manages a creative unit. In organising its work, he has identified and divided the activities required by the plans. Which step should he perform next?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Identification and division of work"
+        },
+        {
+          "key": "B",
+          "text": "Departmentalisation"
+        },
+        {
+          "key": "C",
+          "text": "Assignment of duties"
+        },
+        {
+          "key": "D",
+          "text": "Establishing reporting relationships"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pages-v1.json",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "3ecfab07ccc67797175efbf471d61f51560f58864860bb42cbe061de288758eb",
+          "quote_start": 497,
+          "quote_end": 982,
+          "quote": "Rishabh joined an entertainment company Avtaar, as a creative head. As a manager\n1. looking after the creative unit of the company, one of the functions he has to perform is 1\nthe process of organizing. Which step of the process will he need to perform after\nidentifying and dividing the work that has to be done in accordance with previously\ndetermined plans?\na)Identification and division of work\nb).Departmentalisation\nc).Assignment of Duties\nd).Establishing Reporting Relationships",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 3,
+          "quote_start": 1030,
+          "quote_end": 1649,
+          "quote": "From the above description, the following steps emerge in the process of organising: (i) Identification and division of work: The first step in the process of organising involves identifying and dividing the work that has to be done in accordance with previously determined plans. The work is divided into manageable activities so that duplication can be avoided and the burden of work can be shared among the employees. (ii) Departmentalisation: Once work has been divided into small and manageable activities then those activities which are similar in nature are grouped together. Such sets facilitate specialisation.",
+          "page_text_sha256": "910416427fc0b1bcd3addeccd64e188d29cd0427bb70352613467959ca0e0e3e",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 4,
+          "quote_start": 254,
+          "quote_end": 1131,
+          "quote": "iii) Assignment of duties: It is necessary to define the work of different job positions and accordingly allocate work to various employees. Once departments have been formed, each of them is placed under the charge of an individual. Jobs are then allocated to the members of each department in accordance to their skills and competencies. It is essential for effective performance that a proper match is made between the nature of a job and the ability of an individual. The work must be assigned to those who are best fitted to perform it well. (iv) Establishing authority and reporting relationships: Merely allocating work is not enough. Each individual should also know who he has to take orders fr om and to whom he is accountable. The establishment of such clear relationships helps to create a hierarchal structure and helps in coordination amongst various departments.",
+          "page_text_sha256": "1584e6d578766dfda76195dd01557094312dea030e8869ef2e68182dff01add6",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-bs-q02",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "source_question_no": "2",
+      "body": "Changes in the business environment occur so frequently that predicting future developments becomes difficult. Which characteristic is most directly highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Uncertainty"
+        },
+        {
+          "key": "B",
+          "text": "Complexity"
+        },
+        {
+          "key": "C",
+          "text": "Interrelatedness"
+        },
+        {
+          "key": "D",
+          "text": "Relativity"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pages-v1.json",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "3ecfab07ccc67797175efbf471d61f51560f58864860bb42cbe061de288758eb",
+          "quote_start": 983,
+          "quote_end": 1212,
+          "quote": "Which characteristic of the business environment is highlighted when changes are taking\n2. place too frequently and it becomes difficult to predict the future? 1\na). Uncertainty\nb). Complexity\nc). Inter-relatedness\nd). Relativity",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 3,
+          "quote_start": 1324,
+          "quote_end": 2546,
+          "quote": "iii) Inter -relatedness: Different elements or parts of business environment are closely inter ­ related. For example, increased life expectancy of people and increased awareness for health care have increased the demand for many health products and services like soft drinks, fat ­free cooking oil, and health resorts. New health products and services have, in turn, changed people’s life styles. (iv) Dyna mic nature: Business environment is dynamic in that it keeps on changing whether in terms of technological imp­ rovement, shifts in consumer preferences or entry of new competition in the market. (v) Uncertainty: Business envir­ onment is largely uncertain as it is very difficult to predict future happenings, especially when environment changes are taking place too frequently as in the case of information tech nolo gy or fashion industries. (v i ) Complexity: Since business env ironment consists of numerous interrelated and dynamic conditions or forces which arise from different sources, it becomes difficult to comprehend at once what exactly constitutes a given environment. In other words, environment is a complex phenomenon that is relatively easier to understand in parts but difficult to grasp in its",
+          "page_text_sha256": "09848840d20771c842e301b39fe0b88f4ce301e1e7dc67805ec68af61c2ccf68",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 4,
+          "quote_start": 221,
+          "quote_end": 542,
+          "quote": "vii) Relativity: Business environment is a relative concept since it differs from country to country and even region to region. Political conditions in the USA, for instance, differ from those in China or Pakistan. Similarly, demand for sarees may be fairly high in India whereas it may be almost non ­existent in France.",
+          "page_text_sha256": "dcd7c7ca4aaf617ba1d18f1a5c594587aa1de7890f0394709568eb6ea7acb299",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-bs-q03",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "source_question_no": "3",
+      "body": "An automobile company divides work into production, purchase, marketing, accounts and personnel. Which of the following is a disadvantage of this organisation structure?",
+      "options": [
+        {
+          "key": "A",
+          "text": "It may lead to an increase in cost."
+        },
+        {
+          "key": "B",
+          "text": "Managers may gain power, assert independence and ignore organisational interests."
+        },
+        {
+          "key": "C",
+          "text": "It ensures that different functions get due attention."
+        },
+        {
+          "key": "D",
+          "text": "Heads do not get training for top management positions."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pages-v1.json",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "3ecfab07ccc67797175efbf471d61f51560f58864860bb42cbe061de288758eb",
+          "quote_start": 1213,
+          "quote_end": 1703,
+          "quote": "Aarohan Ltd. is a company manufacturing automobiles where division of work into key\n3. areas includes production, purchase, marketing, accounts and personnel. Which of the 1\nfollowing is a disadvantage of the organization structure of Aarohan Ltd.?\na). It may lead to increase in cost\nb). Managers may gain power and assert independence and ignore organization interests.\nc). It ensures that different functions get due attention.\nd). Heads do not get training for top management positions.",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 8,
+          "quote_start": 21,
+          "quote_end": 2460,
+          "quote": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together. Advantages: The functional structure has many advantages to offer. Important among them are as follows: (a) A functional structure leads to occupational specialisation since emphasis is placed on specific functions. This pr omotes efficiency in utilisation of manpower as employees perform similar tasks within a department and are able to improve performance. (b) It promotes control and coordination within a department because of similarity in the tasks being perfor med. (c) It helps in increasing managerial and operational efficiency and this results in increased pr ofit. (d) It leads to minimal duplication of effort which results in economies of scale and this lowers cost. (e) It makes training of employees easier as the focus is only on a limited range of skills. (f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus",
+          "page_text_sha256": "8e18b8388fb62cb257e22c56ad865261596c7e38266347953a2936a272938187",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 9,
+          "quote_start": 15,
+          "quote_end": 199,
+          "quote": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas.",
+          "page_text_sha256": "53da7243f1a3c17eee185426e742c31a494dcb0b633810d01121c3f4c4d30060",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 10,
+          "quote_start": 1003,
+          "quote_end": 1598,
+          "quote": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager",
+          "page_text_sha256": "21e80ed17dd91e3caeb3b5e9f47c7cb1c7116716baaeef1b7d59dc7a17fdc7f1",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs105",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs105.logical-pages-v5.json",
+          "cache_sha256": "84fa76f4b965bfd4c007b942b1df81a0758051e4cb27ceb7b79752064d19162a",
+          "physical_pdf_page": 11,
+          "quote_start": 15,
+          "quote_end": 106,
+          "quote": "may gain power and in a bid to assert his independence may ignore organisational interests.",
+          "page_text_sha256": "7ff0e6d457b10c63990df7490e064b557af527762fdc113a51e79e6aa2574481",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs105.pdf",
+          "pdf_sha256": "7cd6d31631994f439b5d347adf65ea0bc24c6a299ff73896addfad03c30c2145",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs105.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-bs-q04",
+      "subject": "business_studies",
+      "chapter": "Business Environment",
+      "source_question_no": "4",
+      "body": "A case illustrates increasing participation of women in the workforce through Sapna, a woman who recently joined a company and uses accounting software at work. Which two business-environment dimensions are highlighted?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Technological and social"
+        },
+        {
+          "key": "B",
+          "text": "Technological and political"
+        },
+        {
+          "key": "C",
+          "text": "Political and economic"
+        },
+        {
+          "key": "D",
+          "text": "Social and legal"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-businessstudies",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pdf",
+          "pdf_sha256": "417fb7d95e6e0c125c2641b13a7b297ee515dbbbd22536a55905ffe9638e6b36",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\BusinessStudies-SQP.pages-v1.json",
+          "cache_sha256": "a21e9bf86560ec09f04223783234d09d52d52fe6e8d94287afc611e86cf84699",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "d999d8481218b8af1916ee27d67b3aff70b430f469a312dd8e5c6f92b78e6147",
+          "quote_start": 5,
+          "quote_end": 292,
+          "quote": "Identify the dimensions of the business environment illustrated by the picture given above\nin which Sapna who has joined the workforce recently is working on an accounting\nsoftware.\na. Technological and social.\nb. Technological and political\nc. Political and economic\nd. Social and legal",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 9,
+          "quote_start": 26,
+          "quote_end": 390,
+          "quote": "Attitudes towards product innovations, lifestyles, occupational distribution and consumer preferences n Concern with quality of life n Life expectancy n Expectations from the workforce n Shifts in the presence of women in the workforce n Birth and death rates n Population shifts n Educational system and literacy rates n Consumption habits n Composition of family",
+          "page_text_sha256": "76998c9173e54422c298c8cc9446054d8f481030ac491203351fefc0e2cef5ef",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 8,
+          "quote_start": 20,
+          "quote_end": 145,
+          "quote": "innovations which provide new ways o f prod ucing goods and services and new methods and techni ques of operating a business.",
+          "page_text_sha256": "76c3db8ba3992663c7a220216b84ccb643d64e04144e3132915f523f95478892",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-lebs103.logical-pages-v5.json",
+          "cache_sha256": "3416d8a38308f051d4376baccc8b5214235c11f73600032e10092f73c6c4ee83",
+          "physical_pdf_page": 9,
+          "quote_start": 482,
+          "quote_end": 1651,
+          "quote": "iv) Political Environment: Political environment in cludes political conditio ns such as general stability and peace in the coun­try and specific attitudes that elected gover nment representatives hold towards business. The significance of political conditions in business success lies in the predictability of business activities under stable political conditions. On the other hand, there may be uncertainty of business activities due to political unrest and threats to law and order. Political stability, thus, builds up confidence among business people to invest in the long term projects for the growth of the economy. Political instability can shake that confidence. Similarly, the attitudes of government officials towards business may have either positive or negative impact upon business. (v) Legal Environment: Legal envi ronment includes various legis lations passed by the Government administrative orders issued by gover nment authorities, court judgments as well as the decisions rendered by various commissions and agencies at every level of the government— centre, state or local. It is imperative for the manag ement of every enterprise to obey the law",
+          "page_text_sha256": "76998c9173e54422c298c8cc9446054d8f481030ac491203351fefc0e2cef5ef",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\lebs103.pdf",
+          "pdf_sha256": "7402fe9aa74689a96914fece63f8535023617683388c2f1a250f0596b3a9e064",
+          "official_url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Replaced the visually verified woman-at-computer image with text, and named the workforce-participation theme rather than assuming a social trend from an isolated hire.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-econ-q01",
+      "subject": "economics",
+      "chapter": "Income Determination",
+      "source_question_no": "1",
+      "body": "Consider the NCERT two-sector income–expenditure model, with autonomous investment and a constant marginal propensity to consume strictly between 0 and 1. Statement 1: The consumption curve is an upward-sloping straight line because consumption rises with income at a constant rate. Statement 2: The aggregate-demand curve and consumption curve are parallel. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pages-v1.json",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "6f1b2d05ec724783cc632b54c8bdb11f322e95d4f906389364e9752d678204c5",
+          "quote_start": 724,
+          "quote_end": 1270,
+          "quote": "Statement 1: The consumption curve is an upward sloping straight line curve due to the\ndirect relationship between income and consumption and the assumption of constant\nMarginal Propensity to Consume.\nStatement 2: Aggregate Demand curve and Consumption curve are parallel to each other.\nIn the light of the given statements, choose the correct alternative from the following:\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true 1\nc) Both statements 1 and 2 are true\nd) Both statements 1 and 2 are false",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 2,
+          "quote_start": 1162,
+          "quote_end": 2686,
+          "quote": "4.1.1. Consumption The most important determinant of consumption demand is household income. A consumption function describes the relation between consumption and income. The simplest consumption function assumes that consumption changes at a constant rate as income changes. Of course, even if income is zero, some consumption still takes place. Since this level of consumption is independent of income, it is called autonomous consumption. We can describe this function as: C C cY= + (4.1) The above equation is called the consumption function. Here C is the consumption expenditure by households. This consists of two components autonomous consumption and induced consumption ( cY ). Autonomous consumption is denoted by C and shows the consumption which is independent of income. If consumption takes place even when income is zero, it is because of autonomous consumption. The induced component of consumption, cY shows the dependence of consumption on income. When income rises by Re 1. induced consumption rises by MPC i.e. c or the marginal propensity to consume. It may be explained as a rate of change of consumption as income changes. CMPC c Y ∆= =∆ Now, let us look at the value that MPC can take. When income changes, change in consumption ( ) C∆ can never exceed the change in income ( Y)∆ . The maximum value which c can take is 1. On the other hand consumer may choose not to change consumption even when income has changed. In this case MPC = 0. Generally, MPC lies between 0 and 1 (inclusive of both values",
+          "page_text_sha256": "d2dfddb469f0c7000feeb8972be6a00adc32d522e8a037567161e986ce5511aa",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 6,
+          "quote_start": 851,
+          "quote_end": 1210,
+          "quote": "In a two sector model, there are two sources of final demand, the first is consumption and the second is investment. The investment function was shown as I = I Graphically, this is shown as a horizontal line at a height equal to I above the horizontal axis. In this model, I is autonomous which means, it is the same no matter whatever is the level of income.",
+          "page_text_sha256": "b81b4e168358ae7d1923f023a09e19a973048042e8d8fec1a4644f3e51c5f5e2",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec104",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec104.logical-pages-v5.json",
+          "cache_sha256": "7f6e149284fe05f6ff0b89d42aeca17eb2bac699bda24ce59520e98b7402d5ef",
+          "physical_pdf_page": 7,
+          "quote_start": 51,
+          "quote_end": 530,
+          "quote": "Aggregate Demand: Graphical Representation The A ggregate Demand function shows the total demand (made up of consumption + investment) at each level of income. Graphically it means the aggregate demand function can be obtained by vertically adding the consumption and investment function. Here, OM = C OJ = I OL = C I+ The aggregate demand function is parallel to the consumption function i.e., they have the same slope c. It may be noted that this function shows ex ante demand.",
+          "page_text_sha256": "3dd45bc050236f7449613adab826aa089bfb6f0af733e9008529a7d3e2073a77",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec104.pdf",
+          "pdf_sha256": "b1ffed1daa89c998a2fa204e1fe4fbae58fc71131c8ee3dfefc07b1b3f12291c",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec104.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Named the autonomous-investment model and positive constant MPC range explicitly; retained the two source propositions and option ordering.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-econ-q03",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "source_question_no": "3",
+      "body": "Which institution accepts deposits from the public for lending purposes?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Commercial banks"
+        },
+        {
+          "key": "B",
+          "text": "Life Insurance Corporation"
+        },
+        {
+          "key": "C",
+          "text": "Reserve Bank of India"
+        },
+        {
+          "key": "D",
+          "text": "Government of India"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pages-v1.json",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "physical_pdf_page": 1,
+          "page_text_sha256": "6f1b2d05ec724783cc632b54c8bdb11f322e95d4f906389364e9752d678204c5",
+          "quote_start": 1694,
+          "quote_end": 1899,
+          "quote": "is an institution that accept deposits for lending purposes.\n(Fill up the blank with correct alternative)\na) Commercial Banks b) Life Insurance Corporation 1\nc) Reserve Bank of India d) Government of India",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec103.logical-pages-v5.json",
+          "cache_sha256": "cdaa503ea4c9f0b2c3a7aa526cea7b837983e9df1f0372de935e2c0dff1525b7",
+          "physical_pdf_page": 3,
+          "quote_start": 351,
+          "quote_end": 1271,
+          "quote": "Central bank Central Bank is a very important institution in a modern economy. Almost every country has one central bank. India got its central bank in 1935. Its name is the ‘Reserve Bank of India’. Central bank has several important functions. It issues the currency of the country. It controls money supply of the country through various methods, like bank rate, open market operations and variations in reserve ratios. It acts as a banker to the government. It is the custodian of the foreign exchange reserves of the economy. It also acts as a bank to the banking system, which is discussed in detail later. From the point of view of money supply, we need to focus on its function of issuing currency. This currency issued by the central bank can be held by the public or by the commercial banks, and is called the ‘high-powered money’ or ‘reserve money’ or ‘monetary base’ as it acts as a basis for credit creation.",
+          "page_text_sha256": "8a72b6e6b0ad01145a813275f0ac42e8b686b5fe601bbdc7770880059dd8d1ed",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec103.pdf",
+          "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec103",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec103.logical-pages-v5.json",
+          "cache_sha256": "cdaa503ea4c9f0b2c3a7aa526cea7b837983e9df1f0372de935e2c0dff1525b7",
+          "physical_pdf_page": 3,
+          "quote_start": 1272,
+          "quote_end": 1877,
+          "quote": "Commercial Banks Commercial banks are the other type of institutions which are a part of the money-creating system of the economy. In the following section we look at the commercial banking system in detail. They accept deposits from the public and lend out part of these funds to those who want to borrow. The interest rate paid by the banks to depositors is lower than the rate charged from the borrowers. This difference between these two types of interest rates, called the ‘spread’ is the profit appropriated by the bank. The process of deposit and loan (credit) creation by banks is explained below.",
+          "page_text_sha256": "8a72b6e6b0ad01145a813275f0ac42e8b686b5fe601bbdc7770880059dd8d1ed",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec103.pdf",
+          "pdf_sha256": "d1b7f0407236a4fcf300267a04c2897acfcfbe2435c100ccf5205acb0748843f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec103.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-econ-q04",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "source_question_no": "4",
+      "body": "Use the NCERT two-account balance-of-payments classification (current account and capital account). Statement 1: India’s export of financial services is recorded on the credit side of the current account. Statement 2: Foreign direct investment into India is recorded on the credit side of the capital account. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pages-v1.json",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "0e8da79d230dadc6927bdc0c450a6d451895d810e29df52504b1da4adfba8211",
+          "quote_start": 43,
+          "quote_end": 486,
+          "quote": "Statement 1: Export of financial services by India will be recorded on credit side of current\naccount.\nStatement2: Foreign Direct Investments in India will be recorded on credit side of capital\naccount.\nIn the light of the given statements, choose the correct alternative: 1\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true\nc) Both statements 1 and 2 are true\nd) Both statements 1 and 2 are false",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+          "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+          "physical_pdf_page": 2,
+          "quote_start": 1983,
+          "quote_end": 2770,
+          "quote": "6.1 THE BALANCE OF PAYMENTS The balance of payments (BoP) record the transactions in goods, services and assets between residents of a country with the rest of the world for a specified time period typically a year. There are two main accounts in the BoP — the current account and the capital account1. 6.1.1 Current Account Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods. Trade in services includes factor income and non-factor income transactions. Transfer payments are the receipts which the residents of a country get for ‘free’, without having to provide any goods or services in return. They consist of gifts, remittances and grants.",
+          "page_text_sha256": "cab52c6613297994fdcef31b1ae81287cb60e5509e5297b67d3fc96e86f22908",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+          "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        },
+        {
+          "source_id": "ncert-leec106",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec106.logical-pages-v5.json",
+          "cache_sha256": "2549e4d60610211bac6c0cb8d374a902ab02a895e02ec0c9b6f03f3a3ab71819",
+          "physical_pdf_page": 4,
+          "quote_start": 39,
+          "quote_end": 1231,
+          "quote": "of imports of invisibles of a country in a given period of time. Invisibles include services, transfers and flows of income that take place between different countries. Services trade includes both factor and non-factor income. Factor income includes net international earnings on factors of production (like labour, land and capital). Non-factor income is net sale of service products like shipping, banking, tourism, software services, etc. 6.1.2 Capital Account Capital Account records all international transactions of assets. An asset is any one of the forms in which wealth can be held, for example: money, stocks, bonds, Government debt, etc. Purchase of assets is a debit item on the capital account. If an Indian buys a UK Car Company, it enters capital account transactions as a debit item (as foreign exchange is flowing out of India). On the other hand, sale of assets like sale of share of an Indian company to a Chinese customer is a credit item on the capital account. Fig. 6.2 classifies the items which are a part of capital account transactions. These items are Foreign Direct Investments (FDIs), Foreign Institutional Investments (FIIs), external borrowings and assistance.",
+          "page_text_sha256": "4228a161af759a299cd9b933b4eb09be757627b6c70b67e6e7b9da2ccdf2a1e1",
+          "pdf_path": "data\\question-factory-runtime\\reference-downloads\\leec106.pdf",
+          "pdf_sha256": "78892e1924206db9f3367c8184eb41afb93f44b292ddd0876a4cc7ca528ee2b2",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec106.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Identified the textbook’s two-account classification explicitly; did not assert that it is the only current international reporting framework.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0
+    },
+    {
+      "item_id": "v74-cbse22-econ-q05",
+      "subject": "economics",
+      "chapter": "National Income & Related Aggregates",
+      "source_question_no": "5",
+      "body": "Statement 1: Net investment is a stock concept. Statement 2: Capital is a flow concept. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-economics",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pdf",
+          "pdf_sha256": "3b0992633b48f7fa5513a1cfc8799215d3f28dffa374d637c57595d99ecc5d61",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\Economics-SQP.pages-v1.json",
+          "cache_sha256": "1c36a76320f9fd543987d8b0104ad88535841ccd78aafed6cb06a5919f5378a9",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "0e8da79d230dadc6927bdc0c450a6d451895d810e29df52504b1da4adfba8211",
+          "quote_start": 530,
+          "quote_end": 879,
+          "quote": "Statement 1 - Net investment is a stock concept.\nStatement 2 - Capital is a flow concept.\nIn the light of the given statements, choose the correct alternative from the following:\na) Statement 1 is true and statement 2 is false\nb) Statement 1 is false and statement 2 is true\nc) Both statements 1 and 2 are true 1\nd) Both statements 1 and 2 are false",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [
+        {
+          "source_id": "ncert-leec102",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\cbse-independent-key-candidates\\source-support-v3\\ncert-leec102.logical-pages-v5.json",
+          "cache_sha256": "904630e2c298bd2d6db3814ccde7c3e4af24d125b0da7a03e775ad070640053a",
+          "physical_pdf_page": 4,
+          "quote_start": 40,
+          "quote_end": 2594,
+          "quote": "In contrast, capital goods or consumer durables once produced do not wear out or get consumed in a delineated time period. In fact capital goods continue to serve us through different cycles of production. The buildings or machines in a factory are there irrespective of the specific time period. There can be addition to, or deduction from, these if a new machine is added or a machine falls in disuse and is not replaced. These are called stocks. Stocks are defined at a particular point of time. However we can measure a change in stock over a specific period of time like how many machines wer e added this year . Such changes in stocks are thus flows, which can be measured over specific time periods. A particular machine can be part of the capital stock for many years (unless it wears out); but that machine can be part of the flow of new machines added to the capital stock only for a single year when it was initially installed. To further understand the difference between stock variables and flow variables, let us take the following example. Suppose a tank is being filled with water coming from a tap. The amount of water which is flowing into the tank from the tap per minute is a flow. But how much water there is in the tank at a particular point of time is a stock concept. To come back to our discussion on the measure of final output, that part of our final output that comprises of capital goods constitutes gross investment of an economy1. These may be machines, tools and implements; buildings, office spaces, storehouses or infrastructure like roads, bridges, airports or jetties. But all the capital goods produced in a year do not constitute an addition to the capital stock already existing. A significant part of current output of capital goods goes in maintaining or replacing part of the existing stock of capital goods. This is because the already existing capital stock suffers wear and tear and needs maintenance and replacement. A part of the capital goods produced this year goes for replacement of existing capital goods and is not an addition to the stock of capital goods already existing and its value needs to be subtracted from gross investment for arriving at the measure for net investment. This deletion, which is made from the value of gross investment in order to accommodate regular wear and tear of capital, is called depreciation . So new addition to capital stock in an economy is measured by net investment or new capital formation, which is expressed as Net Investment = Gross investment – Depreciation",
+          "page_text_sha256": "a5aa6368f9b3957c369f6f9960635eaf92818d80f6bf03e9b2e3fcace8fbf3ef",
+          "pdf_path": "data\\question-factory-runtime\\business-economics-auth-work\\official-ncert\\leec102.pdf",
+          "pdf_sha256": "89f1eea66614cbcab4057897828bba25f7e27192aeaa612bb8450ebcc37ebc0f",
+          "official_url": "https://ncert.nic.in/textbook/pdf/leec102.pdf",
+          "permission_basis": "Brief attributed official NCERT excerpts for local educational verification; no unrestricted republication claim",
+          "notice": "Quote integrity is not semantic entailment; the separate manual option-claim audit supplies the reasoning."
+        }
+      ],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": null,
+      "targeted_source_edits_used": 0,
+      "maximum_additional_repairs": 1
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-i",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "source_question_no": "1-i",
+      "body": "According to paragraph 1, ghost nets have been named so because they",
+      "options": [
+        {
+          "key": "A",
+          "text": "cause much harm to marine life."
+        },
+        {
+          "key": "B",
+          "text": "are functional though no longer used by fishers."
+        },
+        {
+          "key": "C",
+          "text": "are not owned by anyone."
+        },
+        {
+          "key": "D",
+          "text": "act as a snare for all animals in the oceans."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "2317743968fe0b02fbaf22d6d27448caf83a01515ad6444c66a4fa683c475f07",
+          "quote_start": 418,
+          "quote_end": 620,
+          "quote": "Ghost nets have been named so because they\nA. cause much harm to the marine life.\nB. are functional though not in use by fishers.\nC. are not owned by anyone.\nD. act as a snare for all animals in oceans.",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "v74-cbse22-ghost-nets-adapted",
+      "lexical_source_words": []
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-iv",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "source_question_no": "1-iv",
+      "body": "Select the option that conveys the opposite of “negligible”, using a word from paragraph 2.",
+      "options": [
+        {
+          "key": "A",
+          "text": "unimpressive"
+        },
+        {
+          "key": "B",
+          "text": "monumental"
+        },
+        {
+          "key": "C",
+          "text": "exposing"
+        },
+        {
+          "key": "D",
+          "text": "threat"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "2317743968fe0b02fbaf22d6d27448caf83a01515ad6444c66a4fa683c475f07",
+          "quote_start": 871,
+          "quote_end": 1019,
+          "quote": "Select the option that conveys the opposite of ‘negligible’, from words used in 1\nparagraph two.\nA. unimpressive\nB. monumental\nC. exposing\nD. threat",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "v74-cbse22-ghost-nets-adapted",
+      "lexical_source_words": [
+        "negligible",
+        "unimpressive",
+        "monumental",
+        "exposing",
+        "threat"
+      ]
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-v",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "source_question_no": "1-v",
+      "body": "The writer would agree with the following statements based on paragraph 3, EXCEPT:",
+      "options": [
+        {
+          "key": "A",
+          "text": "Most ghost nets take a few years to completely disintegrate."
+        },
+        {
+          "key": "B",
+          "text": "Ghost nets contribute to the Great Pacific Garbage Patch."
+        },
+        {
+          "key": "C",
+          "text": "Most ghost nets provide nutrition to marine animals upon disintegration."
+        },
+        {
+          "key": "D",
+          "text": "Ghost nets can curtail the freedom of marine animals."
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 2,
+          "page_text_sha256": "2317743968fe0b02fbaf22d6d27448caf83a01515ad6444c66a4fa683c475f07",
+          "quote_start": 1022,
+          "quote_end": 1361,
+          "quote": "The writer would agree with the given statements based on paragraph three, EXCEPT: 1\nA. Most ghost nets take a few years to completely disintegrate.\nB. Ghost nets contribute to the Great Pacific Garbage Patch.\nC. Most ghost nets provide nutrition to marine animals, upon disintegration.\nD. Ghost nets can curtail freedom of marine animals.",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "v74-cbse22-ghost-nets-adapted",
+      "lexical_source_words": []
+    },
+    {
+      "item_id": "v74-cbse22-en-q1-ix",
+      "subject": "english",
+      "chapter": "Factual Passage",
+      "source_question_no": "1-ix",
+      "body": "How can the solutions suggested in paragraph 5 best be described?",
+      "options": [
+        {
+          "key": "A",
+          "text": "practical"
+        },
+        {
+          "key": "B",
+          "text": "presentable"
+        },
+        {
+          "key": "C",
+          "text": "popular"
+        },
+        {
+          "key": "D",
+          "text": "prejudiced"
+        }
+      ],
+      "source_spans": [
+        {
+          "source_id": "cbse-sqp-2022-23-englishcore",
+          "pdf_path": "artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pdf",
+          "pdf_sha256": "9ab82efd76b3998126adfbdbf6b817a5ae3a89a30c5348657294b9c46ea1a745",
+          "cache_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\artifacts\\question-factory\\cuet-readiness-2026-10-08\\execution\\v74-source-prep\\acquisition-2022-23\\EnglishCore-SQP.pages-v1.json",
+          "cache_sha256": "714f6f330c3aaa402d362d6f0c0e93d45b355a78d5a7206493b6ae771943adf2",
+          "official_url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+          "physical_pdf_page": 3,
+          "page_text_sha256": "9e42da31ea507aed45d7a021cde57afb53bda503d34be9b7cf3eae869c050647",
+          "quote_start": 3,
+          "quote_end": 128,
+          "quote": "How can the solutions, suggested in paragraph five, best be described? 1\nA. practical\nB. presentable\nC. popular\nD. prejudiced",
+          "permission_basis": "Brief attributed source excerpts for local educational verification; not an unrestricted redistribution licence"
+        }
+      ],
+      "supporting_excerpts": [],
+      "source_status": "CBSE_sample_paper_derived_practice_reference_not_CUET_PYQ",
+      "adaptation_note": "Re-solve against the disclosed abridged stimulus. Retained source option ordering; removed historical percentages, dates and tonnage from the stimulus without inventing replacement figures.",
+      "targeted_source_edits_used": 1,
+      "maximum_additional_repairs": 0,
+      "stimulus_id": "v74-cbse22-ghost-nets-adapted",
+      "lexical_source_words": [
+        "practical",
+        "presentable",
+        "popular",
+        "prejudiced"
+      ]
+    }
+  ],
+  "locator_errata": [
+    {
+      "case_id": "v74-cbse22-acc-q30",
+      "actual_pages": [
+        11,
+        12
+      ],
+      "note": "Source question and table continue onto physical page12."
+    },
+    {
+      "case_id": "v74-cbse22-en-q1-ix",
+      "actual_pages": [
+        3
+      ],
+      "note": "Printed subpart ix is on physical page3, not page2."
+    },
+    {
+      "case_id": "v74-cbse22-bs-q04",
+      "actual_pages": [
+        2
+      ],
+      "note": "Source image and question are on physical page2."
+    },
+    {
+      "case_ids": [
+        "v74-cbse22-econ-q04",
+        "v74-cbse22-econ-q05"
+      ],
+      "actual_pages": [
+        2
+      ],
+      "note": "These source items begin on physical page2."
+    }
+  ],
+  "construction_rule": "All16 raw IDs are retained; two independent derivations must be saved before any official marking-scheme comparison. Genuine raw/adapted defects are reported, never silently replaced.",
+  "limitations": [
+    "CBSE reference cases test current-format practice; these are not authenticated CUET PYQs.",
+    "Passage siblings and paired controls are correlated; this small set cannot prove perfect accuracy.",
+    "Question construction reads source items; no validator prompt was changed after source acquisition.",
+    "Official keys have not been opened; no answer is inherited without solving the adapted item.",
+    "Textbook quotation integrity is not independent proof of semantic correctness."
+  ],
+  "release": false,
+  "publication": false
+}

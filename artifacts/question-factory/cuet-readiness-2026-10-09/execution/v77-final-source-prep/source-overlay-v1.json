@@ -1,0 +1,368 @@
+{
+  "schema": "v77-final-source-overlay-v1",
+  "created_at": "2026-10-09T06:42:30.000Z",
+  "contract_freeze_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+  "transport_freeze_sha256": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+  "sources": {
+    "v77src-leac206": {
+      "id": "v77src-leac206",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "Cash Flow Statement",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e",
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leac206.pages.json",
+      "source_pack_id": "v77-final-pack-accountancy",
+      "facts": {
+        "NCERT physical page 2": {
+          "text": "A cash flow statement shows inflows and outflows of cash and cash equivalents from various activities of a company during a specific period."
+        }
+      },
+      "supports": {
+        "NCERT physical page 2": "452824cfbd19ef65ee35f47f416dc66dd2f64207725c25b3886b0bd960142209"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation; no unrestricted republication claim"
+      }
+    },
+    "v77src-lebs106": {
+      "id": "v77src-lebs106",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "Staffing",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs106.pdf",
+      "identity_sha256": "96d48f828d84bc7ec07e111ca7a68ec855d5071b6ed7cf7ab951740e62b23970",
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs106.pages.json",
+      "source_pack_id": "v77-final-pack-business_studies",
+      "facts": {
+        "NCERT physical page 6": {
+          "text": "Employees need to be trained for upgradation of knowledge and skills and for preparing for higher responsibilities. Staff training and development is another important aspect of the staffing process."
+        }
+      },
+      "supports": {
+        "NCERT physical page 6": "0acc219e02d7b70b113483fc24c64fc94650de3a8f58615a3e9eb5c4b434aaf6"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation; no unrestricted republication claim"
+      }
+    },
+    "v77src-lebs203": {
+      "id": "v77src-lebs203",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "Consumer Protection",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs203.pdf",
+      "identity_sha256": "0823655909a5f2eb4808f5a3b5191774b5d17e1c2a3a9e7ad95df6d26fc35420",
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/lebs203.pages.json",
+      "source_pack_id": "v77-final-pack-business_studies",
+      "facts": {
+        "NCERT physical page 8": {
+          "text": "The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or a service."
+        }
+      },
+      "supports": {
+        "NCERT physical page 8": "156ba57bc4ccf32344e538c5ab23140606ba60722045d5a4dc9eeaabcfc3e93f"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation; no unrestricted republication claim"
+      }
+    },
+    "v77src-leec202": {
+      "id": "v77src-leec202",
+      "kind": "reference",
+      "state": "active",
+      "version": 1,
+      "title": "Introductory Microeconomics: Consumer Behaviour",
+      "url": "https://ncert.nic.in/textbook/pdf/leec202.pdf",
+      "identity_sha256": "b97d1752c94896b1c836650f6536371a9ea609178ec5e4e09a74ca9ab6a00288",
+      "extraction_file": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-source-prep/ncert/leec202.pages.json",
+      "source_pack_id": "v77-final-pack-economics",
+      "facts": {
+        "NCERT physical page 2": {
+          "text": "Utility that one individual gets from the commodity can change with change in place and time."
+        }
+      },
+      "supports": {
+        "NCERT physical page 2": "87d7da966e7db0af4b9fa3fceeaa2355d78af6aa0434a75e12d99ecb45f3d294"
+      },
+      "permission": {
+        "basis": "Attributed official NCERT text for local educational validation; no unrestricted republication claim"
+      }
+    },
+    "v77src-english-narratives": {
+      "id": "v77src-english-narratives",
+      "kind": "authored-stimulus",
+      "title": "Original narrative passages authored for this V77 benchmark",
+      "source_url": null,
+      "locator": "original author-created narrative passages; each passage is the primary stimulus and sole factual authority",
+      "identity_sha256": null,
+      "reuse_permitted": true,
+      "permission": {
+        "basis": "Original text authored locally for this benchmark; no third-party passage or PYQ claim"
+      },
+      "facts": {
+        "library": {
+          "text": "Every afternoon, Mira opened the reading-room windows for twenty minutes before shelving returned books. Once a week she checked the paper strips placed inside the map boxes. When a strip felt damp, she moved that box away from the outside wall and entered the move in a ledger. No map had yet been damaged. When a donor asked whether the old maps were safe, Mira replied that these steps reduced the risk; they could not remove it entirely.",
+          "sha256": "e92d4a3ddeff970524c952061364772220f9f4dd33a15029967a1050da1447d7"
+        },
+        "ferry": {
+          "text": "At the river landing, Dev kept a small board listing the ferry times. The printed timetable had been washed away in the monsoon, so he copied the operator’s new schedule in chalk each morning. When the current grew too strong, the operator cancelled the noon crossing and Dev crossed that line through. A visitor complained that the board had changed. Dev pointed to the fresh date written at the top and said that an accurate change was more useful than a familiar but unsafe promise.",
+          "sha256": "afa61ce5b56b6e10b32e8b62603a7a8da984f4c8f98ab60a9f9adbd797bba49e"
+        },
+        "orchard": {
+          "text": "Leela’s first harvest came in uneven batches. Rather than send every basket to market at once, she asked buyers to choose a collection window and wrote each promise beside the buyer’s name. The first week, one buyer arrived early. Leela did not scold him; she showed him the list and offered the next available slot. By the end of the month, buyers had begun checking the list before setting out. Leela kept the system because it made small delays visible while there was still time to adjust.",
+          "sha256": "f44f5224b5acf589c09a8264ac2c82db34f49d1361ad8fc87a99dc3d58c7a25c"
+        },
+        "workshop": {
+          "text": "When the village clock stopped, Arun carried it to the repair room and placed its screws in a shallow tray. His apprentice wanted to replace the whole mechanism immediately. Arun first asked her to compare the movement of the second hand with the sound of the escapement. They found a thread caught near one gear. After removing it, they watched the clock for an hour before declaring the repair complete. The apprentice later said the waiting had taught her as much as the repair.",
+          "sha256": "32d47616f9aa2f95bef5794ccdd547c53725d360a902efeead44a0d23f7abcc4"
+        }
+      },
+      "state": "active",
+      "version": 1,
+      "source_pack_id": "v77-final-pack-english"
+    }
+  },
+  "families": {
+    "v77final-accountancy-cash-flow-statement": {
+      "id": "v77final-accountancy-cash-flow-statement",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "kind": "original_practice",
+      "case_id": "v77f-e77493e30567",
+      "novelty_review": "fresh construction after v77 freezes; compared against prior frozen-set stem/options records"
+    },
+    "v77final-business_studies-staffing": {
+      "id": "v77final-business_studies-staffing",
+      "subject": "business_studies",
+      "chapter": "Staffing",
+      "kind": "original_practice",
+      "case_id": "v77f-3e505228c987",
+      "novelty_review": "fresh construction after v77 freezes; compared against prior frozen-set stem/options records"
+    },
+    "v77final-business_studies-consumer-protection": {
+      "id": "v77final-business_studies-consumer-protection",
+      "subject": "business_studies",
+      "chapter": "Consumer Protection",
+      "kind": "original_practice",
+      "case_id": "v77f-e9ef75026c19",
+      "novelty_review": "fresh construction after v77 freezes; compared against prior frozen-set stem/options records"
+    },
+    "v77final-economics-introduction-theory-of-consumer-behaviour": {
+      "id": "v77final-economics-introduction-theory-of-consumer-behaviour",
+      "subject": "economics",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "kind": "original_practice",
+      "case_id": "v77f-fcf957a734d5",
+      "novelty_review": "fresh construction after v77 freezes; compared against prior frozen-set stem/options records"
+    },
+    "v77final-english-narrative-passage": {
+      "id": "v77final-english-narrative-passage",
+      "subject": "english",
+      "chapter": "Narrative Passage",
+      "kind": "original_practice",
+      "case_id": "v77f-56f266269b74",
+      "novelty_review": "fresh construction after v77 freezes; compared against prior frozen-set stem/options records"
+    }
+  },
+  "packs": {
+    "v77-final-pack-accountancy": {
+      "id": "v77-final-pack-accountancy",
+      "version": 1,
+      "subject": "accountancy",
+      "syllabus": {
+        "subject": "Accountancy",
+        "unit": "Analysis of Financial Statements",
+        "chapter": "Cash Flow Statement",
+        "official_pdf": "data/CUET 2026/accountancy.pdf",
+        "official_scope_excerpt": "Cash Flow Statement",
+        "canonical_unit": "Analysis of Financial Statements",
+        "canonical_chapter": "Cash Flow Statement"
+      },
+      "source_ids": [
+        "v77src-leac206"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-accountancy-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cdn.aglasem.com/aglasem-doc/4baca6da-1277-11f1-b1d1-0a5e36bc6706/4baca6da-1277-11f1-b1d1-0a5e36bc6706.pdf",
+        "identity_sha256": "5649554d77d2f4e92ee692130dc00b35ff11ef7a479867684a4d612b3b970b15",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "aglasem_edutech_private_limited",
+        "identity": {
+          "subject_code": "301",
+          "language": "Assamese",
+          "paper_languages": [
+            "English",
+            "Assamese"
+          ],
+          "booklet": "A",
+          "key_date_token": "17.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://www.ndl.gov.in/cd_document/cuet_ug/cuetug/acc_qp_2024",
+          "quote": "Accountancy Question Paper for CUET (UG) 2024 (17th May 2024)",
+          "identity_sha256": "b4bf56593372c67ea8611ec5e84c6a0e42be35fb016b564b69c8bc89fecb03d8"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-accountancy-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      },
+      "state": "draft"
+    },
+    "v77-final-pack-business_studies": {
+      "id": "v77-final-pack-business_studies",
+      "version": 1,
+      "subject": "business_studies",
+      "syllabus": {
+        "subject": "Business Studies",
+        "unit": "Staffing / Consumer Protection",
+        "chapter": "Staffing; Consumer Protection",
+        "official_pdf": "data/CUET 2026/business_studies.pdf",
+        "official_scope_excerpt": "Staffing; Consumer Protection",
+        "canonical_units": [
+          "Staffing",
+          "Consumer Protection"
+        ]
+      },
+      "source_ids": [
+        "v77src-lebs106",
+        "v77src-lebs203"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-business_studies-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+        "identity_sha256": "59d04b56f122976baef16ae3d3a29dbdf2648385d58a18d4e515801ef42edf1d",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "305",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "17.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/bus_qp_2024",
+          "quote": "Business Studies Question Paper for CUET (UG) 2024 (17th May 2024) Question Paper",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-business_studies-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      },
+      "state": "draft"
+    },
+    "v77-final-pack-economics": {
+      "id": "v77-final-pack-economics",
+      "version": 1,
+      "subject": "economics",
+      "syllabus": {
+        "subject": "Economics",
+        "unit": "Introductory Microeconomics",
+        "chapter": "Introduction & Theory of Consumer Behaviour",
+        "official_pdf": "data/CUET 2026/economics.pdf",
+        "official_scope_excerpt": "Introduction & Theory of Consumer Behaviour",
+        "canonical_unit": "Introductory Microeconomics",
+        "canonical_chapter": "Introduction & Theory of Consumer Behaviour"
+      },
+      "source_ids": [
+        "v77src-leec202"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-economics-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Economics-PYQ-PDF.pdf",
+        "identity_sha256": "e1215ae7a562ea0b4c3978c872b2242087d2d449029efa644b59710d8b3edca7",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "careerguide",
+        "identity": {
+          "subject_code": "309",
+          "language": "English",
+          "booklet": "A",
+          "year": 2024,
+          "key_date_token": "16.05.2024"
+        },
+        "catalog": {
+          "url": "https://www.ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eco_qp_2024",
+          "quote": "Economics/Business Economics Question Paper for CUET (UG) 2024 (16th May 2024)",
+          "identity_sha256": "ef046eeeec6f793c4a9265c7468706e35bb4da3d66492225a508228770734048"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-economics-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      },
+      "state": "draft"
+    },
+    "v77-final-pack-english": {
+      "id": "v77-final-pack-english",
+      "version": 1,
+      "subject": "english",
+      "syllabus": {
+        "subject": "English",
+        "unit": "Reading Comprehension",
+        "chapter": "Narrative Passage",
+        "official_pdf": "data/CUET 2026/english.pdf",
+        "official_scope_excerpt": "Reading Comprehension: Narrative Passage",
+        "canonical_unit": "Reading Comprehension",
+        "canonical_chapter": "Narrative Passage"
+      },
+      "source_ids": [
+        "v77src-english-narratives"
+      ],
+      "format_reference": {
+        "source_id": "cuet2024-english-bookA-paper",
+        "reference_only": true,
+        "claim": "Original practice item; exemplar is used only to calibrate stem/options presentation and task shape.",
+        "url": "https://infinitylearn.com/surge/wp-content/uploads/securepdfs/2025/05/CUET-English-Question-Paper-2024.pdf",
+        "identity_sha256": "48604706c96ff447dfacb8a3f47b35ce2f092da7ee494c0e60123cb5b9493f85",
+        "authentication_type": "corroborated_mirror",
+        "publisher_group": "InfinityLearn / Rankguru Technology Solutions Private Limited",
+        "identity": {
+          "subject_code": "101",
+          "language": "English",
+          "booklet": "A",
+          "key_date_token": "15.05.2024",
+          "year": 2024
+        },
+        "catalog": {
+          "url": "https://ndl.iitkgp.ac.in/cd_document/cuet_ug/cuetug/eng_qp_15may2024",
+          "quote": "English Language Question Paper for CUET (UG) 2024 (15th May 2024)",
+          "identity_sha256": "d63edc05a2f4c688461bf399cea0b4a7273924b500ca7741e3dc578829406159"
+        },
+        "question_count": 50,
+        "official_key_source_id": "cuet2024-english-bookA-final-key",
+        "key_or_question_text_included": false,
+        "permission": {
+          "basis": "Owner reuse attestation; no independently verified licence document",
+          "reference": "Owner commissioning message, 6 October 2026",
+          "independently_verified_licence": false
+        }
+      },
+      "state": "draft"
+    }
+  }
+}

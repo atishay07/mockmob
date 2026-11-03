@@ -1,0 +1,242 @@
+{
+  "purpose": "Independent derivations before oracle and validator disclosure",
+  "cases": [
+    {
+      "id": "v75f-08df5940be",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Office equipment has a carrying amount of ₹3,00,000 on 31 March 2021 and ₹2,00,000 on 31 March 2022. During 2021–22, equipment costing ₹30,000 was purchased, depreciation of ₹40,000 was charged, and some equipment was sold at a profit of ₹12,000. These are the only changes in the equipment balance. What cash inflow arose from the sale?",
+      "options": [
+        {
+          "key": "A",
+          "text": "₹1,00,000"
+        },
+        {
+          "key": "B",
+          "text": "₹1,02,000"
+        },
+        {
+          "key": "C",
+          "text": "₹90,000"
+        },
+        {
+          "key": "D",
+          "text": "₹1,12,000"
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-f47fc3466d5b",
+          "locator": "decisive-excerpt",
+          "text": "During the year, a Machine costing Rs. 25,000 with Accumulated Depreciation of\nRs. 15,000 was sold for Rs. 13,000.\nCalculate cash flow from Investing Activities on the basis of the above\ninformation.\nSolution:\nCash Flows from Investing Activities Rs.\nSale of Machinery 13,000\nPurchase of Machinery (35,000)\nNet cash used in Investing Activities (22,000"
+        },
+        {
+          "id": "v75f-s-e0884a03ec8a",
+          "locator": "decisive-excerpt",
+          "text": "Machinery Account\nDr. Cr.\nParticulars J.F. Amount Particulars J.F. Amount\n(Rs.) (Rs.)\nBalance b/d 50,000 Cash (proceeds\nStatement of Profit and Loss from sale of machine) 13,000\n(profit on sale of machine) 3,000 Accumulated\nCash (balancing figure:new Depreciation 15,000\nmachinery purchased) 35,000 Balance c/d 60,000\n88,000 88,000"
+        }
+      ]
+    },
+    {
+      "id": "v75f-6657abc5d1",
+      "subject": "accountancy",
+      "chapter": "Financial Statements of Company",
+      "body": "Financial statements are prepared on certain basic assumptions (pre-requisites). What are these assumptions called?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Provisions of the Companies Act, 2013"
+        },
+        {
+          "key": "B",
+          "text": "Accounting standards"
+        },
+        {
+          "key": "C",
+          "text": "Postulates"
+        },
+        {
+          "key": "D",
+          "text": "Basis of accounting"
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-cd33d1be4862",
+          "locator": "decisive-excerpt",
+          "text": "3. Postulates: Financial statements are prepared on certain basic assumptions (pre-requisites) known as postulates such as going concern postulate, money measurement postulate, realisation postulate, etc. Going concern postulate assumes that the enterprise is treated as a going concern and exists for a longer period of time. So the assets are shown on historical cost basis. Money measurement postulate assumes that the value of money will remain the same in different periods. Though there is drastic change in purchasing power of money, the assets purchased at different times will be shown at"
+        }
+      ]
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "subject": "business_studies",
+      "chapter": "Organising",
+      "body": "An automobile company divides work into production, purchase, marketing, accounts and personnel. Which of the following is a disadvantage of this organisation structure?",
+      "options": [
+        {
+          "key": "A",
+          "text": "It may lead to an increase in cost."
+        },
+        {
+          "key": "B",
+          "text": "Managers may gain power, assert independence and ignore organisational interests."
+        },
+        {
+          "key": "C",
+          "text": "It ensures that different functions get due attention."
+        },
+        {
+          "key": "D",
+          "text": "Heads do not get training for top management positions."
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-8d877e6df3cc",
+          "locator": "decisive-excerpt",
+          "text": "departments creates a functional structure. All departments report to a coordinating head. For example, in a manufacturing concern division of work into key functions will include production, purchase, marketing, accounts and personnel. These departments may be further divided into sections. Thus, a functional structure is an organisational design that groups similar or related jobs together."
+        },
+        {
+          "id": "v75f-s-d70b6385c98d",
+          "locator": "decisive-excerpt",
+          "text": "(f) It ensures that different functions get due attention. Disadvantages: The functional structur e has certain disadvantages which an organisation must take into consideration before it adopts it. Some of them are as follows: (a) A functional structure places less emphasis on overall enterprise objectives than the objectives pursued by a functional head. Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised. Pursuing departmental interests at the cost of organisational interests can also hinder the interaction between two or more departments. (b) It may lead to problems in coordination as information has to be exchanged across functionally differentiated departments. (c) A conflict of interests may arise when the interests of two or more departments are not compatible. For example, the sales department insisting on a customer friendly design may cause difficulties in production. Such dissension can prove to be harmful in terms of fulfillment of organisational interest. Inter ­ departmental conflicts can also arise in the absence of clear separation of responsibility. (d) It may lead to inflexibility as people with same skills and knowledge base may develop a narrow perspective and thus"
+        },
+        {
+          "id": "v75f-s-c66a1d325241",
+          "locator": "decisive-excerpt",
+          "text": "have difficulty in appreciating by other point of view. Functional heads do not get training for top management positions because they are unable to gather experience in diverse areas."
+        },
+        {
+          "id": "v75f-s-6e21e3af87ba",
+          "locator": "decisive-excerpt",
+          "text": "The divisional structure has certain disadvantages. Some of them are as follows: (a) Conflict may arise among different divisions with reference to allocation of funds and further a particular division may seek to maximise its pr ofits at the cost of other divisions. (b) It may lead to increase in costs since there may be a duplication of activities across products. Providing each division with separate set of similar functions increases expenditure. (c) It provides managers with the authority to supervise all activities related to a particular div ision. In course of time, such a manager"
+        },
+        {
+          "id": "v75f-s-5d7f6593d351",
+          "locator": "decisive-excerpt",
+          "text": "may gain power and in a bid to assert his independence may ignore organisational interests."
+        }
+      ]
+    },
+    {
+      "id": "v75f-9c1cf0ec0b",
+      "subject": "economics",
+      "chapter": "Money & Banking",
+      "body": "Which institution accepts deposits from the public for lending purposes?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Commercial banks"
+        },
+        {
+          "key": "B",
+          "text": "Life Insurance Corporation"
+        },
+        {
+          "key": "C",
+          "text": "Reserve Bank of India"
+        },
+        {
+          "key": "D",
+          "text": "Government of India"
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-7239aa14a94e",
+          "locator": "decisive-excerpt",
+          "text": "Central bank Central Bank is a very important institution in a modern economy. Almost every country has one central bank. India got its central bank in 1935. Its name is the ‘Reserve Bank of India’. Central bank has several important functions. It issues the currency of the country. It controls money supply of the country through various methods, like bank rate, open market operations and variations in reserve ratios. It acts as a banker to the government. It is the custodian of the foreign exchange reserves of the economy. It also acts as a bank to the banking system, which is discussed in detail later. From the point of view of money supply, we need to focus on its function of issuing currency. This currency issued by the central bank can be held by the public or by the commercial banks, and is called the ‘high-powered money’ or ‘reserve money’ or ‘monetary base’ as it acts as a basis for credit creation."
+        },
+        {
+          "id": "v75f-s-ca4eda4985d7",
+          "locator": "decisive-excerpt",
+          "text": "Commercial Banks Commercial banks are the other type of institutions which are a part of the money-creating system of the economy. In the following section we look at the commercial banking system in detail. They accept deposits from the public and lend out part of these funds to those who want to borrow. The interest rate paid by the banks to depositors is lower than the rate charged from the borrowers. This difference between these two types of interest rates, called the ‘spread’ is the profit appropriated by the bank. The process of deposit and loan (credit) creation by banks is explained below."
+        }
+      ]
+    },
+    {
+      "id": "v75f-f790bb5d76",
+      "subject": "accountancy",
+      "chapter": "Cash Flow Statement",
+      "body": "Albert Co. Ltd., a non-financial company, receives an insurance claim of ₹5,00,000 for machinery lost through theft. The receipt is included in net profit. When preparing cash flows by the indirect method, how should this receipt be treated?",
+      "options": [
+        {
+          "key": "A",
+          "text": "Add it under operating activities as an extraordinary item and also subtract it from operating activities."
+        },
+        {
+          "key": "B",
+          "text": "Subtract it under operating activities as an extraordinary item and also add it to operating activities."
+        },
+        {
+          "key": "C",
+          "text": "Add it under operating activities as an extraordinary item and record an investing outflow."
+        },
+        {
+          "key": "D",
+          "text": "Subtract it when adjusting operating profit for the extraordinary item and record an investing inflow."
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-b2e32a98eb55",
+          "locator": "decisive-excerpt",
+          "text": "Extraordinary items are not the regular phenomenon, e.g., loss due to theft\nor earthquake or flood. Extraordinary items are non-recurring in nature and\nhence cash flows associated with extraordinary items should be classified and\ndisclosed separately as arising from operating, investing or financing activities.\nThis is done to enable users to understand their nature and effect on the\npresent and future cash flows of an enterprise."
+        },
+        {
+          "id": "v75f-s-03284d44f89a",
+          "locator": "decisive-excerpt",
+          "text": "All other items for which the cash effects are investing or financing cash\nflows. The treatment of such items depends upon their nature. All investing\nand financing incomes are to be deducted from the amount of net profit"
+        },
+        {
+          "id": "v75f-s-42434b4106ee",
+          "locator": "decisive-excerpt",
+          "text": "Cash Inflows from Investing Activities\n Cash receipt from disposal of fixed assets including intangibles."
+        }
+      ]
+    },
+    {
+      "id": "v75f-f992f37503",
+      "subject": "economics",
+      "chapter": "Balance of Payments",
+      "body": "Use the NCERT two-account balance-of-payments classification (current account and capital account). Statement 1: India’s export of financial services is recorded on the credit side of the current account. Statement 2: Foreign direct investment into India is recorded on the credit side of the capital account. Choose the correct option.",
+      "options": [
+        {
+          "key": "A",
+          "text": "Statement 1 is true and Statement 2 is false."
+        },
+        {
+          "key": "B",
+          "text": "Statement 1 is false and Statement 2 is true."
+        },
+        {
+          "key": "C",
+          "text": "Both statements are true."
+        },
+        {
+          "key": "D",
+          "text": "Both statements are false."
+        }
+      ],
+      "passage": "",
+      "references": [
+        {
+          "id": "v75f-s-dc4d924b3121",
+          "locator": "decisive-excerpt",
+          "text": "6.1 THE BALANCE OF PAYMENTS The balance of payments (BoP) record the transactions in goods, services and assets between residents of a country with the rest of the world for a specified time period typically a year. There are two main accounts in the BoP — the current account and the capital account1. 6.1.1 Current Account Current Account is the record of trade in goods and services and transfer payments. Figure 6.1 illustrates the components of Current Account. Trade in goods includes exports and imports of goods. Trade in services includes factor income and non-factor income transactions. Transfer payments are the receipts which the residents of a country get for ‘free’, without having to provide any goods or services in return. They consist of gifts, remittances and grants."
+        },
+        {
+          "id": "v75f-s-89ee2df980f5",
+          "locator": "decisive-excerpt",
+          "text": "of imports of invisibles of a country in a given period of time. Invisibles include services, transfers and flows of income that take place between different countries. Services trade includes both factor and non-factor income. Factor income includes net international earnings on factors of production (like labour, land and capital). Non-factor income is net sale of service products like shipping, banking, tourism, software services, etc. 6.1.2 Capital Account Capital Account records all international transactions of assets. An asset is any one of the forms in which wealth can be held, for example: money, stocks, bonds, Government debt, etc. Purchase of assets is a debit item on the capital account. If an Indian buys a UK Car Company, it enters capital account transactions as a debit item (as foreign exchange is flowing out of India). On the other hand, sale of assets like sale of share of an Indian company to a Chinese customer is a credit item on the capital account. Fig. 6.2 classifies the items which are a part of capital account transactions. These items are Foreign Direct Investments (FDIs), Foreign Institutional Investments (FIIs), external borrowings and assistance."
+        }
+      ]
+    }
+  ]
+}

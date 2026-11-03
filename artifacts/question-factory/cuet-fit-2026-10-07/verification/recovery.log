@@ -1,0 +1,51 @@
+
+> mockmob@0.1.0 test:recovery
+> node --test data/tests/recovery.test.mjs scripts/pipeline/tests/recoverySafety.test.mjs scripts/pipeline/tests/evidencePipeline.test.mjs scripts/pipeline/tests/sourceAdapters.test.mjs data/tests/recoveryDatabase.test.mjs data/tests/recovery_pathway_candidate.test.mjs data/tests/session_recovery.test.mjs data/tests/practice_ticket.test.mjs
+
+✔ a full paper with large verification records fits submission while retaining the exact authenticated snapshot (21.0953ms)
+✔ existing p1 tickets remain readable and practice request identities do not change (0.9772ms)
+✔ tampering, version substitution, wrong owner, wrong secret and expiry remain rejected (21.6906ms)
+✔ snapshot and decompression bounds reject oversized data (66.0056ms)
+✔ server snapshot scores answers; a correct-to-wrong change loses six marks (1.4588ms)
+✔ missing event answers cannot invent score effects (0.7025ms)
+✔ unknown questions, duplicate sequence, out-of-bounds answer and future events fail (1.8448ms)
+✔ repeats, assisted answers and same-family variants cannot demonstrate improvement (0.4589ms)
+✔ practice submission survives a clock-skewed event log but never an invalid answer (0.5277ms)
+✔ attempt provenance separates server practice, recovery sessions and browser-scored history (0.1382ms)
+✔ migration enforces owner access, atomic charge and exactly-once score/progress (1761.6022ms)
+✔ candidate passes software consistency and the committed build is current (14.5354ms)
+✔ candidate is never served: manifest, release gates and claim ladder stay closed (0.2328ms)
+✔ validator catches corrupted keys, matrices, families, text and derivations (21.1361ms)
+✔ simulators reproduce the textbook cases independently of authored text (0.2672ms)
+✔ each misconception is supported by two families, routed to its repair, then checked fresh on schedule (13.5841ms)
+✔ a secure learner gets no gap label and a short path; repair activity never counts as evidence (0.3466ms)
+✔ conflicting probe evidence abstains and falls back to the general repair (0.4032ms)
+✔ repeat exposure: seen families block a start, failed checks consume families, exhaustion blocks claims (2.4448ms)
+✔ interruption: a stale or duplicated submission after progress is rejected, never double-counted (0.6121ms)
+✔ public views never expose keys, matrices, claims or future checks (0.5341ms)
+✔ shared plan explains a due check with record facts and a rule, and stays deterministic (9.5068ms)
+✔ validation metrics report completion, fresh checks, attrition, defects and cost with sample sizes (4.6514ms)
+✔ storage: retries create one episode and one allowance; corrections invalidate claims (1764.5465ms)
+✔ marks gap is exact: 6 per wrong answer, 5 per blank, and adds up to the maximum (3.2067ms)
+✔ chapters are ranked by the marks they cost, and only chapters that cost marks appear (1.5589ms)
+✔ dwell time comes from the device timeline and is credited to the active question (0.3637ms)
+✔ observations are factual: a right answer changed to wrong, fast wrong picks, and a concentrated chapter (1.096ms)
+✔ inconsistent or missing device events never produce behaviour claims, but marks still work (0.3728ms)
+✔ blind checks never receive generator key or explanation; cached verdicts preserve exact IDs (97.3678ms)
+✔ duplicate stems stop before paid stages and one failed targeted repair stays quarantined (121.5976ms)
+✔ empty or family/source-overlapping academic benchmarks cannot release (0.6735ms)
+✔ restart retains reservations; zero yield pauses; missing usage prevents dispatch (133.7233ms)
+✔ concurrent processes cannot reserve beyond a shared ceiling (204.5494ms)
+✔ transport counts every request and stops on absent usage, unknown prices or wrong provider (96.474ms)
+✔ complete direct-recall fixture passes without a conceptual-depth requirement (2.5399ms)
+✔ missing, swapped, mock, changed, false citation and quarantined family evidence fails (1.447ms)
+✔ source adapters reject missing document identity before dispatch and invented supporting quotes (2.022ms)
+✔ exam fit needs final-key-matched authentic examples; numerical routes cannot silently use a model solver (0.2476ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2067.5302

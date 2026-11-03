@@ -1,0 +1,143 @@
+{
+  "id": "cuet-v716-diagnostic-r1",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 6,
+  "terminal": 0,
+  "valid_total": 4,
+  "valid_eligible": 0,
+  "valid_by_subject": {
+    "accountancy": {
+      "ok": 0,
+      "n": 1
+    },
+    "business_studies": {
+      "ok": 0,
+      "n": 1
+    },
+    "economics": {
+      "ok": 0,
+      "n": 1
+    },
+    "english": {
+      "ok": 0,
+      "n": 1
+    }
+  },
+  "controlled_defects": 2,
+  "controlled_false_accepts": [],
+  "review_incomplete": [],
+  "unfinished": [
+    "f-234e398c6040b350",
+    "f-90b386844e029292",
+    "f-793e37a7f34732b6",
+    "f-c3a378b4d2de5478",
+    "f-a7899d6bca12a82b",
+    "v75f-825e60a00f"
+  ],
+  "decision_rule": "Diagnostic only: native V716 report format compliance, outcome labelling and actual cost on six already-inspected R3 regression cases. Not qualification or release evidence; any later prompt change is followed by a fresh benchmark.",
+  "decision": "diagnostic_only",
+  "settled_usd": 0.012414,
+  "held_usd": 0.259974,
+  "receipt_complete": false,
+  "cases": [
+    {
+      "id": "f-234e398c6040b350",
+      "subject": "accountancy",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "pending",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "provider_batch_pending"
+      ]
+    },
+    {
+      "id": "f-90b386844e029292",
+      "subject": "accountancy",
+      "expected_valid": false,
+      "defect_class": "incorrect_answer_key",
+      "state": "pending",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "provider_batch_pending"
+      ]
+    },
+    {
+      "id": "f-793e37a7f34732b6",
+      "subject": "business_studies",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "pending",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "provider_batch_pending"
+      ]
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "subject": "economics",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "pending",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "provider_batch_pending"
+      ]
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "subject": "english",
+      "expected_valid": true,
+      "defect_class": null,
+      "state": "pending",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "provider_batch_pending"
+      ]
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "subject": "business_studies",
+      "expected_valid": false,
+      "defect_class": "multiple_correct",
+      "state": "paused",
+      "outcome": null,
+      "academic_sound": null,
+      "quality_score": null,
+      "route_band": null,
+      "difficulty": null,
+      "blind_keys": [],
+      "reasons": [
+        "study_draining_stop"
+      ]
+    }
+  ],
+  "publication": "never",
+  "release_record": false
+}

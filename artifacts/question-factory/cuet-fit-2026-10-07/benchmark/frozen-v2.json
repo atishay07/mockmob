@@ -1,0 +1,4595 @@
+{
+ "id": "cuet-fit-benchmark-v2-2026-10-07",
+ "registry_version": 58,
+ "additions": {
+  "sources": {
+   "v7c-passage-well": {
+    "id": "v7c-passage-well",
+    "kind": "reference",
+    "state": "active",
+    "version": 1,
+    "chapters": [
+     "Factual Passage"
+    ],
+    "url": "local://mockmob/cuet-fit-benchmark/v7c-passage-well",
+    "title": "Original fictional benchmark stimulus",
+    "identity_sha256": "571f47bc8ff2036d9af2703f2cd983a4bf191c25aab82bb32e377c28d8738b9f",
+    "extraction_sha256": "571f47bc8ff2036d9af2703f2cd983a4bf191c25aab82bb32e377c28d8738b9f",
+    "extraction_checked": true,
+    "reuse_permitted": true,
+    "permission": {
+     "basis": "Original prose written for the MockMob CUET-fit benchmark; no outside claim",
+     "reference": "scripts/pipeline/tools/cuetFitBenchmarkItems.mjs"
+    },
+    "facts": {
+     "stimulus": {
+      "text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well."
+     }
+    },
+    "supports": {
+     "stimulus": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+    },
+    "source_pack_id": "original-english-reference-v1"
+   },
+   "v7c-passage-bakery": {
+    "id": "v7c-passage-bakery",
+    "kind": "reference",
+    "state": "active",
+    "version": 1,
+    "chapters": [
+     "Para Jumbles"
+    ],
+    "url": "local://mockmob/cuet-fit-benchmark/v7c-passage-bakery",
+    "title": "Original fictional benchmark stimulus",
+    "identity_sha256": "b30cf9a93cd9e06adb92f49f89793f7d8d703c88d1ad23bbadfe225ba8771f3c",
+    "extraction_sha256": "b30cf9a93cd9e06adb92f49f89793f7d8d703c88d1ad23bbadfe225ba8771f3c",
+    "extraction_checked": true,
+    "reuse_permitted": true,
+    "permission": {
+     "basis": "Original prose written for the MockMob CUET-fit benchmark; no outside claim",
+     "reference": "scripts/pipeline/tools/cuetFitBenchmarkItems.mjs"
+    },
+    "facts": {
+     "stimulus": {
+      "text": "Farida opened a small bakery near the bus stop. At first only a few neighbours bought her bread. After she began offering free samples in the morning, more travellers stopped to buy. By the end of the year she had hired two helpers to meet the demand."
+     }
+    },
+    "supports": {
+     "stimulus": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+    },
+    "source_pack_id": "original-english-reference-v1"
+   }
+  }
+ },
+ "fixtures": [
+  {
+   "id": "v7c-acc-deed-statements",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-deed-statements",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "Consider the following statements about the provisions of the Indian Partnership Act that apply when a partnership deed is silent:\n(A) Profits and losses are shared equally by the partners irrespective of their capital contributions.\n(B) A partner is entitled to claim interest on capital as a matter of right.\n(C) No interest is charged on the drawings of the partners.\n(D) Every partner is entitled to a salary for taking part in the conduct of the business.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "When the deed is silent, profits and losses are shared equally irrespective of capital, and no interest is charged on drawings. No partner can claim interest on capital as of right, and no partner is entitled to salary or remuneration unless the deed provides for it. Only statements (A) and (C) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-acc-deed-statements",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-acc-deed-statements",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-acc-deed-statements--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-deed-statements--second_defensible",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "Consider the following statements about the provisions of the Indian Partnership Act that apply when a partnership deed is silent:\n(A) Profits and losses are shared equally by the partners irrespective of their capital contributions.\n(B) A partner who has advanced a loan to the firm is entitled to interest on it at 6 per cent per annum.\n(C) No interest is charged on the drawings of the partners.\n(D) Every partner is entitled to a salary for taking part in the conduct of the business.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "When the deed is silent, profits and losses are shared equally irrespective of capital, and no interest is charged on drawings. No partner can claim interest on capital as of right, and no partner is entitled to salary or remuneration unless the deed provides for it. Only statements (A) and (C) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-deed-statements--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-deed-statements--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Statement B is now also true, so (A), (B) and (C) are correct and the keyed “(A) and (C) only” wrongly excludes B.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-deed-statements"
+  },
+  {
+   "id": "v7c-acc-deed-statements--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-deed-statements--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "Consider the following statements about the provisions of the Indian Partnership Act that apply when a partnership deed is silent:\n(A) Profits and losses are shared equally by the partners irrespective of their capital contributions.\n(B) A partner is entitled to claim interest on capital as a matter of right.\n(C) No interest is charged on the drawings of the partners.\n(D) Every partner is entitled to a salary for taking part in the conduct of the business.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "C",
+    "explanation": "When the deed is silent, profits and losses are shared equally irrespective of capital, and no interest is charged on drawings. No partner can claim interest on capital as of right, and no partner is entitled to salary or remuneration unless the deed provides for it. Only statements (A) and (C) are correct.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-deed-statements--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-deed-statements--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of acc-deed-statements",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-deed-statements"
+  },
+  {
+   "id": "v7c-acc-deed-statements--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-deed-statements--embedded_unsupported",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "Consider the following statements about the provisions of the Indian Partnership Act that apply when a partnership deed is silent:\n(A) Profits and losses are shared equally by the partners irrespective of their capital contributions.\n(B) A partner is entitled to claim interest on capital as a matter of right.\n(C) No interest is charged on the drawings of the partners.\n(D) Every partner is entitled to a salary for taking part in the conduct of the business.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "When the deed is silent, profits and losses are shared equally and no interest is charged on drawings. No partner can claim interest on capital as of right, and no salary is payable unless the deed provides for it. The equal-sharing rule has been applied by Indian courts since the Privy Council decision of 1887 in Lakshmi v. Narayan.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-deed-statements--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-deed-statements--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Three correct claims plus an invented case citation.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-63927dc5d1aa",
+      "support_hash": "63927dc5d1aa689c9cb914fe1fe1396aac6c2071987111c2dc22e5b538d81d0d"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-deed-statements"
+  },
+  {
+   "id": "v7c-acc-forfeiture-shares",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-forfeiture-shares",
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "body": "A company forfeited fully called-up equity shares of ₹10 each, issued at a premium of ₹2 per share that had been received in full. On every forfeited share the only amount unpaid was the final call of ₹3. The total amount credited to Share Forfeiture Account was ₹4,200. How many shares were forfeited?",
+    "options": [
+     "420 shares",
+     "600 shares",
+     "525 shares",
+     "1,400 shares"
+    ],
+    "correct_answer": "B",
+    "explanation": "Because the premium was received in full, Securities Premium Account is not debited on forfeiture and the premium is not part of the amount forfeited. The amount paid per share on share capital is ₹10 − ₹3 = ₹7, so the number of shares is ₹4,200 ÷ ₹7 = 600.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-acc-forfeiture-shares",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-acc-forfeiture-shares",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-acc-forfeiture-shares--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-forfeiture-shares--conditional_answer",
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "body": "A company forfeited fully called-up equity shares of ₹10 each. The holders had not paid the final call of ₹3 per share, but the issue premium of ₹2 per share had been received in full. The total amount credited to Share Forfeiture Account on forfeiture was ₹4,200. How many shares were forfeited?",
+    "options": [
+     "420 shares",
+     "600 shares",
+     "525 shares",
+     "1,400 shares"
+    ],
+    "correct_answer": "B",
+    "explanation": "Because the premium was received in full, Securities Premium Account is not debited on forfeiture and the premium is not part of the amount forfeited. The amount paid per share on share capital is ₹10 − ₹3 = ₹7, so the number of shares is ₹4,200 ÷ ₹7 = 600.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-forfeiture-shares--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-forfeiture-shares--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The audited original stem: 600 holds only if the final call is the sole unpaid amount; if a further ₹4 instalment were also unpaid, 1,400 shares would fit.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-forfeiture-shares"
+  },
+  {
+   "id": "v7c-acc-forfeiture-shares--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-forfeiture-shares--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "body": "A company forfeited fully called-up equity shares of ₹10 each, issued at a premium of ₹2 per share that had been received in full. On every forfeited share the only amount unpaid was the final call of ₹3. The total amount credited to Share Forfeiture Account was ₹4,200. How many shares were forfeited?",
+    "options": [
+     "420 shares",
+     "600 shares",
+     "525 shares",
+     "1,400 shares"
+    ],
+    "correct_answer": "D",
+    "explanation": "Because the premium was received in full, Securities Premium Account is not debited on forfeiture and the premium is not part of the amount forfeited. The amount paid per share on share capital is ₹10 − ₹3 = ₹7, so the number of shares is ₹4,200 ÷ ₹7 = 600.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-forfeiture-shares--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-forfeiture-shares--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of acc-forfeiture-shares",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-forfeiture-shares"
+  },
+  {
+   "id": "v7c-acc-forfeiture-shares--numerical_fault",
+   "group": "controlled_defect",
+   "category": "numerical_fault",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-forfeiture-shares--numerical_fault",
+    "subject": "accountancy",
+    "chapter": "Share Capital",
+    "body": "A company forfeited fully called-up equity shares of ₹10 each, issued at a premium of ₹2 per share that had been received in full. On every forfeited share the only amount unpaid was the final call of ₹3. The total amount credited to Share Forfeiture Account was ₹4,500. How many shares were forfeited?",
+    "options": [
+     "420 shares",
+     "600 shares",
+     "525 shares",
+     "1,400 shares"
+    ],
+    "correct_answer": "B",
+    "explanation": "Because the premium was received in full, Securities Premium Account is not debited on forfeiture and the premium is not part of the amount forfeited. The amount paid per share on share capital is ₹10 − ₹3 = ₹7, so the number of shares is ₹4,200 ÷ ₹7 = 600.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-forfeiture-shares--numerical_fault",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-forfeiture-shares--numerical_fault",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "₹4,500 ÷ ₹7 is not a whole number and no option fits.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-39",
+      "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-forfeiture-shares"
+  },
+  {
+   "id": "v7c-acc-collection-period",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "acc-collection-period",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net credit revenue from operations for the year is ₹12,00,000 and average trade receivables are ₹2,40,000. Taking 365 days in a year, what is the average collection period?",
+    "options": [
+     "5 days",
+     "72 days",
+     "73 days",
+     "1,460 days"
+    ],
+    "correct_answer": "C",
+    "explanation": "Trade receivables turnover ratio = net credit revenue from operations ÷ average trade receivables = ₹12,00,000 ÷ ₹2,40,000 = 5 times. Average collection period = 365 ÷ turnover ratio = 365 ÷ 5 = 73 days.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-acc-collection-period",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-acc-collection-period",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-acc-collection-period--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-collection-period--conditional_answer",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net credit revenue from operations for the year is ₹12,00,000 and average trade receivables are ₹2,40,000. What is the average collection period?",
+    "options": [
+     "5 days",
+     "72 days",
+     "73 days",
+     "1,460 days"
+    ],
+    "correct_answer": "C",
+    "explanation": "Trade receivables turnover ratio = net credit revenue from operations ÷ average trade receivables = ₹12,00,000 ÷ ₹2,40,000 = 5 times. Average collection period = 365 ÷ turnover ratio = 365 ÷ 5 = 73 days.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-collection-period--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-collection-period--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The number of days in the year is not given; 360 days gives 72 days, 365 gives 73, and both are options.",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-collection-period",
+   "contested": true
+  },
+  {
+   "id": "v7c-acc-collection-period--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-collection-period--wrong_key",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net credit revenue from operations for the year is ₹12,00,000 and average trade receivables are ₹2,40,000. Taking 365 days in a year, what is the average collection period?",
+    "options": [
+     "5 days",
+     "72 days",
+     "73 days",
+     "1,460 days"
+    ],
+    "correct_answer": "B",
+    "explanation": "Trade receivables turnover ratio = net credit revenue from operations ÷ average trade receivables = ₹12,00,000 ÷ ₹2,40,000 = 5 times. Average collection period = 365 ÷ turnover ratio = 365 ÷ 5 = 73 days.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-collection-period--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-collection-period--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Controlled wrong_key mutation of acc-collection-period",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-collection-period"
+  },
+  {
+   "id": "v7c-acc-collection-period--explanation_arithmetic",
+   "group": "controlled_defect",
+   "category": "explanation_arithmetic",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-acc-collection-period--explanation_arithmetic",
+    "subject": "accountancy",
+    "chapter": "Accounting Ratios",
+    "body": "Net credit revenue from operations for the year is ₹12,00,000 and average trade receivables are ₹2,40,000. Taking 365 days in a year, what is the average collection period?",
+    "options": [
+     "5 days",
+     "72 days",
+     "73 days",
+     "1,460 days"
+    ],
+    "correct_answer": "C",
+    "explanation": "Trade receivables turnover ratio = net credit revenue from operations ÷ average trade receivables = ₹12,00,000 ÷ ₹2,40,000 = 6 times. Average collection period = 365 ÷ turnover ratio = 365 ÷ 5 = 73 days.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-acc-collection-period--explanation_arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-acc-collection-period--explanation_arithmetic",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "The key is right but the explanation states an incorrect intermediate ratio (6 times).",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-26",
+      "support_hash": "3218db6c78fb4926ff086ee4a8c4e27fb90b1ef83bec869c05c25ab7da9a2a9a"
+     },
+     {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da"
+     }
+    ]
+   },
+   "derived_from": "v7c-acc-collection-period"
+  },
+  {
+   "id": "v7c-bs-scalar-chain",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-scalar-chain",
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "The formal lines of authority from the highest to the lowest ranks of an organisation are known as:",
+    "options": [
+     "unity of direction",
+     "scalar chain",
+     "esprit de corps",
+     "centralisation"
+    ],
+    "correct_answer": "B",
+    "explanation": "An organisation consists of superiors and subordinates, and the formal lines of authority from the highest to the lowest ranks are known as the scalar chain.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-bs-scalar-chain",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-bs-scalar-chain",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-bs-scalar-chain--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-scalar-chain--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "The formal lines of authority from the highest to the lowest ranks of an organisation are known as:",
+    "options": [
+     "unity of direction",
+     "scalar chain",
+     "esprit de corps",
+     "the chain of authority and communication that runs from top to bottom"
+    ],
+    "correct_answer": "B",
+    "explanation": "An organisation consists of superiors and subordinates, and the formal lines of authority from the highest to the lowest ranks are known as the scalar chain.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-scalar-chain--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-scalar-chain--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Option D restates the scalar chain, so B and D are both correct.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-scalar-chain"
+  },
+  {
+   "id": "v7c-bs-scalar-chain--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-scalar-chain--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "The formal lines of authority from the highest to the lowest ranks of an organisation are known as:",
+    "options": [
+     "unity of direction",
+     "scalar chain",
+     "esprit de corps",
+     "centralisation"
+    ],
+    "correct_answer": "A",
+    "explanation": "An organisation consists of superiors and subordinates, and the formal lines of authority from the highest to the lowest ranks are known as the scalar chain.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-scalar-chain--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-scalar-chain--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of bs-scalar-chain",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-scalar-chain"
+  },
+  {
+   "id": "v7c-bs-scalar-chain--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-scalar-chain--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Principles of Management",
+    "body": "The formal lines of authority from the highest to the lowest ranks of an organisation are known as:",
+    "options": [
+     "unity of direction",
+     "scalar chain",
+     "esprit de corps",
+     "centralisation"
+    ],
+    "correct_answer": "B",
+    "explanation": "The formal lines of authority from the highest to the lowest ranks are known as the scalar chain. Fayol stated that a scalar chain should never have more than seven levels.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-scalar-chain--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-scalar-chain--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The seven-level claim is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs102",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "bbffdb960f918f72f267d76d528c12f518aa42b8572b0ecfe430582c7190b7ea"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-scalar-chain"
+  },
+  {
+   "id": "v7c-bs-economic-objectives",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-economic-objectives",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Which of the following is NOT one of the economic objectives of a business named in the textbook?",
+    "options": [
+     "Survival",
+     "Profit",
+     "Growth",
+     "Social service to society"
+    ],
+    "correct_answer": "D",
+    "explanation": "The textbook names survival, profit and growth as the economic objectives of a business. Social service is not among the three.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-bs-economic-objectives",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-bs-economic-objectives",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "D",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-bs-economic-objectives--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-economic-objectives--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Which of the following is NOT one of the economic objectives of a business named in the textbook?",
+    "options": [
+     "Survival",
+     "Profit",
+     "Growth",
+     "Social service to society"
+    ],
+    "correct_answer": "B",
+    "explanation": "The textbook names survival, profit and growth as the economic objectives of a business. Social service is not among the three.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-economic-objectives--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-economic-objectives--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "D",
+    "basis": "Controlled wrong_key mutation of bs-economic-objectives",
+    "correct_key_of_base": "D",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-economic-objectives"
+  },
+  {
+   "id": "v7c-bs-economic-objectives--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-economic-objectives--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Which of the following is NOT one of the economic objectives of a business named in the textbook?",
+    "options": [
+     "Survival",
+     "Profit",
+     "Social service to society",
+     "Employee recreation"
+    ],
+    "correct_answer": "D",
+    "explanation": "The textbook names survival, profit and growth as the economic objectives of a business. Social service is not among the three.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-economic-objectives--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-economic-objectives--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options C and D are both outside the three economic objectives, so the NOT stem has two correct answers.",
+    "correct_key_of_base": "D",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-economic-objectives"
+  },
+  {
+   "id": "v7c-bs-economic-objectives--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-economic-objectives--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "Which of the following is NOT one of the economic objectives of a business named in the textbook?",
+    "options": [
+     "Survival",
+     "Profit",
+     "Growth",
+     "Social service to society"
+    ],
+    "correct_answer": "D",
+    "explanation": "Survival, profit and growth are the economic objectives. A business must also reinvest at least 30 per cent of its profit under the Companies Act to count growth as an objective.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-economic-objectives--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-economic-objectives--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "D",
+    "basis": "The 30 per cent rule is invented.",
+    "correct_key_of_base": "D",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-economic-objectives"
+  },
+  {
+   "id": "v7c-bs-planning-meaning",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-planning-meaning",
+    "subject": "business_studies",
+    "chapter": "Planning",
+    "body": "Which of the following best describes planning?",
+    "options": [
+     "Setting objectives and targets and formulating an action plan to achieve them",
+     "Comparing actual performance with the standards set",
+     "Assigning duties to employees and grouping activities",
+     "Guiding and motivating employees to work towards the goals"
+    ],
+    "correct_answer": "A",
+    "explanation": "Planning means setting objectives and targets and formulating an action plan to achieve them.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-bs-planning-meaning",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-bs-planning-meaning",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-bs-planning-meaning--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-planning-meaning--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Planning",
+    "body": "Which of the following best describes planning?",
+    "options": [
+     "Setting objectives and targets and formulating an action plan to achieve them",
+     "Comparing actual performance with the standards set",
+     "Assigning duties to employees and grouping activities",
+     "Guiding and motivating employees to work towards the goals"
+    ],
+    "correct_answer": "B",
+    "explanation": "Planning means setting objectives and targets and formulating an action plan to achieve them.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-planning-meaning--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-planning-meaning--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of bs-planning-meaning",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-planning-meaning"
+  },
+  {
+   "id": "v7c-bs-planning-meaning--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-planning-meaning--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Planning",
+    "body": "Which of the following best describes planning?",
+    "options": [
+     "Setting objectives and targets and formulating an action plan to achieve them",
+     "Comparing actual performance with the standards set",
+     "Deciding beforehand the targets and the plan of action by which to reach them",
+     "Guiding and motivating employees to work towards the goals"
+    ],
+    "correct_answer": "A",
+    "explanation": "Planning means setting objectives and targets and formulating an action plan to achieve them.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-planning-meaning--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-planning-meaning--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and C both describe planning.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-planning-meaning"
+  },
+  {
+   "id": "v7c-bs-planning-meaning--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-planning-meaning--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Planning",
+    "body": "Which of the following best describes planning?",
+    "options": [
+     "Setting objectives and targets and formulating an action plan to achieve them",
+     "Comparing actual performance with the standards set",
+     "Assigning duties to employees and grouping activities",
+     "Guiding and motivating employees to work towards the goals"
+    ],
+    "correct_answer": "A",
+    "explanation": "Planning means setting objectives and targets and formulating an action plan. Planning was first formalised as a separate function by Taylor in the 1911 Dartmouth Conference.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-planning-meaning--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-planning-meaning--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The conference is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-3",
+      "support_hash": "1fb90380eab1cbdebd8bc0c73a1441186c96a3a7f058e9cb046bb43d3d496783"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-planning-meaning"
+  },
+  {
+   "id": "v7c-bs-internal-recruitment",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "bs-internal-recruitment",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Which of the following is an internal source of recruitment?",
+    "options": [
+     "Advertisement in newspapers",
+     "Promotion of an existing employee",
+     "Private placement agencies",
+     "Campus recruitment"
+    ],
+    "correct_answer": "B",
+    "explanation": "The two important sources of internal recruitment are transfers and promotions, so the promotion of an existing employee is an internal source.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-bs-internal-recruitment",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-bs-internal-recruitment",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-bs-internal-recruitment--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-internal-recruitment--wrong_key",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Which of the following is an internal source of recruitment?",
+    "options": [
+     "Advertisement in newspapers",
+     "Promotion of an existing employee",
+     "Private placement agencies",
+     "Campus recruitment"
+    ],
+    "correct_answer": "A",
+    "explanation": "The two important sources of internal recruitment are transfers and promotions, so the promotion of an existing employee is an internal source.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-internal-recruitment--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-internal-recruitment--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of bs-internal-recruitment",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-internal-recruitment"
+  },
+  {
+   "id": "v7c-bs-internal-recruitment--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-internal-recruitment--second_defensible",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Which of the following is an internal source of recruitment?",
+    "options": [
+     "Advertisement in newspapers",
+     "Promotion of an existing employee",
+     "Private placement agencies",
+     "Transfer of an employee from one department to another"
+    ],
+    "correct_answer": "B",
+    "explanation": "The two important sources of internal recruitment are transfers and promotions, so the promotion of an existing employee is an internal source.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-internal-recruitment--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-internal-recruitment--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Both promotion and transfer are internal sources.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-internal-recruitment"
+  },
+  {
+   "id": "v7c-bs-internal-recruitment--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-bs-internal-recruitment--embedded_unsupported",
+    "subject": "business_studies",
+    "chapter": "Staffing",
+    "body": "Which of the following is an internal source of recruitment?",
+    "options": [
+     "Advertisement in newspapers",
+     "Promotion of an existing employee",
+     "Private placement agencies",
+     "Campus recruitment"
+    ],
+    "correct_answer": "B",
+    "explanation": "Transfers and promotions are the two internal sources of recruitment, so promotion of an existing employee is internal. Internal recruitment is banned for public-sector undertakings by the Public Services Act.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-bs-internal-recruitment--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-bs-internal-recruitment--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The ban is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-lebs106",
+      "version": 1,
+      "locator": "p11-c0",
+      "support_hash": "7802d8f0a678be7e33ed5411aaf55f32567a013c40d3edaa86714d4a2baa9040"
+     }
+    ]
+   },
+   "derived_from": "v7c-bs-internal-recruitment"
+  },
+  {
+   "id": "v7c-eco-pc-features",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-pc-features",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "Consider the following statements about a perfectly competitive market:\n(A) The market consists of a large number of buyers and sellers.\n(B) Each firm sells a differentiated product.\n(C) Entry into and exit from the market are free for firms.\n(D) A single firm produces a significant share of the total market output.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "A perfectly competitive market has a large number of buyers and sellers, a homogeneous product, and free entry and exit. Statements (A) and (C) are correct; products are not differentiated and no single firm has a significant share.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-eco-pc-features",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eco-pc-features",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eco-pc-features--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-pc-features--second_defensible",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "Consider the following statements about a perfectly competitive market:\n(A) The market consists of a large number of buyers and sellers.\n(B) Each firm sells a differentiated product.\n(C) Entry into and exit from the market are free for firms.\n(D) The product of one firm cannot be differentiated from the product of any other firm.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "A perfectly competitive market has a large number of buyers and sellers, a homogeneous product, and free entry and exit. Statements (A) and (C) are correct; products are not differentiated and no single firm has a significant share.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-pc-features--second_defensible",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-pc-features--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Statement D is now true, so (A), (C) and (D) are correct and the keyed “(A) and (C) only” excludes D.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-pc-features"
+  },
+  {
+   "id": "v7c-eco-pc-features--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-pc-features--wrong_key",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "Consider the following statements about a perfectly competitive market:\n(A) The market consists of a large number of buyers and sellers.\n(B) Each firm sells a differentiated product.\n(C) Entry into and exit from the market are free for firms.\n(D) A single firm produces a significant share of the total market output.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "D",
+    "explanation": "A perfectly competitive market has a large number of buyers and sellers, a homogeneous product, and free entry and exit. Statements (A) and (C) are correct; products are not differentiated and no single firm has a significant share.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-pc-features--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-pc-features--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eco-pc-features",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-pc-features"
+  },
+  {
+   "id": "v7c-eco-pc-features--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-pc-features--embedded_unsupported",
+    "subject": "economics",
+    "chapter": "Theory of Firms under Perfect Competition",
+    "body": "Consider the following statements about a perfectly competitive market:\n(A) The market consists of a large number of buyers and sellers.\n(B) Each firm sells a differentiated product.\n(C) Entry into and exit from the market are free for firms.\n(D) A single firm produces a significant share of the total market output.\nChoose the correct answer from the options given below:",
+    "options": [
+     "(A) and (B) only",
+     "(A) and (C) only",
+     "(B) and (D) only",
+     "(C) and (D) only"
+    ],
+    "correct_answer": "B",
+    "explanation": "A perfectly competitive market has many buyers and sellers, a homogeneous product, and free entry and exit, so (A) and (C) are correct. Empirically, fewer than 2 per cent of Indian industries meet all these conditions.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "statement_selection",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-pc-features--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-pc-features--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The 2 per cent figure is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec204",
+      "version": 1,
+      "locator": "p1-c0",
+      "support_hash": "236c11fc6d3ea0b3018ac18cda408f48e863445c89c1bae81314e706c60c35f2"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-pc-features"
+  },
+  {
+   "id": "v7c-eco-capital-receipt",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-capital-receipt",
+    "subject": "economics",
+    "chapter": "Government Budget & the Economy",
+    "body": "Which of the following is a capital receipt of the government?",
+    "options": [
+     "Income tax collected during the year",
+     "Proceeds from the sale of shares of a public sector undertaking",
+     "Corporation tax collected during the year",
+     "Excise duty collected during the year"
+    ],
+    "correct_answer": "B",
+    "explanation": "Receipts that create a liability or reduce the financial assets of the government are capital receipts. The sale of shares of a public sector undertaking (disinvestment) reduces the government’s financial assets. Taxes are revenue receipts, which do not lead to a claim on the government.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-eco-capital-receipt",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eco-capital-receipt",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eco-capital-receipt--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-capital-receipt--wrong_key",
+    "subject": "economics",
+    "chapter": "Government Budget & the Economy",
+    "body": "Which of the following is a capital receipt of the government?",
+    "options": [
+     "Income tax collected during the year",
+     "Proceeds from the sale of shares of a public sector undertaking",
+     "Corporation tax collected during the year",
+     "Excise duty collected during the year"
+    ],
+    "correct_answer": "A",
+    "explanation": "Receipts that create a liability or reduce the financial assets of the government are capital receipts. The sale of shares of a public sector undertaking (disinvestment) reduces the government’s financial assets. Taxes are revenue receipts, which do not lead to a claim on the government.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-capital-receipt--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-capital-receipt--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eco-capital-receipt",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-capital-receipt"
+  },
+  {
+   "id": "v7c-eco-capital-receipt--stem_wording",
+   "group": "controlled_defect",
+   "category": "stem_wording",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-capital-receipt--stem_wording",
+    "subject": "economics",
+    "chapter": "Government Budget & the Economy",
+    "body": "All those receipts which create a liability and also decrease the assets of the government are known as capital receipts. Which of the following is a capital receipt of the government?",
+    "options": [
+     "Income tax collected during the year",
+     "Proceeds from the sale of shares of a public sector undertaking",
+     "Corporation tax collected during the year",
+     "Excise duty collected during the year"
+    ],
+    "correct_answer": "B",
+    "explanation": "Receipts that create a liability or reduce the financial assets of the government are capital receipts. The sale of shares of a public sector undertaking (disinvestment) reduces the government’s financial assets. Taxes are revenue receipts, which do not lead to a claim on the government.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-capital-receipt--stem_wording",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-capital-receipt--stem_wording",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The textbook definition is “create liability OR reduce financial assets”; the stem narrows it to AND, under which proceeds from sale of shares (no new liability) would not qualify.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-capital-receipt",
+   "contested": true
+  },
+  {
+   "id": "v7c-eco-capital-receipt--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-capital-receipt--embedded_unsupported",
+    "subject": "economics",
+    "chapter": "Government Budget & the Economy",
+    "body": "Which of the following is a capital receipt of the government?",
+    "options": [
+     "Income tax collected during the year",
+     "Proceeds from the sale of shares of a public sector undertaking",
+     "Corporation tax collected during the year",
+     "Excise duty collected during the year"
+    ],
+    "correct_answer": "B",
+    "explanation": "Disinvestment reduces the financial assets of the government, so it is a capital receipt, while taxes are revenue receipts. Revenue receipts are also never allowed to exceed 40 per cent of capital receipts under the FRBM Act.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-capital-receipt--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-capital-receipt--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The FRBM claim is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v4-28dc3b745963",
+      "support_hash": "28dc3b745963cf0c4d50d567591fae4e0889610ba847c9abb9696ead9441a7ae"
+     },
+     {
+      "id": "ncert-leec105",
+      "version": 1,
+      "locator": "quality-v3-pdf-page-3-681bdd9372",
+      "support_hash": "681bdd9372d76707d41c5b7f3ad9af32e66dd39c696404050a6ef864d663182a"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-capital-receipt"
+  },
+  {
+   "id": "v7c-eco-multiplier-assumption",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-multiplier-assumption",
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "body": "In a simple economy with a fixed price level, no government sector and no taxes, autonomous expenditure increases by ₹50 crore. If the marginal propensity to consume is 0.8, the total increase in equilibrium output is:",
+    "options": [
+     "₹40 crore",
+     "₹62.5 crore",
+     "₹250 crore",
+     "₹400 crore"
+    ],
+    "correct_answer": "C",
+    "explanation": "The autonomous expenditure multiplier is 1 ÷ (1 − MPC) = 1 ÷ 0.2 = 5. The increase in equilibrium output is 5 × ₹50 crore = ₹250 crore.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-eco-multiplier-assumption",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eco-multiplier-assumption",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eco-multiplier-assumption--conditional_answer",
+   "group": "controlled_defect",
+   "category": "conditional_answer",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-multiplier-assumption--conditional_answer",
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "body": "Autonomous expenditure in an economy increases by ₹50 crore. If the marginal propensity to consume is 0.8, the total increase in equilibrium output is:",
+    "options": [
+     "₹40 crore",
+     "₹62.5 crore",
+     "₹250 crore",
+     "₹400 crore"
+    ],
+    "correct_answer": "C",
+    "explanation": "The autonomous expenditure multiplier is 1 ÷ (1 − MPC) = 1 ÷ 0.2 = 5. The increase in equilibrium output is 5 × ₹50 crore = ₹250 crore.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-multiplier-assumption--conditional_answer",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-multiplier-assumption--conditional_answer",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Without “no government and no taxes” a proportional tax or leakage changes the multiplier, and the stem is not a simple economy.",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-multiplier-assumption",
+   "contested": true
+  },
+  {
+   "id": "v7c-eco-multiplier-assumption--stem_leakage",
+   "group": "controlled_defect",
+   "category": "stem_leakage",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-multiplier-assumption--stem_leakage",
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "body": "In an economy with a fixed price level and a proportional income tax of 25 per cent, autonomous expenditure increases by ₹50 crore. If the marginal propensity to consume is 0.8, the total increase in equilibrium output is:",
+    "options": [
+     "₹40 crore",
+     "₹62.5 crore",
+     "₹250 crore",
+     "₹400 crore"
+    ],
+    "correct_answer": "C",
+    "explanation": "The autonomous expenditure multiplier is 1 ÷ (1 − MPC) = 1 ÷ 0.2 = 5. The increase in equilibrium output is 5 × ₹50 crore = ₹250 crore.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-multiplier-assumption--stem_leakage",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-multiplier-assumption--stem_leakage",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "With a 25 per cent tax the multiplier is 1 ÷ (1 − 0.8 × 0.75) = 2.5 and the output rise is ₹125 crore, not the keyed ₹250 crore.",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-multiplier-assumption"
+  },
+  {
+   "id": "v7c-eco-multiplier-assumption--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-multiplier-assumption--wrong_key",
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "body": "In a simple economy with a fixed price level, no government sector and no taxes, autonomous expenditure increases by ₹50 crore. If the marginal propensity to consume is 0.8, the total increase in equilibrium output is:",
+    "options": [
+     "₹40 crore",
+     "₹62.5 crore",
+     "₹250 crore",
+     "₹400 crore"
+    ],
+    "correct_answer": "B",
+    "explanation": "The autonomous expenditure multiplier is 1 ÷ (1 − MPC) = 1 ÷ 0.2 = 5. The increase in equilibrium output is 5 × ₹50 crore = ₹250 crore.",
+    "route": "numerical",
+    "difficulty": "medium",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-multiplier-assumption--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-multiplier-assumption--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Controlled wrong_key mutation of eco-multiplier-assumption",
+    "correct_key_of_base": "C",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-multiplier-assumption"
+  },
+  {
+   "id": "v7c-eco-afc-total-cost",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eco-afc-total-cost",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In the short run a firm’s total cost of producing 4 units is ₹130 and its total cost of producing 5 units is ₹148. What is the short run marginal cost of the fifth unit?",
+    "options": [
+     "₹18",
+     "₹26",
+     "₹29.6",
+     "₹148"
+    ],
+    "correct_answer": "A",
+    "explanation": "Short run marginal cost is the change in total cost per unit change in output: (₹148 − ₹130) ÷ (5 − 4) = ₹18. ₹29.6 is the average cost of 5 units.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-eco-afc-total-cost",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eco-afc-total-cost",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eco-afc-total-cost--numerical_fault",
+   "group": "controlled_defect",
+   "category": "numerical_fault",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-afc-total-cost--numerical_fault",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In the short run a firm’s total cost of producing 4 units is ₹130 and its total cost of producing 5 units is ₹150. What is the short run marginal cost of the fifth unit?",
+    "options": [
+     "₹18",
+     "₹26",
+     "₹29.6",
+     "₹148"
+    ],
+    "correct_answer": "A",
+    "explanation": "Short run marginal cost is the change in total cost per unit change in output: (₹148 − ₹130) ÷ (5 − 4) = ₹18. ₹29.6 is the average cost of 5 units.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-afc-total-cost--numerical_fault",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-afc-total-cost--numerical_fault",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The marginal cost becomes ₹20, which is not an option.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-afc-total-cost"
+  },
+  {
+   "id": "v7c-eco-afc-total-cost--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-afc-total-cost--wrong_key",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In the short run a firm’s total cost of producing 4 units is ₹130 and its total cost of producing 5 units is ₹148. What is the short run marginal cost of the fifth unit?",
+    "options": [
+     "₹18",
+     "₹26",
+     "₹29.6",
+     "₹148"
+    ],
+    "correct_answer": "B",
+    "explanation": "Short run marginal cost is the change in total cost per unit change in output: (₹148 − ₹130) ÷ (5 − 4) = ₹18. ₹29.6 is the average cost of 5 units.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-afc-total-cost--wrong_key",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-afc-total-cost--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eco-afc-total-cost",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-afc-total-cost"
+  },
+  {
+   "id": "v7c-eco-afc-total-cost--explanation_arithmetic",
+   "group": "controlled_defect",
+   "category": "explanation_arithmetic",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eco-afc-total-cost--explanation_arithmetic",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In the short run a firm’s total cost of producing 4 units is ₹130 and its total cost of producing 5 units is ₹148. What is the short run marginal cost of the fifth unit?",
+    "options": [
+     "₹18",
+     "₹26",
+     "₹29.6",
+     "₹148"
+    ],
+    "correct_answer": "A",
+    "explanation": "Short run marginal cost is the change in total cost per unit change in output: (₹148 − ₹130) ÷ (5 − 4) = ₹22. ₹29.6 is the average cost of 5 units.",
+    "route": "numerical",
+    "difficulty": "easy",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eco-afc-total-cost--explanation_arithmetic",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eco-afc-total-cost--explanation_arithmetic",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The key is right but the explanation states ₹22.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p9-c1856",
+      "support_hash": "1981e2ff4a8515773286db80413f5ff91bf353284d3e02d92d9f1fbfed50f9b3"
+     }
+    ]
+   },
+   "derived_from": "v7c-eco-afc-total-cost"
+  },
+  {
+   "id": "v7c-eng-antonym-elated",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-antonym-elated",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “elated”.",
+    "options": [
+     "Dejected",
+     "Excited",
+     "Thrilled",
+     "Cheerful"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Elated” means very happy and excited because of something good. The opposite is “dejected”; “excited”, “thrilled” and “cheerful” are close to it in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7c-family-eng-antonym-elated",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-antonym-elated",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-antonym-elated--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-antonym-elated--wrong_key",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “elated”.",
+    "options": [
+     "Dejected",
+     "Excited",
+     "Thrilled",
+     "Cheerful"
+    ],
+    "correct_answer": "C",
+    "explanation": "“Elated” means very happy and excited because of something good. The opposite is “dejected”; “excited”, “thrilled” and “cheerful” are close to it in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-antonym-elated--wrong_key",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-antonym-elated--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-antonym-elated",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-antonym-elated"
+  },
+  {
+   "id": "v7c-eng-antonym-elated--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-antonym-elated--second_defensible",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “elated”.",
+    "options": [
+     "Dejected",
+     "Excited",
+     "Thrilled",
+     "Downcast"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Elated” means very happy and excited because of something good. The opposite is “dejected”; “excited”, “thrilled” and “cheerful” are close to it in meaning.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-antonym-elated--second_defensible",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-antonym-elated--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Dejected and downcast are both opposites of elated.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-antonym-elated"
+  },
+  {
+   "id": "v7c-eng-antonym-elated--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-antonym-elated--embedded_unsupported",
+    "subject": "english",
+    "chapter": "Vocabulary",
+    "body": "Choose the word that is most nearly opposite in meaning to “elated”.",
+    "options": [
+     "Dejected",
+     "Excited",
+     "Thrilled",
+     "Cheerful"
+    ],
+    "correct_answer": "A",
+    "explanation": "“Elated” means very happy and excited, so “dejected” is its opposite. The word comes from the Latin elatus, first recorded in English in 1570 in the plays of Marlowe.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "antonym",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-antonym-elated--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-antonym-elated--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "The first-record claim is invented.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "oxford-quality-elated",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-antonym-elated"
+  },
+  {
+   "id": "v7c-eng-usage-vigilant",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-usage-vigilant",
+    "subject": "english",
+    "chapter": "Correct Word Usage",
+    "body": "Choose the sentence in which the word “vigilant” is used correctly.",
+    "options": [
+     "The vigilant soup was hot and tasty.",
+     "The vigilant guard noticed the stranger at the gate at once.",
+     "She was vigilant to eat a large lunch.",
+     "The vigilant river was wide and brown."
+    ],
+    "correct_answer": "B",
+    "explanation": "“Vigilant” means very careful to notice any signs of danger or trouble. A guard who notices a stranger at the gate at once is vigilant; soup and a river cannot be vigilant.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "correct_word_usage",
+    "passage_text": "",
+    "family_id": "v7c-family-eng-usage-vigilant",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-usage-vigilant",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-usage-vigilant--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-usage-vigilant--wrong_key",
+    "subject": "english",
+    "chapter": "Correct Word Usage",
+    "body": "Choose the sentence in which the word “vigilant” is used correctly.",
+    "options": [
+     "The vigilant soup was hot and tasty.",
+     "The vigilant guard noticed the stranger at the gate at once.",
+     "She was vigilant to eat a large lunch.",
+     "The vigilant river was wide and brown."
+    ],
+    "correct_answer": "D",
+    "explanation": "“Vigilant” means very careful to notice any signs of danger or trouble. A guard who notices a stranger at the gate at once is vigilant; soup and a river cannot be vigilant.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "correct_word_usage",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-usage-vigilant--wrong_key",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-usage-vigilant--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eng-usage-vigilant",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-usage-vigilant"
+  },
+  {
+   "id": "v7c-eng-usage-vigilant--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-usage-vigilant--second_defensible",
+    "subject": "english",
+    "chapter": "Correct Word Usage",
+    "body": "Choose the sentence in which the word “vigilant” is used correctly.",
+    "options": [
+     "The vigilant soup was hot and tasty.",
+     "The vigilant guard noticed the stranger at the gate at once.",
+     "The vigilant nurse watched for any change in the patient’s condition.",
+     "The vigilant river was wide and brown."
+    ],
+    "correct_answer": "B",
+    "explanation": "“Vigilant” means very careful to notice any signs of danger or trouble. A guard who notices a stranger at the gate at once is vigilant; soup and a river cannot be vigilant.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "correct_word_usage",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-usage-vigilant--second_defensible",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-usage-vigilant--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The nurse sentence is also correct.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "oxford-quality-vigilant",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "8feb11daf34a8870e0265b910a57dfa66e9cc1db0f76ebe2d4bce1c23e563f4d"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-usage-vigilant"
+  },
+  {
+   "id": "v7c-eng-match-definitions-2",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-match-definitions-2",
+    "subject": "english",
+    "chapter": "Match the Following",
+    "body": "Match the words with their meanings.\nList-I: (A) Gregarious (B) Feeble (C) Resolute\nList-II: (I) Very weak (II) Strong and determined (III) Liking to be with other people\nChoose the correct matching.",
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(III)",
+     "(A)-(III), (B)-(I), (C)-(II)",
+     "(A)-(II), (B)-(III), (C)-(I)",
+     "(A)-(III), (B)-(II), (C)-(I)"
+    ],
+    "correct_answer": "B",
+    "explanation": "Gregarious means liking to be with other people, feeble means very weak and resolute means strong and determined. The matching is A-III, B-I, C-II.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "matching",
+    "passage_text": "",
+    "family_id": "v7c-family-eng-match-definitions-2",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-match-definitions-2",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-match-definitions-2--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-match-definitions-2--wrong_key",
+    "subject": "english",
+    "chapter": "Match the Following",
+    "body": "Match the words with their meanings.\nList-I: (A) Gregarious (B) Feeble (C) Resolute\nList-II: (I) Very weak (II) Strong and determined (III) Liking to be with other people\nChoose the correct matching.",
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(III)",
+     "(A)-(III), (B)-(I), (C)-(II)",
+     "(A)-(II), (B)-(III), (C)-(I)",
+     "(A)-(III), (B)-(II), (C)-(I)"
+    ],
+    "correct_answer": "D",
+    "explanation": "Gregarious means liking to be with other people, feeble means very weak and resolute means strong and determined. The matching is A-III, B-I, C-II.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "matching",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-match-definitions-2--wrong_key",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-match-definitions-2--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eng-match-definitions-2",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-match-definitions-2"
+  },
+  {
+   "id": "v7c-eng-match-definitions-2--embedded_unsupported",
+   "group": "controlled_defect",
+   "category": "embedded_unsupported",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-match-definitions-2--embedded_unsupported",
+    "subject": "english",
+    "chapter": "Match the Following",
+    "body": "Match the words with their meanings.\nList-I: (A) Gregarious (B) Feeble (C) Resolute\nList-II: (I) Very weak (II) Strong and determined (III) Liking to be with other people\nChoose the correct matching.",
+    "options": [
+     "(A)-(I), (B)-(II), (C)-(III)",
+     "(A)-(III), (B)-(I), (C)-(II)",
+     "(A)-(II), (B)-(III), (C)-(I)",
+     "(A)-(III), (B)-(II), (C)-(I)"
+    ],
+    "correct_answer": "B",
+    "explanation": "Gregarious means liking to be with other people, feeble means very weak and resolute means strong and determined, so the matching is A-III, B-I, C-II. “Feeble” is derived from the Old French word fleible, meaning “to weep”.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "matching",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-match-definitions-2--embedded_unsupported",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-match-definitions-2--embedded_unsupported",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "The derivation is invented.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "oxford-quality-gregarious",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+     },
+     {
+      "id": "oxford-quality-feeble",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+     },
+     {
+      "id": "oxford-quality-resolute",
+      "version": 1,
+      "locator": "definition",
+      "support_hash": "3026cbd0de9cffc67d385a715927b41cd5af016a6c312ef6a1b48f0426814a3c"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-match-definitions-2"
+  },
+  {
+   "id": "v7c-eng-rc-well-detail",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-rc-well-detail",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "For how many days did the repaired well supply water in the first season after the repair?",
+    "options": [
+     "150 days",
+     "210 days",
+     "365 days",
+     "60 days"
+    ],
+    "correct_answer": "B",
+    "explanation": "The committee recorded that the well supplied water for 210 days in the first season after the repair, compared with 150 days in the previous year.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-eng-rc-well-detail",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-rc-well-detail",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-rc-well-detail--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-rc-well-detail--wrong_key",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "For how many days did the repaired well supply water in the first season after the repair?",
+    "options": [
+     "150 days",
+     "210 days",
+     "365 days",
+     "60 days"
+    ],
+    "correct_answer": "A",
+    "explanation": "The committee recorded that the well supplied water for 210 days in the first season after the repair, compared with 150 days in the previous year.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-v7c-eng-rc-well-detail--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-rc-well-detail--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Controlled wrong_key mutation of eng-rc-well-detail",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-rc-well-detail"
+  },
+  {
+   "id": "v7c-eng-rc-well-detail--passage_unanswerable",
+   "group": "controlled_defect",
+   "category": "passage_unanswerable",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-rc-well-detail--passage_unanswerable",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "How much did the committee spend on repairing the well?",
+    "options": [
+     "150 days",
+     "210 days",
+     "365 days",
+     "60 days"
+    ],
+    "correct_answer": "B",
+    "explanation": "The committee recorded that the well supplied water for 210 days in the first season after the repair, compared with 150 days in the previous year.",
+    "route": "passage",
+    "difficulty": "easy",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-v7c-eng-rc-well-detail--passage_unanswerable",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-rc-well-detail--passage_unanswerable",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "The passage gives the households’ contribution for upkeep but not the cost of the repair.",
+    "correct_key_of_base": "B",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-rc-well-detail"
+  },
+  {
+   "id": "v7c-eng-rc-well-inference",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-rc-well-inference",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why has the committee proposed to keep measuring the water level for three more years?",
+    "options": [
+     "Because the longer supply this year cannot be credited to the repair alone",
+     "Because the heavy monsoon has damaged the second well",
+     "Because each household has refused to contribute",
+     "Because the repair has failed to improve the supply"
+    ],
+    "correct_answer": "A",
+    "explanation": "The secretary pointed out that the monsoon was heavier than usual, so the longer supply could not be credited to the repair alone. The committee wants more measurements before deciding whether to dig a second well.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-eng-rc-well-inference",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-rc-well-inference",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-rc-well-inference--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-rc-well-inference--wrong_key",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why has the committee proposed to keep measuring the water level for three more years?",
+    "options": [
+     "Because the longer supply this year cannot be credited to the repair alone",
+     "Because the heavy monsoon has damaged the second well",
+     "Because each household has refused to contribute",
+     "Because the repair has failed to improve the supply"
+    ],
+    "correct_answer": "D",
+    "explanation": "The secretary pointed out that the monsoon was heavier than usual, so the longer supply could not be credited to the repair alone. The committee wants more measurements before deciding whether to dig a second well.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-v7c-eng-rc-well-inference--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-rc-well-inference--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-rc-well-inference",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-rc-well-inference"
+  },
+  {
+   "id": "v7c-eng-rc-well-inference--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-rc-well-inference--second_defensible",
+    "subject": "english",
+    "chapter": "Factual Passage",
+    "body": "Why has the committee proposed to keep measuring the water level for three more years?",
+    "options": [
+     "Because the longer supply this year cannot be credited to the repair alone",
+     "Because the heavy monsoon has damaged the second well",
+     "Because the committee wants more evidence on how much the repair, rather than the rain, improved the supply",
+     "Because the repair has failed to improve the supply"
+    ],
+    "correct_answer": "A",
+    "explanation": "The secretary pointed out that the monsoon was heavier than usual, so the longer supply could not be credited to the repair alone. The committee wants more measurements before deciding whether to dig a second well.",
+    "route": "passage",
+    "difficulty": "medium",
+    "question_type": "reading_comprehension",
+    "passage_text": "The village of Kherwadi repaired its old well in April after a survey found that the water level had dropped by two metres in five years. A committee of eight residents was formed, and each household agreed to contribute ₹150 a year for upkeep. In the first season after the repair, the committee recorded that the well supplied water for 210 days without running dry, compared with 150 days in the previous year. The committee’s secretary pointed out that the monsoon was heavier than usual this year, so the longer supply could not be credited to the repair alone. The committee has therefore proposed to keep measuring the water level every month for three more years before deciding whether to dig a second well.",
+    "family_id": "v7c-family-v7c-eng-rc-well-inference--second_defensible",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-rc-well-inference--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and C both state the supported reason.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7c-passage-well",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "9a14e989234edea1cc436c3198d9ef8d2e4d074f35e8a0e0c00bf5965cc9cc66"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-rc-well-inference"
+  },
+  {
+   "id": "v7c-eng-paraj-bakery",
+   "group": "authored_valid",
+   "category": "valid",
+   "expected_valid": true,
+   "candidate": {
+    "id": "eng-paraj-bakery",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) By the end of the year she had hired two helpers to meet the demand.\n(B) After she began offering free samples in the morning, more travellers stopped to buy.\n(C) Farida opened a small bakery near the bus stop.\n(D) At first only a few neighbours bought her bread.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(D)-(C)-(B)-(A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "A",
+    "explanation": "Farida opens the bakery first (C). At first only a few neighbours buy (D). After she offers free samples, more travellers buy (B). By the end of the year she hires helpers (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7c-family-eng-paraj-bakery",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-eng-paraj-bakery",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Key established by the author from the cited excerpt and explicit arithmetic",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-eng-paraj-bakery--wrong_key",
+   "group": "controlled_defect",
+   "category": "wrong_key",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-paraj-bakery--wrong_key",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) By the end of the year she had hired two helpers to meet the demand.\n(B) After she began offering free samples in the morning, more travellers stopped to buy.\n(C) Farida opened a small bakery near the bus stop.\n(D) At first only a few neighbours bought her bread.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(D)-(C)-(B)-(A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "B",
+    "explanation": "Farida opens the bakery first (C). At first only a few neighbours buy (D). After she offers free samples, more travellers buy (B). By the end of the year she hires helpers (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-paraj-bakery--wrong_key",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-paraj-bakery--wrong_key",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Controlled wrong_key mutation of eng-paraj-bakery",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-paraj-bakery"
+  },
+  {
+   "id": "v7c-eng-paraj-bakery--second_defensible",
+   "group": "controlled_defect",
+   "category": "second_defensible",
+   "expected_valid": false,
+   "candidate": {
+    "id": "v7c-eng-paraj-bakery--second_defensible",
+    "subject": "english",
+    "chapter": "Para Jumbles",
+    "body": "Arrange the following sentences in the correct order.\n(A) By the end of the year she had hired two helpers to meet the demand.\n(B) After she began offering free samples in the morning, more travellers stopped to buy.\n(C) Farida opened a small bakery near the bus stop.\n(D) At first only a few neighbours bought her bread.\nChoose the correct sequence from the options given below:",
+    "options": [
+     "(C)-(D)-(B)-(A)",
+     "(C)-(B)-(D)-(A)",
+     "(C), (D), (B), (A)",
+     "(C)-(D)-(A)-(B)"
+    ],
+    "correct_answer": "A",
+    "explanation": "Farida opens the bakery first (C). At first only a few neighbours buy (D). After she offers free samples, more travellers buy (B). By the end of the year she hires helpers (A). The order is C-D-B-A.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "sequence_ordering",
+    "passage_text": "",
+    "family_id": "v7c-family-v7c-eng-paraj-bakery--second_defensible",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-v7c-eng-paraj-bakery--second_defensible",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-english-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "none_or_indeterminate",
+    "basis": "Options A and C are the same sequence.",
+    "correct_key_of_base": "A",
+    "source_refs": [
+     {
+      "id": "v7c-passage-bakery",
+      "version": 1,
+      "locator": "stimulus",
+      "support_hash": "8e2563ab0a01e558536b186567c270a488cf862e33b77ced031caee13b1dd23e"
+     }
+    ]
+   },
+   "derived_from": "v7c-eng-paraj-bakery"
+  },
+  {
+   "id": "v7c-oos2-acc-receipts-payments",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-acc-receipts-payments",
+    "subject": "accountancy",
+    "chapter": "Partnership Fundamentals",
+    "body": "A club’s receipts and payments account shows opening cash of ₹10,000, receipts of ₹90,000 and payments of ₹70,000. What is the closing cash balance?",
+    "options": [
+     "₹10,000",
+     "₹20,000",
+     "₹30,000",
+     "₹70,000"
+    ],
+    "correct_answer": "C",
+    "explanation": "Closing cash = opening cash + receipts − payments = 10,000 + 90,000 − 70,000 = ₹30,000.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-acc-receipts-payments",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-acc-receipts-payments",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-acc-surplus-capital",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-acc-surplus-capital",
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership",
+    "body": "In the piecemeal distribution of cash on dissolution under the surplus capital method, which item is paid first from the cash available?",
+    "options": [
+     "Partners’ capital",
+     "Partners’ loans",
+     "Realisation expenses and outside liabilities",
+     "Partners’ drawings"
+    ],
+    "correct_answer": "C",
+    "explanation": "Under the surplus capital method, cash is first applied to realisation expenses and outside liabilities.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-acc-surplus-capital",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-acc-surplus-capital",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-acc-purchase-consideration",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-acc-purchase-consideration",
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership Firm",
+    "body": "A firm is sold to a company for assets taken over at ₹8,00,000 and liabilities taken over at ₹2,00,000. What is the purchase consideration under the net payment method?",
+    "options": [
+     "₹2,00,000",
+     "₹6,00,000",
+     "₹8,00,000",
+     "₹10,00,000"
+    ],
+    "correct_answer": "B",
+    "explanation": "Purchase consideration = assets taken over − liabilities taken over = ₹8,00,000 − ₹2,00,000 = ₹6,00,000.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-acc-purchase-consideration",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-acc-purchase-consideration",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-acc-insolvent-partner",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-acc-insolvent-partner",
+    "subject": "accountancy",
+    "chapter": "Dissolution of Partnership",
+    "body": "A partner is declared insolvent with a deficiency of ₹30,000. The solvent partners X and Y have fixed capitals of ₹60,000 and ₹40,000. Under Garner v. Murray, how much of the deficiency does X bear?",
+    "options": [
+     "₹12,000",
+     "₹15,000",
+     "₹18,000",
+     "₹20,000"
+    ],
+    "correct_answer": "C",
+    "explanation": "The deficiency is shared in the ratio of fixed capitals 3 : 2, so X bears 3/5 × ₹30,000 = ₹18,000.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-acc-insolvent-partner",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-acc-insolvent-partner",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-2",
+      "support_hash": "9e0be605d23aca18240953592aa9ac4b72dfbfa1017177fe00eda924929c32f6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-bs-entrepreneurship",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-bs-entrepreneurship",
+    "subject": "business_studies",
+    "chapter": "Entrepreneurship Development",
+    "body": "Which of the following is a characteristic feature of an entrepreneur?",
+    "options": [
+     "Avoiding every risk",
+     "Willingness to take calculated risks",
+     "Relying only on routine",
+     "Never innovating"
+    ],
+    "correct_answer": "B",
+    "explanation": "Entrepreneurs are characterised by a willingness to take calculated risks.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-bs-entrepreneurship",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "pdf-page-22",
+      "support_hash": "1d64050a5676c9be18a5dde7237126170e2651690fea3e76cda8b8efb6e61ea6"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-bs-entrepreneurship",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "B",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "pdf-page-22",
+      "support_hash": "1d64050a5676c9be18a5dde7237126170e2651690fea3e76cda8b8efb6e61ea6"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-eco-mean",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-eco-mean",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "The monthly sales (in ₹ thousand) of a shop over five months are 10, 12, 14, 16 and 18. What is the arithmetic mean of the sales?",
+    "options": [
+     "12",
+     "13",
+     "14",
+     "15"
+    ],
+    "correct_answer": "C",
+    "explanation": "The mean is (10 + 12 + 14 + 16 + 18) ÷ 5 = 70 ÷ 5 = 14.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-eco-mean",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-eco-mean",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "C",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-eco-is-lm",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-eco-is-lm",
+    "subject": "economics",
+    "chapter": "Income Determination",
+    "body": "In the IS-LM framework, an increase in the money supply with an unchanged IS curve shifts the:",
+    "options": [
+     "LM curve to the right",
+     "IS curve to the right",
+     "LM curve to the left",
+     "IS curve to the left"
+    ],
+    "correct_answer": "A",
+    "explanation": "An increase in the money supply shifts the LM curve to the right.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-eco-is-lm",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-eco-is-lm",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leec104",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "ffb75d31806d9493b33e96b6a2ad126d2042f9af251981743f681a39374a612b"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-oos2-eco-regression",
+   "group": "controlled_defect",
+   "category": "out_of_syllabus",
+   "expected_valid": false,
+   "candidate": {
+    "id": "oos2-eco-regression",
+    "subject": "economics",
+    "chapter": "Money & Banking",
+    "body": "In the simple regression line Y = a + bX, what does the coefficient b measure?",
+    "options": [
+     "The change in Y for a unit change in X",
+     "The value of X when Y is zero",
+     "The mean of X",
+     "The correlation between X and Y squared"
+    ],
+    "correct_answer": "A",
+    "explanation": "The slope b measures the change in Y for a unit change in X.",
+    "route": "conceptual",
+    "difficulty": "medium",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-oos2-eco-regression",
+    "source_refs": [
+     {
+      "id": "ncert-leec103",
+      "version": 1,
+      "locator": "pdf-page-7",
+      "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-oos2-eco-regression",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Academically valid, but the topic is excluded from the 2026 syllabus baseline used for 2027 preparation",
+    "source_refs": [
+     {
+      "id": "ncert-leec103",
+      "version": 1,
+      "locator": "pdf-page-7",
+      "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+     }
+    ]
+   }
+  },
+  {
+   "id": "v7c-poor2-bs-trivial-survival",
+   "group": "cuet_fit_judgment",
+   "category": "poor_cuet_fit",
+   "expected_valid": false,
+   "candidate": {
+    "id": "poor2-bs-trivial-survival",
+    "subject": "business_studies",
+    "chapter": "Nature & Significance of Management",
+    "body": "To survive, a business must earn enough revenue to:",
+    "options": [
+     "cover its costs",
+     "pay no one at all",
+     "close on the first day",
+     "stop all its customers from buying"
+    ],
+    "correct_answer": "A",
+    "explanation": "In order to survive, an organisation must earn enough revenues to cover costs.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-poor2-bs-trivial-survival",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-poor2-bs-trivial-survival",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Correct and in-syllabus, but trivial: absurd distractors let the key be found without subject knowledge (author judgment, not a correctness defect)",
+    "source_refs": [
+     {
+      "id": "ncert-lebs101",
+      "version": 1,
+      "locator": "quality-v4-1cf5c10664d2",
+      "support_hash": "1cf5c10664d26f6a4a17e3e1d3e1f5e159af898165da3c626ee89fe4f445a1fc"
+     }
+    ]
+   },
+   "weakness": "trivial: absurd distractors let the key be found without subject knowledge"
+  },
+  {
+   "id": "v7c-poor2-eco-trivial-demand",
+   "group": "cuet_fit_judgment",
+   "category": "poor_cuet_fit",
+   "expected_valid": false,
+   "candidate": {
+    "id": "poor2-eco-trivial-demand",
+    "subject": "economics",
+    "chapter": "Introduction & Theory of Consumer Behaviour",
+    "body": "As the price of a good rises, other things unchanged, its quantity demanded normally:",
+    "options": [
+     "moves in the opposite direction",
+     "doubles every hour",
+     "stays fixed for ever whatever the price",
+     "turns into a different good"
+    ],
+    "correct_answer": "A",
+    "explanation": "The demand for a good moves in the opposite direction of its price.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "conceptual_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-poor2-eco-trivial-demand",
+    "source_refs": [
+     {
+      "id": "ncert-leec202",
+      "version": 1,
+      "locator": "p20-c0",
+      "support_hash": "cf2facee0a130a389089e85b53f33089df11669bd251a1a31e8d42ac42bbed92"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-poor2-eco-trivial-demand",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Correct and in-syllabus, but trivial: absurd distractors let the key be found without subject knowledge (author judgment, not a correctness defect)",
+    "source_refs": [
+     {
+      "id": "ncert-leec202",
+      "version": 1,
+      "locator": "p20-c0",
+      "support_hash": "cf2facee0a130a389089e85b53f33089df11669bd251a1a31e8d42ac42bbed92"
+     }
+    ]
+   },
+   "weakness": "trivial: absurd distractors let the key be found without subject knowledge"
+  },
+  {
+   "id": "v7c-poor2-acc-overlong",
+   "group": "cuet_fit_judgment",
+   "category": "poor_cuet_fit",
+   "expected_valid": false,
+   "candidate": {
+    "id": "poor2-acc-overlong",
+    "subject": "accountancy",
+    "chapter": "Admission of Partner",
+    "body": "X and Y share profits in the ratio 3 : 2 with capitals of ₹6,00,000 and ₹4,00,000. Z is admitted for a 1/5 share, taking 1/10 from X and 1/10 from Y. Z brings ₹3,00,000 as capital and ₹50,000 as premium for goodwill, which is credited to X and Y in the sacrificing ratio and withdrawn by them at once. A reserve of ₹1,00,000 exists. Assets are revalued downward by ₹20,000 and an unrecorded liability of ₹5,000 is found. The capitals of X and Y are then made proportionate to the new profit-sharing ratio on the basis of Z’s capital, with differences settled in cash. How much cash must Y bring in or withdraw?",
+    "options": [
+     "Bring in ₹20,000",
+     "Bring in ₹45,000",
+     "Withdraw ₹20,000",
+     "Bring in ₹70,000"
+    ],
+    "correct_answer": "A",
+    "explanation": "New ratio 5 : 3 : 2. Reserve ₹1,00,000 shared 3 : 2 gives X ₹60,000 and Y ₹40,000. The revaluation loss ₹25,000 shared 3 : 2 gives X ₹15,000 and Y ₹10,000. The goodwill premium is credited and withdrawn, so it does not change capitals. Y’s capital = 4,00,000 + 40,000 − 10,000 = ₹4,30,000. Z’s ₹3,00,000 is 2/10, so total capital is ₹15,00,000 and Y’s share (3/10) is ₹4,50,000. Y brings in ₹20,000.",
+    "route": "numerical",
+    "difficulty": "hard",
+    "question_type": "numerical_calculation",
+    "passage_text": "",
+    "family_id": "v7c-family-poor2-acc-overlong",
+    "source_refs": [
+     {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-72d2f4711e2e",
+      "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-poor2-acc-overlong",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-accountancy-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Correct and in-syllabus, but time-unsuitable: about nine separate steps, far beyond the 72-second average (author judgment, not a correctness defect)",
+    "source_refs": [
+     {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-72d2f4711e2e",
+      "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+     }
+    ]
+   },
+   "weakness": "time-unsuitable: about nine separate steps, far beyond the 72-second average"
+  },
+  {
+   "id": "v7c-poor2-bs-trivia-planning",
+   "group": "cuet_fit_judgment",
+   "category": "poor_cuet_fit",
+   "expected_valid": false,
+   "candidate": {
+    "id": "poor2-bs-trivia-planning",
+    "subject": "business_studies",
+    "chapter": "Planning",
+    "body": "In the Planning chapter’s opening illustration, the objective of the year was to increase capacity by how many more professionals?",
+    "options": [
+     "1,500 to 2,000",
+     "150 to 200",
+     "15,000 to 20,000",
+     "500 to 800"
+    ],
+    "correct_answer": "A",
+    "explanation": "The illustration states the objective of increasing capacity by 1,500 to 2,000 more professionals.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "direct_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-poor2-bs-trivia-planning",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "f3e1c9be5fa7764b1a2da4bea549d0df19408f39eb5bc1d625081ef277c18c56"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-poor2-bs-trivia-planning",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-business_studies-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Correct and in-syllabus, but peripheral trivia: a figure from the chapter’s opening illustration, not a learning objective (author judgment, not a correctness defect)",
+    "source_refs": [
+     {
+      "id": "ncert-lebs104",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "f3e1c9be5fa7764b1a2da4bea549d0df19408f39eb5bc1d625081ef277c18c56"
+     }
+    ]
+   },
+   "weakness": "peripheral trivia: a figure from the chapter’s opening illustration, not a learning objective"
+  },
+  {
+   "id": "v7c-poor2-eco-trivia-table",
+   "group": "cuet_fit_judgment",
+   "category": "poor_cuet_fit",
+   "expected_valid": false,
+   "candidate": {
+    "id": "poor2-eco-trivia-table",
+    "subject": "economics",
+    "chapter": "Production & Costs",
+    "body": "In Table 3.2 of the chapter, what is the total product of labour at 3 units of labour?",
+    "options": [
+     "40",
+     "14",
+     "24",
+     "10"
+    ],
+    "correct_answer": "A",
+    "explanation": "In Table 3.2 the total product at 3 units of labour is 40.",
+    "route": "conceptual",
+    "difficulty": "easy",
+    "question_type": "direct_mcq",
+    "passage_text": "",
+    "family_id": "v7c-family-poor2-eco-trivia-table",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ],
+    "concept_id": null,
+    "provenance": {
+     "kind": "original_practice",
+     "anchor_id": null,
+     "adaptation_family": "v7c-family-poor2-eco-trivia-table",
+     "adaptation_type": null,
+     "syllabus_version": "cuet-2026-provisional-for-2027",
+     "pattern_version": "cuet-2024-authenticated-bookA-v1",
+     "source_pack_id": "original-economics-reference-v1",
+     "source_pack_version": 1
+    }
+   },
+   "oracle": {
+    "key": "A",
+    "basis": "Correct and in-syllabus, but peripheral trivia: reading one cell of a textbook table, not a learning objective (author judgment, not a correctness defect)",
+    "source_refs": [
+     {
+      "id": "ncert-leec203",
+      "version": 1,
+      "locator": "p5-c0",
+      "support_hash": "28541f0de0e9f057aab795ec45072bdbac2fd9b6f3b98f9044edac0e66efac98"
+     }
+    ]
+   },
+   "weakness": "peripheral trivia: reading one cell of a textbook table, not a learning objective"
+  }
+ ],
+ "frozen": true,
+ "payload_hash": "f602ece2fba43d7de925b12db9b284044c18b9552a821a6e3d2c0b53d41fca3e",
+ "frozen_at": "2026-10-07T16:32:43.602Z",
+ "verifier_version": "cuet-fit-validator-v7.1",
+ "note": "Frozen before any validator evaluated these items. PYQ explanations were written by the production explanation path; all other items were authored and keyed independently of every model."
+}

@@ -1,0 +1,124 @@
+{
+  "version": "v713-r2-conservative-standard-cost-preregistration",
+  "created_at": "2026-10-09T19:10:39.742Z",
+  "scope": "R2 diagnostic continuation only; execution remains subject to the existing shared USD 3 hard stop. This is a full upper-bound reservation analysis, not a forecast or a claim that all work can complete under the cap.",
+  "bindings": {
+    "academic_freeze_sha256": "82de56e6299d312cbbee86a636f7ddff41daf8ca4a626204ca714541935481f4",
+    "execution_correction_sha256": "69fab26bcf6641e08ae84c2ace6ca96c7f4ba703e419954f4c723f49fe118de5",
+    "registration_sha256": "1d7c6444c53bf0e9ba7c2be52ffba100032ca4ac462ec9a5cc5c69d176594513",
+    "preflight_sha256": "48e46c5c8f732c6eaf6ed110c20366d211f9292f22f1d31d10d0dadd1c3f1a0d",
+    "seal_registration_sha256": "1d7c6444c53bf0e9ba7c2be52ffba100032ca4ac462ec9a5cc5c69d176594513",
+    "seal_preflight_sha256": "48e46c5c8f732c6eaf6ed110c20366d211f9292f22f1d31d10d0dadd1c3f1a0d",
+    "pricing_file": "data/pipeline-prices.json",
+    "pricing_sha256": "390c009fcc1327bbae3abcc7f6cd7074893fd40a0691836623bb6d2c8a146797"
+  },
+  "pricing": {
+    "verified_at": "2026-10-06T18:14:24.955Z",
+    "expires_at": "2026-10-12T21:37:55.116Z",
+    "models": {
+      "gpt-6-luna": {
+        "standard_input_per_million": 0.1,
+        "standard_output_per_million": 0.5
+      },
+      "gemini-3.8-flash": {
+        "standard_input_per_million": 0.75,
+        "standard_output_per_million": 3.75
+      }
+    },
+    "discounts_applied": false,
+    "discount_note": "Native Flex and Gemini batch receipt discounts are deliberately excluded; use standard rates for this conservative ceiling."
+  },
+  "methodology": {
+    "preflight_rows": 400,
+    "full_preflight_body_bytes_max": 28637,
+    "input_byte_bounds_treated_as_equal_token_ceiling": true,
+    "formula": "(input_bound_bytes * standard_input_rate + output_cap * standard_output_rate) / 1,000,000 per row",
+    "completion_retry_rows_included": true,
+    "repair_rows_included": true,
+    "full_post_repair_revalidation_included": true,
+    "revalidation_stages": [
+      "blind_solution",
+      "independent_evaluation",
+      "explanation_support"
+    ],
+    "revalidation_duplicated_rows": 240,
+    "reason": "All distinct base and doubled-output completion-retry variants in the 400-row preflight are charged once; repair rows are charged once; blind solution, Gemini independent evaluation, and explanation-support base and retry rows are charged a second time for one complete post-repair revalidation. Input byte ceilings are conservatively treated as token ceilings."
+  },
+  "by_stage_provider_variant": {
+    "authoring/openai/base": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 260000,
+      "standard_bound_usd": 0.2620960000000003
+    },
+    "authoring/openai/completion_retry": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 520000,
+      "standard_bound_usd": 0.3920959999999997
+    },
+    "blind_solution/openai/base": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 640000,
+      "standard_bound_usd": 0.4520959999999998
+    },
+    "blind_solution/openai/completion_retry": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 1280000,
+      "standard_bound_usd": 0.7720960000000008
+    },
+    "independent_evaluation/gemini/base": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 240000,
+      "standard_bound_usd": 1.8907200000000013
+    },
+    "independent_evaluation/gemini/completion_retry": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 480000,
+      "standard_bound_usd": 2.790719999999999
+    },
+    "explanation_support/openai/base": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 320000,
+      "standard_bound_usd": 0.29209599999999974
+    },
+    "explanation_support/openai/completion_retry": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 640000,
+      "standard_bound_usd": 0.4520959999999998
+    },
+    "repair/openai/base": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 360000,
+      "standard_bound_usd": 0.3120959999999997
+    },
+    "repair/openai/completion_retry": {
+      "rows": 40,
+      "max_input_bound_bytes": 33024,
+      "total_output_cap": 720000,
+      "standard_bound_usd": 0.49209599999999976
+    }
+  },
+  "bounds_usd": {
+    "all_400_preflight_rows_standard_bound": 8.108208000000001,
+    "one_full_post_repair_revalidation_standard_bound": 6.649823999999991,
+    "maximum_conservative_continuation_standard_bound": 14.758031999999993,
+    "already_parent_committed": 0.065621,
+    "already_continuation_settled": 0.001421,
+    "unresolved_unknown_request_holds": 0.072768,
+    "baseline_committed_plus_holds": 0.13981,
+    "shared_hard_cap": 3,
+    "remaining_at_snapshot_after_committed_and_holds": 2.8601900000000002,
+    "total_if_all_scenario_upper_bounds_consumed_including_baseline_and_holds": 14.897841999999994,
+    "above_shared_cap_by_if_all_upper_bounds_consumed": 11.897841999999994
+  },
+  "guard_interpretation": "This theoretical standard-rate ceiling exceeds the shared cap. The runner must stop at the existing USD 3 guard and may leave candidates incomplete. Do not raise the cap, release holds, replay unknown requests, or represent the diagnostic as guaranteed to finish under USD 3.",
+  "unit_economics": "No claim is made that projected cost is below USD 100 per 10,000 items or below any per-publishable-item target. Discounts and realized output lengths require settled provider receipts."
+}

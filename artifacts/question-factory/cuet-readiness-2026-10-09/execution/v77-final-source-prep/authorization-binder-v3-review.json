@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-10-09T07:44:48Z",
+  "review_complete": true,
+  "review_scope": "Read-only review of the additive authorization binder V3, preserved original and V2 correction, freeze sidecars, exact final authorization JSON, and the two authorized frozen study inputs.",
+  "bindings": {
+    "original_source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\bind-authorization.mjs",
+    "original_source_sha256": "094625bf183f24a4f44a38cf8670da82d079e2322d598cf73f99b6a1ca3d30ab",
+    "v2_source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\bind-authorization-v2.mjs",
+    "v2_source_sha256": "ed1190044808cd34dfb3764a18b63418889b45c104850086904e46cbdb0e0c8d",
+    "v3_source_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\bind-authorization-v3.mjs",
+    "v3_source_sha256": "e0b2ce1ec680ee057d65246475f0cb94322edfaeec932f2fda154365c2c7ac11",
+    "v2_freeze_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\authorization-binder-v2-freeze.json",
+    "v2_freeze_sha256": "a70870f8fc7ad7254a47461d775558572954dd69472b14861ceb4afb787083e5",
+    "v3_freeze_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\execution\\v77-final-source-prep\\authorization-binder-v3-freeze.json",
+    "v3_freeze_sha256": "0c89396a0595b6fbd3ac46a7c8d20a21262786cdbeff7da31b67948313eb82f3",
+    "authorization_output_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v77-final-authorization-base.json",
+    "authorization_output_sha256": "55efb0bf5c6ae7dde72dd093303d5d7d1508fd4f2a64fefa22174807b033f946"
+  },
+  "diff_review": {
+    "original_to_v3_only_two_source_changes": true,
+    "exact_changes": [
+      {
+        "from": "study_payloads shorthand",
+        "to": "study_payloads: studyPayloads",
+        "computed_value": "already-computed studyPayloads"
+      },
+      {
+        "from": "execution_plan_hashes shorthand",
+        "to": "execution_plan_hashes: executionPlanHashes",
+        "computed_value": "already-computed executionPlanHashes"
+      }
+    ],
+    "parentage": [
+      {
+        "revision": "v2",
+        "parent_sha256": "094625bf183f24a4f44a38cf8670da82d079e2322d598cf73f99b6a1ca3d30ab",
+        "change": "study_payloads shorthand corrected to computed studyPayloads object."
+      },
+      {
+        "revision": "v3",
+        "parent_sha256": "ed1190044808cd34dfb3764a18b63418889b45c104850086904e46cbdb0e0c8d",
+        "change": "execution_plan_hashes shorthand corrected to computed executionPlanHashes."
+      }
+    ],
+    "v3_freeze_sha_matches_file": true,
+    "v3_freeze_parent_matches_v2": true,
+    "original_diff_description": "Text diff confirms exactly the two object property name/value references changed from original to V3; all surrounding plan, input, authorization and guard code is identical apart from those lines."
+  },
+  "input_binding_review": {
+    "studies": [
+      {
+        "name": "fresh",
+        "frozen_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\v77-qualification\\v77-qualification-2026-10-09-final-fresh\\frozen.json",
+        "custody_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\v77-qualification\\v77-qualification-2026-10-09-final-fresh\\independent-key-custody.json",
+        "study_id": "v77-qualification-2026-10-09-final-fresh",
+        "fixture_count": 28,
+        "payload_hash": "902a0ffe05ec17d243e1c5762820680fe3e3d169cb2e2a808992b5fdce55b035",
+        "payload_hash_matches_authorization": true,
+        "frozen_sha256": "5d37ea7710d4dce9ddebe857f4ce8e0e767c5cdad899bd0063eabcd908deed57",
+        "frozen_sha256_matches_authorization": true,
+        "custody_sha256": "179d239f2bf637e2921e119134efdbddd482b3a4777e20c329afbaa0af826a83",
+        "custody_sha256_matches_authorization": true
+      },
+      {
+        "name": "regression",
+        "frozen_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\v77-qualification\\v77-qualification-2026-10-09-final-regression\\frozen.json",
+        "custody_path": "artifacts\\question-factory\\cuet-readiness-2026-10-09\\v77-qualification\\v77-qualification-2026-10-09-final-regression\\independent-key-custody.json",
+        "study_id": "v77-qualification-2026-10-09-final-regression",
+        "fixture_count": 13,
+        "payload_hash": "cb919ebe6ecc389c049098e8e0a7d871e19ff9144817a428540e830a13177fe9",
+        "payload_hash_matches_authorization": true,
+        "frozen_sha256": "a3c3e1bec723e1fd1ceb7732f6b1515b4c920cddd53ae004c6fe28fc6e76e525",
+        "frozen_sha256_matches_authorization": true,
+        "custody_sha256": "77465d0bff14d3f9f4baa88b9eb95399bd9c88bfeeb8702d8193112dfaae6de9",
+        "custody_sha256_matches_authorization": true
+      }
+    ],
+    "total_frozen_fixtures": 41.0,
+    "all_payload_frozen_and_custody_hashes_match": true,
+    "expected_study_ids_match_authorization": true
+  },
+  "authorization_guard_review": {
+    "authorization_type_explicit_user": true,
+    "authorized_true": true,
+    "scope": "one final V7.7 qualification only; $4 stop cap within $50 lifetime cap; no publication",
+    "cap_usd": 4,
+    "freeze_sha256": "632109c8225bd754326e3e47f7c0e2ab64428a9cb42f5288923115ce7b76c7ba",
+    "validation_contract_hash": "614d423f795314c7661e952ca1f1bf41258b005586744172dd8ec3b32021ecd1",
+    "transport_freeze_hash": "b00bfedd344bbb9fbe114fd89cad90e84c37652064c6c0222c91f45a0fa2bfdb",
+    "study_payloads_equal_computed_value_at_prewrite_guard": true,
+    "execution_plan_hashes_equal_computed_value_at_prewrite_guard": true,
+    "prewrite_guard_source_unchanged": true,
+    "guards": "V3 retains original self-binding comparisons for explicit authorization, core freeze, validation contract, qualification prefix/cap, ordered study IDs, computed study payloads, transport freeze, and computed execution-plan hashes."
+  },
+  "no_change_review": {
+    "academic_content_changed": false,
+    "study_ids_or_order_changed": false,
+    "frozen_study_inputs_changed_by_v3": false,
+    "transport_binding_or_rules_changed": false,
+    "authorization_scope_or_cap_changed": false,
+    "plan_or_input_hash_computation_changed": false,
+    "native_calls": 0,
+    "plans_written": false,
+    "native_or_database_activity": false,
+    "freeze_sidecar_reports_failure_before_write": true,
+    "integration_output_was_written_exclusively": true
+  },
+  "problems": [],
+  "conclusion": "V3 is an additive correction of two undefined shorthand references. Exact source diff and freeze sidecar hashes agree; original guard logic and plan/input order are unchanged. Both final frozen study inputs total 41 fixtures and their payload, raw frozen-file, and custody hashes match the authorization output. Output scope and bindings match the unchanged self-binding guards; this correction adds no academic, study, or transport change."
+}

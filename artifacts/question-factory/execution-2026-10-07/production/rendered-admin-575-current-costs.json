@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-07T14:15:58.402Z",
+  "url": "https://www.mockmob.in/admin/question-factory",
+  "actual_rendered_usable": 575,
+  "publication_history": 579,
+  "unavailable": 4,
+  "displayed_settled_usd": 12.82,
+  "displayed_held_usd": 0.28,
+  "displayed_conditional_lifetime_10000_usd": 92.76,
+  "original100_approved": 50,
+  "scope": "Authenticated live production dashboard after ledger snapshot refresh; display rounds costs to cents."
+}

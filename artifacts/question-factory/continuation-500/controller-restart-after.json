@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-07T08:36:38.863Z",
+  "previous_controller": "32524:3b1c2897-0096-4df4-86a9-ad8e8fd3ccba",
+  "current_controller": "7888:69054fce-cad6-4049-bdad-5eb705227daa",
+  "retained_accepted_ids": 293,
+  "missing_accepted_ids": 0,
+  "prior_request_count": 6079,
+  "current_request_count": 6079,
+  "ledger_not_reset": true,
+  "worker_children_not_terminated": true,
+  "passed": true
+}

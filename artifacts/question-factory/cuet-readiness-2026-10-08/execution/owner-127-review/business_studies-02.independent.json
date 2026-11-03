@@ -1,0 +1,205 @@
+{
+  "schema": "owner-127-independent-root-v1",
+  "subject": "business_studies",
+  "batch": 2,
+  "at": "2026-10-08T14:27:57.922Z",
+  "blind_packet_sha256": "94003a54911015b8ec698b296e038faa4e554bc2defdd324316eabf322c64d08",
+  "saved_before_comparison": true,
+  "comparison_opened": false,
+  "reviewer": "root",
+  "cases": [
+    {
+      "id": "e0cfe81041f8ab2aa13c68770042ed62",
+      "content_hash": "0d5a145582ffe2cf45165a3d812f9228300330565f4e40a8b2282623280e9e0b",
+      "independent_key": "B",
+      "defensible_options": [
+        "B"
+      ],
+      "unique_answer": true,
+      "derivation": "Specified roles and completion records identify the missed authorisation. Fixing responsibility is the most direct advantage; no dual boss, duplication or predictability problem is described.",
+      "support": [
+        {
+          "source_key": "ncert-lebs105:1:quality-v4-c8d4ce1fa39d:c8d4ce1fa39d91c3feb88a13771df4318fa88e6b801c7a1957e2b331f7b9ce72",
+          "quote": "easier to fix responsibility"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "medium"
+    },
+    {
+      "id": "3567fb5736b09efcd72b7d417d28aa88",
+      "content_hash": "b9a9439c6c2bc07c99783b80a36ed0d5c28260484b95db26847d60741d16d074",
+      "independent_key": "D",
+      "defensible_options": [
+        "D"
+      ],
+      "unique_answer": true,
+      "derivation": "Favourable government officials and representatives are part of the political environment. Stability, consumer preferences and legislation are explicitly unchanged.",
+      "support": [
+        {
+          "source_key": "ncert-lebs103:1:pdf-page-9:adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0",
+          "quote": "attitudes of government"
+        }
+      ],
+      "issues": [
+        "source_column_interleaving"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "ed7bb5598ff5e89266efbdd5501f84a2",
+      "content_hash": "cce6780c8c0dcc36de793d1d54b965026a064238486d4d3755f84527702d4da7",
+      "independent_key": "D",
+      "defensible_options": [
+        "D"
+      ],
+      "unique_answer": true,
+      "derivation": "Output: 3*390-1200=-30 (III). Waiting:510/60-8=+0.5 (IV). Defects:9/1500*1000-6=0 (II). Cost:129000-120000=9000 (I). Signed basis, period and scaling assumptions are explicit.",
+      "support": [
+        {
+          "source_key": "ncert-lebs108:1:pdf-page-6:5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5",
+          "quote": "same units in which standards are set"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "medium"
+    },
+    {
+      "id": "5f649f52cbfb1439a77ef9b48ba42e8b",
+      "content_hash": "524d64b64cd5e1273f8bf328856fe4895630b47dc5a987226aaca5b4d33e55c0",
+      "independent_key": "A",
+      "defensible_options": [
+        "A",
+        "D"
+      ],
+      "unique_answer": false,
+      "derivation": "A threshold precedes identifying a significant deviation. Reporting then analysing (A-B-C-D) and analysing before escalation (A-B-D-C) are both coherent. The excerpt does not require reporting first or specify who performs analysis.",
+      "support": [
+        {
+          "source_key": "ncert-lebs108:1:pdf-page-8:c57a86839af923b8a493126ef0b499a2da002aaa9546dd0e0b727ed241da3c79",
+          "quote": "After identifying the deviations"
+        }
+      ],
+      "issues": [
+        "nonunique_process_order"
+      ],
+      "estimated_difficulty": "medium"
+    },
+    {
+      "id": "89cfa7dc25a1ec3a95e633660a40ce0d",
+      "content_hash": "3560105bedc2fd2326093640e2cd9f1900da50e83185c4d92b2b5e0c2a1134b9",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "Goods for resale map to I, commercial services II, household goods III and personal services IV. The latter only escape the stated exclusion; they do not assert full legal eligibility. The stem repeats all answer choices and needs presentation cleanup.",
+      "support": [
+        {
+          "source_key": "ncert-lebs203:1:p6-c0:f3285391234e6367fe218eb9bc9e54f7cc68dd403929d72c3aa725923cdf6daa",
+          "quote": "services for resale or commercial"
+        }
+      ],
+      "issues": [
+        "duplicated_options_in_stem"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "a70d05a908bbcf3ea12b4c5395021085",
+      "content_hash": "e9bf10ed6ec8be8d9af17bce7bda37ea0b3e292c7cbe5c5d9b4bd35d2ed16dcd",
+      "independent_key": "D",
+      "defensible_options": [
+        "D"
+      ],
+      "unique_answer": true,
+      "derivation": "After-sales service, complaint handling and spares are part of the extended product. Physical identity alone does not make the total offers identical. B and C are true.",
+      "support": [
+        {
+          "source_key": "ncert-lebs202:1:pdf-page-14:d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a",
+          "quote": "extended product"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "9ea83c0e4f7dc6c133f9a1bb16bee6a7",
+      "content_hash": "32418c2135e447396c80e88cf3029e24d7ee720a2af12b61b2d50f749b5b8412",
+      "independent_key": "B",
+      "defensible_options": [
+        "B",
+        "C"
+      ],
+      "unique_answer": false,
+      "derivation": "Beginning with D and ending with A, classifying the social organisation before recalling the general principle is valid. Recalling the principle before classifying the case is also valid. D-B-C-A and D-C-B-A are both logical.",
+      "support": [
+        {
+          "source_key": "ncert-lebs101:1:quality-v4-12f33385e060:12f33385e060215db0879b52a7121d86434cf84415cb808b1764b43b3ca81140",
+          "quote": "economic, social or political"
+        }
+      ],
+      "issues": [
+        "nonunique_reasoning_order"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "1670079b3e8c801354374a52bf4ed31d",
+      "content_hash": "11f224f019fa9389bd38d7d8f0f487c63a43ddd436d5590ff968315129bf6a15",
+      "independent_key": "C",
+      "defensible_options": [
+        "C"
+      ],
+      "unique_answer": true,
+      "derivation": "The direct counterparty rule admits A and D. B and C involve the issuer and fail the given secondary-market definition. No additional buyback or primary-market assumption is necessary.",
+      "support": [
+        {
+          "source_key": "sebi-secondary-market-definition:1:definition:c66033a5b777ffa9a641098a94d8bfec3d0ecbebeee6037a1621fffc04e7cc2a",
+          "quote": "rather than the issuer"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "e8a06388bc4cc402576482908fd381f8",
+      "content_hash": "fb98dbf02959370c0d6e28428e5bb5a426007a56cbab8cd0bdcc1e3ae3663d8d",
+      "independent_key": "A",
+      "defensible_options": [
+        "A",
+        "C"
+      ],
+      "unique_answer": false,
+      "derivation": "Estimating required funds begins and matching ends the given considerations. Estimating timing and identifying possible sources may occur in either order. The excerpt lists considerations, not a strict algorithm; B-D-A-C and B-A-D-C are defensible.",
+      "support": [
+        {
+          "source_key": "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012",
+          "quote": "both the quantum as well as the timing"
+        }
+      ],
+      "issues": [
+        "nonunique_process_order"
+      ],
+      "estimated_difficulty": "easy"
+    },
+    {
+      "id": "f3e8e74061bf6e5cfc408edc3e934bb6",
+      "content_hash": "0d86ebce62a11fe49102be6b5967b7201c2438163df8aedf706eb9a2c22c6c93",
+      "independent_key": "B",
+      "defensible_options": [
+        "B"
+      ],
+      "unique_answer": true,
+      "derivation": "The explicit only links are M to N, N to P and P to Q. Thus B-C-A is the unique directed chain.",
+      "support": [
+        {
+          "source_key": "ncert-lebs105:1:quality-v4-b1bc338a616f:b1bc338a616f2dfc8ece54b96a24a2c65608026f209c02516dbbd25651cb7b54",
+          "quote": "flow of authority"
+        }
+      ],
+      "issues": [],
+      "estimated_difficulty": "easy"
+    }
+  ]
+}

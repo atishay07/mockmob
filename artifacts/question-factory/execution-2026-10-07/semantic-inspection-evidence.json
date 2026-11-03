@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-07T03:42:28.686Z",
+  "original_candidates_inspected": 100,
+  "final_candidate_denominator": 100,
+  "novelty_limit": "Conservative deterministic inspection does not prove exhaustive semantic novelty.",
+  "automatic_withholds": [
+    {
+      "id": "7e64c61174713faf508db3a878970d12",
+      "reason": "unsupported_exact_clause_generalization",
+      "basis": "The supplied clause reference states at least two parts; the generated universal exact-two assertion removes that qualification."
+    },
+    {
+      "id": "fbade95931ba773ec5d278b843aed702",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "2331a9ad39313c879b90b515b3dd9d98",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "34a001ae32f3cfb832913e7a17ba2e12",
+      "reason": "duplicate_lexical_target",
+      "duplicate_of": "b64d12e2ab797dcdc203ce7264b19de9",
+      "target": "concise"
+    },
+    {
+      "id": "167dd3d49f78a2782db0516b2a1c2413",
+      "reason": "duplicate_idea_conservative",
+      "duplicate_of": "e3861557218c01d4e4a32e4fbf8a072d"
+    },
+    {
+      "id": "822819a13b2bc21181108b166fca10b8",
+      "reason": "missing_financial_enterprise_status",
+      "basis": "NCERT Cash Flow Statement 6.5.4: financial-enterprise interest/dividends received are operating; non-financial-enterprise receipts are investing."
+    },
+    {
+      "id": "6a991ef6f1872f51c85458a31f5dab0e",
+      "reason": "uncertain_classification_step_order",
+      "basis": "Recognizing a loan liability and noting repayment obligations can precede one another. The stem does not stipulate a unique procedure."
+    }
+  ],
+  "model_misses_caught_before_publication": [
+    "822819a13b2bc21181108b166fca10b8",
+    "7e64c61174713faf508db3a878970d12",
+    "6a991ef6f1872f51c85458a31f5dab0e"
+  ],
+  "extra_academic_generation_requests": 0
+}

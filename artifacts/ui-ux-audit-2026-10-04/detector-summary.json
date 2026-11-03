@@ -1,0 +1,51 @@
+{
+  "runCount": 1,
+  "exitCode": 2,
+  "count": 137,
+  "severityCounts": [
+    {
+      "severity": "advisory",
+      "count": 135
+    },
+    {
+      "severity": "warning",
+      "count": 2
+    }
+  ],
+  "ruleCounts": [
+    {
+      "rule": "design-system-color",
+      "count": 60
+    },
+    {
+      "rule": "design-system-font-size",
+      "count": 57
+    },
+    {
+      "rule": "design-system-radius",
+      "count": 18
+    },
+    {
+      "rule": "layout-transition",
+      "count": 2
+    }
+  ],
+  "fileCounts": [
+    {
+      "file": "src/app/(app)/test/TestPageClient.jsx",
+      "count": 77
+    },
+    {
+      "file": "src/components/du/du.css",
+      "count": 59
+    },
+    {
+      "file": "src/components/landing/DynamicCompassPreview.jsx",
+      "count": 1
+    }
+  ],
+  "overlayInjection": "not attempted: read-only browser evaluation",
+  "liveServerStarted": false,
+  "targetTreeFileCount": 31,
+  "ignoreList": []
+}

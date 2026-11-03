@@ -1,0 +1,390 @@
+{
+  "at": "2026-10-06T09:49:55.314Z",
+  "complete": 18,
+  "expected": 18,
+  "false_accepts": 3,
+  "observations": [
+    {
+      "original_id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "content_hash": "836070680a3d09429bddc726bcd2cedce817ec861e133cf06de675eec22e1cb3",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "content_hash": "1f7aca4672f837feb0d225fbc42d3597d3f6c2206bbf69328ebdf81529fe4e73",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "“Sycophantic” means excessively insincere praise, making “flattering” the closest option; the other choices do not match that meaning.",
+        "The item requires no numeric work or separate passage; the sentence supplies a standalone vocabulary task.",
+        "This is verbatim the cited anchor item, so it is not meaningfully distinct. The stem refers to an underlined word, but no underlining is present."
+      ]
+    },
+    {
+      "original_id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "content_hash": "bba46fd077b57f64075c66fbf9245418be4c2af248b7aaa212b0c3c45c70fbb4",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Leena’s friendly, cheerful, welcoming manner is genial; morose, reticent, and timid do not fit the description, so D is the sole best answer.",
+        "E2.1 supports the meaning of genial. The contextual clues make the item answerable without a separate passage or unstated assumptions.",
+        "The item tests contextual vocabulary and choosing the correct word, which are within the syllabus. It changes the anchor’s direct antonym task into inference from described behaviour, so it is more than a cosmetic paraphrase.",
+        "The recorded question type, “antonym in context,” does not match the actual task, which asks for the word that describes the person’s manner."
+      ]
+    },
+    {
+      "original_id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Calls in advance must be authorised by the Articles of Association; shareholders, the Board, and the Memorandum are not the authorising instrument.",
+        "The supplied NCERT excerpt discusses calls in advance and provisions in the Articles (E1.3). No numerical calculation or passage is involved.",
+        "This repeats the anchor question verbatim, so it is not meaningfully distinct. Option D also has the stray ending “st,” making the presentation unready."
+      ]
+    },
+    {
+      "original_id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "The correct matching is A–IV (share capital debited with amount called up), B–III (share forfeiture credited with amount received), C–II (calls in arrears credited with unpaid calls), and D–I (securities premium debited for premium not received): option B. The securities premium debit applies only when that premium is unpaid.",
+        "Options A, C, and D do not correctly match the accounts with their forfeiture entries.",
+        "The question is an exact reproduction of its anchor, so it is not meaningfully distinct.",
+        "The flattened List-I/List-II headings and descriptors are difficult to parse as presented; restore the two-column layout for a presentation-ready version."
+      ]
+    },
+    {
+      "original_id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Under the fixed capital method, profit share and partner salary go to the Current Account; additional capital and capital withdrawn under the agreement go to the Capital Account. Thus the sequence is (I)–(B), (II)–(A), (III)–(B), (IV)–(A), option B.",
+        "A misplaces I and II; C misplaces III and IV; D misplaces I and IV. B is the only fully correct combination.",
+        "The textbook distinguishes additions or withdrawals of capital from other partner transactions under the fixed capital method, and specifically lists salary among partner transactions. The syllabus includes fixed versus fluctuating capital.",
+        "This is a standalone matching question with no numerical work or passage required. The specified agreement condition makes the capital withdrawal classification clear. It follows the authenticated matching-question format and tests additional transaction classifications beyond the anchor."
+      ]
+    },
+    {
+      "original_id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "Under the fixed capital method, interest on capital and share of profit are credited to the current account; drawings are debited to it. Additional capital introduced is credited to the capital account, so option A is the sole correct match.",
+        "The textbook distinguishes additional capital from other transactions recorded in the current account and explicitly identifies this fixed-capital classification as a topic. The syllabus includes fixed versus fluctuating capital.",
+        "Compared with the anchor, this tests distinct transaction classifications—interest on capital, drawings, and share of profit—not merely renamed entities. The matching format and depth fit the authenticated example."
+      ]
+    },
+    {
+      "original_id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "unsupported_student_markup"
+      ],
+      "failure_details": []
+    },
+    {
+      "original_id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The correct matches are A–II (calls in arrears), B–IV (calls in advance), C–I (securities premium), and D–III (reserve capital); only option D gives all four.",
+        "E2.1–E2.3 support the first three definitions, but the supplied academic excerpts do not support the reserve-capital definition. The paper anchor cannot substitute for academic source support.",
+        "The current syllabus does not explicitly include reserve capital or its winding-up treatment, so the full matching task is not syllabus-entitled.",
+        "The clean matching format fits the authenticated exam pattern. The changed terms test distinct classifications rather than merely renaming entities."
+      ]
+    },
+    {
+      "original_id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "audit_verdict": "suspect",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "original_id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The source distinguishes ex ante as planned and ex post as what actually happened, supporting A and C and making B false (E1.2).",
+        "D uses the malformed term “Ex Ante Post Saving.” Read literally, it is not a defined term; if corrected to “Ex Post Saving,” D is also true, leaving multiple listed pairs composed of true statements. The item therefore has no reliably unique answer as written.",
+        "The question is an exact reproduction of its anchor, not a meaningfully distinct adaptation."
+      ]
+    },
+    {
+      "original_id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "audit_verdict": "suspect",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    },
+    {
+      "original_id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The source defines capital receipts using OR: they create liabilities or reduce financial assets. The stem's AND excludes the separate borrowing and asset-sale cases, so its stated definition is unsupported and no option exactly answers it.",
+        "A is the apparent intended answer only if AND is read as OR; that unstated reinterpretation is needed, so abstain.",
+        "The item and options duplicate the supplied anchor verbatim, so this is not meaningfully distinct."
+      ]
+    },
+    {
+      "original_id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:syllabus_mapping"
+      ],
+      "failure_details": [
+        "The NCERT excerpt says that with the Five-Year Plans, the budget also became a significant national policy statement, so B is correct. A describes only the earlier receipts-and-expenditure role; C and D incorrectly restrict the budget to taxation or capital expenditure.",
+        "The question is a direct-recall item about the meaning/role of the government budget, within the syllabus topic on budget meaning. No calculation or boundary assumption is needed.",
+        "It tests a different textbook claim from the Article 112 anchor, rather than merely renaming entities or reshuffling options.",
+        "Presentation is not fully ready: “According to the chapter” does not identify which chapter or source."
+      ]
+    },
+    {
+      "original_id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "audit_verdict": "incomplete",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "Using the stated simplified relationship, real interest rate = nominal rate − inflation rate = 9% − 4% = 5%, so A is the only correct option; B adds the rates, C divides them, and D multiplies them.",
+        "The provided excerpts discuss interest rates in relation to money demand and bond valuation, but do not support the nominal–real interest rate–inflation relationship. The included syllabus likewise does not list that relationship, so syllabus entitlement is false. The anchor establishes compatible MCQ format and depth, not academic support.",
+        "This is a numerical application rather than the anchor’s formula-recall task, making it meaningfully distinct. The stated simplified relationship removes any need to assume the exact Fisher equation; there is no passage-dependent content or presentation defect."
+      ]
+    },
+    {
+      "original_id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "audit_verdict": "suspect",
+      "state": "quarantined",
+      "reasons": [
+        "failed:source_support"
+      ],
+      "failure_details": [
+        "The intended values are G=T=M=X=0: without government, G and T are absent; without foreign trade, M and X are absent.",
+        "But zero is also less than one, so both C and D are true. The comparisons to 1 are also unclear for monetary levels without specified units; no unique answer can be selected.",
+        "The two-sector aggregate-demand description and the textbook definitions of G and T support the government-sector reasoning (E1.2, E2.4).",
+        "The syllabus includes determination of income in the two-sector model, so the topic is entitled. The candidate is identical to its anchor example, not a meaningfully distinct adaptation.",
+        "There is no passage to assess; the item is otherwise cleanly presented and is a direct-recall task."
+      ]
+    },
+    {
+      "original_id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "audit_verdict": "suspect",
+      "state": "eligible",
+      "reasons": [],
+      "failure_details": []
+    }
+  ],
+  "budget": {
+    "gross_usd": 1.616247,
+    "held_usd": 0,
+    "available_usd": 48.383753,
+    "costs": {
+      "basis": "Settled provider usage at recorded token rates; open holds are not invoices.",
+      "stages": [
+        {
+          "stage": "historical",
+          "provider": null,
+          "model": "historical",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0,
+          "held_usd": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "usage_missing_requests": 1
+        },
+        {
+          "stage": "transport_probe",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0.000016,
+          "held_usd": 0,
+          "input_tokens": 109,
+          "output_tokens": 40,
+          "reasoning_tokens": 25,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "transport_probe",
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "settled_requests": 2,
+          "open_requests": 0,
+          "settled_usd": 0.000797,
+          "held_usd": 0,
+          "input_tokens": 172,
+          "output_tokens": 390,
+          "reasoning_tokens": 373,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "blind_solution",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 289,
+          "open_requests": 0,
+          "settled_usd": 0.30992699999999995,
+          "held_usd": 0,
+          "input_tokens": 948499,
+          "output_tokens": 508160,
+          "reasoning_tokens": 414178,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.8-flash",
+          "settled_requests": 192,
+          "open_requests": 0,
+          "settled_usd": 1.001053,
+          "held_usd": 0,
+          "input_tokens": 667203,
+          "output_tokens": 181425,
+          "reasoning_tokens": 111969,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.1-flash-lite",
+          "settled_requests": 32,
+          "open_requests": 0,
+          "settled_usd": 0.049103999999999995,
+          "held_usd": 0,
+          "input_tokens": 87941,
+          "output_tokens": 50794,
+          "reasoning_tokens": 37688,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "independent_evaluation",
+          "provider": "gemini",
+          "model": "gemini-3.5-flash-lite",
+          "settled_requests": 32,
+          "open_requests": 0,
+          "settled_usd": 0.050195,
+          "held_usd": 0,
+          "input_tokens": 87941,
+          "output_tokens": 29591,
+          "reasoning_tokens": 17042,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "explanation_support",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 160,
+          "open_requests": 0,
+          "settled_usd": 0.10013799999999999,
+          "held_usd": 0,
+          "input_tokens": 635349,
+          "output_tokens": 89876,
+          "reasoning_tokens": 60795,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "authoring",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 129,
+          "open_requests": 0,
+          "settled_usd": 0.06211300000000001,
+          "held_usd": 0,
+          "input_tokens": 330449,
+          "output_tokens": 58030,
+          "reasoning_tokens": 40346,
+          "usage_missing_requests": 5
+        },
+        {
+          "stage": "repair",
+          "provider": "openai",
+          "model": "gpt-6-luna",
+          "settled_requests": 51,
+          "open_requests": 0,
+          "settled_usd": 0.03904599999999999,
+          "held_usd": 0,
+          "input_tokens": 79502,
+          "output_tokens": 62144,
+          "reasoning_tokens": 55809,
+          "usage_missing_requests": 0
+        },
+        {
+          "stage": "unclassified",
+          "provider": null,
+          "model": "gpt-6-luna",
+          "settled_requests": 1,
+          "open_requests": 0,
+          "settled_usd": 0.003858,
+          "held_usd": 0,
+          "input_tokens": 0,
+          "output_tokens": 0,
+          "reasoning_tokens": 0,
+          "usage_missing_requests": 1
+        }
+      ]
+    }
+  }
+}

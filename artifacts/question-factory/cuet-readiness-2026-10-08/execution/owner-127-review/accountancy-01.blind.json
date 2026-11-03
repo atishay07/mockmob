@@ -1,0 +1,543 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "accountancy",
+  "offset": 0,
+  "total": 36,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069": {
+      "id": "ncert-leac204",
+      "version": 1,
+      "locator": "pdf-page-12",
+      "support_hash": "5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+      "text": "182 Accountancy : Company Accounts and Analysis of Financial Statements II.Assets 1) Non-current assets a) Fixed assets - Tangible assets 14 8 - Intangible assets 3 2 2) Current assets a) Inventories 5 4 b) Cash and cash equivalents 2 1 Total 24 15 4.6 Common Size Statement Common Size Statement, also known as component percentage statement, is a financial tool for studying the key changes and trends in the financial position and operational result of a company. Here, each item in the statement is stated as a percentage of the aggregate, or revenue from operations of which that item is a part. For example, a common size balance sheet shows the percentage of each asset to the total assets, and that of each liability to the total liabilities. Similarly, in the common size statement of profit and loss, the items of expenditure are shown as a percentage of the revenue from operations. If such a statement is prepared for successive periods, it shows the changes of the respective percentages over a period of time. Common size analysis is of immense use for comparing enterprises which differ substantially in size as it provides an insight into the structure of financial statements. Inter-firm comparison or comparison of the company’s position with the related industry as a whole is possible with the help of common size statement analysis. The following procedure may be adopted for preparing the common size statements. 1. List out absolute figures in rupees at two points of time, say year 1, and year 2 (Column 2 & 4 of Exhibit 4.2). 2. Choose a common base (as 100). For example, revenue from operations may be taken as base (100) in case of statement of profit and loss and total assets or total liabilities (100) in case of balance sheet. 3. For all items of Col. 2 and 3 work out the percentage of that total. Column 4 and 5 shows these percentages in Exhibit 4.2. Common Size Statement Particulars Year Y ear Percentage Percentage one two of year 1 of year 2 1 2 3 4 5 Exhibit 4.2 Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a36bf14dbbda53efcd71abed814133e9d9a600ffb9f1b6005542c90a0e42d829"
+    },
+    "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431": {
+      "id": "ncert-leac204",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431",
+      "text": "174 Accountancy : Company Accounts and Analysis of Financial Statements and further investment in the firm. To be more specific, the analysis is undertaken to serve the following purposes (objectives): • to assess the current profitability and operational efficiency of the firm as a whole as well as its different departments so as to judge the financial health of the firm. • to ascertain the relative importance of different components of the financial position of the firm. • to identify the reasons for change in the profitability/financial position of the firm. • to judge the ability of the firm to repay its debt and assessing the short-term as well as the long-term liquidity position of the firm. Through the analysis of financial statements of various firms, an economist can judge the extent of concentration of economic power and pitfalls in the financial policies pursued. The analysis also provides the basis for many governmental actions relating to licensing, controls, fixing of prices, ceiling on profits, dividend freeze, tax subsidy and other concessions to the corporate sector. 4.4 Tools of Analysis of Financial Statements The most commonly used techniques of financial analysis are as follows: 1. Comparative Statements: These are the statements showing the profitability and financial position of a firm for different periods of time in a comparative form to give an idea about the position of two or more periods. It usually applies to the two important financial statements, namely, balance sheet and statement of profit and loss prepared in a comparative form. The financial data will be comparative only when same accounting principles are used in preparing these statements. If this is not the case, the deviation in the use of accounting principles should be mentioned as a footnote. Comparative figures indicate the trend and direction of financial position and operating results. This analysis is also known as ‘horizontal analysis’. 2. Common Size Statements: These are the statements which indicate the relationship of different items of a financial statement with a common item by expressing each item as a percentage of that common item. The percentage thus calculated can be easily compared with the results of corresponding percentages of the previous year or of some other firms, as the numbers are brought to common base. Such statements also allow an analyst to compare the operating and financing characteristics of two companies of different sizes in the same industry. Thus, common size statements are useful, both, in intra-firm comparisons over different years and also in making inter-firm comparisons for the same year or for several years. This analysis is also known as ‘Vertical analysis’. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac204.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a36bf14dbbda53efcd71abed814133e9d9a600ffb9f1b6005542c90a0e42d829"
+    },
+    "ncert-leac104:1:pdf-page-29:966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe": {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-29",
+      "support_hash": "966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe",
+      "text": "184 Accountancy – Partnership Accounts Terms Introduced in the Chapter • Dissolution of Partnership • Compulsory Dissolution • Dissolution of Partnership • Dissolution by Notice Firm • Realisation Expenses • Partnership at Will • Realisation Account Summary 1. Dissolution of Partnership Firm : The dissolution of a firm implies the discontinuance of partnership business and termination of economic relations between the partners. In the case of a dissolution of a firm, the firm closes its business altogether and realises all its assets and pays all its liabilities. The payment is made to the creditors first out of the assets realised and, if necessary, next out of the contributions made by the partners in their profit sharing ratio. When all accounts are settled and the final payment is made to the partners for the amounts due to them, the books of the firm are closed. 2. Dissolution of Partnership : A partnership gets terminated in case of admission, retirement death, etc. of a partner . This does not necessarily involve dissolution of the firm. 3. Realisation Account : The Realisation Account is prepared to record the transactions relating to sale and realisation of assets and settlement of creditors. Any profit or loss arising act of this process is shared by partners’ in their profit sharing ratio. Partners’ accounts are also settled and the Cash or Bank account is closed. Questions for Practice Short Answer Questions 1. State the difference between dissolution of partnership and dissolution of partnership firm. 2. State the accounting treatment at the time of dissolution of a firm for: i. Unrecorded assets ii. Unrecorded liabilities 3. On dissolution, how will you deal with partner’s loan if it appears on the (a) assets side of the balance sheet, (b) liabilities side of balance sheet. Bank Account Dr. Cr. Particulars Amount (Rs.) Particulars Amount (Rs.) Balance b/d 5,000 Realisation (expenses) 2,000 Realisation (assets realised) 51,000 Mena’s capital 32,400 Tina’s capital 21,600 56,000 56,000 Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe"
+    },
+    "ncert-leac104:1:pdf-page-4:1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89": {
+      "id": "ncert-leac104",
+      "version": 1,
+      "locator": "pdf-page-4",
+      "support_hash": "1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89",
+      "text": "159Dissolution of Partnership Firm 4.3 Settlement of Accounts In case of dissolution of a firm, the firm ceases to conduct business and has to settle its accounts. For this purpose, it disposes off all its assets for satisfying all the claims against it. In this context it should be noted that, subject to agreement among the partners, the following rules as provided in Section 48 of the Partnership Act 1932 shall apply. (a) Treatment of Losses Losses, including deficiencies of capital, shall be paid : (i) first out of profits, (ii) next out of capital of partners, and (iii) lastly, if necessary, by the partners individually in their profit sharing ratio. (b) Application of Assets The assets of the firm, including any sum contributed by the partners to make up deficiencies of capital, shall be applied in the following manner and order: (i) In paying the debts of the firm to the third parties; (ii) In paying each partner proportionately what is due to him/her from the firm for advances as distinguished from capital (i.e. partner’ loan); (iii) In paying to each partner proportionately what is due to him on account of capital; and (iv) the residue, if any, shall be divided among the partners in their profit sharing ratio. Thus, the amount realised from assets along with contribution from partners, if required, shall be utilised first to pay off the outside liabilities of the firm such as creditors, loans, bank overdraft, bill payables, etc. (it may be noted that secured loans have precedence over the unsecured loans); the balance should be applied to repay loans made by the partners to the firm. (in case the balance amount is not adequate enough to pay off such loans and advances, they are to be paid propartionately). The amount left thereafter is utilised in settlement of capital account balances. Then the surplus if any is divided among partners in their profit sharing ratio. Private Debts and Firm’s Debts: Where both the debts of the firm and private debts of a partner co-exist, the following rules, as stated in Section 49 of the Act, shall apply. (a) The property of the firm shall be applied first in the payment of debts of the firm and then the surplus, if any, shall be divided among the partners as per their claims, which can be utilised for payment of their private liabilities. (b) The private property of any partner shall be applied first in payment of his private debts and the surplus, if any, may be utilised for payment of the firm’s debts, in case the firm’s liabilities exceed the firm’s assets. It may be noted that the private property of the partner does not include the personal properties of his wife and children. Thus, if the assets of the firm are not adequate enough to pay off firm’s liabilities, the partners have to contribute out of their net private assets (private assets minus private liabilities). Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac104.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "7958c1b062f047bb49ba84502faf720e834cc3847ec0b40255e3b0198f3dacbe"
+    },
+    "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48": {
+      "id": "ncert-leac103",
+      "version": 1,
+      "locator": "span-2aedd1bf7e9f",
+      "support_hash": "2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+      "text": "3.1 Ascertaining the Amount Due to Retiring/ partner’s loan account, if Deceased Partner required; and • prepare the deceased The sum due to the retiring partner (in case of partner’s executor’s retirement) and to the legal representatives/ account in the case of death of a partner and the executors (in case of death) includes: balance sheet of a (i) credit balance of his capital account; reconstituted firm. (ii) credit balance of his current account (if any); (iii) his share of goodwill; (iv) his share of accumulated profits (reserves); (v) his share in the gain of revaluation of assets and liabilities; Reprint 2026-27\r\nPAGE 2\r\n108 Accountancy – Partnership Accounts (vi) his share of profits up to the date of retirement/death; (vii) interest on his capital, if involved, up to the date of retirement/death; and (viii) salary/commission, if any, due to him up to the date of retirement/death. The following deductions, if any, may have to be made from his share: (i) debit balance of his current account (if any); (ii) his share of goodwill to be written off, if necessary; (iii) his share of accumulated losses; (iv) his share of loss on revaluation of assets and liabilities; (v) his share of loss up to the date of retirement/death; (vi) his drawings up to the date of retirement/death; (vii) interest on drawings, if involved, up to the date of retirement/death. Thus, similar to admission, the various accounting aspects involved on retirement or death of a partner are as follows: 1. Ascertainment of new profit sharing ratio and gaining ratio; 2. Treatment of goodwill; 3. Revaluation of assets and liabilities; 4. Adjustment in respect of unrecorded assets and liabilities; 5. Distribution of accumulated profits and losses; 6.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6"
+    },
+    "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e": {
+      "id": "ncert-leac103",
+      "version": 1,
+      "locator": "span-ce862e7dfa8c",
+      "support_hash": "ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e",
+      "text": "3.9 Death of a Partner As stated earlier, the accounting treatment in the event of death of a partner is similar to that in case of retirement of a partner, and that in case of death of a partner his claim is transferred to his executors and settled in the same manner as that of the retired partner. However, there is one major difference that, while the retirement normally takes place at the end of an accounting period, the death of a partner may occur any time. Hence, in case of a partner, his claim shall also include his share of profit or loss, interest on capital, interest on drawings (if any) from the date of the last Balance Sheet to the date of his death of these, the main problem relates to the calculation of profit for the intervening period (i.e., the period from date of the last balance sheet and the date of the partner’s death. Since, it is Reprint 2026-27\r\nPAGE 35\r\nRetirement/Death of a Partner 141 considered cumbersome to close the books and prepare final account, for the period, the deceased partner’s share of profit may be calculated on the basis of last year’s profit (or average of past few years) or on the basis of sales. For example, Bakul, Champak and Darshan were partners in a firm sharing profits in the ratio of 5:4:1. The profit of the firm for the year ending on March 31, 2017 was Rs.1,00,000. Champak died on June 30, 2017. Bakul and Darshan decided to share profits equally. Champak’s share of profit for the period from April 1 to June 30, 2017, shall be calculated as follows: Total profit for the year ending on 31st March, 2017 = Rs.1,00,000 Champak’s share of profit : Proceeding Year’s Profit × Proportionate Period × Share of Deceased Partner 3 4 = Rs. 1,00,000 × × = Rs.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac103.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "bcbabbaf795413a519afcab242d08749739adc1084fbdb3bbe5456f59c8ebae6"
+    },
+    "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-b92b17a10903",
+      "support_hash": "b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+      "text": "2.8 Terms of Issue of Debentures When a company issues debentures, it usually mentions the terms on which they will be redeemed on their maturity. Redemption of debentures means discharge of liability on account of debentures by repayment made to the debenture holders. Debentures can be redeemed either at par or at a premium. Depending upon the terms and conditions of issue and redemption of debentures, the following six situations are commonly found in practice. (i) Issued at par and redeemable at par (ii) Issued at discount and redeemable at par (iii) Issued at a premium and redeemable at par (iv) Issued at par and redeemable at a premium (v) Issued at a discount and redeemable at a premium (vi) Issued at a premium and redeemable at a premium In all the above six cases, the following journal entries will be passed: Reprint 2026-27\r\nPAGE 24\r\n98 Accountancy : Company Accounts and Analysis of Financial Statements 1. Issue at par and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c (Allotment of debentures) 2. Issue at a discount and redeemable at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. Discount on Issue of Debentures A/c Dr. To Debentures A/c (Allotment of debentures at a discount) 3. Issue at premium and redemption at par (a) Bank A/c Dr. To Debenture Application & Allotment A/c (Receipt of application money) (b) Debenture Application & Allotment A/c Dr. To Debentures A/c To Securities Premium Reserve A/c (Allotment of debentures at a premium) 4. Issue at par and redeemable at premium (a) Bank A/c Dr.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9": {
+      "id": "ncert-leac202",
+      "version": 1,
+      "locator": "span-2bf9ffb186bb",
+      "support_hash": "2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9",
+      "text": "2.4.3 Debentures issued at Premium A debenture is said to be issued at a premium when the price charged is more than its nominal value. For example, the issue of Rs. 100 debentures for Rs. 110, (Rs. 10 is being the premium). The amount of premium is credited to Securities Premium Reserve account and is shown on the liabilities side of the balance sheet under the head “Reserves and Surpluses”.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac202.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a76e67c74fcf419192da9099a8cca5e33db64f9cf1c921c261b74a2394a01865"
+    },
+    "ncert-leac206:1:span-11e51ff37121:11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97": {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-11e51ff37121",
+      "support_hash": "11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97",
+      "text": "6.8 Preparation of Cash Flow Statement As stated earlier cash flow statement provides information about change in the position of Cash and Cash Equivalents of an enterprise, over an accounting period. The activities contributing to this change are classified into operating, investing and financing. The methology of working out the net cash flow (or use) from all the three activities for an accounting period has been explained in details and a brief format of Cash Flow Statement has also been given in Exhibit 6.2. However, while preparing a cash flow statement, full details of inflows and outflows are given under these heads including the net cash flow (or use). The aggregate of the net ‘cash flows (or use) is worked out and is shown as ‘Net Increase/Decrease in cash and Cash Equivalents’ to which the amount of ‘cash and cash equivalent at the beginning’ is added and thus the amount of ‘cash and cash equivalents at the end’ is arrived at as shown in Exhibit 6.2.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    },
+    "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081": {
+      "id": "ncert-leac206",
+      "version": 1,
+      "locator": "span-50f51c90ebe7",
+      "support_hash": "50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081",
+      "text": "6.5 Classification of Activities for the Preparation of Cash Flow Statement You know that various activities of an enterprise result into cash flows (inflows or receipts and outflows or payments) which is the subject matter of a cash flow statement. As per AS-3, these activities are to be classified into three categories: (1)operating, (2) investing, and (3) financing activities so as to show separately the cash flows generated (or used) by (in) these activities. This helps the users of cash flow statement to assess the impact of these activities on the financial position of an enterprise and also on its cash and cash equivalents. Reprint 2026-27\r\nPAGE 4\r\n244 Accountancy : Company Accounts and Analysis of Financial Statements 6.5.1 Cash from Operating Activities Operating activities are the activities that constitute the primary or main activities of an enterprise. For example, for a company manufacturing garments, operating activities are procurement of raw material, incurrence of manufacturing expenses, sale of garments, etc. These are the principal revenue generating activities (or the main activities) of the enterprise and these activities are not investing or financing activities. The amount of cash from operations’ indicates the internal solvency level of the company, and is regarded as the key indicator of the extent to which the operations of the enterprise have generated sufficient cash flows to maintain the operating capability of the enterprise, paying dividends, making of new investments and repaying of loans without recourse to external source of financing. Cash flows from operating activities are primarily derived from the main activities of the enterprise.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "05a99fd986a92c925a96859dfe22816beb70a9b6a0c52d35161d0c04f3bd6c5e"
+    },
+    "ncert-leac201:1:pdf-page-24:fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-24",
+      "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914",
+      "text": "24 Accountancy : Company Accounts and Analysis of Financial Statements 1.6.3 Over Subscription There are instances when applications for more shares of a company are received than the number offered to the public for subscription. This usually happens in respect of shares issue of well-managed and financially strong companies and is said to be a case of ‘Over Subscription’. In such a condition, three alternatives are available to the directors to deal with the situation: (1) they can accept some applications in full and totally reject the others; (2) they can make a pro-rata allotment to all; and (3) they can adopt a combination of the above two alternatives which happens to be the most common course adopted in practice. The problem of over subscription is resolved with the allotment of shares. Therefore, from the accounting point of view, it is better to place the situation of over subscription within the total frame of application and allotment, i.e. receipt of application amount, amount due on allotment and its receipt from the shareholders, and the same has been observed in the pattern of entries. First Alternative : When the directors decide to fully accept some applications and totally reject the others, the application money received on rejected applications is fully refunded. For example, a company invited applications for 20,000 shares and received the applications for 25,000 shares. The directors rejected the applications for 5,000 shares which are in excess of the required number and refunded their application money in full. In this case, the journal entries on application and allotment will be as follows : The journal entries on application and allotment according to this alternative are as follows: 1 Bank A/c Dr. To Share Application A/c (Money received on application for 25,000 shares @ Rs. _ per share) 2 Share Application A/c Dr. To Share Capital A/c To Bank A/c (Transfer of application for money 20,000 for shares allotted and money refunded on applications for 5,000 shares rejected) 3 Share Allotment A/c Dr. To Share Capital A/c (Amount due on the allotment of 20,000 shares @ Rs. _ per share) 4 Bank A/c Dr. To Share Allotment A/c (Allotment money received) Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac201:1:pdf-page-30:d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b": {
+      "id": "ncert-leac201",
+      "version": 1,
+      "locator": "pdf-page-30",
+      "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b",
+      "text": "30 Accountancy : Company Accounts and Analysis of Financial Statements June 01 Bank A/c Dr. 4,00,000 Calls in Advance A/c Dr. 1,00,000 To Equity Share Second and Final Call A/c 5,00,000 (Calls-in-advance adjusted against final call and the balance money on call received) Note: The balance of excess application money as a result of pro-rata distribution in journal entry 3 above is large enough to meet the demands on allotted shares in respect of the allotment and the two call money, as well as to leave an amount to be refunded along with that on the rejected applications. Working Notes: Rs. Rs. Excess Application Money 15,00,000 Less Transfers : Share Allotment — 20,000 shares @ Rs. 7.50 1,50,000 Share Calls — 20,000 shares @ Rs. 12.50 2,50,000 4,00,0001 Amount to be refunded (including that on 11,00,000 the rejected applications) 1.6.4 Under Subscription Under subscription is a situation where number of shares applied for is less than the number for which applications have been invited for subscription. For example, a comapny offered 2 lakh shares for subscription to the public but the applications were received for 1,90,000 shares, only. In such a situation, the allotment will be confirmed to 1,90,000 shares and entries shall be made accordingly. However, as stated earlier, it must be ensured that the company has received the minimum subscriptions and the company will have to refund the entire subscription amount received. 1.6.5Issue of Shares at a Premium It is quite common for the shares of financially strong and well-managed companies to be issued at a premium, i.e. at an amount more than the nominal or par value of shares. Thus, when a share of the nominal value of Rs. 100 is issued at Rs. 105, it is said to have been issued at a premium of 5 per cent. When the issue of shares is at a premium, the amount of premium may technically be called at any stage of the issue of shares. However, premium is generally called with the amount due on allotment, sometimes with the application money and rarely with the call money. The premium amount is credited to a separate account called ‘Securities Premium Account’ and is Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "4163b2fd7651686c41e3ec59a64723509d4ff0a85b6782c03e9fb9f896f3c9d0"
+    },
+    "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-88acd5a861b0",
+      "support_hash": "88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+      "text": "2.9 Change in Profit Sharing Ratio among the Existing Partners Sometimes, the partners of a firm decide to change their existing profit sharing ratio without any admission or retirement of a partner. This results in a gain of additional share in future profits of the firm for some partners while a loss of a part thereof for other partners. For example, A, B and C are partners in a firm Reprint 2026-27\r\nPAGE 47\r\n94 Accountancy – Partnership Accounts sharing profits in the ratios of 8:5:3 It is felt that A will no more be able to actively participate in the affairs of the firm. Hence, with effect from April 1, 2007, they decided that, in future they will share the profits in the ratio 8 5  of 5 : 6 : 5. This results in A losing 3 16  16 − 16    share in profits while B and C 6 5  5 3  gaining 1 16  16 − 16    and 2 16  16 − 16    . In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner's and debiting gaining partner's with appropriate amounts, as is explained earlier in the context of the admission of a new partners. Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and liabilities, transfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio and adjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio. All this is done in the same way as in case of admission of a partner.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3": {
+      "id": "ncert-leac102",
+      "version": 1,
+      "locator": "span-72d2f4711e2e",
+      "support_hash": "72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3",
+      "text": "2.3 New Profit Sharing Ratio When new partner is admitted he acquires his share in profits from the old partners. In other words, on the admission of a new partner, the old partners sacrifice a share of their profit in favour of the new partner. But, what will be the share of new partner and how he will acquire it from the existing partners is decided mutually among the old partners and the new partner. However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio. In any case, on admission of a new partner, the profit sharing ratio among the old partners will change keeping in view their respective contribution to the profit sharing ratio of the incoming partner. Hence, there is a need to ascertain the new profit sharing ratio among all the partners. This depends upon how does the new partner acquires his share from the old partners for which there are many possibilities. Let us understand it with the help of the following illustrations.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac102.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "593edb08236a797e2c8c2104198ca850030c3ed681a733ffa2662db5a6606239"
+    },
+    "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da": {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-27",
+      "support_hash": "0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+      "text": "220 Accountancy : Company Accounts and Analysis of Financial Statements (ii) Average Collection Period = 365 Trade Receivables Turnover Ratio = 365 8.18 = 45 days (iii) Trade Payable Turnover Ratio = Purchases * Average Trade Payables = Purchases Creditors + Bills payable = 4,20,000 90,000 + 52,000 = 4,20,000 1,42,000 = 2.96 times (iv) Average Payment Period = 365 Trade Payables Turnover Ratio = 365 2.96 = 123 days *Since no information regarding credit purchase is given, hence it will be related as net purchases. 5.8.4 Net Assets or Capital Employed Turnover Ratio It reflects relationship between revenue from operations and net assets (capital employed) in the business. Higher turnover means better activity and profitability. It is calculated as follows : Net Assets or Capital Employed Turnover ratio = Revenue from Operation Capital Employed Capital employed turnover ratio which studies turnover of capital employed (or Net Assets) is analysed further by following two turnover ratios : (a) Fixed Assets Turnover Ratio : It is computed as follows: Fixed asset turnover Ratio = Net Revenue from Operation Net Fixed Assets Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac205.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0"
+    },
+    "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28": {
+      "id": "ncert-leac205",
+      "version": 1,
+      "locator": "pdf-page-20",
+      "support_hash": "f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28",
+      "text": "213Accounting Ratios 5.8 Activity (or Turnover) Ratio These ratios indicate the speed at which, activities of the business are being performed. The activity ratios express the number of times assets employed, or, for that matter, any constituent of assets, is turned into sales during an accounting period. Higher turnover ratio means better utilisation of assets and signifies improved efficiency and profitability, and as such are known as efficiency ratios. The important activity ratios calculated under this category are 1. Inventory Turnover; 2. Trade receivable Turnover; 3. Trade payable Turnover; 4. Investment (Net assets) Turnover 5. Fixed assets Turnover; and 6. Working capital Turnover. 5.8.1 Inventory Turnover Ratio It determines the number of times inventory is converted into revenue from operations during the accounting period under consideration. It expresses the relationship between the cost of revenue from operations and average inventory. The formula for its calculation is as follows: Inventory Turnover Ratio = Cost of Revenue from Operations / Average Inventory Where average inventory refers to arithmetic average of opening and closing inventory, and the cost of revenue from operations means revenue from operations less gross profit. Significance : It studies the frequency of conversion of inventory of finished goods into revenue from operations. It is also a measure of liquidity. It determines how many times inventory is purchased or replaced during a year. Low turnover of inventory may be due to bad buying, obsolete inventory, etc., and is a danger signal. High turnover is good but it must be carefully interpreted as it may be due to buying in small lots or selling quickly at low margin to realise cash. Thus, it throws light on utilisation of inventory of goods. Reprint 2026-27",
+      "url": "https://www.ncert.nic.in/textbook/pdf/leac205.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "20eb1c6702a9153ef899664183e603b927283e6bd834c85b58f2b4abda1f78e0"
+    },
+    "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "pdf-page-5",
+      "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+      "text": "5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partner’s loan is to be given @ 12% p.a., if the deed is silent about the rate. 1.3 Special Aspects of Partnership Accounts Accounting treatment for partnership firm is similar to that of a sole proprietorship business with the exception of the following aspects: • Maintenance of Partners’ Capital Accounts; • Distribution of Profit and Loss among the partners; • Adjustments for Wrong Appropriation of Profits in the Past; • Reconstitution of the Partnership Firm; and • Dissolution of Partnership Firm. The first three aspects mentioned above have been taken up in the following sections of this chapter . The r emaining aspects have been cover ed in the subsequent chapters. 1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capital, withdrawal of capital, share of profit, interest on capital, interest on drawings, partner’s salary, commission to partners, etc. There are two methods by which the capital accounts of partners can be maintained. These are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance. The partner’s capital account and the current account under the fixed capital method would appear as shown in Fig.1.1. Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    },
+    "ncert-leac101:1:quality-v4-5f1d4244dc0b:5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9": {
+      "id": "ncert-leac101",
+      "version": 1,
+      "locator": "quality-v4-5f1d4244dc0b",
+      "support_hash": "5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9",
+      "text": "1.4 Maintenance of Capital Accounts of Partners All transactions relating to partners of the firm are recorded in the books of the firm through their capital accounts. This includes the amount of money brought in as capital, withdrawal of capital, share of profit, interest on capital, interest on drawings, partner’s salary, commission to partners, etc. There are two methods by which the capital accounts of partners can be maintained. These are: (i) fixed capital method, and (ii) fluctuating capital method. The difference between the two lies in whether or not the transactions other than addition/withdrawal of capital are recorded in the capital accounts of the partners. (a) Fixed Capital Method: Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners. All items like share of profit or loss, interest on capital, drawings, interest on drawings, etc. are recorded in a separate accounts, called Partner’s Current Account. The partners’ capital accounts will always show a credit balance, which shall remain the same (fixed) year after year unless there is any addition or withdrawal of capital. The partners’ current account on the other hand, may show a debit or a credit balance. Thus under this method, two accounts are maintained for each partner viz., capital account and current account, While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+      "url": "https://ncert.nic.in/textbook/pdf/leac101.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "61e63dadada471cc1b391785ebb862393c7afe8aabf967b835325c96eb52746c"
+    }
+  },
+  "cases": [
+    {
+      "id": "fa6d913f5a2d1b5b97ac7da2ef540715",
+      "content_hash": "9e87068687a843eb2f85b05944bc1b4125d3209b3259ac9c4fe4002151e1dbee",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Comparative & Common Size Statements",
+        "topic": "Cash Flow Statement: Meaning and Objectives, Preparation, Adjustments related to depreciation, amortization, dividend and tax, purchase and profit or loss on sale of non- current assets (as per revised standard issued by ICAI). Optional to Unit V",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "An analyst is preparing a common-size statement of profit and loss for each year to compare the expenditure structure of two firms of different sizes. The figures are:\nFirm A — Year 1: revenue from operations ₹10,00,000; total expenditure ₹8,00,000. Year 2: revenue from operations ₹16,00,000; total expenditure ₹12,00,000.\nFirm B — Year 1: revenue from operations ₹20,00,000; total expenditure ₹14,00,000. Year 2: revenue from operations ₹24,00,000; total expenditure ₹18,00,000.\nUsing each year's revenue from operations as the base for that year's expenditure percentage, which conclusion is correct?",
+        "options": [
+          "Firm A: 20% to 25%; Firm B: 30% to 25%; the expenditure share rises in A and falls in B.",
+          "Firm A: 75% to 80%; Firm B: 75% to 70%; the expenditure share rises in A and falls in B.",
+          "Firm A: 80% to 75%; Firm B: 70% to 75%; the expenditure share falls in A and rises in B, although expenditure in rupees rises in both.",
+          "Firm A: 80% to 120%; Firm B: 70% to 90%; Year 2 expenditure is divided by Year 1 revenue in each firm."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069",
+        "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431"
+      ]
+    },
+    {
+      "id": "c6f1c8305a2882ca83281c8f223f09e1",
+      "content_hash": "100e625a0b989f78ac48c0d655b8bfdf1c77ad6abf01353364adf70a0b1224d6",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Dissolution of Partnership Firm",
+        "topic": "Meaning, Settlement of accounts: Preparation of Realisation Account and related Accounts (excluding piecemeal distribution, sale to a company and insolvency of a Partner).",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "On dissolution, a firm has ₹4,20,000 cash available from realised assets. It owes ₹1,20,000 to outside creditors, ₹2,80,000 as a partner loan to K and ₹1,20,000 as a partner loan to M. These are the only amounts payable, and there are no unpaid realisation expenses or partner contributions. Outside creditors are paid before partner loans, and the remaining cash is insufficient to pay both partner loans in full. How much should be paid to M against his partner loan?",
+        "options": [
+          "₹90,000",
+          "₹1,20,000",
+          "₹1,50,000",
+          "₹2,10,000"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac104:1:pdf-page-29:966b635576fa17d0bd8b31674c134f03030ac103f07caadee48e9868f43636fe",
+        "ncert-leac104:1:pdf-page-4:1360a8d77c49131b42c2ad1fcdf6aec6342f2c170c2e4e7b1494f9acd6eddc89"
+      ]
+    },
+    {
+      "id": "f99d38d2b710dac30b73fa792426f074",
+      "content_hash": "e823840a70857965c81e056ba9e95c372d09ef8f88829157d961021fbb79f8cd",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Retirement & Death of Partner",
+        "topic": "Unit II: Reconstitution of a Partnership firm",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A firm's accounting year runs from 1 January to 31 December. Its last balance sheet was prepared on 30 June, and a partner died on 31 October. Which interval is relevant for accounting for the deceased partner's share of profit or loss, interest on capital and, where applicable, interest on drawings in the partner's claim?",
+        "options": [
+          "1 January to 31 March",
+          "1 April to 30 June",
+          "1 November to 31 December",
+          "30 June to 31 October"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac103:1:span-2aedd1bf7e9f:2aedd1bf7e9f77570fc599561164afe799f52758547bd154b2ab1a8faadcaf48",
+        "ncert-leac103:1:span-ce862e7dfa8c:ce862e7dfa8c958bff44a6fadd7a2f3cb9aeb64cd704e78428e1d9a180022a1e"
+      ]
+    },
+    {
+      "id": "37a8e9413523b30482b6b1577d627f72",
+      "content_hash": "4a5123a1f6e688b66e792f077703001ab60963d207b7cf3a3c4dc0df8039c9a0",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "topic": "Issue of Debenture – At par, premium and discount; Issue of debentures for consideration other than cash. Issue of debentures with terms of redemption, Debenture as collateral security- concept, Interest on debentures, writing off discount/Loss on issues of debenture. 2 | P a g e",
+        "difficulty": "medium",
+        "format": "matching",
+        "question_type": "matching",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Match List-I with List-II using the terms defined here: an issue price equal to nominal value is at par, above nominal value is at a premium, and below nominal value is at a discount. A redemption amount equal to nominal value is redeemable at par; an amount above nominal value is redeemable at a premium. All amounts are per debenture.\n\nList-I\n(A) Nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,000\n(B) Nominal value ₹1,000; issue price ₹1,100; redemption amount ₹1,000\n(C) Nominal value ₹1,000; issue price ₹1,000; redemption amount ₹1,100\n(D) Nominal value ₹1,000; issue price ₹900; redemption amount ₹1,100\n\nList-II\n(I) Issued at par and redeemable at par\n(II) Issued at a discount and redeemable at a premium\n(III) Issued at par and redeemable at a premium\n(IV) Issued at a premium and redeemable at par\n\nChoose the correct answer from the options given below:",
+        "options": [
+          "(A)-(III), (B)-(IV), (C)-(I), (D)-(II)",
+          "(A)-(I), (B)-(III), (C)-(IV), (D)-(II)",
+          "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)",
+          "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac202:1:span-b92b17a10903:b92b17a10903de2ffa1393be2d609030f0d305f7e74f0fff92623a3ccd855237",
+        "ncert-leac202:1:span-2bf9ffb186bb:2bf9ffb186bb32d67ee000b1fe31d8b48729c4504d38b1982952c16ce09404b9"
+      ]
+    },
+    {
+      "id": "774fae6c1244e20f676a2f110fcb1c31",
+      "content_hash": "a6ef8952ae027e74c2190981734ed4856f977e37226fda6faa3f010cdd17bff5",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Cash Flow Statement",
+        "topic": "Financial Statements of a Company : Preparation of simple financial statements of a company in the prescribed form with major headings and sub headings.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company has calculated the aggregate net cash flow (or use) from its operating, investing and financing activities for an accounting period. Which expression gives its cash and cash equivalents at the end of the period?",
+        "options": [
+          "Beginning cash and cash equivalents − aggregate net cash flows from all three activities",
+          "Aggregate net cash flows from all three activities",
+          "Beginning cash and cash equivalents + aggregate net increase/decrease from all three activities",
+          "Beginning cash and cash equivalents + net cash flow from operating activities alone"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac206:1:span-11e51ff37121:11e51ff371214d92746d9a06b9c2b2356d7f8c77797f985e64d0b2ddac86fc97",
+        "ncert-leac206:1:span-50f51c90ebe7:50f51c90ebe7410faad68c0a3decaa967e852d738083ad2e208faa3dc8e56081"
+      ]
+    },
+    {
+      "id": "5d5cbe3a6d01bd317032694801215f21",
+      "content_hash": "e9e105407f1ab9e29d9babede0ef33989d2e09efd650cb7d9cab229a3b57db4b",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Analysis of Financial Statements",
+        "topic": "Financial Analysis: Meaning, Significance, Purpose and Limitations.",
+        "difficulty": "easy",
+        "format": "statement_selection",
+        "question_type": "statement_selection",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Consider the following statements about uses of financial statement analysis:\n(A) Analysis of financial statements of various firms can help an economist judge the extent of concentration of economic power.\n(B) Financial statement analysis can provide a basis for governmental actions relating to licensing, controls and fixing of prices.\n(C) Financial statement analysis provides no basis for government action concerning licensing, controls or fixing of prices.\nWhich of the statements are correct?",
+        "options": [
+          "Statement (A) only",
+          "Statements (A) and (C) only",
+          "Statements (B) and (C) only",
+          "Statements (A) and (B) only"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac204:1:pdf-page-4:39f82dafffe5247c44b48392013acae829193872d4335bb02a8fb325bf905431",
+        "ncert-leac204:1:pdf-page-12:5c8bf2df9f10fde86ba5b552cde47a6b502b99a16837069abfde21175525a069"
+      ]
+    },
+    {
+      "id": "c25dbd80031ae32eb2e1f4f6770ccc2e",
+      "content_hash": "20373d516a122a2e237239197fdbb69c082b1599921eb9bfb31e8f505bab0d8b",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Share Capital",
+        "topic": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+        "difficulty": "easy",
+        "format": "conceptual_mcq",
+        "question_type": "conceptual_mcq",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company invites applications for 2,00,000 shares and receives applications for 1,90,000 shares. Which subscription condition is indicated?",
+        "options": [
+          "Over-subscription",
+          "Under-subscription",
+          "Pro-rata allotment",
+          "Issue of shares at a premium"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac201:1:pdf-page-24:fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914",
+        "ncert-leac201:1:pdf-page-30:d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+      ]
+    },
+    {
+      "id": "b8b28bb38dc46bf5ce60a077b4def73d",
+      "content_hash": "3896b193ddbc9968edfc8582dd8ebfa2df451d9d9f5f1f2cfd37784c76b67c6d",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Change in Profit Sharing Ratio",
+        "topic": "Changes in profit sharing ratio among the existing partners – Sacrificing ratio and Gaining ratio.",
+        "difficulty": "medium",
+        "format": "numerical_calculation",
+        "question_type": "numerical_calculation",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A, B, C and D share profits in the ratio 4:3:2:1. They change their profit-sharing ratio to 2:2:3:3. Each ratio represents the partners’ shares of total profits, in the order A, B, C and D. A partner’s sacrifice or gain is the difference between their old share and new share. What are the sacrificing ratio (A:B) and the gaining ratio (C:D), respectively?",
+        "options": [
+          "A:B = 1:2; C:D = 2:1",
+          "A:B = 2:1; C:D = 1:2",
+          "A:B = 4:3; C:D = 1:1",
+          "A:B = 1:1; C:D = 2:1"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac102:1:span-88acd5a861b0:88acd5a861b050d66519c83180b24b89319ac7f8016a25a6fe23161f2ea0e8d2",
+        "ncert-leac102:1:span-72d2f4711e2e:72d2f4711e2e31aa53c594d7c0609fba02969a34f90039b36fcfa643f05433f3"
+      ]
+    },
+    {
+      "id": "67fe249b34753b62b0c637326975e001",
+      "content_hash": "2950c37358030e02ee0a0c9596672cf287ebadd216f19b858d1c7882be6bb40b",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "topic": "Tools for Financial Analysis: Comparative statements, Common size statements.",
+        "difficulty": "hard",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Use Inventory Turnover Ratio = Cost of Revenue from Operations ÷ Average Inventory. For the same company, the following figures relate to accounting periods of equal length: Year 1—Cost of Revenue from Operations ₹12,00,000 and Average Inventory ₹1,50,000; Year 2—Cost of Revenue from Operations ₹18,00,000 and Average Inventory ₹1,50,000. In Year 2, the company began selling inventory quickly at a low margin to realise cash. Which conclusion is best supported?",
+        "options": [
+          "Year 2 is 12 times compared with 8 times in Year 1; this indicates more frequent inventory conversion, but the rise alone does not establish improved profitability given the quick, low-margin selling.",
+          "Year 2 is 12 times compared with 8 times in Year 1; this proves improved profitability because higher inventory turnover necessarily means higher profit.",
+          "Year 2 is 8 times compared with 12 times in Year 1; this indicates less frequent inventory conversion despite the quick, low-margin selling.",
+          "Year 2 is 4 times compared with 8 times in Year 1; this indicates less frequent inventory conversion after treating the increase as the final ratio."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac205:1:pdf-page-27:0b1f7ff0891f453f91b6cb254f3e65a69b83ea87cbe59bd27e2aff350d0ad0da",
+        "ncert-leac205:1:pdf-page-20:f6fc04d6a2cf2b4c2ae7280fbd38a44c9bd7dea7dd81ac6f9649065a61187c28"
+      ]
+    },
+    {
+      "id": "4115a8da29d5db85791e1ebac2a51510",
+      "content_hash": "15235f4afa4ef765196e07d2c02d98c1ce2c431a0bbd6c2397369453637e15b8",
+      "metadata": {
+        "subject": "accountancy",
+        "chapter": "Partnership Fundamentals",
+        "topic": "Partnership Fundamentals: focus on this supplied section: 5Accounting for Partnership : Basic Concepts (v) If the deed is silent, interest at the rate of 6% p.a. would be charged on the drawings made by the partner; (vi) Interest on partn. Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "medium",
+        "format": "sequence_ordering",
+        "question_type": "sequence_ordering",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "Under the fixed capital method, a partner first introduces additional capital and later receives a share of profit and makes drawings. Assume there are no other partner transactions and that, after the profit and drawings are recorded, the Partner’s Current Account has a credit balance. Arrange the following steps in the order for recording the transactions and presenting the year-end balances:\n(A) Record the share of profit and drawings in the Partner’s Current Account.\n(B) Record the additional capital in the Partner’s Capital Account.\n(C) Confirm the credit balance of the Partner’s Current Account after its items are recorded.\n(D) Show the Partner’s Capital Account and the credit-balance Current Account on the liabilities side of the balance sheet.\nChoose the correct sequence.",
+        "options": [
+          "(A), (B), (C), (D)",
+          "(B), (A), (C), (D)",
+          "(B), (C), (A), (D)",
+          "(B), (A), (D), (C)"
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-leac101:1:pdf-page-5:4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1",
+        "ncert-leac101:1:quality-v4-5f1d4244dc0b:5f1d4244dc0b4a8c98d72cc45367ed9b2251c51f035872f27aa70ded8e2f2fa9"
+      ]
+    }
+  ]
+}

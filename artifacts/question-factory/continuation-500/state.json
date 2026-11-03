@@ -1,0 +1,172 @@
+{
+  "id": "owner-authorized-500-2026-10-07",
+  "created_at": "2026-10-07T04:47:39.408Z",
+  "target_unique_usable": 500,
+  "maximum_new_cohorts": 12,
+  "maximum_in_flight": 4,
+  "content_cap_usd": 50,
+  "cohorts": [
+    "cost-native-cohort-002",
+    "cost-native-cohort-003",
+    "cost-native-cohort-004",
+    "cost-native-cohort-005",
+    "cost-native-cohort-006",
+    "cost-native-cohort-007",
+    "cost-native-cohort-008",
+    "cost-native-cohort-009",
+    "cost-native-cohort-010"
+  ],
+  "denominator_per_cohort": 100,
+  "no_regeneration": true,
+  "production_deployment_approval": "Owner approved 7 October; app configuration and current evidence still required before live retrieval claims.",
+  "updated_at": "2026-10-07T20:06:33.789Z",
+  "usable_published_staging": 662,
+  "budget": {
+    "limit_micro": 50000000,
+    "committed_micro": 20130952,
+    "requests": 9341,
+    "unresolved": 16,
+    "unbounded_unresolved": 0
+  },
+  "reports": [
+    {
+      "name": "cost-native-cohort-002",
+      "complete": true,
+      "approved": 53,
+      "published": 53,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.482092,
+        "held_usd": 0,
+        "gross_usd": 0.482092,
+        "requests": 386,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-003",
+      "complete": true,
+      "approved": 72,
+      "published": 72,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.570877,
+        "held_usd": 0,
+        "gross_usd": 0.570877,
+        "requests": 384,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-004",
+      "complete": true,
+      "approved": 79,
+      "published": 79,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.602456,
+        "held_usd": 0,
+        "gross_usd": 0.602456,
+        "requests": 407,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-005",
+      "complete": true,
+      "approved": 71,
+      "published": 71,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.580197,
+        "held_usd": 0,
+        "gross_usd": 0.580197,
+        "requests": 382,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-006",
+      "complete": true,
+      "approved": 88,
+      "published": 88,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.695839,
+        "held_usd": 0,
+        "gross_usd": 0.695839,
+        "requests": 444,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-007",
+      "complete": true,
+      "approved": 78,
+      "published": 78,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.681212,
+        "held_usd": 0,
+        "gross_usd": 0.681212,
+        "requests": 435,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-008",
+      "complete": true,
+      "approved": 84,
+      "published": 84,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.731546,
+        "held_usd": 0,
+        "gross_usd": 0.731546,
+        "requests": 466,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-009",
+      "complete": true,
+      "approved": 87,
+      "published": 87,
+      "pending": 0,
+      "cost": {
+        "settled_usd": 0.78497,
+        "held_usd": 0,
+        "gross_usd": 0.78497,
+        "requests": 479,
+        "unresolved": 0
+      }
+    },
+    {
+      "name": "cost-native-cohort-010",
+      "complete": false,
+      "approved": 76,
+      "published": 0,
+      "pending": 9,
+      "cost": {
+        "settled_usd": 0.620281,
+        "held_usd": 0.126834,
+        "gross_usd": 0.747115,
+        "requests": 414,
+        "unresolved": 4
+      }
+    }
+  ],
+  "state": "running",
+  "scheduling": {
+    "active": 1,
+    "receipt_only": 0,
+    "pending_candidate_capacity": 85,
+    "deliveryComplete": false,
+    "complete": false,
+    "canRegister": false,
+    "conservative_holds_preserved": true
+  },
+  "native_worker_failures": 0,
+  "production_publication_authorized": true,
+  "unsent_luna_checks_mode": "realtime"
+}

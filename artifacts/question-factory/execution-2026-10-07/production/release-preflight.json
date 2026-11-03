@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-07T04:21:32.546Z",
+  "project": "mockmob",
+  "scope": "atishay07s-projects",
+  "production_project": "isrxrxzjocewrdureyhp",
+  "base_commit": "7db01c5b08c1d12d93b16777ecfa4225756f42d2",
+  "release_commit": "0d961f1f3833732b9a0b5c5db0de48f012312432",
+  "branch": "codex/question-factory-release",
+  "preview_url": "https://mockmob-4tyfprvrs-atishay07s-projects.vercel.app",
+  "vercel_preview": "Ready",
+  "preview_build_seconds": 46,
+  "production_deployment": false,
+  "checks": {
+    "factory": 107,
+    "recovery": 35,
+    "question_payment": 61,
+    "checkpoint_budget": 2,
+    "build": "passed",
+    "runtime_evidence_json_traced": true
+  },
+  "production_questions_inserted": 50,
+  "production_student_retrieval_verified": false,
+  "blocking_configuration": "Existing CUET_EVIDENCE_SIGNING_KEY must be entered in the prepared Vercel Production secret form by owner",
+  "original_dirty_checkout_preserved": true
+}

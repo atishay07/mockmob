@@ -1,0 +1,255 @@
+
+> mockmob@0.1.0 test:learning
+> node --test data/tests/learning_engine.test.mjs data/tests/learning_database.test.mjs data/tests/runtime_ai_database.test.mjs data/tests/rival_submission.test.mjs data/tests/practice_quote.test.mjs data/tests/prepos_wallet.test.mjs data/tests/monthly_billing.test.mjs data/tests/prepos_insights.test.mjs data/tests/compass_projection.test.mjs data/tests/prepos_reservations.test.mjs data/tests/prepos_model_reply.test.mjs data/tests/landing_content.test.mjs data/tests/mistake_repair.test.mjs data/tests/exam_integrity_review.test.mjs data/tests/runtime_ai_monthly_cap.test.mjs
+
+✔ a paper is only projected after enough practice, and says how much is missing (1.8282ms)
+✔ projection is the +5/-1 arithmetic of attempt share and accuracy, with a range (1.4422ms)
+✔ the total uses one language and the three strongest domain papers, and is marked partial otherwise (0.7504ms)
+✔ a band sits above, within or below a cutoff, and missing cutoffs are never a verdict (0.8472ms)
+✔ next move names the paper with the most marks open and its weakest ranked chapter (0.2851ms)
+✔ two warnings, the third strike ends the session (1.9092ms)
+✔ stored strikes are sanitised (0.2792ms)
+✔ key review covers fresh disputes and already-held questions only (0.198ms)
+✔ evidence rows never call a model check proof; agreement is only against the key (1.3206ms)
+✔ Compass ladder numbers are DU’s published figures, not estimates (8.7456ms)
+✔ Instagram entries are well-formed, unique and link to the official embed (0.5846ms)
+✔ the Wall of love shows only consented, complete voices, and nothing by default (0.2618ms)
+✔ free accounts do not get Pro pace and changed-answer detail through Ask (3.8712ms)
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF73BC76F4D node::MultiIsolatePlatform::DisposeIsolate+5341
+ 2: 00007FF73D0DDAC6 v8::base::FatalOOM+54
+ 3: 00007FF73C96F9F5 v8::Function::NewInstance+245
+ 4: 00007FF73C2E9986 v8::SnapshotCreator::GetIsolate+56566
+ 5: 00007FF73D55F9BA v8::platform::DelayedTaskQueue::Terminate+1698954
+ 6: 00007FF73D55F0AB v8::platform::DelayedTaskQueue::Terminate+1696635
+ 7: 00007FF73D55E56D v8::platform::DelayedTaskQueue::Terminate+1693757
+ 8: 00007FF73D55E044 v8::platform::DelayedTaskQueue::Terminate+1692436
+ 9: 00007FF73D55D5D1 v8::platform::DelayedTaskQueue::Terminate+1689761
+10: 00007FF73D55D32F v8::platform::DelayedTaskQueue::Terminate+1689087
+11: 00007FF73D36B0F6 v8::base::DiyFp::Multiply+414934
+12: 00007FF73D369E10 v8::base::DiyFp::Multiply+410096
+13: 00007FF73D13DDAB v8::internal::compiler::CompilationDependencies::FieldTypeDependencyOffTheRecord+192907
+14: 00007FF73BFE3256 DSA_get0_engine+658470
+15: 00007FF73BFDE993 DSA_get0_engine+639843
+16: 00007FF73BFDE279 DSA_get0_engine+638025
+17: 00007FF73D150C5F v8::platform::DefaultJobHandle::UpdatePriority+591
+18: 00007FF73BC72E0E node::GetNodeReport+90430
+19: 00007FF73C9C4A36 uv_thread_detach+150
+20: 00007FF73DC25A73 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2907235
+21: 00007FFC9103CD87 BaseThreadInitThunk+23
+22: 00007FFC91D4CAEC RtlUserThreadStart+44
+✖ data\tests\learning_database.test.mjs (11431.9458ms)
+✔ hypotheses need two distinct families; conflicts abstain; tie stable ID (16.9876ms)
+✔ ambiguous matrix stops at three probes (0.6106ms)
+✔ fresh checks enforce delayed timing, assistance and failure reopening (1.6977ms)
+✔ freshness exhausted content and public view never leak keys (2.1051ms)
+✔ numeric boundaries and approved alternatives reject arbitrary text (0.5111ms)
+✔ unanswered and expired checks reopen repair without inventing a wrong answer (0.5942ms)
+✔ IST allowances and plan priority are deterministic and released offer stays closed (19.0837ms)
+✔ eligibility: only the owner, only a wrong answer, only while the key is unchanged and live (1.6465ms)
+✔ the model must solve first and match the key before any explanation is shown (2.1158ms)
+✔ no score, rank or admission promises survive; long text is capped (0.4421ms)
+✔ prompts give the key only to the explainer, never to the blind second opinion (0.6095ms)
+✔ fresh practice reuses the recovery replay route; AI gates are split from AI purchases (0.769ms)
+✔ monthly Pro is Rs 99, recurring and closed until its Razorpay plan ID exists (2.7033ms)
+✔ before monthly opens, the existing Rs 99 one-time access is the only thing on sale and the copy says so (0.4485ms)
+✔ once the plan ID is configured, monthly is sold and one-time stops being sold (0.2912ms)
+✔ historical plans still resolve, so old orders keep verifying and keep their expiry (0.2926ms)
+✔ the future Rs 299 plan stays unreleased regardless of monthly billing (0.2382ms)
+✔ launch subjects carry official NTA 2026 codes with a cited source (3.4931ms)
+✔ stored unsupported, retired and unknown subjects never launch but are kept (2.7286ms)
+✔ available ordinary quote states cost, duration, inventory policy and a token (0.3112ms)
+✔ premium-only modes are blocked for free users with an access reason, not a guessed price (0.2073ms)
+✔ unknown inventory is unavailable, never a launch; short inventory is refused (0.2484ms)
+✔ genuine zero credits blocks; included allowance makes the set free; unknown allowance charges (0.3568ms)
+✔ access holders pay nothing and see the expiry (25.5692ms)
+✔ allowance kinds follow the server session policy (0.1385ms)
+✔ mode capability copy never ranks question quality (0.4314ms)
+✔ the chosen 10/20/30 minutes sets the ordinary practice session size (1.2176ms)
+✔ empty record is an explicit empty state, never zeros dressed up as insight (10.5899ms)
+✔ ledger uses +5/-1, counts blanks separately and never calls open marks recoverable (1.6979ms)
+✔ answer changes count both directions and the net can be positive or negative (0.4028ms)
+✔ chapters rank only with enough questions; thin chapters are listed apart, never ranked (0.5806ms)
+✔ wilson interval keeps a small sample honest (0.272ms)
+✔ pace comes from device events, flags the slow question and ignores sessions without a timeline (0.6118ms)
+✔ weekly digest separates this week from last and describes, without verdicts (0.701ms)
+✔ readout and answers carry sample sizes and avoid causal claims (1.2137ms)
+✔ the operation key is one stable string per student action, and rejects weak ids (1.0988ms)
+✔ gate closed: nothing is reserved, nothing is called, the paused message is shown (1.3603ms)
+✔ happy path: reserve, execute, generate, then commit once with the provider receipt (0.6574ms)
+✔ insufficient credits blocks before any model call and says questions about the record are free (0.4212ms)
+✔ a provider timeout or exception releases the credit (0.6436ms)
+✔ unusable output (schema invalid or empty reply) releases instead of committing (0.4478ms)
+✔ the same student action arriving twice never runs the model twice (0.3305ms)
+✔ ledger or database failure fails closed: a missing RPC pauses; a failed release says the credit returns on its own (0.3328ms)
+✔ a failed commit keeps the reply but charges nothing; the expiry sweep returns the held credit (0.2972ms)
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF73BC76F4D node::MultiIsolatePlatform::DisposeIsolate+5341
+ 2: 00007FF73D0DDAC6 v8::base::FatalOOM+54
+ 3: 00007FF73C96F9F5 v8::Function::NewInstance+245
+ 4: 00007FF73C2E9986 v8::SnapshotCreator::GetIsolate+56566
+ 5: 00007FF73D55F9BA v8::platform::DelayedTaskQueue::Terminate+1698954
+ 6: 00007FF73D55F0AB v8::platform::DelayedTaskQueue::Terminate+1696635
+ 7: 00007FF73D55E56D v8::platform::DelayedTaskQueue::Terminate+1693757
+ 8: 00007FF73D55E044 v8::platform::DelayedTaskQueue::Terminate+1692436
+ 9: 00007FF73D55D5D1 v8::platform::DelayedTaskQueue::Terminate+1689761
+10: 00007FF73D55D32F v8::platform::DelayedTaskQueue::Terminate+1689087
+11: 00007FF73D36B0F6 v8::base::DiyFp::Multiply+414934
+12: 00007FF73D369E10 v8::base::DiyFp::Multiply+410096
+13: 00007FF73D13DDAB v8::internal::compiler::CompilationDependencies::FieldTypeDependencyOffTheRecord+192907
+14: 00007FF73BFE3256 DSA_get0_engine+658470
+15: 00007FF73BFDE993 DSA_get0_engine+639843
+16: 00007FF73BFDE279 DSA_get0_engine+638025
+17: 00007FF73D150C5F v8::platform::DefaultJobHandle::UpdatePriority+591
+18: 00007FF73BC72E0E node::GetNodeReport+90430
+19: 00007FF73C9C4A36 uv_thread_detach+150
+20: 00007FF73DC25A73 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2907235
+21: 00007FFC9103CD87 BaseThreadInitThunk+23
+22: 00007FFC91D4CAEC RtlUserThreadStart+44
+✖ data\tests\prepos_reservations.test.mjs (11291.782ms)
+✔ expired and legacy entitlements follow the central effective-premium rule (1.3104ms)
+✔ missing schema and read errors never produce a balance (0.3818ms)
+✔ paused paid AI shows real stored balances but nothing is spendable (1.7745ms)
+✔ a stale stored period is projected as reset without writing; no row is not materialised (0.2199ms)
+✔ client mapping turns failed or malformed responses into unknown, never zero (account switch/stale cache safe) (0.2452ms)
+✔ missing-function detection is narrow enough not to swallow real RPC errors (0.1445ms)
+✔ wallet service has no direct read-modify-write path and fails closed while paused (0.7801ms)
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF73BC76F4D node::MultiIsolatePlatform::DisposeIsolate+5341
+ 2: 00007FF73D0DDAC6 v8::base::FatalOOM+54
+ 3: 00007FF73C96F9F5 v8::Function::NewInstance+245
+ 4: 00007FF73C2E9986 v8::SnapshotCreator::GetIsolate+56566
+ 5: 00007FF73D55F9BA v8::platform::DelayedTaskQueue::Terminate+1698954
+ 6: 00007FF73D55F0AB v8::platform::DelayedTaskQueue::Terminate+1696635
+ 7: 00007FF73D55E56D v8::platform::DelayedTaskQueue::Terminate+1693757
+ 8: 00007FF73D55E044 v8::platform::DelayedTaskQueue::Terminate+1692436
+ 9: 00007FF73D55D5D1 v8::platform::DelayedTaskQueue::Terminate+1689761
+10: 00007FF73D55D32F v8::platform::DelayedTaskQueue::Terminate+1689087
+11: 00007FF73D36B0F6 v8::base::DiyFp::Multiply+414934
+12: 00007FF73D369E10 v8::base::DiyFp::Multiply+410096
+13: 00007FF73D13DDAB v8::internal::compiler::CompilationDependencies::FieldTypeDependencyOffTheRecord+192907
+14: 00007FF73BFE3256 DSA_get0_engine+658470
+15: 00007FF73BFDE993 DSA_get0_engine+639843
+16: 00007FF73BFDE279 DSA_get0_engine+638025
+17: 00007FF73D150C5F v8::platform::DefaultJobHandle::UpdatePriority+591
+18: 00007FF73BC72E0E node::GetNodeReport+90430
+19: 00007FF73C9C4A36 uv_thread_detach+150
+20: 00007FF73DC25A73 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2907235
+21: 00007FFC9103CD87 BaseThreadInitThunk+23
+22: 00007FFC91D4CAEC RtlUserThreadStart+44
+✖ data\tests\prepos_wallet.test.mjs (11315.2741ms)
+✔ rival rejects repeated, missing and unauthorized IDs (1.3558ms)
+✔ rival concurrent submission is atomic, retry safe and owner bound (11814.24ms)
+✔ independent arithmetic boundaries and revalidated corrections preserve original scores (1.2829ms)
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF73BC76F4D node::MultiIsolatePlatform::DisposeIsolate+5341
+ 2: 00007FF73D0DDAC6 v8::base::FatalOOM+54
+ 3: 00007FF73C96F9F5 v8::Function::NewInstance+245
+ 4: 00007FF73C2E9986 v8::SnapshotCreator::GetIsolate+56566
+ 5: 00007FF73D55F9BA v8::platform::DelayedTaskQueue::Terminate+1698954
+ 6: 00007FF73D55F0AB v8::platform::DelayedTaskQueue::Terminate+1696635
+ 7: 00007FF73D55E56D v8::platform::DelayedTaskQueue::Terminate+1693757
+ 8: 00007FF73D55E044 v8::platform::DelayedTaskQueue::Terminate+1692436
+ 9: 00007FF73D55D5D1 v8::platform::DelayedTaskQueue::Terminate+1689761
+10: 00007FF73D55D32F v8::platform::DelayedTaskQueue::Terminate+1689087
+11: 00007FF73D36B0F6 v8::base::DiyFp::Multiply+414934
+12: 00007FF73D369E10 v8::base::DiyFp::Multiply+410096
+13: 00007FF73D13DDAB v8::internal::compiler::CompilationDependencies::FieldTypeDependencyOffTheRecord+192907
+14: 00007FF73BFE3256 DSA_get0_engine+658470
+15: 00007FF73BFDE993 DSA_get0_engine+639843
+16: 00007FF73BFDE279 DSA_get0_engine+638025
+17: 00007FF73D150C5F v8::platform::DefaultJobHandle::UpdatePriority+591
+18: 00007FF73BC72E0E node::GetNodeReport+90430
+19: 00007FF73C9C4A36 uv_thread_detach+150
+20: 00007FF73DC25A73 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2907235
+21: 00007FFC9103CD87 BaseThreadInitThunk+23
+22: 00007FFC91D4CAEC RtlUserThreadStart+44
+✖ data\tests\runtime_ai_database.test.mjs (11283.44ms)
+
+
+#
+# Fatal process out of memory: Zone
+#
+----- Native stack trace -----
+
+ 1: 00007FF73BC76F4D node::MultiIsolatePlatform::DisposeIsolate+5341
+ 2: 00007FF73D0DDAC6 v8::base::FatalOOM+54
+ 3: 00007FF73C96F9F5 v8::Function::NewInstance+245
+ 4: 00007FF73C2E9986 v8::SnapshotCreator::GetIsolate+56566
+ 5: 00007FF73BEAAB32 X509_get0_tbs_sigalg+8706
+ 6: 00007FF73BEAC9D8 X509_get0_tbs_sigalg+16552
+ 7: 00007FF73BEAC7DF X509_get0_tbs_sigalg+16047
+ 8: 00007FF73BF647B1 DSA_get0_engine+139649
+ 9: 00007FF73BF64562 DSA_get0_engine+139058
+10: 00007FF73BF69E2D DSA_get0_engine+161789
+11: 00007FF73BF68CC7 DSA_get0_engine+157335
+12: 00007FF73BF55BDC DSA_get0_engine+79276
+13: 00007FF73BF527C9 DSA_get0_engine+65945
+14: 00007FF73BF50DCA DSA_get0_engine+59290
+15: 00007FF73BF5084A DSA_get0_engine+57882
+16: 00007FF73D369B5A v8::base::DiyFp::Multiply+409402
+17: 00007FF73D13DDAB v8::internal::compiler::CompilationDependencies::FieldTypeDependencyOffTheRecord+192907
+18: 00007FF73BFE3256 DSA_get0_engine+658470
+19: 00007FF73BFDE993 DSA_get0_engine+639843
+20: 00007FF73BFDE279 DSA_get0_engine+638025
+21: 00007FF73D150C5F v8::platform::DefaultJobHandle::UpdatePriority+591
+22: 00007FF73BC72E0E node::GetNodeReport+90430
+23: 00007FF73C9C4A36 uv_thread_detach+150
+24: 00007FF73DC25A73 v8::base::UnsignedDivisionByConstant<unsigned __int64>+2907235
+25: 00007FFC9103CD87 BaseThreadInitThunk+23
+26: 00007FFC91D4CAEC RtlUserThreadStart+44
+✖ data\tests\runtime_ai_monthly_cap.test.mjs (11295.5121ms)
+ℹ tests 72
+ℹ suites 0
+ℹ pass 67
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12138.5535
+
+✖ failing tests:
+
+test at data\tests\learning_database.test.mjs:1:1
+✖ data\tests\learning_database.test.mjs (11431.9458ms)
+  'test failed'
+
+test at data\tests\prepos_reservations.test.mjs:1:1
+✖ data\tests\prepos_reservations.test.mjs (11291.782ms)
+  'test failed'
+
+test at data\tests\prepos_wallet.test.mjs:1:1
+✖ data\tests\prepos_wallet.test.mjs (11315.2741ms)
+  'test failed'
+
+test at data\tests\runtime_ai_database.test.mjs:1:1
+✖ data\tests\runtime_ai_database.test.mjs (11283.44ms)
+  'test failed'
+
+test at data\tests\runtime_ai_monthly_cap.test.mjs:1:1
+✖ data\tests\runtime_ai_monthly_cap.test.mjs (11295.5121ms)
+  'test failed'

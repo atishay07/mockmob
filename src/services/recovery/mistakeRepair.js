@@ -3,6 +3,7 @@ import 'server-only';
 // the same reserve -> execute -> commit | release lifecycle as PrepOS replies. Provider spend is
 // separately reserved and receipted by the runtime guard (USD 25 / IST month cap).
 import { createHash } from 'node:crypto';
+import { questionContentVersion } from '@/../data/question_content_version.mjs';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { generateAIResponse } from '@/services/ai/providers';
@@ -19,18 +20,26 @@ const out = (http, body) => ({ http, body });
 // A short digest keeps operation keys inside the runtime guard's key format whatever the IDs contain.
 const mistakeId = (userId, attemptId, questionId) => createHash('sha256').update(`${userId}|${attemptId}|${questionId}`).digest('hex').slice(0, 24);
 
-async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
+async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model, versionHash }) {
+  const receipt={source:'ai_key_dispute',user_id:userId,attempt_id:attemptId,solved_index:firstIndex,blind_index:blindIndex,model,content_hash:versionHash};
+  const disputeId=createHash('sha256').update(`${questionId}:${versionHash}:${attemptId}`).digest('hex');
+  const {data:recorded,error:recordError}=await db.rpc('record_question_dispute',{p_id:disputeId,p_question:questionId,p_hash:versionHash,p_receipt:receipt});
+  if(!recordError && recorded===true)return true;
+  if(recordError && !['PGRST202','42883'].includes(recordError.code))throw new Error('question_dispute_storage_unavailable');
   // Same path as a student report: recorded, then withheld from practice until re-checked.
-  await db.from('question_interactions').insert({
+  const {error:interactionError}=await db.from('question_interactions').insert({
     question_id: questionId, user_id: userId, interaction_type: 'report', flow_context: 'review', session_id: attemptId,
-    metadata: { source: 'ai_key_dispute', solved_index: firstIndex, blind_index: blindIndex, model },
+    metadata: receipt,
   });
-  await db.from('questions').update({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review', updated_at: new Date().toISOString() })
+  if(interactionError)throw new Error('question_dispute_receipt_required');
+  const {error:holdError}=await db.from('questions').update({ status: 'pending', verification_state: 'disputed', exploration_state: 'pending_review', updated_at: new Date().toISOString() })
     .eq('id', questionId).neq('status', 'rejected');
+  if(holdError)throw new Error('question_dispute_hold_required');
+  return true;
 }
 
 // Owner, 5 October 2026: GPT-6 Luna for Mistake Repair; low effort for the repair, high for the blind
-// second opinion. AI_REPAIR_MODEL overrides the model; the fallback (gpt-4o-mini) still applies on failure.
+// second opinion. AI_REPAIR_MODEL overrides the model; the fallback is Luna with no reasoning.
 export const REPAIR_ROUTE = Object.freeze({ provider: 'openai', model: process.env.AI_REPAIR_MODEL || 'gpt-6-luna' });
 export const REPAIR_EFFORT = Object.freeze({ repair: 'low', secondOpinion: 'high' });
 
@@ -38,10 +47,15 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
   if (!REQUEST_ID.test(String(requestId || ''))) return out(400, { ok: false, error: 'request_id_required', message: 'Something went wrong. Nothing was charged. Try again.' });
   const db = supabaseAdmin();
   const attempt = await Database.getAttemptById(attemptId).catch(() => null);
-  const { data: current, error } = await db.from('questions').select('*').eq('id', questionId).maybeSingle();
+  const { data: currentRow, error } = await db.from('questions').select('*').eq('id', questionId).maybeSingle();
   if (error) return out(503, { ok: false, error: 'question_unavailable', message: 'This question could not be loaded. Nothing was charged.' });
+  let current=currentRow;
+  if(currentRow)try{[current]=await Database._attachPassageMetadata([currentRow]);}catch{return out(503,{ok:false,error:'question_unavailable',message:'This question could not be loaded. Nothing was charged.'});}
   const eligible = repairEligibility({ attempt, questionId, userId: user.id, current });
   if (!eligible.ok) return out(eligible.http, { ok: false, error: eligible.code, message: eligible.message });
+  const reviewedVersion=questionContentVersion(eligible.question,attempt.subject);
+  if(reviewedVersion!==questionContentVersion(current,current.subject))return out(409,{ok:false,error:'question_changed',charged:0,message:'This question changed after your session, so the old version cannot be explained. You were not charged.'});
+  eligible.question={...eligible.question,passage_text:eligible.question.passage_text || eligible.question.passageText || ''};
 
   const id = mistakeId(user.id, attemptId, questionId);
   const base = { practiceHref: practiceHref({ subject: attempt.subject, chapter: eligible.question.chapter, attemptId }), chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex };
@@ -88,11 +102,11 @@ export async function repairMistake({ user, attemptId, questionId, requestId, ge
     try { blind = await generate({ requestKey: `${operationKey}:blind`, tier: 'smart', ...REPAIR_ROUTE, reasoningEffort: REPAIR_EFFORT.secondOpinion, systemPrompt: blindPrompt.system, userMessage: blindPrompt.user, responseSchema: { required: ['solved_index'], types: { solved_index: 'number' } } }); }
     catch { blind = null; }
     const blindIndex = blind?.data?.solved_index;
-    const confirmed = Number.isInteger(blindIndex) && blindIndex !== eligible.keyIndex;
-    if (confirmed) await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null }).catch(() => {});
+    const disagree = Number.isInteger(blindIndex) && blindIndex >= 0 && blindIndex < eligible.question.options.length && blindIndex !== eligible.keyIndex;
+    const confirmed = disagree && await withheldForRecheck(db, { questionId, userId: user.id, attemptId, firstIndex: verdict.solvedIndex, blindIndex, model: ai.usage?.model || null, versionHash:reviewedVersion }).catch(() => false);
     try { await deps.release(operationKey, confirmed ? 'ai_key_dispute' : 'ai_inconsistent'); } catch { /* the expiry sweep returns it */ }
     return out(200, confirmed
-      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }
+      ? { ok: true, status: 'held_for_recheck', charged: 0, ...base, dispute: { ourIndex: verdict.solvedIndex, secondIndex: blindIndex }, message: 'Our check of this question didn’t match its answer key, so we’ve held it for review instead of explaining it. You weren’t charged, and it won’t appear in practice until it’s cleared.' }
       : { ok: true, status: 'not_explained', charged: 0, ...base, storedExplanation: eligible.question.explanation || null, message: 'We couldn’t write a repair for this one that met our bar, so we’re not showing one. You weren’t charged.' });
   }
 

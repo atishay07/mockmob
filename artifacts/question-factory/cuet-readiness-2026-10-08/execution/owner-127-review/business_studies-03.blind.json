@@ -1,0 +1,52 @@
+{
+  "schema": "owner-one-off-127-blind-review-v1",
+  "subject": "business_studies",
+  "offset": 20,
+  "total": 21,
+  "notice": "Original keys, rationales and previous judgments are intentionally withheld. Establish a source-grounded solution and every defensible option before opening comparison data. This is not a fresh benchmark or publication approval.",
+  "sources": {
+    "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012": {
+      "id": "ncert-lebs201",
+      "version": 1,
+      "locator": "pdf-page-10",
+      "support_hash": "2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012",
+      "text": "Financial ManageMents 225 BUsiness st UDies 224 certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard. Financial Planning Financial planning is essentially the preparation of a financial blueprint of an organisation’s future operations. The objective of financial planning is to ensure that enough funds are available at right time. If adequate funds are not available the firm will not be able to honour its commitments and carry out its plans. On the other hand, if excess funds are available, it will unnecessarily add to the cost and may encourage wasteful expenditure. It must be kept in mind that financial planning is not equivalent to, or a substitute for, financial management. Financial management aims at choosing the best investment and financing alternatives by focusing on their costs and benefits. Its objective is to increase the shareholders’ wealth. Financial planning on the other hand aims at smooth operations by focusing on fund requirements and their availability in the light of financial decisions. For example, if a capital budgeting decisions is taken, the operations are likely to be at a higher scale. The amount of expenses and revenues are likely to increase. Financial planning process tries to forecast all the items which are likely to undergo changes. It enables the management to foresee the fund requirements both the quantum as well as the timing. Likely shortage and surpluses are forecast so that necessary activities are taken in advance to meet those situations. Thus, financial planning strives to achieve the following twin objectives. (a) To ensure availability of funds whenever requir ed: This include a proper estimation of the funds required for different purposes such as for the purchase of long- term assets or to meet day-to- day expenses of business etc. Apart from this, there is a need to estimate the time at which these funds are to be made available. Financial planning also tries to specify possible sources of these funds. (b) To see tha t the firm does not raise resources unnecessarily: Excess funding is almost as bad as inadequate funding. Even if there is some surplus money, good financial planning would put it to the best possible use so that the financial resources are not left idle and don’t unnecessarily add to the cost. Thus, a proper matching of funds requirements and their availability is sought to be achieved by financial planning. This process of estimating the fund requirement of a business and specifying the sources of funds Ch_9.indd 224 1/23/2024 03:51:22 PM Reprint 2026-27",
+      "url": "https://ncert.nic.in/textbook/pdf/lebs201.pdf",
+      "publisher": "NCERT",
+      "excerpt_matches_saved_support_hash": true,
+      "current_registry_matches": true,
+      "current_registry_state": "active",
+      "registered_permission": true,
+      "registered_identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1"
+    }
+  },
+  "cases": [
+    {
+      "id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+      "metadata": {
+        "subject": "business_studies",
+        "chapter": "Financial Management",
+        "topic": "Financial Management: focus on this supplied section: Financial ManageMents 225 BUsiness st UDies 224 certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate . Test a distinct implication, application or calculation supported by it.",
+        "difficulty": "easy",
+        "format": "case_application",
+        "question_type": "case_application",
+        "passage_group_id": null,
+        "order_index": null
+      },
+      "question": {
+        "stem": "A company has a loan agreement stating that it must not pay any dividend from 1 April 2026 to 31 March 2027, inclusive. The agreement contains no exception. On 20 March 2027, the company proposes to pay a dividend. Which action complies with the stated loan term?",
+        "options": [
+          "Withhold payment throughout the prohibited period.",
+          "Pay during the period if profits are sufficient.",
+          "Pay during the period if shareholders approve.",
+          "Pay on 31 March 2027, treating that date as outside the restriction."
+        ],
+        "passage": ""
+      },
+      "source_keys": [
+        "ncert-lebs201:1:pdf-page-10:2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012"
+      ]
+    }
+  ]
+}

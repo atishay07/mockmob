@@ -1,0 +1,167 @@
+
+> mockmob@0.1.0 build
+> next build
+
+▲ Next.js 16.2.4 (Turbopack)
+- Environments: .env.local
+- Experiments (use with caution):
+  ⨯ turbopackFileSystemCacheForDev
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 12.7s
+  Running TypeScript ...
+  Finished TypeScript in 160ms ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/67) ...
+  Generating static pages using 15 workers (16/67) 
+  Generating static pages using 15 workers (33/67) 
+  Generating static pages using 15 workers (50/67) 
+Invalid value "280" for "height". Expected a number, "auto", or a percentage value (e.g., "50%").
+Invalid value "235" for "width". Expected a number, "auto", or a percentage value (e.g., "50%").
+✓ Generating static pages using 15 workers (67/67) in 965ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ƒ /admin
+├ ƒ /admin/question-factory
+├ ƒ /admission-compass
+├ ƒ /analytics
+├ ƒ /api/admin/creators
+├ ƒ /api/admin/creators/[id]
+├ ƒ /api/admin/orders
+├ ƒ /api/admin/overview
+├ ƒ /api/admin/payouts
+├ ƒ /api/admin/question-factory
+├ ƒ /api/ai/actions/execute
+├ ƒ /api/ai/context
+├ ƒ /api/ai/credits
+├ ƒ /api/ai/credits/order
+├ ƒ /api/ai/credits/verify
+├ ƒ /api/ai/mentor/chat
+├ ƒ /api/ai/mentor/history
+├ ƒ /api/ai/mentor/local
+├ ƒ /api/ai/mentor/session/new
+├ ƒ /api/ai/rival/start
+├ ƒ /api/ai/rival/submit
+├ ƒ /api/ai/usage
+├ ƒ /api/analytics
+├ ƒ /api/attempts
+├ ƒ /api/attempts/[id]
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/auth/email-login
+├ ƒ /api/auth/me
+├ ƒ /api/billing/cancel
+├ ƒ /api/billing/webhook
+├ ƒ /api/bookmarks
+├ ƒ /api/chapters
+├ ƒ /api/coming-soon/unlock
+├ ƒ /api/compass/pro
+├ ƒ /api/creator/me
+├ ƒ /api/credits/grant
+├ ƒ /api/credits/spend
+├ ƒ /api/internal/moderation/process
+├ ƒ /api/internal/moderation/recover
+├ ƒ /api/leaderboard
+├ ƒ /api/learning/plan
+├ ƒ /api/learning/summary
+├ ƒ /api/mobile/attempts
+├ ƒ /api/mobile/attempts/[id]
+├ ƒ /api/mobile/login
+├ ƒ /api/mobile/me
+├ ƒ /api/practice/quote
+├ ƒ /api/prepos/insights
+├ ƒ /api/questions
+├ ƒ /api/questions/[id]/interact
+├ ƒ /api/questions/[id]/vote
+├ ƒ /api/questions/explore
+├ ƒ /api/questions/feed
+├ ƒ /api/questions/mine
+├ ƒ /api/questions/moderate
+├ ƒ /api/questions/pending
+├ ƒ /api/questions/upload
+├ ƒ /api/recovery
+├ ƒ /api/recovery/episodes
+├ ƒ /api/recovery/episodes/[id]/responses
+├ ƒ /api/recovery/repair
+├ ƒ /api/recovery/replay
+├ ƒ /api/send-email
+├ ƒ /api/sessions
+├ ƒ /api/stats
+├ ƒ /api/study/catalog
+├ ƒ /api/study/preferences
+├ ƒ /api/study/runs
+├ ƒ /api/study/runs/[id]
+├ ƒ /api/study/runs/[id]/events
+├ ƒ /api/study/units/[id]
+├ ƒ /api/subjects
+├ ƒ /api/users/[id]
+├ ƒ /auth/callback
+├ ○ /coming-soon
+├ ○ /contact
+├ ƒ /create-monthly-subscription
+├ ƒ /create-order
+├ ƒ /create-subscription
+├ ƒ /creator
+├ ○ /cuet-2027
+├ ○ /cuet-cutoff-calculator
+├ ○ /cuet-mock-test-free
+├ ○ /cuet-practice-tests-online
+├ ○ /cuet-previous-year-questions
+├ ○ /cuet-subject-combination
+├ ● /cuet/[subject]
+│ ├ /cuet/english
+│ ├ /cuet/accountancy
+│ ├ /cuet/economics
+│ └ [+3 more paths]
+├ ƒ /dashboard
+├ ƒ /explore
+├ ○ /features
+├ ○ /icon.svg
+├ ƒ /leaderboard
+├ ƒ /learn
+├ ƒ /learn/[id]
+├ ƒ /login
+├ ○ /manifest.webmanifest
+├ ƒ /mentor
+├ ƒ /moderation
+├ ƒ /my-uploads
+├ ƒ /onboarding
+├ ○ /opengraph-image
+├ ○ /preview/arena
+├ ○ /preview/brand
+├ ƒ /preview/question-factory
+├ ○ /preview/recovery
+├ ○ /preview/study
+├ ○ /preview/wall
+├ ƒ /pricing
+├ ƒ /pricing/prepos
+├ ○ /privacy
+├ ƒ /profile
+├ ƒ /progress
+├ ƒ /recovery
+├ ○ /refunds
+├ ƒ /result/[id]
+├ ƒ /review
+├ ƒ /rival
+├ ○ /robots.txt
+├ ƒ /saved
+├ ƒ /signup
+├ ○ /sitemap.xml
+├ ƒ /study/[id]
+├ ○ /terms
+├ ƒ /test
+├ ƒ /today
+├ ƒ /upload
+├ ƒ /verify-payment
+└ ƒ /webhook
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

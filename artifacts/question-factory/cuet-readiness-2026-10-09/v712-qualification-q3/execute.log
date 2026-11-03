@@ -1,0 +1,76 @@
+v712q3-accountancy-v4 VALID  -> eligible 
+v712q3-accountancy-v2 VALID  -> eligible 
+v712q3-accountancy-v1 VALID  -> eligible 
+v712q3-accountancy-v3 VALID  -> eligible 
+v712q3-accountancy-d2 DEFECT -> quarantined failed:source_support
+v712q3-accountancy-v5 VALID  -> eligible 
+v712q3-accountancy-d4 DEFECT -> quarantined blind_key_contradiction
+v712q3-business_studies-v1 VALID  -> quarantined failed:explanation_support
+v712q3-accountancy-d3 DEFECT -> quarantined failed:explanation_support
+v712q3-accountancy-d1 DEFECT -> quarantined failed:source_support
+v712q3-business_studies-d3 DEFECT -> quarantined source_support_missing
+v712q3-business_studies-d1 DEFECT -> quarantined blind_key_contradiction
+v712q3-business_studies-v2 VALID  -> eligible 
+v712q3-economics-v1 VALID  -> quarantined failed:source_support
+v712q3-business_studies-v4 VALID  -> quarantined failed:source_support
+v712q3-business_studies-v3 VALID  -> eligible 
+v712q3-business_studies-v5 VALID  -> eligible 
+v712q3-economics-v2 VALID  -> eligible 
+v712q3-economics-v3 VALID  -> eligible 
+v712q3-business_studies-d4 DEFECT -> quarantined failed:source_support
+v712q3-business_studies-d2 DEFECT -> quarantined failed:explanation_support
+v712q3-economics-d2 DEFECT -> quarantined failed:source_support
+v712q3-economics-d4 DEFECT -> quarantined failed:source_support
+v712q3-economics-d1 DEFECT -> quarantined blind_key_contradiction
+v712q3-economics-v4 VALID  -> quarantined failed:source_support
+v712q3-english-v2 VALID  -> quarantined failed:explanation_support
+v712q3-economics-d3 DEFECT -> quarantined failed:source_support
+v712q3-economics-v5 VALID  -> eligible 
+v712q3-english-v1 VALID  -> eligible 
+v712q3-english-v3 VALID  -> eligible 
+v712q3-english-d4 DEFECT -> quarantined failed:source_support
+v712q3-english-v4 VALID  -> quarantined failed:explanation_support
+v712q3-english-d2 DEFECT -> quarantined failed:source_support
+v712q3-english-d3 DEFECT -> quarantined failed:explanation_support
+v712q3-english-v5 VALID  -> eligible 
+v712q3-english-d1 DEFECT -> quarantined blind_key_contradiction
+{
+ "kind": "v712_fresh_qualification_study",
+ "terminal": 36,
+ "of": 36,
+ "valid_eligible": "14/20",
+ "defects_accepted": "0/16",
+ "errors": [],
+ "valid_failures": [
+  "v712q3-business_studies-v1:failed:explanation_support",
+  "v712q3-economics-v1:failed:source_support",
+  "v712q3-business_studies-v4:failed:source_support",
+  "v712q3-economics-v4:failed:source_support",
+  "v712q3-english-v2:failed:explanation_support",
+  "v712q3-english-v4:failed:explanation_support"
+ ],
+ "accepted_defects": [],
+ "accounting": {
+  "settled_usd": 0.345224,
+  "held_usd": 0,
+  "requests": 91,
+  "receipt_complete": true,
+  "at": "2026-10-09T16:54:55.384Z"
+ }
+}
+{
+ "decision": {
+  "pass": false,
+  "pooled_valid_survival": 0.7,
+  "per_subject_valid_survival": {
+   "accountancy": 1,
+   "business_studies": 0.6,
+   "economics": 0.6,
+   "english": 0.6
+  },
+  "accepted_defects": [],
+  "unfinished_defects": [],
+  "unfinished_valid": [],
+  "assessed_at": "2026-10-09T16:54:55.386Z"
+ }
+}

@@ -1,0 +1,87 @@
+{
+  "sha": "678229d30e9970571f050b747a8174ead358b8eb",
+  "status": [
+    {
+      "context": "Vercel – mockmob-mmzs",
+      "state": "pending",
+      "url": "https://vercel.com/atishay07s-projects/mockmob-mmzs/94qptXfjRSUzVRTQjdFfFndHBHYb"
+    },
+    {
+      "context": "Vercel – mockmob-1uhb",
+      "state": "pending",
+      "url": "https://vercel.com/atishay07s-projects/mockmob-1uhb/EtQEBarXkaTNw2xxMdUUkCA5jD8W"
+    },
+    {
+      "context": "Vercel – mockmob-pf37",
+      "state": "pending",
+      "url": "https://vercel.com/atishay07s-projects/mockmob-pf37/5EAU3mfqjheW8R281sZT6ayX3HcE"
+    },
+    {
+      "context": "Vercel – mockmob-nxud",
+      "state": "pending",
+      "url": "https://vercel.com/atishay07s-projects/mockmob-nxud/9Qo1tEGuGBC7MaosQXLfgcrrUbx2"
+    },
+    {
+      "context": "Vercel – mockmob",
+      "state": "success",
+      "url": "https://vercel.com/atishay07s-projects/mockmob/3P246y7XsUiH8DNWPKE5n7AL7z69"
+    },
+    {
+      "context": "Vercel – mockmob-sjsj",
+      "state": "success",
+      "url": "https://vercel.com/atishay07s-projects/mockmob-sjsj/Cucq9qDwkZpdHciuVDC3a9vrTgi5"
+    }
+  ],
+  "pages": [
+    {
+      "width": 320,
+      "theme": "light",
+      "overflow": 0,
+      "guide": "local",
+      "errors": []
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "overflow": 0,
+      "guide": "local",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "overflow": 0,
+      "guide": "local",
+      "errors": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "overflow": 0,
+      "guide": "local",
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "overflow": 0,
+      "guide": "on",
+      "errors": []
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "overflow": 0,
+      "guide": "on",
+      "errors": []
+    }
+  ],
+  "apex": {
+    "status": 200,
+    "url": "https://www.mockmob.in/"
+  },
+  "timing": {
+    "headingDwell": "zero tiles after 6.8s",
+    "visibleTiles": 2
+  }
+}

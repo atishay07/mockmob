@@ -1,0 +1,171 @@
+{
+  "verifier": "luna-gemini-cuET-v5.4",
+  "measurement_only": true,
+  "unseen_benchmark": false,
+  "production_changes": 0,
+  "start_committed_micro": 5731324,
+  "items": [
+    {
+      "n": 1,
+      "id": "1ac7cfec-c29c-472f-98ae-074c689f349f",
+      "content_hash": "28a0768633f53ec8ed6122ce1ed6e14b9258659c49627b687eeabcd9f6a89cfe",
+      "expected": "eligible",
+      "state": "waiting"
+    },
+    {
+      "n": 38,
+      "id": "3be97e80-c862-49f7-9b33-0c8be74285ae",
+      "content_hash": "0142b4d46af17a4c32f51efd8f37a5a81ae983af91c0a9d6b5f6db89e0087a54",
+      "expected": "eligible",
+      "state": "waiting"
+    },
+    {
+      "n": 4,
+      "id": "1545e337-de4b-483d-a062-2a051c2e8bce",
+      "content_hash": "a85113a34efa70dda741914d31be2fbb1351c1262ce3c769bedf062059cab286",
+      "expected": "quarantined",
+      "state": "quarantined",
+      "reasons": [
+        "vocabulary_options_not_words"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 45,
+      "id": "ac07a2c4-84ad-4e0d-ae94-3a35007ed2a0",
+      "content_hash": "12468921aecc70739ba30e73cfb66ce59a5385e6e69265eee448bbfdace5a65d",
+      "expected": "quarantined",
+      "state": "quarantined",
+      "reasons": [
+        "option_label_prefix"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 57,
+      "id": "aa00c24f-10d0-417b-a160-9a4d2354651c",
+      "content_hash": "04df1a4373ba391dcab328c164027f461b79196a7b897b75fda500ee7cb2d209",
+      "expected": "quarantined",
+      "state": "quarantined",
+      "reasons": [
+        "unseen_reference"
+      ],
+      "failure_details": []
+    },
+    {
+      "n": 74,
+      "id": "752f989e-f8d7-4ac5-beb1-41bda7020cb7",
+      "content_hash": "d2c2880b7812dcbaa197608d10ce6646f0560c63d454aee1e47b5daea59a64e1",
+      "expected": "quarantined",
+      "state": "waiting"
+    },
+    {
+      "n": "38-wrong-key",
+      "id": "final-pass-wrong-key-38",
+      "content_hash": "599d5eb5384e6427fd6b3a61a5d703f0c583a88640b703870fccbc7c7fd484ce",
+      "expected": "quarantined",
+      "state": "waiting"
+    }
+  ],
+  "at": "2026-10-06T19:13:06.992Z",
+  "pending": 4,
+  "complete": false,
+  "expected_results_met": false,
+  "batches": [
+    {
+      "key": "e862884fdfcfa77893b269c8e0695383028d07667646cf49e37be6b49e2e23c9",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377d60708190933c66a4c0c0899e",
+      "state": "complete",
+      "execution_mode": "batch",
+      "usage": {
+        "input_tokens": 2172,
+        "input_tokens_details": {
+          "cache_write_tokens": 2169,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1507,
+        "output_tokens_details": {
+          "reasoning_tokens": 1017
+        },
+        "total_tokens": 3679
+      }
+    },
+    {
+      "key": "776a86ec6ec69f1707a700c3f9285e1eadf4c37cfb6c1feafcbcbe6f39b1d0e1",
+      "provider": "openai",
+      "provider_id": "batch_6ac5377ec0f88190945e5ee86d1484e6",
+      "state": "complete",
+      "execution_mode": "batch",
+      "usage": {
+        "input_tokens": 3239,
+        "input_tokens_details": {
+          "cache_write_tokens": 3236,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2045,
+        "output_tokens_details": {
+          "reasoning_tokens": 1550
+        },
+        "total_tokens": 5284
+      }
+    },
+    {
+      "key": "a541dd2134c409797924fe2c34f07066f20dc950ea033e051e9c677ddc01eecb",
+      "provider": "openai",
+      "provider_id": "batch_6ac5378065b4819099d2d6aecd961855",
+      "state": "complete",
+      "execution_mode": "batch",
+      "usage": {
+        "input_tokens": 2609,
+        "input_tokens_details": {
+          "cache_write_tokens": 2606,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2017,
+        "output_tokens_details": {
+          "reasoning_tokens": 1511
+        },
+        "total_tokens": 4626
+      }
+    },
+    {
+      "key": "e5803771438ed9a73be781c4449d357b18abf62a26786de57a1639f7f467be54",
+      "provider": "openai",
+      "provider_id": "batch_6ac53781cb74819086509430299c7331",
+      "state": "submitted"
+    },
+    {
+      "key": "ecacdc50f2afcba331d00a0ffc57c07b40741127268cdefc4e3e1062a360a87b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53a0cb10c8190ac0fe15e521a5bde",
+      "state": "complete",
+      "execution_mode": "batch",
+      "usage": {
+        "input_tokens": 2172,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 2169
+        },
+        "output_tokens": 1257,
+        "output_tokens_details": {
+          "reasoning_tokens": 934
+        },
+        "total_tokens": 3429
+      }
+    },
+    {
+      "key": "b5605305e6c0cbccbc0e2f4f109dd1fd7be862b3a3ec67b80cdfc40258a88b8b",
+      "provider": "openai",
+      "provider_id": "batch_6ac53e58f5608190ac52ee7d9dde5231",
+      "state": "submitted"
+    }
+  ],
+  "committed_increment_usd": 0.459394,
+  "lifetime_committed_usd": 6.190718,
+  "new_authoring": 0,
+  "published": 0,
+  "reconcile_only": true,
+  "current_verifier": "luna-gemini-cuET-v5.5",
+  "current_verifier_revalidation_required": true
+}

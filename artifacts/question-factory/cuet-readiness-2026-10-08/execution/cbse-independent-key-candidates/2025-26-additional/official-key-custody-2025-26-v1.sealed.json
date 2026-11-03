@@ -1,0 +1,329 @@
+{
+  "schema": "cbse-sqp-official-key-custody-2025-26-v1",
+  "version": "v1",
+  "item_count": 32,
+  "items": [
+    {
+      "item_id": "cbse25-26-acc-q1-OR-or",
+      "official_answer_label": "A",
+      "official_answer_text": "Both A and R are correct, and R is the correct explanation of A.",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 OR",
+      "official_key_text": "Both A and R are correct, and R is the correct explanation of A.",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-acc-q2",
+      "official_answer_label": "D",
+      "official_answer_text": "A ₹35,000 and B ₹35,000",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q2",
+      "official_key_text": "A ₹35,000 and B ₹35,000",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "The original question gives a nine-month partnership period and annual guarantee; preserve both details."
+    },
+    {
+      "item_id": "cbse25-26-acc-q3",
+      "official_answer_label": "C",
+      "official_answer_text": "₹8,000",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q3",
+      "official_key_text": "₹8,000",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-acc-q6",
+      "official_answer_label": "B",
+      "official_answer_text": "₹3,00,000",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q6",
+      "official_key_text": "₹3,00,000",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "The official key is retained; independent re-derivation is still required before benchmark use."
+    },
+    {
+      "item_id": "cbse25-26-acc-q8",
+      "official_answer_label": "D",
+      "official_answer_text": "3:1",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q8",
+      "official_key_text": "3:1",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-acc-q9",
+      "official_answer_label": "B",
+      "official_answer_text": "₹35,000",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q9",
+      "official_key_text": "₹35,000",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-acc-q14",
+      "official_answer_label": "C",
+      "official_answer_text": "₹6,00,000; Non-Current Liabilities",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q14",
+      "official_key_text": "₹6,00,000; Non-Current Liabilities",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "The original PDF extraction visually interleaves the final two options; option order was checked against the source page layout."
+    },
+    {
+      "item_id": "cbse25-26-acc-q16",
+      "official_answer_label": "A",
+      "official_answer_text": "Provide ₹50,000 claim from the reserve and distribute the remaining ₹30,000 in the old ratio.",
+      "official_key_source_id": "cbse-2025-26-accountancy-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q16",
+      "official_key_text": "₹50,000 claim from reserve; balance ₹30,000 distributed among partners in old ratio",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q1",
+      "official_answer_label": "B",
+      "official_answer_text": "Management is a continuous process",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1",
+      "official_key_text": "Management is a continuous process",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q2",
+      "official_answer_label": "D",
+      "official_answer_text": "Formed by practice and experimentation",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q2",
+      "official_key_text": "Formed by practice and experimentation",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q3",
+      "official_answer_label": "D",
+      "official_answer_text": "Both are true, and Reason is the correct explanation of Assertion.",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q3",
+      "official_key_text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion.",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q5",
+      "official_answer_label": "C",
+      "official_answer_text": "Time-based pay plus incentives",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q5",
+      "official_key_text": "Time based pay plus incentives",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q7",
+      "official_answer_label": "C",
+      "official_answer_text": "Product",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q7",
+      "official_key_text": "product",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q10",
+      "official_answer_label": "B",
+      "official_answer_text": "iii, ii, vii, i, iv, v, vi",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q10",
+      "official_key_text": "iii,ii,vii,i,iv,v,vi",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q14",
+      "official_answer_label": "B",
+      "official_answer_text": "Planning does not work in a dynamic environment.",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 2, Q14",
+      "official_key_text": "Planning does not work in a dynamic environment.",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-bs-q15",
+      "official_answer_label": "C",
+      "official_answer_text": "Training and development",
+      "official_key_source_id": "cbse-2025-26-business-studies-marking-scheme",
+      "official_key_locator": "Marking scheme p. 2, Q15",
+      "official_key_text": "Training and development",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eco-q1-VI-vi",
+      "official_answer_label": "D",
+      "official_answer_text": "Average Propensity to Consume = 1",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 (visually impaired alternative)",
+      "official_key_text": "Average Propensity to Consume = 1",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "This is the official alternate form, not the standard visual-data version of Q1."
+    },
+    {
+      "item_id": "cbse25-26-eco-q2",
+      "official_answer_label": "C",
+      "official_answer_text": "169.92",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q2",
+      "official_key_text": "169.92",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Computed as nominal GDP ÷ real GDP × 100; official key agrees."
+    },
+    {
+      "item_id": "cbse25-26-eco-q5-VI-vi",
+      "official_answer_label": "A",
+      "official_answer_text": "Factor",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q5 (visually impaired alternative)",
+      "official_key_text": "Factor",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Official alternate form, not the standard diagram-based question."
+    },
+    {
+      "item_id": "cbse25-26-eco-q6",
+      "official_answer_label": "B",
+      "official_answer_text": "Ex-post aggregate demand",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q6",
+      "official_key_text": "ex-post Aggregate Demand",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eco-q7",
+      "official_answer_label": "C",
+      "official_answer_text": "Both Statements 1 and 2 are true.",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q7",
+      "official_key_text": "Both Statements 1 and 2 are true.",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eco-q18",
+      "official_answer_label": "B",
+      "official_answer_text": "Financial",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 3, Q18",
+      "official_key_text": "Financial",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eco-q19",
+      "official_answer_label": "C",
+      "official_answer_text": "Britain",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 3, Q19",
+      "official_key_text": "Britain",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eco-q20",
+      "official_answer_label": "D",
+      "official_answer_text": "(i), (ii) and (iii)",
+      "official_key_source_id": "cbse-2025-26-economics-marking-scheme",
+      "official_key_locator": "Marking scheme p. 3, Q20",
+      "official_key_text": "(i), (ii) and (iii)",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": ""
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-III",
+      "official_answer_label": "D",
+      "official_answer_text": "Pip’s knowledge of the surrounding area",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 III",
+      "official_key_text": "Pip’s knowledge of the surrounding area",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-IV",
+      "official_answer_label": "B",
+      "official_answer_text": "threat",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 IV",
+      "official_key_text": "threat",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-VI",
+      "official_answer_label": "C",
+      "official_answer_text": "Answer the question",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 VI",
+      "official_key_text": "Answer the question",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q1-X",
+      "official_answer_label": "A",
+      "official_answer_text": "Pip’s encounter with a frightening man who demands information",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 1, Q1 X",
+      "official_key_text": "Pip’s encounter with a frightening man who demands information",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-I",
+      "official_answer_label": "B",
+      "official_answer_text": "To explore career aspirations and the factors influencing them",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 2, Q2 I",
+      "official_key_text": "To explore patterns in career aspirations and the factors influencing them",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-II",
+      "official_answer_label": "B",
+      "official_answer_text": "representative",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 2, Q2 II",
+      "official_key_text": "representative",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VI",
+      "official_answer_label": "D",
+      "official_answer_text": "Difficulty finding experienced professionals to guide career paths",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 2, Q2 VI",
+      "official_key_text": "Difficulty in finding experienced professionals to guide career paths",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    },
+    {
+      "item_id": "cbse25-26-eng-q2-VIII",
+      "official_answer_label": "B",
+      "official_answer_text": "The impact of gender on career preferences",
+      "official_key_source_id": "cbse-2025-26-english-core-marking-scheme",
+      "official_key_locator": "Marking scheme p. 3, Q2 VIII",
+      "official_key_text": "The impact of gender on career preferences",
+      "answer_provenance": "CBSE official marking scheme; key letter and option text cross-checked against printed SQP options",
+      "notes": "Question adapted from the printed CBSE item to reference the shortened paraphrased passage; answer must be checked against this adapted form."
+    }
+  ],
+  "caution": "Official CBSE marking-scheme keys are not independent proof of CUET readiness. English items reference paraphrased passages and must be rederived from the candidate wording before use. The Economics Q7 source stem was not fully transcribed and is withheld from candidate-valid counts pending repair.",
+  "sealed_for_custody": "Do not provide to answer-blind reviewers before their first-pass responses are frozen."
+}

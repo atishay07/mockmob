@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-08T20:52:06.973Z",
+  "blind_derivations_frozen_before_download": true,
+  "derivations": [
+    {
+      "name": "coordinator-derivations-v1-PRIVATE.json",
+      "sha256": "fe315089efe18e7cf35431ff3e8e1dcbc46a3c37cbfd5bcba1cffb2913941313",
+      "modified_at": "2026-10-08T20:38:16.273Z"
+    },
+    {
+      "name": "independent-derivations-sol-v2.json",
+      "sha256": "57905df02c23bfeef72701545d5e5edac89cc3159ebe95cfb3e8d2bfcbedb395",
+      "modified_at": "2026-10-08T20:50:17.054Z"
+    }
+  ],
+  "entries": [
+    {
+      "subject": "Accountancy",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Accountancy-MS.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Accountancy-MS.pdf",
+      "sha256": "eb4efdb2e6e6166d97fb5fdfbe743f32c1f8aeb54dbc6acf968cfc2c6f18bcc2"
+    },
+    {
+      "subject": "BusinessStudies",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/BusinessStudies-MS.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/BusinessStudies-MS.pdf",
+      "sha256": "1e2607b325c14e9d6ccae60c8f674e07fb50a6aec4bae9a6ed6db1ed52f1c459"
+    },
+    {
+      "subject": "Economics",
+      "url": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2021_22/Economics-MS.pdf",
+      "path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/v76-source-prep/acquisition-2021-22/Economics-MS.pdf",
+      "sha256": "310aec714f5829837abcd0d4d22508121d45e19219bbbe6b0c981b19ac779cf0"
+    }
+  ],
+  "usage": "Corroborate the source question concept/key only after independent custody. Adapted candidates retain their own independently solved key; CBSE is not CUET PYQ authentication."
+}

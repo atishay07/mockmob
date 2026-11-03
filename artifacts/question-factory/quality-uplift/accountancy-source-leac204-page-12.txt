@@ -1,0 +1,41 @@
+182 Accountancy : Company Accounts and Analysis of Financial Statements
+II. Assets
+1) Non-current assets
+a) Fixed assets
+- Tangible assets 14 8
+- Intangible assets 3 2
+2) Current assets
+a) Inventories 5 4
+b) Cash and cash equivalents 2 1
+Total 24 15
+4.6 Common Size Statement
+Common Size Statement, also known as component percentage statement, is a
+financial tool for studying the key changes and trends in the financial position
+and operational result of a company. Here, each item in the statement is stated
+as a percentage of the aggregate, or revenue from operations of which that
+item is a part. For example, a common size balance sheet shows the percentage
+of each asset to the total assets, and that of each liability to the total liabilities.
+Similarly, in the common size statement of profit and loss, the items of
+expenditure are shown as a percentage of the revenue from operations. If
+such a statement is prepared for successive periods, it shows the changes of
+the respective percentages over a period of time.
+Common size analysis is of immense use for comparing enterprises which
+differ substantially in size as it provides an insight into the structure of financial
+statements. Inter-firm comparison or comparison of the company’s position
+with the related industry as a whole is possible with the help of common size
+statement analysis.
+The following procedure may be adopted for preparing the common size
+statements.
+1. List out absolute figures in rupees at two points of time, say year 1,
+and year 2 (Column 2 & 4 of Exhibit 4.2).
+2. Choose a common base (as 100). For example, revenue from operations
+may be taken as base (100) in case of statement of profit and loss and
+total assets or total liabilities (100) in case of balance sheet.
+3. For all items of Col. 2 and 3 work out the percentage of that total.
+Column 4 and 5 shows these percentages in Exhibit 4.2.
+Common Size Statement
+Particulars Year Year Percentage Percentage
+one two of year 1 of year 2
+ 1 2 3 4 5
+Exhibit 4.2
+Reprint 2026-27

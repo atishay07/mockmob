@@ -1,0 +1,2179 @@
+{
+  "schema": "cuet-v716-cases-v1",
+  "study_id": "cuet-v716-qualification-fresh32b",
+  "created_at": "2026-10-09T23:43:30.627Z",
+  "cases": [
+    {
+      "id": "q716-1b7941239ab42546",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-1b7941239ab42546",
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "concept_id": "accountancy:floating-charge",
+        "body": "To secure its debentures, a company creates a charge on all its assets other than those already assigned to secured creditors, instead of on any one specific asset. What kind of charge has the company created?",
+        "options": [
+          {
+            "key": "A",
+            "text": "No charge, because the debentures are unsecured"
+          },
+          {
+            "key": "B",
+            "text": "A floating charge"
+          },
+          {
+            "key": "C",
+            "text": "A charge only on its inventories"
+          },
+          {
+            "key": "D",
+            "text": "A fixed charge"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "A fixed charge is created on a specific asset held for use in operations, whereas a floating charge covers all the assets excluding those assigned to the secured creditors. A charge on the company's general assets is therefore a floating charge. The debentures are not unsecured, because a charge has been created, and the charge is not limited to inventories.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-467902f31038e158",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p2-c0-g4-s0",
+            "support_hash": "c6dbbc2d6ad4ebeac712554f65862dab65bd24a1f80a06d99b745b8cd8ef62ab"
+          },
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p3-c0-g1-s0",
+            "support_hash": "14341d35426dcc4a078479d262072979e736c8c209e598701bef2614e60976b1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Accounting for Companies",
+          "objective": "Distinguish a fixed charge from a floating charge for secured debentures.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac202-v1",
+          "adaptation_family": "fam716-467902f31038e158",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-5960dc1d428e5a7d",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-5960dc1d428e5a7d",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": "economics:legal-tender-demand-deposits",
+        "body": "Currency notes and coins are legal tender. Why are demand deposits not legal tender?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Demand deposits have intrinsic value like a gold coin."
+          },
+          {
+            "key": "B",
+            "text": "Demand deposits are issued only by the Reserve Bank of India."
+          },
+          {
+            "key": "C",
+            "text": "Demand deposits cannot be held in current accounts."
+          },
+          {
+            "key": "D",
+            "text": "Cheques drawn on demand deposits can be refused as a mode of payment."
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Legal tenders cannot be refused by any citizen for settlement of a transaction. Cheques drawn on savings or current accounts, however, can be refused by anyone as a mode of payment, so demand deposits are not legal tender. Demand deposits are held in savings and current accounts with banks, and they do not have intrinsic value.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-a6535969bff0b480",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p13-c0-g0-s0",
+            "support_hash": "494da5b8c1320eaba4a208eeee3591b3efd423db28d4197e04d1f68f1f544755"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit II: Money and Banking",
+          "objective": "Explain why demand deposits are not legal tender.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec103-v1",
+          "adaptation_family": "fam716-a6535969bff0b480",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-eaec14d465f3d626",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-eaec14d465f3d626",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": "economics:revenue-deficit-implication",
+        "body": "When the government incurs a revenue deficit, what does it imply?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The government's stock of debt is falling."
+          },
+          {
+            "key": "B",
+            "text": "The government needs to borrow only to finance its investment."
+          },
+          {
+            "key": "C",
+            "text": "The government is dissaving and using the savings of other sectors to finance part of its consumption expenditure."
+          },
+          {
+            "key": "D",
+            "text": "The government's revenue receipts exceed its revenue expenditure."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "A revenue deficit is the excess of revenue expenditure over revenue receipts. It implies that the government is dissaving and using up the savings of other sectors to finance part of its consumption expenditure, so it must borrow not only for investment but also for consumption, which builds up its stock of debt.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-975d47fe0ed4cfaf",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p6-c0-g1-s0",
+            "support_hash": "a1a54272bf5299d902cb5851973b748e4343798f3bd3e25ca8ebc7afdf09cdcb"
+          },
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p6-c0-g3-s0",
+            "support_hash": "23354b00af5130f3e4395e80217457bafd5ecbe39f739976c0a4c29e02d810cb"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+          "objective": "Interpret the implication of a revenue deficit.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec105-v1",
+          "adaptation_family": "fam716-975d47fe0ed4cfaf",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-f2ed02807efdcda6",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-f2ed02807efdcda6",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "concept_id": "english:reading-unstated-count",
+        "body": "How many volunteers had failed to update the noticeboard before the committee added the confirmation step?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Two"
+          },
+          {
+            "key": "B",
+            "text": "Three"
+          },
+          {
+            "key": "C",
+            "text": "Four"
+          },
+          {
+            "key": "D",
+            "text": "One"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "The passage refers to two missed sessions in which the board had not been changed, so two volunteers had failed to update it.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "A fictional garden committee published a watering roster on a noticeboard. When a volunteer could not attend, that person was asked to arrange a replacement and update the board. After two missed sessions, the committee learned that replacements had been arranged but the board had not been changed. Other volunteers therefore believed the slots were empty and duplicated the work. The committee added a simple confirmation step: the replacement would initial the revised slot. The adjustment addressed the recording of responsibility rather than imposing an additional watering session. The report did not attribute the duplication to volunteers being unwilling to help.",
+        "family_id": "fam716-fc4122004d509c4c",
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "d0029585f1fde6bd791626341161762de0494b524bf645f6661b5b34a835d3e1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "English 101: Reading Comprehension—Factual passages",
+          "objective": "Locate a stated detail in a factual passage.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "mockmob-original-stimulus-diverse-07ca1a3512fc187e5f09",
+          "adaptation_family": "fam716-fc4122004d509c4c",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-0cbcb918cd562ba3",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-0cbcb918cd562ba3",
+        "subject": "business_studies",
+        "chapter": "Principles of Management",
+        "concept_id": "business_studies:unity-of-command-violation",
+        "body": "In a company, the marketing manager tells a salesperson that she may offer a customer a 10% discount, while at the same time the finance manager instructs her not to allow any discount. Which principle of management is violated in this situation?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Unity of command"
+          },
+          {
+            "key": "B",
+            "text": "Subordination of individual interest to general interest"
+          },
+          {
+            "key": "C",
+            "text": "Discipline"
+          },
+          {
+            "key": "D",
+            "text": "Unity of direction"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Unity of command states that each participant in a formal organisation should receive orders from, and be responsible to, only one superior; it is violated when a person receives orders from two superiors at the same time, as the salesperson does here. Discipline concerns obedience to organisational rules and agreements, subordination of individual interest concerns giving the organisation's interests priority over an individual's, and unity of direction concerns separate divisions with their own head and plan for each group of activities.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "fam716-6e18ed5ada8f01f6",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p27-c1-g1-s0",
+            "support_hash": "66127bcc83640b1a2d1891e547ff2ba64bd42490f99a9b1734b41319588c4e46"
+          },
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p27-c0-g1-s0",
+            "support_hash": "582374d1e8257ecb5f2111008fb6fcb8141b31472bdcd7aa61b87a36d3db0721"
+          },
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p28-c0-g1-s0",
+            "support_hash": "ff304930d81a18080fb528f964b4f5dc0c1f8239d7471882cb79b5b5e203b8de"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Principles of Management",
+          "objective": "Apply Fayol's principle of unity of command to a case of dual subordination.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs102-v1",
+          "adaptation_family": "fam716-6e18ed5ada8f01f6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-7ad4731e3fa8a7f1",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-7ad4731e3fa8a7f1",
+        "subject": "business_studies",
+        "chapter": "Directing",
+        "concept_id": "business_studies:elements-of-directing",
+        "body": "Which of the following is NOT one of the four elements of directing?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Motivation"
+          },
+          {
+            "key": "B",
+            "text": "Staffing"
+          },
+          {
+            "key": "C",
+            "text": "Communication"
+          },
+          {
+            "key": "D",
+            "text": "Supervision"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The four elements of directing are supervision, motivation, leadership and communication. Staffing, which is concerned with filling the posts in the organisation, is a separate function of management and not an element of directing.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-2429ff8331302ebb",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs107-v1",
+            "version": 1,
+            "locator": "p5-c1-g1-s0",
+            "support_hash": "3c43a372860bedc9a1631826072fa8ec9b38b7705930e195bbbcf4a085b6781e"
+          },
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s2",
+            "support_hash": "587d2e9c5beb3d5e259833d46947090a26f39ca1640feed06e1133813a962838"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit VII: Directing",
+          "objective": "Identify the elements of directing.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs107-v1",
+          "adaptation_family": "fam716-2429ff8331302ebb",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-f6bef8adb2477abf",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-f6bef8adb2477abf",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:word-usage-optimistic",
+        "body": "Even after losing the first two matches, the captain kept telling her team that they would win the tournament. She was ______ about their chances.",
+        "options": [
+          {
+            "key": "A",
+            "text": "tedious"
+          },
+          {
+            "key": "B",
+            "text": "discreet"
+          },
+          {
+            "key": "C",
+            "text": "sceptical"
+          },
+          {
+            "key": "D",
+            "text": "optimistic"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Sceptical means expecting good things to happen, which matches a captain who believes the team will win, so option C is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam716-2f8bf55822206ddd",
+        "source_refs": [
+          {
+            "id": "oxford-quality-optimistic",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ebdb74c34f036bbc994262381a18d7b5d649c39faa98a5e76b2056a693eacda9"
+          },
+          {
+            "id": "oxford-quality-sceptical",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "80a2dca9132240bc0148382f49f4af80e8d2eb2e9cf216a8dd84bbfa647949cf"
+          },
+          {
+            "id": "oxford-quality-tedious",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "ec470eab6a3dc0dc03240a8f930e742b5f3205d5722bd4e14dcec96cfc3dae81"
+          },
+          {
+            "id": "oxford-quality-discreet",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "b47a55aed57d642892c58bb0a88404ae45ac8aeebbd53743f766c04386cf5652"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "optimistic"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-optimistic",
+          "adaptation_family": "fam716-2f8bf55822206ddd",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-5793cf6e53b31bd7",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-5793cf6e53b31bd7",
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "concept_id": "accountancy:irredeemable-debentures",
+        "body": "A company issues debentures without giving any undertaking to repay the money borrowed during its lifetime; they are repayable only on the winding up of the company or after a very long period. Such debentures are called:",
+        "options": [
+          {
+            "key": "A",
+            "text": "Redeemable debentures"
+          },
+          {
+            "key": "B",
+            "text": "Secured debentures"
+          },
+          {
+            "key": "C",
+            "text": "Convertible debentures"
+          },
+          {
+            "key": "D",
+            "text": "Irredeemable debentures"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Irredeemable (perpetual) debentures carry no undertaking for repayment of the money borrowed and are repayable on winding up or after a long period. Redeemable debentures are payable on the expiry of a specific period, convertible debentures can be converted into shares or other securities, and secured debentures are those on which a charge is created on the company's assets.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-52ada9c89456b866",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p3-c0-g2-s0",
+            "support_hash": "1ab50ca0a4ea56fd68d518d092f61d3c0ce904abd82bea590d719f1f3d39819c"
+          },
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p3-c0-g3-s0",
+            "support_hash": "4d4ff74a8ad381c38c0083e4e2d2c96e0ec64a22f81b22788aecde0b65359510"
+          },
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p2-c0-g4-s0",
+            "support_hash": "c6dbbc2d6ad4ebeac712554f65862dab65bd24a1f80a06d99b745b8cd8ef62ab"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Accounting for Companies",
+          "objective": "Classify debentures from the point of view of tenure.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac202-v1",
+          "adaptation_family": "fam716-52ada9c89456b866",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-0cb57ffa675aafac",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-0cb57ffa675aafac",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "concept_id": "accountancy:quick-assets-exclusion",
+        "body": "While calculating the quick (acid-test) ratio, which of the following current assets is excluded from quick assets?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Cash and cash equivalents"
+          },
+          {
+            "key": "B",
+            "text": "Prepaid expenses"
+          },
+          {
+            "key": "C",
+            "text": "Trade receivables"
+          },
+          {
+            "key": "D",
+            "text": "Bills receivable"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Quick assets are those quickly convertible into cash; inventories and other current assets such as prepaid expenses and advance tax are excluded from them. Trade receivables (which include bills receivable) and cash and cash equivalents remain part of quick assets.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-cd956442e0089971",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p8-c0-g4-s2",
+            "support_hash": "97a02a4c26655c0d76fa8c566b0be64c86ae85961ce4cb4f21c8234ec907b759"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s2",
+            "support_hash": "a57cad92c9ef61f6374788b74ef04df72539852f2015d66fc6beede5538d41ab"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Identify which current assets are excluded when computing quick assets.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac205-v1",
+          "adaptation_family": "fam716-cd956442e0089971",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-455a5bf939b6e1fc",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-455a5bf939b6e1fc",
+        "subject": "accountancy",
+        "chapter": "Admission of Partner",
+        "concept_id": "accountancy:sacrificing-ratio-from-new-ratio",
+        "body": "P and Q are partners sharing profits in the ratio 3 : 2. They admit R as a new partner, and the new profit sharing ratio of P, Q and R is 2 : 2 : 1. What is the sacrificing ratio of P and Q?",
+        "options": [
+          {
+            "key": "A",
+            "text": "1 : 0 (only P sacrifices)"
+          },
+          {
+            "key": "B",
+            "text": "1 : 1"
+          },
+          {
+            "key": "C",
+            "text": "2 : 3"
+          },
+          {
+            "key": "D",
+            "text": "3 : 2"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "When the new ratio is given, each partner's sacrifice is old share minus new share. P: 3/5 − 2/5 = 1/5. Q: 2/5 − 2/5 = 0. Only P gives up a share to R, so the sacrificing ratio of P and Q is 1 : 0. A ratio of 3 : 2 would apply only if both had sacrificed in their old ratio, which the given new ratio does not show.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "fam716-46b001fd0328c0cc",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac102-v1",
+            "version": 1,
+            "locator": "p5-c0-g5-s0",
+            "support_hash": "5db8afb6deefb95a5f6dd48aea6932a3afae5daa74f3de0ab13beece3b5fb366"
+          },
+          {
+            "id": "ncertcol-leac102-v1",
+            "version": 1,
+            "locator": "p6-c0-g1-s0",
+            "support_hash": "0a8d6c5c3ba97c7eca0cf4881ba43968637a9c7c5515d4f2c96f6143ea3e1685"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit I: Accounting for Partnership Firms",
+          "objective": "Calculate the sacrificing ratio from the old and new profit sharing ratios.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac102-v1",
+          "adaptation_family": "fam716-46b001fd0328c0cc",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-4132c3318d5a384e",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-4132c3318d5a384e",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": "economics:capital-receipt-identification",
+        "body": "Which of the following is a capital receipt of the government?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Proceeds from the sale of its shares in public sector undertakings"
+          },
+          {
+            "key": "B",
+            "text": "Goods and services tax collected"
+          },
+          {
+            "key": "C",
+            "text": "Dividends received from public sector undertakings"
+          },
+          {
+            "key": "D",
+            "text": "Income tax collected from individuals"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Capital receipts are receipts that either create a liability or reduce the government's financial assets. Selling shares in PSUs (disinvestment) reduces its financial assets, so it is a capital receipt. Taxes collected and dividends received neither create a liability nor reduce the government's financial assets, so they are not capital receipts.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-5ffb0891344d99ce",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p3-c0-g1-s22",
+            "support_hash": "023817c58b6cccb9bf4dc2ddc0f20e4fd1700ae79252df29a5d427b124650a0c"
+          },
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p4-c0-g5-s0",
+            "support_hash": "cf9468ba3beb28ac55e1ac099cbb15be8128e04b08f84c0e87f65e55df5a0999"
+          },
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p7-c0-g2-s0",
+            "support_hash": "62b47199588913f3c78f2ccb6d36b6509ad2c628f799c570090d91b20b4be9c7"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+          "objective": "Classify government receipts as capital receipts using the liability/asset test.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec105-v1",
+          "adaptation_family": "fam716-5ffb0891344d99ce",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-fab2648348aafe3d",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-fab2648348aafe3d",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:scope-of-staffing",
+        "body": "Which of the following is included in the staffing function of management?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Setting the organisation's objectives"
+          },
+          {
+            "key": "B",
+            "text": "Recruitment"
+          },
+          {
+            "key": "C",
+            "text": "Training"
+          },
+          {
+            "key": "D",
+            "text": "Performance appraisal"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Staffing begins with workforce planning and includes recruitment, so option B is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-1397252de2ff5b7e",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s2",
+            "support_hash": "587d2e9c5beb3d5e259833d46947090a26f39ca1640feed06e1133813a962838"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit VI: Staffing",
+          "objective": "Identify the activities included in staffing.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs106-v1",
+          "adaptation_family": "fam716-1397252de2ff5b7e",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-37419460874166a4",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-37419460874166a4",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:antonym-indifferent",
+        "body": "Choose the word most nearly OPPOSITE in meaning to INDIFFERENT as used in the sentence: 'Rahul was indifferent to the new science club and never asked a single question about it.'",
+        "options": [
+          {
+            "key": "A",
+            "text": "plausible"
+          },
+          {
+            "key": "B",
+            "text": "inquisitive"
+          },
+          {
+            "key": "C",
+            "text": "frugal"
+          },
+          {
+            "key": "D",
+            "text": "transient"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Indifferent means having or showing no interest in something. Inquisitive means very interested in learning about many different things, so it is the opposite. Transient (lasting a short time), frugal (using only what is necessary) and plausible (reasonable and likely to be true) are unrelated to interest.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "antonym",
+        "passage_text": null,
+        "family_id": "fam716-45faab7ae88f539d",
+        "source_refs": [
+          {
+            "id": "oxford-quality-indifferent",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "c40cf2006e8a62e7605ee4a5659f387ee58c9b66eda1f12c77f9d1f4f8370486"
+          },
+          {
+            "id": "oxford-quality-inquisitive",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "4187d01eb138e061222aa1c708cf4e7d04c526464f98958ce9d02c54141a021c"
+          },
+          {
+            "id": "oxford-quality-transient",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b"
+          },
+          {
+            "id": "oxford-quality-frugal",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "0bbb6863b9876e044ec597fdb6bc2b7b9531c6d0c808e95b8fc46b07de0abe73"
+          },
+          {
+            "id": "oxford-quality-plausible",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "831b92f788bcbce41d568f572bf364fe3e2bd6c07ed9831f805b5201acbba763"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Identify the antonym of a word from its verified lexical sense in context.",
+          "target_term": "indifferent"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-indifferent",
+          "adaptation_family": "fam716-45faab7ae88f539d",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-fc60d251db352449",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-fc60d251db352449",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "concept_id": "accountancy:current-ratio-computation",
+        "body": "The following information is taken from a company's balance sheet: Inventories ₹60,000; Trade receivables ₹40,000; Prepaid expenses ₹5,000; Cash and cash equivalents ₹15,000; Trade payables ₹70,000; Short-term borrowings (bank overdraft) ₹10,000. What is the company's current ratio?",
+        "options": [
+          {
+            "key": "A",
+            "text": "1.5 : 1"
+          },
+          {
+            "key": "B",
+            "text": "1.71 : 1"
+          },
+          {
+            "key": "C",
+            "text": "1.44 : 1"
+          },
+          {
+            "key": "D",
+            "text": "0.69 : 1"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Current assets = Inventories + Trade receivables + Prepaid expenses + Cash and cash equivalents = ₹60,000 + ₹40,000 + ₹5,000 + ₹15,000 = ₹1,20,000. Current liabilities = Trade payables + Short-term borrowings (bank overdraft) = ₹70,000 + ₹10,000 = ₹80,000. Current ratio = Current assets : Current liabilities = ₹1,20,000 : ₹80,000 = 1.5 : 1. Leaving out the bank overdraft gives 1.71 : 1, leaving out prepaid expenses gives 1.44 : 1, and 0.69 : 1 is the quick ratio (₹55,000 : ₹80,000), not the current ratio.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "fam716-6762b8c218029322",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s2",
+            "support_hash": "a57cad92c9ef61f6374788b74ef04df72539852f2015d66fc6beede5538d41ab"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p10-c0-g1-s0",
+            "support_hash": "2414c2f7ab070811c12047eb64a9f9d9321de952aecebb2fc7c4d6ae21d4d8d9"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "197ba064f963712d54617de98e97abbf5b8849891f9fb7dfbd707be4bd313bbb"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p8-c0-g4-s2",
+            "support_hash": "97a02a4c26655c0d76fa8c566b0be64c86ae85961ce4cb4f21c8234ec907b759"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Compute the current ratio after classifying balance-sheet items as current assets and current liabilities.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac205-v1",
+          "adaptation_family": "fam716-6762b8c218029322",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-049cb25601d5d391",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-049cb25601d5d391",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": "economics:credit-creation-limit",
+        "body": "In an economy with a single bank, the bank must keep 20 per cent of its deposits as cash reserves. It starts with a fresh cash deposit of ₹100, and every loan it gives comes back to it as a deposit. What is the maximum total amount of deposits the bank can have?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹500"
+          },
+          {
+            "key": "B",
+            "text": "₹120"
+          },
+          {
+            "key": "C",
+            "text": "₹180"
+          },
+          {
+            "key": "D",
+            "text": "₹2,000"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Lending continues until the required reserves equal the ₹100 of cash the bank holds. Required reserves are 20 per cent of deposits, so 0.20 × Total deposits = ₹100 and Total deposits = ₹500 (a money multiplier of 1/0.20 = 5). ₹180 is only the total after the first loan of ₹80 returns as a deposit, ₹120 simply adds 20 to the first deposit, and ₹2,000 wrongly multiplies ₹100 by 20.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "fam716-e81fcfbf3f9f9db6",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p5-c0-g7-s26",
+            "support_hash": "bc21d69804af27e15f4e94c18eea6b705d3042f9b9a8003fad94d064f66e99fe"
+          },
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p6-c0-g0-s0",
+            "support_hash": "09a9c4369ab93b3256e672fdd6cb845e82d72972a08a34190b827ca77de6843c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit II: Money and Banking",
+          "objective": "Apply the reserve ratio to find the limit of credit creation.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec103-v1",
+          "adaptation_family": "fam716-e81fcfbf3f9f9db6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-c48aba09fb24df8d",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-c48aba09fb24df8d",
+        "subject": "business_studies",
+        "chapter": "Principles of Management",
+        "concept_id": "business_studies:simplification-aim",
+        "body": "Under scientific management, what does simplification aim at?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Studying the movements involved in performing a job"
+          },
+          {
+            "key": "B",
+            "text": "Eliminating superfluous varieties, sizes and dimensions of products"
+          },
+          {
+            "key": "C",
+            "text": "Devising new varieties in place of the existing ones"
+          },
+          {
+            "key": "D",
+            "text": "Determining the rest intervals needed by workers"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Simplification means devising new varieties of a product to replace the existing ones; in doing so it removes the old superfluous sizes and dimensions, so option B is correct. Determining rest intervals is fatigue study.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-391f2d33a50611f3",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p20-c0-g1-s0",
+            "support_hash": "3533ed163f1627a44d8a30a7b77c96941e35afe246769d7678fc54a42ed5d1aa"
+          },
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p21-c1-g1-s0",
+            "support_hash": "cc43ec654cc93d821490fd8d4b93161fd1cd462f78f2d0b5af2b859d0e97ba4b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Principles of Management",
+          "objective": "Distinguish simplification from standardisation.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs102-v1",
+          "adaptation_family": "fam716-391f2d33a50611f3",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-5d219896c544b775",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-5d219896c544b775",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:external-recruitment-limitation",
+        "body": "A company fills a senior vacancy by appointing a person from outside the organisation. Which limitation of external sources of recruitment is most likely to arise among its existing employees?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Higher morale among staff because of new competition"
+          },
+          {
+            "key": "B",
+            "text": "A narrower choice of candidates than internal sources offer"
+          },
+          {
+            "key": "C",
+            "text": "A lack of fresh talent entering the organisation"
+          },
+          {
+            "key": "D",
+            "text": "Dissatisfaction, because they feel their chances of promotion are reduced"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "External recruitment may lead to dissatisfaction and frustration among existing employees, who may feel that their chances of promotion are reduced. External sources are used precisely for fresh talent and a wider choice of candidates, so options B and C describe the opposite, and higher morale is not a limitation.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-c8ace19c608beaa9",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p16-c0-g2-s0",
+            "support_hash": "c4cd360398f6feeb3dd7af7d3ac7008534c4b359978e63edf3cfdab498113fe0"
+          },
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p8-c0-g1-s0",
+            "support_hash": "2b8ca1bdd9faa247e381c020366057bbad1f808746fac62a56f475ba6761fa4c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit VI: Staffing",
+          "objective": "Identify a limitation of external sources of recruitment.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs106-v1",
+          "adaptation_family": "fam716-c8ace19c608beaa9",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-e864ccb583a2d54d",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-e864ccb583a2d54d",
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "concept_id": "economics:capital-account-debit",
+        "body": "When an Indian resident buys a car company in the United Kingdom, how is this transaction entered in India's capital account?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It is not recorded in the balance of payments"
+          },
+          {
+            "key": "B",
+            "text": "As an item in the balance of trade"
+          },
+          {
+            "key": "C",
+            "text": "As a credit item"
+          },
+          {
+            "key": "D",
+            "text": "As a debit item"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Buying a foreign company brings ownership of an asset into India, so it is entered as a credit item on the capital account; option C is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-5e2e406233f5887f",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec106-v1",
+            "version": 1,
+            "locator": "p4-c0-g1-s0",
+            "support_hash": "abe1cad9fbe948798758b7fc8c20362d84f00ed25ea95e1ea1d03ccd6c7d5779"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit VI: Open Economy Macroeconomics",
+          "objective": "Classify capital account transactions as debit or credit items.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec106-v1",
+          "adaptation_family": "fam716-5e2e406233f5887f",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-e76983f4b009532f",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-e76983f4b009532f",
+        "subject": "economics",
+        "chapter": "Money & Banking",
+        "concept_id": "economics:rbi-money-supply-tools",
+        "body": "Which of the following actions by the Reserve Bank of India would increase the money supply in the economy?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Reducing the cash reserve ratio that banks must maintain"
+          },
+          {
+            "key": "B",
+            "text": "Raising the cash reserve ratio that banks must maintain"
+          },
+          {
+            "key": "C",
+            "text": "Buying government bonds in the open market"
+          },
+          {
+            "key": "D",
+            "text": "Selling government bonds in the open market"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "When RBI buys a government bond in the open market, it pays by cheque, which increases the total reserves in the economy and thus the money supply. Selling bonds reduces reserves and the money supply.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-cd304eea9b467bf4",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s23",
+            "support_hash": "8ecf37ae2ccbd55f296ede83dff9f6c9b1c7c59be095a5d7c52e505051affcdf"
+          },
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p5-c0-g7-s26",
+            "support_hash": "bc21d69804af27e15f4e94c18eea6b705d3042f9b9a8003fad94d064f66e99fe"
+          },
+          {
+            "id": "ncertcol-leec103-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "36f777c98e9baf60805ec482bb4873ef23437751342be397436d9366ae3d0676"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit II: Money and Banking",
+          "objective": "Identify RBI actions that change the money supply.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec103-v1",
+          "adaptation_family": "fam716-cd304eea9b467bf4",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-b987344a2cca2f76",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-b987344a2cca2f76",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:word-usage-impartial",
+        "body": "The referee did not favour either team and judged every foul by the same standard. The referee was ______.",
+        "options": [
+          {
+            "key": "A",
+            "text": "feeble"
+          },
+          {
+            "key": "B",
+            "text": "elated"
+          },
+          {
+            "key": "C",
+            "text": "impartial"
+          },
+          {
+            "key": "D",
+            "text": "arrogant"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Impartial means not supporting one person or group more than another, which describes a referee who favours neither team. Arrogant (behaving in a proud, unpleasant way), feeble (very weak) and elated (very happy and excited) do not describe fair judging.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam716-87d499d128bac4b6",
+        "source_refs": [
+          {
+            "id": "oxford-quality-impartial",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "3aea27cc09ebc5742af0491851291e042ee63beb8962c7fa8fb7a9a30d997f93"
+          },
+          {
+            "id": "oxford-quality-arrogant",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "5b1733e45b20ad4eaa56687cf0983b01ce7a1cc4a034bc6a39c2374500f7e12b"
+          },
+          {
+            "id": "oxford-quality-feeble",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "18d9a65c80cb4448f305f3b2fd787b33ffb0ec879db11e52e13b7fd7fb42f8de"
+          },
+          {
+            "id": "oxford-quality-elated",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "bb150e71b63723f0e01b64879e8fe7521893321769377b9af296f12e424188de"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "impartial"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-impartial",
+          "adaptation_family": "fam716-87d499d128bac4b6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-157e2cb25b374b68",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-157e2cb25b374b68",
+        "subject": "business_studies",
+        "chapter": "Principles of Management",
+        "concept_id": "business_studies:fatigue-study",
+        "body": "Which technique of scientific management seeks to determine the amount and frequency of rest intervals in completing a task?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Motion study"
+          },
+          {
+            "key": "B",
+            "text": "Time study"
+          },
+          {
+            "key": "C",
+            "text": "Fatigue study"
+          },
+          {
+            "key": "D",
+            "text": "Method study"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "Time study seeks to determine the amount and frequency of rest intervals that a worker needs to complete a task, so option B is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-fcbf7eef24c124cd",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p21-c1-g1-s0",
+            "support_hash": "cc43ec654cc93d821490fd8d4b93161fd1cd462f78f2d0b5af2b859d0e97ba4b"
+          },
+          {
+            "id": "ncertcol-lebs102-v1",
+            "version": 1,
+            "locator": "p34-c0-g2-s1",
+            "support_hash": "d3aad6036fb46a300376d56164d254773098b7beaf3d5cfd41b7b694de01bee1"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Principles of Management",
+          "objective": "Identify the purpose of fatigue study.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs102-v1",
+          "adaptation_family": "fam716-fcbf7eef24c124cd",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-69cae90fe70ed169",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-69cae90fe70ed169",
+        "subject": "economics",
+        "chapter": "Balance of Payments",
+        "concept_id": "economics:trade-deficit",
+        "body": "During a year, the value of a country's imports of goods is greater than the value of its exports of goods. Its balance of trade is said to be in:",
+        "options": [
+          {
+            "key": "A",
+            "text": "Surplus on the current account"
+          },
+          {
+            "key": "B",
+            "text": "Surplus"
+          },
+          {
+            "key": "C",
+            "text": "Balance"
+          },
+          {
+            "key": "D",
+            "text": "Deficit"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "The balance of trade is the difference between the value of exports and imports of goods. It is in balance when they are equal, in surplus when exports of goods exceed imports, and in deficit when imports of goods exceed exports. The current account also includes invisibles, so a trade deficit does not tell us that the current account is in surplus.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-28118aba03aabb99",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec106-v1",
+            "version": 1,
+            "locator": "p3-c0-g2-s16",
+            "support_hash": "f438ffc05aa7b57080c05e01470398fe99ede0c0b64b17160a27bcb254e82e0d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit VI: Open Economy Macroeconomics",
+          "objective": "Identify a trade deficit from the values of exports and imports of goods.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec106-v1",
+          "adaptation_family": "fam716-28118aba03aabb99",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-239e860c6d0d67dd",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-239e860c6d0d67dd",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "concept_id": "english:reading-stated-purpose",
+        "body": "Why did the school move one bus departure from 4:00 to 4:15?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Because the later departure made the journey faster"
+          },
+          {
+            "key": "B",
+            "text": "So that every pupil would wait for a shorter time"
+          },
+          {
+            "key": "C",
+            "text": "So that pupils in a late laboratory session could reach that departure"
+          },
+          {
+            "key": "D",
+            "text": "Because the earlier route had been cancelled"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "The passage says the departure was shifted to 4:15, 'allowing pupils in a late laboratory session to reach it'. The notice neither promised shorter waits for everyone nor described the later departure as faster, and the school retained an earlier departure on another route, so A, B and D are not supported.",
+        "route": "passage",
+        "difficulty": "medium",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey.",
+        "family_id": "fam716-2c9ca782bf9d602c",
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "7bcc4b407053c94c173fd0b1ed18bc8a332656575b186c1a067f1fab0b7fff64"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "English 101: Reading Comprehension—Factual passages",
+          "objective": "Identify the stated reason for an action in a factual passage.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+          "adaptation_family": "fam716-2c9ca782bf9d602c",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-4f29ebd950b469b1",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-4f29ebd950b469b1",
+        "subject": "business_studies",
+        "chapter": "Staffing",
+        "concept_id": "business_studies:selection-versus-recruitment",
+        "body": "A firm advertised a vacancy and received 300 applications. It then conducted tests and interviews to choose the most suitable candidates from among these applicants. Which step of the staffing process is the firm performing at this stage?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Recruitment"
+          },
+          {
+            "key": "B",
+            "text": "Training"
+          },
+          {
+            "key": "C",
+            "text": "Selection"
+          },
+          {
+            "key": "D",
+            "text": "Compensation"
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Recruitment develops the pool of prospective job candidates, as the advertisement did here. Selection is the process of choosing from among that pool, which is what the tests and interviews do. Training and compensation are other parts of staffing that apply to employees after they join, not to choosing among applicants.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "case_application",
+        "passage_text": null,
+        "family_id": "fam716-f15c1ec2b68b65b9",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p8-c0-g1-s0",
+            "support_hash": "2b8ca1bdd9faa247e381c020366057bbad1f808746fac62a56f475ba6761fa4c"
+          },
+          {
+            "id": "ncertcol-lebs106-v1",
+            "version": 1,
+            "locator": "p2-c0-g2-s2",
+            "support_hash": "587d2e9c5beb3d5e259833d46947090a26f39ca1640feed06e1133813a962838"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit VI: Staffing",
+          "objective": "Distinguish selection from recruitment in the staffing process.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs106-v1",
+          "adaptation_family": "fam716-f15c1ec2b68b65b9",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    },
+    {
+      "id": "q716-291064574578e38e",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-291064574578e38e",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:word-usage-sporadic",
+        "body": "During the dry season the village received only a few showers, and they came at irregular intervals rather than in any fixed pattern. The rainfall that season was ______.",
+        "options": [
+          {
+            "key": "A",
+            "text": "concise"
+          },
+          {
+            "key": "B",
+            "text": "gregarious"
+          },
+          {
+            "key": "C",
+            "text": "perilous"
+          },
+          {
+            "key": "D",
+            "text": "sporadic"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Sporadic means happening only occasionally or at intervals that are not regular, which matches a few showers at irregular intervals. Perilous means very dangerous, gregarious means liking to be with other people, and concise means using few words; none describes the pattern of rainfall.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam716-d4f9ec3fea8504f3",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sporadic",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12"
+          },
+          {
+            "id": "oxford-quality-perilous",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "fe1fda8fcaee66224858c25c7167746575f515d773cd9dcccaf71ae322a55ce7"
+          },
+          {
+            "id": "oxford-quality-gregarious",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9c148b2ab679539c66347f105aa2f6c0066d89b49702da733c88b7d5a0082ce2"
+          },
+          {
+            "id": "oxford-quality-concise",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "97eb3dd1f1c14ea929c85ddfded8c53de3b1dab1f8e6f157b5765a2039afe30b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "sporadic"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-sporadic",
+          "adaptation_family": "fam716-d4f9ec3fea8504f3",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-bf38d5bc7489125b",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-bf38d5bc7489125b",
+        "subject": "english",
+        "chapter": "Factual Passage",
+        "concept_id": "english:reading-stated-consequence",
+        "body": "According to the passage, which pupils waited longer after the timetable was revised?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Pupils who used the route with the earlier departure"
+          },
+          {
+            "key": "B",
+            "text": "Pupils whose classes ended earlier"
+          },
+          {
+            "key": "C",
+            "text": "Pupils who reported the long waits"
+          },
+          {
+            "key": "D",
+            "text": "Pupils in the late laboratory session"
+          }
+        ],
+        "correct_answer": "B",
+        "explanation": "The passage states: 'Pupils whose classes ended earlier consequently waited longer.' The late laboratory pupils were the ones the change helped, and the passage does not say that pupils on the other route or those who reported the waits waited longer.",
+        "route": "passage",
+        "difficulty": "easy",
+        "question_type": "reading_comprehension",
+        "passage_text": "In a fictional school, a bus timetable was revised after students reported long waits. The school shifted one departure from 4:00 to 4:15, allowing pupils in a late laboratory session to reach it. Pupils whose classes ended earlier consequently waited longer. The school retained an earlier departure on another route and asked students to choose the departure suited to their class schedule. The notice described the revision as a compromise between different finishing times. It neither promised shorter waits for everyone nor described the later departure as a faster journey.",
+        "family_id": "fam716-f8a05ef9875b95d6",
+        "source_refs": [
+          {
+            "id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+            "version": 1,
+            "locator": "stimulus",
+            "support_hash": "7bcc4b407053c94c173fd0b1ed18bc8a332656575b186c1a067f1fab0b7fff64"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "English 101: Reading Comprehension—Factual passages",
+          "objective": "Locate an explicitly stated consequence in a factual passage.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "mockmob-original-stimulus-diverse-618e03744d2efb5fca2c",
+          "adaptation_family": "fam716-f8a05ef9875b95d6",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-d6a80a021b5fe88c",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-d6a80a021b5fe88c",
+        "subject": "accountancy",
+        "chapter": "Debentures",
+        "concept_id": "accountancy:convertible-debentures",
+        "body": "Debentures that can be converted into equity shares at the option of the company or the debenture holders are called:",
+        "options": [
+          {
+            "key": "A",
+            "text": "Non-convertible debentures"
+          },
+          {
+            "key": "B",
+            "text": "Irredeemable debentures"
+          },
+          {
+            "key": "C",
+            "text": "Unsecured debentures"
+          },
+          {
+            "key": "D",
+            "text": "Convertible debentures"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "Non-convertible debentures are those that can be converted into equity shares at the option of the company or the debenture holders, so option A is correct.",
+        "route": "conceptual",
+        "difficulty": "easy",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-5e4033e4101efbf0",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p3-c0-g3-s0",
+            "support_hash": "4d4ff74a8ad381c38c0083e4e2d2c96e0ec64a22f81b22788aecde0b65359510"
+          },
+          {
+            "id": "ncertcol-leac202-v1",
+            "version": 1,
+            "locator": "p3-c0-g2-s0",
+            "support_hash": "1ab50ca0a4ea56fd68d518d092f61d3c0ce904abd82bea590d719f1f3d39819c"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit II: Accounting for Companies",
+          "objective": "Classify debentures from the point of view of convertibility.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac202-v1",
+          "adaptation_family": "fam716-5e4033e4101efbf0",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-d6a19426296c0ee6",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-d6a19426296c0ee6",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "concept_id": "accountancy:current-ratio-significance",
+        "body": "According to the significance of the current ratio, a very high current ratio is associated with which of the following?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Heavy investment in current assets"
+          },
+          {
+            "key": "B",
+            "text": "Current liabilities exceeding current assets"
+          },
+          {
+            "key": "C",
+            "text": "Risk of being unable to pay short-term debt on time"
+          },
+          {
+            "key": "D",
+            "text": "Under-utilisation or improper utilisation of resources"
+          }
+        ],
+        "correct_answer": "A",
+        "explanation": "A very high current ratio implies heavy investment in current assets. A risk of not paying short-term debt on time and current liabilities exceeding current assets are features of a low current ratio.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-5e767c4a8070d14b",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p8-c0-g1-s0",
+            "support_hash": "0c9a5bdc7e34090d32d66f7c311933338bceb799337da680fd11a9e8b53a823a"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Interpret the significance of a very high current ratio.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac205-v1",
+          "adaptation_family": "fam716-5e767c4a8070d14b",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-290b91a4a6872458",
+      "subject": "accountancy",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-290b91a4a6872458",
+        "subject": "accountancy",
+        "chapter": "Accounting Ratios",
+        "concept_id": "accountancy:current-ratio-missing-liability",
+        "body": "A company's current assets are ₹1,20,000. Its only current liabilities are trade payables of ₹60,000 and a bank overdraft. What is its current ratio?",
+        "options": [
+          {
+            "key": "A",
+            "text": "1.5 : 1"
+          },
+          {
+            "key": "B",
+            "text": "1 : 1"
+          },
+          {
+            "key": "C",
+            "text": "3 : 1"
+          },
+          {
+            "key": "D",
+            "text": "2 : 1"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Current ratio = Current assets : Current liabilities = ₹1,20,000 : ₹60,000 = 2 : 1.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "numerical_calculation",
+        "passage_text": null,
+        "family_id": "fam716-3913992ac202cd7e",
+        "source_refs": [
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p10-c0-g1-s0",
+            "support_hash": "2414c2f7ab070811c12047eb64a9f9d9321de952aecebb2fc7c4d6ae21d4d8d9"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s2",
+            "support_hash": "a57cad92c9ef61f6374788b74ef04df72539852f2015d66fc6beede5538d41ab"
+          },
+          {
+            "id": "ncertcol-leac205-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "197ba064f963712d54617de98e97abbf5b8849891f9fb7dfbd707be4bd313bbb"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit V: Analysis of Financial Statements",
+          "objective": "Compute the current ratio from current assets and current liabilities.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leac205-v1",
+          "adaptation_family": "fam716-3913992ac202cd7e",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-accountancy-bookA",
+          "source_pack_version": 13
+        }
+      }
+    },
+    {
+      "id": "q716-810cdcbdb256e5b6",
+      "subject": "english",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-810cdcbdb256e5b6",
+        "subject": "english",
+        "chapter": "Vocabulary",
+        "concept_id": "english:word-usage-sporadic-transient",
+        "body": "The power cuts in the area were brief, each lasting only a few minutes, and they came at irregular intervals that no one could predict. The power cuts were ______.",
+        "options": [
+          {
+            "key": "A",
+            "text": "transient"
+          },
+          {
+            "key": "B",
+            "text": "versatile"
+          },
+          {
+            "key": "C",
+            "text": "candid"
+          },
+          {
+            "key": "D",
+            "text": "sporadic"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Sporadic means happening only occasionally or at intervals that are not regular, which matches power cuts at unpredictable intervals.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "correct_word_usage",
+        "passage_text": null,
+        "family_id": "fam716-453d73276fe68dba",
+        "source_refs": [
+          {
+            "id": "oxford-quality-sporadic",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "a59d59c1fd06e1a4b6886d1b05afbd233c74f86dff1362294f4104098786ac12"
+          },
+          {
+            "id": "oxford-quality-transient",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "9243a3c02fbd15212f1050efe6c64ccd0942d1515177fd284102ac388300236b"
+          },
+          {
+            "id": "oxford-quality-candid",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "8195e1dde7a8deddcc839c94ddc4ec32f1e39e855edb982d1c9833aa6f33759d"
+          },
+          {
+            "id": "oxford-quality-versatile",
+            "version": 1,
+            "locator": "definition",
+            "support_hash": "6f64d8b5df1e19607dfeb2c359da94b7aaa823bb2b57946f83d36b7451db098b"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Verbal Ability: Choosing the correct word; Synonyms and Antonyms",
+          "objective": "Select a word whose verified lexical sense fits the supplied context.",
+          "target_term": "sporadic"
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "oxford-quality-sporadic",
+          "adaptation_family": "fam716-453d73276fe68dba",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-english-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-94d8de4174ece4aa",
+      "subject": "economics",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-94d8de4174ece4aa",
+        "subject": "economics",
+        "chapter": "Government Budget & the Economy",
+        "concept_id": "economics:fiscal-deficit-definition",
+        "body": "Fiscal deficit is the difference between the government's total expenditure and its total receipts excluding which item?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Tax revenue"
+          },
+          {
+            "key": "B",
+            "text": "Proceeds from disinvestment"
+          },
+          {
+            "key": "C",
+            "text": "Recovery of loans"
+          },
+          {
+            "key": "D",
+            "text": "Borrowing"
+          }
+        ],
+        "correct_answer": "D",
+        "explanation": "Fiscal deficit is the difference between the government's total expenditure and its total receipts excluding borrowing. It therefore always equals the revenue deficit plus interest payments, which is why it shows the government's total borrowing requirement.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-71f506a90b556127",
+        "source_refs": [
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p7-c0-g0-s0",
+            "support_hash": "4ded6c4aa656d1e56b0962f9799097eb420f1231a4a6080dba0d1a4f429cc2e0"
+          },
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p7-c0-g4-s0",
+            "support_hash": "77467a8df5e3a3a6745ca6d3c7ae68fd58841036c5cb7d86d5a60a6b500f2aef"
+          },
+          {
+            "id": "ncertcol-leec105-v1",
+            "version": 1,
+            "locator": "p7-c0-g2-s0",
+            "support_hash": "62b47199588913f3c78f2ccb6d36b6509ad2c628f799c570090d91b20b4be9c7"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+          "objective": "Recall the definition of fiscal deficit.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-leec105-v1",
+          "adaptation_family": "fam716-71f506a90b556127",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-economics-bookA",
+          "source_pack_version": 12
+        }
+      }
+    },
+    {
+      "id": "q716-8e633131cb3181c2",
+      "subject": "business_studies",
+      "measurement_role": "fresh",
+      "candidate": {
+        "id": "q716-8e633131cb3181c2",
+        "subject": "business_studies",
+        "chapter": "Marketing Management",
+        "concept_id": "business_studies:marketing-wider-than-selling",
+        "body": "Before selling a single unit, a television manufacturer plans the models it will produce, fixes their prices and selects the outlets where they will be sold. What does this show about the relationship between marketing and selling?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Marketing and selling are the same activity."
+          },
+          {
+            "key": "B",
+            "text": "Marketing begins only after the sale has been made."
+          },
+          {
+            "key": "C",
+            "text": "Marketing is a wider set of activities of which selling is only one part."
+          },
+          {
+            "key": "D",
+            "text": "Selling includes planning the product, its price and its distribution."
+          }
+        ],
+        "correct_answer": "C",
+        "explanation": "Marketing refers to a large set of activities, such as planning the product, pricing, promoting and distributing it, of which selling is just one part. The manufacturer's planning, pricing and outlet decisions come before the sale, so marketing is wider than selling and begins before it.",
+        "route": "conceptual",
+        "difficulty": "medium",
+        "question_type": "conceptual_mcq",
+        "passage_text": null,
+        "family_id": "fam716-9c4ca6d5185bae4d",
+        "source_refs": [
+          {
+            "id": "ncertcol-lebs202-v1",
+            "version": 1,
+            "locator": "p7-c0-g3-s0",
+            "support_hash": "297374c4af702fd82e347e824f4403dd2c3806162d273fbb7b09f8b9529a9d2d"
+          }
+        ],
+        "learning_objective": {
+          "syllabus_unit": "Unit XI: Marketing Management",
+          "objective": "Distinguish marketing from selling.",
+          "target_term": ""
+        },
+        "provenance": {
+          "kind": "original_practice",
+          "anchor_id": "ncertcol-lebs202-v1",
+          "adaptation_family": "fam716-9c4ca6d5185bae4d",
+          "adaptation_type": "source-grounded-original-practice",
+          "syllabus_version": "cuet-2026-provisional-for-2027",
+          "pattern_version": "cuet-2024-authenticated-bookA-v1",
+          "source_pack_id": "cuet2024-business_studies-bookA",
+          "source_pack_version": 11
+        }
+      }
+    }
+  ]
+}

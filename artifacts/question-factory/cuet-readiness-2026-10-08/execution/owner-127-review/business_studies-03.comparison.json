@@ -1,0 +1,264 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+      "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+      "key": "A",
+      "explanation": "The proposed payment date falls within the period in which the loan agreement prohibits dividends. The company must ensure that its dividend does not violate the loan agreement, so it should withhold payment during that period.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+          "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+              "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "70e8c68e85dfd0cc37f105b2db27b61696ed9cf8449a7157bb621972f09547f0",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+              "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+              "evidence_hash": "e977517676f9bb90ff9a43e040dab6b3ea3fbad732dfa4f48fda8ab48476088c"
+            },
+            "source_support": {
+              "candidate_id": "f6e3008ab6bcc38f50c48bdfe0468cdd",
+              "content_hash": "5d5618578512b95d82f4382ad8a352e7f4d3ede3bd8641632931460ab00f7d41",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "E1.1 establishes that companies must ensure dividend payments do not violate loan-agreement restrictions. The agreement prohibits payment through 31 March 2027, inclusive, so the proposed 20 March payment—and a payment on 31 March—would violate it. A complies.",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_5_below_7"
+              ],
+              "syllabus_chapter": "Financial Management",
+              "syllabus_topic": "Financial decisions: dividend decisions and factors affecting them, including restrictions in loan agreements.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The agreement bars all dividend payments from 1 April 2026 through 31 March 2027, inclusive, and contains no exception.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The proposed payment date, 20 March 2027, falls within the prohibited interval.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A company must ensure dividend payments do not violate restrictions in its loan agreement.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat sufficient profits as overriding the covenant, so an otherwise affordable dividend can be paid during the stated period.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat shareholder approval as authorizing an exception to the restriction.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Read 31 March as the first day after the restriction expires.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "Dividend decisions and factors affecting them are named syllabus content; this tests a supporting contractual factor."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A compact case stem with four objective options and one defensible answer."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "The prohibition and dates are supplied, so the answer follows from reading them without subject knowledge."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The explicit no-exception and inclusive wording make the alternatives readily rejectable without subject knowledge."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q41",
+                  "cuet2024-business_studies-bookA-q45"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs201",
+                  "locator": "pdf-page-10",
+                  "quote": "Financial ManageMents 225 BUsiness st UDies 224 certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard. Financial Planning Financial planning is essentially the preparation of a financial blueprint of an organisation’s future operations. The objective of financial planning is to ensure that enough funds are available at right time. If adequate funds are not available the firm will not be able to honour its commitments and carry out its plans. On the other hand, if excess funds are available, it will unnecessarily add to",
+                  "start": 0,
+                  "end": 649
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 5,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_5_below_7"
+                ],
+                "derived_solve_seconds": 68,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 80,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 4,
+                  "words": 80,
+                  "median_words": 67,
+                  "p95_words": 78,
+                  "observed_max_words": 78
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": true,
+              "item_quality_score": 5,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Financial Management"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Financial Management"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs201",
+                  "version": 1,
+                  "locator": "pdf-page-10",
+                  "support_hash": "2a60200416b3af8be0d97903ca0b76a67e4d7e66ff200a7b60c43a521db7e012"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "6fb5ef4fe176865abab3cac45ab2ac750c8e54eb413b3b874e36e91df37ee8ee"
+            }
+          },
+          "failure_details": [
+            "E1.1 establishes that companies must ensure dividend payments do not violate loan-agreement restrictions. The agreement prohibits payment through 31 March 2027, inclusive, so the proposed 20 March payment—and a payment on 31 March—would violate it. A complies.",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_5_below_7"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-08T00:08:55.486Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "f6e3008ab6bcc38f50c48bdfe0468cdd"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "f6e3008ab6bcc38f50c48bdfe0468cdd"
+        ],
+        "would_withhold_ids": [
+          "f6e3008ab6bcc38f50c48bdfe0468cdd"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

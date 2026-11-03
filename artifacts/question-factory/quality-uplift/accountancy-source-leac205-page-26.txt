@@ -1,0 +1,38 @@
+Accounting Ratios 219
+Average Trade Payables = 
+Creditors in the beginning + Bills payables in the
+beginning + Creditors at the end + Bills payables 
+at the end
+2
+= Rs. 3,00,000 + Rs. 1,00,000 + Rs. 1,30,000 + Rs. 70,000 
+2
+= Rs. 3,00,000
+∴ Trade Payables Turnover Ratio =
+Rs. 12,00,000
+Rs. 3,00,000
+ = 4 times
+Illustration 17
+From the following information, calculate –
+(i) Trade receivables turnover ratio
+(ii) Average collection period
+(iii) Trade rayable turnover ratio
+(iv) Average payment period
+Given :
+Rs.
+Revenue from Operations 8,75,000
+Creditors 90,000
+Bills receivable 48,000
+Bills payable 52,000
+Purchases 4,20,000
+Trade debtors 59,000
+Solution:
+(i) Trade Receivables Turnover Ratio = Net Credit Revenue from operation
+Average Trade Receivable
+= *
+Rs. 8,75,000
+(Rs. 59,000 + Rs. 48,000)
+= 8.18 times
+* This figure has not been divided by 2, in order to calculate average Trade Receivables
+as the figures of debtors and bills receivables in the beginning of the year are not available.
+So when only year-end figures are available use the same as it is.
+Reprint 2026-27

@@ -1,0 +1,21 @@
+{
+  "schema": "cuet-v713-trusted-network-r3",
+  "checked_at": "2026-10-09T20:51:41.202Z",
+  "contains_credentials": false,
+  "contains_question_payload": false,
+  "model_calls": 0,
+  "rows": [
+    {
+      "host": "api.openai.com",
+      "method": "HEAD",
+      "status": 421,
+      "tls_verified": true
+    },
+    {
+      "host": "generativelanguage.googleapis.com",
+      "method": "HEAD",
+      "status": 404,
+      "tls_verified": true
+    }
+  ]
+}

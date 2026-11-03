@@ -1,0 +1,3334 @@
+{
+  "schema": "owner-one-off-127-post-solve-comparison-v1",
+  "notice": "Read only AFTER saving and freezing the independent solutions for this batch.",
+  "cases": [
+    {
+      "id": "21acf04b6b876ec71add04ae24ec8cd5",
+      "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+      "key": "C",
+      "explanation": "The stated progression is manufacture, packaging, branding, pricing, promotion and then making the goods available to customers. This corresponds to 3, 6, 5, 1, 4, 2.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "21acf04b6b876ec71add04ae24ec8cd5",
+          "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "21acf04b6b876ec71add04ae24ec8cd5",
+              "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "033169aac7a6bbfb4fe7b1fa71762ed9eb9628309cce99758da125fde3c16758",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "21acf04b6b876ec71add04ae24ec8cd5",
+              "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+              "evidence_hash": "062ee3ee4031d3651d358d3f671d2216f037d4aa5fba96212cef1ad8ac7c9a09"
+            },
+            "source_support": {
+              "candidate_id": "21acf04b6b876ec71add04ae24ec8cd5",
+              "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2"
+              ],
+              "reasons": [
+                "The stem gives the sequence manufacture → package → brand → price → promote → make available. Mapping those activities to their labels gives 3, 6, 5, 1, 4, 2 (C).",
+                "E2.2 confirms the same sequence; no additional case-specific assumptions are needed.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Marketing Management",
+              "syllabus_topic": "Marketing mix, especially physical distribution and the sequence preceding availability to customers",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "The prose order is manufacture, packaging, branding, pricing, promotion, then making the goods available.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The numbered activities map to the actions named in the prose: manufacture (3), package (6), brand (5), price (1), promote (4), availability (2).",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A would fit if branding preceded packaging, but the stem expressly lists packaging before branding and asks for that order.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "B would fit if promotion preceded pricing, but the stem expressly lists pricing before promotion and asks for that order.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "D would fit if goods became available before promotion, but the stem places availability after promotion.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem supplies the target sequence verbatim, so the item mainly tests matching and careful reading rather than marketing knowledge."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognised application of the marketing-mix and physical-distribution material."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option, single-answer MCQ, though the supplied exemplars use concept-identification and case-application formats."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within the exemplar range but more direct and recall-like than the supplied concept-identification items."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The complete answer sequence is stated in the stem, so the key can be matched with little subject knowledge."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q41",
+                  "cuet2024-business_studies-bookA-q42",
+                  "cuet2024-business_studies-bookA-q43"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs202",
+                  "locator": "pdf-page-28",
+                  "quote": " made available at right place, at right time to right people without change. Once goods are manufactured, packaged, branded, priced, and promoted, these must be made available to customers at the ri ght place, in right quantity and at the right time. For example, a person convinced about the quality, etc. of a product, say, a detergent bar, wants to purchase the same. He/She goes to a retail outlet and asks for the product. If that product is not available in that shop, he/she may purchase some of the alternative brand available. This way a sure sale is lost because goods were not available at the place where the customer wanted to purchase.",
+                  "start": 649,
+                  "end": 1299
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 67,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 77,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 77
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Marketing Management"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Marketing Management"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-13",
+                  "support_hash": "30c12a5dde3c492dac02024ae3744bdc2738623cdac62ff083c90568b9239fce"
+                },
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-28",
+                  "support_hash": "de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "29eec6ecea9da9a08b8b500a289f82e1554d3c3918cf9f9d38d12951c4241e21"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "21acf04b6b876ec71add04ae24ec8cd5",
+              "content_hash": "44fa9f7fa3e3c55ff03d9b371f63cf3782ed1588bef0b05fbbd7cd3003e9e958",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2"
+              ],
+              "reasons": [
+                "The stem gives the sequence manufacture → package → brand → price → promote → make available. Mapping those activities to their labels gives 3, 6, 5, 1, 4, 2 (C).",
+                "E2.2 confirms the same sequence; no additional case-specific assumptions are needed.",
+                "cuet_fit_score_6_below_7"
+              ],
+              "syllabus_chapter": "Marketing Management",
+              "syllabus_topic": "Marketing mix, especially physical distribution and the sequence preceding availability to customers",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "skill_from_stem",
+              "decisive_principle_in_excerpts": false,
+              "answer_conditions": [
+                {
+                  "condition": "The prose order is manufacture, packaging, branding, pricing, promotion, then making the goods available.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The numbered activities map to the actions named in the prose: manufacture (3), package (6), brand (5), price (1), promote (4), availability (2).",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A would fit if branding preceded packaging, but the stem expressly lists packaging before branding and asks for that order.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "B would fit if promotion preceded pricing, but the stem expressly lists pricing before promotion and asks for that order.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "D would fit if goods became available before promotion, but the stem places availability after promotion.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The stem supplies the target sequence verbatim, so the item mainly tests matching and careful reading rather than marketing knowledge."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "A recognised application of the marketing-mix and physical-distribution material."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option, single-answer MCQ, though the supplied exemplars use concept-identification and case-application formats."
+                  },
+                  "level_calibration": {
+                    "level": 2,
+                    "evidence": "Within the exemplar range but more direct and recall-like than the supplied concept-identification items."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The complete answer sequence is stated in the stem, so the key can be matched with little subject knowledge."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q41",
+                  "cuet2024-business_studies-bookA-q42",
+                  "cuet2024-business_studies-bookA-q43"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs202",
+                  "locator": "pdf-page-28",
+                  "quote": " made available at right place, at right time to right people without change. Once goods are manufactured, packaged, branded, priced, and promoted, these must be made available to customers at the ri ght place, in right quantity and at the right time. For example, a person convinced about the quality, etc. of a product, say, a detergent bar, wants to purchase the same. He/She goes to a retail outlet and asks for the product. If that product is not available in that shop, he/she may purchase some of the alternative brand available. This way a sure sale is lost because goods were not available at the place where the customer wanted to purchase.",
+                  "start": 649,
+                  "end": 1299
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 6,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 2,
+                  "discrimination_value": 0,
+                  "time_suitability": 3
+                },
+                "reasons": [
+                  "cuet_fit_score_6_below_7"
+                ],
+                "derived_solve_seconds": 67,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 77,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 77
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 6,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Marketing Management"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Marketing Management"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-13",
+                  "support_hash": "30c12a5dde3c492dac02024ae3744bdc2738623cdac62ff083c90568b9239fce"
+                },
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-28",
+                  "support_hash": "de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "2a981aa8aa9d3a9d642509934abef3a1f7f8febb127a1992468317c2eb6d916a"
+            }
+          },
+          "failure_details": [
+            "The stem gives the sequence manufacture → package → brand → price → promote → make available. Mapping those activities to their labels gives 3, 6, 5, 1, 4, 2 (C).",
+            "E2.2 confirms the same sequence; no additional case-specific assumptions are needed.",
+            "cuet_fit_score_6_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T20:57:52.189Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "21acf04b6b876ec71add04ae24ec8cd5"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "21acf04b6b876ec71add04ae24ec8cd5"
+        ],
+        "would_withhold_ids": [
+          "21acf04b6b876ec71add04ae24ec8cd5"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "a16e39232c7d786caacf29f78cc35ffb",
+      "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+      "key": "A",
+      "explanation": "Transportation is the physical movement of goods, while a channel decision concerns which marketing intermediaries are used. Storage or warehousing supports a smooth market flow when there is a time gap between production or procurement and sale or use; inventory management concerns stock levels. The other mappings interchange these distinct functions.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "a16e39232c7d786caacf29f78cc35ffb",
+          "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "a16e39232c7d786caacf29f78cc35ffb",
+              "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "8b5d4cd2a07369eb1ce9f331d259e0c5944bc891a7b02bb342e046e5e9076a4d",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "a16e39232c7d786caacf29f78cc35ffb",
+              "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+              "evidence_hash": "181be16d41ddcc1f60eee63127d9fe356b4c19663e01f1b7bfda89c893e9c70e"
+            },
+            "source_support": {
+              "candidate_id": "a16e39232c7d786caacf29f78cc35ffb",
+              "content_hash": "0f830f61de142f12295de969e7e038e28f6188e12dafd01e9a895ba1965e2779",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "Transportation is physical movement of goods (III); channel decisions concern which intermediaries to use (IV); storage or warehousing supports product flow across a time gap (II); inventory management concerns stock levels (I).",
+                "These descriptions and relationships are supported by the supplied NCERT excerpt. No calculation or unstated case-specific assumption is needed."
+              ],
+              "syllabus_chapter": "Marketing Management",
+              "syllabus_topic": "Marketing – physical distribution, including channels of distribution and its components.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Transportation matches physical movement of goods (III).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "A decision regarding channels of distribution matches deciding which intermediaries to use (IV).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Storage or warehousing matches storing goods to maintain flow when production or procurement and sale or use are separated by a time gap (II).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Inventory management matches managing stock levels (I).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Read transportation as selecting intermediaries and channel decisions as physically moving goods.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Read channel decisions as storing goods across a time gap and warehousing as selecting intermediaries.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat warehousing as managing stock levels and inventory management as storing goods across a time gap.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "The syllabus names physical distribution and its components, including channels."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option matching format aligns with authenticated CUET Business Studies matching items."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct concept matching is within the demand of the supplied matching exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 3,
+                    "evidence": "Distractors each swap a pair of functions, corresponding to identifiable matching errors."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q12",
+                  "cuet2024-business_studies-bookA-q2",
+                  "cuet2024-business_studies-bookA-q39"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs202",
+                  "locator": "pdf-page-13",
+                  "quote": "BUSINe SS STUDIe S 254 marketing of goods and services. The two major decision areas under this function include (a) decision regarding channels of distribution or the marketing intermediaries (like whole salers, retailers) to be used and (b) physical movement of the product from where it is produced to a place where it is required by the customers for their consumption or use. The important decision areas under physical distribution include managing inventory (levels of stock of goods), storage and warehousing and transportation of goods from one place to the other. 11. t ransportation: Transportation involves physical movement of goods from",
+                  "start": 0,
+                  "end": 650
+                },
+                {
+                  "source_id": "ncert-lebs202",
+                  "locator": "pdf-page-13",
+                  "quote": " one place to the other. As generally the users of products, particularly consumer products are wide spread and geographically separated from the place these are produced, it is necessary to move them to the place where it is needed for consumption or use, For example, tea produced in Assam has to be transported not only within the state but to other far off places like Tamil Nadu, Punjab, Jammu and kashmir and Haryana, r ajasthan, where it is consumed. A marketing firm has to analyse its transportation needs after taking into consideration various factors such as nature of the product, cost and location of target market and take decisions in",
+                  "start": 650,
+                  "end": 1300
+                },
+                {
+                  "source_id": "ncert-lebs202",
+                  "locator": "pdf-page-13",
+                  "quote": " respect of mode of transportation to be chosen and other related aspects. 12. s torage or Warehou sing: Usually there is a time gap between the production or procurement of goods and their sale or use. It may be because of irregular demand for the products such as in the case of woollen garments or raincoats, or there may be irregular supply because of seasonal production such as in the case of agricultural products (sugarcane, rice, wheat, cotton, etc.). In order to maintain smooth flow of products in the market, there is a need for proper storage of the products. Further, there is a need for storage of adequate stock of goods to protect",
+                  "start": 1300,
+                  "end": 1947
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 3,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 120,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 132,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 132,
+                  "median_words": 96,
+                  "p95_words": 101,
+                  "observed_max_words": 101
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Marketing Management"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Marketing Management"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-13",
+                  "support_hash": "30c12a5dde3c492dac02024ae3744bdc2738623cdac62ff083c90568b9239fce"
+                },
+                {
+                  "id": "ncert-lebs202",
+                  "version": 1,
+                  "locator": "pdf-page-28",
+                  "support_hash": "de95bc0d8163fe7b26ca536cd9c8aec5e921dc9567d232e147cb330fbbffc9d8"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "43652c92c40825f7efa2ce1ce309ee11d5dfbd5fcdbc463eed6ba9e5a366f1c8"
+            }
+          },
+          "failure_details": [
+            "Transportation is physical movement of goods (III); channel decisions concern which intermediaries to use (IV); storage or warehousing supports product flow across a time gap (II); inventory management concerns stock levels (I).",
+            "These descriptions and relationships are supported by the supplied NCERT excerpt. No calculation or unstated case-specific assumption is needed."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:23:10.745Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "a16e39232c7d786caacf29f78cc35ffb"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "a16e39232c7d786caacf29f78cc35ffb"
+        ],
+        "would_withhold_ids": [
+          "a16e39232c7d786caacf29f78cc35ffb"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "f29bdfa666f5575a28dfe749ec329a45",
+      "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+      "key": "C",
+      "explanation": "A consumer organisation may file a consumer-court complaint on behalf of an individual consumer. Separately, taking the initiative to file a case in a consumer court is identified as a role when the case is in the interest of the general public, not an individual. The two requests therefore match the roles in option C, respectively.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "f29bdfa666f5575a28dfe749ec329a45",
+          "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f29bdfa666f5575a28dfe749ec329a45",
+              "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "b3d118494f68cb99ef210b0464d6445481e90186b8086d06ec5a196beaae2362",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "f29bdfa666f5575a28dfe749ec329a45",
+              "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+              "evidence_hash": "3ea56fe453cf9445c4b807d39c081490625382e806683282631b5af807d80622"
+            },
+            "source_support": {
+              "candidate_id": "f29bdfa666f5575a28dfe749ec329a45",
+              "content_hash": "e07e1ee22226761dc28bd4e27f0a93842b9cbe15a635e50a52b5feeb65ca8d21",
+              "solved_key": "C",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.3"
+              ],
+              "reasons": [
+                "The most specific source-based mapping gives C: filing a complaint on a consumer’s behalf matches E1.2, while initiating a case in the general public interest matches E1.3.",
+                "B is also defensible: the source describes legal assistance as aid in seeking a legal remedy, which can reasonably include lodging that complaint. The stem does not ask for the most specific listed role, so the options overlap.",
+                "No calculation is required. The two scenarios and their individual-versus-general-interest distinction are supplied in the stem.",
+                "Defect: multiple_correct_options: B and C can both classify case (i): filing a complaint on a consumer’s behalf is the specifically listed role, but can also reasonably be described as legal assistance or aid in seeking a legal remedy.",
+                "Defect: missing_decisive_assumption: option B is correct if Lodging the purchaser’s complaint can be aid in seeking a legal remedy; case (ii) is a public-interest filing."
+              ],
+              "syllabus_chapter": "Consumer Protection",
+              "syllabus_topic": "Role of consumer organisations and NGOs",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "In case (i), a purchaser asks the organisation to lodge a complaint on that purchaser’s behalf.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "In case (ii), the requested case concerns consumers generally and no individual is seeking it on their behalf.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Filing consumer-court complaints on behalf of consumers is a listed role of consumer organisations.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2"
+                  ]
+                },
+                {
+                  "condition": "Taking the initiative to file consumer-court cases in the general public interest, not for an individual, is a listed role.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.3"
+                  ]
+                },
+                {
+                  "condition": "Legal assistance includes aid in seeking a legal remedy, which can reasonably encompass lodging a complaint for a consumer.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E1.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A would fit if the roles were reversed, with (i) a general-interest case and (ii) an individual complaint.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Lodging the purchaser’s complaint can be aid in seeking a legal remedy; case (ii) is a public-interest filing.",
+                  "correct_under_reading": true,
+                  "reading_status": "standard_convention",
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E1.2"
+                  ]
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "The organisation might encourage protest or provide legal assistance, but neither description classifies the specific requested public-interest filing in (ii).",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "B and C can both classify case (i): filing a complaint on a consumer’s behalf is the specifically listed role, but can also reasonably be described as legal assistance or aid in seeking a legal remedy."
+                }
+              ],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Consumer organisations and NGOs are expressly named in the syllabus unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A concise case-application stem with four options resembles the supplied CUET business studies exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct application of a textbook role classification, within the exemplar demand range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The paired roles require matching, though B overlaps with the individual-complaint role."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q41",
+                  "cuet2024-business_studies-bookA-q44",
+                  "cuet2024-business_studies-bookA-q45"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs203",
+                  "locator": "p13-c1724",
+                  "quote": "g offered for sale etc. consumers. Court of India within a period of However, every order of a district (iv) Encouraging consumers to thirty days of such order. commission, the state commission or strongly protest and take an Relief Available the national commission is deemed action against unscrupulous, final if no appeal for such order is exploitative and unfair trade Where District or State or National made by any of the parties involved practices of sellers. Commission is satisfied about defect in dispute. (v) Providing legal assistance to in goods, or deficiency in services on Role of Consumer Organisations consumers by way of providing",
+                  "start": 0,
+                  "end": 649
+                },
+                {
+                  "source_id": "ncert-lebs203",
+                  "locator": "p13-c1724",
+                  "quote": " any unfair trade practice or claim for And Ngos aid, legal advice etc. in seeking compensation under product liability, legal remedy. In India, several consumer issues an order: organisations and non-governmental (vi) Filing complaints in appropriate (i) To remove the defect in goods or organisations (NGOs) have been set consumer courts on behalf of the deficiency in service. up for the protection and promotion consumers. (ii) To replace the defective product of consumers’ interests. Non- (vii) Taking an initiative in filing with a new one, free from any governmental organisations are non- cases in consumer courts in the defect. profit",
+                  "start": 649,
+                  "end": 1293
+                },
+                {
+                  "source_id": "ncert-lebs203",
+                  "locator": "p13-c1724",
+                  "quote": " organisations which aim at interest of the general public, (iii) To refund the price paid for the promoting the welfare of people. They not for any individual. product, or the charges paid for have a constitution of their own and (viii) Consumer unity and Trust the service. are free from government interference. Society (CuTS), Jaipur. Consumer organisations and NGOs (iv) To pay a reasonable amount of compensation for any loss or injury suffered by the consumer Reprint 2026-27 Ch_11.indd 301 24-Sep-24 3:00:23 PM Setting up of Consumer Mediation Cell The Chapter V of the Consumer Protection Act of 2019 provides for a mediation process for",
+                  "start": 1293,
+                  "end": 1939
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 85,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 135,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 4,
+                  "words": 135,
+                  "median_words": 67,
+                  "p95_words": 78,
+                  "observed_max_words": 78
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: B and C can both classify case (i): filing a complaint on a consumer’s behalf is the specifically listed role, but can also reasonably be described as legal assistance or aid in seeking a legal remedy.",
+                "missing_decisive_assumption: option B is correct if Lodging the purchaser’s complaint can be aid in seeking a legal remedy; case (ii) is a public-interest filing."
+              ],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Consumer Protection"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Consumer Protection"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p13-c1724",
+                  "support_hash": "c29402549e3a3b4af03cf9baa5f6f642625f78385bee95d2f8ba838aae8f3bd5"
+                },
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p9-c0",
+                  "support_hash": "64e40d0e9393b88b1baffb7b8b05cde137d84eb7939d666b81fe887c31447248"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "c0d17344640919d3708be6d4c5ad37f8e6467a447a5b2f8421f6d6490af09220"
+            }
+          },
+          "failure_details": [
+            "The most specific source-based mapping gives C: filing a complaint on a consumer’s behalf matches E1.2, while initiating a case in the general public interest matches E1.3.",
+            "B is also defensible: the source describes legal assistance as aid in seeking a legal remedy, which can reasonably include lodging that complaint. The stem does not ask for the most specific listed role, so the options overlap.",
+            "No calculation is required. The two scenarios and their individual-versus-general-interest distinction are supplied in the stem.",
+            "Defect: multiple_correct_options: B and C can both classify case (i): filing a complaint on a consumer’s behalf is the specifically listed role, but can also reasonably be described as legal assistance or aid in seeking a legal remedy.",
+            "Defect: missing_decisive_assumption: option B is correct if Lodging the purchaser’s complaint can be aid in seeking a legal remedy; case (ii) is a public-interest filing."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:52:48.296Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "f29bdfa666f5575a28dfe749ec329a45"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "f29bdfa666f5575a28dfe749ec329a45"
+        ],
+        "would_withhold_ids": [
+          "f29bdfa666f5575a28dfe749ec329a45"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+      "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+      "key": "A",
+      "explanation": "Standards are benchmarks and should be flexible enough to be modified when required. Since the internal change has made this standard unrealistic, management may modify it to make it realistic in the changed business environment.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+          "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+              "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "52812fa52317888a9f3d63ac96b3d89a79eeb9d420285497d2bc308d40368128",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+              "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+              "evidence_hash": "edface871c18a658f487cec81a6696d278cc97fe54f7b5743aacb3f4e2bef4ab"
+            },
+            "source_support": {
+              "candidate_id": "30c559b7cee4ab97a2a9c9c85ca4bd30",
+              "content_hash": "89a459bf5a1cd0300570b64ee9c00505a47dc6ad71cc6da0d818b39950e0363c",
+              "solved_key": "A",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2"
+              ],
+              "reasons": [
+                "The stem says the waiting-time standard is no longer realistic. The source states that standards should be flexible and modified when required to remain realistic in a changed business environment, supporting A.",
+                "C also directs management to modify the standard after this internal change. Although its broader policy would require changes even when standards remain realistic, the action it recommends in this particular case overlaps with A.",
+                "Defect: multiple_correct_options: C prescribes modifying the standard after every internal change. In the stated case, an internal change occurred and the standard is unrealistic, so C recommends the same immediate action as A. Its broader rule is overgeneralized, but the stem asks what management should do in this case and does not cleanly distinguish the choices.",
+                "Defect: multiple_correct_options: option C is also correct as written (For this internal change, the standard is unrealistic, so modifying it now is appropriate, as C directs.)"
+              ],
+              "syllabus_chapter": "Controlling",
+              "syllabus_topic": "Setting performance standards; flexibility of standards in a changing business environment",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The chain uses a waiting-time standard.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "An internal business change has occurred.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The existing standard is no longer realistic.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Standards should be flexible and modified when required to remain realistic after business-environment changes.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "The standard might still be workable despite the internal change, so management could retain it.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "For this internal change, the standard is unrealistic, so modifying it now is appropriate, as C directs.",
+                  "correct_under_reading": true,
+                  "reading_status": "stated_by_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "A changed standard might cease to be useful for comparison if it is no longer a benchmark.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "C prescribes modifying the standard after every internal change. In the stated case, an internal change occurred and the standard is unrealistic, so C recommends the same immediate action as A. Its broader rule is overgeneralized, but the stem asks what management should do in this case and does not cleanly distinguish the choices."
+                }
+              ],
+              "style_notes": [
+                "To distinguish the choices, make C explicitly say to modify a standard even when it remains realistic in the very case described, or otherwise sharpen its policy-level contrast with A."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Testing flexibility of performance standards, a central part of setting standards in Controlling."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A concise four-option direct MCQ in an authenticated CUET Business Studies format."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A straightforward application of a controlling principle, within the scope of the supplied controlling exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "The options include implausible choices, and C overlaps with A in the stated scenario."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q16",
+                  "cuet2024-business_studies-bookA-q17"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs108",
+                  "locator": "pdf-page-6",
+                  "quote": "206 3. Comparison of actual effort must be made to define them per for mance with standards in a manner that would make their 4. Analysing deviations measurement easier. For instance, for 5. Taking corrective action improving customer satisfaction in a Step 1: Setting Performance Stan­ fast food chain having self-service, dards: The first step in the controlling standards can be set in ter ms of time process is setting up of per formance taken by a customer to wait for a table, standards. Standards are the criteria time taken by him to place the order against which actual performance and time taken to collect the order. would be measured.",
+                  "start": 0,
+                  "end": 646
+                },
+                {
+                  "source_id": "ncert-lebs108",
+                  "locator": "pdf-page-6",
+                  "quote": " Thus, standards It is important that standards serve as benchmarks towards which should be flexible enough to be an organisation strives to work. modified whenever required. Due to Standards can be set in both changes taking place in the internal quantitative as well as qualitative and external business environment, terms. For instance, standards set standards may need some modification in terms of cost to be incurred, to be realistic in the changed business revenue to be ear ned, product units environment. to be produced and sold, time to Step 2: Measurement of Actual be spent in performing a task, all Performance: Once performance",
+                  "start": 646,
+                  "end": 1287
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 49,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 77,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 77
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": false,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: C prescribes modifying the standard after every internal change. In the stated case, an internal change occurred and the standard is unrealistic, so C recommends the same immediate action as A. Its broader rule is overgeneralized, but the stem asks what management should do in this case and does not cleanly distinguish the choices.",
+                "multiple_correct_options: option C is also correct as written (For this internal change, the standard is unrealistic, so modifying it now is appropriate, as C directs.)"
+              ],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Controlling"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Controlling"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs108",
+                  "version": 1,
+                  "locator": "pdf-page-6",
+                  "support_hash": "5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5"
+                },
+                {
+                  "id": "ncert-lebs108",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "bcef60c64eba664d8a0bdb76c2a387b5f80d2a2c88c3cf6716ebd67c9ab2d6d2"
+            }
+          },
+          "failure_details": [
+            "The stem says the waiting-time standard is no longer realistic. The source states that standards should be flexible and modified when required to remain realistic in a changed business environment, supporting A.",
+            "C also directs management to modify the standard after this internal change. Although its broader policy would require changes even when standards remain realistic, the action it recommends in this particular case overlaps with A.",
+            "Defect: multiple_correct_options: C prescribes modifying the standard after every internal change. In the stated case, an internal change occurred and the standard is unrealistic, so C recommends the same immediate action as A. Its broader rule is overgeneralized, but the stem asks what management should do in this case and does not cleanly distinguish the choices.",
+            "Defect: multiple_correct_options: option C is also correct as written (For this internal change, the standard is unrealistic, so modifying it now is appropriate, as C directs.)"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:49:45.881Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "30c559b7cee4ab97a2a9c9c85ca4bd30"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "30c559b7cee4ab97a2a9c9c85ca4bd30"
+        ],
+        "would_withhold_ids": [
+          "30c559b7cee4ab97a2a9c9c85ca4bd30"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "b8a35951561b0ad8929b3334534212a9",
+      "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+      "key": "C",
+      "explanation": "Unit P is 10 units below its standard, while Unit Q is 200 units below its standard. Planning provides the basis of control, and the nature of corrective action depends on the extent of deviation from the standard. Therefore, each unit’s output should be compared with its own standard; the question does not specify the particular corrective actions.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "b8a35951561b0ad8929b3334534212a9",
+          "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b8a35951561b0ad8929b3334534212a9",
+              "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "64a8d82c759433977dd7c040f10097aead1f9034e76ecf18d6f392dd8a0c2847",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "b8a35951561b0ad8929b3334534212a9",
+              "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+              "evidence_hash": "826bd976a5bdb229be8c0bb1d905d353ec1d59e4b8f9992bc575bb6612d03ab8"
+            },
+            "source_support": {
+              "candidate_id": "b8a35951561b0ad8929b3334534212a9",
+              "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The shortfalls are 10 units for P (1,000 − 990) and 200 units for Q (1,000 − 800).",
+                "The supplied text states that the nature of corrective action depends on the extent of deviations from the standard, so C is the supported approach.",
+                "No validator places this item in the syllabus unit of Planning"
+              ],
+              "syllabus_chapter": "Controlling",
+              "syllabus_topic": "Steps in the process of control: comparing performance with standards, assessing deviations, and taking corrective action.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Each unit’s monthly standard is 1,000 units.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Unit P produced 990 units and Unit Q produced 800 units.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The nature of corrective action should depend on the extent of deviation from the standard.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A uniform response might be chosen for all below-standard units, regardless of the different shortfalls.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Because both standards are equal, the output gap reflects the difference between the units’ deviations, but not each unit’s deviation.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Actual output alone could guide action if the standards were irrelevant, but the question supplies standards for comparison.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the central control-process idea of assessing deviations and corrective action."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective item, with a short numerical scenario."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct application of a management principle, within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "Distractors reflect identifiable errors about deviation size and the use of standards."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q47",
+                  "cuet2024-business_studies-bookA-q48"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs104",
+                  "locator": "pdf-page-5",
+                  "quote": "Planning 95 part of controlling would not be possible. The nature of corrective action required depends upon the extent of deviations from the standard. Therefore, planning provides the basis of control. features of plannIng In the example of Polaris, the company has plans of expansion. Their objective is to increase their capacity so that they can employ 800 more professionals. Their target time is six months. The objective of the current year has also been clearly stated which is to increase capacity by 1500 ‑2000 more professionals. Since planning is the primary function of management they have set their objectives first. Thus, all",
+                  "start": 0,
+                  "end": 642
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 80,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 119,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 119
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": false,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": false,
+                "covered": [
+                  "Planning"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Controlling"
+                ],
+                "reason": "No validator places this item in the syllabus unit of Planning"
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs104",
+                  "version": 1,
+                  "locator": "pdf-page-5",
+                  "support_hash": "f3e1c9be5fa7764b1a2da4bea549d0df19408f39eb5bc1d625081ef277c18c56"
+                },
+                {
+                  "id": "ncert-lebs104",
+                  "version": 1,
+                  "locator": "pdf-page-1",
+                  "support_hash": "a1ac5c182905960f6ca909bafd5554a6dec76a633f17afb579ba4b646eb44eb8"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "cc2be64fae245350f7d8a97297eaaaeed75859d6bbbe4294ebfbd5c8212e2bb5"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "b8a35951561b0ad8929b3334534212a9",
+              "content_hash": "ac147fe611e0515ba83a05e0ec97fa29f4156a20285a0e6f36eae5d754731ba9",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The shortfalls are 10 units for P (1,000 − 990) and 200 units for Q (1,000 − 800).",
+                "The supplied text states that the nature of corrective action depends on the extent of deviations from the standard, so C is the supported approach.",
+                "No validator places this item in the syllabus unit of Planning"
+              ],
+              "syllabus_chapter": "Controlling",
+              "syllabus_topic": "Steps in the process of control: comparing performance with standards, assessing deviations, and taking corrective action.",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Each unit’s monthly standard is 1,000 units.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Unit P produced 990 units and Unit Q produced 800 units.",
+                  "status": "explicit",
+                  "alters_key_if_changed": false,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The nature of corrective action should depend on the extent of deviation from the standard.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "A uniform response might be chosen for all below-standard units, regardless of the different shortfalls.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Because both standards are equal, the output gap reflects the difference between the units’ deviations, but not each unit’s deviation.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Actual output alone could guide action if the standards were irrelevant, but the question supplies standards for comparison.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests the central control-process idea of assessing deviations and corrective action."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option objective item, with a short numerical scenario."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A direct application of a management principle, within the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "Distractors reflect identifiable errors about deviation size and the use of standards."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q47",
+                  "cuet2024-business_studies-bookA-q48"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs104",
+                  "locator": "pdf-page-5",
+                  "quote": "Planning 95 part of controlling would not be possible. The nature of corrective action required depends upon the extent of deviations from the standard. Therefore, planning provides the basis of control. features of plannIng In the example of Polaris, the company has plans of expansion. Their objective is to increase their capacity so that they can employ 800 more professionals. Their target time is six months. The objective of the current year has also been clearly stated which is to increase capacity by 1500 ‑2000 more professionals. Since planning is the primary function of management they have set their objectives first. Thus, all",
+                  "start": 0,
+                  "end": 642
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 2,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 80,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 119,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 119
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": false,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": false,
+                "covered": [
+                  "Planning"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Controlling"
+                ],
+                "reason": "No validator places this item in the syllabus unit of Planning"
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs104",
+                  "version": 1,
+                  "locator": "pdf-page-5",
+                  "support_hash": "f3e1c9be5fa7764b1a2da4bea549d0df19408f39eb5bc1d625081ef277c18c56"
+                },
+                {
+                  "id": "ncert-lebs104",
+                  "version": 1,
+                  "locator": "pdf-page-1",
+                  "support_hash": "a1ac5c182905960f6ca909bafd5554a6dec76a633f17afb579ba4b646eb44eb8"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "4edf58b76ab91a938edbb1d32bfdd030afd0e55dfb8e5676a837ab1e678da1d7"
+            }
+          },
+          "failure_details": [
+            "The shortfalls are 10 units for P (1,000 − 990) and 200 units for Q (1,000 − 800).",
+            "The supplied text states that the nature of corrective action depends on the extent of deviations from the standard, so C is the supported approach.",
+            "No validator places this item in the syllabus unit of Planning"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:49:47.297Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "b8a35951561b0ad8929b3334534212a9"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "b8a35951561b0ad8929b3334534212a9"
+        ],
+        "would_withhold_ids": [
+          "b8a35951561b0ad8929b3334534212a9"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "e30a79f8c520a84adbad10ab1e75ec9d",
+      "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+      "key": "A",
+      "explanation": "Statements (A), (C) and (D) are correct: promotion means placement in a position of increased responsibility, promotions are an integral part of a person’s career, and the manager should encourage employees to grow and realise their potential. Employee P’s title change alone does not meet the stated meaning of promotion because responsibility does not increase. Therefore, option A is correct.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "e30a79f8c520a84adbad10ab1e75ec9d",
+          "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "e30a79f8c520a84adbad10ab1e75ec9d",
+              "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "a0906aab4be2f42366c277d7b0669863446acef72abd8d038114d8abd3c67c4d",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "e30a79f8c520a84adbad10ab1e75ec9d",
+              "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+              "evidence_hash": "6913bf9044a94044a89b4617e8484bba38633f48e53f3ef1690e191d9b8f8c63"
+            },
+            "source_support": {
+              "candidate_id": "e30a79f8c520a84adbad10ab1e75ec9d",
+              "content_hash": "8c7aba1eb342a10d2188efaa231550a774a4702064e1585f1a112200e48af3bd",
+              "solved_key": "A",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "E1.1 defines promotions as placement in positions of increased responsibility, so (A) is true and a title change without increased responsibility does not make (B) true.",
+                "E1.1 also says promotions are an integral part of people's careers and that the line manager in a small organisation must encourage employees to grow and realise their potential. Thus (C) and (D) are true; option A is the sole defensible answer.",
+                "The supplied current syllabus lists training and development but does not expressly include promotions or their definition. The item tests that omitted promotion-specific content, so syllabus entitlement is false.",
+                "Defect: syllabus_mismatch: The current supplied Staffing scope names training and development but does not expressly include promotions or the promotion definition this item tests.",
+                "cuet_fit_syllabus_objective_below_2"
+              ],
+              "syllabus_chapter": "Staffing",
+              "syllabus_topic": "Promotions and employee development within staffing",
+              "syllabus_entitlement": false,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "A promotion is placement in a position of increased responsibility; a title change without that increase is not sufficient.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "Promotions are an integral part of people's careers.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "In a small organisation, the line manager should encourage employees to grow and realise their full potential.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1"
+                  ]
+                },
+                {
+                  "condition": "The setting is a small organisation and the manager reviewing the moves is the line manager.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat advancement in title alone as a promotion and regard the manager's employee-development duty as limited to a different context.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "Treat title advancement as promotion despite unchanged responsibility, and read promotions as common rather than integral to a career.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Treat title change alone as promotion and regard increased responsibility as merely typical, not part of the promotion definition.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "syllabus_mismatch",
+                  "detail": "The current supplied Staffing scope names training and development but does not expressly include promotions or the promotion definition this item tests."
+                }
+              ],
+              "style_notes": [
+                "All three distractors include statement (B), so recognizing that title change alone is not promotion is enough to select the key."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 1,
+                    "evidence": "Promotion is a peripheral employee-development detail, not expressly named in the supplied current Staffing scope."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option statement selection closely matches the authenticated Business Studies statement-selection exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct concept application and statement evaluation fit the authenticated exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "The distractors all include the same false statement, making elimination unusually straightforward."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q40",
+                  "cuet2024-business_studies-bookA-q11"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs106",
+                  "locator": "p9-c1831",
+                  "quote": " of the staffing function. must encourage employees But in small organisations the line to grow and realise their full manager is required to perform potential. Promotions are all the functions of management an integral part of people’s viz, planning, organising, staffing, career. They refer to being directing and controlling. The placed in positions of increased process of staffing will then include responsibility. They usually three more stages. Reprint 2026-27 Ch_06.indd 147 08-08-2022 10:06:12",
+                  "start": 0,
+                  "end": 502
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 7,
+                "levels": {
+                  "syllabus_objective": 1,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_syllabus_objective_below_2"
+                ],
+                "derived_solve_seconds": 117,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 122,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 122,
+                  "median_words": 126,
+                  "p95_words": 126,
+                  "observed_max_words": 126
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 7,
+              "defects": [
+                "syllabus_mismatch: The current supplied Staffing scope names training and development but does not expressly include promotions or the promotion definition this item tests."
+              ],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Staffing"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Staffing"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs106",
+                  "version": 1,
+                  "locator": "p9-c1831",
+                  "support_hash": "ca467d77295267c65ca87e73cc886b80746bae70fcaaa51459504339236a5b6c"
+                },
+                {
+                  "id": "ncert-lebs106",
+                  "version": 1,
+                  "locator": "p5-c0",
+                  "support_hash": "55c1cfdf5af923dec2c36f8f915a3957edd4ab7324fcb0a31cf6ec9e508e4a56"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "65d32faa020900f5211075ad1e4a99c16ac4cce2c6c14fc90d6c14a51ea80b38"
+            }
+          },
+          "failure_details": [
+            "E1.1 defines promotions as placement in positions of increased responsibility, so (A) is true and a title change without increased responsibility does not make (B) true.",
+            "E1.1 also says promotions are an integral part of people's careers and that the line manager in a small organisation must encourage employees to grow and realise their potential. Thus (C) and (D) are true; option A is the sole defensible answer.",
+            "The supplied current syllabus lists training and development but does not expressly include promotions or their definition. The item tests that omitted promotion-specific content, so syllabus entitlement is false.",
+            "Defect: syllabus_mismatch: The current supplied Staffing scope names training and development but does not expressly include promotions or the promotion definition this item tests.",
+            "cuet_fit_syllabus_objective_below_2"
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:50:30.863Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "e30a79f8c520a84adbad10ab1e75ec9d"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "e30a79f8c520a84adbad10ab1e75ec9d"
+        ],
+        "would_withhold_ids": [
+          "e30a79f8c520a84adbad10ab1e75ec9d"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "90ec25792703058c191b0275f1912a44",
+      "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+      "key": "A",
+      "explanation": "Discipline involves obedience to organisational rules and employment agreements. Here, both the workers and management honour the commitments they made.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "90ec25792703058c191b0275f1912a44",
+          "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "90ec25792703058c191b0275f1912a44",
+              "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "0f6fc7966d5621136b02ad2c7c4dfc80bf3231006230309424e49b0c3278ed38",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "90ec25792703058c191b0275f1912a44",
+              "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+              "evidence_hash": "cbac53ebb00fcd7c1693635ea27ec2721727812baff785746315760884aeb598"
+            },
+            "source_support": {
+              "candidate_id": "90ec25792703058c191b0275f1912a44",
+              "content_hash": "7951e7e7e3a1119ca1b245e45f3f13382e8cf07eef939afabd808130a2e6819c",
+              "solved_key": "A",
+              "single_defensible_answer": false,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.2",
+                "E1.4",
+                "E2.2"
+              ],
+              "reasons": [
+                "The strongest intended answer is A: the NCERT example says that when management and workers honour their commitments under their agreement, this illustrates discipline (E1.1, E1.2).",
+                "However, the promised wage increase is contingent on mission success, making the arrangement also readable as a performance-based reward system under remuneration of personnel (E2.2). That creates a defensible alternative to A.",
+                "Defect: multiple_correct_options: Besides the direct discipline example, the stated conditional wage increase can be read as a performance-based reward under remuneration of personnel. The shared, coordinated goal also gives a plausible unity-of-direction reading.",
+                "Defect: missing_decisive_assumption: option C is correct if The parties agree on a shared goal and coordinate complementary efforts to revive the company, suggesting unity of direction.",
+                "Defect: missing_decisive_assumption: option D is correct if The promised wage increase is a performance-linked reward, matching the remuneration principle’s reward-system framing."
+              ],
+              "syllabus_chapter": "Principles of Management",
+              "syllabus_topic": "Fayol’s principles of management: discipline, unity of direction, and remuneration of personnel",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Management and the labour union agreed to the workers’ extra hours and the management’s conditional wage commitment.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The mission was accomplished, so the condition attached to the promised wage increase was met.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Both parties honoured their commitments.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Discipline includes obedience to organisational rules and employment agreements.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.1",
+                    "E1.2"
+                  ]
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "B",
+                  "strongest_reading": "Management and the union are both involved, which might suggest workers are subject to more than one authority.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "The parties agree on a shared goal and coordinate complementary efforts to revive the company, suggesting unity of direction.",
+                  "correct_under_reading": true,
+                  "reading_status": "reasonable_unstated",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "The promised wage increase is a performance-linked reward, matching the remuneration principle’s reward-system framing.",
+                  "correct_under_reading": true,
+                  "reading_status": "standard_convention",
+                  "convention_evidence_ids": [
+                    "E2.2"
+                  ]
+                }
+              ],
+              "blocking_defects": [
+                {
+                  "category": "multiple_correct_options",
+                  "detail": "Besides the direct discipline example, the stated conditional wage increase can be read as a performance-based reward under remuneration of personnel. The shared, coordinated goal also gives a plausible unity-of-direction reading."
+                }
+              ],
+              "style_notes": [
+                "The scenario closely follows the textbook discipline example, but the wage-reward and shared-goal details make the distractors overlap with the intended principle."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Fayol’s principles are a core objective of the Principles of Management unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A direct four-option principle-identification MCQ, consistent with the supplied CUET exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short application of a principle, within the recall and identification demand of the exemplars."
+                  },
+                  "discrimination_value": {
+                    "level": 1,
+                    "evidence": "Several options map plausibly to details in the scenario, weakening discrimination."
+                  }
+                },
+                "reasoning_steps": 1,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q1",
+                  "cuet2024-business_studies-bookA-q2",
+                  "cuet2024-business_studies-bookA-q3"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs102",
+                  "locator": "pdf-page-27",
+                  "quote": "56 Business Studies ` 50 crores. Now the company gives power to the manager to offer a credit period of only 40 days. This shows that there is an imbalance in authority and responsibility. In this case the manager use authority of offering credit period of 60 days in the interest of the company. Discuss in your Class as to ‘why’ and ‘why not’ (iii) Discipline: Discipline is the obedience to organisational rules and employment agreement which are necessary for the working of the organisation. According to Fayol, discipline requires good superiors at all levels, clear and fair agreements and judicious application of penalties. Suppose",
+                  "start": 0,
+                  "end": 640
+                },
+                {
+                  "source_id": "ncert-lebs102",
+                  "locator": "pdf-page-27",
+                  "quote": " management and labour union have entered into an agreement whereby workers have agreed to put in extra hours without any additional payment to revive the company out of loss. In return the management has promised to increase wages of the workers when this mission is accomplished. Here discipline when applied would mean that the workers and management both honour their commitments without any prejudice towards one another. (iv) Unity of Command: According to Fayol there should be one and only one boss for every individual employee. If an employee gets orders from two superiors at the same time the principle of unity of command is violated.",
+                  "start": 640,
+                  "end": 1287
+                },
+                {
+                  "source_id": "ncert-lebs102",
+                  "locator": "pdf-page-27",
+                  "quote": " not to offer more than 5% discount. Now there is no unity of command. This can be avoided if there is coordination between various departments. (v) Unity of Direction: All the units of an organisation should be moving towards the same objectives through coordinated and focussed efforts. Each group of activities having the same objective must have one head and one plan. This ensures Ch_02.indd 56 20-Sep-24 4:32:06 PM Reprint 2026-27",
+                  "start": 1936,
+                  "end": 2372
+                },
+                {
+                  "source_id": "ncert-lebs102",
+                  "locator": "pdf-page-32",
+                  "quote": " vice versa 7. Remuneration of personnel Reasonable Pay reward system Performance based reward system 8. Centralisation T rickle down decision making Task relevant ad hoc decision making 9. Scalar Chain Hierarchical, formalised communication channel Less formalised, flatter communication structure. 10. Order Internal information system for control purposes Internal information system for coordination purposes. 11. Equity Commitment obtained through kindness Commitment obtained through a sense of ownership 12. Stability of tenure of personnel T rain employees and encourage them to remain On-going employee training and development 13.",
+                  "start": 649,
+                  "end": 1289
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 1,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 47,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 68,
+                "reading_reference": {
+                  "status": "no_matched_authenticated_examples",
+                  "sample_size": 0,
+                  "words": 68
+                },
+                "reasoning_steps": 1,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [
+                "multiple_correct_options: Besides the direct discipline example, the stated conditional wage increase can be read as a performance-based reward under remuneration of personnel. The shared, coordinated goal also gives a plausible unity-of-direction reading.",
+                "missing_decisive_assumption: option C is correct if The parties agree on a shared goal and coordinate complementary efforts to revive the company, suggesting unity of direction.",
+                "missing_decisive_assumption: option D is correct if The promised wage increase is a performance-linked reward, matching the remuneration principle’s reward-system framing."
+              ],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": false,
+              "challenge_reason": "alternative_reading_makes_another_option_correct",
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Principles of Management"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Principles of Management"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs102",
+                  "version": 1,
+                  "locator": "pdf-page-27",
+                  "support_hash": "85ca3fb2b98f114d27cb55ca66d526cf3d557fc446636a8ee6e4e8554d1ecb10"
+                },
+                {
+                  "id": "ncert-lebs102",
+                  "version": 1,
+                  "locator": "pdf-page-32",
+                  "support_hash": "0824f3e4c7dcd4e6448a61dcc24430e8bf36e55d067def0a961af5135c636176"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "f81bbfc64067e4697e9281e980f3be32b89109cc2511c25c58cb3a817eb9f712"
+            }
+          },
+          "failure_details": [
+            "The strongest intended answer is A: the NCERT example says that when management and workers honour their commitments under their agreement, this illustrates discipline (E1.1, E1.2).",
+            "However, the promised wage increase is contingent on mission success, making the arrangement also readable as a performance-based reward system under remuneration of personnel (E2.2). That creates a defensible alternative to A.",
+            "Defect: multiple_correct_options: Besides the direct discipline example, the stated conditional wage increase can be read as a performance-based reward under remuneration of personnel. The shared, coordinated goal also gives a plausible unity-of-direction reading.",
+            "Defect: missing_decisive_assumption: option C is correct if The parties agree on a shared goal and coordinate complementary efforts to revive the company, suggesting unity of direction.",
+            "Defect: missing_decisive_assumption: option D is correct if The promised wage increase is a performance-linked reward, matching the remuneration principle’s reward-system framing."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T21:52:43.656Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "90ec25792703058c191b0275f1912a44"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "90ec25792703058c191b0275f1912a44"
+        ],
+        "would_withhold_ids": [
+          "90ec25792703058c191b0275f1912a44"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "3a4fb951521a500585e594e37c05655c",
+      "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+      "key": "C",
+      "explanation": "The mean actual time is 180 ÷ 10 = 18 minutes per delivery, so (A) is correct. Expressing actual performance as 18 minutes per delivery gives it the same unit as the standard, so (C) is correct. (B) compares total time for 10 deliveries with time per delivery, while (D) changes the measure from time to deliveries.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "3a4fb951521a500585e594e37c05655c",
+          "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3a4fb951521a500585e594e37c05655c",
+              "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "0878bf5492d0f56517aa9f4191cd6b1e22770ee7edf4cb77dd7cde2129079607",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "3a4fb951521a500585e594e37c05655c",
+              "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+              "evidence_hash": "7b380048f145456fdcf8fd145db46f820f3baa6a92a4cc45a8a7f70e78031b4e"
+            },
+            "source_support": {
+              "candidate_id": "3a4fb951521a500585e594e37c05655c",
+              "content_hash": "79bfcae425506b7f6b7e6809e3e63e7cd6dbf323dd0e48ce35e720caac7c384d",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": true,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1",
+                "E1.4"
+              ],
+              "reasons": [
+                "The mean actual time is 180 ÷ 10 = 18 minutes per delivery, so statements A and C are true.",
+                "Statement B compares a total time with a per-delivery average; sharing the label “minutes” does not make those quantities comparable directly. Statement D changes the measure from time per delivery to deliveries per shift, contrary to the stated standard.",
+                "The source supports comparing actual performance with standards in the same units and in a manner that makes comparison easier."
+              ],
+              "syllabus_chapter": "Controlling",
+              "syllabus_topic": "Steps in the control process: measurement of actual performance and comparison with standards",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The standard is 20 minutes per delivery.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Ten completed deliveries took 180 minutes in total.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Actual performance is to be treated as mean time per delivery.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The actual performance should be measured in the same units as the standard for comparison.",
+                  "status": "convention",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": [
+                    "E1.4"
+                  ]
+                },
+                {
+                  "condition": "The resulting mean actual time is 18 minutes per delivery.",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Reading “same units” as minutes alone could make B seem true, but C still states the required mean actual performance, so A cannot be correct.",
+                  "correct_under_reading": false,
+                  "reading_status": "strained",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Treat the shift’s total time as comparable to the per-delivery standard and make shift throughput the comparison target.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "If shift throughput rather than average delivery time were the target, deliveries per shift could be used; the stem specifies a time-per-delivery standard.",
+                  "correct_under_reading": true,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The reference to one shift is incidental; the stated total, delivery count, and mean-performance instruction make the calculation determinate."
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests measurement and comparison of actual performance with standards, a core Controlling process."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "Four-option statement-selection format closely matches the authenticated Business Studies exemplar."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "A short calculation and application of a control-process principle fit the exemplar range."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The distractors test confusion between totals, per-unit averages, and the stated performance measure."
+                  }
+                },
+                "reasoning_steps": 2,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "application",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q40",
+                  "cuet2024-business_studies-bookA-q16",
+                  "cuet2024-business_studies-bookA-q17"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs108",
+                  "locator": "pdf-page-6",
+                  "quote": "206 3. Comparison of actual effort must be made to define them per for mance with standards in a manner that would make their 4. Analysing deviations measurement easier. For instance, for 5. Taking corrective action improving customer satisfaction in a Step 1: Setting Performance Stan­ fast food chain having self-service, dards: The first step in the controlling standards can be set in ter ms of time process is setting up of per formance taken by a customer to wait for a table, standards. Standards are the criteria time taken by him to place the order against which actual performance and time taken to collect the order. would be measured.",
+                  "start": 0,
+                  "end": 646
+                },
+                {
+                  "source_id": "ncert-lebs108",
+                  "locator": "pdf-page-6",
+                  "quote": " standards, a should be measured in the same units in which standards are set as manager should try to set standards this would make their comparison in precise quantitative terms as this easier. would make their comparison with It is generally believed that actual per for mance much easier. For measurement should be done after instance, reduction of defects from 10 the task is completed. However, in every 1,000 pieces produced to 5 in wherever possible, measurement every 1,000 pieces produced by the of work should be done during the end of the quarter. However, whenever per for mance. For instance, in case of qualitative standards are set,",
+                  "start": 1937,
+                  "end": 2585
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 3
+                },
+                "reasons": [],
+                "derived_solve_seconds": 81,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 122,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 3,
+                  "words": 122,
+                  "median_words": 126,
+                  "p95_words": 126,
+                  "observed_max_words": 126
+                },
+                "reasoning_steps": 2,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Controlling"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Controlling"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs108",
+                  "version": 1,
+                  "locator": "pdf-page-6",
+                  "support_hash": "5af93e1e1c3d48d43c2ec4a056c371dfe3d8bb032f9b74f261fd19d2f7132ef5"
+                },
+                {
+                  "id": "ncert-lebs108",
+                  "version": 1,
+                  "locator": "pdf-page-4",
+                  "support_hash": "586be88035f2dcc49e394ed3e15b532a2766ab5b3de4b7c4336fe851e3dcfa42"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "8181d459696e5a7e5070d375d4cdd18b94a01c248ca3bd46e7756c4e1765cf9a"
+            }
+          },
+          "failure_details": [
+            "The mean actual time is 180 ÷ 10 = 18 minutes per delivery, so statements A and C are true.",
+            "Statement B compares a total time with a per-delivery average; sharing the label “minutes” does not make those quantities comparable directly. Statement D changes the measure from time per delivery to deliveries per shift, contrary to the stated standard.",
+            "The source supports comparing actual performance with standards in the same units and in a manner that makes comparison easier."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:15:32.153Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "3a4fb951521a500585e594e37c05655c"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "3a4fb951521a500585e594e37c05655c"
+        ],
+        "would_withhold_ids": [
+          "3a4fb951521a500585e594e37c05655c"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "16c797c8408fc9ba8756b60ad446fca1",
+      "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+      "key": "C",
+      "explanation": "The District, State and National mediation levels correspond to cells attached to their respective commissions. The stated location of the mediation provision is Chapter V of the Consumer Protection Act, 2019. Option C is the only mapping that preserves these correspondences.",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:syllabus_mapping"
+        ],
+        "failed_stage": "syllabus_mapping",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "16c797c8408fc9ba8756b60ad446fca1",
+          "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+          "reasons": [
+            "failed:syllabus_mapping"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "16c797c8408fc9ba8756b60ad446fca1",
+              "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "419dbacc69b21ea5b4e5db1f3d0de073e559ecb1609c62cee506fab2092e6b4c",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "16c797c8408fc9ba8756b60ad446fca1",
+              "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+              "evidence_hash": "63b9ed8433a7e73263047415c4565d44bbf6825757a0f53ecf48f841fd19bfca"
+            },
+            "source_support": {
+              "candidate_id": "16c797c8408fc9ba8756b60ad446fca1",
+              "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2"
+              ],
+              "reasons": [
+                "The note says each mediation cell is attached to its corresponding commission, giving District–IV, State–I and National–III.",
+                "The note places the mediation provision in Chapter V, giving D–II. These four matches appear together only in option C.",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_5_below_7"
+              ],
+              "syllabus_chapter": "Consumer Protection",
+              "syllabus_topic": "Consumer Protection Act, 2019; legal redressal and its mediation process",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Mediation cells at the District, State and National levels are attached to their corresponding commissions.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Chapter V of the Consumer Protection Act, 2019 provides for the mediation process.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the State-level item as Chapter V and the provision-location item as the State Commission cell.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Swap the District and State Commission affiliations while retaining the National match and Chapter V location.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Read State-level mediation as attached to the National Commission and National-level mediation as attached to the State Commission.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The prefatory note supplies every match directly, making the task essentially transcription.",
+                "“Stated location” could be phrased more precisely as “chapter containing the provision.”"
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "The syllabus names the 2019 Act and legal redressal; this is a supporting detail about that Act."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option matching question, with a prefatory note that makes it more directly cued than the exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "The stem states every match, so the answer requires no subject knowledge; this falls below the matched PYQ demand."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The note gives the complete correct mapping, so the key can be found by transcription."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q12",
+                  "cuet2024-business_studies-bookA-q2"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs203",
+                  "locator": "p12-c1842",
+                  "quote": " compensation for any loss or of goods and services paid as injury suffered by the consumer Reprint 2026-27 Ch_11.indd 300 24-Sep-24 3:00:23 PM Setting up of Consumer Mediation Cell The Chapter V of the Consumer Protection Act of 2019 provides for a mediation process for settlement of disputes at three levels - National, State and District with all three being attached to the respective commissions. It is a new provision in the Act 2019 as an alternate mechanism to ensure faster aspeedydispute settlements by respective commissions.",
+                  "start": 649,
+                  "end": 1186
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 5,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_5_below_7"
+                ],
+                "derived_solve_seconds": 124,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 145,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 145,
+                  "median_words": 96,
+                  "p95_words": 101,
+                  "observed_max_words": 101
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 5,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Consumer Protection"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Consumer Protection"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": true,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p12-c0",
+                  "support_hash": "e6aa106a6a2855717d9e5f622539fb0b851ddd0657c7c95493369ed29ef8c25f"
+                },
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p12-c1842",
+                  "support_hash": "a50cf29c816805b5c6deecd6d4ae5d63e354a2a1cd014bf3c9a9660222c15fb9"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "1f8b5b828d822d31309e33c65d5a51c8fd2b9a92c01d4ca4aa05fb3fbf9dfce0"
+            },
+            "syllabus_mapping": {
+              "candidate_id": "16c797c8408fc9ba8756b60ad446fca1",
+              "content_hash": "c843c3480a4c45157fde0981ffe148bfa9e3da57372d7e59f9de1f18df72b8b5",
+              "solved_key": "C",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E2.2"
+              ],
+              "reasons": [
+                "The note says each mediation cell is attached to its corresponding commission, giving District–IV, State–I and National–III.",
+                "The note places the mediation provision in Chapter V, giving D–II. These four matches appear together only in option C.",
+                "cuet_fit_level_calibration_below_1",
+                "cuet_fit_score_5_below_7"
+              ],
+              "syllabus_chapter": "Consumer Protection",
+              "syllabus_topic": "Consumer Protection Act, 2019; legal redressal and its mediation process",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "Mediation cells at the District, State and National levels are attached to their corresponding commissions.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "Chapter V of the Consumer Protection Act, 2019 provides for the mediation process.",
+                  "status": "explicit",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "Treat the State-level item as Chapter V and the provision-location item as the State Commission cell.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "Swap the District and State Commission affiliations while retaining the National match and Chapter V location.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "D",
+                  "strongest_reading": "Read State-level mediation as attached to the National Commission and National-level mediation as attached to the State Commission.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [
+                "The prefatory note supplies every match directly, making the task essentially transcription.",
+                "“Stated location” could be phrased more precisely as “chapter containing the provision.”"
+              ],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 2,
+                    "evidence": "The syllabus names the 2019 Act and legal redressal; this is a supporting detail about that Act."
+                  },
+                  "format_authenticity": {
+                    "level": 2,
+                    "evidence": "A valid four-option matching question, with a prefatory note that makes it more directly cued than the exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 0,
+                    "evidence": "The stem states every match, so the answer requires no subject knowledge; this falls below the matched PYQ demand."
+                  },
+                  "discrimination_value": {
+                    "level": 0,
+                    "evidence": "The note gives the complete correct mapping, so the key can be found by transcription."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q12",
+                  "cuet2024-business_studies-bookA-q2"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs203",
+                  "locator": "p12-c1842",
+                  "quote": " compensation for any loss or of goods and services paid as injury suffered by the consumer Reprint 2026-27 Ch_11.indd 300 24-Sep-24 3:00:23 PM Setting up of Consumer Mediation Cell The Chapter V of the Consumer Protection Act of 2019 provides for a mediation process for settlement of disputes at three levels - National, State and District with all three being attached to the respective commissions. It is a new provision in the Act 2019 as an alternate mechanism to ensure faster aspeedydispute settlements by respective commissions.",
+                  "start": 649,
+                  "end": 1186
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": false,
+                "score": 5,
+                "levels": {
+                  "syllabus_objective": 2,
+                  "format_authenticity": 2,
+                  "level_calibration": 0,
+                  "discrimination_value": 0,
+                  "time_suitability": 2
+                },
+                "reasons": [
+                  "cuet_fit_level_calibration_below_1",
+                  "cuet_fit_score_5_below_7"
+                ],
+                "derived_solve_seconds": 124,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 145,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 145,
+                  "median_words": 96,
+                  "p95_words": 101,
+                  "observed_max_words": 101
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": false,
+              "missing_assumptions": false,
+              "item_quality_score": 5,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": true,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Consumer Protection"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Consumer Protection"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p12-c0",
+                  "support_hash": "e6aa106a6a2855717d9e5f622539fb0b851ddd0657c7c95493369ed29ef8c25f"
+                },
+                {
+                  "id": "ncert-lebs203",
+                  "version": 1,
+                  "locator": "p12-c1842",
+                  "support_hash": "a50cf29c816805b5c6deecd6d4ae5d63e354a2a1cd014bf3c9a9660222c15fb9"
+                }
+              ],
+              "stage": "syllabus_mapping",
+              "evidence_hash": "6b5bad12e3ab96ea5f463fc4af8f1a2c00db9cee71706c0e3229b70969f54f31"
+            }
+          },
+          "failure_details": [
+            "The note says each mediation cell is attached to its corresponding commission, giving District–IV, State–I and National–III.",
+            "The note places the mediation provision in Chapter V, giving D–II. These four matches appear together only in option C.",
+            "cuet_fit_level_calibration_below_1",
+            "cuet_fit_score_5_below_7"
+          ],
+          "failed_stage": "syllabus_mapping"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:11:08.113Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "16c797c8408fc9ba8756b60ad446fca1"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "16c797c8408fc9ba8756b60ad446fca1"
+        ],
+        "would_withhold_ids": [
+          "16c797c8408fc9ba8756b60ad446fca1"
+        ],
+        "publication_writes": 0
+      }
+    },
+    {
+      "id": "296e6c135c976583eb0f54b193502fef",
+      "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+      "key": "D",
+      "explanation": "The reward plan is the reward arrangement, the employee's feeling that effort will bring suitable rewards is the expectation, and maximum effort is the described outcome. The excerpt links these elements: a good plan with suitable monetary and non-monetary rewards can motivate maximum effort when the employee may feel that their efforts will bring suitable rewards. Thus, the complete link matches (III).",
+      "prior_assessment": {
+        "state": "quarantined",
+        "terminal": true,
+        "eligible_under_unreleased_v7_contract": false,
+        "matching_result": true,
+        "verifier": "cuet-fit-validator-v7.2",
+        "contract": "6f27a61131688db75be6686159b77894ee083f0c8abcca47d812a9a0eb20692c",
+        "reasons": [
+          "failed:source_support"
+        ],
+        "failed_stage": "source_support",
+        "cuet_fit": null,
+        "full_validation_result": {
+          "state": "quarantined",
+          "candidate_id": "296e6c135c976583eb0f54b193502fef",
+          "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+          "reasons": [
+            "failed:source_support"
+          ],
+          "checks": {
+            "schema": {
+              "passed": true,
+              "reasons": [],
+              "stage": "schema",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "296e6c135c976583eb0f54b193502fef",
+              "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+              "evidence_hash": "e79ce6f1e84c67bdfac7217bbe6a6bc1e701cbe1444457969b78186dce9cb147"
+            },
+            "dedupe": {
+              "passed": true,
+              "stem": "aedb173429ba9aef1e3369fe559fe82d9cd9cde83fd2d382279b46f52977e20c",
+              "stage": "dedupe",
+              "provider": "local",
+              "model": null,
+              "effort": null,
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "candidate_id": "296e6c135c976583eb0f54b193502fef",
+              "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+              "evidence_hash": "ffa2e64b94e9207c8f9b3a67d1a6bfa2df46244d971c17c3d86f92ee56a4ae49"
+            },
+            "source_support": {
+              "candidate_id": "296e6c135c976583eb0f54b193502fef",
+              "content_hash": "202b5b759dd1cfcbfd5cf4a998b3060303adfd5e6ef2c96cba715245f1cc0028",
+              "solved_key": "D",
+              "single_defensible_answer": true,
+              "source_support": true,
+              "numeric_solution": false,
+              "boundary_cases": true,
+              "passage_integrity": true,
+              "passage_answerability": true,
+              "meaningfully_distinct": true,
+              "evidence_ids": [
+                "E1.1"
+              ],
+              "reasons": [
+                "The excerpt connects a good motivation plan with suitable monetary and non-monetary rewards to the employee’s expectation that effort will bring rewards, and then to maximum effort. Thus A–II, B–IV, C–I, and D–III: option D.",
+                "The item is answerable from the supplied NCERT excerpt and requires no numerical assumptions."
+              ],
+              "syllabus_chapter": "Directing",
+              "syllabus_topic": "Motivation: meaning and importance; financial and non-financial incentives",
+              "syllabus_entitlement": true,
+              "presentation_ready": true,
+              "question_type_match": true,
+              "principle_applicability": "excerpt_required",
+              "decisive_principle_in_excerpts": true,
+              "answer_conditions": [
+                {
+                  "condition": "The good plan containing monetary and non-monetary rewards is the reward arrangement (II).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The employee’s feeling that effort will bring suitable rewards is the employee’s expectation (IV).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The employee’s contribution of maximum effort is the outcome described (I).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                },
+                {
+                  "condition": "The link from the plan and expectation through to maximum effort is the complete motivation link (III).",
+                  "status": "inferred_fact",
+                  "alters_key_if_changed": true,
+                  "convention_evidence_ids": []
+                }
+              ],
+              "option_challenges": [
+                {
+                  "option": "A",
+                  "strongest_reading": "It would require treating the employee’s expectation as the outcome and maximum effort as the expectation, reversing their stated roles.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "B",
+                  "strongest_reading": "It would require treating the reward plan as the employee’s expectation and the employee’s felt expectation as the reward arrangement.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                },
+                {
+                  "option": "C",
+                  "strongest_reading": "It would require treating maximum effort as the complete link and the plan-to-effort link as only the outcome.",
+                  "correct_under_reading": false,
+                  "reading_status": "contradicts_stem",
+                  "convention_evidence_ids": []
+                }
+              ],
+              "blocking_defects": [],
+              "style_notes": [],
+              "cuet_fit": {
+                "criteria": {
+                  "syllabus_objective": {
+                    "level": 3,
+                    "evidence": "Tests motivation, a named element of the Directing unit."
+                  },
+                  "format_authenticity": {
+                    "level": 3,
+                    "evidence": "A four-option matching item in the style of the authenticated Business Studies matching exemplars."
+                  },
+                  "level_calibration": {
+                    "level": 3,
+                    "evidence": "Direct concept matching is within the demand of the supplied 2024 matching examples."
+                  },
+                  "discrimination_value": {
+                    "level": 2,
+                    "evidence": "The options use plausible permutations that test distinguishing expectation, outcome, and the full link."
+                  }
+                },
+                "reasoning_steps": 4,
+                "estimated_difficulty": "easy",
+                "cognitive_level": "comprehension",
+                "exemplar_ids_compared": [
+                  "cuet2024-business_studies-bookA-q12",
+                  "cuet2024-business_studies-bookA-q2",
+                  "cuet2024-business_studies-bookA-q39"
+                ]
+              },
+              "supporting_spans": [
+                {
+                  "source_id": "ncert-lebs107",
+                  "locator": "normative-34f28c2e46790f5a",
+                  "quote": "For example, a good motivation plan with suitable monetary and non-monetary rewards can motivate an employee to contribute his maximum efforts for the organisation as he or she may feel that their efforts will bring them suitable rewards. (ii) Harmony of objectives: Very often, we find that individual objectives of employees and the organisational objectives as understood are conflicting to each other. For example, an employee may expect attractive salary and monetary benefits to fulfill his personal needs. The organisation may expect employees to improve productivity to achieve expected profits. But, good directing should provide harmony by",
+                  "start": 0,
+                  "end": 649
+                }
+              ],
+              "evidence_selection_valid": true,
+              "cuet_fit_result": {
+                "pass": true,
+                "score": 9,
+                "levels": {
+                  "syllabus_objective": 3,
+                  "format_authenticity": 3,
+                  "level_calibration": 3,
+                  "discrimination_value": 2,
+                  "time_suitability": 2
+                },
+                "reasons": [],
+                "derived_solve_seconds": 113,
+                "time_estimate_method": "heuristic_not_observed",
+                "reading_words": 110,
+                "reading_reference": {
+                  "status": "thin_subject_format_sample",
+                  "sample_size": 5,
+                  "words": 110,
+                  "median_words": 96,
+                  "p95_words": 101,
+                  "observed_max_words": 101
+                },
+                "reasoning_steps": 4,
+                "contract": "cuet-fit-v1.2"
+              },
+              "exam_fit": true,
+              "missing_assumptions": true,
+              "item_quality_score": 9,
+              "defects": [],
+              "principle_ok": true,
+              "conditions_ok": false,
+              "challenges_ok": true,
+              "challenge_reason": null,
+              "defects_valid": true,
+              "reference_quotes_valid": true,
+              "provider": "openai",
+              "model": "gpt-6-luna",
+              "effort": "high",
+              "prompt_version": "cuet-fit-validator-v7.2",
+              "evaluation_prompt": "a628501c83e08273c1ed3a71310ecbf9474cd38f5eee988f52e448d934ba364d",
+              "policy_version": "cuet-llm-v3",
+              "cuet_fit_contract": "cuet-fit-v1.2",
+              "chapter_mapping": {
+                "ok": true,
+                "covered": [
+                  "Directing"
+                ],
+                "source_mapped": true,
+                "relabelled_within_unit": false,
+                "validator_chapters": [
+                  "Directing"
+                ],
+                "reason": null
+              },
+              "cuet_fit_gate": true,
+              "passed": false,
+              "source_refs": [
+                {
+                  "id": "ncert-lebs107",
+                  "version": 1,
+                  "locator": "normative-34f28c2e46790f5a",
+                  "support_hash": "34f28c2e46790f5aa4f4dce07badc168aa5246e5ee2ef543f341b8044188708b"
+                },
+                {
+                  "id": "ncert-lebs107",
+                  "version": 1,
+                  "locator": "normative-9c6fe1a9e3e37092",
+                  "support_hash": "9c6fe1a9e3e37092d79289ed234aa9add7c4ad13e0d74d3da45e9f30a9e30052"
+                }
+              ],
+              "stage": "source_support",
+              "evidence_hash": "9a06c24db0eec70e121326bd6c48a421ec6c547cb7eee63eabc16e79ae453be8"
+            }
+          },
+          "failure_details": [
+            "The excerpt connects a good motivation plan with suitable monetary and non-monetary rewards to the employee’s expectation that effort will bring rewards, and then to maximum effort. Thus A–II, B–IV, C–I, and D–III: option D.",
+            "The item is answerable from the supplied NCERT excerpt and requires no numerical assumptions."
+          ],
+          "failed_stage": "source_support"
+        },
+        "v7_evidence": null,
+        "last_record_at": "2026-10-07T22:35:47.371Z",
+        "stale_or_mismatched_latest": false
+      },
+      "withholding_group": {
+        "kind": "standalone",
+        "passage_group_id": null,
+        "item_ids": [
+          "296e6c135c976583eb0f54b193502fef"
+        ],
+        "action": "withhold",
+        "reason": "At least one member is quarantined; passage-linked questions are withheld as one atomic unit.",
+        "triggering_ids": [
+          "296e6c135c976583eb0f54b193502fef"
+        ],
+        "would_withhold_ids": [
+          "296e6c135c976583eb0f54b193502fef"
+        ],
+        "publication_writes": 0
+      }
+    }
+  ]
+}

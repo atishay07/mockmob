@@ -1,0 +1,6 @@
+import {readFileSync,writeFileSync} from 'node:fs';
+import {createFactoryEvidenceV76,blindViewV76} from '../../../../../scripts/pipeline/lib/factoryEvidenceV76.mjs';
+import {effortsFor} from '../../../../../data/cuet_fit_evidence.mjs';
+const read=p=>JSON.parse(readFileSync(p)),dir='artifacts/question-factory/cuet-readiness-2026-10-09/benchmark/v76-qualification-2026-10-09-regression',base=read('data/source_registry.json'),o=read(dir+'/scratch-registry-overlay.json'),frozen=read(dir+'/frozen.json'),registry={...base,sources:{...base.sources,...o.sources},families:{...base.families,...o.families},packs:{...base.packs,...o.packs}},captures=[];
+for(const f of frozen.fixtures){const a=createFactoryEvidenceV76({registry,ledger:{getCache:()=>null,setCache:()=>{}},transport:{generate:async(p,body)=>{captures.push({id:f.id,provider:p,bytes:Buffer.byteLength(JSON.stringify(body))});throw Error('capture');}},calibrationPurpose:true,efforts:effortsFor(f.candidate)});for(const provider of ['openai','gemini'])try{await a.__evaluation(blindViewV76(f.candidate,f.candidate.source_refs),provider);}catch(e){if(e.message!=='capture')throw e;}}
+writeFileSync(dir+'/request-size-diagnostic.json',JSON.stringify({at:new Date().toISOString(),paid_calls:0,captures},null,2));console.log(JSON.stringify(captures));

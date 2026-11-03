@@ -1,0 +1,44 @@
+{
+  "schema": "cuet-v716-custody-v1",
+  "study_id": "cuet-v716-diagnostic-r1",
+  "created_at": "2026-10-09T22:58:14.155771Z",
+  "note": "Labels copied from the frozen R3 set for diagnostic reporting only.",
+  "answers": [
+    {
+      "id": "f-234e398c6040b350",
+      "expected_valid": true,
+      "defect_class": null,
+      "independent_key": "A"
+    },
+    {
+      "id": "f-90b386844e029292",
+      "expected_valid": false,
+      "defect_class": "incorrect_answer_key",
+      "independent_key": "A"
+    },
+    {
+      "id": "f-793e37a7f34732b6",
+      "expected_valid": true,
+      "defect_class": null,
+      "independent_key": "A"
+    },
+    {
+      "id": "f-c3a378b4d2de5478",
+      "expected_valid": true,
+      "defect_class": null,
+      "independent_key": "A"
+    },
+    {
+      "id": "f-a7899d6bca12a82b",
+      "expected_valid": true,
+      "defect_class": null,
+      "independent_key": "A"
+    },
+    {
+      "id": "v75f-825e60a00f",
+      "expected_valid": false,
+      "defect_class": "multiple_correct",
+      "independent_key": "multiple_correct_B_D"
+    }
+  ]
+}

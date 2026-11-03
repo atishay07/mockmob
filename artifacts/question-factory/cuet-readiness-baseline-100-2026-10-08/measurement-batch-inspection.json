@@ -1,0 +1,104 @@
+{
+  "contract": "evidence-content-idea-inspection-v3",
+  "content_hash": "fb519ab4901d37b7315d564d2257a4ba1d443623eccb199fa381e9228843321e",
+  "decisions": [],
+  "duplicate_pairs": [],
+  "denominator": 100,
+  "approved": 70,
+  "answer_positions": {
+    "B": 15,
+    "A": 22,
+    "D": 18,
+    "C": 15
+  },
+  "answer_positions_by_format": {
+    "reading_comprehension": {
+      "B": 2,
+      "A": 2,
+      "C": 1
+    },
+    "conceptual_mcq": {
+      "A": 4,
+      "D": 2,
+      "B": 4,
+      "C": 1
+    },
+    "synonym": {
+      "D": 3,
+      "C": 1
+    },
+    "numerical_calculation": {
+      "C": 2,
+      "A": 5,
+      "D": 3,
+      "B": 1
+    },
+    "case_application": {
+      "D": 2,
+      "A": 3,
+      "B": 1,
+      "C": 1
+    },
+    "sequence_ordering": {
+      "C": 5,
+      "B": 2,
+      "D": 2
+    },
+    "matching": {
+      "A": 3,
+      "D": 1,
+      "B": 1
+    },
+    "statement_selection": {
+      "C": 4,
+      "D": 2,
+      "B": 2
+    },
+    "correct_word_usage": {
+      "A": 1,
+      "D": 2,
+      "B": 1
+    },
+    "direct vocabulary application MCQ": {
+      "A": 1
+    },
+    "antonym": {
+      "B": 1,
+      "A": 2
+    },
+    "numerical_mcq": {
+      "D": 1
+    },
+    "vocabulary in context": {
+      "A": 1
+    }
+  },
+  "formats": {
+    "reading_comprehension": 5,
+    "conceptual_mcq": 11,
+    "synonym": 4,
+    "numerical_calculation": 11,
+    "case_application": 7,
+    "sequence_ordering": 9,
+    "matching": 5,
+    "statement_selection": 8,
+    "correct_word_usage": 4,
+    "direct vocabulary application MCQ": 1,
+    "antonym": 3,
+    "numerical_mcq": 1,
+    "vocabulary in context": 1
+  },
+  "difficulty": {
+    "easy": 29,
+    "medium": 34,
+    "hard": 7
+  },
+  "longest_same_answer_run": 3,
+  "limitation": "Deterministic duplicate detection and independent novelty gates reduce repeated content; semantic equivalence beyond these checks is not guaranteed.",
+  "ready": true,
+  "inventory_compared": 0,
+  "inventory_ids_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "scope": "Read-only within-batch inspection of the completed baseline; no inventory comparison or publication instruction.",
+  "basis": "Preserved signed eligibility under the baseline contract; current v7.2 release is not asserted.",
+  "publication_writes": 0
+}

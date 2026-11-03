@@ -1,0 +1,461 @@
+{
+  "at": "2026-10-09T08:41:32.377Z",
+  "version": "Frozen V77 final attempt, plus isolated unqualified regression correction",
+  "registered_cases": 41,
+  "terminal_controls": 5,
+  "subjects_terminal": [
+    "accountancy",
+    "business_studies"
+  ],
+  "eligible_valid": 0,
+  "pilot_executed": false,
+  "published": 0,
+  "native_keys_matching_custody": {
+    "matching": 10,
+    "observations": 10
+  },
+  "descriptive_pre_gate_only": {
+    "lower_of_two_fit_mean": 9.2,
+    "lower_of_two_level_means": {
+      "syllabus_objective": 2.8,
+      "format_authenticity": 3,
+      "level_calibration": 3,
+      "time_suitability": 3,
+      "discrimination_value": 2
+    },
+    "eligible_item_quality_score": null,
+    "warning": "These5controls all failed mandatory gates. This mean must never be reported as publishable quality."
+  },
+  "parameters": [
+    {
+      "id": "syllabus_entitlement",
+      "kind": "mandatory",
+      "note": "Both native judges marked entitlement true for each of five terminal controls, but the later mandatory syllabus stage was not reached. 2026 baseline is provisional for2027.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "source_support",
+      "kind": "mandatory",
+      "note": "All five terminal controls failed the required source/matrix gate. Correct source-only keys and valid cited spans do not establish whole-option support.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "independently_solved_key",
+      "kind": "mandatory",
+      "note": "10/10 blind native solutions match frozen custody across five controls; full pipeline eligibility is zero.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "one_correct_answer",
+      "kind": "mandatory",
+      "note": "Both blind judges marked single-answer true, but decisive whole-option audits were not reached; source caveats remain.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "option_non_overlap",
+      "kind": "mandatory",
+      "note": "Full four-option clause matrices were supplied but did not pass binding; no mandatory pass claim.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "decisive_assumptions",
+      "kind": "mandatory",
+      "note": "Case givens and source conventions were recorded. Old-machine asset status and illustrative maturity criteria remain diagnosis caveats.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "numerical_accuracy",
+      "kind": "mandatory",
+      "note": "No terminal numerical-route item was evaluated. Cash-equivalent comparison exposes printed-option premise binding; no numeric accuracy percentage established.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "boundary_cases",
+      "kind": "mandatory",
+      "note": "Applicable numerical boundary stage not demonstrated.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "explanation_correctness",
+      "kind": "mandatory",
+      "note": "Native explanation stage not executed after source_support failure. Construction custody is separate evidence.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "explanation_support",
+      "kind": "mandatory",
+      "note": "Native explanation/source and clause audit not executed; not passed.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "passage_answerability",
+      "kind": "mandatory",
+      "note": "No terminal passage item evaluated; unknown.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "completeness",
+      "kind": "mandatory",
+      "note": "Five terminal controls passed free structure checks. Later completeness/academic gate not demonstrated.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "cuet_format",
+      "kind": "mandatory",
+      "note": "Pre-gate native format judgments are favorable on five conceptual MCQs across two subjects; no eligible-item score.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "novelty",
+      "kind": "mandatory",
+      "note": "Persistent allocation and historical inspection software checks passed; qualification controls are not a generated production pilot. No 10000-item uniqueness proof.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "presentation",
+      "kind": "mandatory",
+      "note": "Free presentation checks passed the16 fresh positives before evaluation. No later full validation pass.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "source_provenance_integrity",
+      "kind": "mandatory",
+      "note": "Source custody and85 reference hashes verified before evaluation. Mandatory source-support pipeline failed all five terminal controls.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "syllabus_objective",
+      "kind": "cuet_fit",
+      "note": "Descriptive native pre-gate lower-of-two levels only; not a mandatory pass.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "format_authenticity",
+      "kind": "cuet_fit",
+      "note": "Matched authenticated comparisons appear in native observations, with thin Accountancy format samples. Original practice is not labeled authentic PYQ.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "level_calibration",
+      "kind": "cuet_fit",
+      "note": "Terminal sample consists of easy direct conceptual controls; original-generated difficulty mix is unmeasured.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "time_suitability",
+      "kind": "cuet_fit",
+      "note": "Time is a heuristic, not observed student timing.",
+      "current_publication_quality": "unestablished"
+    },
+    {
+      "id": "discrimination_value",
+      "kind": "cuet_fit",
+      "note": "Some conceptual distractors are broad or readily eliminated. No observed student discrimination measurement.",
+      "current_publication_quality": "unestablished"
+    }
+  ],
+  "cost": {
+    "study_settled_usd": 0.084744,
+    "study_held_usd": 0,
+    "publishable_questions_10000_forecast_usd": null,
+    "reason": "No qualified current profile or measured generated-pilot publishable yield.",
+    "conservative_validation_usd_per_candidate": 0.169375,
+    "conservative_validation_usd_per_10000_candidates": 1693.75,
+    "assumed_70_percent_survival_validation_usd_per_10000_survivors": 2419.6428571428573,
+    "envelope_exclusions": [
+      "authoring",
+      "source research",
+      "targeted repair",
+      "full revalidation",
+      "publication"
+    ],
+    "pilot_cap_usd": 3,
+    "pilot_40_candidate_full_repair_bound_usd": 15.48
+  },
+  "observations": [
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "provider": "openai",
+      "solved_key": "A",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_arithmetic_premises_required:A"
+      },
+      "score": 9,
+      "levels": {
+        "syllabus_objective": 2,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 2,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 42,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q6",
+        "cuet2024-accountancy-bookA-q14"
+      ]
+    },
+    {
+      "id": "v77f-ad344a8b5f2d",
+      "subject": "accountancy",
+      "provider": "gemini",
+      "solved_key": "A",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 42,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q6",
+        "cuet2024-accountancy-bookA-q14"
+      ]
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "provider": "openai",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 9,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 2,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 60,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q19",
+        "cuet2024-accountancy-bookA-q21",
+        "cuet2024-accountancy-bookA-q25"
+      ]
+    },
+    {
+      "id": "v77f-2105354e5de1",
+      "subject": "accountancy",
+      "provider": "gemini",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 60,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q19",
+        "cuet2024-accountancy-bookA-q21",
+        "cuet2024-accountancy-bookA-q25"
+      ]
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "provider": "openai",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 9,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 1,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 42,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q6",
+        "cuet2024-accountancy-bookA-q14"
+      ]
+    },
+    {
+      "id": "v77f-662880a2c5fb",
+      "subject": "accountancy",
+      "provider": "gemini",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 42,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q6",
+        "cuet2024-accountancy-bookA-q14"
+      ]
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "provider": "openai",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 36,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q25"
+      ]
+    },
+    {
+      "id": "v77f-073bdc31e03c",
+      "subject": "accountancy",
+      "provider": "gemini",
+      "solved_key": "B",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 36,
+      "exemplar_ids": [
+        "cuet2024-accountancy-bookA-q19",
+        "cuet2024-accountancy-bookA-q21",
+        "cuet2024-accountancy-bookA-q25"
+      ]
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "provider": "openai",
+      "solved_key": "A",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 9,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 2,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 35,
+      "exemplar_ids": [
+        "cuet2024-business_studies-bookA-q3",
+        "cuet2024-business_studies-bookA-q7",
+        "cuet2024-business_studies-bookA-q8"
+      ]
+    },
+    {
+      "id": "v77f-3546cbf8ea19",
+      "subject": "business_studies",
+      "provider": "gemini",
+      "solved_key": "A",
+      "key_matches_custody": true,
+      "source_support": true,
+      "syllabus_entitlement": true,
+      "single_answer": true,
+      "gate": {
+        "required": true,
+        "passed": false,
+        "reason": "resolution_excerpt_premise_invalid:A"
+      },
+      "score": 10,
+      "levels": {
+        "syllabus_objective": 3,
+        "format_authenticity": 3,
+        "level_calibration": 3,
+        "discrimination_value": 3,
+        "time_suitability": 3
+      },
+      "estimated_seconds": 35,
+      "exemplar_ids": [
+        "cuet2024-business_studies-bookA-q3",
+        "cuet2024-business_studies-bookA-q7",
+        "cuet2024-business_studies-bookA-q8"
+      ]
+    }
+  ]
+}

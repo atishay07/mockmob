@@ -1,0 +1,568 @@
+{
+  "schema": "v73-regression-strict-selector-correction-v1",
+  "status": "offline_read_only_proof_no_provider_no_ledger_no_runner",
+  "created_utc": "2026-10-08",
+  "study_id": "cuet-readiness-v73-regression-semantic-view-final-2026-10-08",
+  "source_study_id": "cuet-readiness-v73-regression-semantic-view-2026-10-08",
+  "source_frozen_sha256": "073f750410c887636a5d2cac3e271e6f2e230938a0afd2fb685549f2d209255a",
+  "source_lineage_sha256": "f3bd0d3158420736338b422a571f9877a039f175b026d8e9cc1491d0d04b383d",
+  "current_registry_sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+  "private_overlay_sha256": "4c9e173019045ec09530d681cf98b0ae3e58bf5a3b6c141c7c671ad4e3bfc19a",
+  "selector_source_sha256": "99f4a2c474a038c5ddb4a8679c503794ed028bf32f5a94946fe486069e91656e",
+  "reserved_benchmark_anchors": [
+    "cuet2024-accountancy-bookA-q8",
+    "cuet2024-accountancy-bookA-q12",
+    "cuet2024-accountancy-bookA-q3",
+    "cuet2024-accountancy-bookA-q22",
+    "cuet2024-accountancy-bookA-q20",
+    "cuet2024-accountancy-bookA-q5",
+    "cuet2024-business_studies-bookA-q24",
+    "cuet2024-business_studies-bookA-q26",
+    "cuet2024-business_studies-bookA-q37",
+    "cuet2024-business_studies-bookA-q27",
+    "cuet2024-business_studies-bookA-q36",
+    "cuet2024-business_studies-bookA-q6",
+    "cuet2024-economics-bookA-q10",
+    "cuet2024-economics-bookA-q25",
+    "cuet2024-economics-bookA-q22",
+    "cuet2024-economics-bookA-q3",
+    "cuet2024-economics-bookA-q47",
+    "cuet2024-economics-bookA-q11",
+    "cuet2024-english-bookA-q49",
+    "cuet2024-english-bookA-q48",
+    "cuet2024-english-bookA-q46"
+  ],
+  "capture_method": "For each of the 16 original provenance candidates, call createFactoryEvidenceV73(...).__evaluation(blindView(originalCandidate, source_refs), openai) with the merged read-only registry, empty cache ledger, and transport.generate that increments a local counter then throws OFFLINE_STRICT_SELECTOR_SENTINEL. This never performs network or provider I/O.",
+  "transport_dispatches": 5,
+  "results": [
+    {
+      "id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "historical_source_id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-english-bookA-q46",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q46",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-english-bookA-q46",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "historical_source_id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q49",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q49",
+        "adaptation_type": "application",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-english-bookA-q49",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "historical_source_id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-english-bookA-q46",
+        "adaptation_family": "pyq:cuet2024-english-bookA-q46",
+        "adaptation_type": "new_target_word_same_synonym_skill",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-english-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-english-bookA-q46",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": false,
+          "reasons": [
+            "unsupported_student_markup"
+          ]
+        },
+        "presentation": [
+          "html",
+          "vocabulary_options_not_words"
+        ],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "historical_source_id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-accountancy-bookA-q17",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q17",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q17",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "offline_transport_sentinel_after_context",
+        "message": "OFFLINE_STRICT_SELECTOR_SENTINEL",
+        "transport_dispatches": 1
+      },
+      "meaning": "Strict production context completed; offline sentinel intercepted transport before any network/provider call."
+    },
+    {
+      "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "historical_source_id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-accountancy-bookA-q20",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q20",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q20",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "historical_source_id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q3",
+        "adaptation_type": "Substantive variation: matches share-capital terms to contrasting definitions, distinguishing amounts called but unpaid from subscribed capital that is not fully paid.",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": false,
+          "reasons": [
+            "unsupported_student_markup"
+          ]
+        },
+        "presentation": [
+          "markdown"
+        ],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "historical_source_id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q17",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q17",
+        "adaptation_type": "inverse numerical calculation",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q17",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "anchored_exemplar_format_mismatch",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "historical_source_id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q3",
+        "adaptation_type": "substantive_component_swap",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "historical_source_id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q7",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q7",
+        "adaptation_type": "Numerical application of profit allocation under the fixed capital method",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q7",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "anchored_exemplar_format_mismatch",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "historical_source_id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-accountancy-bookA-q3",
+        "adaptation_family": "pyq:cuet2024-accountancy-bookA-q3",
+        "adaptation_type": "Applied classification matching using new shareholder-payment and share-issue situations",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-accountancy-bookA",
+        "source_pack_version": 9
+      },
+      "anchor_id": "cuet2024-accountancy-bookA-q3",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": false,
+          "reasons": [
+            "unsupported_student_markup"
+          ]
+        },
+        "presentation": [
+          "markdown"
+        ],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "historical_source_id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-economics-bookA-q26",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q26",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q26",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [
+          "undefined_economic_term"
+        ],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "offline_transport_sentinel_after_context",
+        "message": "OFFLINE_STRICT_SELECTOR_SENTINEL",
+        "transport_dispatches": 1
+      },
+      "meaning": "Strict production context completed; offline sentinel intercepted transport before any network/provider call."
+    },
+    {
+      "id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "historical_source_id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-economics-bookA-q45",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q45",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q45",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "offline_transport_sentinel_after_context",
+        "message": "OFFLINE_STRICT_SELECTOR_SENTINEL",
+        "transport_dispatches": 1
+      },
+      "meaning": "Strict production context completed; offline sentinel intercepted transport before any network/provider call."
+    },
+    {
+      "id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "historical_source_id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-economics-bookA-q8",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q8",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q8",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "offline_transport_sentinel_after_context",
+        "message": "OFFLINE_STRICT_SELECTOR_SENTINEL",
+        "transport_dispatches": 1
+      },
+      "meaning": "Strict production context completed; offline sentinel intercepted transport before any network/provider call."
+    },
+    {
+      "id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "historical_source_id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q49",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q49",
+        "adaptation_type": "inverse numerical calculation",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q49",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "anchored_exemplar_format_mismatch",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "historical_source_id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "original_provenance": {
+        "kind": "pyq_adapted",
+        "anchor_id": "cuet2024-economics-bookA-q7",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q7",
+        "adaptation_type": "Reverse identification: asks for the constitutional article from the description of the annual financial statement, with nearby article provisions as distractors.",
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q7",
+      "reserved_benchmark_anchor": false,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [
+          "unseen_reference"
+        ],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "offline_transport_sentinel_after_context",
+        "message": "OFFLINE_STRICT_SELECTOR_SENTINEL",
+        "transport_dispatches": 1
+      },
+      "meaning": "Strict production context completed; offline sentinel intercepted transport before any network/provider call."
+    },
+    {
+      "id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "historical_source_id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "original_provenance": {
+        "kind": "authentic_pyq",
+        "anchor_id": "cuet2024-economics-bookA-q25",
+        "adaptation_family": "pyq:cuet2024-economics-bookA-q25",
+        "adaptation_type": null,
+        "syllabus_version": "cuet-2026-provisional-for-2027",
+        "pattern_version": "cuet-2024-authenticated-bookA-v1",
+        "source_pack_id": "cuet2024-economics-bookA",
+        "source_pack_version": 8
+      },
+      "anchor_id": "cuet2024-economics-bookA-q25",
+      "reserved_benchmark_anchor": true,
+      "independent_local_gates": {
+        "structure": {
+          "passed": true,
+          "reasons": []
+        },
+        "presentation": [],
+        "provenance": [
+          "source_pack_not_active"
+        ]
+      },
+      "production_selector_outcome": {
+        "kind": "before_transport_error",
+        "message": "authenticated_anchor_required",
+        "transport_dispatches": 0
+      },
+      "meaning": "Strict production context stopped before transport; not an academic-stage verdict."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-06T22:44:56.704Z",
+  "observed_question_id": "822819a13b2bc21181108b166fca10b8",
+  "observed_result": "Two-model and explanation pass despite absent reporting-enterprise status",
+  "free_guard": "missing_financial_enterprise_status",
+  "source": {
+    "id": "ncert-leac206",
+    "version": 1,
+    "locator": "span-b0864c4bffe7",
+    "support_hash": "b0864c4bffe7e872368f563a0086fe3eac2b26861858b07dfa7f5877091c457f",
+    "url": "https://ncert.nic.in/textbook/pdf/leac206.pdf",
+    "text": "6.5.4 Treatment of Some Peculiar Items Extraordinary items Extraordinary items are not the regular phenomenon, e.g., loss due to theft or earthquake or flood. Extraordinary items are non-recurring in nature and hence cash flows associated with extraordinary items should be classified and disclosed separately as arising from operating, investing or financing activities. This is done to enable users to understand their nature and effect on the present and future cash flows of an enterprise. Interest and Dividend In case of a financial enterprise (whose main business is lending and borrowing), interest paid, interest received and dividend received are classified as operating activities while dividend paid is a financing activity. In case of a non-financial enterprise, as per AS-3, it is considered more appropriate that payment of interest and dividends are classified as financing activities whereas receipt of interest and dividends are classified as investing activities. Taxes on Income and Gains Taxes may be income tax (tax on normal profit), capital gains tax (tax on capital profits), dividend tax (tax on the amount distributed as dividend to shareholders). AS-3 requires that cash flows arising from taxes on income should be separately disclosed and should be classified as cash flows from operating activities unless they can be specifically identified with financing and investing activities. This clearly implies that:  tax on operating profit should be classified as operating cash flows.  dividend tax, i.e., tax paid on dividend should be classified as financing activity along with dividend paid.  Capital gains tax paid on sale of fixed assets should be classified under investing activities."
+  },
+  "paid_calls": 0,
+  "quality_implication": "A live missed assumption demonstrates the limit of model agreement and the small frozen benchmark. The automatic publication inspection withholds it; this is not fresh benchmark evidence."
+}

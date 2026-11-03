@@ -1,0 +1,34 @@
+✔ empty record is an explicit empty state, never zeros dressed up as insight (5.4403ms)
+✔ ledger uses +5/-1, counts blanks separately and never calls open marks recoverable (1.4221ms)
+✔ answer changes count both directions and the net can be positive or negative (0.4364ms)
+✔ chapters rank only with enough questions; thin chapters are listed apart, never ranked (0.6255ms)
+✔ wilson interval keeps a small sample honest (0.2578ms)
+✔ pace comes from device events, flags the slow question and ignores sessions without a timeline (0.5684ms)
+✔ weekly digest separates this week from last and describes, without verdicts (0.5842ms)
+✔ readout and answers carry sample sizes and avoid causal claims (0.9972ms)
+✔ the operation key is one stable string per student action, and rejects weak ids (0.9784ms)
+✔ gate closed: nothing is reserved, nothing is called, the paused message is shown (0.7915ms)
+✔ happy path: reserve, execute, generate, then commit once with the provider receipt (0.5248ms)
+✔ insufficient credits blocks before any model call and says questions about the record are free (0.3292ms)
+✔ a provider timeout or exception releases the credit (0.4643ms)
+✔ unusable output (schema invalid or empty reply) releases instead of committing (0.326ms)
+✔ the same student action arriving twice never runs the model twice (0.3187ms)
+✔ ledger or database failure fails closed: a missing RPC pauses; a failed release says the credit returns on its own (0.3051ms)
+✔ a failed commit keeps the reply but charges nothing; the expiry sweep returns the held credit (0.266ms)
+✔ reserve takes credits atomically; the same key retried never takes them twice (1529.1601ms)
+✔ two requests that together exceed the balance cannot both succeed (1047.8565ms)
+✔ release restores exactly what was taken, included first then bonus, and is idempotent (1050.6261ms)
+✔ a released key cannot be reused to charge again; a new key can (1049.7899ms)
+✔ commit is final: no release after commit, no commit after release, double commit is idempotent (1054.4284ms)
+✔ a release after the monthly reset hands expired included credits back as bonus (1060.4091ms)
+✔ expired reservations are swept back to the student; open ones are left alone (1440.5886ms)
+✔ the ledger always explains the balance, and a committed reply leaves one debit (1192.9209ms)
+✔ the lifecycle is service-role only (1119.8424ms)
+ℹ tests 26
+ℹ suites 0
+ℹ pass 26
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 10819.7858

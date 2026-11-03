@@ -1,0 +1,38 @@
+{
+ "stage": "independent_evaluation",
+ "provider": "gemini",
+ "ms": 14531,
+ "request_bytes": 33144,
+ "response": {
+  "candidates": [
+   {
+    "content": {
+     "parts": [
+      {
+       "text": "{\n  \"candidate_id\": \"v710-v710-regression-on-q1-run-v79q1-accountancy-v2\",\n  \"content_hash\": \"9685844e16b164ffd340d2db34673fb3e6e5f7a4c9a8b268f8c3169b06c5230d\",\n  \"solved_key\": \"B\",\n  \"single_defensible_answer\": true,\n  \"source_support\": true,\n  \"numeric_solution\": true,\n  \"boundary_cases\": true,\n  \"passage_integrity\": true,\n  \"passage_answerability\": true,\n  \"meaningfully_distinct\": true,\n  \"evidence_ids\": [\"E1.2\"],\n  \"reasons\": [\n    \"Table F prescribes a maximum interest rate of 10% p.a. on calls in arrears.\",\n    \"Interest payable = Rs 4,000 * 10% * (6 / 12) = Rs 200.\"\n  ],\n  \"syllabus_chapter\": \"Share Capital\",\n  \"syllabus_topic\": \"Calls in Arrears and Interest under Table F\",\n  \"syllabus_entitlement\": true,\n  \"presentation_ready\": true,\n  \"question_type_match\": true,\n  \"principle_applicability\": \"excerpt_required\",\n  \"decisive_principle_in_excerpts\": true,\n  \"answer_conditions\": [\n    {\n      \"condition\": \"Calls in arrears amount is Rs 4,000 and delay is 6 months\",\n      \"status\": \"explicit\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"condition\": \"Table F permits maximum interest rate of 10% p.a. on calls in arrears\",\n      \"status\": \"convention\",\n      \"alters_key_if_changed\": true,\n      \"convention_evidence_ids\": [\"E1.2\"]\n    }\n  ],\n  \"option_challenges\": [\n    {\n      \"option\": \"A\",\n      \"strongest_reading\": \"Calculated using 12% p.a., which is the Table F rate for calls in advance rather than calls in arrears.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"C\",\n      \"strongest_reading\": \"Calculated at 10% p.a. for a full year without apportioning for the 6-month delay.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    },\n    {\n      \"option\": \"D\",\n      \"strongest_reading\": \"Calculated at 12% p.a. for a full year without time apportionment and using calls in advance rate.\",\n      \"correct_under_reading\": false,\n      \"reading_status\": \"contradicts_stem\",\n      \"convention_evidence_ids\": []\n    }\n  ],\n  \"blocking_defects\": [],\n  \"style_notes\": [],\n  \"cuet_fit\": {\n    \"criteria\": {\n      \"syllabus_objective\": {\n        \"level\": 3,\n        \"evidence\": \"Directly assesses computation of interest on calls in arrears under Table F.\"\n      },\n      \"format_authenticity\": {\n        \"level\": 3,\n        \"evidence\": \"Standard objective numerical calculation MCQ identical to CUET style.\"\n      },\n      \"level_calibration\": {\n        \"level\": 3,\n        \"evidence\": \"Requires straightforward two-step application of Table F interest rate.\"\n      },\n      \"discrimination_value\": {\n        \"level\": 3,\n        \"evidence\": \"Distractors target confusion with Table F calls in advance rate (12%) or time factor omission.\"\n      }\n    },\n    \"reasoning_steps\": 2,\n    \"estimated_difficulty\": \"easy\",\n    \"cognitive_level\": \"application\",\n    \"exemplar_ids_compared\": []\n  },\n  \"option_resolution\": [\n    {\n      \"option\": \"A\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 240\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.2\",\n      \"premise_quote\": \"states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof.\",\n      \"reason\": \"12% p.a. gives Rs 240, but Table F limits calls in arrears to 10% p.a.\"\n    },\n    {\n      \"option\": \"B\",\n      \"status\": \"supported\",\n      \"false_part\": \"\",\n      \"premise_source\": \"excerpt\",\n      \"evidence_id\": \"E1.2\",\n      \"premise_quote\": \"states that the interest at a rate not exceeding 10% p.a. shall have to be paid on all unpaid amounts on shares for the period intervening between the day fixed for payment and the time of actual payment thereof.\",\n      \"reason\": \"Rs 4,000 * 10% * 6/12 = Rs 200.\"\n    },\n    {\n      \"option\": \"C\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 400\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"paid it after 6 months\",\n      \"reason\": \"Omission of the 6-month period gives Rs 400 instead of Rs 200.\"\n    },\n    {\n      \"option\": \"D\",\n      \"status\": \"contradicted\",\n      \"false_part\": \"Rs 480\",\n      \"premise_source\": \"arithmetic\",\n      \"evidence_id\": \"\",\n      \"premise_quote\": \"paid it after 6 months\",\n      \"reason\": \"Applies 12% for a whole year ignoring 10% rate and 6-month duration.\"\n    }\n  ]\n}",
+       "thoughtSignature": "EuAJCt0JAWkUfRMwrm14rsICWT7SRRru5rYUS83FUl7R0I6vVquG+Q+JU+SHq/bw8DuA7ifU2a5Pv87aZQSpMqnIiLX7pZ0xE+bFkTI66DZ1zxtjat7WDUW6+YOJpYZqU6Vt6NQkKv2PCGZDSPvGiAHhV5bT/YQvX7D+eLo6vi22ILjPROtFnRs735Y3F4F7Z7TjlVDkeKQm1lLyl8V2xLS9+OOnjC8k3sWSGCK9yNnY11Z8WKgOch9H9t5tyWSkHg12cYoH4QcQQbAV6jJD5KQEBl8e7v1KaVLI82AnE1dEGajysnZ6IfqO8I3Dqt2QhqkrzPWN9FrJn/mJuCoAOdq4QJYd+rDM4XsIHRG+IJftbmtb+CcKKD74+Y0BOLZjjcAZckI2JaseHUuldIJHw8/5Jk/if+sPX2BAMO4Vcv42sIBMSqJzrLHyeWHTXvMGy+cMLLwQACEgFA1FDxDNf8LTTIzhVP7eUxAUfBwgEM8UM7Q4nMpjGSvmRGuwsLGwuYWAbUiwb2ajRGffs+3zRfVGudiKypQXyFzdnuM+fKkC00P79XqoJRbYKt5IPu1FURXFCAJBaSZHdcfZBT9z7ckQsm3X1hwrDoAdA2v+72wJgnddvQQHl+VQfWrAJpg690rBAZNt08dky+DQudooGNUSW5kKNJWPVZeFnn3cqE3eUrFEP7MA4AsmtQNxbRliq8KQT5dRm+FVEEEZ/0mTSidSzZ2r1uuwJbfiuPbgpDfgJGVpGOxm3YLZLUwdCklH1yUD1zgiIRcp0ssMB+R4be7kDSkHg2DlIwdKm8SiBOmFRc1XcmEKIdNcJa0MamgrKwk2iWWgFHwsCVNfHY4LPjX7o2vzPlQ+ZzBUlBopFuYsMAp99soB2MLYchQFia/iKhgikN3JYYOYALecOMjcyR8QIp/Yh5lZr9DUL/ssAAyy8DmkOl1MoffRAtD+fSksf33UJr4jsZ+cij+UKANYlQQQZ6+RjNnRpz6Ow8QRBqTR4xwoM//pVvcnUg2gJan7WJYM7qYCV1uprO4PpuzNCoFWal93n7pe+jF9jNHlpS6I+Jc7S9kI9DGJnFh9Zj9BXcUmPb4QqbFai0B+WDCWmA/h8uHRRRZHW2dT4LniwlgY2yazt6JnBCH04QKJhGdMQtCICVbLXUUhhPvXDdmw91gg/bzhkWWUoYLqPO6lfMSGEnJZNIhOiD60eAGGznUwWv1t/V+POqaoi8lziycjmJvcL5T2M+MHAzeuDtsiE5puxZnMr7btLbHpDYOay8OStLnC6I47LRkDEt4kukA+i/WuLYxRI+hetiZjSx9Tr+/Tz3tLwa9yuQXceLFvsh7NIRQTgiW/XnoHWM4MtNif66O35V76ajyjZfXCzYLs8zRUMQlIb38SHGZBbD+Eb+PH32ICcv7A3jprkkZrrfNC0Ji61o45Nu7aRWD8VwR8zzleXSUJ26Mup7jPyq8xZamrOFR694KomJXgPIDdnJI+AqJqwpblen+2NufQgAyPltIqzWYD/YPT2fzPnRCkZycKVkz7xC5dWJ8cGgu3WhPcmzt1z0u3YPTCJZeSqSnQ+p/fyz5Aic0561xVVtTfVa5ofFnZBfnyXlYi7B6MMnSQzUiyyIvHledQhAgfe+GE8eLDsD28RmSB69tiP3KGdLR+FVqS"
+      }
+     ],
+     "role": "model"
+    },
+    "finishReason": "STOP",
+    "index": 0
+   }
+  ],
+  "usageMetadata": {
+   "promptTokenCount": 5769,
+   "candidatesTokenCount": 1508,
+   "totalTokenCount": 7636,
+   "promptTokensDetails": [
+    {
+     "modality": "TEXT",
+     "tokenCount": 5769
+    }
+   ],
+   "thoughtsTokenCount": 359,
+   "serviceTier": "standard"
+  },
+  "modelVersion": "gemini-3.8-flash",
+  "responseId": "Ie7IapP0KOzV4-EPo_DF2A4"
+ }
+}

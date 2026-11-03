@@ -1,0 +1,8 @@
+{
+  "affected_receipts": 2017,
+  "underbooked_rows_usd": 0.117464,
+  "overbooked_rows_usd": 0.136293,
+  "net_adjustment_estimate_usd": -0.018829,
+  "basis": "Read-only recomputation from saved token partitions and published Luna cache ratios. Original settled costs stay preserved. This is not invoice reconciliation.",
+  "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna"
+}

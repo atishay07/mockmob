@@ -1,0 +1,139 @@
+{
+  "schema": "owner-one-off-127-review-manifest-v1",
+  "frozen_at": "2026-10-08T14:09:10.022Z",
+  "total": 127,
+  "counts": {
+    "accountancy": 36,
+    "business_studies": 21,
+    "economics": 53,
+    "english": 17
+  },
+  "source_snapshot_sha256": "70934506d98a7383db64f0bf26a86809e03978d29b1bff79c851f26c6002bccb",
+  "withholding_plan_sha256": "17a0c7474a500937f30c04fff9dd435c33328932e01d27969dfe63497acca662",
+  "registry_sha256": "d0d181a8fd3e98dab584be69a36f2f0de2e6f9652373f8122f3098a1084c1991",
+  "files": [
+    {
+      "name": "accountancy-01.blind.json",
+      "sha256": "30ae90079291f16e1d60db2c980fa9c17fe6b4dd832a83b004dd6d05601f0ef7"
+    },
+    {
+      "name": "accountancy-01.comparison.json",
+      "sha256": "0638f673eb6d41d4f539d68df7766f38a9c20bc3f5c9777319695662aad92bc5"
+    },
+    {
+      "name": "accountancy-02.blind.json",
+      "sha256": "4692006c499284f6b3107e52bb972c791f30deed3dddc9cbbcdb9be892e0face"
+    },
+    {
+      "name": "accountancy-02.comparison.json",
+      "sha256": "9f9bd8f0286e4bb69d7f611915c180f596b6dbe1f682b9de4e7e824ea3e6590d"
+    },
+    {
+      "name": "accountancy-03.blind.json",
+      "sha256": "3f6ffc666737e46ff58c54cd3b1396eec08733052ea3673f3cacab89e63d419f"
+    },
+    {
+      "name": "accountancy-03.comparison.json",
+      "sha256": "30089c0dc69ffbdf162c96026faaf000a33c4eac713331d7d08183968380a881"
+    },
+    {
+      "name": "accountancy-04.blind.json",
+      "sha256": "1cd54c6ff4d365c64117886e35b46d4e38a9ab106d43912bf9fab62fdc51cad5"
+    },
+    {
+      "name": "accountancy-04.comparison.json",
+      "sha256": "0a4f6f59f105ee7e1bdfdb511d0fc72db950dce8b2446abd2a6e244877183460"
+    },
+    {
+      "name": "business_studies-01.blind.json",
+      "sha256": "7c5ef1bdee23d3c498bfb5ed68b45c22f22d9773bc9c0f7802a89541835e78bd"
+    },
+    {
+      "name": "business_studies-01.comparison.json",
+      "sha256": "fb0eaa0b28a337ef7a110fea54fa0586dedfdc6c9a92a57b6abc91537d9f810f"
+    },
+    {
+      "name": "business_studies-02.blind.json",
+      "sha256": "94003a54911015b8ec698b296e038faa4e554bc2defdd324316eabf322c64d08"
+    },
+    {
+      "name": "business_studies-02.comparison.json",
+      "sha256": "abb7b4fac5e8f96fb8cdc7c28b20c256c8d98f4e1ca74ffa0e7bf1ddb1d00dae"
+    },
+    {
+      "name": "business_studies-03.blind.json",
+      "sha256": "88e8e65761446d82792a80ab4c8d6e4024b0eee17037db9dc0048772798f4d5f"
+    },
+    {
+      "name": "business_studies-03.comparison.json",
+      "sha256": "d85bfcc22bf1df77494be839cc0d9e3b5c0d055cf786f9de7003764b8ef24533"
+    },
+    {
+      "name": "economics-01.blind.json",
+      "sha256": "70948b40509255dbb1de71bdaa27ee53ec50b507d61029d363ba4793134c8d72"
+    },
+    {
+      "name": "economics-01.comparison.json",
+      "sha256": "ca2cddeb35705ecc68df20fdd2e1f905ac01112b545124553a05166e955d2663"
+    },
+    {
+      "name": "economics-02.blind.json",
+      "sha256": "e2c26dc7ad101bf1f6814e8f57535dd0363b55299542c35a25323b9d144c510e"
+    },
+    {
+      "name": "economics-02.comparison.json",
+      "sha256": "9db076b9e2745edf3e63a88c005189dc1a01c795200379f843a58a8affceb52f"
+    },
+    {
+      "name": "economics-03.blind.json",
+      "sha256": "35d55f2e5df3752da5da6213ae1ee9bc73cfa881d995eef0c8e8ad501a2b55b3"
+    },
+    {
+      "name": "economics-03.comparison.json",
+      "sha256": "d41c9226dd4e08641f360e43b4bf5aaa357a7a00107f022d29f53f60990bd0f2"
+    },
+    {
+      "name": "economics-04.blind.json",
+      "sha256": "c7c2471dadd4493589464833b17d43d9c2fac27484183f41aabe2e502e9ec19e"
+    },
+    {
+      "name": "economics-04.comparison.json",
+      "sha256": "06d9788a62cc36c3f64e636ea71ba621cd840dc554b951da6b13f64fd055d662"
+    },
+    {
+      "name": "economics-05.blind.json",
+      "sha256": "6d263010a187a817f3de2b9da1432890e860b50163d69c51581515dfc5dc7536"
+    },
+    {
+      "name": "economics-05.comparison.json",
+      "sha256": "e9296696faa85b4dff654aa476b4410c7b78c08a673a631ccff48981c3b90a52"
+    },
+    {
+      "name": "economics-06.blind.json",
+      "sha256": "70a66fb59be10d339d77b25c476409702ce2bae4f568a7281c9d96603a93e496"
+    },
+    {
+      "name": "economics-06.comparison.json",
+      "sha256": "22dfc8ce53d4b80ea8fab3e7bec2722e742d4fd119fc6183479b70bff71429f9"
+    },
+    {
+      "name": "english-01.blind.json",
+      "sha256": "592f7b975ec1b77d823682ab8cafa09e8b0a4f56e970a717c311c051b238b2d1"
+    },
+    {
+      "name": "english-01.comparison.json",
+      "sha256": "3235006a234a1652f2a2013d45eac192dfd75f9978c8e10d31ea8e56d4e3f330"
+    },
+    {
+      "name": "english-02.blind.json",
+      "sha256": "6f643d454191633e64156926c4f08b7044a835063eb1a3711711906d6b8b46d2"
+    },
+    {
+      "name": "english-02.comparison.json",
+      "sha256": "7712bb96a4ba0785038a309a552c6723a94f6e688ca4f764c7752c388097553a"
+    }
+  ],
+  "publication_writes": 0,
+  "paid_factory_calls": 0,
+  "current_release_qualification": false
+}

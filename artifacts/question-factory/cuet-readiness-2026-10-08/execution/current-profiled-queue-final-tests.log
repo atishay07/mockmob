@@ -1,0 +1,25 @@
+✔ scoped flush dispatches matching saved identities and leaves foreign queued requests unchanged (123.486ms)
+✔ maxRequests is a total cross-provider wave bound, not a per-provider bound (159.9874ms)
+✔ scope rejects invalid candidate lists and request bounds before touching queued rows (55.5594ms)
+✔ accepted batch IDs survive restart and scoped flush never resubmits them (66.7918ms)
+✔ profile pinning survives queue restart and reconstructs the exact original-practice brief (2.1044ms)
+✔ unprofiled jobs stay on legacy routing, malformed or stale pins fail closed (0.5926ms)
+✔ profiled inventory filter selects pin presence, including malformed and null pins, without version equality (0.1774ms)
+✔ validation routing calls V7.3 only for a current pin and never falls back on a stale pin (0.5403ms)
+✔ enqueue rejects campaign/profile mismatch, existing IDs, duplicates, inactive families and stale source refs (0.5625ms)
+✔ fixed 100-candidate campaign persists every ID once and worker selects bounded waves without splitting passage groups (2.9794ms)
+✔ source support hashes match literal text across current registry locators offline (21.3454ms)
+✔ passage publication waits for pending siblings and closes the full group on any quarantine (0.4534ms)
+✔ publication recovery keeps already-published siblings in the full idempotent group retry (0.2747ms)
+✔ oversized passage groups fail enqueue and are explicitly found in malformed persisted inventories (1.1308ms)
+✔ any profiled job mutation or publication requires the remote worker lease, even without authoring work (0.1914ms)
+✔ passage members require one complete campaign group and publication requires matching signed V7.3 evidence (0.8383ms)
+✔ staging guard requires an explicit approved staging endpoint and credentials (0.3396ms)
+ℹ tests 17
+ℹ suites 0
+ℹ pass 17
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 622.2651

@@ -1,0 +1,64 @@
+{"at":"2026-10-09T23:02:45.030Z","id":"f-793e37a7f34732b6","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:02:46.011Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:03:04.872Z","id":"f-90b386844e029292","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:03:13.897Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:03:58.356Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:04:35.722Z","id":"v75f-825e60a00f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.044Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.046Z","id":"f-90b386844e029292","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.046Z","id":"f-793e37a7f34732b6","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.046Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.192Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:05:19.192Z","id":"v75f-825e60a00f","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:07:16.560Z","id":"f-90b386844e029292","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:07:18.607Z","id":"f-793e37a7f34732b6","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:07:38.720Z","id":"f-c3a378b4d2de5478","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:08:01.433Z","id":"f-234e398c6040b350","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:08:14.489Z","id":"f-a7899d6bca12a82b","state":"pending","error":"provider_batch_pending"}
+{"at":"2026-10-09T23:08:52.014Z","id":"v75f-825e60a00f","state":"paused","error":"study_draining_stop"}
+{
+  "id": "cuet-v716-diagnostic-r1",
+  "kind": "diagnostic",
+  "profile": "cuet-fit-validator-v7.16-report-policy",
+  "denominator": 6,
+  "terminal": 0,
+  "valid_total": 4,
+  "valid_eligible": 0,
+  "valid_by_subject": {
+    "accountancy": {
+      "ok": 0,
+      "n": 1
+    },
+    "business_studies": {
+      "ok": 0,
+      "n": 1
+    },
+    "economics": {
+      "ok": 0,
+      "n": 1
+    },
+    "english": {
+      "ok": 0,
+      "n": 1
+    }
+  },
+  "controlled_defects": 2,
+  "controlled_false_accepts": [],
+  "review_incomplete": [],
+  "unfinished": [
+    "f-234e398c6040b350",
+    "f-90b386844e029292",
+    "f-793e37a7f34732b6",
+    "f-c3a378b4d2de5478",
+    "f-a7899d6bca12a82b",
+    "v75f-825e60a00f"
+  ],
+  "decision_rule": "Diagnostic only: native V716 report format compliance, outcome labelling and actual cost on six already-inspected R3 regression cases. Not qualification or release evidence; any later prompt change is followed by a fresh benchmark.",
+  "decision": "diagnostic_only",
+  "settled_usd": 0.012414,
+  "held_usd": 0.259974,
+  "receipt_complete": false,
+  "publication": "never",
+  "release_record": false
+}
+exit=0

@@ -1,0 +1,7 @@
+# Current known-critical regression
+
+Frozen 2026-10-08T15:34:26.709Z. The complete denominator is twelve: four previously observed positives, six previously observed controlled failures and two real bank failures independently diagnosed in the owner review. Require every critical failure to remain unavailable. Preserve all outcomes and any positive losses. This is regression evidence, never fresh academic qualification.
+
+The two bank stems, options, proposed keys and explanations are unchanged. Their original references remain alongside the corroborating correct worked journal/full capital-receipt definition in a private overlay. Both independent solvers see sources but not proposed keys or explanations. The existing Luna explanation check remains. Haiku is excluded from historical regression. No generation, repair, publication, source-registry mutation or benchmark relabelling.
+
+Offline cache inspection must establish reuse of the ten old cases before execution; if it does not, stop and investigate instead of buying another evaluation of those cases. Exact contract/content/source cache hits remain historical evidence and are separately counted. New charged requests should belong only to the two new critical records; the persistent USD50 lifetime guard remains authoritative. The standard study ceiling is USD4 and is a maximum reservation ceiling, not an expected charge. Provider receipts and conservative holds are reported separately from invoices.

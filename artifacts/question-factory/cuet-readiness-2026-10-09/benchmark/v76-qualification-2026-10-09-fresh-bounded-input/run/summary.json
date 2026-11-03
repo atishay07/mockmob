@@ -1,0 +1,84 @@
+{
+  "at": "2026-10-08T22:10:24.682Z",
+  "id": "v76-qualification-2026-10-09-fresh-bounded-input",
+  "denominator": 28,
+  "valid_roots": 16,
+  "controlled_defects": 12,
+  "terminal_topology": 28,
+  "eligible_valid": 15,
+  "controlled_false_accepts": [],
+  "by_subject": {
+    "accountancy": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 4
+    },
+    "business_studies": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 4
+    },
+    "economics": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 4
+    },
+    "english": {
+      "expected": 4,
+      "terminal": 4,
+      "eligible": 3
+    }
+  },
+  "provider_outcomes": {
+    "openai": {
+      "denominator": 28,
+      "counts": {
+        "judged": 28,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 16,
+      "positive_judged": 16,
+      "positive_comparison_complete": true
+    },
+    "gemini": {
+      "denominator": 28,
+      "counts": {
+        "judged": 28,
+        "error": 0,
+        "guard_blocked": 0,
+        "missing": 0,
+        "other": 0
+      },
+      "complete": true,
+      "positive_denominator": 16,
+      "positive_judged": 16,
+      "positive_comparison_complete": true
+    }
+  },
+  "provider_errors": 0,
+  "provider_stage_errors": [],
+  "stage_errors": [],
+  "execution_finished": true,
+  "release_evidence_complete": true,
+  "haiku": {
+    "role": "Not evaluated in this bounded qualification; Luna and Gemini retain every publication-validation stage. Haiku remains available for separately registered measurements.",
+    "comparison_applicable": false,
+    "valid_denominator": 0,
+    "observed": 0,
+    "comparison_complete": null,
+    "source_supported_unique_key_matches": 0,
+    "cuet_fit_passes": 0
+  },
+  "settled_usd": 0.380047,
+  "held_usd": 0,
+  "gross_usd": 0.380047,
+  "receipt_complete": true,
+  "publication_writes": 0,
+  "release": false,
+  "provenance_notice": "Fresh benchmark cases are original or adapted practice derived from their cited sources; source papers are not authenticated CUET PYQs.",
+  "limitation": "Official source keys and blinded checks are measured evidence; correlated papers/paired controls and model agreement do not establish perfect accuracy."
+}

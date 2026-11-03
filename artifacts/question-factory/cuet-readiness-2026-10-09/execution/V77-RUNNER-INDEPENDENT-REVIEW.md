@@ -1,0 +1,28 @@
+# V77 runner independent review — 9 October 2026
+
+**Initial integration review found concrete blockers before any paid dispatch.** This review is limited to the additive V77 runner/guards/release adapter, their focused tests and existing native transport paths. Frozen five-module V77 core, earlier V75/V76 files and real study/provider state were not edited. No native/provider call occurred.
+
+## Demonstrated blockers
+
+1. **Earlier inspected V73/V74 cases omitted from the anti-reuse inventory.** Runner compares only six V75/V76 paths and silently filters missing files. The existing `v76-case-freshness-check.md` explicitly records seven earlier inspected V73/V74 sets. Independent probe relabeled the first actual `fresh-official-source-v73` fixture and supplied the exact current six-path inventory: the anti-reuse guard returned true. Required history must include those earlier inspected sets and fail closed when a registered history file is unreadable. Exact fingerprint comparison cannot establish absence of semantic paraphrases or mere number changes; retain a bounded case-level inspection requirement rather than claiming perfect freshness.
+
+2. **Fresh defect exclusion survives in the V77 release adapter.** `assessReleaseEvidenceV77` delegates straight to V7, whose fresh denominator excludes `contested` defects and counts only `group: controlled_defect`. Independent fully covered synthetic fresh/regression result (all four subjects survive, one accepted fresh `expected_valid:false, contested:true` row) returned **released, no problems, zero fresh defects/false accepts**. V77 omitted the additive V76 safeguards that reject contested fresh defects, require every label to be boolean, require all invalid fresh rows to be controlled defects, and retain every invalid in the false-accept denominator. Keep inherited numeric thresholds 0/0/.85/.70; do not weaken them or reinterpret disputed labels after results.
+
+3. **Integration implementation is not execution-plan hash bound.** `inputHashes()` binds the core freeze, sources, prices and study files but not the new runner, guards/release adapter, native transport, budget/accounting or retry/atomic helpers. Modifying shared cap, approval/resume/release behavior after registration would still pass `assertExecutionPlanV77` provided those declared constants/fields remain unchanged. V76's runner explicitly bound these execution dependencies; the new additive path should retain that protection prospectively.
+
+## Other concrete limits requiring root disposition
+
+- Authorization artifact checks exact freeze/semantic hash, two study IDs, prefix/cap and issued timestamp but does not bind actual study payload/source/custody or execution-plan hash. Agent must still verify the human authorization came from the user; a self-declared JSON authorization is not independent proof. Study IDs alone permit a different case set under the same IDs before registration.
+- Runner calls release assessment without independently requiring current shared accounting receipt completeness / zero held requests. No settled qualification summary is persisted. Saved result coverage is an academic test result, not settled provider-accounting evidence.
+- The native wrapper materializes `service_tier:flex` before full-body sizing, but frozen native transport automatically retries a typed Flex-unavailable error internally with `noFlex:true` while retaining a caller-supplied service tier. Consequently that fallback resends the same explicit Flex tier, rather than standard realtime. The first typed refusal settles zero and accepted/unknown states are retained, so no demonstrated overspend arises from this observation; still, any internal attempt must remain inside the declared cap and reporting contract.
+- Runner's prepare/execute paths require authorization before lease/DB mutation. The default report validates the freeze then exits before any DB constructor/lease. No default DB access found. No new credentials/environment loader is present in this runner; actual provider credentials/signing key must be established outside it before execution.
+
+## Checks performed
+
+- `node --test scripts/pipeline/tests/freshCuetReadinessV77Guards.test.mjs`: **10 passed, 0 failed**.
+- Default `runFreshCuetReadinessV77.mjs report`: succeeded with local-only/no-study/no-DB/no-provider declaration; raw freeze SHA `632109c8...` and semantic contract `614d423f...` correctly remain distinct.
+- Independent anti-reuse and contested-defect results saved in `v77-runner-independent-probes.json`.
+- Wrapper compatibility: real `createFactoryEvidenceV77`/`validateFactoryCandidateV77` paths are selected; inherited completeJSON retries reenter the wrapper with a distinct durable key and doubled output cap, rechecking full final body and maximum reserve. Both frozen matrices/audit schema are checked on final explanation body before dispatch. OpenAI Flex is materialized before size guard; Gemini stays native realtime. Shared prefix accounting includes both sets; exclusive lease covers the phase. Native lifetime guard remains in addition to the wrapper's $50 check.
+- Guard-blocked saved evaluations use same-case recovery; accepted/unknown requests do not get resubmitted. Unknown results remain terminal/manual reconciliation. None of these source checks constitutes native qualification or proves that future full audit matrices fit the 50,000-byte bound.
+
+No core freeze, release profile, fresh cases or approval artifact was created by this review. Findings are prospective local integration defects; they do not authorize another study or native dispatch.

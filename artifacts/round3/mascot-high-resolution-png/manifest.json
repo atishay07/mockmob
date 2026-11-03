@@ -1,0 +1,72 @@
+[
+  {
+    "file": "pip-celebrating.png",
+    "width": 1310,
+    "height": 1200,
+    "bytes": 814399,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "c3fb8cbe8481e91452d0e815c601370b2fc49b27fdd0f48a3e0086410321a34c"
+  },
+  {
+    "file": "pip-character-sheet.png",
+    "width": 1332,
+    "height": 1181,
+    "bytes": 848851,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "af2b01875d280e4bee88c910e0751ccf3b8bde80649c9524219ff3f0ad3eaff4"
+  },
+  {
+    "file": "pip-encouraging.png",
+    "width": 1215,
+    "height": 1295,
+    "bytes": 948186,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "0c3b5e4600530333c82e7720825235812193a1f7bc0453c18e77135f35ed2e93"
+  },
+  {
+    "file": "pip-greeting.png",
+    "width": 1175,
+    "height": 1339,
+    "bytes": 1102141,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "7a2a683b0e736e8c0cbb9534a0347a4832d963bfd776b90819fd5da95853fabe"
+  },
+  {
+    "file": "pip-idle.png",
+    "width": 1332,
+    "height": 1181,
+    "bytes": 864022,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "8f50396ebde92078f6acbefc69db47745a21d9a8db4ff59f970b91af53bbc433"
+  },
+  {
+    "file": "pip-pointing.png",
+    "width": 1332,
+    "height": 1181,
+    "bytes": 808196,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "bbae196a90dc150664525f413bee2c605b302c8b79f1c06ec011c919873020a4"
+  },
+  {
+    "file": "pip-thinking.png",
+    "width": 1332,
+    "height": 1181,
+    "bytes": 774920,
+    "hasAlpha": true,
+    "alphaMin": 0,
+    "alphaMax": 255,
+    "sha256": "80aa4128b4abc81882ece85fc1da57deda029868e7fef3437f94cad14f74371b"
+  }
+]

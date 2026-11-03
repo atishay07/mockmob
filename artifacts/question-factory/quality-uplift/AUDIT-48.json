@@ -1,0 +1,2711 @@
+{
+  "at": "2026-10-06T09:16:04.499Z",
+  "reviewed": 48,
+  "intended_key_matches": 48,
+  "counts": {
+    "approve": 30,
+    "suspect": 17,
+    "incomplete": 1
+  },
+  "scope": "Frozen previous commissioning passing hashes; independent subscription review, not publication evidence.",
+  "perfect": false,
+  "production_changes": 0,
+  "items": [
+    {
+      "id": "24281d99-3989-401c-8119-f06de936e756",
+      "content_hash": "4a0b71819ecdb981fa164f9eb5cfb1efe70c6cb063c28976916e53fed9b3e2eb",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct ANTONYM for sullen from the options given below.",
+      "options": [
+        "morose",
+        "reticent",
+        "timid",
+        "genial"
+      ],
+      "passage": "",
+      "question_type": "antonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "c3c68e301906dcc02f653de4b3c28cc25f428af157374c0c29bcefbf7f2e5960"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-fec22fec900f",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "6861f56f1d68882d0c77320c6d0ed74e031673ed53f1bf5eded26928f2309af5"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "e895d8290e10c6c1a44f0f74d1b12a3e5d05037a2acd701382d3bf5e2a2bdf3a"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q49",
+      "solved_key": "D",
+      "verdict": "approve",
+      "reasons": [
+        "Sullen contrasts with genial; supplied primary definitions support the antonym."
+      ],
+      "recorded_key": "D",
+      "answer_match": true,
+      "subject": "english"
+    },
+    {
+      "id": "720ab503-fa80-4e36-8838-de942a3487f7",
+      "content_hash": "1f7aca4672f837feb0d225fbc42d3597d3f6c2206bbf69328ebdf81529fe4e73",
+      "chapter": "Vocabulary",
+      "body": "Identify the option closest in meaning to the underlined word : The movie star’s biography is a glossy, sycophantic portrayal.",
+      "options": [
+        "cowardly",
+        "domineering",
+        "flattering",
+        "insolent"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q46",
+          "support_hash": "d164f096352ccebcf374c70b8c387432c2ab44ec612fe03cd5a2998b0a972c2a"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2326f94598e9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "aedaa3786a674f100b9dab328cc8958180156bfcdd0949e43a93b79526e0ec73"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "ad0aefd7999f76c544cbdcaab975de70bc66f92f17b0bc75227c202fc7a090a3"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q46",
+      "solved_key": "C",
+      "verdict": "suspect",
+      "reasons": [
+        "Sycophantic means flattering in context, but the underlined target is not marked in the extracted stem. Specify the target or restore faithful presentation before use."
+      ],
+      "recorded_key": "C",
+      "answer_match": true,
+      "subject": "english"
+    },
+    {
+      "id": "afe7332b-0e12-467f-990a-74053d984bde",
+      "content_hash": "bba46fd077b57f64075c66fbf9245418be4c2af248b7aaa212b0c3c45c70fbb4",
+      "chapter": "Vocabulary",
+      "body": "At a community event, Leena greeted newcomers with a warm smile, chatted cheerfully, and made them feel welcome. Which word best describes her manner?",
+      "options": [
+        "morose",
+        "reticent",
+        "timid",
+        "genial"
+      ],
+      "passage": "",
+      "question_type": "antonym in context",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "c3c68e301906dcc02f653de4b3c28cc25f428af157374c0c29bcefbf7f2e5960"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-fec22fec900f",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "6861f56f1d68882d0c77320c6d0ed74e031673ed53f1bf5eded26928f2309af5"
+        },
+        {
+          "id": "cuet2024-english-bookA-q49-capture-23c3cd612dde",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "e895d8290e10c6c1a44f0f74d1b12a3e5d05037a2acd701382d3bf5e2a2bdf3a"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-english-bookA-q49",
+      "solved_key": "D",
+      "verdict": "suspect",
+      "reasons": [
+        "Genial fits the description. The antonym-in-context label does not describe this choosing-a-word task. Definitions of the three distractors are not directly supported by the supplied excerpts."
+      ],
+      "recorded_key": "D",
+      "answer_match": true,
+      "subject": "english"
+    },
+    {
+      "id": "0f45611a-97a5-4954-84ff-ac48135d7b78",
+      "content_hash": "836070680a3d09429bddc726bcd2cedce817ec861e133cf06de675eec22e1cb3",
+      "chapter": "Vocabulary",
+      "body": "Identify the option closest in meaning to the underlined word: Her <u>ingratiating</u> remarks seemed designed to win the director’s approval.",
+      "options": [
+        "Designed to win favour",
+        "Intended to express disapproval",
+        "Marked by complete impartiality",
+        "Showing little interest"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q46",
+          "support_hash": "d164f096352ccebcf374c70b8c387432c2ab44ec612fe03cd5a2998b0a972c2a"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2326f94598e9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "aedaa3786a674f100b9dab328cc8958180156bfcdd0949e43a93b79526e0ec73"
+        },
+        {
+          "id": "cuet2024-english-bookA-q46-capture-2fd905f3a9d9",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "ad0aefd7999f76c544cbdcaab975de70bc66f92f17b0bc75227c202fc7a090a3"
+        }
+      ],
+      "kind": "pyq_adapted",
+      "anchor": "cuet2024-english-bookA-q46",
+      "solved_key": "A",
+      "verdict": "suspect",
+      "reasons": [
+        "Intended meaning of ingratiating is correct. Raw HTML is exposed in the stem and the supplied definitions cover sycophantic/flatter, not the changed target ingratiating."
+      ],
+      "recorded_key": "A",
+      "answer_match": true,
+      "subject": "english"
+    },
+    {
+      "id": "81e67374-a170-407d-9bc2-d3cdfd2fe884",
+      "content_hash": "22fd3f82e37059e59aa5c3da2c8bedbd52057ff0439df68720d3b9cad1c6c5d8",
+      "chapter": "Vocabulary",
+      "body": "Choose the correct SYNONYM for redoubtable from the options given below.",
+      "options": [
+        "flimsy",
+        "perplexing",
+        "formidable",
+        "voluble"
+      ],
+      "passage": "",
+      "question_type": "synonym",
+      "concept_id": null,
+      "source_refs": [
+        {
+          "id": "cuet2024-english-bookA-paper",
+          "version": 1,
+          "locator": "q48",
+          "support_hash": "0d6438ad873a325c700c93e145d81f85e3aaa9c0cfacf2dd567e287c0dc7c7b1"
+        },
+        {
+          "id": "cuet2024-english-bookA-q48-capture-5b560b67fcda",
+          "version": 1,
+          "locator": "checked-excerpt",
+          "support_hash": "13748735091262ef67a89d3325b951153a2bca72a774a10dcc3aa78f5930dce5"
+        }
+      ],
+      "kind": "authentic_pyq",
+      "anchor": "cuet2024-english-bookA-q48",
+      "solved_key": "C",
+      "verdict": "approve",
+      "reasons": [
+        "Redoubtable matches formidable; the primary definition supports the target sense."
+      ],
+      "recorded_key": "C",
+      "answer_match": true,
+      "subject": "english"
+    },
+    {
+      "id": "fab8e8b9-af16-4d92-8b96-0363050eea8b",
+      "content_hash": "745048814e3a5d124179c76c43fb50011048d64cc8db793a5f758289c4cfcd8f",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Definition and key agree with NCERT. Four choices are distinct."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Oversubscription means applications exceed shares offered; option 2 is intended. Prefer offered for subscription to issued.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Oversubscription",
+      "current_question_type": "conceptual_mcq",
+      "recommended_question_type": "conceptual_mcq",
+      "explanation_correct": true,
+      "improvements": [
+        "Use shares offered for subscription rather than shares issued in the stem/options/explanation for precise comparison."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 24 directly defines oversubscription; the paper q14 preserves the historical wording.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "2c7f1331-d354-4808-8ebe-23aa248448cb",
+      "content_hash": "b1357b6bdc94391a97bd703f3ee9cf338e8f85bb954e0be0f549253b8c4119b9",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The stem omits the condition that premium was previously credited but remains unpaid. Securities Premium is not debited when premium was received. The explanation correctly states the condition, but the unconditional matching stem does not.",
+        "OCR flattens the List-I/List-II headings into an interleaved run-on sentence."
+      ],
+      "answer_uniqueness": "conditional",
+      "blind_reasoning": "On forfeiture: Share Capital debit called-up capital, Share Forfeiture credit paid capital, Calls in Arrears credit unpaid calls; Securities Premium debit only the premium previously credited but unpaid. Option 2, conditional on unpaid premium.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Forfeiture of shares issued at a premium",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": "Correct under unstated condition",
+      "improvements": [
+        "State: On forfeiture of shares issued at a premium, assume the premium due has not been received and Calls in Arrears Account is maintained. Match each account with its treatment.",
+        "Use separate labelled lists; describe D-I as unpaid premium, not any amount not received."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 39 explicitly distinguishes paid and unpaid premium; page 38 shows the general forfeiture entry. Historical q17 alone cannot resolve its own missing condition.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac201 page 39 explicitly distinguishes paid and unpaid premium; page 38 shows the general forfeiture entry. Historical q17 alone cannot resolve its own missing condition."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "2782c53c-4cd4-4031-b0df-466f478627b9",
+      "content_hash": "b127d1827cf855cd098f1073fc434f9367c61bb2c43bbf972bd4f121ebbf8e4e",
+      "solved_key": "C",
+      "solved_key_one_based": 3,
+      "recorded_key": "C",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Option 4 contains a stray st that is absent from the printed option. The rendered source shows the next question refers to 1st July: the extracted superscript leaked into q20.",
+        "Attached NCERT locators explain accounting and interest treatment but do not explicitly state the acceptance-authority rule. The mirror question gives historical wording, not an independent explanatory rule."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "The Articles of Association authorise acceptance of calls in advance; option 3. Stray st in option 4 is an OCR defect.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Authority to accept calls in advance",
+      "current_question_type": "factual_recall",
+      "recommended_question_type": "factual_recall",
+      "explanation_correct": true,
+      "improvements": [
+        "Replace option 4 exactly with Memorandum of Association.",
+        "Attach a direct permitted educational or primary Section 50(1) source for the authority rule."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "source_entailment": "Direct visual inspection of AglaSem physical PDF page 13, printed page 12, confirms all four options and the contamination origin. Intended correct option is Articles of Association. An official MCA Companies Act PDF search result identifies Section 50, but opening it returned 403; an IndiaCode PDF retrieval timed out, so this audit does not claim complete statutory verification.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct visual inspection of AglaSem physical PDF page 13, printed page 12, confirms all four options and the contamination origin. Intended correct option is Articles of Association. An official MCA Companies Act PDF search result identifies Section 50, but opening it returned 403; an IndiaCode PDF retrieval timed out, so this audit does not claim complete statutory verification."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "ffbf2eaa-257a-4930-bf2d-6bd6d54aad1c",
+      "content_hash": "127f068ee7eee72b939fdf2e95943402b285aba9596b3cb18c91b19d20f443df",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The explicitly backward sequence has exactly one valid option: Appropriation, P&L, Trading. Explanation reverses the authenticated sequence correctly."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Backward trace from Balance Sheet reverses Trading -> P&L -> P&L Appropriation; A,B,C, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Partnership Fundamentals",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Preparation sequence of partnership final accounts",
+      "current_question_type": "sequence_ordering",
+      "recommended_question_type": "sequence_ordering",
+      "explanation_correct": true,
+      "improvements": [
+        "Preserve the three labelled items as separate lines in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "source_entailment": "Paper q5 gives forward Trading -> P&L -> Appropriation -> Balance Sheet. NCERT leac101 pages 1 and 36 confirm partnership final accounts and the additional appropriation account.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "1b161744-da1e-440e-8bd3-a6df28773a5a",
+      "content_hash": "eea4b8e16a8d182f77a0e821f0f6cdbea51dc7f6729d741e7c1cafdb4f794118",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The question tests definitions of share-capital categories, not preparation or presentation of company financial statements. Financial Statements of Company is the wrong primary chapter.",
+        "The registered NCERT page 55 concerns buy-backs and page 66 does not define reserve capital or subscribed-but-not-fully-paid capital. The historical paper is not enough to entail the fuller adapted definition of uncalled reserve capital.",
+        "The Markdown table is rendered as literal pipes and separator characters by the existing plain-text question renderer."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-III, B-I, C-IV, D-II; option 2. Definitions belong to share capital.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Categories of share capital; calls in arrears and advance; reserve capital",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Attach leac201 pages 4-5 for capital categories and reserve capital, and page 18 for calls in advance.",
+        "Use structured list content supported by the renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 pages 4-5 establish the missing definitions. Page 66 establishes unpaid calls. Syllabus Unit IV expressly includes share-capital meaning/nature/types.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 pages 4-5 establish the missing definitions. Page 66 establishes unpaid calls. Syllabus Unit IV expressly includes share-capital meaning/nature/types."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "e539e791-5e64-48ad-be13-53df6e25a079",
+      "content_hash": "0a803aeda0ea084108d4f864dcb53d9f439ec76f02d9b4ef8767a631f72782c6",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The primary task is maintenance of capital/current accounts, including additional and permanent withdrawal of capital. It should map to Partnership Fundamentals; Profit & Loss Appropriation Account covers only some listed items."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Profit and salary go to Current Account; additional capital and agreed permanent capital withdrawal to Capital Account: I-B, II-A, III-B, IV-A, option 2.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Fixed versus fluctuating capital; capital and current accounts",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Partnership Fundamentals with a fixed-capital-method concept.",
+        "Add leac101 page 6, whose visual account proformas directly show salary and profit in Current Account and capital changes in Capital Account.",
+        "Preserve list line breaks in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "NCERT leac101 page 5 directly distinguishes the accounts; direct page 6 visual inspection confirms the complete matching including salary.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac101 page 5 directly distinguishes the accounts; direct page 6 visual inspection confirms the complete matching including salary."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "b05f3b4d-275f-4c20-903f-80b9eefc4d33",
+      "content_hash": "0e09f1b85f330d9951e32050991a52d958d44ccdad3586cfd3b78c31b079e962",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "54,000 - 9,000 = 45,000; all required quantities and units are explicit. No allotment or pro-rata assumption is needed."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Shares offered = 54,000 - 9,000 = 45,000, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Oversubscription: shares offered",
+      "current_question_type": "numerical_mcq",
+      "recommended_question_type": "numerical_one_step",
+      "explanation_correct": true,
+      "improvements": [
+        "Standardise numerical_mcq to numerical_one_step for comparable format metadata."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 24 supports the oversubscription relationship; the new arithmetic is independently solved, not asserted to be an official numerical PYQ.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "ea3b40b5-dc4b-4718-a7b9-5a5a2b46b016",
+      "content_hash": "1cf33d71d2b3405c642ccdef3c5c48c3505d8377b27b8ce933bcf4f3949c1578",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The item principally tests capital/current account maintenance and includes additional capital. Partnership Fundamentals is a more exact primary chapter than Profit & Loss Appropriation Account."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Interest and profit credit current; drawings debit current; additional capital credits capital: A-II B-III C-I D-II, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Fixed capital method: posting sides of capital/current accounts",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Partnership Fundamentals.",
+        "Attach leac101 page 6 for the debit and credit sides.",
+        "Preserve separate lists and line breaks in the exam renderer."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "NCERT leac101 pages 5-6 and the printed account proformas substantiate all four postings.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac101 pages 5-6 and the printed account proformas substantiate all four postings."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "d1e4b734-18a9-45a4-9be3-fdee0d226e8f",
+      "content_hash": "8e55c1236a87377f7792a12f87c477fd2a622ac559ecb513b0cbaac92401fda0",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "600 is correct only if the final call is the sole unpaid capital instalment. Fully called-up means demanded, not received; the stem does not explicitly state all other capital instalments were paid.",
+        "For example, if a further Rs 4 capital instalment had also been unpaid, capital received would be Rs 3 per share and 1,400 shares would also fit Rs 4,200. The current explanation silently assumes Rs 7 received."
+      ],
+      "answer_uniqueness": "conditional",
+      "blind_reasoning": "Intended paid capital per share = 10 - 3 = 7, premium excluded; 4,200/7 = 600, option 2. Stem should explicitly say all other capital instalments were paid; otherwise received share capital is not fully specified.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Forfeiture: capital received excludes paid premium",
+      "current_question_type": "single_correct_numerical",
+      "recommended_question_type": "numerical_one_step",
+      "explanation_correct": "Correct under unstated condition",
+      "improvements": [
+        "State: All amounts due, including the premium, had been received except the final call of Rs 3 per share.",
+        "Standardise single_correct_numerical to numerical_one_step."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q17",
+          "support_hash": "0097946358f9bf0b9498ff1016a187aa8977a02219d4bc80237b9eb5542510fb"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-39",
+          "support_hash": "cab36fcbb675c45db0a6020e7dd7c0e81f618f00a71e75c9d20d5180c6df4758"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-35",
+          "support_hash": "3dadf29d63acd15d44eb8ec51666a32e28abb77267202cf7644a4ee7a7eedc6f"
+        }
+      ],
+      "source_entailment": "NCERT leac201 pages 38-39 require crediting actual capital received and excluding realised premium. The source defines the rule; it cannot supply missing facts for the generated company.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "NCERT leac201 pages 38-39 require crediting actual capital received and excluding realised premium. The source defines the rule; it cannot supply missing facts for the generated company."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "5315d8d9-8a25-4171-83c3-41fba1ff160c",
+      "content_hash": "9fac346430b3b53bf9d10948a60b4bae1fee6ab226de1651e4240ef62949777f",
+      "solved_key": "D",
+      "solved_key_one_based": 4,
+      "recorded_key": "D",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Definitions of share-capital items are misclassified under Financial Statements of Company.",
+        "Reserve capital is not merely any amount called at winding up; it is specifically a reserved portion of uncalled capital callable only then. The explanation repeats the abbreviated definition.",
+        "Existing leac201 page 55 does not support reserve capital; page 66 supports the other three definitions."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-II B-IV C-I D-III, option 4. Reserve capital is uncalled capital reserved for winding up. Share Capital mapping.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Calls in arrears; calls in advance; securities premium; reserve capital",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Replace List-II III and the explanation with Uncalled capital reserved to be called only in the event of winding up.",
+        "Attach leac201 page 5.",
+        "Preserve list line breaks."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 page 5 defines reserve capital. The q3 paper is historical wording support, not complete textbook entailment for the adapted list.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 page 5 defines reserve capital. The q3 paper is historical wording support, not complete textbook entailment for the adapted list."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "5ec3ec4d-fe39-4608-a3a0-4c02f53707e3",
+      "content_hash": "3ca6b676c3f53e3ba748a3654e6961234f84a16ab7979950e82d2755bed995eb",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The explicit profit-transfer sequence has one defensible option; current/capital accounts correctly appear before the Balance Sheet."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Profit flows Trading -> P&L -> P&L Appropriation -> Capital/Current -> Balance Sheet, option 1. Options are unnecessarily repeated in stem.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Partnership Fundamentals",
+      "recommended_chapter": "Partnership Fundamentals",
+      "recommended_topic": "Transfer and presentation of partnership profit",
+      "current_question_type": "sequence_ordering",
+      "recommended_question_type": "sequence_ordering",
+      "explanation_correct": true,
+      "improvements": [
+        "Remove the four full answer choices repeated inside the question body; retain them only in options.",
+        "Replace The authenticated question establishes / NCERT excerpt states with a direct student explanation of gross profit, net profit, appropriation, partner accounts, and balance-sheet presentation.",
+        "Attach leac101 pages 6, 8-9 for direct profit-transfer entries and presentation."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q5",
+          "support_hash": "b4572d89a2cc4c75f957c479ff39e609de4aec170ca230da5fd6f04ab1df502a"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-1",
+          "support_hash": "adbb28ab31cbe5ed438e327bc87c8d1304fb7afbfe25fcf383d4378896e6aaf7"
+        }
+      ],
+      "source_entailment": "Paper q5 supports the original four-step order; leac101 page 5 supports capital/current account presentation. Direct pages 6, 8-9 strengthen the expanded transfer chain.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "6ff08f7a-b79b-4290-83a6-007f7b4df498",
+      "content_hash": "ea2f72066da04da54a9b3d04d26a34f248f78c42405247346da0b71ca8d0edac",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Bank is debited and Calls in Advance is credited. The stem distinguishes receipt before the call from adjustment on its due date."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Receipt increases Bank and creates Calls in Advance liability: Bank Dr, Calls in Advance Cr, option 2.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Calls in advance: receipt journal entry",
+      "current_question_type": "factual_recall",
+      "recommended_question_type": "application_based",
+      "explanation_correct": true,
+      "improvements": [
+        "Application_based is a more informative format label than factual_recall for journal-entry selection."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q20",
+          "support_hash": "3f271844e60a3ccbdb8ab80dcb43193486c551f4585c248ca6aff28504d32941"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "4fdb342915d7f3fb4c0421b65c2fc91a00e180bee456352709ab5073640d85ae"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-65",
+          "support_hash": "e90ab0461189f21fa47e02e61c6e52992deea28078f0cba20aaa7e6721c4bf31"
+        }
+      ],
+      "source_entailment": "NCERT leac201 page 18 directly prints this exact journal entry and separately prints the later adjustment entry.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "3d547d56-6873-4057-85d8-8a627eed611d",
+      "content_hash": "d21b26fbc1fbb1f4e3eb2747ff813517384de421ffc5035f25e7a865754ee96e",
+      "solved_key": "C",
+      "solved_key_one_based": 3,
+      "recorded_key": "C",
+      "answer_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Applications equal shares offered; fully subscribed is uniquely correct. Premium does not follow from application count."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Equal applications and offered shares means fully subscribed, option 3.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Share Capital",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Full subscription versus over/under subscription",
+      "current_question_type": "conceptual_mcq",
+      "recommended_question_type": "conceptual_mcq",
+      "explanation_correct": true,
+      "improvements": [
+        "Add leac201 page 4, which directly distinguishes issued and subscribed capital when the offer is fully subscribed."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q14",
+          "support_hash": "543d61ddfb784187b41fa527d6eb4f013cf9eb1d6fcd187ae6afd49912183fa8"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-24",
+          "support_hash": "fa22806a5accdcb375b0d1c226b595b37421513829d8b7564d942bb90d64f914"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-30",
+          "support_hash": "d314f848484fc704f20fc546955abec53787fd856b4471239996067123e2241b"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "NCERT leac201 pages 24 and 30 define the over/under boundaries; direct page 4 supplies explicit equal/full subscription support.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "2d2a61f1-9e8c-4118-a689-52fbde8d14f7",
+      "content_hash": "9b2af8000641e6c30d68aabdf4ce5afec396d527d73cbfe3c4b03e4e75c61a75",
+      "solved_key": "A",
+      "solved_key_one_based": 1,
+      "recorded_key": "A",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The numerical split and debit/credit direction are academically correct. However, none of the currently attached textbook locators directly prints the residual-profit transfer journal entry. A fixed-account definition and summary of final accounts do not by themselves establish debit Appropriation / credit partners."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "Residual profit allocation debits Appropriation 120,000 and credits two current accounts 60,000 each, option 1.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit I: Accounting for Partnership",
+      "current_chapter": "Profit & Loss Appropriation Account",
+      "recommended_chapter": "Profit & Loss Appropriation Account",
+      "recommended_topic": "Profit and Loss Appropriation: residual-profit transfer",
+      "current_question_type": "single_correct_mcq",
+      "recommended_question_type": "application_based",
+      "explanation_correct": true,
+      "improvements": [
+        "Attach leac101 page 9, section 6(a), along with page 5 for Current Account under fixed capital.",
+        "Standardise single_correct_mcq to application_based."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "d6db6f72f5dcae39e2bc6ee67cf5637920e7c06e8fb2413e4f3d92ee534c376b"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "4a83c37daaf3b82c1b3fd9549c468744dcaf96b65c7d4659a180d249bb77c4f1"
+        },
+        {
+          "id": "ncert-leac101",
+          "version": 1,
+          "locator": "pdf-page-36",
+          "support_hash": "4cdaf8df2a71432b3247b7a341e2253ea24deb6cf918b7bbdd362796a5683bc0"
+        }
+      ],
+      "source_entailment": "Direct visual inspection of leac101 page 9 shows P&L Appropriation Dr to Partners Capital/Current, and page 6 shows the fixed-method current-account credit. This supports repair without changing the answer.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct visual inspection of leac101 page 9 shows P&L Appropriation Dr to Partners Capital/Current, and page 6 shows the fixed-method current-account credit. This supports repair without changing the answer."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "f354a935-306d-40af-a914-6159be1bbcd9",
+      "content_hash": "7d628ae1ef92f4601ea7f9d1de22abb5b75eb58fb41553c7ea3205894841eeb6",
+      "solved_key": "B",
+      "solved_key_one_based": 2,
+      "recorded_key": "B",
+      "answer_match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "The situations test share-capital classifications and transactions; Financial Statements of Company is the wrong primary chapter.",
+        "Existing NCERT page 55 is unrelated to reserve-capital definition and page 66 does not define it.",
+        "Markdown table syntax is unsupported by the question renderer.",
+        "C-IV should explicitly say the premium excess, since only the excess over nominal value is credited to Securities Premium Reserve, not the entire share proceeds."
+      ],
+      "answer_uniqueness": true,
+      "blind_reasoning": "A-III B-I C-IV D-II, option 2. IV must mean the excess over nominal value credited to premium, not all proceeds.",
+      "syllabus_in_scope": true,
+      "syllabus_unit": "Unit IV: Company Accounts: Accounting for Share and Debenture Capital",
+      "current_chapter": "Financial Statements of Company",
+      "recommended_chapter": "Share Capital",
+      "recommended_topic": "Share capital definitions and classifications",
+      "current_question_type": "match_type",
+      "recommended_question_type": "match_type",
+      "explanation_correct": true,
+      "improvements": [
+        "Map to Share Capital.",
+        "Replace List-II IV with Excess of issue price over nominal value credited to Securities Premium Reserve.",
+        "Attach leac201 pages 5, 18 and 30-31 for direct support.",
+        "Present supported structured lists rather than raw Markdown tables."
+      ],
+      "source_refs": [
+        {
+          "id": "cuet2024-accountancy-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "d210eb44c4093715de1d502471f918c3551d103a45b87401b3d2717039549551"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-55",
+          "support_hash": "f480dac7cf5437ab860c624d8b47cb1feaaec099efce475dcab833bf651b5cf9"
+        },
+        {
+          "id": "ncert-leac201",
+          "version": 1,
+          "locator": "pdf-page-66",
+          "support_hash": "a8b966c5a7081e4eff194b22ce215270f580ec29662610d2a63adebe6391ed13"
+        }
+      ],
+      "source_entailment": "Direct NCERT leac201 page 5 establishes reserve capital; page 18 establishes calls-in-advance treatment; pages 30 and 66 establish premium treatment and unpaid calls.",
+      "source_limitations": [
+        "2026 syllabus is provisional for 2027; future official changes require revalidation.",
+        "Direct NCERT leac201 page 5 establishes reserve capital; page 18 establishes calls-in-advance treatment; pages 30 and 66 establish premium treatment and unpaid calls."
+      ],
+      "subject": "accountancy"
+    },
+    {
+      "id": "7d475953-f798-4712-bac8-57c55b4467c2",
+      "content_hash": "9937e9623f4a481aee30c6c353d3fa494eac59eee9debf36053d9c5d8360cbad",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The stem isolates the issued administrative order from the unissued political proposal. Only Legal environment classifies the current requirement.",
+        "Accurately distinguishes current legal requirement from political proposal. No external allergen statute is required: this is a stated hypothetical."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The stem isolates the issued administrative order from the unissued political proposal. Only Legal environment classifies the current requirement."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Political environment is an intentional plausible distractor, resolved by the proposal/order distinction; social and economic do not classify the binding order."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone scenario includes the government order and proposal status; no passage is needed.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Accurately distinguishes current legal requirement from political proposal. No external allergen statute is required: this is a stated hypothetical."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / administrative orders",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_dimensions_legal_environment",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT includes government administrative orders and court judgments in legal environment.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-12",
+          "support": "NCERT illustrates legally required warnings and contrasts political-party ideas.",
+          "attached_to_item": true,
+          "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+        }
+      ],
+      "nonblocking_notes": [],
+      "initial_blind_reason": "A binding administrative order belongs to legal environment; the unissued party proposal is political context but is not the current requirement.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "33f9d62d-cce7-4f57-9958-47bf3993fdd8",
+      "content_hash": "11e9c75c6da3b71e6c1ce24bf9a673a8966e6abdb7ccedb5b385853aef43b5ab",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Only compliance follows the expressly directed court judgment; every alternative makes compliance optional or contingent without any fact supporting that.",
+        "Matches NCERT's duty to obey law and classification of court judgments. It does not require discussing hypothetical stays or appeals absent from the stem."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Only compliance follows the expressly directed court judgment; every alternative makes compliance optional or contingent without any fact supporting that."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "The advisory-statute, peer-compliance, and preferred-policy alternatives are false. Distractors are easy, so this is low difficulty, not a deep legal-reasoning item."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained; no unstated jurisdictional rule is needed for the classroom scenario.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Matches NCERT's duty to obey law and classification of court judgments. It does not require discussing hypothetical stays or appeals absent from the stem."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / compliance with court judgments",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_legal_environment",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT expressly includes court judgments and states management must obey the law.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        }
+      ],
+      "nonblocking_notes": [
+        "question_type is better recorded as application/legal-compliance than pure concept_identification; the task asks what to do, not to name a dimension."
+      ],
+      "initial_blind_reason": "A court judgment directing this business requires compliance; all alternatives wrongly make it advisory, peer-dependent, or optional.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "274369ee-db68-467e-8eea-93cae22519da",
+      "content_hash": "a49771eba280350e6c62bec419d67cafb4c0eb8e2ee3866d6a1d37b1689d4178",
+      "anchor": "cuet2024-business_studies-bookA-q8",
+      "kind": "pyq_adapted",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The connected health-awareness → demand → stocking → production chain most specifically illustrates inter-relatedness. No uncertainty or locality-based comparison is stated.",
+        "Correctly traces the stated influences and identifies their relationship; no empirical claim about observed marks or actual firms is introduced."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The connected health-awareness → demand → stocking → production chain most specifically illustrates inter-relatedness. No uncertainty or locality-based comparison is stated."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Totality describes the aggregation of external forces; uncertainty describes prediction difficulty; relativity describes variation across places. None identifies the connected effects as precisely."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone application supplies the entire causal chain.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly traces the stated influences and identifies their relationship; no empirical claim about observed marks or actual firms is introduced."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Meaning/characteristics of business environment: inter-relatedness",
+        "recommended_concept_label": "business_environment_interrelatedness",
+        "current_concept_id": "business_environment_interrelatedness",
+        "exact_syllabus_scope": "Business Environment – meaning and importance (NCERT-grounded meaning/characteristics interpretation; features not separately named).",
+        "scope_match": "within_broad_meaning_scope_with_inferred_subtopic",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-3",
+          "support": "NCERT characterizes business-environment elements as interconnected and uses increased health awareness and health-product demand as an example.",
+          "attached_to_item": true,
+          "support_hash": "fd63b704455c9ba83dd0a6ce54f8cbdfdf65177bc81e2948aa834a24b9a8ffe5"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-21",
+          "support": "NCERT exercise asks for an example of numerous interrelated environmental factors.",
+          "attached_to_item": true,
+          "support_hash": "b9f9620f46c0c4372c1b896c5e3b632dfb64bd6492b41972192b2411b26717d2"
+        }
+      ],
+      "nonblocking_notes": [
+        "2026 Unit III does not separately name features/inter-relatedness. Map under its meaning bullet using NCERT Chapter 3 as the pedagogical interpretation; do not describe this subtopic as verbatim syllabus text."
+      ],
+      "initial_blind_reason": "The causal chain connects health awareness, demand, retailers and production: inter-relatedness.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "3c5f2a8f-d3e1-4b3d-8d0f-ba79f30199a4",
+      "content_hash": "458e4facb4f11c0521913d1002eb8b9c06c5dbcfa0836e68e837cf76c8dc0f67",
+      "anchor": "cuet2024-business_studies-bookA-q8",
+      "kind": "pyq_adapted",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The interacting rebate, demand, producers, suppliers and return effect identify inter-relatedness as the best answer. Dynamic nature is broadly present in change, but the stem's causal feedback makes it less specific.",
+        "Correctly separates mutual influence from generic ongoing change and prediction difficulty. The rebate is a hypothetical premise, not a sourced factual claim about an actual policy."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The interacting rebate, demand, producers, suppliers and return effect identify inter-relatedness as the best answer. Dynamic nature is broadly present in change, but the stem's causal feedback makes it less specific."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Dynamic nature is plausible but loses to the explicit connected influences. Uncertainty is unsupported; totality does not explain causal feedback."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Standalone scenario is complete and requires no numerical knowledge of rebates or batteries.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly separates mutual influence from generic ongoing change and prediction difficulty. The rebate is a hypothetical premise, not a sourced factual claim about an actual policy."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Meaning/characteristics of business environment: inter-relatedness",
+        "recommended_concept_label": "business_environment_interrelatedness",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Business Environment – meaning and importance (NCERT-grounded meaning/characteristics interpretation; features not separately named).",
+        "scope_match": "within_broad_meaning_scope_with_inferred_subtopic",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-3",
+          "support": "NCERT distinguishes inter-relatedness from dynamic nature and uncertainty.",
+          "attached_to_item": true,
+          "support_hash": "fd63b704455c9ba83dd0a6ce54f8cbdfdf65177bc81e2948aa834a24b9a8ffe5"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-21",
+          "support": "NCERT supports application examples of interrelated environmental factors.",
+          "attached_to_item": true,
+          "support_hash": "b9f9620f46c0c4372c1b896c5e3b632dfb64bd6492b41972192b2411b26717d2"
+        }
+      ],
+      "nonblocking_notes": [
+        "2026 Unit III does not separately name features/inter-relatedness. Map under its meaning bullet as an NCERT-grounded interpretation.",
+        "concept_id is null; add the interrelatedness concept label through the normal controlled mapping process."
+      ],
+      "initial_blind_reason": "The connected rebate, demand, production and supplier-capacity feedback illustrates inter-relatedness most specifically.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "ac792d56-4a6b-487a-8b89-9c1f791e25bd",
+      "content_hash": "a46a5d68e872f9f575b2dbb078b755b656fe93ea3c94551c7ef7769ea0bb3bb8",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "pyq_adapted",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The express court order and compliance directly indicate legal environment; the act of changing a product label does not turn the trigger into a technological or social dimension.",
+        "Correctly links court orders to legal environment without inventing a specific consumer law."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The express court order and compliance directly indicate legal environment; the act of changing a product label does not turn the trigger into a technological or social dimension."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Economic, social and technological conditions are distinct. A misleading label could relate to consumer protection, but the stem asks the directly reflected environment dimension."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained scenario.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly links court orders to legal environment without inventing a specific consumer law."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / court orders",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": "business_environment_dimensions_legal",
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT includes court judgments and orders issued by authorities in the legal environment.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        }
+      ],
+      "nonblocking_notes": [],
+      "initial_blind_reason": "The court order directly illustrates legal environment.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "d1e66d7a-cb5c-4613-ae0b-7a6ab8f50a76",
+      "content_hash": "e378d6fffc8f452f164eff2c61b0b8477efa2620f6dda75f1ccbb50fdc721728",
+      "anchor": "cuet2024-business_studies-bookA-q7",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The named Act is the sole legislation option; birth/death ratio, prevailing political system and public debt map to other environmental dimensions.",
+        "Correct for the historical NCERT/PYQ classification. The phrase relevant legal enactments should be qualified as the historical textbook example, rather than a claim that the old Act remains the operative current law."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The named Act is the sole legislation option; birth/death ratio, prevailing political system and public debt map to other environmental dimensions."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "The three distractors clearly test social, political and economic dimensions, respectively."
+      },
+      "passage_entailment": {
+        "status": "not_applicable",
+        "assessment": "No passage dependency."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Self-contained authentic PYQ. Preserve the source wording and 2024 provenance; singular Trade Union Act is historical exam wording.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correct for the historical NCERT/PYQ classification. The phrase relevant legal enactments should be qualified as the historical textbook example, rather than a claim that the old Act remains the operative current law."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Business Environment",
+        "recommended_chapter": "Business Environment",
+        "official_syllabus_unit": "Unit III: Business Environment",
+        "precise_topic": "Dimensions of business environment: legal environment / legislation",
+        "recommended_concept_label": "business_environment_dimensions_legal",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Dimensions of Business Environment – Legal.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 2, Unit III",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-12",
+          "support": "The supplied historical NCERT excerpt lists the Trade Union Act, 1926 among legislative examples.",
+          "attached_to_item": true,
+          "support_hash": "c81153da87d824a29281a3f82d292825ff41546994331e5f252b70261c8949c7"
+        },
+        {
+          "source_id": "ncert-lebs103",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs103.pdf",
+          "locator": "pdf-page-9",
+          "support": "NCERT distinguishes social birth/death rates and political environment from legal legislation.",
+          "attached_to_item": true,
+          "support_hash": "adfc871397f3da4d74af2e921b2cd184b06fd63a107ef3272abf1e4634f5e9e0"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q7",
+          "support": "The historical paper fixes the original stem and four ordered choices; its historical key is not used as proof of current legal status.",
+          "attached_to_item": true,
+          "support_hash": "ec159009e556e860b4e8a84c69a9e9142216142b2363e7af703fa54078f6ca24"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to legal-environment dimensions.",
+        "Nonblocking historical/current-law note: official PIB states the Industrial Relations Code, 2020 became effective on 21 November 2025 and amalgamated the Trade Unions Act, 1926. This does not change the unique legislation-versus-other-dimensions answer."
+      ],
+      "initial_blind_reason": "A statute is legal environment; population ratios, political system and public debt belong to other dimensions.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "e1b7a2de-7fc1-425d-803e-2a29a2687254",
+      "content_hash": "31e26dec06774031500ac081f9a5a5fd40ea3d33ff402a67c30f3a5dd2583539",
+      "anchor": "cuet2024-business_studies-bookA-q41",
+      "kind": "authentic_pyq",
+      "solved_key": "D",
+      "supplied_key": "D",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The quoted availability-at-right-place/time statement and additional grocery-store channel identify physical distribution.",
+        "Correctly treats retailers as intermediaries and connects distribution to Place. This follows NCERT's broader Place treatment that includes channel selection."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The quoted availability-at-right-place/time statement and additional grocery-store channel identify physical distribution."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Product characteristics, price, and promotion are separately described elsewhere in the passage. The question targets the quoted channel decision."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The phrase above case is fully resolved by the attached nonempty passage. Retain that passage in the student-facing group or repeat it with this item.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly treats retailers as intermediaries and connects distribution to Place. This follows NCERT's broader Place treatment that includes channel selection."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Place / physical distribution / channels of distribution",
+        "recommended_concept_label": "marketing_mix_place_physical_distribution",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Physical distribution / Channels of distribution.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT defines Place/Physical Distribution to include availability and choice of intermediaries.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "passage-db192e12db3c",
+          "support": "The complete passage explicitly states own outlets plus grocery-store sales.",
+          "attached_to_item": true,
+          "support_hash": "db192e12db3cffbcbcbfcd8b3197ad7262b4adaa8fb30bc34bf45fe070e37ba3"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q41",
+          "support": "Historical stem quotes the relevant distribution sentence.",
+          "attached_to_item": true,
+          "support_hash": "ba4a5f326337b23c2f9cd56a1d041c4edf98d728a7c305bf64a2f07d8fa70ee0"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Place/physical-distribution channels.",
+        "The additional supplied pdf-page-30 locator is mostly warehouse/promotion context; pdf-page-15 is the direct support."
+      ],
+      "initial_blind_reason": "Own outlets plus grocery stores concern place/distribution: physical distribution.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "2b0a5325-8293-4f7e-8525-8a84fdfc92b6",
+      "content_hash": "79f37b429bb79f4a77e568888e1f4df83d51c1267297d718ac2b99233fd9d0d6",
+      "anchor": "cuet2024-business_studies-bookA-q44",
+      "kind": "authentic_pyq",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The entire quoted cluster is given to increase sales: free gifts, cashbacks and occasion discounts. Promotion mix uniquely captures the combined action; Price mix captures only a possible reading of the discounts fragment.",
+        "The repaired explanation expressly explains why discounts are promotional in this context. It avoids the false generalization that every discount always belongs only to Promotion."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The entire quoted cluster is given to increase sales: free gifts, cashbacks and occasion discounts. Promotion mix uniquely captures the combined action; Price mix captures only a possible reading of the discounts fragment."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Price mix is a legitimate trap because discounts can be pricing decisions, but the full promotional cluster and purpose resolve it. Product and physical distribution do not fit the quoted incentives."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "Quoted actions and their sales objective are self-contained even without the rest of the passage; complete passage is also supplied.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "The repaired explanation expressly explains why discounts are promotional in this context. It avoids the false generalization that every discount always belongs only to Promotion."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Promotion / promotional incentives",
+        "recommended_concept_label": "marketing_mix_promotion",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Promotion / promotion mix / sales promotion.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT places sales-promotion techniques, including price discounts, under Promotion.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-36",
+          "support": "Direct definition/examples support short-term sales incentives and free gifts. This locator is available in the same blind bundle via q45 but is not currently attached to q44.",
+          "attached_to_item": false,
+          "support_hash": null
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q44",
+          "support": "Historical stem retains the entire incentive cluster, rather than isolating discounts.",
+          "attached_to_item": true,
+          "support_hash": "33fe88cf44a8da4b672f3514cccd94c5bac3b3446ba82a355544829810886522"
+        }
+      ],
+      "nonblocking_notes": [
+        "No ambiguity defect found after considering the whole statement; do not quarantine merely because discounts can also enter Price decisions.",
+        "concept_id is null; map to Promotion mix. Prefer adding pdf-page-36 to the evidence set; current pdf-page-13 is a four-P overview."
+      ],
+      "initial_blind_reason": "The combined gifts, cash backs and occasion discounts are incentives to increase sales: promotion mix. Discount alone can be a price decision, but the whole promotional cluster supports promotion uniquely.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "351a0920-d3fd-42a0-8604-eabc2887fcb9",
+      "content_hash": "ef6c78f424243308a2633407985f93336552bb1ef64579a5c7d61665e292fa0c",
+      "anchor": "cuet2024-business_studies-bookA-q45",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Gifts, cashbacks and occasional discounts are incentive offers; among the listed tools, only Sales promotion fits.",
+        "NCERT supports the short-term-incentive account. In this passage the occasion-based offers justify the interpretation; no invented duration or amount is required."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Gifts, cashbacks and occasional discounts are incentive offers; among the listed tools, only Sales promotion fits."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Advertisement, personal selling and publicity describe communication methods not stated in the quote; none supplies these incentives as its defining tool."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The exact incentive cluster is quoted in the stem and complete passage is attached.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "NCERT supports the short-term-incentive account. In this passage the occasion-based offers justify the interpretation; no invented duration or amount is required."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Promotion mix: Sales promotion",
+        "recommended_concept_label": "marketing_promotion_mix_sales_promotion",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Promotion / promotion mix / sales promotion.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-36",
+          "support": "NCERT directly defines sales promotion and lists cash discounts and free gift offers.",
+          "attached_to_item": true,
+          "support_hash": "2ccbedcab0a8e805870ebf7c275f1a7cc5ec71d3bb35f328383b9c2e3e53d59f"
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-15",
+          "support": "NCERT identifies sales promotion as a Promotion tool.",
+          "attached_to_item": true,
+          "support_hash": "ead8fc0d48792ffcae9f8243360ca9ffd428ab800b3bffa346c562344f05af93"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q45",
+          "support": "Historical item asks for the tool of the promotion mix.",
+          "attached_to_item": true,
+          "support_hash": "464ffb5276ee9a26231b4a36c21ecdc8e96d871f11d0880912dab8e23450ec54"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to the specific Sales-promotion tool rather than only the parent Promotion concept."
+      ],
+      "initial_blind_reason": "The cluster of incentives is sales promotion rather than advertising, personal selling or publicity.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "49e8d294-ec2f-4387-8c5e-b5972cbe2ba7",
+      "content_hash": "60d632588b2865ccb8183b483978207dcdabf344aa7a97386f0d90ec465fb0ab",
+      "anchor": "cuet2024-business_studies-bookA-q42",
+      "kind": "authentic_pyq",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "Taste, quality and packing describe attributes/product decisions. The stem has no promotional packaging message or pricing/distribution act that would support another listed mix.",
+        "Correctly identifies product attributes and packaging as Product decisions."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "Taste, quality and packing describe attributes/product decisions. The stem has no promotional packaging message or pricing/distribution act that would support another listed mix."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Price, promotion and physical distribution are distinct mix elements; packaging may aid promotion in other scenarios but this statement is about care of product features."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The complete quoted sentence is self-contained and the shared passage is attached.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correctly identifies product attributes and packaging as Product decisions."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Product / product quality and packaging decisions",
+        "recommended_concept_label": "marketing_mix_product_quality_packaging",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Product / packaging.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-14",
+          "support": "NCERT directly places features, quality and packaging among product decisions.",
+          "attached_to_item": true,
+          "support_hash": "d6331ae5bf64b5abd51e32d41454d699208713b22cae33fca97eaf931322579a"
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q42",
+          "support": "Historical item quotes the quality/packing statement.",
+          "attached_to_item": true,
+          "support_hash": "e1aa248dae8dd89daa8302f029b0b2ddb1042dc924b827d453f5063ba64d93db"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Product quality/packaging.",
+        "The extra supplied pdf-page-28 locator is physical-distribution context; pdf-page-14 is the direct supporting locator."
+      ],
+      "initial_blind_reason": "Taste, quality and packing are product attributes and product decisions.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "cb17d0fd-9331-4276-9058-0b801e0c7dc1",
+      "content_hash": "8fd43dcb802963e31a3aa06b9d451136f751681b6044dc337ed36104d3537154",
+      "anchor": "cuet2024-business_studies-bookA-q43",
+      "kind": "authentic_pyq",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "key_match": true,
+      "verdict": "approve",
+      "reasons": [
+        "The quote directly concerns the amount charged relative to competitors. The passage's earlier quality explanation does not change the element named by this price statement.",
+        "Correct and concise, with no assertion that high pricing inevitably raises share or guarantees success."
+      ],
+      "key_uniqueness": {
+        "single_best_answer": true,
+        "assessment": "The quote directly concerns the amount charged relative to competitors. The passage's earlier quality explanation does not change the element named by this price statement."
+      },
+      "distractor_audit": {
+        "status": "pass",
+        "assessment": "Product is the reason a higher price is possible, not the element directly named. Promotion and physical distribution are separately illustrated by other statements."
+      },
+      "passage_entailment": {
+        "status": "pass",
+        "assessment": "The relevant statement is present verbatim in the complete shared Just Foodie passage."
+      },
+      "student_presentation": {
+        "status": "self_contained_payload",
+        "assessment": "The price sentence is complete, and antecedent they is resolved by the attached shared passage.",
+        "actual_ui_rendering_verified": false
+      },
+      "explanation_audit": {
+        "status": "pass",
+        "assessment": "Correct and concise, with no assertion that high pricing inevitably raises share or guarantees success."
+      },
+      "mapping_recommendation": {
+        "current_chapter": "Marketing Management",
+        "recommended_chapter": "Marketing Management",
+        "official_syllabus_unit": "Unit XI: Marketing",
+        "precise_topic": "Marketing mix: Price / pricing decision relative to competitors",
+        "recommended_concept_label": "marketing_mix_price",
+        "current_concept_id": null,
+        "exact_syllabus_scope": "Marketing mix – concept and elements; Price / factors influencing pricing.",
+        "scope_match": "explicit_element_or_dimension",
+        "syllabus_year": 2026,
+        "applicability_to_2027": "provisional_revalidation_required"
+      },
+      "source_evidence": [
+        {
+          "source_id": "cuet2026-business_studies-syllabus",
+          "url": "https://cdnbbsr.s3waas.gov.in/s3d1a21da7bca4abff8b0b61b87597de73/uploads/2025/12/20251227259182286.pdf",
+          "locator": "PDF page 3, Unit XI",
+          "support": "Official 2026 unit/topic boundary; it does not certify 2027 rules."
+        },
+        {
+          "source_id": "ncert-lebs202",
+          "url": "https://ncert.nic.in/textbook/pdf/lebs202.pdf",
+          "locator": "pdf-page-14",
+          "support": "Direct NCERT definition places the amount customers pay and price-setting decisions under Price; this locator is available elsewhere in the blind bundle but not currently attached to q43.",
+          "attached_to_item": false,
+          "support_hash": null
+        },
+        {
+          "source_id": "cuet2024-business_studies-bookA-paper",
+          "url": "https://cuet.careerguide.com/wp-content/uploads/2025/03/CUET-2024-Business-Studies-PYQ-PDF.pdf",
+          "locator": "q43",
+          "support": "The historical item quotes the higher-price sentence.",
+          "attached_to_item": true,
+          "support_hash": "c0ec936fd9dafb4faf4b5f398db1f8c346ec7aa545376d28f6c1662cebaad8ae"
+        }
+      ],
+      "nonblocking_notes": [
+        "concept_id is null; map to Price.",
+        "Current pdf-page-13 only lists the four Ps and pdf-page-46 is an exercise prompt. Replace/supplement them with pdf-page-14 for direct explanation support; this audit independently checked that page."
+      ],
+      "initial_blind_reason": "The amount charged relative to competitors is price.",
+      "subject": "business_studies"
+    },
+    {
+      "id": "7398cc0e-85ff-4daf-b51e-d66316c6124f",
+      "content_hash": "de8f9e854c159fc8f3078fc0dc7a9316aa1e70b1f3222bd2a3ee4495549e5d9d",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is the unique standard-regime answer. Both regime and quotation direction are explicit; no reciprocal-rate ambiguity.",
+        "Explanation correctly distinguishes flexible-rate appreciation from government changes under fixed rates."
+      ],
+      "recommended_chapter": "Balance of Payments",
+      "recommended_syllabus_unit": "Course II, Unit V: Open Economy Macroeconomics",
+      "recommended_ncert_chapter": "Open Economy Macroeconomics",
+      "recommended_topic": "Flexible exchange rate: appreciation versus depreciation; fixed-rate revaluation versus devaluation",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "evidence": [
+        "NCERT leec106 pdf-page-8 explicitly calls a rise in domestic currency's foreign-currency price appreciation; pdf-page-10 distinguishes government-set fixed-rate revaluation.",
+        "2026 syllabus Unit V includes meaning of fixed/flexible exchange rates and determination of exchange rate."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "d5db67c1-dbcd-4fac-954f-67169bc49631",
+      "content_hash": "f51a92b4b3c394667f27341a7b37b280e7eb9baea24f312eb9d4347c8a1f1e35",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "Intended B matches: A is planned saving and C realised saving.",
+        "Statement D uses the undefined hybrid term 'Ex Ante Post Saving'. Its explanation rejects this non-term rather than a meaningful economic assertion. Preserve the historical transcription as provenance, but repair before using it as clean current practice.",
+        "A's phrase 'actually planned to save' is awkward; statements and option lists should be split across lines in the rendered item."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Ex ante planned saving and ex post realised saving",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 defines ex ante as planned values and ex post as what actually happened.",
+        "2026 syllabus Unit III includes aggregate demand and income determination in a two-sector model; planned versus actual aggregates are prerequisite concepts in that chapter."
+      ],
+      "recommended_revision": "For a clearly labelled adaptation, write A: 'Ex ante saving is planned saving'; B: 'Ex post saving is planned saving'; C: 'Ex post saving is realised saving'; D: 'Ex ante saving is realised saving'. Keep B as the answer (A and C). Rehash and revalidate the adapted item.",
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "bfef7eb8-0e03-4f97-a848-f8cab4f76776",
+      "content_hash": "59360281763818faf6a8de9c8e55f5dcb5026b7a23b4506c13c4d45387bf0653",
+      "solved_key": "D",
+      "supplied_key": "D",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "D is the unique textbook-policy answer: A,D,E hold; outright and repo are the types, while a bank-rate reduction tends to expand rather than contract money supply.",
+        "Explanation accurately uses 'tending' and 'generally' for the policy transmission; it does not claim a guaranteed realised outcome.",
+        "Minor format improvement: put each labelled statement and the choose-answer instruction on separate lines."
+      ],
+      "recommended_chapter": "Money & Banking",
+      "recommended_syllabus_unit": "Course II, Unit II: Money and Banking",
+      "recommended_ncert_chapter": "Money and Banking",
+      "recommended_topic": "RBI quantitative tools: CRR, open market operations and bank rate",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "evidence": [
+        "NCERT leec103 pdf-page-7 names quantitative tools, says RBI bond sales reduce reserves, and names outright and repo operations; pdf-page-3 lists bank-rate control.",
+        "2026 syllabus Unit II explicitly includes the central bank and policy tools to control money supply."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "241254c1-410a-4e91-81b4-d623b89fcb73",
+      "content_hash": "9eb41ec71bd1c1e55347e96e9035953df6bf194a075a1cbb2a4c379e294d905b",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "C is uniquely correct: B,D,E. Stock and flow definitions are correctly contrasted.",
+        "Explanation correctly adds total indirect taxes and deducts total subsidies when converting from factor cost to market prices.",
+        "No confusion with conversion from basic prices: that would require net product taxes instead."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Stock versus flow; factor cost, basic prices and market prices",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-4 defines stocks at a time point and flows over a time period.",
+        "NCERT leec102 pdf-page-16 says factor cost to market prices adds total indirect taxes less total subsidies, and distinguishes basic prices.",
+        "2026 syllabus Unit I includes basic macroeconomic concepts and Factor Cost, Basic Prices and Market Price."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "9376c4a1-b3f2-425f-b159-7f462e52ec03",
+      "content_hash": "0f0d1fb1a057cca4c9526628082163f4a8e552fa6694101bd9ea5aabf216a320",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "C is the intended exact identity, but D is ALSO true: zero is less than one. There is no uniquely defensible correct option under literal mathematical reading.",
+        "The explanation establishes C without refuting D, so matching the official intended key does not repair the overlap.",
+        "G,T,M,X are not defined in the stem; familiar exam shorthand is weaker than explicit self-contained notation."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Two-sector closed economy without government: omitted fiscal and external flows",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q45",
+          "support_hash": "d905e92825428fd3baafb81ad59cc4a34de5db99bd3513ef94e33f3eb3572644"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "0e5fdc77b4b50404c293c474363d3a4fee8354a5c6aabb877fca6aad55b25097"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-4 describes income determination without government; pdf-page-5 identifies G as government expenditure and T as taxes.",
+        "2026 syllabus Unit III explicitly includes income determination in the two-sector model.",
+        "Direct option entailment: G=T=M=X=0 implies G=T=M=X<1."
+      ],
+      "recommended_revision": "Make a labelled adaptation; define G,T,M,X and replace D with a mutually exclusive assertion such as 'G = T = 0, while M and X are positive'. Keep C (=0), then rehash and independently revalidate.",
+      "also_defensible_keys": [
+        "C",
+        "D"
+      ],
+      "subject": "economics"
+    },
+    {
+      "id": "2681477c-8455-4fb2-8ec2-2fed9fdeb650",
+      "content_hash": "06b51c8196cabe69b1fd2500f102227cf53b39d07f6e6ae1c35ae9d4c43599c3",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "A is the intended answer, but the stem says receipts create liability AND decrease assets. That is not the textbook's disjunctive definition.",
+        "Borrowing creates a liability; disinvestment reduces financial assets. Either criterion suffices. The explanation silently changes the stem to 'either ... or'.",
+        "The stem also calls receipts 'elements' rather than identifying government receipts."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Capital versus revenue receipts",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-3 separates borrowing and sale of assets; pdf-page-4 defines capital receipts with 'create liability or reduce financial assets'.",
+        "2026 syllabus Unit IV explicitly includes classification of revenue and capital receipts."
+      ],
+      "recommended_revision": "Use a labelled adaptation: 'Government receipts that either create a liability or reduce the government's financial assets are classified as:'. Keep A, preserve historical wording only in provenance, and rehash/revalidate.",
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "02fc49a9-7017-459b-9d70-d571d0a0edf3",
+      "content_hash": "7407a0968a37759e2371fc875b82452ca7a61b3dffcf5c8a723badbe55e041a0",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: all 720 crore of sales receipts are distributed as household factor income.",
+        "No saving, government, external trade and full distribution are explicit. The stem supplies the assumptions necessary for the equality.",
+        "Explanation uses the stated model rather than implying that all real economies have this equality."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Two-sector circular flow: equality of household expenditure and factor income",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "multiple_choice_numerical",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-pages-6 and 7 describe a simple economy without savings, government or external trade, and equality of sales revenue and factor payments.",
+        "2026 syllabus Unit I explicitly includes circular flow of income."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "736b38df-f7fd-4c72-82f1-55bd7789e2d4",
+      "content_hash": "e99654fc414314cfcb5ee392f25c48b90d057961a9d7ab60d3305e66c33d1a28",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "C is unique: planned income 36000+9000=45000 and realised income 39000+7000=46000.",
+        "The assumption that disposable income divides only into consumption and saving is stated, so the calculation does not rely on hidden expenditure categories.",
+        "Explanation correctly keeps planned and actual quantities separate."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Ex ante and ex post consumption, saving and disposable income",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_calculation",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 defines planned versus realised aggregates; pdf-page-4 uses planned consumption in two-sector income determination.",
+        "2026 syllabus Unit III includes aggregate demand and income determination in a two-sector model; the sum relationship is also explicitly supplied by the question."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "331a63d4-1402-48fa-83d0-e65ebd16419f",
+      "content_hash": "40928fd31c334dc55c665aa6a28ab5a6078359dbfbe5deedd71b22cff89fb82b",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is unique: percentage rise in the explicitly named price is (0.05-0.04)/0.04 = 25%.",
+        "The inverse domestic-currency price of foreign currency falls 20%, but that is not what the stem asks; quotation direction is clear.",
+        "Flexible-rate appreciation, rather than revaluation, is explained correctly."
+      ],
+      "recommended_chapter": "Balance of Payments",
+      "recommended_syllabus_unit": "Course II, Unit V: Open Economy Macroeconomics",
+      "recommended_ncert_chapter": "Open Economy Macroeconomics",
+      "recommended_topic": "Flexible exchange rate: percentage appreciation of domestic currency quoted in foreign currency",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q10",
+          "support_hash": "6e153c257ad00108e0cf13b1c6f80d8f8e8ea4cdea31512e043f89063c7d128b"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-8",
+          "support_hash": "dc8529d1e6db780e844905be433b3021fb1bd5f977f85aaa6a9efe817b9f4eb9"
+        },
+        {
+          "id": "ncert-leec106",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "33d82ae1538617cc4f11afbb19f8d445f8b1e1ad9fdaf164ef88cb9b2e044fc3"
+        }
+      ],
+      "evidence": [
+        "NCERT leec106 pdf-page-8 directly supports appreciation from an increase in this quotation; pdf-page-10 distinguishes fixed rates.",
+        "2026 syllabus Unit V includes exchange-rate meanings and determination."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "7910a488-0ca9-4524-a5fd-c019b6a9710a",
+      "content_hash": "114ac3aedee8d3c13c98a89c3bd0bfb59d1bd5da6ea548ce6a77f857a09b1039",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: 150 crore capacity reduction / multiplier 5 = 30 crore reserve withdrawal.",
+        "No cash leakage, no excess reserves, a 20% required ratio, maximum deposit capacity and rupee-for-rupee reserve withdrawal are explicit; therefore the simple multiplier applies.",
+        "This asks maximum capacity rather than claiming the same realised lending contraction in an actual banking system. Explanation follows those assumptions."
+      ],
+      "recommended_chapter": "Money & Banking",
+      "recommended_syllabus_unit": "Course II, Unit II: Money and Banking",
+      "recommended_ncert_chapter": "Money and Banking",
+      "recommended_topic": "Reserve multiplier and RBI open-market bond sale",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q3",
+          "support_hash": "6c6ff249885e966455ba4cd349334d3cc66fa24b5033ebde8f900c8fc5e09d8a"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "2561ae13b3c610512b1da9da144b0a4049c2d0c98f6785816e4d1261c956d1a2"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "c2e5800bcdc0a296f47daae65c84eddda792800a2199d5950a48e5a4f8ee9396"
+        }
+      ],
+      "evidence": [
+        "NCERT leec103 pdf-page-7 gives the 20% reserve-ratio/5 deposit multiplier example and states that RBI bond sales reduce reserves.",
+        "2026 syllabus Unit II explicitly includes money creation, multiplier and policy tools."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "2c29250c-6a94-428d-9f4a-6b809f2472ec",
+      "content_hash": "c9bff0b853665616bc6ce0923ddaa65d71ed9f720bef6eab3b03c16298a38179",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: sale of shares reduces government financial assets and so is a capital receipt even without creating debt.",
+        "The explanation correctly uses the asset-reduction criterion rather than requiring both debt creation and asset reduction.",
+        "The stem is self-contained and avoids any claim about current disinvestment policy."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Non-debt capital receipt: PSU disinvestment",
+      "recommended_question_type": "conceptual_application",
+      "current_question_type": "application_single_correct",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q8",
+          "support_hash": "d499c80dd92f83318de4b53cddd38b57986a54ccc6b7e6d21c07046fcec0c662"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "8a52ea136ee55a3afea35b767729493c6932cac9c3275b4ee7a9a42eea88271d"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-3",
+          "support_hash": "d215ed7e004e466f09745b6056c0141d5afa9d5c09b29ffb493024508848d3a4"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-3 explicitly mentions sale of shares in PSUs; pdf-page-4 calls this asset reduction and a capital receipt.",
+        "2026 syllabus Unit IV explicitly includes classification of government receipts."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "1cf1f238-b143-4aa7-8acd-c5550ec35eeb",
+      "content_hash": "f4bdb91a5284a844b17f0640e30406f9c5de9b323c6d98cc2543189cfc656f66",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: 950-120+30 = 860 crore.",
+        "Explanation correctly reverses the stated total-indirect-tax/subsidy conversion and keeps amounts in crore.",
+        "The stem uses market prices rather than basic prices, avoiding misuse of only product taxes."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "GVA at market prices to GVA at factor cost",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "numerical_multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q47",
+          "support_hash": "76fafaabf57112fd7f0729a31f082694893bd062fa21d632d4ce4a1992d0a2fe"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "68fbd620724af09114f191017c31f2d1e2c73bdcfaa80463f379c360848bd97f"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-16",
+          "support_hash": "ccf6527b550af6c1c487cc357b0615f9ec6285a9d3d68442275f67156d8a51b2"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-16 defines factor-cost/basic-price/market-price conversions and total indirect taxes less total subsidies.",
+        "2026 syllabus Unit I explicitly names Factor Cost, Basic Prices and Market Price."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "6a77f9d5-9a84-414d-bfa7-2a9e48ee1a8d",
+      "content_hash": "9f9342ac19b0285a06560f02777970ef06cbf1736358d73e482a7a7091daf988",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "incomplete",
+      "reasons": [
+        "A is arithmetically unique under the supplied simplified additive relationship: 9-4=5%. The stem's approximation is explicit, so the exact multiplicative Fisher relation is not a competing answer.",
+        "Attached Money and Banking pdf-page-2 covers purchasing power and money demand; pdf-page-10 covers bond present value. Neither excerpt entails the stated nominal/real interest relation.",
+        "The current 2026 Money and Banking syllabus lists functions/supply of money, creation/multiplier, central-bank functions and money-supply policy tools. No exact current-syllabus topic entitlement was supplied for this formula.",
+        "A 2024 PYQ is evidence of historical examination content, not sufficient evidence of the 2026 boundary or 2027 entitlement. Live text searches in NCERT Money and Banking, National Income Accounting, Determination of Income and Employment and Open Economy Macroeconomics did not locate 'real interest'; this is not proof of universal absence, so verdict is incomplete rather than categorical off-syllabus.",
+        "The explanation is correct conditional on the question's given equation, but that does not fill the source/syllabus gap."
+      ],
+      "recommended_chapter": null,
+      "recommended_syllabus_unit": null,
+      "recommended_ncert_chapter": null,
+      "recommended_topic": "Simplified Fisher relation: nominal versus real interest and inflation",
+      "recommended_question_type": "numerical_calculation",
+      "current_question_type": "multiple_choice",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q49",
+          "support_hash": "edeffb07173e998181322b0a59a59587ed56279259112f778edadfc481932acb"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "3423cf95e2a968a93e76ce68b239394aa996fe5ac70a7f30d76a2b485c90494f"
+        },
+        {
+          "id": "ncert-leec103",
+          "version": 1,
+          "locator": "pdf-page-10",
+          "support_hash": "516d9a3c52f50b14ef7f2e6164572a1e5b0f2583c55b10abd0ae3cc115c3ec2c"
+        }
+      ],
+      "evidence": [
+        "Supplied NCERT leec103 pdf-page-2 and pdf-page-10 lack the Fisher formula.",
+        "Supplied 2026 syllabus Course II Unit II has no explicit nominal/real interest relationship.",
+        "Authenticated historical anchor q49 asks the additive relation; its date is 2024.",
+        "Live primary PDF inspected: https://www.ncert.nic.in/textbook/pdf/leec103.pdf ; no 'real interest' text match on 6 Oct 2026."
+      ],
+      "recommended_revision": "Withhold until a precise authoritative current-syllabus entitlement and textbook locator for this topic are supplied. Do not solve by moving it to another chapter without positive evidence. Alternatively replace the item with a fresh in-syllabus CRR/multiplier application and independently validate it.",
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "4ecf0ccf-8840-4b54-93e0-2867b7df8c7a",
+      "content_hash": "c1fc0767d8d7469d8e43dbe6b94f9a95c6b7435cc7489d491656979ee419499d",
+      "solved_key": "A",
+      "supplied_key": "A",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "A is unique: household factor services to firms are real factor-market flow.",
+        "B is monetary factor-market flow; C is real goods-market flow; D is monetary goods-market flow.",
+        "Explanation clearly distinguishes both the market and whether the flow is real or monetary."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Circular flow: real versus monetary factor-market flow",
+      "recommended_question_type": "conceptual_application",
+      "current_question_type": "conceptual_application",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-7 separately describes all four arrows and identifies factor and goods/services markets.",
+        "2026 syllabus Unit I explicitly includes circular flow of income."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "088188f1-4aa7-43d2-bba5-e4192d233d0c",
+      "content_hash": "70ac17245a87fc5a9039b4ca2ef12be7cf6f93a5ff365ff0f916c48398c483bd",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "B is the source-supported intended answer.",
+        "The item says 'According to the chapter' but supplies neither a chapter title, cited text nor passage. It is source-dependent phrasing in a standalone exam question.",
+        "The explanation repeats the same unidentified 'chapter' reference. It should identify the historical textbook framing or give a standalone explanation.",
+        "No claim about the present continuation of Five-Year Plans should be introduced."
+      ],
+      "recommended_chapter": "Government Budget & the Economy",
+      "recommended_syllabus_unit": "Course II, Unit IV: Government Budget and the Economy",
+      "recommended_ncert_chapter": "Government Budget and the Economy",
+      "recommended_topic": "Government budget as a national policy statement",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q7",
+          "support_hash": "9c80af9d9945eb799a51f79ab5c674fe62c4638a6a25b972e97984faba6a6f8a"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-5",
+          "support_hash": "80cbd7f335f1012af407cb7133bff0bb64af36c911df2d39675fabb28e5d6d2c"
+        },
+        {
+          "id": "ncert-leec105",
+          "version": 1,
+          "locator": "pdf-page-18",
+          "support_hash": "c894f62d2dcd50148f7d647d2b811f99f8cd1f571e41586b852c593496e73868"
+        }
+      ],
+      "evidence": [
+        "NCERT leec105 pdf-page-5 explicitly says that since Independence and the launch of Five-Year Plans the budget became a significant national policy statement.",
+        "2026 syllabus Unit IV includes budget meaning, objectives and components.",
+        "Attached pdf-page-18 is about GST/exercises and adds no support to this historical role; retain pdf-page-5 as the actual support."
+      ],
+      "recommended_revision": "Rewrite without the unspecified dependency: 'Since Independence, particularly with the launching of the Five-Year Plans, the Union Budget acquired which broader role beyond a statement of receipts and expenditure?' Or supply the cited NCERT passage/title. Keep B, identify the historical framing in the explanation, rehash and revalidate.",
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "dd83debc-8114-4729-b431-222013a04bfc",
+      "content_hash": "5df659590a0bc1f066cb0ffe88ed4c0eeb5b20af9b9c694ece374f2f6c02a7cd",
+      "solved_key": "B",
+      "supplied_key": "B",
+      "match": true,
+      "verdict": "approve",
+      "reasons": [
+        "B is unique: planned saving is 120000-90000=30000; realised saving is 110000-95000=15000. A and B true, C and D false.",
+        "The saving identity is given. Plans and actual outcomes use the same year, avoiding period mismatch.",
+        "Explanation correctly uses ex ante for planned and ex post for realised; minor formatting improvement is to split A-D onto separate lines."
+      ],
+      "recommended_chapter": "Income Determination",
+      "recommended_syllabus_unit": "Course II, Unit III: Determination of Income and Employment",
+      "recommended_ncert_chapter": "Determination of Income and Employment",
+      "recommended_topic": "Planned and realised saving calculated from income less consumption",
+      "recommended_question_type": "statement_selection",
+      "current_question_type": "statement_selection",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q26",
+          "support_hash": "218044b52bf1bc6c268e9e5bdb4102209a231ec9496fd3b173ac561b0529fe72"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-2",
+          "support_hash": "ffe2c3c1dd48a9fd038895206ea351e75552f734e137791c65b9461c040db019"
+        },
+        {
+          "id": "ncert-leec104",
+          "version": 1,
+          "locator": "pdf-page-4",
+          "support_hash": "7408ad5057c42f0fe2200a35ecbc74caf89c11d81626b77c5ac8344fd5560665"
+        }
+      ],
+      "evidence": [
+        "NCERT leec104 pdf-page-2 explicitly defines ex ante/planned and ex post/realised.",
+        "2026 syllabus Unit III includes two-sector income determination and aggregate-demand components."
+      ],
+      "recommended_revision": null,
+      "also_defensible_keys": null,
+      "subject": "economics"
+    },
+    {
+      "id": "217a1fc6-a646-4a32-9e80-b0f405cca714",
+      "content_hash": "e5da0d79d27874822f6eb0550340a2f6c69e11207528020b4f8baf3eb1c74a91",
+      "solved_key": "C",
+      "supplied_key": "C",
+      "match": true,
+      "verdict": "suspect",
+      "reasons": [
+        "C is the unique intended textbook-role answer; the supplied simple NCERT circular-flow source supports it.",
+        "The explanation says a two-sector model assumes households spend their entire income and do not save. That does not follow from being two-sector alone: two-sector income-determination models can include household saving and firm investment.",
+        "The stem omits 'simple economy without saving' while the explanatory source uses that narrower model. Do not turn a restricted source illustration into a general definition of a two-sector economy.",
+        "Repair the explanation and model assumptions before approval; do not claim a discovered official-key mismatch."
+      ],
+      "recommended_chapter": "National Income & Related Aggregates",
+      "recommended_syllabus_unit": "Course II, Unit I: Introduction and National Income Accounting",
+      "recommended_ncert_chapter": "National Income Accounting",
+      "recommended_topic": "Two-sector circular flow: firms produce goods/services and households provide factors",
+      "recommended_question_type": "direct_recall",
+      "current_question_type": "direct_recall",
+      "source_refs": [
+        {
+          "id": "cuet2024-economics-bookA-paper",
+          "version": 1,
+          "locator": "q25",
+          "support_hash": "99a608294351ff729d80ec3fb68d9e4369b4db8175a5da3d692af3204f694cbc"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-6",
+          "support_hash": "d1544830e051eb4171b4dab62a5087cb6a410fad3d44f75395bf5d42ca2bd44a"
+        },
+        {
+          "id": "ncert-leec102",
+          "version": 1,
+          "locator": "pdf-page-7",
+          "support_hash": "585eab41f167a1c16900bd91abba20ec9c5be3600d92de036684c40abe71b149"
+        }
+      ],
+      "evidence": [
+        "NCERT leec102 pdf-page-6 explicitly introduces a simple economy without government, external trade OR savings; pdf-page-7 derives the no-leakage illustration.",
+        "NCERT leec104 pdf-page-4 separately describes a two-sector model with investment and AD=C+I, showing that two-sector alone is not synonymous with the no-saving circular-flow illustration.",
+        "2026 syllabus Unit I includes circular flow of income; Unit III separately includes two-sector income determination."
+      ],
+      "recommended_revision": "For a labelled adaptation specify the simple no-saving circular-flow model. In the explanation say households supply factors, firms produce output, government is excluded, and the household-investment/firm-saving statement does not describe the stated source model. Avoid teaching that all two-sector economies have no saving. Rehash if the stem changes and revalidate.",
+      "also_defensible_keys": null,
+      "subject": "economics"
+    }
+  ]
+}

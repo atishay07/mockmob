@@ -1,0 +1,97 @@
+{
+  "schema": "cuet-v717-benchmark-source-registry-binding-v1",
+  "created_at": "2026-10-10T05:23:09.007Z",
+  "registry_path": "artifacts/question-factory/cuet-readiness-2026-10-09/execution/final-pass-v717/qualification-fresh32/source-registry.json",
+  "registry_sha256": "ac6d94ec8b5acdfccc71edf194ef49dbe8b79dfa5e89f2a033eed828477615c7",
+  "freeze_sha256": "0f578d06f5efc8e42c5a1db598ef6b09495b051addf271c517da486f030682bd",
+  "source_packs": {
+    "cuet2024-english-bookA": {
+      "version": 12,
+      "state": "active"
+    },
+    "cuet2024-accountancy-bookA": {
+      "version": 13,
+      "state": "active"
+    },
+    "cuet2024-business_studies-bookA": {
+      "version": 11,
+      "state": "active"
+    },
+    "cuet2024-economics-bookA": {
+      "version": 12,
+      "state": "active"
+    },
+    "original-english-reference-v1": {
+      "version": 1,
+      "state": "active"
+    }
+  },
+  "sources": {
+    "ncertcol-leac204-v1": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "a36bf14dbbda53efcd71abed814133e9d9a600ffb9f1b6005542c90a0e42d829",
+      "extraction_sha256": "7b50ddcd39214d6d668932b0a329030737696b366b98ce38912866c4ae867da2",
+      "source_pack_id": "cuet2024-accountancy-bookA",
+      "extraction_checked": true
+    },
+    "ncertcol-lebs201-v1": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "a8aa2e458ce523f6f94d0ceb3d5e409d06a06e5e035c5e071f79fafa06d1c6f1",
+      "extraction_sha256": "17f85d3053769eb7bc8f0ca27bff55629e36730752c50b3c209cdb637d500cda",
+      "source_pack_id": "cuet2024-business_studies-bookA",
+      "extraction_checked": true
+    },
+    "ncertcol-leec203-v1": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "67e63f8123933d0e22fd35af436d582b658a9b446e963bb19bfaa9adcef81198",
+      "extraction_sha256": "a6a430d0b835d3a2669186c713d641491ba106ff0c0e5dc0d844820dd16cefb4",
+      "source_pack_id": "cuet2024-economics-bookA",
+      "extraction_checked": true
+    },
+    "oxford-quality-prudent": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "6fa04b6693cdbb86f51eb05fe1375978127bb939b294500c758b39469d8fb16e",
+      "extraction_sha256": "6fa04b6693cdbb86f51eb05fe1375978127bb939b294500c758b39469d8fb16e",
+      "source_pack_id": "cuet2024-english-bookA",
+      "extraction_checked": true
+    },
+    "oxford-quality-conspicuous": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "451d3ee4cfa54c30127d6532659bc9052d5ac32954662c6bccfca0640df361c3",
+      "extraction_sha256": "451d3ee4cfa54c30127d6532659bc9052d5ac32954662c6bccfca0640df361c3",
+      "source_pack_id": "cuet2024-english-bookA",
+      "extraction_checked": true
+    },
+    "mockmob-original-stimulus-factual-passage": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "af61d96b1f6c8e10cc8fc1afae3f0fdc550ff46f87e555e4bc0b9ab5673b1ada",
+      "extraction_sha256": "af61d96b1f6c8e10cc8fc1afae3f0fdc550ff46f87e555e4bc0b9ab5673b1ada",
+      "source_pack_id": "original-english-reference-v1",
+      "extraction_checked": true
+    },
+    "oxford-quality-benevolent": {
+      "version": 1,
+      "state": "active",
+      "identity_sha256": "9d98866e195fe921b1eb2112a30b2c499c4e2eadfa000c885a088d2f62593a8b",
+      "extraction_sha256": "9d98866e195fe921b1eb2112a30b2c499c4e2eadfa000c885a088d2f62593a8b",
+      "source_pack_id": "cuet2024-english-bookA",
+      "extraction_checked": true
+    }
+  },
+  "original_stimulus": {
+    "id": "mockmob-original-stimulus-factual-passage",
+    "locator": "stimulus",
+    "identity_sha256": "af61d96b1f6c8e10cc8fc1afae3f0fdc550ff46f87e555e4bc0b9ab5673b1ada",
+    "extraction_sha256": "af61d96b1f6c8e10cc8fc1afae3f0fdc550ff46f87e555e4bc0b9ab5673b1ada",
+    "permission": {
+      "basis": "Original fictional prose created for MockMob practice; no outside factual or publisher claim",
+      "reference": "artifacts/question-factory/execution-2026-10-07/mockmob-original-stimulus-factual-passage.txt"
+    }
+  }
+}

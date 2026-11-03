@@ -1,0 +1,7694 @@
+[
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/explore-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "One question. One useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 18,
+        "name": "See progress",
+        "tag": "A",
+        "w": 81
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/dashboard-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/today-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "An, here is your next useful step."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 38,
+        "name": "10 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "20 min",
+        "tag": "BUTTON",
+        "w": 67
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "30 min",
+        "tag": "BUTTON",
+        "w": 67
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/review-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Review what mattered."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/progress-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Let fresh practice be your evidence."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/radar-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Where your marks are going"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 250
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 206
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 224
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 210
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 290
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 269
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 224
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 210
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 320
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 269
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 287
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 273
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 691
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 743
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 713
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 969
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 1129
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 1150
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 767
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 250
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 206
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 224
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 210
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 290
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 269
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 224
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 210
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 320
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 269
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 287
+      },
+      {
+        "class": "",
+        "h": 38,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 273
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 691
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 743
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 713
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 969
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 1129
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 1150
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/compass-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Which DU courses can your subjects get?"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Official source documents",
+        "tag": "SUMMARY",
+        "w": 767
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "UG Bulletin of Information 2026-27",
+        "tag": "A",
+        "w": 209
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "First round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 312
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Second round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 330
+      },
+      {
+        "class": "",
+        "h": 18,
+        "name": "Third round of allocation: minimum allocation scores",
+        "tag": "A",
+        "w": 317
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/saved-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Saved questions"
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/ranks-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Keep good company. Keep practising."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/profile-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Your corner of the Arena."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/upload-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "A good question helps the next person."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/my-uploads-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Your questions, and where they stand."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "ex-action",
+        "h": 44,
+        "name": "All",
+        "tag": "BUTTON",
+        "w": 42
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/prepos-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Make tonight's next step clear."
+    ],
+    "rootOverflow": 0,
+    "short": [],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 240
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 280
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 310
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 659
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 707
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 661
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 729
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 240
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 280
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 310
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 659
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 707
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 661
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 812
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/result-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "56%"
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "",
+        "h": 40,
+        "name": "Choose a practice session",
+        "tag": "A",
+        "w": 729
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 310
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 350
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 380
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 758
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 810
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 1014
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 1270
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 1430
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 1910
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "dark",
+    "width": 834
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 320,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 310
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 360,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 350
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 390,
+    "height": 844,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 380
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 768,
+    "height": 1024,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 758
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 820,
+    "height": 1180,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 810
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1024,
+    "height": 768,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 1014
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1280,
+    "height": 800,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 1270
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1440,
+    "height": 1000,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 1430
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 1920,
+    "height": 1080,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "arena-profile arena-desktop-only",
+        "h": 40,
+        "name": "AAn exceptionally long illustrative display name for responsive c",
+        "tag": "A",
+        "w": 180
+      },
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 1910
+  },
+  {
+    "route": "arena/rival-long",
+    "requestedWidth": 844,
+    "height": 390,
+    "brokenImages": [],
+    "headings": [
+      "Check your pace against a practice rival."
+    ],
+    "rootOverflow": 0,
+    "short": [
+      {
+        "class": "mt-4 inline-flex min-h-11 items-center gap-2 rounded-full bg-volt px-5 font-display text-xs font-bla",
+        "h": 41,
+        "name": "Start challenge",
+        "tag": "BUTTON",
+        "w": 138
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Accountancy",
+        "tag": "BUTTON",
+        "w": 91
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Economics",
+        "tag": "BUTTON",
+        "w": 79
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "Business Studies",
+        "tag": "BUTTON",
+        "w": 109
+      },
+      {
+        "class": "inline-flex min-h-11 items-center rounded-full border px-3 py-2 text-xs font-bold transition border-",
+        "h": 41,
+        "name": "English",
+        "tag": "BUTTON",
+        "w": 61
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "5",
+        "tag": "BUTTON",
+        "w": 38
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-volt bg-volt text-black",
+        "h": 41,
+        "name": "10",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "15",
+        "tag": "BUTTON",
+        "w": 45
+      },
+      {
+        "class": "min-h-11 rounded-full border px-4 text-xs font-black border-white/10 text-zinc-400",
+        "h": 41,
+        "name": "20",
+        "tag": "BUTTON",
+        "w": 45
+      }
+    ],
+    "theme": "light",
+    "width": 834
+  }
+]

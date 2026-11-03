@@ -1,0 +1,11 @@
+# CBSE candidate construction v2 — custody notes
+
+Version 2 retains all 32 original candidate IDs and all four subjects (8 each). It changes exactly five item bodies, with no more than one targeted edit per changed ID. It is answer-blind: do not pair `questions-blinded-v2.json` with the sealed gold, change-log, or key PDFs when dispatching the independent solver.
+
+`questions-blinded-v2.json` is the only file intended for the next answer-blind solve. Its SHA-256 is `337d3533f20d6de88e92007bc4b86a073acb5ecf742cc5875fec50ad53760c9f`. Changed IDs: `cbse26-bs-q08`, `cbse26-eco-q02`, `cbse26-eco-q05`, `cbse26-eng-q1-iv`, `cbse26-eng-q2-i`. The other 27 question bodies are carried forward unchanged. The complete field-level edits are in the sealed construction log.
+
+`v2-gold-and-source-support.sealed.json` keeps provisional answer mappings, exact official paper/key URLs and hashes/page locators, source excerpts, all 32 denominator rows, and fresh passage-only explanations for all eight adapted English items. Its SHA-256 is `269ef9c3c8a8cc972df605f133f213f23999761ae6968590542ea071a4bc9ddf`. `construction-change-log-v2.sealed.json` has SHA-256 `96f2f6dd988922ab657e22580276c0991c28adee231ecd22094051db3e5e516c`.
+
+The local NCERT source chapters are in `v2-sources/`: Chapter 3 is SHA-256 `D1B7F0407236A4FCF300267A04C2897ACFCFBE2435C100CCF5205ACB0748843F` (PDF p.13, “Legal Definitions: Narrow and Broad Money”); Chapter 5 is SHA-256 `2FDD11FD2063EE4D35E065773686B74714A0D9EF636A54D4440326DF82146149` (PDF p.2, §5.1.1 “Allocation Function of Government Budget”). The India Code Act 2019 source is linked and located at §2(7), PDF p.5. Its text was verified through the official web source; the host refused local file download, so no file hash is claimed.
+
+All 32 remain in the construction denominator. No item is currently a valid benchmark positive: changes await blind re-solving; all adapted English items need independent review; and no item has passed CUET-fit review or a release contract. These are CBSE sample-paper-derived materials, never CUET PYQs. Four source paper families mean the items are correlated. No paid judge, product/contract change, or publication occurred. The v1 source PDFs, blinded questions, blind review, official key sidecar, and v1 comparison remain unchanged.

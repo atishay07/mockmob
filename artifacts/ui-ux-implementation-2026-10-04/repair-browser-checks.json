@@ -1,0 +1,32 @@
+[
+  {
+    "kind": "stored",
+    "label": "Explanation ready",
+    "panel": "Mistake RepairChecked against the answer key (B)Why option C felt rightIllustrative: the old ratio is the first ratio you see, and it is right in the most common textbook case, so it feels safe.Where it breaksIllustrative: here a new ratio is stated, so each partner gave up a different share. The old ratio would make both sacrifice in 3:2.The idea to keepIllustrative: sacrifice = old share − new share, worked out for each partner. Use the old ratio only when the incoming share is taken in that ratio.Do this next · 10 minutesIllustrative: redo this question by writing each partner’s old and new share over 10, then subtract.Next mistake: Q3 Practise 5 on this chapterSaved repair · no credit used",
+    "progress": "1 of 6 explanations ready"
+  },
+  {
+    "kind": "unexplained",
+    "label": "No explanation",
+    "panel": "No repair for this oneIllustrative: no explanation was prepared. Review the recorded answer or try another question.Next mistake: Q3 Practise 5 on this chapter",
+    "progress": "0 of 6 explanations ready"
+  },
+  {
+    "kind": "malformed",
+    "label": null,
+    "panel": "The repair response was incomplete. Try again with the same request.Try again",
+    "progress": "0 of 6 explanations ready"
+  },
+  {
+    "kind": "insufficient",
+    "label": null,
+    "panel": "Mistake Repair uses 1 PrepOS credit and you have 0 left this month. The stored explanation and fresh practice are still free.",
+    "progress": "0 of 6 explanations ready"
+  },
+  {
+    "kind": "fail",
+    "label": null,
+    "panel": "The repair could not be prepared reliably this time. You were not charged.Try again",
+    "progress": "0 of 6 explanations ready"
+  }
+]
